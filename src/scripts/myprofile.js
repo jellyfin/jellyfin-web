@@ -10,13 +10,15 @@ define(["scripts/userpasswordpage", "loading", "libraryMenu", "apphost", "emby-l
             uploadUserImage.value = "";
             uploadUserImage.dispatchEvent(new CustomEvent("change", {}));
             libraryMenu.setTitle(user.Name);
-            var imageUrl;
+            var imageUrl = "css/images/logindefault.png";
+            if (user.PrimaryImageTag) {
+                ApiClient.getUserImageUrl(user.Id, {
+                    height: 200,
+                    tag: user.PrimaryImageTag,
+                    type: "Primary"
+                });
+            }
             var fldImage = page.querySelector("#fldImage");
-            imageUrl = user.PrimaryImageTag ? ApiClient.getUserImageUrl(user.Id, {
-                height: 200,
-                tag: user.PrimaryImageTag,
-                type: "Primary"
-            }) : "css/images/logindefault.png";
             fldImage.classList.remove("hide");
             fldImage.innerHTML = "<img width='140px' src='" + imageUrl + "' />";
             var showImageEditing = true;
@@ -39,29 +41,24 @@ define(["scripts/userpasswordpage", "loading", "libraryMenu", "apphost", "emby-l
     }
 
     function onFileReaderError(evt) {
-        switch (loading.hide(), evt.target.error.code) {
+        loading.hide();
+        switch (evt.target.error.code) {
             case evt.target.error.NOT_FOUND_ERR:
                 require(["toast"], function (toast) {
                     toast(Globalize.translate("FileNotFound"));
                 });
-
                 break;
-
             case evt.target.error.NOT_READABLE_ERR:
                 require(["toast"], function (toast) {
                     toast(Globalize.translate("FileReadError"));
                 });
-
                 break;
-
             case evt.target.error.ABORT_ERR:
                 break;
-
             default:
                 require(["toast"], function (toast) {
                     toast(Globalize.translate("FileReadError"));
                 });
-
         }
     }
 
@@ -92,8 +89,8 @@ define(["scripts/userpasswordpage", "loading", "libraryMenu", "apphost", "emby-l
 
         reader.onabort = onFileReaderAbort;
 
-        reader.onload = function (e__q) {
-            var html = ['<img style="max-width:100%;max-height:100%;" src="', e__q.target.result, '" title="', escape(file.name), '"/>'].join("");
+        reader.onload = function (evt) {
+            var html = ['<img style="max-width:100%;max-height:100%;" src="', evt.target.result, '" title="', escape(file.name), '"/>'].join("");
             page.querySelector("#userImageOutput").innerHTML = html;
             page.querySelector("#fldUpload").classList.remove("hide");
         };
@@ -101,9 +98,9 @@ define(["scripts/userpasswordpage", "loading", "libraryMenu", "apphost", "emby-l
         reader.readAsDataURL(file);
     }
 
-    function onImageDragOver(e__w) {
-        e__w.preventDefault();
-        e__w.originalEvent.dataTransfer.dropEffect = "Copy";
+    function onImageDragOver(evt) {
+        evt.preventDefault();
+        evt.originalEvent.dataTransfer.dropEffect = "Copy";
         return false;
     }
 
@@ -127,14 +124,9 @@ define(["scripts/userpasswordpage", "loading", "libraryMenu", "apphost", "emby-l
         view.querySelector(".btnBrowse").addEventListener("click", function () {
             view.querySelector("#uploadUserImage").click();
         });
-        view.querySelector(".newImageForm").addEventListener("submit", function (e__e) {
+        view.querySelector(".newImageForm").addEventListener("submit", function (evt) {
             var file = currentFile;
-
-            if (!file) {
-                return false;
-            }
-
-            if ("image/png" != file.type && "image/jpeg" != file.type && "image/jpeg" != file.type) {
+            if (!file || "image/png" != file.type && "image/jpeg" != file.type && "image/jpeg" != file.type) {
                 return false;
             }
 
@@ -144,11 +136,11 @@ define(["scripts/userpasswordpage", "loading", "libraryMenu", "apphost", "emby-l
                 loading.hide();
                 reloadUser(view);
             });
-            e__e.preventDefault();
+            evt.preventDefault();
             return false;
         });
-        view.querySelector("#uploadUserImage").addEventListener("change", function (e__r) {
-            setFiles(view, e__r.target.files);
+        view.querySelector("#uploadUserImage").addEventListener("change", function (evt) {
+            setFiles(view, evt.target.files);
         });
     };
 });
