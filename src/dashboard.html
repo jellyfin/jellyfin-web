@@ -1,4 +1,4 @@
-﻿<div id="dashboardPage" data-role="page" class="page type-interior dashboardHomePage fullWidthContent">
+<div id="dashboardPage" data-role="page" class="page type-interior dashboardHomePage fullWidthContent">
 
     <div class="content-primary">
 
@@ -15,12 +15,23 @@
 
                     </div>
                     <div class="paperList" style="padding: 1em;">
-                        <p id="appVersionNumber">
+                        <p id="productInfo">
+                            <span id="productName"></span>
+                            <br />
+                            <span id="apiVersionNumber"></span>
+                            <br />
+                            <span id="serverVersionNumber"></span>
+                            <br />
+                            <span id="buildBranch"></span>
+                            <br />
+                            <span id="buildTagDescription"></span>
+                            <br />
+                            <span id="buildRevision"></span>
+                            <br />
+                            <span id="buildCommitHash"></span>
                         </p>
                         <p id="ports"></p>
-
                         <p class="localUrl"></p>
-
                         <p class="externalUrl"></p>
                         <p class="hide">
                             <a class="btnConnectionHelp" href="#" is="emby-linkbutton">${HowToConnectFromEmbyApps}</a>

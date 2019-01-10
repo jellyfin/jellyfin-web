@@ -155,10 +155,30 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
     }
 
     function reloadSystemInfo(view, apiClient) {
-        apiClient.getSystemInfo().then(function(systemInfo) {
+        apiClient.getSystemInfo().then(function (systemInfo) {
             view.querySelector(".serverNameHeader").innerHTML = systemInfo.ServerName;
             var localizedVersion = globalize.translate("LabelVersionNumber", systemInfo.Version);
-            systemInfo.SystemUpdateLevel && "Release" != systemInfo.SystemUpdateLevel && (localizedVersion += " " + globalize.translate("Option" + systemInfo.SystemUpdateLevel).toLowerCase()), systemInfo.CanSelfRestart ? view.querySelector("#btnRestartServer").classList.remove("hide") : view.querySelector("#btnRestartServer").classList.add("hide"), view.querySelector("#appVersionNumber").innerHTML = localizedVersion, systemInfo.SupportsHttps ? view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPorts", systemInfo.HttpServerPortNumber, systemInfo.HttpsPortNumber) : view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPort", systemInfo.HttpServerPortNumber), DashboardPage.renderUrls(view, systemInfo), DashboardPage.renderPendingInstallations(view, systemInfo), systemInfo.CanSelfUpdate ? (view.querySelector("#btnUpdateApplicationContainer").classList.remove("hide"), view.querySelector("#btnManualUpdateContainer").classList.add("hide")) : (view.querySelector("#btnUpdateApplicationContainer").classList.add("hide"), view.querySelector("#btnManualUpdateContainer").classList.remove("hide")), "synology" == systemInfo.PackageName ? view.querySelector("#btnManualUpdateContainer").innerHTML = globalize.translate("SynologyUpdateInstructions") : view.querySelector("#btnManualUpdateContainer").innerHTML = '<a href="https://github.com/jellyfin/jellyfin/download" target="_blank">' + globalize.translate("PleaseUpdateManually") + "</a>", DashboardPage.renderPaths(view, systemInfo), renderHasPendingRestart(view, apiClient, systemInfo.HasPendingRestart)
+            var localizedServerVersion = globalize.translate("LabelServerVersionNumber", systemInfo.ServerVersion);
+            var localizedBuildBranch = globalize.translate("LabelBuildBranch", "");
+            var localizedBuildCommit = globalize.translate("LabelBuildCommit", "");
+            var localizedBuildRevision = globalize.translate("LabelBuildRevision", systemInfo.BuildVersion.Revision);
+            var localizedBuildTagDescription = globalize.translate("LabelBuildTagDescription", systemInfo.BuildVersion.TagDescription);
+            var localizedProductName = globalize.translate("LabelProductName", systemInfo.ProductName);
+            systemInfo.SystemUpdateLevel && "Release" != systemInfo.SystemUpdateLevel && (localizedVersion += " " + globalize.translate("Option" + systemInfo.SystemUpdateLevel).toLowerCase()),
+                systemInfo.CanSelfRestart ? view.querySelector("#btnRestartServer").classList.remove("hide") : view.querySelector("#btnRestartServer").classList.add("hide"),
+                view.querySelector("#apiVersionNumber").innerHTML = localizedVersion,
+                view.querySelector("#serverVersionNumber").innerHTML = localizedServerVersion,
+                view.querySelector("#buildBranch").innerHTML = localizedBuildBranch+'<a class="button-link button-link-inline" href="' + systemInfo.BuildVersion.Remote + '/tree/' + systemInfo.BuildVersion.Branch + '" target="_blank">' + systemInfo.BuildVersion.Branch + '</a>',
+                view.querySelector("#buildCommitHash").innerHTML = localizedBuildCommit+'<a class="button-link button-link-inline" href="' + systemInfo.BuildVersion.Remote + '/commit/' + systemInfo.BuildVersion.CommitHash + '" target="_blank">' + systemInfo.BuildVersion.CommitHash + '</a>',
+                view.querySelector("#buildRevision").innerHTML = localizedBuildRevision,
+                view.querySelector("#buildTagDescription").innerHTML = localizedBuildTagDescription,
+                view.querySelector("#productName").innerHTML = localizedProductName,
+                systemInfo.SupportsHttps ? view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPorts", systemInfo.HttpServerPortNumber, systemInfo.HttpsPortNumber) : view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPort", systemInfo.HttpServerPortNumber),
+                DashboardPage.renderUrls(view, systemInfo), DashboardPage.renderPendingInstallations(view, systemInfo),
+                systemInfo.CanSelfUpdate ? (view.querySelector("#btnUpdateApplicationContainer").classList.remove("hide"), view.querySelector("#btnManualUpdateContainer").classList.add("hide")) : (view.querySelector("#btnUpdateApplicationContainer").classList.add("hide"), view.querySelector("#btnManualUpdateContainer").classList.remove("hide")),
+                "synology" == systemInfo.PackageName ? view.querySelector("#btnManualUpdateContainer").innerHTML = globalize.translate("SynologyUpdateInstructions") : view.querySelector("#btnManualUpdateContainer").innerHTML = '<a class="button-link emby-button button-link-inline" href="https://github.com/jellyfin/jellyfin/download" target="_blank">' + globalize.translate("PleaseUpdateManually") + "</a>",
+                DashboardPage.renderPaths(view, systemInfo),
+                renderHasPendingRestart(view, apiClient, systemInfo.HasPendingRestart)
         })
     }
 
