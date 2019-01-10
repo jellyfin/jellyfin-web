@@ -21,9 +21,8 @@ define(["scripts/userpasswordpage", "loading", "libraryMenu", "apphost", "emby-l
             var fldImage = page.querySelector("#fldImage");
             fldImage.classList.remove("hide");
             fldImage.innerHTML = "<img width='140px' src='" + imageUrl + "' />";
-            var showImageEditing = true;
             Dashboard.getCurrentUser().then(function (loggedInUser) {
-                if (showImageEditing && appHost.supports("fileinput") && (loggedInUser.Policy.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
+                if (appHost.supports("fileinput") && (loggedInUser.Policy.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
                     page.querySelector(".newImageForm").classList.remove("hide");
 
                     if (user.PrimaryImageTag) {
