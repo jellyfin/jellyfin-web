@@ -1,447 +1,928 @@
-define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "humanedate", "listViewStyle", "emby-linkbutton", "flexStyles", "emby-button", "emby-itemscontainer"], function(datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog) {
+define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "humanedate", "listViewStyle", "emby-linkbutton", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog) {
     "use strict";
 
-    function onConnectionHelpClick(e) {
-        return e.preventDefault(), !1
+    function onConnectionHelpClick(e__q) {
+        e__q.preventDefault();
+        return false;
     }
 
     function buttonEnabled(elem, enabled) {
-        enabled ? (elem.setAttribute("disabled", ""), elem.removeAttribute("disabled")) : elem.setAttribute("disabled", "disabled")
+        if (enabled) {
+            elem.setAttribute("disabled", "");
+            elem.removeAttribute("disabled");
+        } else {
+            elem.setAttribute("disabled", "disabled");
+        }
     }
 
-    function onEditServerNameClick(e) {
+    function onEditServerNameClick(e__w) {
         var page = dom.parentWithClass(this, "page");
-        return require(["prompt"], function(prompt) {
+
+        require(["prompt"], function (prompt) {
             prompt({
                 label: globalize.translate("LabelFriendlyServerName"),
                 description: globalize.translate("LabelFriendlyServerNameHelp"),
                 value: page.querySelector(".serverNameHeader").innerHTML,
                 confirmText: globalize.translate("ButtonSave")
-            }).then(function(value) {
-                loading.show(), ApiClient.getServerConfiguration().then(function(config) {
-                    config.ServerName = value, ApiClient.updateServerConfiguration(config).then(function() {
-                        page.querySelector(".serverNameHeader").innerHTML = value, loading.hide()
-                    })
-                })
-            })
-        }), e.preventDefault(), !1
+            }).then(function (value) {
+                loading.show();
+                ApiClient.getServerConfiguration().then(function (config) {
+                    config.ServerName = value;
+                    ApiClient.updateServerConfiguration(config).then(function () {
+                        page.querySelector(".serverNameHeader").innerHTML = value;
+                        loading.hide();
+                    });
+                });
+            });
+        });
+
+        e__w.preventDefault();
+        return false;
     }
 
     function showPlaybackInfo(btn, session) {
-        require(["alert"], function(alert) {
-            var showTranscodeReasons, title, text = [],
-                displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session),
-                isDirectStream = "DirectStream" === displayPlayMethod,
-                isTranscode = "Transcode" === displayPlayMethod;
-            isDirectStream ? (title = globalize.translate("sharedcomponents#DirectStreaming"), text.push(globalize.translate("sharedcomponents#DirectStreamHelp1")), text.push("<br/>"), text.push(globalize.translate("sharedcomponents#DirectStreamHelp2"))) : isTranscode && (title = globalize.translate("sharedcomponents#Transcoding"), text.push(globalize.translate("sharedcomponents#MediaIsBeingConverted")), session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length && (text.push("<br/>"), text.push(globalize.translate("sharedcomponents#LabelReasonForTranscoding")), showTranscodeReasons = !0)), showTranscodeReasons && session.TranscodingInfo.TranscodeReasons.forEach(function(t) {
-                text.push(globalize.translate("sharedcomponents#" + t))
-            }), alert({
+        require(["alert"], function (alert) {
+            var showTranscodeReasons;
+            var title;
+            var text = [];
+            var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+            var isDirectStream = "DirectStream" === displayPlayMethod;
+            var isTranscode = "Transcode" === displayPlayMethod;
+
+            if (isDirectStream) {
+                title = globalize.translate("sharedcomponents#DirectStreaming");
+                text.push(globalize.translate("sharedcomponents#DirectStreamHelp1"));
+                text.push("<br/>");
+                text.push(globalize.translate("sharedcomponents#DirectStreamHelp2"));
+            } else {
+                if (isTranscode) {
+                    title = globalize.translate("sharedcomponents#Transcoding");
+                    text.push(globalize.translate("sharedcomponents#MediaIsBeingConverted"));
+
+                    if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
+                        text.push("<br/>");
+                        text.push(globalize.translate("sharedcomponents#LabelReasonForTranscoding"));
+                        showTranscodeReasons = true;
+                    }
+                }
+            }
+
+            if (showTranscodeReasons) {
+                session.TranscodingInfo.TranscodeReasons.forEach(function (t__e) {
+                    text.push(globalize.translate("sharedcomponents#" + t__e));
+                });
+            }
+
+            alert({
                 text: text.join("<br/>"),
                 title: title
-            })
-        })
+            });
+        });
     }
 
     function showSendMessageForm(btn, session) {
-        require(["prompt"], function(prompt) {
+        require(["prompt"], function (prompt) {
             prompt({
                 title: globalize.translate("HeaderSendMessage"),
                 label: globalize.translate("LabelMessageText"),
                 confirmText: globalize.translate("ButtonSend")
-            }).then(function(text) {
+            }).then(function (text) {
                 if (text) {
                     connectionManager.getApiClient(session.ServerId).sendMessageCommand(session.Id, {
                         Text: text,
                         TimeoutMs: 5e3
-                    })
+                    });
                 }
-            })
-        })
+            });
+        });
     }
 
     function showOptionsMenu(btn, session) {
-        require(["actionsheet"], function(actionsheet) {
+        require(["actionsheet"], function (actionsheet) {
             var menuItems = [];
-            return session.ServerId && session.DeviceId !== connectionManager.deviceId() && menuItems.push({
-                name: globalize.translate("SendMessage"),
-                id: "sendmessage"
-            }), session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length && menuItems.push({
-                name: globalize.translate("ViewPlaybackInfo"),
-                id: "transcodinginfo"
-            }), actionsheet.show({
+
+            if (session.ServerId && session.DeviceId !== connectionManager.deviceId()) {
+                menuItems.push({
+                    name: globalize.translate("SendMessage"),
+                    id: "sendmessage"
+                });
+            }
+
+            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
+                menuItems.push({
+                    name: globalize.translate("ViewPlaybackInfo"),
+                    id: "transcodinginfo"
+                });
+            }
+
+            return actionsheet.show({
                 items: menuItems,
                 positionTo: btn
-            }).then(function(id) {
+            }).then(function (id) {
                 switch (id) {
                     case "sendmessage":
                         showSendMessageForm(btn, session);
                         break;
+
                     case "transcodinginfo":
-                        showPlaybackInfo(btn, session)
+                        showPlaybackInfo(btn, session);
                 }
-            })
-        })
+            });
+        });
     }
 
-    function onActiveDevicesClick(e) {
-        var btn = dom.parentWithClass(e.target, "sessionCardButton");
+    function onActiveDevicesClick(e__r) {
+        var btn = dom.parentWithClass(e__r.target, "sessionCardButton");
+
         if (btn) {
             var card = dom.parentWithClass(btn, "card");
+
             if (card) {
-                var sessionId = card.id,
-                    session = (DashboardPage.sessionsList || []).filter(function(s) {
-                        return "session" + s.Id === sessionId
-                    })[0];
-                session && (btn.classList.contains("btnCardOptions") ? showOptionsMenu(btn, session) : btn.classList.contains("btnSessionInfo") ? showPlaybackInfo(btn, session) : btn.classList.contains("btnSessionSendMessage") ? showSendMessageForm(btn, session) : btn.classList.contains("btnSessionStop") ? connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, "Stop") : btn.classList.contains("btnSessionPlayPause") && session.PlayState && connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, "PlayPause"))
+                var sessionId = card.id;
+                var session = (DashboardPage.sessionsList || []).filter(function (s__t) {
+                    return "session" + s__t.Id === sessionId;
+                })[0];
+
+                if (session) {
+                    if (btn.classList.contains("btnCardOptions")) {
+                        showOptionsMenu(btn, session);
+                    } else {
+                        if (btn.classList.contains("btnSessionInfo")) {
+                            showPlaybackInfo(btn, session);
+                        } else {
+                            if (btn.classList.contains("btnSessionSendMessage")) {
+                                showSendMessageForm(btn, session);
+                            } else {
+                                if (btn.classList.contains("btnSessionStop")) {
+                                    connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, "Stop");
+                                } else {
+                                    if (btn.classList.contains("btnSessionPlayPause") && session.PlayState) {
+                                        connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, "PlayPause");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
     function filterSessions(sessions) {
-        for (var list = [], minActiveDate = (new Date).getTime() - 9e5, i = 0, length = sessions.length; i < length; i++) {
-            var session = sessions[i];
+        var list = [];
+        var minActiveDate = new Date().getTime() - 9e5;
+
+        for (var i__y = 0, length = sessions.length; i__y < length; i__y++) {
+            var session = sessions[i__y];
+
             if (session.NowPlayingItem || session.UserId) {
-                datetime.parseISO8601Date(session.LastActivityDate, !0).getTime() >= minActiveDate && list.push(session)
+                if (datetime.parseISO8601Date(session.LastActivityDate, true).getTime() >= minActiveDate) {
+                    list.push(session);
+                }
             }
         }
-        return list
+
+        return list;
     }
 
     function refreshActiveRecordings(view, apiClient) {
         apiClient.getLiveTvRecordings({
             UserId: Dashboard.getCurrentUserId(),
-            IsInProgress: !0,
+            IsInProgress: true,
             Fields: "CanDelete,PrimaryImageAspectRatio",
-            EnableTotalRecordCount: !1,
+            EnableTotalRecordCount: false,
             EnableImageTypes: "Primary,Thumb,Backdrop"
-        }).then(function(result) {
+        }).then(function (result) {
             var itemsContainer = view.querySelector(".activeRecordingItems");
-            if (!result.Items.length) return view.querySelector(".activeRecordingsSection").classList.add("hide"), void(itemsContainer.innerHTML = "");
+
+            if (!result.Items.length) {
+                view.querySelector(".activeRecordingsSection").classList.add("hide");
+                return void (itemsContainer.innerHTML = "");
+            }
+
             view.querySelector(".activeRecordingsSection").classList.remove("hide");
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 shape: "auto",
                 defaultShape: "backdrop",
-                showTitle: !0,
-                showParentTitle: !0,
-                coverImage: !0,
-                cardLayout: !1,
-                centerText: !0,
+                showTitle: true,
+                showParentTitle: true,
+                coverImage: true,
+                cardLayout: false,
+                centerText: true,
                 preferThumb: "auto",
-                overlayText: !1,
-                overlayMoreButton: !0,
+                overlayText: false,
+                overlayMoreButton: true,
                 action: "none",
-                centerPlayButton: !0
-            }), imageLoader.lazyChildren(itemsContainer)
-        })
+                centerPlayButton: true
+            });
+            imageLoader.lazyChildren(itemsContainer);
+        });
     }
 
-    function renderHasPendingRestart(view, apiClient, hasPendingRestart) {
-    }
+    function renderHasPendingRestart(view, apiClient, hasPendingRestart) { }
 
     function reloadSystemInfo(view, apiClient) {
-        apiClient.getSystemInfo().then(function(systemInfo) {
+        apiClient.getSystemInfo().then(function (systemInfo) {
             view.querySelector(".serverNameHeader").innerHTML = systemInfo.ServerName;
             var localizedVersion = globalize.translate("LabelVersionNumber", systemInfo.Version);
-            systemInfo.SystemUpdateLevel && "Release" != systemInfo.SystemUpdateLevel && (localizedVersion += " " + globalize.translate("Option" + systemInfo.SystemUpdateLevel).toLowerCase()), systemInfo.CanSelfRestart ? view.querySelector("#btnRestartServer").classList.remove("hide") : view.querySelector("#btnRestartServer").classList.add("hide"), view.querySelector("#appVersionNumber").innerHTML = localizedVersion, systemInfo.SupportsHttps ? view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPorts", systemInfo.HttpServerPortNumber, systemInfo.HttpsPortNumber) : view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPort", systemInfo.HttpServerPortNumber), DashboardPage.renderUrls(view, systemInfo), DashboardPage.renderPaths(view, systemInfo), renderHasPendingRestart(view, apiClient, systemInfo.HasPendingRestart)
-        })
+
+            if (systemInfo.SystemUpdateLevel && "Release" != systemInfo.SystemUpdateLevel) {
+                localizedVersion += " " + globalize.translate("Option" + systemInfo.SystemUpdateLevel).toLowerCase();
+            }
+
+            if (systemInfo.CanSelfRestart) {
+                view.querySelector("#btnRestartServer").classList.remove("hide");
+            } else {
+                view.querySelector("#btnRestartServer").classList.add("hide");
+            }
+
+            view.querySelector("#appVersionNumber").innerHTML = localizedVersion;
+
+            if (systemInfo.SupportsHttps) {
+                view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPorts", systemInfo.HttpServerPortNumber, systemInfo.HttpsPortNumber);
+            } else {
+                view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPort", systemInfo.HttpServerPortNumber);
+            }
+
+            DashboardPage.renderUrls(view, systemInfo);
+            DashboardPage.renderPaths(view, systemInfo);
+            renderHasPendingRestart(view, apiClient, systemInfo.HasPendingRestart);
+        });
     }
 
     function renderInfo(view, sessions, forceUpdate) {
-        sessions = filterSessions(sessions), renderActiveConnections(view, sessions), loading.hide()
+        sessions = filterSessions(sessions);
+        renderActiveConnections(view, sessions);
+        loading.hide();
     }
 
     function pollForInfo(view, apiClient, forceUpdate) {
         apiClient.getSessions({
             ActiveWithinSeconds: 960
-        }).then(function(sessions) {
-            renderInfo(view, sessions, forceUpdate)
-        }), apiClient.getScheduledTasks().then(function(tasks) {
-            renderRunningTasks(view, tasks)
-        })
+        }).then(function (sessions) {
+            renderInfo(view, sessions, forceUpdate);
+        });
+        apiClient.getScheduledTasks().then(function (tasks) {
+            renderRunningTasks(view, tasks);
+        });
     }
 
     function renderActiveConnections(view, sessions) {
         var html = "";
         DashboardPage.sessionsList = sessions;
-        var parentElement = view.querySelector(".activeDevices"),
-            cardElem = parentElement.querySelector(".card");
-        cardElem && cardElem.classList.add("deadSession");
-        for (var i = 0, length = sessions.length; i < length; i++) {
-            var session = sessions[i],
-                rowId = "session" + session.Id,
-                elem = view.querySelector("#" + rowId);
-            if (elem) DashboardPage.updateSession(elem, session);
-            else {
-                var nowPlayingItem = session.NowPlayingItem,
-                    className = "scalableCard card activeSession backdropCard backdropCard-scalable";
-                session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage && (className += " transcodingSession"), html += '<div class="' + className + '" id="' + rowId + '">', html += '<div class="cardBox visualCardBox">', html += '<div class="cardScalable visualCardBox-cardScalable">', html += '<div class="cardPadder cardPadder-backdrop"></div>', html += '<div class="cardContent">';
+        var parentElement = view.querySelector(".activeDevices");
+        var cardElem = parentElement.querySelector(".card");
+
+        if (cardElem) {
+            cardElem.classList.add("deadSession");
+        }
+
+        for (var i__u = 0, length = sessions.length; i__u < length; i__u++) {
+            var session = sessions[i__u];
+            var rowId = "session" + session.Id;
+            var elem = view.querySelector("#" + rowId);
+
+            if (elem) {
+                DashboardPage.updateSession(elem, session);
+            } else {
+                var nowPlayingItem = session.NowPlayingItem;
+                var className = "scalableCard card activeSession backdropCard backdropCard-scalable";
+
+                if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
+                    className += " transcodingSession";
+                }
+
+                html += '<div class="' + className + '" id="' + rowId + '">';
+                html += '<div class="cardBox visualCardBox">';
+                html += '<div class="cardScalable visualCardBox-cardScalable">';
+                html += '<div class="cardPadder cardPadder-backdrop"></div>';
+                html += '<div class="cardContent">';
                 var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem);
-                imgUrl ? (html += '<div class="sessionNowPlayingContent sessionNowPlayingContent-withbackground"', html += ' data-src="' + imgUrl + '" style="display:inline-block;background-image:url(\'' + imgUrl + "');\"") : html += '<div class="sessionNowPlayingContent"', html += "></div>", html += '<div class="sessionNowPlayingInnerContent">', html += '<div class="sessionAppInfo">';
+
+                if (imgUrl) {
+                    html += '<div class="sessionNowPlayingContent sessionNowPlayingContent-withbackground"';
+                    html += ' data-src="' + imgUrl + '" style="display:inline-block;background-image:url(\'' + imgUrl + "');\"";
+                } else {
+                    html += '<div class="sessionNowPlayingContent"';
+                }
+
+                html += "></div>";
+                html += '<div class="sessionNowPlayingInnerContent">';
+                html += '<div class="sessionAppInfo">';
                 var clientImage = DashboardPage.getClientImage(session);
-                clientImage && (html += clientImage), html += '<div class="sessionAppName" style="display:inline-block;">', html += '<div class="sessionDeviceName">' + session.DeviceName + "</div>", html += '<div class="sessionAppSecondaryText">' + DashboardPage.getAppSecondaryText(session) + "</div>", html += "</div>", html += "</div>", html += '<div class="sessionNowPlayingTime">' + DashboardPage.getSessionNowPlayingTime(session) + "</div>", session.TranscodingInfo && session.TranscodingInfo.Framerate ? html += '<div class="sessionTranscodingFramerate">' + session.TranscodingInfo.Framerate + " fps</div>" : html += '<div class="sessionTranscodingFramerate"></div>';
+
+                if (clientImage) {
+                    html += clientImage;
+                }
+
+                html += '<div class="sessionAppName" style="display:inline-block;">';
+                html += '<div class="sessionDeviceName">' + session.DeviceName + "</div>";
+                html += '<div class="sessionAppSecondaryText">' + DashboardPage.getAppSecondaryText(session) + "</div>";
+                html += "</div>";
+                html += "</div>";
+                html += '<div class="sessionNowPlayingTime">' + DashboardPage.getSessionNowPlayingTime(session) + "</div>";
+
+                if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
+                    html += '<div class="sessionTranscodingFramerate">' + session.TranscodingInfo.Framerate + " fps</div>";
+                } else {
+                    html += '<div class="sessionTranscodingFramerate"></div>';
+                }
+
                 var nowPlayingName = DashboardPage.getNowPlayingName(session);
+
                 if (html += '<div class="sessionNowPlayingInfo" data-imgsrc="' + nowPlayingName.image + '">', html += nowPlayingName.html, html += "</div>", nowPlayingItem && nowPlayingItem.RunTimeTicks) {
-                    html += '<progress class="playbackProgress" min="0" max="100" value="' + 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks + '"></progress>'
-                } else html += '<progress class="playbackProgress hide" min="0" max="100"></progress>';
-                session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage ? html += '<progress class="transcodingProgress" min="0" max="100" value="' + session.TranscodingInfo.CompletionPercentage.toFixed(1) + '"></progress>' : html += '<progress class="transcodingProgress hide" min="0" max="100"></progress>', html += "</div>", html += "</div>", html += "</div>", html += '<div class="sessionCardFooter cardFooter">', html += '<div class="sessionCardButtons flex align-items-center justify-content-center">';
+                    html += '<progress class="playbackProgress" min="0" max="100" value="' + 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks + '"></progress>';
+                } else {
+                    html += '<progress class="playbackProgress hide" min="0" max="100"></progress>';
+                }
+
+                if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
+                    html += '<progress class="transcodingProgress" min="0" max="100" value="' + session.TranscodingInfo.CompletionPercentage.toFixed(1) + '"></progress>';
+                } else {
+                    html += '<progress class="transcodingProgress hide" min="0" max="100"></progress>';
+                }
+
+                html += "</div>";
+                html += "</div>";
+                html += "</div>";
+                html += '<div class="sessionCardFooter cardFooter">';
+                html += '<div class="sessionCardButtons flex align-items-center justify-content-center">';
                 var btnCssClass;
-                btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId() ? "" : " hide", html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><i class="md-icon">&#xE034;</i></button>', html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><i class="md-icon">&#xE047;</i></button>', btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons.length ? "" : " hide", html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("ViewPlaybackInfo") + '"><i class="md-icon">&#xE88E;</i></button>', btnCssClass = session.ServerId && -1 !== session.SupportedCommands.indexOf("DisplayMessage") && session.DeviceId !== connectionManager.deviceId() ? "" : " hide", html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("SendMessage") + '"><i class="md-icon">&#xE0C9;</i></button>', html += "</div>", html += '<div class="sessionNowPlayingStreamInfo" style="padding:.5em 0 1em;">', html += DashboardPage.getSessionNowPlayingStreamInfo(session), html += "</div>", html += '<div class="flex align-items-center justify-content-center">';
+                btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId() ? "" : " hide";
+                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><i class="md-icon">&#xE034;</i></button>';
+                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><i class="md-icon">&#xE047;</i></button>';
+                btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons.length ? "" : " hide";
+                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("ViewPlaybackInfo") + '"><i class="md-icon">&#xE88E;</i></button>';
+                btnCssClass = session.ServerId && -1 !== session.SupportedCommands.indexOf("DisplayMessage") && session.DeviceId !== connectionManager.deviceId() ? "" : " hide";
+                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("SendMessage") + '"><i class="md-icon">&#xE0C9;</i></button>';
+                html += "</div>";
+                html += '<div class="sessionNowPlayingStreamInfo" style="padding:.5em 0 1em;">';
+                html += DashboardPage.getSessionNowPlayingStreamInfo(session);
+                html += "</div>";
+                html += '<div class="flex align-items-center justify-content-center">';
                 var userImage = DashboardPage.getUserImage(session);
-                html += userImage ? '<img style="height:1.71em;border-radius:50px;margin-right:.5em;" src="' + userImage + '" />' : '<div style="height:1.71em;"></div>', html += '<div class="sessionUserName" style="text-transform:uppercase;">', html += DashboardPage.getUsersHtml(session) || "&nbsp;", html += "</div>", html += "</div>", html += "</div>", html += "</div>", html += "</div>"
+                html += userImage ? '<img style="height:1.71em;border-radius:50px;margin-right:.5em;" src="' + userImage + '" />' : '<div style="height:1.71em;"></div>';
+                html += '<div class="sessionUserName" style="text-transform:uppercase;">';
+                html += DashboardPage.getUsersHtml(session) || "&nbsp;";
+                html += "</div>";
+                html += "</div>";
+                html += "</div>";
+                html += "</div>";
+                html += "</div>";
             }
         }
+
         parentElement.insertAdjacentHTML("beforeend", html);
         var deadSessionElem = parentElement.querySelector(".deadSession");
-        deadSessionElem && deadSessionElem.parentNode.removeChild(deadSessionElem)
+
+        if (deadSessionElem) {
+            deadSessionElem.parentNode.removeChild(deadSessionElem);
+        }
     }
 
     function renderRunningTasks(view, tasks) {
         var html = "";
-        tasks = tasks.filter(function(t) {
-            return "Idle" != t.State && !t.IsHidden
-        }), tasks.length ? view.querySelector(".runningTasksContainer").classList.remove("hide") : view.querySelector(".runningTasksContainer").classList.add("hide");
-        for (var i = 0, length = tasks.length; i < length; i++) {
-            var task = tasks[i];
+        tasks = tasks.filter(function (t__o) {
+            if ("Idle" != t__o.State) {
+                return !t__o.IsHidden;
+            }
+
+            return false;
+        });
+
+        if (tasks.length) {
+            view.querySelector(".runningTasksContainer").classList.remove("hide");
+        } else {
+            view.querySelector(".runningTasksContainer").classList.add("hide");
+        }
+
+        for (var i__i = 0, length = tasks.length; i__i < length; i__i++) {
+            var task = tasks[i__i];
+
             if (html += "<p>", html += task.Name + "<br/>", "Running" == task.State) {
                 var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
-                html += '<progress max="100" value="' + progress + '" title="' + progress + '%">', html += progress + "%", html += "</progress>", html += "<span style='color:#009F00;margin-left:5px;margin-right:5px;'>" + progress + "%</span>", html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonStop") + '" onclick="DashboardPage.stopTask(this, \'' + task.Id + '\');" class="autoSize"><i class="md-icon">cancel</i></button>'
-            } else "Cancelling" == task.State && (html += '<span style="color:#cc0000;">' + globalize.translate("LabelStopping") + "</span>");
-            html += "</p>"
-        }
-        view.querySelector("#divRunningTasks").innerHTML = html
-    }
-    return window.DashboardPage = {
-            renderPaths: function(page, systemInfo) {
-                page.querySelector("#cachePath").innerHTML = systemInfo.CachePath, page.querySelector("#logPath").innerHTML = systemInfo.LogPath, page.querySelector("#transcodingTemporaryPath").innerHTML = systemInfo.TranscodingTempPath, page.querySelector("#metadataPath").innerHTML = systemInfo.InternalMetadataPath
-            },
-            startInterval: function(apiClient) {
-                apiClient.sendMessage("SessionsStart", "0,1500"), apiClient.sendMessage("ScheduledTasksInfoStart", "0,1000")
-            },
-            stopInterval: function(apiClient) {
-                apiClient.sendMessage("SessionsStop"), apiClient.sendMessage("ScheduledTasksInfoStop")
-            },
-            getSessionNowPlayingStreamInfo: function(session) {
-                var html = "",
-                    showTranscodingInfo = !1,
-                    displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
-                if ("DirectStream" === displayPlayMethod ? (html += globalize.translate("sharedcomponents#DirectStreaming"), !0) : "Transcode" == displayPlayMethod ? (html += globalize.translate("sharedcomponents#Transcoding"), session.TranscodingInfo && session.TranscodingInfo.Framerate && (html += " (" + session.TranscodingInfo.Framerate + " fps)"), showTranscodingInfo = !0, !0) : "DirectPlay" == displayPlayMethod && (html += globalize.translate("sharedcomponents#DirectPlaying")), showTranscodingInfo) {
-                    var line = [];
-                    session.TranscodingInfo && (session.TranscodingInfo.Bitrate && (session.TranscodingInfo.Bitrate > 1e6 ? line.push((session.TranscodingInfo.Bitrate / 1e6).toFixed(1) + " Mbps") : line.push(Math.floor(session.TranscodingInfo.Bitrate / 1e3) + " kbps")), session.TranscodingInfo.Container && line.push(session.TranscodingInfo.Container), session.TranscodingInfo.VideoCodec && line.push(session.TranscodingInfo.VideoCodec), session.TranscodingInfo.AudioCodec && session.TranscodingInfo.AudioCodec != session.TranscodingInfo.Container && line.push(session.TranscodingInfo.AudioCodec)), line.length && (html += " - " + line.join(" "))
+                html += '<progress max="100" value="' + progress + '" title="' + progress + '%">';
+                html += progress + "%";
+                html += "</progress>";
+                html += "<span style='color:#009F00;margin-left:5px;margin-right:5px;'>" + progress + "%</span>";
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonStop") + '" onclick="DashboardPage.stopTask(this, \'' + task.Id + '\');" class="autoSize"><i class="md-icon">cancel</i></button>';
+            } else {
+                if ("Cancelling" == task.State) {
+                    html += '<span style="color:#cc0000;">' + globalize.translate("LabelStopping") + "</span>";
                 }
-                return html || "&nbsp;"
-            },
-            getSessionNowPlayingTime: function(session) {
-                var nowPlayingItem = session.NowPlayingItem,
-                    html = "";
-                return nowPlayingItem ? (session.PlayState.PositionTicks ? html += datetime.getDisplayRunningTime(session.PlayState.PositionTicks) : html += "--:--:--", html += " / ", nowPlayingItem && nowPlayingItem.RunTimeTicks ? html += datetime.getDisplayRunningTime(nowPlayingItem.RunTimeTicks) : html += "--:--:--", html) : html
-            },
-            getAppSecondaryText: function(session) {
-                return session.Client + " " + session.ApplicationVersion
-            },
-            getNowPlayingName: function(session) {
-                var imgUrl = "",
-                    nowPlayingItem = session.NowPlayingItem;
-                if (!nowPlayingItem) return {
+            }
+
+            html += "</p>";
+        }
+
+        view.querySelector("#divRunningTasks").innerHTML = html;
+    }
+
+    window.DashboardPage = {
+        renderPaths: function (page, systemInfo) {
+            page.querySelector("#cachePath").innerHTML = systemInfo.CachePath;
+            page.querySelector("#logPath").innerHTML = systemInfo.LogPath;
+            page.querySelector("#transcodingTemporaryPath").innerHTML = systemInfo.TranscodingTempPath;
+            page.querySelector("#metadataPath").innerHTML = systemInfo.InternalMetadataPath;
+        },
+        startInterval: function (apiClient) {
+            apiClient.sendMessage("SessionsStart", "0,1500");
+            apiClient.sendMessage("ScheduledTasksInfoStart", "0,1000");
+        },
+        stopInterval: function (apiClient) {
+            apiClient.sendMessage("SessionsStop");
+            apiClient.sendMessage("ScheduledTasksInfoStop");
+        },
+        getSessionNowPlayingStreamInfo: function (session) {
+            var html = "";
+            var showTranscodingInfo = false;
+            var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+
+            if ("DirectStream" === displayPlayMethod ? (html += globalize.translate("sharedcomponents#DirectStreaming"), true) : "Transcode" == displayPlayMethod ? (html += globalize.translate("sharedcomponents#Transcoding"), session.TranscodingInfo && session.TranscodingInfo.Framerate && (html += " (" + session.TranscodingInfo.Framerate + " fps)"), showTranscodingInfo = true, true) : "DirectPlay" == displayPlayMethod && (html += globalize.translate("sharedcomponents#DirectPlaying")), showTranscodingInfo) {
+                var line = [];
+
+                if (session.TranscodingInfo) {
+                    if (session.TranscodingInfo.Bitrate) {
+                        if (session.TranscodingInfo.Bitrate > 1e6) {
+                            line.push((session.TranscodingInfo.Bitrate / 1e6).toFixed(1) + " Mbps");
+                        } else {
+                            line.push(Math.floor(session.TranscodingInfo.Bitrate / 1e3) + " kbps");
+                        }
+                    }
+
+                    if (session.TranscodingInfo.Container) {
+                        line.push(session.TranscodingInfo.Container);
+                    }
+
+                    if (session.TranscodingInfo.VideoCodec) {
+                        line.push(session.TranscodingInfo.VideoCodec);
+                    }
+
+                    if (session.TranscodingInfo.AudioCodec && session.TranscodingInfo.AudioCodec != session.TranscodingInfo.Container) {
+                        line.push(session.TranscodingInfo.AudioCodec);
+                    }
+                }
+
+                if (line.length) {
+                    html += " - " + line.join(" ");
+                }
+            }
+
+            return html || "&nbsp;";
+        },
+        getSessionNowPlayingTime: function (session) {
+            var nowPlayingItem = session.NowPlayingItem;
+            var html = "";
+
+            if (nowPlayingItem) {
+                if (session.PlayState.PositionTicks) {
+                    html += datetime.getDisplayRunningTime(session.PlayState.PositionTicks);
+                } else {
+                    html += "--:--:--";
+                }
+
+                html += " / ";
+
+                if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
+                    html += datetime.getDisplayRunningTime(nowPlayingItem.RunTimeTicks);
+                } else {
+                    html += "--:--:--";
+                }
+
+                return html;
+            }
+
+            return html;
+        },
+        getAppSecondaryText: function (session) {
+            return session.Client + " " + session.ApplicationVersion;
+        },
+        getNowPlayingName: function (session) {
+            var imgUrl = "";
+            var nowPlayingItem = session.NowPlayingItem;
+
+            if (!nowPlayingItem) {
+                return {
                     html: "Last seen " + humane_date(session.LastActivityDate),
                     image: imgUrl
                 };
-                var topText = itemHelper.getDisplayName(nowPlayingItem),
-                    bottomText = "";
-                return nowPlayingItem.Artists && nowPlayingItem.Artists.length ? (bottomText = topText, topText = nowPlayingItem.Artists[0]) : nowPlayingItem.SeriesName || nowPlayingItem.Album ? (bottomText = topText, topText = nowPlayingItem.SeriesName || nowPlayingItem.Album) : nowPlayingItem.ProductionYear && (bottomText = nowPlayingItem.ProductionYear), nowPlayingItem.ImageTags && nowPlayingItem.ImageTags.Logo ? imgUrl = ApiClient.getScaledImageUrl(nowPlayingItem.Id, {
+            }
+
+            var topText = itemHelper.getDisplayName(nowPlayingItem);
+            var bottomText = "";
+
+            if (nowPlayingItem.Artists && nowPlayingItem.Artists.length) {
+                bottomText = topText;
+                topText = nowPlayingItem.Artists[0];
+            } else {
+                if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
+                    bottomText = topText;
+                    topText = nowPlayingItem.SeriesName || nowPlayingItem.Album;
+                } else {
+                    if (nowPlayingItem.ProductionYear) {
+                        bottomText = nowPlayingItem.ProductionYear;
+                    }
+                }
+            }
+
+            if (nowPlayingItem.ImageTags && nowPlayingItem.ImageTags.Logo) {
+                imgUrl = ApiClient.getScaledImageUrl(nowPlayingItem.Id, {
                     tag: nowPlayingItem.ImageTags.Logo,
                     maxHeight: 24,
                     maxWidth: 130,
                     type: "Logo"
-                }) : nowPlayingItem.ParentLogoImageTag && (imgUrl = ApiClient.getScaledImageUrl(nowPlayingItem.ParentLogoItemId, {
-                    tag: nowPlayingItem.ParentLogoImageTag,
-                    maxHeight: 24,
-                    maxWidth: 130,
-                    type: "Logo"
-                })), imgUrl && (topText = '<img src="' + imgUrl + '" style="max-height:24px;max-width:130px;" />'), {
-                    html: bottomText ? topText + "<br/>" + bottomText : topText,
-                    image: imgUrl
+                });
+            } else {
+                if (nowPlayingItem.ParentLogoImageTag) {
+                    imgUrl = ApiClient.getScaledImageUrl(nowPlayingItem.ParentLogoItemId, {
+                        tag: nowPlayingItem.ParentLogoImageTag,
+                        maxHeight: 24,
+                        maxWidth: 130,
+                        type: "Logo"
+                    });
                 }
-            },
-            getUsersHtml: function(session) {
-                var html = [];
-                session.UserId && html.push(session.UserName);
-                for (var i = 0, length = session.AdditionalUsers.length; i < length; i++) html.push(session.AdditionalUsers[i].UserName);
-                return html.join(", ")
-            },
-            getUserImage: function(session) {
-                return session.UserId && session.UserPrimaryImageTag ? ApiClient.getUserImageUrl(session.UserId, {
+            }
+
+            if (imgUrl) {
+                topText = '<img src="' + imgUrl + '" style="max-height:24px;max-width:130px;" />';
+            }
+
+            return {
+                html: bottomText ? topText + "<br/>" + bottomText : topText,
+                image: imgUrl
+            };
+        },
+        getUsersHtml: function (session) {
+            var html = [];
+
+            if (session.UserId) {
+                html.push(session.UserName);
+            }
+
+            for (var i__p = 0, length = session.AdditionalUsers.length; i__p < length; i__p++) {
+                html.push(session.AdditionalUsers[i__p].UserName);
+            }
+
+            return html.join(", ");
+        },
+        getUserImage: function (session) {
+            if (session.UserId && session.UserPrimaryImageTag) {
+                return ApiClient.getUserImageUrl(session.UserId, {
                     tag: session.UserPrimaryImageTag,
                     height: 24,
                     type: "Primary"
-                }) : null
-            },
-            updateSession: function(row, session) {
-                row.classList.remove("deadSession");
-                var nowPlayingItem = session.NowPlayingItem;
-                nowPlayingItem ? row.classList.add("playingSession") : row.classList.remove("playingSession"), session.ServerId && -1 !== session.SupportedCommands.indexOf("DisplayMessage") && session.DeviceId !== connectionManager.deviceId() ? row.querySelector(".btnSessionSendMessage").classList.remove("hide") : row.querySelector(".btnSessionSendMessage").classList.add("hide"), session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons.length ? row.querySelector(".btnSessionInfo").classList.remove("hide") : row.querySelector(".btnSessionInfo").classList.add("hide");
-                var btnSessionPlayPause = row.querySelector(".btnSessionPlayPause");
-                session.ServerId && nowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId() ? (btnSessionPlayPause.classList.remove("hide"), row.querySelector(".btnSessionStop").classList.remove("hide")) : (btnSessionPlayPause.classList.add("hide"), row.querySelector(".btnSessionStop").classList.add("hide")), session.PlayState && session.PlayState.IsPaused ? btnSessionPlayPause.querySelector("i").innerHTML = "&#xE037;" : btnSessionPlayPause.querySelector("i").innerHTML = "&#xE034;", row.querySelector(".sessionNowPlayingStreamInfo").innerHTML = DashboardPage.getSessionNowPlayingStreamInfo(session), row.querySelector(".sessionNowPlayingTime").innerHTML = DashboardPage.getSessionNowPlayingTime(session), row.querySelector(".sessionUserName").innerHTML = DashboardPage.getUsersHtml(session) || "&nbsp;", row.querySelector(".sessionAppSecondaryText").innerHTML = DashboardPage.getAppSecondaryText(session), row.querySelector(".sessionTranscodingFramerate").innerHTML = session.TranscodingInfo && session.TranscodingInfo.Framerate ? session.TranscodingInfo.Framerate + " fps" : "";
-                var nowPlayingName = DashboardPage.getNowPlayingName(session),
-                    nowPlayingInfoElem = row.querySelector(".sessionNowPlayingInfo");
-                nowPlayingName.image && nowPlayingName.image == nowPlayingInfoElem.getAttribute("data-imgsrc") || (nowPlayingInfoElem.innerHTML = nowPlayingName.html, nowPlayingInfoElem.setAttribute("data-imgsrc", nowPlayingName.image || ""));
-                var playbackProgressElem = row.querySelector(".playbackProgress");
-                if (playbackProgressElem)
-                    if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
-                        var position = session.PlayState.PositionTicks || 0,
-                            value = 100 * position / nowPlayingItem.RunTimeTicks;
-                        playbackProgressElem.classList.remove("hide"), playbackProgressElem.value = value
-                    } else playbackProgressElem.classList.add("hide");
-                var transcodingProgress = row.querySelector(".transcodingProgress");
-                session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage ? (row.classList.add("transcodingSession"), transcodingProgress.value = session.TranscodingInfo.CompletionPercentage, transcodingProgress.classList.remove("hide")) : (transcodingProgress.classList.add("hide"), row.classList.remove("transcodingSession"));
-                var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem) || "",
-                    imgElem = row.querySelector(".sessionNowPlayingContent");
-                imgUrl != imgElem.getAttribute("data-src") && (imgElem.style.backgroundImage = imgUrl ? "url('" + imgUrl + "')" : "", imgElem.setAttribute("data-src", imgUrl), imgUrl ? imgElem.classList.add("sessionNowPlayingContent-withbackground") : imgElem.classList.remove("sessionNowPlayingContent-withbackground"))
-            },
-            getClientImage: function(connection) {
-                var iconUrl = (connection.Client.toLowerCase(), connection.DeviceName.toLowerCase(), connection.AppIconUrl);
-                return iconUrl ? (-1 === iconUrl.indexOf("://") && (iconUrl = ApiClient.getUrl(iconUrl)), "<img src='" + iconUrl + "' />") : null
-            },
-            getNowPlayingImageUrl: function(item) {
-                if (item && item.BackdropImageTags && item.BackdropImageTags.length) return ApiClient.getScaledImageUrl(item.Id, {
+                });
+            }
+
+            return null;
+        },
+        updateSession: function (row, session) {
+            row.classList.remove("deadSession");
+            var nowPlayingItem = session.NowPlayingItem;
+
+            if (nowPlayingItem) {
+                row.classList.add("playingSession");
+            } else {
+                row.classList.remove("playingSession");
+            }
+
+            if (session.ServerId && -1 !== session.SupportedCommands.indexOf("DisplayMessage") && session.DeviceId !== connectionManager.deviceId()) {
+                row.querySelector(".btnSessionSendMessage").classList.remove("hide");
+            } else {
+                row.querySelector(".btnSessionSendMessage").classList.add("hide");
+            }
+
+            if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons.length) {
+                row.querySelector(".btnSessionInfo").classList.remove("hide");
+            } else {
+                row.querySelector(".btnSessionInfo").classList.add("hide");
+            }
+
+            var btnSessionPlayPause = row.querySelector(".btnSessionPlayPause");
+
+            if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId()) {
+                btnSessionPlayPause.classList.remove("hide");
+                row.querySelector(".btnSessionStop").classList.remove("hide");
+            } else {
+                btnSessionPlayPause.classList.add("hide");
+                row.querySelector(".btnSessionStop").classList.add("hide");
+            }
+
+            if (session.PlayState && session.PlayState.IsPaused) {
+                btnSessionPlayPause.querySelector("i").innerHTML = "&#xE037;";
+            } else {
+                btnSessionPlayPause.querySelector("i").innerHTML = "&#xE034;";
+            }
+
+            row.querySelector(".sessionNowPlayingStreamInfo").innerHTML = DashboardPage.getSessionNowPlayingStreamInfo(session);
+            row.querySelector(".sessionNowPlayingTime").innerHTML = DashboardPage.getSessionNowPlayingTime(session);
+            row.querySelector(".sessionUserName").innerHTML = DashboardPage.getUsersHtml(session) || "&nbsp;";
+            row.querySelector(".sessionAppSecondaryText").innerHTML = DashboardPage.getAppSecondaryText(session);
+            row.querySelector(".sessionTranscodingFramerate").innerHTML = session.TranscodingInfo && session.TranscodingInfo.Framerate ? session.TranscodingInfo.Framerate + " fps" : "";
+            var nowPlayingName = DashboardPage.getNowPlayingName(session);
+            var nowPlayingInfoElem = row.querySelector(".sessionNowPlayingInfo");
+
+            if (!(nowPlayingName.image && nowPlayingName.image == nowPlayingInfoElem.getAttribute("data-imgsrc"))) {
+                nowPlayingInfoElem.innerHTML = nowPlayingName.html;
+                nowPlayingInfoElem.setAttribute("data-imgsrc", nowPlayingName.image || "");
+            }
+
+            var playbackProgressElem = row.querySelector(".playbackProgress");
+
+            if (playbackProgressElem) {
+                if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
+                    var position = session.PlayState.PositionTicks || 0;
+                    var value = 100 * position / nowPlayingItem.RunTimeTicks;
+                    playbackProgressElem.classList.remove("hide");
+                    playbackProgressElem.value = value;
+                } else {
+                    playbackProgressElem.classList.add("hide");
+                }
+            }
+
+            var transcodingProgress = row.querySelector(".transcodingProgress");
+
+            if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
+                row.classList.add("transcodingSession");
+                transcodingProgress.value = session.TranscodingInfo.CompletionPercentage;
+                transcodingProgress.classList.remove("hide");
+            } else {
+                transcodingProgress.classList.add("hide");
+                row.classList.remove("transcodingSession");
+            }
+
+            var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem) || "";
+            var imgElem = row.querySelector(".sessionNowPlayingContent");
+
+            if (imgUrl != imgElem.getAttribute("data-src")) {
+                imgElem.style.backgroundImage = imgUrl ? "url('" + imgUrl + "')" : "";
+                imgElem.setAttribute("data-src", imgUrl);
+
+                if (imgUrl) {
+                    imgElem.classList.add("sessionNowPlayingContent-withbackground");
+                } else {
+                    imgElem.classList.remove("sessionNowPlayingContent-withbackground");
+                }
+            }
+        },
+        getClientImage: function (connection) {
+            var iconUrl = (connection.Client.toLowerCase(), connection.DeviceName.toLowerCase(), connection.AppIconUrl);
+
+            if (iconUrl) {
+                if (-1 === iconUrl.indexOf("://")) {
+                    iconUrl = ApiClient.getUrl(iconUrl);
+                }
+
+                return "<img src='" + iconUrl + "' />";
+            }
+
+            return null;
+        },
+        getNowPlayingImageUrl: function (item) {
+            if (item && item.BackdropImageTags && item.BackdropImageTags.length) {
+                return ApiClient.getScaledImageUrl(item.Id, {
                     type: "Backdrop",
                     width: 275,
                     tag: item.BackdropImageTags[0]
                 });
-                if (item && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) return ApiClient.getScaledImageUrl(item.ParentBackdropItemId, {
+            }
+
+            if (item && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
+                return ApiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                     type: "Backdrop",
                     width: 275,
                     tag: item.ParentBackdropImageTags[0]
                 });
-                if (item && item.BackdropImageTag) return ApiClient.getScaledImageUrl(item.BackdropItemId, {
+            }
+
+            if (item && item.BackdropImageTag) {
+                return ApiClient.getScaledImageUrl(item.BackdropItemId, {
                     type: "Backdrop",
                     width: 275,
                     tag: item.BackdropImageTag
                 });
-                var imageTags = (item || {}).ImageTags || {};
-                return item && imageTags.Thumb ? ApiClient.getScaledImageUrl(item.Id, {
+            }
+
+            var imageTags = (item || {}).ImageTags || {};
+
+            if (item && imageTags.Thumb) {
+                return ApiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
                     width: 275,
                     tag: imageTags.Thumb
-                }) : item && item.ParentThumbImageTag ? ApiClient.getScaledImageUrl(item.ParentThumbItemId, {
+                });
+            }
+
+            if (item && item.ParentThumbImageTag) {
+                return ApiClient.getScaledImageUrl(item.ParentThumbItemId, {
                     type: "Thumb",
                     width: 275,
                     tag: item.ParentThumbImageTag
-                }) : item && item.ThumbImageTag ? ApiClient.getScaledImageUrl(item.ThumbItemId, {
+                });
+            }
+
+            if (item && item.ThumbImageTag) {
+                return ApiClient.getScaledImageUrl(item.ThumbItemId, {
                     type: "Thumb",
                     width: 275,
                     tag: item.ThumbImageTag
-                }) : item && imageTags.Primary ? ApiClient.getScaledImageUrl(item.Id, {
+                });
+            }
+
+            if (item && imageTags.Primary) {
+                return ApiClient.getScaledImageUrl(item.Id, {
                     type: "Primary",
                     width: 275,
                     tag: imageTags.Primary
-                }) : item && item.PrimaryImageTag ? ApiClient.getScaledImageUrl(item.PrimaryImageItemId, {
+                });
+            }
+
+            if (item && item.PrimaryImageTag) {
+                return ApiClient.getScaledImageUrl(item.PrimaryImageItemId, {
                     type: "Primary",
                     width: 275,
                     tag: item.PrimaryImageTag
-                }) : null
-            },
-            systemUpdateTaskKey: "SystemUpdateTask",
-            renderUrls: function(page, systemInfo) {
-                var helpButton = '<a is="emby-linkbutton" class="raised raised-mini button-submit" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Connectivity" target="_blank" style="margin-left:.7em;font-size:84%;padding:.2em .8em;">' + globalize.translate("ButtonHelp") + "</a>",
-                    localUrlElem = page.querySelector(".localUrl"),
-                    externalUrlElem = page.querySelector(".externalUrl");
-                if (systemInfo.LocalAddress) {
-                    var localAccessHtml = globalize.translate("LabelLocalAccessUrl", '<a is="emby-linkbutton" class="button-link" href="' + systemInfo.LocalAddress + '" target="_blank">' + systemInfo.LocalAddress + "</a>");
-                    localUrlElem.innerHTML = localAccessHtml + helpButton, localUrlElem.classList.remove("hide")
-                } else localUrlElem.classList.add("hide");
-                if (systemInfo.WanAddress) {
-                    var externalUrl = systemInfo.WanAddress,
-                        remoteAccessHtml = globalize.translate("LabelRemoteAccessUrl", '<a is="emby-linkbutton" class="button-link" href="' + externalUrl + '" target="_blank">' + externalUrl + "</a>");
-                    externalUrlElem.innerHTML = remoteAccessHtml + helpButton, externalUrlElem.classList.remove("hide")
-                } else externalUrlElem.classList.add("hide")
-            },
-            stopTask: function(btn, id) {
-                var page = dom.parentWithClass(btn, "page");
-                ApiClient.stopScheduledTask(id).then(function() {
-                    pollForInfo(page, ApiClient)
-                })
-            },
-            restart: function(btn) {
-                require(["confirm"], function(confirm) {
-                    confirm({
-                        title: globalize.translate("HeaderRestart"),
-                        text: globalize.translate("MessageConfirmRestart"),
-                        confirmText: globalize.translate("ButtonRestart"),
-                        primary: "cancel"
-                    }).then(function() {
-                        var page = dom.parentWithClass(btn, "page");
-                        buttonEnabled(page.querySelector("#btnRestartServer"), !1), buttonEnabled(page.querySelector("#btnShutdown"), !1), Dashboard.restartServer()
-                    })
-                })
-            },
-            shutdown: function(btn) {
-                require(["confirm"], function(confirm) {
-                    confirm({
-                        title: globalize.translate("HeaderShutdown"),
-                        text: globalize.translate("MessageConfirmShutdown"),
-                        confirmText: globalize.translate("ButtonShutdown"),
-                        primary: "cancel"
-                    }).then(function() {
-                        var page = dom.parentWithClass(btn, "page");
-                        buttonEnabled(page.querySelector("#btnRestartServer"), !1), buttonEnabled(page.querySelector("#btnShutdown"), !1), ApiClient.shutdownServer()
-                    })
-                })
+                });
+            }
+
+            return null;
+        },
+        systemUpdateTaskKey: "SystemUpdateTask",
+        renderUrls: function (page, systemInfo) {
+            var helpButton = '<a is="emby-linkbutton" class="raised raised-mini button-submit" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Connectivity" target="_blank" style="margin-left:.7em;font-size:84%;padding:.2em .8em;">' + globalize.translate("ButtonHelp") + "</a>";
+            var localUrlElem = page.querySelector(".localUrl");
+            var externalUrlElem = page.querySelector(".externalUrl");
+
+            if (systemInfo.LocalAddress) {
+                var localAccessHtml = globalize.translate("LabelLocalAccessUrl", '<a is="emby-linkbutton" class="button-link" href="' + systemInfo.LocalAddress + '" target="_blank">' + systemInfo.LocalAddress + "</a>");
+                localUrlElem.innerHTML = localAccessHtml + helpButton;
+                localUrlElem.classList.remove("hide");
+            } else {
+                localUrlElem.classList.add("hide");
+            }
+
+            if (systemInfo.WanAddress) {
+                var externalUrl = systemInfo.WanAddress;
+                var remoteAccessHtml = globalize.translate("LabelRemoteAccessUrl", '<a is="emby-linkbutton" class="button-link" href="' + externalUrl + '" target="_blank">' + externalUrl + "</a>");
+                externalUrlElem.innerHTML = remoteAccessHtml + helpButton;
+                externalUrlElem.classList.remove("hide");
+            } else {
+                externalUrlElem.classList.add("hide");
             }
         },
-        function(view, params) {
-            function onRestartRequired(e, apiClient) {
-                apiClient.serverId() === serverId && renderHasPendingRestart(view, apiClient, !0)
+        stopTask: function (btn, id) {
+            var page = dom.parentWithClass(btn, "page");
+            ApiClient.stopScheduledTask(id).then(function () {
+                pollForInfo(page, ApiClient);
+            });
+        },
+        restart: function (btn) {
+            require(["confirm"], function (confirm) {
+                confirm({
+                    title: globalize.translate("HeaderRestart"),
+                    text: globalize.translate("MessageConfirmRestart"),
+                    confirmText: globalize.translate("ButtonRestart"),
+                    primary: "cancel"
+                }).then(function () {
+                    var page = dom.parentWithClass(btn, "page");
+                    buttonEnabled(page.querySelector("#btnRestartServer"), false);
+                    buttonEnabled(page.querySelector("#btnShutdown"), false);
+                    Dashboard.restartServer();
+                });
+            });
+        },
+        shutdown: function (btn) {
+            require(["confirm"], function (confirm) {
+                confirm({
+                    title: globalize.translate("HeaderShutdown"),
+                    text: globalize.translate("MessageConfirmShutdown"),
+                    confirmText: globalize.translate("ButtonShutdown"),
+                    primary: "cancel"
+                }).then(function () {
+                    var page = dom.parentWithClass(btn, "page");
+                    buttonEnabled(page.querySelector("#btnRestartServer"), false);
+                    buttonEnabled(page.querySelector("#btnShutdown"), false);
+                    ApiClient.shutdownServer();
+                });
+            });
+        }
+    };
+    return function (view, params) {
+        function onRestartRequired(e__a, apiClient) {
+            if (apiClient.serverId() === serverId) {
+                renderHasPendingRestart(view, apiClient, true);
             }
+        }
 
-            function onServerShuttingDown(e, apiClient) {
-                apiClient.serverId() === serverId && renderHasPendingRestart(view, apiClient, !0)
+        function onServerShuttingDown(e__s, apiClient) {
+            if (apiClient.serverId() === serverId) {
+                renderHasPendingRestart(view, apiClient, true);
             }
+        }
 
-            function onServerRestarting(e, apiClient) {
-                apiClient.serverId() === serverId && renderHasPendingRestart(view, apiClient, !0)
+        function onServerRestarting(e__d, apiClient) {
+            if (apiClient.serverId() === serverId) {
+                renderHasPendingRestart(view, apiClient, true);
             }
+        }
 
-            function onPackageInstalling(e, apiClient) {
-                apiClient.serverId() === serverId && (pollForInfo(view, apiClient, !0), reloadSystemInfo(view, apiClient))
+        function onPackageInstalling(e__f, apiClient) {
+            if (apiClient.serverId() === serverId) {
+                pollForInfo(view, apiClient, true);
+                reloadSystemInfo(view, apiClient);
             }
+        }
 
-            function onPackageInstallationCompleted(e, apiClient) {
-                apiClient.serverId() === serverId && (pollForInfo(view, apiClient, !0), reloadSystemInfo(view, apiClient))
+        function onPackageInstallationCompleted(e__g, apiClient) {
+            if (apiClient.serverId() === serverId) {
+                pollForInfo(view, apiClient, true);
+                reloadSystemInfo(view, apiClient);
             }
+        }
 
-            function onSessionsUpdate(e, apiClient, info) {
-                apiClient.serverId() === serverId && renderInfo(view, info)
+        function onSessionsUpdate(e__h, apiClient, info) {
+            if (apiClient.serverId() === serverId) {
+                renderInfo(view, info);
             }
+        }
 
-            function onScheduledTasksUpdate(e, apiClient, info) {
-                apiClient.serverId() === serverId && renderRunningTasks(view, info)
+        function onScheduledTasksUpdate(e__j, apiClient, info) {
+            if (apiClient.serverId() === serverId) {
+                renderRunningTasks(view, info);
             }
-            var serverId = ApiClient.serverId();
-            view.querySelector(".btnConnectionHelp").addEventListener("click", onConnectionHelpClick), view.querySelector(".btnEditServerName").addEventListener("click", onEditServerNameClick), view.querySelector(".activeDevices").addEventListener("click", onActiveDevicesClick), view.addEventListener("viewshow", function() {
-                var page = this,
-                    apiClient = ApiClient;
-                if (apiClient) {
-                    loading.show(), pollForInfo(page, apiClient), DashboardPage.startInterval(apiClient), events.on(serverNotifications, "RestartRequired", onRestartRequired), events.on(serverNotifications, "ServerShuttingDown", onServerShuttingDown), events.on(serverNotifications, "ServerRestarting", onServerRestarting), events.on(serverNotifications, "PackageInstalling", onPackageInstalling), events.on(serverNotifications, "PackageInstallationCompleted", onPackageInstallationCompleted), events.on(serverNotifications, "Sessions", onSessionsUpdate),
-                        events.on(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate), DashboardPage.lastAppUpdateCheck = null, reloadSystemInfo(page, ApiClient), page.userActivityLog || (page.userActivityLog = new ActivityLog({
-                            serverId: ApiClient.serverId(),
-                            element: page.querySelector(".userActivityItems")
-                        })), ApiClient.isMinServerVersion("3.4.1.25") && (page.serverActivityLog || (page.serverActivityLog = new ActivityLog({
+        }
+
+        var serverId = ApiClient.serverId();
+        view.querySelector(".btnConnectionHelp").addEventListener("click", onConnectionHelpClick);
+        view.querySelector(".btnEditServerName").addEventListener("click", onEditServerNameClick);
+        view.querySelector(".activeDevices").addEventListener("click", onActiveDevicesClick);
+        view.addEventListener("viewshow", function () {
+            var page = this;
+            var apiClient = ApiClient;
+
+            if (apiClient) {
+                loading.show();
+                pollForInfo(page, apiClient);
+                DashboardPage.startInterval(apiClient);
+                events.on(serverNotifications, "RestartRequired", onRestartRequired);
+                events.on(serverNotifications, "ServerShuttingDown", onServerShuttingDown);
+                events.on(serverNotifications, "ServerRestarting", onServerRestarting);
+                events.on(serverNotifications, "PackageInstalling", onPackageInstalling);
+                events.on(serverNotifications, "PackageInstallationCompleted", onPackageInstallationCompleted);
+                events.on(serverNotifications, "Sessions", onSessionsUpdate);
+                events.on(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate);
+                DashboardPage.lastAppUpdateCheck = null;
+                reloadSystemInfo(page, ApiClient);
+
+                if (!page.userActivityLog) {
+                    page.userActivityLog = new ActivityLog({
+                        serverId: ApiClient.serverId(),
+                        element: page.querySelector(".userActivityItems")
+                    });
+                }
+
+                if (ApiClient.isMinServerVersion("3.4.1.25")) {
+                    if (!page.serverActivityLog) {
+                        page.serverActivityLog = new ActivityLog({
                             serverId: ApiClient.serverId(),
                             element: page.querySelector(".serverActivityItems")
-                        })));
-                    refreshActiveRecordings(view, apiClient), loading.hide()
+                        });
+                    }
                 }
-            }), view.addEventListener("viewbeforehide", function() {
-                var apiClient = ApiClient;
-                // TODO we currently don't support packages and thus these events are useless
-                events.off(serverNotifications, "RestartRequired", onRestartRequired), events.off(serverNotifications, "ServerShuttingDown", onServerShuttingDown), events.off(serverNotifications, "ServerRestarting", onServerRestarting), events.off(serverNotifications, "PackageInstalling", onPackageInstalling), events.off(serverNotifications, "PackageInstallationCompleted", onPackageInstallationCompleted), events.off(serverNotifications, "Sessions", onSessionsUpdate), events.off(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate), apiClient && DashboardPage.stopInterval(apiClient)
-            }), view.addEventListener("viewdestroy", function() {
-                var page = this,
-                    userActivityLog = page.userActivityLog;
-                userActivityLog && userActivityLog.destroy();
-                var serverActivityLog = page.serverActivityLog;
-                serverActivityLog && serverActivityLog.destroy()
-            })
-        }
+
+                refreshActiveRecordings(view, apiClient);
+                loading.hide();
+            }
+        });
+        view.addEventListener("viewbeforehide", function () {
+            var apiClient = ApiClient; // TODO we currently don't support packages and thus these events are useless
+
+            events.off(serverNotifications, "RestartRequired", onRestartRequired);
+            events.off(serverNotifications, "ServerShuttingDown", onServerShuttingDown);
+            events.off(serverNotifications, "ServerRestarting", onServerRestarting);
+            events.off(serverNotifications, "PackageInstalling", onPackageInstalling);
+            events.off(serverNotifications, "PackageInstallationCompleted", onPackageInstallationCompleted);
+            events.off(serverNotifications, "Sessions", onSessionsUpdate);
+            events.off(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate);
+
+            if (apiClient) {
+                DashboardPage.stopInterval(apiClient);
+            }
+        });
+        view.addEventListener("viewdestroy", function () {
+            var page = this;
+            var userActivityLog = page.userActivityLog;
+
+            if (userActivityLog) {
+                userActivityLog.destroy();
+            }
+
+            var serverActivityLog = page.serverActivityLog;
+
+            if (serverActivityLog) {
+                serverActivityLog.destroy();
+            }
+        });
+    };
 });
