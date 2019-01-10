@@ -125,9 +125,9 @@
     display: flex;
 }
 
-    .listItemImageButton:hover {
+.listItemImageButton:hover {
         transform: scale(1.2, 1.2);
-    }
+}
 
 .listItemImageButton-icon {
     background: rgba(0,0,0,.4);
@@ -175,13 +175,13 @@
     padding: 0 .25em 0 0;
 }
 
-    .listItemIcon:not(.listItemIcon-transparent) {
-        background-color: #52B54B;
-        color: #fff;
-        padding: .5em;
-        border-radius: 100em;
-        margin: 0 .2em 0 .4em;
-    }
+.listItemIcon:not(.listItemIcon-transparent) {
+    background-color: #00a4dc;
+    color: #fff;
+    padding: .5em;
+    border-radius: 100em;
+    margin: 0 .2em 0 .4em;
+}
 
 .listItemProgressBar {
     position: absolute;
@@ -194,17 +194,17 @@
     border-radius: .2em;
 }
 
-    .listItem:focus .secondary {
-        color: inherit !important;
-    }
+.listItem:focus .secondary {
+    color: inherit !important;
+}
 
 .listItem-focusscale {
     transition: transform .2s ease-out;
 }
 
-    .listItem-focusscale:focus {
-        transform: scale(1.025, 1.025);
-    }
+.listItem-focusscale:focus {
+    transform: scale(1.025, 1.025);
+}
 
 .paperList {
     margin: .5em auto;

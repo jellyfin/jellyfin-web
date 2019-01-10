@@ -99,8 +99,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                     require(['alert'], function (alert) {
                         alert({
 
-                            text: globalize.translate('sharedcomponents#ServerUpdateNeeded', 'https://emby.media'),
-                            html: globalize.translate('sharedcomponents#ServerUpdateNeeded', '<a href="https://emby.media">https://emby.media</a>')
+                            text: globalize.translate('sharedcomponents#ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
+                            html: globalize.translate('sharedcomponents#ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
 
                         }).then(function () {
                             appRouter.showSelectServer();

@@ -50,7 +50,7 @@
 }
 
 .mdl-radio__button:checked + .mdl-radio__label + .mdl-radio__outer-circle {
-    border: 2px solid rgb(82, 181, 75);
+    border: 2px solid #00a4dc;
 }
 
 .mdl-radio__button:disabled + .mdl-radio__label + .mdl-radio__outer-circle {
@@ -76,7 +76,7 @@
     -webkit-transform: scale3d(0, 0, 0);
     transform: scale3d(0, 0, 0);
     border-radius: 50%;
-    background: rgb(82, 181, 75);
+    background: #00a4dc;
 }
 
 .mdl-radio__button:checked + .mdl-radio__label + .mdl-radio__outer-circle + .mdl-radio__inner-circle {
@@ -94,7 +94,7 @@
 }
 
 .mdl-radio__button:checked:focus + .mdl-radio__label + .mdl-radio__outer-circle + .mdl-radio__inner-circle {
-    box-shadow: 0 0 0px 10px rgba(82, 181, 75, 0.26);
+    box-shadow: 0 0 0 10px rgba(0, 164, 220, 0.26)
 }
 
 .mdl-radio__label {

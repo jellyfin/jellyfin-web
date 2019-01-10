@@ -18,7 +18,7 @@ _:-ms-input-placeholder {
     user-select: none;
     outline: 0;
     padding: 1em 0;
-    color: #52B54B;
+    color: #00a4dc;
     -webkit-align-self: center;
     -ms-flex-item-align: center;
     align-self: center;
@@ -52,7 +52,7 @@ _:-ms-input-placeholder {
     }
 
     .mdl-slider::-moz-range-progress {
-        background: #52B54B;
+        background: #00a4dc;
     }
 
     .mdl-slider::-ms-track {
@@ -77,7 +77,7 @@ _:-ms-input-placeholder {
         height: 1.8em;
         box-sizing: border-box;
         border-radius: 50%;
-        background: #52B54B;
+        background: #00a4dc;
         border: none;
         transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -102,7 +102,7 @@ _:-ms-input-placeholder {
     box-sizing: border-box;
     border-radius: 50%;
     background-image: none;
-    background: #52B54B;
+    background: #00a4dc;
     border: none;
 }
 
@@ -112,7 +112,7 @@ _:-ms-input-placeholder {
     height: 1.8em;
     box-sizing: border-box;
     border-radius: 50%;
-    background: #52B54B;
+    background: #00a4dc;
     border: none;
     transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -180,7 +180,7 @@ _:-ms-input-placeholder {
     width: 0;
     top: 0;
     bottom: 0;
-    background-color: #52B54B;
+    background-color: #00a4dc;
 }
 
 .mdl-slider-background-lower-clear {

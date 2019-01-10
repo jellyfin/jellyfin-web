@@ -374,11 +374,11 @@
         var html = '';
         html += '<div class="verticalSection appInfoSection">';
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
-        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">Discover Emby Theater</h2>';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">Discover Jellyfin Theater</h2>';
         html += '<button is="paper-icon-button-light" class="sectionTitleButton" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">close</i></button>';
         html += '</div>';
 
-        var nameText = 'Emby Theater';
+        var nameText = 'Jellyfin Theater';
         html += '<div class="padded-left padded-right">';
         html += '<p class="sectionTitle-cards">A beautiful app for your TV and large screen tablet. ' + nameText + ' runs on Windows, Xbox One, Raspberry Pi, Samsung Smart TVs, Sony PS4, Web Browsers, and more.</p>';
         html += '<div class="itemsContainer vertical-wrap" is="emby-itemscontainer">';

@@ -18,7 +18,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 commands.push({
                     name: globalize.translate('sharedcomponents#Play'),
                     id: 'resume'
-                });
+        });
             }
 
             if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'TvChannel') {
@@ -163,12 +163,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
                 var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('sharedcomponents#Edit') : globalize.translate('sharedcomponents#EditMetadata');
 
-                commands.push({
-                    name: text,
+            commands.push({
+                name: text,
                     id: 'edit'
                 });
-            }
         }
+    }
 
         if (itemHelper.canEditImages(user, item)) {
 
@@ -288,7 +288,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 deleted: deleted
             });
         };
-    }
+        }
 
     function executeCommand(item, id, options) {
 
@@ -305,110 +305,110 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                         require(['collectionEditor'], function (collectionEditor) {
 
                             new collectionEditor().show({
-                                items: [itemId],
-                                serverId: serverId
+                            items: [itemId],
+                            serverId: serverId
 
                             }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                        });
-                        break;
+                    });
+                    break;
                     }
                 case 'addtoplaylist':
                     {
                         require(['playlistEditor'], function (playlistEditor) {
 
                             new playlistEditor().show({
-                                items: [itemId],
-                                serverId: serverId
+                            items: [itemId],
+                            serverId: serverId
 
                             }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                        });
-                        break;
+                    });
+                    break;
                     }
                 case 'download':
                     {
                         require(['fileDownloader'], function (fileDownloader) {
-                            var downloadHref = apiClient.getItemDownloadUrl(itemId);
+                        var downloadHref = apiClient.getItemDownloadUrl(itemId);
 
                             fileDownloader.download([
                                 {
-                                    url: downloadHref,
-                                    itemId: itemId,
-                                    serverId: serverId
+                            url: downloadHref,
+                            itemId: itemId,
+                            serverId: serverId
                                 }]);
 
                             getResolveFunction(getResolveFunction(resolve, id), id)();
-                        });
+                    });
 
-                        break;
+                    break;
                     }
                 case 'editsubtitles':
                     {
                         require(['subtitleEditor'], function (subtitleEditor) {
 
                             subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                        });
-                        break;
+                    });
+                    break;
                     }
                 case 'edit':
                     {
                         editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                        break;
+                    break;
                     }
                 case 'editimages':
                     {
                         require(['imageEditor'], function (imageEditor) {
 
-                            imageEditor.show({
-                                itemId: itemId,
-                                serverId: serverId
+                        imageEditor.show({
+                            itemId: itemId,
+                            serverId: serverId
 
                             }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                        });
-                        break;
+                    });
+                    break;
                     }
                 case 'identify':
                     {
                         require(['itemIdentifier'], function (itemIdentifier) {
 
                             itemIdentifier.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                        });
-                        break;
+                    });
+                    break;
                     }
                 case 'refresh':
                     {
                         refresh(apiClient, item);
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'open':
                     {
                         appRouter.showItem(item);
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'play':
                     {
                         play(item, false);
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'resume':
                     {
                         play(item, true);
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'queue':
                     {
                         play(item, false, true);
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'queuenext':
                     {
                         play(item, false, true, true);
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'record':
                     require(['recordingCreator'], function (recordingCreator) {
@@ -419,29 +419,27 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     {
                         playbackManager.shuffle(item);
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'instantmix':
                     {
                         playbackManager.instantMix(item);
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'delete':
                     {
                         deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
-                        break;
+                    break;
                     }
                 case 'share':
                     {
-                        navigator.share({
-                            title: item.Name,
-                            text: item.Overview,
-
-                            // TODO: Make this the server's external url
-                            url: 'https://emby.media'
-                        });
-                        break;
+                    navigator.share({
+                        title: item.Name,
+                        text: item.Overview,
+                        url: "https://github.com/jellyfin/jellyfin"
+                    });
+                    break;
                     }
                 case 'album':
                     {
@@ -453,53 +451,53 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     {
                         appRouter.showItem(item.ArtistItems[0].Id, item.ServerId);
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'playallfromhere':
                     {
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'queueallfromhere':
                     {
-                        getResolveFunction(resolve, id)();
-                        break;
+                    getResolveFunction(resolve, id)();
+                    break;
                     }
                 case 'convert':
                     {
                         require(['syncDialog'], function (syncDialog) {
-                            syncDialog.showMenu({
-                                items: [item],
-                                serverId: serverId,
+                        syncDialog.showMenu({
+                            items: [item],
+                            serverId: serverId,
                                 mode: 'convert'
                             });
                         });
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'sync':
                     {
                         require(['syncDialog'], function (syncDialog) {
-                            syncDialog.showMenu({
-                                items: [item],
-                                serverId: serverId,
+                        syncDialog.showMenu({
+                            items: [item],
+                            serverId: serverId,
                                 mode: 'sync'
                             });
                         });
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'synclocal':
                     {
                         require(['syncDialog'], function (syncDialog) {
-                            syncDialog.showMenu({
-                                items: [item],
-                                serverId: serverId,
+                        syncDialog.showMenu({
+                            items: [item],
+                            serverId: serverId,
                                 mode: 'download'
                             });
                         });
                         getResolveFunction(resolve, id)();
-                        break;
+                    break;
                     }
                 case 'removefromplaylist':
 
@@ -578,14 +576,14 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
         if (item.Type === 'Program') {
             playbackManager[method]({
-                ids: [item.ChannelId],
-                startPositionTicks: startPosition,
-                serverId: item.ServerId
+            ids: [item.ChannelId],
+            startPositionTicks: startPosition,
+            serverId: item.ServerId
             });
         } else {
             playbackManager[method]({
-                items: [item],
-                startPositionTicks: startPosition
+            items: [item],
+            startPositionTicks: startPosition
             });
         }
     }
