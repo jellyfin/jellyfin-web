@@ -18,6 +18,7 @@ define(["loading", "dialogHelper", "dom", "listViewStyle", "emby-input", "emby-b
         "Network" === path ? promises.push(ApiClient.getNetworkDevices()) : path ? (promises.push(ApiClient.getDirectoryContents(path, fileOptions)), promises.push(ApiClient.getParentPath(path))) : promises.push(ApiClient.getDrives()), Promise.all(promises).then(function(responses) {
             var folders = responses[0],
                 parentPath = responses[1] || "";
+            page.querySelector(".results").scrollTop = 0;
             page.querySelector("#txtDirectoryPickerPath").value = path || "";
             var html = "";
             path && (html += getItem("lnkPath lnkDirectory", "", parentPath, "..."));
