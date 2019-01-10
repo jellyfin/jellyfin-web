@@ -1,4 +1,5 @@
-define(["layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicker", "listView", "cardBuilder", "emby-itemscontainer"], function(layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder) {
+define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicker", "listView", "cardBuilder", "emby-itemscontainer"],
+       function(loading, layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder) {
     "use strict";
     return function(view, params, tabContent, options) {
         function onViewStyleChange() {
@@ -10,19 +11,26 @@ define(["layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicke
         }
 
         function fetchData() {
+            isLoading = true;
+            loading.show();
             return ApiClient.getItems(ApiClient.getCurrentUserId(), query)
         }
 
         function afterRefresh(result) {
             function onNextPageClick() {
-                query.StartIndex += query.Limit, itemsContainer.refreshItems()
+                if (isLoading) return;
+                query.StartIndex += query.Limit;
+                itemsContainer.refreshItems();
             }
 
             function onPreviousPageClick() {
-                query.StartIndex -= query.Limit, itemsContainer.refreshItems()
+                if (isLoading) return;
+                query.StartIndex -= query.Limit;
+                itemsContainer.refreshItems();
             }
-            window.scrollTo(0, 0), updateFilterControls();
-            var i, length, pagingHtml = libraryBrowser.getQueryPagingHtml({
+            window.scrollTo(0, 0);
+            updateFilterControls();
+            var i, length, elems, pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -31,11 +39,15 @@ define(["layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicke
                     addLayoutButton: !1,
                     sortButton: !1,
                     filterButton: !1
-                }),
-                elems = tabContent.querySelectorAll(".paging");
-            for (i = 0, length = elems.length; i < length; i++) elems[i].innerHTML = pagingHtml;
-            for (elems = tabContent.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("click", onNextPageClick);
-            for (elems = tabContent.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("click", onPreviousPageClick)
+                });
+            for (elems = tabContent.querySelectorAll(".paging"), i = 0, length = elems.length; i < length; i++)
+                elems[i].innerHTML = pagingHtml;
+            for (elems = tabContent.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++)
+                elems[i].addEventListener("click", onNextPageClick);
+            for (elems = tabContent.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++)
+                elems[i].addEventListener("click", onPreviousPageClick)
+            isLoading = false;
+            loading.hide();
         }
 
         function getItemsHtml(items) {
@@ -163,8 +175,11 @@ define(["layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicke
                 StartIndex: 0,
                 Limit: 100,
                 ParentId: params.topParentId
-            };
-        "favorites" === options.mode && (query.IsFavorite = !0), query = userSettings.loadQuerySettings(savedQueryKey, query), self.showFilterMenu = function() {
+            },
+            isLoading = false;
+        if (options.mode === "favorites") query.IsFavorite = true;
+        query = userSettings.loadQuerySettings(savedQueryKey, query);
+        self.showFilterMenu = function() {
             require(["components/filterdialog/filterdialog"], function(filterDialogFactory) {
                 var filterDialog = new filterDialogFactory({
                     query: query,

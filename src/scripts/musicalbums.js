@@ -50,13 +50,16 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
 
         function reloadItems(page) {
             loading.show();
+            isLoading = true;
             var query = getQuery();
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function(result) {
                 function onNextPageClick() {
+                    if (isLoading) return;
                     query.StartIndex += query.Limit, reloadItems(tabContent)
                 }
 
                 function onPreviousPageClick() {
+                    if (isLoading) return;
                     query.StartIndex -= query.Limit, reloadItems(tabContent)
                 }
                 window.scrollTo(0, 0), updateFilterControls(page);
@@ -100,7 +103,11 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                 for (elems = tabContent.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("click", onNextPageClick);
                 for (elems = tabContent.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("click", onPreviousPageClick);
                 var itemsContainer = tabContent.querySelector(".itemsContainer");
-                itemsContainer.innerHTML = html, imageLoader.lazyChildren(itemsContainer), libraryBrowser.saveQueryValues(getSavedQueryKey(), query), loading.hide()
+                itemsContainer.innerHTML = html;
+                imageLoader.lazyChildren(itemsContainer);
+                libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
+                loading.hide();
+                isLoading = false;
             })
         }
 
@@ -109,7 +116,8 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
             self.alphaPicker.value(query.NameStartsWithOrGreater)
         }
         var savedQueryKey, pageData, self = this,
-            pageSize = 100;
+            pageSize = 100,
+            isLoading = false;
         self.showFilterMenu = function() {
                 require(["components/filterdialog/filterdialog"], function(filterDialogFactory) {
                     var filterDialog = new filterDialogFactory({
