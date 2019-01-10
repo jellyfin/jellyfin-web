@@ -1,4 +1,4 @@
-define(["jQuery", "registrationServices", "loading", "emby-checkbox", "emby-input", "listViewStyle", "paper-icon-button-light"], function ($__q, registrationServices, loading) {
+define(["jQuery", "loading", "emby-checkbox", "emby-input", "listViewStyle", "paper-icon-button-light"], function ($__q, loading) {
   "use strict";
 
   return function (page, providerId, options) {

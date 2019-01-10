@@ -107,21 +107,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         return list
     }
 
-    function getPluginSecurityInfo() {
-        var apiClient = window.ApiClient;
-        return apiClient ? connectionManager.getRegistrationInfo("themes", apiClient, {
-            viewOnly: !0
-        }).then(function(result) {
-            return {
-                IsMBSupporter: !0
-            }
-        }, function() {
-            return {
-                IsMBSupporter: !1
-            }
-        }) : Promise.reject()
-    }
-
     function refreshActiveRecordings(view, apiClient) {
         apiClient.getLiveTvRecordings({
             UserId: Dashboard.getCurrentUserId(),
@@ -158,12 +143,12 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         apiClient.getSystemInfo().then(function(systemInfo) {
             view.querySelector(".serverNameHeader").innerHTML = systemInfo.ServerName;
             var localizedVersion = globalize.translate("LabelVersionNumber", systemInfo.Version);
-            systemInfo.SystemUpdateLevel && "Release" != systemInfo.SystemUpdateLevel && (localizedVersion += " " + globalize.translate("Option" + systemInfo.SystemUpdateLevel).toLowerCase()), systemInfo.CanSelfRestart ? view.querySelector("#btnRestartServer").classList.remove("hide") : view.querySelector("#btnRestartServer").classList.add("hide"), view.querySelector("#appVersionNumber").innerHTML = localizedVersion, systemInfo.SupportsHttps ? view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPorts", systemInfo.HttpServerPortNumber, systemInfo.HttpsPortNumber) : view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPort", systemInfo.HttpServerPortNumber), DashboardPage.renderUrls(view, systemInfo), DashboardPage.renderPendingInstallations(view, systemInfo), systemInfo.CanSelfUpdate ? (view.querySelector("#btnUpdateApplicationContainer").classList.remove("hide"), view.querySelector("#btnManualUpdateContainer").classList.add("hide")) : (view.querySelector("#btnUpdateApplicationContainer").classList.add("hide"), view.querySelector("#btnManualUpdateContainer").classList.remove("hide")), "synology" == systemInfo.PackageName ? view.querySelector("#btnManualUpdateContainer").innerHTML = globalize.translate("SynologyUpdateInstructions") : view.querySelector("#btnManualUpdateContainer").innerHTML = '<a href="https://github.com/jellyfin/jellyfin/download" target="_blank">' + globalize.translate("PleaseUpdateManually") + "</a>", DashboardPage.renderPaths(view, systemInfo), renderHasPendingRestart(view, apiClient, systemInfo.HasPendingRestart)
+            systemInfo.SystemUpdateLevel && "Release" != systemInfo.SystemUpdateLevel && (localizedVersion += " " + globalize.translate("Option" + systemInfo.SystemUpdateLevel).toLowerCase()), systemInfo.CanSelfRestart ? view.querySelector("#btnRestartServer").classList.remove("hide") : view.querySelector("#btnRestartServer").classList.add("hide"), view.querySelector("#appVersionNumber").innerHTML = localizedVersion, systemInfo.SupportsHttps ? view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPorts", systemInfo.HttpServerPortNumber, systemInfo.HttpsPortNumber) : view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPort", systemInfo.HttpServerPortNumber), DashboardPage.renderUrls(view, systemInfo), DashboardPage.renderPaths(view, systemInfo), renderHasPendingRestart(view, apiClient, systemInfo.HasPendingRestart)
         })
     }
 
     function renderInfo(view, sessions, forceUpdate) {
-        sessions = filterSessions(sessions), renderActiveConnections(view, sessions), DashboardPage.renderPluginUpdateInfo(view, forceUpdate), loading.hide()
+        sessions = filterSessions(sessions), renderActiveConnections(view, sessions), loading.hide()
     }
 
     function pollForInfo(view, apiClient, forceUpdate) {
@@ -215,9 +200,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         var html = "";
         tasks = tasks.filter(function(t) {
             return "Idle" != t.State && !t.IsHidden
-        }), tasks.length ? view.querySelector(".runningTasksContainer").classList.remove("hide") : view.querySelector(".runningTasksContainer").classList.add("hide"), tasks.filter(function(t) {
-            return t.Key == DashboardPage.systemUpdateTaskKey
-        }).length ? buttonEnabled(view.querySelector("#btnUpdateApplication"), !1) : buttonEnabled(view.querySelector("#btnUpdateApplication"), !0);
+        }), tasks.length ? view.querySelector(".runningTasksContainer").classList.remove("hide") : view.querySelector(".runningTasksContainer").classList.add("hide");
         for (var i = 0, length = tasks.length; i < length; i++) {
             var task = tasks[i];
             if (html += "<p>", html += task.Name + "<br/>", "Running" == task.State) {
@@ -229,15 +212,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         view.querySelector("#divRunningTasks").innerHTML = html
     }
     return window.DashboardPage = {
-            newsStartIndex: 0,
             renderPaths: function(page, systemInfo) {
                 page.querySelector("#cachePath").innerHTML = systemInfo.CachePath, page.querySelector("#logPath").innerHTML = systemInfo.LogPath, page.querySelector("#transcodingTemporaryPath").innerHTML = systemInfo.TranscodingTempPath, page.querySelector("#metadataPath").innerHTML = systemInfo.InternalMetadataPath
-            },
-            reloadNews: function(page) {
-                var query = {
-                    StartIndex: DashboardPage.newsStartIndex,
-                    Limit: 4
-                };
             },
             startInterval: function(apiClient) {
                 apiClient.sendMessage("SessionsStart", "0,1500"), apiClient.sendMessage("ScheduledTasksInfoStart", "0,1000")
@@ -380,52 +356,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     externalUrlElem.innerHTML = remoteAccessHtml + helpButton, externalUrlElem.classList.remove("hide")
                 } else externalUrlElem.classList.add("hide")
             },
-            renderSupporterIcon: function(page, pluginSecurityInfo) {
-                var imgUrl, text, supporterIconContainer = page.querySelector(".supporterIconContainer");
-                pluginSecurityInfo.IsMBSupporter ? (supporterIconContainer.classList.remove("hide"), imgUrl = "css/images/supporter/supporterbadge.png", text = globalize.translate("MessageThankYouForSupporting"), supporterIconContainer.innerHTML = '<a is="emby-linkbutton" class="button-link imageLink supporterIcon" href="https://github.com/jellyfin/jellyfin/premiere" target="_blank" title="' + text + '"><img src="' + imgUrl + '" style="height:2em;" /></a>') : supporterIconContainer.classList.add("hide")
-            },
-            renderPendingInstallations: function(page, systemInfo) {
-                if (!systemInfo.CompletedInstallations.length) return void page.querySelector("#collapsiblePendingInstallations").classList.add("hide");
-                page.querySelector("#collapsiblePendingInstallations").classList.remove("hide");
-                for (var html = "", i = 0, length = systemInfo.CompletedInstallations.length; i < length; i++) {
-                    var update = systemInfo.CompletedInstallations[i];
-                    html += "<div><strong>" + update.Name + "</strong> (" + update.Version + ")</div>"
-                }
-                page.querySelector("#pendingInstallations").innerHTML = html
-            },
-            renderPluginUpdateInfo: function(page, forceUpdate) {
-                !forceUpdate && DashboardPage.lastPluginUpdateCheck && (new Date).getTime() - DashboardPage.lastPluginUpdateCheck < 18e5 || (DashboardPage.lastPluginUpdateCheck = (new Date).getTime(), ApiClient.getAvailablePluginUpdates().then(function(updates) {
-                    var elem = page.querySelector("#pPluginUpdates");
-                    if (!updates.length) return void elem.classList.add("hide");
-                    elem.classList.remove("hide");
-                    for (var html = "", i = 0, length = updates.length; i < length; i++) {
-                        var update = updates[i];
-                        html += "<p><strong>" + globalize.translate("NewVersionOfSomethingAvailable").replace("{0}", update.name) + "</strong></p>", html += '<button type="button" is="emby-button" class="raised block" onclick="DashboardPage.installPluginUpdate(this);" data-name="' + update.name + '" data-guid="' + update.guid + '" data-version="' + update.versionStr + '" data-classification="' + update.classification + '">' + globalize.translate("ButtonUpdateNow") + "</button>"
-                    }
-                    elem.innerHTML = html
-                }))
-            },
-            installPluginUpdate: function(button) {
-                buttonEnabled(button, !1);
-                var name = button.getAttribute("data-name"),
-                    guid = button.getAttribute("data-guid"),
-                    version = button.getAttribute("data-version"),
-                    classification = button.getAttribute("data-classification");
-                loading.show(), ApiClient.installPlugin(name, guid, classification, version).then(function() {
-                    loading.hide()
-                })
-            },
-            updateApplication: function(btn) {
-                var page = dom.parentWithClass(btn, "page");
-                buttonEnabled(page.querySelector("#btnUpdateApplication"), !1), loading.show(), ApiClient.getScheduledTasks().then(function(tasks) {
-                    var task = tasks.filter(function(t) {
-                        return t.Key == DashboardPage.systemUpdateTaskKey
-                    })[0];
-                    ApiClient.startScheduledTask(task.Id).then(function() {
-                        pollForInfo(page, ApiClient), loading.hide()
-                    })
-                })
-            },
             stopTask: function(btn, id) {
                 var page = dom.parentWithClass(btn, "page");
                 ApiClient.stopScheduledTask(id).then(function() {
@@ -458,16 +388,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     })
                 })
             }
-        }, pageClassOn("pageshow", "type-interior", function() {
-            var page = this;
-            page.querySelector(".customSupporterPromotion") || getPluginSecurityInfo().then(function(pluginSecurityInfo) {
-                var supporterPromotionElem = page.querySelector(".supporterPromotion");
-                if (supporterPromotionElem && supporterPromotionElem.parentNode.removeChild(supporterPromotionElem), !pluginSecurityInfo.IsMBSupporter) {
-                    var html = '<div class="supporterPromotionContainer"><div class="supporterPromotion">';
-                    html += '<a is="emby-linkbutton" href="https://github.com/jellyfin/jellyfin" target="_blank" class="raised block" style="background-color:#00a4dc;color:#fff;"><div>' + globalize.translate("HeaderSupportTheTeam") + '</div><div style="font-weight:normal;margin-top:5px;">' + globalize.translate("TextEnjoyBonusFeatures") + "</div></a></div></div>", page.querySelector(".content-primary").insertAdjacentHTML("afterbegin", html)
-                }
-            })
-        }),
+        },
         function(view, params) {
             function onRestartRequired(e, apiClient) {
                 apiClient.serverId() === serverId && renderHasPendingRestart(view, apiClient, !0)
@@ -502,9 +423,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     apiClient = ApiClient;
                 if (apiClient) {
                     loading.show(), pollForInfo(page, apiClient), DashboardPage.startInterval(apiClient), events.on(serverNotifications, "RestartRequired", onRestartRequired), events.on(serverNotifications, "ServerShuttingDown", onServerShuttingDown), events.on(serverNotifications, "ServerRestarting", onServerRestarting), events.on(serverNotifications, "PackageInstalling", onPackageInstalling), events.on(serverNotifications, "PackageInstallationCompleted", onPackageInstallationCompleted), events.on(serverNotifications, "Sessions", onSessionsUpdate),
-                        events.on(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate), DashboardPage.lastAppUpdateCheck = null, DashboardPage.lastPluginUpdateCheck = null, getPluginSecurityInfo().then(function(pluginSecurityInfo) {
-                            DashboardPage.renderSupporterIcon(page, pluginSecurityInfo)
-                        }), reloadSystemInfo(page, ApiClient), page.userActivityLog || (page.userActivityLog = new ActivityLog({
+                        events.on(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate), DashboardPage.lastAppUpdateCheck = null, reloadSystemInfo(page, ApiClient), page.userActivityLog || (page.userActivityLog = new ActivityLog({
                             serverId: ApiClient.serverId(),
                             element: page.querySelector(".userActivityItems")
                         })), ApiClient.isMinServerVersion("3.4.1.25") && (page.serverActivityLog || (page.serverActivityLog = new ActivityLog({
@@ -515,6 +434,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 }
             }), view.addEventListener("viewbeforehide", function() {
                 var apiClient = ApiClient;
+                // TODO we currently don't support packages and thus these events are useless
                 events.off(serverNotifications, "RestartRequired", onRestartRequired), events.off(serverNotifications, "ServerShuttingDown", onServerShuttingDown), events.off(serverNotifications, "ServerRestarting", onServerRestarting), events.off(serverNotifications, "PackageInstalling", onPackageInstalling), events.off(serverNotifications, "PackageInstallationCompleted", onPackageInstallationCompleted), events.off(serverNotifications, "Sessions", onSessionsUpdate), events.off(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate), apiClient && DashboardPage.stopInterval(apiClient)
             }), view.addEventListener("viewdestroy", function() {
                 var page = this,

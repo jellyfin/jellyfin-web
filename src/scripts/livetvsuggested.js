@@ -1,4 +1,4 @@
-define(["layoutManager", "userSettings", "inputManager", "loading", "registrationServices", "globalize", "libraryBrowser", "mainTabsManager", "cardBuilder", "apphost", "imageLoader", "scrollStyles", "emby-itemscontainer", "emby-tabs", "emby-button"], function(layoutManager, userSettings, inputManager, loading, registrationServices, globalize, libraryBrowser, mainTabsManager, cardBuilder, appHost, imageLoader) {
+define(["layoutManager", "userSettings", "inputManager", "loading", "globalize", "libraryBrowser", "mainTabsManager", "cardBuilder", "apphost", "imageLoader", "scrollStyles", "emby-itemscontainer", "emby-tabs", "emby-button"], function(layoutManager, userSettings, inputManager, loading, globalize, libraryBrowser, mainTabsManager, cardBuilder, appHost, imageLoader) {
     "use strict";
 
     function enableScrollX() {
@@ -145,17 +145,6 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "registratio
         }]
     }
 
-    function validateUnlock(view, showDialog) {
-        registrationServices.validateFeature("livetv", {
-            showDialog: showDialog,
-            viewOnly: !0
-        }).then(function() {
-            view.querySelector(".liveTvContainer").classList.remove("hide"), view.querySelector(".unlockContainer").classList.add("hide")
-        }, function() {
-            view.querySelector(".liveTvContainer").classList.add("hide"), view.querySelector(".unlockContainer").classList.remove("hide")
-        })
-    }
-
     function setScrollClasses(elem, scrollX) {
         scrollX ? (elem.classList.add("hiddenScrollX"), layoutManager.tv && elem.classList.add("smoothScrollX"), elem.classList.add("scrollX"), elem.classList.remove("vertical-wrap")) : (elem.classList.remove("hiddenScrollX"), elem.classList.remove("smoothScrollX"), elem.classList.remove("scrollX"), elem.classList.add("vertical-wrap"))
     }
@@ -248,7 +237,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "registratio
         [].forEach.call(view.querySelectorAll(".sectionTitleTextButton-programs"), function(link) {
             var href = link.href;
             href && (link.href = href + "&serverId=" + ApiClient.serverId())
-        }), view.querySelector(".unlockText").innerHTML = globalize.translate("sharedcomponents#LiveTvRequiresUnlock"), validateUnlock(view, !1), self.initTab = function() {
+        }), self.initTab = function() {
             for (var tabContent = view.querySelector(".pageTabContent[data-index='0']"), containers = tabContent.querySelectorAll(".itemsContainer"), i = 0, length = containers.length; i < length; i++) setScrollClasses(containers[i], enableScrollX())
         }, self.renderTab = function() {
             var tabContent = view.querySelector(".pageTabContent[data-index='0']");
@@ -256,9 +245,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "registratio
         };
         var currentTabController, tabControllers = [],
             renderedTabs = [];
-        view.querySelector(".btnUnlock").addEventListener("click", function() {
-            validateUnlock(view, !0)
-        }), view.addEventListener("viewbeforeshow", function(e) {
+        view.addEventListener("viewbeforeshow", function(e) {
             isViewRestored = e.detail.isRestored, initTabs()
         }), view.addEventListener("viewshow", function(e) {
             isViewRestored = e.detail.isRestored, isViewRestored || mainTabsManager.selectedTabIndex(initialTabIndex), inputManager.on(window, onInputCommand)
