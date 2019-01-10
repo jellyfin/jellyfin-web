@@ -1,8 +1,8 @@
 define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "humanedate", "listViewStyle", "emby-linkbutton", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog) {
     "use strict";
 
-    function onConnectionHelpClick(e__q) {
-        e__q.preventDefault();
+    function onConnectionHelpClick(evt) {
+        evt.preventDefault();
         return false;
     }
 
@@ -15,7 +15,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         }
     }
 
-    function onEditServerNameClick(e__w) {
+    function onEditServerNameClick(evt) {
         var page = dom.parentWithClass(this, "page");
 
         require(["prompt"], function (prompt) {
@@ -36,7 +36,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             });
         });
 
-        e__w.preventDefault();
+        evt.preventDefault();
         return false;
     }
 
@@ -54,16 +54,14 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 text.push(globalize.translate("sharedcomponents#DirectStreamHelp1"));
                 text.push("<br/>");
                 text.push(globalize.translate("sharedcomponents#DirectStreamHelp2"));
-            } else {
-                if (isTranscode) {
-                    title = globalize.translate("sharedcomponents#Transcoding");
-                    text.push(globalize.translate("sharedcomponents#MediaIsBeingConverted"));
+            } else if (isTranscode) {
+                title = globalize.translate("sharedcomponents#Transcoding");
+                text.push(globalize.translate("sharedcomponents#MediaIsBeingConverted"));
 
-                    if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
-                        text.push("<br/>");
-                        text.push(globalize.translate("sharedcomponents#LabelReasonForTranscoding"));
-                        showTranscodeReasons = true;
-                    }
+                if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
+                    text.push("<br/>");
+                    text.push(globalize.translate("sharedcomponents#LabelReasonForTranscoding"));
+                    showTranscodeReasons = true;
                 }
             }
 
@@ -131,37 +129,29 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         });
     }
 
-    function onActiveDevicesClick(e__r) {
-        var btn = dom.parentWithClass(e__r.target, "sessionCardButton");
+    function onActiveDevicesClick(evt) {
+        var btn = dom.parentWithClass(evt.target, "sessionCardButton");
 
         if (btn) {
             var card = dom.parentWithClass(btn, "card");
 
             if (card) {
                 var sessionId = card.id;
-                var session = (DashboardPage.sessionsList || []).filter(function (s__t) {
-                    return "session" + s__t.Id === sessionId;
+                var session = (DashboardPage.sessionsList || []).filter(function (dashboardSession) {
+                    return "session" + dashboardSession.Id === sessionId;
                 })[0];
 
                 if (session) {
                     if (btn.classList.contains("btnCardOptions")) {
                         showOptionsMenu(btn, session);
-                    } else {
-                        if (btn.classList.contains("btnSessionInfo")) {
-                            showPlaybackInfo(btn, session);
-                        } else {
-                            if (btn.classList.contains("btnSessionSendMessage")) {
-                                showSendMessageForm(btn, session);
-                            } else {
-                                if (btn.classList.contains("btnSessionStop")) {
-                                    connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, "Stop");
-                                } else {
-                                    if (btn.classList.contains("btnSessionPlayPause") && session.PlayState) {
-                                        connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, "PlayPause");
-                                    }
-                                }
-                            }
-                        }
+                    } else if (btn.classList.contains("btnSessionInfo")) {
+                        showPlaybackInfo(btn, session);
+                    } else if (btn.classList.contains("btnSessionSendMessage")) {
+                        showSendMessageForm(btn, session);
+                    } else if (btn.classList.contains("btnSessionStop")) {
+                        connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, "Stop");
+                    } else if (btn.classList.contains("btnSessionPlayPause") && session.PlayState) {
+                        connectionManager.getApiClient(session.ServerId).sendPlayStateCommand(session.Id, "PlayPause");
                     }
                 }
             }
@@ -181,7 +171,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 }
             }
         }
-
         return list;
     }
 
@@ -278,8 +267,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             cardElem.classList.add("deadSession");
         }
 
-        for (var i__u = 0, length = sessions.length; i__u < length; i__u++) {
-            var session = sessions[i__u];
+        for (var i = 0, length = sessions.length; i < length; i++) {
+            var session = sessions[i];
             var rowId = "session" + session.Id;
             var elem = view.querySelector("#" + rowId);
 
@@ -383,9 +372,9 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
     function renderRunningTasks(view, tasks) {
         var html = "";
-        tasks = tasks.filter(function (t__o) {
-            if ("Idle" != t__o.State) {
-                return !t__o.IsHidden;
+        tasks = tasks.filter(function (task) {
+            if ("Idle" != task.State) {
+                return !task.IsHidden;
             }
 
             return false;
@@ -397,8 +386,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             view.querySelector(".runningTasksContainer").classList.add("hide");
         }
 
-        for (var i__i = 0, length = tasks.length; i__i < length; i__i++) {
-            var task = tasks[i__i];
+        for (var i = 0, length = tasks.length; i < length; i++) {
+            var task = tasks[i];
 
             if (html += "<p>", html += task.Name + "<br/>", "Running" == task.State) {
                 var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
@@ -407,10 +396,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 html += "</progress>";
                 html += "<span style='color:#009F00;margin-left:5px;margin-right:5px;'>" + progress + "%</span>";
                 html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonStop") + '" onclick="DashboardPage.stopTask(this, \'' + task.Id + '\');" class="autoSize"><i class="md-icon">cancel</i></button>';
-            } else {
-                if ("Cancelling" == task.State) {
-                    html += '<span style="color:#cc0000;">' + globalize.translate("LabelStopping") + "</span>";
-                }
+            } else if ("Cancelling" == task.State) {
+                html += '<span style="color:#cc0000;">' + globalize.translate("LabelStopping") + "</span>";
             }
 
             html += "</p>";
@@ -519,10 +506,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
                     bottomText = topText;
                     topText = nowPlayingItem.SeriesName || nowPlayingItem.Album;
-                } else {
-                    if (nowPlayingItem.ProductionYear) {
-                        bottomText = nowPlayingItem.ProductionYear;
-                    }
+                } else if (nowPlayingItem.ProductionYear) {
+                    bottomText = nowPlayingItem.ProductionYear;
                 }
             }
 
@@ -560,8 +545,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 html.push(session.UserName);
             }
 
-            for (var i__p = 0, length = session.AdditionalUsers.length; i__p < length; i__p++) {
-                html.push(session.AdditionalUsers[i__p].UserName);
+            for (var i = 0, length = session.AdditionalUsers.length; i < length; i++) {
+                html.push(session.AdditionalUsers[i].UserName);
             }
 
             return html.join(", ");
@@ -809,45 +794,45 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         }
     };
     return function (view, params) {
-        function onRestartRequired(e__a, apiClient) {
+        function onRestartRequired(evt, apiClient) {
             if (apiClient.serverId() === serverId) {
                 renderHasPendingRestart(view, apiClient, true);
             }
         }
 
-        function onServerShuttingDown(e__s, apiClient) {
+        function onServerShuttingDown(evt, apiClient) {
             if (apiClient.serverId() === serverId) {
                 renderHasPendingRestart(view, apiClient, true);
             }
         }
 
-        function onServerRestarting(e__d, apiClient) {
+        function onServerRestarting(evt, apiClient) {
             if (apiClient.serverId() === serverId) {
                 renderHasPendingRestart(view, apiClient, true);
             }
         }
 
-        function onPackageInstalling(e__f, apiClient) {
+        function onPackageInstalling(evt, apiClient) {
             if (apiClient.serverId() === serverId) {
                 pollForInfo(view, apiClient, true);
                 reloadSystemInfo(view, apiClient);
             }
         }
 
-        function onPackageInstallationCompleted(e__g, apiClient) {
+        function onPackageInstallationCompleted(evt, apiClient) {
             if (apiClient.serverId() === serverId) {
                 pollForInfo(view, apiClient, true);
                 reloadSystemInfo(view, apiClient);
             }
         }
 
-        function onSessionsUpdate(e__h, apiClient, info) {
+        function onSessionsUpdate(evt, apiClient, info) {
             if (apiClient.serverId() === serverId) {
                 renderInfo(view, info);
             }
         }
 
-        function onScheduledTasksUpdate(e__j, apiClient, info) {
+        function onScheduledTasksUpdate(evt, apiClient, info) {
             if (apiClient.serverId() === serverId) {
                 renderRunningTasks(view, info);
             }
@@ -865,6 +850,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 loading.show();
                 pollForInfo(page, apiClient);
                 DashboardPage.startInterval(apiClient);
+                // TODO we currently don't support packages and thus these events are useless
                 events.on(serverNotifications, "RestartRequired", onRestartRequired);
                 events.on(serverNotifications, "ServerShuttingDown", onServerShuttingDown);
                 events.on(serverNotifications, "ServerRestarting", onServerRestarting);
@@ -896,8 +882,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             }
         });
         view.addEventListener("viewbeforehide", function () {
-            var apiClient = ApiClient; // TODO we currently don't support packages and thus these events are useless
-
+            var apiClient = ApiClient;
             events.off(serverNotifications, "RestartRequired", onRestartRequired);
             events.off(serverNotifications, "ServerShuttingDown", onServerShuttingDown);
             events.off(serverNotifications, "ServerRestarting", onServerRestarting);
@@ -913,13 +898,10 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         view.addEventListener("viewdestroy", function () {
             var page = this;
             var userActivityLog = page.userActivityLog;
-
             if (userActivityLog) {
                 userActivityLog.destroy();
             }
-
             var serverActivityLog = page.serverActivityLog;
-
             if (serverActivityLog) {
                 serverActivityLog.destroy();
             }

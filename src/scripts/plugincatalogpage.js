@@ -28,14 +28,10 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-linkbutton", "
         } else {
             if ("Theme" === category) {
                 category = "Themes";
-            } else {
-                if ("LiveTV" === category) {
-                    category = "HeaderLiveTV";
-                } else {
-                    if ("ScreenSaver" === category) {
-                        category = "HeaderScreenSavers";
-                    }
-                }
+            } else if ("LiveTV" === category) {
+                category = "HeaderLiveTV";
+            } else if ("ScreenSaver" === category) {
+                    category = "HeaderScreenSavers";
             }
         }
 
@@ -49,13 +45,13 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-linkbutton", "
     function populateListInternal(options) {
         var availablePlugins = options.availablePlugins;
         var installedPlugins = options.installedPlugins;
-        var allPlugins = availablePlugins.filter(function (p__w) {
-            p__w.category = p__w.category || "General";
-            p__w.categoryDisplayName = getHeaderText(p__w.category);
+        var allPlugins = availablePlugins.filter(function (plugin) {
+            plugin.category = plugin.category || "General";
+            plugin.categoryDisplayName = getHeaderText(plugin.category);
 
-            if (!options.categories || -1 != options.categories.indexOf(p__w.category)) {
-                if (!options.targetSystem || p__w.targetSystem == options.targetSystem) {
-                    return "UserInstalled" == p__w.type;
+            if (!options.categories || -1 != options.categories.indexOf(plugin.category)) {
+                if (!options.targetSystem || plugin.targetSystem == options.targetSystem) {
+                    return "UserInstalled" == plugin.type;
                 }
 
                 return false;

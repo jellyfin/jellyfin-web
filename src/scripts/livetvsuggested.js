@@ -9,7 +9,6 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         if (enableScrollX()) {
             return "overflowBackdrop";
         }
-
         return "backdrop";
     }
 
@@ -17,7 +16,6 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         if (enableScrollX()) {
             return "overflowPortrait";
         }
-
         return "portrait";
     }
 
@@ -25,7 +23,6 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         if (enableScrollX()) {
             return 12;
         }
-
         return 9;
     }
 
@@ -153,22 +150,15 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
     }
 
     function getTabs() {
-        return [{
-            name: globalize.translate("Programs")
-        }, {
-            name: globalize.translate("TabGuide")
-        }, {
-            name: globalize.translate("TabChannels")
-        }, {
-            name: globalize.translate("TabRecordings")
-        }, {
-            name: globalize.translate("HeaderSchedule")
-        }, {
-            name: globalize.translate("TabSeries")
-        }, {
-            name: globalize.translate("ButtonSearch"),
-            cssClass: "searchTabButton"
-        }];
+        return [
+            { name: globalize.translate("Programs") },
+            { name: globalize.translate("TabGuide") },
+            { name: globalize.translate("TabChannels") },
+            { name: globalize.translate("TabRecordings") },
+            { name: globalize.translate("HeaderSchedule") },
+            { name: globalize.translate("TabSeries") },
+            { name: globalize.translate("ButtonSearch"), cssClass: "searchTabButton" }
+        ];
     }
 
     function setScrollClasses(elem, scrollX) {
@@ -190,13 +180,10 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
     }
 
     function getDefaultTabIndex(folderId) {
-        switch (userSettings.get("landing-" + folderId)) {
-            case "guide":
-                return 1;
-
-            default:
-                return 0;
+        if (userSettings.get("landing-" + folderId) === "guide") {
+            return 1;
         }
+        return 0;
     }
 
     return function (view, params) {
@@ -204,18 +191,18 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
             return new Date().getTime() - lastFullRender > 3e5;
         }
 
-        function onBeforeTabChange(e__q) {
-            preLoadTab(view, parseInt(e__q.detail.selectedTabIndex));
+        function onBeforeTabChange(evt) {
+            preLoadTab(view, parseInt(evt.detail.selectedTabIndex));
         }
 
-        function onTabChange(e__w) {
-            var previousTabController = tabControllers[parseInt(e__w.detail.previousIndex)];
+        function onTabChange(evt) {
+            var previousTabController = tabControllers[parseInt(evt.detail.previousIndex)];
 
             if (previousTabController && previousTabController.onHide) {
                 previousTabController.onHide();
             }
 
-            loadTab(view, parseInt(e__w.detail.selectedTabIndex));
+            loadTab(view, parseInt(evt.detail.selectedTabIndex));
         }
 
         function getTabContainers() {
@@ -229,30 +216,25 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         function getTabController(page, index, callback) {
             var depends = [];
 
+            // TODO int is a little hard to read
             switch (index) {
                 case 0:
                     break;
-
                 case 1:
                     depends.push("scripts/livetvguide");
                     break;
-
                 case 2:
                     depends.push("scripts/livetvchannels");
                     break;
-
                 case 3:
                     depends.push("scripts/livetvrecordings");
                     break;
-
                 case 4:
                     depends.push("scripts/livetvschedule");
                     break;
-
                 case 5:
                     depends.push("scripts/livetvseriestimers");
                     break;
-
                 case 6:
                     depends.push("scripts/searchtab");
             }
@@ -269,9 +251,15 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
 
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-                    controller = 0 === index ? self : 6 === index ? new controllerFactory(view, tabContent, {
-                        collectionType: "livetv"
-                    }) : new controllerFactory(view, params, tabContent);
+                    if (0 === index) {
+                        controller = self;
+                    } else if (6 === index) {
+                        controller = new controllerFactory(view, tabContent, {
+                            collectionType: "livetv"
+                        });
+                    } else {
+                        controller = new controllerFactory(view, params, tabContent);
+                    }
                     tabControllers[index] = controller;
 
                     if (controller.initTab) {
@@ -285,7 +273,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
 
         function preLoadTab(page, index) {
             getTabController(page, index, function (controller) {
-                if (-1 == renderedTabs.indexOf(index) && controller.preRender) {
+                if (renderedTabs.indexOf(index) === -1 && controller.preRender) {
                     controller.preRender();
                 }
             });
@@ -308,21 +296,18 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                     }
 
                     controller.renderTab();
-                } else {
-                    if (controller.onShow) {
-                        controller.onShow();
-                    }
+                } else if (controller.onShow) {
+                    controller.onShow();
                 }
 
                 currentTabController = controller;
             });
         }
 
-        function onInputCommand(e__e) {
-            switch (e__e.detail.command) {
-                case "search":
-                    e__e.preventDefault();
-                    Dashboard.navigate("search.html?collectionType=livetv");
+        function onInputCommand(evt) {
+            if (evt.detail.command === "search") {
+                evt.preventDefault();
+                Dashboard.navigate("search.html?collectionType=livetv");
             }
         }
 
@@ -343,8 +328,8 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
             var tabContent = view.querySelector(".pageTabContent[data-index='0']");
             var containers = tabContent.querySelectorAll(".itemsContainer");
 
-            for (var i__r = 0, length = containers.length; i__r < length; i__r++) {
-                setScrollClasses(containers[i__r], enableScrollX());
+            for (var i = 0, length = containers.length; i < length; i++) {
+                setScrollClasses(containers[i], enableScrollX());
             }
         };
 
@@ -362,31 +347,28 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         var currentTabController;
         var tabControllers = [];
         var renderedTabs = [];
-        view.addEventListener("viewbeforeshow", function (e__t) {
-            isViewRestored = e__t.detail.isRestored;
+        view.addEventListener("viewbeforeshow", function (evt) {
+            isViewRestored = evt.detail.isRestored;
             initTabs();
         });
-        view.addEventListener("viewshow", function (e__y) {
-            isViewRestored = e__y.detail.isRestored;
-
+        view.addEventListener("viewshow", function (evt) {
+            isViewRestored = evt.detail.isRestored;
             if (!isViewRestored) {
                 mainTabsManager.selectedTabIndex(initialTabIndex);
             }
-
             inputManager.on(window, onInputCommand);
         });
         view.addEventListener("viewbeforehide", function (e__u) {
             if (currentTabController && currentTabController.onHide) {
                 currentTabController.onHide();
             }
-
             document.body.classList.remove("autoScrollY");
             inputManager.off(window, onInputCommand);
         });
-        view.addEventListener("viewdestroy", function (e__i) {
-            tabControllers.forEach(function (t__o) {
-                if (t__o.destroy) {
-                    t__o.destroy();
+        view.addEventListener("viewdestroy", function (evt) {
+            tabControllers.forEach(function (tabController) {
+                if (tabController.destroy) {
+                    tabController.destroy();
                 }
             });
         });
