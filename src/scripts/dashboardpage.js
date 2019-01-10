@@ -161,15 +161,15 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             var localizedServerVersion = globalize.translate("LabelServerVersionNumber", systemInfo.ServerVersion);
             var localizedBuildBranch = globalize.translate("LabelBuildBranch", "");
             var localizedBuildCommit = globalize.translate("LabelBuildCommit", "");
-            var localizedBuildRevision = globalize.translate("LabelBuildRevision", systemInfo.BuildVersion.Revision);
-            var localizedBuildTagDescription = globalize.translate("LabelBuildTagDescription", systemInfo.BuildVersion.TagDescription);
+            var localizedBuildRevision = globalize.translate("LabelBuildRevision", systemInfo.ExtendedVersion.Revision);
+            var localizedBuildTagDescription = globalize.translate("LabelBuildTagDescription", systemInfo.ExtendedVersion.TagDescription);
             var localizedProductName = globalize.translate("LabelProductName", systemInfo.ProductName);
             systemInfo.SystemUpdateLevel && "Release" != systemInfo.SystemUpdateLevel && (localizedVersion += " " + globalize.translate("Option" + systemInfo.SystemUpdateLevel).toLowerCase()),
                 systemInfo.CanSelfRestart ? view.querySelector("#btnRestartServer").classList.remove("hide") : view.querySelector("#btnRestartServer").classList.add("hide"),
                 view.querySelector("#apiVersionNumber").innerHTML = localizedVersion,
                 view.querySelector("#serverVersionNumber").innerHTML = localizedServerVersion,
-                view.querySelector("#buildBranch").innerHTML = localizedBuildBranch+'<a class="button-link button-link-inline" href="' + systemInfo.BuildVersion.Remote + '/tree/' + systemInfo.BuildVersion.Branch + '" target="_blank">' + systemInfo.BuildVersion.Branch + '</a>',
-                view.querySelector("#buildCommitHash").innerHTML = localizedBuildCommit+'<a class="button-link button-link-inline" href="' + systemInfo.BuildVersion.Remote + '/commit/' + systemInfo.BuildVersion.CommitHash + '" target="_blank">' + systemInfo.BuildVersion.CommitHash + '</a>',
+                view.querySelector("#buildBranch").innerHTML = localizedBuildBranch+'<a class="button-link button-link-inline" href="' + systemInfo.ExtendedVersion.Remote + '/tree/' + systemInfo.ExtendedVersion.Branch + '" target="_blank">' + systemInfo.ExtendedVersion.Branch + '</a>',
+                view.querySelector("#buildCommitHash").innerHTML = localizedBuildCommit+'<a class="button-link button-link-inline" href="' + systemInfo.ExtendedVersion.Remote + '/commit/' + systemInfo.ExtendedVersion.CommitHash + '" target="_blank">' + systemInfo.ExtendedVersion.CommitHash + '</a>',
                 view.querySelector("#buildRevision").innerHTML = localizedBuildRevision,
                 view.querySelector("#buildTagDescription").innerHTML = localizedBuildTagDescription,
                 view.querySelector("#productName").innerHTML = localizedProductName,
