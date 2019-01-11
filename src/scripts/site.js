@@ -1040,7 +1040,7 @@ var Dashboard = {
             }, appRouter.showSelectServer = function() {
                 AppInfo.isNativeApp ? Dashboard.navigate("selectserver.html") : Dashboard.navigate("login.html")
             }, appRouter.showWelcome = function() {
-                AppInfo.isNativeApp ? Dashboard.navigate("selectserver.html") : Dashboard.navigate("login.html")
+                Dashboard.navigate(AppInfo.isNativeApp ? "selectserver.html" : "login.html")
             }, appRouter.showSettings = function() {
                 Dashboard.navigate("mypreferencesmenu.html")
             }, appRouter.showGuide = function() {
