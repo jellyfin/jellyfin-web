@@ -62,7 +62,8 @@ var Dashboard = {
         },
         logout: function(logoutWithServer) {
             function onLogoutDone() {
-                Dashboard.navigate("login.html")
+                var loginPage;
+                AppInfo.isNativeApp ? (loginPage = "selectserver.html", window.ApiClient = null) : loginPage = "login.html", Dashboard.navigate(loginPage)
             }!1 === logoutWithServer ? onLogoutDone() : ConnectionManager.logout().then(onLogoutDone)
         },
         getConfigurationPageUrl: function(name) {
@@ -1033,7 +1034,7 @@ var Dashboard = {
             }, appRouter.showSelectServer = function() {
                 AppInfo.isNativeApp ? Dashboard.navigate("selectserver.html") : Dashboard.navigate("login.html")
             }, appRouter.showWelcome = function() {
-                Dashboard.navigate("login.html")
+                AppInfo.isNativeApp ? Dashboard.navigate("selectserver.html") : Dashboard.navigate("login.html")
             }, appRouter.showSettings = function() {
                 Dashboard.navigate("mypreferencesmenu.html")
             }, appRouter.showGuide = function() {
