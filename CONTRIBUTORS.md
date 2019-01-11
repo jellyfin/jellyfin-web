@@ -15,6 +15,7 @@
  - [cvium](https://github.com/cvium)
  - [grafixeyehero](https://github.com/grafixeyehero)
  - [Drago96](https://github.com/drago-96)
+ - [ViXXoR](https://github.com/ViXXoR)
 
 # Emby Contributors
 
