@@ -114,7 +114,7 @@ define(["jQuery", "loading", "emby-checkbox", "emby-input", "listViewStyle", "pa
         function refreshTunerDevices(page, providerInfo, devices) {
             var html = "";
 
-            for (var i = 0, length = devices.length; i < length; i__yi {
+            for (var i = 0, length = devices.length; i < length; i++) {
                 var device = devices[i];
                 html += '<div class="listItem">';
                 var enabledTuners = providerInfo.EnabledTuners || [];
