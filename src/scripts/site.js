@@ -89,6 +89,13 @@ var Dashboard = {
                 })
             })
         },
+        navigate_direct: function(path) {
+            return new Promise(function(resolve, reject) {
+                require(["appRouter"], function(appRouter) {
+                    return appRouter.showDirect(path).then(resolve, reject)
+                })
+            })
+        },
         processPluginConfigurationUpdateResult: function() {
             require(["loading", "toast"], function(loading, toast) {
                 loading.hide(), toast(Globalize.translate("MessageSettingsSaved"))

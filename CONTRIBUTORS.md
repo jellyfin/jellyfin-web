@@ -14,6 +14,7 @@
  - [LeoVerto](https://github.com/LeoVerto)
  - [cvium](https://github.com/cvium)
  - [grafixeyehero](https://github.com/grafixeyehero)
+ - [Drago96](https://github.com/drago-96)
 
 # Emby Contributors
 
