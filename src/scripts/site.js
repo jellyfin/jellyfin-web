@@ -63,7 +63,13 @@ var Dashboard = {
         logout: function(logoutWithServer) {
             function onLogoutDone() {
                 var loginPage;
-                AppInfo.isNativeApp ? (loginPage = "selectserver.html", window.ApiClient = null) : loginPage = "login.html", Dashboard.navigate(loginPage)
+                if (AppInfo.isNativeApp) {
+                    loginPage = "selectserver.html";
+                    window.ApiClient = null;
+                } else {
+                    loginPage = "login.html";
+                }
+                Dashboard.navigate(loginPage);
             }!1 === logoutWithServer ? onLogoutDone() : ConnectionManager.logout().then(onLogoutDone)
         },
         getConfigurationPageUrl: function(name) {
