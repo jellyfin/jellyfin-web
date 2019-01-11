@@ -9,6 +9,7 @@
  - [bfayers](https://github.com/bfayers)
  - [Bond_009](https://github.com/Bond-009)
  - [AnthonyLavado](https://github.com/anthonylavado)
+ - [dkanada](https://github.com/dkanada)
  - [sparky8251](https://github.com/sparky8251)
  - [LeoVerto](https://github.com/LeoVerto)
  - [cvium](https://github.com/cvium)
