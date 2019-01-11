@@ -121,7 +121,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     case "sendmessage":
                         showSendMessageForm(btn, session);
                         break;
-
                     case "transcodinginfo":
                         showPlaybackInfo(btn, session);
                 }
@@ -162,13 +161,15 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         var list = [];
         var minActiveDate = new Date().getTime() - 9e5;
 
-        for (var i__y = 0, length = sessions.length; i__y < length; i__y++) {
-            var session = sessions[i__y];
+        for (var i = 0, length = sessions.length; i < length; i++) {
+            var session = sessions[i];
 
-            if (session.NowPlayingItem || session.UserId) {
-                if (datetime.parseISO8601Date(session.LastActivityDate, true).getTime() >= minActiveDate) {
-                    list.push(session);
-                }
+            if (!session.NowPlayingItem && !session.UserId) {
+                continue;
+            }
+
+            if (datetime.parseISO8601Date(session.LastActivityDate, true).getTime() >= minActiveDate) {
+                list.push(session);
             }
         }
         return list;
@@ -209,8 +210,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         });
     }
 
-    function renderHasPendingRestart(view, apiClient, hasPendingRestart) { }
-
     function reloadSystemInfo(view, apiClient) {
         apiClient.getSystemInfo().then(function (systemInfo) {
             view.querySelector(".serverNameHeader").innerHTML = systemInfo.ServerName;
@@ -236,7 +235,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             DashboardPage.renderUrls(view, systemInfo);
             DashboardPage.renderPaths(view, systemInfo);
-            renderHasPendingRestart(view, apiClient, systemInfo.HasPendingRestart);
         });
     }
 
@@ -319,8 +317,10 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 }
 
                 var nowPlayingName = DashboardPage.getNowPlayingName(session);
-
-                if (html += '<div class="sessionNowPlayingInfo" data-imgsrc="' + nowPlayingName.image + '">', html += nowPlayingName.html, html += "</div>", nowPlayingItem && nowPlayingItem.RunTimeTicks) {
+                html += '<div class="sessionNowPlayingInfo" data-imgsrc="' + nowPlayingName.image + '">';
+                html += nowPlayingName.html;
+                html += "</div>";
+                if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
                     html += '<progress class="playbackProgress" min="0" max="100" value="' + 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks + '"></progress>';
                 } else {
                     html += '<progress class="playbackProgress hide" min="0" max="100"></progress>';
@@ -341,7 +341,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId() ? "" : " hide";
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><i class="md-icon">&#xE034;</i></button>';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><i class="md-icon">&#xE047;</i></button>';
-                btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons.length ? "" : " hide";
+                btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && ession.TranscodingInfo.TranscodeReasons.length ? "" : " hide";
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("ViewPlaybackInfo") + '"><i class="md-icon">&#xE88E;</i></button>';
                 btnCssClass = session.ServerId && -1 !== session.SupportedCommands.indexOf("DisplayMessage") && session.DeviceId !== connectionManager.deviceId() ? "" : " hide";
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("SendMessage") + '"><i class="md-icon">&#xE0C9;</i></button>';
@@ -388,15 +388,17 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
         for (var i = 0, length = tasks.length; i < length; i++) {
             var task = tasks[i];
-
-            if (html += "<p>", html += task.Name + "<br/>", "Running" == task.State) {
+            
+            html += "<p>";
+            html += task.Name + "<br/>";
+            if (task.State === "Running") {
                 var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
                 html += '<progress max="100" value="' + progress + '" title="' + progress + '%">';
                 html += progress + "%";
                 html += "</progress>";
                 html += "<span style='color:#009F00;margin-left:5px;margin-right:5px;'>" + progress + "%</span>";
                 html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonStop") + '" onclick="DashboardPage.stopTask(this, \'' + task.Id + '\');" class="autoSize"><i class="md-icon">cancel</i></button>';
-            } else if ("Cancelling" == task.State) {
+            } else if (task.State === "Cancelling") {
                 html += '<span style="color:#cc0000;">' + globalize.translate("LabelStopping") + "</span>";
             }
 
@@ -425,8 +427,18 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             var html = "";
             var showTranscodingInfo = false;
             var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
-
-            if ("DirectStream" === displayPlayMethod ? (html += globalize.translate("sharedcomponents#DirectStreaming"), true) : "Transcode" == displayPlayMethod ? (html += globalize.translate("sharedcomponents#Transcoding"), session.TranscodingInfo && session.TranscodingInfo.Framerate && (html += " (" + session.TranscodingInfo.Framerate + " fps)"), showTranscodingInfo = true, true) : "DirectPlay" == displayPlayMethod && (html += globalize.translate("sharedcomponents#DirectPlaying")), showTranscodingInfo) {
+            if (displayPlayMethod === "DirectStream") {
+                html += globalize.translate("sharedcomponents#DirectStreaming");
+            } else if (displayPlayMethod === "Transcode") {
+                html += globalize.translate("sharedcomponents#Transcoding");
+                if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
+                    html += " (" + session.TranscodingInfo.Framerate + " fps)";
+                }
+                showTranscodingInfo = true;
+            } else if (displayPlayMethod === "DirectPlay") {
+                html += globalize.translate("sharedcomponents#DirectPlaying");
+            }
+            if (showTranscodingInfo) {
                 var line = [];
 
                 if (session.TranscodingInfo) {
