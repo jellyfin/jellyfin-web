@@ -252,7 +252,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var imgUrl, screenWidth = screen.availWidth,
             hasbackdrop = !1,
             itemBackdropElement = page.querySelector("#itemBackdrop"),
-            usePrimaryImage = "Video" === item.MediaType && "Movie" !== item.Type && "Trailer" !== item.Type || item.MediaType && "Video" !== item.MediaType;
+            usePrimaryImage = ("Video" === item.MediaType && "Movie" !== item.Type && "Trailer" !== item.Type) || (item.MediaType && "Video" !== item.MediaType) || ("MusicAlbum" === item.Type) || ("MusicArtist" === item.Type);
         return "Program" === item.Type && item.ImageTags && item.ImageTags.Thumb ? (imgUrl = apiClient.getScaledImageUrl(item.Id, {
             type: "Thumb",
             index: 0,
