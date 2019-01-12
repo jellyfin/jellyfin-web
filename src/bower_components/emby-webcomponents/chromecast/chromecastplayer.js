@@ -52,7 +52,7 @@
         'ERROR': 'ERROR'
     };
 
-    var applicationID = "2D4B1DA3";
+    var applicationID = "F007D354";
 
     // This is the beta version used for testing new changes
 
