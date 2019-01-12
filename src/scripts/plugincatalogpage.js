@@ -25,14 +25,12 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-linkbutton", "
 
         if ("Channel" === category) {
             category = "Channels";
-        } else {
-            if ("Theme" === category) {
-                category = "Themes";
-            } else if ("LiveTV" === category) {
-                category = "HeaderLiveTV";
-            } else if ("ScreenSaver" === category) {
-                    category = "HeaderScreenSavers";
-            }
+        } else if ("Theme" === category) {
+            category = "Themes";
+        } else if ("LiveTV" === category) {
+            category = "HeaderLiveTV";
+        } else if ("ScreenSaver" === category) {
+            category = "HeaderScreenSavers";
         }
 
         return globalize.translate(category);
