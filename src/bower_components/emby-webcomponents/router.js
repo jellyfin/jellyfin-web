@@ -14,9 +14,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         showWelcome: function () {
             show('/startup/welcome.html');
         },
-        showConnectLogin: function () {
-            show('/startup/connectlogin.html');
-        },
         showSettings: function () {
             show('/settings/settings.html');
         },
@@ -271,14 +268,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
                 // Bounce to the login screen, but not if a password entry fails, obviously
                 if (!isCurrentAllowed) {
-
                     showForcedLogoutMessage(globalize.translate('sharedcomponents#AccessRestrictedTryAgainLater'));
-
-                    if (connectionManager.isLoggedIntoConnect()) {
-                        appRouter.showConnectLogin();
-                    } else {
-                        appRouter.showLocalLogin(apiClient.serverId());
-                    }
+                    appRouter.showLocalLogin(apiClient.serverId());
                 }
 
             }
@@ -565,7 +556,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return;
         }
 
-        // This must result in a call to either 
+        // This must result in a call to either
         // skinManager.loadUserSkin();
         // Logout
         // Or exit app

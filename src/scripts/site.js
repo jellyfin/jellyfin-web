@@ -375,12 +375,12 @@ var Dashboard = {
             autoFocus: !1,
             roles: "admin"
         }), defineRoute({
-            path: "/connectlogin.html",
+            path: "/addserver.html",
             dependencies: ["emby-button", "emby-input"],
             autoFocus: !1,
             anonymous: !0,
             startup: !0,
-            controller: "scripts/connectlogin"
+            controller: "scripts/addserver"
         }), defineRoute({
             path: "/dashboard.html",
             dependencies: [],
