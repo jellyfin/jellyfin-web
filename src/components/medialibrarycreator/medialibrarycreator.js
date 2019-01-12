@@ -43,7 +43,7 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
 
     function getCollectionTypeOptionsHtml(collectionTypeOptions) {
         return collectionTypeOptions.filter(function(i) {
-            return !1 !== i.isSelectable
+            return i.isSelectable
         }).map(function(i) {
             return '<option value="' + i.value + '">' + i.name + "</option>"
         }).join("")
@@ -53,9 +53,15 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
         $("#selectCollectionType", page).html(getCollectionTypeOptionsHtml(collectionTypeOptions)).val("").on("change", function() {
             var value = this.value,
                 dlg = $(this).parents(".dialog")[0];
-            if (libraryoptionseditor.setContentType(dlg.querySelector(".libraryOptions"), "mixed" == value ? "" : value), value ? dlg.querySelector(".libraryOptions").classList.remove("hide") : dlg.querySelector(".libraryOptions").classList.add("hide"), "mixed" != value) {
+            libraryoptionseditor.setContentType(dlg.querySelector(".libraryOptions"), value == "mixed" ? "" : value);
+            if (value)
+                dlg.querySelector(".libraryOptions").classList.remove("hide");
+            else
+                dlg.querySelector(".libraryOptions").classList.add("hide");
+
+            if (value != "mixed") {
                 var index = this.selectedIndex;
-                if (-1 != index) {
+                if (index != -1) {
                     var name = this.options[index].innerHTML.replace("*", "").replace("&amp;", "&");
                     $("#txtValue", dlg).val(name);
                     var folderOption = collectionTypeOptions.filter(function(i) {
@@ -77,7 +83,7 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
         require(["directorybrowser"], function(directoryBrowser) {
             var picker = new directoryBrowser;
             picker.show({
-                enableNetworkSharePath: !0,
+                enableNetworkSharePath: true,
                 callback: function(path, networkSharePath) {
                     path && addMediaLocation(page, path, networkSharePath), picker.close()
                 }
@@ -119,6 +125,8 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
     }
 
     function onDialogClosed() {
+        // I can't see any corresponding call to loading.show,
+        // so I think this is not supposed to be here.
         loading.hide();
         currentResolve(hasChanges);
     }
@@ -132,20 +140,33 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
     function editor() {
         this.show = function(options) {
             return new Promise(function(resolve, reject) {
-                currentOptions = options, currentResolve = resolve, hasChanges = !1;
+                currentOptions = options, currentResolve = resolve, hasChanges = false;
                 var xhr = new XMLHttpRequest;
-                xhr.open("GET", "components/medialibrarycreator/medialibrarycreator.template.html", !0), xhr.onload = function(e) {
+                xhr.open("GET", "components/medialibrarycreator/medialibrarycreator.template.html", true);
+                xhr.onload = function(e) {
                     var template = this.response,
                         dlg = dialogHelper.createDialog({
                             size: "medium-tall",
                             modal: false,
-                            removeOnClose: !0,
-                            scrollY: !1
+                            removeOnClose: true,
+                            scrollY: false
                         });
-                    dlg.classList.add("ui-body-a"), dlg.classList.add("background-theme-a"), dlg.classList.add("dlg-librarycreator"), dlg.classList.add("formDialog"), dlg.innerHTML = Globalize.translateDocument(template), initEditor(dlg, options.collectionTypeOptions), dlg.addEventListener("close", onDialogClosed), dialogHelper.open(dlg), dlg.querySelector(".btnCancel").addEventListener("click", function() {
+                    dlg.classList.add("ui-body-a");
+                    dlg.classList.add("background-theme-a");
+                    dlg.classList.add("dlg-librarycreator");
+                    dlg.classList.add("formDialog");
+                    dlg.innerHTML = Globalize.translateDocument(template);
+                    initEditor(dlg, options.collectionTypeOptions);
+                    dlg.addEventListener("close", onDialogClosed);
+                    dialogHelper.open(dlg);
+                    dlg.querySelector(".btnCancel").addEventListener("click", function() {
                         dialogHelper.close(dlg)
-                    }), pathInfos = [], renderPaths(dlg), initLibraryOptions(dlg)
-                }, xhr.send()
+                    });
+                    pathInfos = [];
+                    renderPaths(dlg);
+                    initLibraryOptions(dlg);
+                };
+                xhr.send();
             })
         }
     }
