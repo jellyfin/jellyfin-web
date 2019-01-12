@@ -665,6 +665,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
         return page.canGoBack();
     }
+
+    function showDirect(path) {
+        return new Promise(function(resolve, reject) {
+            resolveOnNextShow = resolve, page.show(baseUrl()+path)
+        })
+    }
+
     function show(path, options) {
 
         if (path.indexOf('/') !== 0 && path.indexOf('://') === -1) {
@@ -869,6 +876,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     appRouter.param = param;
     appRouter.back = back;
     appRouter.show = show;
+    appRouter.showDirect = showDirect;
     appRouter.start = start;
     appRouter.baseUrl = baseUrl;
     appRouter.canGoBack = canGoBack;
