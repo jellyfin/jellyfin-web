@@ -866,7 +866,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     ServerId: serverId,
                     Name: name,
                     Type: item.Type,
-                    IsFolder: true
+                    IsFolder: item.IsFolder
                 }));
             }
 
