@@ -3,7 +3,14 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
     "use strict";
     return function(view, params, tabContent, options) {
         function onViewStyleChange() {
-            "List" == self.getCurrentViewStyle() ? (itemsContainer.classList.add("vertical-list"), itemsContainer.classList.remove("vertical-wrap")) : (itemsContainer.classList.remove("vertical-list"), itemsContainer.classList.add("vertical-wrap")), itemsContainer.innerHTML = ""
+            if (self.getCurrentViewStyle() == "List") {
+                itemsContainer.classList.add("vertical-list");
+                itemsContainer.classList.remove("vertical-wrap");
+            } else {
+                itemsContainer.classList.remove("vertical-list");
+                itemsContainer.classList.add("vertical-wrap");
+            }
+            itemsContainer.innerHTML = "";
         }
 
         function updateFilterControls() {
@@ -101,15 +108,27 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
         }
 
         function initPage(tabContent) {
-            itemsContainer.fetchData = fetchData, itemsContainer.getItemsHtml = getItemsHtml, itemsContainer.afterRefresh = afterRefresh;
+            itemsContainer.fetchData = fetchData;
+            itemsContainer.getItemsHtml = getItemsHtml;
+            itemsContainer.afterRefresh = afterRefresh;
             var alphaPickerElement = tabContent.querySelector(".alphaPicker");
-            alphaPickerElement && (alphaPickerElement.addEventListener("alphavaluechanged", function(e) {
-                var newValue = e.detail.value;
-                query.NameStartsWithOrGreater = newValue, query.StartIndex = 0, itemsContainer.refreshItems()
-            }), self.alphaPicker = new alphaPicker({
-                element: alphaPickerElement,
-                valueChangeEvent: "click"
-            }), (layoutManager.desktop || layoutManager.mobile) && (alphaPickerElement.classList.add("alphabetPicker-right"), itemsContainer.classList.remove("padded-left-withalphapicker"), itemsContainer.classList.add("padded-right-withalphapicker")));
+            if (alphaPickerElement) {
+                alphaPickerElement.addEventListener("alphavaluechanged", function(e) {
+                    var newValue = e.detail.value;
+                    query.NameStartsWithOrGreater = newValue;
+                    query.StartIndex = 0;
+                    itemsContainer.refreshItems();
+                });
+                self.alphaPicker = new alphaPicker({
+                    element: alphaPickerElement,
+                    valueChangeEvent: "click"
+                });
+                if (layoutManager.desktop || layoutManager.mobile) {
+                    alphaPickerElement.classList.add("alphabetPicker-right");
+                    itemsContainer.classList.remove("padded-left-withalphapicker");
+                    itemsContainer.classList.add("padded-right-withalphapicker");
+                }
+            }
             var btnFilter = tabContent.querySelector(".btnFilter");
             btnFilter && btnFilter.addEventListener("click", function() {
                 self.showFilterMenu()
@@ -157,7 +176,10 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                 libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), "Banner,List,Poster,PosterCard,Thumb,ThumbCard".split(","))
             }), btnSelectView.addEventListener("layoutchange", function(e) {
                 var viewStyle = e.detail.viewStyle;
-                userSettings.set(savedViewKey, viewStyle), query.StartIndex = 0, onViewStyleChange(), itemsContainer.refreshItems()
+                userSettings.set(savedViewKey, viewStyle);
+                query.StartIndex = 0;
+                onViewStyleChange();
+                itemsContainer.refreshItems();
             })
         }
         var self = this,
@@ -190,13 +212,19 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     query.StartIndex = 0, itemsContainer.refreshItems()
                 }), filterDialog.show()
             })
-        }, self.getCurrentViewStyle = function() {
+        };
+        self.getCurrentViewStyle = function() {
             return userSettings.get(savedViewKey) || "Poster"
-        }, self.initTab = function() {
-            initPage(tabContent), onViewStyleChange()
-        }, self.renderTab = function() {
-            itemsContainer.refreshItems(), updateFilterControls()
-        }, self.destroy = function() {
+        };
+        self.initTab = function() {
+            initPage(tabContent);
+            onViewStyleChange();
+        };
+        self.renderTab = function() {
+            itemsContainer.refreshItems();
+            updateFilterControls();
+        };
+        self.destroy = function() {
             itemsContainer = null
         }
     }

@@ -4,20 +4,25 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
         function getPageData(context) {
             var key = getSavedQueryKey(context),
                 pageData = data[key];
-            return pageData || (pageData = data[key] = {
-                query: {
-                    SortBy: "SortName",
-                    SortOrder: "Ascending",
-                    IncludeItemTypes: "BoxSet",
-                    Recursive: !0,
-                    Fields: "PrimaryImageAspectRatio,SortName",
-                    ImageTypeLimit: 1,
-                    EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
-                    StartIndex: 0,
-                    Limit: pageSize
-                },
-                view: libraryBrowser.getSavedView(key) || "Poster"
-            }, pageData.query.ParentId = params.topParentId, libraryBrowser.loadSavedQueryValues(key, pageData.query)), pageData
+            if (!pageData) {
+                pageData = data[key] = {
+                    query: {
+                        SortBy: "SortName",
+                        SortOrder: "Ascending",
+                        IncludeItemTypes: "BoxSet",
+                        Recursive: true,
+                        Fields: "PrimaryImageAspectRatio,SortName",
+                        ImageTypeLimit: 1,
+                        EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
+                        StartIndex: 0,
+                        Limit: pageSize
+                    },
+                    view: libraryBrowser.getSavedView(key) || "Poster"
+                };
+                pageData.query.ParentId = params.topParentId;
+                libraryBrowser.loadSavedQueryValues(key, pageData.query);
+            }
+            return pageData;
         }
 
         function getQuery(context) {
