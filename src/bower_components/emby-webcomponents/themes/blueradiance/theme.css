@@ -302,11 +302,15 @@ html {
 }
 
 .mainDrawer {
-    background-color: #1c1c1c
+    background-color: rgba(0, 0, 0, .5)
+}
+
+.drawer-open {
+    background-color: #011432
 }
 
 .navMenuOption:hover {
-    background: #252528
+    background: rgba(221, 221, 221, 0.068)
 }
 
 .navMenuOption-selected {
