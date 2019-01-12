@@ -341,7 +341,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId() ? "" : " hide";
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><i class="md-icon">&#xE034;</i></button>';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><i class="md-icon">&#xE047;</i></button>';
-                btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && ession.TranscodingInfo.TranscodeReasons.length ? "" : " hide";
+                btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length ? "" : " hide";
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("ViewPlaybackInfo") + '"><i class="md-icon">&#xE88E;</i></button>';
                 btnCssClass = session.ServerId && -1 !== session.SupportedCommands.indexOf("DisplayMessage") && session.DeviceId !== connectionManager.deviceId() ? "" : " hide";
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("SendMessage") + '"><i class="md-icon">&#xE0C9;</i></button>';
