@@ -2,25 +2,43 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
     "use strict";
 
     function onSubmit(e) {
-        if (e.preventDefault(), e.stopPropagation(), 0 == pathInfos.length) return require(["alert"], function(alert) {
-            alert({
-                text: Globalize.translate("PleaseAddAtLeastOneFolder"),
-                type: "error"
-            })
-        }), !1;
-        var form = this,
-            dlg = $(form).parents(".dialog")[0],
-            name = $("#txtValue", form).val(),
-            type = $("#selectCollectionType", form).val();
-        "mixed" == type && (type = null);
-        var libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector(".libraryOptions"));
-        return libraryOptions.PathInfos = pathInfos, ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(function() {
-            hasChanges = !0, dialogHelper.close(dlg)
-        }, function() {
-            require(["toast"], function(toast) {
-                toast(Globalize.translate("ErrorAddingMediaPathToVirtualFolder"))
-            })
-        }), !1
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (isCreating) return false;
+
+        if (pathInfos.length == 0) {
+            require(["alert"], function(alert) {
+                alert({
+                    text: Globalize.translate("PleaseAddAtLeastOneFolder"),
+                    type: "error"
+                })
+            });
+        } else {
+            isCreating = true;
+            loading.show();
+
+            var form = this,
+                dlg = $(form).parents(".dialog")[0],
+                name = $("#txtValue", form).val(),
+                type = $("#selectCollectionType", form).val();
+            if (type == "mixed") type = null;
+            var libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector(".libraryOptions"));
+            libraryOptions.PathInfos = pathInfos;
+            ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(function() {
+                hasChanges = true;
+                isCreating = false;
+                loading.hide();
+                dialogHelper.close(dlg);
+            }, function() {
+                require(["toast"], function(toast) {
+                    toast(Globalize.translate("ErrorAddingMediaPathToVirtualFolder"))
+                })
+                isCreating = false;
+                loading.hide();
+            });
+        }
+        return false;
     }
 
     function getCollectionTypeOptionsHtml(collectionTypeOptions) {
@@ -101,7 +119,8 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
     }
 
     function onDialogClosed() {
-        loading.hide(), currentResolve(hasChanges)
+        loading.hide();
+        currentResolve(hasChanges);
     }
 
     function initLibraryOptions(dlg) {
@@ -119,7 +138,7 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
                     var template = this.response,
                         dlg = dialogHelper.createDialog({
                             size: "medium-tall",
-                            modal: !1,
+                            modal: false,
                             removeOnClose: !0,
                             scrollY: !1
                         });
@@ -130,6 +149,6 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
             })
         }
     }
-    var currentResolve, hasChanges, currentOptions, pathInfos = [];
+    var currentResolve, hasChanges, currentOptions, pathInfos = [], isCreating = false;
     return editor
 });
