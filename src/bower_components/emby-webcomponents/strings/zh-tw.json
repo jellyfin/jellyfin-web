@@ -438,6 +438,8 @@
   "MessageDownloadQueued": "需要下載",
   "MessageFileReadError": "There was an error reading the file. Please try again.",
   "MessageIfYouBlockedVoice": "如果您拒絕程式使用語音辨識，您將需要在重試之前再次設定",
+  "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
+  "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
   "MessageInvitationSentToNewUser": "An email has been sent to {0} inviting them to sign up with Jellyfin.",
   "MessageInvitationSentToUser": "An email has been sent to {0}, inviting them to accept your sharing invitation.",
   "MessageItemSaved": "Item saved.",

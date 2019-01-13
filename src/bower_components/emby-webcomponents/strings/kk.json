@@ -438,6 +438,8 @@
   "MessageDownloadQueued": "Жүктеп алу кезекте.",
   "MessageFileReadError": "Файл оқу кезінде қате орын алды. Әрекетті кейін қайталаңыз.",
   "MessageIfYouBlockedVoice": "Егер қолданбаға дауыстық қатынаудан бас тартсаңыз, қайта әрекеттенуіңізден алдынан қайта теңшеуіңіз қажет болады.",
+  "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
+  "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
   "MessageInvitationSentToNewUser": "Jellyfin үшін тіркелу шақыруыңыз, э-пошта {0} үшін жіберілді.",
   "MessageInvitationSentToUser": "Оларға ортақтасу шақыруыңызды қабылдау ұсынысымен, э-пошта {0} арнап жіберілді.",
   "MessageItemSaved": "Тармақ сақталды.",

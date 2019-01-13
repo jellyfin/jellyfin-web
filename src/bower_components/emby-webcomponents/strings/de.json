@@ -438,6 +438,8 @@
   "MessageDownloadQueued": "Download eingereiht.",
   "MessageFileReadError": "Es gab einen Fehler beim Lesen der Datei. Bitte versuche es erneut.",
   "MessageIfYouBlockedVoice": "Wenn du die Sprachsteuerung für die App nicht erlaubt hast, musst du dies vor einem erneuten Versuch ändern.",
+  "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
+  "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
   "MessageInvitationSentToNewUser": "Eine Email wurde an {0} mit einer Einladung zur Anmeldung an Jellyfin gesendet.",
   "MessageInvitationSentToUser": "Eine E-Mail mit der Einladung zum Sharing ist an {0} geschickt worden.",
   "MessageItemSaved": "Element gespeichert",

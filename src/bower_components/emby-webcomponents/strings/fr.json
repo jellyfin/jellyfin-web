@@ -438,6 +438,8 @@
   "MessageDownloadQueued": "Téléchargement mis en file d'attente.",
   "MessageFileReadError": "Une erreur est survenue lors de la lecture du fichier. Veuillez réessayer.",
   "MessageIfYouBlockedVoice": "Si vous avez supprimé l'accès par commande vocale à l'application, vous devrez le reconfigurer avant de réessayer.",
+  "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
+  "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
   "MessageInvitationSentToNewUser": "Un courriel a été envoyé à {0}, les invitant à s'inscrire à Jellyfin.",
   "MessageInvitationSentToUser": "Un courriel a été envoyé à {0} avec votre invitation de partage.",
   "MessageItemSaved": "Élément enregistré.",

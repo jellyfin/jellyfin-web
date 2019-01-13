@@ -438,6 +438,8 @@
   "MessageDownloadQueued": "Download in de wachtrij geplaatst.",
   "MessageFileReadError": "Er is een fout opgetreden bij het lezen van het bestand. Probeer het opnieuw.",
   "MessageIfYouBlockedVoice": "Als u spraak toegang uitgeschakeld heeft moet u dit opnieuw configureren voordat u verder gaat.",
+  "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
+  "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
   "MessageInvitationSentToNewUser": "Een email is verzonden naar {0} met een uitnodiging om aan te melden bij Jellyfin.",
   "MessageInvitationSentToUser": "Een email is verzonden naar {0} met een uitnodiging om uw uitnodiging te accepteren.",
   "MessageItemSaved": "Item opgeslagen.",

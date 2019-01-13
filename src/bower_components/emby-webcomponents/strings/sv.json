@@ -438,6 +438,8 @@
   "MessageDownloadQueued": "Nedladdning köad.",
   "MessageFileReadError": "Ett fel uppstod när filen lästes in. Var god försök igen.",
   "MessageIfYouBlockedVoice": "Om du nekade tillgång för röståtkomst till appen så behöver du konfigurerara om innan du försöker igen.",
+  "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
+  "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
   "MessageInvitationSentToNewUser": "Ett mail har skickats till {0} med en inbjudan att registrera sig med Jellyfin.",
   "MessageInvitationSentToUser": "Ett mail har skickats till {0}, med en bekfräftelse för att acceptera din delade inbjudan.",
   "MessageItemSaved": "Objektet har sparats.",
