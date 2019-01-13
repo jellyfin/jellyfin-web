@@ -22,6 +22,11 @@
             "sizes": "144x144",
             "src": "touchicon144.png",
             "type": "image/png"
+        },
+        {
+            "sizes": "256x256",
+            "src": "favicon.png",
+            "type": "image/png"
         }
     ],
     "related_applications": [{
