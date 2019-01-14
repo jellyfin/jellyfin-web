@@ -61,16 +61,11 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
                     text.push("<br/>");
                     text.push(globalize.translate("sharedcomponents#LabelReasonForTranscoding"));
-                    showTranscodeReasons = true;
+                    session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
+                        text.push(globalize.translate("sharedcomponents#" + transcodeReason));
+                    });
                 }
             }
-
-            if (showTranscodeReasons) {
-                session.TranscodingInfo.TranscodeReasons.forEach(function (t__e) {
-                    text.push(globalize.translate("sharedcomponents#" + t__e));
-                });
-            }
-
             alert({
                 text: text.join("<br/>"),
                 title: title
