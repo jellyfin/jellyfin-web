@@ -285,12 +285,73 @@ var Dashboard = {
     }
 
     function initRequireWithBrowser(browser) {
-        var bowerPath = getBowerPath(),
-            apiClientBowerPath = bowerPath + "/emby-apiclient",
-            embyWebComponentsBowerPath = bowerPath + "/emby-webcomponents";
-        "android" === self.appMode ? (define("filesystem", ["cordova/filesystem"], returnFirstDependency), define("cameraRoll", ["cordova/cameraroll"], returnFirstDependency)) : (define("filesystem", [embyWebComponentsBowerPath + "/filesystem"], returnFirstDependency), define("cameraRoll", [apiClientBowerPath + "/cameraroll"], returnFirstDependency)), window.IntersectionObserver && !browser.edge ? define("lazyLoader", [embyWebComponentsBowerPath + "/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency) : define("lazyLoader", [embyWebComponentsBowerPath + "/lazyloader/lazyloader-scroll"], returnFirstDependency), "android" === self.appMode ? define("shell", ["cordova/shell"], returnFirstDependency) : define("shell", [embyWebComponentsBowerPath + "/shell"], returnFirstDependency), "cordova" === self.appMode || "android" === self.appMode ? (define("apiclientcore", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency), define("apiclient", ["bower_components/emby-apiclient/apiclientex"], returnFirstDependency)) : define("apiclient", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency), "cordova" === self.appMode || "android" === self.appMode ? define("wakeOnLan", ["cordova/wakeonlan"], returnFirstDependency) : define("wakeOnLan", ["bower_components/emby-apiclient/wakeonlan"], returnFirstDependency), define("actionsheet", ["webActionSheet"], returnFirstDependency), "registerElement" in document ? define("registerElement", []) : browser.msie ? define("registerElement", [bowerPath + "/webcomponentsjs/webcomponents-lite.min.js"], returnFirstDependency) : define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency), "android" === self.appMode ? define("serverdiscovery", ["cordova/serverdiscovery"], returnFirstDependency) : "cordova" === self.appMode ? define("serverdiscovery", ["cordova/serverdiscovery"], returnFirstDependency) : define("serverdiscovery", [apiClientBowerPath + "/serverdiscovery"], returnFirstDependency), "cordova" === self.appMode && browser.iOSVersion && browser.iOSVersion < 11 ? define("imageFetcher", ["cordova/imagestore"], returnFirstDependency) : define("imageFetcher", [embyWebComponentsBowerPath + "/images/basicimagefetcher"], returnFirstDependency);
+        var bowerPath = getBowerPath();
+        var apiClientBowerPath = bowerPath + "/emby-apiclient";
+        var embyWebComponentsBowerPath = bowerPath + "/emby-webcomponents";
+
+        "android" === self.appMode
+            ? (define("filesystem", ["cordova/filesystem"], returnFirstDependency), define("cameraRoll", ["cordova/cameraroll"], returnFirstDependency))
+            : (define("filesystem", [embyWebComponentsBowerPath + "/filesystem"], returnFirstDependency), define("cameraRoll", [apiClientBowerPath + "/cameraroll"], returnFirstDependency));
+        window.IntersectionObserver && !browser.edge
+            ? define("lazyLoader", [embyWebComponentsBowerPath + "/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency)
+            : define("lazyLoader", [embyWebComponentsBowerPath + "/lazyloader/lazyloader-scroll"], returnFirstDependency);
+        "android" === self.appMode
+            ? define("shell", ["cordova/shell"], returnFirstDependency)
+            : define("shell", [embyWebComponentsBowerPath + "/shell"], returnFirstDependency);
+        "cordova" === self.appMode || "android" === self.appMode
+            ? (define("apiclientcore", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency), define("apiclient", ["bower_components/emby-apiclient/apiclientex"], returnFirstDependency))
+            : define("apiclient", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency)
+        "cordova" === self.appMode || "android" === self.appMode
+            ? define("wakeOnLan", ["cordova/wakeonlan"], returnFirstDependency)
+            : define("wakeOnLan", ["bower_components/emby-apiclient/wakeonlan"], returnFirstDependency);
+        define("actionsheet", ["webActionSheet"], returnFirstDependency);
+        "registerElement" in document
+            ? define("registerElement", [])
+            : browser.msie
+                ? define("registerElement", [bowerPath + "/webcomponentsjs/webcomponents-lite.min.js"], returnFirstDependency)
+                : define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
+        "android" === self.appMode
+            ? define("serverdiscovery", ["cordova/serverdiscovery"], returnFirstDependency)
+            : "cordova" === self.appMode
+                ? define("serverdiscovery", ["cordova/serverdiscovery"], returnFirstDependency)
+                : define("serverdiscovery", [apiClientBowerPath + "/serverdiscovery"], returnFirstDependency);
+        "cordova" === self.appMode && browser.iOSVersion && browser.iOSVersion < 11
+            ? define("imageFetcher", ["cordova/imagestore"], returnFirstDependency)
+            : define("imageFetcher", [embyWebComponentsBowerPath + "/images/basicimagefetcher"], returnFirstDependency);
+
         var preferNativeAlerts = browser.tv;
-        preferNativeAlerts && window.alert ? define("alert", [embyWebComponentsBowerPath + "/alert/nativealert"], returnFirstDependency) : define("alert", [embyWebComponentsBowerPath + "/alert/alert"], returnFirstDependency), defineResizeObserver(), define("dialog", [embyWebComponentsBowerPath + "/dialog/dialog"], returnFirstDependency), preferNativeAlerts && window.confirm ? define("confirm", [embyWebComponentsBowerPath + "/confirm/nativeconfirm"], returnFirstDependency) : define("confirm", [embyWebComponentsBowerPath + "/confirm/confirm"], returnFirstDependency), (preferNativeAlerts || browser.xboxOne) && window.confirm ? define("prompt", [embyWebComponentsBowerPath + "/prompt/nativeprompt"], returnFirstDependency) : define("prompt", [embyWebComponentsBowerPath + "/prompt/prompt"], returnFirstDependency), browser.tizen || browser.operaTv || browser.chromecast || browser.orsay || browser.web0s || browser.ps4 ? define("loading", [embyWebComponentsBowerPath + "/loading/loading-legacy"], returnFirstDependency) : define("loading", [embyWebComponentsBowerPath + "/loading/loading-lite"], returnFirstDependency), define("multi-download", [embyWebComponentsBowerPath + "/multidownload"], returnFirstDependency), "android" === self.appMode ? define("fileDownloader", ["cordova/filedownloader"], returnFirstDependency) : define("fileDownloader", [embyWebComponentsBowerPath + "/filedownloader"], returnFirstDependency), define("localassetmanager", [apiClientBowerPath + "/localassetmanager"], returnFirstDependency), "cordova" === self.appMode || "android" === self.appMode ? define("castSenderApiLoader", [], getDummyCastSenderApiLoader) : define("castSenderApiLoader", [], getCastSenderApiLoader), self.Windows ? (define("bgtaskregister", ["environments/windows-uwp/bgtaskregister"], returnFirstDependency), define("transfermanager", ["environments/windows-uwp/transfermanager"], returnFirstDependency), define("filerepository", ["environments/windows-uwp/filerepository"], returnFirstDependency)) : "cordova" === self.appMode ? (define("filerepository", ["cordova/filerepository"], returnFirstDependency), define("transfermanager", ["filerepository"], returnFirstDependency)) : "android" === self.appMode ? (define("transfermanager", ["cordova/transfermanager"], returnFirstDependency), define("filerepository", ["cordova/filerepository"], returnFirstDependency)) : (define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency), define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency)), "android" === self.appMode ? define("localsync", ["cordova/localsync"], returnFirstDependency) : define("localsync", [apiClientBowerPath + "/sync/localsync"], returnFirstDependency)
+        preferNativeAlerts && window.alert
+            ? define("alert", [embyWebComponentsBowerPath + "/alert/nativealert"], returnFirstDependency)
+            : define("alert", [embyWebComponentsBowerPath + "/alert/alert"], returnFirstDependency);
+        defineResizeObserver();
+        define("dialog", [embyWebComponentsBowerPath + "/dialog/dialog"], returnFirstDependency);
+        preferNativeAlerts && window.confirm
+            ? define("confirm", [embyWebComponentsBowerPath + "/confirm/nativeconfirm"], returnFirstDependency)
+            : define("confirm", [embyWebComponentsBowerPath + "/confirm/confirm"], returnFirstDependency);
+        (preferNativeAlerts || browser.xboxOne) && window.confirm
+            ? define("prompt", [embyWebComponentsBowerPath + "/prompt/nativeprompt"], returnFirstDependency)
+            : define("prompt", [embyWebComponentsBowerPath + "/prompt/prompt"], returnFirstDependency);
+        browser.tizen || browser.operaTv || browser.chromecast || browser.orsay || browser.web0s || browser.ps4
+            ? define("loading", [embyWebComponentsBowerPath + "/loading/loading-legacy"], returnFirstDependency)
+            : define("loading", [embyWebComponentsBowerPath + "/loading/loading-lite"], returnFirstDependency);
+        define("multi-download", [embyWebComponentsBowerPath + "/multidownload"], returnFirstDependency);
+        "android" === self.appMode
+            ? define("fileDownloader", ["cordova/filedownloader"], returnFirstDependency)
+            : define("fileDownloader", [embyWebComponentsBowerPath + "/filedownloader"], returnFirstDependency);
+        define("localassetmanager", [apiClientBowerPath + "/localassetmanager"], returnFirstDependency);
+        "cordova" === self.appMode || "android" === self.appMode
+            ? define("castSenderApiLoader", [], getDummyCastSenderApiLoader)
+            : define("castSenderApiLoader", [], getCastSenderApiLoader);
+        self.Windows
+            ? (define("bgtaskregister", ["environments/windows-uwp/bgtaskregister"], returnFirstDependency), define("transfermanager", ["environments/windows-uwp/transfermanager"], returnFirstDependency), define("filerepository", ["environments/windows-uwp/filerepository"], returnFirstDependency))
+            : "cordova" === self.appMode
+                ? (define("filerepository", ["cordova/filerepository"], returnFirstDependency), define("transfermanager", ["filerepository"], returnFirstDependency))
+                : "android" === self.appMode
+                    ? (define("transfermanager", ["cordova/transfermanager"], returnFirstDependency), define("filerepository", ["cordova/filerepository"], returnFirstDependency))
+                    : (define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency), define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency));
+        "android" === self.appMode
+            ? define("localsync", ["cordova/localsync"], returnFirstDependency)
+            : define("localsync", [apiClientBowerPath + "/sync/localsync"], returnFirstDependency);
     }
 
     function getRequirePromise(deps) {
