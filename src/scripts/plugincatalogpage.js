@@ -22,7 +22,7 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-linkbutton", "
 
     function getHeaderText(category) {
         category = category.replace(" ", "");
-        
+
         if ("Channel" === category) {
             category = "Channels";
         } else if ("Theme" === category) {
