@@ -301,9 +301,6 @@ var Dashboard = {
         "cordova" === self.appMode || "android" === self.appMode
             ? (define("apiclientcore", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency), define("apiclient", ["bower_components/emby-apiclient/apiclientex"], returnFirstDependency))
             : define("apiclient", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency)
-        "cordova" === self.appMode || "android" === self.appMode
-            ? define("wakeOnLan", ["cordova/wakeonlan"], returnFirstDependency)
-            : define("wakeOnLan", ["bower_components/emby-apiclient/wakeonlan"], returnFirstDependency);
         define("actionsheet", ["webActionSheet"], returnFirstDependency);
         "registerElement" in document
             ? define("registerElement", [])

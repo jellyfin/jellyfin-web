@@ -146,11 +146,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                 name: globalize.translate("sharedcomponents#Delete"),
                 id: "delete"
             });
-            var apiClient = connectionManager.getApiClient(server.Id);
-            apiClient && apiClient.supportsWakeOnLan() && menuItems.push({
-                name: globalize.translate("sharedcomponents#WakeServer"),
-                id: "wol"
-            }), actionSheet.show({
+            actionSheet.show({
                 items: menuItems,
                 title: server.Name
             }).then(function(id) {
@@ -160,47 +156,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                         break;
                     case "delete":
                         deleteServer(server);
-                        break;
-                    case "wol":
-                        sendWolPacket(server)
                 }
-            })
-        }
-
-        function sendWolPacket(server) {
-            var apiClient = connectionManager.getApiClient(server.Id);
-            require(["loadingDialog"], function(LoadingDialog) {
-                var dlg = new LoadingDialog({
-                    title: globalize.translate("sharedcomponents#HeaderWakeServer"),
-                    text: globalize.translate("sharedcomponents#AttemptingWakeServer")
-                });
-                dlg.show();
-                var afterWol = function() {
-                    setTimeout(function() {
-                        apiClient.getPublicSystemInfo().then(onWolSuccess.bind(dlg), onWolFail.bind(dlg))
-                    }, 12e3)
-                };
-                apiClient.wakeOnLan().then(afterWol, afterWol)
-            })
-        }
-
-        function onWolSuccess() {
-            var dlg = this;
-            dlg.hide(), dlg.destroy(), require(["alert"], function(alert) {
-                alert({
-                    text: globalize.translate("sharedcomponents#WakeServerSuccess"),
-                    title: globalize.translate("sharedcomponents#HeaderWakeServer")
-                })
-            })
-        }
-
-        function onWolFail() {
-            var dlg = this;
-            dlg.hide(), dlg.destroy(), require(["alert"], function(alert) {
-                alert({
-                    text: globalize.translate("sharedcomponents#WakeServerError"),
-                    title: globalize.translate("sharedcomponents#HeaderWakeServer")
-                })
             })
         }
 
@@ -216,7 +172,9 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
         var servers;
         layoutManager.desktop;
         (function() {
-            updatePageStyle(view, params), view.querySelector(".btnOfflineText").innerHTML = globalize.translate("sharedcomponents#HeaderMyDownloads"), appHost.supports("sync") && view.querySelector(".btnOffline").classList.remove("hide")
+            updatePageStyle(view, params);
+            view.querySelector(".btnOfflineText").innerHTML = globalize.translate("sharedcomponents#HeaderMyDownloads");
+            appHost.supports("sync") && view.querySelector(".btnOffline").classList.remove("hide");
         })();
         var backdropUrl = staticBackdrops.getRandomImageUrl();
         view.addEventListener("viewshow", function(e) {
