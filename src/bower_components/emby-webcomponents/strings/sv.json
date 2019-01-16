@@ -52,7 +52,6 @@
   "Books": "Böcker",
   "Box": "Omslag",
   "BoxRear": "Omslag (baksida)",
-  "Browse": "Bläddra",
   "BurnSubtitlesHelp": "Avgör ifall servern ska \"bränna in\" undertexterna under videokonverteringen, beroende på undertextsformatet. Att undvika inbränning av undertexter kommer att förbättra prestandan på servern. Välj Auto för att bränna image-baserade formats (ex. VOBSUB, PGS, SUB/IDX, etc.) as well as certain ASS/SSA undertexter.",
   "ButtonCancel": "Avbryt",
   "ButtonGotIt": "Ok",

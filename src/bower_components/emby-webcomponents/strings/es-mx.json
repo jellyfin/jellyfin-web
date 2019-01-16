@@ -52,7 +52,6 @@
   "Books": "Libros",
   "Box": "Caja",
   "BoxRear": "Reverso de caja",
-  "Browse": "Navegar",
   "BurnSubtitlesHelp": "Determina si el servidor debería quemar los subtitulos al convertir el video dependiendo en el formato de los subtitulos. Evitar los subtitulos quemados mejorara el rendimiento del servidor. Elija \"Auto\" para quemar los formatos basados en imágenes (por ejemplo VOBSUB, PGS, SUB/IDX, etc.) así como ciertos subtitulos ASS/SSA",
   "ButtonCancel": "Cancelar",
   "ButtonGotIt": "Hecho",

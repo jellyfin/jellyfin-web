@@ -52,7 +52,6 @@
   "Books": "书籍",
   "Box": "Box",
   "BoxRear": "Box (rear)",
-  "Browse": "浏览",
   "BurnSubtitlesHelp": "根据字幕格式确定服务器在转换视频时是否应烧录字幕。避免烧录字幕会提高服务器性能。选择“自动”以烧录基于图像的字幕格式（如 VOBSUB, PGS, SUB/IDX 等）和一些复杂的 ASS/SSA 字幕。",
   "ButtonCancel": "取消",
   "ButtonGotIt": "知道了",

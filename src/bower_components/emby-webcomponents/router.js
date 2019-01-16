@@ -728,10 +728,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function getRouteUrl(item, options) {
-
-        if (item === 'downloads') {
-            return 'offline/offline.html';
-        }
         if (item === 'managedownloads') {
             return 'offline/managedownloads.html';
         }

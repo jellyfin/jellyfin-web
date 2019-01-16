@@ -52,7 +52,6 @@
   "Books": "Książki",
   "Box": "Pudełko",
   "BoxRear": "Pudełko (tył)",
-  "Browse": "Przeglądaj",
   "BurnSubtitlesHelp": "Określa czy serwer powinien wypalać napisy podczas konwersji wideo, w zależności od formatu napisów. Unikanie wypalania napisów poprawia wydajność serwera. Wybierz Automatycznie, w celu wypalania zarówno napisów w formatach graficznych (np. VOBSUB, PGS, SUB/IDX, itp.), jak i pewnych napisów ASS/SSA.",
   "ButtonCancel": "Anuluj",
   "ButtonGotIt": "Rozumiem",

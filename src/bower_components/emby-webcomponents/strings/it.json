@@ -52,7 +52,6 @@
   "Books": "Libri",
   "Box": "Box",
   "BoxRear": "Box (retro)",
-  "Browse": "Esplora",
   "BurnSubtitlesHelp": "Determina se il server deve applicare i sottotitoli quando si converte i video in base al formato dei sottotitoli. Evitando di applicare i sottotitoli migliorerà le prestazioni del server. Selezionare Auto per applicare formati basati sull'immagine (ad esempio VOBSUB, PGS, SUB / IDX, ecc.) così come alcuni sottotitoli ASS / SSA",
   "ButtonCancel": "Annulla",
   "ButtonGotIt": "Ho capito",

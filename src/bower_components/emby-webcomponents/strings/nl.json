@@ -52,7 +52,6 @@
   "Books": "Boeken",
   "Box": "Box",
   "BoxRear": "Box (achterkant)",
-  "Browse": "Bladeren",
   "BurnSubtitlesHelp": "Bepaalt of de server ondertitels moet inbranden wanneer video's op basis van het ondertitel formaat geconverteerd moeten worden. Inbranden van ondertitels hebben een negatief effect op de server performance. Selecteer Automatisch om op afbeelding gebaseerde formaten (bijv. VOBSUB, PGS, SUB/IDX etc.) en bepaalde ASS/SSA ondertitels in te branden.",
   "ButtonCancel": "Annuleren",
   "ButtonGotIt": "Begrepen",

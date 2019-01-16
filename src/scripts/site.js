@@ -671,13 +671,6 @@ var Dashboard = {
             transition: "fade",
             controller: "scripts/myprofile"
         }), defineRoute({
-            path: "/offline/offline.html",
-            transition: "fade",
-            controller: "offline/offline",
-            dependencies: [],
-            anonymous: !0,
-            startup: !1
-        }), defineRoute({
             path: "/managedownloads.html",
             transition: "fade",
             controller: "scripts/managedownloads",
@@ -1136,7 +1129,6 @@ var Dashboard = {
                     serverId = item.ServerId || options.serverId;
                 if ("settings" === item) return "mypreferencesmenu.html";
                 if ("wizard" === item) return "wizardstart.html";
-                if ("downloads" === item) return "offline/offline.html";
                 if ("downloadsettings" === item) return "mysyncsettings.html";
                 if ("managedownloads" === item) return "managedownloads.html";
                 if ("manageserver" === item) return "dashboard.html";

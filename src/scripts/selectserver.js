@@ -171,17 +171,11 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
         }
         var servers;
         layoutManager.desktop;
-        (function() {
-            updatePageStyle(view, params);
-            view.querySelector(".btnOfflineText").innerHTML = globalize.translate("sharedcomponents#HeaderMyDownloads");
-            appHost.supports("sync") && view.querySelector(".btnOffline").classList.remove("hide");
-        })();
+        updatePageStyle(view, params);
         var backdropUrl = staticBackdrops.getRandomImageUrl();
         view.addEventListener("viewshow", function(e) {
             var isRestored = e.detail.isRestored;
             appRouter.setTitle(null), backdrop.setBackdrop(backdropUrl), isRestored || (loadServers(), loadInvitations())
-        }), view.querySelector(".btnOffline").addEventListener("click", function(e) {
-            appRouter.show("/offline/offline.html")
         }), view.querySelector(".servers").addEventListener("click", function(e) {
             var card = dom.parentWithClass(e.target, "card");
             if (card) {

@@ -52,7 +52,6 @@
   "Books": "Livros",
   "Box": "Caixa",
   "BoxRear": "Caixa (traseira)",
-  "Browse": "Navegar",
   "BurnSubtitlesHelp": "Determina se o servidor deveria gravar as legendas no vídeo ao convertê-lo, dependendo do formato da legenda. Evitar a gravação da legenda irá melhorar a performance do servidor. Selecione Auto para gravar a imagem baseado nos formatos (ex. VOBSUB, PGS, SUB/IDX, etc.) assim como algumas legendas ASS/SSA.",
   "ButtonCancel": "Cancelar",
   "ButtonGotIt": "Feito",

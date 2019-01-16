@@ -52,7 +52,6 @@
   "Books": "Livres",
   "Box": "Boîtier",
   "BoxRear": "Dos de boîtier",
-  "Browse": "Parcourir",
   "BurnSubtitlesHelp": "Détermine si le serveur doit graver les sous-titres lors de la conversion vidéo en fonction du format des sous-titres. Éviter la gravure des sous-titres améliorera les performances du serveur. Sélectionnez Auto pour graver les formats basés sur l'image (par exemple, VOBSUB, PGS, SUB/IDX etc) ainsi que certains sous-titres ASS/SSA",
   "ButtonCancel": "Annuler",
   "ButtonGotIt": "Compris",

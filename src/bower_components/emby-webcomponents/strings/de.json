@@ -52,7 +52,6 @@
   "Books": "Bücher",
   "Box": "Box",
   "BoxRear": "Box (Rückseite)",
-  "Browse": "Blättern",
   "BurnSubtitlesHelp": "Legt fest, ob der Server die Untertitel basierend auf deren Format einbrennen soll während der Videokonvertierung. Die Vermeidung des Einbrennen von Untertiteln verbessert die Serverperformance. Wähle Auto, um Bildfomate (z.B. VOBSUB, PGS, SUB/IDX, etc.) sowie bestimmte ASS/SSA-Untertitel einbrennen zu lassen.",
   "ButtonCancel": "Abbrechen",
   "ButtonGotIt": "Verstanden",

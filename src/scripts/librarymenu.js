@@ -94,7 +94,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += '<h3 class="sidebarHeader">';
         html += globalize.translate("sharedcomponents#HeaderMyDownloads");
         html += "</h3>";
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="manageoffline" href="offline/offline.html"><i class="md-icon navMenuOptionIcon">&#xE2C7;</i><span class="navMenuOptionText">' + globalize.translate("sharedcomponents#Browse") + "</span></a>";
         html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="manageoffline" href="managedownloads.html"><i class="md-icon navMenuOptionIcon">&#xE254;</i><span class="navMenuOptionText">' + globalize.translate("sharedcomponents#Manage") + "</span></a>";
         html += "</div>";
         html += '<div class="libraryMenuOptions">';
