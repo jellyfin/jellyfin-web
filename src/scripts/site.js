@@ -671,23 +671,11 @@ var Dashboard = {
             transition: "fade",
             controller: "scripts/myprofile"
         }), defineRoute({
-            path: "/camerauploadsettings.html",
-            dependencies: [],
-            autoFocus: !1,
-            transition: "fade",
-            controller: "scripts/camerauploadsettings"
-        }), defineRoute({
             path: "/mysyncjob.html",
             dependencies: [],
             autoFocus: !1,
             transition: "fade",
             controller: "scripts/syncjob"
-        }), defineRoute({
-            path: "/mysyncsettings.html",
-            dependencies: ["emby-checkbox", "emby-input", "emby-button", "paper-icon-button-light"],
-            autoFocus: !1,
-            transition: "fade",
-            controller: "scripts/mysyncsettings"
         }), defineRoute({
             path: "/notificationsetting.html",
             dependencies: [],
@@ -1118,7 +1106,6 @@ var Dashboard = {
                     serverId = item.ServerId || options.serverId;
                 if ("settings" === item) return "mypreferencesmenu.html";
                 if ("wizard" === item) return "wizardstart.html";
-                if ("downloadsettings" === item) return "mysyncsettings.html";
                 if ("manageserver" === item) return "dashboard.html";
                 if ("recordedtv" === item) return "livetv.html?tab=3&serverId=" + options.serverId;
                 if ("nextup" === item) return "list/list.html?type=nextup&serverId=" + options.serverId;
