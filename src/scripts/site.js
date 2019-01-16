@@ -671,12 +671,6 @@ var Dashboard = {
             transition: "fade",
             controller: "scripts/myprofile"
         }), defineRoute({
-            path: "/mysync.html",
-            dependencies: [],
-            autoFocus: !1,
-            transition: "fade",
-            controller: "scripts/mysync"
-        }), defineRoute({
             path: "/camerauploadsettings.html",
             dependencies: [],
             autoFocus: !1,

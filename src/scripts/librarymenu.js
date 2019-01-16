@@ -113,7 +113,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         if (user.localUser) {
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkMySettings" href="mypreferencesmenu.html"><i class="md-icon navMenuOptionIcon">&#xE8B8;</i><span class="navMenuOptionText">' + globalize.translate("ButtonSettings") + "</span></a>";
         }
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkSyncToOtherDevices" data-itemid="syncotherdevices" href="mysync.html"><i class="md-icon navMenuOptionIcon">&#xE627;</i><span class="navMenuOptionText">' + globalize.translate("sharedcomponents#Sync") + "</span></a>";
         if (AppInfo.isNativeApp) {
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="md-icon navMenuOptionIcon">&#xE308;</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
         }
