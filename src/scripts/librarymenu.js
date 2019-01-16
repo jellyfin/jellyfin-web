@@ -90,12 +90,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         var html = "";
         html += '<div style="height:.5em;"></div>';
         html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><i class="md-icon navMenuOptionIcon">&#xE88A;</i><span class="navMenuOptionText">' + globalize.translate("ButtonHome") + "</span></a>";
-        html += '<div class="libraryMenuDownloads">';
-        html += '<h3 class="sidebarHeader">';
-        html += globalize.translate("sharedcomponents#HeaderMyDownloads");
-        html += "</h3>";
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="manageoffline" href="managedownloads.html"><i class="md-icon navMenuOptionIcon">&#xE254;</i><span class="navMenuOptionText">' + globalize.translate("sharedcomponents#Manage") + "</span></a>";
-        html += "</div>";
+
+        // libraries are added here
         html += '<div class="libraryMenuOptions">';
         html += "</div>";
 
