@@ -275,22 +275,10 @@
     function loadlibraryButtons(elem, apiClient, user, userSettings, userViews) {
         elem.classList.remove('verticalSection');
         var html = getLibraryButtonsHtml(userViews);
+
         elem.innerHTML = html;
-
         bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
-
-        if (infoHtml) {
-            bindAppInfoEvents(elem);
-        }
         imageLoader.lazyChildren(elem);
-    }
-
-    function bindAppInfoEvents(elem) {
-        elem.querySelector('.appInfoSection').addEventListener('click', function (e) {
-            if (dom.parentWithClass(e.target, 'card')) {
-                registrationServices.showPremiereInfo();
-            }
-        });
     }
 
     /**
@@ -524,11 +512,6 @@
 
         elem.innerHTML = html;
         bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
-
-        if (infoHtml) {
-            bindAppInfoEvents(elem);
-        }
-
         imageLoader.lazyChildren(elem);
     }
 
