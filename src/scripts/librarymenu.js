@@ -107,6 +107,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }
 
         html += '<div class="userMenuOptions">';
+        html += '<h3 class="sidebarHeader">';
+        html += globalize.translate("HeaderUser");
+        html += "</h3>";
         if (user.localUser) {
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkMySettings" href="mypreferencesmenu.html"><i class="md-icon navMenuOptionIcon">&#xE8B8;</i><span class="navMenuOptionText">' + globalize.translate("ButtonSettings") + "</span></a>";
         }
