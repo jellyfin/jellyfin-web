@@ -1,4 +1,4 @@
-define(["events", "appStorage", "wakeOnLan"], function(events, appStorage, wakeOnLan) {
+define(["events", "appStorage"], function(events, appStorage) {
     "use strict";
 
     function redetectBitrate(instance) {
@@ -201,36 +201,6 @@ define(["events", "appStorage", "wakeOnLan"], function(events, appStorage, wakeO
         ratio && (options.minScale && (ratio = Math.max(options.minScale, ratio)), options.width && (options.width = Math.round(options.width * ratio)), options.height && (options.height = Math.round(options.height * ratio)), options.maxWidth && (options.maxWidth = Math.round(options.maxWidth * ratio)), options.maxHeight && (options.maxHeight = Math.round(options.maxHeight * ratio))), options.quality = options.quality || instance.getDefaultImageQuality(options.type), instance.normalizeImageOptions && instance.normalizeImageOptions(options)
     }
 
-    function getCachedWakeOnLanInfo(instance) {
-        var serverId = instance.serverId(),
-            json = appStorage.getItem("server-" + serverId + "-wakeonlaninfo");
-        return json ? JSON.parse(json) : []
-    }
-
-    function refreshWakeOnLanInfoIfNeeded(instance) {
-        wakeOnLan.isSupported() && instance.accessToken() && !1 !== instance.enableAutomaticBitrateDetection && (console.log("refreshWakeOnLanInfoIfNeeded"), setTimeout(refreshWakeOnLanInfo.bind(instance), 1e4))
-    }
-
-    function refreshWakeOnLanInfo() {
-        var instance = this;
-        console.log("refreshWakeOnLanInfo"), instance.getWakeOnLanInfo().then(function(info) {
-            var serverId = instance.serverId();
-            return appStorage.setItem("server-" + serverId + "-wakeonlaninfo", JSON.stringify(info)), info
-        }, function(err) {
-            return []
-        })
-    }
-
-    function sendNextWakeOnLan(infos, index, resolve) {
-        if (index >= infos.length) return void resolve();
-        var info = infos[index];
-        console.log("sending wakeonlan to " + info.MacAddress), wakeOnLan.send(info).then(function(result) {
-            sendNextWakeOnLan(infos, index + 1, resolve)
-        }, function() {
-            sendNextWakeOnLan(infos, index + 1, resolve)
-        })
-    }
-
     function compareVersions(a, b) {
         a = a.split("."), b = b.split(".");
         for (var i = 0, length = Math.max(a.length, b.length); i < length; i++) {
@@ -266,7 +236,7 @@ define(["events", "appStorage", "wakeOnLan"], function(events, appStorage, wakeO
         }
         return this._serverAddress
     }, ApiClient.prototype.onNetworkChange = function() {
-        this.lastDetectedBitrate = 0, this.lastDetectedBitrateTime = 0, setSavedEndpointInfo(this, null), redetectBitrate(this), refreshWakeOnLanInfoIfNeeded(this)
+        this.lastDetectedBitrate = 0, this.lastDetectedBitrateTime = 0, setSavedEndpointInfo(this, null), redetectBitrate(this)
     }, ApiClient.prototype.getUrl = function(name, params, serverAddress) {
         if (!name) throw new Error("Url name cannot be empty");
         var url = serverAddress || this._serverAddress;
@@ -301,7 +271,7 @@ define(["events", "appStorage", "wakeOnLan"], function(events, appStorage, wakeO
         }
         return this.fetchWithFailover(request, !0)
     }, ApiClient.prototype.setAuthenticationInfo = function(accessKey, userId) {
-        this._currentUser = null, this._serverInfo.AccessToken = accessKey, this._serverInfo.UserId = userId, redetectBitrate(this), refreshWakeOnLanInfoIfNeeded(this)
+        this._currentUser = null, this._serverInfo.AccessToken = accessKey, this._serverInfo.UserId = userId, redetectBitrate(this)
     }, ApiClient.prototype.serverInfo = function(info) {
         return info && (this._serverInfo = info), this._serverInfo
     }, ApiClient.prototype.getCurrentUserId = function() {
@@ -360,7 +330,7 @@ define(["events", "appStorage", "wakeOnLan"], function(events, appStorage, wakeO
                 contentType: "application/json"
             }).then(function(result) {
                 var afterOnAuthenticated = function() {
-                    redetectBitrate(instance), refreshWakeOnLanInfoIfNeeded(instance), resolve(result)
+                    redetectBitrate(instance), resolve(result)
                 };
                 instance.onAuthenticated ? instance.onAuthenticated(instance, result).then(afterOnAuthenticated) : afterOnAuthenticated()
             }, reject)
@@ -1579,19 +1549,10 @@ define(["events", "appStorage", "wakeOnLan"], function(events, appStorage, wakeO
         return this.getJSON(this.getUrl("System/Endpoint")).then(function(endPointInfo) {
             return setSavedEndpointInfo(instance, endPointInfo), endPointInfo
         })
-    }, ApiClient.prototype.getWakeOnLanInfo = function() {
-        return this.getJSON(this.getUrl("System/WakeOnLanInfo"))
     }, ApiClient.prototype.getLatestItems = function(options) {
         return options = options || {}, this.getJSON(this.getUrl("Users/" + this.getCurrentUserId() + "/Items/Latest", options))
     }, ApiClient.prototype.getFilters = function(options) {
         return this.getJSON(this.getUrl("Items/Filters2", options))
-    }, ApiClient.prototype.supportsWakeOnLan = function() {
-        return !!wakeOnLan.isSupported() && getCachedWakeOnLanInfo(this).length > 0
-    }, ApiClient.prototype.wakeOnLan = function() {
-        var infos = getCachedWakeOnLanInfo(this);
-        return new Promise(function(resolve, reject) {
-            sendNextWakeOnLan(infos, 0, resolve)
-        })
     }, ApiClient.prototype.setSystemInfo = function(info) {
         this._serverVersion = info.Version
     }, ApiClient.prototype.serverVersion = function() {
