@@ -117,7 +117,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="md-icon navMenuOptionIcon">&#xE308;</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
         }
         // null check for local user might not be required
-        if (user.localUser && user.localUser.EnableAutoLogin) {
+        if (user.localUser && !user.localUser.EnableAutoLogin) {
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="md-icon navMenuOptionIcon">&#xE879;</i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
         }
         html += "</div>";
