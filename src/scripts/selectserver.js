@@ -47,6 +47,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
     function showServerConnectionFailure() {
         alertText(globalize.translate("MessageUnableToConnectToServer"), globalize.translate("HeaderConnectionFailure"))
     }
+
     return function(view, params) {
         function connectToServer(server) {
             loading.show(), connectionManager.connectToServer(server, {
@@ -79,62 +80,6 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
             }, function() {
                 loading.hide(), loadServers()
             })
-        }
-
-        function acceptInvitation(id) {
-            loading.show(), connectionManager.acceptServer(id).then(function() {
-                loading.hide(), loadServers(), loadInvitations()
-            }, showGeneralError)
-        }
-
-        function rejectInvitation(id) {
-            loading.show(), connectionManager.rejectServer(id).then(function() {
-                loading.hide(), loadServers(), loadInvitations()
-            }, showGeneralError)
-        }
-
-        function showPendingInviteMenu(elem) {
-            var card = dom.parentWithClass(elem, "inviteItem"),
-                invitationId = card.getAttribute("data-id"),
-                menuItems = [];
-            menuItems.push({
-                name: globalize.translate("sharedcomponents#Accept"),
-                id: "accept"
-            }), menuItems.push({
-                name: globalize.translate("sharedcomponents#Reject"),
-                id: "reject"
-            }), require(["actionsheet"], function(actionsheet) {
-                actionsheet.show({
-                    items: menuItems,
-                    positionTo: elem,
-                    callback: function(id) {
-                        switch (id) {
-                            case "accept":
-                                acceptInvitation(invitationId);
-                                break;
-                            case "reject":
-                                rejectInvitation(invitationId)
-                        }
-                    }
-                })
-            })
-        }
-
-        function getPendingInviteHtml(item) {
-            var cardBoxCssClass = "cardBox";
-            layoutManager.tv && (cardBoxCssClass += " cardBox-focustransform");
-            var innerOpening = '<div class="' + cardBoxCssClass + '">';
-            return '<button raised class="card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable btnInviteMenu inviteItem" style="display:inline-block;" data-id="' + item.Id + '">' + innerOpening + '<div class="cardScalable card-focuscontent"><div class="cardPadder cardPadder-square"></div><div class="cardContent"><div class="cardImageContainer coveredImage" style="background:#0288D1;border-radius:.15em;"><i class="cardImageIcon md-icon">&#xE1BA;</i></div></div></div><div class="cardFooter"><div class="cardText cardTextCentered">' + item.Name + "</div></div></div></button>"
-        }
-
-        function renderInvitations(list) {
-            list.length ? view.querySelector(".invitationSection").classList.remove("hide") : view.querySelector(".invitationSection").classList.add("hide");
-            var html = list.map(getPendingInviteHtml).join("");
-            view.querySelector(".invitations").innerHTML = html
-        }
-
-        function loadInvitations() {
-            connectionManager.isLoggedIntoConnect() ? connectionManager.getUserInvitations().then(renderInvitations) : renderInvitations([])
         }
 
         function onServerClick(server) {
@@ -175,7 +120,9 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
         var backdropUrl = staticBackdrops.getRandomImageUrl();
         view.addEventListener("viewshow", function(e) {
             var isRestored = e.detail.isRestored;
-            appRouter.setTitle(null), backdrop.setBackdrop(backdropUrl), isRestored || (loadServers(), loadInvitations())
+            appRouter.setTitle(null);
+            backdrop.setBackdrop(backdropUrl);
+            isRestored || loadServers();
         }), view.querySelector(".servers").addEventListener("click", function(e) {
             var card = dom.parentWithClass(e.target, "card");
             if (card) {
@@ -188,9 +135,6 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                     })[0])
                 }
             }
-        }), view.querySelector(".invitations").addEventListener("click", function(e) {
-            var btnInviteMenu = dom.parentWithClass(e.target, "btnInviteMenu");
-            btnInviteMenu && showPendingInviteMenu(btnInviteMenu)
         })
     }
 });
