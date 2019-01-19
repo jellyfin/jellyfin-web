@@ -10,6 +10,12 @@ define([], function () {
             // options.path
             // options.arguments
             return Promise.reject();
+        },
+        enableFullscreen: function () {
+            // do nothing since this is for native apps
+        },
+        disableFullscreen: function () {
+            // do nothing since this is for native apps
         }
     };
 });
