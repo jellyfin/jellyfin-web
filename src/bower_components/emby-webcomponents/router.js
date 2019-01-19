@@ -70,6 +70,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             case 'ServerSelection':
                 appRouter.showSelectServer();
                 break;
+            case 'ConnectSignIn':
+                appRouter.showWelcome();
+                break;
             case 'ServerUpdateNeeded':
                 require(['alert'], function (alert) {
                     alert({

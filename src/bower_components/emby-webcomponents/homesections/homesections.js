@@ -145,10 +145,10 @@
             loadRecentlyAdded(elem, apiClient, user, userViews);
         }
         else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
-            return loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews, allSections);
+            loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews, allSections);
         }
         else if (section === 'librarybuttons') {
-            return loadlibraryButtons(elem, apiClient, user, userSettings, userViews, allSections);
+            loadlibraryButtons(elem, apiClient, user, userSettings, userViews, allSections);
         }
         else if (section === 'resume') {
             loadResumeVideo(elem, apiClient, userId);
