@@ -104,7 +104,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function bindMenuEvents() {
-        if (mainDrawerButton = document.querySelector(".mainDrawerButton")) {
+        var mainDrawerButton = document.querySelector(".mainDrawerButton");
+
+        if (mainDrawerButton) {
             mainDrawerButton.addEventListener("click", toggleMainDrawer);
         }
 
@@ -254,7 +256,11 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
             var pageUrls = link.getAttribute("data-pageurls");
 
-            if (pageUrls && (pageUrls = pageUrls.split("|"), selected = pageUrls.filter(isUrlInCurrentView).length > 0), selected) {
+            if (pageUrls) {
+                pageUrls = pageUrls.split("|");
+                selected = pageUrls.filter(isUrlInCurrentView).length > 0;
+            }
+            if (selected) {
                 link.classList.add("navMenuOption-selected");
                 var title = "";
                 link = link.querySelector("span") || link;
@@ -433,31 +439,29 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         menuHtml += '<span class="navMenuOptionText">';
         menuHtml += item.name;
         menuHtml += "</span>";
-        return menuHtml += "</a>";
+        return menuHtml + "</a>";
     }
 
     function getToolsMenuHtml(apiClient) {
         return getToolsMenuLinks(apiClient).then(function (items) {
-            var i;
-            var length;
             var item;
             var menuHtml = "";
 
-            for (menuHtml += '<div class="drawerContent">', i = 0, length = items.length; i < length; i++) {
+            menuHtml += '<div class="drawerContent">';
+            for (var i = 0; i < items.length; i++) {
                 item = items[i];
 
                 if (item.href) {
                     menuHtml += getToolsLinkHtml(item);
-                } else {
-                    if (item.name) {
-                        menuHtml += '<h3 class="sidebarHeader">';
-                        menuHtml += item.name;
-                        menuHtml += "</h3>";
-                    }
+                }
+                else if (item.name) {
+                    menuHtml += '<h3 class="sidebarHeader">';
+                    menuHtml += item.name;
+                    menuHtml += "</h3>";
                 }
             }
 
-            return menuHtml += "</div>";
+            return menuHtml + "</div>";
         });
     }
 
@@ -487,7 +491,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             for (var i = 0, length = items.length; i < length; i++) {
                 var view = items[i];
 
-                if (list.push(view), "livetv" == view.CollectionType) {
+                list.push(view);
+                if ("livetv" == view.CollectionType) {
                     view.ImageTags = {};
                     view.icon = "live_tv";
                     var guideView = Object.assign({}, view);
@@ -509,28 +514,34 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         if (elem) {
             if (show) {
                 elem.classList.remove("hide");
-            } else {
+            }
+            else {
                 elem.classList.add("hide");
             }
         }
     }
 
     function updateLibraryMenu(user) {
+        // FIXME: Potential equivalent might be
+        // showBySelector(".lnkSyncToOtherDevices", !!user.Policy.EnableContentDownloading);
         if (!user) {
             showBySelector(".libraryMenuDownloads", false);
             showBySelector(".lnkSyncToOtherDevices", false);
             return void showBySelector(".userMenuOptions", false);
         }
 
+        // FIXME: Potentially the same as above
         if (user.Policy.EnableContentDownloading) {
             showBySelector(".lnkSyncToOtherDevices", true);
-        } else {
+        }
+        else {
             showBySelector(".lnkSyncToOtherDevices", false);
         }
 
         if (user.Policy.EnableContentDownloading && appHost.supports("sync")) {
             showBySelector(".libraryMenuDownloads", true);
-        } else {
+        }
+        else {
             showBySelector(".libraryMenuDownloads", false);
         }
 
@@ -549,38 +560,38 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                     var icon = "folder";
                     var itemId = i.Id;
 
-                    if ("channels" == i.CollectionType) {
+                    if ("channels" === i.CollectionType) {
                         itemId = "channels";
                     }
-                    else if ("livetv" == i.CollectionType) {
+                    else if ("livetv" === i.CollectionType) {
                         itemId = "livetv";
                     }
 
-                    else if ("photos" == i.CollectionType) {
+                    else if ("photos" === i.CollectionType) {
                         icon = "photo_library";
                     }
-                    else if ("music" == i.CollectionType || "musicvideos" == i.CollectionType) {
+                    else if ("music" === i.CollectionType || "musicvideos" === i.CollectionType) {
                         icon = "library_music";
                     }
-                    else if ("books" == i.CollectionType) {
+                    else if ("books" === i.CollectionType) {
                         icon = "library_books";
                     }
-                    else if ("playlists" == i.CollectionType) {
+                    else if ("playlists" === i.CollectionType) {
                         icon = "view_list";
                     }
-                    else if ("games" == i.CollectionType) {
+                    else if ("games" === i.CollectionType) {
                         icon = "games";
                     }
-                    else if ("movies" == i.CollectionType) {
+                    else if ("movies" === i.CollectionType) {
                         icon = "video_library";
                     }
-                    else if ("channels" == i.CollectionType || "Channel" == i.Type) {
+                    else if ("channels" === i.CollectionType || "Channel" === i.Type) {
                         icon = "videocam";
                     }
-                    else if ("tvshows" == i.CollectionType) {
+                    else if ("tvshows" === i.CollectionType) {
                         icon = "tv";
                     }
-                    else if ("livetv" == i.CollectionType) {
+                    else if ("livetv" === i.CollectionType) {
                         icon = "live_tv";
                     }
                     icon = i.icon || icon;
@@ -643,23 +654,23 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         var id = isLiveTvPage || isChannelsPage || isEditorPage || isMySyncPage || page.classList.contains("allLibraryPage") ? "" : getTopParentId() || "";
         var elems = document.getElementsByClassName("lnkMediaFolder");
 
-        for (i = 0, length = elems.length; i < length; i++) {
+        for (var i = 0, length = elems.length; i < length; i++) {
             var lnkMediaFolder = elems[i];
             var itemId = lnkMediaFolder.getAttribute("data-itemid");
 
-            if (isChannelsPage && "channels" == itemId) {
+            if (isChannelsPage && "channels" === itemId) {
                 lnkMediaFolder.classList.add("navMenuOption-selected");
             }
-            else if (isLiveTvPage && "livetv" == itemId) {
+            else if (isLiveTvPage && "livetv" === itemId) {
                 lnkMediaFolder.classList.add("navMenuOption-selected");
             }
-            else if (isEditorPage && "editor" == itemId) {
+            else if (isEditorPage && "editor" === itemId) {
                 lnkMediaFolder.classList.add("navMenuOption-selected");
             }
-            else if (isMySyncPage && "manageoffline" == itemId && -1 != window.location.href.toString().indexOf("mode=download")) {
+            else if (isMySyncPage && "manageoffline" === itemId && -1 != window.location.href.toString().indexOf("mode=download")) {
                 lnkMediaFolder.classList.add("navMenuOption-selected");
             }
-            else if (isMySyncPage && "syncotherdevices" == itemId && -1 == window.location.href.toString().indexOf("mode=download")) {
+            else if (isMySyncPage && "syncotherdevices" === itemId && -1 == window.location.href.toString().indexOf("mode=download")) {
                 lnkMediaFolder.classList.add("navMenuOption-selected");
             }
             else if (id && itemId == id) {
@@ -724,16 +735,15 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
         if (title) {
             LibraryMenu.setTitle(title);
-        } else {
-            if (page.classList.contains("standalonePage")) {
-                LibraryMenu.setDefaultTitle();
-            }
+        }
+        else if (page.classList.contains("standalonePage")) {
+            LibraryMenu.setDefaultTitle();
         }
     }
 
     function updateBackButton(page) {
         var isDashboardPage = page.classList.contains("type-interior");
-        
+
         if (!headerBackButton) {
             headerBackButton = document.querySelector(".headerBackButton");
         }
@@ -756,10 +766,14 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     function refreshLibraryDrawer(user) {
         loadNavDrawer();
         currentDrawerType = "library";
-        (user ? Promise.resolve(user) : connectionManager.user(getCurrentApiClient())).then(function (user) {
-            refreshLibraryInfoInDrawer(user);
-            updateLibraryMenu(user.localUser);
-        });
+        if (user) {
+            Promise.resolve(user);
+        } else {
+            connectionManager.user(getCurrentApiClient()).then(function (user) {
+                refreshLibraryInfoInDrawer(user);
+                updateLibraryMenu(user.localUser);
+            });
+        }
     }
 
     function getNavDrawerOptions() {
