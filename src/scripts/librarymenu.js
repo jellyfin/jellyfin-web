@@ -104,7 +104,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function bindMenuEvents() {
-         if (mainDrawerButton = document.querySelector(".mainDrawerButton")) {
+        mainDrawerButton = document.querySelector(".mainDrawerButton");
+        if (mainDrawerButton) {
             mainDrawerButton.addEventListener("click", toggleMainDrawer);
         }
 
