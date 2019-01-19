@@ -36,14 +36,19 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
 
         function reloadItems(page) {
             loading.show();
+            isLoading = true;
             var query = getQuery(page);
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function(result) {
                 function onNextPageClick() {
-                    query.StartIndex += query.Limit, reloadItems(tabContent)
+                    if (isLoading) return;
+                    query.StartIndex += query.Limit;
+                    reloadItems(tabContent);
                 }
 
                 function onPreviousPageClick() {
-                    query.StartIndex -= query.Limit, reloadItems(tabContent)
+                    if (isLoading) return;
+                    query.StartIndex -= query.Limit;
+                    reloadItems(tabContent);
                 }
                 window.scrollTo(0, 0), updateFilterControls(page);
                 var html, pagingHtml = libraryBrowser.getQueryPagingHtml({
@@ -103,7 +108,11 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                 for (elems = tabContent.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("click", onNextPageClick);
                 for (elems = tabContent.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("click", onPreviousPageClick);
                 var itemsContainer = tabContent.querySelector(".itemsContainer");
-                itemsContainer.innerHTML = html, imageLoader.lazyChildren(itemsContainer), libraryBrowser.saveQueryValues(getSavedQueryKey(page), query), loading.hide()
+                itemsContainer.innerHTML = html;
+                imageLoader.lazyChildren(itemsContainer);
+                libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
+                loading.hide();
+                isLoading = false;
             })
         }
 
@@ -113,7 +122,8 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
         }
         var self = this,
             pageSize = 100,
-            data = {};
+            data = {},
+            isLoading = false;
         self.showFilterMenu = function() {
                 require(["components/filterdialog/filterdialog"], function(filterDialogFactory) {
                     var filterDialog = new filterDialogFactory({
