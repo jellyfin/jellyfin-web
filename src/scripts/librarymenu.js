@@ -747,7 +747,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }
 
         if (headerBackButton) {
-            if ("false" !== !isDashboardPage && page.getAttribute("data-backbutton") && appRouter.canGoBack()) {
+            if (page.getAttribute("data-backbutton") && appRouter.canGoBack()) {
                 headerBackButton.classList.remove("hide");
             } else {
                 headerBackButton.classList.add("hide");
