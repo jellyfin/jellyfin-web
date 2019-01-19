@@ -122,7 +122,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
             var isRestored = e.detail.isRestored;
             appRouter.setTitle(null);
             backdrop.setBackdrop(backdropUrl);
-            isRestored || loadServers();
+            if (!isRestored) loadServers();
         }), view.querySelector(".servers").addEventListener("click", function(e) {
             var card = dom.parentWithClass(e.target, "card");
             if (card) {

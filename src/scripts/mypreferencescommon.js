@@ -16,14 +16,26 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-linkbutton"], fun
             page.querySelector(".lnkHomeScreenPreferences").setAttribute("href", "mypreferenceshome.html?userId=" + userId);
             page.querySelector(".lnkMyProfile").setAttribute("href", "myprofile.html?userId=" + userId);
 
-            appHost.supports("multiserver") ? page.querySelector(".selectServer").classList.remove("hide") : page.querySelector(".selectServer").classList.add("hide");
+            if (appHost.supports("multiserver")) {
+                page.querySelector(".selectServer").classList.remove("hide")
+            } else {
+                page.querySelector(".selectServer").classList.add("hide");
+            }
             connectionManager.user(ApiClient).then(function(user) {
-                user.localUser && !user.localUser.EnableAutoLogin ? view.querySelector(".btnLogout").classList.remove("hide") : view.querySelector(".btnLogout").classList.add("hide");
+                if (user.localUser && !user.localUser.EnableAutoLogin) {
+                    view.querySelector(".btnLogout").classList.remove("hide");
+                } else {
+                    view.querySelector(".btnLogout").classList.add("hide");
+                }
             });
 
             Dashboard.getCurrentUser().then(function(user) {
                 page.querySelector(".headerUser").innerHTML = user.Name;
-                user.Policy.IsAdministrator ? page.querySelector(".adminSection").classList.remove("hide") : page.querySelector(".adminSection").classList.add("hide");
+                if (user.Policy.IsAdministrator) {
+                    page.querySelector(".adminSection").classList.remove("hide");
+                } else {
+                    page.querySelector(".adminSection").classList.add("hide");
+                }
             });
         })
     }

@@ -307,11 +307,9 @@ var Dashboard = {
             : browser.msie
                 ? define("registerElement", [bowerPath + "/webcomponentsjs/webcomponents-lite.min.js"], returnFirstDependency)
                 : define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
-        "android" === self.appMode
+        "cordova" === self.appMode || "android" === self.appMode
             ? define("serverdiscovery", ["cordova/serverdiscovery"], returnFirstDependency)
-            : "cordova" === self.appMode
-                ? define("serverdiscovery", ["cordova/serverdiscovery"], returnFirstDependency)
-                : define("serverdiscovery", [apiClientBowerPath + "/serverdiscovery"], returnFirstDependency);
+            : define("serverdiscovery", [apiClientBowerPath + "/serverdiscovery"], returnFirstDependency);
         "cordova" === self.appMode && browser.iOSVersion && browser.iOSVersion < 11
             ? define("imageFetcher", ["cordova/imagestore"], returnFirstDependency)
             : define("imageFetcher", [embyWebComponentsBowerPath + "/images/basicimagefetcher"], returnFirstDependency);
