@@ -3,9 +3,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     var appRouter = {
         showLocalLogin: function (serverId, manualLogin) {
-
             var pageName = manualLogin ? 'manuallogin' : 'login';
-
             show('/startup/' + pageName + '.html?serverid=' + serverId);
         },
         showSelectServer: function () {
@@ -45,65 +43,45 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     };
 
     function beginConnectionWizard() {
-
         backdrop.clear();
-
         loading.show();
-
         connectionManager.connect({
-
             enableAutoLogin: appSettings.enableAutoLogin()
-
         }).then(function (result) {
             handleConnectionResult(result, loading);
         });
     }
 
     function handleConnectionResult(result, loading) {
-
         switch (result.State) {
-
             case 'SignedIn':
-                {
-                    loading.hide();
-                    skinManager.loadUserSkin();
-                }
+                loading.hide();
+                skinManager.loadUserSkin();
                 break;
             case 'ServerSignIn':
-                {
-                    result.ApiClient.getPublicUsers().then(function (users) {
-
-                        if (users.length) {
-                            appRouter.showLocalLogin(result.Servers[0].Id);
-                        } else {
-                            appRouter.showLocalLogin(result.Servers[0].Id, true);
-                        }
-                    });
-                }
+                result.ApiClient.getPublicUsers().then(function (users) {
+                    if (users.length) {
+                        appRouter.showLocalLogin(result.Servers[0].Id);
+                    } else {
+                        appRouter.showLocalLogin(result.Servers[0].Id, true);
+                    }
+                });
                 break;
             case 'ServerSelection':
-                {
-                    appRouter.showSelectServer();
-                }
+                appRouter.showSelectServer();
                 break;
             case 'ConnectSignIn':
-                {
-                    appRouter.showWelcome();
-                }
+                appRouter.showWelcome();
                 break;
             case 'ServerUpdateNeeded':
-                {
-                    require(['alert'], function (alert) {
-                        alert({
-
-                            text: globalize.translate('sharedcomponents#ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
-                            html: globalize.translate('sharedcomponents#ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
-
-                        }).then(function () {
-                            appRouter.showSelectServer();
-                        });
+                require(['alert'], function (alert) {
+                    alert({
+                        text: globalize.translate('sharedcomponents#ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
+                        html: globalize.translate('sharedcomponents#ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
+                    }).then(function () {
+                        appRouter.showSelectServer();
                     });
-                }
+                });
                 break;
             default:
                 break;
@@ -111,9 +89,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function loadContentUrl(ctx, next, route, request) {
-
         var url;
-
         if (route.contentPath && typeof (route.contentPath) === 'function') {
             url = route.contentPath(ctx.querystring);
         } else {
@@ -121,10 +97,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
 
         if (url.indexOf('://') === -1) {
-
             // Put a slash at the beginning but make sure to avoid a double slash
             if (url.indexOf('/') !== 0) {
-
                 url = '/' + url;
             }
 
@@ -136,26 +110,22 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
 
         require(['text!' + url], function (html) {
-
             loadContent(ctx, route, html, request);
         });
     }
 
     function handleRoute(ctx, next, route) {
-
         authenticate(ctx, route, function () {
             initRoute(ctx, next, route);
         });
     }
 
     function initRoute(ctx, next, route) {
-
         var onInitComplete = function (controllerFactory) {
             sendRouteToViewManager(ctx, next, route, controllerFactory);
         };
 
         require(route.dependencies || [], function () {
-
             if (route.controller) {
                 require([route.controller], onInitComplete);
             } else {
@@ -173,14 +143,12 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     var currentViewLoadRequest;
     function sendRouteToViewManager(ctx, next, route, controllerFactory) {
-
         if (isDummyBackToHome && route.type === 'home') {
             isDummyBackToHome = false;
             return;
         }
 
         cancelCurrentLoadRequest();
-
         var isBackNav = ctx.isBack;
 
         var currentRequest = {
@@ -201,9 +169,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         var onNewViewNeeded = function () {
             if (typeof route.path === 'string') {
-
                 loadContentUrl(ctx, next, route, currentRequest);
-
             } else {
                 // ? TODO
                 next();
@@ -226,7 +192,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             };
 
         }).catch(function (result) {
-
             if (!result || !result.cancelled) {
                 onNewViewNeeded();
             }
@@ -236,7 +201,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     var msgTimeout;
     var forcedLogoutMsg;
     function onForcedLogoutMessageTimeout() {
-
         var msg = forcedLogoutMsg;
         forcedLogoutMsg = null;
 
@@ -248,7 +212,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function showForcedLogoutMessage(msg) {
-
         forcedLogoutMsg = msg;
         if (msgTimeout) {
             clearTimeout(msgTimeout);
@@ -277,14 +240,12 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function onBeforeExit(e) {
-
         if (browser.web0s) {
             page.restorePreviousState();
         }
     }
 
     function normalizeImageOptions(options) {
-
         var scaleFactor = browser.tv ? 0.8 : 1;
 
         var setQuality;
@@ -331,9 +292,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function getMaxBandwidth() {
-
         if (navigator.connection) {
-
             var max = navigator.connection.downlinkMax;
             if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
 
@@ -728,13 +687,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function getRouteUrl(item, options) {
-
-        if (item === 'downloads') {
-            return 'offline/offline.html';
-        }
-        if (item === 'managedownloads') {
-            return 'offline/managedownloads.html';
-        }
         if (item === 'settings') {
             return 'settings/settings.html';
         }

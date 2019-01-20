@@ -47,24 +47,6 @@
                         </div>
                     </div>
                 </a>
-
-                <a is="emby-linkbutton" style="display:block; padding: 0; margin:0;" data-ripple="false" href="#" class="lnkCameraUpload hide listItem-border">
-                    <div class="listItem">
-                        <i class="md-icon listItemIcon listItemIcon-transparent">photo</i>
-                        <div class="listItemBody">
-                            <div class="listItemBodyText">${TabCameraUpload}</div>
-                        </div>
-                    </div>
-                </a>
-
-                <a is="emby-linkbutton" style="display:block; padding: 0; margin:0;" data-ripple="false" href="#" class="lnkSync hide listItem-border">
-                    <div class="listItem">
-                        <i class="md-icon listItemIcon listItemIcon-transparent">file_download</i>
-                        <div class="listItemBody">
-                            <div class="listItemBodyText">${HeaderOfflineSync}</div>
-                        </div>
-                    </div>
-                </a>
             </div>
             <div class="verticalSection verticalSection-extrabottompadding">
                 <h2 class="sectionTitle headerUser" style="padding-left:.25em;"></h2>
@@ -77,12 +59,14 @@
                             </div>
                         </div>
                     </a>
-                    <div class="listItem btnLogout listItem-border">
-                        <i class="md-icon listItemIcon listItemIcon-transparent">lock</i>
-                        <div class="listItemBody">
-                            <div class="listItemBodyText">${ButtonSignOut}</div>
+                    <a is="emby-linkbutton" style="display:block; padding: 0; margin:0;" data-ripple="false" href="#" class="btnLogout hide listItem-border">
+                        <div class="listItem">
+                            <i class="md-icon listItemIcon listItemIcon-transparent">lock</i>
+                            <div class="listItemBody">
+                                <div class="listItemBodyText">${ButtonSignOut}</div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
 
