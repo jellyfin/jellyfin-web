@@ -18,6 +18,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
     function logoImageUrl(item, apiClient, options) {
         return options = options || {}, options.type = "Logo", item.ImageTags && item.ImageTags.Logo ? (options.tag = item.ImageTags.Logo, apiClient.getScaledImageUrl(item.Id, options)) : item.ParentLogoImageTag ? (options.tag = item.ParentLogoImageTag, apiClient.getScaledImageUrl(item.ParentLogoItemId, options)) : null
     }
+
     return function(view, params) {
         function onVerticalSwipe(e, elem, data) {
             var player = currentPlayer;
@@ -601,6 +602,9 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
 
         function onViewHideStopPlayback() {
             if (playbackManager.isPlayingVideo()) {
+                require(['shell'], function (shell) {
+                    shell.disableFullscreen();
+                });
                 var player = currentPlayer;
                 view.removeEventListener("viewbeforehide", onViewHideStopPlayback), releaseCurrentPlayer(), playbackManager.stop(player)
             }
@@ -609,6 +613,10 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         function enableStopOnBack(enabled) {
             view.removeEventListener("viewbeforehide", onViewHideStopPlayback), enabled && playbackManager.isPlayingVideo(currentPlayer) && view.addEventListener("viewbeforehide", onViewHideStopPlayback)
         }
+
+        require(['shell'], function (shell) {
+            shell.enableFullscreen();
+        });
         var currentPlayer, comingUpNextDisplayed, currentUpNextDialog, isEnabled, currentItem, recordingButtonManager, enableProgressByTimeOfDay, supportsBrightnessChange, currentVisibleMenu, statsOverlay, osdHideTimeout, lastPointerMoveData, self = this,
             currentPlayerSupportedCommands = [],
             currentRuntimeTicks = 0,

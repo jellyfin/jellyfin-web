@@ -806,6 +806,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var cssClass = options.centerText ? "cardText cardTextCentered" : "cardText";
+            var serverId = item.ServerId || options.serverId;
 
             var lines = [];
             var parentTitleUnderneath = item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'MusicVideo';
@@ -819,7 +820,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         if (item.SeriesId) {
                             lines.push(getTextActionButton({
                                 Id: item.SeriesId,
-                                ServerId: item.ServerId,
+                                ServerId: serverId,
                                 Name: item.SeriesName,
                                 Type: 'Series',
                                 IsFolder: true
@@ -859,8 +860,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var name = options.showTitle === 'auto' && !item.IsFolder && item.MediaType === 'Photo' ? '' : itemHelper.getDisplayName(item, {
                     includeParentInfo: options.includeParentInfoInTitle
                 });
-
-                lines.push(name);
+                
+                lines.push(getTextActionButton({
+                    Id: item.Id,
+                    ServerId: serverId,
+                    Name: name,
+                    Type: item.Type,
+                    CollectionType: item.CollectionType,
+                    IsFolder: item.IsFolder
+                }));
             }
 
             if (showOtherText) {
@@ -869,7 +877,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
                         item.AlbumArtists[0].Type = 'MusicArtist';
                         item.AlbumArtists[0].IsFolder = true;
-                        lines.push(getTextActionButton(item.AlbumArtists[0], null, item.ServerId));
+                        lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
                     } else {
                         lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || ""));
                     }
@@ -960,7 +968,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         lines.push(getTextActionButton({
 
                             Id: item.ChannelId,
-                            ServerId: item.ServerId,
+                            ServerId: serverId,
                             Name: item.ChannelName,
                             Type: 'TvChannel',
                             MediaType: item.MediaType,

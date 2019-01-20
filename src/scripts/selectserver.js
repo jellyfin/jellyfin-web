@@ -47,6 +47,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
     function showServerConnectionFailure() {
         alertText(globalize.translate("MessageUnableToConnectToServer"), globalize.translate("HeaderConnectionFailure"))
     }
+
     return function(view, params) {
         function connectToServer(server) {
             loading.show(), connectionManager.connectToServer(server, {
@@ -81,62 +82,6 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
             })
         }
 
-        function acceptInvitation(id) {
-            loading.show(), connectionManager.acceptServer(id).then(function() {
-                loading.hide(), loadServers(), loadInvitations()
-            }, showGeneralError)
-        }
-
-        function rejectInvitation(id) {
-            loading.show(), connectionManager.rejectServer(id).then(function() {
-                loading.hide(), loadServers(), loadInvitations()
-            }, showGeneralError)
-        }
-
-        function showPendingInviteMenu(elem) {
-            var card = dom.parentWithClass(elem, "inviteItem"),
-                invitationId = card.getAttribute("data-id"),
-                menuItems = [];
-            menuItems.push({
-                name: globalize.translate("sharedcomponents#Accept"),
-                id: "accept"
-            }), menuItems.push({
-                name: globalize.translate("sharedcomponents#Reject"),
-                id: "reject"
-            }), require(["actionsheet"], function(actionsheet) {
-                actionsheet.show({
-                    items: menuItems,
-                    positionTo: elem,
-                    callback: function(id) {
-                        switch (id) {
-                            case "accept":
-                                acceptInvitation(invitationId);
-                                break;
-                            case "reject":
-                                rejectInvitation(invitationId)
-                        }
-                    }
-                })
-            })
-        }
-
-        function getPendingInviteHtml(item) {
-            var cardBoxCssClass = "cardBox";
-            layoutManager.tv && (cardBoxCssClass += " cardBox-focustransform");
-            var innerOpening = '<div class="' + cardBoxCssClass + '">';
-            return '<button raised class="card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable btnInviteMenu inviteItem" style="display:inline-block;" data-id="' + item.Id + '">' + innerOpening + '<div class="cardScalable card-focuscontent"><div class="cardPadder cardPadder-square"></div><div class="cardContent"><div class="cardImageContainer coveredImage" style="background:#0288D1;border-radius:.15em;"><i class="cardImageIcon md-icon">&#xE1BA;</i></div></div></div><div class="cardFooter"><div class="cardText cardTextCentered">' + item.Name + "</div></div></div></button>"
-        }
-
-        function renderInvitations(list) {
-            list.length ? view.querySelector(".invitationSection").classList.remove("hide") : view.querySelector(".invitationSection").classList.add("hide");
-            var html = list.map(getPendingInviteHtml).join("");
-            view.querySelector(".invitations").innerHTML = html
-        }
-
-        function loadInvitations() {
-            connectionManager.isLoggedIntoConnect() ? connectionManager.getUserInvitations().then(renderInvitations) : renderInvitations([])
-        }
-
         function onServerClick(server) {
             var menuItems = [];
             menuItems.push({
@@ -146,11 +91,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                 name: globalize.translate("sharedcomponents#Delete"),
                 id: "delete"
             });
-            var apiClient = connectionManager.getApiClient(server.Id);
-            apiClient && apiClient.supportsWakeOnLan() && menuItems.push({
-                name: globalize.translate("sharedcomponents#WakeServer"),
-                id: "wol"
-            }), actionSheet.show({
+            actionSheet.show({
                 items: menuItems,
                 title: server.Name
             }).then(function(id) {
@@ -160,47 +101,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                         break;
                     case "delete":
                         deleteServer(server);
-                        break;
-                    case "wol":
-                        sendWolPacket(server)
                 }
-            })
-        }
-
-        function sendWolPacket(server) {
-            var apiClient = connectionManager.getApiClient(server.Id);
-            require(["loadingDialog"], function(LoadingDialog) {
-                var dlg = new LoadingDialog({
-                    title: globalize.translate("sharedcomponents#HeaderWakeServer"),
-                    text: globalize.translate("sharedcomponents#AttemptingWakeServer")
-                });
-                dlg.show();
-                var afterWol = function() {
-                    setTimeout(function() {
-                        apiClient.getPublicSystemInfo().then(onWolSuccess.bind(dlg), onWolFail.bind(dlg))
-                    }, 12e3)
-                };
-                apiClient.wakeOnLan().then(afterWol, afterWol)
-            })
-        }
-
-        function onWolSuccess() {
-            var dlg = this;
-            dlg.hide(), dlg.destroy(), require(["alert"], function(alert) {
-                alert({
-                    text: globalize.translate("sharedcomponents#WakeServerSuccess"),
-                    title: globalize.translate("sharedcomponents#HeaderWakeServer")
-                })
-            })
-        }
-
-        function onWolFail() {
-            var dlg = this;
-            dlg.hide(), dlg.destroy(), require(["alert"], function(alert) {
-                alert({
-                    text: globalize.translate("sharedcomponents#WakeServerError"),
-                    title: globalize.translate("sharedcomponents#HeaderWakeServer")
-                })
             })
         }
 
@@ -215,15 +116,13 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
         }
         var servers;
         layoutManager.desktop;
-        (function() {
-            updatePageStyle(view, params), view.querySelector(".btnOfflineText").innerHTML = globalize.translate("sharedcomponents#HeaderMyDownloads"), appHost.supports("sync") && view.querySelector(".btnOffline").classList.remove("hide")
-        })();
+        updatePageStyle(view, params);
         var backdropUrl = staticBackdrops.getRandomImageUrl();
         view.addEventListener("viewshow", function(e) {
             var isRestored = e.detail.isRestored;
-            appRouter.setTitle(null), backdrop.setBackdrop(backdropUrl), isRestored || (loadServers(), loadInvitations())
-        }), view.querySelector(".btnOffline").addEventListener("click", function(e) {
-            appRouter.show("/offline/offline.html")
+            appRouter.setTitle(null);
+            backdrop.setBackdrop(backdropUrl);
+            if (!isRestored) loadServers();
         }), view.querySelector(".servers").addEventListener("click", function(e) {
             var card = dom.parentWithClass(e.target, "card");
             if (card) {
@@ -236,9 +135,6 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                     })[0])
                 }
             }
-        }), view.querySelector(".invitations").addEventListener("click", function(e) {
-            var btnInviteMenu = dom.parentWithClass(e.target, "btnInviteMenu");
-            btnInviteMenu && showPendingInviteMenu(btnInviteMenu)
         })
     }
 });

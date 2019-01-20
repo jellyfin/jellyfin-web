@@ -30,10 +30,12 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
 
         function renderChannels(context, result) {
             function onNextPageClick() {
+                if (isLoading) return;
                 query.StartIndex += query.Limit, reloadItems(context)
             }
 
             function onPreviousPageClick() {
+                if (isLoading) return;
                 query.StartIndex -= query.Limit, reloadItems(context)
             }
             var query = getQuery();
@@ -68,13 +70,16 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
 
         function reloadItems(context, save) {
             loading.show();
+            isLoading = true;
             var query = getQuery(),
                 apiClient = ApiClient;
             query.UserId = apiClient.getCurrentUserId(), apiClient.getLiveTvChannels(query).then(function(result) {
-                renderChannels(context, result), loading.hide()
+                renderChannels(context, result);
+                loading.hide();
+                isLoading = false;
             })
         }
-        var pageData, self = this;
+        var pageData, self = this, isLoading = false;
         tabContent.querySelector(".btnFilter").addEventListener("click", function() {
             showFilterMenu(tabContent)
         }), self.renderTab = function() {

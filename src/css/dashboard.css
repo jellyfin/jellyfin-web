@@ -176,8 +176,7 @@ div[data-role=controlgroup] a.ui-btn-active {
     flex-grow: 1
 }
 
-.activeSession:not(.playingSession) .sessionNowPlayingContent,
-.supporterMembershipDisabled .tabSupporterMembership {
+.activeSession:not(.playingSession) .sessionNowPlayingContent {
     display: none
 }
 

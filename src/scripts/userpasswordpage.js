@@ -37,7 +37,7 @@ define(["loading", "libraryMenu", "emby-linkbutton"], function(loading, libraryM
             var userId = params.userId,
                 currentPassword = view.querySelector("#txtCurrentPassword").value,
                 newPassword = view.querySelector("#txtNewPassword").value;
-            if(view.querySelector("#fldCurrentPassword").classList.contains("hide")) {
+            if (view.querySelector("#fldCurrentPassword").classList.contains("hide")) {
                 // Firefox does not respect autocomplete=off, so clear it if the field is supposed to be hidden (and blank)
                 // This should only happen when user.HasConfiguredPassword is false, but this information is not passed on
                 currentPassword = "";

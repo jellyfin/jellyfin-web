@@ -1,8 +1,16 @@
-define(["layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicker", "listView", "cardBuilder", "emby-itemscontainer"], function(layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder) {
+define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicker", "listView", "cardBuilder", "emby-itemscontainer"],
+       function(loading, layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder) {
     "use strict";
     return function(view, params, tabContent, options) {
         function onViewStyleChange() {
-            "List" == self.getCurrentViewStyle() ? (itemsContainer.classList.add("vertical-list"), itemsContainer.classList.remove("vertical-wrap")) : (itemsContainer.classList.remove("vertical-list"), itemsContainer.classList.add("vertical-wrap")), itemsContainer.innerHTML = ""
+            if (self.getCurrentViewStyle() == "List") {
+                itemsContainer.classList.add("vertical-list");
+                itemsContainer.classList.remove("vertical-wrap");
+            } else {
+                itemsContainer.classList.remove("vertical-list");
+                itemsContainer.classList.add("vertical-wrap");
+            }
+            itemsContainer.innerHTML = "";
         }
 
         function updateFilterControls() {
@@ -10,19 +18,26 @@ define(["layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicke
         }
 
         function fetchData() {
+            isLoading = true;
+            loading.show();
             return ApiClient.getItems(ApiClient.getCurrentUserId(), query)
         }
 
         function afterRefresh(result) {
             function onNextPageClick() {
-                query.StartIndex += query.Limit, itemsContainer.refreshItems()
+                if (isLoading) return;
+                query.StartIndex += query.Limit;
+                itemsContainer.refreshItems();
             }
 
             function onPreviousPageClick() {
-                query.StartIndex -= query.Limit, itemsContainer.refreshItems()
+                if (isLoading) return;
+                query.StartIndex -= query.Limit;
+                itemsContainer.refreshItems();
             }
-            window.scrollTo(0, 0), updateFilterControls();
-            var i, length, pagingHtml = libraryBrowser.getQueryPagingHtml({
+            window.scrollTo(0, 0);
+            updateFilterControls();
+            var i, length, elems, pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -31,11 +46,15 @@ define(["layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicke
                     addLayoutButton: !1,
                     sortButton: !1,
                     filterButton: !1
-                }),
-                elems = tabContent.querySelectorAll(".paging");
-            for (i = 0, length = elems.length; i < length; i++) elems[i].innerHTML = pagingHtml;
-            for (elems = tabContent.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("click", onNextPageClick);
-            for (elems = tabContent.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("click", onPreviousPageClick)
+                });
+            for (elems = tabContent.querySelectorAll(".paging"), i = 0, length = elems.length; i < length; i++)
+                elems[i].innerHTML = pagingHtml;
+            for (elems = tabContent.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++)
+                elems[i].addEventListener("click", onNextPageClick);
+            for (elems = tabContent.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++)
+                elems[i].addEventListener("click", onPreviousPageClick)
+            isLoading = false;
+            loading.hide();
         }
 
         function getItemsHtml(items) {
@@ -89,15 +108,27 @@ define(["layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicke
         }
 
         function initPage(tabContent) {
-            itemsContainer.fetchData = fetchData, itemsContainer.getItemsHtml = getItemsHtml, itemsContainer.afterRefresh = afterRefresh;
+            itemsContainer.fetchData = fetchData;
+            itemsContainer.getItemsHtml = getItemsHtml;
+            itemsContainer.afterRefresh = afterRefresh;
             var alphaPickerElement = tabContent.querySelector(".alphaPicker");
-            alphaPickerElement && (alphaPickerElement.addEventListener("alphavaluechanged", function(e) {
-                var newValue = e.detail.value;
-                query.NameStartsWithOrGreater = newValue, query.StartIndex = 0, itemsContainer.refreshItems()
-            }), self.alphaPicker = new alphaPicker({
-                element: alphaPickerElement,
-                valueChangeEvent: "click"
-            }), (layoutManager.desktop || layoutManager.mobile) && (alphaPickerElement.classList.add("alphabetPicker-right"), itemsContainer.classList.remove("padded-left-withalphapicker"), itemsContainer.classList.add("padded-right-withalphapicker")));
+            if (alphaPickerElement) {
+                alphaPickerElement.addEventListener("alphavaluechanged", function(e) {
+                    var newValue = e.detail.value;
+                    query.NameStartsWithOrGreater = newValue;
+                    query.StartIndex = 0;
+                    itemsContainer.refreshItems();
+                });
+                self.alphaPicker = new alphaPicker({
+                    element: alphaPickerElement,
+                    valueChangeEvent: "click"
+                });
+                if (layoutManager.desktop || layoutManager.mobile) {
+                    alphaPickerElement.classList.add("alphabetPicker-right");
+                    itemsContainer.classList.remove("padded-left-withalphapicker");
+                    itemsContainer.classList.add("padded-right-withalphapicker");
+                }
+            }
             var btnFilter = tabContent.querySelector(".btnFilter");
             btnFilter && btnFilter.addEventListener("click", function() {
                 self.showFilterMenu()
@@ -145,7 +176,10 @@ define(["layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicke
                 libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), "Banner,List,Poster,PosterCard,Thumb,ThumbCard".split(","))
             }), btnSelectView.addEventListener("layoutchange", function(e) {
                 var viewStyle = e.detail.viewStyle;
-                userSettings.set(savedViewKey, viewStyle), query.StartIndex = 0, onViewStyleChange(), itemsContainer.refreshItems()
+                userSettings.set(savedViewKey, viewStyle);
+                query.StartIndex = 0;
+                onViewStyleChange();
+                itemsContainer.refreshItems();
             })
         }
         var self = this,
@@ -163,8 +197,11 @@ define(["layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicke
                 StartIndex: 0,
                 Limit: 100,
                 ParentId: params.topParentId
-            };
-        "favorites" === options.mode && (query.IsFavorite = !0), query = userSettings.loadQuerySettings(savedQueryKey, query), self.showFilterMenu = function() {
+            },
+            isLoading = false;
+        if (options.mode === "favorites") query.IsFavorite = true;
+        query = userSettings.loadQuerySettings(savedQueryKey, query);
+        self.showFilterMenu = function() {
             require(["components/filterdialog/filterdialog"], function(filterDialogFactory) {
                 var filterDialog = new filterDialogFactory({
                     query: query,
@@ -175,13 +212,19 @@ define(["layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicke
                     query.StartIndex = 0, itemsContainer.refreshItems()
                 }), filterDialog.show()
             })
-        }, self.getCurrentViewStyle = function() {
+        };
+        self.getCurrentViewStyle = function() {
             return userSettings.get(savedViewKey) || "Poster"
-        }, self.initTab = function() {
-            initPage(tabContent), onViewStyleChange()
-        }, self.renderTab = function() {
-            itemsContainer.refreshItems(), updateFilterControls()
-        }, self.destroy = function() {
+        };
+        self.initTab = function() {
+            initPage(tabContent);
+            onViewStyleChange();
+        };
+        self.renderTab = function() {
+            itemsContainer.refreshItems();
+            updateFilterControls();
+        };
+        self.destroy = function() {
             itemsContainer = null
         }
     }
