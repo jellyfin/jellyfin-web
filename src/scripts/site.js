@@ -755,15 +755,6 @@ var Dashboard = {
             autoFocus: !1,
             roles: "admin"
         }), defineRoute({
-            path: "/syncactivity.html",
-            dependencies: [],
-            autoFocus: !1,
-            controller: "scripts/syncactivity"
-        }), defineRoute({
-            path: "/syncsettings.html",
-            dependencies: [],
-            autoFocus: !1
-        }), defineRoute({
             path: "/tv.html",
             dependencies: ["paper-icon-button-light", "emby-button"],
             autoFocus: !1,

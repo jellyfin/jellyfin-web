@@ -320,13 +320,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             icon: "tablet"
         });
         links.push({
-            name: globalize.translate("HeaderDownloadSync"),
-            icon: "file_download",
-            href: "syncactivity.html",
-            pageIds: ["syncActivityPage", "syncJobPage", "syncSettingsPage"],
-            color: "#009688"
-        });
-        links.push({
             name: globalize.translate("TabCameraUpload"),
             href: "devicesupload.html",
             pageIds: ["devicesUploadPage"],
