@@ -42,11 +42,9 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
     }
 
     function getCollectionTypeOptionsHtml(collectionTypeOptions) {
-        return collectionTypeOptions.filter(function(i) {
-            return i.isSelectable
-        }).map(function(i) {
-            return '<option value="' + i.value + '">' + i.name + "</option>"
-        }).join("")
+        return collectionTypeOptions.map(function(i) {
+            return '<option value="' + i.value + '">' + i.name + "</option>";
+        }).join("");
     }
 
     function initEditor(page, collectionTypeOptions) {
