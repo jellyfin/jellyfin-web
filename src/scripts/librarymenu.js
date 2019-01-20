@@ -177,7 +177,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     function refreshLibraryInfoInDrawer(user, drawer) {
         var html = "";
         html += '<div style="height:.5em;"></div>';
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><i class="md-icon navMenuOptionIcon">&#xE88A;</i><span class="navMenuOptionText">' + globalize.translate("ButtonHome") + "</span></a>";
+        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><i class="md-icon navMenuOptionIcon">home</i><span class="navMenuOptionText">' + globalize.translate("ButtonHome") + "</span></a>";
 
         // libraries are added here
         html += '<div class="libraryMenuOptions">';
@@ -189,8 +189,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             html += '<h3 class="sidebarHeader">';
             html += globalize.translate("HeaderAdmin");
             html += "</h3>";
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="dashboard.html"><i class="md-icon navMenuOptionIcon">&#xE8B8;</i><span class="navMenuOptionText">' + globalize.translate("ButtonManageServer") + "</span></a>";
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="edititemmetadata.html"><i class="md-icon navMenuOptionIcon">&#xE2C7;</i><span class="navMenuOptionText">' + globalize.translate("MetadataManager") + "</span></a>";
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="dashboard.html"><i class="md-icon navMenuOptionIcon">dashboard</i><span class="navMenuOptionText">' + globalize.translate("TabDashboard") + "</span></a>";
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="edititemmetadata.html"><i class="md-icon navMenuOptionIcon">mode_edit</i><span class="navMenuOptionText">' + globalize.translate("MetadataManager") + "</span></a>";
             html += "</div>";
         }
 
@@ -199,14 +199,14 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += globalize.translate("HeaderUser");
         html += "</h3>";
         if (user.localUser) {
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkMySettings" href="mypreferencesmenu.html"><i class="md-icon navMenuOptionIcon">&#xE8B8;</i><span class="navMenuOptionText">' + globalize.translate("ButtonSettings") + "</span></a>";
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkMySettings" href="mypreferencesmenu.html"><i class="md-icon navMenuOptionIcon">settings</i><span class="navMenuOptionText">' + globalize.translate("ButtonSettings") + "</span></a>";
         }
         if (AppInfo.isNativeApp) {
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="md-icon navMenuOptionIcon">&#xE308;</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="md-icon navMenuOptionIcon">wifi</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
         }
         // null check for local user might not be required
         if (user.localUser && !user.localUser.EnableAutoLogin) {
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="md-icon navMenuOptionIcon">&#xE879;</i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="md-icon navMenuOptionIcon">exit_to_app</i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
         }
         html += "</div>";
 
@@ -293,13 +293,13 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             color: "#38c"
         }, {
             name: globalize.translate("TabPlayback"),
-            icon: "play_circle_filled",
+            icon: "play_arrow",
             color: "#E5342E",
             href: "playbackconfiguration.html",
             pageIds: ["playbackConfigurationPage", "streamingSettingsPage"]
         }, {
             name: globalize.translate("TabTranscoding"),
-            icon: "transform",
+            icon: "swap_horiz",
             href: "encodingsettings.html",
             pageIds: ["encodingSettingsPage"]
         }];
@@ -312,7 +312,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             name: globalize.translate("TabDevices"),
             href: "devices/devices.html",
             pageIds: ["devicesPage", "devicePage"],
-            icon: "tablet"
+            icon: "devices"
         });
         links.push({
             name: globalize.translate("HeaderDownloadSync"),
@@ -331,7 +331,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             name: globalize.translate("DLNA"),
             href: "dlnasettings.html",
             pageIds: ["dlnaSettingsPage", "dlnaProfilesPage", "dlnaProfilePage"],
-            icon: "&#xE912;"
+            icon: "input"
         });
         links.push({
             divider: true,
@@ -341,13 +341,13 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             name: globalize.translate("TabLiveTV"),
             href: "livetvstatus.html",
             pageIds: ["liveTvStatusPage", "liveTvTunerPage"],
-            icon: "&#xE639;"
+            icon: "tv"
         });
         links.push({
             name: globalize.translate("DVR"),
             href: "livetvsettings.html",
             pageIds: ["liveTvSettingsPage"],
-            icon: "dvr"
+            icon: "list"
         });
         links.push({
             divider: true,
@@ -355,7 +355,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         });
         links.push({
             name: globalize.translate("TabAdvanced"),
-            icon: "settings",
+            icon: "code",
             href: "dashboardhosting.html",
             color: "#F16834",
             pageIds: ["dashboardHostingPage", "serverSecurityPage"]
@@ -364,7 +364,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             name: globalize.translate("TabLogs"),
             href: "log.html",
             pageIds: ["logPage"],
-            icon: "folder_open"
+            icon: "bug_report"
         });
         links.push({
             name: globalize.translate("TabNotifications"),
@@ -375,7 +375,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         });
         links.push({
             name: globalize.translate("TabPlugins"),
-            icon: "add_shopping_cart",
+            icon: "shopping_cart",
             color: "#9D22B1",
             href: "plugins.html",
             pageIds: ["pluginsPage", "pluginCatalogPage"]
