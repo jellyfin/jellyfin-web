@@ -178,17 +178,12 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         var html = "";
         html += '<div style="height:.5em;"></div>';
         html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><i class="md-icon navMenuOptionIcon">&#xE88A;</i><span class="navMenuOptionText">' + globalize.translate("ButtonHome") + "</span></a>";
-        html += '<div class="libraryMenuDownloads">';
-        html += '<h3 class="sidebarHeader">';
-        html += globalize.translate("sharedcomponents#HeaderMyDownloads");
-        html += "</h3>";
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="manageoffline" href="offline/offline.html"><i class="md-icon navMenuOptionIcon">&#xE2C7;</i><span class="navMenuOptionText">' + globalize.translate("sharedcomponents#Browse") + "</span></a>";
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="manageoffline" href="managedownloads.html"><i class="md-icon navMenuOptionIcon">&#xE254;</i><span class="navMenuOptionText">' + globalize.translate("sharedcomponents#Manage") + "</span></a>";
-        html += "</div>";
+
+        // libraries are added here
         html += '<div class="libraryMenuOptions">';
         html += "</div>";
-        var localUser = user.localUser;
 
+        var localUser = user.localUser;
         if (localUser && localUser.Policy.IsAdministrator) {
             html += '<div class="adminMenuOptions">';
             html += '<h3 class="sidebarHeader">';
@@ -200,26 +195,26 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }
 
         html += '<div class="userMenuOptions">';
-
+        html += '<h3 class="sidebarHeader">';
+        html += globalize.translate("HeaderUser");
+        html += "</h3>";
         if (user.localUser) {
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkMySettings" href="mypreferencesmenu.html"><i class="md-icon navMenuOptionIcon">&#xE8B8;</i><span class="navMenuOptionText">' + globalize.translate("ButtonSettings") + "</span></a>";
         }
-
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkSyncToOtherDevices" data-itemid="syncotherdevices" href="mysync.html"><i class="md-icon navMenuOptionIcon">&#xE627;</i><span class="navMenuOptionText">' + globalize.translate("sharedcomponents#Sync") + "</span></a>";
-
         if (AppInfo.isNativeApp) {
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="md-icon navMenuOptionIcon">&#xE308;</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
         }
-
-        if (!(!user.localUser || user.localUser.EnableAutoLogin)) {
+        // null check for local user might not be required
+        if (user.localUser && !user.localUser.EnableAutoLogin) {
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="md-icon navMenuOptionIcon">&#xE879;</i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
         }
-
         html += "</div>";
+
+        // add buttons to navigation drawer
         navDrawerScrollContainer.innerHTML = html;
 
+        // bind logout button click to method
         var btnLogout = navDrawerScrollContainer.querySelector(".btnLogout");
-
         if (btnLogout) {
             btnLogout.addEventListener("click", onLogoutClick);
         }
