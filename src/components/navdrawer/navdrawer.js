@@ -2,19 +2,22 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
     "use strict";
     return function(options) {
         function getTouches(e) {
-            return e.changedTouches || e.targetTouches || e.touches
+            return e.changedTouches || e.targetTouches || e.touches;
         }
 
         function onMenuTouchStart(e) {
             options.target.classList.remove("transition");
-            var touches = getTouches(e),
-                touch = touches[0] || {};
-            menuTouchStartX = touch.clientX, menuTouchStartY = touch.clientY, menuTouchStartTime = (new Date).getTime()
+            var touches = getTouches(e);
+            var touch = touches[0] || {};
+
+            menuTouchStartX = touch.clientX;
+            menuTouchStartY = touch.clientY;
+            menuTouchStartTime = (new Date).getTime();
         }
 
         function setVelocity(deltaX) {
             var time = (new Date).getTime() - (menuTouchStartTime || 0);
-            velocity = Math.abs(deltaX) / time
+            velocity = Math.abs(deltaX) / time;
         }
 
         function onMenuTouchMove(e) {
@@ -29,25 +32,41 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
         }
 
         function onMenuTouchEnd(e) {
-            options.target.classList.add("transition"), scrollContainer.removeEventListener("scroll", disableEvent), dragMode = 0;
+            options.target.classList.add("transition");
+            scrollContainer.removeEventListener("scroll", disableEvent);
+            dragMode = 0;
+
             var touches = getTouches(e),
                 touch = touches[0] || {},
                 endX = touch.clientX || 0,
                 endY = touch.clientY || 0,
                 deltaX = endX - (menuTouchStartX || 0),
                 deltaY = endY - (menuTouchStartY || 0);
-            currentPos = deltaX, self.checkMenuState(deltaX, deltaY)
+
+            currentPos = deltaX;
+            self.checkMenuState(deltaX, deltaY);
         }
 
         function onEdgeTouchStart(e) {
-            if (isPeeking) onMenuTouchMove(e);
-            else {
-                ((getTouches(e)[0] || {}).clientX || 0) <= options.handleSize && (isPeeking = !0, "touchstart" === e.type && (dom.removeEventListener(edgeContainer, "touchmove", onEdgeTouchMove, {}), dom.addEventListener(edgeContainer, "touchmove", onEdgeTouchMove, {})), onMenuTouchStart(e))
+            if (isPeeking) {
+                onMenuTouchMove(e);
+            } else {
+                if (((getTouches(e)[0] || {}).clientX || 0) <= options.handleSize) {
+                    isPeeking = true;
+                    if (e.type === "touchstart") {
+                        dom.removeEventListener(edgeContainer, "touchmove", onEdgeTouchMove, {});
+                        dom.addEventListener(edgeContainer, "touchmove", onEdgeTouchMove, {});
+                    }
+                    onMenuTouchStart(e);
+                }
             }
         }
 
         function onEdgeTouchMove(e) {
-            onEdgeTouchStart(e), e.preventDefault(), e.stopPropagation()
+            e.preventDefault();
+            e.stopPropagation();
+
+            onEdgeTouchStart(e);
         }
 
         function onEdgeTouchEnd(e) {

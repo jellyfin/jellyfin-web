@@ -217,6 +217,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
         html += "</div>";
         navDrawerScrollContainer.innerHTML = html;
+
         var btnLogout = navDrawerScrollContainer.querySelector(".btnLogout");
 
         if (btnLogout) {
