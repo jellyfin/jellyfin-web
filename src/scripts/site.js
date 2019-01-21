@@ -493,11 +493,6 @@ var Dashboard = {
             roles: "admin",
             controller: "devices/device"
         }), defineRoute({
-            path: "/devicesupload.html",
-            dependencies: [],
-            autoFocus: !1,
-            roles: "admin"
-        }), defineRoute({
             path: "/dlnaprofile.html",
             dependencies: [],
             autoFocus: !1,

@@ -312,12 +312,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             icon: "devices"
         });
         links.push({
-            name: globalize.translate("TabCameraUpload"),
-            href: "devicesupload.html",
-            pageIds: ["devicesUploadPage"],
-            icon: "photo_camera"
-        });
-        links.push({
             name: globalize.translate("DLNA"),
             href: "dlnasettings.html",
             pageIds: ["dlnaSettingsPage", "dlnaProfilesPage", "dlnaProfilePage"],
