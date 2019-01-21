@@ -735,14 +735,12 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function updateBackButton(page) {
-        var isDashboardPage = page.classList.contains("type-interior");
-
         if (!headerBackButton) {
             headerBackButton = document.querySelector(".headerBackButton");
         }
 
         if (headerBackButton) {
-            if (page.getAttribute("data-backbutton") && appRouter.canGoBack()) {
+            if ("false" !== page.getAttribute("data-backbutton") && appRouter.canGoBack()) {
                 headerBackButton.classList.remove("hide");
             } else {
                 headerBackButton.classList.add("hide");
