@@ -304,8 +304,8 @@ var Dashboard = {
         var embyWebComponentsBowerPath = bowerPath + "/emby-webcomponents";
 
         "android" === self.appMode
-            ? (define("filesystem", ["cordova/filesystem"], returnFirstDependency), define("cameraRoll", ["cordova/cameraroll"], returnFirstDependency))
-            : (define("filesystem", [embyWebComponentsBowerPath + "/filesystem"], returnFirstDependency), define("cameraRoll", [apiClientBowerPath + "/cameraroll"], returnFirstDependency));
+            ? define("filesystem", ["cordova/filesystem"], returnFirstDependency)
+            : define("filesystem", [embyWebComponentsBowerPath + "/filesystem"], returnFirstDependency);
         window.IntersectionObserver && !browser.edge
             ? define("lazyLoader", [embyWebComponentsBowerPath + "/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency)
             : define("lazyLoader", [embyWebComponentsBowerPath + "/lazyloader/lazyloader-scroll"], returnFirstDependency);
@@ -1133,7 +1133,6 @@ var Dashboard = {
             ? define("fileupload", ["cordova/fileupload"], returnFirstDependency)
             : define("fileupload", [apiClientBowerPath + "/fileupload"], returnFirstDependency);
         define("connectionmanager", [apiClientBowerPath + "/connectionmanager"]);
-        define("contentuploader", [apiClientBowerPath + "/sync/contentuploader"], returnFirstDependency);
         define("serversync", [apiClientBowerPath + "/sync/serversync"], returnFirstDependency);
         define("multiserversync", [apiClientBowerPath + "/sync/multiserversync"], returnFirstDependency);
         define("mediasync", [apiClientBowerPath + "/sync/mediasync"], returnFirstDependency);

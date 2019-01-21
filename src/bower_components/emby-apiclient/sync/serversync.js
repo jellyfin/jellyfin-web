@@ -12,11 +12,7 @@ define([], function() {
     }
 
     function uploadContent(connectionManager, server, options) {
-        return new Promise(function(resolve, reject) {
-            require(["contentuploader"], function(ContentUploader) {
-                (new ContentUploader).uploadImages(connectionManager, server).then(resolve, reject)
-            })
-        })
+        return new Promise().resolve();
     }
 
     function syncMedia(connectionManager, server, options) {
