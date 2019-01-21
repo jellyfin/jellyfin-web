@@ -3,6 +3,15 @@
     <div class="padded-left padded-right padded-bottom-page padded-top">
         <div class="readOnlyContent" style="margin: 0 auto;">
             <div class="verticalSection verticalSection-extrabottompadding">
+                <a is="emby-linkbutton" style="display:block; padding: 0; margin:0;" data-ripple="false" href="#" class="lnkMyProfile listItem-border">
+                    <div class="listItem">
+                        <i class="md-icon listItemIcon listItemIcon-transparent">person</i>
+                        <div class="listItemBody">
+                            <div class="listItemBodyText">${ButtonProfile}</div>
+                        </div>
+                    </div>
+                </a>
+
                 <a is="emby-linkbutton" style="display:block; padding: 0; margin:0;" data-ripple="false" href="#" class="lnkDisplayPreferences listItem-border">
                     <div class="listItem">
                         <i class="md-icon listItemIcon listItemIcon-transparent">tv</i>
@@ -38,15 +47,6 @@
                         </div>
                     </div>
                 </a>
-
-                <a is="emby-linkbutton" style="display:block; padding: 0; margin:0;" data-ripple="false" href="#" class="lnkMyProfile listItem-border">
-                    <div class="listItem">
-                        <i class="md-icon listItemIcon listItemIcon-transparent">person</i>
-                        <div class="listItemBody">
-                            <div class="listItemBodyText">${ButtonProfile}</div>
-                        </div>
-                    </div>
-                </a>
             </div>
             <div class="verticalSection verticalSection-extrabottompadding">
                 <h2 class="sectionTitle headerUser" style="padding-left:.25em;"></h2>
@@ -61,7 +61,7 @@
                     </a>
                     <a is="emby-linkbutton" style="display:block; padding: 0; margin:0;" data-ripple="false" href="#" class="btnLogout hide listItem-border">
                         <div class="listItem">
-                            <i class="md-icon listItemIcon listItemIcon-transparent">lock</i>
+                            <i class="md-icon listItemIcon listItemIcon-transparent">exit_to_app</i>
                             <div class="listItemBody">
                                 <div class="listItemBodyText">${ButtonSignOut}</div>
                             </div>
@@ -75,9 +75,9 @@
                 <div>
                     <a is="emby-linkbutton" href="dashboard.html" style="display: block; padding: 0; margin:0;" class="listItem-border">
                         <div class="listItem">
-                            <i class="md-icon listItemIcon listItemIcon-transparent">settings</i>
+                            <i class="md-icon listItemIcon listItemIcon-transparent">dashboard</i>
                             <div class="listItemBody">
-                                <div class="listItemBodyText">${ButtonServerDashboard}</div>
+                                <div class="listItemBodyText">${TabDashboard}</div>
                             </div>
                         </div>
                     </a>
