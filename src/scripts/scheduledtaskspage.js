@@ -37,8 +37,16 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
         if ("Idle" == task.State) task.LastExecutionResult && (html += globalize.translate("LabelScheduledTaskLastRan").replace("{0}", humane_date(task.LastExecutionResult.EndTimeUtc)).replace("{1}", humane_elapsed(task.LastExecutionResult.StartTimeUtc, task.LastExecutionResult.EndTimeUtc)), "Failed" == task.LastExecutionResult.Status ? html += " <span style='color:#FF0000;'>(" + globalize.translate("LabelFailed") + ")</span>" : "Cancelled" == task.LastExecutionResult.Status ? html += " <span style='color:#0026FF;'>(" + globalize.translate("LabelCancelled") + ")</span>" : "Aborted" == task.LastExecutionResult.Status && (html += " <span style='color:#FF0000;'>" + globalize.translate("LabelAbortedByServerShutdown") + "</span>"));
         else if ("Running" == task.State) {
             var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
-            html += '<div style="display:flex;align-items:center;">', html += '<div class="taskProgressOuter" title="' + progress + '%" style="flex-grow:1;">', html += '<div class="taskProgressInner" style="width:' + progress + '%;">', html += "</div>", html += "</div>", html += "<span style='color:#009F00;margin-left:5px;'>" + progress + "%</span>", html += "</div>"
-        } else html += "<span style='color:#FF0000;'>" + globalize.translate("LabelStopping") + "</span>";
+            html += '<div style="display:flex;align-items:center;">';
+            html += '<div class="taskProgressOuter" title="' + progress + '%" style="flex-grow:1;">';
+            html += '<div class="taskProgressInner" style="width:' + progress + '%;">';
+            html += "</div>";
+            html += "</div>";
+            html += "<span style='color:#00a4dc;margin-left:5px;'>" + progress + "%</span>";
+            html += "</div>";
+        } else {
+            html += "<span style='color:#FF0000;'>" + globalize.translate("LabelStopping") + "</span>";
+        }
         return html
     }
 
