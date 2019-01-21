@@ -129,7 +129,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function(appSett
             browser.edgeUwp && features.push("sync");
             supportsFullscreen() && features.push("fullscreenchange");
             (browser.chrome || browser.edge && !browser.slow) && (browser.noAnimation || browser.edgeUwp || browser.xboxOne || features.push("imageanalysis"));
-            AppInfo.isNativeApp && features.push("multiserver");
             (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile) && features.push("physicalvolumecontrol");
             browser.tv || browser.xboxOne || browser.ps4 || features.push("remotecontrol");
             browser.operaTv || browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp || features.push("remotevideo");
@@ -138,7 +137,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function(appSett
             browser.orsay || browser.tizen || browser.msie || !(browser.firefox || browser.ps4 || browser.edge || cueSupported()) || features.push("subtitleappearancesettings");
             browser.orsay || browser.tizen || features.push("subtitleburnsettings");
             browser.tv || browser.ps4 || browser.xboxOne || features.push("fileinput");
-            AppInfo.isNativeApp && features.push("displaylanguage");
             browser.chrome && features.push("chromecast");
         }();
         if (supportedFeatures.indexOf("htmlvideoautoplay") === -1 && supportsHtmlMediaAutoplay() !=== false) {
