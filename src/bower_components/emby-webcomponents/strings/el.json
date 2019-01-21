@@ -434,6 +434,8 @@
   "MessageDownloadQueued": "Η λήψη προγραμματίστηκε.",
   "MessageFileReadError": "Παρουσιάστηκε σφάλμα κατά την ανάγνωση του αρχείου. Παρακαλώ προσπάθησε ξανά.",
   "MessageIfYouBlockedVoice": "Αν αρνηθήκατε τη φωνητική πρόσβαση στην εφαρμογή, θα χρειαστεί να επαναρυθμίσετε τη ρύθμιση πριν δοκιμάσετε ξανά.",
+  "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
+  "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
   "MessageInvitationSentToNewUser": "Έγινε αποστολή ενός μηνύματος ηλεκτρονικού ταχυδρομείου στο {0}, καλώντας τα να εγγραφούν στο Jellyfin.",
   "MessageInvitationSentToUser": "Ένα μήνυμα ηλεκτρονικού ταχυδρομείου έχει σταλεί στο {0}, καλώντας τα να αποδεχθούν την πρόσκληση κοινής χρήσης.",
   "MessageItemSaved": "Το στοιχείο αποθηκεύτηκε",

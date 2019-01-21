@@ -434,6 +434,8 @@
   "MessageDownloadQueued": "Загрузка в очереди.",
   "MessageFileReadError": "Произошла ошибка при считывании файла. Повторите попытку позже.",
   "MessageIfYouBlockedVoice": "Если отказано в голосовом доступе к приложению, перед новой попыткой вам необходимо переконфигурирование.",
+  "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
+  "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
   "MessageInvitationSentToNewUser": "Письмо была отправлена к {0}, с предложением зарегистрироваться в Jellyfin.",
   "MessageInvitationSentToUser": "Письмо было отправлено к {0}, с предложением принять ваше приглашение на совместный доступ.",
   "MessageItemSaved": "Элемент сохранён.",

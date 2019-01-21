@@ -434,6 +434,8 @@
   "MessageDownloadQueued": "Preuzimanje na čekanju",
   "MessageFileReadError": "There was an error reading the file. Please try again.",
   "MessageIfYouBlockedVoice": "Ako ste zabranili glasovni pristup aplikaciji morate ponovo podesiti prije ponovnog pokušaja.",
+  "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
+  "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
   "MessageInvitationSentToNewUser": "An email has been sent to {0} inviting them to sign up with Jellyfin.",
   "MessageInvitationSentToUser": "An email has been sent to {0}, inviting them to accept your sharing invitation.",
   "MessageItemSaved": "Stavka je snimljena.",

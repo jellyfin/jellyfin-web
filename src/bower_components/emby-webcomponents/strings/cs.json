@@ -434,6 +434,8 @@
   "MessageDownloadQueued": "Stažení zařazeno.",
   "MessageFileReadError": "Došlo k chybě při čtení souboru. Prosím zkuste to znovu.",
   "MessageIfYouBlockedVoice": "Pokud byl Váš přístup odepřen pomocí hlasové aplikace, budete ji muset překonfigurovat před dalším pokusem.",
+  "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
+  "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
   "MessageInvitationSentToNewUser": "E-mail byl odeslán na adresu {0} s výzvou k registraci s Jellyfin.",
   "MessageInvitationSentToUser": "E-mail byl odeslán na adresu {0} a přijmutím této pozvnánky akceptujete vaší pozvánku ke sdílení.",
   "MessageItemSaved": "Položka uložena.",

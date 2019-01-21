@@ -434,6 +434,8 @@
   "MessageDownloadQueued": "Dodano do kolejki pobierania.",
   "MessageFileReadError": "Podczas wczytywania plików wystąpił błąd. Spróbuj ponownie później.",
   "MessageIfYouBlockedVoice": "Jeśli odmówisz aplikacji dostępu głosowego, będziesz musiał zmienić konfigurację przed ponownym urządzeniem.",
+  "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
+  "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
   "MessageInvitationSentToNewUser": "Wiadomość pocztowa, z prośbą o rejestrację konta Jellyfin, została wysłana do {0}.",
   "MessageInvitationSentToUser": "Wiadomość pocztowa, z prośbą o akceptację zaproszenia współużytkowania, została wysłana do {0}.",
   "MessageItemSaved": "Obiekt zapisany.",

@@ -434,6 +434,8 @@
   "MessageDownloadQueued": "Descarga en cola.",
   "MessageFileReadError": "Ha habido un error leyendo el fichero. Por favor inténtalo más tarde.",
   "MessageIfYouBlockedVoice": "Si has denegado el acceso a la voz a la aplicación tendrás que reconfigurarlo antes de intentarlo de nuevo.",
+  "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
+  "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
   "MessageInvitationSentToNewUser": "Se le ha enviado un correo a {0}, invitándolo a que se registre en Jellyfin.",
   "MessageInvitationSentToUser": "Se le ha enviado un correo a {0}, invitándolo a que acepte lo que has compartido.",
   "MessageItemSaved": "Elemento grabado.",

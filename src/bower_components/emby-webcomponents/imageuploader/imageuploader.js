@@ -74,7 +74,11 @@
             return false;
         }
 
-        if (file.type !== "image/png" && file.type !== "image/jpeg" && file.type !== "image/jpeg") {
+        if (file.type !== "image/png" && file.type !== "image/x-png" && file.type !== "image/jpeg") {
+            require(['toast'], function (toast) {
+                toast(globalize.translate('sharedcomponents#MessageImageFileTypeAllowed'));
+            });
+            e.preventDefault();
             return false;
         }
 
@@ -83,6 +87,13 @@
         var dlg = dom.parentWithClass(this, 'dialog');
 
         var imageType = dlg.querySelector('#selectImageType').value;
+        if (imageType === "None") {
+            require(["toast"], function(toast) {
+                toast(globalize.translate("sharedcomponents#MessageImageTypeNotSelected"));
+            });
+            e.preventDefault();
+            return false;
+        }
 
         connectionManager.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(function () {
 
