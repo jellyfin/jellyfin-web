@@ -12,7 +12,7 @@ define([], function() {
     }
 
     function uploadContent(connectionManager, server, options) {
-        return new Promise().resolve();
+        return new Promise().reject();
     }
 
     function syncMedia(connectionManager, server, options) {

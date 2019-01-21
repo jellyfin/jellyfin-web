@@ -213,9 +213,15 @@ var Dashboard = {
 
     function getSettingsBuilder(UserSettings, layoutManager, browser) {
         UserSettings.prototype.enableThemeVideos = function(val) {
-            return null != val
-                ? this.set("enableThemeVideos", val.toString(), !1)
-                : (val = this.get("enableThemeVideos", !1), val ? "false" !== val : !layoutManager.mobile && !browser.slow);
+            if (val != null) {
+                return this.set('enableThemeVideos', val.toString(), false);
+            }
+            val = this.get('enableThemeVideos', false);
+            if (val !== 'false') {
+                return !layoutManager.mobile;
+            } else {
+                return !browser.slow;
+            }
         };
         return UserSettings;
     }

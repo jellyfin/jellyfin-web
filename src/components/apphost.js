@@ -114,10 +114,10 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function(appSett
     function onAppHidden() {
         _isHidden || (_isHidden = !0, console.log("app is hidden"))
     }
-    var htmlMediaAutoplayAppStorageKey = "supportshtmlmediaautoplay0",
+    var htmlMediaAutoplayAppStorageKey = "supportshtmlmediaautoplay0";
         supportedFeatures = function() {
             var features = [];
-            return navigator.share && features.push("sharing");
+            navigator.share && features.push("sharing");
             browser.edgeUwp || browser.tv || browser.xboxOne || browser.ps4 || features.push("filedownload");
             browser.operaTv || browser.tizen || browser.orsay || browser.web0s
                 ? features.push("exit")
@@ -138,18 +138,19 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function(appSett
             browser.orsay || browser.tizen || features.push("subtitleburnsettings");
             browser.tv || browser.ps4 || browser.xboxOne || features.push("fileinput");
             browser.chrome && features.push("chromecast");
+            return features;
         }();
         if (supportedFeatures.indexOf("htmlvideoautoplay") === -1 && supportsHtmlMediaAutoplay() !=== false) {
             require(["autoPlayDetect"], function(autoPlayDetect) {
-            autoPlayDetect.supportsHtmlMediaAutoplay().then(function() {
-                appSettings.set(htmlMediaAutoplayAppStorageKey, "true");
-                supportedFeatures.push("htmlvideoautoplay");
-                supportedFeatures.push("htmlaudioautoplay");
-            }, function() {
-                appSettings.set(htmlMediaAutoplayAppStorageKey, "false");
-            });
-        }
-    });
+                autoPlayDetect.supportsHtmlMediaAutoplay().then(function() {
+                    appSettings.set(htmlMediaAutoplayAppStorageKey, "true");
+                    supportedFeatures.push("htmlvideoautoplay");
+                    supportedFeatures.push("htmlaudioautoplay");
+                }, function() {
+                    appSettings.set(htmlMediaAutoplayAppStorageKey, "false");
+                });
+            }
+        });
     var deviceId, deviceName, visibilityChange, visibilityState, appVersion = window.dashboardVersion || "3.0",
         appHost = {
             getWindowState: function() {
