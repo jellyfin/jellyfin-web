@@ -688,12 +688,6 @@ var Dashboard = {
             transition: "fade",
             controller: "scripts/myprofile"
         }), defineRoute({
-            path: "/mysyncjob.html",
-            dependencies: [],
-            autoFocus: !1,
-            transition: "fade",
-            controller: "scripts/syncjob"
-        }), defineRoute({
             path: "/notificationsetting.html",
             dependencies: [],
             autoFocus: !1,
@@ -1085,8 +1079,6 @@ var Dashboard = {
         define("guide-settings-dialog", [embyWebComponentsBowerPath + "/guide/guide-settings"], returnFirstDependency);
         define("loadingDialog", [embyWebComponentsBowerPath + "/loadingdialog/loadingdialog"], returnFirstDependency);
         define("syncDialog", [embyWebComponentsBowerPath + "/sync/sync"], returnFirstDependency);
-        define("syncJobEditor", [embyWebComponentsBowerPath + "/sync/syncjobeditor"], returnFirstDependency);
-        define("syncJobList", [embyWebComponentsBowerPath + "/sync/syncjoblist"], returnFirstDependency);
         define("viewManager", [embyWebComponentsBowerPath + "/viewmanager/viewmanager"], function(viewManager) {
             return window.ViewManager = viewManager, viewManager.dispatchPageEvents(!0), viewManager
         });
