@@ -189,8 +189,8 @@ var Dashboard = {
     function createConnectionManager() {
         return new Promise(function(resolve, reject) {
             require(["connectionManagerFactory", "apphost", "credentialprovider", "events", "userSettings"], function(ConnectionManager, apphost, credentialProvider, events, userSettings) {
-                var credentialProviderInstance = new credentialProvider,
-                    promises = [apphost.getSyncProfile(), apphost.init()];
+                var credentialProviderInstance = new credentialProvider;
+                var promises = [apphost.getSyncProfile(), apphost.init()];
                 Promise.all(promises).then(function(responses) {
                     var deviceProfile = responses[0],
                         capabilities = Dashboard.capabilities(apphost);
@@ -202,9 +202,9 @@ var Dashboard = {
                         apiClient.enableAutomaticNetworking = !1, apiClient.manualAddressOnly = !0, connectionManager.addApiClient(apiClient), window.ApiClient = apiClient, localApiClient = apiClient, console.log("loaded ApiClient singleton"), resolve()
                     });
                     resolve()
-                })
-            })
-        })
+                });
+            });
+        });
     }
 
     function returnFirstDependency(obj) {
@@ -212,51 +212,65 @@ var Dashboard = {
     }
 
     function getSettingsBuilder(UserSettings, layoutManager, browser) {
-        return UserSettings.prototype.enableThemeVideos = function(val) {
-            return null != val ? this.set("enableThemeVideos", val.toString(), !1) : (val = this.get("enableThemeVideos", !1), val ? "false" !== val : !layoutManager.mobile && !browser.slow)
-        }, UserSettings
+        UserSettings.prototype.enableThemeVideos = function(val) {
+            return null != val
+                ? this.set("enableThemeVideos", val.toString(), !1)
+                : (val = this.get("enableThemeVideos", !1), val ? "false" !== val : !layoutManager.mobile && !browser.slow);
+        };
+        return UserSettings;
     }
 
     function getBowerPath() {
-        return "bower_components"
+        return "bower_components";
     }
 
     function getPlaybackManager(playbackManager) {
-        return window.addEventListener("beforeunload", function(e) {
+        window.addEventListener("beforeunload", function(e) {
             try {
-                playbackManager.onAppClose()
+                playbackManager.onAppClose();
             } catch (err) {
-                console.log("error in onAppClose: " + err)
+                console.log("error in onAppClose: " + err);
             }
-        }), playbackManager
+        });
+        return playbackManager;
     }
 
     function getLayoutManager(layoutManager, appHost) {
-        return appHost.getDefaultLayout && (layoutManager.defaultLayout = appHost.getDefaultLayout()), layoutManager.init(), layoutManager
+        if (appHost.getDefaultLayout) {
+            layoutManager.defaultLayout = appHost.getDefaultLayout();
+        }
+        layoutManager.init();
+        return layoutManager;
     }
 
     function getAppStorage(basePath) {
         try {
-            return localStorage.setItem("_test", "0"), localStorage.removeItem("_test"), basePath + "/appstorage-localstorage"
+            localStorage.setItem("_test", "0");
+            localStorage.removeItem("_test");
+            return basePath + "/appstorage-localstorage";
         } catch (e) {
-            return basePath + "/appstorage-memory"
+            return basePath + "/appstorage-memory";
         }
     }
 
     function createWindowHeadroom(Headroom) {
         var headroom = new Headroom([], {});
-        return headroom.init(), headroom
+        headroom.init();
+        return headroom;
     }
 
     function getCastSenderApiLoader() {
-        var ccLoaded = !1;
+        var ccLoaded = false;
         return {
             load: function() {
                 return ccLoaded ? Promise.resolve() : new Promise(function(resolve, reject) {
                     var fileref = document.createElement("script");
-                    fileref.setAttribute("type", "text/javascript"), fileref.onload = function() {
+                    fileref.setAttribute("type", "text/javascript");
+                    fileref.onload = function() {
                         ccLoaded = !0, resolve()
-                    }, fileref.setAttribute("src", "https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"), document.querySelector("head").appendChild(fileref)
+                    };
+                    fileref.setAttribute("src", "https://www.gstatic.com/cv/js/sender/v1/cast_sender.js");
+                    document.querySelector("head").appendChild(fileref);
                 })
             }
         }
@@ -271,11 +285,11 @@ var Dashboard = {
     }
 
     function createSharedAppFooter(appFooter) {
-        return new appFooter({})
+        return new appFooter({});
     }
 
     function onRequireJsError(requireType, requireModules) {
-        console.log("RequireJS error: " + (requireType || "unknown") + ". Failed modules: " + (requireModules || []).join(","))
+        console.log("RequireJS error: " + (requireType || "unknown") + ". Failed modules: " + (requireModules || []).join(","));
     }
 
     function defineResizeObserver() {
@@ -405,19 +419,24 @@ var Dashboard = {
         var deps = ["apphost"];
         browser.tv && !browser.android ? (console.log("Using system fonts with explicit sizes"), deps.push("systemFontsSizedCss")) : (console.log("Using default fonts"), deps.push("systemFontsCss")), deps.push("css!css/librarybrowser"), require(deps, function(appHost) {
             loadPlugins([], appHost, browser).then(function() {
-                onAppReady(browser)
+                onAppReady(browser);
             })
         })
     }
 
     function defineRoute(newRoute, dictionary) {
-        var baseRoute = Emby.Page.baseUrl(),
-            path = newRoute.path;
-        path = path.replace(baseRoute, ""), console.log("Defining route: " + path), newRoute.dictionary = newRoute.dictionary || dictionary || "core", Emby.Page.addRoute(path, newRoute)
+        var baseRoute = Emby.Page.baseUrl();
+        var path = newRoute.path;
+
+        path = path.replace(baseRoute, "");
+        console.log("Defining route: " + path);
+        newRoute.dictionary = newRoute.dictionary || dictionary || "core";
+        Emby.Page.addRoute(path, newRoute);
     }
 
     function defineCoreRoutes(appHost) {
-        console.log("Defining core routes"), defineRoute({
+        console.log("Defining core routes");
+        defineRoute({
             path: "/addplugin.html",
             dependencies: [],
             autoFocus: !1,
@@ -933,11 +952,11 @@ var Dashboard = {
     }
     var localApiClient;
     ! function() {
-        var urlArgs = "v=" + (window.dashboardVersion || (new Date).getDate()),
-            bowerPath = getBowerPath(),
-            apiClientBowerPath = bowerPath + "/emby-apiclient",
-            embyWebComponentsBowerPath = bowerPath + "/emby-webcomponents",
-            paths = {
+        var urlArgs = "v=" + (window.dashboardVersion || (new Date).getDate());
+        var bowerPath = getBowerPath();
+        var apiClientBowerPath = bowerPath + "/emby-apiclient";
+        var embyWebComponentsBowerPath = bowerPath + "/emby-webcomponents";
+        var paths = {
                 velocity: bowerPath + "/velocity/velocity.min",
                 vibrant: bowerPath + "/vibrant/dist/vibrant",
                 staticBackdrops: embyWebComponentsBowerPath + "/staticbackdrops",
@@ -973,10 +992,109 @@ var Dashboard = {
                 nowPlayingHelper: embyWebComponentsBowerPath + "/playback/nowplayinghelper",
                 pluginManager: embyWebComponentsBowerPath + "/pluginmanager",
                 packageManager: embyWebComponentsBowerPath + "/packagemanager"
-            };
-        paths.hlsjs = bowerPath + "/hlsjs/dist/hls.min", paths.flvjs = embyWebComponentsBowerPath + "/flvjs/flv.min", paths.shaka = embyWebComponentsBowerPath + "/shaka/shaka-player.compiled", define("chromecastHelper", [embyWebComponentsBowerPath + "/chromecast/chromecasthelpers"], returnFirstDependency), define("mediaSession", [embyWebComponentsBowerPath + "/playback/mediasession"], returnFirstDependency), define("webActionSheet", [embyWebComponentsBowerPath + "/actionsheet/actionsheet"], returnFirstDependency), define("libjass", [bowerPath + "/libjass/libjass.min", "css!" + bowerPath + "/libjass/libjass"], returnFirstDependency), define("tunerPicker", ["components/tunerpicker"], returnFirstDependency), define("mainTabsManager", [embyWebComponentsBowerPath + "/maintabsmanager"], returnFirstDependency), define("imageLoader", [embyWebComponentsBowerPath + "/images/imagehelper"], returnFirstDependency), define("appFooter", [embyWebComponentsBowerPath + "/appfooter/appfooter"], returnFirstDependency), define("directorybrowser", ["components/directorybrowser/directorybrowser"], returnFirstDependency), define("metadataEditor", [embyWebComponentsBowerPath + "/metadataeditor/metadataeditor"], returnFirstDependency), define("personEditor", [embyWebComponentsBowerPath + "/metadataeditor/personeditor"], returnFirstDependency), define("playerSelectionMenu", [embyWebComponentsBowerPath + "/playback/playerselection"], returnFirstDependency), define("playerSettingsMenu", [embyWebComponentsBowerPath + "/playback/playersettingsmenu"], returnFirstDependency), define("playMethodHelper", [embyWebComponentsBowerPath + "/playback/playmethodhelper"], returnFirstDependency), define("brightnessOsd", [embyWebComponentsBowerPath + "/playback/brightnessosd"], returnFirstDependency), define("libraryMenu", ["scripts/librarymenu"], returnFirstDependency), define("emby-collapse", [embyWebComponentsBowerPath + "/emby-collapse/emby-collapse"], returnFirstDependency), define("emby-button", [embyWebComponentsBowerPath + "/emby-button/emby-button"], returnFirstDependency), define("emby-linkbutton", ["emby-button"], returnFirstDependency), define("emby-itemscontainer", [embyWebComponentsBowerPath + "/emby-itemscontainer/emby-itemscontainer"], returnFirstDependency), define("alphaNumericShortcuts", [embyWebComponentsBowerPath + "/alphanumericshortcuts/alphanumericshortcuts"], returnFirstDependency), define("emby-scroller", [embyWebComponentsBowerPath + "/emby-scroller/emby-scroller"], returnFirstDependency), define("emby-tabs", [embyWebComponentsBowerPath + "/emby-tabs/emby-tabs"], returnFirstDependency), define("emby-scrollbuttons", [embyWebComponentsBowerPath + "/emby-scrollbuttons/emby-scrollbuttons"], returnFirstDependency), define("emby-progressring", [embyWebComponentsBowerPath + "/emby-progressring/emby-progressring"], returnFirstDependency), define("emby-itemrefreshindicator", [embyWebComponentsBowerPath + "/emby-itemrefreshindicator/emby-itemrefreshindicator"], returnFirstDependency), define("multiSelect", [embyWebComponentsBowerPath + "/multiselect/multiselect"], returnFirstDependency), define("alphaPicker", [embyWebComponentsBowerPath + "/alphapicker/alphapicker"], returnFirstDependency), define("paper-icon-button-light", [embyWebComponentsBowerPath + "/emby-button/paper-icon-button-light"], returnFirstDependency), define("tabbedView", [embyWebComponentsBowerPath + "/tabbedview/tabbedview"], returnFirstDependency), define("itemsTab", [embyWebComponentsBowerPath + "/tabbedview/itemstab"], returnFirstDependency), define("emby-input", [embyWebComponentsBowerPath + "/emby-input/emby-input"], returnFirstDependency), define("emby-select", [embyWebComponentsBowerPath + "/emby-select/emby-select"], returnFirstDependency), define("emby-slider", [embyWebComponentsBowerPath + "/emby-slider/emby-slider"], returnFirstDependency), define("emby-checkbox", [embyWebComponentsBowerPath + "/emby-checkbox/emby-checkbox"], returnFirstDependency), define("emby-toggle", [embyWebComponentsBowerPath + "/emby-toggle/emby-toggle"], returnFirstDependency), define("emby-radio", [embyWebComponentsBowerPath + "/emby-radio/emby-radio"], returnFirstDependency), define("emby-textarea", [embyWebComponentsBowerPath + "/emby-textarea/emby-textarea"], returnFirstDependency), define("collectionEditor", [embyWebComponentsBowerPath + "/collectioneditor/collectioneditor"], returnFirstDependency), define("serverRestartDialog", [embyWebComponentsBowerPath + "/serverrestartdialog/serverrestartdialog"], returnFirstDependency), define("playlistEditor", [embyWebComponentsBowerPath + "/playlisteditor/playlisteditor"], returnFirstDependency), define("recordingCreator", [embyWebComponentsBowerPath + "/recordingcreator/recordingcreator"], returnFirstDependency), define("recordingEditor", [embyWebComponentsBowerPath + "/recordingcreator/recordingeditor"], returnFirstDependency), define("seriesRecordingEditor", [embyWebComponentsBowerPath + "/recordingcreator/seriesrecordingeditor"], returnFirstDependency), define("recordingFields", [embyWebComponentsBowerPath + "/recordingcreator/recordingfields"], returnFirstDependency), define("recordingButton", [embyWebComponentsBowerPath + "/recordingcreator/recordingbutton"], returnFirstDependency), define("recordingHelper", [embyWebComponentsBowerPath + "/recordingcreator/recordinghelper"], returnFirstDependency), define("subtitleEditor", [embyWebComponentsBowerPath + "/subtitleeditor/subtitleeditor"], returnFirstDependency), define("itemIdentifier", [embyWebComponentsBowerPath + "/itemidentifier/itemidentifier"], returnFirstDependency), define("mediaInfo", [embyWebComponentsBowerPath + "/mediainfo/mediainfo"], returnFirstDependency), define("itemContextMenu", [embyWebComponentsBowerPath + "/itemcontextmenu"], returnFirstDependency), define("imageEditor", [embyWebComponentsBowerPath + "/imageeditor/imageeditor"], returnFirstDependency), define("imageDownloader", [embyWebComponentsBowerPath + "/imagedownloader/imagedownloader"], returnFirstDependency), define("dom", [embyWebComponentsBowerPath + "/dom"], returnFirstDependency), define("playerStats", [embyWebComponentsBowerPath + "/playerstats/playerstats"], returnFirstDependency), define("searchFields", [embyWebComponentsBowerPath + "/search/searchfields"], returnFirstDependency), define("searchResults", [embyWebComponentsBowerPath + "/search/searchresults"], returnFirstDependency), define("upNextDialog", [embyWebComponentsBowerPath + "/upnextdialog/upnextdialog"], returnFirstDependency), define("fullscreen-doubleclick", [embyWebComponentsBowerPath + "/fullscreen/fullscreen-dc"], returnFirstDependency), define("fullscreenManager", [embyWebComponentsBowerPath + "/fullscreen/fullscreenmanager", "events"], returnFirstDependency), define("headroom", [embyWebComponentsBowerPath + "/headroom/headroom"], returnFirstDependency), define("subtitleAppearanceHelper", [embyWebComponentsBowerPath + "/subtitlesettings/subtitleappearancehelper"], returnFirstDependency), define("subtitleSettings", [embyWebComponentsBowerPath + "/subtitlesettings/subtitlesettings"], returnFirstDependency), define("displaySettings", [embyWebComponentsBowerPath + "/displaysettings/displaysettings"], returnFirstDependency), define("playbackSettings", [embyWebComponentsBowerPath + "/playbacksettings/playbacksettings"], returnFirstDependency), define("homescreenSettings", [embyWebComponentsBowerPath + "/homescreensettings/homescreensettings"], returnFirstDependency), define("homescreenSettingsDialog", [embyWebComponentsBowerPath + "/homescreensettings/homescreensettingsdialog"], returnFirstDependency), define("playbackManager", [embyWebComponentsBowerPath + "/playback/playbackmanager"], getPlaybackManager), define("layoutManager", [embyWebComponentsBowerPath + "/layoutmanager", "apphost"], getLayoutManager), define("homeSections", [embyWebComponentsBowerPath + "/homesections/homesections"], returnFirstDependency), define("playMenu", [embyWebComponentsBowerPath + "/playmenu"], returnFirstDependency), define("refreshDialog", [embyWebComponentsBowerPath + "/refreshdialog/refreshdialog"], returnFirstDependency), define("backdrop", [embyWebComponentsBowerPath + "/backdrop/backdrop"], returnFirstDependency), define("fetchHelper", [embyWebComponentsBowerPath + "/fetchhelper"], returnFirstDependency), define("roundCardStyle", ["cardStyle", "css!" + embyWebComponentsBowerPath + "/cardbuilder/roundcard"], returnFirstDependency), define("cardStyle", ["css!" + embyWebComponentsBowerPath + "/cardbuilder/card"], returnFirstDependency), define("cardBuilder", [embyWebComponentsBowerPath + "/cardbuilder/cardbuilder"], returnFirstDependency), define("peoplecardbuilder", [embyWebComponentsBowerPath + "/cardbuilder/peoplecardbuilder"], returnFirstDependency), define("chaptercardbuilder", [embyWebComponentsBowerPath + "/cardbuilder/chaptercardbuilder"], returnFirstDependency), define("mouseManager", [embyWebComponentsBowerPath + "/input/mouse"], returnFirstDependency), define("flexStyles", ["css!" + embyWebComponentsBowerPath + "/flexstyles"], returnFirstDependency), define("deleteHelper", [embyWebComponentsBowerPath + "/deletehelper"], returnFirstDependency), define("tvguide", [embyWebComponentsBowerPath + "/guide/guide"], returnFirstDependency), define("programStyles", ["css!" + embyWebComponentsBowerPath + "/guide/programs"], returnFirstDependency), define("guide-settings-dialog", [embyWebComponentsBowerPath + "/guide/guide-settings"], returnFirstDependency), define("loadingDialog", [embyWebComponentsBowerPath + "/loadingdialog/loadingdialog"], returnFirstDependency), define("syncDialog", [embyWebComponentsBowerPath + "/sync/sync"], returnFirstDependency), define("syncJobEditor", [embyWebComponentsBowerPath + "/sync/syncjobeditor"], returnFirstDependency), define("syncJobList", [embyWebComponentsBowerPath + "/sync/syncjoblist"], returnFirstDependency), define("viewManager", [embyWebComponentsBowerPath + "/viewmanager/viewmanager"], function(viewManager) {
+        };
+
+        paths.hlsjs = bowerPath + "/hlsjs/dist/hls.min";
+        paths.flvjs = embyWebComponentsBowerPath + "/flvjs/flv.min";
+        paths.shaka = embyWebComponentsBowerPath + "/shaka/shaka-player.compiled";
+
+        define("chromecastHelper", [embyWebComponentsBowerPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
+        define("mediaSession", [embyWebComponentsBowerPath + "/playback/mediasession"], returnFirstDependency);
+        define("webActionSheet", [embyWebComponentsBowerPath + "/actionsheet/actionsheet"], returnFirstDependency);
+        define("libjass", [bowerPath + "/libjass/libjass.min", "css!" + bowerPath + "/libjass/libjass"], returnFirstDependency);
+        define("tunerPicker", ["components/tunerpicker"], returnFirstDependency);
+        define("mainTabsManager", [embyWebComponentsBowerPath + "/maintabsmanager"], returnFirstDependency);
+        define("imageLoader", [embyWebComponentsBowerPath + "/images/imagehelper"], returnFirstDependency);
+        define("appFooter", [embyWebComponentsBowerPath + "/appfooter/appfooter"], returnFirstDependency);
+        define("directorybrowser", ["components/directorybrowser/directorybrowser"], returnFirstDependency);
+        define("metadataEditor", [embyWebComponentsBowerPath + "/metadataeditor/metadataeditor"], returnFirstDependency);
+        define("personEditor", [embyWebComponentsBowerPath + "/metadataeditor/personeditor"], returnFirstDependency);
+        define("playerSelectionMenu", [embyWebComponentsBowerPath + "/playback/playerselection"], returnFirstDependency);
+        define("playerSettingsMenu", [embyWebComponentsBowerPath + "/playback/playersettingsmenu"], returnFirstDependency);
+        define("playMethodHelper", [embyWebComponentsBowerPath + "/playback/playmethodhelper"], returnFirstDependency);
+        define("brightnessOsd", [embyWebComponentsBowerPath + "/playback/brightnessosd"], returnFirstDependency);
+        define("libraryMenu", ["scripts/librarymenu"], returnFirstDependency);
+        define("emby-collapse", [embyWebComponentsBowerPath + "/emby-collapse/emby-collapse"], returnFirstDependency);
+        define("emby-button", [embyWebComponentsBowerPath + "/emby-button/emby-button"], returnFirstDependency);
+        define("emby-linkbutton", ["emby-button"], returnFirstDependency);
+        define("emby-itemscontainer", [embyWebComponentsBowerPath + "/emby-itemscontainer/emby-itemscontainer"], returnFirstDependency);
+        define("alphaNumericShortcuts", [embyWebComponentsBowerPath + "/alphanumericshortcuts/alphanumericshortcuts"], returnFirstDependency);
+        define("emby-scroller", [embyWebComponentsBowerPath + "/emby-scroller/emby-scroller"], returnFirstDependency);
+        define("emby-tabs", [embyWebComponentsBowerPath + "/emby-tabs/emby-tabs"], returnFirstDependency);
+        define("emby-scrollbuttons", [embyWebComponentsBowerPath + "/emby-scrollbuttons/emby-scrollbuttons"], returnFirstDependency);
+        define("emby-progressring", [embyWebComponentsBowerPath + "/emby-progressring/emby-progressring"], returnFirstDependency);
+        define("emby-itemrefreshindicator", [embyWebComponentsBowerPath + "/emby-itemrefreshindicator/emby-itemrefreshindicator"], returnFirstDependency);
+        define("multiSelect", [embyWebComponentsBowerPath + "/multiselect/multiselect"], returnFirstDependency);
+        define("alphaPicker", [embyWebComponentsBowerPath + "/alphapicker/alphapicker"], returnFirstDependency);
+        define("paper-icon-button-light", [embyWebComponentsBowerPath + "/emby-button/paper-icon-button-light"], returnFirstDependency);
+        define("tabbedView", [embyWebComponentsBowerPath + "/tabbedview/tabbedview"], returnFirstDependency);
+        define("itemsTab", [embyWebComponentsBowerPath + "/tabbedview/itemstab"], returnFirstDependency);
+        define("emby-input", [embyWebComponentsBowerPath + "/emby-input/emby-input"], returnFirstDependency);
+        define("emby-select", [embyWebComponentsBowerPath + "/emby-select/emby-select"], returnFirstDependency);
+        define("emby-slider", [embyWebComponentsBowerPath + "/emby-slider/emby-slider"], returnFirstDependency);
+        define("emby-checkbox", [embyWebComponentsBowerPath + "/emby-checkbox/emby-checkbox"], returnFirstDependency);
+        define("emby-toggle", [embyWebComponentsBowerPath + "/emby-toggle/emby-toggle"], returnFirstDependency);
+        define("emby-radio", [embyWebComponentsBowerPath + "/emby-radio/emby-radio"], returnFirstDependency);
+        define("emby-textarea", [embyWebComponentsBowerPath + "/emby-textarea/emby-textarea"], returnFirstDependency);
+        define("collectionEditor", [embyWebComponentsBowerPath + "/collectioneditor/collectioneditor"], returnFirstDependency);
+        define("serverRestartDialog", [embyWebComponentsBowerPath + "/serverrestartdialog/serverrestartdialog"], returnFirstDependency);
+        define("playlistEditor", [embyWebComponentsBowerPath + "/playlisteditor/playlisteditor"], returnFirstDependency);
+        define("recordingCreator", [embyWebComponentsBowerPath + "/recordingcreator/recordingcreator"], returnFirstDependency);
+        define("recordingEditor", [embyWebComponentsBowerPath + "/recordingcreator/recordingeditor"], returnFirstDependency);
+        define("seriesRecordingEditor", [embyWebComponentsBowerPath + "/recordingcreator/seriesrecordingeditor"], returnFirstDependency);
+        define("recordingFields", [embyWebComponentsBowerPath + "/recordingcreator/recordingfields"], returnFirstDependency);
+        define("recordingButton", [embyWebComponentsBowerPath + "/recordingcreator/recordingbutton"], returnFirstDependency);
+        define("recordingHelper", [embyWebComponentsBowerPath + "/recordingcreator/recordinghelper"], returnFirstDependency);
+        define("subtitleEditor", [embyWebComponentsBowerPath + "/subtitleeditor/subtitleeditor"], returnFirstDependency);
+        define("itemIdentifier", [embyWebComponentsBowerPath + "/itemidentifier/itemidentifier"], returnFirstDependency);
+        define("mediaInfo", [embyWebComponentsBowerPath + "/mediainfo/mediainfo"], returnFirstDependency);
+        define("itemContextMenu", [embyWebComponentsBowerPath + "/itemcontextmenu"], returnFirstDependency);
+        define("imageEditor", [embyWebComponentsBowerPath + "/imageeditor/imageeditor"], returnFirstDependency);
+        define("imageDownloader", [embyWebComponentsBowerPath + "/imagedownloader/imagedownloader"], returnFirstDependency);
+        define("dom", [embyWebComponentsBowerPath + "/dom"], returnFirstDependency);
+        define("playerStats", [embyWebComponentsBowerPath + "/playerstats/playerstats"], returnFirstDependency);
+        define("searchFields", [embyWebComponentsBowerPath + "/search/searchfields"], returnFirstDependency);
+        define("searchResults", [embyWebComponentsBowerPath + "/search/searchresults"], returnFirstDependency);
+        define("upNextDialog", [embyWebComponentsBowerPath + "/upnextdialog/upnextdialog"], returnFirstDependency);
+        define("fullscreen-doubleclick", [embyWebComponentsBowerPath + "/fullscreen/fullscreen-dc"], returnFirstDependency);
+        define("fullscreenManager", [embyWebComponentsBowerPath + "/fullscreen/fullscreenmanager", "events"], returnFirstDependency);
+        define("headroom", [embyWebComponentsBowerPath + "/headroom/headroom"], returnFirstDependency);
+        define("subtitleAppearanceHelper", [embyWebComponentsBowerPath + "/subtitlesettings/subtitleappearancehelper"], returnFirstDependency);
+        define("subtitleSettings", [embyWebComponentsBowerPath + "/subtitlesettings/subtitlesettings"], returnFirstDependency);
+        define("displaySettings", [embyWebComponentsBowerPath + "/displaysettings/displaysettings"], returnFirstDependency);
+        define("playbackSettings", [embyWebComponentsBowerPath + "/playbacksettings/playbacksettings"], returnFirstDependency);
+        define("homescreenSettings", [embyWebComponentsBowerPath + "/homescreensettings/homescreensettings"], returnFirstDependency);
+        define("homescreenSettingsDialog", [embyWebComponentsBowerPath + "/homescreensettings/homescreensettingsdialog"], returnFirstDependency);
+        define("playbackManager", [embyWebComponentsBowerPath + "/playback/playbackmanager"], getPlaybackManager);
+        define("layoutManager", [embyWebComponentsBowerPath + "/layoutmanager", "apphost"], getLayoutManager);
+        define("homeSections", [embyWebComponentsBowerPath + "/homesections/homesections"], returnFirstDependency);
+        define("playMenu", [embyWebComponentsBowerPath + "/playmenu"], returnFirstDependency);
+        define("refreshDialog", [embyWebComponentsBowerPath + "/refreshdialog/refreshdialog"], returnFirstDependency);
+        define("backdrop", [embyWebComponentsBowerPath + "/backdrop/backdrop"], returnFirstDependency);
+        define("fetchHelper", [embyWebComponentsBowerPath + "/fetchhelper"], returnFirstDependency);
+        define("roundCardStyle", ["cardStyle", "css!" + embyWebComponentsBowerPath + "/cardbuilder/roundcard"], returnFirstDependency);
+        define("cardStyle", ["css!" + embyWebComponentsBowerPath + "/cardbuilder/card"], returnFirstDependency);
+        define("cardBuilder", [embyWebComponentsBowerPath + "/cardbuilder/cardbuilder"], returnFirstDependency);
+        define("peoplecardbuilder", [embyWebComponentsBowerPath + "/cardbuilder/peoplecardbuilder"], returnFirstDependency);
+        define("chaptercardbuilder", [embyWebComponentsBowerPath + "/cardbuilder/chaptercardbuilder"], returnFirstDependency);
+        define("mouseManager", [embyWebComponentsBowerPath + "/input/mouse"], returnFirstDependency);
+        define("flexStyles", ["css!" + embyWebComponentsBowerPath + "/flexstyles"], returnFirstDependency);
+        define("deleteHelper", [embyWebComponentsBowerPath + "/deletehelper"], returnFirstDependency);
+        define("tvguide", [embyWebComponentsBowerPath + "/guide/guide"], returnFirstDependency);
+        define("programStyles", ["css!" + embyWebComponentsBowerPath + "/guide/programs"], returnFirstDependency);
+        define("guide-settings-dialog", [embyWebComponentsBowerPath + "/guide/guide-settings"], returnFirstDependency);
+        define("loadingDialog", [embyWebComponentsBowerPath + "/loadingdialog/loadingdialog"], returnFirstDependency);
+        define("syncDialog", [embyWebComponentsBowerPath + "/sync/sync"], returnFirstDependency);
+        define("syncJobEditor", [embyWebComponentsBowerPath + "/sync/syncjobeditor"], returnFirstDependency);
+        define("syncJobList", [embyWebComponentsBowerPath + "/sync/syncjoblist"], returnFirstDependency);
+        define("viewManager", [embyWebComponentsBowerPath + "/viewmanager/viewmanager"], function(viewManager) {
             return window.ViewManager = viewManager, viewManager.dispatchPageEvents(!0), viewManager
-        }), "cordova" === self.appMode || "android" === self.appMode ? paths.apphost = "cordova/apphost" : paths.apphost = "components/apphost", paths.appStorage = getAppStorage(apiClientBowerPath), requirejs.config({
+        });
+
+        "cordova" === self.appMode || "android" === self.appMode
+            ? paths.apphost = "cordova/apphost"
+            : paths.apphost = "components/apphost";
+        paths.appStorage = getAppStorage(apiClientBowerPath), requirejs.config({
             waitSeconds: 0,
             map: {
                 "*": {
@@ -987,11 +1105,72 @@ var Dashboard = {
             urlArgs: urlArgs,
             paths: paths,
             onError: onRequireJsError
-        }), requirejs.onError = onRequireJsError, define("jstree", ["thirdparty/jstree/jstree", "css!thirdparty/jstree/themes/default/style.css"], returnFirstDependency), define("dashboardcss", ["css!css/dashboard"], returnFirstDependency), define("slideshow", [embyWebComponentsBowerPath + "/slideshow/slideshow"], returnFirstDependency), define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency), define("raf", [embyWebComponentsBowerPath + "/polyfills/raf"], returnFirstDependency), define("functionbind", [embyWebComponentsBowerPath + "/polyfills/bind"], returnFirstDependency), define("arraypolyfills", [embyWebComponentsBowerPath + "/polyfills/array"], returnFirstDependency), define("objectassign", [embyWebComponentsBowerPath + "/polyfills/objectassign"], returnFirstDependency), define("clearButtonStyle", ["css!" + embyWebComponentsBowerPath + "/clearbutton"], returnFirstDependency), define("userdataButtons", [embyWebComponentsBowerPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency), define("emby-playstatebutton", [embyWebComponentsBowerPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency), define("emby-ratingbutton", [embyWebComponentsBowerPath + "/userdatabuttons/emby-ratingbutton"], returnFirstDependency), define("emby-downloadbutton", [embyWebComponentsBowerPath + "/sync/emby-downloadbutton"], returnFirstDependency), define("listView", [embyWebComponentsBowerPath + "/listview/listview"], returnFirstDependency), define("listViewStyle", ["css!" + embyWebComponentsBowerPath + "/listview/listview"], returnFirstDependency), define("formDialogStyle", ["css!" + embyWebComponentsBowerPath + "/formdialog"], returnFirstDependency), define("indicators", [embyWebComponentsBowerPath + "/indicators/indicators"], returnFirstDependency), define("viewSettings", [embyWebComponentsBowerPath + "/viewsettings/viewsettings"], returnFirstDependency), define("filterMenu", [embyWebComponentsBowerPath + "/filtermenu/filtermenu"], returnFirstDependency), define("sortMenu", [embyWebComponentsBowerPath + "/sortmenu/sortmenu"], returnFirstDependency), define("registrationServices", [embyWebComponentsBowerPath + "/registrationservices/registrationservices"], returnFirstDependency), "cordova" === self.appMode || "android" === self.appMode ? define("fileupload", ["cordova/fileupload"], returnFirstDependency) : define("fileupload", [apiClientBowerPath + "/fileupload"], returnFirstDependency), define("connectionmanager", [apiClientBowerPath + "/connectionmanager"]), define("contentuploader", [apiClientBowerPath + "/sync/contentuploader"], returnFirstDependency), define("serversync", [apiClientBowerPath + "/sync/serversync"], returnFirstDependency), define("multiserversync", [apiClientBowerPath + "/sync/multiserversync"], returnFirstDependency), define("mediasync", [apiClientBowerPath + "/sync/mediasync"], returnFirstDependency), define("idb", [embyWebComponentsBowerPath + "/idb"], returnFirstDependency), define("sanitizefilename", [embyWebComponentsBowerPath + "/sanitizefilename"], returnFirstDependency), define("itemrepository", [apiClientBowerPath + "/sync/itemrepository"], returnFirstDependency), define("useractionrepository", [apiClientBowerPath + "/sync/useractionrepository"], returnFirstDependency), define("swiper", [bowerPath + "/Swiper/dist/js/swiper.min", "css!" + bowerPath + "/Swiper/dist/css/swiper.min"], returnFirstDependency), define("scroller", [embyWebComponentsBowerPath + "/scroller/smoothscroller"], returnFirstDependency), define("toast", [embyWebComponentsBowerPath + "/toast/toast"], returnFirstDependency), define("scrollHelper", [embyWebComponentsBowerPath + "/scrollhelper"], returnFirstDependency), define("touchHelper", [embyWebComponentsBowerPath + "/touchhelper"], returnFirstDependency), define("appSettings", [embyWebComponentsBowerPath + "/appsettings"], returnFirstDependency), define("userSettings", [embyWebComponentsBowerPath + "/usersettings/usersettings"], returnFirstDependency), define("userSettingsBuilder", [embyWebComponentsBowerPath + "/usersettings/usersettingsbuilder", "layoutManager", "browser"], getSettingsBuilder), define("material-icons", ["css!" + embyWebComponentsBowerPath + "/fonts/material-icons/style"], returnFirstDependency), define("systemFontsCss", ["css!" + embyWebComponentsBowerPath + "/fonts/fonts"], returnFirstDependency), define("systemFontsSizedCss", ["css!" + embyWebComponentsBowerPath + "/fonts/fonts.sized"], returnFirstDependency), define("scrollStyles", ["css!" + embyWebComponentsBowerPath + "/scrollstyles"], returnFirstDependency), define("imageUploader", [embyWebComponentsBowerPath + "/imageuploader/imageuploader"], returnFirstDependency), define("navdrawer", ["components/navdrawer/navdrawer"], returnFirstDependency), define("htmlMediaHelper", [embyWebComponentsBowerPath + "/htmlvideoplayer/htmlmediahelper"], returnFirstDependency), define("viewcontainer", ["components/viewcontainer-lite", "css!" + embyWebComponentsBowerPath + "/viewmanager/viewcontainer-lite"], returnFirstDependency), define("queryString", [bowerPath + "/query-string/index"], function() {
+        });
+        requirejs.onError = onRequireJsError;
+        define("jstree", ["thirdparty/jstree/jstree", "css!thirdparty/jstree/themes/default/style.css"], returnFirstDependency);
+        define("dashboardcss", ["css!css/dashboard"], returnFirstDependency);
+        define("slideshow", [embyWebComponentsBowerPath + "/slideshow/slideshow"], returnFirstDependency);
+        define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency);
+        define("raf", [embyWebComponentsBowerPath + "/polyfills/raf"], returnFirstDependency);
+        define("functionbind", [embyWebComponentsBowerPath + "/polyfills/bind"], returnFirstDependency);
+        define("arraypolyfills", [embyWebComponentsBowerPath + "/polyfills/array"], returnFirstDependency);
+        define("objectassign", [embyWebComponentsBowerPath + "/polyfills/objectassign"], returnFirstDependency);
+        define("clearButtonStyle", ["css!" + embyWebComponentsBowerPath + "/clearbutton"], returnFirstDependency);
+        define("userdataButtons", [embyWebComponentsBowerPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
+        define("emby-playstatebutton", [embyWebComponentsBowerPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
+        define("emby-ratingbutton", [embyWebComponentsBowerPath + "/userdatabuttons/emby-ratingbutton"], returnFirstDependency);
+        define("emby-downloadbutton", [embyWebComponentsBowerPath + "/sync/emby-downloadbutton"], returnFirstDependency);
+        define("listView", [embyWebComponentsBowerPath + "/listview/listview"], returnFirstDependency);
+        define("listViewStyle", ["css!" + embyWebComponentsBowerPath + "/listview/listview"], returnFirstDependency);
+        define("formDialogStyle", ["css!" + embyWebComponentsBowerPath + "/formdialog"], returnFirstDependency);
+        define("indicators", [embyWebComponentsBowerPath + "/indicators/indicators"], returnFirstDependency);
+        define("viewSettings", [embyWebComponentsBowerPath + "/viewsettings/viewsettings"], returnFirstDependency);
+        define("filterMenu", [embyWebComponentsBowerPath + "/filtermenu/filtermenu"], returnFirstDependency);
+        define("sortMenu", [embyWebComponentsBowerPath + "/sortmenu/sortmenu"], returnFirstDependency);
+        define("registrationServices", [embyWebComponentsBowerPath + "/registrationservices/registrationservices"], returnFirstDependency);
+
+        "cordova" === self.appMode || "android" === self.appMode
+            ? define("fileupload", ["cordova/fileupload"], returnFirstDependency)
+            : define("fileupload", [apiClientBowerPath + "/fileupload"], returnFirstDependency);
+        define("connectionmanager", [apiClientBowerPath + "/connectionmanager"]);
+        define("contentuploader", [apiClientBowerPath + "/sync/contentuploader"], returnFirstDependency);
+        define("serversync", [apiClientBowerPath + "/sync/serversync"], returnFirstDependency);
+        define("multiserversync", [apiClientBowerPath + "/sync/multiserversync"], returnFirstDependency);
+        define("mediasync", [apiClientBowerPath + "/sync/mediasync"], returnFirstDependency);
+        define("idb", [embyWebComponentsBowerPath + "/idb"], returnFirstDependency);
+        define("sanitizefilename", [embyWebComponentsBowerPath + "/sanitizefilename"], returnFirstDependency);
+        define("itemrepository", [apiClientBowerPath + "/sync/itemrepository"], returnFirstDependency);
+        define("useractionrepository", [apiClientBowerPath + "/sync/useractionrepository"], returnFirstDependency);
+        define("swiper", [bowerPath + "/Swiper/dist/js/swiper.min", "css!" + bowerPath + "/Swiper/dist/css/swiper.min"], returnFirstDependency);
+        define("scroller", [embyWebComponentsBowerPath + "/scroller/smoothscroller"], returnFirstDependency);
+        define("toast", [embyWebComponentsBowerPath + "/toast/toast"], returnFirstDependency);
+        define("scrollHelper", [embyWebComponentsBowerPath + "/scrollhelper"], returnFirstDependency);
+        define("touchHelper", [embyWebComponentsBowerPath + "/touchhelper"], returnFirstDependency);
+        define("appSettings", [embyWebComponentsBowerPath + "/appsettings"], returnFirstDependency);
+        define("userSettings", [embyWebComponentsBowerPath + "/usersettings/usersettings"], returnFirstDependency);
+        define("userSettingsBuilder", [embyWebComponentsBowerPath + "/usersettings/usersettingsbuilder", "layoutManager", "browser"], getSettingsBuilder);
+        define("material-icons", ["css!" + embyWebComponentsBowerPath + "/fonts/material-icons/style"], returnFirstDependency);
+        define("systemFontsCss", ["css!" + embyWebComponentsBowerPath + "/fonts/fonts"], returnFirstDependency);
+        define("systemFontsSizedCss", ["css!" + embyWebComponentsBowerPath + "/fonts/fonts.sized"], returnFirstDependency);
+        define("scrollStyles", ["css!" + embyWebComponentsBowerPath + "/scrollstyles"], returnFirstDependency);
+        define("imageUploader", [embyWebComponentsBowerPath + "/imageuploader/imageuploader"], returnFirstDependency);
+        define("navdrawer", ["components/navdrawer/navdrawer"], returnFirstDependency);
+        define("htmlMediaHelper", [embyWebComponentsBowerPath + "/htmlvideoplayer/htmlmediahelper"], returnFirstDependency);
+        define("viewcontainer", ["components/viewcontainer-lite", "css!" + embyWebComponentsBowerPath + "/viewmanager/viewcontainer-lite"], returnFirstDependency);
+        define("queryString", [bowerPath + "/query-string/index"], function() {
             return queryString
-        }), define("jQuery", [bowerPath + "/jquery/dist/jquery.slim.min"], function() {
+        });
+        define("jQuery", [bowerPath + "/jquery/dist/jquery.slim.min"], function() {
             return window.ApiClient && (jQuery.ajax = ApiClient.ajax), jQuery
-        }), define("fnchecked", ["legacy/fnchecked"], returnFirstDependency), define("dialogHelper", [embyWebComponentsBowerPath + "/dialoghelper/dialoghelper"], returnFirstDependency), define("inputmanager", ["inputManager"], returnFirstDependency), define("apiInput", [embyWebComponentsBowerPath + "/input/api"], returnFirstDependency), define("serverNotifications", ["apiInput"], returnFirstDependency), define("headroom-window", ["headroom"], createWindowHeadroom), define("appFooter-shared", ["appFooter"], createSharedAppFooter), define("skinManager", [embyWebComponentsBowerPath + "/skinmanager"], function(skinManager) {
+        });
+        define("fnchecked", ["legacy/fnchecked"], returnFirstDependency);
+        define("dialogHelper", [embyWebComponentsBowerPath + "/dialoghelper/dialoghelper"], returnFirstDependency);
+        define("inputmanager", ["inputManager"], returnFirstDependency);
+        define("apiInput", [embyWebComponentsBowerPath + "/input/api"], returnFirstDependency);
+        define("serverNotifications", ["apiInput"], returnFirstDependency);
+        define("headroom-window", ["headroom"], createWindowHeadroom);
+        define("appFooter-shared", ["appFooter"], createSharedAppFooter);
+        define("skinManager", [embyWebComponentsBowerPath + "/skinmanager"], function(skinManager) {
             return skinManager.loadUserSkin = function(options) {
                 require(["appRouter"], function(appRouter) {
                     options = options || {}, options.start ? appRouter.invokeShortcut(options.start) : appRouter.goHome()
@@ -1040,13 +1219,16 @@ var Dashboard = {
                     id: "wmc"
                 }]
             }, skinManager
-        }), define("connectionManager", [], function() {
+        });
+        define("connectionManager", [], function() {
             return ConnectionManager
-        }), define("apiClientResolver", [], function() {
+        });
+        define("apiClientResolver", [], function() {
             return function() {
                 return window.ApiClient
             }
-        }), define("appRouter", [embyWebComponentsBowerPath + "/router", "itemHelper"], function(appRouter, itemHelper) {
+        });
+        define("appRouter", [embyWebComponentsBowerPath + "/router", "itemHelper"], function(appRouter, itemHelper) {
             function showItem(item, serverId, options) {
                 "string" == typeof item ? require(["connectionManager"], function(connectionManager) {
                     var apiClient = connectionManager.currentApiClient();
@@ -1129,8 +1311,11 @@ var Dashboard = {
             }, appRouter.showItem = showItem, appRouter
         })
     }(), require(["css!css/site"]), require(["browser"], onWebComponentsReady)
-}(), pageClassOn("viewshow", "standalonePage", function() {
-    document.querySelector(".skinHeader").classList.add("noHeaderRight")
-}), pageClassOn("viewhide", "standalonePage", function() {
-    document.querySelector(".skinHeader").classList.remove("noHeaderRight")
+}();
+
+pageClassOn("viewshow", "standalonePage", function() {
+    document.querySelector(".skinHeader").classList.add("noHeaderRight");
+});
+pageClassOn("viewhide", "standalonePage", function() {
+    document.querySelector(".skinHeader").classList.remove("noHeaderRight");
 });
