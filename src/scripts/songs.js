@@ -29,13 +29,16 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
 
         function reloadItems(page) {
             loading.show();
+            isLoading = true;
             var query = getQuery(page);
             ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function(result) {
                 function onNextPageClick() {
+                    if (isLoading) return;
                     query.StartIndex += query.Limit, reloadItems(tabContent)
                 }
 
                 function onPreviousPageClick() {
+                    if (isLoading) return;
                     query.StartIndex -= query.Limit, reloadItems(tabContent)
                 }
                 window.scrollTo(0, 0);
@@ -61,11 +64,16 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                 for (elems = tabContent.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("click", onNextPageClick);
                 for (elems = tabContent.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("click", onPreviousPageClick);
                 var itemsContainer = tabContent.querySelector(".itemsContainer");
-                itemsContainer.innerHTML = html, imageLoader.lazyChildren(itemsContainer), libraryBrowser.saveQueryValues(getSavedQueryKey(page), query), loading.hide()
+                itemsContainer.innerHTML = html;
+                imageLoader.lazyChildren(itemsContainer);
+                libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
+                loading.hide();
+                isLoading = false;
             })
         }
         var self = this,
-            data = {};
+            data = {},
+            isLoading = false;
         self.showFilterMenu = function() {
                 require(["components/filterdialog/filterdialog"], function(filterDialogFactory) {
                     var filterDialog = new filterDialogFactory({

@@ -9,8 +9,14 @@
  - [bfayers](https://github.com/bfayers)
  - [Bond_009](https://github.com/Bond-009)
  - [AnthonyLavado](https://github.com/anthonylavado)
+ - [dkanada](https://github.com/dkanada)
  - [sparky8251](https://github.com/sparky8251)
  - [LeoVerto](https://github.com/LeoVerto)
+ - [cvium](https://github.com/cvium)
+ - [grafixeyehero](https://github.com/grafixeyehero)
+ - [Drago96](https://github.com/drago-96)
+ - [ViXXoR](https://github.com/ViXXoR)
+ - [nkmerrill] (https://github.com/nkmerrill)
 
 # Emby Contributors
 

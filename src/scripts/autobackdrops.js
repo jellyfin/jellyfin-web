@@ -39,7 +39,7 @@ define(["backdrop", "userSettings", "libraryMenu"], function(backdrop, userSetti
         })
     }
     var cache = {};
-    pageClassOn("pagebeforeshow", "page", function() {
+    pageClassOn("pageshow", "page", function() {
         var page = this;
         if (!page.classList.contains("selfBackdropPage"))
             if (page.classList.contains("backdropPage"))

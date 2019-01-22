@@ -271,6 +271,7 @@
   "HeaderApiKeysHelp": "Les applications externes ont besoin d'une clé d'API pour communiquer avec le serveur Jellyfin. Les clés sont distribuées lors d'une connexion avec un compte Jellyfin, ou bien en accordant manuellement une clé à une application.",
   "HeaderApp": "Application",
   "HeaderAudio": "Audio",
+  "HeaderAudioLanguages": "Langues audio",
   "HeaderAudioSettings": "Paramètres audio",
   "HeaderAudioTracks": "Pistes audio",
   "HeaderAutomaticUpdates": "Mises à jour automatiques",

@@ -6,7 +6,7 @@ define(["loading"], function(loading) {
             url: ApiClient.getUrl("Startup/Complete"),
             type: "POST"
         }).then(function() {
-            Dashboard.navigate("dashboard.html"), loading.hide()
+            Dashboard.navigate_direct("/dashboard.html"), loading.hide()
         })
     }
     return function(view, params) {

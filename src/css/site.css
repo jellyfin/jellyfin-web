@@ -77,41 +77,11 @@ div[data-role=page] {
     padding-bottom: 2em !important
 }
 
-.supporterPromotionContainer {
-    margin: 0 0 2em
-}
-
-@media all and (min-width:80em) {
-    .supporterPromotionContainer {
-        margin: 0
-    }
-}
-
 @media all and (min-width:50em) {
 
     .readOnlyContent,
     form {
         max-width: 54em
-    }
-
-    .supporterPromotionContainer {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: reverse;
-        -webkit-flex-direction: row-reverse;
-        flex-direction: row-reverse
-    }
-
-    .supporterPromotion {
-        text-align: center;
-        padding: 0 2em
-    }
-
-    .supporterPromotion button {
-        padding-left: 2em;
-        padding-right: 2em
     }
 }
 

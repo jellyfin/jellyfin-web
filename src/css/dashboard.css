@@ -112,8 +112,8 @@ div[data-role=controlgroup] a[data-role=button]+a[data-role=button] {
 }
 
 div[data-role=controlgroup] a.ui-btn-active {
-    background: #38c !important;
-    color: #fff !important
+    background: #00a4dc !important;
+    color: #292929 !important
 }
 
 .header .imageLink {
@@ -176,8 +176,7 @@ div[data-role=controlgroup] a.ui-btn-active {
     flex-grow: 1
 }
 
-.activeSession:not(.playingSession) .sessionNowPlayingContent,
-.supporterMembershipDisabled .tabSupporterMembership {
+.activeSession:not(.playingSession) .sessionNowPlayingContent {
     display: none
 }
 
@@ -480,10 +479,6 @@ a[data-role=button] {
     -webkit-font-smoothing: antialiased;
     -webkit-user-select: none;
     -webkit-background-clip: padding-box;
-    -webkit-border-radius: .3125em;
-    border-radius: .3125em;
-    border: 1px solid #ddd !important;
-    color: #333 !important;
     cursor: pointer !important;
     font-family: inherit !important;
     font-weight: 500 !important;
@@ -492,7 +487,7 @@ a[data-role=button] {
     padding: .8em 1em;
     text-align: center;
     text-decoration: none !important;
-    background: #f6f6f6 !important
+    background: #292929 !important;
 }
 
 @-webkit-keyframes rotating {

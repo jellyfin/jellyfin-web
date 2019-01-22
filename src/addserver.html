@@ -1,0 +1,22 @@
+<div data-role="page" class="page standalonePage">
+    <div class="padded-left padded-right padded-bottom-page">
+        <form class="manualServerForm" style="margin: 0 auto;">
+            <h1 style="text-align: left;">${HeaderConnectToServer}</h1>
+            <div class="inputContainer">
+                <input is="emby-input" type="text" id="txtServerHost" required="required" label="${LabelServerHost}" />
+                <div class="fieldDescription" style="text-align: left;">${LabelServerHostHelp}</div>
+            </div>
+            <br />
+            <div class="inputContainer">
+                <input is="emby-input" type="number" id="txtServerPort" step="1" min="0" value="8096" label="${LabelServerPort}" />
+            </div>
+            <br />
+            <button is="emby-button" type="submit" class="raised button-submit block">
+                <span>${ButtonConnect}</span>
+            </button>
+            <button is="emby-button" type="button" class="raised button-cancel block btnCancelManualServer">
+                <span>${ButtonCancel}</span>
+            </button>
+        </form>
+    </div>
+</div>
