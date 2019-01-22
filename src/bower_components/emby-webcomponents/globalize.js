@@ -75,6 +75,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     }
 
     function normalizeLocaleName(culture) {
+        // TODO remove normalizations
         culture = culture.replace('_', '-');
 
         // convert de-DE to de
