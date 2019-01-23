@@ -1,4 +1,4 @@
-﻿define(['dom'], function (dom) {
+define(['dom'], function (dom) {
     'use strict';
 
     /**

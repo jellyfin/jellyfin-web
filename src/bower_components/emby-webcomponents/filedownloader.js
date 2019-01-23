@@ -1,4 +1,4 @@
-﻿define(['multi-download'], function (multiDownload) {
+define(['multi-download'], function (multiDownload) {
     'use strict';
 
     return {

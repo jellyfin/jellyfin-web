@@ -1,4 +1,4 @@
-﻿define(['globalize'], function (globalize) {
+define(['globalize'], function (globalize) {
     'use strict';
 
     function getVideoQualityOptions(options) {

@@ -1,4 +1,4 @@
-﻿define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'browser', 'registerElement'], function (scroller, dom, layoutManager, inputManager, focusManager, browser) {
+define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'browser', 'registerElement'], function (scroller, dom, layoutManager, inputManager, focusManager, browser) {
     'use strict';
 
     var ScrollerProtoType = Object.create(HTMLDivElement.prototype);

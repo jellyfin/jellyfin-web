@@ -1,4 +1,4 @@
-﻿define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement', 'emby-input'], function (browser, dom, layoutManager) {
+define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement', 'emby-input'], function (browser, dom, layoutManager) {
     'use strict';
 
     var EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
