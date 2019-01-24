@@ -6,7 +6,6 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     var currentDateTimeCulture;
 
     function getCurrentLocale() {
-
         return currentCulture;
     }
 
@@ -15,9 +14,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     }
 
     function getDefaultLanguage() {
-
         var culture = document.documentElement.getAttribute('data-culture');
-
         if (culture) {
             return culture;
         }
@@ -36,12 +33,11 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     }
 
     function updateCurrentCulture() {
-
         var culture;
         try {
             culture = userSettings.language();
         } catch (err) {
-
+            console.log('no language set in user settings');
         }
         culture = culture || getDefaultLanguage();
 
@@ -51,43 +47,38 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         try {
             dateTimeCulture = userSettings.dateTimeLocale();
         } catch (err) {
-
+            console.log('no date format set in user settings');
         }
 
         if (dateTimeCulture) {
             currentDateTimeCulture = normalizeLocaleName(dateTimeCulture);
-        }
-        else {
+        } else {
             currentDateTimeCulture = currentCulture;
         }
-
         ensureTranslations(currentCulture);
     }
 
     function ensureTranslations(culture) {
-
         for (var i in allTranslations) {
             ensureTranslation(allTranslations[i], culture);
         }
     }
 
     function ensureTranslation(translationInfo, culture) {
-
         if (translationInfo.dictionaries[culture]) {
             return Promise.resolve();
         }
 
         return loadTranslation(translationInfo.translations, culture).then(function (dictionary) {
-
             translationInfo.dictionaries[culture] = dictionary;
         });
     }
 
     function normalizeLocaleName(culture) {
-
+        // TODO remove normalizations
         culture = culture.replace('_', '-');
 
-        // If it's de-DE, convert to just de
+        // convert de-DE to de
         var parts = culture.split('-');
         if (parts.length === 2) {
             if (parts[0].toLowerCase() === parts[1].toLowerCase()) {
@@ -96,7 +87,6 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         }
 
         var lower = culture.toLowerCase();
-
         if (lower === 'ca-es') {
             return 'ca';
         }
@@ -109,23 +99,20 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         return lower;
     }
 
-    function getDictionary(module) {
-
+    function getDictionary(module, locale) {
         if (!module) {
             module = defaultModule();
         }
 
         var translations = allTranslations[module];
-
         if (!translations) {
             return {};
         }
 
-        return translations.dictionaries[getCurrentLocale()];
+        return translations.dictionaries[locale];
     }
 
     function register(options) {
-
         allTranslations[options.name] = {
             translations: options.strings || options.translations,
             dictionaries: {}
@@ -133,9 +120,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     }
 
     function loadStrings(options) {
-
         var locale = getCurrentLocale();
-
         if (typeof options === 'string') {
             return ensureTranslation(allTranslations[options], locale);
         } else {
@@ -146,9 +131,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
     var cacheParam = new Date().getTime();
     function loadTranslation(translations, lang) {
-
         lang = normalizeLocaleName(lang);
-
         var filtered = translations.filter(function (t) {
             return normalizeLocaleName(t.lang) === lang;
         });
@@ -160,7 +143,6 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         }
 
         return new Promise(function (resolve, reject) {
-
             if (!filtered.length) {
                 resolve();
                 return;
@@ -190,7 +172,6 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     }
 
     function translateKey(key) {
-
         var parts = key.split('#');
         var module;
 
@@ -203,53 +184,43 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     }
 
     function translateKeyFromModule(key, module) {
-
-        var dictionary = getDictionary(module);
-
+        var dictionary = getDictionary(module, getCurrentLocale());
+        if (!dictionary || !dictionary[key]) {
+            dictionary = getDictionary(module, 'en-us');
+        }
         if (!dictionary) {
             return key;
         }
-
         return dictionary[key] || key;
     }
 
     function replaceAll(str, find, replace) {
-
         return str.split(find).join(replace);
     }
 
     function translate(key) {
-
         var val = translateKey(key);
-
         for (var i = 1; i < arguments.length; i++) {
-
             val = replaceAll(val, '{' + (i - 1) + '}', arguments[i]);
-
         }
-
         return val;
     }
 
     function translateHtml(html, module) {
-
         if (!module) {
             module = defaultModule();
         }
-
         if (!module) {
             throw new Error('module cannot be null or empty');
         }
 
         var startIndex = html.indexOf('${');
-
         if (startIndex === -1) {
             return html;
         }
 
         startIndex += 2;
         var endIndex = html.indexOf('}', startIndex);
-
         if (endIndex === -1) {
             return html;
         }
@@ -263,12 +234,9 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
     var _defaultModule;
     function defaultModule(val) {
-
         if (val) {
-
             _defaultModule = val;
         }
-
         return _defaultModule;
     }
 
