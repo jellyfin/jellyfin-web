@@ -12,7 +12,7 @@ define(["scripts/userpasswordpage", "loading", "libraryMenu", "apphost", "emby-l
             libraryMenu.setTitle(user.Name);
             var imageUrl = "css/images/logindefault.png";
             if (user.PrimaryImageTag) {
-                ApiClient.getUserImageUrl(user.Id, {
+                imageUrl = ApiClient.getUserImageUrl(user.Id, {
                     height: 200,
                     tag: user.PrimaryImageTag,
                     type: "Primary"
