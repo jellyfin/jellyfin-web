@@ -108,11 +108,18 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function(appSett
     }
 
     function onAppVisible() {
-        isHidden && (isHidden = false, console.log("triggering app resume event"), events.trigger(appHost, "resume"));
+        if (isHidden) {
+            isHidden = false;
+            console.log("triggering app resume event");
+            events.trigger(appHost, "resume");
+        }
     }
 
     function onAppHidden() {
-        isHidden || (isHidden = true, console.log("app is hidden"));
+        if (!isHidden) {
+            isHidden = true;
+            console.log("app is hidden");
+        }
     }
 
     var htmlMediaAutoplayAppStorageKey = "supportshtmlmediaautoplay0";
@@ -141,7 +148,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function(appSett
         browser.chrome && features.push("chromecast");
         return features;
     }();
-    if (supportedFeatures.indexOf("htmlvideoautoplay") === -1 && supportsHtmlMediaAutoplay() !=== false) {
+    if (supportedFeatures.indexOf("htmlvideoautoplay") === -1 && supportsHtmlMediaAutoplay() !== false) {
         require(["autoPlayDetect"], function(autoPlayDetect) {
             autoPlayDetect.supportsHtmlMediaAutoplay().then(function() {
                 appSettings.set(htmlMediaAutoplayAppStorageKey, "true");
@@ -218,8 +225,14 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function(appSett
     var doc = self.document;
     doc && (void 0 !== doc.visibilityState ? (visibilityChange = "visibilitychange", visibilityState = "hidden") : void 0 !== doc.mozHidden ? (visibilityChange = "mozvisibilitychange", visibilityState = "mozVisibilityState") : void 0 !== doc.msHidden ? (visibilityChange = "msvisibilitychange", visibilityState = "msVisibilityState") : void 0 !== doc.webkitHidden && (visibilityChange = "webkitvisibilitychange", visibilityState = "webkitVisibilityState"));
     var isHidden = false;
-    doc && doc.addEventListener(visibilityChange, function() {
-        document[visibilityState] ? onAppHidden() : onAppVisible()
-    }), self.addEventListener && (self.addEventListener("focus", onAppVisible), self.addEventListener("blur", onAppHidden));
+    if (doc) {
+        doc.addEventListener(visibilityChange, function() {
+            document[visibilityState] ? onAppHidden() : onAppVisible()
+        });
+    }
+    if (self.addEventListener) {
+        self.addEventListener("focus", onAppVisible);
+        self.addEventListener("blur", onAppHidden);
+    }
     return appHost;
 });
