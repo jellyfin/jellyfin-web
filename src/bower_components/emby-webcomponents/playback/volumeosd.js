@@ -1,4 +1,4 @@
-﻿define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'material-icons'], function (events, playbackManager, dom, browser) {
+define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'material-icons'], function (events, playbackManager, dom, browser) {
     'use strict';
 
     var currentPlayer;

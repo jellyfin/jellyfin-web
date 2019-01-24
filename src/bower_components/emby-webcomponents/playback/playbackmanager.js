@@ -1,4 +1,4 @@
-﻿define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'fullscreenManager'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, fullscreenManager) {
+define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'fullscreenManager'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, fullscreenManager) {
     'use strict';
 
     function enableLocalPlaylistManagement(player) {

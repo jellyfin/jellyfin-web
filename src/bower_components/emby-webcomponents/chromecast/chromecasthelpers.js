@@ -1,4 +1,4 @@
-﻿define(['events'], function (events) {
+define(['events'], function (events) {
     'use strict';
 
     // LinkParser

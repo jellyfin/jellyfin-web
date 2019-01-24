@@ -1,4 +1,4 @@
-﻿define(['events', 'playbackManager'], function (events, playbackManager) {
+define(['events', 'playbackManager'], function (events, playbackManager) {
     'use strict';
 
     function transferPlayback(oldPlayer, newPlayer) {

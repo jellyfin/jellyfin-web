@@ -1,4 +1,4 @@
-﻿define(['globalize', 'loading', 'connectionManager', 'registrationServices'], function (globalize, loading, connectionManager, registrationServices) {
+define(['globalize', 'loading', 'connectionManager', 'registrationServices'], function (globalize, loading, connectionManager, registrationServices) {
     'use strict';
 
     function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCancellation) {

@@ -1,4 +1,4 @@
-﻿// From https://github.com/parshap/node-sanitize-filename
+// From https://github.com/parshap/node-sanitize-filename
 
 define([], function () {
     'use strict';

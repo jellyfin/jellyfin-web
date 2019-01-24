@@ -1,4 +1,4 @@
-﻿define(['css!./emby-toggle', 'registerElement'], function () {
+define(['css!./emby-toggle', 'registerElement'], function () {
     'use strict';
 
     var EmbyTogglePrototype = Object.create(HTMLInputElement.prototype);
