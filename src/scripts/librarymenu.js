@@ -312,12 +312,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             icon: "devices"
         });
         links.push({
-            name: globalize.translate("TabCameraUpload"),
-            href: "devicesupload.html",
-            pageIds: ["devicesUploadPage"],
-            icon: "photo_camera"
-        });
-        links.push({
             name: globalize.translate("DLNA"),
             href: "dlnasettings.html",
             pageIds: ["dlnaSettingsPage", "dlnaProfilesPage", "dlnaProfilePage"],
@@ -925,7 +919,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="md-icon">&#xE7FD;</i></button>';
 
         if (!layoutManager.mobile) {
-            html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerSettingsButton hide"><i class="md-icon">&#xE8B8;</i></button>';
+            html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerSettingsButton hide"><i class="md-icon">dashboard</i></button>';
         }
 
         html += "</div>";
