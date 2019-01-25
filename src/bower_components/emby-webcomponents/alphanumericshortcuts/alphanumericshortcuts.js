@@ -1,4 +1,4 @@
-﻿define(['dom', 'focusManager'], function (dom, focusManager) {
+define(['dom', 'focusManager'], function (dom, focusManager) {
     'use strict';
 
     var inputDisplayElement;

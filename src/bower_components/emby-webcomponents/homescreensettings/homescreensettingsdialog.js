@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'events', 'homescreenSettings', 'paper-icon-button-light', 'css!./../formdialog'], function (dialogHelper, layoutManager, globalize, require, events, HomescreenSettings) {
+define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'events', 'homescreenSettings', 'paper-icon-button-light', 'css!./../formdialog'], function (dialogHelper, layoutManager, globalize, require, events, HomescreenSettings) {
     'use strict';
 
     function centerFocus(elem, horiz, on) {

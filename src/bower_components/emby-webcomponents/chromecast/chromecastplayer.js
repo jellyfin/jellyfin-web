@@ -1,4 +1,4 @@
-﻿define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', 'globalize', 'events', 'require', 'castSenderApiLoader'], function (appSettings, userSettings, playbackManager, connectionManager, globalize, events, require, castSenderApiLoader) {
+define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', 'globalize', 'events', 'require', 'castSenderApiLoader'], function (appSettings, userSettings, playbackManager, connectionManager, globalize, events, require, castSenderApiLoader) {
     'use strict';
 
     // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js

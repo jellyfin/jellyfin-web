@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'scrollStyles', 'listViewStyle'], function (dialogHelper, layoutManager, globalize, browser, dom) {
+define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'scrollStyles', 'listViewStyle'], function (dialogHelper, layoutManager, globalize, browser, dom) {
     'use strict';
 
     function getOffsets(elems) {

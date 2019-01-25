@@ -1,4 +1,4 @@
-﻿define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager', 'imageLoader', 'layoutManager', 'browser', 'dom', 'loading', 'focusManager', 'serverNotifications', 'events', 'registerElement'], function (itemShortcuts, inputManager, connectionManager, playbackManager, imageLoader, layoutManager, browser, dom, loading, focusManager, serverNotifications, events) {
+define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager', 'imageLoader', 'layoutManager', 'browser', 'dom', 'loading', 'focusManager', 'serverNotifications', 'events', 'registerElement'], function (itemShortcuts, inputManager, connectionManager, playbackManager, imageLoader, layoutManager, browser, dom, loading, focusManager, serverNotifications, events) {
     'use strict';
 
     var ItemsContainerProtoType = Object.create(HTMLDivElement.prototype);

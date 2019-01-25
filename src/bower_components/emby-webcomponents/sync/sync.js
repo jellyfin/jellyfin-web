@@ -1,4 +1,4 @@
-﻿define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusManager', 'scrollHelper', 'appSettings', 'registrationServices', 'dialogHelper', 'paper-icon-button-light', 'formDialogStyle'], function (appHost, globalize, connectionManager, layoutManager, focusManager, scrollHelper, appSettings, registrationServices, dialogHelper) {
+define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusManager', 'scrollHelper', 'appSettings', 'registrationServices', 'dialogHelper', 'paper-icon-button-light', 'formDialogStyle'], function (appHost, globalize, connectionManager, layoutManager, focusManager, scrollHelper, appSettings, registrationServices, dialogHelper) {
     'use strict';
 
     var currentDialogOptions;

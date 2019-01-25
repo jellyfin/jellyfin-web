@@ -1,4 +1,4 @@
-﻿if (typeof Object.assign != 'function') {
+if (typeof Object.assign != 'function') {
     (function () {
         Object.assign = function (target) {
             'use strict';

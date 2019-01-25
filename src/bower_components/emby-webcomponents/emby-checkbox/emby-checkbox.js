@@ -1,4 +1,4 @@
-﻿define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (browser, dom) {
+define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (browser, dom) {
     'use strict';
 
     var EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);

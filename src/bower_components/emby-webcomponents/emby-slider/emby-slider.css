@@ -10,7 +10,7 @@ _:-ms-input-placeholder {
     -moz-appearance: none;
     -ms-appearance: none;
     appearance: none;
-    height: .2em;
+    height: 150%;/*150% is needed, else ie and edge won't display the thumb properly*/
     background: transparent;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -49,10 +49,12 @@ _:-ms-input-placeholder {
     .mdl-slider::-moz-range-track {
         background: #444;
         border: none;
+        width: calc(100% - 20px);
     }
 
     .mdl-slider::-moz-range-progress {
         background: #00a4dc;
+        width: calc(100% - 20px);
     }
 
     .mdl-slider::-ms-track {
@@ -83,7 +85,6 @@ _:-ms-input-placeholder {
     }
 
 .mdl-slider-hoverthumb::-webkit-slider-thumb {
-    margin-left: -.12em;
     transform: scale(.7, .7);
 }
 
@@ -97,13 +98,14 @@ _:-ms-input-placeholder {
 
 .mdl-slider::-moz-range-thumb {
     -moz-appearance: none;
-    width: 1.8em;
-    height: 1.8em;
+    width: 0.9em;
+    height: 0.9em;
     box-sizing: border-box;
     border-radius: 50%;
     background-image: none;
     background: #00a4dc;
     border: none;
+    transform: Scale(1.4, 1.4);
 }
 
 .mdl-slider::-ms-thumb {
@@ -114,6 +116,7 @@ _:-ms-input-placeholder {
     border-radius: 50%;
     background: #00a4dc;
     border: none;
+    transform: scale(.9, .9);
     transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -154,11 +157,20 @@ _:-ms-input-placeholder {
     flex-direction: row;
 }
 
+.mdl-slider-background-flex-container {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: -.05em;
+    top: 50%;
+    position: absolute;
+}
+
 .mdl-slider-background-flex {
     background: #333;
-    position: absolute;
     height: .2em;
-    margin-top: -.1em;
+    margin-top: -.08em;
     width: 100%;
     top: 50%;
     left: 0;

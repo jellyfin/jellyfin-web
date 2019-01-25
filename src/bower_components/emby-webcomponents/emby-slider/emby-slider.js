@@ -1,4 +1,4 @@
-﻿define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement', 'emby-input'], function (browser, dom, layoutManager) {
+define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement', 'emby-input'], function (browser, dom, layoutManager) {
     'use strict';
 
     var EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
@@ -89,6 +89,7 @@
         var htmlToInsert = '';
 
         if (!supportsNativeProgressStyle) {
+            htmlToInsert += '<div class="mdl-slider-background-flex-container">';
             htmlToInsert += '<div class="mdl-slider-background-flex">';
             htmlToInsert += '<div class="mdl-slider-background-flex-inner">';
 
@@ -101,6 +102,7 @@
                 htmlToInsert += '<div class="mdl-slider-background-lower"></div>';
             }
 
+            htmlToInsert += '</div>';
             htmlToInsert += '</div>';
             htmlToInsert += '</div>';
         }
