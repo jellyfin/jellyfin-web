@@ -89,6 +89,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
         var htmlToInsert = '';
 
         if (!supportsNativeProgressStyle) {
+            htmlToInsert += '<div class="mdl-slider-background-flex-container">';
             htmlToInsert += '<div class="mdl-slider-background-flex">';
             htmlToInsert += '<div class="mdl-slider-background-flex-inner">';
 
@@ -101,6 +102,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
                 htmlToInsert += '<div class="mdl-slider-background-lower"></div>';
             }
 
+            htmlToInsert += '</div>';
             htmlToInsert += '</div>';
             htmlToInsert += '</div>';
         }

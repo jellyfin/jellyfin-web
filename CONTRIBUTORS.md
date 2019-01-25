@@ -17,6 +17,7 @@
  - [Drago96](https://github.com/drago-96)
  - [ViXXoR](https://github.com/ViXXoR)
  - [nkmerrill] (https://github.com/nkmerrill)
+ - [TtheCreator] (https://github.com/Tthecreator)
 
 # Emby Contributors
 
