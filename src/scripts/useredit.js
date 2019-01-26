@@ -32,13 +32,11 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function($, loading, l
     }
 
     function onSaveComplete(page, user) {
-        loading.hide(), (currentUser.ConnectUserName || "") == $("#txtConnectUserName", page).val() ? require(["toast"], function(toast) {
-            toast(Globalize.translate("SettingsSaved"))
-        }) : require(["connectHelper"], function(connectHelper) {
-            connectHelper.updateUserLink(ApiClient, user, $("#txtConnectUserName", page).val()).then(function() {
-                loadData(page)
-            })
-        })
+        Dashboard.navigate("userprofiles.html");
+        loading.hide();
+        require(["toast"], function(toast) {
+            toast(Globalize.translate("SettingsSaved"));
+        });
     }
 
     function saveUser(user, page) {

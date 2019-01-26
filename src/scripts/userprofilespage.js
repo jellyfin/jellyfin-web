@@ -242,48 +242,11 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
         });
     }
 
-    function showNewUserDialog(e__w) {
-        require(["dialog"], function (dialog) {
-            var items = [];
-            items.push({
-                name: globalize.translate("HeaderAddLocalUser"),
-                id: "manual",
-                type: "submit",
-                description: globalize.translate("AddUserByManually")
-            });
-            // TODO cvium
-            // items.push({
-            //     name: globalize.translate("HeaderInviteUser"),
-            //     id: "invite",
-            //     description: globalize.translate("HeaderInviteUserHelp")
-            // });
-            items.push({
-                name: globalize.translate("sharedcomponents#ButtonCancel"),
-                id: "cancel",
-                type: "cancel"
-            });
-            var options = {
-                title: globalize.translate("ButtonAddUser"),
-                text: globalize.translate("HowWouldYouLikeToAddUser")
-            };
-            options.buttons = items;
-            return dialog(options).then(function (result) {
-                var view = dom.parentWithClass(e__w.target, "page");
-                debugger;
-                if ("invite" === result) {
-                    showInvitePopup(view);
-                } else {
-                    if ("manual" === result) {
-                        Dashboard.navigate("usernew.html");
-                    }
-                }
-            });
-        });
-    }
-
     pageIdOn("pageinit", "userProfilesPage", function () {
         var page = this;
-        page.querySelector(".btnAddUser").addEventListener("click", showNewUserDialog);
+        page.querySelector(".btnAddUser").addEventListener("click", function() {
+            Dashboard.navigate("usernew.html");
+        });
         page.querySelector(".localUsers").addEventListener("click", function (e__e) {
             var btnUserMenu = dom.parentWithClass(e__e.target, "btnUserMenu");
 
