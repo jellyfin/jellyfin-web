@@ -32,6 +32,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function($, loading, l
     }
 
     function onSaveComplete(page, user) {
+        Dashboard.navigate("userprofiles.html");
         loading.hide();
         require(["toast"], function(toast) {
             toast(Globalize.translate("SettingsSaved"));
