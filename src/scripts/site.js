@@ -874,9 +874,6 @@ var Dashboard = {
         list.push("bower_components/emby-webcomponents/playback/playbackvalidation");
         list.push("bower_components/emby-webcomponents/playback/playaccessvalidation");
         list.push("bower_components/emby-webcomponents/playback/experimentalwarnings");
-        "android" === self.appMode
-            ? self.MainActivity && MainActivity.enableVlcPlayer() && list.push("cordova/vlcplayer")
-            : "cordova" === self.appMode && (list.push("cordova/audioplayer"), (browser.iOSVersion || 0) >= 11 && list.push("cordova/mpvplayer"));
         list.push("bower_components/emby-webcomponents/htmlaudioplayer/plugin");
         list.push("bower_components/emby-webcomponents/htmlvideoplayer/plugin");
         list.push("bower_components/emby-webcomponents/photoplayer/plugin");
