@@ -157,8 +157,8 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function(appSett
             }, function() {
                 appSettings.set(htmlMediaAutoplayAppStorageKey, "false");
             });
-        }
-    });
+        });
+    }
 
     var deviceId;
     var deviceName;
