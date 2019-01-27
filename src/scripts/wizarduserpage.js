@@ -28,10 +28,9 @@ define(["loading", "globalize", "dashboardcss", "emby-input", "emby-button", "em
             data: {
                 Name: form.querySelector("#txtUsername").value
             },
-            url: apiClient.getUrl("Startup/User"),
-            dataType: "json"
+            url: apiClient.getUrl("Startup/User")
         }).then(onUpdateUserComplete, function(response) {
-            response && response.status;
+            console.log(response);
         })
     }
 
