@@ -8,7 +8,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var name = params.genre;
         if (name) return apiClient.getGenre(name, apiClient.getCurrentUserId());
         if (name = params.musicgenre) return apiClient.getMusicGenre(name, apiClient.getCurrentUserId());
-        if (name = params.gamegenre) return apiClient.getGameGenre(name, apiClient.getCurrentUserId());
         if (name = params.musicartist) return apiClient.getArtist(name, apiClient.getCurrentUserId());
         throw new Error("Invalid request")
     }
@@ -441,7 +440,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function setInitialCollapsibleState(page, item, apiClient, context, user) {
-        page.querySelector(".collectionItems").innerHTML = "", "Playlist" == item.Type ? (page.querySelector("#childrenCollapsible").classList.remove("hide"), renderPlaylistItems(page, item, user)) : "Studio" == item.Type || "Person" == item.Type || "Genre" == item.Type || "MusicGenre" == item.Type || "GameGenre" == item.Type || "MusicArtist" == item.Type ? (page.querySelector("#childrenCollapsible").classList.remove("hide"), renderItemsByName(page, item, user)) : item.IsFolder ? ("BoxSet" == item.Type && page.querySelector("#childrenCollapsible").classList.add("hide"), renderChildren(page, item)) : page.querySelector("#childrenCollapsible").classList.add("hide"), "Series" == item.Type && renderSeriesSchedule(page, item, user), "Series" == item.Type ? renderNextUp(page, item, user) : page.querySelector(".nextUpSection").classList.add("hide"), item.MediaSources && item.MediaSources.length && (null == item.EnableMediaSourceDisplay ? "Channel" !== item.SourceType : item.EnableMediaSourceDisplay) ? renderMediaSources(page, user, item) : page.querySelector(".audioVideoMediaInfo").classList.add("hide"), renderScenes(page, item), item.SpecialFeatureCount && 0 != item.SpecialFeatureCount && "Series" != item.Type ? (page.querySelector("#specialsCollapsible").classList.remove("hide"), renderSpecials(page, item, user, 6)) : page.querySelector("#specialsCollapsible").classList.add("hide"), renderCast(page, item, context, enableScrollX() ? null : 12), item.PartCount && item.PartCount > 1 ? (page.querySelector("#additionalPartsCollapsible").classList.remove("hide"), renderAdditionalParts(page, item, user)) : page.querySelector("#additionalPartsCollapsible").classList.add("hide"), "MusicAlbum" == item.Type ? renderMusicVideos(page, item, user) : page.querySelector("#musicVideosCollapsible").classList.add("hide")
+        page.querySelector(".collectionItems").innerHTML = "", "Playlist" == item.Type ? (page.querySelector("#childrenCollapsible").classList.remove("hide"), renderPlaylistItems(page, item, user)) : "Studio" == item.Type || "Person" == item.Type || "Genre" == item.Type || "MusicGenre" == item.Type || "MusicArtist" == item.Type ? (page.querySelector("#childrenCollapsible").classList.remove("hide"), renderItemsByName(page, item, user)) : item.IsFolder ? ("BoxSet" == item.Type && page.querySelector("#childrenCollapsible").classList.add("hide"), renderChildren(page, item)) : page.querySelector("#childrenCollapsible").classList.add("hide"), "Series" == item.Type && renderSeriesSchedule(page, item, user), "Series" == item.Type ? renderNextUp(page, item, user) : page.querySelector(".nextUpSection").classList.add("hide"), item.MediaSources && item.MediaSources.length && (null == item.EnableMediaSourceDisplay ? "Channel" !== item.SourceType : item.EnableMediaSourceDisplay) ? renderMediaSources(page, user, item) : page.querySelector(".audioVideoMediaInfo").classList.add("hide"), renderScenes(page, item), item.SpecialFeatureCount && 0 != item.SpecialFeatureCount && "Series" != item.Type ? (page.querySelector("#specialsCollapsible").classList.remove("hide"), renderSpecials(page, item, user, 6)) : page.querySelector("#specialsCollapsible").classList.add("hide"), renderCast(page, item, context, enableScrollX() ? null : 12), item.PartCount && item.PartCount > 1 ? (page.querySelector("#additionalPartsCollapsible").classList.remove("hide"), renderAdditionalParts(page, item, user)) : page.querySelector("#additionalPartsCollapsible").classList.add("hide"), "MusicAlbum" == item.Type ? renderMusicVideos(page, item, user) : page.querySelector("#musicVideosCollapsible").classList.add("hide")
     }
 
     function renderOverview(elems, item) {
@@ -459,9 +458,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         context = context || inferContext(item);
         var type, genres = item.GenreItems || [];
         switch (context) {
-            case "games":
-                type = "GameGenre";
-                break;
             case "music":
                 type = "MusicGenre";
                 break;
@@ -604,7 +600,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     function renderSimilarItems(page, item, context) {
         var similarCollapsible = page.querySelector("#similarCollapsible");
         if (similarCollapsible) {
-            if ("Movie" != item.Type && "Trailer" != item.Type && "Series" != item.Type && "Program" != item.Type && "Recording" != item.Type && "Game" != item.Type && "MusicAlbum" != item.Type && "MusicArtist" != item.Type && "Playlist" != item.Type) return void similarCollapsible.classList.add("hide");
+            if ("Movie" != item.Type && "Trailer" != item.Type && "Series" != item.Type && "Program" != item.Type && "Recording" != item.Type && "MusicAlbum" != item.Type && "MusicArtist" != item.Type && "Playlist" != item.Type) return void similarCollapsible.classList.add("hide");
             similarCollapsible.classList.remove("hide");
             var apiClient = connectionManager.getApiClient(item.ServerId),
                 options = {
@@ -733,14 +729,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                     imagePlayButton: !0,
                     includeParentInfoInTitle: !1
                 }))
-            } else "GameSystem" == item.Type && (html = cardBuilder.getCardsHtml({
-                items: result.Items,
-                shape: "auto",
-                showTitle: !0,
-                centerText: !0,
-                lazy: !0,
-                showDetailsMenu: !0
-            }));
+            }
             if ("BoxSet" !== item.Type && page.querySelector("#childrenCollapsible").classList.remove("hide"), scrollX ? (childrenItemsContainer.classList.add("scrollX"), childrenItemsContainer.classList.add("hiddenScrollX"), childrenItemsContainer.classList.remove("vertical-wrap"), childrenItemsContainer.classList.remove("vertical-list")) : (childrenItemsContainer.classList.remove("scrollX"), childrenItemsContainer.classList.remove("hiddenScrollX"), childrenItemsContainer.classList.remove("smoothScrollX"), isList ? (childrenItemsContainer.classList.add("vertical-list"), childrenItemsContainer.classList.remove("vertical-wrap")) : (childrenItemsContainer.classList.add("vertical-wrap"), childrenItemsContainer.classList.remove("vertical-list"))), childrenItemsContainer.innerHTML = html, imageLoader.lazyChildren(childrenItemsContainer), "BoxSet" == item.Type) {
                 var collectionItemTypes = [{
                     name: globalize.translate("HeaderVideos"),
@@ -752,15 +741,12 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                     name: globalize.translate("HeaderAlbums"),
                     type: "MusicAlbum"
                 }, {
-                    name: globalize.translate("HeaderGames"),
-                    type: "Game"
-                }, {
                     name: globalize.translate("HeaderBooks"),
                     type: "Book"
                 }];
                 renderCollectionItems(page, item, collectionItemTypes, result.Items)
             }
-        }), "Season" == item.Type ? page.querySelector("#childrenTitle").innerHTML = globalize.translate("HeaderEpisodes") : "Series" == item.Type ? page.querySelector("#childrenTitle").innerHTML = globalize.translate("HeaderSeasons") : "MusicAlbum" == item.Type ? page.querySelector("#childrenTitle").innerHTML = globalize.translate("HeaderTracks") : "GameSystem" == item.Type ? page.querySelector("#childrenTitle").innerHTML = globalize.translate("HeaderGames") : page.querySelector("#childrenTitle").innerHTML = globalize.translate("HeaderItems"), "MusicAlbum" == item.Type || "Season" == item.Type ? (page.querySelector(".childrenSectionHeader").classList.add("hide"), page.querySelector("#childrenCollapsible").classList.add("verticalSection-extrabottompadding")) : page.querySelector(".childrenSectionHeader").classList.remove("hide")
+        }), "Season" == item.Type ? page.querySelector("#childrenTitle").innerHTML = globalize.translate("HeaderEpisodes") : "Series" == item.Type ? page.querySelector("#childrenTitle").innerHTML = globalize.translate("HeaderSeasons") : "MusicAlbum" == item.Type ? page.querySelector("#childrenTitle").innerHTML = globalize.translate("HeaderTracks") : page.querySelector("#childrenTitle").innerHTML = globalize.translate("HeaderItems"), "MusicAlbum" == item.Type || "Season" == item.Type ? (page.querySelector(".childrenSectionHeader").classList.add("hide"), page.querySelector("#childrenCollapsible").classList.add("verticalSection-extrabottompadding")) : page.querySelector(".childrenSectionHeader").classList.remove("hide")
     }
 
     function renderItemsByName(page, item, user) {
@@ -851,7 +837,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function inferContext(item) {
-        return "Movie" === item.Type || "BoxSet" === item.Type ? "movies" : "Series" === item.Type || "Season" === item.Type || "Episode" === item.Type ? "tvshows" : "Game" === item.Type || "GameSystem" === item.Type ? "games" : "Game" === item.Type || "GameSystem" === item.Type ? "games" : "MusicArtist" === item.Type || "MusicAlbum" === item.Type || "Audio" === item.Type || "AudioBook" === item.Type ? "music" : "Program" === item.Type ? "livetv" : null
+        return "Movie" === item.Type || "BoxSet" === item.Type ? "movies" : "Series" === item.Type || "Season" === item.Type || "Episode" === item.Type ? "tvshows" : "MusicArtist" === item.Type || "MusicAlbum" === item.Type || "Audio" === item.Type || "AudioBook" === item.Type ? "music" : "Program" === item.Type ? "livetv" : null
     }
 
     function filterItemsByCollectionItemType(items, typeInfo) {

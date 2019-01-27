@@ -54,13 +54,6 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
             overlayText: !1,
             centerText: !0
         }, {
-            name: "HeaderFavoriteGames",
-            types: "Game",
-            id: "favoriteGames",
-            shape: getSquareShape(),
-            preferThumb: !1,
-            showTitle: !0
-        }, {
             name: "HeaderFavoriteArtists",
             types: "MusicArtist",
             id: "favoriteArtists",

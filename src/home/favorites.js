@@ -108,12 +108,6 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             overlayMoreButton: !0,
             action: "instantmix",
             coverImage: !0
-        }, {
-            name: "sharedcomponents#HeaderFavoriteGames",
-            types: "Game",
-            shape: getSquareShape(),
-            preferThumb: !1,
-            showTitle: !0
         }]
     }
 

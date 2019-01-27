@@ -201,7 +201,6 @@
   "MessageNoDownloadsFound": "No s'han trobat descàrregues sense connexió. Descarrega mitjans per reproduir sense connexió emprant els botons de \"Descarrega\" que trobaràs per tota l'app.",
   "MessageNoSyncJobsFound": "No s'han trobat descàrregues. Crea noves tasques de descàrrega emprant els botons de \"Descarrega\" que trobaràs per tota l'app.",
   "MessageToValidateSupporter": "Si tens una subscripció activa d'Jellyfin Premiere assegura't que l'has configurat al teu tauler de control de l'Jellyfin Server, on pots accedir clicant a l'opció d'Jellyfin Premiere al menú principal.",
-  "MessageUnlockAppWithPurchaseOrSupporter": "Activa aquesta funcionalitat amb un únic pagament, o amb una subscripció activa d'Jellyfin Premiere.",
   "MessageUnlockAppWithSupporter": "Activa aquesta funcionalitat amb una subscripció activa d'Jellyfin Premiere.",
   "MessageWeDidntRecognizeCommand": "Ho sentim, no reconeixem aquesta comanda.",
   "MinutesAfter": "minuts després",

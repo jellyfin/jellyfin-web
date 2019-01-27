@@ -21,9 +21,6 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
         }), item.TrailerCount && sections.push({
             name: Globalize.translate("TabTrailers"),
             type: "Trailer"
-        }), item.GameCount && sections.push({
-            name: Globalize.translate("TabGames"),
-            type: "Game"
         }), item.AlbumCount && sections.push({
             name: Globalize.translate("TabAlbums"),
             type: "MusicAlbum"
@@ -95,22 +92,6 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
                     showTitle: !0,
                     centerText: !0,
                     overlayPlayButton: !0
-                });
-                break;
-            case "Game":
-                loadItems(element, item, type, {
-                    MediaTypes: "",
-                    IncludeItemTypes: "Game",
-                    PersonTypes: "",
-                    ArtistIds: "",
-                    AlbumArtistIds: "",
-                    Limit: 10,
-                    SortBy: "SortName"
-                }, {
-                    shape: "portrait",
-                    showTitle: !0,
-                    centerText: !0,
-                    overlayMoreButton: !0
                 });
                 break;
             case "Trailer":
@@ -229,11 +210,11 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
     }
 
     function getMoreItemsHref(item, type) {
-        return "Genre" == item.Type ? "list/list.html?type=" + type + "&genreId=" + item.Id + "&serverId=" + item.ServerId : "MusicGenre" == item.Type ? "list/list.html?type=" + type + "&musicGenreId=" + item.Id + "&serverId=" + item.ServerId : "GameGenre" == item.Type ? "list/list.html?type=" + type + "&gameGenreId=" + item.Id + "&serverId=" + item.ServerId : "Studio" == item.Type ? "list/list.html?type=" + type + "&studioId=" + item.Id + "&serverId=" + item.ServerId : "MusicArtist" == item.Type ? "list/list.html?type=" + type + "&artistId=" + item.Id + "&serverId=" + item.ServerId : "Person" == item.Type ? "list/list.html?type=" + type + "&personId=" + item.Id + "&serverId=" + item.ServerId : "list/list.html?type=" + type + "&parentId=" + item.Id + "&serverId=" + item.ServerId
+        return "Genre" == item.Type ? "list/list.html?type=" + type + "&genreId=" + item.Id + "&serverId=" + item.ServerId : "MusicGenre" == item.Type ? "list/list.html?type=" + type + "&musicGenreId=" + item.Id + "&serverId=" + item.ServerId : "Studio" == item.Type ? "list/list.html?type=" + type + "&studioId=" + item.Id + "&serverId=" + item.ServerId : "MusicArtist" == item.Type ? "list/list.html?type=" + type + "&artistId=" + item.Id + "&serverId=" + item.ServerId : "Person" == item.Type ? "list/list.html?type=" + type + "&personId=" + item.Id + "&serverId=" + item.ServerId : "list/list.html?type=" + type + "&parentId=" + item.Id + "&serverId=" + item.ServerId
     }
 
     function addCurrentItemToQuery(query, item) {
-        "Person" == item.Type ? query.PersonIds = item.Id : "Genre" == item.Type ? query.GenreIds = item.Id : "MusicGenre" == item.Type ? query.GenreIds = item.Id : "GameGenre" == item.Type ? query.GenreIds = item.Id : "Studio" == item.Type ? query.StudioIds = item.Id : "MusicArtist" == item.Type && (connectionManager.getApiClient(item.ServerId).isMinServerVersion("3.4.1.18") ? query.AlbumArtistIds = item.Id : query.ArtistIds = item.Id)
+        "Person" == item.Type ? query.PersonIds = item.Id : "Genre" == item.Type ? query.GenreIds = item.Id : "MusicGenre" == item.Type ? query.GenreIds = item.Id : "Studio" == item.Type ? query.StudioIds = item.Id : "MusicArtist" == item.Type && (connectionManager.getApiClient(item.ServerId).isMinServerVersion("3.4.1.18") ? query.AlbumArtistIds = item.Id : query.ArtistIds = item.Id)
     }
 
     function getQuery(options, item) {

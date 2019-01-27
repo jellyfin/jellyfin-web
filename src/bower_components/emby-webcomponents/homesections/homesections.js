@@ -237,9 +237,6 @@ define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings
                 case "tvshows":
                     icon = "live_tv";
                     break;
-                case "games":
-                    icon = "folder";
-                    break;
                 case "trailers":
                     icon = "local_movies";
                     break;

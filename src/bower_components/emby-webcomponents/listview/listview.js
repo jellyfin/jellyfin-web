@@ -416,10 +416,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
             }
 
-            if (item.Type === 'Game') {
-                textlines.push(item.GameSystem);
-            }
-
             if (item.Type === 'TvChannel') {
 
                 if (item.CurrentProgram) {

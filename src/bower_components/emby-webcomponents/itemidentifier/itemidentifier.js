@@ -56,10 +56,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             return;
         }
 
-        if (currentItem && currentItem.GameSystem) {
-            lookupInfo.GameSystem = currentItem.GameSystem;
-        }
-
         lookupInfo = {
             SearchInfo: lookupInfo
         };
@@ -161,10 +157,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             lines.push(identifyResult.ProductionYear);
         }
 
-        if (identifyResult.GameSystem) {
-            lines.push(identifyResult.GameSystem);
-        }
-
         var resultHtml = lines.join('<br/>');
 
         if (identifyResult.ImageUrl) {
@@ -230,9 +222,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         if (currentItemType === "MusicAlbum") {
             numLines++;
         }
-        else if (currentItemType === "Game") {
-            numLines++;
-        }
 
         var lines = [result.Name];
 
@@ -241,9 +230,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         }
         if (result.ProductionYear) {
             lines.push(result.ProductionYear);
-        }
-        if (result.GameSystem) {
-            lines.push(result.GameSystem);
         }
 
         for (var i = 0; i < numLines; i++) {
@@ -377,7 +363,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
 
                 dlg.innerHTML = html;
 
-                // Has to be assigned a z-index after the call to .open() 
+                // Has to be assigned a z-index after the call to .open()
                 dlg.addEventListener('close', onDialogClosed);
 
                 if (layoutManager.tv) {

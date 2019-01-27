@@ -28,7 +28,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
 
     function displayContent(cmd, apiClient) {
 
-        if (!playbackManager.isPlayingLocally(['Video', 'Book', 'Game'])) {
+        if (!playbackManager.isPlayingLocally(['Video', 'Book'])) {
             appRouter.showItem(cmd.Arguments.ItemId, apiClient.serverId());
         }
     }

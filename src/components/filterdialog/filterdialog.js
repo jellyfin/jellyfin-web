@@ -71,7 +71,7 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
     }
 
     function setVisibility(context, options) {
-        "livetvchannels" != options.mode && "albums" != options.mode && "artists" != options.mode && "albumartists" != options.mode && "songs" != options.mode || hideByClass(context, "videoStandard"), enableDynamicFilters(options.mode) && (context.querySelector(".genreFilters").classList.remove("hide"), context.querySelector(".officialRatingFilters").classList.remove("hide"), context.querySelector(".tagFilters").classList.remove("hide"), context.querySelector(".yearFilters").classList.remove("hide"), context.querySelector(".audioLanguagesFilters").classList.remove("hide")), "movies" != options.mode && "episodes" != options.mode || context.querySelector(".videoTypeFilters").classList.remove("hide"), options.mode, "movies" != options.mode && "series" != options.mode && "games" != options.mode && "episodes" != options.mode || context.querySelector(".features").classList.remove("hide"), "series" == options.mode && context.querySelector(".seriesStatus").classList.remove("hide"), "episodes" == options.mode && showByClass(context, "episodeFilter")
+        "livetvchannels" != options.mode && "albums" != options.mode && "artists" != options.mode && "albumartists" != options.mode && "songs" != options.mode || hideByClass(context, "videoStandard"), enableDynamicFilters(options.mode) && (context.querySelector(".genreFilters").classList.remove("hide"), context.querySelector(".officialRatingFilters").classList.remove("hide"), context.querySelector(".tagFilters").classList.remove("hide"), context.querySelector(".yearFilters").classList.remove("hide"), context.querySelector(".audioLanguagesFilters").classList.remove("hide")), "movies" != options.mode && "episodes" != options.mode || context.querySelector(".videoTypeFilters").classList.remove("hide"), options.mode, "movies" != options.mode && "series" != options.mode && "episodes" != options.mode || context.querySelector(".features").classList.remove("hide"), "series" == options.mode && context.querySelector(".seriesStatus").classList.remove("hide"), "episodes" == options.mode && showByClass(context, "episodeFilter")
     }
 
     function showByClass(context, className) {
@@ -83,7 +83,7 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
     }
 
     function enableDynamicFilters(mode) {
-        return "movies" == mode || "games" == mode || "series" == mode || "albums" == mode || "albumartists" == mode || "artists" == mode || "songs" == mode || "episodes" == mode
+        return "movies" == mode || "series" == mode || "albums" == mode || "albumartists" == mode || "artists" == mode || "songs" == mode || "episodes" == mode
     }
     return function(options) {
         function onFavoriteChange() {

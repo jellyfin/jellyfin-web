@@ -840,7 +840,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             }
 
                         } else {
-                            var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || "";
+                            var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || "";
 
                             if (parentTitle || showTitle) {
                                 lines.push(parentTitle);
@@ -860,7 +860,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var name = options.showTitle === 'auto' && !item.IsFolder && item.MediaType === 'Photo' ? '' : itemHelper.getDisplayName(item, {
                     includeParentInfo: options.includeParentInfoInTitle
                 });
-                
+
                 lines.push(getTextActionButton({
                     Id: item.Id,
                     ServerId: serverId,
@@ -879,7 +879,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         item.AlbumArtists[0].IsFolder = true;
                         lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
                     } else {
-                        lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || ""));
+                        lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || ""));
                     }
                 }
 
@@ -1122,25 +1122,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     counts.push(childText);
                 }
-                if (item.GameCount) {
 
-                    childText = item.GameCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneGame') :
-                        globalize.translate('sharedcomponents#ValueGameCount', item.GameCount);
-
-                    counts.push(childText);
-                }
-
-            } else if (item.Type === 'GameGenre') {
-
-                if (item.GameCount) {
-
-                    childText = item.GameCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneGame') :
-                        globalize.translate('sharedcomponents#ValueGameCount', item.GameCount);
-
-                    counts.push(childText);
-                }
             } else if (item.Type === 'MusicGenre' || options.context === "MusicArtist") {
 
                 if (item.AlbumCount) {

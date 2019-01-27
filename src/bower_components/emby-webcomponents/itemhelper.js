@@ -55,7 +55,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
     function supportsAddingToCollection(item) {
 
-        var invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'GameGenre', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer'];
+        var invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer'];
 
         if (item.Type === 'Recording') {
             if (item.Status !== 'Completed') {
@@ -155,7 +155,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             if (itemType === "Movie" ||
                 itemType === "Trailer" ||
                 itemType === "Series" ||
-                itemType === "Game" ||
                 itemType === "BoxSet" ||
                 itemType === "Person" ||
                 itemType === "Book" ||
@@ -268,7 +267,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             if (item.Type === "Series" ||
                 item.Type === "Season" ||
                 item.Type === "BoxSet" ||
-                item.MediaType === "Game" ||
                 item.MediaType === "Book" ||
                 item.MediaType === "Recording") {
                 return true;
@@ -297,7 +295,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
 
             var mediaType = item.MediaType;
-            if (mediaType === 'Book' || mediaType === 'Photo' || mediaType === 'Game' || mediaType === 'Audio') {
+            if (mediaType === 'Book' || mediaType === 'Photo' || mediaType === 'Audio') {
                 return false;
             }
 
