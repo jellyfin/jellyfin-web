@@ -55,7 +55,7 @@ define(["loading", "globalize", "dashboardcss", "emby-input", "emby-button", "em
             apiClient = getApiClient();
         apiClient.getJSON(apiClient.getUrl("Startup/User")).then(function(user) {
             page.querySelector("#txtUsername").value = user.Name || "",
-            page.querySelector("#txtManualPassword").value = user.Password || "", 
+            page.querySelector("#txtManualPassword").value = user.Password || "";
             loading.hide()
         })
     }
