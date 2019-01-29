@@ -82,7 +82,7 @@
   "LabelUrl": "URL:",
   "LabelZipCode": "Post Code:",
   "LabelffmpegPathHelp": "The path to the ffmpeg application file or folder containing ffmpeg.",
-  "LeaveBlankToNotSetAPassword": "This field can be left blank.",
+  "LeaveBlankToNotSetAPassword": "Optional - leave blank to set no password",
   "LinkApi": "API",
   "MessageConfirmRevokeApiKey": "Are you sure you wish to revoke this API key? The application's connection to Jellyfin Server will be abruptly terminated.",
   "MessageForgotPasswordFileExpiration": "The reset PIN will expire at {0}.",
