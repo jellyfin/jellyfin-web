@@ -26,7 +26,8 @@ define(["loading", "globalize", "dashboardcss", "emby-input", "emby-button", "em
         apiClient.ajax({
             type: "POST",
             data: {
-                Name: form.querySelector("#txtUsername").value
+                Name: form.querySelector("#txtUsername").value,
+                Password: form.querySelector("#txtManualPassword").value 
             },
             url: apiClient.getUrl("Startup/User"),
             dataType: "json"
@@ -36,7 +37,16 @@ define(["loading", "globalize", "dashboardcss", "emby-input", "emby-button", "em
     }
 
     function onSubmit(e) {
-        return submit(this), e.preventDefault(), !1
+        var form = this;
+        if (form.querySelector("#txtManualPassword").value != form.querySelector("#txtPasswordConfirm").value) {
+            require(["toast"], function(toast) {
+                toast(Globalize.translate("PasswordMatchError"));
+            });
+        } else {
+            submit(form);
+        }
+        e.preventDefault();
+        return false;
     }
 
     function onViewShow() {
@@ -44,7 +54,9 @@ define(["loading", "globalize", "dashboardcss", "emby-input", "emby-button", "em
         var page = this,
             apiClient = getApiClient();
         apiClient.getJSON(apiClient.getUrl("Startup/User")).then(function(user) {
-            page.querySelector("#txtUsername").value = user.Name || "", loading.hide()
+            page.querySelector("#txtUsername").value = user.Name || "";
+            page.querySelector("#txtManualPassword").value = user.Password || "";
+            loading.hide();
         })
     }
     return function(view, params) {
