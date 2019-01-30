@@ -878,11 +878,17 @@ var Dashboard = {
         list.push("bower_components/emby-webcomponents/htmlvideoplayer/plugin");
         list.push("bower_components/emby-webcomponents/photoplayer/plugin");
         list.push("bower_components/emby-webcomponents/youtubeplayer/plugin");
-        "cordova" === self.appMode && list.push("cordova/chromecast");
-        "android" === self.appMode && list.push("cordova/externalplayer");
+        if ("cordova" === self.appMode) {
+            list.push("cordova/chromecast");
+        }
+        if ("android" === self.appMode) {
+            list.push("cordova/externalplayer");
+        }
         if (appHost.supports("remotecontrol")) {
             list.push("bower_components/emby-webcomponents/sessionplayer");
-            (browser.chrome || browser.opera) && list.push("bower_components/emby-webcomponents/chromecast/chromecastplayer");
+            if (browser.chrome || browser.opera) {
+                list.push("bower_components/emby-webcomponents/chromecast/chromecastplayer");
+            }
         }
         for (var i = 0, length = externalPlugins.length; i < length; i++) list.push(externalPlugins[i]);
         return new Promise(function(resolve, reject) {
