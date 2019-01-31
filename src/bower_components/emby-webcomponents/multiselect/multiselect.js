@@ -211,11 +211,11 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             }
 
             if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
-                //items.push({
-                //    name: Globalize.translate('ButtonDownload'),
-                //    id: 'download',
-                //    ironIcon: 'file-download'
-                //});
+                menuItems.push({
+                   name: Globalize.translate('ButtonDownload'),
+                   id: 'download',
+                   ironIcon: 'file-download'
+                });
             }
 
             if (user.Policy.EnableContentDownloading && appHost.supports('sync')) {

@@ -18,6 +18,7 @@
  - [ViXXoR](https://github.com/ViXXoR)
  - [nkmerrill] (https://github.com/nkmerrill)
  - [TtheCreator] (https://github.com/Tthecreator)
+ - [RazeLighter777](https://github.com/RazeLighter777)
 
 # Emby Contributors
 
