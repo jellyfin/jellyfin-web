@@ -605,7 +605,6 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         if (item.Type === "Person" ||
             item.Type === "Genre" ||
             item.Type === "Studio" ||
-            item.Type === "GameGenre" ||
             item.Type === "MusicGenre" ||
             item.Type === "TvChannel" ||
             item.Type === "Book") {
@@ -614,7 +613,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             showElement('#peopleCollapsible', context);
         }
 
-        if (item.Type === "Person" || item.Type === "Genre" || item.Type === "Studio" || item.Type === "GameGenre" || item.Type === "MusicGenre" || item.Type === "TvChannel") {
+        if (item.Type === "Person" || item.Type === "Genre" || item.Type === "Studio" || item.Type === "MusicGenre" || item.Type === "TvChannel") {
             hideElement('#fldCommunityRating', context);
             hideElement('#genresCollapsible', context);
             hideElement('#studiosCollapsible', context);

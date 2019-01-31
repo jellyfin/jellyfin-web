@@ -1280,7 +1280,6 @@ var Dashboard = {
                 if ("SeriesTimer" == itemType) return "itemdetails.html?seriesTimerId=" + id + "&serverId=" + serverId;
                 if ("livetv" == item.CollectionType) return "livetv.html";
                 if ("Genre" === item.Type) return url = "list/list.html?genreId=" + item.Id + "&serverId=" + serverId, "livetv" === context && (url += "&type=Programs"), options.parentId && (url += "&parentId=" + options.parentId), url;
-                if ("GameGenre" === item.Type) return url = "list/list.html?gameGenreId=" + item.Id + "&serverId=" + serverId, options.parentId && (url += "&parentId=" + options.parentId), url;
                 if ("MusicGenre" === item.Type) return url = "list/list.html?musicGenreId=" + item.Id + "&serverId=" + serverId, options.parentId && (url += "&parentId=" + options.parentId), url;
                 if ("Studio" === item.Type) return url = "list/list.html?studioId=" + item.Id + "&serverId=" + serverId, options.parentId && (url += "&parentId=" + options.parentId), url;
                 if ("folders" !== context && !itemHelper.isLocalItem(item)) {
@@ -1293,7 +1292,6 @@ var Dashboard = {
                 if ("Program" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
                 if ("BoxSet" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
                 if ("MusicAlbum" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                if ("GameSystem" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
                 if ("MusicGenre" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
                 if ("Person" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
                 if ("Recording" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;

@@ -193,7 +193,7 @@ define(["events", "appStorage"], function(events, appStorage) {
 
     function getRemoteImagePrefix(instance, options) {
         var urlPrefix;
-        return options.artist ? (urlPrefix = "Artists/" + instance.encodeName(options.artist), delete options.artist) : options.person ? (urlPrefix = "Persons/" + instance.encodeName(options.person), delete options.person) : options.genre ? (urlPrefix = "Genres/" + instance.encodeName(options.genre), delete options.genre) : options.musicGenre ? (urlPrefix = "MusicGenres/" + instance.encodeName(options.musicGenre), delete options.musicGenre) : options.gameGenre ? (urlPrefix = "GameGenres/" + instance.encodeName(options.gameGenre), delete options.gameGenre) : options.studio ? (urlPrefix = "Studios/" + instance.encodeName(options.studio), delete options.studio) : (urlPrefix = "Items/" + options.itemId, delete options.itemId), urlPrefix
+        return options.artist ? (urlPrefix = "Artists/" + instance.encodeName(options.artist), delete options.artist) : options.person ? (urlPrefix = "Persons/" + instance.encodeName(options.person), delete options.person) : options.genre ? (urlPrefix = "Genres/" + instance.encodeName(options.genre), delete options.genre) : options.musicGenre ? (urlPrefix = "MusicGenres/" + instance.encodeName(options.musicGenre), delete options.musicGenre) : options.studio ? (urlPrefix = "Studios/" + instance.encodeName(options.studio), delete options.studio) : (urlPrefix = "Items/" + options.itemId, delete options.itemId), urlPrefix
     }
 
     function normalizeImageOptions(instance, options) {
@@ -1069,12 +1069,6 @@ define(["events", "appStorage"], function(events, appStorage) {
         userId && (options.userId = userId);
         var url = this.getUrl("MusicGenres/" + this.encodeName(name), options);
         return this.getJSON(url)
-    }, ApiClient.prototype.getGameGenre = function(name, userId) {
-        if (!name) throw new Error("null name");
-        var options = {};
-        userId && (options.userId = userId);
-        var url = this.getUrl("GameGenres/" + this.encodeName(name), options);
-        return this.getJSON(url)
     }, ApiClient.prototype.getArtist = function(name, userId) {
         if (!name) throw new Error("null name");
         var options = {};
@@ -1300,11 +1294,6 @@ define(["events", "appStorage"], function(events, appStorage) {
         options = options || {}, options.userId = userId;
         var url = this.getUrl("MusicGenres", options);
         return this.getJSON(url)
-    }, ApiClient.prototype.getGameGenres = function(userId, options) {
-        if (!userId) throw new Error("null userId");
-        options = options || {}, options.userId = userId;
-        var url = this.getUrl("GameGenres", options);
-        return this.getJSON(url)
     }, ApiClient.prototype.getPeople = function(userId, options) {
         if (!userId) throw new Error("null userId");
         options = options || {}, options.userId = userId;
@@ -1319,12 +1308,6 @@ define(["events", "appStorage"], function(events, appStorage) {
         if (!userId) throw new Error("null userId");
         if (!itemId) throw new Error("null itemId");
         var url = this.getUrl("Users/" + userId + "/Items/" + itemId + "/LocalTrailers");
-        return this.getJSON(url)
-    }, ApiClient.prototype.getGameSystems = function() {
-        var options = {},
-            userId = this.getCurrentUserId();
-        userId && (options.userId = userId);
-        var url = this.getUrl("Games/SystemSummaries", options);
         return this.getJSON(url)
     }, ApiClient.prototype.getAdditionalVideoParts = function(userId, itemId) {
         if (!itemId) throw new Error("null itemId");

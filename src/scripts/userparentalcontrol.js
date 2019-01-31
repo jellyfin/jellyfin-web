@@ -27,9 +27,6 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "listViewStyle", "paper-
                 name: Globalize.translate("OptionBlockBooks"),
                 value: "Book"
             }, {
-                name: Globalize.translate("OptionBlockGames"),
-                value: "Game"
-            }, {
                 name: Globalize.translate("OptionBlockChannelContent"),
                 value: "ChannelContent"
             }, {

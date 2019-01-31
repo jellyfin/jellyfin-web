@@ -558,9 +558,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                     else if ("playlists" === i.CollectionType) {
                         icon = "view_list";
                     }
-                    else if ("games" === i.CollectionType) {
-                        icon = "games";
-                    }
                     else if ("movies" === i.CollectionType) {
                         icon = "video_library";
                     }

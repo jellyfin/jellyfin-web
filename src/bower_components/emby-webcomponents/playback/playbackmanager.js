@@ -748,7 +748,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             name: player.name,
             id: player.id,
             playerName: player.name,
-            playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'].map(player.canPlayMediaType),
+            playableMediaTypes: ['Audio', 'Video', 'Photo', 'Book'].map(player.canPlayMediaType),
             isLocalPlayer: player.isLocalPlayer,
             supportedCommands: instance.getSupportedCommands(player)
         };
@@ -947,7 +947,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                         name: globalize.translate('sharedcomponents#HeaderMyDevice'),
                         id: 'localplayer',
                         playerName: 'localplayer',
-                        playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'],
+                        playableMediaTypes: ['Audio', 'Video', 'Photo', 'Book'],
                         isLocalPlayer: true,
                         supportedCommands: self.getSupportedCommands({
                             isLocalPlayer: true
@@ -2356,7 +2356,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 promise = Promise.resolve();
             }
 
-            if (!isServerItem(item) || item.MediaType === 'Game' || item.MediaType === 'Book') {
+            if (!isServerItem(item) || item.MediaType === 'Book') {
                 return promise.then(function () {
                     var streamInfo = createStreamInfoFromUrlItem(item);
                     streamInfo.fullscreen = playOptions.fullscreen;

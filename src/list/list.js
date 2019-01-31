@@ -73,7 +73,7 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
                 SortBy: sortBy
             }))
         }
-        if ("Genre" === item.Type || "GameGenre" === item.Type || "MusicGenre" === item.Type || "Studio" === item.Type || "Person" === item.Type) {
+        if ("Genre" === item.Type || "MusicGenre" === item.Type || "Studio" === item.Type || "Person" === item.Type) {
             instance.queryRecursive = !0;
             var query = {
                 StartIndex: startIndex,
@@ -83,7 +83,7 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
                 parentId: params.parentId,
                 SortBy: sortBy
             };
-            return "Studio" === item.Type ? query.StudioIds = item.Id : "Genre" === item.Type || "GameGenre" === item.Type || "MusicGenre" === item.Type ? query.GenreIds = item.Id : "Person" === item.Type && (query.PersonIds = item.Id), "MusicGenre" === item.Type ? query.IncludeItemTypes = "MusicAlbum" : "GameGenre" === item.Type ? query.IncludeItemTypes = "Game" : "movies" === item.CollectionType ? query.IncludeItemTypes = "Movie" : "tvshows" === item.CollectionType ? query.IncludeItemTypes = "Series" : "Genre" === item.Type ? query.IncludeItemTypes = "Movie,Series,Video" : "Person" === item.Type && (query.IncludeItemTypes = params.type), apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query))
+            return "Studio" === item.Type ? query.StudioIds = item.Id : "Genre" === item.Type || "MusicGenre" === item.Type ? query.GenreIds = item.Id : "Person" === item.Type && (query.PersonIds = item.Id), "MusicGenre" === item.Type ? query.IncludeItemTypes = "MusicAlbum" : "GameGenre" === item.Type ? query.IncludeItemTypes = "Game" : "movies" === item.CollectionType ? query.IncludeItemTypes = "Movie" : "tvshows" === item.CollectionType ? query.IncludeItemTypes = "Series" : "Genre" === item.Type ? query.IncludeItemTypes = "Movie,Series,Video" : "Person" === item.Type && (query.IncludeItemTypes = params.type), apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query))
         }
         return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
             StartIndex: startIndex,
@@ -100,7 +100,7 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
         if ("Programs" === params.type) return Promise.resolve(null);
         if ("nextup" === params.type) return Promise.resolve(null);
         var apiClient = connectionManager.getApiClient(params.serverId),
-            itemId = params.genreId || params.gameGenreId || params.musicGenreId || params.studioId || params.personId || params.parentId;
+            itemId = params.genreId || params.musicGenreId || params.studioId || params.personId || params.parentId;
         return itemId ? apiClient.getItem(apiClient.getCurrentUserId(), itemId) : Promise.resolve(null)
     }
 
@@ -247,7 +247,7 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
         }
 
         function getTitle(item) {
-            return "Recordings" === params.type ? globalize.translate("Recordings") : "Programs" === params.type ? "true" === params.IsMovie ? globalize.translate("Movies") : "true" === params.IsSports ? globalize.translate("Sports") : "true" === params.IsKids ? globalize.translate("HeaderForKids") : "true" === params.IsAiring ? globalize.translate("HeaderOnNow") : "true" === params.IsSeries ? globalize.translate("Shows") : "true" === params.IsNews ? globalize.translate("News") : globalize.translate("Programs") : "nextup" === params.type ? globalize.translate("NextUp") : "favoritemovies" === params.type ? globalize.translate("FavoriteMovies") : item ? item.Name : "Movie" === params.type ? globalize.translate("sharedcomponents#Movies") : "Series" === params.type ? globalize.translate("sharedcomponents#Shows") : "Season" === params.type ? globalize.translate("sharedcomponents#Seasons") : "Episode" === params.type ? globalize.translate("sharedcomponents#Episodes") : "MusicArtist" === params.type ? globalize.translate("sharedcomponents#Artists") : "MusicAlbum" === params.type ? globalize.translate("sharedcomponents#Albums") : "Audio" === params.type ? globalize.translate("sharedcomponents#Songs") : "Game" === params.type ? globalize.translate("sharedcomponents#Games") : "Video" === params.type ? globalize.translate("sharedcomponents#Videos") : void 0
+            return "Recordings" === params.type ? globalize.translate("Recordings") : "Programs" === params.type ? "true" === params.IsMovie ? globalize.translate("Movies") : "true" === params.IsSports ? globalize.translate("Sports") : "true" === params.IsKids ? globalize.translate("HeaderForKids") : "true" === params.IsAiring ? globalize.translate("HeaderOnNow") : "true" === params.IsSeries ? globalize.translate("Shows") : "true" === params.IsNews ? globalize.translate("News") : globalize.translate("Programs") : "nextup" === params.type ? globalize.translate("NextUp") : "favoritemovies" === params.type ? globalize.translate("FavoriteMovies") : item ? item.Name : "Movie" === params.type ? globalize.translate("sharedcomponents#Movies") : "Series" === params.type ? globalize.translate("sharedcomponents#Shows") : "Season" === params.type ? globalize.translate("sharedcomponents#Seasons") : "Episode" === params.type ? globalize.translate("sharedcomponents#Episodes") : "MusicArtist" === params.type ? globalize.translate("sharedcomponents#Artists") : "MusicAlbum" === params.type ? globalize.translate("sharedcomponents#Albums") : "Audio" === params.type ? globalize.translate("sharedcomponents#Songs") : "Video" === params.type ? globalize.translate("sharedcomponents#Videos") : void 0
         }
 
         function play() {
@@ -457,6 +457,6 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
         var values = [];
         values.push("items");
         var params = this.params;
-        return params.type ? values.push(params.type) : params.parentId && values.push(params.parentId), params.IsAiring && values.push("IsAiring"), params.IsMovie && values.push("IsMovie"), params.IsKids && values.push("IsKids"), params.IsSports && values.push("IsSports"), params.IsNews && values.push("IsNews"), params.IsSeries && values.push("IsSeries"), params.IsFavorite && values.push("IsFavorite"), params.genreId && values.push("Genre"), params.gameGenreId && values.push("GameGenre"), params.musicGenreId && values.push("MusicGenre"), params.studioId && values.push("Studio"), params.personId && values.push("Person"), params.parentId && values.push("Folder"), values.join("-")
+        return params.type ? values.push(params.type) : params.parentId && values.push(params.parentId), params.IsAiring && values.push("IsAiring"), params.IsMovie && values.push("IsMovie"), params.IsKids && values.push("IsKids"), params.IsSports && values.push("IsSports"), params.IsNews && values.push("IsNews"), params.IsSeries && values.push("IsSeries"), params.IsFavorite && values.push("IsFavorite"), params.genreId && values.push("Genre"), params.musicGenreId && values.push("MusicGenre"), params.studioId && values.push("Studio"), params.personId && values.push("Person"), params.parentId && values.push("Folder"), values.join("-")
     }, ItemsView
 });

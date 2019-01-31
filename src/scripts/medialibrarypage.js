@@ -203,10 +203,6 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
             value: "books",
             message: getLink("BookLibraryHelp", "https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Book-naming")
         }, {
-            name: globalize.translate("FolderTypeGames"),
-            value: "games",
-            message: globalize.translate("MessageGamePluginRequired")
-        }, {
             name: globalize.translate("OptionHomeVideos"),
             value: "homevideos"
         }, {
@@ -230,8 +226,6 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
             case "livetv":
             case "tvshows":
                 return "live_tv";
-            case "games":
-                return "folder";
             case "trailers":
                 return "local_movies";
             case "homevideos":

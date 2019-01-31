@@ -325,13 +325,13 @@ define(["filerepository", "itemrepository", "useractionrepository", "transferman
         var parts = [],
             itemtype = item.Type.toLowerCase(),
             mediaType = (item.MediaType || "").toLowerCase();
-        "episode" === itemtype || "series" === itemtype || "season" === itemtype ? parts.push("TV") : "video" === mediaType ? parts.push("Videos") : "audio" === itemtype || "musicalbum" === itemtype || "musicartist" === itemtype ? parts.push("Music") : "photo" === itemtype || "photoalbum" === itemtype ? parts.push("Photos") : "game" !== itemtype && "gamesystem" !== itemtype || parts.push("Games");
+        "episode" === itemtype || "series" === itemtype || "season" === itemtype ? parts.push("TV") : "video" === mediaType ? parts.push("Videos") : "audio" === itemtype || "musicalbum" === itemtype || "musicartist" === itemtype ? parts.push("Music") : "photo" === itemtype || "photoalbum" === itemtype ? parts.push("Photos") : null;
         var albumArtist = item.AlbumArtist;
         albumArtist && parts.push(albumArtist);
         var seriesName = item.SeriesName;
         seriesName && parts.push(seriesName);
         var seasonName = item.SeasonName;
-        seasonName && parts.push(seasonName), item.Album && parts.push(item.Album), ("video" === mediaType && "episode" !== itemtype || "game" === itemtype || item.IsFolder) && parts.push(item.Name);
+        seasonName && parts.push(seasonName), item.Album && parts.push(item.Album), ("video" === mediaType && "episode" !== itemtype || item.IsFolder) && parts.push(item.Name);
         for (var finalParts = [], i = 0; i < parts.length; i++) finalParts.push(filerepository.getValidFileName(parts[i]));
         return finalParts
     }
