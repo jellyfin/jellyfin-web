@@ -140,6 +140,8 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function(appSett
         (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile) && features.push("physicalvolumecontrol");
         browser.tv || browser.xboxOne || browser.ps4 || features.push("remotecontrol");
         browser.operaTv || browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp || features.push("remotevideo");
+        // might require isNativeApp check if any other issues surface
+        features.push("displaylanguage");
         features.push("otherapppromotions");
         features.push("targetblank");
         browser.orsay || browser.tizen || browser.msie || !(browser.firefox || browser.ps4 || browser.edge || cueSupported()) || features.push("subtitleappearancesettings");
