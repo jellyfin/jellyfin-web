@@ -870,8 +870,27 @@ var Dashboard = {
 
     function loadPlugins(externalPlugins, appHost, browser, shell) {
         console.log("Loading installed plugins");
-        var list = ["bower_components/emby-webcomponents/playback/playbackvalidation", "bower_components/emby-webcomponents/playback/playaccessvalidation", "bower_components/emby-webcomponents/playback/experimentalwarnings"];
-        "android" === self.appMode ? self.MainActivity && MainActivity.enableVlcPlayer() && list.push("cordova/vlcplayer") : "cordova" === self.appMode && (list.push("cordova/audioplayer"), (browser.iOSVersion || 0) >= 11 && list.push("cordova/mpvplayer")), list.push("bower_components/emby-webcomponents/htmlaudioplayer/plugin"), "cordova" === self.appMode && list.push("cordova/chromecast"), "android" === self.appMode && list.push("cordova/externalplayer"), list.push("bower_components/emby-webcomponents/htmlvideoplayer/plugin"), list.push("bower_components/emby-webcomponents/photoplayer/plugin"), appHost.supports("remotecontrol") && (list.push("bower_components/emby-webcomponents/sessionplayer"), (browser.chrome || browser.opera) && list.push("bower_components/emby-webcomponents/chromecast/chromecastplayer")), list.push("bower_components/emby-webcomponents/youtubeplayer/plugin");
+        var list = [
+            "bower_components/emby-webcomponents/playback/playbackvalidation",
+            "bower_components/emby-webcomponents/playback/playaccessvalidation",
+            "bower_components/emby-webcomponents/playback/experimentalwarnings",
+            "bower_components/emby-webcomponents/htmlaudioplayer/plugin",
+            "bower_components/emby-webcomponents/htmlvideoplayer/plugin",
+            "bower_components/emby-webcomponents/photoplayer/plugin",
+            "bower_components/emby-webcomponents/youtubeplayer/plugin"
+        ];
+        if ("cordova" === self.appMode) {
+            list.push("cordova/chromecast");
+        }
+        if ("android" === self.appMode) {
+            list.push("cordova/externalplayer");
+        }
+        if (appHost.supports("remotecontrol")) {
+            list.push("bower_components/emby-webcomponents/sessionplayer");
+            if (browser.chrome || browser.opera) {
+                list.push("bower_components/emby-webcomponents/chromecast/chromecastplayer");
+            }
+        }
         for (var i = 0, length = externalPlugins.length; i < length; i++) list.push(externalPlugins[i]);
         return new Promise(function(resolve, reject) {
             Promise.all(list.map(loadPlugin)).then(function() {
