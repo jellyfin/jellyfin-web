@@ -36,5 +36,5 @@
   "ThisWizardWillGuideYou": "Denne veiviseren hjelper deg gjennom installasjonsprosessen. Velg ønsket språk for å komme i gang.",
   "UserProfilesIntro": "Jellyfin inneholder innebygd støtte for brukerprofiler, slik at hver bruker har egne skjerminnstillinger, avspillingsstatus og foreldrekontroll.",
   "WelcomeToProject": "Velkommen til Jellyfin!",
-  "WizardCompleted": "Det er alt vi trenger i denne omgang. Jellyfin har begynt å samle inn informasjon om mediebiblioteket ditt. Sjekk ut noen av våre apper, og klikk deretter <b> Fullfør </ b> for å vise <b> Server Dashboard </ b>.",
+  "WizardCompleted": "Det er alt vi trenger i denne omgang. Jellyfin har begynt å samle inn informasjon om mediebiblioteket ditt. Sjekk ut noen av våre apper, og klikk deretter <b> Fullfør </ b> for å vise <b> Server Dashboard </ b>."
 }

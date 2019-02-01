@@ -23,5 +23,5 @@
   "ThisWizardWillGuideYou": "Cet assistant vous guidera dans le processus de configuration. Pour commencer, merci de sélectionner votre langue préférée.",
   "UserProfilesIntro": "Jellyfin supporte nativement les profils utilisateurs, les préférences d'affichage, la sauvegarde de l'état de lecture et le contrôle parental.",
   "WelcomeToProject": "Bienvenue dans Jellyfin !",
-  "WizardCompleted": "C'est tout ce dont nous avons besoin pour l'instant. Jellyfin a commencé à collecter les informations de votre bibliothèque de médias. Jetez un oeil à quelques unes de nos applications, puis cliquez sur <b>Terminer</b> pour consulter le <b>Tableau de bord du serveur</b>.",
+  "WizardCompleted": "C'est tout ce dont nous avons besoin pour l'instant. Jellyfin a commencé à collecter les informations de votre bibliothèque de médias. Jetez un oeil à quelques unes de nos applications, puis cliquez sur <b>Terminer</b> pour consulter le <b>Tableau de bord du serveur</b>."
 }

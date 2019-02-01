@@ -1171,5 +1171,5 @@
   "ViewTypeMusicSongs": "Músicas",
   "WelcomeToProject": "Bem-vindo ao Jellyfin!",
   "WizardCompleted": "É tudo, de momento. O Jellyfin começou a recolher informações da sua biblioteca multimédia. Confira algumas das nossas apps e de seguida clique <b>Terminar</b> para ver o <b>Painel Principal do Servidor</b>",
-  "XmlDocumentAttributeListHelp": "Estes atributos são aplicados ao elemento principal de cada resposta xml.",
+  "XmlDocumentAttributeListHelp": "Estes atributos são aplicados ao elemento principal de cada resposta xml."
 }
