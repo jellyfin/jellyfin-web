@@ -460,5 +460,5 @@
   "UserProfilesIntro": "Jellyfin palaiko vartotojų profilius, leidžiančius kiekvienam nustatyti savo rodymo nustatymus, žiūrėjimo statistiką ir tėvišką kontrolę.",
   "VersionNumber": "Versija {0}",
   "WelcomeToProject": "Sveiki atvykę į Jellyfin!",
-  "WizardCompleted": "Kol kas to užteks. Jellyfin pradėjo rinkti duomenis apie Jūsų medijos biblioteką. Peržiūrėkite programėles, o po to spauskite <b>Baigti</b> ir perkelsime jus į <b>Serverio skydelį</b>.",
+  "WizardCompleted": "Kol kas to užteks. Jellyfin pradėjo rinkti duomenis apie Jūsų medijos biblioteką. Peržiūrėkite programėles, o po to spauskite <b>Baigti</b> ir perkelsime jus į <b>Serverio skydelį</b>."
 }

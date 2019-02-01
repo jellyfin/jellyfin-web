@@ -323,5 +323,5 @@
   "UserProfilesIntro": "Jellyfin include sprijin pentru profile de utilizator, permițând fiecărui utilizator să își facă propriile setări de afișare, playstate și control parental.",
   "VersionNumber": "Versine {0}",
   "WelcomeToProject": "Bine ați venit la Jellyfin!",
-  "WizardCompleted": "Asta e tot ce avem nevoie pentru moment. Jellyfin a început colectarea de informații despre biblioteca media. Verifică unele din aplicațiile noastre, și apoi faceți clic pe <b>Finalizare</b> pentru a vizualiza <b>Tabloul de bord al Serverului </b>.",
+  "WizardCompleted": "Asta e tot ce avem nevoie pentru moment. Jellyfin a început colectarea de informații despre biblioteca media. Verifică unele din aplicațiile noastre, și apoi faceți clic pe <b>Finalizare</b> pentru a vizualiza <b>Tabloul de bord al Serverului </b>."
 }

@@ -358,5 +358,5 @@
   "Users": "使用者",
   "VersionNumber": "版本{0}",
   "WelcomeToProject": "歡迎使用 Jellyfin！",
-  "WizardCompleted": "這就是我們所需要的全部資訊，Jellyfin現在正在收集你的媒體櫃的資料，在這段時間內，不妨參考我們推出的應用程式。按一下<b>完成</b>進入<b>伺服器總覽頁</b>",
+  "WizardCompleted": "這就是我們所需要的全部資訊，Jellyfin現在正在收集你的媒體櫃的資料，在這段時間內，不妨參考我們推出的應用程式。按一下<b>完成</b>進入<b>伺服器總覽頁</b>"
 }
