@@ -186,7 +186,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             volumeSliderContainer.classList.remove('hide');
         }
 
-        volumeSlider.addEventListener('change', function () {
+        volumeSlider.addEventListener('mousemove', function () {
 
             if (currentPlayer) {
                 currentPlayer.setVolume(this.value);
