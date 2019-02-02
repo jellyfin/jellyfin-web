@@ -605,7 +605,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 return datetime.getDisplayRunningTime(ticks);
             };
 
-            context.querySelector(".nowPlayingVolumeSlider").addEventListener("change", function () {
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("mousemove", function () {
                 playbackManager.setVolume(this.value, currentPlayer);
             });
             context.querySelector(".buttonMute").addEventListener("click", function () {
