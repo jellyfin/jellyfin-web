@@ -15,8 +15,6 @@
   "AllComplexFormats": "所有复杂的格式（ASS, SSA, VOBSUB, PGS, SUB/IDX 等）",
   "AllEpisodes": "所有集",
   "AllLanguages": "所有语言",
-  "AllowSeasonalThemes": "允许自动切换季节性主题",
-  "AllowSeasonalThemesHelp": "如果启用，当季节性主题使用时会覆盖你的主题设置。",
   "AlwaysPlaySubtitles": "总是显示字幕",
   "AlwaysPlaySubtitlesHelp": "无论音频为何种语言，都将加载与语言偏好匹配的字幕。",
   "Anytime": "任何时间",

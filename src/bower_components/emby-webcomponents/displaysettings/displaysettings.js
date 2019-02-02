@@ -162,12 +162,10 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         }
 
         if (!browser.tizen && !browser.web0s) {
-            context.querySelector('.fldSeasonalThemes').classList.remove('hide');
             context.querySelector('.fldBackdrops').classList.remove('hide');
             context.querySelector('.fldThemeSong').classList.remove('hide');
             context.querySelector('.fldThemeVideo').classList.remove('hide');
         } else {
-            context.querySelector('.fldSeasonalThemes').classList.add('hide');
             context.querySelector('.fldBackdrops').classList.add('hide');
             context.querySelector('.fldThemeSong').classList.add('hide');
             context.querySelector('.fldThemeVideo').classList.add('hide');
@@ -189,7 +187,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
         context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
         context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
-        context.querySelector('#chkSeasonalThemes').checked = userSettings.enableSeasonalThemes();
 
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
         context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
@@ -226,7 +223,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         userSettingsInstance.skin(context.querySelector('.selectSkin').value);
 
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
-        userSettingsInstance.enableSeasonalThemes(context.querySelector('#chkSeasonalThemes').checked);
 
         if (user.Id === apiClient.getCurrentUserId()) {
 

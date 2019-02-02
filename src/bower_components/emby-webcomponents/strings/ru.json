@@ -17,8 +17,6 @@
   "AllComplexFormats": "Все комлексные форматы (ASS, SSA, VOBSUB, PGS, SUB/IDX и т.д.)",
   "AllEpisodes": "Все эпизоды",
   "AllLanguages": "Все языки",
-  "AllowSeasonalThemes": "Разрешить автоматические сезонные темы",
-  "AllowSeasonalThemesHelp": "При включении, сезонные темы будут время от времени перекрывать вашу настройку темы.",
   "AlwaysPlaySubtitles": "Всегда воспроизводить с субтитрами",
   "AlwaysPlaySubtitlesHelp": "Субтитры, соответствующие настройке языка, будут загружаться независимо от языка аудио.",
   "AnamorphicVideoNotSupported": "Анаморфное видео не поддерживается",

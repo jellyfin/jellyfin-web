@@ -17,8 +17,6 @@
   "AllComplexFormats": "Todos os formatos complexos (ASS, SSA, VOBSUB, PGS, SUB/IDX, etc.)",
   "AllEpisodes": "Todos os episódios",
   "AllLanguages": "Todos os idiomas",
-  "AllowSeasonalThemes": "Permitir temas sazonais automáticos",
-  "AllowSeasonalThemesHelp": "Se ativado, temas sazonais irão sobrepor a configuração de temas.",
   "AlwaysPlaySubtitles": "Sempre reproduzir legendas",
   "AlwaysPlaySubtitlesHelp": "As legendas que combinarem com a preferência de idioma serão carregadas independente do idioma do áudio.",
   "AnamorphicVideoNotSupported": "Vídeo anamórfico não suportado",

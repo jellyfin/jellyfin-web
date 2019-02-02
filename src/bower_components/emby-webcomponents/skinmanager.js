@@ -228,23 +228,6 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
     }
 
     var themeResources = {};
-    function modifyThemeForSeasonal(id) {
-
-        if (!userSettings.enableSeasonalThemes()) {
-            return id;
-        }
-
-        var date = new Date();
-        var month = date.getMonth();
-        var day = date.getDate();
-
-        if (month === 9 && day >= 30) {
-            return 'halloween';
-        }
-
-        return id;
-    }
-
     var lastSound = 0;
     var currentSound;
 
@@ -258,18 +241,6 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         }
 
         backdrop.clear();
-
-        if (id === 'halloween') {
-            themeResources = {
-                themeSong: 'https://github.com/MediaBrowser/Emby.Resources/raw/master/themes/halloween/monsterparadefade.mp3',
-                effect: 'https://github.com/MediaBrowser/Emby.Resources/raw/master/themes/halloween/howl.wav',
-                backdrop: 'https://github.com/MediaBrowser/Emby.Resources/raw/master/themes/halloween/bg.jpg'
-            };
-            return;
-        }
-
-        themeResources = {
-        };
     }
 
     function onThemeLoaded() {
@@ -294,14 +265,13 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
             var requiresRegistration = true;
 
-            if (context !== 'serverdashboard') {
-
-                var newId = modifyThemeForSeasonal(id);
-                if (newId !== id) {
-                    requiresRegistration = false;
-                }
-                id = newId;
-            }
+            // if (context !== 'serverdashboard') {
+            //
+            //     if (newId !== id) {
+            //         requiresRegistration = false;
+            //     }
+            //     id = newId;
+            // }
 
             if (currentThemeId && currentThemeId === id) {
                 resolve();

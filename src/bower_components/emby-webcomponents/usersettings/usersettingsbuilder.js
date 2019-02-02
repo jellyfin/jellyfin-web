@@ -235,15 +235,6 @@ define(['appSettings', 'events'], function (appsettings, events) {
         return this.get('appTheme', false) || UserSettings.defaults.theme;
     };
 
-    UserSettings.prototype.enableSeasonalThemes = function (val) {
-
-        if (val != null) {
-            return this.set('enableSeasonalThemes', val, false);
-        }
-
-        return this.get('enableSeasonalThemes', false) !== 'false';
-    };
-
     UserSettings.prototype.screensaver = function (val) {
 
         if (val != null) {
