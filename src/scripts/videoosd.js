@@ -814,6 +814,9 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       var supportedCommands = currentPlayerSupportedCommands;
       var showMuteButton = true;
       var showVolumeSlider = true;
+      var volumeSlider = view.querySelector('.osdVolumeSliderContainer');
+      var progressElement = volumeSlider.querySelector('.mdl-slider-background-lower');
+
 
       if (-1 === supportedCommands.indexOf("Mute")) {
         showMuteButton = false;
@@ -834,6 +837,10 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       } else {
         view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute"));
         view.querySelector(".buttonMute i").innerHTML = "&#xE050;";
+      }
+
+      if (progressElement) {
+          progressElement.style.width = (volumeLevel || 0) + '%';
       }
 
       if (showMuteButton) {

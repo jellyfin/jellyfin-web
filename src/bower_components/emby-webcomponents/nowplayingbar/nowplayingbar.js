@@ -392,6 +392,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         var showMuteButton = true;
         var showVolumeSlider = true;
+        var progressElement = volumeSliderContainer.querySelector('.mdl-slider-background-lower');
 
         if (supportedCommands.indexOf('ToggleMute') === -1) {
             showMuteButton = false;
@@ -401,6 +402,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             muteButton.querySelector('i').innerHTML = '&#xE04F;';
         } else {
             muteButton.querySelector('i').innerHTML = '&#xE050;';
+        }
+
+        if (progressElement) {
+            progressElement.style.width = (volumeLevel || 0) + '%';
         }
 
         if (supportedCommands.indexOf('SetVolume') === -1) {
