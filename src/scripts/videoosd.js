@@ -856,7 +856,6 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                     nowPlayingVolumeSliderContainer.classList.add("hide");
                 }
 
-                // TODO: Find out why this is causing the slider to not update properly
                 if (!nowPlayingVolumeSlider.dragging) {
                     nowPlayingVolumeSlider.value = volumeLevel || 0;
                 }
