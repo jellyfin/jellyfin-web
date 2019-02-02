@@ -849,6 +849,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
           nowPlayingVolumeSliderContainer.classList.add("hide");
         }
 
+        // TODO: Find out why this is causing the slider to not update properly
         if (!nowPlayingVolumeSlider.dragging) {
           nowPlayingVolumeSlider.value = volumeLevel || 0;
         }
@@ -1247,7 +1248,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
     view.querySelector(".buttonMute").addEventListener("click", function () {
       playbackManager.toggleMute(currentPlayer);
     });
-    nowPlayingVolumeSlider.addEventListener("change", function () {
+    nowPlayingVolumeSlider.addEventListener("mousemove", function () {
       playbackManager.setVolume(this.value, currentPlayer);
     });
     nowPlayingPositionSlider.addEventListener("change", function () {
