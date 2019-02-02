@@ -4,13 +4,13 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
     function showAudioMenu(context, player, button, item) {
         var currentIndex = playbackManager.getAudioStreamIndex(player);
         var streams = playbackManager.audioTracks(player);
-        var menuItems = streams.map(function (s__q) {
+        var menuItems = streams.map(function (s) {
             var menuItem = {
-                name: s__q.DisplayTitle,
-                id: s__q.Index
+                name: s.DisplayTitle,
+                id: s.Index
             };
 
-            if (s__q.Index == currentIndex) {
+            if (s.Index == currentIndex) {
                 menuItem.selected = true;
             }
 
@@ -31,13 +31,13 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
     function showSubtitleMenu(context, player, button, item) {
         var currentIndex = playbackManager.getSubtitleStreamIndex(player);
         var streams = playbackManager.subtitleTracks(player);
-        var menuItems = streams.map(function (s__w) {
+        var menuItems = streams.map(function (s) {
             var menuItem = {
-                name: s__w.DisplayTitle,
-                id: s__w.Index
+                name: s.DisplayTitle,
+                id: s.Index
             };
 
-            if (s__w.Index == currentIndex) {
+            if (s.Index == currentIndex) {
                 menuItem.selected = true;
             }
 
@@ -61,8 +61,8 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
     }
 
     function getNowPlayingNameHtml(nowPlayingItem, includeNonNameInfo) {
-        return nowPlayingHelper.getNowPlayingNames(nowPlayingItem, includeNonNameInfo).map(function (i__e) {
-            return i__e.text;
+        return nowPlayingHelper.getNowPlayingNames(nowPlayingItem, includeNonNameInfo).map(function (i) {
+            return i.text;
         }).join("<br/>");
     }
 
@@ -167,8 +167,8 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
     function updateSupportedCommands(context, commands) {
         var all = context.querySelectorAll(".btnCommand");
 
-        for (var i__r = 0, length = all.length; i__r < length; i__r++) {
-            buttonEnabled(all[i__r], -1 != commands.indexOf(all[i__r].getAttribute("data-command")));
+        for (var i = 0, length = all.length; i < length; i++) {
+            buttonEnabled(all[i], -1 != commands.indexOf(all[i].getAttribute("data-command")));
         }
     }
 
@@ -258,14 +258,12 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             if ("RepeatAll" == repeatMode) {
                 toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat</i>";
                 toggleRepeatButton.classList.add("repeatButton-active");
+            } else if ("RepeatOne" == repeatMode) {
+                toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat_one</i>";
+                toggleRepeatButton.classList.add("repeatButton-active");
             } else {
-                if ("RepeatOne" == repeatMode) {
-                    toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat_one</i>";
-                    toggleRepeatButton.classList.add("repeatButton-active");
-                } else {
-                    toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat</i>";
-                    toggleRepeatButton.classList.remove("repeatButton-active");
-                }
+                toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat</i>";
+                toggleRepeatButton.classList.remove("repeatButton-active");
             }
         }
 
@@ -386,27 +384,27 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             });
         }
 
-        function onPlaybackStart(e__t, state) {
-            console.log("remotecontrol event: " + e__t.type);
+        function onPlaybackStart(e, state) {
+            console.log("remotecontrol event: " + e.type);
             var player = this;
-            onStateChanged.call(player, e__t, state);
+            onStateChanged.call(player, e, state);
         }
 
-        function onRepeatModeChange(e__y) {
+        function onRepeatModeChange(e) {
             var player = this;
             updateRepeatModeDisplay(playbackManager.getRepeatMode(player));
         }
 
-        function onPlaylistUpdate(e__u) {
+        function onPlaylistUpdate(e) {
             loadPlaylist(dlg, this);
         }
 
-        function onPlaylistItemRemoved(e__i, info) {
+        function onPlaylistItemRemoved(e, info) {
             var context = dlg;
             var playlistItemIds = info.playlistItemIds;
 
-            for (var i__o = 0, length = playlistItemIds.length; i__o < length; i__o++) {
-                var listItem = context.querySelector('.listItem[data-playlistItemId="' + playlistItemIds[i__o] + '"]');
+            for (var i = 0, length = playlistItemIds.length; i < length; i++) {
+                var listItem = context.querySelector('.listItem[data-playlistItemId="' + playlistItemIds[i] + '"]');
 
                 if (listItem) {
                     listItem.parentNode.removeChild(listItem);
@@ -414,8 +412,8 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             }
         }
 
-        function onPlaybackStopped(e__p, state) {
-            console.log("remotecontrol event: " + e__p.type);
+        function onPlaybackStopped(e, state) {
+            console.log("remotecontrol event: " + e.type);
             var player = this;
 
             if (!state.NextMediaType) {
@@ -424,7 +422,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             }
         }
 
-        function onPlayPauseStateChanged(e__a) {
+        function onPlayPauseStateChanged(e) {
             updatePlayPauseState(this.paused(), true);
         }
 
@@ -434,7 +432,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             loadPlaylist(dlg, player);
         }
 
-        function onTimeUpdate(e__s) {
+        function onTimeUpdate(e) {
             var now = new Date().getTime();
 
             if (!(now - lastUpdateTime < 700)) {
@@ -445,7 +443,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             }
         }
 
-        function onVolumeChanged(e__d) {
+        function onVolumeChanged(e) {
             var player = this;
             updatePlayerVolumeState(dlg, player.isMuted(), player.getVolume());
         }
@@ -505,9 +503,9 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
 
         function getSaveablePlaylistItems() {
             return getPlaylistItems(currentPlayer).then(function (items) {
-                return items.filter(function (i__f) {
-                    if (i__f.Id) {
-                        return i__f.ServerId;
+                return items.filter(function (i) {
+                    if (i.Id) {
+                        return i.ServerId;
                     }
 
                     return false;
@@ -520,8 +518,8 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 getSaveablePlaylistItems().then(function (items) {
                     var serverId = items.length ? items[0].ServerId : ApiClient.serverId();
                     new playlistEditor().show({
-                        items: items.map(function (i__g) {
-                            return i__g.Id;
+                        items: items.map(function (i) {
+                            return i.Id;
                         }),
                         serverId: serverId,
                         enableAddToPlayQueue: false,
@@ -534,25 +532,25 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         function bindEvents(context) {
             var btnCommand = context.querySelectorAll(".btnCommand");
 
-            for (var i__h = 0, length = btnCommand.length; i__h < length; i__h++) {
-                btnCommand[i__h].addEventListener("click", onBtnCommandClick);
+            for (var i = 0, length = btnCommand.length; i < length; i++) {
+                btnCommand[i].addEventListener("click", onBtnCommandClick);
             }
 
-            context.querySelector(".btnToggleFullscreen").addEventListener("click", function (e__j) {
+            context.querySelector(".btnToggleFullscreen").addEventListener("click", function (e) {
                 if (currentPlayer) {
                     playbackManager.sendCommand({
-                        Name: e__j.target.getAttribute("data-command")
+                        Name: e.target.getAttribute("data-command")
                     }, currentPlayer);
                 }
             });
-            context.querySelector(".btnAudioTracks").addEventListener("click", function (e__k) {
+            context.querySelector(".btnAudioTracks").addEventListener("click", function (e) {
                 if (currentPlayer && lastPlayerState && lastPlayerState.NowPlayingItem) {
-                    showAudioMenu(context, currentPlayer, e__k.target, lastPlayerState.NowPlayingItem);
+                    showAudioMenu(context, currentPlayer, e.target, lastPlayerState.NowPlayingItem);
                 }
             });
-            context.querySelector(".btnSubtitles").addEventListener("click", function (e__l) {
+            context.querySelector(".btnSubtitles").addEventListener("click", function (e) {
                 if (currentPlayer && lastPlayerState && lastPlayerState.NowPlayingItem) {
-                    showSubtitleMenu(context, currentPlayer, e__l.target, lastPlayerState.NowPlayingItem);
+                    showSubtitleMenu(context, currentPlayer, e.target, lastPlayerState.NowPlayingItem);
                 }
             });
             context.querySelector(".btnStop").addEventListener("click", function () {
@@ -614,12 +612,12 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 playbackManager.toggleMute(currentPlayer);
             });
             var playlistContainer = context.querySelector(".playlist");
-            playlistContainer.addEventListener("action-remove", function (e__z) {
-                playbackManager.removeFromPlaylist([e__z.detail.playlistItemId], currentPlayer);
+            playlistContainer.addEventListener("action-remove", function (e) {
+                playbackManager.removeFromPlaylist([e.detail.playlistItemId], currentPlayer);
             });
-            playlistContainer.addEventListener("itemdrop", function (e__x) {
-                var newIndex = e__x.detail.newIndex;
-                var playlistItemId = e__x.detail.playlistItemId;
+            playlistContainer.addEventListener("itemdrop", function (e) {
+                var newIndex = e.detail.newIndex;
+                var playlistItemId = e.detail.playlistItemId;
                 playbackManager.movePlaylistItem(playlistItemId, newIndex, currentPlayer);
             });
             context.querySelector(".btnSavePlaylist").addEventListener("click", savePlaylist);
@@ -629,8 +627,8 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             bindToPlayer(dlg, playbackManager.getCurrentPlayer());
         }
 
-        function onMessageSubmit(e__c) {
-            var form = e__c.target;
+        function onMessageSubmit(e) {
+            var form = e.target;
             playbackManager.sendCommand({
                 Name: "DisplayMessage",
                 Arguments: {
@@ -644,13 +642,13 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 toast("Message sent.");
             });
 
-            e__c.preventDefault();
-            e__c.stopPropagation();
+            e.preventDefault();
+            e.stopPropagation();
             return false;
         }
 
-        function onSendStringSubmit(e__v) {
-            var form = e__v.target;
+        function onSendStringSubmit(e) {
+            var form = e.target;
             playbackManager.sendCommand({
                 Name: "SendString",
                 Arguments: {
@@ -663,8 +661,8 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 toast("Text sent.");
             });
 
-            e__v.preventDefault();
-            e__v.stopPropagation();
+            e.preventDefault();
+            e.stopPropagation();
             return false;
         }
 
@@ -675,7 +673,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             events.on(playbackManager, "playerchange", onPlayerChange);
         }
 
-        function onDialogClosed(e__b) {
+        function onDialogClosed(e) {
             releaseCurrentPlayer();
             events.off(playbackManager, "playerchange", onPlayerChange);
             lastPlayerState = null;
