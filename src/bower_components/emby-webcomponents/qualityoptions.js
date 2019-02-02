@@ -65,7 +65,7 @@ define(['globalize'], function (globalize) {
         qualityOptions.push({ name: '144p', maxHeight: 144, bitrate: 192000 });
 
         var autoQualityOption = {
-            name: globalize.translate('sharedcomponents#Auto'),
+            name: globalize.translate('Auto'),
             bitrate: 0,
             selected: options.isAutomaticBitrateEnabled
         };
@@ -119,7 +119,7 @@ define(['globalize'], function (globalize) {
         qualityOptions.push({ name: '64 kbps', bitrate: 64000 });
 
         var autoQualityOption = {
-            name: globalize.translate('sharedcomponents#Auto'),
+            name: globalize.translate('Auto'),
             bitrate: 0,
             selected: options.isAutomaticBitrateEnabled
         };

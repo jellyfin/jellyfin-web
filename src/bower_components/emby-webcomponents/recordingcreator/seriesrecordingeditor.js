@@ -33,12 +33,12 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
         context.querySelector('.selectKeepUpTo').value = item.KeepUpTo || 0;
 
         if (item.ChannelName || item.ChannelNumber) {
-            context.querySelector('.optionChannelOnly').innerHTML = globalize.translate('sharedcomponents#ChannelNameOnly', item.ChannelName || item.ChannelNumber);
+            context.querySelector('.optionChannelOnly').innerHTML = globalize.translate('ChannelNameOnly', item.ChannelName || item.ChannelNumber);
         } else {
-            context.querySelector('.optionChannelOnly').innerHTML = globalize.translate('sharedcomponents#OneChannel');
+            context.querySelector('.optionChannelOnly').innerHTML = globalize.translate('OneChannel');
         }
 
-        context.querySelector('.optionAroundTime').innerHTML = globalize.translate('sharedcomponents#AroundTime', datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate)));
+        context.querySelector('.optionAroundTime').innerHTML = globalize.translate('AroundTime', datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate)));
 
         loading.hide();
     }
@@ -127,11 +127,11 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
             var text;
 
             if (i === 0) {
-                text = globalize.translate('sharedcomponents#AsManyAsPossible');
+                text = globalize.translate('AsManyAsPossible');
             } else if (i === 1) {
-                text = globalize.translate('sharedcomponents#ValueOneEpisode');
+                text = globalize.translate('ValueOneEpisode');
             } else {
-                text = globalize.translate('sharedcomponents#ValueEpisodeCount', i);
+                text = globalize.translate('ValueEpisodeCount', i);
             }
 
             html += '<option value="' + i + '">' + text + '</option>';

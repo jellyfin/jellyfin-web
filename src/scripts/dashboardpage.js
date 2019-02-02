@@ -50,19 +50,19 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             var isTranscode = "Transcode" === displayPlayMethod;
 
             if (isDirectStream) {
-                title = globalize.translate("sharedcomponents#DirectStreaming");
-                text.push(globalize.translate("sharedcomponents#DirectStreamHelp1"));
+                title = globalize.translate("DirectStreaming");
+                text.push(globalize.translate("DirectStreamHelp1"));
                 text.push("<br/>");
-                text.push(globalize.translate("sharedcomponents#DirectStreamHelp2"));
+                text.push(globalize.translate("DirectStreamHelp2"));
             } else if (isTranscode) {
-                title = globalize.translate("sharedcomponents#Transcoding");
-                text.push(globalize.translate("sharedcomponents#MediaIsBeingConverted"));
+                title = globalize.translate("Transcoding");
+                text.push(globalize.translate("MediaIsBeingConverted"));
 
                 if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
                     text.push("<br/>");
-                    text.push(globalize.translate("sharedcomponents#LabelReasonForTranscoding"));
+                    text.push(globalize.translate("LabelReasonForTranscoding"));
                     session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
-                        text.push(globalize.translate("sharedcomponents#" + transcodeReason));
+                        text.push(globalize.translate("" + transcodeReason));
                     });
                 }
             }
@@ -423,15 +423,15 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             var showTranscodingInfo = false;
             var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
             if (displayPlayMethod === "DirectStream") {
-                html += globalize.translate("sharedcomponents#DirectStreaming");
+                html += globalize.translate("DirectStreaming");
             } else if (displayPlayMethod === "Transcode") {
-                html += globalize.translate("sharedcomponents#Transcoding");
+                html += globalize.translate("Transcoding");
                 if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
                     html += " (" + session.TranscodingInfo.Framerate + " fps)";
                 }
                 showTranscodingInfo = true;
             } else if (displayPlayMethod === "DirectPlay") {
-                html += globalize.translate("sharedcomponents#DirectPlaying");
+                html += globalize.translate("DirectPlaying");
             }
             if (showTranscodingInfo) {
                 var line = [];

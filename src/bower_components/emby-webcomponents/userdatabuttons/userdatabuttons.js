@@ -101,7 +101,7 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         var serverId = item.ServerId;
 
         if (includePlayed !== false) {
-            var tooltipPlayed = globalize.translate('sharedcomponents#MarkPlayed');
+            var tooltipPlayed = globalize.translate('MarkPlayed');
 
             if (itemHelper.canMarkPlayed(item)) {
                 if (userData.Played) {
@@ -112,8 +112,8 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
             }
         }
 
-        //var tooltipLike = globalize.translate('sharedcomponents#Like');
-        //var tooltipDislike = globalize.translate('sharedcomponents#Dislike');
+        //var tooltipLike = globalize.translate('Like');
+        //var tooltipDislike = globalize.translate('Dislike');
 
         //if (typeof userData.Likes == "undefined") {
         //    html += getUserDataButtonHtml('markDislike', itemId, serverId, btnCssClass + ' btnUserData btnDislike', 'thumb-down', tooltipDislike);
@@ -128,7 +128,7 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         //    html += getUserDataButtonHtml('markLike', itemId, serverId, btnCssClass + ' btnUserData btnLike', 'thumb-up', tooltipLike);
         //}
 
-        var tooltipFavorite = globalize.translate('sharedcomponents#Favorite');
+        var tooltipFavorite = globalize.translate('Favorite');
         if (userData.IsFavorite) {
 
             html += getUserDataButtonHtml('markFavorite', itemId, serverId, btnCssClass + ' btnUserData btnUserDataOn', iconCssClass, '&#xE87D;', tooltipFavorite, style);

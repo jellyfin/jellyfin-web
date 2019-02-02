@@ -137,7 +137,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
 
     function getTabs() {
         return [{
-            name: Globalize.translate("sharedcomponents#Movies")
+            name: Globalize.translate("Movies")
         }, {
             name: Globalize.translate("TabSuggestions")
         }, {

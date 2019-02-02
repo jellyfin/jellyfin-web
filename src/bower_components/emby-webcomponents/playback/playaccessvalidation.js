@@ -12,7 +12,7 @@ define(['connectionManager', 'globalize'], function (connectionManager, globaliz
     function showErrorMessage() {
         return getRequirePromise(['alert']).then(function (alert) {
 
-            return alert(globalize.translate('sharedcomponents#MessagePlayAccessRestricted')).then(function () {
+            return alert(globalize.translate('MessagePlayAccessRestricted')).then(function () {
                 return Promise.reject();
             });
         });

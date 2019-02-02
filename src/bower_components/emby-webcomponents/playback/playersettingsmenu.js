@@ -61,18 +61,18 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         var currentValue = playbackManager.getRepeatMode(player);
 
         menuItems.push({
-            name: globalize.translate('sharedcomponents#RepeatAll'),
+            name: globalize.translate('RepeatAll'),
             id: 'RepeatAll',
             selected: currentValue === 'RepeatAll'
         });
         menuItems.push({
-            name: globalize.translate('sharedcomponents#RepeatOne'),
+            name: globalize.translate('RepeatOne'),
             id: 'RepeatOne',
             selected: currentValue === 'RepeatOne'
         });
 
         menuItems.push({
-            name: globalize.translate('sharedcomponents#None'),
+            name: globalize.translate('None'),
             id: 'RepeatNone',
             selected: currentValue === 'RepeatNone'
         });
@@ -190,14 +190,14 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             })[0];
 
             menuItems.push({
-                name: globalize.translate('sharedcomponents#AspectRatio'),
+                name: globalize.translate('AspectRatio'),
                 id: 'aspectratio',
                 asideText: currentAspectRatio ? currentAspectRatio.name : null
             });
         }
 
         menuItems.push({
-            name: globalize.translate('sharedcomponents#PlaybackSettings'),
+            name: globalize.translate('PlaybackSettings'),
             id: 'playbacksettings'
         });
 
@@ -205,7 +205,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             var secondaryQualityText = getQualitySecondaryText(player);
 
             menuItems.push({
-                name: globalize.translate('sharedcomponents#Quality'),
+                name: globalize.translate('Quality'),
                 id: 'quality',
                 asideText: secondaryQualityText
             });
@@ -216,23 +216,23 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         if (supportedCommands.indexOf('SetRepeatMode') !== -1 && playbackManager.currentMediaSource(player).RunTimeTicks) {
 
             menuItems.push({
-                name: globalize.translate('sharedcomponents#RepeatMode'),
+                name: globalize.translate('RepeatMode'),
                 id: 'repeatmode',
-                asideText: repeatMode === 'RepeatNone' ? globalize.translate('sharedcomponents#None') : globalize.translate('sharedcomponents#' + repeatMode)
+                asideText: repeatMode === 'RepeatNone' ? globalize.translate('None') : globalize.translate('' + repeatMode)
             });
         }
 
         if (options.stats) {
 
             menuItems.push({
-                name: globalize.translate('sharedcomponents#StatsForNerds'),
+                name: globalize.translate('StatsForNerds'),
                 id: 'stats',
                 asideText: null
             });
         }
 
         menuItems.push({
-            name: globalize.translate('sharedcomponents#SubtitleSettings'),
+            name: globalize.translate('SubtitleSettings'),
             id: 'subtitlesettings'
         });
 
@@ -276,11 +276,11 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
     }
 
     function showSubtitleSettings(player, btn) {
-        return alertText(globalize.translate('sharedcomponents#SubtitleSettingsIntro'));
+        return alertText(globalize.translate('SubtitleSettingsIntro'));
     }
 
     function showPlaybackSettings(player, btn) {
-        return alertText(globalize.translate('sharedcomponents#PlaybackSettingsIntro'));
+        return alertText(globalize.translate('PlaybackSettingsIntro'));
     }
 
     function handleSelectedOption(id, options, player) {

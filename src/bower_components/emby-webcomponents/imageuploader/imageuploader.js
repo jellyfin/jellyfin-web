@@ -13,14 +13,14 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         switch (evt.target.error.code) {
             case evt.target.error.NOT_FOUND_ERR:
                 require(['toast'], function (toast) {
-                    toast(globalize.translate('sharedcomponents#MessageFileReadError'));
+                    toast(globalize.translate('MessageFileReadError'));
                 });
                 break;
             case evt.target.error.ABORT_ERR:
                 break; // noop
             default:
                 require(['toast'], function (toast) {
-                    toast(globalize.translate('sharedcomponents#MessageFileReadError'));
+                    toast(globalize.translate('MessageFileReadError'));
                 });
                 break;
         }
@@ -76,7 +76,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
         if (file.type !== "image/png" && file.type !== "image/x-png" && file.type !== "image/jpeg") {
             require(['toast'], function (toast) {
-                toast(globalize.translate('sharedcomponents#MessageImageFileTypeAllowed'));
+                toast(globalize.translate('MessageImageFileTypeAllowed'));
             });
             e.preventDefault();
             return false;
@@ -89,7 +89,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         var imageType = dlg.querySelector('#selectImageType').value;
         if (imageType === "None") {
             require(["toast"], function(toast) {
-                toast(globalize.translate("sharedcomponents#MessageImageTypeNotSelected"));
+                toast(globalize.translate("MessageImageTypeNotSelected"));
             });
             e.preventDefault();
             return false;

@@ -16,7 +16,7 @@ define(['dialog', 'globalize'], function (dialog, globalize) {
         var items = [];
 
         items.push({
-            name: globalize.translate('sharedcomponents#ButtonGotIt'),
+            name: globalize.translate('ButtonGotIt'),
             id: 'ok',
             type: 'submit'
         });

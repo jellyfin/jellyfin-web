@@ -29,7 +29,7 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
 
         }, function () {
 
-            context.querySelector('.supporterContainerText').innerHTML = globalize.translate('sharedcomponents#MessageActiveSubscriptionRequiredSeriesRecordings');
+            context.querySelector('.supporterContainerText').innerHTML = globalize.translate('MessageActiveSubscriptionRequiredSeriesRecordings');
             context.querySelector('.supporterContainer').classList.remove('hide');
             context.querySelector('.recordSeriesContainer').classList.add('hide');
             context.querySelector('.convertRecordingsContainer').classList.add('hide');
@@ -50,7 +50,7 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
 
         }, function () {
 
-            context.querySelector('.supporterContainerText').innerHTML = globalize.translate('sharedcomponents#DvrSubscriptionRequired');
+            context.querySelector('.supporterContainerText').innerHTML = globalize.translate('DvrSubscriptionRequired');
             context.querySelector('.supporterContainer').classList.remove('hide');
             context.querySelector('.convertRecordingsContainer').classList.add('hide');
         });
@@ -81,11 +81,11 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         if (program.SeriesTimerId) {
             parent.querySelector('.btnManageSeriesRecording').classList.remove('hide');
             parent.querySelector('.seriesRecordingButton .recordingIcon').classList.add('recordingIcon-active');
-            parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#CancelSeries');
+            parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('CancelSeries');
         } else {
             parent.querySelector('.btnManageSeriesRecording').classList.add('hide');
             parent.querySelector('.seriesRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
-            parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#RecordSeries');
+            parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('RecordSeries');
         }
 
         if (program.TimerId && program.Status !== 'Cancelled') {
@@ -93,15 +93,15 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
             parent.querySelector('.singleRecordingButton .recordingIcon').classList.add('recordingIcon-active');
 
             if (program.Status === 'InProgress') {
-                parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#StopRecording');
+                parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('StopRecording');
             } else {
-                parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#DoNotRecord');
+                parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('DoNotRecord');
             }
 
         } else {
             parent.querySelector('.btnManageRecording').classList.add('hide');
             parent.querySelector('.singleRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
-            parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#Record');
+            parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('Record');
         }
     }
 
@@ -299,7 +299,7 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
 
             if (this.SeriesTimerId) {
                 apiClient.cancelLiveTvSeriesTimer(this.SeriesTimerId).then(function () {
-                    sendToast(globalize.translate('sharedcomponents#RecordingCancelled'));
+                    sendToast(globalize.translate('RecordingCancelled'));
                     fetchData(self);
                 });
             }

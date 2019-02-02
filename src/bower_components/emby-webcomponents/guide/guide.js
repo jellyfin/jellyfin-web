@@ -568,16 +568,16 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                     var indicatorHtml = null;
                     if (program.IsLive && options.showLiveIndicator) {
-                        indicatorHtml = '<span class="liveTvProgram guideProgramIndicator">' + globalize.translate('sharedcomponents#Live') + '</span>';
+                        indicatorHtml = '<span class="liveTvProgram guideProgramIndicator">' + globalize.translate('Live') + '</span>';
                     }
                     else if (program.IsPremiere && options.showPremiereIndicator) {
-                        indicatorHtml = '<span class="premiereTvProgram guideProgramIndicator">' + globalize.translate('sharedcomponents#Premiere') + '</span>';
+                        indicatorHtml = '<span class="premiereTvProgram guideProgramIndicator">' + globalize.translate('Premiere') + '</span>';
                     }
                     else if (program.IsSeries && !program.IsRepeat && options.showNewIndicator) {
-                        indicatorHtml = '<span class="newTvProgram guideProgramIndicator">' + globalize.translate('sharedcomponents#AttributeNew') + '</span>';
+                        indicatorHtml = '<span class="newTvProgram guideProgramIndicator">' + globalize.translate('AttributeNew') + '</span>';
                     }
                     else if (program.IsSeries && program.IsRepeat && options.showRepeatIndicator) {
-                        indicatorHtml = '<span class="repeatTvProgram guideProgramIndicator">' + globalize.translate('sharedcomponents#Repeat') + '</span>';
+                        indicatorHtml = '<span class="repeatTvProgram guideProgramIndicator">' + globalize.translate('Repeat') + '</span>';
                     }
                     html += indicatorHtml || '';
 

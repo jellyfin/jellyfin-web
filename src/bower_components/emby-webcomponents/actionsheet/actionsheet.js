@@ -259,7 +259,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
 
         if (options.showCancel) {
             html += '<div class="buttons">';
-            html += '<button is="emby-button" type="button" class="btnCloseActionSheet">' + globalize.translate('sharedcomponents#ButtonCancel') + '</button>';
+            html += '<button is="emby-button" type="button" class="btnCloseActionSheet">' + globalize.translate('ButtonCancel') + '</button>';
             html += '</div>';
         }
         html += '</div>';

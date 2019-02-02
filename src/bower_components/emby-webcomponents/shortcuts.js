@@ -236,7 +236,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                     ids: [playableItemId],
                     serverId: serverId
                 });
-                sendToast(globalize.translate('sharedcomponents#MediaQueued'));
+                sendToast(globalize.translate('MediaQueued'));
             } else {
                 playbackManager.queue({
                     ids: [playableItemId],

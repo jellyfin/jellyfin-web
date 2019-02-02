@@ -180,24 +180,24 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             };
 
             if (status === 'completed') {
-                notification.title = globalize.translate('sharedcomponents#PackageInstallCompleted').replace('{0}', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('PackageInstallCompleted').replace('{0}', installation.Name + ' ' + installation.Version);
                 notification.vibrate = true;
             }
             else if (status === 'cancelled') {
-                notification.title = globalize.translate('sharedcomponents#PackageInstallCancelled').replace('{0}', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('PackageInstallCancelled').replace('{0}', installation.Name + ' ' + installation.Version);
             }
             else if (status === 'failed') {
-                notification.title = globalize.translate('sharedcomponents#PackageInstallFailed').replace('{0}', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('PackageInstallFailed').replace('{0}', installation.Name + ' ' + installation.Version);
                 notification.vibrate = true;
             }
             else if (status === 'progress') {
-                notification.title = globalize.translate('sharedcomponents#InstallingPackage').replace('{0}', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('InstallingPackage').replace('{0}', installation.Name + ' ' + installation.Version);
 
                 notification.actions =
                 [
                     {
                         action: 'cancel-install',
-                        title: globalize.translate('sharedcomponents#ButtonCancel'),
+                        title: globalize.translate('ButtonCancel'),
                         icon: getIconUrl()
                     }
                 ];
@@ -242,7 +242,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         var serverId = apiClient.serverInfo().Id;
         var notification = {
             tag: "restart" + serverId,
-            title: globalize.translate('sharedcomponents#ServerNameIsShuttingDown', apiClient.serverInfo().Name)
+            title: globalize.translate('ServerNameIsShuttingDown', apiClient.serverInfo().Name)
         };
         showNotification(notification, 0, apiClient);
     });
@@ -251,7 +251,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         var serverId = apiClient.serverInfo().Id;
         var notification = {
             tag: "restart" + serverId,
-            title: globalize.translate('sharedcomponents#ServerNameIsRestarting', apiClient.serverInfo().Name)
+            title: globalize.translate('ServerNameIsRestarting', apiClient.serverInfo().Name)
         };
         showNotification(notification, 0, apiClient);
     });
@@ -261,14 +261,14 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         var serverId = apiClient.serverInfo().Id;
         var notification = {
             tag: "restart" + serverId,
-            title: globalize.translate('sharedcomponents#PleaseRestartServerName', apiClient.serverInfo().Name)
+            title: globalize.translate('PleaseRestartServerName', apiClient.serverInfo().Name)
         };
 
         notification.actions =
         [
             {
                 action: 'restart',
-                title: globalize.translate('sharedcomponents#ButtonRestart'),
+                title: globalize.translate('ButtonRestart'),
                 icon: getIconUrl()
             }
         ];

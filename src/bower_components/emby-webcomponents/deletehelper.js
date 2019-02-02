@@ -18,15 +18,15 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
         var parentId = item.SeasonId || item.SeriesId || item.ParentId;
         var serverId = item.ServerId;
 
-        var msg = globalize.translate('sharedcomponents#ConfirmDeleteItem');
-        var title = globalize.translate('sharedcomponents#HeaderDeleteItem');
+        var msg = globalize.translate('ConfirmDeleteItem');
+        var title = globalize.translate('HeaderDeleteItem');
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
         return confirm({
 
             title: title,
             text: msg,
-            confirmText: globalize.translate('sharedcomponents#Delete'),
+            confirmText: globalize.translate('Delete'),
             primary: 'cancel'
 
         }).then(function () {
@@ -46,7 +46,7 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
                     return Promise.reject(err);
                 };
 
-                return alertText(globalize.translate('sharedcomponents#ErrorDeletingItem')).then(result, result);
+                return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
             });
         });
     }

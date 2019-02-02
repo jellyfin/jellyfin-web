@@ -30,7 +30,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         });
 
         options.unshift({
-            name: globalize.translate('sharedcomponents#None'),
+            name: globalize.translate('None'),
             value: 'none'
         });
 
@@ -56,7 +56,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         });
 
         options.unshift({
-            name: globalize.translate('sharedcomponents#None'),
+            name: globalize.translate('None'),
             value: 'none'
         });
 
@@ -245,7 +245,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
                 loading.hide();
                 if (enableSaveConfirmation) {
                     require(['toast'], function (toast) {
-                        toast(globalize.translate('sharedcomponents#SettingsSaved'));
+                        toast(globalize.translate('SettingsSaved'));
                     });
                 }
 

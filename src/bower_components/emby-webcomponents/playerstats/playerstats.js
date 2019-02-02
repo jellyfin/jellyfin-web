@@ -110,7 +110,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
     function translateReason(reason) {
 
-        return globalize.translate('sharedcomponents#' + reason);
+        return globalize.translate('' + reason);
     }
 
     function getTranscodingStats(session, player, displayPlayMethod) {

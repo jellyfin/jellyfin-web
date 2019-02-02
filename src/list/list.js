@@ -24,7 +24,7 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
         if (btnSortText) {
             for (var options = instance.getSortMenuOptions(), values = instance.getSortValues(), sortBy = values.sortBy, i = 0, length = options.length; i < length; i++)
                 if (sortBy === options[i].value) {
-                    btnSortText.innerHTML = globalize.translate("sharedcomponents#SortByValue", options[i].name);
+                    btnSortText.innerHTML = globalize.translate("SortByValue", options[i].name);
                     break
                 } var btnSortIcon = instance.btnSortIcon;
             btnSortIcon && (btnSortIcon.innerHTML = "Descending" === values.sortOrder ? "&#xE5DB;" : "&#xE5D8;")
@@ -247,7 +247,7 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
         }
 
         function getTitle(item) {
-            return "Recordings" === params.type ? globalize.translate("Recordings") : "Programs" === params.type ? "true" === params.IsMovie ? globalize.translate("Movies") : "true" === params.IsSports ? globalize.translate("Sports") : "true" === params.IsKids ? globalize.translate("HeaderForKids") : "true" === params.IsAiring ? globalize.translate("HeaderOnNow") : "true" === params.IsSeries ? globalize.translate("Shows") : "true" === params.IsNews ? globalize.translate("News") : globalize.translate("Programs") : "nextup" === params.type ? globalize.translate("NextUp") : "favoritemovies" === params.type ? globalize.translate("FavoriteMovies") : item ? item.Name : "Movie" === params.type ? globalize.translate("sharedcomponents#Movies") : "Series" === params.type ? globalize.translate("sharedcomponents#Shows") : "Season" === params.type ? globalize.translate("sharedcomponents#Seasons") : "Episode" === params.type ? globalize.translate("sharedcomponents#Episodes") : "MusicArtist" === params.type ? globalize.translate("sharedcomponents#Artists") : "MusicAlbum" === params.type ? globalize.translate("sharedcomponents#Albums") : "Audio" === params.type ? globalize.translate("sharedcomponents#Songs") : "Video" === params.type ? globalize.translate("sharedcomponents#Videos") : void 0
+            return "Recordings" === params.type ? globalize.translate("Recordings") : "Programs" === params.type ? "true" === params.IsMovie ? globalize.translate("Movies") : "true" === params.IsSports ? globalize.translate("Sports") : "true" === params.IsKids ? globalize.translate("HeaderForKids") : "true" === params.IsAiring ? globalize.translate("HeaderOnNow") : "true" === params.IsSeries ? globalize.translate("Shows") : "true" === params.IsNews ? globalize.translate("News") : globalize.translate("Programs") : "nextup" === params.type ? globalize.translate("NextUp") : "favoritemovies" === params.type ? globalize.translate("FavoriteMovies") : item ? item.Name : "Movie" === params.type ? globalize.translate("Movies") : "Series" === params.type ? globalize.translate("Shows") : "Season" === params.type ? globalize.translate("Seasons") : "Episode" === params.type ? globalize.translate("Episodes") : "MusicArtist" === params.type ? globalize.translate("Artists") : "MusicAlbum" === params.type ? globalize.translate("Albums") : "Audio" === params.type ? globalize.translate("Songs") : "Video" === params.type ? globalize.translate("Videos") : void 0
         }
 
         function play() {
@@ -357,52 +357,52 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
         var sortBy = [],
             params = this.params;
         "Programs" === params.type && sortBy.push({
-            name: globalize.translate("sharedcomponents#AirDate"),
+            name: globalize.translate("AirDate"),
             value: "StartDate,SortName"
         });
         var option = this.getNameSortOption(params);
         return option && sortBy.push(option), option = this.getCommunityRatingSortOption(), option && sortBy.push(option), option = this.getCriticRatingSortOption(), option && sortBy.push(option), "Programs" !== params.type && sortBy.push({
-            name: globalize.translate("sharedcomponents#DateAdded"),
+            name: globalize.translate("DateAdded"),
             value: "DateCreated,SortName"
         }), option = this.getDatePlayedSortOption(), option && sortBy.push(option), params.type || (option = this.getNameSortOption(params), sortBy.push({
-            name: globalize.translate("sharedcomponents#Folders"),
+            name: globalize.translate("Folders"),
             value: "IsFolder," + option.value
         })), sortBy.push({
-            name: globalize.translate("sharedcomponents#ParentalRating"),
+            name: globalize.translate("ParentalRating"),
             value: "OfficialRating,SortName"
         }), option = this.getPlayCountSortOption(), option && sortBy.push(option), sortBy.push({
-            name: globalize.translate("sharedcomponents#ReleaseDate"),
+            name: globalize.translate("ReleaseDate"),
             value: "ProductionYear,PremiereDate,SortName"
         }), sortBy.push({
-            name: globalize.translate("sharedcomponents#Runtime"),
+            name: globalize.translate("Runtime"),
             value: "Runtime,SortName"
         }), sortBy
     }, ItemsView.prototype.getNameSortOption = function(params) {
         return "Episode" === params.type ? {
-            name: globalize.translate("sharedcomponents#Name"),
+            name: globalize.translate("Name"),
             value: "SeriesName,SortName"
         } : {
-            name: globalize.translate("sharedcomponents#Name"),
+            name: globalize.translate("Name"),
             value: "SortName"
         }
     }, ItemsView.prototype.getPlayCountSortOption = function() {
         return "Programs" === this.params.type ? null : {
-            name: globalize.translate("sharedcomponents#PlayCount"),
+            name: globalize.translate("PlayCount"),
             value: "PlayCount,SortName"
         }
     }, ItemsView.prototype.getDatePlayedSortOption = function() {
         return "Programs" === this.params.type ? null : {
-            name: globalize.translate("sharedcomponents#DatePlayed"),
+            name: globalize.translate("DatePlayed"),
             value: "DatePlayed,SortName"
         }
     }, ItemsView.prototype.getCriticRatingSortOption = function() {
         return "Programs" === this.params.type ? null : {
-            name: globalize.translate("sharedcomponents#CriticRating"),
+            name: globalize.translate("CriticRating"),
             value: "CriticRating,SortName"
         }
     }, ItemsView.prototype.getCommunityRatingSortOption = function() {
         return {
-            name: globalize.translate("sharedcomponents#CommunityRating"),
+            name: globalize.translate("CommunityRating"),
             value: "CommunityRating,SortName"
         }
     }, ItemsView.prototype.getVisibleFilters = function() {

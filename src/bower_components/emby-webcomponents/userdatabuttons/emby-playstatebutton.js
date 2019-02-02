@@ -83,9 +83,9 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     function setTitle(button, itemType) {
 
         if (itemType !== 'AudioBook' && itemType !== 'AudioPodcast') {
-            button.title = globalize.translate('sharedcomponents#Watched');
+            button.title = globalize.translate('Watched');
         } else {
-            button.title = globalize.translate('sharedcomponents#Played');
+            button.title = globalize.translate('Played');
         }
 
         var text = button.querySelector('.button-text');

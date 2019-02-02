@@ -21,7 +21,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                 return '<button raised class="card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable" style="display:inline-block;" data-id="' + item.id + '" data-url="' + (item.url || "") + '" data-cardtype="' + item.cardType + '">' + innerOpening + '<div class="cardScalable card-focuscontent"><div class="cardPadder cardPadder-square"></div><div class="cardContent"><div class="cardImageContainer coveredImage" style="background:#0288D1;border-radius:.15em;">' + cardImageContainer + '</div></div></div><div class="cardFooter"><div class="cardText cardTextCentered">' + item.name + "</div></div></div></button>"
             }).join(""),
             itemsContainer = view.querySelector(".servers");
-        items.length || (html = "<p>" + globalize.translate("sharedcomponents#MessageNoServersAvailableToConnect") + "</p>"), itemsContainer.innerHTML = html, loading.hide()
+        items.length || (html = "<p>" + globalize.translate("MessageNoServersAvailableToConnect") + "</p>"), itemsContainer.innerHTML = html, loading.hide()
     }
 
     function updatePageStyle(view, params) {
@@ -29,7 +29,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
     }
 
     function showGeneralError() {
-        loading.hide(), alertText(globalize.translate("sharedcomponents#DefaultErrorMessage"))
+        loading.hide(), alertText(globalize.translate("DefaultErrorMessage"))
     }
 
     function alertText(text) {
@@ -85,10 +85,10 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
         function onServerClick(server) {
             var menuItems = [];
             menuItems.push({
-                name: globalize.translate("sharedcomponents#Connect"),
+                name: globalize.translate("Connect"),
                 id: "connect"
             }), menuItems.push({
-                name: globalize.translate("sharedcomponents#Delete"),
+                name: globalize.translate("Delete"),
                 id: "delete"
             });
             actionSheet.show({

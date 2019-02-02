@@ -86,7 +86,7 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
             dialogHelper.close(dlg);
 
             require(['toast'], function (toast) {
-                toast(globalize.translate('sharedcomponents#MessageItemsAdded'));
+                toast(globalize.translate('MessageItemsAdded'));
             });
         });
     }
@@ -116,7 +116,7 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
 
             var html = '';
 
-            html += '<option value="">' + globalize.translate('sharedcomponents#OptionNew') + '</option>';
+            html += '<option value="">' + globalize.translate('OptionNew') + '</option>';
 
             html += result.Items.map(function (i) {
 
@@ -140,34 +140,34 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         html += '<form class="newCollectionForm" style="margin:auto;">';
 
         html += '<div>';
-        html += globalize.translate('sharedcomponents#NewCollectionHelp');
+        html += globalize.translate('NewCollectionHelp');
         html += '</div>';
 
         html += '<div class="fldSelectCollection">';
         html += '<br/>';
         html += '<br/>';
         html += '<div class="selectContainer">';
-        html += '<select is="emby-select" label="' + globalize.translate('sharedcomponents#LabelCollection') + '" id="selectCollectionToAddTo" autofocus></select>';
+        html += '<select is="emby-select" label="' + globalize.translate('LabelCollection') + '" id="selectCollectionToAddTo" autofocus></select>';
         html += '</div>';
         html += '</div>';
 
         html += '<div class="newCollectionInfo">';
 
         html += '<div class="inputContainer">';
-        html += '<input is="emby-input" type="text" id="txtNewCollectionName" required="required" label="' + globalize.translate('sharedcomponents#LabelName') + '" />';
-        html += '<div class="fieldDescription">' + globalize.translate('sharedcomponents#NewCollectionNameExample') + '</div>';
+        html += '<input is="emby-input" type="text" id="txtNewCollectionName" required="required" label="' + globalize.translate('LabelName') + '" />';
+        html += '<div class="fieldDescription">' + globalize.translate('NewCollectionNameExample') + '</div>';
         html += '</div>';
 
         html += '<label class="checkboxContainer">';
         html += '<input is="emby-checkbox" type="checkbox" id="chkEnableInternetMetadata" />';
-        html += '<span>' + globalize.translate('sharedcomponents#SearchForCollectionInternetMetadata') + '</span>';
+        html += '<span>' + globalize.translate('SearchForCollectionInternetMetadata') + '</span>';
         html += '</label>';
 
         // newCollectionInfo
         html += '</div>';
 
         html += '<div class="formDialogFooter">';
-        html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('sharedcomponents#ButtonOk') + '</button>';
+        html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('ButtonOk') + '</button>';
         html += '</div>';
 
         html += '<input type="hidden" class="fldSelectedItemIds" />';
@@ -240,7 +240,7 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         dlg.classList.add('formDialog');
 
         var html = '';
-        var title = items.length ? globalize.translate('sharedcomponents#HeaderAddToCollection') : globalize.translate('sharedcomponents#NewCollection');
+        var title = items.length ? globalize.translate('HeaderAddToCollection') : globalize.translate('NewCollection');
 
         html += '<div class="formDialogHeader">';
         html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
@@ -249,7 +249,7 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         html += '</h3>';
 
         if (appHost.supports('externallinks')) {
-            html += '<a is="emby-linkbutton" class="button-link btnHelp flex align-items-center" href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;padding:.25em;" title="' + globalize.translate('sharedcomponents#Help') + '"><i class="md-icon">&#xE88E;</i><span style="margin-left:.25em;">' + globalize.translate('sharedcomponents#Help') + '</span></a>';
+            html += '<a is="emby-linkbutton" class="button-link btnHelp flex align-items-center" href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;padding:.25em;" title="' + globalize.translate('Help') + '"><i class="md-icon">&#xE88E;</i><span style="margin-left:.25em;">' + globalize.translate('Help') + '</span></a>';
         }
 
         html += '</div>';

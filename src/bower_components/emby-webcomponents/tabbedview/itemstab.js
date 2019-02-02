@@ -178,7 +178,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
 
             if (sortBy === options[i].value) {
 
-                btnSortText.innerHTML = globalize.translate('sharedcomponents#SortByValue', options[i].name);
+                btnSortText.innerHTML = globalize.translate('SortByValue', options[i].name);
                 break;
             }
         }
@@ -439,7 +439,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         }
 
         sortBy.push({
-            name: globalize.translate('sharedcomponents#DateAdded'),
+            name: globalize.translate('DateAdded'),
             value: 'DateCreated,SortName'
         });
 
@@ -449,7 +449,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         }
 
         sortBy.push({
-            name: globalize.translate('sharedcomponents#ParentalRating'),
+            name: globalize.translate('ParentalRating'),
             value: 'OfficialRating,SortName'
         });
 
@@ -459,12 +459,12 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         }
 
         sortBy.push({
-            name: globalize.translate('sharedcomponents#ReleaseDate'),
+            name: globalize.translate('ReleaseDate'),
             value: 'PremiereDate,ProductionYear,SortName'
         });
 
         sortBy.push({
-            name: globalize.translate('sharedcomponents#Runtime'),
+            name: globalize.translate('Runtime'),
             value: 'Runtime,SortName'
         });
 
@@ -474,7 +474,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     ItemsTab.prototype.getNameSortOption = function () {
 
         return {
-            name: globalize.translate('sharedcomponents#Name'),
+            name: globalize.translate('Name'),
             value: 'SortName'
         };
     };
@@ -482,7 +482,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     ItemsTab.prototype.getPlayCountSortOption = function () {
 
         return {
-            name: globalize.translate('sharedcomponents#PlayCount'),
+            name: globalize.translate('PlayCount'),
             value: 'PlayCount,SortName'
         };
     };
@@ -490,7 +490,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     ItemsTab.prototype.getDatePlayedSortOption = function () {
 
         return {
-            name: globalize.translate('sharedcomponents#DatePlayed'),
+            name: globalize.translate('DatePlayed'),
             value: 'DatePlayed,SortName'
         };
     };
@@ -498,7 +498,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     ItemsTab.prototype.getCriticRatingSortOption = function () {
 
         return {
-            name: globalize.translate('sharedcomponents#CriticRating'),
+            name: globalize.translate('CriticRating'),
             value: 'CriticRating,SortName'
         };
     };
@@ -506,7 +506,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     ItemsTab.prototype.getCommunityRatingSortOption = function () {
 
         return {
-            name: globalize.translate('sharedcomponents#CommunityRating'),
+            name: globalize.translate('CommunityRating'),
             value: 'CommunityRating,SortName'
         };
     };

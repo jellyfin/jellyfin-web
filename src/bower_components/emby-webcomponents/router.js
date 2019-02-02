@@ -76,8 +76,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             case 'ServerUpdateNeeded':
                 require(['alert'], function (alert) {
                     alert({
-                        text: globalize.translate('sharedcomponents#ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
-                        html: globalize.translate('sharedcomponents#ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
+                        text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
+                        html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
                     }).then(function () {
                         appRouter.showSelectServer();
                     });
@@ -231,7 +231,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
                 // Bounce to the login screen, but not if a password entry fails, obviously
                 if (!isCurrentAllowed) {
-                    showForcedLogoutMessage(globalize.translate('sharedcomponents#AccessRestrictedTryAgainLater'));
+                    showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
                     appRouter.showLocalLogin(apiClient.serverId());
                 }
 

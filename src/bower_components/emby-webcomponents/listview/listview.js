@@ -5,7 +5,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
         if (options.index === 'disc') {
 
-            return item.ParentIndexNumber == null ? '' : globalize.translate('sharedcomponents#ValueDiscNumber', item.ParentIndexNumber);
+            return item.ParentIndexNumber == null ? '' : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
         }
 
         var sortBy = (options.sortBy || '').toLowerCase();
@@ -29,12 +29,12 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         }
         if (sortBy.indexOf('officialrating') === 0) {
 
-            return item.OfficialRating || globalize.translate('sharedcomponents#Unrated');
+            return item.OfficialRating || globalize.translate('Unrated');
         }
         if (sortBy.indexOf('communityrating') === 0) {
 
             if (item.CommunityRating == null) {
-                return globalize.translate('sharedcomponents#Unrated');
+                return globalize.translate('Unrated');
             }
 
             return Math.floor(item.CommunityRating);
@@ -42,7 +42,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         if (sortBy.indexOf('criticrating') === 0) {
 
             if (item.CriticRating == null) {
-                return globalize.translate('sharedcomponents#Unrated');
+                return globalize.translate('Unrated');
             }
 
             return Math.floor(item.CriticRating);

@@ -107,11 +107,11 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         html += '<div class="flex flex-direction-row upNextDialog-buttons" style="margin-top:1em;">';
 
         html += '<button type="button" is="emby-button" class="raised raised-mini btnStartNow upNextDialog-button">';
-        html += globalize.translate('sharedcomponents#HeaderStartNow');
+        html += globalize.translate('HeaderStartNow');
         html += '</button>';
 
         html += '<button type="button" is="emby-button" class="raised raised-mini btnHide upNextDialog-button">';
-        html += globalize.translate('sharedcomponents#Hide');
+        html += globalize.translate('Hide');
         html += '</button>';
 
         // buttons
@@ -133,11 +133,11 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
 
         console.log('up next seconds remaining: ' + secondsRemaining);
 
-        var timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('sharedcomponents#HeaderSecondsValue', secondsRemaining) + '</span>';
+        var timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('HeaderSecondsValue', secondsRemaining) + '</span>';
 
         var nextVideoText = instance.itemType === 'Episode' ?
-            globalize.translate('sharedcomponents#HeaderNextEpisodePlayingInValue', timeText) :
-            globalize.translate('sharedcomponents#HeaderNextVideoPlayingInValue', timeText);
+            globalize.translate('HeaderNextEpisodePlayingInValue', timeText) :
+            globalize.translate('HeaderNextVideoPlayingInValue', timeText);
 
         elem.querySelector('.upNextDialog-nextVideoText').innerHTML = nextVideoText;
     }

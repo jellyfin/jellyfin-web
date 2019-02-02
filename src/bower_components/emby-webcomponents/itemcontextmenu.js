@@ -16,14 +16,14 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         if (canPlay && item.MediaType !== 'Photo') {
             if (options.play !== false) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Play'),
+                    name: globalize.translate('Play'),
                     id: 'resume'
         });
             }
 
             if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'TvChannel') {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#PlayAllFromHere'),
+                    name: globalize.translate('PlayAllFromHere'),
                     id: 'playallfromhere'
                 });
             }
@@ -33,21 +33,21 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
             if (options.queue !== false) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#AddToPlayQueue'),
+                    name: globalize.translate('AddToPlayQueue'),
                     id: 'queue'
                 });
             }
 
             if (options.queue !== false) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#PlayNext'),
+                    name: globalize.translate('PlayNext'),
                     id: 'queuenext'
                 });
             }
 
             //if (options.queueAllFromHere) {
             //    commands.push({
-            //        name: globalize.translate('sharedcomponents#QueueAllFromHere'),
+            //        name: globalize.translate('QueueAllFromHere'),
             //        id: 'queueallfromhere'
             //    });
             //}
@@ -59,7 +59,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (item.CollectionType !== 'livetv') {
                 if (options.shuffle !== false) {
                     commands.push({
-                        name: globalize.translate('sharedcomponents#Shuffle'),
+                        name: globalize.translate('Shuffle'),
                         id: 'shuffle'
                     });
                 }
@@ -69,7 +69,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         if (item.MediaType === "Audio" || item.Type === "MusicAlbum" || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
             if (options.instantMix !== false && !itemHelper.isLocalItem(item)) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#InstantMix'),
+                    name: globalize.translate('InstantMix'),
                     id: 'instantmix'
                 });
             }
@@ -84,14 +84,14 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         if (!restrictOptions) {
             if (itemHelper.supportsAddingToCollection(item)) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#AddToCollection'),
+                    name: globalize.translate('AddToCollection'),
                     id: 'addtocollection'
                 });
             }
 
             if (itemHelper.supportsAddingToPlaylist(item)) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#AddToPlaylist'),
+                    name: globalize.translate('AddToPlaylist'),
                     id: 'addtoplaylist'
                 });
             }
@@ -99,28 +99,28 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
         if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
             commands.push({
-                name: globalize.translate('sharedcomponents#CancelRecording'),
+                name: globalize.translate('CancelRecording'),
                 id: 'canceltimer'
             });
         }
 
         if ((item.Type === 'Recording' && item.Status === 'InProgress') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
             commands.push({
-                name: globalize.translate('sharedcomponents#CancelRecording'),
+                name: globalize.translate('CancelRecording'),
                 id: 'canceltimer'
             });
         }
 
         if ((item.Type === 'SeriesTimer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
             commands.push({
-                name: globalize.translate('sharedcomponents#CancelSeries'),
+                name: globalize.translate('CancelSeries'),
                 id: 'cancelseriestimer'
             });
         }
 
         if (itemHelper.canConvert(item, user, connectionManager.getApiClient(item))) {
             commands.push({
-                name: globalize.translate('sharedcomponents#Convert'),
+                name: globalize.translate('Convert'),
                 id: 'convert'
             });
         }
@@ -129,12 +129,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
             if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Delete'),
+                    name: globalize.translate('Delete'),
                     id: 'delete'
                 });
             } else {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#DeleteMedia'),
+                    name: globalize.translate('DeleteMedia'),
                     id: 'delete'
                 });
             }
@@ -142,7 +142,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
         if (item.CanDownload && appHost.supports('filedownload')) {
             commands.push({
-                name: globalize.translate('sharedcomponents#Download'),
+                name: globalize.translate('Download'),
                 id: 'download'
             });
         }
@@ -150,7 +150,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         if (appHost.supports('sync') && options.syncLocal !== false) {
             if (itemHelper.canSync(user, item)) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Download'),
+                    name: globalize.translate('Download'),
                     id: 'synclocal'
                 });
             }
@@ -161,7 +161,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
             if (options.edit !== false && item.Type !== 'SeriesTimer') {
 
-                var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('sharedcomponents#Edit') : globalize.translate('sharedcomponents#EditMetadata');
+                var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
 
             commands.push({
                 name: text,
@@ -174,7 +174,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
             if (options.editImages !== false) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#EditImages'),
+                    name: globalize.translate('EditImages'),
                     id: 'editimages'
                 });
             }
@@ -185,7 +185,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program' && item.LocationType !== 'Virtual' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
                 if (options.editSubtitles !== false) {
                     commands.push({
-                        name: globalize.translate('sharedcomponents#EditSubtitles'),
+                        name: globalize.translate('EditSubtitles'),
                         id: 'editsubtitles'
                     });
                 }
@@ -195,7 +195,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         if (options.identify !== false) {
             if (itemHelper.canIdentify(user, item)) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Identify'),
+                    name: globalize.translate('Identify'),
                     id: 'identify'
                 });
             }
@@ -205,7 +205,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
             if (item.TimerId) {
                 commands.push({
-                    name: Globalize.translate('sharedcomponents#ManageRecording'),
+                    name: Globalize.translate('ManageRecording'),
                     id: 'record'
                 });
             }
@@ -215,7 +215,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
             if (!item.TimerId) {
                 commands.push({
-                    name: Globalize.translate('sharedcomponents#Record'),
+                    name: Globalize.translate('Record'),
                     id: 'record'
                 });
             }
@@ -223,21 +223,21 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
         if (itemHelper.canRefreshMetadata(item, user)) {
             commands.push({
-                name: globalize.translate('sharedcomponents#RefreshMetadata'),
+                name: globalize.translate('RefreshMetadata'),
                 id: 'refresh'
             });
         }
 
         if (item.PlaylistItemId && options.playlistId) {
             commands.push({
-                name: globalize.translate('sharedcomponents#RemoveFromPlaylist'),
+                name: globalize.translate('RemoveFromPlaylist'),
                 id: 'removefromplaylist'
             });
         }
 
         if (options.collectionId) {
             commands.push({
-                name: globalize.translate('sharedcomponents#RemoveFromCollection'),
+                name: globalize.translate('RemoveFromCollection'),
                 id: 'removefromcollection'
             });
         }
@@ -246,7 +246,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (options.share === true) {
                 if (itemHelper.canShare(item, user)) {
                     commands.push({
-                        name: globalize.translate('sharedcomponents#Share'),
+                        name: globalize.translate('Share'),
                         id: 'share'
                     });
                 }
@@ -256,7 +256,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         if (options.sync !== false) {
             if (itemHelper.canSync(user, item)) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Sync'),
+                    name: globalize.translate('Sync'),
                     id: 'sync'
                 });
             }
@@ -264,14 +264,14 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
         if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
             commands.push({
-                name: Globalize.translate('sharedcomponents#ViewAlbum'),
+                name: Globalize.translate('ViewAlbum'),
                 id: 'album'
             });
         }
 
         if (options.openArtist !== false && item.ArtistItems && item.ArtistItems.length) {
             commands.push({
-                name: Globalize.translate('sharedcomponents#ViewArtist'),
+                name: Globalize.translate('ViewArtist'),
                 id: 'artist'
             });
         }
