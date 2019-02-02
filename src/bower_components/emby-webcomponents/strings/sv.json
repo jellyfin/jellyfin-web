@@ -16,8 +16,6 @@
   "AllComplexFormats": "Alla komplexa format (ASS, SSA, VOBSUB, PGS, SUB/IDX, etc.)",
   "AllEpisodes": "Alla avsnitt",
   "AllLanguages": "Alla språk",
-  "AllowSeasonalThemes": "Tillåt automatiska säsongsbaserade teman",
-  "AllowSeasonalThemesHelp": "Om aktiverat kommer säsongsteman emellanåt kringgå din temainställning.",
   "AlwaysPlaySubtitles": "Visa alltid undertexter",
   "AlwaysPlaySubtitlesHelp": "Undertexter på det önskade språket kommer att laddas oavsett ljudspårets språk.",
   "AnamorphicVideoNotSupported": "Anamorphic video stöds inte",

@@ -17,8 +17,6 @@
   "AllComplexFormats": "Όλες οι σύνθετες μορφές (ASS, SSA, VOBSUB, PGS, SUB / IDX κ.λπ.)",
   "AllEpisodes": "Ολα τα επεισόδια",
   "AllLanguages": "Όλες οι γλώσσες",
-  "AllowSeasonalThemes": "Ενεργοποίηση εποχιακών θεμάτων",
-  "AllowSeasonalThemesHelp": "Εάν είναι ενεργοποιημένο, τα εποχιακά θέματα κατά καιρούς θα αντικαταστήσουν τη ρύθμιση θέματος.",
   "AlwaysPlaySubtitles": "Πάντα αναπαραγωγή Υποτίτλων",
   "AlwaysPlaySubtitlesHelp": "Οι υπότιτλοι που ταιριάζουν με τις προτιμήσεις γλώσσας θα φορτωθούν ανεξάρτητα από τη γλώσσα του ήχου.",
   "AnamorphicVideoNotSupported": "Το αναμορφωτικό βίντεο δεν υποστηρίζεται",

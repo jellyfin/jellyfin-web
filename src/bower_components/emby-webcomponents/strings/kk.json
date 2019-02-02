@@ -17,8 +17,6 @@
   "AllComplexFormats": "Барлық күрделі пішімдері (ASS, SSA, VOBSUB, PGS, SUB/IDX және т.б.)",
   "AllEpisodes": "Барлық бөлімдер",
   "AllLanguages": "Барлық тілдер",
-  "AllowSeasonalThemes": "Автоматты түрдегі маусымдық тақырыптарға рұқсат ету",
-  "AllowSeasonalThemesHelp": "Қосылған болса, маусымдық тақырыптар анда-санда тақырып параметрлеріңіздің күшін жояды.",
   "AlwaysPlaySubtitles": "Субтитрлерді әрқашан ойнату",
   "AlwaysPlaySubtitlesHelp": "Тіл теңшеліміне сәйкес келген субтитрлер дыбыс тіліне қатыссыз жүктеледі.",
   "AnamorphicVideoNotSupported": "Анаморфтық бейне үшін қолдау көрсетілмейді",

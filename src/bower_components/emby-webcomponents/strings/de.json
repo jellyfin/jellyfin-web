@@ -17,8 +17,6 @@
   "AllComplexFormats": "Alle komplexen Formate (ASS, SSA, VOBSUB, PGS, SUB/IDX, etc.)",
   "AllEpisodes": "Alle Episoden",
   "AllLanguages": "Alle Sprachen",
-  "AllowSeasonalThemes": "Erlaube automatische Saison-Themes",
-  "AllowSeasonalThemesHelp": "Wenn aktiviert, werden Saison-Themes von Zeit zu Zeit deine Theme-Einstellungen überschreiben.",
   "AlwaysPlaySubtitles": "Untertitel immer anzeigen",
   "AlwaysPlaySubtitlesHelp": "Untertitel die den Spracheinstellungen entsprechen werden unabhängig von der Tonspursprache geladen.",
   "AnamorphicVideoNotSupported": "Anamorphes Video nicht unterstützt",

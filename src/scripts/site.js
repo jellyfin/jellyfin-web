@@ -1205,9 +1205,6 @@ var Dashboard = {
                     name: "Dark (red accent)",
                     id: "dark-red"
                 }, {
-                    name: "Halloween",
-                    id: "halloween"
-                }, {
                     name: "Light",
                     id: "light",
                 }, {
