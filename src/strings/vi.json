@@ -160,5 +160,15 @@
   "TitleSupport": "Hỗ trợ",
   "UninstallPluginConfirmation": "Bạn có chắc muốn gỡ bỏ{0}?",
   "UninstallPluginHeader": "Gỡ bỏ Plugin",
-  "Users": "Người dùng"
+  "Users": "Người dùng",
+  "Add": "Thêm",
+  "ButtonCancel": "Thoát",
+  "LabelCountry": "Quốc gia:",
+  "LabelLanguage": "Ngôn ngữ",
+  "LabelName": "Tên:",
+  "Monday": "Thứ Hai",
+  "ParentalRating": "Parental Rating",
+  "Saturday": "Thứ Bảy",
+  "Save": "Lưu",
+  "Sunday": "Chủ Nhật"
 }

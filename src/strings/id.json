@@ -60,5 +60,9 @@
   "TitleScheduledTasks": "Jadwal Kerja",
   "UserProfilesIntro": "Jellyfin mendukung profil pengguna, memungkinkan setiap pengguna memiliki tampilan mereka sendiri, kondisi pemutaran dan pengawasan orang tua.",
   "WelcomeToProject": "Selamat datang di Jellyfin!",
-  "WizardCompleted": "Itu semua yang kami butuhkan saat ini. Jellyfin sudah memulai mengkoleksi informasi pustaka media. Lihatlah beberapa aplikasi kami, kemudian klik <b>Selesai</b> untuk menuju ke <b>Dashboard Server</b>"
+  "WizardCompleted": "Itu semua yang kami butuhkan saat ini. Jellyfin sudah memulai mengkoleksi informasi pustaka media. Lihatlah beberapa aplikasi kami, kemudian klik <b>Selesai</b> untuk menuju ke <b>Dashboard Server</b>",
+  "LabelContentType": "Tipe konten:",
+  "LabelCountry": "Negara:",
+  "LabelLanguage": "Bahasa:",
+  "ParentalRating": "Parental Rating"
 }

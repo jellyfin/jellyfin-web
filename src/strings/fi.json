@@ -61,5 +61,10 @@
   "ThisWizardWillGuideYou": "Tämä työkalu auttaa sinua asennus prosessin aikana. loittaaksesi valitse kieli.",
   "UninstallPluginConfirmation": "Oletko varma, että haluat poistaa {0}?",
   "UninstallPluginHeader": "Poista Lisäosa",
-  "Users": "Käyttäjät"
+  "Users": "Käyttäjät",
+  "ButtonCancel": "Lopeta",
+  "LabelCountry": "Maa:",
+  "LabelLanguage": "Kieli:",
+  "ParentalRating": "Parental Rating",
+  "Save": "Tallenna"
 }

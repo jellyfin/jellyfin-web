@@ -1584,5 +1584,17 @@
   "XmlTvNewsCategoriesHelp": "البرامج من هذه التصنيفات ستعرض كبرامج أخبارية. إفصل الإدخالات المتعددة برمز \"|\".",
   "XmlTvPathHelp": "مسار إلى ملف xml تلفزيوني. سيقوم أمبي بقراءة هذا الملف ويتأكد باستمرار لأية تحديثات. ستكون أنت المسؤول عن إنشاء وتحديث الملف.",
   "XmlTvSportsCategoriesHelp": "البرامج من هذه التصنيفات ستعرض كبرامج رياضية. إفصل الإدخالات المتعددة برمز \"|\".",
-  "Yesterday": "البارحة"
+  "Yesterday": "البارحة",
+  "ButtonCancel": "الغاء",
+  "Friday": "الجمعة",
+  "LabelCountry": "البلد:",
+  "LabelLanguage": "اللغة:",
+  "Monday": "الاثنين",
+  "ParentalRating": "Parental Rating",
+  "Saturday": "السبت",
+  "Save": "تخزين",
+  "Sunday": "الاحد",
+  "Thursday": "الخميس",
+  "Tuesday": "الثلاثاء",
+  "Wednesday": "الاربعاء"
 }
