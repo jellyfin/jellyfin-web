@@ -265,14 +265,6 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
             var requiresRegistration = true;
 
-            // if (context !== 'serverdashboard') {
-            //
-            //     if (newId !== id) {
-            //         requiresRegistration = false;
-            //     }
-            //     id = newId;
-            // }
-
             if (currentThemeId && currentThemeId === id) {
                 resolve();
                 return;
