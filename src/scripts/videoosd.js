@@ -61,7 +61,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
   }
 
   return function (view, params) {
-    function onVerticalSwipe(e__q, elem, data) {
+    function onVerticalSwipe(e, elem, data) {
       var player = currentPlayer;
 
       if (player) {
@@ -92,8 +92,8 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       playbackManager.setVolume(newValue, player);
     }
 
-    function onDoubleClick(e__w) {
-      var clientX = e__w.clientX;
+    function onDoubleClick(e) {
+      var clientX = e.clientX;
 
       if (null != clientX) {
         if (clientX < dom.getWindowSize().innerWidth / 2) {
@@ -102,8 +102,8 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
           playbackManager.fastForward(currentPlayer);
         }
 
-        e__w.preventDefault();
-        e__w.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
       }
     }
 
@@ -396,8 +396,8 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       });
     }
 
-    function onHideAnimationComplete(e__e) {
-      var elem = e__e.target;
+    function onHideAnimationComplete(e) {
+      var elem = e.target;
       elem.classList.add("hide");
       dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
         once: true
@@ -434,10 +434,10 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       }
     }
 
-    function onPointerMove(e__r) {
-      if ("mouse" === (e__r.pointerType || (layoutManager.mobile ? "touch" : "mouse"))) {
-        var eventX = e__r.screenX || 0;
-        var eventY = e__r.screenY || 0;
+    function onPointerMove(e) {
+      if ("mouse" === (e.pointerType || (layoutManager.mobile ? "touch" : "mouse"))) {
+        var eventX = e.screenX || 0;
+        var eventY = e.screenY || 0;
         var obj = lastPointerMoveData;
 
         if (!obj) {
@@ -457,16 +457,16 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       }
     }
 
-    function onInputCommand(e__t) {
+    function onInputCommand(e) {
       var player = currentPlayer;
 
-      switch (e__t.detail.command) {
+      switch (e.detail.command) {
         case "left":
           if ("osd" === currentVisibleMenu) {
             showOsd();
           } else {
             if (!currentVisibleMenu) {
-              e__t.preventDefault();
+              e.preventDefault();
               playbackManager.rewind(player);
             }
           }
@@ -476,11 +476,9 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         case "right":
           if ("osd" === currentVisibleMenu) {
             showOsd();
-          } else {
-            if (!currentVisibleMenu) {
-              e__t.preventDefault();
+          } else if (!currentVisibleMenu) {
+              e.preventDefault();
               playbackManager.fastForward(player);
-            }
           }
 
           break;
@@ -551,23 +549,23 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       }
     }
 
-    function onPlayPauseStateChanged(e__y) {
+    function onPlayPauseStateChanged(e) {
       if (isEnabled) {
         updatePlayPauseState(this.paused());
       }
     }
 
-    function onVolumeChanged(e__u) {
+    function onVolumeChanged(e) {
       if (isEnabled) {
         var player = this;
         updatePlayerVolumeState(player, player.isMuted(), player.getVolume());
       }
     }
 
-    function onPlaybackStart(e__i, state) {
-      console.log("nowplaying event: " + e__i.type);
+    function onPlaybackStart(e, state) {
+      console.log("nowplaying event: " + e.type);
       var player = this;
-      onStateChanged.call(player, e__i, state);
+      onStateChanged.call(player, e, state);
       resetUpNextDialog();
     }
 
@@ -581,10 +579,10 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       }
     }
 
-    function onPlaybackStopped(e__o, state) {
+    function onPlaybackStopped(e, state) {
       currentRuntimeTicks = null;
       resetUpNextDialog();
-      console.log("nowplaying event: " + e__o.type);
+      console.log("nowplaying event: " + e.type);
 
       if ("Video" !== state.NextMediaType) {
         view.removeEventListener("viewbeforehide", onViewHideStopPlayback);
@@ -592,7 +590,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       }
     }
 
-    function onMediaStreamsChanged(e__p) {
+    function onMediaStreamsChanged(e) {
       var player = this;
       var state = playbackManager.getPlayerState(player);
       onStateChanged.call(player, {
@@ -636,7 +634,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       }
     }
 
-    function onTimeUpdate(e__a) {
+    function onTimeUpdate(e) {
       if (isEnabled) {
         var now = new Date().getTime();
 
@@ -880,7 +878,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       elem.innerHTML = html;
     }
 
-    function onSettingsButtonClick(e__s) {
+    function onSettingsButtonClick(e) {
       var btn = this;
 
       require(["playerSettingsMenu"], function (playerSettingsMenu) {
@@ -1002,15 +1000,15 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       });
     }
 
-    function onWindowKeyDown(e__d) {
-      if (!currentVisibleMenu && (32 === e__d.keyCode || 13 === e__d.keyCode)) {
+    function onWindowKeyDown(e) {
+      if (!currentVisibleMenu && (32 === e.keyCode || 13 === e.keyCode)) {
         playbackManager.playPause(currentPlayer);
         return void showOsd();
       }
 
-      switch (e__d.key) {
+      switch (e.key) {
         case "f":
-          if (!e__d.ctrlKey) {
+          if (!e.ctrlKey) {
             playbackManager.toggleFullscreen(currentPlayer);
           }
 
@@ -1025,7 +1023,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         case "NavigationLeft":
         case "GamepadDPadLeft":
         case "GamepadLeftThumbstickLeft":
-          if (e__d.shiftKey) {
+          if (e.shiftKey) {
             playbackManager.rewind(currentPlayer);
           }
 
@@ -1036,7 +1034,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         case "NavigationRight":
         case "GamepadDPadRight":
         case "GamepadLeftThumbstickRight":
-          if (e__d.shiftKey) {
+          if (e.shiftKey) {
             playbackManager.fastForward(currentPlayer);
           }
 
@@ -1060,12 +1058,12 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       var chapter;
       var index = -1;
 
-      for (var i__f = 0, length = chapters.length; i__f < length; i__f++) {
-        var currentChapter = chapters[i__f];
+      for (var i = 0, length = chapters.length; i < length; i++) {
+        var currentChapter = chapters[i];
 
         if (positionTicks >= currentChapter.StartPositionTicks) {
           chapter = currentChapter;
-          index = i__f;
+          index = i;
         }
       }
 
@@ -1149,11 +1147,11 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
     var transitionEndEventName = dom.whichTransitionEvent();
     var headerElement = document.querySelector(".skinHeader");
     var osdBottomElement = document.querySelector(".videoOsdBottom-maincontrols");
-    view.addEventListener("viewbeforeshow", function (e__g) {
+    view.addEventListener("viewbeforeshow", function (e) {
       headerElement.classList.add("osdHeader");
       Emby.Page.setTransparency("full");
     });
-    view.addEventListener("viewshow", function (e__h) {
+    view.addEventListener("viewshow", function (e) {
       events.on(playbackManager, "playerchange", onPlayerChange);
       bindToPlayer(playbackManager.getCurrentPlayer());
       dom.addEventListener(document, window.PointerEvent ? "pointermove" : "mousemove", onPointerMove, {
@@ -1209,12 +1207,12 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
       destroyStats();
     });
     var lastPointerDown = 0;
-    dom.addEventListener(view, window.PointerEvent ? "pointerdown" : "click", function (e__j) {
-      if (dom.parentWithClass(e__j.target, ["videoOsdBottom", "upNextContainer"])) {
+    dom.addEventListener(view, window.PointerEvent ? "pointerdown" : "click", function (e) {
+      if (dom.parentWithClass(e.target, ["videoOsdBottom", "upNextContainer"])) {
         return void showOsd();
       }
 
-      var pointerType = e__j.pointerType || (layoutManager.mobile ? "touch" : "mouse");
+      var pointerType = e.pointerType || (layoutManager.mobile ? "touch" : "mouse");
       var now = new Date().getTime();
 
       switch (pointerType) {
@@ -1227,7 +1225,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
           break;
 
         case "mouse":
-          if (!e__j.button) {
+          if (!e.button) {
             playbackManager.playPause(currentPlayer);
             showOsd();
           }
