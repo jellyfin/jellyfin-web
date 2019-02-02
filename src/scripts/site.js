@@ -381,7 +381,7 @@ var Dashboard = {
         window.fetch || list.push("fetch"), "function" != typeof Object.assign && list.push("objectassign"), Array.prototype.filter || list.push("arraypolyfills"), Function.prototype.bind || list.push("functionbind"), window.requestAnimationFrame || list.push("raf"), require(list, function() {
             createConnectionManager().then(function() {
                 console.log("initAfterDependencies promises resolved"), require(["globalize", "browser"], function(globalize, browser) {
-                    window.Globalize = globalize, Promise.all([loadCoreDictionary(globalize), loadSharedComponentsDictionary(globalize)]).then(function() {
+                    window.Globalize = globalize, loadCoreDictionary(globalize).then(function() {
                         onGlobalizeInit(browser)
                     })
                 })
@@ -389,32 +389,19 @@ var Dashboard = {
         })
     }
 
-    function loadSharedComponentsDictionary(globalize) {
-        var languages = ["ar", "be-by", "bg-bg", "ca", "cs", "da", "de", "el", "en-gb", "en-us", "es-ar", "es-mx", "es", "fi", "fr", "gsw", "he", "hr", "hu", "id", "it", "kk", "ko", "lt-lt", "ms", "nb", "nl", "pl", "pt-br", "pt-pt", "ro", "ru", "sk", "sl-si", "sv", "tr", "uk", "vi", "zh-cn", "zh-hk", "zh-tw"],
-            translations = languages.map(function(i) {
-                return {
-                    lang: i,
-                    path: "bower_components/emby-webcomponents/strings/" + i + ".json"
-                }
-            });
-        globalize.loadStrings({
-            name: "sharedcomponents",
-            translations: translations
-        })
-    }
-
     function loadCoreDictionary(globalize) {
-        var languages = ["ar", "be-BY", "bg-BG", "ca", "cs", "da", "de", "el", "en-GB", "en-US", "es", "es-AR", "es-MX", "fa", "fi", "fr", "fr-CA", "gsw", "he", "hi-IN", "hr", "hu", "id", "it", "kk", "ko", "lt-LT", "ms", "nb", "nl", "pl", "pt-BR", "pt-PT", "ro", "ru", "sk", "sl-SI", "sv", "tr", "uk", "vi", "zh-CN", "zh-HK", "zh-TW"],
-            translations = languages.map(function(i) {
-                return {
-                    lang: i,
-                    path: "strings/" + i + ".json"
-                }
-            });
-        return globalize.defaultModule("core"), globalize.loadStrings({
+        var languages = ["ar", "be-by", "bg-bg", "ca", "cs", "da", "de", "el", "en-gb", "en-us", "es", "es-ar", "es-mx", "fa", "fi", "fr", "fr-ca", "gsw", "he", "hi-in", "hr", "hu", "id", "it", "kk", "ko", "lt-lt", "ms", "nb", "nl", "pl", "pt-br", "pt-pt", "ro", "ru", "sk", "sl-si", "sv", "tr", "uk", "vi", "zh-cn", "zh-hk", "zh-tw"];
+        var translations = languages.map(function(i) {
+            return {
+                lang: i,
+                path: "strings/" + i + ".json"
+            }
+        });
+        globalize.defaultModule("core");
+        return globalize.loadStrings({
             name: "core",
             translations: translations
-        })
+        });
     }
 
     function onGlobalizeInit(browser) {
