@@ -16,9 +16,10 @@
  - [grafixeyehero](https://github.com/grafixeyehero)
  - [Drago96](https://github.com/drago-96)
  - [ViXXoR](https://github.com/ViXXoR)
- - [nkmerrill] (https://github.com/nkmerrill)
- - [TtheCreator] (https://github.com/Tthecreator)
+ - [nkmerrill](https://github.com/nkmerrill)
+ - [TtheCreator](https://github.com/Tthecreator)
  - [RazeLighter777](https://github.com/RazeLighter777)
+ - [anthonylavado](https://github.com/anthonylavado)
 
 # Emby Contributors
 
