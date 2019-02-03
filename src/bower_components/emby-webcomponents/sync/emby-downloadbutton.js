@@ -32,9 +32,9 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
                 confirm({
 
-                    text: globalize.translate('sharedcomponents#ConfirmRemoveDownload'),
-                    confirmText: globalize.translate('sharedcomponents#RemoveDownload'),
-                    cancelText: globalize.translate('sharedcomponents#KeepDownload'),
+                    text: globalize.translate('ConfirmRemoveDownload'),
+                    confirmText: globalize.translate('RemoveDownload'),
+                    cancelText: globalize.translate('KeepDownload'),
                     primary: 'cancel'
 
                 }).then(function () {
@@ -87,11 +87,11 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
         var text;
         if ((syncPercent || 0) >= 100) {
-            text = globalize.translate('sharedcomponents#Downloaded');
+            text = globalize.translate('Downloaded');
         } else if (syncPercent != null) {
-            text = globalize.translate('sharedcomponents#Downloading');
+            text = globalize.translate('Downloading');
         } else {
-            text = globalize.translate('sharedcomponents#Download');
+            text = globalize.translate('Download');
         }
 
         var textElement = button.querySelector('.emby-downloadbutton-downloadtext');

@@ -3,9 +3,9 @@ define(["tabbedView", "globalize", "require", "emby-tabs", "emby-button", "emby-
 
     function getTabs() {
         return [{
-            name: globalize.translate("sharedcomponents#Home")
+            name: globalize.translate("Home")
         }, {
-            name: globalize.translate("sharedcomponents#Favorites")
+            name: globalize.translate("Favorites")
         }]
     }
 

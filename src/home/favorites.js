@@ -19,7 +19,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
 
     function getSections() {
         return [{
-            name: "sharedcomponents#HeaderFavoriteMovies",
+            name: "HeaderFavoriteMovies",
             types: "Movie",
             shape: getPosterShape(),
             showTitle: !0,
@@ -28,7 +28,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             overlayText: !1,
             centerText: !0
         }, {
-            name: "sharedcomponents#HeaderFavoriteShows",
+            name: "HeaderFavoriteShows",
             types: "Series",
             shape: getPosterShape(),
             showTitle: !0,
@@ -37,7 +37,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             overlayText: !1,
             centerText: !0
         }, {
-            name: "sharedcomponents#HeaderFavoriteEpisodes",
+            name: "HeaderFavoriteEpisodes",
             types: "Episode",
             shape: getThumbShape(),
             preferThumb: !1,
@@ -47,7 +47,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             overlayText: !1,
             centerText: !0
         }, {
-            name: "sharedcomponents#HeaderFavoriteVideos",
+            name: "HeaderFavoriteVideos",
             types: "Video",
             shape: getThumbShape(),
             preferThumb: !0,
@@ -56,7 +56,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             overlayText: !1,
             centerText: !0
         }, {
-            name: "sharedcomponents#HeaderFavoriteCollections",
+            name: "HeaderFavoriteCollections",
             types: "BoxSet",
             shape: getPosterShape(),
             showTitle: !0,
@@ -64,7 +64,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             overlayText: !1,
             centerText: !0
         }, {
-            name: "sharedcomponents#HeaderFavoritePlaylists",
+            name: "HeaderFavoritePlaylists",
             types: "Playlist",
             shape: getSquareShape(),
             preferThumb: !1,
@@ -75,7 +75,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             overlayPlayButton: !0,
             coverImage: !0
         }, {
-            name: "sharedcomponents#HeaderFavoriteArtists",
+            name: "HeaderFavoriteArtists",
             types: "MusicArtist",
             shape: getSquareShape(),
             preferThumb: !1,
@@ -86,7 +86,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             overlayPlayButton: !0,
             coverImage: !0
         }, {
-            name: "sharedcomponents#HeaderFavoriteAlbums",
+            name: "HeaderFavoriteAlbums",
             types: "MusicAlbum",
             shape: getSquareShape(),
             preferThumb: !1,
@@ -97,7 +97,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             overlayPlayButton: !0,
             coverImage: !0
         }, {
-            name: "sharedcomponents#HeaderFavoriteSongs",
+            name: "HeaderFavoriteSongs",
             types: "Audio",
             shape: getSquareShape(),
             preferThumb: !1,
@@ -145,7 +145,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             cardLayout = !1;
             var serverId = this.apiClient.serverId(),
                 leadingButtons = layoutManager.tv ? [{
-                    name: globalize.translate("sharedcomponents#All"),
+                    name: globalize.translate("All"),
                     id: "more",
                     icon: "&#xE87D;",
                     routeUrl: getRouteUrl(section, serverId)

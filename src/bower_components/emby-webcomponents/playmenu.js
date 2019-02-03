@@ -25,12 +25,12 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
         var menuItems = [];
 
         menuItems.push({
-            name: globalize.translate('sharedcomponents#ResumeAt', datetime.getDisplayRunningTime(resumePositionTicks)),
+            name: globalize.translate('ResumeAt', datetime.getDisplayRunningTime(resumePositionTicks)),
             id: 'resume'
         });
 
         menuItems.push({
-            name: globalize.translate('sharedcomponents#PlayFromBeginning'),
+            name: globalize.translate('PlayFromBeginning'),
             id: 'play'
         });
 

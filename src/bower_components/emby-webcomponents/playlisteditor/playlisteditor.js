@@ -129,10 +129,10 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
             var html = '';
 
             if (editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) {
-                html += '<option value="queue">' + globalize.translate('sharedcomponents#AddToPlayQueue') + '</option>';
+                html += '<option value="queue">' + globalize.translate('AddToPlayQueue') + '</option>';
             }
 
-            html += '<option value="">' + globalize.translate('sharedcomponents#OptionNew') + '</option>';
+            html += '<option value="">' + globalize.translate('OptionNew') + '</option>';
 
             html += result.Items.map(function (i) {
 
@@ -168,21 +168,21 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
 
         html += '<div class="fldSelectPlaylist selectContainer">';
         var autoFocus = items.length ? ' autofocus' : '';
-        html += '<select is="emby-select" id="selectPlaylistToAddTo" label="' + globalize.translate('sharedcomponents#LabelPlaylist') + '"' + autoFocus + '></select>';
+        html += '<select is="emby-select" id="selectPlaylistToAddTo" label="' + globalize.translate('LabelPlaylist') + '"' + autoFocus + '></select>';
         html += '</div>';
 
         html += '<div class="newPlaylistInfo">';
 
         html += '<div class="inputContainer">';
         autoFocus = items.length ? '' : ' autofocus';
-        html += '<input is="emby-input" type="text" id="txtNewPlaylistName" required="required" label="' + globalize.translate('sharedcomponents#LabelName') + '"' + autoFocus + ' />';
+        html += '<input is="emby-input" type="text" id="txtNewPlaylistName" required="required" label="' + globalize.translate('LabelName') + '"' + autoFocus + ' />';
         html += '</div>';
 
         // newPlaylistInfo
         html += '</div>';
 
         html += '<div class="formDialogFooter">';
-        html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('sharedcomponents#Add') + '</button>';
+        html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('Add') + '</button>';
         html += '</div>';
 
         html += '<input type="hidden" class="fldSelectedItemIds" />';
@@ -255,7 +255,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         dlg.classList.add('formDialog');
 
         var html = '';
-        var title = globalize.translate('sharedcomponents#HeaderAddToPlaylist');
+        var title = globalize.translate('HeaderAddToPlaylist');
 
         html += '<div class="formDialogHeader">';
         html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';

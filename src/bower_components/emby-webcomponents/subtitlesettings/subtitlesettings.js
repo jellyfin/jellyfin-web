@@ -5,7 +5,7 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
 
         var html = "";
 
-        html += "<option value=''>" + globalize.translate('sharedcomponents#AnyLanguage') + "</option>";
+        html += "<option value=''>" + globalize.translate('AnyLanguage') + "</option>";
 
         for (var i = 0, length = languages.length; i < length; i++) {
 
@@ -89,7 +89,7 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
                 loading.hide();
                 if (enableSaveConfirmation) {
                     require(['toast'], function (toast) {
-                        toast(globalize.translate('sharedcomponents#SettingsSaved'));
+                        toast(globalize.translate('SettingsSaved'));
                     });
                 }
 

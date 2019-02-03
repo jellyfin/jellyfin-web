@@ -903,8 +903,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     if (item.SongCount) {
                         songLine = item.SongCount === 1 ?
-                            globalize.translate('sharedcomponents#ValueOneSong') :
-                            globalize.translate('sharedcomponents#ValueSongCount', item.SongCount);
+                            globalize.translate('ValueOneSong') :
+                            globalize.translate('ValueSongCount', item.SongCount);
                     }
 
                     lines.push(songLine);
@@ -931,7 +931,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (item.Type === 'Series') {
                         if (item.Status === "Continuing") {
 
-                            lines.push(globalize.translate('sharedcomponents#SeriesYearToPresent', item.ProductionYear || ''));
+                            lines.push(globalize.translate('SeriesYearToPresent', item.ProductionYear || ''));
 
                         } else {
 
@@ -1001,7 +1001,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (options.showSeriesTimerTime) {
                     if (item.RecordAnyTime) {
 
-                        lines.push(globalize.translate('sharedcomponents#Anytime'));
+                        lines.push(globalize.translate('Anytime'));
                     } else {
                         lines.push(datetime.getDisplayTime(item.StartDate));
                     }
@@ -1009,10 +1009,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (options.showSeriesTimerChannel) {
                     if (item.RecordAnyChannel) {
-                        lines.push(globalize.translate('sharedcomponents#AllChannels'));
+                        lines.push(globalize.translate('AllChannels'));
                     }
                     else {
-                        lines.push(item.ChannelName || globalize.translate('sharedcomponents#OneChannel'));
+                        lines.push(item.ChannelName || globalize.translate('OneChannel'));
                     }
                 }
 
@@ -1021,7 +1021,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         lines.push('as ' + item.Role);
                     }
                     else if (item.Type) {
-                        lines.push(globalize.translate('sharedcomponents#' + item.Type));
+                        lines.push(globalize.translate('' + item.Type));
                     } else {
                         lines.push('');
                     }
@@ -1086,10 +1086,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     minutes = minutes || 1;
 
-                    childText += globalize.translate('sharedcomponents#ValueMinutes', Math.round(minutes));
+                    childText += globalize.translate('ValueMinutes', Math.round(minutes));
 
                 } else {
-                    childText += globalize.translate('sharedcomponents#ValueMinutes', 0);
+                    childText += globalize.translate('ValueMinutes', 0);
                 }
 
                 counts.push(childText);
@@ -1100,8 +1100,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (item.MovieCount) {
 
                     childText = item.MovieCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneMovie') :
-                        globalize.translate('sharedcomponents#ValueMovieCount', item.MovieCount);
+                        globalize.translate('ValueOneMovie') :
+                        globalize.translate('ValueMovieCount', item.MovieCount);
 
                     counts.push(childText);
                 }
@@ -1109,16 +1109,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (item.SeriesCount) {
 
                     childText = item.SeriesCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneSeries') :
-                        globalize.translate('sharedcomponents#ValueSeriesCount', item.SeriesCount);
+                        globalize.translate('ValueOneSeries') :
+                        globalize.translate('ValueSeriesCount', item.SeriesCount);
 
                     counts.push(childText);
                 }
                 if (item.EpisodeCount) {
 
                     childText = item.EpisodeCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneEpisode') :
-                        globalize.translate('sharedcomponents#ValueEpisodeCount', item.EpisodeCount);
+                        globalize.translate('ValueOneEpisode') :
+                        globalize.translate('ValueEpisodeCount', item.EpisodeCount);
 
                     counts.push(childText);
                 }
@@ -1128,24 +1128,24 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (item.AlbumCount) {
 
                     childText = item.AlbumCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneAlbum') :
-                        globalize.translate('sharedcomponents#ValueAlbumCount', item.AlbumCount);
+                        globalize.translate('ValueOneAlbum') :
+                        globalize.translate('ValueAlbumCount', item.AlbumCount);
 
                     counts.push(childText);
                 }
                 if (item.SongCount) {
 
                     childText = item.SongCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneSong') :
-                        globalize.translate('sharedcomponents#ValueSongCount', item.SongCount);
+                        globalize.translate('ValueOneSong') :
+                        globalize.translate('ValueSongCount', item.SongCount);
 
                     counts.push(childText);
                 }
                 if (item.MusicVideoCount) {
 
                     childText = item.MusicVideoCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneMusicVideo') :
-                        globalize.translate('sharedcomponents#ValueMusicVideoCount', item.MusicVideoCount);
+                        globalize.translate('ValueOneMusicVideo') :
+                        globalize.translate('ValueMusicVideoCount', item.MusicVideoCount);
 
                     counts.push(childText);
                 }
@@ -1153,8 +1153,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             } else if (item.Type === 'Series') {
 
                 childText = item.RecursiveItemCount === 1 ?
-                    globalize.translate('sharedcomponents#ValueOneEpisode') :
-                    globalize.translate('sharedcomponents#ValueEpisodeCount', item.RecursiveItemCount);
+                    globalize.translate('ValueOneEpisode') :
+                    globalize.translate('ValueEpisodeCount', item.RecursiveItemCount);
 
                 counts.push(childText);
             }
@@ -1169,17 +1169,17 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var html = '';
 
             if (item.IsLive) {
-                html += '<div class="liveTvProgram programAttributeIndicator">' + globalize.translate('sharedcomponents#Live') + '</div>';
+                html += '<div class="liveTvProgram programAttributeIndicator">' + globalize.translate('Live') + '</div>';
             }
 
             if (item.IsPremiere) {
-                html += '<div class="premiereTvProgram programAttributeIndicator">' + globalize.translate('sharedcomponents#Premiere') + '</div>';
+                html += '<div class="premiereTvProgram programAttributeIndicator">' + globalize.translate('Premiere') + '</div>';
             }
             else if (item.IsSeries && !item.IsRepeat) {
-                html += '<div class="newTvProgram programAttributeIndicator">' + globalize.translate('sharedcomponents#AttributeNew') + '</div>';
+                html += '<div class="newTvProgram programAttributeIndicator">' + globalize.translate('AttributeNew') + '</div>';
             }
             //else if (item.IsRepeat) {
-            //    html += '<div class="repeatTvProgram programAttributeIndicator">' + globalize.translate('sharedcomponents#Repeat') + '</div>';
+            //    html += '<div class="repeatTvProgram programAttributeIndicator">' + globalize.translate('Repeat') + '</div>';
             //}
 
             if (html) {

@@ -24,7 +24,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         }
         if (/*options.isInlineSpecial &&*/ item.Type === "Episode" && item.ParentIndexNumber === 0) {
 
-            name = globalize.translate('sharedcomponents#ValueSpecialEpisodeName', name);
+            name = globalize.translate('ValueSpecialEpisodeName', name);
 
         } else if ((item.Type === "Episode" || item.Type === 'Program') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
 

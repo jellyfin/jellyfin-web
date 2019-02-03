@@ -23,27 +23,27 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         html += '<form style="margin:auto;">';
 
         html += '<div class="fldSelectPlaylist selectContainer">';
-        html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('sharedcomponents#LabelRefreshMode') + '">';
-        html += '<option value="scan">' + globalize.translate('sharedcomponents#ScanForNewAndUpdatedFiles') + '</option>';
-        html += '<option value="missing">' + globalize.translate('sharedcomponents#SearchForMissingMetadata') + '</option>';
-        html += '<option value="all" selected>' + globalize.translate('sharedcomponents#ReplaceAllMetadata') + '</option>';
+        html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
+        html += '<option value="scan">' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
+        html += '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
+        html += '<option value="all" selected>' + globalize.translate('ReplaceAllMetadata') + '</option>';
         html += '</select>';
         html += '</div>';
 
         html += '<label class="checkboxContainer hide fldReplaceExistingImages">';
         html += '<input type="checkbox" is="emby-checkbox" class="chkReplaceImages" />';
-        html += '<span>' + globalize.translate('sharedcomponents#ReplaceExistingImages') + '</span>';
+        html += '<span>' + globalize.translate('ReplaceExistingImages') + '</span>';
         html += '</label>';
 
         html += '<div class="fieldDescription">';
-        html += globalize.translate('sharedcomponents#RefreshDialogHelp');
+        html += globalize.translate('RefreshDialogHelp');
         html += '</div>';
 
         html += '<input type="hidden" class="fldSelectedItemIds" />';
 
         html += '<br />';
         html += '<div class="formDialogFooter">';
-        html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('sharedcomponents#Refresh') + '</button>';
+        html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('Refresh') + '</button>';
         html += '</div>';
 
         html += '</form>';
@@ -89,7 +89,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         dialogHelper.close(dlg);
 
         require(['toast'], function (toast) {
-            toast(globalize.translate('sharedcomponents#RefreshQueued'));
+            toast(globalize.translate('RefreshQueued'));
         });
 
         loading.hide();
@@ -120,7 +120,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         dlg.classList.add('formDialog');
 
         var html = '';
-        var title = globalize.translate('sharedcomponents#RefreshMetadata');
+        var title = globalize.translate('RefreshMetadata');
 
         html += '<div class="formDialogHeader">';
         html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';

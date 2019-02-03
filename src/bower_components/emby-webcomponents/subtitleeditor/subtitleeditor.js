@@ -56,7 +56,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             hasChanges = true;
 
             require(['toast'], function (toast) {
-                toast(globalize.translate('sharedcomponents#MessageDownloadQueued'));
+                toast(globalize.translate('MessageDownloadQueued'));
             });
 
             focusManager.autoFocus(context);
@@ -65,15 +65,15 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
     function deleteLocalSubtitle(context, index) {
 
-        var msg = globalize.translate('sharedcomponents#MessageAreYouSureDeleteSubtitles');
+        var msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
 
         require(['confirm'], function (confirm) {
 
             confirm({
 
-                title: globalize.translate('sharedcomponents#ConfirmDeletion'),
+                title: globalize.translate('ConfirmDeletion'),
                 text: msg,
-                confirmText: globalize.translate('sharedcomponents#Delete'),
+                confirmText: globalize.translate('Delete'),
                 primary: 'cancel'
 
             }).then(function () {
@@ -113,7 +113,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
         if (subs.length) {
 
-            html += '<h2>' + globalize.translate('sharedcomponents#MySubtitles') + '</h2>';
+            html += '<h2>' + globalize.translate('MySubtitles') + '</h2>';
 
             html += '<div>';
 
@@ -149,7 +149,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
                 if (!layoutManager.tv) {
                     if (s.Path) {
-                        itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('sharedcomponents#Delete') + '" class="btnDelete listItemButton"><i class="md-icon">delete</i></button>';
+                        itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><i class="md-icon">delete</i></button>';
                     }
                 }
 
@@ -261,11 +261,11 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             html += '<div class="secondary listItemBodyText">';
 
             if (result.Format) {
-                html += '<span style="margin-right:1em;">' + globalize.translate('sharedcomponents#FormatValue', result.Format) + '</span>';
+                html += '<span style="margin-right:1em;">' + globalize.translate('FormatValue', result.Format) + '</span>';
             }
 
             if (result.DownloadCount != null) {
-                html += '<span>' + globalize.translate('sharedcomponents#DownloadsValue', result.DownloadCount) + '</span>';
+                html += '<span>' + globalize.translate('DownloadsValue', result.DownloadCount) + '</span>';
             }
             html += '</div>';
 
@@ -274,7 +274,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             }
 
             if (result.IsHashMatch) {
-                html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('sharedcomponents#PerfectMatch') + '</div></div>';
+                html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('PerfectMatch') + '</div></div>';
             }
 
             //html += '</a>';
@@ -399,7 +399,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         var items = [];
 
         items.push({
-            name: Globalize.translate('sharedcomponents#Download'),
+            name: Globalize.translate('Download'),
             id: 'download'
         });
 
@@ -456,7 +456,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
             dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
 
-            dlg.querySelector('.originalSubtitleFileLabel').innerHTML = globalize.translate('sharedcomponents#File');
+            dlg.querySelector('.originalSubtitleFileLabel').innerHTML = globalize.translate('File');
 
             dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
 

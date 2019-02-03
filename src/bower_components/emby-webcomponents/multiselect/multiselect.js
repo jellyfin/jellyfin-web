@@ -156,12 +156,12 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
 
         return new Promise(function (resolve, reject) {
 
-            var msg = globalize.translate('sharedcomponents#ConfirmDeleteItem');
-            var title = globalize.translate('sharedcomponents#HeaderDeleteItem');
+            var msg = globalize.translate('ConfirmDeleteItem');
+            var title = globalize.translate('HeaderDeleteItem');
 
             if (itemIds.length > 1) {
-                msg = globalize.translate('sharedcomponents#ConfirmDeleteItems');
-                title = globalize.translate('sharedcomponents#HeaderDeleteItems');
+                msg = globalize.translate('ConfirmDeleteItems');
+                title = globalize.translate('HeaderDeleteItems');
             }
 
             require(['confirm'], function (confirm) {
@@ -173,7 +173,7 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
 
                     Promise.all(promises).then(resolve, function () {
 
-                        alertText(globalize.translate('sharedcomponents#ErrorDeletingItem')).then(reject, reject);
+                        alertText(globalize.translate('ErrorDeletingItem')).then(reject, reject);
                     });
                 }, reject);
 
@@ -190,13 +190,13 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             var menuItems = [];
 
             menuItems.push({
-                name: globalize.translate('sharedcomponents#AddToCollection'),
+                name: globalize.translate('AddToCollection'),
                 id: 'addtocollection',
                 ironIcon: 'add'
             });
 
             menuItems.push({
-                name: globalize.translate('sharedcomponents#AddToPlaylist'),
+                name: globalize.translate('AddToPlaylist'),
                 id: 'playlist',
                 ironIcon: 'playlist-add'
             });
@@ -204,7 +204,7 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             // TODO: Be more dynamic based on what is selected
             if (user.Policy.EnableContentDeletion) {
                 menuItems.push({
-                    name: globalize.translate('sharedcomponents#Delete'),
+                    name: globalize.translate('Delete'),
                     id: 'delete',
                     ironIcon: 'delete'
                 });
@@ -220,35 +220,35 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
 
             if (user.Policy.EnableContentDownloading && appHost.supports('sync')) {
                 menuItems.push({
-                    name: globalize.translate('sharedcomponents#Download'),
+                    name: globalize.translate('Download'),
                     id: 'synclocal'
                 });
             }
 
             menuItems.push({
-                name: globalize.translate('sharedcomponents#GroupVersions'),
+                name: globalize.translate('GroupVersions'),
                 id: 'groupvideos',
                 ironIcon: 'call-merge'
             });
 
             menuItems.push({
-                name: globalize.translate('sharedcomponents#MarkPlayed'),
+                name: globalize.translate('MarkPlayed'),
                 id: 'markplayed'
             });
 
             menuItems.push({
-                name: globalize.translate('sharedcomponents#MarkUnplayed'),
+                name: globalize.translate('MarkUnplayed'),
                 id: 'markunplayed'
             });
 
             menuItems.push({
-                name: globalize.translate('sharedcomponents#RefreshMetadata'),
+                name: globalize.translate('RefreshMetadata'),
                 id: 'refresh'
             });
 
             if (user.Policy.EnableContentDownloading) {
                 menuItems.push({
-                    name: globalize.translate('sharedcomponents#Sync'),
+                    name: globalize.translate('Sync'),
                     id: 'sync'
                 });
             }
@@ -381,7 +381,7 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
 
             require(['alert'], function (alert) {
                 alert({
-                    text: globalize.translate('sharedcomponents#PleaseSelectTwoItems')
+                    text: globalize.translate('PleaseSelectTwoItems')
                 });
             });
             return;

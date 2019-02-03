@@ -105,7 +105,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     }
 
     function setTitle(button) {
-        button.title = globalize.translate('sharedcomponents#Favorite');
+        button.title = globalize.translate('Favorite');
 
         var text = button.querySelector('.button-text');
         if (text) {

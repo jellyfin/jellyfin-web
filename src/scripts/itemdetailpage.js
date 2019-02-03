@@ -93,7 +93,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var select = page.querySelector(".selectSource");
         if (!item.MediaSources || !itemHelper.supportsMediaSourceSelection(item) || -1 === playbackManager.getSupportedCommands().indexOf("PlayMediaSource") || !playbackManager.canPlay(item)) return page.querySelector(".trackSelections").classList.add("hide"), select.innerHTML = "", page.querySelector(".selectVideo").innerHTML = "", page.querySelector(".selectAudio").innerHTML = "", void(page.querySelector(".selectSubtitles").innerHTML = "");
         playbackManager.getPlaybackMediaSources(item).then(function(mediaSources) {
-            instance._currentPlaybackMediaSources = mediaSources, page.querySelector(".trackSelections").classList.remove("hide"), select.setLabel(globalize.translate("sharedcomponents#LabelVersion"));
+            instance._currentPlaybackMediaSources = mediaSources, page.querySelector(".trackSelections").classList.remove("hide"), select.setLabel(globalize.translate("LabelVersion"));
             var currentValue = select.value,
                 selectedId = mediaSources[0].Id;
             select.innerHTML = mediaSources.map(function(v) {
@@ -112,7 +112,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 return "Video" === m.Type
             }),
             select = page.querySelector(".selectVideo");
-        select.setLabel(globalize.translate("sharedcomponents#LabelVideo"));
+        select.setLabel(globalize.translate("LabelVideo"));
         var selectedId = tracks.length ? tracks[0].Index : -1;
         select.innerHTML = tracks.map(function(v) {
             var selected = v.Index === selectedId ? " selected" : "",
@@ -131,7 +131,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 return "Audio" === m.Type
             }),
             select = page.querySelector(".selectAudio");
-        select.setLabel(globalize.translate("sharedcomponents#LabelAudio"));
+        select.setLabel(globalize.translate("LabelAudio"));
         var selectedId = mediaSource.DefaultAudioStreamIndex;
         select.innerHTML = tracks.map(function(v) {
             var selected = v.Index === selectedId ? " selected" : "";
@@ -148,11 +148,11 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 return "Subtitle" === m.Type
             }),
             select = page.querySelector(".selectSubtitles");
-        select.setLabel(globalize.translate("sharedcomponents#LabelSubtitles"));
+        select.setLabel(globalize.translate("LabelSubtitles"));
         var selectedId = null == mediaSource.DefaultSubtitleStreamIndex ? -1 : mediaSource.DefaultSubtitleStreamIndex;
         if (tracks.length) {
             var selected = -1 === selectedId ? " selected" : "";
-            select.innerHTML = '<option value="-1">' + globalize.translate("sharedcomponents#Off") + "</option>" + tracks.map(function(v) {
+            select.innerHTML = '<option value="-1">' + globalize.translate("Off") + "</option>" + tracks.map(function(v) {
                 return selected = v.Index === selectedId ? " selected" : "", '<option value="' + v.Index + '" ' + selected + ">" + v.DisplayTitle + "</option>"
             }).join(""), page.querySelector(".selectSubtitlesContainer").classList.remove("hide")
         } else select.innerHTML = "", page.querySelector(".selectSubtitlesContainer").classList.add("hide")
@@ -350,7 +350,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var html = [];
         if (item.DateCreated && itemHelper.enableDateAddedDisplay(item)) {
             var dateCreated = datetime.parseISO8601Date(item.DateCreated);
-            html.push(globalize.translate("sharedcomponents#AddedOnValue", datetime.toLocaleDateString(dateCreated) + " " + datetime.getDisplayTime(dateCreated)))
+            html.push(globalize.translate("AddedOnValue", datetime.toLocaleDateString(dateCreated) + " " + datetime.getDisplayTime(dateCreated)))
         }
         var links = [];
         if (!layoutManager.tv && (item.HomePageUrl && links.push('<a style="color:inherit;" is="emby-linkbutton" class="button-link" href="' + item.HomePageUrl + '" target="_blank">' + globalize.translate("ButtonWebsite") + "</a>"), item.ExternalUrls))
@@ -358,7 +358,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 var url = item.ExternalUrls[i];
                 links.push('<a style="color:inherit;" is="emby-linkbutton" class="button-link" href="' + url.Url + '" target="_blank">' + url.Name + "</a>")
             }
-        links.length && html.push(globalize.translate("sharedcomponents#LinksValue", links.join(", "))), linksElem.innerHTML = html.join(", "), html.length ? linksElem.classList.remove("hide") : linksElem.classList.add("hide")
+        links.length && html.push(globalize.translate("LinksValue", links.join(", "))), linksElem.innerHTML = html.join(", "), html.length ? linksElem.classList.remove("hide") : linksElem.classList.add("hide")
     }
 
     function renderDetailImage(page, elem, item, apiClient, editable, imageLoader, indicators) {
@@ -475,7 +475,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 }) + '">' + p.Name + "</a>"
             }).join(", "),
             elem = page.querySelector(".genres");
-        elem.innerHTML = genres.length > 1 ? globalize.translate("sharedcomponents#GenresValue", html) : globalize.translate("sharedcomponents#GenreValue", html), genres.length ? elem.classList.remove("hide") : elem.classList.add("hide")
+        elem.innerHTML = genres.length > 1 ? globalize.translate("GenresValue", html) : globalize.translate("GenreValue", html), genres.length ? elem.classList.remove("hide") : elem.classList.add("hide")
     }
 
     function renderDirector(page, item, apiClient, context, isStatic) {
@@ -493,7 +493,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 }) + '">' + p.Name + "</a>"
             }).join(", "),
             elem = page.querySelector(".directors");
-        elem.innerHTML = directors.length > 1 ? globalize.translate("sharedcomponents#DirectorsValue", html) : globalize.translate("sharedcomponents#DirectorValue", html), directors.length ? elem.classList.remove("hide") : elem.classList.add("hide")
+        elem.innerHTML = directors.length > 1 ? globalize.translate("DirectorsValue", html) : globalize.translate("DirectorValue", html), directors.length ? elem.classList.remove("hide") : elem.classList.add("hide")
     }
 
     function renderDetails(page, item, apiClient, context, isStatic) {
@@ -579,7 +579,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             };
             "MusicArtist" === item.Type ? query.ContributingArtistIds = item.Id : apiClient.isMinServerVersion("3.4.1.18") ? query.AlbumArtistIds = item.AlbumArtists[0].Id : query.ArtistIds = item.AlbumArtists[0].Id, apiClient.getItems(apiClient.getCurrentUserId(), query).then(function(result) {
                 if (!result.Items.length) return void section.classList.add("hide");
-                section.classList.remove("hide"), "MusicArtist" === item.Type ? section.querySelector("h2").innerHTML = globalize.translate("sharedcomponents#HeaderAppearsOn") : section.querySelector("h2").innerHTML = globalize.translate("MoreFromValue", item.AlbumArtists[0].Name), cardBuilder.buildCards(result.Items, {
+                section.classList.remove("hide"), "MusicArtist" === item.Type ? section.querySelector("h2").innerHTML = globalize.translate("HeaderAppearsOn") : section.querySelector("h2").innerHTML = globalize.translate("MoreFromValue", item.AlbumArtists[0].Name), cardBuilder.buildCards(result.Items, {
                     parentContainer: section,
                     itemsContainer: section.querySelector(".itemsContainer"),
                     shape: "autooverflow",
@@ -657,7 +657,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             tags = item.Tags || [];
         "Program" === item.Type && (tags = []);
         for (var i = 0, length = tags.length; i < length; i++) tagElements.push(tags[i]);
-        tagElements.length ? (itemTags.innerHTML = globalize.translate("sharedcomponents#TagsValue", tagElements.join(", ")), itemTags.classList.remove("hide")) : (itemTags.innerHTML = "", itemTags.classList.add("hide"))
+        tagElements.length ? (itemTags.innerHTML = globalize.translate("TagsValue", tagElements.join(", ")), itemTags.classList.remove("hide")) : (itemTags.innerHTML = "", itemTags.classList.add("hide"))
     }
 
     function renderChildren(page, item) {
@@ -958,7 +958,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 html += '<div class="mediaInfoStream">';
                 html += '<h3 class="mediaInfoStreamType">' + globalize.translate("MediaInfoStreamType" + stream.Type) + "</h3>";
                 var attributes = [];
-                stream.DisplayTitle && attributes.push(createAttribute("Title", stream.DisplayTitle)), stream.Language && "Video" != stream.Type && attributes.push(createAttribute(globalize.translate("MediaInfoLanguage"), stream.Language)), stream.Codec && attributes.push(createAttribute(globalize.translate("MediaInfoCodec"), stream.Codec.toUpperCase())), stream.CodecTag && attributes.push(createAttribute(globalize.translate("MediaInfoCodecTag"), stream.CodecTag)), null != stream.IsAVC && attributes.push(createAttribute("AVC", stream.IsAVC ? "Yes" : "No")), stream.Profile && attributes.push(createAttribute(globalize.translate("MediaInfoProfile"), stream.Profile)), stream.Level && attributes.push(createAttribute(globalize.translate("MediaInfoLevel"), stream.Level)), (stream.Width || stream.Height) && attributes.push(createAttribute(globalize.translate("MediaInfoResolution"), stream.Width + "x" + stream.Height)), stream.AspectRatio && "mjpeg" != stream.Codec && attributes.push(createAttribute(globalize.translate("MediaInfoAspectRatio"), stream.AspectRatio)), "Video" == stream.Type && (null != stream.IsAnamorphic && attributes.push(createAttribute(globalize.translate("MediaInfoAnamorphic"), stream.IsAnamorphic ? "Yes" : "No")), attributes.push(createAttribute(globalize.translate("MediaInfoInterlaced"), stream.IsInterlaced ? "Yes" : "No"))), (stream.AverageFrameRate || stream.RealFrameRate) && attributes.push(createAttribute(globalize.translate("MediaInfoFramerate"), stream.AverageFrameRate || stream.RealFrameRate)), stream.ChannelLayout && attributes.push(createAttribute(globalize.translate("MediaInfoLayout"), stream.ChannelLayout)), stream.Channels && attributes.push(createAttribute(globalize.translate("MediaInfoChannels"), stream.Channels + " ch")), stream.BitRate && "mjpeg" != stream.Codec && attributes.push(createAttribute(globalize.translate("MediaInfoBitrate"), parseInt(stream.BitRate / 1e3) + " kbps")), stream.SampleRate && attributes.push(createAttribute(globalize.translate("MediaInfoSampleRate"), stream.SampleRate + " Hz")), stream.VideoRange && "SDR" !== stream.VideoRange && attributes.push(createAttribute(globalize.translate("sharedcomponents#VideoRange"), stream.VideoRange)), stream.ColorPrimaries && attributes.push(createAttribute(globalize.translate("sharedcomponents#ColorPrimaries"), stream.ColorPrimaries)), stream.ColorSpace && attributes.push(createAttribute(globalize.translate("sharedcomponents#ColorSpace"), stream.ColorSpace)), stream.ColorTransfer && attributes.push(createAttribute(globalize.translate("sharedcomponents#ColorTransfer"), stream.ColorTransfer)), stream.BitDepth && attributes.push(createAttribute(globalize.translate("MediaInfoBitDepth"), stream.BitDepth + " bit")), stream.PixelFormat && attributes.push(createAttribute(globalize.translate("MediaInfoPixelFormat"), stream.PixelFormat)), stream.RefFrames && attributes.push(createAttribute(globalize.translate("MediaInfoRefFrames"), stream.RefFrames)), stream.NalLengthSize && attributes.push(createAttribute("NAL", stream.NalLengthSize)), "Video" != stream.Type && attributes.push(createAttribute(globalize.translate("MediaInfoDefault"), stream.IsDefault ? "Yes" : "No")), "Subtitle" == stream.Type && (attributes.push(createAttribute(globalize.translate("MediaInfoForced"), stream.IsForced ? "Yes" : "No")), attributes.push(createAttribute(globalize.translate("MediaInfoExternal"), stream.IsExternal ? "Yes" : "No"))), "Video" == stream.Type && version.Timestamp && attributes.push(createAttribute(globalize.translate("MediaInfoTimestamp"), version.Timestamp)), html += attributes.join("<br/>"), html += "</div>"
+                stream.DisplayTitle && attributes.push(createAttribute("Title", stream.DisplayTitle)), stream.Language && "Video" != stream.Type && attributes.push(createAttribute(globalize.translate("MediaInfoLanguage"), stream.Language)), stream.Codec && attributes.push(createAttribute(globalize.translate("MediaInfoCodec"), stream.Codec.toUpperCase())), stream.CodecTag && attributes.push(createAttribute(globalize.translate("MediaInfoCodecTag"), stream.CodecTag)), null != stream.IsAVC && attributes.push(createAttribute("AVC", stream.IsAVC ? "Yes" : "No")), stream.Profile && attributes.push(createAttribute(globalize.translate("MediaInfoProfile"), stream.Profile)), stream.Level && attributes.push(createAttribute(globalize.translate("MediaInfoLevel"), stream.Level)), (stream.Width || stream.Height) && attributes.push(createAttribute(globalize.translate("MediaInfoResolution"), stream.Width + "x" + stream.Height)), stream.AspectRatio && "mjpeg" != stream.Codec && attributes.push(createAttribute(globalize.translate("MediaInfoAspectRatio"), stream.AspectRatio)), "Video" == stream.Type && (null != stream.IsAnamorphic && attributes.push(createAttribute(globalize.translate("MediaInfoAnamorphic"), stream.IsAnamorphic ? "Yes" : "No")), attributes.push(createAttribute(globalize.translate("MediaInfoInterlaced"), stream.IsInterlaced ? "Yes" : "No"))), (stream.AverageFrameRate || stream.RealFrameRate) && attributes.push(createAttribute(globalize.translate("MediaInfoFramerate"), stream.AverageFrameRate || stream.RealFrameRate)), stream.ChannelLayout && attributes.push(createAttribute(globalize.translate("MediaInfoLayout"), stream.ChannelLayout)), stream.Channels && attributes.push(createAttribute(globalize.translate("MediaInfoChannels"), stream.Channels + " ch")), stream.BitRate && "mjpeg" != stream.Codec && attributes.push(createAttribute(globalize.translate("MediaInfoBitrate"), parseInt(stream.BitRate / 1e3) + " kbps")), stream.SampleRate && attributes.push(createAttribute(globalize.translate("MediaInfoSampleRate"), stream.SampleRate + " Hz")), stream.VideoRange && "SDR" !== stream.VideoRange && attributes.push(createAttribute(globalize.translate("VideoRange"), stream.VideoRange)), stream.ColorPrimaries && attributes.push(createAttribute(globalize.translate("ColorPrimaries"), stream.ColorPrimaries)), stream.ColorSpace && attributes.push(createAttribute(globalize.translate("ColorSpace"), stream.ColorSpace)), stream.ColorTransfer && attributes.push(createAttribute(globalize.translate("ColorTransfer"), stream.ColorTransfer)), stream.BitDepth && attributes.push(createAttribute(globalize.translate("MediaInfoBitDepth"), stream.BitDepth + " bit")), stream.PixelFormat && attributes.push(createAttribute(globalize.translate("MediaInfoPixelFormat"), stream.PixelFormat)), stream.RefFrames && attributes.push(createAttribute(globalize.translate("MediaInfoRefFrames"), stream.RefFrames)), stream.NalLengthSize && attributes.push(createAttribute("NAL", stream.NalLengthSize)), "Video" != stream.Type && attributes.push(createAttribute(globalize.translate("MediaInfoDefault"), stream.IsDefault ? "Yes" : "No")), "Subtitle" == stream.Type && (attributes.push(createAttribute(globalize.translate("MediaInfoForced"), stream.IsForced ? "Yes" : "No")), attributes.push(createAttribute(globalize.translate("MediaInfoExternal"), stream.IsExternal ? "Yes" : "No"))), "Video" == stream.Type && version.Timestamp && attributes.push(createAttribute(globalize.translate("MediaInfoTimestamp"), version.Timestamp)), html += attributes.join("<br/>"), html += "</div>"
             }
         }
         if (version.Container && (html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoContainer") + '</span><span class="mediaInfoAttribute">' + version.Container + "</span></div>"), version.Formats && version.Formats.length, version.Path && "Http" != version.Protocol && user && user.Policy.IsAdministrator && (html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoPath") + '</span><span class="mediaInfoAttribute">' + version.Path + "</span></div>"), version.Size) {

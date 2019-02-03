@@ -23,7 +23,7 @@ define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusMana
         if (!target) {
 
             require(['toast'], function (toast) {
-                toast(globalize.translate('sharedcomponents#PleaseSelectDeviceToSyncTo'));
+                toast(globalize.translate('PleaseSelectDeviceToSyncTo'));
             });
             return false;
         }
@@ -75,8 +75,8 @@ define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusMana
         require(['toast'], function (toast) {
 
             var msg = targetId === apiClient.deviceId() ?
-                globalize.translate('sharedcomponents#DownloadingDots') :
-                globalize.translate('sharedcomponents#SyncingDots');
+                globalize.translate('DownloadingDots') :
+                globalize.translate('SyncingDots');
 
             toast(msg);
         });
@@ -201,7 +201,7 @@ define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusMana
         var mode = options.mode;
         var targetContainerClass = mode === 'download' ? ' hide' : '';
 
-        var syncTargetLabel = mode === 'convert' ? globalize.translate('sharedcomponents#LabelConvertTo') : globalize.translate('sharedcomponents#LabelSyncTo');
+        var syncTargetLabel = mode === 'convert' ? globalize.translate('LabelConvertTo') : globalize.translate('LabelSyncTo');
 
         if (options.readOnlySyncTarget) {
             html += '<div class="inputContainer' + targetContainerClass + '">';
@@ -220,29 +220,29 @@ define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusMana
             }).join('');
             html += '</select>';
             if (!targets.length) {
-                html += '<div class="fieldDescription">' + globalize.translate('sharedcomponents#LabelSyncNoTargetsHelp') + '</div>';
+                html += '<div class="fieldDescription">' + globalize.translate('LabelSyncNoTargetsHelp') + '</div>';
             }
 
             if (appHost.supports('externallinks')) {
-                html += '<div class="fieldDescription"><a is="emby-linkbutton" class="button-link lnkLearnMore" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank">' + globalize.translate('sharedcomponents#LearnMore') + '</a></div>';
+                html += '<div class="fieldDescription"><a is="emby-linkbutton" class="button-link lnkLearnMore" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank">' + globalize.translate('LearnMore') + '</a></div>';
             }
             html += '</div>';
         }
 
         html += '<div class="fldProfile selectContainer hide">';
-        html += '<select is="emby-select" id="selectProfile" label="' + globalize.translate('sharedcomponents#LabelProfile') + '">';
+        html += '<select is="emby-select" id="selectProfile" label="' + globalize.translate('LabelProfile') + '">';
         html += '</select>';
         html += '<div class="fieldDescription profileDescription"></div>';
         html += '</div>';
 
         html += '<div class="fldQuality selectContainer hide">';
-        html += '<select is="emby-select" id="selectQuality" required="required" label="' + globalize.translate('sharedcomponents#LabelQuality') + '">';
+        html += '<select is="emby-select" id="selectQuality" required="required" label="' + globalize.translate('LabelQuality') + '">';
         html += '</select>';
         html += '<div class="fieldDescription qualityDescription"></div>';
         html += '</div>';
 
         html += '<div class="fldBitrate inputContainer hide">';
-        html += '<input is="emby-input" type="number" step=".1" min=".1" id="txtBitrate" label="' + globalize.translate('sharedcomponents#LabelBitrateMbps') + '"/>';
+        html += '<input is="emby-input" type="number" step=".1" min=".1" id="txtBitrate" label="' + globalize.translate('LabelBitrateMbps') + '"/>';
         html += '</div>';
 
         if (dialogOptions.Options.indexOf('UnwatchedOnly') !== -1) {
@@ -251,17 +251,17 @@ define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusMana
             html += '<input is="emby-checkbox" type="checkbox" id="chkUnwatchedOnly"/>';
 
             if (mode === 'convert') {
-                html += '<span>' + globalize.translate('sharedcomponents#ConvertUnwatchedVideosOnly') + '</span>';
+                html += '<span>' + globalize.translate('ConvertUnwatchedVideosOnly') + '</span>';
             } else {
-                html += '<span>' + globalize.translate('sharedcomponents#SyncUnwatchedVideosOnly') + '</span>';
+                html += '<span>' + globalize.translate('SyncUnwatchedVideosOnly') + '</span>';
             }
 
             html += '</label>';
 
             if (mode === 'convert') {
-                html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('sharedcomponents#ConvertUnwatchedVideosOnlyHelp') + '</div>';
+                html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('ConvertUnwatchedVideosOnlyHelp') + '</div>';
             } else {
-                html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('sharedcomponents#SyncUnwatchedVideosOnlyHelp') + '</div>';
+                html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('SyncUnwatchedVideosOnlyHelp') + '</div>';
             }
 
             html += '</div>';
@@ -273,29 +273,29 @@ define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusMana
             html += '<input is="emby-checkbox" type="checkbox" id="chkSyncNewContent"/>';
 
             if (mode === 'convert') {
-                html += '<span>' + globalize.translate('sharedcomponents#AutomaticallyConvertNewContent') + '</span>';
+                html += '<span>' + globalize.translate('AutomaticallyConvertNewContent') + '</span>';
             } else {
-                html += '<span>' + globalize.translate('sharedcomponents#AutomaticallySyncNewContent') + '</span>';
+                html += '<span>' + globalize.translate('AutomaticallySyncNewContent') + '</span>';
             }
 
             html += '</label>';
 
             if (mode === 'convert') {
-                html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('sharedcomponents#AutomaticallyConvertNewContentHelp') + '</div>';
+                html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('AutomaticallyConvertNewContentHelp') + '</div>';
             } else {
-                html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('sharedcomponents#AutomaticallySyncNewContentHelp') + '</div>';
+                html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('AutomaticallySyncNewContentHelp') + '</div>';
             }
             html += '</div>';
         }
 
         if (dialogOptions.Options.indexOf('ItemLimit') !== -1) {
             html += '<div class="inputContainer">';
-            html += '<input is="emby-input" type="number" step="1" min="1" id="txtItemLimit" label="' + globalize.translate('sharedcomponents#LabelItemLimit') + '"/>';
+            html += '<input is="emby-input" type="number" step="1" min="1" id="txtItemLimit" label="' + globalize.translate('LabelItemLimit') + '"/>';
 
             if (mode === 'convert') {
-                html += '<div class="fieldDescription">' + globalize.translate('sharedcomponents#ConvertItemLimitHelp') + '</div>';
+                html += '<div class="fieldDescription">' + globalize.translate('ConvertItemLimitHelp') + '</div>';
             } else {
-                html += '<div class="fieldDescription">' + globalize.translate('sharedcomponents#DownloadItemLimitHelp') + '</div>';
+                html += '<div class="fieldDescription">' + globalize.translate('DownloadItemLimitHelp') + '</div>';
             }
 
             html += '</div>';
@@ -351,20 +351,20 @@ define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusMana
 
             var options = {
 
-                title: globalize.translate('sharedcomponents#HeaderWaitingForWifi'),
-                text: globalize.translate('sharedcomponents#WifiRequiredToDownload')
+                title: globalize.translate('HeaderWaitingForWifi'),
+                text: globalize.translate('WifiRequiredToDownload')
             };
 
             var items = [];
 
             items.push({
-                name: options.confirmText || globalize.translate('sharedcomponents#ButtonOk'),
+                name: options.confirmText || globalize.translate('ButtonOk'),
                 id: 'ok',
                 type: 'submit'
             });
 
             items.push({
-                name: options.cancelText || globalize.translate('sharedcomponents#HeaderDownloadSettings'),
+                name: options.cancelText || globalize.translate('HeaderDownloadSettings'),
                 id: 'downloadsettings',
                 type: 'cancel'
             });
@@ -491,14 +491,14 @@ define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusMana
             html += '<h3 class="formDialogHeaderTitle">';
 
             var syncButtonLabel = options.mode === 'download' ?
-                globalize.translate('sharedcomponents#Download') :
-                (options.mode === 'convert' ? globalize.translate('sharedcomponents#Convert') : globalize.translate('sharedcomponents#Sync'));
+                globalize.translate('Download') :
+                (options.mode === 'convert' ? globalize.translate('Convert') : globalize.translate('Sync'));
 
             html += syncButtonLabel;
             html += '</h3>';
 
             if (appHost.supports('externallinks')) {
-                html += '<a is="emby-linkbutton" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" class="button-link lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><i class="md-icon">info</i><span>' + globalize.translate('sharedcomponents#Help') + '</span></a>';
+                html += '<a is="emby-linkbutton" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" class="button-link lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><i class="md-icon">info</i><span>' + globalize.translate('Help') + '</span></a>';
             }
 
             html += '</div>';
