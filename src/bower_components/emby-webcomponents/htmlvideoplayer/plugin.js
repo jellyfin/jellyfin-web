@@ -1443,9 +1443,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var list = [];
 
         var video = document.createElement('video');
-        //if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === "function") {
-        //    list.push('PictureInPicture');
-        //}
+        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
+            list.push('PictureInPicture');
+        }
         if (document.pictureInPictureEnabled) {
             list.push('PictureInPicture');
         }
