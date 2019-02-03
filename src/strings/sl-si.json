@@ -16,6 +16,7 @@
   "FeatureRequiresJellyfinPremiere": "Uporaba te funkcionalnosti zahteva aktivno Jellyfin Premiere narocnino.",
   "FolderTypeMixed": "Mesane vsebine",
   "FolderTypeTvShows": "TV",
+  "HeaderAddToCollection": "Dodaj v Zbirko",
   "HeaderAddUser": "Dodaj Uporabnika",
   "HeaderAutomaticUpdates": "Samodejne Posodobitve",
   "HeaderAvailableServices": "Razpolozljive Storitve",
@@ -77,7 +78,9 @@
   "OptionReleaseDate": "Datum Izdaje",
   "OptionUnplayed": "Nepredvajano",
   "OptionWriters": "Pisci",
+  "ParentalRating": "Parental Rating",
   "RegisterWithPayPal": "Registriraj se z PayPal-om",
+  "Settings": "Nastavitve",
   "TabAccess": "Dostop",
   "TabAlbumArtists": "Izvajalci Albumov",
   "TabArtists": "Izvajalci",
@@ -112,14 +115,5 @@
   "ViewTypeMusicFavoriteAlbums": "Priljubljeni Albumi",
   "ViewTypeMusicFavoriteArtists": "Priljubljeni Izvajalci",
   "ViewTypeMusicFavoriteSongs": "Priljubljene skladbe",
-  "WelcomeToProject": "Dobrodosli v Jellyfin!",
-  "FeatureRequiresJellyfinPremiere": "Uporaba te funkcionalnosti zahteva aktivno Jellyfin Premiere narocnino.",
-  "HeaderAddToCollection": "Dodaj v Zbirko",
-  "LabelArtists": "Izvajalci:",
-  "LabelContentType": "Tip vsebine:",
-  "LabelCountry": "Drzava:",
-  "LabelLanguage": "Jezik:",
-  "LabelQuality": "Kvaliteta:",
-  "ParentalRating": "Parental Rating",
-  "Settings": "Nastavitve"
+  "WelcomeToProject": "Dobrodosli v Jellyfin!"
 }

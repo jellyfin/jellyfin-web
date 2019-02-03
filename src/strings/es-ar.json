@@ -22,6 +22,7 @@
   "LabelYoureDone": "Ha terminado!",
   "MissingEpisode": "Falta capítulo.",
   "MoreUsersCanBeAddedLater": "Más usuarios se pueden agregar más tarde dentro del panel.",
+  "NewCollectionNameExample": "Ejemplo: Colección de Star Wars",
   "OptionBirthLocation": "Lugar de nacimiento",
   "OptionEpisodeSortName": "Nombre corto del capítulo",
   "OptionImages": "Imágenes",
@@ -32,6 +33,7 @@
   "OptionStudios": "Estudios",
   "OptionTags": "Etiquetas",
   "OptionUnairedEpisode": "Capítulos no emitidos",
+  "ParentalRating": "Parental Rating",
   "TabEpisodes": "Capítulos",
   "TellUsAboutYourself": "Contanos acerca de vos",
   "TextEnjoyBonusFeatures": "Disfrute los extras",
@@ -42,7 +44,5 @@
   "ValueConditions": "Condiciones: {0}",
   "ValueVideoCodec": "Códec de video: {0}",
   "WelcomeToProject": "Bienvenidos a Jellyfin!",
-  "WizardCompleted": "Eso es todo lo que necesitamos por ahora. Jellyfin ha comenzado a recolectar información sobre su biblioteca de medios. Dale un vistazo a algunas de nuestras aplicaciones y, a continuación, hacé clic en <b>Finalizar</b> para ver el <b>Panel de control del servidor</b>.",
-  "NewCollectionNameExample": "Ejemplo: Colección de Star Wars",
-  "ParentalRating": "Parental Rating"
+  "WizardCompleted": "Eso es todo lo que necesitamos por ahora. Jellyfin ha comenzado a recolectar información sobre su biblioteca de medios. Dale un vistazo a algunas de nuestras aplicaciones y, a continuación, hacé clic en <b>Finalizar</b> para ver el <b>Panel de control del servidor</b>."
 }
