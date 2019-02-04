@@ -28,28 +28,27 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
     }
 
     function renderPluginInfo(page, pkg, pluginSecurityInfo) {
-        if (!AppInfo.isNativeApp)
-            if (pkg.isPremium) {
-                $(".premiumPackage", page).show();
-                var regStatus = "";
-                if (pkg.isRegistered) regStatus += "<p style='color:green;'>", regStatus += globalize.translate("MessageFeatureIncludedWithSupporter");
-                else {
-                    var expDateTime = new Date(pkg.expDate).getTime(),
-                        nowTime = (new Date).getTime();
-                    expDateTime <= nowTime ? (regStatus += "<p style='color:red;'>", regStatus += globalize.translate("MessageTrialExpired")) : expDateTime > new Date(1970, 1, 1).getTime() && (regStatus += "<p style='color:blue;'>", regStatus += globalize.translate("MessageTrialWillExpireIn").replace("{0}", Math.round(expDateTime - nowTime) / 864e5))
-                }
-                if (regStatus += "</p>", $("#regStatus", page).html(regStatus), pluginSecurityInfo.IsMBSupporter)
-                    if ($(".premiumDescription", page).hide(), $(".supporterDescription", page).hide(), pkg.price > 0) {
-                        $(".premiumHasPrice", page).show(), $("#featureId", page).val(pkg.featureId), $("#featureName", page).val(pkg.name), $("#amount", page).val(pkg.price), $("#regPrice", page).html("<h3>" + globalize.translate("ValuePriceUSD").replace("{0}", "$" + pkg.price.toFixed(2)) + "</h3>"), $("#ppButton", page).hide();
-                        var url = "https://mb3admin.local/admin/service/user/getPayPalEmail?id=" + pkg.owner;
-                        fetch(url).then(function(response) {
-                            return response.json()
-                        }).then(function(dev) {
-                            dev.payPalEmail && ($("#payPalEmail", page).val(dev.payPalEmail), $("#ppButton", page).show())
-                        })
-                    } else $(".premiumHasPrice", page).hide();
-                else pkg.price ? ($(".premiumDescription", page).show(), $(".supporterDescription", page).hide()) : ($(".premiumDescription", page).hide(), $(".supporterDescription", page).show()), $("#ppButton", page).hide()
-            } else $(".premiumPackage", page).hide()
+        if (pkg.isPremium) {
+            $(".premiumPackage", page).show();
+            var regStatus = "";
+            if (pkg.isRegistered) regStatus += "<p style='color:green;'>", regStatus += globalize.translate("MessageFeatureIncludedWithSupporter");
+            else {
+                var expDateTime = new Date(pkg.expDate).getTime(),
+                    nowTime = (new Date).getTime();
+                expDateTime <= nowTime ? (regStatus += "<p style='color:red;'>", regStatus += globalize.translate("MessageTrialExpired")) : expDateTime > new Date(1970, 1, 1).getTime() && (regStatus += "<p style='color:blue;'>", regStatus += globalize.translate("MessageTrialWillExpireIn").replace("{0}", Math.round(expDateTime - nowTime) / 864e5))
+            }
+            if (regStatus += "</p>", $("#regStatus", page).html(regStatus), pluginSecurityInfo.IsMBSupporter)
+                if ($(".premiumDescription", page).hide(), $(".supporterDescription", page).hide(), pkg.price > 0) {
+                    $(".premiumHasPrice", page).show(), $("#featureId", page).val(pkg.featureId), $("#featureName", page).val(pkg.name), $("#amount", page).val(pkg.price), $("#regPrice", page).html("<h3>" + globalize.translate("ValuePriceUSD").replace("{0}", "$" + pkg.price.toFixed(2)) + "</h3>"), $("#ppButton", page).hide();
+                    var url = "https://mb3admin.local/admin/service/user/getPayPalEmail?id=" + pkg.owner;
+                    fetch(url).then(function(response) {
+                        return response.json()
+                    }).then(function(dev) {
+                        dev.payPalEmail && ($("#payPalEmail", page).val(dev.payPalEmail), $("#ppButton", page).show())
+                    })
+                } else $(".premiumHasPrice", page).hide();
+            else pkg.price ? ($(".premiumDescription", page).show(), $(".supporterDescription", page).hide()) : ($(".premiumDescription", page).hide(), $(".supporterDescription", page).show()), $("#ppButton", page).hide()
+        } else $(".premiumPackage", page).hide()
     }
 
     function renderPackage(pkg, installedPlugins, pluginSecurityInfo, page) {

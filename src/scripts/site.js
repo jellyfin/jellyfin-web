@@ -57,8 +57,8 @@ var Dashboard = {
         onServerChanged: function(userId, accessToken, apiClient) {
             apiClient = apiClient || window.ApiClient, window.ApiClient = apiClient
         },
-        logout: function(logoutWithServer) {
-            function onLogoutDone() {
+        logout: function() {
+            ConnectionManager.logout().then(function() {
                 var loginPage;
                 if (AppInfo.isNativeApp) {
                     loginPage = "selectserver.html";
@@ -67,7 +67,7 @@ var Dashboard = {
                     loginPage = "login.html";
                 }
                 Dashboard.navigate(loginPage);
-            }!1 === logoutWithServer ? onLogoutDone() : ConnectionManager.logout().then(onLogoutDone)
+            }
         },
         getConfigurationPageUrl: function(name) {
             return "configurationpage?name=" + encodeURIComponent(name)
@@ -959,10 +959,18 @@ var Dashboard = {
 
     function onWebComponentsReady(browser) {
         var initialDependencies = [];
-        window.Promise && !browser.web0s || initialDependencies.push("bower_components/emby-webcomponents/native-promise-only/lib/npo.src"), initRequireWithBrowser(browser), "cordova" !== self.appMode && "android" !== self.appMode || (AppInfo.isNativeApp = !0), require(initialDependencies, init)
+        if (!window.Promise || browser.web0s) {
+            initialDependencies.push("bower_components/emby-webcomponents/native-promise-only/lib/npo.src");
+        }
+        initRequireWithBrowser(browser);
+        if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
+            AppInfo.isNativeApp = true;
+        }
+        require(initialDependencies, init);
     }
+
     var localApiClient;
-    ! function() {
+    return function() {
         var urlArgs = "v=" + (window.dashboardVersion || (new Date).getDate());
         var bowerPath = getBowerPath();
         var apiClientBowerPath = bowerPath + "/emby-apiclient";
@@ -1252,7 +1260,7 @@ var Dashboard = {
             }, appRouter.showVideoOsd = function() {
                 return Dashboard.navigate("videoosd.html")
             }, appRouter.showSelectServer = function() {
-                AppInfo.isNativeApp ? Dashboard.navigate("selectserver.html") : Dashboard.navigate("login.html")
+                Dashboard.navigate(AppInfo.isNativeApp ? "selectserver.html" : "login.html")
             }, appRouter.showWelcome = function() {
                 Dashboard.navigate(AppInfo.isNativeApp ? "selectserver.html" : "login.html")
             }, appRouter.showSettings = function() {

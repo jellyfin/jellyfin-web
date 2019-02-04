@@ -198,12 +198,10 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += "</h3>";
         if (user.localUser) {
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkMySettings" href="mypreferencesmenu.html"><i class="md-icon navMenuOptionIcon">settings</i><span class="navMenuOptionText">' + globalize.translate("ButtonSettings") + "</span></a>";
-        }
-        if (AppInfo.isNativeApp) {
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="md-icon navMenuOptionIcon">wifi</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
-        }
-        if (user.localUser && !user.localUser.EnableAutoLogin) {
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="md-icon navMenuOptionIcon">exit_to_app</i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
+            if (!localUser.EnableAutoLogin) {
+                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="md-icon navMenuOptionIcon">exit_to_app</i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
+            }
         }
         html += "</div>";
 
