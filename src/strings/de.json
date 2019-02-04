@@ -2130,5 +2130,7 @@
     "LabelProfileCodecs": "Codecs:",
     "LabelProfileContainer": "Container:",
     "LabelServerPort": "Port:",
-    "LabelSkin": ""
+    "LabelSkin": "",
+    "Art": "Kunst",
+    "Name": "Name"
 }
