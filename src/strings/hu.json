@@ -988,5 +988,10 @@
     "Banner": "Banner",
     "BestFit": "Legjobb egyezés",
     "BirthLocation": "Születési hely",
-    "Box": "Box"
+    "Box": "Box",
+    "AlwaysPlaySubtitlesHelp": "A nyelvi beállításoknak megfelelő feliratok az audió nyelvétől függetlenül kerülnek betöltésre.",
+    "Artists": "Művészek",
+    "Blacklist": "Feketelista",
+    "BookLibraryHelp": "Az audió- és szövegkönyvek támogatottak. Nézd meg a {0} Jellyfin Könyvelnevezési útmutatót {1}.",
+    "BrowsePluginCatalogMessage": "Böngéssz a Bővítmény katalógusunkban a rendelkezésre álló bővítmények megtekintéséhez."
 }
