@@ -1446,7 +1446,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function" || document.pictureInPictureEnabled) {
             list.push('PictureInPicture');
         }
-
         else if (browser.ipad) {
 
             // Unfortunately this creates a false positive on devices where its' not actually supported
