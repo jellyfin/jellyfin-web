@@ -89,9 +89,10 @@ define(["appSettings", "dom", "connectionManager", "loading", "cardStyle", "emby
             var apiClient = getApiClient();
             apiClient.getPublicUsers().then(function(users) {
                 users.length ? users.length && users[0].EnableAutoLogin ? authenticateUserByName(view, apiClient, users[0].Name, "") : (showVisualForm(), loadUserList(view, apiClient, users)) : (view.querySelector("#txtManualName").value = "", showManualForm(view, !1, !1)), loading.hide()
-            }), apiClient.getJSON(apiClient.getUrl("Branding/Configuration")).then(function(options) {
+            });
+            apiClient.getJSON(apiClient.getUrl("Branding/Configuration")).then(function(options) {
                 view.querySelector(".disclaimer").textContent = options.LoginDisclaimer || ""
-            }), AppInfo.isNativeApp ? view.querySelector(".connectButtons").classList.remove("hide") : view.querySelector(".connectButtons").classList.add("hide")
-        })
+            });
+        });
     }
 });

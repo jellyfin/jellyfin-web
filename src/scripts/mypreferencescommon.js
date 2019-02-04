@@ -21,6 +21,7 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-linkbutton"], fun
             } else {
                 page.querySelector(".selectServer").classList.add("hide");
             }
+
             connectionManager.user(ApiClient).then(function(user) {
                 if (user.localUser && !user.localUser.EnableAutoLogin) {
                     view.querySelector(".btnLogout").classList.remove("hide");
