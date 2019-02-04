@@ -1443,7 +1443,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var list = [];
 
         var video = document.createElement('video');
-        if ((video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") || (document.pictureInPictureEnabled)) {
+        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function" || document.pictureInPictureEnabled) {
             list.push('PictureInPicture');
         }
 
