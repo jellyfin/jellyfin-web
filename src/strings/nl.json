@@ -2079,5 +2079,8 @@
     "GenresValue": "Genres: {0}",
     "HeaderAlbums": "Albums",
     "HeaderAudioLanguages": "Geluidstalen",
-    "HeaderCameraUpload": "Cameraupload"
+    "HeaderCameraUpload": "Cameraupload",
+    "HeaderCastAndCrew": "Cast & Crew",
+    "HeaderCastCrew": "Cast & Crew",
+    "HeaderClients": "Cliënten"
 }
