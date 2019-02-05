@@ -503,14 +503,14 @@
     "HeaderExternalIds": "Id esterni:",
     "HeaderExternalPlayerPlayback": "Riproduzione con un player esterno",
     "HeaderExternalServices": "Servizi Esterni",
-    "HeaderFavoriteAlbums": "Album Preferiti",
+    "HeaderFavoriteAlbums": "Album preferiti",
     "HeaderFavoriteArtists": "Artisti Preferiti",
     "HeaderFavoriteCollections": "Collezioni Preferite",
     "HeaderFavoriteEpisodes": "Episodi Preferiti",
     "HeaderFavoriteMovies": "Film Preferiti",
     "HeaderFavoritePlaylists": "Playlist Preferite",
     "HeaderFavoriteShows": "Serie TV Preferite",
-    "HeaderFavoriteSongs": "Canzoni Preferite",
+    "HeaderFavoriteSongs": "Brani Preferiti",
     "HeaderFavoriteVideos": "Video Preferiti",
     "HeaderFeatureAccess": "Accesso alle funzionalità",
     "HeaderFeatures": "Caratteristiche",
@@ -2095,5 +2095,6 @@
     "XmlTvPathHelp": "Un percorso di un file xml tv. Jellyfin leggerà questo file e controlla periodicamente per gli aggiornamenti. Sei responsabile della creazione e dell'aggiornamento del file.",
     "XmlTvSportsCategoriesHelp": "I programmi con queste categorie saranno visualizzati come programmi sportivi. Separa multipli con '|'.",
     "Yes": "Si",
-    "Yesterday": "Ieri"
+    "Yesterday": "Ieri",
+    "Channels": "Canali"
 }
