@@ -55,21 +55,37 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
         var installedPlugin = installedPlugins.filter(function(ip) {
             return ip.Name == pkg.name
         })[0];
-        if (populateVersions(pkg, page, installedPlugin), populateHistory(pkg, page), $(".pluginName", page).html(pkg.name), "Server" == pkg.targetSystem) $("#btnInstallDiv", page).removeClass("hide"), $("#nonServerMsg", page).hide(), $("#pSelectVersion", page).removeClass("hide");
-        else {
-            $("#btnInstallDiv", page).addClass("hide"), $("#pSelectVersion", page).addClass("hide");
+        populateVersions(pkg, page, installedPlugin);
+        populateHistory(pkg, page);
+        $(".pluginName", page).html(pkg.name);
+        if ("Server" == pkg.targetSystem) {
+            $("#btnInstallDiv", page).removeClass("hide");
+            $("#nonServerMsg", page).hide();
+            $("#pSelectVersion", page).removeClass("hide");
+        } else {
+            $("#btnInstallDiv", page).addClass("hide");
+            $("#pSelectVersion", page).addClass("hide");
             var msg = globalize.translate("MessageInstallPluginFromApp");
-            $("#nonServerMsg", page).html(msg).show()
+            $("#nonServerMsg", page).html(msg).show();
         }
-        if (pkg.shortDescription ? $("#tagline", page).show().html(pkg.shortDescription) : $("#tagline", page).hide(), $("#overview", page).html(pkg.overview || ""), $("#developer", page).html(pkg.owner), renderPluginInfo(page, pkg, pluginSecurityInfo), pkg.richDescUrl ? ($("#pViewWebsite", page).show(), $("#pViewWebsite a", page).attr("href", pkg.richDescUrl)) : $("#pViewWebsite", page).hide(), pkg.previewImage || pkg.thumbImage) {
+        pkg.shortDescription ? $("#tagline", page).show().html(pkg.shortDescription) : $("#tagline", page).hide();
+        $("#overview", page).html(pkg.overview || "");
+        $("#developer", page).html(pkg.owner);
+        renderPluginInfo(page, pkg, pluginSecurityInfo);
+        pkg.richDescUrl ? ($("#pViewWebsite", page).show(), $("#pViewWebsite a", page).attr("href", pkg.richDescUrl)) : $("#pViewWebsite", page).hide();
+        if (pkg.previewImage || pkg.thumbImage) {
             var img = pkg.previewImage ? pkg.previewImage : pkg.thumbImage;
-            $("#pPreviewImage", page).show().html("<img class='pluginPreviewImg' src='" + img + "' style='max-width: 100%;' />")
-        } else $("#pPreviewImage", page).hide().html("");
+            $("#pPreviewImage", page).show().html("<img class='pluginPreviewImg' src='" + img + "' style='max-width: 100%;' />");
+        } else {
+            $("#pPreviewImage", page).hide().html("");
+        }
         if (installedPlugin) {
             var currentVersionText = globalize.translate("MessageYouHaveVersionInstalled").replace("{0}", "<strong>" + installedPlugin.Version + "</strong>");
-            $("#pCurrentVersion", page).show().html(currentVersionText)
-        } else $("#pCurrentVersion", page).hide().html("");
-        loading.hide()
+            $("#pCurrentVersion", page).show().html(currentVersionText);
+        } else {
+            $("#pCurrentVersion", page).hide().html("");
+        }
+        loading.hide();
     }
 
     function alertText(options) {
