@@ -44,10 +44,19 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
             var msg = globalize.translate("MessageInstallPluginFromApp");
             $("#nonServerMsg", page).html(msg).show();
         }
-        pkg.shortDescription ? $("#tagline", page).show().html(pkg.shortDescription) : $("#tagline", page).hide();
+        if (pkg.shortDescription) {
+            $("#tagline", page).show().html(pkg.shortDescription);
+        } else {
+            $("#tagline", page).hide();
+        }
         $("#overview", page).html(pkg.overview || "");
         $("#developer", page).html(pkg.owner);
-        pkg.richDescUrl ? ($("#pViewWebsite", page).show(), $("#pViewWebsite a", page).attr("href", pkg.richDescUrl)) : $("#pViewWebsite", page).hide();
+        if (pkg.richDescUrl) {
+            $("#pViewWebsite", page).show();
+            $("#pViewWebsite a", page).attr("href", pkg.richDescUrl);
+        } else {
+            $("#pViewWebsite", page).hide();
+        }
         if (pkg.previewImage || pkg.thumbImage) {
             var img = pkg.previewImage ? pkg.previewImage : pkg.thumbImage;
             $("#pPreviewImage", page).show().html("<img class='pluginPreviewImg' src='" + img + "' style='max-width: 100%;' />");
