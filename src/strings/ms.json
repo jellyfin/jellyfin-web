@@ -33,17 +33,18 @@
     "AllowDeletionFromAll": "Membenarkan penghapusan media daripada semua perpustakaan",
     "AllowMediaConversion": "Membolehkan penukaran media",
     "AllowMediaConversionHelp": "Memberi atau menolak akses penukaran ciri media",
-    "Albums": "Album",
+    "Albums": "Album-album",
     "Alerts": "Pemberitahuan",
     "AllChannels": "Semua saluran",
     "AllComplexFormats": "Semua format kompleks (ASS, SSA, VOBSUB, PGS, SUB/IDX, dan sebagainya)",
     "AllEpisodes": "Semua episod",
     "AllLanguages": "Semua bahasa",
-    "AllowOnTheFlySubtitleExtraction": "Membolehkan pengekstrakan sari kata dengan mudah",
+    "AllowOnTheFlySubtitleExtraction": "Membolehkan pengekstrakan sarikata serta-merta",
     "AllowOnTheFlySubtitleExtractionHelp": "Sarikata-sarikata yang sedia ada dapat diekstrak dari video-video dan dihantar ke aplikasi Jellyfin dalam teks biasa. Ini untuk menghindari video daripada transkoding. Pada sistem-sistem lain, ia dapat mengambil masa panjang dan menyebabkan video main balik terhenti semasa proses pengekstrakan. Ciri ini dapat dimatikan supaya sarikata yang sedia ada akan dibakar bersama video transkoding, jika ianya tidak disokong secara asal oleh peranti klien.",
-    "AllowRemoteAccess": "Membolehkan persambungan jauh ke Pelayan Jellyfin.",
+    "AllowRemoteAccess": "Membenarkan persambungan jauh ke pelayan Jellyfin ini.",
     "AllowRemoteAccessHelp": "Jika tidak disemak, semua persambungan jauh akan disekat.",
     "AllowSeasonalThemes": "Membenarkan tema bermusim secara automatik",
     "AllowSeasonalThemesHelp": "Jika diaktifkan, tema bermusim selalunya akan mengatasi tetapan tema anda.",
-    "Advanced": "Carian terperinci"
+    "Advanced": "Carian terperinci",
+    "AllowHWTranscodingHelp": "Jika diaktifkan, penala dibolehkan untuk transkod strim dengan serta-merta. Ini dapat bantu mengurangkan transkoding yang diperlukan dari pelayan Jellyfin."
 }
