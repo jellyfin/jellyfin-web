@@ -46,5 +46,6 @@
     "AllowSeasonalThemes": "Membenarkan tema bermusim secara automatik",
     "AllowSeasonalThemesHelp": "Jika diaktifkan, tema bermusim selalunya akan mengatasi tetapan tema anda.",
     "Advanced": "Carian terperinci",
-    "AllowHWTranscodingHelp": "Jika diaktifkan, penala dibolehkan untuk transkod strim dengan serta-merta. Ini dapat bantu mengurangkan transkoding yang diperlukan dari pelayan Jellyfin."
+    "AllowHWTranscodingHelp": "Jika diaktifkan, penala dibolehkan untuk transkod strim dengan serta-merta. Ini dapat bantu mengurangkan transkoding yang diperlukan dari pelayan Jellyfin.",
+    "AlwaysPlaySubtitles": "Sentiasa main sarikata"
 }
