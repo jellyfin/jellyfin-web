@@ -32,5 +32,11 @@
     "AllLibraries": "Semua perpustakaan",
     "AllowDeletionFromAll": "Membenarkan penghapusan media daripada semua perpustakaan",
     "AllowMediaConversion": "Benarkan penukaran media",
-    "AllowMediaConversionHelp": "Berikan atau tolak akses kepada penukaran ciri media"
+    "AllowMediaConversionHelp": "Berikan atau tolak akses kepada penukaran ciri media",
+    "Albums": "Album",
+    "Alerts": "Pemberitahuan",
+    "AllChannels": "Semua saluran",
+    "AllComplexFormats": "Semua format kompleks (ASS, SSA, VOBSUB, PGS, SUB/IDX, dan sebagainya)",
+    "AllEpisodes": "Semua episod",
+    "AllLanguages": "Semua bahasa"
 }
