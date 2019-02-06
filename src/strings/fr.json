@@ -1442,7 +1442,7 @@
     "MessagePluginRequiresSubscription": "Cette extension nécessitera un abonnement Jellyfin Premiere au-delà de la période d'essai gratuite de 14 jours.",
     "MessagePremiumPluginRequiresMembership": "Cette extension nécessitera un abonnement Jellyfin Premiere au-delà de la période d'essai gratuite de 14 jours.",
     "MessageReenableUser": "Voir ci-dessous pour le réactiver",
-    "MessageServerConfigurationUpdated": "La configuration du serveur a été mise à jour.",
+    "MessageServerConfigurationUpdated": "La configuration du serveur a été mise à jour",
     "MessageSettingsSaved": "Paramètres enregistrés.",
     "MessageThankYouForConnectSignUp": "Merci de vous être inscrit sur Jellyfin Connect. Un courriel va vous être envoyé, avec les instructions pour confirmer votre nouveau compte. Merci de confirmer ce compte puis de revenir ici pour vous connecter.",
     "MessageThankYouForConnectSignUpNoValidation": "Merci de vous être inscrit sur Jellyfin Connect ! Vous devez maintenant vous connecter avec vos identifiants Jellyfin Connect.",
@@ -2163,5 +2163,6 @@
     "Genres": "Genres",
     "GenresValue": "Genres: {0}",
     "Guide": "Guide",
-    "GuestStar": "Invité vedette"
+    "GuestStar": "Invité vedette",
+    "Photos": "Photos"
 }
