@@ -67,7 +67,7 @@ var Dashboard = {
                     loginPage = "login.html";
                 }
                 Dashboard.navigate(loginPage);
-            }
+            })
         },
         getConfigurationPageUrl: function(name) {
             return "configurationpage?name=" + encodeURIComponent(name)
