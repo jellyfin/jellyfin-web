@@ -44,5 +44,6 @@
     "AllowRemoteAccess": "Membolehkan persambungan jauh ke Pelayan Jellyfin.",
     "AllowRemoteAccessHelp": "Jika tidak disemak, semua persambungan jauh akan disekat.",
     "AllowSeasonalThemes": "Membenarkan tema bermusim secara automatik",
-    "AllowSeasonalThemesHelp": "Jika diaktifkan, tema bermusim selalunya akan mengatasi tetapan tema anda."
+    "AllowSeasonalThemesHelp": "Jika diaktifkan, tema bermusim selalunya akan mengatasi tetapan tema anda.",
+    "Advanced": "Carian terperinci"
 }
