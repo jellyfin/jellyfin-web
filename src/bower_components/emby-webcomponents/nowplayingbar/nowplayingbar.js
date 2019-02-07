@@ -186,12 +186,20 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             volumeSliderContainer.classList.remove('hide');
         }
 
-        volumeSlider.addEventListener('mousemove', function () {
-
+        volumeSlider.addEventListener('change', function () {
             if (currentPlayer) {
                 currentPlayer.setVolume(this.value);
             }
-
+        });
+        volumeSlider.addEventListener('mousemove', function () {
+            if (currentPlayer) {
+                currentPlayer.setVolume(this.value);
+            }
+        });
+        volumeSlider.addEventListener('touchmove', function () {
+            if (currentPlayer) {
+                currentPlayer.setVolume(this.value);
+            }
         });
 
         positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');

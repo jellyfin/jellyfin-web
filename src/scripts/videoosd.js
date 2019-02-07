@@ -1254,7 +1254,13 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         view.querySelector(".buttonMute").addEventListener("click", function () {
             playbackManager.toggleMute(currentPlayer);
         });
+        nowPlayingVolumeSlider.addEventListener("change", function () {
+            playbackManager.setVolume(this.value, currentPlayer);
+        });
         nowPlayingVolumeSlider.addEventListener("mousemove", function () {
+            playbackManager.setVolume(this.value, currentPlayer);
+        });
+        nowPlayingVolumeSlider.addEventListener("touchmove", function () {
             playbackManager.setVolume(this.value, currentPlayer);
         });
         nowPlayingPositionSlider.addEventListener("change", function () {

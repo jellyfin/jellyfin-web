@@ -611,7 +611,13 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 return datetime.getDisplayRunningTime(ticks);
             };
 
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("change", function () {
+                playbackManager.setVolume(this.value, currentPlayer);
+            });
             context.querySelector(".nowPlayingVolumeSlider").addEventListener("mousemove", function () {
+                playbackManager.setVolume(this.value, currentPlayer);
+            });
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("touchmove", function () {
                 playbackManager.setVolume(this.value, currentPlayer);
             });
             context.querySelector(".buttonMute").addEventListener("click", function () {
