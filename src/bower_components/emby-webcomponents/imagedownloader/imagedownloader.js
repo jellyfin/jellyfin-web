@@ -358,7 +358,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
 
             var dlg = dialogHelper.createDialog(dialogOptions);
 
-            dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
+            dlg.innerHTML = globalize.translateDocument(template, 'core');
 
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.on(dlg, false);

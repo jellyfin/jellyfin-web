@@ -287,7 +287,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         require(['text!./playbacksettings.template.html'], function (template) {
 
-            options.element.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
+            options.element.innerHTML = globalize.translateDocument(template, 'core');
 
             options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
 

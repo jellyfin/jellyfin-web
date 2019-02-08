@@ -118,7 +118,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
 
                 var html = '';
 
-                html += globalize.translateDocument(template, 'sharedcomponents');
+                html += globalize.translateDocument(template, 'core');
 
                 dlg.innerHTML = html;
 

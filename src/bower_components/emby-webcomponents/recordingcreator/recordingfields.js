@@ -316,7 +316,7 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
 
                 var options = self.options;
                 var context = options.parent;
-                context.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
+                context.innerHTML = globalize.translateDocument(template, 'core');
 
                 var supporterButtons = context.querySelectorAll('.btnSupporter');
                 for (var i = 0, length = supporterButtons.length; i < length; i++) {
