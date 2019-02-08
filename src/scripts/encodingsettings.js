@@ -90,7 +90,7 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
         var page = this;
         ApiClient.getNamedConfiguration("encoding").then(function(config) {
             ApiClient.getSystemInfo().then(function(systemInfo) {
-                "External" == systemInfo.EncoderLocationType ? (page.querySelector(".fldEncoderPath").classList.add("hide"), page.querySelector(".txtEncoderPath").removeAttribute("required")) : (page.querySelector(".fldEncoderPath").classList.remove("hide"), page.querySelector(".txtEncoderPath").setAttribute("required", "required")), loadPage(page, config, systemInfo)
+                loadPage(page, config, systemInfo)
             })
         })
     })
