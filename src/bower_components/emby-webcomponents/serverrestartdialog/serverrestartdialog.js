@@ -73,7 +73,7 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
 
         dlg.classList.add('formDialog');
 
-        dlg.innerHTML = globalize.translateHtml(template, 'sharedcomponents');
+        dlg.innerHTML = globalize.translateHtml(template, 'core');
 
         dlg.classList.add('align-items-center');
         dlg.classList.add('justify-items-center');

@@ -151,7 +151,7 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
         require(['text!./subtitlesettings.template.html'], function (template) {
 
             options.element.classList.add('subtitlesettings');
-            options.element.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
+            options.element.innerHTML = globalize.translateDocument(template, 'core');
 
             options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
 

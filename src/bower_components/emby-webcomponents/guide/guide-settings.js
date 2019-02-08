@@ -126,7 +126,7 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
 
                 var html = '';
 
-                html += globalize.translateDocument(template, 'sharedcomponents');
+                html += globalize.translateDocument(template, 'core');
 
                 dlg.innerHTML = html;
 

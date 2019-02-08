@@ -1077,7 +1077,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             var html = '';
 
-            html += globalize.translateDocument(template, 'sharedcomponents');
+            html += globalize.translateDocument(template, 'core');
 
             dlg.innerHTML = html;
 
@@ -1117,7 +1117,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
                 require(['text!./metadataeditor.template.html'], function (template) {
 
-                    elem.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
+                    elem.innerHTML = globalize.translateDocument(template, 'core');
 
                     elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
                     elem.querySelector('.btnHeaderSave').classList.remove('hide');

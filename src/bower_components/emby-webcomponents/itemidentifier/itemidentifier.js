@@ -359,7 +359,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
                 dlg.classList.add('recordingDialog');
 
                 var html = '';
-                html += globalize.translateDocument(template, 'sharedcomponents');
+                html += globalize.translateDocument(template, 'core');
 
                 dlg.innerHTML = html;
 
@@ -432,7 +432,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             dlg.classList.add('recordingDialog');
 
             var html = '';
-            html += globalize.translateDocument(template, 'sharedcomponents');
+            html += globalize.translateDocument(template, 'core');
 
             dlg.innerHTML = html;
 

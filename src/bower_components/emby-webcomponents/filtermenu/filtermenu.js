@@ -284,7 +284,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
 
                 html += template;
 
-                dlg.innerHTML = globalize.translateDocument(html, 'sharedcomponents');
+                dlg.innerHTML = globalize.translateDocument(html, 'core');
 
                 var settingElements = dlg.querySelectorAll('.viewSetting');
                 for (var i = 0, length = settingElements.length; i < length; i++) {

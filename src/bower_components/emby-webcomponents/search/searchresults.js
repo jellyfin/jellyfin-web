@@ -610,7 +610,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 template = replaceAll(template, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');
             }
 
-            var html = globalize.translateDocument(template, 'sharedcomponents');
+            var html = globalize.translateDocument(template, 'core');
 
             elem.innerHTML = html;
 

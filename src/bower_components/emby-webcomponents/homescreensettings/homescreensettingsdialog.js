@@ -31,7 +31,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'events', 'home
                 var html = '';
                 var submitted = false;
 
-                html += globalize.translateDocument(template, 'sharedcomponents');
+                html += globalize.translateDocument(template, 'core');
 
                 dlg.innerHTML = html;
 
