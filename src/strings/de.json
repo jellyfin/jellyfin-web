@@ -2144,8 +2144,8 @@
     "LabelVersionNumber": "Version {0}",
     "LabelVideo": "Video:",
     "LabelVideoCodec": "Video: {0}",
-    "LabelWebsite": "Website:",
+    "LabelWebsite": "Webseite:",
     "LeaveBlankToNotSetAPassword": "Optional - frei lassen um kein Passwort zu setzen",
     "LinksValue": "Links: {0}",
-    "MessageImageFileTypeAllowed": "Nur JPEG und PNG Dateien werden unterstützt."
+    "MessageImageFileTypeAllowed": "Nur JPEG- und PNG-Dateien werden unterstützt."
 }
