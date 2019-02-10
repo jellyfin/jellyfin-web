@@ -2148,5 +2148,6 @@
     "LeaveBlankToNotSetAPassword": "Optional - frei lassen um kein Passwort zu setzen",
     "LinksValue": "Links: {0}",
     "MessageImageFileTypeAllowed": "Nur JPEG- und PNG-Dateien werden unterstützt.",
-    "MessageImageTypeNotSelected": "Bitte wähle einen Bildtyp aus dem Drop-Down Menü aus."
+    "MessageImageTypeNotSelected": "Bitte wähle einen Bildtyp aus dem Drop-Down Menü aus.",
+    "Normal": "Normal"
 }
