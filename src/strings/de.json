@@ -2135,5 +2135,17 @@
     "Name": "Name",
     "Songs": "Songs",
     "ValueSpecialEpisodeName": "Extra - {0}",
-    "VersionNumber": "Version {0}"
+    "VersionNumber": "Version {0}",
+    "ButtonInfo": "Info",
+    "ColorPrimaries": "Hauptfarben",
+    "ColorTransfer": "Farbtransfer",
+    "LabelTypeText": "Text",
+    "LabelVersion": "Version:",
+    "LabelVersionNumber": "Version {0}",
+    "LabelVideo": "Video:",
+    "LabelVideoCodec": "Video: {0}",
+    "LabelWebsite": "Website:",
+    "LeaveBlankToNotSetAPassword": "Optional - frei lassen um kein Passwort zu setzen",
+    "LinksValue": "Links: {0}",
+    "MessageImageFileTypeAllowed": "Nur JPEG und PNG Dateien werden unterstützt."
 }
