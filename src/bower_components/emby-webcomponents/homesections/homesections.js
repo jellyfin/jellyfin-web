@@ -76,10 +76,6 @@ define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings
                     style += 'padding: 0 7.5%;';
                 }
 
-                html += '<div class="verticalSection padded-left padded-right customizeSection hide" style="' + style + '">';
-                html += '<a href="' + appRouter.getRouteUrl('settings') + '" is="emby-linkbutton" class="raised block"><span>' + globalize.translate('HeaderCustomizeHomeScreen') + '</span></a>';
-                html += '</div>';
-
                 elem.insertAdjacentHTML('beforeend', html);
 
                 return resume(elem, {
