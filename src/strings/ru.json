@@ -1219,7 +1219,7 @@
     "LabelResumePoint": "Точка возобновления:",
     "LabelRunningOnPort": "Работает на HTTP-порту {0}.",
     "LabelRunningOnPorts": "Работает на HTTP-порту {0} и HTTPS-порту {1}.",
-    "LabelRunningTimeValue": "Продолж-ть: {0}",
+    "LabelRunningTimeValue": "Длительность: {0}",
     "LabelRuntimeMinutes": "Длительность, мин:",
     "LabelSaveLocalMetadata": "Сохранять иллюстрации внутри медиапапок",
     "LabelSaveLocalMetadataHelp": "При сохранении иллюстраций внутри медиапапок, те помещаются в месте, где их можно легко править.",
