@@ -186,21 +186,15 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             volumeSliderContainer.classList.remove('hide');
         }
 
-        volumeSlider.addEventListener('change', function () {
+        function setVolume() {
             if (currentPlayer) {
                 currentPlayer.setVolume(this.value);
             }
-        });
-        volumeSlider.addEventListener('mousemove', function () {
-            if (currentPlayer) {
-                currentPlayer.setVolume(this.value);
-            }
-        });
-        volumeSlider.addEventListener('touchmove', function () {
-            if (currentPlayer) {
-                currentPlayer.setVolume(this.value);
-            }
-        });
+        }
+        volumeSlider.addEventListener('change', setVolume.bind(this));
+        volumeSlider.addEventListener('mousemove', setVolume.bind(this));
+        volumeSlider.addEventListener('touchmove', setVolume.bind(this));
+
 
         positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
         positionSlider.addEventListener('change', function () {
