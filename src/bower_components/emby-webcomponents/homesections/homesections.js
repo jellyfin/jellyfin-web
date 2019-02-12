@@ -68,16 +68,6 @@ define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings
 
             return Promise.all(promises).then(function () {
 
-                html = '';
-
-                var style = 'margin-top:4em;';
-
-                if (layoutManager.tv) {
-                    style += 'padding: 0 7.5%;';
-                }
-
-                elem.insertAdjacentHTML('beforeend', html);
-
                 return resume(elem, {
                     refresh: true,
                     returnPromise: false
