@@ -71,7 +71,9 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             return null;
         }
 
-        if (options = options || {}, options.type = options.type || "Primary", "Primary" === options.type && item.SeriesPrimaryImageTag) {
+        options = options || {};
+        options.type = options.type || "Primary";
+        if ("Primary" === options.type && item.SeriesPrimaryImageTag) {
             options.tag = item.SeriesPrimaryImageTag;
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
@@ -125,7 +127,9 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             maxHeight: 300
         }) : null;
 
-        if (console.log("updateNowPlayingInfo"), setImageUrl(context, url), item) {
+        console.log("updateNowPlayingInfo");
+        setImageUrl(context, url);
+        if (item) {
             backdrop.setBackdrops([item]);
             var apiClient = connectionManager.getApiClient(item.ServerId);
             apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {

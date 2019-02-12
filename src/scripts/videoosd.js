@@ -6,7 +6,9 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             return null;
         }
 
-        if (options = options || {}, options.type = options.type || "Primary", "Primary" === options.type && item.SeriesPrimaryImageTag) {
+        options = options || {};
+        options.type = options.type || "Primary";
+        if ("Primary" === options.type && item.SeriesPrimaryImageTag) {
             options.tag = item.SeriesPrimaryImageTag;
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
@@ -268,7 +270,8 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         function updateNowPlayingInfo(player, state) {
             var item = state.NowPlayingItem;
 
-            if (currentItem = item, !item) {
+            currentItem = item;
+            if (!item) {
                 setPoster(null);
                 updateRecordingButton(null);
                 Emby.Page.setTitle("");
@@ -279,7 +282,8 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                 view.querySelector(".btnSubtitles").classList.add("hide");
                 view.querySelector(".btnAudio").classList.add("hide");
                 view.querySelector(".osdTitle").innerHTML = "";
-                return void (view.querySelector(".osdMediaInfo").innerHTML = "");
+                view.querySelector(".osdMediaInfo").innerHTML = "";
+                return;
             }
 
             enableProgressByTimeOfDay = shouldEnableProgressByTimeOfDay(item);
@@ -363,10 +367,8 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         function toggleOsd() {
             if ("osd" === currentVisibleMenu) {
                 hideOsd();
-            } else {
-                if (!currentVisibleMenu) {
+            } else if (!currentVisibleMenu) {
                     showOsd();
-                }
             }
         }
 
@@ -410,7 +412,6 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                 currentVisibleMenu = "osd";
                 clearHideAnimationEventListeners(elem);
                 elem.classList.remove("hide");
-                elem.offsetWidth;
                 elem.classList.remove("videoOsdBottom-hidden");
 
                 if (!layoutManager.mobile) {
@@ -425,7 +426,6 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             if ("osd" === currentVisibleMenu) {
                 var elem = osdBottomElement;
                 clearHideAnimationEventListeners(elem);
-                elem.offsetWidth;
                 elem.classList.add("videoOsdBottom-hidden");
                 dom.addEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                     once: true
@@ -441,10 +441,11 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                 var obj = lastPointerMoveData;
 
                 if (!obj) {
-                    return void (lastPointerMoveData = {
+                    lastPointerMoveData = {
                         x: eventX,
                         y: eventY
-                    });
+                    };
+                    return;
                 }
 
                 if (Math.abs(eventX - obj.x) < 10 && Math.abs(eventY - obj.y) < 10) {
@@ -599,21 +600,24 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         }
 
         function bindToPlayer(player) {
-            if (player !== currentPlayer && (releaseCurrentPlayer(), currentPlayer = player, player)) {
-                var state = playbackManager.getPlayerState(player);
-                onStateChanged.call(player, {
-                    type: "init"
-                }, state);
-                events.on(player, "playbackstart", onPlaybackStart);
-                events.on(player, "playbackstop", onPlaybackStopped);
-                events.on(player, "volumechange", onVolumeChanged);
-                events.on(player, "pause", onPlayPauseStateChanged);
-                events.on(player, "unpause", onPlayPauseStateChanged);
-                events.on(player, "timeupdate", onTimeUpdate);
-                events.on(player, "fullscreenchange", updateFullscreenIcon);
-                events.on(player, "mediastreamschange", onMediaStreamsChanged);
-                resetUpNextDialog();
+            if (player !== currentPlayer) {
+                releaseCurrentPlayer();
+                currentPlayer = player;
+                if (!player) return;
             }
+            var state = playbackManager.getPlayerState(player);
+            onStateChanged.call(player, {
+                type: "init"
+            }, state);
+            events.on(player, "playbackstart", onPlaybackStart);
+            events.on(player, "playbackstop", onPlaybackStopped);
+            events.on(player, "volumechange", onVolumeChanged);
+            events.on(player, "pause", onPlayPauseStateChanged);
+            events.on(player, "unpause", onPlayPauseStateChanged);
+            events.on(player, "timeupdate", onTimeUpdate);
+            events.on(player, "fullscreenchange", updateFullscreenIcon);
+            events.on(player, "mediastreamschange", onMediaStreamsChanged);
+            resetUpNextDialog();
         }
 
         function releaseCurrentPlayer() {
@@ -873,7 +877,8 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
 
         function updateTimeText(elem, ticks, divider) {
             if (null == ticks) {
-                return void (elem.innerHTML = "");
+                elem.innerHTML = "";
+                return;
             }
 
             var html = datetime.getDisplayRunningTime(ticks);
@@ -1091,7 +1096,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                 html += datetime.getDisplayRunningTime(positionTicks);
                 html += "</h2>";
                 html += "</div>";
-                return html += "</div>";
+                return html + "</div>";
             }
 
             return null;
@@ -1281,7 +1286,8 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         });
 
         nowPlayingPositionSlider.getBubbleHtml = function (value) {
-            if (showOsd(), enableProgressByTimeOfDay) {
+            showOsd();
+            if (enableProgressByTimeOfDay) {
                 if (programStartDateMs && programEndDateMs) {
                     var ms = programEndDateMs - programStartDateMs;
                     ms /= 100;
