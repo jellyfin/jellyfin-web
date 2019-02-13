@@ -186,13 +186,15 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             volumeSliderContainer.classList.remove('hide');
         }
 
-        volumeSlider.addEventListener('change', function () {
-
+        function setVolume() {
             if (currentPlayer) {
                 currentPlayer.setVolume(this.value);
             }
+        }
+        volumeSlider.addEventListener('change', setVolume.bind(this));
+        volumeSlider.addEventListener('mousemove', setVolume.bind(this));
+        volumeSlider.addEventListener('touchmove', setVolume.bind(this));
 
-        });
 
         positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
         positionSlider.addEventListener('change', function () {
@@ -392,6 +394,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         var showMuteButton = true;
         var showVolumeSlider = true;
+        var progressElement = volumeSliderContainer.querySelector('.mdl-slider-background-lower');
 
         if (supportedCommands.indexOf('ToggleMute') === -1) {
             showMuteButton = false;
@@ -401,6 +404,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             muteButton.querySelector('i').innerHTML = '&#xE04F;';
         } else {
             muteButton.querySelector('i').innerHTML = '&#xE050;';
+        }
+
+        if (progressElement) {
+            progressElement.style.width = (volumeLevel || 0) + '%';
         }
 
         if (supportedCommands.indexOf('SetVolume') === -1) {
