@@ -7,8 +7,8 @@ define(["loading", "fnchecked", "emby-linkbutton", "emby-input", "emby-checkbox"
         loading.hide();
     }
 
-    function onSubmit(e__q) {
-        e__q.preventDefault();
+    function onSubmit(evt) {
+        evt.preventDefault();
         loading.show();
         var form = this;
         ApiClient.getNamedConfiguration("subtitles").then(function (config) {
