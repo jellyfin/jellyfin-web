@@ -1,6 +1,8 @@
 define(['appStorage', 'events'], function (appStorage, events) {
     'use strict';
 
+    appStorage = new appStorage();
+
     function getKey(name, userId) {
 
         if (userId) {

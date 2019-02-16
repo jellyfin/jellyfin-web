@@ -185,17 +185,18 @@ var Dashboard = {
 
     function createConnectionManager() {
         return new Promise(function(resolve, reject) {
-            require(["connectionManagerFactory", "apphost", "credentialprovider", "events", "userSettings"], function(ConnectionManager, apphost, credentialProvider, events, userSettings) {
-                var credentialProviderInstance = new credentialProvider;
+            require(["connectionManagerFactory", "apphost", "appStorage", "serverdiscovery", "credentialprovider", "events", "userSettings"], function(ConnectionManager, apphost, appStorage, serverdiscovery, credentialProvider, events, userSettings) {
+                var appStorageInstance = new appStorage();
+                var credentialProviderInstance = new credentialProvider(appStorageInstance);
                 var promises = [apphost.getSyncProfile(), apphost.init()];
                 Promise.all(promises).then(function(responses) {
                     var deviceProfile = responses[0],
                         capabilities = Dashboard.capabilities(apphost);
                     capabilities.DeviceProfile = deviceProfile;
-                    var connectionManager = new ConnectionManager(credentialProviderInstance, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities, window.devicePixelRatio);
+                    var connectionManager = new ConnectionManager(credentialProviderInstance, appStorageInstance, null, serverdiscovery, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities, window.devicePixelRatio);
                     if (defineConnectionManager(connectionManager), bindConnectionManagerEvents(connectionManager, events, userSettings), !AppInfo.isNativeApp) return console.log("loading ApiClient singleton"), getRequirePromise(["apiclient"]).then(function(apiClientFactory) {
                         console.log("creating ApiClient singleton");
-                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
+                        var apiClient = new apiClientFactory(appStorageInstance, Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
                         apiClient.enableAutomaticNetworking = !1, apiClient.manualAddressOnly = !0, connectionManager.addApiClient(apiClient), window.ApiClient = apiClient, localApiClient = apiClient, console.log("loaded ApiClient singleton"), resolve()
                     });
                     resolve()
@@ -247,10 +248,11 @@ var Dashboard = {
     }
 
     function getAppStorage(basePath) {
+        debugger;
         try {
             localStorage.setItem("_test", "0");
             localStorage.removeItem("_test");
-            return basePath + "/appstorage-localstorage";
+            return basePath + "/appStorage";
         } catch (e) {
             return basePath + "/appstorage-memory";
         }
@@ -1098,7 +1100,8 @@ var Dashboard = {
         "cordova" === self.appMode || "android" === self.appMode
             ? paths.apphost = "cordova/apphost"
             : paths.apphost = "components/apphost";
-        paths.appStorage = getAppStorage(apiClientBowerPath), requirejs.config({
+        paths.appStorage = getAppStorage(apiClientBowerPath);
+        requirejs.config({
             waitSeconds: 0,
             map: {
                 "*": {
