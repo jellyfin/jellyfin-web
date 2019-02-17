@@ -1,5 +1,6 @@
 define(['connectionManager', 'userSettings', 'events'], function (connectionManager, userSettings, events) {
     'use strict';
+    var fallbackCulture = 'en-us';
 
     var allTranslations = {};
     var currentCulture;
@@ -29,7 +30,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
             return navigator.languages[0];
         }
 
-        return 'en-us';
+        return fallbackCulture;
     }
 
     function updateCurrentCulture() {
@@ -61,6 +62,11 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     function ensureTranslations(culture) {
         for (var i in allTranslations) {
             ensureTranslation(allTranslations[i], culture);
+        }
+        if (culture !== fallbackCulture) {
+            for (var i in allTranslations) {
+                ensureTranslation(allTranslations[i], fallbackCulture);
+            }
         }
     }
 
@@ -138,7 +144,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
         if (!filtered.length) {
             filtered = translations.filter(function (t) {
-                return normalizeLocaleName(t.lang) === 'en-us';
+                return normalizeLocaleName(t.lang) === fallbackCulture;
             });
         }
 
@@ -186,7 +192,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     function translateKeyFromModule(key, module) {
         var dictionary = getDictionary(module, getCurrentLocale());
         if (!dictionary || !dictionary[key]) {
-            dictionary = getDictionary(module, 'en-us');
+            dictionary = getDictionary(module, fallbackCulture);
         }
         if (!dictionary) {
             return key;
