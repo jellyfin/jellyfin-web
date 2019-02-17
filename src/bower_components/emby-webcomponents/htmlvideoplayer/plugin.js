@@ -692,6 +692,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 dlg.parentNode.removeChild(dlg);
             }
+
             fullscreenManager.exitFullscreen();
         };
 
