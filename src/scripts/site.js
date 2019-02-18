@@ -513,6 +513,11 @@ var Dashboard = {
             autoFocus: !1,
             roles: "admin"
         }), defineRoute({
+            path: "/opensubtitles.html",
+            dependencies: [],
+            autoFocus: !1,
+            roles: "admin"
+        }), defineRoute({
             path: "/forgotpassword.html",
             dependencies: ["emby-input", "emby-button"],
             anonymous: !0,
