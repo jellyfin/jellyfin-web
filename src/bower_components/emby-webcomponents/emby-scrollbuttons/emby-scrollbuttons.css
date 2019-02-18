@@ -4,8 +4,8 @@
 
 .scrollbuttoncontainer {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 10%;
+    bottom: 35%;
     align-items: center;
     justify-content: center;
     z-index: 1;
