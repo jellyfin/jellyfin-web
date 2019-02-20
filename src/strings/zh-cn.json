@@ -2117,5 +2117,14 @@
     "XmlTvPathHelp": "xml 电视文件的路径。Jellyfin 将读取此文件并定期检查它以进行更新。您负责创建和更新文件。",
     "XmlTvSportsCategoriesHelp": "这些类别的节目将显示为体育节目。用 \"|\" 分隔多个。",
     "Yes": "是",
-    "Yesterday": "昨天"
+    "Yesterday": "昨天",
+    "Absolute": "绝对",
+    "AnamorphicVideoNotSupported": "不支持全景图片",
+    "AnyLanguage": "任何语言",
+    "Art": "图像",
+    "AspectRatio": "长宽比",
+    "BestFit": "最佳大小",
+    "Box": "盒子",
+    "BoxRear": "盒子（背面）",
+    "ChannelNumber": "频道号码"
 }
