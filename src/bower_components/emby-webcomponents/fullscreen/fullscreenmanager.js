@@ -29,11 +29,14 @@ define(['events', 'dom'], function (events, dom) {
         }
         if (element.webkitEnterFullscreen) {
             element.webkitEnterFullscreen();
-        } 
+        }
     };
 
     fullscreenManager.prototype.exitFullscreen = function () {
 
+        if (!this.isFullScreen()) {
+            return;
+        }
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {
@@ -47,9 +50,15 @@ define(['events', 'dom'], function (events, dom) {
         }
     };
 
+    // TODO: use screenfull.js
     fullscreenManager.prototype.isFullScreen = function () {
-
-        return document.fullscreen || document.mozFullScreen || document.webkitIsFullScreen || document.msFullscreenElement ? true : false;
+        return document.fullscreen ||
+            document.mozFullScreen ||
+            document.webkitIsFullScreen ||
+            document.msFullscreenElement ||  /* IE/Edge syntax */
+            document.fullscreenElement || /* Standard syntax */
+            document.webkitFullscreenElement || /* Chrome, Safari and Opera syntax */
+            document.mozFullScreenElement; /* Firefox syntax */
     };
 
     var manager = new fullscreenManager();

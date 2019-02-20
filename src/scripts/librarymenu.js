@@ -297,6 +297,11 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             icon: "swap_horiz",
             href: "encodingsettings.html",
             pageIds: ["encodingSettingsPage"]
+        }, {
+            name: "Open Subtitles",
+            href: "opensubtitles.html",
+            pageIds: ["openSubtitlesPage"],
+            icon: "closed_caption"
         }];
         addPluginPagesToMainMenu(links, pluginItems, "server");
         links.push({
