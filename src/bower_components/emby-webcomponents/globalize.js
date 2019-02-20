@@ -71,12 +71,30 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     }
 
     function ensureTranslation(translationInfo, culture) {
-        if (translationInfo.dictionaries[culture]) {
-            return Promise.resolve();
+        // always load the default culture (assuming en-us), for fallback purposes on missing keys in parameterized culture
+        var defaultCulture = defaultCulture !== culture && 'en-us', 
+            promises       = [];
+
+        if (defaultCulture && translationInfo.dictionaries[defaultCulture]) {
+            promises.push(Promise.resolve());
+        } else {
+            promises.push(loadTranslation(translationInfo.translations, defaultCulture));
         }
 
-        return loadTranslation(translationInfo.translations, culture).then(function (dictionary) {
-            translationInfo.dictionaries[culture] = dictionary;
+        if (translationInfo.dictionaries[culture]) {
+            promises.push(Promise.resolve());
+        } else {
+            promises.push(loadTranslation(translationInfo.translations, culture));
+        }
+
+        return Promise.all(promises).then(function (dictionaries) {
+            if (defaultCulture && dictionaries[0]) {
+                translationInfo.dictionaries[defaultCulture] = dictionaries[0];
+            }
+
+            if (dictionaries[1]) {
+                translationInfo.dictionaries[culture] = dictionaries[1];
+            }
         });
     }
 
