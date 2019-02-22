@@ -1237,7 +1237,7 @@
     "LabelSerialNumber": "Серийный номер",
     "LabelSeries": "Сериал:",
     "LabelSeriesRecordingPath": "Путь к записываемым сериалам (необязательно):",
-    "LabelServerHost": "Хост:",
+    "LabelServerHost": "Узел:",
     "LabelServerHostHelp": "192.168.1.100 или https://myserver.com",
     "LabelServerPort": "Порт:",
     "LabelShortOverview": "Краткий обзор:",
