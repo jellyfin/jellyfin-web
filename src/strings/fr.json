@@ -2171,7 +2171,7 @@
     "HeaderConfirmation": "Confirmation",
     "HeaderDate": "Date",
     "HeaderDestination": "Destination",
-    "HeaderGenres": "Genres",
+    "HeaderGenres": "Styles",
     "HeaderIdentification": "Identification",
     "HeaderImageLogo": "Logo",
     "HeaderImages": "Images",
@@ -2263,5 +2263,6 @@
     "ValueOneAlbum": "1 album",
     "VersionNumber": "Version {0}",
     "ViewTypeTvShows": "Tv",
-    "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)"
+    "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
+    "OptionOn": "Activé"
 }
