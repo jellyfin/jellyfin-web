@@ -431,14 +431,14 @@ var AppInfo = {};
                 return self.ResizeObserver;
             });
         } else {
-            define("ResizeObserver", ["bower_components/emby-webcomponents/resize-observer-polyfill/ResizeObserver"], returnFirstDependency);
+            define("ResizeObserver", ["components/resize-observer-polyfill/ResizeObserver"], returnFirstDependency);
         }
     }
 
     function initRequireWithBrowser(browser) {
         var bowerPath = getBowerPath();
         var apiClientBowerPath = bowerPath + "/emby-apiclient";
-        var embyWebComponentsBowerPath = bowerPath + "/emby-webcomponents";
+        var embyWebComponentsBowerPath = "components";
 
         if ("android" === self.appMode) {
             define("filesystem", ["cordova/filesystem"], returnFirstDependency);
@@ -1165,7 +1165,7 @@ var AppInfo = {};
 
     function loadPlugins(externalPlugins, appHost, browser, shell) {
         console.log("Loading installed plugins");
-        var list = ["bower_components/emby-webcomponents/playback/playbackvalidation", "bower_components/emby-webcomponents/playback/playaccessvalidation", "bower_components/emby-webcomponents/playback/experimentalwarnings", "bower_components/emby-webcomponents/htmlaudioplayer/plugin", "bower_components/emby-webcomponents/htmlvideoplayer/plugin", "bower_components/emby-webcomponents/photoplayer/plugin", "bower_components/emby-webcomponents/youtubeplayer/plugin"];
+        var list = ["components/playback/playbackvalidation", "components/playback/playaccessvalidation", "components/playback/experimentalwarnings", "components/htmlaudioplayer/plugin", "components/htmlvideoplayer/plugin", "components/photoplayer/plugin", "components/youtubeplayer/plugin"];
 
         if ("cordova" === self.appMode) {
             list.push("cordova/chromecast");
@@ -1176,10 +1176,10 @@ var AppInfo = {};
         }
 
         if (appHost.supports("remotecontrol")) {
-            list.push("bower_components/emby-webcomponents/sessionplayer");
+            list.push("components/sessionplayer");
 
             if (browser.chrome || browser.opera) {
-                list.push("bower_components/emby-webcomponents/chromecast/chromecastplayer");
+                list.push("components/chromecast/chromecastplayer");
             }
         }
 
@@ -1245,10 +1245,10 @@ var AppInfo = {};
                 });
 
                 if (!enableNativeGamepadKeyMapping() && isGamepadSupported()) {
-                    require(["bower_components/emby-webcomponents/input/gamepadtokey"]);
+                    require(["components/input/gamepadtokey"]);
                 }
 
-                require(["bower_components/emby-webcomponents/thememediaplayer", "scripts/autobackdrops"]);
+                require(["components/thememediaplayer", "scripts/autobackdrops"]);
 
                 if (!("cordova" !== self.appMode && "android" !== self.appMode)) {
                     if (browser.android) {
@@ -1259,15 +1259,15 @@ var AppInfo = {};
                 }
 
                 if (!(browser.tv || browser.xboxOne || browser.ps4)) {
-                    require(["bower_components/emby-webcomponents/nowplayingbar/nowplayingbar"]);
+                    require(["components/nowplayingbar/nowplayingbar"]);
                 }
 
                 if (appHost.supports("remotecontrol")) {
-                    require(["playerSelectionMenu", "bower_components/emby-webcomponents/playback/remotecontrolautoplay"]);
+                    require(["playerSelectionMenu", "components/playback/remotecontrolautoplay"]);
                 }
 
                 if (!(appHost.supports("physicalvolumecontrol") && !browser.touch || browser.edge)) {
-                    require(["bower_components/emby-webcomponents/playback/volumeosd"]);
+                    require(["components/playback/volumeosd"]);
                 }
 
                 if (navigator.mediaSession) {
@@ -1277,11 +1277,11 @@ var AppInfo = {};
                 require(["apiInput", "mouseManager"]);
 
                 if (!(browser.tv || browser.xboxOne)) {
-                    require(["bower_components/emby-webcomponents/playback/playbackorientation"]);
+                    require(["components/playback/playbackorientation"]);
                     registerServiceWorker();
 
                     if (window.Notification) {
-                        require(["bower_components/emby-webcomponents/notifications/notifications"]);
+                        require(["components/notifications/notifications"]);
                     }
                 }
 
@@ -1345,7 +1345,7 @@ var AppInfo = {};
 
         if (!window.Promise || browser.web0s) {
             initialDependencies.push();
-            require(["bower_components/emby-webcomponents/native-promise-only/lib/npo.src"], init);
+            require(["components/native-promise-only/lib/npo.src"], init);
         } else {
             init();
         }
@@ -1357,7 +1357,7 @@ var AppInfo = {};
         var urlArgs = "v=" + (window.dashboardVersion || new Date().getDate());
         var bowerPath = getBowerPath();
         var apiClientBowerPath = bowerPath + "/emby-apiclient";
-        var embyWebComponentsBowerPath = bowerPath + "/emby-webcomponents";
+        var embyWebComponentsBowerPath = "components";
         var paths = {
             velocity: bowerPath + "/velocity/velocity.min",
             vibrant: bowerPath + "/vibrant/dist/vibrant",
@@ -1502,8 +1502,8 @@ var AppInfo = {};
             waitSeconds: 0,
             map: {
                 "*": {
-                    css: bowerPath + "/emby-webcomponents/require/requirecss",
-                    text: bowerPath + "/emby-webcomponents/require/requiretext"
+                    css: "components/require/requirecss",
+                    text: "components/require/requiretext"
                 }
             },
             urlArgs: urlArgs,
