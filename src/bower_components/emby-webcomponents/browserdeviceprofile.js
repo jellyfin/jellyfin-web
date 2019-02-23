@@ -751,7 +751,7 @@ define(['browser'], function (browser) {
                 Condition: 'Equals',
                 Property: 'IsSecondaryAudio',
                 Value: 'false',
-                IsRequired: 'false'
+                IsRequired: false
             });
         }
 
@@ -780,7 +780,7 @@ define(['browser'], function (browser) {
                         Condition: 'Equals',
                         Property: 'IsSecondaryAudio',
                         Value: 'false',
-                        IsRequired: 'false'
+                        IsRequired: false
                     }
                 ]
             });
