@@ -465,8 +465,6 @@ var AppInfo = {};
             define("apiclient", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency);
         }
 
-        define("actionsheet", ["webActionSheet"], returnFirstDependency);
-
         if ("registerElement" in document) {
             define("registerElement", []);
         } else {
@@ -491,11 +489,7 @@ var AppInfo = {};
 
         var preferNativeAlerts = browser.tv;
 
-        if (preferNativeAlerts && window.alert) {
-            define("alert", [embyWebComponentsBowerPath + "/alert/nativealert"], returnFirstDependency);
-        } else {
-            define("alert", [embyWebComponentsBowerPath + "/alert/alert"], returnFirstDependency);
-        }
+        define("alert", [embyWebComponentsBowerPath + "/alert"], returnFirstDependency);
 
         defineResizeObserver();
         define("dialog", [embyWebComponentsBowerPath + "/dialog/dialog"], returnFirstDependency);
@@ -1400,7 +1394,7 @@ var AppInfo = {};
         paths.shaka = embyWebComponentsBowerPath + "/shaka/shaka-player.compiled";
         define("chromecastHelper", [embyWebComponentsBowerPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
         define("mediaSession", [embyWebComponentsBowerPath + "/playback/mediasession"], returnFirstDependency);
-        define("webActionSheet", [embyWebComponentsBowerPath + "/actionsheet/actionsheet"], returnFirstDependency);
+        define("actionsheet", [embyWebComponentsBowerPath + "/actionsheet/actionsheet"], returnFirstDependency);
         define("libjass", [bowerPath + "/libjass/libjass.min", "css!" + bowerPath + "/libjass/libjass"], returnFirstDependency);
         define("tunerPicker", ["components/tunerpicker"], returnFirstDependency);
         define("mainTabsManager", [embyWebComponentsBowerPath + "/maintabsmanager"], returnFirstDependency);
