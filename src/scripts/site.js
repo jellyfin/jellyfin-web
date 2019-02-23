@@ -282,33 +282,42 @@ var AppInfo = {};
     }
 
     function createConnectionManager() {
-        return new Promise(function (resolve, reject) {
-            require(["connectionManagerFactory", "apphost", "credentialprovider", "events", "userSettings"], function (ConnectionManager, apphost, credentialProvider, events, userSettings) {
-                var credentialProviderInstance = new credentialProvider();
-                var promises = [apphost.getSyncProfile(), apphost.init()];
-                Promise.all(promises).then(function (responses) {
-                    var deviceProfile = responses[0];
-                    var capabilities = Dashboard.capabilities(apphost);
-                    capabilities.DeviceProfile = deviceProfile;
-                    var connectionManager = new ConnectionManager(credentialProviderInstance, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities, window.devicePixelRatio);
+        return require(["connectionManagerFactory", "apphost", "credentialprovider", "events", "userSettings"], function (ConnectionManager, apphost, credentialProvider, events, userSettings) {
+            var credentialProviderInstance = new credentialProvider(),
+                promises                   = [apphost.getSyncProfile(), apphost.init()];
 
-                    if (defineConnectionManager(connectionManager), bindConnectionManagerEvents(connectionManager, events, userSettings), !AppInfo.isNativeApp) {
-                        console.log("loading ApiClient singleton");
-                        return getRequirePromise(["apiclient"]).then(function (apiClientFactory) {
-                            console.log("creating ApiClient singleton");
-                            var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
-                            apiClient.enableAutomaticNetworking = false;
-                            apiClient.manualAddressOnly = true;
-                            connectionManager.addApiClient(apiClient);
-                            window.ApiClient = apiClient;
-                            localApiClient = apiClient;
-                            console.log("loaded ApiClient singleton");
-                            resolve();
-                        });
-                    }
+            Promise.all(promises).then(function (responses) {
+                var deviceProfile = responses[0],
+                    capabilities  = Dashboard.capabilities(apphost);
 
-                    resolve();
-                });
+                capabilities.DeviceProfile = deviceProfile;
+
+                var connectionManager = new ConnectionManager(credentialProviderInstance, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities, window.devicePixelRatio);
+
+                defineConnectionManager(connectionManager);
+                bindConnectionManagerEvents(connectionManager, events, userSettings);
+
+                if (!AppInfo.isNativeApp) {
+                    console.log("loading ApiClient singleton");
+
+                    return require(["apiclient"], function (apiClientFactory) {
+                        console.log("creating ApiClient singleton");
+
+                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
+                        
+                        apiClient.enableAutomaticNetworking = false;
+                        apiClient.manualAddressOnly         = true;
+
+                        connectionManager.addApiClient(apiClient);
+
+                        window.ApiClient = apiClient;
+                        localApiClient   = apiClient;
+
+                        console.log("loaded ApiClient singleton");
+                    });
+                }
+
+                return Promise.resolve();
             });
         });
     }
@@ -551,12 +560,6 @@ var AppInfo = {};
         }
     }
 
-    function getRequirePromise(deps) {
-        return new Promise(function (resolve, reject) {
-            require(deps, resolve);
-        });
-    }
-
     function init() {
         if ("android" === self.appMode) {
             define("nativedirectorychooser", ["cordova/nativedirectorychooser"], returnFirstDependency);
@@ -565,29 +568,29 @@ var AppInfo = {};
         define("livetvcss", ["css!css/livetv.css"], returnFirstDependency);
         define("detailtablecss", ["css!css/detailtable.css"], returnFirstDependency);
         define("buttonenabled", ["legacy/buttonenabled"], returnFirstDependency);
-        var list = [];
+        var promises = [];
 
         if (!window.fetch) {
-            list.push("fetch");
+            promises.push(require(["fetch"]));
         }
 
         if ("function" != typeof Object.assign) {
-            list.push("objectassign");
+            promises.push(require(["objectassign"]));
         }
 
         if (!Array.prototype.filter) {
-            list.push("arraypolyfills");
+            promises.push(require(["arraypolyfills"]));
         }
 
         if (!Function.prototype.bind) {
-            list.push("functionbind");
+            promises.push(require(["functionbind"]));
         }
 
         if (!window.requestAnimationFrame) {
-            list.push("raf");
+            promises.push(require(["raf"]));
         }
 
-        require(list, function () {
+        Promise.all(promises).then(function () {
             createConnectionManager().then(function () {
                 console.log("initAfterDependencies promises resolved");
 
@@ -624,19 +627,16 @@ var AppInfo = {};
         }
 
         document.title = Globalize.translateDocument(document.title, "core");
-        var deps = ["apphost"];
 
         if (browser.tv && !browser.android) {
             console.log("Using system fonts with explicit sizes");
-            deps.push("systemFontsSizedCss");
+            require(["systemFontsSizedCss"]);
         } else {
             console.log("Using default fonts");
-            deps.push("systemFontsCss");
+            require(["systemFontsCss"]);
         }
 
-        deps.push("css!css/librarybrowser");
-
-        require(deps, function (appHost) {
+        require(["apphost", "css!css/librarybrowser"], function (appHost) {
             loadPlugins([], appHost, browser).then(function () {
                 onAppReady(browser);
             });
@@ -1219,106 +1219,89 @@ var AppInfo = {};
 
     function onAppReady(browser) {
         console.log("Begin onAppReady");
-        var deps = [];
-        var isBackgroundSync = -1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync");
-        var isInBackground = isBackgroundSync;
-        deps.push("apphost");
 
-        if (!isInBackground) {
-            deps.push("appRouter");
-            deps.push("scripts/themeloader");
+        var isInBackground = -1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync");
 
-            if (browser.iOS) {
-                deps.push("css!devices/ios/ios.css");
-            }
-
-            deps.push("libraryMenu");
-        }
+        window.Emby = {};
 
         console.log("onAppReady - loading dependencies");
 
-        require(deps, function (appHost, pageObjects) {
-            if (console.log("Loaded dependencies in onAppReady"), window.Emby = {}, isBackgroundSync) {
-                return void syncNow();
+        if (isInBackground) {
+            syncNow();
+        } else {
+
+            if (browser.iOS) {
+                require(['css!devices/ios/ios.css']);
             }
 
-            window.Emby.Page = pageObjects;
-            defineCoreRoutes(appHost);
-            Emby.Page.start({
-                click: false,
-                hashbang: true
-            });
-            var postInitDependencies = [];
+            require(['apphost', 'appRouter', 'scripts/themeloader', 'libraryMenu'], function (appHost, pageObjects) {
+                window.Emby.Page = pageObjects;
 
-            if (!enableNativeGamepadKeyMapping() && isGamepadSupported()) {
-                postInitDependencies.push("bower_components/emby-webcomponents/input/gamepadtokey");
-            }
+                defineCoreRoutes(appHost);
 
-            postInitDependencies.push("bower_components/emby-webcomponents/thememediaplayer");
-            postInitDependencies.push("scripts/autobackdrops");
+                Emby.Page.start({
+                    click: false,
+                    hashbang: true
+                });
 
-            if (!("cordova" !== self.appMode && "android" !== self.appMode)) {
-                if (browser.android) {
-                    postInitDependencies.push("cordova/mediasession");
-                    postInitDependencies.push("cordova/chromecast");
-                    postInitDependencies.push("cordova/appshortcuts");
-                } else {
-                    if (browser.safari) {
-                        postInitDependencies.push("cordova/mediasession");
-                        postInitDependencies.push("cordova/volume");
-                        postInitDependencies.push("cordova/statusbar");
-                        postInitDependencies.push("cordova/backgroundfetch");
+                if (!enableNativeGamepadKeyMapping() && isGamepadSupported()) {
+                    require(["bower_components/emby-webcomponents/input/gamepadtokey"]);
+                }
+
+                require(["bower_components/emby-webcomponents/thememediaplayer", "scripts/autobackdrops"]);
+
+                if (!("cordova" !== self.appMode && "android" !== self.appMode)) {
+                    if (browser.android) {
+                        require(["cordova/mediasession", "cordova/chromecast", "cordova/appshortcuts"]);
+                    } else if (browser.safari) {
+                        require(["cordova/mediasession", "cordova/volume", "cordova/statusbar", "cordova/backgroundfetch"]);
                     }
                 }
-            }
 
-            if (!(browser.tv || browser.xboxOne || browser.ps4)) {
-                postInitDependencies.push("bower_components/emby-webcomponents/nowplayingbar/nowplayingbar");
-            }
-
-            if (appHost.supports("remotecontrol")) {
-                postInitDependencies.push("playerSelectionMenu");
-                postInitDependencies.push("bower_components/emby-webcomponents/playback/remotecontrolautoplay");
-            }
-
-            if (!(appHost.supports("physicalvolumecontrol") && !browser.touch || browser.edge)) {
-                postInitDependencies.push("bower_components/emby-webcomponents/playback/volumeosd");
-            }
-
-            if (navigator.mediaSession) {
-                postInitDependencies.push("mediaSession");
-            }
-
-            postInitDependencies.push("apiInput");
-            postInitDependencies.push("mouseManager");
-
-            if (!(browser.tv || browser.xboxOne)) {
-                postInitDependencies.push("bower_components/emby-webcomponents/playback/playbackorientation");
-                registerServiceWorker();
-
-                if (window.Notification) {
-                    postInitDependencies.push("bower_components/emby-webcomponents/notifications/notifications");
+                if (!(browser.tv || browser.xboxOne || browser.ps4)) {
+                    require(["bower_components/emby-webcomponents/nowplayingbar/nowplayingbar"]);
                 }
-            }
 
-            postInitDependencies.push("playerSelectionMenu");
-
-            if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
-                require(["fullscreen-doubleclick"]);
-            }
-
-            require(postInitDependencies);
-
-            if (appHost.supports("sync")) {
-                initLocalSyncEvents();
-            }
-
-            if (!AppInfo.isNativeApp) {
-                if (window.ApiClient) {
-                    require(["css!" + ApiClient.getUrl("Branding/Css")]);
+                if (appHost.supports("remotecontrol")) {
+                    require(["playerSelectionMenu", "bower_components/emby-webcomponents/playback/remotecontrolautoplay"]);
                 }
-            }
-        });
+
+                if (!(appHost.supports("physicalvolumecontrol") && !browser.touch || browser.edge)) {
+                    require(["bower_components/emby-webcomponents/playback/volumeosd"]);
+                }
+
+                if (navigator.mediaSession) {
+                    require(["mediaSession"]);
+                }
+
+                require(["apiInput", "mouseManager"]);
+
+                if (!(browser.tv || browser.xboxOne)) {
+                    require(["bower_components/emby-webcomponents/playback/playbackorientation"]);
+                    registerServiceWorker();
+
+                    if (window.Notification) {
+                        require(["bower_components/emby-webcomponents/notifications/notifications"]);
+                    }
+                }
+
+                require(["playerSelectionMenu"]);
+
+                if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
+                    require(["fullscreen-doubleclick"]);
+                }
+
+                if (appHost.supports("sync")) {
+                    initLocalSyncEvents();
+                }
+
+                if (!AppInfo.isNativeApp) {
+                    if (window.ApiClient) {
+                        require(["css!" + ApiClient.getUrl("Branding/Css")]);
+                    }
+                }
+            });
+        }
     }
 
     function registerServiceWorker() {
@@ -1354,19 +1337,18 @@ var AppInfo = {};
     }
 
     function onWebComponentsReady(browser) {
-        var initialDependencies = [];
-
-        if (!window.Promise || browser.web0s) {
-            initialDependencies.push("bower_components/emby-webcomponents/native-promise-only/lib/npo.src");
-        }
-
         initRequireWithBrowser(browser);
 
         if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
             AppInfo.isNativeApp = true;
         }
 
-        require(initialDependencies, init);
+        if (!window.Promise || browser.web0s) {
+            initialDependencies.push();
+            require(["bower_components/emby-webcomponents/native-promise-only/lib/npo.src"], init);
+        } else {
+            init();
+        }
     }
 
     var localApiClient;
