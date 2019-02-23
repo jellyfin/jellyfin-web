@@ -1198,19 +1198,6 @@ var AppInfo = {};
         });
     }
 
-    function enableNativeGamepadKeyMapping() {
-        if (!(!window.navigator || "string" != typeof window.navigator.gamepadInputEmulation)) {
-            window.navigator.gamepadInputEmulation = "keyboard";
-            return true;
-        }
-
-        return false;
-    }
-
-    function isGamepadSupported() {
-        return "ongamepadconnected" in window || navigator.getGamepads || navigator.webkitGetGamepads;
-    }
-
     function onAppReady(browser) {
         console.log("Begin onAppReady");
 
@@ -1238,10 +1225,6 @@ var AppInfo = {};
                     hashbang: true
                 });
 
-                if (!enableNativeGamepadKeyMapping() && isGamepadSupported()) {
-                    require(["components/input/gamepadtokey"]);
-                }
-
                 require(["components/thememediaplayer", "scripts/autobackdrops"]);
 
                 if (!("cordova" !== self.appMode && "android" !== self.appMode)) {
@@ -1267,8 +1250,6 @@ var AppInfo = {};
                 if (navigator.mediaSession) {
                     require(["mediaSession"]);
                 }
-
-                require(["apiInput", "mouseManager"]);
 
                 if (!(browser.tv || browser.xboxOne)) {
                     require(["components/playback/playbackorientation"]);
@@ -1471,7 +1452,6 @@ var AppInfo = {};
         define("cardBuilder", [embyWebComponentsBowerPath + "/cardbuilder/cardbuilder"], returnFirstDependency);
         define("peoplecardbuilder", [embyWebComponentsBowerPath + "/cardbuilder/peoplecardbuilder"], returnFirstDependency);
         define("chaptercardbuilder", [embyWebComponentsBowerPath + "/cardbuilder/chaptercardbuilder"], returnFirstDependency);
-        define("mouseManager", [embyWebComponentsBowerPath + "/input/mouse"], returnFirstDependency);
         define("flexStyles", ["css!" + embyWebComponentsBowerPath + "/flexstyles"], returnFirstDependency);
         define("deleteHelper", [embyWebComponentsBowerPath + "/deletehelper"], returnFirstDependency);
         define("tvguide", [embyWebComponentsBowerPath + "/guide/guide"], returnFirstDependency);
@@ -1570,8 +1550,7 @@ var AppInfo = {};
         define("fnchecked", ["legacy/fnchecked"], returnFirstDependency);
         define("dialogHelper", [embyWebComponentsBowerPath + "/dialoghelper/dialoghelper"], returnFirstDependency);
         define("inputmanager", ["inputManager"], returnFirstDependency);
-        define("apiInput", [embyWebComponentsBowerPath + "/input/api"], returnFirstDependency);
-        define("serverNotifications", ["apiInput"], returnFirstDependency);
+        define("serverNotifications", [embyWebComponentsBowerPath + "/apiInput/apiInput"], returnFirstDependency);
         define("headroom-window", ["headroom"], createWindowHeadroom);
         define("appFooter-shared", ["appFooter"], createSharedAppFooter);
         define("skinManager", [embyWebComponentsBowerPath + "/skinmanager"], function (skinManager) {
