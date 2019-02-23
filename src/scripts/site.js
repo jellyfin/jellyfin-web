@@ -1,225 +1,337 @@
 function getWindowLocationSearch(win) {
     "use strict";
+
     var search = (win || window).location.search;
+
     if (!search) {
-        var index = window.location.href.indexOf("?"); - 1 != index && (search = window.location.href.substring(index))
+        var index = window.location.href.indexOf("?");
+
+        if (-1 != index) {
+            search = window.location.href.substring(index);
+        }
     }
-    return search || ""
+
+    return search || "";
 }
 
 function getParameterByName(name, url) {
     "use strict";
+
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regexS = "[\\?&]" + name + "=([^&#]*)",
-        regex = new RegExp(regexS, "i"),
-        results = regex.exec(url || getWindowLocationSearch());
-    return null == results ? "" : decodeURIComponent(results[1].replace(/\+/g, " "))
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS, "i");
+    var results = regex.exec(url || getWindowLocationSearch());
+
+    if (null == results) {
+        return "";
+    }
+
+    return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
 function pageClassOn(eventName, className, fn) {
     "use strict";
-    document.addEventListener(eventName, function(e) {
-        var target = e.target;
-        target.classList.contains(className) && fn.call(target, e)
-    })
+
+    document.addEventListener(eventName, function (e__q) {
+        var target = e__q.target;
+
+        if (target.classList.contains(className)) {
+            fn.call(target, e__q);
+        }
+    });
 }
 
 function pageIdOn(eventName, id, fn) {
     "use strict";
-    document.addEventListener(eventName, function(e) {
-        var target = e.target;
-        target.id === id && fn.call(target, e)
-    })
+
+    document.addEventListener(eventName, function (e__w) {
+        var target = e__w.target;
+
+        if (target.id === id) {
+            fn.call(target, e__w);
+        }
+    });
 }
+
 var Dashboard = {
-        allowPluginPages: function(pluginId) {
-            return true;
-        },
-        getCurrentUser: function() {
-            return window.ApiClient.getCurrentUser(!1)
-        },
-        serverAddress: function() {
-            if (AppInfo.isNativeApp) {
-                var apiClient = window.ApiClient;
-                return apiClient ? apiClient.serverAddress() : null
-            }
-            var urlLower = window.location.href.toLowerCase(),
-                index = urlLower.lastIndexOf("/web");
-            if (-1 != index) return urlLower.substring(0, index);
-            var loc = window.location,
-                address = loc.protocol + "//" + loc.hostname;
-            return loc.port && (address += ":" + loc.port), address
-        },
-        getCurrentUserId: function() {
+    allowPluginPages: function (pluginId) {
+        return true;
+    },
+    getCurrentUser: function () {
+        return window.ApiClient.getCurrentUser(false);
+    },
+    serverAddress: function () {
+        if (AppInfo.isNativeApp) {
             var apiClient = window.ApiClient;
-            return apiClient ? apiClient.getCurrentUserId() : null
-        },
-        onServerChanged: function(userId, accessToken, apiClient) {
-            apiClient = apiClient || window.ApiClient, window.ApiClient = apiClient
-        },
-        logout: function() {
-            ConnectionManager.logout().then(function() {
-                var loginPage;
-                if (AppInfo.isNativeApp) {
-                    loginPage = "selectserver.html";
-                    window.ApiClient = null;
-                } else {
-                    loginPage = "login.html";
-                }
-                Dashboard.navigate(loginPage);
-            })
-        },
-        getConfigurationPageUrl: function(name) {
-            return "configurationpage?name=" + encodeURIComponent(name)
-        },
-        getConfigurationResourceUrl: function(name) {
-            return AppInfo.isNativeApp ? ApiClient.getUrl("web/ConfigurationPage", {
+
+            if (apiClient) {
+                return apiClient.serverAddress();
+            }
+
+            return null;
+        }
+
+        var urlLower = window.location.href.toLowerCase();
+        var index = urlLower.lastIndexOf("/web");
+
+        if (-1 != index) {
+            return urlLower.substring(0, index);
+        }
+
+        var loc = window.location;
+        var address = loc.protocol + "//" + loc.hostname;
+
+        if (loc.port) {
+            address += ":" + loc.port;
+        }
+
+        return address;
+    },
+    getCurrentUserId: function () {
+        var apiClient = window.ApiClient;
+
+        if (apiClient) {
+            return apiClient.getCurrentUserId();
+        }
+
+        return null;
+    },
+    onServerChanged: function (userId, accessToken, apiClient) {
+        apiClient = apiClient || window.ApiClient;
+        window.ApiClient = apiClient;
+    },
+    logout: function () {
+        ConnectionManager.logout().then(function () {
+            var loginPage;
+
+            if (AppInfo.isNativeApp) {
+                loginPage = "selectserver.html";
+                window.ApiClient = null;
+            } else {
+                loginPage = "login.html";
+            }
+
+            Dashboard.navigate(loginPage);
+        });
+    },
+    getConfigurationPageUrl: function (name) {
+        return "configurationpage?name=" + encodeURIComponent(name);
+    },
+    getConfigurationResourceUrl: function (name) {
+        if (AppInfo.isNativeApp) {
+            return ApiClient.getUrl("web/ConfigurationPage", {
                 name: name
-            }) : Dashboard.getConfigurationPageUrl(name)
-        },
-        navigate: function(url, preserveQueryString) {
-            if (!url) throw new Error("url cannot be null or empty");
-            var queryString = getWindowLocationSearch();
-            return preserveQueryString && queryString && (url += queryString), new Promise(function(resolve, reject) {
-                require(["appRouter"], function(appRouter) {
-                    return appRouter.show(url).then(resolve, reject)
-                })
-            })
-        },
-        navigate_direct: function(path) {
-            return new Promise(function(resolve, reject) {
-                require(["appRouter"], function(appRouter) {
-                    return appRouter.showDirect(path).then(resolve, reject)
-                })
-            })
-        },
-        processPluginConfigurationUpdateResult: function() {
-            require(["loading", "toast"], function(loading, toast) {
-                loading.hide(), toast(Globalize.translate("MessageSettingsSaved"))
-            })
-        },
-        processServerConfigurationUpdateResult: function(result) {
-            require(["loading", "toast"], function(loading, toast) {
-                loading.hide(), toast(Globalize.translate("MessageSettingsSaved"))
-            })
-        },
-        processErrorResponse: function(response) {
-            require(["loading"], function(loading) {
-                loading.hide()
             });
-            var status = "" + response.status;
-            response.statusText && (status = response.statusText), Dashboard.alert({
-                title: status,
-                message: response.headers ? response.headers.get("X-Application-Error-Code") : null
-            })
-        },
-        alert: function(options) {
-            if ("string" == typeof options) return void require(["toast"], function(toast) {
+        }
+
+        return Dashboard.getConfigurationPageUrl(name);
+    },
+    navigate: function (url, preserveQueryString) {
+        if (!url) {
+            throw new Error("url cannot be null or empty");
+        }
+
+        var queryString = getWindowLocationSearch();
+
+        if (preserveQueryString && queryString) {
+            url += queryString;
+        }
+
+        return new Promise(function (resolve, reject) {
+            require(["appRouter"], function (appRouter) {
+                return appRouter.show(url).then(resolve, reject);
+            });
+        });
+    },
+    navigate_direct: function (path) {
+        return new Promise(function (resolve, reject) {
+            require(["appRouter"], function (appRouter) {
+                return appRouter.showDirect(path).then(resolve, reject);
+            });
+        });
+    },
+    processPluginConfigurationUpdateResult: function () {
+        require(["loading", "toast"], function (loading, toast) {
+            loading.hide();
+            toast(Globalize.translate("MessageSettingsSaved"));
+        });
+    },
+    processServerConfigurationUpdateResult: function (result) {
+        require(["loading", "toast"], function (loading, toast) {
+            loading.hide();
+            toast(Globalize.translate("MessageSettingsSaved"));
+        });
+    },
+    processErrorResponse: function (response) {
+        require(["loading"], function (loading) {
+            loading.hide();
+        });
+
+        var status = "" + response.status;
+
+        if (response.statusText) {
+            status = response.statusText;
+        }
+
+        Dashboard.alert({
+            title: status,
+            message: response.headers ? response.headers.get("X-Application-Error-Code") : null
+        });
+    },
+    alert: function (options) {
+        if ("string" == typeof options) {
+            return void require(["toast"], function (toast) {
                 toast({
                     text: options
-                })
+                });
             });
-            require(["alert"], function(alert) {
-                alert({
-                    title: options.title || Globalize.translate("HeaderAlert"),
-                    text: options.message
-                }).then(options.callback || function() {})
-            })
-        },
-        restartServer: function() {
-            var apiClient = window.ApiClient;
-            apiClient && require(["serverRestartDialog", "events"], function(ServerRestartDialog, events) {
+        }
+
+        require(["alert"], function (alert) {
+            alert({
+                title: options.title || Globalize.translate("HeaderAlert"),
+                text: options.message
+            }).then(options.callback || function () {});
+        });
+    },
+    restartServer: function () {
+        var apiClient = window.ApiClient;
+
+        if (apiClient) {
+            require(["serverRestartDialog", "events"], function (ServerRestartDialog, events) {
                 var dialog = new ServerRestartDialog({
                     apiClient: apiClient
                 });
-                events.on(dialog, "restarted", function() {
-                    AppInfo.isNativeApp ? apiClient.ensureWebSocket() : window.location.reload(!0)
-                }), dialog.show()
-            })
-        },
-        capabilities: function(appHost) {
-            var caps = {
-                PlayableMediaTypes: ["Audio", "Video"],
-                SupportedCommands: ["MoveUp", "MoveDown", "MoveLeft", "MoveRight", "PageUp", "PageDown", "PreviousLetter", "NextLetter", "ToggleOsd", "ToggleContextMenu", "Select", "Back", "SendKey", "SendString", "GoHome", "GoToSettings", "VolumeUp", "VolumeDown", "Mute", "Unmute", "ToggleMute", "SetVolume", "SetAudioStreamIndex", "SetSubtitleStreamIndex", "DisplayContent", "GoToSearch", "DisplayMessage", "SetRepeatMode", "ChannelUp", "ChannelDown", "PlayMediaSource", "PlayTrailers"],
-                SupportsPersistentIdentifier: "cordova" === self.appMode || "android" === self.appMode,
-                SupportsMediaControl: !0
-            };
-            caps.IconUrl = appHost.deviceIconUrl(), caps.SupportsSync = appHost.supports("sync"), caps.SupportsContentUploading = appHost.supports("cameraupload");
-            appHost.getPushTokenInfo();
-            return caps = Object.assign(caps, appHost.getPushTokenInfo())
+                events.on(dialog, "restarted", function () {
+                    if (AppInfo.isNativeApp) {
+                        apiClient.ensureWebSocket();
+                    } else {
+                        window.location.reload(true);
+                    }
+                });
+                dialog.show();
+            });
         }
     },
-    AppInfo = {};
-! function() {
+    capabilities: function (appHost) {
+        var caps = {
+            PlayableMediaTypes: ["Audio", "Video"],
+            SupportedCommands: ["MoveUp", "MoveDown", "MoveLeft", "MoveRight", "PageUp", "PageDown", "PreviousLetter", "NextLetter", "ToggleOsd", "ToggleContextMenu", "Select", "Back", "SendKey", "SendString", "GoHome", "GoToSettings", "VolumeUp", "VolumeDown", "Mute", "Unmute", "ToggleMute", "SetVolume", "SetAudioStreamIndex", "SetSubtitleStreamIndex", "DisplayContent", "GoToSearch", "DisplayMessage", "SetRepeatMode", "ChannelUp", "ChannelDown", "PlayMediaSource", "PlayTrailers"],
+            SupportsPersistentIdentifier: "cordova" === self.appMode || "android" === self.appMode,
+            SupportsMediaControl: true
+        };
+        caps.IconUrl = appHost.deviceIconUrl();
+        caps.SupportsSync = appHost.supports("sync");
+        caps.SupportsContentUploading = appHost.supports("cameraupload");
+        appHost.getPushTokenInfo();
+        return caps = Object.assign(caps, appHost.getPushTokenInfo());
+    }
+};
+var AppInfo = {};
+!function () {
     "use strict";
 
     function initializeApiClient(apiClient) {
-        "cordova" !== self.appMode && "android" !== self.appMode || (apiClient.getAvailablePlugins = function() {
-            return Promise.resolve([])
-        })
+        if (!("cordova" !== self.appMode && "android" !== self.appMode)) {
+            apiClient.getAvailablePlugins = function () {
+                return Promise.resolve([]);
+            };
+        }
     }
 
-    function onApiClientCreated(e, newApiClient) {
-        initializeApiClient(newApiClient), window.$ && ($.ajax = newApiClient.ajax)
+    function onApiClientCreated(e__e, newApiClient) {
+        initializeApiClient(newApiClient);
+
+        if (window.$) {
+            $.ajax = newApiClient.ajax;
+        }
     }
 
     function defineConnectionManager(connectionManager) {
-        window.ConnectionManager = connectionManager, define("connectionManager", [], function() {
-            return connectionManager
-        })
+        window.ConnectionManager = connectionManager;
+        define("connectionManager", [], function () {
+            return connectionManager;
+        });
     }
 
     function bindConnectionManagerEvents(connectionManager, events, userSettings) {
-        window.Events = events, events.on(ConnectionManager, "apiclientcreated", onApiClientCreated), connectionManager.currentApiClient = function() {
+        window.Events = events;
+        events.on(ConnectionManager, "apiclientcreated", onApiClientCreated);
+
+        connectionManager.currentApiClient = function () {
             if (!localApiClient) {
                 var server = connectionManager.getLastUsedServer();
-                server && (localApiClient = connectionManager.getApiClient(server.Id))
+
+                if (server) {
+                    localApiClient = connectionManager.getApiClient(server.Id);
+                }
             }
-            return localApiClient
-        }, connectionManager.onLocalUserSignedIn = function(user) {
-            return localApiClient = connectionManager.getApiClient(user.ServerId), window.ApiClient = localApiClient, userSettings.setUserInfo(user.Id, localApiClient)
-        }, events.on(connectionManager, "localusersignedout", function() {
-            userSettings.setUserInfo(null, null)
-        })
+
+            return localApiClient;
+        };
+
+        connectionManager.onLocalUserSignedIn = function (user) {
+            localApiClient = connectionManager.getApiClient(user.ServerId);
+            window.ApiClient = localApiClient;
+            return userSettings.setUserInfo(user.Id, localApiClient);
+        };
+
+        events.on(connectionManager, "localusersignedout", function () {
+            userSettings.setUserInfo(null, null);
+        });
     }
 
     function createConnectionManager() {
-        return new Promise(function(resolve, reject) {
-            require(["connectionManagerFactory", "apphost", "credentialprovider", "events", "userSettings"], function(ConnectionManager, apphost, credentialProvider, events, userSettings) {
-                var credentialProviderInstance = new credentialProvider;
+        return new Promise(function (resolve, reject) {
+            require(["connectionManagerFactory", "apphost", "credentialprovider", "events", "userSettings"], function (ConnectionManager, apphost, credentialProvider, events, userSettings) {
+                var credentialProviderInstance = new credentialProvider();
                 var promises = [apphost.getSyncProfile(), apphost.init()];
-                Promise.all(promises).then(function(responses) {
-                    var deviceProfile = responses[0],
-                        capabilities = Dashboard.capabilities(apphost);
+                Promise.all(promises).then(function (responses) {
+                    var deviceProfile = responses[0];
+                    var capabilities = Dashboard.capabilities(apphost);
                     capabilities.DeviceProfile = deviceProfile;
                     var connectionManager = new ConnectionManager(credentialProviderInstance, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities, window.devicePixelRatio);
-                    if (defineConnectionManager(connectionManager), bindConnectionManagerEvents(connectionManager, events, userSettings), !AppInfo.isNativeApp) return console.log("loading ApiClient singleton"), getRequirePromise(["apiclient"]).then(function(apiClientFactory) {
-                        console.log("creating ApiClient singleton");
-                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
-                        apiClient.enableAutomaticNetworking = !1, apiClient.manualAddressOnly = !0, connectionManager.addApiClient(apiClient), window.ApiClient = apiClient, localApiClient = apiClient, console.log("loaded ApiClient singleton"), resolve()
-                    });
-                    resolve()
+
+                    if (defineConnectionManager(connectionManager), bindConnectionManagerEvents(connectionManager, events, userSettings), !AppInfo.isNativeApp) {
+                        console.log("loading ApiClient singleton");
+                        return getRequirePromise(["apiclient"]).then(function (apiClientFactory) {
+                            console.log("creating ApiClient singleton");
+                            var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
+                            apiClient.enableAutomaticNetworking = false;
+                            apiClient.manualAddressOnly = true;
+                            connectionManager.addApiClient(apiClient);
+                            window.ApiClient = apiClient;
+                            localApiClient = apiClient;
+                            console.log("loaded ApiClient singleton");
+                            resolve();
+                        });
+                    }
+
+                    resolve();
                 });
             });
         });
     }
 
     function returnFirstDependency(obj) {
-        return obj
+        return obj;
     }
 
     function getSettingsBuilder(UserSettings, layoutManager, browser) {
-        UserSettings.prototype.enableThemeVideos = function(val) {
+        UserSettings.prototype.enableThemeVideos = function (val) {
             if (val != null) {
                 return this.set('enableThemeVideos', val.toString(), false);
             }
+
             val = this.get('enableThemeVideos', false);
+
             if (val !== 'false') {
                 return !layoutManager.mobile;
             } else {
                 return !browser.slow;
             }
         };
+
         return UserSettings;
     }
 
@@ -228,7 +340,7 @@ var Dashboard = {
     }
 
     function getPlaybackManager(playbackManager) {
-        window.addEventListener("beforeunload", function(e) {
+        window.addEventListener("beforeunload", function (e__r) {
             try {
                 playbackManager.onAppClose();
             } catch (err) {
@@ -242,6 +354,7 @@ var Dashboard = {
         if (appHost.getDefaultLayout) {
             layoutManager.defaultLayout = appHost.getDefaultLayout();
         }
+
         layoutManager.init();
         return layoutManager;
     }
@@ -265,26 +378,34 @@ var Dashboard = {
     function getCastSenderApiLoader() {
         var ccLoaded = false;
         return {
-            load: function() {
-                return ccLoaded ? Promise.resolve() : new Promise(function(resolve, reject) {
+            load: function () {
+                if (ccLoaded) {
+                    return Promise.resolve();
+                }
+
+                return new Promise(function (resolve, reject) {
                     var fileref = document.createElement("script");
                     fileref.setAttribute("type", "text/javascript");
-                    fileref.onload = function() {
-                        ccLoaded = !0, resolve()
+
+                    fileref.onload = function () {
+                        ccLoaded = true;
+                        resolve();
                     };
+
                     fileref.setAttribute("src", "https://www.gstatic.com/cv/js/sender/v1/cast_sender.js");
                     document.querySelector("head").appendChild(fileref);
-                })
+                });
             }
-        }
+        };
     }
 
     function getDummyCastSenderApiLoader() {
         return {
-            load: function() {
-                return window.chrome = window.chrome || {}, Promise.resolve()
+            load: function () {
+                window.chrome = window.chrome || {};
+                return Promise.resolve();
             }
-        }
+        };
     }
 
     function createSharedAppFooter(appFooter) {
@@ -296,9 +417,13 @@ var Dashboard = {
     }
 
     function defineResizeObserver() {
-        self.ResizeObserver ? define("ResizeObserver", [], function() {
-            return self.ResizeObserver
-        }) : define("ResizeObserver", ["bower_components/emby-webcomponents/resize-observer-polyfill/ResizeObserver"], returnFirstDependency)
+        if (self.ResizeObserver) {
+            define("ResizeObserver", [], function () {
+                return self.ResizeObserver;
+            });
+        } else {
+            define("ResizeObserver", ["bower_components/emby-webcomponents/resize-observer-polyfill/ResizeObserver"], returnFirstDependency);
+        }
     }
 
     function initRequireWithBrowser(browser) {
@@ -306,93 +431,183 @@ var Dashboard = {
         var apiClientBowerPath = bowerPath + "/emby-apiclient";
         var embyWebComponentsBowerPath = bowerPath + "/emby-webcomponents";
 
-        "android" === self.appMode
-            ? define("filesystem", ["cordova/filesystem"], returnFirstDependency)
-            : define("filesystem", [embyWebComponentsBowerPath + "/filesystem"], returnFirstDependency);
-        window.IntersectionObserver && !browser.edge
-            ? define("lazyLoader", [embyWebComponentsBowerPath + "/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency)
-            : define("lazyLoader", [embyWebComponentsBowerPath + "/lazyloader/lazyloader-scroll"], returnFirstDependency);
-        "android" === self.appMode
-            ? define("shell", ["cordova/shell"], returnFirstDependency)
-            : define("shell", [embyWebComponentsBowerPath + "/shell"], returnFirstDependency);
-        "cordova" === self.appMode || "android" === self.appMode
-            ? (define("apiclientcore", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency), define("apiclient", ["bower_components/emby-apiclient/apiclientex"], returnFirstDependency))
-            : define("apiclient", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency)
+        if ("android" === self.appMode) {
+            define("filesystem", ["cordova/filesystem"], returnFirstDependency);
+        } else {
+            define("filesystem", [embyWebComponentsBowerPath + "/filesystem"], returnFirstDependency);
+        }
+
+        if (window.IntersectionObserver && !browser.edge) {
+            define("lazyLoader", [embyWebComponentsBowerPath + "/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency);
+        } else {
+            define("lazyLoader", [embyWebComponentsBowerPath + "/lazyloader/lazyloader-scroll"], returnFirstDependency);
+        }
+
+        if ("android" === self.appMode) {
+            define("shell", ["cordova/shell"], returnFirstDependency);
+        } else {
+            define("shell", [embyWebComponentsBowerPath + "/shell"], returnFirstDependency);
+        }
+
+        if ("cordova" === self.appMode || "android" === self.appMode) {
+            define("apiclientcore", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency);
+            define("apiclient", ["bower_components/emby-apiclient/apiclientex"], returnFirstDependency);
+        } else {
+            define("apiclient", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency);
+        }
+
         define("actionsheet", ["webActionSheet"], returnFirstDependency);
-        "registerElement" in document
-            ? define("registerElement", [])
-            : browser.msie
-                ? define("registerElement", [bowerPath + "/webcomponentsjs/webcomponents-lite.min.js"], returnFirstDependency)
-                : define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
-        "cordova" === self.appMode || "android" === self.appMode
-            ? define("serverdiscovery", ["cordova/serverdiscovery"], returnFirstDependency)
-            : define("serverdiscovery", [apiClientBowerPath + "/serverdiscovery"], returnFirstDependency);
-        "cordova" === self.appMode && browser.iOSVersion && browser.iOSVersion < 11
-            ? define("imageFetcher", ["cordova/imagestore"], returnFirstDependency)
-            : define("imageFetcher", [embyWebComponentsBowerPath + "/images/basicimagefetcher"], returnFirstDependency);
+
+        if ("registerElement" in document) {
+            define("registerElement", []);
+        } else {
+            if (browser.msie) {
+                define("registerElement", [bowerPath + "/webcomponentsjs/webcomponents-lite.min.js"], returnFirstDependency);
+            } else {
+                define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
+            }
+        }
+
+        if ("cordova" === self.appMode || "android" === self.appMode) {
+            define("serverdiscovery", ["cordova/serverdiscovery"], returnFirstDependency);
+        } else {
+            define("serverdiscovery", [apiClientBowerPath + "/serverdiscovery"], returnFirstDependency);
+        }
+
+        if ("cordova" === self.appMode && browser.iOSVersion && browser.iOSVersion < 11) {
+            define("imageFetcher", ["cordova/imagestore"], returnFirstDependency);
+        } else {
+            define("imageFetcher", [embyWebComponentsBowerPath + "/images/basicimagefetcher"], returnFirstDependency);
+        }
 
         var preferNativeAlerts = browser.tv;
-        preferNativeAlerts && window.alert
-            ? define("alert", [embyWebComponentsBowerPath + "/alert/nativealert"], returnFirstDependency)
-            : define("alert", [embyWebComponentsBowerPath + "/alert/alert"], returnFirstDependency);
+
+        if (preferNativeAlerts && window.alert) {
+            define("alert", [embyWebComponentsBowerPath + "/alert/nativealert"], returnFirstDependency);
+        } else {
+            define("alert", [embyWebComponentsBowerPath + "/alert/alert"], returnFirstDependency);
+        }
+
         defineResizeObserver();
         define("dialog", [embyWebComponentsBowerPath + "/dialog/dialog"], returnFirstDependency);
-        preferNativeAlerts && window.confirm
-            ? define("confirm", [embyWebComponentsBowerPath + "/confirm/nativeconfirm"], returnFirstDependency)
-            : define("confirm", [embyWebComponentsBowerPath + "/confirm/confirm"], returnFirstDependency);
-        (preferNativeAlerts || browser.xboxOne) && window.confirm
-            ? define("prompt", [embyWebComponentsBowerPath + "/prompt/nativeprompt"], returnFirstDependency)
-            : define("prompt", [embyWebComponentsBowerPath + "/prompt/prompt"], returnFirstDependency);
-        browser.tizen || browser.operaTv || browser.chromecast || browser.orsay || browser.web0s || browser.ps4
-            ? define("loading", [embyWebComponentsBowerPath + "/loading/loading-legacy"], returnFirstDependency)
-            : define("loading", [embyWebComponentsBowerPath + "/loading/loading-lite"], returnFirstDependency);
+
+        if (preferNativeAlerts && window.confirm) {
+            define("confirm", [embyWebComponentsBowerPath + "/confirm/nativeconfirm"], returnFirstDependency);
+        } else {
+            define("confirm", [embyWebComponentsBowerPath + "/confirm/confirm"], returnFirstDependency);
+        }
+
+        if ((preferNativeAlerts || browser.xboxOne) && window.confirm) {
+            define("prompt", [embyWebComponentsBowerPath + "/prompt/nativeprompt"], returnFirstDependency);
+        } else {
+            define("prompt", [embyWebComponentsBowerPath + "/prompt/prompt"], returnFirstDependency);
+        }
+
+        if (browser.tizen || browser.operaTv || browser.chromecast || browser.orsay || browser.web0s || browser.ps4) {
+            define("loading", [embyWebComponentsBowerPath + "/loading/loading-legacy"], returnFirstDependency);
+        } else {
+            define("loading", [embyWebComponentsBowerPath + "/loading/loading-lite"], returnFirstDependency);
+        }
+
         define("multi-download", [embyWebComponentsBowerPath + "/multidownload"], returnFirstDependency);
-        "android" === self.appMode
-            ? define("fileDownloader", ["cordova/filedownloader"], returnFirstDependency)
-            : define("fileDownloader", [embyWebComponentsBowerPath + "/filedownloader"], returnFirstDependency);
+
+        if ("android" === self.appMode) {
+            define("fileDownloader", ["cordova/filedownloader"], returnFirstDependency);
+        } else {
+            define("fileDownloader", [embyWebComponentsBowerPath + "/filedownloader"], returnFirstDependency);
+        }
+
         define("localassetmanager", [apiClientBowerPath + "/localassetmanager"], returnFirstDependency);
-        "cordova" === self.appMode || "android" === self.appMode
-            ? define("castSenderApiLoader", [], getDummyCastSenderApiLoader)
-            : define("castSenderApiLoader", [], getCastSenderApiLoader);
-        self.Windows
-            ? (define("bgtaskregister", ["environments/windows-uwp/bgtaskregister"], returnFirstDependency), define("transfermanager", ["environments/windows-uwp/transfermanager"], returnFirstDependency), define("filerepository", ["environments/windows-uwp/filerepository"], returnFirstDependency))
-            : "cordova" === self.appMode
-                ? (define("filerepository", ["cordova/filerepository"], returnFirstDependency), define("transfermanager", ["filerepository"], returnFirstDependency))
-                : "android" === self.appMode
-                    ? (define("transfermanager", ["cordova/transfermanager"], returnFirstDependency), define("filerepository", ["cordova/filerepository"], returnFirstDependency))
-                    : (define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency), define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency));
-        "android" === self.appMode
-            ? define("localsync", ["cordova/localsync"], returnFirstDependency)
-            : define("localsync", [apiClientBowerPath + "/sync/localsync"], returnFirstDependency);
+
+        if ("cordova" === self.appMode || "android" === self.appMode) {
+            define("castSenderApiLoader", [], getDummyCastSenderApiLoader);
+        } else {
+            define("castSenderApiLoader", [], getCastSenderApiLoader);
+        }
+
+        if (self.Windows) {
+            define("bgtaskregister", ["environments/windows-uwp/bgtaskregister"], returnFirstDependency);
+            define("transfermanager", ["environments/windows-uwp/transfermanager"], returnFirstDependency);
+            define("filerepository", ["environments/windows-uwp/filerepository"], returnFirstDependency);
+        } else {
+            if ("cordova" === self.appMode) {
+                define("filerepository", ["cordova/filerepository"], returnFirstDependency);
+                define("transfermanager", ["filerepository"], returnFirstDependency);
+            } else {
+                if ("android" === self.appMode) {
+                    define("transfermanager", ["cordova/transfermanager"], returnFirstDependency);
+                    define("filerepository", ["cordova/filerepository"], returnFirstDependency);
+                } else {
+                    define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency);
+                    define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency);
+                }
+            }
+        }
+
+        if ("android" === self.appMode) {
+            define("localsync", ["cordova/localsync"], returnFirstDependency);
+        } else {
+            define("localsync", [apiClientBowerPath + "/sync/localsync"], returnFirstDependency);
+        }
     }
 
     function getRequirePromise(deps) {
-        return new Promise(function(resolve, reject) {
-            require(deps, resolve)
-        })
+        return new Promise(function (resolve, reject) {
+            require(deps, resolve);
+        });
     }
 
     function init() {
-        "android" === self.appMode && define("nativedirectorychooser", ["cordova/nativedirectorychooser"], returnFirstDependency), define("livetvcss", ["css!css/livetv.css"], returnFirstDependency), define("detailtablecss", ["css!css/detailtable.css"], returnFirstDependency), define("buttonenabled", ["legacy/buttonenabled"], returnFirstDependency);
+        if ("android" === self.appMode) {
+            define("nativedirectorychooser", ["cordova/nativedirectorychooser"], returnFirstDependency);
+        }
+
+        define("livetvcss", ["css!css/livetv.css"], returnFirstDependency);
+        define("detailtablecss", ["css!css/detailtable.css"], returnFirstDependency);
+        define("buttonenabled", ["legacy/buttonenabled"], returnFirstDependency);
         var list = [];
-        window.fetch || list.push("fetch"), "function" != typeof Object.assign && list.push("objectassign"), Array.prototype.filter || list.push("arraypolyfills"), Function.prototype.bind || list.push("functionbind"), window.requestAnimationFrame || list.push("raf"), require(list, function() {
-            createConnectionManager().then(function() {
-                console.log("initAfterDependencies promises resolved"), require(["globalize", "browser"], function(globalize, browser) {
-                    window.Globalize = globalize, loadCoreDictionary(globalize).then(function() {
-                        onGlobalizeInit(browser)
-                    })
-                })
-            })
-        })
+
+        if (!window.fetch) {
+            list.push("fetch");
+        }
+
+        if ("function" != typeof Object.assign) {
+            list.push("objectassign");
+        }
+
+        if (!Array.prototype.filter) {
+            list.push("arraypolyfills");
+        }
+
+        if (!Function.prototype.bind) {
+            list.push("functionbind");
+        }
+
+        if (!window.requestAnimationFrame) {
+            list.push("raf");
+        }
+
+        require(list, function () {
+            createConnectionManager().then(function () {
+                console.log("initAfterDependencies promises resolved");
+
+                require(["globalize", "browser"], function (globalize, browser) {
+                    window.Globalize = globalize;
+                    loadCoreDictionary(globalize).then(function () {
+                        onGlobalizeInit(browser);
+                    });
+                });
+            });
+        });
     }
 
     function loadCoreDictionary(globalize) {
         var languages = ["ar", "be-by", "bg-bg", "ca", "cs", "da", "de", "el", "en-gb", "en-us", "es", "es-ar", "es-mx", "fa", "fi", "fr", "fr-ca", "gsw", "he", "hi-in", "hr", "hu", "id", "it", "kk", "ko", "lt-lt", "ms", "nb", "nl", "pl", "pt-br", "pt-pt", "ro", "ru", "sk", "sl-si", "sv", "tr", "uk", "vi", "zh-cn", "zh-hk", "zh-tw"];
-        var translations = languages.map(function(i) {
+        var translations = languages.map(function (i__t) {
             return {
-                lang: i,
-                path: "strings/" + i + ".json"
-            }
+                lang: i__t,
+                path: "strings/" + i__t + ".json"
+            };
         });
         globalize.defaultModule("core");
         return globalize.loadStrings({
@@ -403,21 +618,34 @@ var Dashboard = {
 
     function onGlobalizeInit(browser) {
         if ("android" === self.appMode) {
-            if (-1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync")) return onAppReady(browser)
+            if (-1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync")) {
+                return onAppReady(browser);
+            }
         }
+
         document.title = Globalize.translateDocument(document.title, "core");
         var deps = ["apphost"];
-        browser.tv && !browser.android ? (console.log("Using system fonts with explicit sizes"), deps.push("systemFontsSizedCss")) : (console.log("Using default fonts"), deps.push("systemFontsCss")), deps.push("css!css/librarybrowser"), require(deps, function(appHost) {
-            loadPlugins([], appHost, browser).then(function() {
+
+        if (browser.tv && !browser.android) {
+            console.log("Using system fonts with explicit sizes");
+            deps.push("systemFontsSizedCss");
+        } else {
+            console.log("Using default fonts");
+            deps.push("systemFontsCss");
+        }
+
+        deps.push("css!css/librarybrowser");
+
+        require(deps, function (appHost) {
+            loadPlugins([], appHost, browser).then(function () {
                 onAppReady(browser);
-            })
-        })
+            });
+        });
     }
 
     function defineRoute(newRoute, dictionary) {
         var baseRoute = Emby.Page.baseUrl();
         var path = newRoute.path;
-
         path = path.replace(baseRoute, "");
         console.log("Defining route: " + path);
         newRoute.dictionary = newRoute.dictionary || dictionary || "core";
@@ -429,586 +657,765 @@ var Dashboard = {
         defineRoute({
             path: "/addplugin.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin",
             controller: "scripts/addpluginpage"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/appservices.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/autoorganizelog.html",
             dependencies: [],
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/channelsettings.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/addserver.html",
             dependencies: ["emby-button", "emby-input"],
-            autoFocus: !1,
-            anonymous: !0,
-            startup: !0,
+            autoFocus: false,
+            anonymous: true,
+            startup: true,
             controller: "scripts/addserver"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/dashboard.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin",
             controller: "scripts/dashboardpage"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/dashboardgeneral.html",
             controller: "dashboard/dashboardgeneral",
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/dashboardhosting.html",
             dependencies: ["emby-input", "emby-button"],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin",
             controller: "dashboard/dashboardhosting"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/devices/devices.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin",
             controller: "devices/devices"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/devices/device.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin",
             controller: "devices/device"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/dlnaprofile.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/dlnaprofiles.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/dlnaserversettings.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/dlnasettings.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/edititemmetadata.html",
             dependencies: [],
             controller: "scripts/edititemmetadata",
-            autoFocus: !1
-        }), defineRoute({
+            autoFocus: false
+        });
+        defineRoute({
             path: "/encodingsettings.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/opensubtitles.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/forgotpassword.html",
             dependencies: ["emby-input", "emby-button"],
-            anonymous: !0,
-            startup: !0,
+            anonymous: true,
+            startup: true,
             controller: "scripts/forgotpassword"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/forgotpasswordpin.html",
             dependencies: ["emby-input", "emby-button"],
-            autoFocus: !1,
-            anonymous: !0,
-            startup: !0,
+            autoFocus: false,
+            anonymous: true,
+            startup: true,
             controller: "scripts/forgotpasswordpin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/home.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             controller: "home/home",
             transition: "fade",
             type: "home"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/list/list.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             controller: "list/list",
             transition: "fade"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/index.html",
             dependencies: [],
-            autoFocus: !1,
-            isDefaultRoute: !0
-        }), defineRoute({
+            autoFocus: false,
+            isDefaultRoute: true
+        });
+        defineRoute({
             path: "/itemdetails.html",
             dependencies: ["emby-button", "scripts/livetvcomponents", "paper-icon-button-light", "emby-itemscontainer"],
             controller: "scripts/itemdetailpage",
-            autoFocus: !1,
+            autoFocus: false,
             transition: "fade"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/library.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/librarydisplay.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin",
             controller: "dashboard/librarydisplay"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/librarysettings.html",
             dependencies: ["emby-collapse", "emby-input", "emby-button", "emby-select"],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin",
             controller: "dashboard/librarysettings"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/livetv.html",
             dependencies: ["emby-button", "livetvcss"],
             controller: "scripts/livetvsuggested",
-            autoFocus: !1,
+            autoFocus: false,
             transition: "fade"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/livetvguideprovider.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/livetvseriestimer.html",
             dependencies: ["emby-checkbox", "emby-input", "emby-button", "emby-collapse", "scripts/livetvcomponents", "scripts/livetvseriestimer", "livetvcss"],
-            autoFocus: !1,
+            autoFocus: false,
             controller: "scripts/livetvseriestimer"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/livetvsettings.html",
             dependencies: [],
-            autoFocus: !1
-        }), defineRoute({
+            autoFocus: false
+        });
+        defineRoute({
             path: "/livetvstatus.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/livetvtuner.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin",
             controller: "dashboard/livetvtuner"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/log.html",
             dependencies: ["emby-checkbox"],
             roles: "admin",
             controller: "dashboard/logpage"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/login.html",
             dependencies: ["emby-button", "emby-input"],
-            autoFocus: !1,
-            anonymous: !0,
-            startup: !0,
+            autoFocus: false,
+            anonymous: true,
+            startup: true,
             controller: "scripts/loginpage"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/metadataadvanced.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/metadataimages.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/metadatanfo.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/movies.html",
             dependencies: ["emby-button"],
-            autoFocus: !1,
+            autoFocus: false,
             controller: "scripts/moviesrecommended",
             transition: "fade"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/music.html",
             dependencies: [],
             controller: "scripts/musicrecommended",
-            autoFocus: !1,
+            autoFocus: false,
             transition: "fade"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/mypreferencesdisplay.html",
             dependencies: ["emby-checkbox", "emby-button", "emby-select"],
-            autoFocus: !1,
+            autoFocus: false,
             transition: "fade",
             controller: "scripts/mypreferencesdisplay"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/mypreferenceshome.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             transition: "fade",
             controller: "scripts/mypreferenceshome"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/mypreferencessubtitles.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             transition: "fade",
             controller: "scripts/mypreferencessubtitles"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/mypreferenceslanguages.html",
             dependencies: ["emby-button", "emby-checkbox", "emby-select"],
-            autoFocus: !1,
+            autoFocus: false,
             transition: "fade",
             controller: "scripts/mypreferenceslanguages"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/mypreferencesmenu.html",
             dependencies: ["emby-button"],
-            autoFocus: !1,
+            autoFocus: false,
             transition: "fade",
             controller: "scripts/mypreferencescommon"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/myprofile.html",
             dependencies: ["emby-button", "emby-collapse", "emby-checkbox", "emby-input"],
-            autoFocus: !1,
+            autoFocus: false,
             transition: "fade",
             controller: "scripts/myprofile"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/notificationsetting.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/notificationsettings.html",
             controller: "scripts/notificationsettings",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/nowplaying.html",
             dependencies: ["paper-icon-button-light", "emby-slider", "emby-button", "emby-input", "emby-itemscontainer"],
             controller: "scripts/nowplayingpage",
-            autoFocus: !1,
+            autoFocus: false,
             transition: "fade",
-            fullscreen: !0,
-            supportsThemeMedia: !0,
-            enableMediaControl: !1
-        }), defineRoute({
+            fullscreen: true,
+            supportsThemeMedia: true,
+            enableMediaControl: false
+        });
+        defineRoute({
             path: "/playbackconfiguration.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/plugincatalog.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin",
             controller: "scripts/plugincatalogpage"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/plugins.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/scheduledtask.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin",
             controller: "scripts/scheduledtaskpage"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/scheduledtasks.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin",
             controller: "scripts/scheduledtaskspage"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/search.html",
             dependencies: [],
             controller: "scripts/searchpage"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/selectserver.html",
             dependencies: ["listViewStyle", "emby-button"],
-            autoFocus: !1,
-            anonymous: !0,
-            startup: !0,
+            autoFocus: false,
+            anonymous: true,
+            startup: true,
             controller: "scripts/selectserver"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/serveractivity.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin",
             controller: "dashboard/serveractivity"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/serversecurity.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/streamingsettings.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/support.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/tv.html",
             dependencies: ["paper-icon-button-light", "emby-button"],
-            autoFocus: !1,
+            autoFocus: false,
             controller: "scripts/tvrecommended",
             transition: "fade"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/useredit.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/userlibraryaccess.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/usernew.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/userparentalcontrol.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/userpassword.html",
             dependencies: ["emby-input", "emby-button", "emby-checkbox"],
-            autoFocus: !1,
+            autoFocus: false,
             controller: "scripts/userpasswordpage"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/userprofiles.html",
             dependencies: [],
-            autoFocus: !1,
+            autoFocus: false,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/wizardremoteaccess.html",
             dependencies: ["dashboardcss"],
-            autoFocus: !1,
-            anonymous: !0,
+            autoFocus: false,
+            anonymous: true,
             controller: "dashboard/wizardremoteaccess"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/wizardfinish.html",
             dependencies: ["emby-button", "dashboardcss"],
-            autoFocus: !1,
-            anonymous: !0,
+            autoFocus: false,
+            anonymous: true,
             controller: "dashboard/wizardfinishpage"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/wizardlibrary.html",
             dependencies: ["dashboardcss"],
-            autoFocus: !1,
-            anonymous: !0
-        }), defineRoute({
+            autoFocus: false,
+            anonymous: true
+        });
+        defineRoute({
             path: "/wizardsettings.html",
             dependencies: ["dashboardcss"],
-            autoFocus: !1,
-            anonymous: !0,
+            autoFocus: false,
+            anonymous: true,
             controller: "dashboard/wizardsettings"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/wizardstart.html",
             dependencies: ["dashboardcss"],
-            autoFocus: !1,
-            anonymous: !0,
+            autoFocus: false,
+            anonymous: true,
             controller: "dashboard/wizardstart"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/wizarduser.html",
             dependencies: ["dashboardcss", "emby-input"],
             controller: "scripts/wizarduserpage",
-            autoFocus: !1,
-            anonymous: !0
-        }), defineRoute({
+            autoFocus: false,
+            anonymous: true
+        });
+        defineRoute({
             path: "/videoosd.html",
             dependencies: [],
             transition: "fade",
             controller: "scripts/videoosd",
-            autoFocus: !1,
+            autoFocus: false,
             type: "video-osd",
-            supportsThemeMedia: !0,
-            fullscreen: !0,
-            enableMediaControl: !1
-        }), defineRoute({
+            supportsThemeMedia: true,
+            fullscreen: true,
+            enableMediaControl: false
+        });
+        defineRoute({
             path: "/configurationpage",
             dependencies: [],
-            autoFocus: !1,
-            enableCache: !1,
-            enableContentQueryString: !0,
+            autoFocus: false,
+            enableCache: false,
+            enableContentQueryString: true,
             roles: "admin"
-        }), defineRoute({
+        });
+        defineRoute({
             path: "/",
-            isDefaultRoute: !0,
-            autoFocus: !1,
+            isDefaultRoute: true,
+            autoFocus: false,
             dependencies: []
-        })
+        });
     }
 
     function getPluginPageContentPath() {
-        return window.ApiClient ? ApiClient.getUrl("web/ConfigurationPage") : null
+        if (window.ApiClient) {
+            return ApiClient.getUrl("web/ConfigurationPage");
+        }
+
+        return null;
     }
 
     function loadPlugins(externalPlugins, appHost, browser, shell) {
         console.log("Loading installed plugins");
-        var list = [
-            "bower_components/emby-webcomponents/playback/playbackvalidation",
-            "bower_components/emby-webcomponents/playback/playaccessvalidation",
-            "bower_components/emby-webcomponents/playback/experimentalwarnings",
-            "bower_components/emby-webcomponents/htmlaudioplayer/plugin",
-            "bower_components/emby-webcomponents/htmlvideoplayer/plugin",
-            "bower_components/emby-webcomponents/photoplayer/plugin",
-            "bower_components/emby-webcomponents/youtubeplayer/plugin"
-        ];
+        var list = ["bower_components/emby-webcomponents/playback/playbackvalidation", "bower_components/emby-webcomponents/playback/playaccessvalidation", "bower_components/emby-webcomponents/playback/experimentalwarnings", "bower_components/emby-webcomponents/htmlaudioplayer/plugin", "bower_components/emby-webcomponents/htmlvideoplayer/plugin", "bower_components/emby-webcomponents/photoplayer/plugin", "bower_components/emby-webcomponents/youtubeplayer/plugin"];
+
         if ("cordova" === self.appMode) {
             list.push("cordova/chromecast");
         }
+
         if ("android" === self.appMode) {
             list.push("cordova/externalplayer");
         }
+
         if (appHost.supports("remotecontrol")) {
             list.push("bower_components/emby-webcomponents/sessionplayer");
+
             if (browser.chrome || browser.opera) {
                 list.push("bower_components/emby-webcomponents/chromecast/chromecastplayer");
             }
         }
-        for (var i = 0, length = externalPlugins.length; i < length; i++) list.push(externalPlugins[i]);
-        return new Promise(function(resolve, reject) {
-            Promise.all(list.map(loadPlugin)).then(function() {
-                require(["packageManager"], function(packageManager) {
-                    packageManager.init().then(resolve, reject)
-                })
-            }, reject)
-        })
+
+        for (var i__y = 0, length = externalPlugins.length; i__y < length; i__y++) {
+            list.push(externalPlugins[i__y]);
+        }
+
+        return new Promise(function (resolve, reject) {
+            Promise.all(list.map(loadPlugin)).then(function () {
+                require(["packageManager"], function (packageManager) {
+                    packageManager.init().then(resolve, reject);
+                });
+            }, reject);
+        });
     }
 
     function loadPlugin(url) {
-        return new Promise(function(resolve, reject) {
-            require(["pluginManager"], function(pluginManager) {
-                pluginManager.loadPlugin(url).then(resolve, reject)
-            })
-        })
+        return new Promise(function (resolve, reject) {
+            require(["pluginManager"], function (pluginManager) {
+                pluginManager.loadPlugin(url).then(resolve, reject);
+            });
+        });
     }
 
     function enableNativeGamepadKeyMapping() {
-        return !(!window.navigator || "string" != typeof window.navigator.gamepadInputEmulation) && (window.navigator.gamepadInputEmulation = "keyboard", !0)
+        if (!(!window.navigator || "string" != typeof window.navigator.gamepadInputEmulation)) {
+            window.navigator.gamepadInputEmulation = "keyboard";
+            return true;
+        }
+
+        return false;
     }
 
     function isGamepadSupported() {
-        return "ongamepadconnected" in window || navigator.getGamepads || navigator.webkitGetGamepads
+        return "ongamepadconnected" in window || navigator.getGamepads || navigator.webkitGetGamepads;
     }
 
     function onAppReady(browser) {
         console.log("Begin onAppReady");
-        var deps = [],
-            isBackgroundSync = -1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync"),
-            isInBackground = isBackgroundSync;
-        deps.push("apphost"), isInBackground || (deps.push("appRouter"), deps.push("scripts/themeloader"), browser.iOS && deps.push("css!devices/ios/ios.css"), deps.push("libraryMenu")), console.log("onAppReady - loading dependencies"), require(deps, function(appHost, pageObjects) {
-            if (console.log("Loaded dependencies in onAppReady"), window.Emby = {}, isBackgroundSync) return void syncNow();
-            window.Emby.Page = pageObjects, defineCoreRoutes(appHost), Emby.Page.start({
-                click: !1,
-                hashbang: !0
+        var deps = [];
+        var isBackgroundSync = -1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync");
+        var isInBackground = isBackgroundSync;
+        deps.push("apphost");
+
+        if (!isInBackground) {
+            deps.push("appRouter");
+            deps.push("scripts/themeloader");
+
+            if (browser.iOS) {
+                deps.push("css!devices/ios/ios.css");
+            }
+
+            deps.push("libraryMenu");
+        }
+
+        console.log("onAppReady - loading dependencies");
+
+        require(deps, function (appHost, pageObjects) {
+            if (console.log("Loaded dependencies in onAppReady"), window.Emby = {}, isBackgroundSync) {
+                return void syncNow();
+            }
+
+            window.Emby.Page = pageObjects;
+            defineCoreRoutes(appHost);
+            Emby.Page.start({
+                click: false,
+                hashbang: true
             });
             var postInitDependencies = [];
-            !enableNativeGamepadKeyMapping() && isGamepadSupported() && postInitDependencies.push("bower_components/emby-webcomponents/input/gamepadtokey"), postInitDependencies.push("bower_components/emby-webcomponents/thememediaplayer"), postInitDependencies.push("scripts/autobackdrops"), "cordova" !== self.appMode && "android" !== self.appMode || (browser.android ? (postInitDependencies.push("cordova/mediasession"), postInitDependencies.push("cordova/chromecast"), postInitDependencies.push("cordova/appshortcuts")) : browser.safari && (postInitDependencies.push("cordova/mediasession"), postInitDependencies.push("cordova/volume"), postInitDependencies.push("cordova/statusbar"), postInitDependencies.push("cordova/backgroundfetch"))), browser.tv || browser.xboxOne || browser.ps4 || postInitDependencies.push("bower_components/emby-webcomponents/nowplayingbar/nowplayingbar"), appHost.supports("remotecontrol") && (postInitDependencies.push("playerSelectionMenu"), postInitDependencies.push("bower_components/emby-webcomponents/playback/remotecontrolautoplay")), appHost.supports("physicalvolumecontrol") && !browser.touch || browser.edge || postInitDependencies.push("bower_components/emby-webcomponents/playback/volumeosd"), navigator.mediaSession && postInitDependencies.push("mediaSession"), postInitDependencies.push("apiInput"), postInitDependencies.push("mouseManager"), browser.tv || browser.xboxOne || (postInitDependencies.push("bower_components/emby-webcomponents/playback/playbackorientation"), registerServiceWorker(), window.Notification && postInitDependencies.push("bower_components/emby-webcomponents/notifications/notifications")), postInitDependencies.push("playerSelectionMenu"), appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron")) && require(["fullscreen-doubleclick"]), require(postInitDependencies), appHost.supports("sync") && initLocalSyncEvents(), AppInfo.isNativeApp || window.ApiClient && require(["css!" + ApiClient.getUrl("Branding/Css")])
-        })
+
+            if (!enableNativeGamepadKeyMapping() && isGamepadSupported()) {
+                postInitDependencies.push("bower_components/emby-webcomponents/input/gamepadtokey");
+            }
+
+            postInitDependencies.push("bower_components/emby-webcomponents/thememediaplayer");
+            postInitDependencies.push("scripts/autobackdrops");
+
+            if (!("cordova" !== self.appMode && "android" !== self.appMode)) {
+                if (browser.android) {
+                    postInitDependencies.push("cordova/mediasession");
+                    postInitDependencies.push("cordova/chromecast");
+                    postInitDependencies.push("cordova/appshortcuts");
+                } else {
+                    if (browser.safari) {
+                        postInitDependencies.push("cordova/mediasession");
+                        postInitDependencies.push("cordova/volume");
+                        postInitDependencies.push("cordova/statusbar");
+                        postInitDependencies.push("cordova/backgroundfetch");
+                    }
+                }
+            }
+
+            if (!(browser.tv || browser.xboxOne || browser.ps4)) {
+                postInitDependencies.push("bower_components/emby-webcomponents/nowplayingbar/nowplayingbar");
+            }
+
+            if (appHost.supports("remotecontrol")) {
+                postInitDependencies.push("playerSelectionMenu");
+                postInitDependencies.push("bower_components/emby-webcomponents/playback/remotecontrolautoplay");
+            }
+
+            if (!(appHost.supports("physicalvolumecontrol") && !browser.touch || browser.edge)) {
+                postInitDependencies.push("bower_components/emby-webcomponents/playback/volumeosd");
+            }
+
+            if (navigator.mediaSession) {
+                postInitDependencies.push("mediaSession");
+            }
+
+            postInitDependencies.push("apiInput");
+            postInitDependencies.push("mouseManager");
+
+            if (!(browser.tv || browser.xboxOne)) {
+                postInitDependencies.push("bower_components/emby-webcomponents/playback/playbackorientation");
+                registerServiceWorker();
+
+                if (window.Notification) {
+                    postInitDependencies.push("bower_components/emby-webcomponents/notifications/notifications");
+                }
+            }
+
+            postInitDependencies.push("playerSelectionMenu");
+
+            if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
+                require(["fullscreen-doubleclick"]);
+            }
+
+            require(postInitDependencies);
+
+            if (appHost.supports("sync")) {
+                initLocalSyncEvents();
+            }
+
+            if (!AppInfo.isNativeApp) {
+                if (window.ApiClient) {
+                    require(["css!" + ApiClient.getUrl("Branding/Css")]);
+                }
+            }
+        });
     }
 
     function registerServiceWorker() {
-        if (navigator.serviceWorker && "cordova" !== self.appMode && "android" !== self.appMode) try {
-            navigator.serviceWorker.register("serviceworker.js").then(function() {
-                return navigator.serviceWorker.ready
-            }).then(function(reg) {
-                if (reg && reg.sync) return reg.sync.register("emby-sync").then(function() {
-                    // TODO cvium: the sync serviceworker is a noop?
-                    //window.SyncRegistered = Dashboard.isConnectMode()
-                })
-            })
-        } catch (err) {
-            console.log("Error registering serviceWorker: " + err)
+        if (navigator.serviceWorker && "cordova" !== self.appMode && "android" !== self.appMode) {
+            try {
+                navigator.serviceWorker.register("serviceworker.js").then(function () {
+                    return navigator.serviceWorker.ready;
+                }).then(function (reg) {
+                    if (reg && reg.sync) {
+                        return reg.sync.register("emby-sync").then(function () {// TODO cvium: the sync serviceworker is a noop?
+                            //window.SyncRegistered = Dashboard.isConnectMode()
+                        });
+                    }
+                });
+            } catch (err) {
+                console.log("Error registering serviceWorker: " + err);
+            }
         }
     }
 
     function syncNow() {
-        require(["localsync"], function(localSync) {
-            localSync.sync()
-        })
+        require(["localsync"], function (localSync) {
+            localSync.sync();
+        });
     }
 
     function initLocalSyncEvents() {
-        require(["serverNotifications", "events"], function(serverNotifications, events) {
-            events.on(serverNotifications, "SyncJobItemReady", syncNow), events.on(serverNotifications, "SyncJobCancelled", syncNow), events.on(serverNotifications, "SyncJobItemCancelled", syncNow)
-        })
+        require(["serverNotifications", "events"], function (serverNotifications, events) {
+            events.on(serverNotifications, "SyncJobItemReady", syncNow);
+            events.on(serverNotifications, "SyncJobCancelled", syncNow);
+            events.on(serverNotifications, "SyncJobItemCancelled", syncNow);
+        });
     }
 
     function onWebComponentsReady(browser) {
         var initialDependencies = [];
+
         if (!window.Promise || browser.web0s) {
             initialDependencies.push("bower_components/emby-webcomponents/native-promise-only/lib/npo.src");
         }
+
         initRequireWithBrowser(browser);
+
         if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
             AppInfo.isNativeApp = true;
         }
+
         require(initialDependencies, init);
     }
 
     var localApiClient;
-    return function() {
-        var urlArgs = "v=" + (window.dashboardVersion || (new Date).getDate());
+
+    (function () {
+        var urlArgs = "v=" + (window.dashboardVersion || new Date().getDate());
         var bowerPath = getBowerPath();
         var apiClientBowerPath = bowerPath + "/emby-apiclient";
         var embyWebComponentsBowerPath = bowerPath + "/emby-webcomponents";
         var paths = {
-                velocity: bowerPath + "/velocity/velocity.min",
-                vibrant: bowerPath + "/vibrant/dist/vibrant",
-                staticBackdrops: embyWebComponentsBowerPath + "/staticbackdrops",
-                ironCardList: "components/ironcardlist/ironcardlist",
-                scrollThreshold: "components/scrollthreshold",
-                playlisteditor: "components/playlisteditor/playlisteditor",
-                medialibrarycreator: "components/medialibrarycreator/medialibrarycreator",
-                medialibraryeditor: "components/medialibraryeditor/medialibraryeditor",
-                imageoptionseditor: "components/imageoptionseditor/imageoptionseditor",
-                howler: bowerPath + "/howlerjs/dist/howler.min",
-                sortable: bowerPath + "/Sortable/Sortable.min",
-                isMobile: bowerPath + "/isMobile/isMobile.min",
-                masonry: bowerPath + "/masonry/dist/masonry.pkgd.min",
-                humanedate: "components/humanedate",
-                libraryBrowser: "scripts/librarybrowser",
-                events: apiClientBowerPath + "/events",
-                credentialprovider: apiClientBowerPath + "/credentials",
-                connectionManagerFactory: bowerPath + "/emby-apiclient/connectionmanager",
-                visibleinviewport: embyWebComponentsBowerPath + "/visibleinviewport",
-                browserdeviceprofile: embyWebComponentsBowerPath + "/browserdeviceprofile",
-                browser: embyWebComponentsBowerPath + "/browser",
-                inputManager: embyWebComponentsBowerPath + "/inputmanager",
-                qualityoptions: embyWebComponentsBowerPath + "/qualityoptions",
-                hammer: bowerPath + "/hammerjs/hammer.min",
-                pageJs: embyWebComponentsBowerPath + "/pagejs/page",
-                focusManager: embyWebComponentsBowerPath + "/focusmanager",
-                datetime: embyWebComponentsBowerPath + "/datetime",
-                globalize: embyWebComponentsBowerPath + "/globalize",
-                itemHelper: embyWebComponentsBowerPath + "/itemhelper",
-                itemShortcuts: embyWebComponentsBowerPath + "/shortcuts",
-                playQueueManager: embyWebComponentsBowerPath + "/playback/playqueuemanager",
-                autoPlayDetect: embyWebComponentsBowerPath + "/playback/autoplaydetect",
-                nowPlayingHelper: embyWebComponentsBowerPath + "/playback/nowplayinghelper",
-                pluginManager: embyWebComponentsBowerPath + "/pluginmanager",
-                packageManager: embyWebComponentsBowerPath + "/packagemanager"
+            velocity: bowerPath + "/velocity/velocity.min",
+            vibrant: bowerPath + "/vibrant/dist/vibrant",
+            staticBackdrops: embyWebComponentsBowerPath + "/staticbackdrops",
+            ironCardList: "components/ironcardlist/ironcardlist",
+            scrollThreshold: "components/scrollthreshold",
+            playlisteditor: "components/playlisteditor/playlisteditor",
+            medialibrarycreator: "components/medialibrarycreator/medialibrarycreator",
+            medialibraryeditor: "components/medialibraryeditor/medialibraryeditor",
+            imageoptionseditor: "components/imageoptionseditor/imageoptionseditor",
+            howler: bowerPath + "/howlerjs/dist/howler.min",
+            sortable: bowerPath + "/Sortable/Sortable.min",
+            isMobile: bowerPath + "/isMobile/isMobile.min",
+            masonry: bowerPath + "/masonry/dist/masonry.pkgd.min",
+            humanedate: "components/humanedate",
+            libraryBrowser: "scripts/librarybrowser",
+            events: apiClientBowerPath + "/events",
+            credentialprovider: apiClientBowerPath + "/credentials",
+            connectionManagerFactory: bowerPath + "/emby-apiclient/connectionmanager",
+            visibleinviewport: embyWebComponentsBowerPath + "/visibleinviewport",
+            browserdeviceprofile: embyWebComponentsBowerPath + "/browserdeviceprofile",
+            browser: embyWebComponentsBowerPath + "/browser",
+            inputManager: embyWebComponentsBowerPath + "/inputmanager",
+            qualityoptions: embyWebComponentsBowerPath + "/qualityoptions",
+            hammer: bowerPath + "/hammerjs/hammer.min",
+            pageJs: embyWebComponentsBowerPath + "/pagejs/page",
+            focusManager: embyWebComponentsBowerPath + "/focusmanager",
+            datetime: embyWebComponentsBowerPath + "/datetime",
+            globalize: embyWebComponentsBowerPath + "/globalize",
+            itemHelper: embyWebComponentsBowerPath + "/itemhelper",
+            itemShortcuts: embyWebComponentsBowerPath + "/shortcuts",
+            playQueueManager: embyWebComponentsBowerPath + "/playback/playqueuemanager",
+            autoPlayDetect: embyWebComponentsBowerPath + "/playback/autoplaydetect",
+            nowPlayingHelper: embyWebComponentsBowerPath + "/playback/nowplayinghelper",
+            pluginManager: embyWebComponentsBowerPath + "/pluginmanager",
+            packageManager: embyWebComponentsBowerPath + "/packagemanager"
         };
-
         paths.hlsjs = bowerPath + "/hlsjs/dist/hls.min";
         paths.flvjs = embyWebComponentsBowerPath + "/flvjs/flv.min";
         paths.shaka = embyWebComponentsBowerPath + "/shaka/shaka-player.compiled";
-
         define("chromecastHelper", [embyWebComponentsBowerPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
         define("mediaSession", [embyWebComponentsBowerPath + "/playback/mediasession"], returnFirstDependency);
         define("webActionSheet", [embyWebComponentsBowerPath + "/actionsheet/actionsheet"], returnFirstDependency);
@@ -1096,14 +1503,20 @@ var Dashboard = {
         define("guide-settings-dialog", [embyWebComponentsBowerPath + "/guide/guide-settings"], returnFirstDependency);
         define("loadingDialog", [embyWebComponentsBowerPath + "/loadingdialog/loadingdialog"], returnFirstDependency);
         define("syncDialog", [embyWebComponentsBowerPath + "/sync/sync"], returnFirstDependency);
-        define("viewManager", [embyWebComponentsBowerPath + "/viewmanager/viewmanager"], function(viewManager) {
-            return window.ViewManager = viewManager, viewManager.dispatchPageEvents(!0), viewManager
+        define("viewManager", [embyWebComponentsBowerPath + "/viewmanager/viewmanager"], function (viewManager) {
+            window.ViewManager = viewManager;
+            viewManager.dispatchPageEvents(true);
+            return viewManager;
         });
 
-        "cordova" === self.appMode || "android" === self.appMode
-            ? paths.apphost = "cordova/apphost"
-            : paths.apphost = "components/apphost";
-        paths.appStorage = getAppStorage(apiClientBowerPath), requirejs.config({
+        if ("cordova" === self.appMode || "android" === self.appMode) {
+            paths.apphost = "cordova/apphost";
+        } else {
+            paths.apphost = "components/apphost";
+        }
+
+        paths.appStorage = getAppStorage(apiClientBowerPath);
+        requirejs.config({
             waitSeconds: 0,
             map: {
                 "*": {
@@ -1138,9 +1551,12 @@ var Dashboard = {
         define("sortMenu", [embyWebComponentsBowerPath + "/sortmenu/sortmenu"], returnFirstDependency);
         define("registrationServices", [embyWebComponentsBowerPath + "/registrationservices/registrationservices"], returnFirstDependency);
 
-        "cordova" === self.appMode || "android" === self.appMode
-            ? define("fileupload", ["cordova/fileupload"], returnFirstDependency)
-            : define("fileupload", [apiClientBowerPath + "/fileupload"], returnFirstDependency);
+        if ("cordova" === self.appMode || "android" === self.appMode) {
+            define("fileupload", ["cordova/fileupload"], returnFirstDependency);
+        } else {
+            define("fileupload", [apiClientBowerPath + "/fileupload"], returnFirstDependency);
+        }
+
         define("connectionmanager", [apiClientBowerPath + "/connectionmanager"]);
         define("serversync", [apiClientBowerPath + "/sync/serversync"], returnFirstDependency);
         define("multiserversync", [apiClientBowerPath + "/sync/multiserversync"], returnFirstDependency);
@@ -1165,11 +1581,15 @@ var Dashboard = {
         define("navdrawer", ["components/navdrawer/navdrawer"], returnFirstDependency);
         define("htmlMediaHelper", [embyWebComponentsBowerPath + "/htmlvideoplayer/htmlmediahelper"], returnFirstDependency);
         define("viewcontainer", ["components/viewcontainer-lite", "css!" + embyWebComponentsBowerPath + "/viewmanager/viewcontainer-lite"], returnFirstDependency);
-        define("queryString", [bowerPath + "/query-string/index"], function() {
-            return queryString
+        define("queryString", [bowerPath + "/query-string/index"], function () {
+            return queryString;
         });
-        define("jQuery", [bowerPath + "/jquery/dist/jquery.slim.min"], function() {
-            return window.ApiClient && (jQuery.ajax = ApiClient.ajax), jQuery
+        define("jQuery", [bowerPath + "/jquery/dist/jquery.slim.min"], function () {
+            if (window.ApiClient) {
+                jQuery.ajax = ApiClient.ajax;
+            }
+
+            return jQuery;
         });
         define("fnchecked", ["legacy/fnchecked"], returnFirstDependency);
         define("dialogHelper", [embyWebComponentsBowerPath + "/dialoghelper/dialoghelper"], returnFirstDependency);
@@ -1178,12 +1598,20 @@ var Dashboard = {
         define("serverNotifications", ["apiInput"], returnFirstDependency);
         define("headroom-window", ["headroom"], createWindowHeadroom);
         define("appFooter-shared", ["appFooter"], createSharedAppFooter);
-        define("skinManager", [embyWebComponentsBowerPath + "/skinmanager"], function(skinManager) {
-            return skinManager.loadUserSkin = function(options) {
-                require(["appRouter"], function(appRouter) {
-                    options = options || {}, options.start ? appRouter.invokeShortcut(options.start) : appRouter.goHome()
-                })
-            }, skinManager.getThemes = function() {
+        define("skinManager", [embyWebComponentsBowerPath + "/skinmanager"], function (skinManager) {
+            skinManager.loadUserSkin = function (options) {
+                require(["appRouter"], function (appRouter) {
+                    options = options || {};
+
+                    if (options.start) {
+                        appRouter.invokeShortcut(options.start);
+                    } else {
+                        appRouter.goHome();
+                    }
+                });
+            };
+
+            skinManager.getThemes = function () {
                 return [{
                     name: "Apple TV",
                     id: "appletv"
@@ -1193,8 +1621,8 @@ var Dashboard = {
                 }, {
                     name: "Dark",
                     id: "dark",
-                    isDefault: !0,
-                    isDefaultServerDashboard: !0
+                    isDefault: true,
+                    isDefaultServerDashboard: true
                 }, {
                     name: "Dark (green accent)",
                     id: "dark-green"
@@ -1203,7 +1631,7 @@ var Dashboard = {
                     id: "dark-red"
                 }, {
                     name: "Light",
-                    id: "light",
+                    id: "light"
                 }, {
                     name: "Light (blue accent)",
                     id: "light-blue"
@@ -1222,103 +1650,314 @@ var Dashboard = {
                 }, {
                     name: "Windows Media Center",
                     id: "wmc"
-                }]
-            }, skinManager
+                }];
+            };
+
+            return skinManager;
         });
-        define("connectionManager", [], function() {
-            return ConnectionManager
+        define("connectionManager", [], function () {
+            return ConnectionManager;
         });
-        define("apiClientResolver", [], function() {
-            return function() {
-                return window.ApiClient
-            }
+        define("apiClientResolver", [], function () {
+            return function () {
+                return window.ApiClient;
+            };
         });
-        define("appRouter", [embyWebComponentsBowerPath + "/router", "itemHelper"], function(appRouter, itemHelper) {
+        define("appRouter", [embyWebComponentsBowerPath + "/router", "itemHelper"], function (appRouter, itemHelper) {
             function showItem(item, serverId, options) {
-                "string" == typeof item ? require(["connectionManager"], function(connectionManager) {
-                    var apiClient = connectionManager.currentApiClient();
-                    apiClient.getItem(apiClient.getCurrentUserId(), item).then(function(item) {
-                        appRouter.showItem(item, options)
-                    })
-                }) : (2 == arguments.length && (options = arguments[1]), appRouter.show("/" + appRouter.getRouteUrl(item, options), {
-                    item: item
-                }))
+                if ("string" == typeof item) {
+                    require(["connectionManager"], function (connectionManager) {
+                        var apiClient = connectionManager.currentApiClient();
+                        apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
+                            appRouter.showItem(item, options);
+                        });
+                    });
+                } else {
+                    if (2 == arguments.length) {
+                        options = arguments[1];
+                    }
+
+                    appRouter.show("/" + appRouter.getRouteUrl(item, options), {
+                        item: item
+                    });
+                }
             }
-            return appRouter.showLocalLogin = function(serverId, manualLogin) {
-                Dashboard.navigate("login.html?serverid=" + serverId)
-            }, appRouter.showVideoOsd = function() {
-                return Dashboard.navigate("videoosd.html")
-            }, appRouter.showSelectServer = function() {
-                Dashboard.navigate(AppInfo.isNativeApp ? "selectserver.html" : "login.html")
-            }, appRouter.showWelcome = function() {
-                Dashboard.navigate(AppInfo.isNativeApp ? "selectserver.html" : "login.html")
-            }, appRouter.showSettings = function() {
-                Dashboard.navigate("mypreferencesmenu.html")
-            }, appRouter.showGuide = function() {
-                Dashboard.navigate("livetv.html?tab=1")
-            }, appRouter.goHome = function() {
-                Dashboard.navigate("home.html")
-            }, appRouter.showSearch = function() {
-                Dashboard.navigate("search.html")
-            }, appRouter.showLiveTV = function() {
-                Dashboard.navigate("livetv.html")
-            }, appRouter.showRecordedTV = function() {
-                Dashboard.navigate("livetv.html?tab=3")
-            }, appRouter.showFavorites = function() {
-                Dashboard.navigate("home.html?tab=1")
-            }, appRouter.showSettings = function() {
-                Dashboard.navigate("mypreferencesmenu.html")
-            }, appRouter.showNowPlaying = function() {
-                Dashboard.navigate("nowplaying.html")
-            }, appRouter.setTitle = function(title) {
-                LibraryMenu.setTitle(title)
-            }, appRouter.getRouteUrl = function(item, options) {
-                if (!item) throw new Error("item cannot be null");
-                if (item.url) return item.url;
-                var context = options ? options.context : null,
-                    id = item.Id || item.ItemId;
-                options || (options = {});
-                var url, itemType = item.Type || (options ? options.itemType : null),
-                    serverId = item.ServerId || options.serverId;
-                if ("settings" === item) return "mypreferencesmenu.html";
-                if ("wizard" === item) return "wizardstart.html";
-                if ("manageserver" === item) return "dashboard.html";
-                if ("recordedtv" === item) return "livetv.html?tab=3&serverId=" + options.serverId;
-                if ("nextup" === item) return "list/list.html?type=nextup&serverId=" + options.serverId;
+
+            appRouter.showLocalLogin = function (serverId, manualLogin) {
+                Dashboard.navigate("login.html?serverid=" + serverId);
+            };
+
+            appRouter.showVideoOsd = function () {
+                return Dashboard.navigate("videoosd.html");
+            };
+
+            appRouter.showSelectServer = function () {
+                Dashboard.navigate(AppInfo.isNativeApp ? "selectserver.html" : "login.html");
+            };
+
+            appRouter.showWelcome = function () {
+                Dashboard.navigate(AppInfo.isNativeApp ? "selectserver.html" : "login.html");
+            };
+
+            appRouter.showSettings = function () {
+                Dashboard.navigate("mypreferencesmenu.html");
+            };
+
+            appRouter.showGuide = function () {
+                Dashboard.navigate("livetv.html?tab=1");
+            };
+
+            appRouter.goHome = function () {
+                Dashboard.navigate("home.html");
+            };
+
+            appRouter.showSearch = function () {
+                Dashboard.navigate("search.html");
+            };
+
+            appRouter.showLiveTV = function () {
+                Dashboard.navigate("livetv.html");
+            };
+
+            appRouter.showRecordedTV = function () {
+                Dashboard.navigate("livetv.html?tab=3");
+            };
+
+            appRouter.showFavorites = function () {
+                Dashboard.navigate("home.html?tab=1");
+            };
+
+            appRouter.showSettings = function () {
+                Dashboard.navigate("mypreferencesmenu.html");
+            };
+
+            appRouter.showNowPlaying = function () {
+                Dashboard.navigate("nowplaying.html");
+            };
+
+            appRouter.setTitle = function (title) {
+                LibraryMenu.setTitle(title);
+            };
+
+            appRouter.getRouteUrl = function (item, options) {
+                if (!item) {
+                    throw new Error("item cannot be null");
+                }
+
+                if (item.url) {
+                    return item.url;
+                }
+
+                var context = options ? options.context : null;
+                var id = item.Id || item.ItemId;
+
+                if (!options) {
+                    options = {};
+                }
+
+                var url;
+                var itemType = item.Type || (options ? options.itemType : null);
+                var serverId = item.ServerId || options.serverId;
+
+                if ("settings" === item) {
+                    return "mypreferencesmenu.html";
+                }
+
+                if ("wizard" === item) {
+                    return "wizardstart.html";
+                }
+
+                if ("manageserver" === item) {
+                    return "dashboard.html";
+                }
+
+                if ("recordedtv" === item) {
+                    return "livetv.html?tab=3&serverId=" + options.serverId;
+                }
+
+                if ("nextup" === item) {
+                    return "list/list.html?type=nextup&serverId=" + options.serverId;
+                }
+
                 if ("list" === item) {
                     var url = "list/list.html?serverId=" + options.serverId + "&type=" + options.itemTypes;
-                    return options.isFavorite && (url += "&IsFavorite=true"), url
-                }
-                if ("livetv" === item) return "guide" === options.section ? "livetv.html?tab=1&serverId=" + options.serverId : "movies" === options.section ? "list/list.html?type=Programs&IsMovie=true&serverId=" + options.serverId : "shows" === options.section ? "list/list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=" + options.serverId : "sports" === options.section ? "list/list.html?type=Programs&IsSports=true&serverId=" + options.serverId : "kids" === options.section ? "list/list.html?type=Programs&IsKids=true&serverId=" + options.serverId : "news" === options.section ? "list/list.html?type=Programs&IsNews=true&serverId=" + options.serverId : "onnow" === options.section ? "list/list.html?type=Programs&IsAiring=true&serverId=" + options.serverId : "dvrschedule" === options.section ? "livetv.html?tab=4&serverId=" + options.serverId : "livetv.html?serverId=" + options.serverId;
-                if ("SeriesTimer" == itemType) return "itemdetails.html?seriesTimerId=" + id + "&serverId=" + serverId;
-                if ("livetv" == item.CollectionType) return "livetv.html";
-                if ("Genre" === item.Type) return url = "list/list.html?genreId=" + item.Id + "&serverId=" + serverId, "livetv" === context && (url += "&type=Programs"), options.parentId && (url += "&parentId=" + options.parentId), url;
-                if ("MusicGenre" === item.Type) return url = "list/list.html?musicGenreId=" + item.Id + "&serverId=" + serverId, options.parentId && (url += "&parentId=" + options.parentId), url;
-                if ("Studio" === item.Type) return url = "list/list.html?studioId=" + item.Id + "&serverId=" + serverId, options.parentId && (url += "&parentId=" + options.parentId), url;
-                if ("folders" !== context && !itemHelper.isLocalItem(item)) {
-                    if ("movies" == item.CollectionType) return url = "movies.html?topParentId=" + item.Id, options && "latest" === options.section && (url += "&tab=1"), url;
-                    if ("tvshows" == item.CollectionType) return url = "tv.html?topParentId=" + item.Id, options && "latest" === options.section && (url += "&tab=2"), url;
-                    if ("music" == item.CollectionType) return "music.html?topParentId=" + item.Id
-                }
-                if ("Playlist" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                if ("TvChannel" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                if ("Program" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                if ("BoxSet" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                if ("MusicAlbum" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                if ("MusicGenre" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                if ("Person" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                if ("Recording" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                if ("MusicArtist" == itemType) return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                var contextSuffix = context ? "&context=" + context : "";
-                return "Series" == itemType || "Season" == itemType || "Episode" == itemType ? "itemdetails.html?id=" + id + contextSuffix + "&serverId=" + serverId : item.IsFolder ? id ? "list/list.html?parentId=" + id + "&serverId=" + serverId : "#" : "itemdetails.html?id=" + id + "&serverId=" + serverId
-            }, appRouter.showItem = showItem, appRouter
-        })
-    }(), require(["css!css/site"]), require(["browser"], onWebComponentsReady)
-}();
 
-pageClassOn("viewshow", "standalonePage", function() {
+                    if (options.isFavorite) {
+                        url += "&IsFavorite=true";
+                    }
+
+                    return url;
+                }
+
+                if ("livetv" === item) {
+                    if ("guide" === options.section) {
+                        return "livetv.html?tab=1&serverId=" + options.serverId;
+                    }
+
+                    if ("movies" === options.section) {
+                        return "list/list.html?type=Programs&IsMovie=true&serverId=" + options.serverId;
+                    }
+
+                    if ("shows" === options.section) {
+                        return "list/list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=" + options.serverId;
+                    }
+
+                    if ("sports" === options.section) {
+                        return "list/list.html?type=Programs&IsSports=true&serverId=" + options.serverId;
+                    }
+
+                    if ("kids" === options.section) {
+                        return "list/list.html?type=Programs&IsKids=true&serverId=" + options.serverId;
+                    }
+
+                    if ("news" === options.section) {
+                        return "list/list.html?type=Programs&IsNews=true&serverId=" + options.serverId;
+                    }
+
+                    if ("onnow" === options.section) {
+                        return "list/list.html?type=Programs&IsAiring=true&serverId=" + options.serverId;
+                    }
+
+                    if ("dvrschedule" === options.section) {
+                        return "livetv.html?tab=4&serverId=" + options.serverId;
+                    }
+
+                    return "livetv.html?serverId=" + options.serverId;
+                }
+
+                if ("SeriesTimer" == itemType) {
+                    return "itemdetails.html?seriesTimerId=" + id + "&serverId=" + serverId;
+                }
+
+                if ("livetv" == item.CollectionType) {
+                    return "livetv.html";
+                }
+
+                if ("Genre" === item.Type) {
+                    url = "list/list.html?genreId=" + item.Id + "&serverId=" + serverId;
+
+                    if ("livetv" === context) {
+                        url += "&type=Programs";
+                    }
+
+                    if (options.parentId) {
+                        url += "&parentId=" + options.parentId;
+                    }
+
+                    return url;
+                }
+
+                if ("MusicGenre" === item.Type) {
+                    url = "list/list.html?musicGenreId=" + item.Id + "&serverId=" + serverId;
+
+                    if (options.parentId) {
+                        url += "&parentId=" + options.parentId;
+                    }
+
+                    return url;
+                }
+
+                if ("Studio" === item.Type) {
+                    url = "list/list.html?studioId=" + item.Id + "&serverId=" + serverId;
+
+                    if (options.parentId) {
+                        url += "&parentId=" + options.parentId;
+                    }
+
+                    return url;
+                }
+
+                if ("folders" !== context && !itemHelper.isLocalItem(item)) {
+                    if ("movies" == item.CollectionType) {
+                        url = "movies.html?topParentId=" + item.Id;
+
+                        if (options && "latest" === options.section) {
+                            url += "&tab=1";
+                        }
+
+                        return url;
+                    }
+
+                    if ("tvshows" == item.CollectionType) {
+                        url = "tv.html?topParentId=" + item.Id;
+
+                        if (options && "latest" === options.section) {
+                            url += "&tab=2";
+                        }
+
+                        return url;
+                    }
+
+                    if ("music" == item.CollectionType) {
+                        return "music.html?topParentId=" + item.Id;
+                    }
+                }
+
+                if ("Playlist" == itemType) {
+                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
+                }
+
+                if ("TvChannel" == itemType) {
+                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
+                }
+
+                if ("Program" == itemType) {
+                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
+                }
+
+                if ("BoxSet" == itemType) {
+                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
+                }
+
+                if ("MusicAlbum" == itemType) {
+                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
+                }
+
+                if ("MusicGenre" == itemType) {
+                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
+                }
+
+                if ("Person" == itemType) {
+                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
+                }
+
+                if ("Recording" == itemType) {
+                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
+                }
+
+                if ("MusicArtist" == itemType) {
+                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
+                }
+
+                var contextSuffix = context ? "&context=" + context : "";
+
+                if ("Series" == itemType || "Season" == itemType || "Episode" == itemType) {
+                    return "itemdetails.html?id=" + id + contextSuffix + "&serverId=" + serverId;
+                }
+
+                if (item.IsFolder) {
+                    if (id) {
+                        return "list/list.html?parentId=" + id + "&serverId=" + serverId;
+                    }
+
+                    return "#";
+                }
+
+                return "itemdetails.html?id=" + id + "&serverId=" + serverId;
+            };
+
+            appRouter.showItem = showItem;
+            return appRouter;
+        });
+    })();
+
+    require(["css!css/site"]);
+
+    return require(["browser"], onWebComponentsReady);
+}();
+pageClassOn("viewshow", "standalonePage", function () {
     document.querySelector(".skinHeader").classList.add("noHeaderRight");
 });
-pageClassOn("viewhide", "standalonePage", function() {
+pageClassOn("viewhide", "standalonePage", function () {
     document.querySelector(".skinHeader").classList.remove("noHeaderRight");
 });
