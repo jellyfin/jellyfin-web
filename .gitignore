@@ -573,3 +573,6 @@ ASALocalRun/
 healthchecksdb
 
 # End of https://www.gitignore.io/api/node,rider,macos,linux,windows,visualstudio,visualstudiocode
+
+# dist for webpack output
+dist
