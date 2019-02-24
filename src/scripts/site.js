@@ -190,16 +190,46 @@ var Dashboard = {
                 var credentialProviderInstance = new credentialProvider(appStorageInstance);
                 var promises = [apphost.getSyncProfile(), apphost.init()];
                 Promise.all(promises).then(function(responses) {
-                    var deviceProfile = responses[0],
-                        capabilities = Dashboard.capabilities(apphost);
-                    capabilities.DeviceProfile = deviceProfile;
-                    var connectionManager = new ConnectionManager(credentialProviderInstance, appStorageInstance, null, serverdiscovery, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities, window.devicePixelRatio);
-                    if (defineConnectionManager(connectionManager), bindConnectionManagerEvents(connectionManager, events, userSettings), !AppInfo.isNativeApp) return console.log("loading ApiClient singleton"), getRequirePromise(["apiclient"]).then(function(apiClientFactory) {
+                    var capabilities = Dashboard.capabilities(apphost);
+                    capabilities.DeviceProfile = responses[0];
+                    var connectionManager = new ConnectionManager(
+                        credentialProviderInstance,
+                        appStorageInstance,
+                        null,
+                        serverdiscovery,
+                        apphost.appName(),
+                        apphost.appVersion(),
+                        apphost.deviceName(),
+                        apphost.deviceId(),
+                        capabilities,
+                        window.devicePixelRatio
+                    );
+                    defineConnectionManager(connectionManager);
+                    bindConnectionManagerEvents(connectionManager, events, userSettings);
+
+                    if (!AppInfo.isNativeApp) {
+                        return console.log("loading ApiClient singleton");
+                    }
+                    getRequirePromise(["apiclient"]).then(function(apiClientFactory) {
                         console.log("creating ApiClient singleton");
-                        var apiClient = new apiClientFactory(appStorageInstance, Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
-                        apiClient.enableAutomaticNetworking = !1, apiClient.manualAddressOnly = !0, connectionManager.addApiClient(apiClient), window.ApiClient = apiClient, localApiClient = apiClient, console.log("loaded ApiClient singleton"), resolve()
+                        var apiClient = new apiClientFactory(
+                            appStorageInstance,
+                            Dashboard.serverAddress(),
+                            apphost.appName(),
+                            apphost.appVersion(),
+                            apphost.deviceName(),
+                            apphost.deviceId(),
+                            window.devicePixelRatio
+                        );
+                        apiClient.enableAutomaticNetworking = false;
+                        apiClient.manualAddressOnly =  true;
+                        connectionManager.addApiClient(apiClient);
+                        window.ApiClient = apiClient;
+                        localApiClient = apiClient;
+                        console.log("loaded ApiClient singleton");
+                        resolve();
                     });
-                    resolve()
+                    resolve();
                 });
             });
         });
