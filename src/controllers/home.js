@@ -24,10 +24,10 @@ define(["tabbedView", "globalize", "require", "emby-tabs", "emby-button", "emby-
         var depends = [];
         switch (index) {
             case 0:
-                depends.push("./hometab");
+                depends.push("controllers/hometab");
                 break;
             case 1:
-                depends.push("./favorites")
+                depends.push("controllers/favorites")
         }
         var instance = this;
         return getRequirePromise(depends).then(function(controllerFactory) {
