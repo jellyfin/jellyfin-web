@@ -1,5 +1,10 @@
-define(["apiclientcore", "localassetmanager"], function(ApiClient, localassetmanager) {
+//TODO: (vitorsemeano) modify this lines for webpack
+define(["bower_components/apiclient/apiclientcore", "localassetmanager"], function(ApiClient, localassetmanager) {
     "use strict";
+
+    if ("cordova" !== window.appMode && "android" !== window.appMode) {
+        return ApiClient;
+    }
 
     function isLocalId(str) {
         return startsWith(str, localPrefix)
