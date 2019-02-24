@@ -248,11 +248,10 @@ var Dashboard = {
     }
 
     function getAppStorage(basePath) {
-        debugger;
         try {
             localStorage.setItem("_test", "0");
             localStorage.removeItem("_test");
-            return basePath + "/appStorage";
+            return basePath + "/appstorage-localstorage";
         } catch (e) {
             return basePath + "/appstorage-memory";
         }
@@ -1106,7 +1105,8 @@ var Dashboard = {
             map: {
                 "*": {
                     css: bowerPath + "/emby-webcomponents/require/requirecss",
-                    text: bowerPath + "/emby-webcomponents/require/requiretext"
+                    text: bowerPath + "/emby-webcomponents/require/requiretext",
+                    //appStorage: getAppStorage(apiClientBowerPath)
                 }
             },
             urlArgs: urlArgs,
@@ -1135,10 +1135,6 @@ var Dashboard = {
         define("filterMenu", [embyWebComponentsBowerPath + "/filtermenu/filtermenu"], returnFirstDependency);
         define("sortMenu", [embyWebComponentsBowerPath + "/sortmenu/sortmenu"], returnFirstDependency);
         define("registrationServices", [embyWebComponentsBowerPath + "/registrationservices/registrationservices"], returnFirstDependency);
-
-        "cordova" === self.appMode || "android" === self.appMode
-            ? define("fileupload", ["cordova/fileupload"], returnFirstDependency)
-            : define("fileupload", [apiClientBowerPath + "/fileupload"], returnFirstDependency);
         define("connectionmanager", [apiClientBowerPath + "/connectionmanager"]);
         define("serversync", [apiClientBowerPath + "/sync/serversync"], returnFirstDependency);
         define("multiserversync", [apiClientBowerPath + "/sync/multiserversync"], returnFirstDependency);
