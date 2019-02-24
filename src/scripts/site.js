@@ -208,27 +208,27 @@ var Dashboard = {
                     bindConnectionManagerEvents(connectionManager, events, userSettings);
 
                     if (!AppInfo.isNativeApp) {
-                        return console.log("loading ApiClient singleton");
+                        console.log("loading ApiClient singleton");
+                        return getRequirePromise(["apiclient"]).then(function (apiClientFactory) {
+                            console.log("creating ApiClient singleton");
+                            var apiClient = new apiClientFactory(
+                                appStorageInstance,
+                                Dashboard.serverAddress(),
+                                apphost.appName(),
+                                apphost.appVersion(),
+                                apphost.deviceName(),
+                                apphost.deviceId(),
+                                window.devicePixelRatio
+                            );
+                            apiClient.enableAutomaticNetworking = false;
+                            apiClient.manualAddressOnly = true;
+                            connectionManager.addApiClient(apiClient);
+                            window.ApiClient = apiClient;
+                            localApiClient = apiClient;
+                            console.log("loaded ApiClient singleton");
+                            resolve();
+                        });
                     }
-                    getRequirePromise(["apiclient"]).then(function(apiClientFactory) {
-                        console.log("creating ApiClient singleton");
-                        var apiClient = new apiClientFactory(
-                            appStorageInstance,
-                            Dashboard.serverAddress(),
-                            apphost.appName(),
-                            apphost.appVersion(),
-                            apphost.deviceName(),
-                            apphost.deviceId(),
-                            window.devicePixelRatio
-                        );
-                        apiClient.enableAutomaticNetworking = false;
-                        apiClient.manualAddressOnly =  true;
-                        connectionManager.addApiClient(apiClient);
-                        window.ApiClient = apiClient;
-                        localApiClient = apiClient;
-                        console.log("loaded ApiClient singleton");
-                        resolve();
-                    });
                     resolve();
                 });
             });
