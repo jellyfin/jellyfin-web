@@ -932,63 +932,7 @@ var AppInfo = {};
         define("serverNotifications", [componentsPath + "/apiInput/apiInput"], returnFirstDependency);
         define("headroom-window", ["headroom"], createWindowHeadroom);
         define("appFooter-shared", ["appFooter"], createSharedAppFooter);
-        define("skinManager", [componentsPath + "/skinmanager"], function (skinManager) {
-            skinManager.loadUserSkin = function (options) {
-                require(["appRouter"], function (appRouter) {
-                    options = options || {};
-
-                    if (options.start) {
-                        appRouter.invokeShortcut(options.start);
-                    } else {
-                        appRouter.goHome();
-                    }
-                });
-            };
-
-            skinManager.getThemes = function () {
-                return [{
-                    name: "Apple TV",
-                    id: "appletv"
-                }, {
-                    name: "Blue Radiance",
-                    id: "blueradiance"
-                }, {
-                    name: "Dark",
-                    id: "dark",
-                    isDefault: true,
-                    isDefaultServerDashboard: true
-                }, {
-                    name: "Dark (green accent)",
-                    id: "dark-green"
-                }, {
-                    name: "Dark (red accent)",
-                    id: "dark-red"
-                }, {
-                    name: "Light",
-                    id: "light"
-                }, {
-                    name: "Light (blue accent)",
-                    id: "light-blue"
-                }, {
-                    name: "Light (green accent)",
-                    id: "light-green"
-                }, {
-                    name: "Light (pink accent)",
-                    id: "light-pink"
-                }, {
-                    name: "Light (purple accent)",
-                    id: "light-purple"
-                }, {
-                    name: "Light (red accent)",
-                    id: "light-red"
-                }, {
-                    name: "Windows Media Center",
-                    id: "wmc"
-                }];
-            };
-
-            return skinManager;
-        });
+        define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
         define("connectionManager", [], function () {
             return ConnectionManager;
         });

@@ -14,31 +14,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         },
         showSettings: function () {
             show('/settings/settings.html');
-        },
-        showSearch: function () {
-            skinManager.getCurrentSkin().search();
-        },
-        showGenre: function (options) {
-            skinManager.getCurrentSkin().showGenre(options);
-        },
-        showGuide: function () {
-            skinManager.getCurrentSkin().showGuide({
-                serverId: connectionManager.currentApiClient().serverId()
-            });
-        },
-        showLiveTV: function () {
-            skinManager.getCurrentSkin().showLiveTV({
-                serverId: connectionManager.currentApiClient().serverId()
-            });
-        },
-        showRecordedTV: function () {
-            skinManager.getCurrentSkin().showRecordedTV();
-        },
-        showFavorites: function () {
-            skinManager.getCurrentSkin().showFavorites();
-        },
-        showNowPlaying: function () {
-            skinManager.getCurrentSkin().showNowPlaying();
         }
     };
 
@@ -435,12 +410,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         if (apiClient && apiClient.isLoggedIn()) {
 
             console.log('appRouter - user is authenticated');
-
-            if (ctx.isBack && (route.isDefaultRoute || route.startup) && !isCurrentRouteStartup) {
-                handleBackToDefault();
-                return;
-            }
-            else if (route.isDefaultRoute) {
+            
+            if (route.isDefaultRoute) {
                 console.log('appRouter - loading skin home page');
                 loadUserSkinWithOptions(ctx);
                 return;
@@ -498,30 +469,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     var isHandlingBackToDefault;
     var isDummyBackToHome;
-
-    function handleBackToDefault() {
-
-        if (!appHost.supports('exitmenu') && appHost.supports('exit')) {
-            appHost.exit();
-            return;
-        }
-
-        isDummyBackToHome = true;
-        skinManager.loadUserSkin();
-
-        if (isHandlingBackToDefault) {
-            return;
-        }
-
-        // This must result in a call to either
-        // skinManager.loadUserSkin();
-        // Logout
-        // Or exit app
-        skinManager.getCurrentSkin().showBackMenu().then(function () {
-
-            isHandlingBackToDefault = false;
-        });
-    }
 
     function loadContent(ctx, route, html, request) {
 
@@ -668,30 +615,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return currentRouteInfo ? currentRouteInfo.route : null;
     }
 
-    function goHome() {
-
-        var skin = skinManager.getCurrentSkin();
-
-        if (skin.getHomeRoute) {
-            var homePath = skin.getHomeRoute();
-            return show(pluginManager.mapRoute(skin, homePath));
-        } else {
-            var homeRoute = skin.getRoutes().filter(function (r) {
-                return r.type === 'home';
-            })[0];
-
-            return show(pluginManager.mapRoute(skin, homeRoute));
-        }
-    }
-
-    function getRouteUrl(item, options) {
-        if (item === 'settings') {
-            return 'settings/settings.html';
-        }
-
-        return skinManager.getCurrentSkin().getRouteUrl(item, options);
-    }
-
     function showItem(item, serverId, options) {
 
         if (typeof (item) === 'string') {
@@ -710,20 +633,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 item: item
             });
         }
-    }
-
-    function setTitle(title) {
-        skinManager.getCurrentSkin().setTitle(title);
-    }
-
-    function showVideoOsd() {
-        var skin = skinManager.getCurrentSkin();
-
-        var homeRoute = skin.getRoutes().filter(function (r) {
-            return r.type === 'video-osd';
-        })[0];
-
-        return show(pluginManager.mapRoute(skin, homeRoute));
     }
 
     var allRoutes = [];
@@ -832,15 +741,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     appRouter.canGoBack = canGoBack;
     appRouter.current = current;
     appRouter.beginConnectionWizard = beginConnectionWizard;
-    appRouter.goHome = goHome;
     appRouter.showItem = showItem;
-    appRouter.setTitle = setTitle;
     appRouter.setTransparency = setTransparency;
     appRouter.getRoutes = getRoutes;
-    appRouter.getRouteUrl = getRouteUrl;
     appRouter.pushState = pushState;
     appRouter.enableNativeHistory = enableNativeHistory;
-    appRouter.showVideoOsd = showVideoOsd;
     appRouter.handleAnchorClick = page.handleAnchorClick;
     appRouter.TransparencyLevel = {
         None: 0,

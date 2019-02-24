@@ -1,148 +1,9 @@
-define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings'], function (appHost, userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings) {
+define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings', 'appRouter'], function (appHost, userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings, appRouter) {
     'use strict';
-
-    var currentSkin;
-
-    function getCurrentSkin() {
-        return currentSkin;
-    }
-
-    function getRequirePromise(deps) {
-        return new Promise(function (resolve, reject) {
-            require(deps, resolve);
-        });
-    }
-
-    function loadSkin(id) {
-        var newSkin = pluginManager.plugins().filter(function (p) {
-            return p.id === id;
-        })[0];
-
-        if (!newSkin) {
-            newSkin = pluginManager.plugins().filter(function (p) {
-                return p.id === 'defaultskin';
-            })[0];
-        }
-
-        var unloadPromise;
-
-        if (currentSkin) {
-            if (currentSkin.id === newSkin.id) {
-                // Nothing to do, it's already the active skin
-                return Promise.resolve(currentSkin);
-            }
-            unloadPromise = unloadSkin(currentSkin);
-        } else {
-            unloadPromise = Promise.resolve();
-        }
-
-        return unloadPromise.then(function () {
-            var deps = newSkin.getDependencies();
-
-            console.log('Loading skin dependencies');
-
-            return getRequirePromise(deps).then(function () {
-
-                console.log('Skin dependencies loaded');
-
-                var strings = newSkin.getTranslations ? newSkin.getTranslations() : [];
-
-                return globalize.loadStrings({
-
-                    name: newSkin.id,
-                    strings: strings
-
-                }).then(function () {
-
-                    globalize.defaultModule(newSkin.id);
-                    return loadSkinHeader(newSkin);
-                });
-            });
-        });
-    }
-
-    function unloadSkin(skin) {
-
-        unloadTheme();
-        backdrop.clear();
-
-        console.log('Unloading skin: ' + skin.name);
-
-        // TODO: unload css
-        return skin.unload().then(function () {
-            document.dispatchEvent(new CustomEvent("skinunload", {
-                detail: {
-                    name: skin.name
-                }
-            }));
-        });
-    }
-
-    function loadSkinHeader(skin) {
-        return getSkinHeader(skin).then(function (headerHtml) {
-            document.querySelector('.skinHeader').innerHTML = headerHtml;
-
-            currentSkin = skin;
-            skin.load();
-
-            return skin;
-        });
-    }
-
-    var cacheParam = new Date().getTime();
-
-    function getSkinHeader(skin) {
-
-        return new Promise(function (resolve, reject) {
-
-            if (!skin.getHeaderTemplate) {
-                resolve('');
-                return;
-            }
-
-            var xhr = new XMLHttpRequest();
-
-            var url = skin.getHeaderTemplate();
-            url += url.indexOf('?') === -1 ? '?' : '&';
-            url += 'v=' + cacheParam;
-
-            xhr.open('GET', url, true);
-
-            xhr.onload = function (e) {
-                if (this.status < 400) {
-                    resolve(this.response);
-                } else {
-                    resolve('');
-                }
-            };
-
-            xhr.send();
-        });
-    }
-
-    function loadUserSkin(options) {
-
-        var skin = userSettings.get('skin', false) || 'defaultskin';
-
-        loadSkin(skin).then(function (skin) {
-
-            options = options || {};
-            if (options.start) {
-                Emby.Page.invokeShortcut(options.start);
-            } else {
-                Emby.Page.goHome();
-            }
-        });
-    }
-
-    events.on(userSettings, 'change', function (e, name) {
-        if (name === 'skin' || name === 'language') {
-            loadUserSkin();
-        }
-    });
 
     var themeStyleElement;
     var currentThemeId;
+
     function unloadTheme() {
         var elem = themeStyleElement;
         if (elem) {
@@ -153,20 +14,61 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         }
     }
 
-    function getThemes() {
+    function loadUserSkin(options) {
+        options = options || {};
 
-        if (currentSkin.getThemes) {
-            return currentSkin.getThemes();
+        if (options.start) {
+            appRouter.invokeShortcut(options.start);
+        } else {
+            appRouter.goHome();
         }
+    };
 
-        return [];
-    }
+    function getThemes() {
+        return [{
+            name: "Apple TV",
+            id: "appletv"
+        }, {
+            name: "Blue Radiance",
+            id: "blueradiance"
+        }, {
+            name: "Dark",
+            id: "dark",
+            isDefault: true,
+            isDefaultServerDashboard: true
+        }, {
+            name: "Dark (green accent)",
+            id: "dark-green"
+        }, {
+            name: "Dark (red accent)",
+            id: "dark-red"
+        }, {
+            name: "Light",
+            id: "light"
+        }, {
+            name: "Light (blue accent)",
+            id: "light-blue"
+        }, {
+            name: "Light (green accent)",
+            id: "light-green"
+        }, {
+            name: "Light (pink accent)",
+            id: "light-pink"
+        }, {
+            name: "Light (purple accent)",
+            id: "light-purple"
+        }, {
+            name: "Light (red accent)",
+            id: "light-red"
+        }, {
+            name: "Windows Media Center",
+            id: "wmc"
+        }];
+    };
 
     var skinManager = {
-        getCurrentSkin: getCurrentSkin,
-        loadSkin: loadSkin,
-        loadUserSkin: loadUserSkin,
-        getThemes: getThemes
+        getThemes: getThemes,
+        loadUserSkin: loadUserSkin
     };
 
     function getThemeStylesheetInfo(id, requiresRegistration, isDefaultProperty) {
