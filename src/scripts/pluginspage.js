@@ -33,18 +33,16 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-linkbut
         var configPage = pluginConfigurationPages.filter(function(pluginConfigurationPage) {
                 return pluginConfigurationPage.PluginId == plugin.Id
         })[0];
-        var html = "";
-        var disallowPlugins = !Dashboard.allowPluginPages(plugin.Id);
         var configPageUrl = configPage ? Dashboard.getConfigurationPageUrl(configPage.Name) : null;
-        var href = configPage && !disallowPlugins ? configPageUrl : null;
 
+        var html = "";
         html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' class='card backdropCard'>";
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';
-        html += href ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + href + '">' : configPageUrl ? disallowPlugins ? '<div class="cardContent connectModePluginCard cardImageContainer">' : '<div class="cardContent cardImageContainer">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer">';
+        html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer">';
         plugin.ImageUrl ? (html += '<div class="cardImage coveredImage" style="background-image:url(\'' + plugin.ImageUrl + "');\">", html += "</div>") : html += '<i class="cardImageIcon md-icon">&#xE2C7;</i>';
-        html += href ? "</a>" : "</div>";
+        html += configPageUrl ? "</a>" : "</div>";
         html += "</div>";
         html += '<div class="cardFooter">';
         html += '<div style="text-align:right; float:right;padding-top:5px;">';
