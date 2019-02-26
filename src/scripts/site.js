@@ -357,16 +357,6 @@ var AppInfo = {};
         return layoutManager;
     }
 
-    function getAppStorage(basePath) {
-        try {
-            localStorage.setItem("_test", "0");
-            localStorage.removeItem("_test");
-            return basePath + "/appstorage-localstorage";
-        } catch (e) {
-            return basePath + "/appstorage-memory";
-        }
-    }
-
     function createWindowHeadroom(Headroom) {
         var headroom = new Headroom([], {});
         headroom.init();
@@ -858,7 +848,7 @@ var AppInfo = {};
         });
 
         paths.apphost = "components/apphost";
-        paths.appStorage = getAppStorage(apiClientBowerPath);
+        define('appStorage', [apiClientBowerPath + '/appStorage'], returnFirstDependency);
 
         requirejs.config({
             waitSeconds: 0,
