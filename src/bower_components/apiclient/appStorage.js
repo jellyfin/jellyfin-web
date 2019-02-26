@@ -30,7 +30,7 @@ define([], function() {
         this.getItem = function(name) {
             return localStorage.getItem(name);
         };
-        
+
         this.removeItem = function(name) {
             localStorage.removeItem(name);
 
