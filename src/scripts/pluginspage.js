@@ -41,7 +41,12 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-linkbut
         html += '<div class="cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';
         html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer">';
-        plugin.ImageUrl ? (html += '<div class="cardImage coveredImage" style="background-image:url(\'' + plugin.ImageUrl + "');\">", html += "</div>") : html += '<i class="cardImageIcon md-icon">&#xE2C7;</i>';
+        if (plugin.ImageUrl) {
+            html += '<div class="cardImage coveredImage" style="background-image:url(\'' + plugin.ImageUrl + "');\">";
+            html += "</div>";
+        } else {
+            html += '<i class="cardImageIcon md-icon">&#xE2C7;</i>';
+        }
         html += configPageUrl ? "</a>" : "</div>";
         html += "</div>";
         html += '<div class="cardFooter">';
