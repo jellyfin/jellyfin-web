@@ -32,9 +32,6 @@ function pageIdOn(eventName, id, fn) {
     })
 }
 var Dashboard = {
-        allowPluginPages: function(pluginId) {
-            return true;
-        },
         getCurrentUser: function() {
             return window.ApiClient.getCurrentUser(!1)
         },
@@ -153,14 +150,8 @@ var Dashboard = {
 ! function() {
     "use strict";
 
-    function initializeApiClient(apiClient) {
-        "cordova" !== self.appMode && "android" !== self.appMode || (apiClient.getAvailablePlugins = function() {
-            return Promise.resolve([])
-        })
-    }
-
     function onApiClientCreated(e, newApiClient) {
-        initializeApiClient(newApiClient), window.$ && ($.ajax = newApiClient.ajax)
+        window.$ && ($.ajax = newApiClient.ajax)
     }
 
     function defineConnectionManager(connectionManager) {
