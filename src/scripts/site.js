@@ -345,7 +345,6 @@ var AppInfo = {};
 
     function createWindowHeadroom(Headroom) {
         var headroom = new Headroom([], {});
-        headroom.init();
         return headroom;
     }
 
