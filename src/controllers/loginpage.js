@@ -87,7 +87,7 @@ define(["appSettings", "dom", "connectionManager", "loading", "cardStyle", "emby
         }), view.addEventListener("viewshow", function(e) {
             loading.show();
             var apiClient = getApiClient();
-            apiClient.getPublicUsers().then(function(users) {debugger;
+            apiClient.getPublicUsers().then(function(users) {
                 if (users.length) {
                     if (users[0].EnableAutoLogin) {
                         authenticateUserByName(view, apiClient, users[0].Name, "");
