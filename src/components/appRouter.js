@@ -336,8 +336,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
             firstConnectionResult = result;
 
-            loading.hide();
-
             options = options || {};
 
             page({
@@ -345,6 +343,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 hashbang: options.hashbang !== false,
                 enableHistory: enableHistory()
             });
+        }).finally(function () {
+            loading.hide();
         });
     }
 
