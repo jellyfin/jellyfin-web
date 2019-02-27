@@ -618,11 +618,7 @@ var AppInfo = {};
                         }
                     }
 
-                    require(["playerSelectionMenu"]);
-
-                    if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
-                        require(["fullscreen-doubleclick"]);
-                    }
+                    require(["playerSelectionMenu", "fullscreenManager"]);
 
                     if (appHost.supports("sync")) {
                         initLocalSyncEvents();
@@ -779,7 +775,7 @@ var AppInfo = {};
         define("searchResults", [componentsPath + "/search/searchresults"], returnFirstDependency);
         define("upNextDialog", [componentsPath + "/upnextdialog/upnextdialog"], returnFirstDependency);
         define("fullscreen-doubleclick", [componentsPath + "/fullscreen/fullscreen-dc"], returnFirstDependency);
-        define("fullscreenManager", [componentsPath + "/fullscreen/fullscreenmanager", "events"], returnFirstDependency);
+        define("fullscreenManager", [componentsPath + "/fullscreenManager", "events"], returnFirstDependency);
         define("headroom", [componentsPath + "/headroom/headroom"], returnFirstDependency);
         define("subtitleAppearanceHelper", [componentsPath + "/subtitlesettings/subtitleappearancehelper"], returnFirstDependency);
         define("subtitleSettings", [componentsPath + "/subtitlesettings/subtitlesettings"], returnFirstDependency);
