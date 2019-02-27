@@ -1,4 +1,4 @@
-define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'emby-button', 'paper-icon-button-light', 'emby-linkbutton', 'formDialogStyle', 'cardStyle'], function (loading, appHost, dialogHelper, connectionManager, imageLoader, browser, layoutManager, scrollHelper, globalize, require) {
+define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'emby-button', 'paper-icon-button-light', 'emby-button', 'formDialogStyle', 'cardStyle'], function (loading, appHost, dialogHelper, connectionManager, imageLoader, browser, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
     var currentItemId;

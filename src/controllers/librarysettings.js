@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "libraryMenu", "fnchecked", "emby-checkbox", "emby-linkbutton"], function($, loading, libraryMenu) {
+define(["jQuery", "loading", "libraryMenu", "fnchecked", "emby-checkbox", "emby-button"], function($, loading, libraryMenu) {
     "use strict";
 
     function loadPage(page, config) {

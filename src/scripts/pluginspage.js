@@ -1,4 +1,4 @@
-define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-linkbutton"], function(loading, libraryMenu, dom, globalize) {
+define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"], function(loading, libraryMenu, dom, globalize) {
     "use strict";
 
     function deletePlugin(page, uniqueid, name) {

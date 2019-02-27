@@ -1,4 +1,4 @@
-define(["datetime", "loading", "apphost", "listViewStyle", "emby-linkbutton", "flexStyles"], function(datetime, loading, appHost) {
+define(["datetime", "loading", "apphost", "listViewStyle", "emby-button", "flexStyles"], function(datetime, loading, appHost) {
     "use strict";
     return function(view, params) {
         view.querySelector("#chkDebugLog").addEventListener("change", function() {

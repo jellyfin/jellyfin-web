@@ -1,4 +1,4 @@
-define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-linkbutton"], function($, globalize, loading, libraryMenu) {
+define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-button"], function($, globalize, loading, libraryMenu) {
     "use strict";
 
     function loadProfiles(page) {

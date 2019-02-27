@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "emby-linkbutton"], function($, loading, libraryMenu, globalize, connectionManager) {
+define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "emby-button"], function($, loading, libraryMenu, globalize, connectionManager) {
     "use strict";
 
     function populateHistory(packageInfo, page) {

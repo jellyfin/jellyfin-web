@@ -1,4 +1,4 @@
-define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 'cardBuilder', 'appRouter', 'emby-scroller', 'emby-itemscontainer', 'emby-linkbutton'], function (layoutManager, globalize, require, events, connectionManager, cardBuilder, appRouter) {
+define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 'cardBuilder', 'appRouter', 'emby-scroller', 'emby-itemscontainer', 'emby-button'], function (layoutManager, globalize, require, events, connectionManager, cardBuilder, appRouter) {
     'use strict';
 
     function loadSuggestions(instance, context, apiClient) {

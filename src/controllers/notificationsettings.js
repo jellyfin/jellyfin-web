@@ -1,4 +1,4 @@
-define(["loading", "libraryMenu", "globalize", "listViewStyle", "emby-linkbutton"], function(loading, libraryMenu, globalize) {
+define(["loading", "libraryMenu", "globalize", "listViewStyle", "emby-button"], function(loading, libraryMenu, globalize) {
     "use strict";
 
     function reload(page) {

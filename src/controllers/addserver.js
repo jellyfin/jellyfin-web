@@ -1,4 +1,4 @@
-define(["appSettings", "loading", "browser", "emby-linkbutton"], function(appSettings, loading, browser) {
+define(["appSettings", "loading", "browser", "emby-button"], function(appSettings, loading, browser) {
     "use strict";
 
     function handleConnectionResult(page, result) {
