@@ -801,7 +801,7 @@ var AppInfo = {};
         define("programStyles", ["css!" + componentsPath + "/guide/programs"], returnFirstDependency);
         define("guide-settings-dialog", [componentsPath + "/guide/guide-settings"], returnFirstDependency);
         define("loadingDialog", [componentsPath + "/loadingdialog/loadingdialog"], returnFirstDependency);
-        define("viewManager", [componentsPath + "/viewmanager/viewmanager"], function (viewManager) {
+        define("viewManager", [componentsPath + "/viewManager/viewManager"], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
             return viewManager;
