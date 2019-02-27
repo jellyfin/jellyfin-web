@@ -864,7 +864,7 @@ var AppInfo = {};
         define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
         define("navdrawer", ["components/navdrawer/navdrawer"], returnFirstDependency);
         define("htmlMediaHelper", [componentsPath + "/htmlvideoplayer/htmlmediahelper"], returnFirstDependency);
-        define("viewcontainer", ["components/viewcontainer-lite", "css!" + componentsPath + "/viewmanager/viewcontainer-lite"], returnFirstDependency);
+        define("viewcontainer", ["components/viewcontainer-lite"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
         });
