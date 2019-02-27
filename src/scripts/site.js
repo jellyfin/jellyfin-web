@@ -473,10 +473,6 @@ var AppInfo = {};
         define("buttonenabled", ["legacy/buttonenabled"], returnFirstDependency);
         var promises = [];
 
-        if (!window.fetch) {
-            promises.push(require(["fetch"]));
-        }
-
         Promise.all(promises).then(function () {
             createConnectionManager().then(function () {
                 console.log("initAfterDependencies promises resolved");
@@ -834,7 +830,6 @@ var AppInfo = {};
         define("jstree", ["thirdparty/jstree/jstree", "css!thirdparty/jstree/themes/default/style.css"], returnFirstDependency);
         define("dashboardcss", ["css!css/dashboard"], returnFirstDependency);
         define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
-        define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency);
         define("clearButtonStyle", ["css!" + componentsPath + "/clearbutton"], returnFirstDependency);
         define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
         define("emby-playstatebutton", [componentsPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
