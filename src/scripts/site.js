@@ -424,7 +424,7 @@ var AppInfo = {};
             define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
         }
 
-        define("imageFetcher", [componentsPath + "/images/basicimagefetcher"], returnFirstDependency);
+        define("imageFetcher", [componentsPath + "/images/imageFetcher"], returnFirstDependency);
 
         var preferNativeAlerts = browser.tv;
 
@@ -717,7 +717,7 @@ var AppInfo = {};
         define("libjass", [bowerPath + "/libjass/libjass.min", "css!" + bowerPath + "/libjass/libjass"], returnFirstDependency);
         define("tunerPicker", ["components/tunerpicker"], returnFirstDependency);
         define("mainTabsManager", [componentsPath + "/maintabsmanager"], returnFirstDependency);
-        define("imageLoader", [componentsPath + "/images/imagehelper"], returnFirstDependency);
+        define("imageLoader", [componentsPath + "/images/imageLoader"], returnFirstDependency);
         define("appFooter", [componentsPath + "/appfooter/appfooter"], returnFirstDependency);
         define("directorybrowser", ["components/directorybrowser/directorybrowser"], returnFirstDependency);
         define("metadataEditor", [componentsPath + "/metadataeditor/metadataeditor"], returnFirstDependency);
