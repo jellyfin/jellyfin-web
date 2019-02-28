@@ -54,9 +54,6 @@ function pageIdOn(eventName, id, fn) {
 }
 
 var Dashboard = {
-    allowPluginPages: function (pluginId) {
-        return true;
-    },
     getCurrentUser: function () {
         return window.ApiClient.getCurrentUser(false);
     },
