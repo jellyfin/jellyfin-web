@@ -853,7 +853,7 @@ var AppInfo = {};
         define("scrollStyles", ["css!" + componentsPath + "/scrollstyles"], returnFirstDependency);
         define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
         define("navdrawer", ["components/navdrawer/navdrawer"], returnFirstDependency);
-        define("htmlMediaHelper", [componentsPath + "/htmlvideoplayer/htmlmediahelper"], returnFirstDependency);
+        define("htmlMediaHelper", [componentsPath + "/htmlMediaHelper"], returnFirstDependency);
         define("viewcontainer", ["components/viewContainer"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
