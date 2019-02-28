@@ -873,7 +873,7 @@ var AppInfo = {};
         define("fnchecked", ["legacy/fnchecked"], returnFirstDependency);
         define("dialogHelper", [componentsPath + "/dialogHelper/dialogHelper"], returnFirstDependency);
         define("inputmanager", ["inputManager"], returnFirstDependency);
-        define("serverNotifications", [componentsPath + "/apiInput/apiInput"], returnFirstDependency);
+        define("serverNotifications", [componentsPath + "/serverNotifications/serverNotifications"], returnFirstDependency);
         define("appFooter-shared", ["appFooter"], createSharedAppFooter);
         define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
         define("connectionManager", [], function () {

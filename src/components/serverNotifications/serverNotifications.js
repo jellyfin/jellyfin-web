@@ -248,10 +248,10 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
     });
 
     if (!enableNativeGamepadKeyMapping() && isGamepadSupported()) {
-        require(["components/apiInput/gamepadtokey"]);
+        require(["components/serverNotifications/gamepadtokey"]);
     }
 
-    require(["components/apiInput/mouseManager"]);
+    require(["components/serverNotifications/mouseManager"]);
 
     return serverNotifications;
 });
