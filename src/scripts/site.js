@@ -754,7 +754,7 @@ var AppInfo = {};
         define("emby-radio", [componentsPath + "/emby-radio/emby-radio"], returnFirstDependency);
         define("emby-textarea", [componentsPath + "/emby-textarea/emby-textarea"], returnFirstDependency);
         define("collectionEditor", [componentsPath + "/collectioneditor/collectioneditor"], returnFirstDependency);
-        define("serverRestartDialog", [componentsPath + "/serverrestartdialog/serverrestartdialog"], returnFirstDependency);
+        define("serverRestartDialog", [componentsPath + "/serverRestartDialog"], returnFirstDependency);
         define("playlistEditor", [componentsPath + "/playlisteditor/playlisteditor"], returnFirstDependency);
         define("recordingCreator", [componentsPath + "/recordingcreator/recordingcreator"], returnFirstDependency);
         define("recordingEditor", [componentsPath + "/recordingcreator/recordingeditor"], returnFirstDependency);
