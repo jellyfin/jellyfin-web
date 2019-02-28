@@ -845,7 +845,7 @@ var AppInfo = {};
         define("itemrepository", [apiClientBowerPath + "/sync/itemrepository"], returnFirstDependency);
         define("useractionrepository", [apiClientBowerPath + "/sync/useractionrepository"], returnFirstDependency);
         define("swiper", [bowerPath + "/Swiper/dist/js/swiper.min", "css!" + bowerPath + "/Swiper/dist/css/swiper.min"], returnFirstDependency);
-        define("scroller", [componentsPath + "/scroller/smoothscroller"], returnFirstDependency);
+        define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
         define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);
         define("touchHelper", [componentsPath + "/touchhelper"], returnFirstDependency);
