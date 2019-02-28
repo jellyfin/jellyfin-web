@@ -386,16 +386,13 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     function addPluginPagesToMainMenu(links, pluginItems, section) {
         for (var i = 0, length = pluginItems.length; i < length; i++) {
             var pluginItem = pluginItems[i];
-
-            if (Dashboard.allowPluginPages(pluginItem.PluginId)) {
-                if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === section) {
-                    links.push({
-                        name: pluginItem.DisplayName,
-                        icon: pluginItem.MenuIcon || "folder",
-                        href: Dashboard.getConfigurationPageUrl(pluginItem.Name),
-                        pageUrls: [Dashboard.getConfigurationPageUrl(pluginItem.Name)]
-                    });
-                }
+            if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === section) {
+                links.push({
+                    name: pluginItem.DisplayName,
+                    icon: pluginItem.MenuIcon || "folder",
+                    href: Dashboard.getConfigurationPageUrl(pluginItem.Name),
+                    pageUrls: [Dashboard.getConfigurationPageUrl(pluginItem.Name)]
+                });
             }
         }
     }
