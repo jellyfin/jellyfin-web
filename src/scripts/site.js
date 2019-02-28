@@ -445,12 +445,7 @@ var AppInfo = {};
             define("prompt", [componentsPath + "/prompt/prompt"], returnFirstDependency);
         }
 
-        if (browser.tizen || browser.operaTv || browser.chromecast || browser.orsay || browser.web0s || browser.ps4) {
-            define("loading", [componentsPath + "/loading/loading-legacy"], returnFirstDependency);
-        } else {
-            define("loading", [componentsPath + "/loading/loading-lite"], returnFirstDependency);
-        }
-
+        define("loading", [componentsPath + "/loading/loading"], returnFirstDependency);
         define("multi-download", [componentsPath + "/multidownload"], returnFirstDependency);
         define("fileDownloader", [componentsPath + "/filedownloader"], returnFirstDependency);
         define("localassetmanager", [apiClientBowerPath + "/localassetmanager"], returnFirstDependency);
@@ -701,7 +696,7 @@ var AppInfo = {};
             inputManager: componentsPath + "/inputmanager",
             qualityoptions: componentsPath + "/qualityoptions",
             hammer: bowerPath + "/hammerjs/hammer.min",
-            pageJs: "thirdparty/pagejs/page",
+            page: "thirdparty/page",
             focusManager: componentsPath + "/focusmanager",
             datetime: componentsPath + "/datetime",
             globalize: componentsPath + "/globalize",
@@ -727,7 +722,7 @@ var AppInfo = {};
         define("directorybrowser", ["components/directorybrowser/directorybrowser"], returnFirstDependency);
         define("metadataEditor", [componentsPath + "/metadataeditor/metadataeditor"], returnFirstDependency);
         define("personEditor", [componentsPath + "/metadataeditor/personeditor"], returnFirstDependency);
-        define("playerSelectionMenu", [componentsPath + "/playback/playerselection"], returnFirstDependency);
+        define("playerSelectionMenu", [componentsPath + "/playback/playerSelectionMenu"], returnFirstDependency);
         define("playerSettingsMenu", [componentsPath + "/playback/playersettingsmenu"], returnFirstDependency);
         define("playMethodHelper", [componentsPath + "/playback/playmethodhelper"], returnFirstDependency);
         define("brightnessOsd", [componentsPath + "/playback/brightnessosd"], returnFirstDependency);
