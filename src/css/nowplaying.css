@@ -186,7 +186,7 @@
 }
 
 .nowPlayingVolumeSliderContainer {
-    width: 6em
+    width: 9em
 }
 
 @media all and (max-width:34em) {
