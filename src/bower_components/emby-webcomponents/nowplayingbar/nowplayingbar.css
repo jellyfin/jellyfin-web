@@ -137,21 +137,13 @@
 
 @media all and (max-width: 64em) {
 
-    .nowPlayingImage {
-        display: none;
+    .nowPlayingBarCurrentTime {
+        display: none !important;
     }
     
 }
 
 @media all and (max-width: 61em) {
-
-    .nowPlayingBarCurrentTime {
-        display: none !important;
-    }
-
-}
-
-@media all and (max-width: 50em) {
 
     .nowPlayingBarCenter {
         display: none !important;
@@ -160,16 +152,24 @@
 }
 
 
-@media all and (min-width: 50em) {
+@media all and (min-width: 61em) {
 
     .nowPlayingBarRight .playPauseButton {
         display: none;
     }
 
+}
+
+@media all and (max-width: 41em) {
+    
+    .nowPlayingImage {
+        display: none;
+    }
 
 }
 
-@media all and (max-width: 40em) {
+
+@media all and (max-width: 36em) {
 
     .nowPlayingBarVolumeSliderContainer {
         display: none !important;
