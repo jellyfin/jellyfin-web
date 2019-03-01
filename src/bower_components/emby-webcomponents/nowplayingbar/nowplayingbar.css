@@ -119,38 +119,52 @@
     height: 1.2em !important;
 }
 
-@media all and (max-width: 87.5em) {
+@media all and (max-width: 68em) {
 
     .nowPlayingBarUserDataButtons {
         display: none;
     }
 }
 
-@media all and (max-width: 55em) {
+@media all and (max-width: 63em) {
 
-    .nowPlayingBarVolumeSliderContainer, .nowPlayingBar .muteButton, .nowPlayingBar .unmuteButton {
+    .nowPlayingBar .muteButton, .nowPlayingBar .unmuteButton, .toggleRepeatButton {
         display: none !important;
     }
 }
 
-@media all and (max-width: 45em) {
+
+@media all and (max-width: 58em) {
+
+    .nowPlayingImage {
+        display: none;
+    }
+    
+}
+
+@media all and (max-width: 53em) {
 
     .nowPlayingBarCenter {
         display: none !important;
     }
-
-    .toggleRepeatButton {
-        display: none;
-    }
+    .nowPlayingBarInfoContainer {
+        max-width: 12em;
+    }    
 }
 
-@media all and (min-width: 45em) {
+@media all and (min-width: 53em) {
 
     .nowPlayingBarRight .playPauseButton {
         display: none;
     }
 
-    .nowPlayingBarInfoContainer {
-        max-width: 40%;
+
+}
+
+@media all and (max-width: 33em) {
+
+    .nowPlayingBarVolumeSliderContainer {
+        display: none !important;
     }
+    
 }
