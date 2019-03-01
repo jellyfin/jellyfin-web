@@ -126,7 +126,7 @@
     }
 }
 
-@media all and (max-width: 68.75em) {
+@media all and (max-width: 55em) {
 
     .nowPlayingBarVolumeSliderContainer, .nowPlayingBar .muteButton, .nowPlayingBar .unmuteButton {
         display: none !important;
