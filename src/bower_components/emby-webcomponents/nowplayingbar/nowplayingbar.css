@@ -142,7 +142,7 @@
 
 }
 
-@media all and (max-width: 58em) {
+@media all and (max-width: 56em) {
 
     .nowPlayingBarCenter {
         display: none !important;
@@ -151,7 +151,7 @@
 }
 
 
-@media all and (min-width: 58em) {
+@media all and (min-width: 56em) {
 
     .nowPlayingBarRight .playPauseButton {
         display: none;
