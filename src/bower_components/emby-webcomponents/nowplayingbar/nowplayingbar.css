@@ -119,21 +119,22 @@
     height: 1.2em !important;
 }
 
-@media all and (max-width: 73em) {
+
+@media all and (max-width: 70em) {
 
     .nowPlayingBarRight .nowPlayingBarUserDataButtons {
         display: none;
     }
 }
 
-@media all and (max-width: 70em) {
-
-    .nowPlayingBarRight .toggleRepeatButton {
-        display: none;
+@media all and (max-width: 66em) {
+    .toggleRepeatButton {
+        display: none !important;
     }
 }
 
-@media all and (max-width: 67em) {
+
+@media all and (max-width: 62em) {
 
     .nowPlayingBarCenter .nowPlayingBarCurrentTime {
         display: none !important;
@@ -141,25 +142,16 @@
 
 }
 
-@media all and (max-width: 61em) {
+@media all and (max-width: 58em) {
 
-    .nowPlayingBarCenter .stopButton {
+    .nowPlayingBarCenter {
         display: none !important;
     }
 
 }
 
 
-@media all and (max-width: 55em) {
-
-    .nowPlayingBarCenter .nextTrackButton, .nowPlayingBarCenter .previousTrackButton, .nowPlayingBarCenter .playPauseButton {
-        display: none !important;
-    }
-
-}
-
-
-@media all and (min-width: 55em) {
+@media all and (min-width: 58em) {
 
     .nowPlayingBarRight .playPauseButton {
         display: none;
@@ -167,27 +159,26 @@
 
 }
 
-@media all and (max-width: 41em) {
+@media all and (max-width: 40em) {
 
-    .nowPlayingImage {
+    .nowPlayingBarInfoContainer .nowPlayingImage {
         display: none;
     }
 
 }
 
-
 @media all and (max-width: 36em) {
 
-    .nowPlayingBarVolumeSliderContainer {
+    .nowPlayingBarRight .nowPlayingBarVolumeSliderContainer {
         display: none !important;
     }
 
 }
 
-@media all and (max-width: 27em) {
+@media all and (max-width: 24em) {
 
-    .nowPlayingBar .muteButton, .nowPlayingBar .unmuteButton {
-        display: none !important;
-    }
+  .nowPlayingBar .muteButton, .nowPlayingBar .unmuteButton {
+    display: none;
+  }
 
 }
