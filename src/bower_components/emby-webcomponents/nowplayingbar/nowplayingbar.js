@@ -191,9 +191,9 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 currentPlayer.setVolume(this.value);
             }
         }
-        volumeSlider.addEventListener('change', setVolume.bind(this));
-        volumeSlider.addEventListener('mousemove', setVolume.bind(this));
-        volumeSlider.addEventListener('touchmove', setVolume.bind(this));
+        volumeSlider.addEventListener('change', setVolume);
+        volumeSlider.addEventListener('mousemove', setVolume);
+        volumeSlider.addEventListener('touchmove', setVolume);
 
 
         positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
