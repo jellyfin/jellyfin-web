@@ -1146,7 +1146,15 @@ var AppInfo = {};
 
     function loadPlugins(externalPlugins, appHost, browser, shell) {
         console.log("Loading installed plugins");
-        var list = ["bower_components/emby-webcomponents/playback/playbackvalidation", "bower_components/emby-webcomponents/playback/playaccessvalidation", "bower_components/emby-webcomponents/playback/experimentalwarnings", "bower_components/emby-webcomponents/htmlaudioplayer/plugin", "bower_components/emby-webcomponents/htmlvideoplayer/plugin", "bower_components/emby-webcomponents/photoplayer/plugin", "bower_components/emby-webcomponents/youtubeplayer/plugin"];
+        var list = [
+            "bower_components/emby-webcomponents/playback/playbackvalidation",
+            "bower_components/emby-webcomponents/playback/playaccessvalidation",
+            "bower_components/emby-webcomponents/playback/experimentalwarnings",
+            "bower_components/emby-webcomponents/htmlaudioplayer/plugin",
+            "bower_components/emby-webcomponents/htmlvideoplayer/plugin",
+            "bower_components/emby-webcomponents/photoplayer/plugin",
+            "bower_components/emby-webcomponents/youtubeplayer/plugin"
+        ];
 
         if ("cordova" === self.appMode) {
             list.push("cordova/chromecast");
