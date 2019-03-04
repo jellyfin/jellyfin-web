@@ -293,7 +293,7 @@ var AppInfo = {};
                         var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
                         
                         apiClient.enableAutomaticNetworking = false;
-                        apiClient.manualAddressOnly         = true;
+                        apiClient.manualAddressOnly = true;
 
                         connectionManager.addApiClient(apiClient);
 
