@@ -270,12 +270,12 @@ var AppInfo = {};
 
     function createConnectionManager() {
         return require(["connectionManagerFactory", "apphost", "credentialprovider", "events", "userSettings"], function (ConnectionManager, apphost, credentialProvider, events, userSettings) {
-            var credentialProviderInstance = new credentialProvider(),
+            var credentialProviderInstance = new credentialProvider();
             var promises = [apphost.getSyncProfile(), apphost.init()];
 
             Promise.all(promises).then(function (responses) {
-                var deviceProfile = responses[0],
-                    capabilities  = Dashboard.capabilities(apphost);
+                var deviceProfile = responses[0];
+                var capabilities = Dashboard.capabilities(apphost);
 
                 capabilities.DeviceProfile = deviceProfile;
 
