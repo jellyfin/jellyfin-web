@@ -1194,7 +1194,7 @@ var AppInfo = {};
     }
 
     function enableNativeGamepadKeyMapping() {
-        if (!(!window.navigator || "string" != typeof window.navigator.gamepadInputEmulation)) {
+        if (window.navigator && "string" == typeof window.navigator.gamepadInputEmulation) {
             window.navigator.gamepadInputEmulation = "keyboard";
             return true;
         }
