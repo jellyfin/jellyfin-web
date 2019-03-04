@@ -1239,7 +1239,7 @@ var AppInfo = {};
 
                 require(["bower_components/emby-webcomponents/thememediaplayer", "scripts/autobackdrops"]);
 
-                if (!("cordova" !== self.appMode && "android" !== self.appMode)) {
+                if ("cordova" === self.appMode || "android" === self.appMode) {
                     if (browser.android) {
                         require(["cordova/mediasession", "cordova/chromecast", "cordova/appshortcuts"]);
                     } else if (browser.safari) {
