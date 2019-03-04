@@ -1146,7 +1146,15 @@ var AppInfo = {};
 
     function loadPlugins(externalPlugins, appHost, browser, shell) {
         console.log("Loading installed plugins");
-        var list = ["bower_components/emby-webcomponents/playback/playbackvalidation", "bower_components/emby-webcomponents/playback/playaccessvalidation", "bower_components/emby-webcomponents/playback/experimentalwarnings", "bower_components/emby-webcomponents/htmlaudioplayer/plugin", "bower_components/emby-webcomponents/htmlvideoplayer/plugin", "bower_components/emby-webcomponents/photoplayer/plugin", "bower_components/emby-webcomponents/youtubeplayer/plugin"];
+        var list = [
+            "bower_components/emby-webcomponents/playback/playbackvalidation",
+            "bower_components/emby-webcomponents/playback/playaccessvalidation",
+            "bower_components/emby-webcomponents/playback/experimentalwarnings",
+            "bower_components/emby-webcomponents/htmlaudioplayer/plugin",
+            "bower_components/emby-webcomponents/htmlvideoplayer/plugin",
+            "bower_components/emby-webcomponents/photoplayer/plugin",
+            "bower_components/emby-webcomponents/youtubeplayer/plugin"
+        ];
 
         if ("cordova" === self.appMode) {
             list.push("cordova/chromecast");
@@ -1186,7 +1194,7 @@ var AppInfo = {};
     }
 
     function enableNativeGamepadKeyMapping() {
-        if (!(!window.navigator || "string" != typeof window.navigator.gamepadInputEmulation)) {
+        if (window.navigator && "string" == typeof window.navigator.gamepadInputEmulation) {
             window.navigator.gamepadInputEmulation = "keyboard";
             return true;
         }
@@ -1231,7 +1239,7 @@ var AppInfo = {};
 
                 require(["bower_components/emby-webcomponents/thememediaplayer", "scripts/autobackdrops"]);
 
-                if (!("cordova" !== self.appMode && "android" !== self.appMode)) {
+                if ("cordova" === self.appMode || "android" === self.appMode) {
                     if (browser.android) {
                         require(["cordova/mediasession", "cordova/chromecast", "cordova/appshortcuts"]);
                     } else if (browser.safari) {
@@ -1239,7 +1247,7 @@ var AppInfo = {};
                     }
                 }
 
-                if (!(browser.tv || browser.xboxOne || browser.ps4)) {
+                if (!browser.tv && !browser.xboxOne && !browser.ps4) {
                     require(["bower_components/emby-webcomponents/nowplayingbar/nowplayingbar"]);
                 }
 
@@ -1257,7 +1265,7 @@ var AppInfo = {};
 
                 require(["apiInput", "mouseManager"]);
 
-                if (!(browser.tv || browser.xboxOne)) {
+                if (!browser.tv && !browser.xboxOne) {
                     require(["bower_components/emby-webcomponents/playback/playbackorientation"]);
                     registerServiceWorker();
 
