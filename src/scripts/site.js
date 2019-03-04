@@ -1265,7 +1265,7 @@ var AppInfo = {};
 
                 require(["apiInput", "mouseManager"]);
 
-                if (!(browser.tv || browser.xboxOne)) {
+                if (!browser.tv && !browser.xboxOne) {
                     require(["bower_components/emby-webcomponents/playback/playbackorientation"]);
                     registerServiceWorker();
 
