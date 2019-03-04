@@ -32,11 +32,11 @@ function getParameterByName(name, url) {
 function pageClassOn(eventName, className, fn) {
     "use strict";
 
-    document.addEventListener(eventName, function (e__q) {
-        var target = e__q.target;
+    document.addEventListener(eventName, function (event) {
+        var target = event.target;
 
         if (target.classList.contains(className)) {
-            fn.call(target, e__q);
+            fn.call(target, event);
         }
     });
 }
@@ -44,11 +44,11 @@ function pageClassOn(eventName, className, fn) {
 function pageIdOn(eventName, id, fn) {
     "use strict";
 
-    document.addEventListener(eventName, function (e__w) {
-        var target = e__w.target;
+    document.addEventListener(eventName, function (event) {
+        var target = event.target;
 
         if (target.id === id) {
-            fn.call(target, e__w);
+            fn.call(target, event);
         }
     });
 }
@@ -336,7 +336,7 @@ var AppInfo = {};
     }
 
     function getPlaybackManager(playbackManager) {
-        window.addEventListener("beforeunload", function (e__r) {
+        window.addEventListener("beforeunload", function () {
             try {
                 playbackManager.onAppClose();
             } catch (err) {
@@ -523,19 +523,15 @@ var AppInfo = {};
             define("bgtaskregister", ["environments/windows-uwp/bgtaskregister"], returnFirstDependency);
             define("transfermanager", ["environments/windows-uwp/transfermanager"], returnFirstDependency);
             define("filerepository", ["environments/windows-uwp/filerepository"], returnFirstDependency);
+        } else if ("cordova" === self.appMode) {
+            define("filerepository", ["cordova/filerepository"], returnFirstDependency);
+            define("transfermanager", ["filerepository"], returnFirstDependency);
+        } else if ("android" === self.appMode) {
+            define("transfermanager", ["cordova/transfermanager"], returnFirstDependency);
+            define("filerepository", ["cordova/filerepository"], returnFirstDependency);
         } else {
-            if ("cordova" === self.appMode) {
-                define("filerepository", ["cordova/filerepository"], returnFirstDependency);
-                define("transfermanager", ["filerepository"], returnFirstDependency);
-            } else {
-                if ("android" === self.appMode) {
-                    define("transfermanager", ["cordova/transfermanager"], returnFirstDependency);
-                    define("filerepository", ["cordova/filerepository"], returnFirstDependency);
-                } else {
-                    define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency);
-                    define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency);
-                }
-            }
+            define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency);
+            define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency);
         }
 
         if ("android" === self.appMode) {
@@ -591,10 +587,10 @@ var AppInfo = {};
 
     function loadCoreDictionary(globalize) {
         var languages = ["ar", "be-by", "bg-bg", "ca", "cs", "da", "de", "el", "en-gb", "en-us", "es", "es-ar", "es-mx", "fa", "fi", "fr", "fr-ca", "gsw", "he", "hi-in", "hr", "hu", "id", "it", "kk", "ko", "lt-lt", "ms", "nb", "nl", "pl", "pt-br", "pt-pt", "ro", "ru", "sk", "sl-si", "sv", "tr", "uk", "vi", "zh-cn", "zh-hk", "zh-tw"];
-        var translations = languages.map(function (i__t) {
+        var translations = languages.map(function (language) {
             return {
-                lang: i__t,
-                path: "strings/" + i__t + ".json"
+                lang: language,
+                path: "strings/" + language + ".json"
             };
         });
         globalize.defaultModule("core");
@@ -1168,8 +1164,8 @@ var AppInfo = {};
             }
         }
 
-        for (var i__y = 0, length = externalPlugins.length; i__y < length; i__y++) {
-            list.push(externalPlugins[i__y]);
+        for (var index = 0, length = externalPlugins.length; index < length; index++) {
+            list.push(externalPlugins[index]);
         }
 
         return new Promise(function (resolve, reject) {
