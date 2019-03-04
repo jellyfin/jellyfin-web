@@ -1276,10 +1276,8 @@ var AppInfo = {};
                     initLocalSyncEvents();
                 }
 
-                if (!AppInfo.isNativeApp) {
-                    if (window.ApiClient) {
-                        require(["css!" + ApiClient.getUrl("Branding/Css")]);
-                    }
+                if (!AppInfo.isNativeApp && window.ApiClient) {
+                    require(["css!" + ApiClient.getUrl("Branding/Css")]);
                 }
             });
         }
