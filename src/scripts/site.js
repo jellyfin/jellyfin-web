@@ -1247,7 +1247,7 @@ var AppInfo = {};
                     }
                 }
 
-                if (!(browser.tv || browser.xboxOne || browser.ps4)) {
+                if (!browser.tv && !browser.xboxOne && !browser.ps4) {
                     require(["bower_components/emby-webcomponents/nowplayingbar/nowplayingbar"]);
                 }
 
