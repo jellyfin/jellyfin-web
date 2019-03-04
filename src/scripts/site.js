@@ -456,12 +456,10 @@ var AppInfo = {};
 
         if ("registerElement" in document) {
             define("registerElement", []);
+        } else if (browser.msie) {
+            define("registerElement", [bowerPath + "/webcomponentsjs/webcomponents-lite.min.js"], returnFirstDependency);
         } else {
-            if (browser.msie) {
-                define("registerElement", [bowerPath + "/webcomponentsjs/webcomponents-lite.min.js"], returnFirstDependency);
-            } else {
-                define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
-            }
+            define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
         }
 
         if ("cordova" === self.appMode || "android" === self.appMode) {
