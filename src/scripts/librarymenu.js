@@ -189,6 +189,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             html += globalize.translate("HeaderAdmin");
             html += "</h3>";
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="dashboard.html"><i class="md-icon navMenuOptionIcon">dashboard</i><span class="navMenuOptionText">' + globalize.translate("TabDashboard") + "</span></a>";
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="edititemmetadata.html"><i class="md-icon navMenuOptionIcon">mode_edit</i><span class="navMenuOptionText">' + globalize.translate("MetadataManager") + "</span></a>";
             html += "</div>";
         }
 
@@ -271,7 +272,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             pageIds: ["dashboardPage", "serverActivityPage"],
             icon: "dashboard"
         }, {
-            name: globalize.translate("TabSettings"),
+            name: globalize.translate("General"),
             href: "dashboardgeneral.html",
             pageIds: ["dashboardGeneralPage"],
             icon: "settings"
@@ -372,12 +373,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             href: "scheduledtasks.html",
             pageIds: ["scheduledTasksPage", "scheduledTaskPage"],
             icon: "schedule"
-        });
-        links.push({
-            name: globalize.translate("MetadataManager"),
-            href: "edititemmetadata.html",
-            pageIds: [],
-            icon: "mode_edit"
         });
         addPluginPagesToMainMenu(links, pluginItems);
         return links;
