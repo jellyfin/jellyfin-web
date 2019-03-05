@@ -1854,39 +1854,9 @@ var AppInfo = {};
                     }
                 }
 
-                if ("Playlist" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
+                var itemTypes = ["Playlist", "TvChannel", "Program", "BoxSet", "MusicAlbum", "MusicGenre", "Person", "Recording", "MusicArtist"];
 
-                if ("TvChannel" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("Program" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("BoxSet" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("MusicAlbum" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("MusicGenre" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("Person" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("Recording" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("MusicArtist" == itemType) {
+                if (itemTypes.indexOf(itemType) >= 0) {
                     return "itemdetails.html?id=" + id + "&serverId=" + serverId;
                 }
 
