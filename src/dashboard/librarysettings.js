@@ -2,7 +2,6 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked", "emby-checkbox", "emby-
     "use strict";
 
     function loadPage(page, config) {
-        config.MergeMetadataAndImagesByName ? $(".fldImagesByName", page).hide() : $(".fldImagesByName", page).show();
         $("#chkSaveMetadataHidden", page).checked(config.SaveMetadataHidden);
         loading.hide();
     }
@@ -33,27 +32,13 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked", "emby-checkbox", "emby-
         });
     }
 
-    function onSubmitFail(response) {
-        loading.hide();
-        if (response && ) {
-            if (response.status === 404) {
-                alertText("The metadata path entered could not be found. Please ensure the path is valid and try again.");
-            } else if (response.status === 500) {
-                alertText("The metadata path entered is not valid. Please ensure the path exists and that Jellyfin server has write access to the folder.");
-            }
-        }
-    }
-
     function onSubmit() {
         loading.show();
         var form = this;
         ApiClient.getServerConfiguration().then(function(config) {
             config.SaveMetadataHidden = $("#chkSaveMetadataHidden", form).checked();
-            config.EnableTvDbUpdates = $("#chkEnableTvdbUpdates", form).checked();
-            config.EnableTmdbUpdates = $("#chkEnableTmdbUpdates", form).checked();
-            config.EnableFanArtUpdates = $("#chkEnableFanartUpdates", form).checked();
             config.FanartApiKey = $("#txtFanartApiKey", form).val();
-            ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult, onSubmitFail);
+            ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
         });
         saveMetadata(form);
         saveFanart(form);
