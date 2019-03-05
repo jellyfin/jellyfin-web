@@ -4,6 +4,8 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
     function loadPage(page, config, languageOptions, systemInfo) {
         systemInfo.CanLaunchWebBrowser ? page.querySelector("#fldRunWebAppAtStartup").classList.remove("hide") : page.querySelector("#fldRunWebAppAtStartup").classList.add("hide");
         page.querySelector("#txtCachePath").value = config.CachePath || "";
+        $("#txtMetadataPath", page).val(config.MetadataPath || "");
+        $("#txtMetadataNetworkPath", page).val(config.MetadataNetworkPath || "");
         $("#selectLocalizationLanguage", page).html(languageOptions.map(function(l) {
             return '<option value="' + l.Value + '">' + l.Name + "</option>"
         })).val(config.UICulture);
@@ -23,6 +25,8 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
         return ApiClient.getServerConfiguration().then(function(config) {
             config.UICulture = $("#selectLocalizationLanguage", form).val();
             config.CachePath = form.querySelector("#txtCachePath").value;
+            config.MetadataPath = $("#txtMetadataPath", form).val();
+            config.MetadataNetworkPath = $("#txtMetadataNetworkPath", form).val();
             var requiresReload = false;
             if (config.UICulture !== currentLanguage) {
                 requiresReload = true;

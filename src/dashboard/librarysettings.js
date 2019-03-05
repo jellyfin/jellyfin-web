@@ -4,8 +4,6 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked", "emby-checkbox", "emby-
     function loadPage(page, config) {
         config.MergeMetadataAndImagesByName ? $(".fldImagesByName", page).hide() : $(".fldImagesByName", page).show();
         $("#chkSaveMetadataHidden", page).checked(config.SaveMetadataHidden);
-        $("#txtMetadataPath", page).val(config.MetadataPath || "");
-        $("#txtMetadataNetworkPath", page).val(config.MetadataNetworkPath || "");
         loading.hide();
     }
 
@@ -54,8 +52,6 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked", "emby-checkbox", "emby-
             config.EnableTvDbUpdates = $("#chkEnableTvdbUpdates", form).checked();
             config.EnableTmdbUpdates = $("#chkEnableTmdbUpdates", form).checked();
             config.EnableFanArtUpdates = $("#chkEnableFanartUpdates", form).checked();
-            config.MetadataPath = $("#txtMetadataPath", form).val();
-            config.MetadataNetworkPath = $("#txtMetadataNetworkPath", form).val();
             config.FanartApiKey = $("#txtFanartApiKey", form).val();
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult, onSubmitFail);
         });
