@@ -429,6 +429,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             if (!state.NextMediaType) {
                 updatePlayerState(player, dlg, {});
                 loadPlaylist(dlg);
+                Emby.Page.back();
             }
         }
 
