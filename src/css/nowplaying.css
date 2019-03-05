@@ -186,14 +186,26 @@
 }
 
 .nowPlayingVolumeSliderContainer {
-    width: 6em
+    width: 9em
+}
+
+@media all and (max-width:50em) {
+    .nowPlayingInfoButtons .nowPlayingPageUserDataButtons {
+        display: none !important
+    }
+}
+
+@media all and (max-width:47em) {
+    .nowPlayingInfoButtons .repeatToggleButton {
+        display: none !important
+    }
 }
 
 @media all and (max-width:34em) {
 
-    .btnNowPlayingFastForward,
-    .btnNowPlayingRewind,
-    .playlist .listItemMediaInfo {
+    .nowPlayingInfoButtons .btnNowPlayingFastForward,
+    .nowPlayingInfoButtons .btnNowPlayingRewind,
+    .nowPlayingInfoButtons .playlist .listItemMediaInfo {
         display: none !important
     }
 }
