@@ -1294,15 +1294,7 @@ var AppInfo = {};
     function registerServiceWorker() {
         if (navigator.serviceWorker && "cordova" !== self.appMode && "android" !== self.appMode) {
             try {
-                navigator.serviceWorker.register("serviceworker.js").then(function () {
-                    return navigator.serviceWorker.ready;
-                }).then(function (reg) {
-                    if (reg && reg.sync) {
-                        return reg.sync.register("emby-sync").then(function () {// TODO cvium: the sync serviceworker is a noop?
-                            //window.SyncRegistered = Dashboard.isConnectMode()
-                        });
-                    }
-                });
+                navigator.serviceWorker.register("serviceworker.js");
             } catch (err) {
                 console.log("Error registering serviceWorker: " + err);
             }
