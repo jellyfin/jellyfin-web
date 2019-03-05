@@ -62,22 +62,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked", "emby-checkbox", "emby-
         }]
     }
     return function(view, params) {
-        $("#btnSelectMetadataPath", view).on("click.selectDirectory", function() {
-            require(["directorybrowser"], function(directoryBrowser) {
-                var picker = new directoryBrowser;
-                picker.show({
-                    path: $("#txtMetadataPath", view).val(),
-                    networkSharePath: $("#txtMetadataNetworkPath", view).val(),
-                    callback: function(path, networkPath) {
-                        path && ($("#txtMetadataPath", view).val(path), $("#txtMetadataNetworkPath", view).val(networkPath)), picker.close()
-                    },
-                    validateWriteable: !0,
-                    header: Globalize.translate("HeaderSelectMetadataPath"),
-                    instruction: Globalize.translate("HeaderSelectMetadataPathHelp"),
-                    enableNetworkSharePath: !0
-                })
-            })
-        }), $(".librarySettingsForm").off("submit", onSubmit).on("submit", onSubmit), view.addEventListener("viewshow", function() {
+        $(".librarySettingsForm").off("submit", onSubmit).on("submit", onSubmit), view.addEventListener("viewshow", function() {
             libraryMenu.setTabs("librarysetup", 4, getTabs), loading.show();
             var page = this;
             ApiClient.getServerConfiguration().then(function(config) {

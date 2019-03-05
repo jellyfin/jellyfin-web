@@ -12,13 +12,25 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
         var form = this;
         $(form).parents(".page");
         return ApiClient.getServerConfiguration().then(function(config) {
-            config.UICulture = $("#selectLocalizationLanguage", form).val(), config.CachePath = form.querySelector("#txtCachePath").value;
-            var requiresReload = !1;
-            config.UICulture !== currentLanguage && (requiresReload = !0), config.EnableAutomaticRestart = $("#chkEnableAutomaticRestart", form).checked(), config.EnableAutoUpdate = $("#chkEnableAutomaticServerUpdates", form).checked(), ApiClient.updateServerConfiguration(config).then(function() {
+            config.UICulture = $("#selectLocalizationLanguage", form).val();
+            config.CachePath = form.querySelector("#txtCachePath").value;
+            var requiresReload = false;
+            if (config.UICulture !== currentLanguage) {
+                requiresReload = true;
+            }
+            config.EnableAutomaticRestart = $("#chkEnableAutomaticRestart", form).checked();
+            config.EnableAutoUpdate = $("#chkEnableAutomaticServerUpdates", form).checked();
+            ApiClient.updateServerConfiguration(config).then(function() {
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
-                    brandingConfig.LoginDisclaimer = form.querySelector("#txtLoginDisclaimer").value, brandingConfig.CustomCss = form.querySelector("#txtCustomCss").value, currentBrandingOptions && brandingConfig.CustomCss !== currentBrandingOptions.CustomCss && (requiresReload = !0), ApiClient.updateNamedConfiguration(brandingConfigKey, brandingConfig).then(function() {
-                        Dashboard.processServerConfigurationUpdateResult(), requiresReload && !AppInfo.isNativeApp && window.location.reload(!0)
-                    })
+                    brandingConfig.LoginDisclaimer = form.querySelector("#txtLoginDisclaimer").value;
+                    brandingConfig.CustomCss = form.querySelector("#txtCustomCss").value;
+                    currentBrandingOptions && brandingConfig.CustomCss !== currentBrandingOptions.CustomCss && (requiresReload = !0);
+                    ApiClient.updateNamedConfiguration(brandingConfigKey, brandingConfig).then(function() {
+                        Dashboard.processServerConfigurationUpdateResult();
+                        if (requiresReload && !AppInfo.isNativeApp) {
+                            window.location.reload(true);
+                        }
+                    });
                 })
             })
         }), !1
@@ -37,7 +49,26 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                     instruction: Globalize.translate("HeaderSelectServerCachePathHelp")
                 })
             })
-        }), $(".dashboardGeneralForm", view).off("submit", onSubmit).on("submit", onSubmit), view.addEventListener("viewshow", function() {
+        });
+
+        $("#btnSelectMetadataPath", view).on("click.selectDirectory", function() {
+            require(["directorybrowser"], function(directoryBrowser) {
+                var picker = new directoryBrowser;
+                picker.show({
+                    path: $("#txtMetadataPath", view).val(),
+                    networkSharePath: $("#txtMetadataNetworkPath", view).val(),
+                    callback: function(path, networkPath) {
+                        path && ($("#txtMetadataPath", view).val(path), $("#txtMetadataNetworkPath", view).val(networkPath)), picker.close()
+                    },
+                    validateWriteable: !0,
+                    header: Globalize.translate("HeaderSelectMetadataPath"),
+                    instruction: Globalize.translate("HeaderSelectMetadataPathHelp"),
+                    enableNetworkSharePath: !0
+                })
+            })
+        });
+
+        $(".dashboardGeneralForm", view).off("submit", onSubmit).on("submit", onSubmit), view.addEventListener("viewshow", function() {
             var promise1 = ApiClient.getServerConfiguration(),
                 promise2 = ApiClient.getJSON(ApiClient.getUrl("Localization/Options")),
                 promise3 = ApiClient.getSystemInfo();
