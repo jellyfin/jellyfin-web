@@ -76,8 +76,8 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                     path: $("#txtMetadataPath", view).val(),
                     networkSharePath: $("#txtMetadataNetworkPath", view).val(),
                     callback: function(path, networkPath) {
-                        path && ($("#txtMetadataPath", view).val(path);
-                        $("#txtMetadataNetworkPath", view).val(networkPath));
+                        path && $("#txtMetadataPath", view).val(path);
+                        networkPath && $("#txtMetadataNetworkPath", view).val(networkPath);
                         picker.close();
                     },
                     validateWriteable: true,
