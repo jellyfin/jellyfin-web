@@ -1,8 +1,6 @@
-<div id="liveTvTunerPage" data-role="page" class="page type-interior liveTvSettingsPage withTabs">
-
+<div id="liveTvTunerPage" data-role="page" class="page type-interior liveTvSettingsPage">
     <div>
         <div class="content-primary">
-
             <form>
                 <div class="verticalSection">
                     <div class="sectionTitleContainer flex align-items-center">
@@ -47,6 +45,7 @@
                     </label>
                     <div class="fieldDescription checkboxFieldDescription">${ImportFavoriteChannelsHelp}</div>
                 </div>
+
                 <div class="checkboxContainer checkboxContainer-withDescription fldTranscode hide">
                     <label>
                         <input type="checkbox" is="emby-checkbox" class="chkTranscode" />
@@ -54,6 +53,7 @@
                     </label>
                     <div class="fieldDescription checkboxFieldDescription">${AllowHWTranscodingHelp}</div>
                 </div>
+
                 <div class="checkboxContainer checkboxContainer-withDescription fldStreamLoop hide">
                     <label>
                         <input type="checkbox" is="emby-checkbox" class="chkStreamLoop" />
@@ -61,6 +61,7 @@
                     </label>
                     <div class="fieldDescription checkboxFieldDescription">${EnableStreamLoopingHelp}</div>
                 </div>
+
                 <p class="drmMessage hide">${DrmChannelsNotImported}</p>
                 <p class="otherOptionsMessage hide" style="margin:2em 0;">${ForAdditionalLiveTvOptions}</p>
                 <br />

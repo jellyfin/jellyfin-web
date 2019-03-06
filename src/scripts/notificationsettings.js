@@ -13,15 +13,6 @@ define(["loading", "libraryMenu", "globalize", "listViewStyle", "emby-linkbutton
         })
     }
 
-    function getTabs() {
-        return [{
-            href: "notificationsettings.html",
-            name: globalize.translate("TabNotifications")
-        }, {
-            href: "appservices.html?context=notifications",
-            name: globalize.translate("TabServices")
-        }]
-    }
     return function(view, params) {
         view.addEventListener("viewshow", function() {
             libraryMenu.setTabs("notifications", 0, getTabs), reload(view)

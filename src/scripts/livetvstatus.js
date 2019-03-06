@@ -188,16 +188,6 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         Dashboard.navigate("livetvtuner.html")
     }
 
-    function getTabs() {
-        return [{
-            href: "livetvstatus.html",
-            name: globalize.translate("TabDevices")
-        }, {
-            href: "appservices.html?context=livetv",
-            name: globalize.translate("TabServices")
-        }]
-    }
-
     function showDeviceMenu(button, tunerDeviceId) {
         var items = [];
         items.push({

@@ -424,11 +424,6 @@ var Dashboard = {
             roles: "admin",
             controller: "scripts/addpluginpage"
         }), defineRoute({
-            path: "/appservices.html",
-            dependencies: [],
-            autoFocus: !1,
-            roles: "admin"
-        }), defineRoute({
             path: "/autoorganizelog.html",
             dependencies: [],
             roles: "admin"

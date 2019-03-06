@@ -74,16 +74,6 @@ define(["globalize", "loading", "libraryMenu", "dom", "emby-input", "emby-button
         })
     }
 
-    function getTabs() {
-        return [{
-            href: "livetvstatus.html",
-            name: globalize.translate("TabDevices")
-        }, {
-            href: "appservices.html?context=livetv",
-            name: globalize.translate("TabServices")
-        }]
-    }
-
     function onTypeChange() {
         var value = this.value,
             view = dom.parentWithClass(this, "page"),
