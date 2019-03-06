@@ -18,18 +18,18 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'emby-b
         if (path && typeof path !== 'string') {
             throw new Error("invalid path");
         }
-        
+
         loading.show();
-        
+
         var promises = [];
 
         if ("Network" === path) {
             promises.push(ApiClient.getNetworkDevices())
         } else {
-            if (path) { 
+            if (path) {
                 promises.push(ApiClient.getDirectoryContents(path, fileOptions));
                 promises.push(ApiClient.getParentPath(path));
-            } else { 
+            } else {
                 promises.push(ApiClient.getDrives());
             }
         }
@@ -42,7 +42,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'emby-b
 
                 page.querySelector(".results").scrollTop = 0;
                 page.querySelector("#txtDirectoryPickerPath").value = path || "";
-                
+
                 if (path) {
                     html += getItem("lnkPath lnkDirectory", "", parentPath, "...");
                 }
@@ -51,7 +51,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'emby-b
                     var cssClass = "File" === folder.Type ? "lnkPath lnkFile" : "lnkPath lnkDirectory";
                     html += getItem(cssClass, folder.Type, folder.Path, folder.Name);
                 }
-                
+
                 if (!path) {
                     html += getItem("lnkPath lnkDirectory", "", "Network", Globalize.translate("ButtonNetwork"));
                 }
@@ -128,16 +128,8 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'emby-b
             html += '<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="' + Globalize.translate("ButtonRefresh") + '"><i class="md-icon">search</i></button>';
         }
         html += "</div>";
-        if (!readOnlyAttribute) { 
+        if (!readOnlyAttribute) {
             html += '<div class="results paperList" style="max-height: 200px; overflow-y: auto;"></div>';
-        }
-        if (options.enableNetworkSharePath) {
-            html += '<div class="inputContainer" style="margin-top:2em;">';
-            html += '<input is="emby-input" id="txtNetworkPath" type="text" label="' + Globalize.translate("LabelOptionalNetworkPath") + '"/>';
-            html += '<div class="fieldDescription">';
-            html += Globalize.translate("LabelOptionalNetworkPathHelp");
-            html += "</div>";
-            html += "</div>";
         }
         html += '<div class="formDialogFooter">';
         html += '<button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">' + Globalize.translate("ButtonOk") + "</button>";
@@ -219,14 +211,8 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'emby-b
 
         content.querySelector("form").addEventListener("submit", function(e) {
             if (options.callback) {
-                var networkSharePath = this.querySelector("#txtNetworkPath");
-                networkSharePath = networkSharePath ? networkSharePath.value : null;
                 var path = this.querySelector("#txtDirectoryPickerPath").value;
-                validatePath(path, options.validateWriteable, ApiClient).then(
-                    function() {
-                        options.callback(path, networkSharePath);
-                    }
-                );
+                validatePath(path, options.validateWriteable, ApiClient).then(options.callback(path));
             }
             e.preventDefault();
             e.stopPropagation();
@@ -293,10 +279,6 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'emby-b
                     });
                     currentDialog = dlg;
                     dlg.querySelector("#txtDirectoryPickerPath").value = initialPath;
-                    var txtNetworkPath = dlg.querySelector("#txtNetworkPath");
-                    if (txtNetworkPath) {
-                        txtNetworkPath.value = options.networkSharePath || "";
-                    }
                     if (!options.pathReadOnly) {
                         refreshDirectoryBrowser(dlg, initialPath, fileOptions, true);
                     }

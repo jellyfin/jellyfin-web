@@ -74,16 +74,29 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                 var picker = new directoryBrowser;
                 picker.show({
                     path: $("#txtMetadataPath", view).val(),
-                    networkSharePath: $("#txtMetadataNetworkPath", view).val(),
-                    callback: function(path, networkPath) {
+                    callback: function(path) {
                         path && $("#txtMetadataPath", view).val(path);
-                        networkPath && $("#txtMetadataNetworkPath", view).val(networkPath);
                         picker.close();
                     },
                     validateWriteable: true,
                     header: Globalize.translate("HeaderSelectMetadataPath"),
-                    instruction: Globalize.translate("HeaderSelectMetadataPathHelp"),
-                    enableNetworkSharePath: true
+                    instruction: Globalize.translate("HeaderSelectMetadataPathHelp")
+                })
+            })
+        });
+
+        $("#btnSelectMetadataNetworkPath", view).on("click.selectDirectory", function() {
+            require(["directorybrowser"], function(directoryBrowser) {
+                var picker = new directoryBrowser;
+                picker.show({
+                    path: $("#txtMetadataNetworkPath", view).val(),
+                    callback: function(path) {
+                        path && $("#txtMetadataNetworkPath", view).val(path);
+                        picker.close();
+                    },
+                    validateWriteable: true,
+                    header: Globalize.translate("LabelOptionalNetworkPath"),
+                    instruction: Globalize.translate("LabelOptionalNetworkPathHelp")
                 })
             })
         });
