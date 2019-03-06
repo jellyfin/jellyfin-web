@@ -817,7 +817,7 @@
     "LabelAppNameExample": "例如： Sickbeard, NzbDrone",
     "LabelArtist": "艺术家",
     "LabelArtists": "艺术家：",
-    "LabelArtistsHelp": "独立多功能；",
+    "LabelArtistsHelp": "独立多功能 ;",
     "LabelAudioCodec": "音频： {0}",
     "LabelAudioLanguagePreference": "首选音频语言：",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "自动从互联网获取元数据并刷新：",
