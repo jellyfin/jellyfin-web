@@ -230,7 +230,6 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
             addProvider(this)
         }), page.querySelector(".devicesList").addEventListener("click", onDevicesListClick)
     }).on("pageshow", "#liveTvStatusPage", function() {
-        libraryMenu.setTabs("livetvadmin", 0, getTabs);
         var page = this;
         reload(page), taskButton({
             mode: "on",
