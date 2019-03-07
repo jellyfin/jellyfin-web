@@ -2,7 +2,11 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
     "use strict";
 
     function loadPage(page, config, languageOptions, systemInfo) {
-        systemInfo.CanLaunchWebBrowser ? page.querySelector("#fldRunWebAppAtStartup").classList.remove("hide") : page.querySelector("#fldRunWebAppAtStartup").classList.add("hide");
+        if (systemInfo.CanLaunchWebBrowser) {
+            page.querySelector("#fldRunWebAppAtStartup").classList.remove("hide");
+        } else {
+            page.querySelector("#fldRunWebAppAtStartup").classList.add("hide");
+        }
         page.querySelector("#txtCachePath").value = config.CachePath || "";
         $("#txtMetadataPath", page).val(config.MetadataPath || "");
         $("#txtMetadataNetworkPath", page).val(config.MetadataNetworkPath || "");
@@ -10,11 +14,23 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
             return '<option value="' + l.Value + '">' + l.Name + "</option>"
         })).val(config.UICulture);
         currentLanguage = config.UICulture;
-        systemInfo.CanSelfUpdate ? page.querySelector(".fldAutomaticUpdates").classList.remove("hide") : page.querySelector(".fldAutomaticUpdates").classList.add("hide");
+        if (systemInfo.CanSelfUpdate) {
+            page.querySelector(".fldAutomaticUpdates").classList.remove("hide");
+        } else {
+            page.querySelector(".fldAutomaticUpdates").classList.add("hide");
+        }
         $("#chkEnableAutomaticServerUpdates", page).checked(config.EnableAutoUpdate);
         $("#chkEnableAutomaticRestart", page).checked(config.EnableAutomaticRestart);
-        systemInfo.CanSelfRestart ? page.querySelector("#fldEnableAutomaticRestart").classList.remove("hide") : page.querySelector("#fldEnableAutomaticRestart").classList.add("hide");
-        systemInfo.CanSelfRestart || systemInfo.CanSelfUpdate ? $(".autoUpdatesContainer", page).removeClass("hide") : $(".autoUpdatesContainer", page).addClass("hide");
+        if (systemInfo.CanSelfRestart) {
+            page.querySelector("#fldEnableAutomaticRestart").classList.remove("hide");
+        } else {
+            page.querySelector("#fldEnableAutomaticRestart").classList.add("hide");
+        }
+        if (systemInfo.CanSelfRestart || systemInfo.CanSelfUpdate) {
+            $(".autoUpdatesContainer", page).removeClass("hide");
+        } else {
+            $(".autoUpdatesContainer", page).addClass("hide");
+        }
         loading.hide();
     }
 
@@ -37,7 +53,9 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
                     brandingConfig.LoginDisclaimer = form.querySelector("#txtLoginDisclaimer").value;
                     brandingConfig.CustomCss = form.querySelector("#txtCustomCss").value;
-                    currentBrandingOptions && brandingConfig.CustomCss !== currentBrandingOptions.CustomCss && (requiresReload = !0);
+                    if (currentBrandingOptions && brandingConfig.CustomCss !== currentBrandingOptions.CustomCss) {
+                        requiresReload = true;
+                    }
                     ApiClient.updateNamedConfiguration(brandingConfigKey, brandingConfig).then(function() {
                         Dashboard.processServerConfigurationUpdateResult();
                         if (requiresReload && !AppInfo.isNativeApp) {
@@ -59,7 +77,9 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                 var picker = new directoryBrowser;
                 picker.show({
                     callback: function(path) {
-                        path && (view.querySelector("#txtCachePath").value = path);
+                        if (path) {
+                            view.querySelector("#txtCachePath").value = path;
+                        }
                         picker.close();
                     },
                     validateWriteable: true,
@@ -71,11 +91,13 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
 
         $("#btnSelectMetadataPath", view).on("click.selectDirectory", function() {
             require(["directorybrowser"], function(directoryBrowser) {
-                var picker = new directoryBrowser;
+                var picker = new directoryBrowser();
                 picker.show({
                     path: $("#txtMetadataPath", view).val(),
                     callback: function(path) {
-                        path && $("#txtMetadataPath", view).val(path);
+                        if (path) {
+                            $("#txtMetadataPath", view).val(path);
+                        }
                         picker.close();
                     },
                     validateWriteable: true,
@@ -87,11 +109,13 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
 
         $("#btnSelectMetadataNetworkPath", view).on("click.selectDirectory", function() {
             require(["directorybrowser"], function(directoryBrowser) {
-                var picker = new directoryBrowser;
+                var picker = new directoryBrowser();
                 picker.show({
                     path: $("#txtMetadataNetworkPath", view).val(),
                     callback: function(path) {
-                        path && $("#txtMetadataNetworkPath", view).val(path);
+                        if (path) {
+                            $("#txtMetadataNetworkPath", view).val(path);
+                        }
                         picker.close();
                     },
                     validateWriteable: true,
@@ -103,10 +127,10 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
 
         $(".dashboardGeneralForm", view).off("submit", onSubmit).on("submit", onSubmit);
         view.addEventListener("viewshow", function() {
-            var promise1 = ApiClient.getServerConfiguration();
-            var promise2 = ApiClient.getJSON(ApiClient.getUrl("Localization/Options"));
-            var promise3 = ApiClient.getSystemInfo();
-            Promise.all([promise1, promise2, promise3]).then(function(responses) {
+            var promiseConfig = ApiClient.getServerConfiguration();
+            var promiseLanguageOptions = ApiClient.getJSON(ApiClient.getUrl("Localization/Options"));
+            var promiseSystemInfo = ApiClient.getSystemInfo();
+            Promise.all([promiseConfig, promiseLanguageOptions, promiseSystemInfo]).then(function(responses) {
                 loadPage(view, responses[0], responses[1], responses[2]);
             });
             ApiClient.getNamedConfiguration(brandingConfigKey).then(function(config) {

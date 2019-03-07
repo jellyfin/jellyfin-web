@@ -30,7 +30,11 @@ define(["loading", "libraryMenu", "globalize", "listViewStyle", "emby-linkbutton
                     itemHtml += '<div class="paperList">';
                 }
                 itemHtml += '<a class="listItem listItem-border" is="emby-linkbutton" data-ripple="false" href="notificationsetting.html?type=' + i.Type + '">';
-                i.Enabled ? itemHtml += '<i class="listItemIcon md-icon">notifications_active</i>' : itemHtml += '<i class="listItemIcon md-icon" style="background-color:#999;">notifications_off</i>';
+                if (i.Enabled) {
+                    itemHtml += '<i class="listItemIcon md-icon">notifications_active</i>';
+                } else {
+                    itemHtml += '<i class="listItemIcon md-icon" style="background-color:#999;">notifications_off</i>';
+                }
                 itemHtml += '<div class="listItemBody">';
                 itemHtml += '<div class="listItemBodyText">' + i.Name + "</div>";
                 itemHtml += "</div>";

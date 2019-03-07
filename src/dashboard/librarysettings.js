@@ -80,7 +80,11 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked", "emby-checkbox", "emby-
                 loadFanartConfig(page, metadata)
             });
             ApiClient.getSystemInfo().then(function(info) {
-                "Windows" === info.OperatingSystem ? page.querySelector(".fldSaveMetadataHidden").classList.remove("hide") : page.querySelector(".fldSaveMetadataHidden").classList.add("hide")
+                 if ("Windows" === info.OperatingSystem) {
+                     page.querySelector(".fldSaveMetadataHidden").classList.remove("hide");
+                 } else {
+                     page.querySelector(".fldSaveMetadataHidden").classList.add("hide");
+                 }
             });
         });
     }
