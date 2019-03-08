@@ -16,7 +16,7 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
         page.querySelector("#txtH264Crf").value = config.H264Crf || "";
         page.querySelector("#chkEnableSubtitleExtraction").checked = config.EnableSubtitleExtraction || false;
         page.querySelector("#selectVideoDecoder").dispatchEvent(new CustomEvent("change", {
-            bubbles: !0
+             bubbles: true
         })), loading.hide()
     }
 
