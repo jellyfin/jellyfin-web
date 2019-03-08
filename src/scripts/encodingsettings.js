@@ -101,7 +101,7 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
         var page = this;
         ApiClient.getNamedConfiguration("encoding").then(function(config) {
             ApiClient.getSystemInfo().then(function(systemInfo) {
-                loadPage(page, config, systemInfo)
+                loadPage(page, config, systemInfo);
             })
         })
     })
