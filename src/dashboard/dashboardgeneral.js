@@ -91,33 +91,20 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                 var picker = new directoryBrowser();
                 picker.show({
                     path: $("#txtMetadataPath", view).val(),
-                    callback: function(path) {
+                    networkSharePath: $("#txtMetadataNetworkPath", view).val(),
+                    callback: function(path, networkPath) {
                         if (path) {
                             $("#txtMetadataPath", view).val(path);
+                        }
+                        if (networkPath) {
+                            $("#txtMetadataNetworkPath", view).val(networkPath));
                         }
                         picker.close();
                     },
                     validateWriteable: true,
                     header: Globalize.translate("HeaderSelectMetadataPath"),
-                    instruction: Globalize.translate("HeaderSelectMetadataPathHelp")
-                })
-            })
-        });
-
-        $("#btnSelectMetadataNetworkPath", view).on("click.selectDirectory", function() {
-            require(["directorybrowser"], function(directoryBrowser) {
-                var picker = new directoryBrowser();
-                picker.show({
-                    path: $("#txtMetadataNetworkPath", view).val(),
-                    callback: function(path) {
-                        if (path) {
-                            $("#txtMetadataNetworkPath", view).val(path);
-                        }
-                        picker.close();
-                    },
-                    validateWriteable: true,
-                    header: Globalize.translate("LabelOptionalNetworkPath"),
-                    instruction: Globalize.translate("LabelOptionalNetworkPathHelp")
+                    instruction: Globalize.translate("HeaderSelectMetadataPathHelp"),
+                    enableNetworkSharePath: true
                 })
             })
         });

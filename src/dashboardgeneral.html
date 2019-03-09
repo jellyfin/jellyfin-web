@@ -53,16 +53,7 @@
                             <button type="button" is="paper-icon-button-light" id="btnSelectMetadataPath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><i class="md-icon">search</i></button>
                         </div>
                         <div class="fieldDescription">${LabelMetadataPathHelp}</div>
-                    </div>
-
-                    <div class="inputContainer">
-                        <div style="display: flex; align-items: center;">
-                            <div style="flex-grow:1;">
-                                <input is="emby-input" id="txtMetadataNetworkPath" label="${LabelOptionalNetworkPath}" autocomplete="off" />
-                            </div>
-                            <button type="button" is="paper-icon-button-light" id="btnSelectMetadataNetworkPath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><i class="md-icon">search</i></button>
-                        </div>
-                        <div class="fieldDescription">${LabelOptionalNetworkPathHelp}</div>
+                        <input type="hidden" id="txtMetadataNetworkPath" />
                     </div>
                 </div>
 
