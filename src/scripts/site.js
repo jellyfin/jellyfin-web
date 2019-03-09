@@ -1209,86 +1209,89 @@ var AppInfo = {};
     function onAppReady(browser) {
         console.log("Begin onAppReady");
 
-        var isInBackground = -1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync");
+        // ensure that appHost is loaded in this point
+        require(['appHost'], function (appHost) {
+            var isInBackground = -1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync");
 
-        window.Emby = {};
+            window.Emby = {};
 
-        console.log("onAppReady - loading dependencies");
+            console.log("onAppReady - loading dependencies");
 
-        if (isInBackground) {
-            syncNow();
-        } else {
+            if (isInBackground) {
+                syncNow();
+            } else {
 
-            if (browser.iOS) {
-                require(['css!devices/ios/ios.css']);
-            }
+                if (browser.iOS) {
+                    require(['css!devices/ios/ios.css']);
+                }
 
-            require(['apphost', 'appRouter', 'scripts/themeloader', 'libraryMenu'], function (appHost, pageObjects) {
-                window.Emby.Page = pageObjects;
+                require(['appRouter', 'scripts/themeloader', 'libraryMenu'], function (pageObjects) {
+                    window.Emby.Page = pageObjects;
 
-                defineCoreRoutes(appHost);
+                    defineCoreRoutes(appHost);
 
-                Emby.Page.start({
-                    click: false,
-                    hashbang: true
+                    Emby.Page.start({
+                        click: false,
+                        hashbang: true
+                    });
+
+                    if (!enableNativeGamepadKeyMapping() && isGamepadSupported()) {
+                        require(["bower_components/emby-webcomponents/input/gamepadtokey"]);
+                    }
+
+                    require(["bower_components/emby-webcomponents/thememediaplayer", "scripts/autobackdrops"]);
+
+                    if ("cordova" === self.appMode || "android" === self.appMode) {
+                        if (browser.android) {
+                            require(["cordova/mediasession", "cordova/chromecast", "cordova/appshortcuts"]);
+                        } else if (browser.safari) {
+                            require(["cordova/mediasession", "cordova/volume", "cordova/statusbar", "cordova/backgroundfetch"]);
+                        }
+                    }
+
+                    if (!browser.tv && !browser.xboxOne && !browser.ps4) {
+                        require(["bower_components/emby-webcomponents/nowplayingbar/nowplayingbar"]);
+                    }
+
+                    if (appHost.supports("remotecontrol")) {
+                        require(["playerSelectionMenu", "bower_components/emby-webcomponents/playback/remotecontrolautoplay"]);
+                    }
+
+                    if (!(appHost.supports("physicalvolumecontrol") && !browser.touch || browser.edge)) {
+                        require(["bower_components/emby-webcomponents/playback/volumeosd"]);
+                    }
+
+                    if (navigator.mediaSession) {
+                        require(["mediaSession"]);
+                    }
+
+                    require(["apiInput", "mouseManager"]);
+
+                    if (!browser.tv && !browser.xboxOne) {
+                        require(["bower_components/emby-webcomponents/playback/playbackorientation"]);
+                        registerServiceWorker();
+
+                        if (window.Notification) {
+                            require(["bower_components/emby-webcomponents/notifications/notifications"]);
+                        }
+                    }
+
+                    require(["playerSelectionMenu"]);
+
+                    if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
+                        require(["fullscreen-doubleclick"]);
+                    }
+
+                    if (appHost.supports("sync")) {
+                        initLocalSyncEvents();
+                    }
+
+                    if (!AppInfo.isNativeApp && window.ApiClient) {
+                        require(["css!" + ApiClient.getUrl("Branding/Css")]);
+                    }
                 });
-
-                if (!enableNativeGamepadKeyMapping() && isGamepadSupported()) {
-                    require(["bower_components/emby-webcomponents/input/gamepadtokey"]);
-                }
-
-                require(["bower_components/emby-webcomponents/thememediaplayer", "scripts/autobackdrops"]);
-
-                if ("cordova" === self.appMode || "android" === self.appMode) {
-                    if (browser.android) {
-                        require(["cordova/mediasession", "cordova/chromecast", "cordova/appshortcuts"]);
-                    } else if (browser.safari) {
-                        require(["cordova/mediasession", "cordova/volume", "cordova/statusbar", "cordova/backgroundfetch"]);
-                    }
-                }
-
-                if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-                    require(["bower_components/emby-webcomponents/nowplayingbar/nowplayingbar"]);
-                }
-
-                if (appHost.supports("remotecontrol")) {
-                    require(["playerSelectionMenu", "bower_components/emby-webcomponents/playback/remotecontrolautoplay"]);
-                }
-
-                if (!(appHost.supports("physicalvolumecontrol") && !browser.touch || browser.edge)) {
-                    require(["bower_components/emby-webcomponents/playback/volumeosd"]);
-                }
-
-                if (navigator.mediaSession) {
-                    require(["mediaSession"]);
-                }
-
-                require(["apiInput", "mouseManager"]);
-
-                if (!browser.tv && !browser.xboxOne) {
-                    require(["bower_components/emby-webcomponents/playback/playbackorientation"]);
-                    registerServiceWorker();
-
-                    if (window.Notification) {
-                        require(["bower_components/emby-webcomponents/notifications/notifications"]);
-                    }
-                }
-
-                require(["playerSelectionMenu"]);
-
-                if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
-                    require(["fullscreen-doubleclick"]);
-                }
-
-                if (appHost.supports("sync")) {
-                    initLocalSyncEvents();
-                }
-
-                if (!AppInfo.isNativeApp && window.ApiClient) {
-                    require(["css!" + ApiClient.getUrl("Branding/Css")]);
-                }
-            });
-        }
+            }
+        });
     }
 
     function registerServiceWorker() {
