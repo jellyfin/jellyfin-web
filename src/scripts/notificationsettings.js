@@ -7,10 +7,10 @@ define(["loading", "libraryMenu", "globalize", "listViewStyle", "emby-linkbutton
             var html = "";
             var lastCategory = "";
             var showHelp = true;
-            html += list.map(function(i) {
+            html += list.map(function(notification) {
                 var itemHtml = "";
-                if (i.Category !== lastCategory) {
-                    lastCategory = i.Category;
+                if (notification.Category !== lastCategory) {
+                    lastCategory = notification.Category;
                     if (lastCategory) {
                         itemHtml += "</div>";
                         itemHtml += "</div>";
@@ -18,7 +18,7 @@ define(["loading", "libraryMenu", "globalize", "listViewStyle", "emby-linkbutton
                     itemHtml += '<div class="verticalSection verticalSection-extrabottompadding">';
                     itemHtml += '<div class="sectionTitleContainer" style="margin-bottom:1em;">';
                     itemHtml += '<h2 class="sectionTitle">';
-                    itemHtml += i.Category;
+                    itemHtml += notification.Category;
                     itemHtml += "</h2>";
                     if (showHelp) {
                         showHelp = false;
@@ -29,14 +29,14 @@ define(["loading", "libraryMenu", "globalize", "listViewStyle", "emby-linkbutton
                     itemHtml += "</div>";
                     itemHtml += '<div class="paperList">';
                 }
-                itemHtml += '<a class="listItem listItem-border" is="emby-linkbutton" data-ripple="false" href="notificationsetting.html?type=' + i.Type + '">';
-                if (i.Enabled) {
+                itemHtml += '<a class="listItem listItem-border" is="emby-linkbutton" data-ripple="false" href="notificationsetting.html?type=' + notification.Type + '">';
+                if (notification.Enabled) {
                     itemHtml += '<i class="listItemIcon md-icon">notifications_active</i>';
                 } else {
                     itemHtml += '<i class="listItemIcon md-icon" style="background-color:#999;">notifications_off</i>';
                 }
                 itemHtml += '<div class="listItemBody">';
-                itemHtml += '<div class="listItemBodyText">' + i.Name + "</div>";
+                itemHtml += '<div class="listItemBodyText">' + notification.Name + "</div>";
                 itemHtml += "</div>";
                 itemHtml += '<button type="button" is="paper-icon-button-light"><i class="md-icon">mode_edit</i></button>';
                 itemHtml += "</a>";

@@ -8,12 +8,14 @@ define(["globalize", "loading", "libraryMenu", "dom", "emby-input", "emby-button
     function fillTypes(view, currentId) {
         ApiClient.getJSON(ApiClient.getUrl("LiveTv/TunerHosts/Types")).then(function(types) {
             var selectType = view.querySelector(".selectType");
-            selectType.innerHTML = types.map(function(t) {
-                return '<option value="' + t.Id + '">' + t.Name + "</option>";
+            var html = "";
+            html += types.map(function(tuner) {
+                return '<option value="' + tuner.Id + '">' + tuner.Name + "</option>";
             }).join("");
-            selectType.innerHTML += '<option value="other">';
-            selectType.innerHTML += globalize.translate("TabOther");
-            selectType.innerHTML += "</option>";
+            html += '<option value="other">';
+            html += globalize.translate("TabOther");
+            html += "</option>";
+            selectType.innerHTML = html;
 
             selectType.disabled = null != currentId;
             selectType.value = "";
@@ -39,9 +41,10 @@ define(["globalize", "loading", "libraryMenu", "dom", "emby-input", "emby-button
         var selectType = view.querySelector(".selectType");
         var type = info.Type || "";
         if (info.Source && isM3uVariant(info.Source)) {
-            selectType.value = info.Source;
-            onTypeChange.call(selectType);
+            type = info.Source;
         }
+        selectType.value = type;
+        onTypeChange.call(selectType);
         view.querySelector(".txtDevicePath").value = info.Url || "";
         view.querySelector(".txtFriendlyName").value = info.FriendlyName || "";
         view.querySelector(".txtUserAgent").value = info.UserAgent || "";

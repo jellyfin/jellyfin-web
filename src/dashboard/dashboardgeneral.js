@@ -10,8 +10,8 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
         page.querySelector("#txtCachePath").value = config.CachePath || "";
         $("#txtMetadataPath", page).val(config.MetadataPath || "");
         $("#txtMetadataNetworkPath", page).val(config.MetadataNetworkPath || "");
-        $("#selectLocalizationLanguage", page).html(languageOptions.map(function(l) {
-            return '<option value="' + l.Value + '">' + l.Name + "</option>"
+        $("#selectLocalizationLanguage", page).html(languageOptions.map(function(language) {
+            return '<option value="' + language.Value + '">' + language.Name + "</option>"
         })).val(config.UICulture);
         currentLanguage = config.UICulture;
         if (systemInfo.CanSelfUpdate) {
@@ -43,10 +43,7 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
             config.CachePath = form.querySelector("#txtCachePath").value;
             config.MetadataPath = $("#txtMetadataPath", form).val();
             config.MetadataNetworkPath = $("#txtMetadataNetworkPath", form).val();
-            var requiresReload = false;
-            if (config.UICulture !== currentLanguage) {
-                requiresReload = true;
-            }
+            var requiresReload = (config.UICulture !== currentLanguage);
             config.EnableAutomaticRestart = $("#chkEnableAutomaticRestart", form).checked();
             config.EnableAutoUpdate = $("#chkEnableAutomaticServerUpdates", form).checked();
             ApiClient.updateServerConfiguration(config).then(function() {

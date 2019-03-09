@@ -59,15 +59,19 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-linkbutton", "
             return 0;
         });
 
-        var i__q;
         var length;
         var plugin;
         var currentCategory;
         var html = "";
 
         var hasOpenTag = false;
-        for (currentCategory = null, false === options.showCategory && (html += '<div class="itemsContainer vertical-wrap">', hasOpenTag = true), i__q = 0, length = availablePlugins.length; i__q < length; i__q++) {
-            plugin = availablePlugins[i__q];
+        currentCategory = null;
+        if (options.showCategory === false) {
+            html += '<div class="itemsContainer vertical-wrap">';
+            hasOpenTag = true;
+        }
+        for (var i = 0; i < availablePlugins.length; i++) {
+            plugin = availablePlugins[i];
             var category = plugin.categoryDisplayName;
 
             if (category != currentCategory) {
@@ -77,16 +81,13 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-linkbutton", "
                         html += "</div>";
                         html += "</div>";
                     }
-
                     html += '<div class="verticalSection">';
                     html += '<h2 class="sectionTitle sectionTitle-cards">' + category + "</h2>";
                     html += '<div class="itemsContainer vertical-wrap">';
                     hasOpenTag = true;
                 }
-
                 currentCategory = category;
             }
-
             html += getPluginHtml(plugin, options, installedPlugins);
         }
 
