@@ -57,6 +57,8 @@ var Dashboard = {
     getCurrentUser: function () {
         return window.ApiClient.getCurrentUser(false);
     },
+
+    //TODO: investigate url prefix support for serverAddress function
     serverAddress: function () {
         if (AppInfo.isNativeApp) {
             var apiClient = window.ApiClient;
