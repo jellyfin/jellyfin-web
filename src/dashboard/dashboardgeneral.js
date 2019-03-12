@@ -109,6 +109,23 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
             })
         });
 
+        $("#btnSelectWebPath", view).on("click.selectDirectory", function() {
+            require(["directorybrowser"], function(directoryBrowser) {
+                var picker = new directoryBrowser;
+                picker.show({
+                    callback: function(path) {
+                        if (path) {
+                            view.querySelector("#txtWebPath").value = path;
+                        }
+                        picker.close();
+                    },
+                    validateWriteable: true,
+                    header: Globalize.translate("LabelWebPath"),
+                    instruction: Globalize.translate("LabelWebPathHelp")
+                })
+            })
+        });
+
         $(".dashboardGeneralForm", view).off("submit", onSubmit).on("submit", onSubmit);
         view.addEventListener("viewshow", function() {
             var promiseConfig = ApiClient.getServerConfiguration();

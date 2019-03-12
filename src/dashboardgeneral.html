@@ -55,6 +55,16 @@
                         <div class="fieldDescription">${LabelMetadataPathHelp}</div>
                         <input type="hidden" id="txtMetadataNetworkPath" />
                     </div>
+
+                    <div class="inputContainer">
+                        <div style="display: flex; align-items: center;">
+                            <div style="flex-grow:1;">
+                                <input is="emby-input" id="txtWebPath" label="${LabelWebPath}" autocomplete="off" />
+                            </div>
+                            <button type="button" is="paper-icon-button-light" id="btnSelectWebPath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><i class="md-icon">search</i></button>
+                        </div>
+                        <div class="fieldDescription">${LabelWebPathHelp}</div>
+                    </div>
                 </div>
 
                 <div class="verticalSection autoUpdatesContainer hide">
