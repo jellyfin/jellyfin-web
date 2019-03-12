@@ -645,12 +645,6 @@ var AppInfo = {};
             controller: "scripts/addpluginpage"
         });
         defineRoute({
-            path: "/appservices.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
             path: "/autoorganizelog.html",
             dependencies: [],
             roles: "admin"
@@ -735,12 +729,6 @@ var AppInfo = {};
         });
         defineRoute({
             path: "/encodingsettings.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/opensubtitles.html",
             dependencies: [],
             autoFocus: false,
             roles: "admin"

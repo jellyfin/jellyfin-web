@@ -41,84 +41,37 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-linkbutton", "
                 if (!options.targetSystem || plugin.targetSystem == options.targetSystem) {
                     return "UserInstalled" == plugin.type;
                 }
-
-                return false;
             }
-
             return false;
         });
-        availablePlugins = allPlugins.sort(function (a__e, b__r) {
-            var aName = a__e.category;
-            var bName = b__r.category;
 
-            if (aName > bName) {
+        availablePlugins = allPlugins.sort(function (a, b) {
+            if (a.category > b.category) {
                 return 1;
-            }
-
-            if (bName > aName) {
+            } else if (b.category > a.category) {
                 return -1;
             }
-
-            aName = a__e.name;
-            bName = b__r.name;
-
-            if (aName > bName) {
+            if (a.name > b.name) {
                 return 1;
-            }
-
-            if (bName > aName) {
+            } else if (b.name > a.name) {
                 return -1;
             }
-
             return 0;
         });
-        var i__q;
+
         var length;
         var plugin;
         var currentCategory;
         var html = "";
 
-        if (!options.categories) {
-            currentCategory = globalize.translate("HeaderTopPlugins");
-            html += '<div class="verticalSection">';
-            html += '<h2 class="sectionTitle sectionTitle-cards">' + currentCategory + "</h2>";
-            var topPlugins = allPlugins.slice(0).sort(function (a__t, b__y) {
-                if (a__t.installs > b__y.installs) {
-                    return -1;
-                }
-
-                if (b__y.installs > a__t.installs) {
-                    return 1;
-                }
-
-                var aName = a__t.name;
-                var bName = b__y.name;
-
-                if (aName > bName) {
-                    return 1;
-                }
-
-                if (bName > aName) {
-                    return -1;
-                }
-
-                return 0;
-            });
-            html += '<div class="itemsContainer vertical-wrap">';
-            var limit = screen.availWidth >= 1920 ? 15 : 12;
-
-            for (i__q = 0, length = Math.min(topPlugins.length, limit); i__q < length; i__q++) {
-                html += getPluginHtml(topPlugins[i__q], options, installedPlugins);
-            }
-
-            html += "</div>";
-            html += "</div>";
-        }
-
         var hasOpenTag = false;
-
-        for (currentCategory = null, false === options.showCategory && (html += '<div class="itemsContainer vertical-wrap">', hasOpenTag = true), i__q = 0, length = availablePlugins.length; i__q < length; i__q++) {
-            plugin = availablePlugins[i__q];
+        currentCategory = null;
+        if (options.showCategory === false) {
+            html += '<div class="itemsContainer vertical-wrap">';
+            hasOpenTag = true;
+        }
+        for (var i = 0; i < availablePlugins.length; i++) {
+            plugin = availablePlugins[i];
             var category = plugin.categoryDisplayName;
 
             if (category != currentCategory) {
@@ -128,16 +81,13 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-linkbutton", "
                         html += "</div>";
                         html += "</div>";
                     }
-
                     html += '<div class="verticalSection">';
                     html += '<h2 class="sectionTitle sectionTitle-cards">' + category + "</h2>";
                     html += '<div class="itemsContainer vertical-wrap">';
                     hasOpenTag = true;
                 }
-
                 currentCategory = category;
             }
-
             html += getPluginHtml(plugin, options, installedPlugins);
         }
 

@@ -143,7 +143,8 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function(appSett
         features.push("displaylanguage");
         features.push("otherapppromotions");
         features.push("targetblank");
-        features.push("multiserver");
+        // allows users to connect to more than one server
+        //features.push("multiserver");
         browser.orsay || browser.tizen || browser.msie || !(browser.firefox || browser.ps4 || browser.edge || cueSupported()) || features.push("subtitleappearancesettings");
         browser.orsay || browser.tizen || features.push("subtitleburnsettings");
         browser.tv || browser.ps4 || browser.xboxOne || features.push("fileinput");

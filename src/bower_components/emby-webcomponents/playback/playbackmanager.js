@@ -1806,6 +1806,12 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         }
 
         function translateItemsForPlayback(items, options) {
+            if (items.length > 1 && options && options.ids) {
+                // Use the original request id array for sorting the result in the proper order
+                items.sort(function (a, b) {
+                    return options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id);
+                });
+            }
 
             var firstItem = items[0];
             var promise;
