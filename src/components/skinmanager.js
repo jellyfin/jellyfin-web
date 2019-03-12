@@ -219,10 +219,8 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             selectedTheme = defaultTheme;
         }
 
-        var embyWebComponentsBowerPath = 'components';
-
         return {
-            stylesheetPath: require.toUrl(embyWebComponentsBowerPath + '/themes/' + selectedTheme.id + '/theme.css'),
+            stylesheetPath: require.toUrl('components/themes/' + selectedTheme.id + '/theme.css'),
             themeId: selectedTheme.id
         };
     }
