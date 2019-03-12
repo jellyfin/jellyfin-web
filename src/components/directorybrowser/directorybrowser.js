@@ -18,18 +18,18 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'emby-b
         if (path && typeof path !== 'string') {
             throw new Error("invalid path");
         }
-        
+
         loading.show();
-        
+
         var promises = [];
 
         if ("Network" === path) {
             promises.push(ApiClient.getNetworkDevices())
         } else {
-            if (path) { 
+            if (path) {
                 promises.push(ApiClient.getDirectoryContents(path, fileOptions));
                 promises.push(ApiClient.getParentPath(path));
-            } else { 
+            } else {
                 promises.push(ApiClient.getDrives());
             }
         }
@@ -42,7 +42,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'emby-b
 
                 page.querySelector(".results").scrollTop = 0;
                 page.querySelector("#txtDirectoryPickerPath").value = path || "";
-                
+
                 if (path) {
                     html += getItem("lnkPath lnkDirectory", "", parentPath, "...");
                 }
@@ -51,7 +51,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'emby-b
                     var cssClass = "File" === folder.Type ? "lnkPath lnkFile" : "lnkPath lnkDirectory";
                     html += getItem(cssClass, folder.Type, folder.Path, folder.Name);
                 }
-                
+
                 if (!path) {
                     html += getItem("lnkPath lnkDirectory", "", "Network", Globalize.translate("ButtonNetwork"));
                 }
@@ -128,7 +128,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'emby-b
             html += '<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="' + Globalize.translate("ButtonRefresh") + '"><i class="md-icon">search</i></button>';
         }
         html += "</div>";
-        if (!readOnlyAttribute) { 
+        if (!readOnlyAttribute) {
             html += '<div class="results paperList" style="max-height: 200px; overflow-y: auto;"></div>';
         }
         if (options.enableNetworkSharePath) {
@@ -222,11 +222,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'emby-b
                 var networkSharePath = this.querySelector("#txtNetworkPath");
                 networkSharePath = networkSharePath ? networkSharePath.value : null;
                 var path = this.querySelector("#txtDirectoryPickerPath").value;
-                validatePath(path, options.validateWriteable, ApiClient).then(
-                    function() {
-                        options.callback(path, networkSharePath);
-                    }
-                );
+                validatePath(path, options.validateWriteable, ApiClient).then(options.callback(path, networkSharePath));
             }
             e.preventDefault();
             e.stopPropagation();

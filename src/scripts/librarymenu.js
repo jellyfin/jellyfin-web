@@ -189,6 +189,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             html += globalize.translate("HeaderAdmin");
             html += "</h3>";
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="dashboard.html"><i class="md-icon navMenuOptionIcon">dashboard</i><span class="navMenuOptionText">' + globalize.translate("TabDashboard") + "</span></a>";
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="edititemmetadata.html"><i class="md-icon navMenuOptionIcon">mode_edit</i><span class="navMenuOptionText">' + globalize.translate("Metadata") + "</span></a>";
             html += "</div>";
         }
 
@@ -198,7 +199,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += "</h3>";
         if (user.localUser) {
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkMySettings" href="mypreferencesmenu.html"><i class="md-icon navMenuOptionIcon">settings</i><span class="navMenuOptionText">' + globalize.translate("ButtonSettings") + "</span></a>";
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="md-icon navMenuOptionIcon">wifi</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
+            if (appHost.supports("multiserver")) {
+                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="md-icon navMenuOptionIcon">wifi</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
+            }
             if (!user.localUser.EnableAutoLogin) {
                 html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="md-icon navMenuOptionIcon">exit_to_app</i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
             }
@@ -271,7 +274,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             pageIds: ["dashboardPage", "serverActivityPage"],
             icon: "dashboard"
         }, {
-            name: globalize.translate("TabSettings"),
+            name: globalize.translate("General"),
             href: "dashboardgeneral.html",
             pageIds: ["dashboardGeneralPage"],
             icon: "settings"
@@ -297,11 +300,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             icon: "swap_horiz",
             href: "encodingsettings.html",
             pageIds: ["encodingSettingsPage"]
-        }, {
-            name: "Open Subtitles",
-            href: "opensubtitles.html",
-            pageIds: ["openSubtitlesPage"],
-            icon: "closed_caption"
         }];
         addPluginPagesToMainMenu(links, pluginItems, "server");
         links.push({
@@ -372,12 +370,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             href: "scheduledtasks.html",
             pageIds: ["scheduledTasksPage", "scheduledTaskPage"],
             icon: "schedule"
-        });
-        links.push({
-            name: globalize.translate("MetadataManager"),
-            href: "edititemmetadata.html",
-            pageIds: [],
-            icon: "mode_edit"
         });
         addPluginPagesToMainMenu(links, pluginItems);
         return links;
