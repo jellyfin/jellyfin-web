@@ -1814,7 +1814,7 @@
     "Watched": "Sett",
     "Wednesday": "Onsdag",
     "WelcomeToProject": "Velkommen til Jellyfin!",
-    "WizardCompleted": "Det er alt vi trenger i denne omgang. Jellyfin har begynt å samle inn informasjon om mediebiblioteket ditt. Sjekk ut noen av våre apper, og klikk deretter <b> Fullfør </ b> for å vise <b> Server Dashboard </ b>.",
+    "WizardCompleted": "Det er alt vi trenger i denne omgang. Jellyfin har begynt å samle inn informasjon om mediebiblioteket ditt. Sjekk ut noen av våre apper, og klikk deretter <b>Fullfør</b> for å vise <b>Server Dashboard</b>.",
     "Writer": "Manus",
     "XmlDocumentAttributeListHelp": "Disse attributtene påføres rot elementet for alle xml responser.",
     "XmlTvKidsCategoriesHelp": "Programmer med disse kategoriene vil bli vist som barne programmer. Atskilt flere med \"|\".",

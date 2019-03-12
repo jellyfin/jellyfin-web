@@ -2,31 +2,57 @@ define(["globalize", "loading", "libraryMenu", "dom", "emby-input", "emby-button
     "use strict";
 
     function isM3uVariant(type) {
-        return -1 !== ["nextpvr"].indexOf(type || "")
+        return ["nextpvr"].indexOf(type || "") !== -1;
     }
 
     function fillTypes(view, currentId) {
-        return ApiClient.getJSON(ApiClient.getUrl("LiveTv/TunerHosts/Types")).then(function(types) {
+        ApiClient.getJSON(ApiClient.getUrl("LiveTv/TunerHosts/Types")).then(function(types) {
             var selectType = view.querySelector(".selectType");
-            selectType.innerHTML = types.map(function(t) {
-                return '<option value="' + t.Id + '">' + t.Name + "</option>"
-            }).join("") + '<option value="other">' + globalize.translate("TabOther") + "</option>", selectType.disabled = null != currentId, selectType.value = "", onTypeChange.call(selectType)
-        })
+            var html = "";
+            html += types.map(function(tuner) {
+                return '<option value="' + tuner.Id + '">' + tuner.Name + "</option>";
+            }).join("");
+            html += '<option value="other">';
+            html += globalize.translate("TabOther");
+            html += "</option>";
+            selectType.innerHTML = html;
+
+            selectType.disabled = null != currentId;
+            selectType.value = "";
+            onTypeChange.call(selectType);
+        });
     }
 
     function reload(view, providerId) {
-        view.querySelector(".txtDevicePath").value = "", view.querySelector(".chkFavorite").checked = !1, view.querySelector(".txtDevicePath").value = "", providerId && ApiClient.getNamedConfiguration("livetv").then(function(config) {
-            var info = config.TunerHosts.filter(function(i) {
-                return i.Id === providerId
-            })[0];
-            fillTunerHostInfo(view, info)
-        })
+        view.querySelector(".txtDevicePath").value = "";
+        view.querySelector(".chkFavorite").checked = false;
+        view.querySelector(".txtDevicePath").value = "";
+        if (providerId) {
+            ApiClient.getNamedConfiguration("livetv").then(function(config) {
+                var info = config.TunerHosts.filter(function(i) {
+                    return i.Id === providerId;
+                })[0];
+                fillTunerHostInfo(view, info);
+            });
+        }
     }
 
     function fillTunerHostInfo(view, info) {
-        var selectType = view.querySelector(".selectType"),
-            type = info.Type || "";
-        info.Source && isM3uVariant(info.Source) && (type = info.Source), selectType.value = type, onTypeChange.call(selectType), view.querySelector(".txtDevicePath").value = info.Url || "", view.querySelector(".txtFriendlyName").value = info.FriendlyName || "", view.querySelector(".txtUserAgent").value = info.UserAgent || "", view.querySelector(".fldDeviceId").value = info.DeviceId || "", view.querySelector(".chkFavorite").checked = info.ImportFavoritesOnly, view.querySelector(".chkTranscode").checked = info.AllowHWTranscoding, view.querySelector(".chkStreamLoop").checked = info.EnableStreamLooping, view.querySelector(".txtTunerCount").value = info.TunerCount || "0"
+        var selectType = view.querySelector(".selectType");
+        var type = info.Type || "";
+        if (info.Source && isM3uVariant(info.Source)) {
+            type = info.Source;
+        }
+        selectType.value = type;
+        onTypeChange.call(selectType);
+        view.querySelector(".txtDevicePath").value = info.Url || "";
+        view.querySelector(".txtFriendlyName").value = info.FriendlyName || "";
+        view.querySelector(".txtUserAgent").value = info.UserAgent || "";
+        view.querySelector(".fldDeviceId").value = info.DeviceId || "";
+        view.querySelector(".chkFavorite").checked = info.ImportFavoritesOnly;
+        view.querySelector(".chkTranscode").checked = info.AllowHWTranscoding;
+        view.querySelector(".chkStreamLoop").checked = info.EnableStreamLooping;
+        view.querySelector(".txtTunerCount").value = info.TunerCount || "0";
     }
 
     function submitForm(page) {
@@ -74,16 +100,6 @@ define(["globalize", "loading", "libraryMenu", "dom", "emby-input", "emby-button
         })
     }
 
-    function getTabs() {
-        return [{
-            href: "livetvstatus.html",
-            name: globalize.translate("TabDevices")
-        }, {
-            href: "appservices.html?context=livetv",
-            name: globalize.translate("TabServices")
-        }]
-    }
-
     function onTypeChange() {
         var value = this.value,
             view = dom.parentWithClass(this, "page"),
@@ -102,7 +118,6 @@ define(["globalize", "loading", "libraryMenu", "dom", "emby-input", "emby-button
     }
     return function(view, params) {
         params.id || view.querySelector(".btnDetect").classList.remove("hide"), view.addEventListener("viewshow", function() {
-            libraryMenu.setTabs("livetvadmin", 0, getTabs);
             var currentId = params.id;
             fillTypes(view, currentId).then(function() {
                 reload(view, currentId)

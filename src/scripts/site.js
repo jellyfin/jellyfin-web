@@ -32,11 +32,11 @@ function getParameterByName(name, url) {
 function pageClassOn(eventName, className, fn) {
     "use strict";
 
-    document.addEventListener(eventName, function (e__q) {
-        var target = e__q.target;
+    document.addEventListener(eventName, function (event) {
+        var target = event.target;
 
         if (target.classList.contains(className)) {
-            fn.call(target, e__q);
+            fn.call(target, event);
         }
     });
 }
@@ -44,22 +44,21 @@ function pageClassOn(eventName, className, fn) {
 function pageIdOn(eventName, id, fn) {
     "use strict";
 
-    document.addEventListener(eventName, function (e__w) {
-        var target = e__w.target;
+    document.addEventListener(eventName, function (event) {
+        var target = event.target;
 
         if (target.id === id) {
-            fn.call(target, e__w);
+            fn.call(target, event);
         }
     });
 }
 
 var Dashboard = {
-    allowPluginPages: function (pluginId) {
-        return true;
-    },
     getCurrentUser: function () {
         return window.ApiClient.getCurrentUser(false);
     },
+
+    //TODO: investigate url prefix support for serverAddress function
     serverAddress: function () {
         if (AppInfo.isNativeApp) {
             var apiClient = window.ApiClient;
@@ -231,17 +230,7 @@ var AppInfo = {};
 !function () {
     "use strict";
 
-    function initializeApiClient(apiClient) {
-        if (!("cordova" !== self.appMode && "android" !== self.appMode)) {
-            apiClient.getAvailablePlugins = function () {
-                return Promise.resolve([]);
-            };
-        }
-    }
-
-    function onApiClientCreated(e__e, newApiClient) {
-        initializeApiClient(newApiClient);
-
+    function onApiClientCreated(e, newApiClient) {
         if (window.$) {
             $.ajax = newApiClient.ajax;
         }
@@ -283,12 +272,12 @@ var AppInfo = {};
 
     function createConnectionManager() {
         return require(["connectionManagerFactory", "apphost", "credentialprovider", "events", "userSettings"], function (ConnectionManager, apphost, credentialProvider, events, userSettings) {
-            var credentialProviderInstance = new credentialProvider(),
-                promises                   = [apphost.getSyncProfile(), apphost.init()];
+            var credentialProviderInstance = new credentialProvider();
+            var promises = [apphost.getSyncProfile(), apphost.init()];
 
             Promise.all(promises).then(function (responses) {
-                var deviceProfile = responses[0],
-                    capabilities  = Dashboard.capabilities(apphost);
+                var deviceProfile = responses[0];
+                var capabilities = Dashboard.capabilities(apphost);
 
                 capabilities.DeviceProfile = deviceProfile;
 
@@ -306,7 +295,7 @@ var AppInfo = {};
                         var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
                         
                         apiClient.enableAutomaticNetworking = false;
-                        apiClient.manualAddressOnly         = true;
+                        apiClient.manualAddressOnly = true;
 
                         connectionManager.addApiClient(apiClient);
 
@@ -349,7 +338,7 @@ var AppInfo = {};
     }
 
     function getPlaybackManager(playbackManager) {
-        window.addEventListener("beforeunload", function (e__r) {
+        window.addEventListener("beforeunload", function () {
             try {
                 playbackManager.onAppClose();
             } catch (err) {
@@ -467,12 +456,10 @@ var AppInfo = {};
 
         if ("registerElement" in document) {
             define("registerElement", []);
+        } else if (browser.msie) {
+            define("registerElement", [bowerPath + "/webcomponentsjs/webcomponents-lite.min.js"], returnFirstDependency);
         } else {
-            if (browser.msie) {
-                define("registerElement", [bowerPath + "/webcomponentsjs/webcomponents-lite.min.js"], returnFirstDependency);
-            } else {
-                define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
-            }
+            define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
         }
 
         if ("cordova" === self.appMode || "android" === self.appMode) {
@@ -532,19 +519,15 @@ var AppInfo = {};
             define("bgtaskregister", ["environments/windows-uwp/bgtaskregister"], returnFirstDependency);
             define("transfermanager", ["environments/windows-uwp/transfermanager"], returnFirstDependency);
             define("filerepository", ["environments/windows-uwp/filerepository"], returnFirstDependency);
+        } else if ("cordova" === self.appMode) {
+            define("filerepository", ["cordova/filerepository"], returnFirstDependency);
+            define("transfermanager", ["filerepository"], returnFirstDependency);
+        } else if ("android" === self.appMode) {
+            define("transfermanager", ["cordova/transfermanager"], returnFirstDependency);
+            define("filerepository", ["cordova/filerepository"], returnFirstDependency);
         } else {
-            if ("cordova" === self.appMode) {
-                define("filerepository", ["cordova/filerepository"], returnFirstDependency);
-                define("transfermanager", ["filerepository"], returnFirstDependency);
-            } else {
-                if ("android" === self.appMode) {
-                    define("transfermanager", ["cordova/transfermanager"], returnFirstDependency);
-                    define("filerepository", ["cordova/filerepository"], returnFirstDependency);
-                } else {
-                    define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency);
-                    define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency);
-                }
-            }
+            define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency);
+            define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency);
         }
 
         if ("android" === self.appMode) {
@@ -600,10 +583,10 @@ var AppInfo = {};
 
     function loadCoreDictionary(globalize) {
         var languages = ["ar", "be-by", "bg-bg", "ca", "cs", "da", "de", "el", "en-gb", "en-us", "es", "es-ar", "es-mx", "fa", "fi", "fr", "fr-ca", "gsw", "he", "hi-in", "hr", "hu", "id", "it", "kk", "ko", "lt-lt", "ms", "nb", "nl", "pl", "pt-br", "pt-pt", "ro", "ru", "sk", "sl-si", "sv", "tr", "uk", "vi", "zh-cn", "zh-hk", "zh-tw"];
-        var translations = languages.map(function (i__t) {
+        var translations = languages.map(function (language) {
             return {
-                lang: i__t,
-                path: "strings/" + i__t + ".json"
+                lang: language,
+                path: "strings/" + language + ".json"
             };
         });
         globalize.defaultModule("core");
@@ -654,12 +637,6 @@ var AppInfo = {};
             autoFocus: false,
             roles: "admin",
             controller: "scripts/addpluginpage"
-        });
-        defineRoute({
-            path: "/appservices.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
         });
         defineRoute({
             path: "/autoorganizelog.html",
@@ -746,12 +723,6 @@ var AppInfo = {};
         });
         defineRoute({
             path: "/encodingsettings.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/opensubtitles.html",
             dependencies: [],
             autoFocus: false,
             roles: "admin"
@@ -1159,7 +1130,15 @@ var AppInfo = {};
 
     function loadPlugins(externalPlugins, appHost, browser, shell) {
         console.log("Loading installed plugins");
-        var list = ["components/playback/playbackvalidation", "components/playback/playaccessvalidation", "components/playback/experimentalwarnings", "components/htmlaudioplayer/plugin", "components/htmlvideoplayer/plugin", "components/photoplayer/plugin", "components/youtubeplayer/plugin"];
+        var list = [
+            "components/playback/playbackvalidation",
+            "components/playback/playaccessvalidation",
+            "components/playback/experimentalwarnings",
+            "components/htmlaudioplayer/plugin",
+            "components/htmlvideoplayer/plugin",
+            "components/photoplayer/plugin",
+            "components/youtubeplayer/plugin"
+        ];
 
         if ("cordova" === self.appMode) {
             list.push("cordova/chromecast");
@@ -1177,8 +1156,8 @@ var AppInfo = {};
             }
         }
 
-        for (var i__y = 0, length = externalPlugins.length; i__y < length; i__y++) {
-            list.push(externalPlugins[i__y]);
+        for (var index = 0, length = externalPlugins.length; index < length; index++) {
+            list.push(externalPlugins[index]);
         }
 
         return new Promise(function (resolve, reject) {
@@ -1201,96 +1180,91 @@ var AppInfo = {};
     function onAppReady(browser) {
         console.log("Begin onAppReady");
 
-        var isInBackground = -1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync");
+        // ensure that appHost is loaded in this point
+        require(['appHost'], function (appHost) {
+            var isInBackground = -1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync");
 
-        window.Emby = {};
+            window.Emby = {};
 
-        console.log("onAppReady - loading dependencies");
+            console.log("onAppReady - loading dependencies");
 
-        if (isInBackground) {
-            syncNow();
-        } else {
+            if (isInBackground) {
+                syncNow();
+            } else {
 
-            if (browser.iOS) {
-                require(['css!devices/ios/ios.css']);
-            }
+                if (browser.iOS) {
+                    require(['css!devices/ios/ios.css']);
+                }
 
-            require(['apphost', 'appRouter', 'scripts/themeloader', 'libraryMenu'], function (appHost, pageObjects) {
-                window.Emby.Page = pageObjects;
+                require(['appRouter', 'scripts/themeloader', 'libraryMenu'], function (pageObjects) {
+                    window.Emby.Page = pageObjects;
 
-                defineCoreRoutes(appHost);
+                    defineCoreRoutes(appHost);
 
-                Emby.Page.start({
-                    click: false,
-                    hashbang: true
-                });
+                    Emby.Page.start({
+                        click: false,
+                        hashbang: true
+                    });
 
-                require(["components/thememediaplayer", "scripts/autobackdrops"]);
+                    require(["components/thememediaplayer", "scripts/autobackdrops"]);
 
-                if (!("cordova" !== self.appMode && "android" !== self.appMode)) {
-                    if (browser.android) {
-                        require(["cordova/mediasession", "cordova/chromecast", "cordova/appshortcuts"]);
-                    } else if (browser.safari) {
-                        require(["cordova/mediasession", "cordova/volume", "cordova/statusbar", "cordova/backgroundfetch"]);
+                    if ("cordova" === self.appMode || "android" === self.appMode) {
+                        if (browser.android) {
+                            require(["cordova/mediasession", "cordova/chromecast", "cordova/appshortcuts"]);
+                        } else if (browser.safari) {
+                            require(["cordova/mediasession", "cordova/volume", "cordova/statusbar", "cordova/backgroundfetch"]);
+                        }
                     }
-                }
 
-                if (!(browser.tv || browser.xboxOne || browser.ps4)) {
-                    require(["components/nowplayingbar/nowplayingbar"]);
-                }
-
-                if (appHost.supports("remotecontrol")) {
-                    require(["playerSelectionMenu", "components/playback/remotecontrolautoplay"]);
-                }
-
-                if (!(appHost.supports("physicalvolumecontrol") && !browser.touch || browser.edge)) {
-                    require(["components/playback/volumeosd"]);
-                }
-
-                if (navigator.mediaSession) {
-                    require(["mediaSession"]);
-                }
-
-                if (!(browser.tv || browser.xboxOne)) {
-                    require(["components/playback/playbackorientation"]);
-                    registerServiceWorker();
-
-                    if (window.Notification) {
-                        require(["components/notifications/notifications"]);
+                    if (!browser.tv && !browser.xboxOne && !browser.ps4) {
+                        require(["components/nowplayingbar/nowplayingbar"]);
                     }
-                }
 
-                require(["playerSelectionMenu"]);
+                    if (appHost.supports("remotecontrol")) {
+                        require(["playerSelectionMenu", "components/playback/remotecontrolautoplay"]);
+                    }
 
-                if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
-                    require(["fullscreen-doubleclick"]);
-                }
+                    if (!(appHost.supports("physicalvolumecontrol") && !browser.touch || browser.edge)) {
+                        require(["components/playback/volumeosd"]);
+                    }
 
-                if (appHost.supports("sync")) {
-                    initLocalSyncEvents();
-                }
+                    if (navigator.mediaSession) {
+                        require(["mediaSession"]);
+                    }
 
-                if (!AppInfo.isNativeApp) {
-                    if (window.ApiClient) {
+                    require(["apiInput"]);
+
+                    if (!browser.tv && !browser.xboxOne) {
+                        require(["components/playback/playbackorientation"]);
+                        registerServiceWorker();
+
+                        if (window.Notification) {
+                            require(["components/notifications/notifications"]);
+                        }
+                    }
+
+                    require(["playerSelectionMenu"]);
+
+                    if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
+                        require(["fullscreen-doubleclick"]);
+                    }
+
+                    if (appHost.supports("sync")) {
+                        initLocalSyncEvents();
+                    }
+
+                    if (!AppInfo.isNativeApp && window.ApiClient) {
                         require(["css!" + ApiClient.getUrl("Branding/Css")]);
                     }
-                }
-            });
-        }
+                });
+            }
+        });
     }
 
     function registerServiceWorker() {
         if (navigator.serviceWorker && "cordova" !== self.appMode && "android" !== self.appMode) {
             try {
-                navigator.serviceWorker.register("serviceworker.js").then(function () {
-                    return navigator.serviceWorker.ready;
-                }).then(function (reg) {
-                    if (reg && reg.sync) {
-                        return reg.sync.register("emby-sync").then(function () {// TODO cvium: the sync serviceworker is a noop?
-                            //window.SyncRegistered = Dashboard.isConnectMode()
-                        });
-                    }
-                });
+                navigator.serviceWorker.register("serviceworker.js");
             } catch (err) {
                 console.log("Error registering serviceWorker: " + err);
             }
@@ -1848,39 +1822,9 @@ var AppInfo = {};
                     }
                 }
 
-                if ("Playlist" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
+                var itemTypes = ["Playlist", "TvChannel", "Program", "BoxSet", "MusicAlbum", "MusicGenre", "Person", "Recording", "MusicArtist"];
 
-                if ("TvChannel" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("Program" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("BoxSet" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("MusicAlbum" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("MusicGenre" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("Person" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("Recording" == itemType) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                if ("MusicArtist" == itemType) {
+                if (itemTypes.indexOf(itemType) >= 0) {
                     return "itemdetails.html?id=" + id + "&serverId=" + serverId;
                 }
 

@@ -50,10 +50,8 @@
                         <h3 style="margin:0;">${HeaderActiveDevices}</h3>
                         <i class="md-icon">&#xE5CC;</i>
                     </a>
-
                     <div class="activeDevices itemsContainer vertical-wrap">
                     </div>
-
                 </div>
             </div>
 
@@ -76,7 +74,6 @@
                 </div>
 
                 <div class="dashboardSection serverActivitySection hide activityContainer">
-
                     <a is="emby-linkbutton" href="serveractivity.html?useractivity=false" class="button-flat sectionTitleTextButton">
                         <h3>${Alerts}</h3>
                         <i class="md-icon">&#xE5CC;</i>
@@ -84,8 +81,12 @@
                     <div class="paperList serverActivityItems" data-activitylimit="4" data-useractivity="false">
                     </div>
                 </div>
+
                 <div class="dashboardSection">
-                    <h3>${HeaderPaths}</h3>
+                    <a is="emby-linkbutton" href="dashboardgeneral.html" class="button-flat sectionTitleTextButton">
+                        <h3>${HeaderPaths}</h3>
+                        <i class="md-icon">&#xE5CC;</i>
+                    </a>
                     <div class="paperList">
                         <div class="listItem listItem-border">
                             <div class="listItemBody two-line">

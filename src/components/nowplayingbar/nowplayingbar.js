@@ -56,7 +56,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="md-icon">&#xE050;</i></button>';
 
-        html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:100px;vertical-align:middle;display:inline-flex;">';
+        html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
@@ -191,9 +191,9 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 currentPlayer.setVolume(this.value);
             }
         }
-        volumeSlider.addEventListener('change', setVolume.bind(this));
-        volumeSlider.addEventListener('mousemove', setVolume.bind(this));
-        volumeSlider.addEventListener('touchmove', setVolume.bind(this));
+        volumeSlider.addEventListener('change', setVolume);
+        volumeSlider.addEventListener('mousemove', setVolume);
+        volumeSlider.addEventListener('touchmove', setVolume);
 
 
         positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
