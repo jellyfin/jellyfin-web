@@ -1293,7 +1293,6 @@ var AppInfo = {};
         }
 
         if (!window.Promise || browser.web0s) {
-            initialDependencies.push();
             require(["components/native-promise-only/lib/npo.src"], init);
         } else {
             init();
