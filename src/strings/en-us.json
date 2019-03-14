@@ -1123,7 +1123,7 @@
     "LabelMetadataPath": "Metadata path:",
     "LabelMetadataPathHelp": "Specify a custom location for downloaded artwork and metadata.",
     "LabelWebPath": "Web path:",
-    "LabelWebPathHelp": "The path where the web client source is located.",
+    "LabelWebPathHelp": "The path where the web client source is located. Do not change this unless you plan on moving the web files, or the web interface will break.",
     "LabelMetadataReaders": "Metadata readers:",
     "LabelMetadataReadersHelp": "Rank your preferred local metadata sources in order of priority. The first file found will be read.",
     "LabelMetadataSavers": "Metadata savers:",

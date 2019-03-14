@@ -119,7 +119,6 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                         }
                         picker.close();
                     },
-                    validateWriteable: true,
                     header: Globalize.translate("LabelWebPath"),
                     instruction: Globalize.translate("LabelWebPathHelp")
                 })
