@@ -1224,7 +1224,7 @@ var AppInfo = {};
                         require(["playerSelectionMenu", "components/playback/remotecontrolautoplay"]);
                     }
 
-                    if (!(appHost.supports("physicalvolumecontrol") && !browser.touch || browser.edge)) {
+                    if (!appHost.supports("physicalvolumecontrol") || browser.touch) {
                         require(["components/playback/volumeosd"]);
                     }
 
