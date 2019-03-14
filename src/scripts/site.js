@@ -1200,7 +1200,7 @@ var AppInfo = {};
         console.log("Begin onAppReady");
 
         // ensure that appHost is loaded in this point
-        require(['appHost'], function (appHost) {
+        require(['apphost'], function (appHost) {
             var isInBackground = -1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync");
 
             window.Emby = {};
