@@ -97,7 +97,7 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                             $("#txtMetadataPath", view).val(path);
                         }
                         if (networkPath) {
-                            $("#txtMetadataNetworkPath", view).val(networkPath));
+                            $("#txtMetadataNetworkPath", view).val(networkPath);
                         }
                         picker.close();
                     },
