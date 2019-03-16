@@ -538,10 +538,6 @@ var AppInfo = {};
     }
 
     function init() {
-        if ("android" === self.appMode) {
-            define("nativedirectorychooser", ["cordova/nativedirectorychooser"], returnFirstDependency);
-        }
-
         define("livetvcss", ["css!css/livetv.css"], returnFirstDependency);
         define("detailtablecss", ["css!css/detailtable.css"], returnFirstDependency);
         define("buttonenabled", ["legacy/buttonenabled"], returnFirstDependency);
