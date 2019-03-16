@@ -441,11 +441,7 @@ var AppInfo = {};
             define("lazyLoader", [componentsPath + "/lazyloader/lazyloader-scroll"], returnFirstDependency);
         }
 
-        if ("android" === self.appMode) {
-            define("shell", ["cordova/shell"], returnFirstDependency);
-        } else {
-            define("shell", [componentsPath + "/shell"], returnFirstDependency);
-        }
+        define("shell", [componentsPath + "/shell"], returnFirstDependency);
 
         if ("cordova" === self.appMode || "android" === self.appMode) {
             define("apiclientcore", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency);
@@ -1222,7 +1218,7 @@ var AppInfo = {};
                         require(["mediaSession"]);
                     }
 
-                    require(["apiInput"]);
+                    require(["serverNotifications"]);
 
                     if (!browser.tv && !browser.xboxOne) {
                         require(["components/playback/playbackorientation"]);
