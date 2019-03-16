@@ -512,8 +512,8 @@ var AppInfo = {};
             define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency);
         }
 
-            define("localsync", [apiClientBowerPath + "/sync/localsync"], returnFirstDependency);
-        }
+        define("localsync", [apiClientBowerPath + "/sync/localsync"], returnFirstDependency);
+    }
 
     function init() {
         define("livetvcss", ["css!css/livetv.css"], returnFirstDependency);
@@ -1180,7 +1180,7 @@ var AppInfo = {};
 
                     if ("cordova" === self.appMode || "android" === self.appMode) {
                         if (browser.android) {
-                            require(["cordova/mediasession", "cordova/chromecast", "cordova/appshortcuts"]);
+                            require(["cordova/mediasession"]);
                         } else if (browser.safari) {
                             require(["cordova/mediasession", "cordova/volume", "cordova/statusbar", "cordova/backgroundfetch"]);
                         }
