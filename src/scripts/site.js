@@ -482,13 +482,7 @@ var AppInfo = {};
         }
 
         define("multi-download", [componentsPath + "/multidownload"], returnFirstDependency);
-
-        if ("android" === self.appMode) {
-            define("fileDownloader", ["cordova/filedownloader"], returnFirstDependency);
-        } else {
-            define("fileDownloader", [componentsPath + "/filedownloader"], returnFirstDependency);
-        }
-
+        define("fileDownloader", [componentsPath + "/filedownloader"], returnFirstDependency);
         define("localassetmanager", [apiClientBowerPath + "/localassetmanager"], returnFirstDependency);
 
         if ("cordova" === self.appMode || "android" === self.appMode) {
