@@ -1,4 +1,4 @@
-define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings', 'appRouter'], function (appHost, userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings, appRouter) {
+define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings'], function (appHost, userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings) {
     'use strict';
 
     var themeStyleElement;
@@ -18,9 +18,9 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         options = options || {};
 
         if (options.start) {
-            appRouter.invokeShortcut(options.start);
+            Emby.Page.invokeShortcut(options.start);
         } else {
-            appRouter.goHome();
+            Emby.Page.goHome();
         }
     };
 
