@@ -1475,13 +1475,6 @@ var AppInfo = {};
         define("filterMenu", [componentsPath + "/filtermenu/filtermenu"], returnFirstDependency);
         define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
         define("registrationServices", [componentsPath + "/registrationservices/registrationservices"], returnFirstDependency);
-
-        if ("cordova" === self.appMode || "android" === self.appMode) {
-            define("fileupload", ["cordova/fileupload"], returnFirstDependency);
-        } else {
-            define("fileupload", [apiClientBowerPath + "/fileupload"], returnFirstDependency);
-        }
-
         define("connectionmanager", [apiClientBowerPath + "/connectionmanager"]);
         define("serversync", [apiClientBowerPath + "/sync/serversync"], returnFirstDependency);
         define("multiserversync", [apiClientBowerPath + "/sync/multiserversync"], returnFirstDependency);
