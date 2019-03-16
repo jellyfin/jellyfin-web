@@ -154,19 +154,19 @@
                     </label>
                     <div class="fieldDescription checkboxFieldDescription">${OptionDisableUserHelp}</div>
                 </div>
-                <div class="inputContainer" id="fldLoginAttemptsBeforeLockout">
-                    <label>
-                        <input type="emby-input" type="number" id="txtLoginAttemptsBeforeLockout" min="-1" step="1" label="${LabelUserLoginAttemptsBeforeLockout}"/>
-                        <span>${OptionLoginAttemptsBeforeLockout}</span>
-                    </label>
-                    <div class="fieldDescription">${OptionLoginAttemptsBeforeLockoutHelp}</div>
-                </div>
                 <div class="checkboxContainer checkboxContainer-withDescription" id="fldIsHidden">
                     <label>
                         <input type="checkbox" is="emby-checkbox" id="chkIsHidden" />
                         <span>${OptionHideUser}</span>
                     </label>
                     <div class="fieldDescription checkboxFieldDescription">${OptionHideUserFromLoginHelp}</div>
+                </div>
+                <div class=verticalSection>
+                    <div class="inputContainer" id="fldLoginAttemptsBeforeLockout">
+                        <input type="emby-input" type="number" id="txtLoginAttemptsBeforeLockout" min="-1" step="1" label="${LabelUserLoginAttemptsBeforeLockout}"/>
+                        <div class="fieldDescription">${OptionLoginAttemptsBeforeLockout}</div>
+                        <div class="fieldDescription">${OptionLoginAttemptsBeforeLockoutHelp}</div>
+                    </div>
                 </div>
                 <br />
                 <div>
