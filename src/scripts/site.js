@@ -454,11 +454,7 @@ var AppInfo = {};
             define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
         }
 
-        if ("cordova" === self.appMode && browser.iOSVersion && browser.iOSVersion < 11) {
-            define("imageFetcher", ["cordova/imagestore"], returnFirstDependency);
-        } else {
-            define("imageFetcher", [componentsPath + "/images/basicimagefetcher"], returnFirstDependency);
-        }
+        define("imageFetcher", [componentsPath + "/images/basicimagefetcher"], returnFirstDependency);
 
         var preferNativeAlerts = browser.tv;
 
