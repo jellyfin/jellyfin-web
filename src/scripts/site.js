@@ -1126,10 +1126,6 @@ var AppInfo = {};
             "components/youtubeplayer/plugin"
         ];
 
-        if ("cordova" === self.appMode) {
-            list.push("cordova/chromecast");
-        }
-
         if ("android" === self.appMode) {
             list.push("cordova/externalplayer");
         }
