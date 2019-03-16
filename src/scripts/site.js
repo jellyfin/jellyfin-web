@@ -429,11 +429,7 @@ var AppInfo = {};
         var apiClientBowerPath = bowerPath + "/emby-apiclient";
         var componentsPath = "components";
 
-        if ("android" === self.appMode) {
-            define("filesystem", ["cordova/filesystem"], returnFirstDependency);
-        } else {
-            define("filesystem", [componentsPath + "/filesystem"], returnFirstDependency);
-        }
+        define("filesystem", [componentsPath + "/filesystem"], returnFirstDependency);
 
         if (window.IntersectionObserver && !browser.edge) {
             define("lazyLoader", [componentsPath + "/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency);
