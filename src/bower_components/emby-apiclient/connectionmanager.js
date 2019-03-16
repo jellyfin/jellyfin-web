@@ -269,12 +269,15 @@ define(["events", "apiclient", "appStorage"], function(events, apiClientFactory,
                         });
                         resolve(servers)
                     };
-                    require(["serverdiscovery"], function(serverDiscovery) {
-                        serverDiscovery.findServers(1e3).then(onFinish, function() {
+
+                    if (window.NativeShell && typeof window.NativeShell.findServers === 'function') {
+                        window.NativeShell.findServers(1e3).then(onFinish, function() {
                             onFinish([])
-                        })
-                    })
-                })
+                        });
+                    } else {
+                        resolve([]);
+                    }
+                });
             }
 
             function convertEndpointAddressToManualAddress(info) {
