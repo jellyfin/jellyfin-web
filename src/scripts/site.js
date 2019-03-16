@@ -1160,11 +1160,7 @@ var AppInfo = {};
                     require(["components/thememediaplayer", "scripts/autobackdrops"]);
 
                     if ("cordova" === self.appMode || "android" === self.appMode) {
-                        if (browser.android) {
-                            require(["cordova/mediasession"]);
-                        } else if (browser.safari) {
-                            require(["cordova/mediasession", "cordova/volume", "cordova/statusbar", "cordova/backgroundfetch"]);
-                        }
+                        require(["cordova/mediasession"]);
                     }
 
                     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
