@@ -497,21 +497,8 @@ var AppInfo = {};
             define("castSenderApiLoader", [], getCastSenderApiLoader);
         }
 
-        if (self.Windows) {
-            define("bgtaskregister", ["environments/windows-uwp/bgtaskregister"], returnFirstDependency);
-            define("transfermanager", ["environments/windows-uwp/transfermanager"], returnFirstDependency);
-            define("filerepository", ["environments/windows-uwp/filerepository"], returnFirstDependency);
-        } else if ("cordova" === self.appMode) {
-            define("filerepository", ["cordova/filerepository"], returnFirstDependency);
-            define("transfermanager", ["filerepository"], returnFirstDependency);
-        } else if ("android" === self.appMode) {
-            define("transfermanager", ["cordova/transfermanager"], returnFirstDependency);
-            define("filerepository", ["cordova/filerepository"], returnFirstDependency);
-        } else {
-            define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency);
-            define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency);
-        }
-
+        define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency);
+        define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency);
         define("localsync", [apiClientBowerPath + "/sync/localsync"], returnFirstDependency);
     }
 
