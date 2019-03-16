@@ -512,12 +512,8 @@ var AppInfo = {};
             define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency);
         }
 
-        if ("android" === self.appMode) {
-            define("localsync", ["cordova/localsync"], returnFirstDependency);
-        } else {
             define("localsync", [apiClientBowerPath + "/sync/localsync"], returnFirstDependency);
         }
-    }
 
     function init() {
         define("livetvcss", ["css!css/livetv.css"], returnFirstDependency);
