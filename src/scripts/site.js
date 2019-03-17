@@ -1159,10 +1159,6 @@ var AppInfo = {};
 
                     require(["components/thememediaplayer", "scripts/autobackdrops"]);
 
-                    if ("cordova" === self.appMode || "android" === self.appMode) {
-                        require(["cordova/mediasession"]);
-                    }
-
                     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
                         require(["components/nowplayingbar/nowplayingbar"]);
                     }
@@ -1175,11 +1171,7 @@ var AppInfo = {};
                         require(["components/playback/volumeosd"]);
                     }
 
-                    if (navigator.mediaSession) {
-                        require(["mediaSession"]);
-                    }
-
-                    require(["serverNotifications"]);
+                    require(["mediaSession", "serverNotifications"]);
 
                     if (!browser.tv && !browser.xboxOne) {
                         require(["components/playback/playbackorientation"]);
