@@ -44,7 +44,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
                 var profile = profileBuilder(getBaseProfileOptions(item));
 
                 if (item && !options.isRetry && "allcomplexformats" !== appSettings.get("subtitleburnin")) {
-                    if (!(browser.orsay || browser.tizen)) {
+                    if (!browser.orsay && !browser.tizen) {
                         profile.SubtitleProfiles.push({
                             Format: "ass",
                             Method: "External"
@@ -129,7 +129,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         }
 
         var element = document.documentElement;
-        return !!(element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen) || !!document.createElement("video").webkitEnterFullscreen;
+        return (element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen) || document.createElement("video").webkitEnterFullscreen;
     }
 
     function getSyncProfile() {
@@ -200,7 +200,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             features.push("sharing");
         }
 
-        if (!(browser.edgeUwp || browser.tv || browser.xboxOne || browser.ps4)) {
+        if (!browser.edgeUwp && !browser.tv && !browser.xboxOne && !browser.ps4) {
             features.push("filedownload");
         }
 
@@ -211,7 +211,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             features.push("plugins");
         }
 
-        if (!(browser.operaTv || browser.tizen || browser.orsay || browser.web0s || browser.ps4)) {
+        if (!browser.operaTv && !browser.tizen && !browser.orsay && !browser.web0s && !browser.ps4) {
             features.push("externallinks");
             features.push("externalpremium");
         }
@@ -242,7 +242,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         }
 
         if (browser.chrome || browser.edge && !browser.slow) {
-            if (!(browser.noAnimation || browser.edgeUwp || browser.xboxOne)) {
+            if (!browser.noAnimation && !browser.edgeUwp && !browser.xboxOne) {
                 features.push("imageanalysis");
             }
         }
@@ -251,11 +251,11 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             features.push("physicalvolumecontrol");
         }
 
-        if (!(browser.tv || browser.xboxOne || browser.ps4)) {
+        if (!browser.tv && !browser.xboxOne && !browser.ps4) {
             features.push("remotecontrol");
         }
 
-        if (!(browser.operaTv || browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp)) {
+        if (!browser.operaTv && !browser.tizen && !browser.orsay && !browser.web0s && !browser.edgeUwp) {
             features.push("remotevideo");
         }
 
@@ -264,15 +264,15 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         features.push("targetblank"); // allows users to connect to more than one server
         //features.push("multiserver");
 
-        if (!(browser.orsay || browser.tizen || browser.msie || !(browser.firefox || browser.ps4 || browser.edge || cueSupported()))) {
+        if (!browser.orsay && !browser.tizen && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || cueSupported())) {
             features.push("subtitleappearancesettings");
         }
 
-        if (!(browser.orsay || browser.tizen)) {
+        if (!browser.orsay && !browser.tizen) {
             features.push("subtitleburnsettings");
         }
 
-        if (!(browser.tv || browser.ps4 || browser.xboxOne)) {
+        if (!browser.tv && !browser.ps4 && !browser.xboxOne) {
             features.push("fileinput");
         }
 
