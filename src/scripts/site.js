@@ -1232,7 +1232,7 @@ var AppInfo = {};
                         require(["mediaSession"]);
                     }
 
-                    require(["apiInput"]);
+                    require(["serverNotifications"]);
 
                     if (!browser.tv && !browser.xboxOne) {
                         require(["components/playback/playbackorientation"]);
