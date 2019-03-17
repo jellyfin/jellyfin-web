@@ -1095,10 +1095,6 @@ var AppInfo = {};
             "components/youtubeplayer/plugin"
         ];
 
-        if ("android" === self.appMode) {
-            list.push("cordova/externalplayer");
-        }
-
         if (appHost.supports("remotecontrol")) {
             list.push("components/sessionplayer");
 
