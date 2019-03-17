@@ -2,7 +2,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
     'use strict';
 
     var currentItemId;
-    var currentItemType;
+    va currentItemType;
     var currentResolve;
     var currentReject;
     var hasChanges = false;

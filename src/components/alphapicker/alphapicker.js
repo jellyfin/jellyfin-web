@@ -3,7 +3,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
     var selectedButtonClass = 'alphaPickerButton-selected';
 
-    function focus() {
+    function focus( {
         var scope = this;
         var selected = scope.querySelector('.' + selectedButtonClass);
 
