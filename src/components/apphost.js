@@ -39,20 +39,26 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             return getDeviceProfileForWindowsUwp(item);
         }
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             require(["browserdeviceprofile"], function (profileBuilder) {
-                var profile = profileBuilder(getBaseProfileOptions(item));
+                var profile;
 
-                if (item && !options.isRetry && "allcomplexformats" !== appSettings.get("subtitleburnin")) {
-                    if (!browser.orsay && !browser.tizen) {
-                        profile.SubtitleProfiles.push({
-                            Format: "ass",
-                            Method: "External"
-                        });
-                        profile.SubtitleProfiles.push({
-                            Format: "ssa",
-                            Method: "External"
-                        });
+                if (window.NativeShell) {
+                    profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder);
+                } else {
+                    profile = profileBuilder(getBaseProfileOptions(item));
+
+                    if (item && !options.isRetry && "allcomplexformats" !== appSettings.get("subtitleburnin")) {
+                        if (!browser.orsay && !browser.tizen) {
+                            profile.SubtitleProfiles.push({
+                                Format: "ass",
+                                Method: "External"
+                            });
+                            profile.SubtitleProfiles.push({
+                                Format: "ssa",
+                                Method: "External"
+                            });
+                        }
                     }
                 }
 
@@ -133,10 +139,17 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
     }
 
     function getSyncProfile() {
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             require(["browserdeviceprofile", "appSettings"], function (profileBuilder, appSettings) {
-                var profile = profileBuilder();
-                profile.MaxStaticMusicBitrate = appSettings.maxStaticMusicBitrate();
+                var profile;
+
+                if (window.NativeShell) {
+                    profile = window.NativeShell.AppHost.getSyncProfile(profileBuilder, appSettings);
+                } else {
+                    profile = profileBuilder();
+                    profile.MaxStaticMusicBitrate = appSettings.maxStaticMusicBitrate();
+                }
+
                 resolve(profile);
             });
         });
@@ -308,7 +321,9 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             alert("setWindowState is not supported and should not be called");
         },
         exit: function () {
-            if (browser.tizen) {
+            if (window.NativeShell) {
+                window.NativeShell.AppHost.exit();
+            } else if (browser.tizen) {
                 try {
                     tizen.application.getCurrentApplication().exit();
                 } catch (err) {
@@ -319,30 +334,44 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             }
         },
         supports: function (command) {
+            if (window.NativeShell) {
+                return window.NativeShell.AppHost.supports(command);
+            }
+
             return -1 !== supportedFeatures.indexOf(command.toLowerCase());
         },
         preferVisualCards: browser.android || browser.chrome,
         moreIcon: browser.android ? "dots-vert" : "dots-horiz",
         getSyncProfile: getSyncProfile,
-        getDefaultLayout: getDefaultLayout,
+        getDefaultLayout: function () {
+            if (window.NativeShell) {
+                return window.NativeShell.AppHost.getDefaultLayout();
+            }
+
+            return getDefaultLayout()
+        },
         getDeviceProfile: getDeviceProfile,
         init: function () {
+            if (window.NativeShell) {
+                return window.NativeShell.AppHost.init();
+            }
+
             deviceName = getDeviceName();
             return getDeviceId().then(function (resolvedDeviceId) {
                 deviceId = resolvedDeviceId;
             });
         },
         deviceName: function () {
-            return deviceName;
+            return window.NativeShell ? window.NativeShell.AppHost.deviceName() : deviceName;
         },
         deviceId: function () {
-            return deviceId;
+            return window.NativeShell ? window.NativeShell.AppHost.deviceId() : deviceId;
         },
         appName: function () {
-            return "Jellyfin Web";
+            return window.NativeShell ? window.NativeShell.AppHost.appName() : "Jellyfin Web";
         },
         appVersion: function () {
-            return appVersion;
+            return window.NativeShell ? window.NativeShell.AppHost.appVersion() : appVersion;
         },
         getPushTokenInfo: function () {
             return {};
