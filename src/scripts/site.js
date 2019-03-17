@@ -1373,13 +1373,9 @@ var AppInfo = {};
             return viewManager;
         });
 
-        if ("cordova" === self.appMode || "android" === self.appMode) {
-            paths.apphost = "cordova/apphost";
-        } else {
-            paths.apphost = "components/apphost";
-        }
-
+        paths.apphost = "components/apphost";
         paths.appStorage = getAppStorage(apiClientBowerPath);
+        
         requirejs.config({
             waitSeconds: 0,
             map: {
