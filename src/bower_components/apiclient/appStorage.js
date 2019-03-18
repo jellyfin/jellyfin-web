@@ -35,7 +35,6 @@ define([], function() {
             localStorage.removeItem(name);
 
             if (this.localData) {
-                this.localData[name] = null;
                 delete this.localData[name];
                 updateCache(this);
             }
