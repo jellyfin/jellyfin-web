@@ -41,7 +41,9 @@ define([], function() {
         };
 
         try {
-            self.caches && caches.open("embydata").then(onCacheOpened.bind(this));
+            if (self.caches) {
+                self.caches.open("embydata").then(onCacheOpened.bind(this));
+            }
         } catch (err) {
             console.log("Error opening cache: " + err);
         }
