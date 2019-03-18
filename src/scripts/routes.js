@@ -12,12 +12,10 @@ define([
     "listViewStyle",
     "dashboardcss"], function () {
 
-    function defineRoute(newRoute, dictionary) {
-        var baseRoute = Emby.Page.baseUrl();
+    function defineRoute(newRoute) {
         var path = newRoute.path;
-        path = path.replace(baseRoute, "");
         console.log("Defining route: " + path);
-        newRoute.dictionary = newRoute.dictionary || dictionary || "core";
+        newRoute.dictionary = "core";
         Emby.Page.addRoute(path, newRoute);
     }
 
