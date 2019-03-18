@@ -3,10 +3,6 @@ define(["connectionManager"], function(connectionManager) {
     var isSyncing;
     return {
         sync: function(options) {
-            if (window.NativeShell) {
-                return window.NativeShell.sync(options);
-            }
-
             return console.log("localSync.sync starting..."), isSyncing ? Promise.resolve() : (isSyncing = !0, new Promise(function(resolve, reject) {
                 require(["multiserversync", "appSettings"], function(MultiServerSync, appSettings) {
                     options = options || {}, options.cameraUploadServers = appSettings.cameraUploadServers(), (new MultiServerSync).sync(connectionManager, options).then(function() {
