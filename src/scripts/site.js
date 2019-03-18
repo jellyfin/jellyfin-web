@@ -275,7 +275,7 @@ var AppInfo = {};
             var credentialProviderInstance = new credentialProvider();
             var promises = [apphost.getSyncProfile(), apphost.init()];
 
-            Promise.all(promises).then(function (responses) {
+            return Promise.all(promises).then(function (responses) {
                 var deviceProfile = responses[0];
                 var capabilities = Dashboard.capabilities(apphost);
 
@@ -293,7 +293,7 @@ var AppInfo = {};
                         console.log("creating ApiClient singleton");
 
                         var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
-                        
+
                         apiClient.enableAutomaticNetworking = false;
                         apiClient.manualAddressOnly = true;
 
