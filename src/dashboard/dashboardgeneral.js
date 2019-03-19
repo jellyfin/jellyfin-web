@@ -97,7 +97,7 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                             $("#txtMetadataPath", view).val(path);
                         }
                         if (networkPath) {
-                            $("#txtMetadataNetworkPath", view).val(networkPath));
+                            $("#txtMetadataNetworkPath", view).val(networkPath);
                         }
                         picker.close();
                     },
@@ -105,22 +105,6 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                     header: Globalize.translate("HeaderSelectMetadataPath"),
                     instruction: Globalize.translate("HeaderSelectMetadataPathHelp"),
                     enableNetworkSharePath: true
-                })
-            })
-        });
-
-        $("#btnSelectWebPath", view).on("click.selectDirectory", function() {
-            require(["directorybrowser"], function(directoryBrowser) {
-                var picker = new directoryBrowser;
-                picker.show({
-                    callback: function(path) {
-                        if (path) {
-                            view.querySelector("#txtWebPath").value = path;
-                        }
-                        picker.close();
-                    },
-                    header: Globalize.translate("LabelWebPath"),
-                    instruction: Globalize.translate("LabelWebPathHelp")
                 })
             })
         });
