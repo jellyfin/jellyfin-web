@@ -1,1 +1,1 @@
-importScripts("components/serviceworker/notifications.js", "components/serviceworker/sync.js");
+importScripts("components/serviceworker/notifications.js");

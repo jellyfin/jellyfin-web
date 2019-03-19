@@ -1431,7 +1431,6 @@ var AppInfo = {};
         define("programStyles", ["css!" + componentsPath + "/guide/programs"], returnFirstDependency);
         define("guide-settings-dialog", [componentsPath + "/guide/guide-settings"], returnFirstDependency);
         define("loadingDialog", [componentsPath + "/loadingdialog/loadingdialog"], returnFirstDependency);
-        define("syncDialog", [componentsPath + "/sync/sync"], returnFirstDependency);
         define("viewManager", [componentsPath + "/viewmanager/viewmanager"], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
@@ -1470,7 +1469,6 @@ var AppInfo = {};
         define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
         define("emby-playstatebutton", [componentsPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
         define("emby-ratingbutton", [componentsPath + "/userdatabuttons/emby-ratingbutton"], returnFirstDependency);
-        define("emby-downloadbutton", [componentsPath + "/sync/emby-downloadbutton"], returnFirstDependency);
         define("listView", [componentsPath + "/listview/listview"], returnFirstDependency);
         define("listViewStyle", ["css!" + componentsPath + "/listview/listview"], returnFirstDependency);
         define("formDialogStyle", ["css!" + componentsPath + "/formdialog"], returnFirstDependency);
