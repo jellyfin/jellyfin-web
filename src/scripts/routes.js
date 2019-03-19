@@ -84,11 +84,6 @@ define([
         roles: "admin"
     });
     defineRoute({
-        path: "/dlnaserversettings.html",
-        autoFocus: false,
-        roles: "admin"
-    });
-    defineRoute({
         path: "/dlnasettings.html",
         autoFocus: false,
         roles: "admin"
