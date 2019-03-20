@@ -281,10 +281,22 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var apiClient = connectionManager.getApiClient(item.ServerId);
         renderSeriesTimerEditor(page, item, apiClient, user), renderTimerEditor(page, item, apiClient, user), renderImage(page, item, apiClient, user), renderLogo(page, item, apiClient), setTitle(item, apiClient), setInitialCollapsibleState(page, item, apiClient, context, user), renderDetails(page, item, apiClient, context), renderTrackSelections(page, instance, item), dom.getWindowSize().innerWidth >= 1e3 ? backdrop.setBackdrops([item]) : backdrop.clear(), renderDetailPageBackdrop(page, item, apiClient);
         var canPlay = reloadPlayButtons(page, item);
-        (item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && -1 !== playbackManager.getSupportedCommands().indexOf("PlayTrailers") ? hideAll(page, "btnPlayTrailer", !0) : hideAll(page, "btnPlayTrailer");
+        if ((item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && -1 !== playbackManager.getSupportedCommands().indexOf("PlayTrailers")) {
+            hideAll(page, "btnPlayTrailer", true);
+        } else {
+            hideAll(page, "btnPlayTrailer");
+        }
         setTrailerButtonVisibility(page, item);
-        item.CanDelete && !item.IsFolder ? hideAll(page, "btnDeleteItem", !0) : hideAll(page, "btnDeleteItem");
-        "Program" !== item.Type || canPlay ? hideAll(page, "mainDetailButtons", !0) : hideAll(page, "mainDetailButtons");
+        if (item.CanDelete && !item.IsFolder) {
+            hideAll(page, "btnDeleteItem", true);
+        } else {
+            hideAll(page, "btnDeleteItem");
+        }
+        if ("Program" !== item.Type || canPlay) {
+            hideAll(page, "mainDetailButtons", true);
+        } else {
+            hideAll(page, "mainDetailButtons");
+        }
         showRecordingFields(instance, page, item, user);
         var groupedVersions = (item.MediaSources || []).filter(function(g) {
             return "Grouping" == g.Type
@@ -1208,7 +1220,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             view.addEventListener("viewbeforehide", function() {
                 events.off(apiClient, "message", onWebSocketMessage);
                 events.off(playbackManager, "playerchange", onPlayerChange);
-                libraryMenu.setTransparentMenu(!1);
+                libraryMenu.setTransparentMenu(false);
             });
             view.addEventListener("viewdestroy", function() {
                 currentItem = null;

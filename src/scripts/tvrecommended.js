@@ -204,7 +204,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
             initialTabIndex = currentTabIndex;
         self.initTab = function() {
             var tabContent = self.tabContent;
-            setScrollClasses(tabContent.querySelector("#resumableItems"), enableScrollX())
+            setScrollClasses(tabContent.querySelector("#resumableItems"), enableScrollX());
         }, self.renderTab = function() {
             reload()
         };
