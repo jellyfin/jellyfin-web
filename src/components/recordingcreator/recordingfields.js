@@ -1,22 +1,11 @@
 define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'paper-icon-button-light', 'emby-button', 'css!./recordingfields', 'flexStyles'], function (globalize, connectionManager, serverNotifications, require, loading, appHost, dom, recordingHelper, events) {
     'use strict';
 
-    function showSeriesRecordingFields(context, programId, apiClient) {
-        context.querySelector('.convertRecordingsContainer').classList.add('hide');
-        context.querySelector('.recordSeriesContainer').classList.remove('hide');
-    }
-
-    function showSingleRecordingFields(context, programId, apiClient) {
-        context.querySelector('.convertRecordingsContainer').classList.add('hide');
-    }
-
     function loadData(parent, program, apiClient) {
         if (program.IsSeries) {
             parent.querySelector('.recordSeriesContainer').classList.remove('hide');
-            showSeriesRecordingFields(parent, program.Id, apiClient);
         } else {
             parent.querySelector('.recordSeriesContainer').classList.add('hide');
-            showSingleRecordingFields(parent, program.Id, apiClient);
         }
 
         if (program.SeriesTimerId) {
@@ -205,7 +194,7 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         var isChecked = !button.querySelector('i').classList.contains('recordingIcon-active');
 
         if (isChecked) {
-            showSeriesRecordingFields(options.parent, options.programId, apiClient);
+            context.querySelector('.recordSeriesContainer').classList.remove('hide');
             if (!this.SeriesTimerId) {
                 var promise = this.TimerId ?
                     recordingHelper.changeRecordingToSeries(apiClient, this.TimerId, options.programId) :
@@ -215,7 +204,6 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
                 });
             }
         } else {
-            showSingleRecordingFields(options.parent, options.programId, apiClient);
             if (this.SeriesTimerId) {
                 apiClient.cancelLiveTvSeriesTimer(this.SeriesTimerId).then(function () {
                     sendToast(globalize.translate('RecordingCancelled'));
