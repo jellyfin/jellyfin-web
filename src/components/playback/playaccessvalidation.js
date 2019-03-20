@@ -2,16 +2,13 @@ define(['connectionManager', 'globalize'], function (connectionManager, globaliz
     "use strict";
 
     function getRequirePromise(deps) {
-
         return new Promise(function (resolve, reject) {
-
             require(deps, resolve);
         });
     }
 
     function showErrorMessage() {
         return getRequirePromise(['alert']).then(function (alert) {
-
             return alert(globalize.translate('MessagePlayAccessRestricted')).then(function () {
                 return Promise.reject();
             });
@@ -19,7 +16,6 @@ define(['connectionManager', 'globalize'], function (connectionManager, globaliz
     }
 
     function PlayAccessValidation() {
-
         this.name = 'Playback validation';
         this.type = 'preplayintercept';
         this.id = 'playaccessvalidation';
@@ -27,7 +23,6 @@ define(['connectionManager', 'globalize'], function (connectionManager, globaliz
     }
 
     PlayAccessValidation.prototype.intercept = function (options) {
-
         var item = options.item;
         if (!item) {
             return Promise.resolve();
@@ -38,7 +33,6 @@ define(['connectionManager', 'globalize'], function (connectionManager, globaliz
         }
 
         return connectionManager.getApiClient(serverId).getCurrentUser().then(function (user) {
-
             if (user.Policy.EnableMediaPlayback) {
                 return Promise.resolve();
             }

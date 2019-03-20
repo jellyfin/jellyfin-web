@@ -1,4 +1,4 @@
-define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton', 'css!./homesections'], function (connectionManager, cardBuilder, registrationServices, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
+define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton', 'css!./homesections'], function (connectionManager, cardBuilder, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
     'use strict';
 
     function getDefaultSection(index) {
@@ -662,34 +662,10 @@ define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings
         itemsContainer.parentContainer = elem;
     }
 
-    function bindUnlockClick(elem) {
-
-        var btnUnlock = elem.querySelector('.btnUnlock');
-        if (btnUnlock) {
-            btnUnlock.addEventListener('click', function (e) {
-
-                registrationServices.validateFeature('livetv', {
-
-                    viewOnly: true
-
-                }).then(function () {
-
-                    dom.parentWithClass(elem, 'homeSectionsContainer').dispatchEvent(new CustomEvent('settingschange', {
-                        cancelable: false
-                    }));
-                });
-            });
-        }
-    }
-
     function getOnNowFetchFn(serverId) {
-
         return function () {
-
             var apiClient = connectionManager.getApiClient(serverId);
-
             return apiClient.getLiveTvRecommendedPrograms({
-
                 userId: apiClient.getCurrentUserId(),
                 IsAiring: true,
                 limit: 24,
@@ -697,15 +673,12 @@ define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings
                 EnableImageTypes: "Primary,Thumb,Backdrop",
                 EnableTotalRecordCount: false,
                 Fields: "ChannelInfo,PrimaryImageAspectRatio"
-
             });
         };
     }
 
     function getOnNowItemsHtml(items) {
-
         var cardLayout = false;
-
         return cardBuilder.getCardsHtml({
             items: items,
             preferThumb: 'auto',
@@ -728,27 +701,12 @@ define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings
     }
 
     function loadOnNow(elem, apiClient, user) {
-
         if (!user.Policy.EnableLiveTvAccess) {
             return Promise.resolve();
         }
 
-        var promises = [];
-
-        promises.push(registrationServices.validateFeature('livetv',
-            {
-                viewOnly: true,
-                showDialog: false
-            }).then(function () {
-                return true;
-            }, function () {
-                return false;
-            }));
-
         var userId = user.Id;
-
-        promises.push(apiClient.getLiveTvRecommendedPrograms({
-
+        apiClient.getLiveTvRecommendedPrograms({
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
             limit: 1,
@@ -756,17 +714,9 @@ define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings
             EnableImageTypes: "Primary,Thumb,Backdrop",
             EnableTotalRecordCount: false,
             Fields: "ChannelInfo,PrimaryImageAspectRatio"
-
-        }));
-
-        return Promise.all(promises).then(function (responses) {
-
-            var registered = responses[0];
-            var result = responses[1];
+        }).then(function (result) {
             var html = '';
-
-            if (result.Items.length && registered) {
-
+            if (result.Items.length) {
                 elem.classList.remove('padded-left');
                 elem.classList.remove('padded-right');
                 elem.classList.remove('padded-bottom');
@@ -774,51 +724,38 @@ define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings
 
                 html += '<div class="verticalSection">';
                 html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
-
                 html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LiveTV') + '</h2>';
-
                 html += '</div>';
 
                 if (enableScrollX()) {
                     html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true" data-scrollbuttons="false">';
                     html += '<div class="scrollSlider padded-left padded-right padded-top padded-bottom focuscontainer-x">';
-                }
-                else {
+                } else {
                     html += '<div class="padded-left padded-right padded-top focuscontainer-x">';
                 }
 
                 html += '<a style="margin-left:.8em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
-
                     serverId: apiClient.serverId()
-
                 }) + '" class="raised"><span>' + globalize.translate('Programs') + '</span></a>';
 
                 html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
-
                     serverId: apiClient.serverId(),
                     section: 'guide'
-
                 }) + '" class="raised"><span>' + globalize.translate('Guide') + '</span></a>';
 
                 html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('recordedtv', {
-
                     serverId: apiClient.serverId()
-
                 }) + '" class="raised"><span>' + globalize.translate('Recordings') + '</span></a>';
 
                 html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
-
                     serverId: apiClient.serverId(),
                     section: 'dvrschedule'
-
                 }) + '" class="raised"><span>' + globalize.translate('Schedule') + '</span></a>';
 
                 html += '</div>';
-
                 if (enableScrollX()) {
                     html += '</div>';
                 }
-
                 html += '</div>';
                 html += '</div>';
 
@@ -826,12 +763,9 @@ define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings
                 html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
                 if (!layoutManager.tv) {
-
                     html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
-
                         serverId: apiClient.serverId(),
                         section: 'onnow'
-
                     }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += globalize.translate('HeaderOnNow');
@@ -863,22 +797,7 @@ define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings
                 itemsContainer.parentContainer = elem;
                 itemsContainer.fetchData = getOnNowFetchFn(apiClient.serverId());
                 itemsContainer.getItemsHtml = getOnNowItemsHtml;
-
-            } else if (result.Items.length && !registered) {
-
-                elem.classList.add('padded-left');
-                elem.classList.add('padded-right');
-                elem.classList.add('padded-bottom');
-
-                html += '<h2 class="sectionTitle">' + globalize.translate('LiveTvRequiresUnlock') + '</h2>';
-                html += '<button is="emby-button" type="button" class="raised button-submit block btnUnlock">';
-                html += '<span>' + globalize.translate('HeaderBecomeProjectSupporter') + '</span>';
-                html += '</button>';
-
-                elem.innerHTML = html;
             }
-
-            bindUnlockClick(elem);
         });
     }
 

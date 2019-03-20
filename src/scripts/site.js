@@ -1131,7 +1131,6 @@ var AppInfo = {};
     function loadPlugins(externalPlugins, appHost, browser, shell) {
         console.log("Loading installed plugins");
         var list = [
-            "components/playback/playbackvalidation",
             "components/playback/playaccessvalidation",
             "components/playback/experimentalwarnings",
             "components/htmlaudioplayer/plugin",
@@ -1476,7 +1475,6 @@ var AppInfo = {};
         define("viewSettings", [componentsPath + "/viewsettings/viewsettings"], returnFirstDependency);
         define("filterMenu", [componentsPath + "/filtermenu/filtermenu"], returnFirstDependency);
         define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
-        define("registrationServices", [componentsPath + "/registrationservices/registrationservices"], returnFirstDependency);
 
         if ("cordova" === self.appMode || "android" === self.appMode) {
             define("fileupload", ["cordova/fileupload"], returnFirstDependency);
