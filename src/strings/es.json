@@ -2175,5 +2175,16 @@
     "MessageNoDownloadsFound": "Sin descargas fuera de línea. Descarga tus archivos para reproducirlos fuera de línea pulsando \"Descargar\" desde la aplicación.",
     "MessageNoSyncJobsFound": "No se encuentran descargas. Inicia descargas usando los botones \"Descargar\" que encontrarás en la aplicación.",
     "Photos": "Fotos",
-    "Playlists": "Listas de reproducción"
+    "Playlists": "Listas de reproducción",
+    "Depressed": "Deprimido",
+    "MessagePlayAccessRestricted": "La reproducción de este contenido está restringida. Por favor contacta al administrador de este Servidor Jellyfin para más información.",
+    "NewCollectionHelp": "Las colecciones le permiten crear agrupaciones personalizadas de películas y otros contenidos de la biblioteca.",
+    "No": "No",
+    "Normal": "Normal",
+    "Off": "Apagado",
+    "Option2Player": "2+",
+    "Option3D": "3D",
+    "Option3Player": "3+",
+    "Option4Player": "4+",
+    "OptionActor": "Actor"
 }
