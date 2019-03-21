@@ -383,7 +383,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
         for (var i = 0, length = tasks.length; i < length; i++) {
             var task = tasks[i];
-            
+
             html += "<p>";
             html += task.Name + "<br/>";
             if (task.State === "Running") {
@@ -407,8 +407,9 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         renderPaths: function (page, systemInfo) {
             page.querySelector("#cachePath").innerHTML = systemInfo.CachePath;
             page.querySelector("#logPath").innerHTML = systemInfo.LogPath;
-            page.querySelector("#transcodingTemporaryPath").innerHTML = systemInfo.TranscodingTempPath;
+            page.querySelector("#transcodePath").innerHTML = systemInfo.TranscodingTempPath;
             page.querySelector("#metadataPath").innerHTML = systemInfo.InternalMetadataPath;
+            page.querySelector("#webPath").innerHTML = systemInfo.WebPath;
         },
         startInterval: function (apiClient) {
             apiClient.sendMessage("SessionsStart", "0,1500");
