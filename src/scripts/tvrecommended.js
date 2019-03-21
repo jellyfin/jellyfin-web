@@ -1,4 +1,4 @@
-define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "dom", "components/categorysyncbuttons", "userSettings", "cardBuilder", "playbackManager", "mainTabsManager", "scrollStyles", "emby-itemscontainer", "emby-button"], function(events, inputManager, libraryMenu, layoutManager, loading, dom, categorysyncbuttons, userSettings, cardBuilder, playbackManager, mainTabsManager) {
+define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "dom", "userSettings", "cardBuilder", "playbackManager", "mainTabsManager", "scrollStyles", "emby-itemscontainer", "emby-button"], function(events, inputManager, libraryMenu, layoutManager, loading, dom, userSettings, cardBuilder, playbackManager, mainTabsManager) {
     "use strict";
 
     function getTabs() {
@@ -204,7 +204,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
             initialTabIndex = currentTabIndex;
         self.initTab = function() {
             var tabContent = self.tabContent;
-            setScrollClasses(tabContent.querySelector("#resumableItems"), enableScrollX()), categorysyncbuttons.init(tabContent)
+            setScrollClasses(tabContent.querySelector("#resumableItems"), enableScrollX());
         }, self.renderTab = function() {
             reload()
         };

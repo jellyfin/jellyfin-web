@@ -4,20 +4,14 @@
     var connectionManager;
 
     function getApiClient(serverId) {
-
         if (connectionManager) {
             return Promise.resolve(connectionManager.getApiClient(serverId));
         }
-
-        //importScripts('serviceworker-cache-polyfill.js');
-
         return Promise.reject();
     }
 
     function executeAction(action, data, serverId) {
-
         return getApiClient(serverId).then(function (apiClient) {
-
             switch (action) {
                 case 'cancel-install':
                     var id = data.id;
@@ -32,7 +26,6 @@
     }
 
     self.addEventListener('notificationclick', function (event) {
-
         var notification = event.notification;
         notification.close();
 
@@ -47,6 +40,5 @@
         }
 
         event.waitUntil(executeAction(action, data, serverId));
-
     }, false);
 })();

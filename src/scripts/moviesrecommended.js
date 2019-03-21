@@ -1,4 +1,4 @@
-define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu", "mainTabsManager", "components/categorysyncbuttons", "cardBuilder", "dom", "imageLoader", "playbackManager", "emby-itemscontainer", "emby-tabs", "emby-button"], function(events, layoutManager, inputManager, userSettings, libraryMenu, mainTabsManager, categorysyncbuttons, cardBuilder, dom, imageLoader, playbackManager) {
+define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu", "mainTabsManager", "cardBuilder", "dom", "imageLoader", "playbackManager", "emby-itemscontainer", "emby-tabs", "emby-button"], function(events, layoutManager, inputManager, userSettings, libraryMenu, mainTabsManager, cardBuilder, dom, imageLoader, playbackManager) {
     "use strict";
 
     function enableScrollX() {
@@ -250,7 +250,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             suggestionsTabIndex = 1;
         self.initTab = function() {
             var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
-            categorysyncbuttons.init(tabContent), initSuggestedTab(view, tabContent)
+            initSuggestedTab(view, tabContent);
         }, self.renderTab = function() {
             var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
             loadSuggestionsTab(view, params, tabContent)
