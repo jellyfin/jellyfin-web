@@ -1,6 +1,6 @@
 define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], function (playbackManager, nowPlayingHelper, events, connectionManager) {
     "use strict";
-    
+
     // no support for mediaSession
     if (!navigator.mediaSession && !window.NativeShell) {
         return;
@@ -105,8 +105,7 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
             return;
         }
 
-        // dummy this up
-        if (eventName == 'init') {
+        if (eventName == 'init') { // transform "init" event into "timeupdate" to restraint update rate
             eventName = 'timeupdate';
         }
 
@@ -181,7 +180,7 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
             } else {
                 imageUrl = null;
             }
-        
+
             window.NativeShell.updateMediaSession({
                 action: eventName,
                 isLocalPlayer: isLocalPlayer,
@@ -283,23 +282,23 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         navigator.mediaSession.setActionHandler('previoustrack', function () {
             execute('previousTrack');
         });
-    
+
         navigator.mediaSession.setActionHandler('nexttrack', function () {
             execute('nextTrack');
         });
-    
+
         navigator.mediaSession.setActionHandler('play', function () {
             execute('unpause');
         });
-    
+
         navigator.mediaSession.setActionHandler('pause', function () {
             execute('pause');
         });
-    
+
         navigator.mediaSession.setActionHandler('seekbackward', function () {
             execute('rewind');
         });
-    
+
         navigator.mediaSession.setActionHandler('seekforward', function () {
             execute('fastForward');
         });
