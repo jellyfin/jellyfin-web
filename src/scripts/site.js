@@ -1131,7 +1131,6 @@ var AppInfo = {};
     function loadPlugins(externalPlugins, appHost, browser, shell) {
         console.log("Loading installed plugins");
         var list = [
-            "components/playback/playbackvalidation",
             "components/playback/playaccessvalidation",
             "components/playback/experimentalwarnings",
             "components/htmlaudioplayer/plugin",
@@ -1431,7 +1430,6 @@ var AppInfo = {};
         define("programStyles", ["css!" + componentsPath + "/guide/programs"], returnFirstDependency);
         define("guide-settings-dialog", [componentsPath + "/guide/guide-settings"], returnFirstDependency);
         define("loadingDialog", [componentsPath + "/loadingdialog/loadingdialog"], returnFirstDependency);
-        define("syncDialog", [componentsPath + "/sync/sync"], returnFirstDependency);
         define("viewManager", [componentsPath + "/viewmanager/viewmanager"], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
@@ -1470,7 +1468,6 @@ var AppInfo = {};
         define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
         define("emby-playstatebutton", [componentsPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
         define("emby-ratingbutton", [componentsPath + "/userdatabuttons/emby-ratingbutton"], returnFirstDependency);
-        define("emby-downloadbutton", [componentsPath + "/sync/emby-downloadbutton"], returnFirstDependency);
         define("listView", [componentsPath + "/listview/listview"], returnFirstDependency);
         define("listViewStyle", ["css!" + componentsPath + "/listview/listview"], returnFirstDependency);
         define("formDialogStyle", ["css!" + componentsPath + "/formdialog"], returnFirstDependency);
@@ -1478,7 +1475,6 @@ var AppInfo = {};
         define("viewSettings", [componentsPath + "/viewsettings/viewsettings"], returnFirstDependency);
         define("filterMenu", [componentsPath + "/filtermenu/filtermenu"], returnFirstDependency);
         define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
-        define("registrationServices", [componentsPath + "/registrationservices/registrationservices"], returnFirstDependency);
 
         if ("cordova" === self.appMode || "android" === self.appMode) {
             define("fileupload", ["cordova/fileupload"], returnFirstDependency);

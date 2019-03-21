@@ -118,13 +118,6 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             });
         }
 
-        if (itemHelper.canConvert(item, user, connectionManager.getApiClient(item))) {
-            commands.push({
-                name: globalize.translate('Convert'),
-                id: 'convert'
-            });
-        }
-
         if (item.CanDelete && options.deleteItem !== false) {
 
             if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
@@ -145,15 +138,6 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 name: globalize.translate('Download'),
                 id: 'download'
             });
-        }
-
-        if (appHost.supports('sync') && options.syncLocal !== false) {
-            if (itemHelper.canSync(user, item)) {
-                commands.push({
-                    name: globalize.translate('Download'),
-                    id: 'synclocal'
-                });
-            }
         }
 
         var canEdit = itemHelper.canEdit(user, item);
@@ -328,17 +312,13 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     {
                         require(['fileDownloader'], function (fileDownloader) {
                         var downloadHref = apiClient.getItemDownloadUrl(itemId);
-
-                            fileDownloader.download([
-                                {
-                            url: downloadHref,
-                            itemId: itemId,
-                            serverId: serverId
-                                }]);
-
+                            fileDownloader.download([{
+                                url: downloadHref,
+                                itemId: itemId,
+                                serverId: serverId
+                            }]);
                             getResolveFunction(getResolveFunction(resolve, id), id)();
                     });
-
                     break;
                     }
                 case 'editsubtitles':
@@ -433,102 +413,48 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     break;
                     }
                 case 'share':
-                    {
                     navigator.share({
                         title: item.Name,
                         text: item.Overview,
                         url: "https://github.com/jellyfin/jellyfin"
                     });
                     break;
-                    }
                 case 'album':
-                    {
-                        appRouter.showItem(item.AlbumId, item.ServerId);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
+                    appRouter.showItem(item.AlbumId, item.ServerId);
+                    getResolveFunction(resolve, id)();
+                    break;
                 case 'artist':
-                    {
-                        appRouter.showItem(item.ArtistItems[0].Id, item.ServerId);
-                        getResolveFunction(resolve, id)();
+                    appRouter.showItem(item.ArtistItems[0].Id, item.ServerId);
+                    getResolveFunction(resolve, id)();
                     break;
-                    }
                 case 'playallfromhere':
-                    {
-                        getResolveFunction(resolve, id)();
+                    getResolveFunction(resolve, id)();
                     break;
-                    }
                 case 'queueallfromhere':
                     {
                     getResolveFunction(resolve, id)();
                     break;
                     }
-                case 'convert':
-                    {
-                        require(['syncDialog'], function (syncDialog) {
-                        syncDialog.showMenu({
-                            items: [item],
-                            serverId: serverId,
-                                mode: 'convert'
-                            });
-                        });
-                        getResolveFunction(resolve, id)();
-                    break;
-                    }
-                case 'sync':
-                    {
-                        require(['syncDialog'], function (syncDialog) {
-                        syncDialog.showMenu({
-                            items: [item],
-                            serverId: serverId,
-                                mode: 'sync'
-                            });
-                        });
-                        getResolveFunction(resolve, id)();
-                    break;
-                    }
-                case 'synclocal':
-                    {
-                        require(['syncDialog'], function (syncDialog) {
-                        syncDialog.showMenu({
-                            items: [item],
-                            serverId: serverId,
-                                mode: 'download'
-                            });
-                        });
-                        getResolveFunction(resolve, id)();
-                    break;
-                    }
                 case 'removefromplaylist':
-
                     apiClient.ajax({
-
                         url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items', {
                             EntryIds: [item.PlaylistItemId].join(',')
                         }),
-
                         type: 'DELETE'
-
                     }).then(function () {
-
                         getResolveFunction(resolve, id, true)();
                     });
-
                     break;
                 case 'removefromcollection':
-
                     apiClient.ajax({
                         type: "DELETE",
                         url: apiClient.getUrl("Collections/" + options.collectionId + "/Items", {
 
                             Ids: [item.Id].join(',')
                         })
-
                     }).then(function () {
-
                         getResolveFunction(resolve, id, true)();
                     });
-
                     break;
                 case 'canceltimer':
                     deleteTimer(apiClient, item, resolve, id);

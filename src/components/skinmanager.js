@@ -9,13 +9,11 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
     function getRequirePromise(deps) {
         return new Promise(function (resolve, reject) {
-
             require(deps, resolve);
         });
     }
 
     function loadSkin(id) {
-
         var newSkin = pluginManager.plugins().filter(function (p) {
             return p.id === id;
         })[0];
@@ -29,7 +27,6 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         var unloadPromise;
 
         if (currentSkin) {
-
             if (currentSkin.id === newSkin.id) {
                 // Nothing to do, it's already the active skin
                 return Promise.resolve(currentSkin);
@@ -72,7 +69,6 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         console.log('Unloading skin: ' + skin.name);
 
         // TODO: unload css
-
         return skin.unload().then(function () {
             document.dispatchEvent(new CustomEvent("skinunload", {
                 detail: {
@@ -83,9 +79,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
     }
 
     function loadSkinHeader(skin) {
-
         return getSkinHeader(skin).then(function (headerHtml) {
-
             document.querySelector('.skinHeader').innerHTML = headerHtml;
 
             currentSkin = skin;
@@ -175,29 +169,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         getThemes: getThemes
     };
 
-    function onRegistrationSuccess() {
-        appSettings.set('appthemesregistered', 'true');
-    }
-
-    function onRegistrationFailure() {
-        appSettings.set('appthemesregistered', 'false');
-    }
-
-    function isRegistered() {
-
-        getRequirePromise(['registrationServices']).then(function (registrationServices) {
-            registrationServices.validateFeature('themes', {
-
-                showDialog: false
-
-            }).then(onRegistrationSuccess, onRegistrationFailure);
-        });
-
-        return appSettings.get('appthemesregistered') !== 'false';
-    }
-
     function getThemeStylesheetInfo(id, requiresRegistration, isDefaultProperty) {
-
         var themes = skinManager.getThemes();
         var defaultTheme;
         var selectedTheme;
@@ -214,11 +186,6 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         }
 
         selectedTheme = selectedTheme || defaultTheme;
-
-        if (selectedTheme.id !== defaultTheme.id && requiresRegistration && !isRegistered()) {
-            selectedTheme = defaultTheme;
-        }
-
         return {
             stylesheetPath: require.toUrl('components/themes/' + selectedTheme.id + '/theme.css'),
             themeId: selectedTheme.id
@@ -230,9 +197,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
     var currentSound;
 
     function loadThemeResources(id) {
-
         lastSound = 0;
-
         if (currentSound) {
             currentSound.stop();
             currentSound = null;
@@ -243,26 +208,19 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
     function onThemeLoaded() {
         document.documentElement.classList.remove('preload');
-
-
         try {
             var color = getComputedStyle(document.querySelector('.skinHeader')).getPropertyValue("background-color");
-
             if (color) {
                 appHost.setThemeColor(color);
             }
-        }
-        catch (err) {
+        } catch (err) {
             console.log('Error setting theme color: ' + err);
         }
     }
 
     skinManager.setTheme = function (id, context) {
-
         return new Promise(function (resolve, reject) {
-
             var requiresRegistration = true;
-
             if (currentThemeId && currentThemeId === id) {
                 resolve();
                 return;
@@ -270,22 +228,18 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
             var isDefaultProperty = context === 'serverdashboard' ? 'isDefaultServerDashboard' : 'isDefault';
             var info = getThemeStylesheetInfo(id, requiresRegistration, isDefaultProperty);
-
             if (currentThemeId && currentThemeId === info.themeId) {
                 resolve();
                 return;
             }
 
             var linkUrl = info.stylesheetPath;
-
             unloadTheme();
-
             var link = document.createElement('link');
 
             link.setAttribute('rel', 'stylesheet');
             link.setAttribute('type', 'text/css');
             link.onload = function () {
-
                 onThemeLoaded();
                 resolve();
             };
@@ -301,23 +255,19 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
     };
 
     function onViewBeforeShow(e) {
-
         if (e.detail && e.detail.type === 'video-osd') {
             return;
         }
 
         if (themeResources.backdrop) {
-
             backdrop.setBackdrop(themeResources.backdrop);
         }
 
         if (!browser.mobile && userSettings.enableThemeSongs()) {
             if (lastSound === 0) {
-
                 if (themeResources.themeSong) {
                     playSound(themeResources.themeSong);
                 }
-
             } else if ((new Date().getTime() - lastSound) > 30000) {
                 if (themeResources.effect) {
                     playSound(themeResources.effect);

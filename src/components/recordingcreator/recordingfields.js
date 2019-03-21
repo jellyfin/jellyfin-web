@@ -1,81 +1,11 @@
-define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'registrationServices', 'paper-icon-button-light', 'emby-button', 'css!./recordingfields', 'flexStyles'], function (globalize, connectionManager, serverNotifications, require, loading, appHost, dom, recordingHelper, events, registrationServices) {
+define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'paper-icon-button-light', 'emby-button', 'css!./recordingfields', 'flexStyles'], function (globalize, connectionManager, serverNotifications, require, loading, appHost, dom, recordingHelper, events) {
     'use strict';
 
-    function getRegistration(apiClient, feature) {
-
-        return registrationServices.validateFeature(feature, {
-            showDialog: false,
-            viewOnly: true
-        });
-    }
-
-    function showConvertRecordingsUnlockMessage(context, apiClient) {
-
-        getRegistration(apiClient, getDvrFeatureCode()).then(function () {
-
-            context.querySelector('.convertRecordingsContainer').classList.add('hide');
-        }, function () {
-            context.querySelector('.convertRecordingsContainer').classList.remove('hide');
-        });
-    }
-
-    function showSeriesRecordingFields(context, programId, apiClient) {
-
-        getRegistration(apiClient, getDvrFeatureCode()).then(function () {
-
-            context.querySelector('.supporterContainer').classList.add('hide');
-            context.querySelector('.convertRecordingsContainer').classList.add('hide');
-            context.querySelector('.recordSeriesContainer').classList.remove('hide');
-
-        }, function () {
-
-            context.querySelector('.supporterContainerText').innerHTML = globalize.translate('MessageActiveSubscriptionRequiredSeriesRecordings');
-            context.querySelector('.supporterContainer').classList.remove('hide');
-            context.querySelector('.recordSeriesContainer').classList.add('hide');
-            context.querySelector('.convertRecordingsContainer').classList.add('hide');
-        });
-    }
-
-    function getDvrFeatureCode() {
-
-        return 'dvr';
-    }
-
-    function showSingleRecordingFields(context, programId, apiClient) {
-
-        getRegistration(apiClient, getDvrFeatureCode()).then(function () {
-
-            context.querySelector('.supporterContainer').classList.add('hide');
-            showConvertRecordingsUnlockMessage(context, apiClient);
-
-        }, function () {
-
-            context.querySelector('.supporterContainerText').innerHTML = globalize.translate('DvrSubscriptionRequired');
-            context.querySelector('.supporterContainer').classList.remove('hide');
-            context.querySelector('.convertRecordingsContainer').classList.add('hide');
-        });
-    }
-
-    function showRecordingFieldsContainer(context, programId, apiClient) {
-
-        getRegistration(apiClient, getDvrFeatureCode()).then(function () {
-
-            context.querySelector('.recordingFields').classList.remove('hide');
-
-        }, function () {
-
-            context.querySelector('.recordingFields').classList.add('hide');
-        });
-    }
-
     function loadData(parent, program, apiClient) {
-
         if (program.IsSeries) {
             parent.querySelector('.recordSeriesContainer').classList.remove('hide');
-            showSeriesRecordingFields(parent, program.Id, apiClient);
         } else {
             parent.querySelector('.recordSeriesContainer').classList.add('hide');
-            showSingleRecordingFields(parent, program.Id, apiClient);
         }
 
         if (program.SeriesTimerId) {
@@ -91,13 +21,11 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         if (program.TimerId && program.Status !== 'Cancelled') {
             parent.querySelector('.btnManageRecording').classList.remove('hide');
             parent.querySelector('.singleRecordingButton .recordingIcon').classList.add('recordingIcon-active');
-
             if (program.Status === 'InProgress') {
                 parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('StopRecording');
             } else {
                 parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('DoNotRecord');
             }
-
         } else {
             parent.querySelector('.btnManageRecording').classList.add('hide');
             parent.querySelector('.singleRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
@@ -110,20 +38,16 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         var options = instance.options;
         var apiClient = connectionManager.getApiClient(options.serverId);
 
-        showRecordingFieldsContainer(options.parent, options.programId, apiClient);
-
+        instance.querySelector('.recordingFields').classList.remove('hide');
         return apiClient.getLiveTvProgram(options.programId, apiClient.getCurrentUserId()).then(function (program) {
-
             instance.TimerId = program.TimerId;
             instance.Status = program.Status;
             instance.SeriesTimerId = program.SeriesTimerId;
-
             loadData(options.parent, program, apiClient);
         });
     }
 
     function onTimerChangedExternally(e, apiClient, data) {
-
         var options = this.options;
         var refresh = false;
 
@@ -144,7 +68,6 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     }
 
     function onSeriesTimerChangedExternally(e, apiClient, data) {
-
         var options = this.options;
         var refresh = false;
 
@@ -181,26 +104,16 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         events.on(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
     }
 
-    function onSupporterButtonClick() {
-        registrationServices.showPremiereInfo();
-    }
-
     function onManageRecordingClick(e) {
-
         var options = this.options;
-
         if (!this.TimerId || this.Status === 'Cancelled') {
             return;
         }
 
         var self = this;
-
         require(['recordingEditor'], function (recordingEditor) {
-
             recordingEditor.show(self.TimerId, options.serverId, {
-
                 enableCancel: false
-
             }).then(function () {
                 self.changed = true;
             });
@@ -281,22 +194,16 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         var isChecked = !button.querySelector('i').classList.contains('recordingIcon-active');
 
         if (isChecked) {
-            showSeriesRecordingFields(options.parent, options.programId, apiClient);
-
+            context.querySelector('.recordSeriesContainer').classList.remove('hide');
             if (!this.SeriesTimerId) {
-
                 var promise = this.TimerId ?
                     recordingHelper.changeRecordingToSeries(apiClient, this.TimerId, options.programId) :
                     recordingHelper.createRecording(apiClient, options.programId, true);
-
                 promise.then(function () {
                     fetchData(self);
                 });
             }
         } else {
-
-            showSingleRecordingFields(options.parent, options.programId, apiClient);
-
             if (this.SeriesTimerId) {
                 apiClient.cancelLiveTvSeriesTimer(this.SeriesTimerId).then(function () {
                     sendToast(globalize.translate('RecordingCancelled'));
@@ -307,21 +214,12 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     }
 
     RecordingEditor.prototype.embed = function () {
-
         var self = this;
-
         return new Promise(function (resolve, reject) {
-
             require(['text!./recordingfields.template.html'], function (template) {
-
                 var options = self.options;
                 var context = options.parent;
                 context.innerHTML = globalize.translateDocument(template, 'core');
-
-                var supporterButtons = context.querySelectorAll('.btnSupporter');
-                for (var i = 0, length = supporterButtons.length; i < length; i++) {
-                    supporterButtons[i].addEventListener('click', onSupporterButtonClick);
-                }
 
                 context.querySelector('.singleRecordingButton').addEventListener('click', onRecordChange.bind(self));
                 context.querySelector('.seriesRecordingButton').addEventListener('click', onRecordSeriesChange.bind(self));
@@ -334,17 +232,14 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     };
 
     RecordingEditor.prototype.hasChanged = function () {
-
         return this.changed;
     };
 
     RecordingEditor.prototype.refresh = function () {
-
         fetchData(this);
     };
 
     RecordingEditor.prototype.destroy = function () {
-
         var timerChangedHandler = this.timerChangedHandler;
         this.timerChangedHandler = null;
 

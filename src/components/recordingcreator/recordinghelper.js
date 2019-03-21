@@ -1,4 +1,4 @@
-define(['globalize', 'loading', 'connectionManager', 'registrationServices'], function (globalize, loading, connectionManager, registrationServices) {
+define(['globalize', 'loading', 'connectionManager'], function (globalize, loading, connectionManager) {
     'use strict';
 
     function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCancellation) {
@@ -18,7 +18,7 @@ define(['globalize', 'loading', 'connectionManager', 'registrationServices'], fu
                     });
                 });
             } else {
-                // cancel 
+                // cancel
                 if (confirmTimerCancellation) {
                     return cancelTimerWithConfirmation(timerId, apiClient.serverId());
                 }
@@ -190,30 +190,21 @@ define(['globalize', 'loading', 'connectionManager', 'registrationServices'], fu
     }
 
     function toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerId) {
-
-        return registrationServices.validateFeature('dvr').then(function () {
-            var apiClient = connectionManager.getApiClient(serverId);
-
-            var hasTimer = timerId && timerStatus !== 'Cancelled';
-
-            if (seriesTimerId && hasTimer) {
-
-                // cancel 
-                return showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId);
-
-            } else if (hasTimer && programId) {
-
-                // change to series recording, if possible
-                // otherwise cancel individual recording
-                return changeRecordingToSeries(apiClient, timerId, programId, true);
-
-            } else if (programId) {
-                // schedule recording
-                return createRecording(apiClient, programId);
-            } else {
-                return Promise.reject();
-            }
-        });
+        var apiClient = connectionManager.getApiClient(serverId);
+        var hasTimer = timerId && timerStatus !== 'Cancelled';
+        if (seriesTimerId && hasTimer) {
+            // cancel
+            return showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId);
+        } else if (hasTimer && programId) {
+            // change to series recording, if possible
+            // otherwise cancel individual recording
+            return changeRecordingToSeries(apiClient, timerId, programId, true);
+        } else if (programId) {
+            // schedule recording
+            return createRecording(apiClient, programId);
+        } else {
+            return Promise.reject();
+        }
     }
 
     return {

@@ -1,4 +1,4 @@
-define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-linkbutton", "emby-playstatebutton", "emby-ratingbutton", "emby-downloadbutton", "emby-scroller", "emby-select"], function(loading, appRouter, layoutManager, connectionManager, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser) {
+define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-linkbutton", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function(loading, appRouter, layoutManager, connectionManager, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser) {
     "use strict";
 
     function getPromise(apiClient, params) {
@@ -33,12 +33,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             user: user,
             share: !0
         };
-        return appHost.supports("sync") && (options.syncLocal = !1), options
-    }
-
-    function renderSyncLocalContainer(page, params, user, item) {
-        if (appHost.supports("sync"))
-            for (var canSync = itemHelper.canSync(user, item), buttons = page.querySelectorAll(".btnSyncDownload"), i = 0, length = buttons.length; i < length; i++) buttons[i].setItem(item), canSync ? buttons[i].classList.remove("hide") : buttons[i].classList.add("hide")
+        return options;
     }
 
     function getProgramScheduleHtml(items, options) {
@@ -286,7 +281,23 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var apiClient = connectionManager.getApiClient(item.ServerId);
         renderSeriesTimerEditor(page, item, apiClient, user), renderTimerEditor(page, item, apiClient, user), renderImage(page, item, apiClient, user), renderLogo(page, item, apiClient), setTitle(item, apiClient), setInitialCollapsibleState(page, item, apiClient, context, user), renderDetails(page, item, apiClient, context), renderTrackSelections(page, instance, item), dom.getWindowSize().innerWidth >= 1e3 ? backdrop.setBackdrops([item]) : backdrop.clear(), renderDetailPageBackdrop(page, item, apiClient);
         var canPlay = reloadPlayButtons(page, item);
-        (item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && -1 !== playbackManager.getSupportedCommands().indexOf("PlayTrailers") ? hideAll(page, "btnPlayTrailer", !0) : hideAll(page, "btnPlayTrailer"), setTrailerButtonVisibility(page, item), item.CanDelete && !item.IsFolder ? hideAll(page, "btnDeleteItem", !0) : hideAll(page, "btnDeleteItem"), renderSyncLocalContainer(page, params, user, item), "Program" !== item.Type || canPlay ? hideAll(page, "mainDetailButtons", !0) : hideAll(page, "mainDetailButtons"), showRecordingFields(instance, page, item, user);
+        if ((item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && -1 !== playbackManager.getSupportedCommands().indexOf("PlayTrailers")) {
+            hideAll(page, "btnPlayTrailer", true);
+        } else {
+            hideAll(page, "btnPlayTrailer");
+        }
+        setTrailerButtonVisibility(page, item);
+        if (item.CanDelete && !item.IsFolder) {
+            hideAll(page, "btnDeleteItem", true);
+        } else {
+            hideAll(page, "btnDeleteItem");
+        }
+        if ("Program" !== item.Type || canPlay) {
+            hideAll(page, "mainDetailButtons", true);
+        } else {
+            hideAll(page, "mainDetailButtons");
+        }
+        showRecordingFields(instance, page, item, user);
         var groupedVersions = (item.MediaSources || []).filter(function(g) {
             return "Grouping" == g.Type
         });
@@ -1166,30 +1177,55 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                     }))
                 }
             }
-            var currentItem, self = this,
-                apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
+
+            var currentItem;
+            var self = this;
+            var apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
             view.querySelectorAll(".btnPlay");
-            bindAll(view, ".btnPlay", "click", onPlayClick), bindAll(view, ".btnResume", "click", onPlayClick), bindAll(view, ".btnInstantMix", "click", onInstantMixClick), bindAll(view, ".btnShuffle", "click", onShuffleClick), bindAll(view, ".btnPlayTrailer", "click", onPlayTrailerClick), bindAll(view, ".btnCancelSeriesTimer", "click", onCancelSeriesTimerClick), bindAll(view, ".btnCancelTimer", "click", onCancelTimerClick), bindAll(view, ".btnDeleteItem", "click", onDeleteClick), bindAll(view, ".btnSyncDownload", "download", onDownloadChange), bindAll(view, ".btnSyncDownload", "download-cancel", onDownloadChange), view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;", view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit), view.querySelector(".btnSplitVersions").addEventListener("click", function() {
+            bindAll(view, ".btnPlay", "click", onPlayClick);
+            bindAll(view, ".btnResume", "click", onPlayClick);
+            bindAll(view, ".btnInstantMix", "click", onInstantMixClick);
+            bindAll(view, ".btnShuffle", "click", onShuffleClick);
+            bindAll(view, ".btnPlayTrailer", "click", onPlayTrailerClick);
+            bindAll(view, ".btnCancelSeriesTimer", "click", onCancelSeriesTimerClick);
+            bindAll(view, ".btnCancelTimer", "click", onCancelTimerClick);
+            bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
+            view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
+            view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
+            view.querySelector(".btnSplitVersions").addEventListener("click", function() {
                 splitVersions(self, view, apiClient, params)
-            }), bindAll(view, ".btnMoreCommands", "click", onMoreCommandsClick), view.querySelector(".selectSource").addEventListener("change", function() {
-                renderVideoSelections(view, self._currentPlaybackMediaSources), renderAudioSelections(view, self._currentPlaybackMediaSources), renderSubtitleSelections(view, self._currentPlaybackMediaSources)
-            }), view.addEventListener("click", function(e) {
+            });
+            bindAll(view, ".btnMoreCommands", "click", onMoreCommandsClick);
+            view.querySelector(".selectSource").addEventListener("change", function() {
+                renderVideoSelections(view, self._currentPlaybackMediaSources);
+                renderAudioSelections(view, self._currentPlaybackMediaSources);
+                renderSubtitleSelections(view, self._currentPlaybackMediaSources);
+            });
+            view.addEventListener("click", function(e) {
                 dom.parentWithClass(e.target, "moreScenes") ? apiClient.getCurrentUser().then(function(user) {
                     renderScenes(view, currentItem)
                 }) : dom.parentWithClass(e.target, "morePeople") ? renderCast(view, currentItem, params.context) : dom.parentWithClass(e.target, "moreSpecials") && apiClient.getCurrentUser().then(function(user) {
                     renderSpecials(view, currentItem, user)
                 })
-            }), view.querySelector(".detailImageContainer").addEventListener("click", function(e) {
+            });
+            view.querySelector(".detailImageContainer").addEventListener("click", function(e) {
                 dom.parentWithClass(e.target, "itemDetailGalleryLink") && editImages().then(function() {
                     reload(self, view, params)
                 })
-            }), view.addEventListener("viewshow", function(e) {
+            });
+            view.addEventListener("viewshow", function(e) {
                 var page = this;
                 libraryMenu.setTransparentMenu(!0), e.detail.isRestored ? currentItem && (setTitle(currentItem, connectionManager.getApiClient(currentItem.ServerId)), renderTrackSelections(page, self, currentItem, !0)) : reload(self, page, params), events.on(apiClient, "message", onWebSocketMessage), events.on(playbackManager, "playerchange", onPlayerChange)
-            }), view.addEventListener("viewbeforehide", function() {
-                events.off(apiClient, "message", onWebSocketMessage), events.off(playbackManager, "playerchange", onPlayerChange), libraryMenu.setTransparentMenu(!1)
-            }), view.addEventListener("viewdestroy", function() {
-                currentItem = null, self._currentPlaybackMediaSources = null, self.currentRecordingFields = null
+            });
+            view.addEventListener("viewbeforehide", function() {
+                events.off(apiClient, "message", onWebSocketMessage);
+                events.off(playbackManager, "playerchange", onPlayerChange);
+                libraryMenu.setTransparentMenu(false);
+            });
+            view.addEventListener("viewdestroy", function() {
+                currentItem = null;
+                self._currentPlaybackMediaSources = null;
+                self.currentRecordingFields = null;
             })
         }
 });

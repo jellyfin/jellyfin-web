@@ -218,13 +218,6 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                 });
             }
 
-            if (user.Policy.EnableContentDownloading && appHost.supports('sync')) {
-                menuItems.push({
-                    name: globalize.translate('Download'),
-                    id: 'synclocal'
-                });
-            }
-
             menuItems.push({
                 name: globalize.translate('GroupVersions'),
                 id: 'groupvideos',
@@ -254,20 +247,16 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             }
 
             require(['actionsheet'], function (actionsheet) {
-
                 actionsheet.show({
                     items: menuItems,
                     positionTo: e.target,
                     callback: function (id) {
-
                         var items = selectedItems.slice(0);
                         var serverId = apiClient.serverInfo().Id;
 
                         switch (id) {
-
                             case 'addtocollection':
                                 require(['collectionEditor'], function (collectionEditor) {
-
                                     new collectionEditor().show({
                                         items: items,
                                         serverId: serverId
@@ -314,35 +303,6 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                                         itemIds: items,
                                         serverId: serverId
                                     }).show();
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'sync':
-                                require(['syncDialog'], function (syncDialog) {
-                                    syncDialog.showMenu({
-                                        items: items.map(function (i) {
-                                            return {
-                                                Id: i
-                                            };
-                                        }),
-                                        serverId: serverId
-                                    });
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'synclocal':
-                                require(['syncDialog'], function (syncDialog) {
-                                    syncDialog.showMenu({
-                                        items: items.map(function (i) {
-                                            return {
-                                                Id: i
-                                            };
-                                        }),
-                                        isLocalSync: true,
-                                        serverId: serverId
-                                    });
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
