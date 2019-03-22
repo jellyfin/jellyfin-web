@@ -4,9 +4,15 @@ define(['multi-download'], function (multiDownload) {
     return {
         download: function (items) {
 
-            multiDownload(items.map(function (item) {
-                return item.url;
-            }));
+            if (window.NativeShell) {
+                items.map(function (item) {
+                    window.NativeShell.downloadFile(item.url);
+                });
+            } else {
+                multiDownload(items.map(function (item) {
+                    return item.url;
+                }));
+            }
         }
     };
 });

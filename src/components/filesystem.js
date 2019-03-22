@@ -3,10 +3,14 @@ define([], function () {
 
     return {
         fileExists: function (path) {
-            return Promise.reject();
+            if (window.NativeShell && window.NativeShell.FileSystem) {
+                return window.NativeShell.FileSystem.fileExists(path);
+            }
         },
         directoryExists: function (path) {
-            return Promise.reject();
+            if (window.NativeShell && window.NativeShell.FileSystem) {
+                return window.NativeShell.FileSystem.directoryExists(path);
+            }
         }
     };
 });

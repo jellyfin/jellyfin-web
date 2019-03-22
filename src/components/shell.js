@@ -2,8 +2,13 @@ define([], function () {
     'use strict';
 
     return {
-        openUrl: function (url) {
-            window.open(url, '_blank');
+        openUrl: function (url, target) {
+            if (window.NativeShell) {
+                window.NativeShell.openUrl(url, target);
+            } else {
+                window.open(url, target || '_blank');
+            }
+            
         },
         canExec: false,
         exec: function (options) {
@@ -12,10 +17,14 @@ define([], function () {
             return Promise.reject();
         },
         enableFullscreen: function () {
-            // do nothing since this is for native apps
+            if (window.NativeShell) {
+                window.NativeShell.enableFullscreen();
+            }
         },
         disableFullscreen: function () {
-            // do nothing since this is for native apps
+            if (window.NativeShell) {
+                window.NativeShell.disableFullscreen();
+            }
         }
     };
 });

@@ -429,11 +429,7 @@ var AppInfo = {};
         var apiClientBowerPath = bowerPath + "/emby-apiclient";
         var componentsPath = "components";
 
-        if ("android" === self.appMode) {
-            define("filesystem", ["cordova/filesystem"], returnFirstDependency);
-        } else {
-            define("filesystem", [componentsPath + "/filesystem"], returnFirstDependency);
-        }
+        define("filesystem", [componentsPath + "/filesystem"], returnFirstDependency);
 
         if (window.IntersectionObserver && !browser.edge) {
             define("lazyLoader", [componentsPath + "/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency);
@@ -441,11 +437,7 @@ var AppInfo = {};
             define("lazyLoader", [componentsPath + "/lazyloader/lazyloader-scroll"], returnFirstDependency);
         }
 
-        if ("android" === self.appMode) {
-            define("shell", ["cordova/shell"], returnFirstDependency);
-        } else {
-            define("shell", [componentsPath + "/shell"], returnFirstDependency);
-        }
+        define("shell", [componentsPath + "/shell"], returnFirstDependency);
 
         if ("cordova" === self.appMode || "android" === self.appMode) {
             define("apiclientcore", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency);
@@ -462,17 +454,7 @@ var AppInfo = {};
             define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
         }
 
-        if ("cordova" === self.appMode || "android" === self.appMode) {
-            define("serverdiscovery", ["cordova/serverdiscovery"], returnFirstDependency);
-        } else {
-            define("serverdiscovery", [apiClientBowerPath + "/serverdiscovery"], returnFirstDependency);
-        }
-
-        if ("cordova" === self.appMode && browser.iOSVersion && browser.iOSVersion < 11) {
-            define("imageFetcher", ["cordova/imagestore"], returnFirstDependency);
-        } else {
-            define("imageFetcher", [componentsPath + "/images/basicimagefetcher"], returnFirstDependency);
-        }
+        define("imageFetcher", [componentsPath + "/images/basicimagefetcher"], returnFirstDependency);
 
         var preferNativeAlerts = browser.tv;
 
@@ -500,13 +482,7 @@ var AppInfo = {};
         }
 
         define("multi-download", [componentsPath + "/multidownload"], returnFirstDependency);
-
-        if ("android" === self.appMode) {
-            define("fileDownloader", ["cordova/filedownloader"], returnFirstDependency);
-        } else {
-            define("fileDownloader", [componentsPath + "/filedownloader"], returnFirstDependency);
-        }
-
+        define("fileDownloader", [componentsPath + "/filedownloader"], returnFirstDependency);
         define("localassetmanager", [apiClientBowerPath + "/localassetmanager"], returnFirstDependency);
 
         if ("cordova" === self.appMode || "android" === self.appMode) {
@@ -515,33 +491,12 @@ var AppInfo = {};
             define("castSenderApiLoader", [], getCastSenderApiLoader);
         }
 
-        if (self.Windows) {
-            define("bgtaskregister", ["environments/windows-uwp/bgtaskregister"], returnFirstDependency);
-            define("transfermanager", ["environments/windows-uwp/transfermanager"], returnFirstDependency);
-            define("filerepository", ["environments/windows-uwp/filerepository"], returnFirstDependency);
-        } else if ("cordova" === self.appMode) {
-            define("filerepository", ["cordova/filerepository"], returnFirstDependency);
-            define("transfermanager", ["filerepository"], returnFirstDependency);
-        } else if ("android" === self.appMode) {
-            define("transfermanager", ["cordova/transfermanager"], returnFirstDependency);
-            define("filerepository", ["cordova/filerepository"], returnFirstDependency);
-        } else {
-            define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency);
-            define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency);
-        }
-
-        if ("android" === self.appMode) {
-            define("localsync", ["cordova/localsync"], returnFirstDependency);
-        } else {
-            define("localsync", [apiClientBowerPath + "/sync/localsync"], returnFirstDependency);
-        }
+        define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency);
+        define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency);
+        define("localsync", [apiClientBowerPath + "/sync/localsync"], returnFirstDependency);
     }
 
     function init() {
-        if ("android" === self.appMode) {
-            define("nativedirectorychooser", ["cordova/nativedirectorychooser"], returnFirstDependency);
-        }
-
         define("livetvcss", ["css!css/livetv.css"], returnFirstDependency);
         define("detailtablecss", ["css!css/detailtable.css"], returnFirstDependency);
         define("buttonenabled", ["legacy/buttonenabled"], returnFirstDependency);
@@ -1139,14 +1094,6 @@ var AppInfo = {};
             "components/youtubeplayer/plugin"
         ];
 
-        if ("cordova" === self.appMode) {
-            list.push("cordova/chromecast");
-        }
-
-        if ("android" === self.appMode) {
-            list.push("cordova/externalplayer");
-        }
-
         if (appHost.supports("remotecontrol")) {
             list.push("components/sessionplayer");
 
@@ -1207,14 +1154,6 @@ var AppInfo = {};
 
                     require(["components/thememediaplayer", "scripts/autobackdrops"]);
 
-                    if ("cordova" === self.appMode || "android" === self.appMode) {
-                        if (browser.android) {
-                            require(["cordova/mediasession", "cordova/chromecast", "cordova/appshortcuts"]);
-                        } else if (browser.safari) {
-                            require(["cordova/mediasession", "cordova/volume", "cordova/statusbar", "cordova/backgroundfetch"]);
-                        }
-                    }
-
                     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
                         require(["components/nowplayingbar/nowplayingbar"]);
                     }
@@ -1227,11 +1166,7 @@ var AppInfo = {};
                         require(["components/playback/volumeosd"]);
                     }
 
-                    if (navigator.mediaSession) {
-                        require(["mediaSession"]);
-                    }
-
-                    require(["serverNotifications"]);
+                    require(["mediaSession", "serverNotifications"]);
 
                     if (!browser.tv && !browser.xboxOne) {
                         require(["components/playback/playbackorientation"]);
@@ -1436,13 +1371,9 @@ var AppInfo = {};
             return viewManager;
         });
 
-        if ("cordova" === self.appMode || "android" === self.appMode) {
-            paths.apphost = "cordova/apphost";
-        } else {
-            paths.apphost = "components/apphost";
-        }
-
+        paths.apphost = "components/apphost";
         paths.appStorage = getAppStorage(apiClientBowerPath);
+
         requirejs.config({
             waitSeconds: 0,
             map: {
@@ -1475,13 +1406,6 @@ var AppInfo = {};
         define("viewSettings", [componentsPath + "/viewsettings/viewsettings"], returnFirstDependency);
         define("filterMenu", [componentsPath + "/filtermenu/filtermenu"], returnFirstDependency);
         define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
-
-        if ("cordova" === self.appMode || "android" === self.appMode) {
-            define("fileupload", ["cordova/fileupload"], returnFirstDependency);
-        } else {
-            define("fileupload", [apiClientBowerPath + "/fileupload"], returnFirstDependency);
-        }
-
         define("connectionmanager", [apiClientBowerPath + "/connectionmanager"]);
         define("serversync", [apiClientBowerPath + "/sync/serversync"], returnFirstDependency);
         define("multiserversync", [apiClientBowerPath + "/sync/multiserversync"], returnFirstDependency);

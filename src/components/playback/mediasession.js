@@ -1,6 +1,11 @@
 define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], function (playbackManager, nowPlayingHelper, events, connectionManager) {
     "use strict";
 
+    // no support for mediaSession
+    if (!navigator.mediaSession && !window.NativeShell) {
+        return;
+    }
+
     // Reports media playback to the device for lock screen control
 
     var currentPlayer;
@@ -64,15 +69,16 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         return null;
     }
 
-    function pushImageUrl(item, height, list) {
-
-        var imageOptions = {
-            height: height
-        };
-
+    function pushImageUrl(item, imageOptions, list) {
         var url = seriesImageUrl(item, imageOptions) || imageUrl(item, imageOptions);
+
         if (url) {
-            list.push({ src: url, sizes: height + 'x' + height });
+            var height = imageOptions.height || imageOptions.maxHeight;
+
+            list.push({
+                src: url,
+                sizes: height + 'x' + height
+            });
         }
     }
 
@@ -80,12 +86,12 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
 
         var list = [];
 
-        pushImageUrl(item, 96, list);
-        pushImageUrl(item, 128, list);
-        pushImageUrl(item, 192, list);
-        pushImageUrl(item, 256, list);
-        pushImageUrl(item, 384, list);
-        pushImageUrl(item, 512, list);
+        pushImageUrl(item, {height: 96}, list);
+        pushImageUrl(item, {height: 128}, list);
+        pushImageUrl(item, {height: 192}, list);
+        pushImageUrl(item, {height: 256}, list);
+        pushImageUrl(item, {height: 384}, list);
+        pushImageUrl(item, {height: 512}, list);
 
         return list;
     }
@@ -99,14 +105,24 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
             return;
         }
 
+        if (eventName == 'init') { // transform "init" event into "timeupdate" to restraint update rate
+            eventName = 'timeupdate';
+        }
+
+        var isVideo = item.MediaType === 'Video';
+        var isLocalPlayer = player.isLocalPlayer || false;
+
+        // Local players do their own notifications
+        if (isLocalPlayer && isVideo) {
+            return;
+        }
+
         var playState = state.PlayState || {};
 
         var parts = nowPlayingHelper.getNowPlayingNames(item);
 
         var artist = parts.length === 1 ? '' : parts[0].text;
         var title = parts[parts.length - 1].text;
-
-        var isVideo = item.MediaType === 'Video';
 
         // Switch these two around for video
         if (isVideo && parts.length > 1) {
@@ -131,18 +147,54 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         var isPaused = playState.IsPaused || false;
         var canSeek = playState.CanSeek || false;
 
-        navigator.mediaSession.metadata = new MediaMetadata({
-            title: title,
-            artist: artist,
-            album: album,
-            artwork: getImageUrls(item),
-            albumArtist: albumArtist,
-            currentTime: currentTime,
-            duration: duration,
-            paused: isPaused,
-            itemId: itemId,
-            mediaType: item.MediaType
-        });
+        var now = new Date().getTime();
+
+        // Don't go crazy reporting position changes
+        if (eventName == 'timeupdate' && (now - lastUpdateTime) < 5000) {
+            // Only report if this item hasn't been reported yet, or if there's an actual playback change.
+            // Don't report on simple time updates
+            return;
+        }
+
+        lastUpdateTime = now;
+
+        if (navigator.mediaSession){
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: title,
+                artist: artist,
+                album: album,
+                artwork: getImageUrls(item),
+                albumArtist: albumArtist,
+                currentTime: currentTime,
+                duration: duration,
+                paused: isPaused,
+                itemId: itemId,
+                mediaType: item.MediaType
+            });
+        } else {
+            var imageUrl = [];
+            pushImageUrl(item, {maxHeight: 400}, imageUrl);
+
+            if (imageUrl.length) {
+                imageUrl = imageUrl[0].src;
+            } else {
+                imageUrl = null;
+            }
+
+            window.NativeShell.updateMediaSession({
+                action: eventName,
+                isLocalPlayer: isLocalPlayer,
+                itemId: itemId,
+                title: title,
+                artist: artist,
+                album: album,
+                duration: duration,
+                position: currentTime,
+                imageUrl: imageUrl,
+                canSeek: canSeek,
+                isPaused: isPaused
+            });
+        }
     }
 
     function onGeneralEvent(e) {
@@ -191,7 +243,13 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     }
 
     function hideMediaControls() {
-        navigator.mediaSession.metadata = null;
+        lastUpdateTime = 0;
+
+        if (navigator.mediaSession) {
+            navigator.mediaSession.metadata = null;
+        } else {
+            window.NativeShell.hideMediaSession();
+        }
     }
 
     function bindToPlayer(player) {
@@ -215,33 +273,36 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         events.on(currentPlayer, 'timeupdate', onGeneralEvent);
     }
 
-    function execute(name) {
-        playbackManager[name](currentPlayer);
+    if (navigator.mediaSession) {
+
+        function execute(name) {
+            playbackManager[name](currentPlayer);
+        }
+
+        navigator.mediaSession.setActionHandler('previoustrack', function () {
+            execute('previousTrack');
+        });
+
+        navigator.mediaSession.setActionHandler('nexttrack', function () {
+            execute('nextTrack');
+        });
+
+        navigator.mediaSession.setActionHandler('play', function () {
+            execute('unpause');
+        });
+
+        navigator.mediaSession.setActionHandler('pause', function () {
+            execute('pause');
+        });
+
+        navigator.mediaSession.setActionHandler('seekbackward', function () {
+            execute('rewind');
+        });
+
+        navigator.mediaSession.setActionHandler('seekforward', function () {
+            execute('fastForward');
+        });
     }
-
-    navigator.mediaSession.setActionHandler('previoustrack', function () {
-        execute('previousTrack');
-    });
-
-    navigator.mediaSession.setActionHandler('nexttrack', function () {
-        execute('nextTrack');
-    });
-
-    navigator.mediaSession.setActionHandler('play', function () {
-        execute('unpause');
-    });
-
-    navigator.mediaSession.setActionHandler('pause', function () {
-        execute('pause');
-    });
-
-    navigator.mediaSession.setActionHandler('seekbackward', function () {
-        execute('rewind');
-    });
-
-    navigator.mediaSession.setActionHandler('seekforward', function () {
-        execute('fastForward');
-    });
 
     events.on(playbackManager, 'playerchange', function () {
 
