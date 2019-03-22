@@ -94,7 +94,7 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
         //    dialogHelper.close(dlg);
         //});
 
-        dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('HeaderRestartingEmbyServer');
+        dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('RestartingServer');
 
         dlg.querySelector('.text').innerHTML = globalize.translate('RestartPleaseWaitMessage');
 

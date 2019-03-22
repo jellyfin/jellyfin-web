@@ -1,11 +1,6 @@
 define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "humanedate", "listViewStyle", "emby-linkbutton", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog) {
     "use strict";
 
-    function onConnectionHelpClick(evt) {
-        evt.preventDefault();
-        return false;
-    }
-
     function buttonEnabled(elem, enabled) {
         if (enabled) {
             elem.setAttribute("disabled", "");
@@ -847,7 +842,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         }
 
         var serverId = ApiClient.serverId();
-        view.querySelector(".btnConnectionHelp").addEventListener("click", onConnectionHelpClick);
         view.querySelector(".btnEditServerName").addEventListener("click", onEditServerNameClick);
         view.querySelector(".activeDevices").addEventListener("click", onActiveDevicesClick);
         view.addEventListener("viewshow", function () {
