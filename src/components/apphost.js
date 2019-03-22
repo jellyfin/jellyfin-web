@@ -390,8 +390,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             }
         },
         deviceIconUrl: function () {
-            browser.edgeUwp;
-
             if (browser.edgeUwp) {
                 return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/windowsrt.png";
             }

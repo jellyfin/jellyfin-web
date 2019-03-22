@@ -3805,8 +3805,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         player = player || this._currentPlayer || { isLocalPlayer: true };
 
         if (player.isLocalPlayer) {
-            // Full list
-            // https://github.com/MediaBrowser/MediaBrowser/blob/master/MediaBrowser.Model/Session/GeneralCommand.cs
+            // https://github.com/jellyfin/jellyfin/blob/master/MediaBrowser.Model/Session/GeneralCommandType.cs
             var list = [
                 "GoHome",
                 "GoToSettings",
@@ -3934,12 +3933,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     };
 
     PlaybackManager.prototype.sendCommand = function (cmd, player) {
-
-        // Full list
-        // https://github.com/MediaBrowser/MediaBrowser/blob/master/MediaBrowser.Model/Session/GeneralCommand.cs#L23
+        // https://github.com/jellyfin/jellyfin/blob/master/MediaBrowser.Model/Session/GeneralCommandType.cs
         console.log('MediaController received command: ' + cmd.Name);
         switch (cmd.Name) {
-
             case 'SetRepeatMode':
                 this.setRepeatMode(cmd.Arguments.RepeatMode, player);
                 break;
@@ -3981,12 +3977,10 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 this.toggleFullscreen(player);
                 break;
             default:
-                {
-                    if (player.sendCommand) {
-                        player.sendCommand(cmd);
-                    }
-                    break;
+                if (player.sendCommand) {
+                    player.sendCommand(cmd);
                 }
+                break;
         }
     };
 
