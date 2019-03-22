@@ -501,7 +501,6 @@
     "LabelFinish": "Slutt",
     "LabelForgotPasswordUsernameHelp": "Skriv inn ditt brukernavn, hvis du husker det.",
     "LabelFriendlyName": "Vennlig navn",
-    "LabelFriendlyServerName": "Vennlig server navn:",
     "LabelServerNameHelp": "Dette navnet vil bli brukt for å identifisere denne serveren. Hvis feltet er tomt, vil maskinens navn bli brukt.",
     "LabelGroupMoviesIntoCollections": "Gruppér filmer i samlinger",
     "LabelGroupMoviesIntoCollectionsHelp": "Ved visning av filmlister vil filmer som tilhører en samling bli vist som ett gruppeelement.",

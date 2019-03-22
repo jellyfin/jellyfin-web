@@ -351,7 +351,6 @@
     "LabelForgotPasswordUsernameHelp": "기억하고 있다면, 사용자명을 입력하세요.",
     "LabelFormat": "형식:",
     "LabelFriendlyName": "별칭",
-    "LabelFriendlyServerName": "알기쉬운 서버 이름:",
     "LabelServerNameHelp": "이 이름은 서버를 구분하는데 사용합니다. 비워두면 컴퓨터 이름을 사용합니다.",
     "LabelGroupMoviesIntoCollections": "컬렉션으로 영화 묶기",
     "LabelGroupMoviesIntoCollectionsHelp": "영화 목록을 표시할 때 컬렉션에 포함된 영화가 한 개로 묶여진 항목으로 보여줍니다.",

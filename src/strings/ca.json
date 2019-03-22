@@ -338,7 +338,6 @@
   "LabelFanartApiKey": "Clau api personal:",
   "LabelFinish": "Finalitzar",
   "LabelFriendlyName": "Nom amistós",
-  "LabelFriendlyServerName": "Nom amistós del servidor:",
   "LabelServerNameHelp": "El nom servirà per identificar aquest servidor. Si es deixa en blanc s'emprarà el nom de l'ordinador.",
   "LabelGroupMoviesIntoCollections": "Agrupa pel·lícules a col·leccions",
   "LabelHomeScreenSectionValue": "Secció {0} de la pàgina d'inici:",

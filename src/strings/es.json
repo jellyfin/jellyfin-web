@@ -563,7 +563,6 @@
     "LabelForgotPasswordUsernameHelp": "Introduce tu nombre de usuario, si te acuerdas.",
     "LabelFormat": "Formato:",
     "LabelFriendlyName": "Nombre amigable:",
-    "LabelFriendlyServerName": "Nombre informal del servidor:",
     "LabelServerNameHelp": "Este nombre se podrá utilizar para identificar este servidor. Si se deja en blanco se usará el nombre del ordenador.",
     "LabelGroupMoviesIntoCollections": "Agrupar películas en colecciones",
     "LabelGroupMoviesIntoCollectionsHelp": "Cuando se muestran las listas de películas, las películas pertenecientes a una colección se mostrarán como un elemento agrupado.",

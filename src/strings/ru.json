@@ -638,7 +638,6 @@
     "LabelForgotPasswordUsernameHelp": "Введите имя пользователя, если помните его.",
     "LabelFormat": "Формат:",
     "LabelFriendlyName": "Понятное имя:",
-    "LabelFriendlyServerName": "Понятное имя сервера:",
     "LabelServerNameHelp": "Данное имя используется для распознавания данного сервера. Если не заполнять, то будет использовано имя компьютера.",
     "LabelGroupMoviesIntoCollections": "Группировать фильмы внутрь коллекций",
     "LabelGroupMoviesIntoCollectionsHelp": "При отображении списка фильмов, элементы, принадлежащие к одной коллекции будут отображаться как единый сгруппированный элемент.",

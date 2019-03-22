@@ -590,7 +590,6 @@
     "LabelFont": "Typsnitt:",
     "LabelForgotPasswordUsernameHelp": "Skriv ditt användarnamn, om du kommer ihåg det.",
     "LabelFriendlyName": "Visningsnamn",
-    "LabelFriendlyServerName": "Ditt önskade servernamn:",
     "LabelServerNameHelp": "Det här namnet används för att identifiera servern, om det lämnas tomt kommer datorns namn att användas.",
     "LabelGroupMoviesIntoCollections": "Gruppera filmer i samlingsboxar",
     "LabelGroupMoviesIntoCollectionsHelp": "I filmlistor visas filmer som ingår i en samlingsbox som ett enda objekt.",

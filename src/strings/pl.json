@@ -636,7 +636,6 @@
     "LabelFont": "Czcionka:",
     "LabelForgotPasswordUsernameHelp": "Podaj nazwę użytkownika, jeśli pamiętasz.",
     "LabelFriendlyName": "Przyjazna nazwa:",
-    "LabelFriendlyServerName": "Przyjazna nazwa serwera:",
     "LabelServerNameHelp": "Ta nazwa będzie użyta do identyfikacji serwera. Jeżeli zostawione puste, użyta będzie nazwa komputera.",
     "LabelGroupMoviesIntoCollections": "Grupuj filmy w kolekcje",
     "LabelGroupMoviesIntoCollectionsHelp": "Podczas wyświetlania listy filmów, filmy należące do kolekcji będą wyświetlone jako jedna zgrupowana pozycja.",

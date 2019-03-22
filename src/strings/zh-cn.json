@@ -598,7 +598,6 @@
     "LabelForgotPasswordUsernameHelp": "输入你的用户名，如果你还记得。",
     "LabelFormat": "格式：",
     "LabelFriendlyName": "好记的名称：",
-    "LabelFriendlyServerName": "好记的服务器名称：",
     "LabelServerNameHelp": "此名称将用做服务器名，如果留空，将使用计算机名。",
     "LabelGroupMoviesIntoCollections": "批量添加电影到收藏",
     "LabelGroupMoviesIntoCollectionsHelp": "显示电影列表时，属于一个收藏的电影将显示为一个分组。",

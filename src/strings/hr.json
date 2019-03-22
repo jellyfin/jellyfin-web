@@ -440,7 +440,6 @@
     "LabelFinish": "Kraj",
     "LabelForgotPasswordUsernameHelp": "Unesite korisničko ime, ako se sjećate.",
     "LabelFriendlyName": "Prijateljsko ime",
-    "LabelFriendlyServerName": "Prijateljsko ime servera:",
     "LabelServerNameHelp": "Ovo ime će se koristiti za identifikaciju servera. Ako ostavite prazno, ime računala će se koristi kao identifikator.",
     "LabelGroupMoviesIntoCollections": "Grupiraj filmove u kolekciju",
     "LabelGroupMoviesIntoCollectionsHelp": "Kada se prikazuje lista filmova, filmovi koji pripadaju kolekciji biti će prikazani kao jedna stavka.",

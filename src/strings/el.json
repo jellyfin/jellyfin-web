@@ -550,7 +550,6 @@
     "LabelForgotPasswordUsernameHelp": "Εισαγωγή όνομα χρήστη,αν το θυμάστε.",
     "LabelFormat": "Φορμάτ:",
     "LabelFriendlyName": "Φιλικό όνομα",
-    "LabelFriendlyServerName": "Όνομα διακομιστή:",
     "LabelServerNameHelp": "Αυτό το όνομα θα χρησιμοποιηθεί για την αναγνώριση αυτού του διακομιστή. Αν παραμείνει κενό, θα χρησιμοποιηθεί το όνομα του υπολογιστή.",
     "LabelGroupMoviesIntoCollections": "Ομαδοποιήστε ταινίες σε συλλογές",
     "LabelGroupMoviesIntoCollectionsHelp": "Όταν προβάλλετε λίστες ταινιών, οι ταινίες που ανήκουν σε μια συλλογή θα εμφανίζονται ως ένα ομαδοποιημένο αντικείμενο.",

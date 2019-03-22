@@ -597,7 +597,6 @@
     "LabelFont": "Schriftart:",
     "LabelForgotPasswordUsernameHelp": "Bitte gib deinen Benutzernamen ein, falls du dich daran erinnerst.",
     "LabelFriendlyName": "Benutzerfreundlicher Name:",
-    "LabelFriendlyServerName": "Freundlicher Servername:",
     "LabelServerNameHelp": "Dieser Name wird benutzt um diesen Server zu identifizieren. Wenn leer gelassen, wird der Computername benutzt.",
     "LabelGroupMoviesIntoCollections": "Gruppiere Filme in Collections",
     "LabelGroupMoviesIntoCollectionsHelp": "Wenn Filmlisten angezeigt werden, dann werden Filme, die zu einer Collection gehören, als ein gruppiertes Element angezeigt.",

@@ -643,7 +643,6 @@
     "LabelForgotPasswordUsernameHelp": "Enter your username, if you remember it.",
     "LabelFormat": "Format:",
     "LabelFriendlyName": "Friendly name:",
-    "LabelFriendlyServerName": "Friendly server name:",
     "LabelServerNameHelp": "This name will be used to identify this server. If left blank, the computer name will be used.",
     "LabelGroupMoviesIntoCollections": "Group movies into collections",
     "LabelGroupMoviesIntoCollectionsHelp": "When displaying movie lists, movies belonging to a collection will be displayed as one grouped item.",

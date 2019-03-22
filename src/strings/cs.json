@@ -540,7 +540,6 @@
     "LabelForgotPasswordUsernameHelp": "Zadej své uživatelské jméno, jestliže se má pamatovat.",
     "LabelFormat": "Formát:",
     "LabelFriendlyName": "Přívětivý název",
-    "LabelFriendlyServerName": "Název serveru:",
     "LabelServerNameHelp": "Toto jméno bude použito  jako identifikace serveru, ponecháte-li prázdné bude použit název počítače.",
     "LabelGroupMoviesIntoCollections": "Seskupit filmy do kolekcí.",
     "LabelGroupMoviesIntoCollectionsHelp": "Při zobrazení seznamů filmu, budou filmy patřící do kolekce, zobrazeny jako jedna položka.",

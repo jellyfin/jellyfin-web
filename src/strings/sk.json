@@ -391,7 +391,6 @@
     "LabelFont": "Písmo:",
     "LabelForgotPasswordUsernameHelp": "Zadajte svoje používateľské meno, ak si ho pamätáte.",
     "LabelFormat": "Formát:",
-    "LabelFriendlyServerName": "Názov servera:",
     "LabelServerNameHelp": "Toto meno bude použité na identifikáciu servera. Ak ostane prázdne, bude použitý názov počítača.",
     "LabelGroupMoviesIntoCollections": "Zoskupiť filmy do kolekcií.",
     "LabelGroupMoviesIntoCollectionsHelp": "Pri zobrazení zoznamu filmov budú filmy patriace do kolekcie zobrazené ako jedna zoskupená položka.",

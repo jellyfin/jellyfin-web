@@ -404,7 +404,6 @@
     "LabelForgotPasswordUsernameHelp": "أدخل اسم المستخدم الخاص بك، إن كنت تتذكرها",
     "LabelFormat": "الصيغة:",
     "LabelFriendlyName": "اسم مخصوص لك",
-    "LabelFriendlyServerName": "اسم الخادم الميسر:",
     "LabelServerNameHelp": "هذا الاسم يسيتخدم للتعرف على الخادم. إن ترك خالٍ، فإن اسم الحاسوب سوف يستخدم.",
     "LabelGroupMoviesIntoCollections": "تجميع الأفلام إلى مجاميع",
     "LabelGroupMoviesIntoCollectionsHelp": "عند استعراض قوائم الأفلام، فإن الأفلام التي تنتمي إلى مجموعة واحدة ستظهر كعنصر جامع.",

@@ -497,7 +497,6 @@
     "LabelFinish": "Afslut",
     "LabelForgotPasswordUsernameHelp": "Indtast dit brugernavn, hvis du kan huske det.",
     "LabelFriendlyName": "System venligt navn:",
-    "LabelFriendlyServerName": "Nemt servernavn:",
     "LabelServerNameHelp": "Dette navn bruges til at identificere serveren. Hvis det ikke udfyldes, bruges computerens navn.",
     "LabelGroupMoviesIntoCollections": "Grupper film i samlinger",
     "LabelGroupMoviesIntoCollectionsHelp": "Film i samlinger vil blive vist som en samlet enhed i filmlister.",
