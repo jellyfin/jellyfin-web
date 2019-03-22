@@ -600,7 +600,7 @@ var AppInfo = {};
             } else {
 
                 if (browser.iOS) {
-                    require(['css!devices/ios/ios.css']);
+                    require(['css!css/ios.css']);
                 }
 
                 window.Emby.Page = appRouter;

@@ -50,7 +50,7 @@ define(["appSettings", "dom", "connectionManager", "loading", "cardStyle", "emby
             }), html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');\"></div>";
             else {
                 var background = getMetroColor(user.Id);
-                imgUrl = "css/images/logindefault.png", html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>'
+                imgUrl = "img/logindefault.png", html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>'
             }
             html += "</div>", html += "</div>", html += '<div class="cardFooter visualCardBox-cardFooter">', html += '<div class="cardText singleCardText cardTextCentered">' + user.Name + "</div>", html += "</div>", html += "</div>", html += "</button>"
         }
