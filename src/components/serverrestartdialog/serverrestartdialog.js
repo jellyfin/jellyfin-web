@@ -90,7 +90,7 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 
-        dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('RestartingServer');
+        dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('HeaderRestartingServer');
 
         dlg.querySelector('.text').innerHTML = globalize.translate('RestartPleaseWaitMessage');
 

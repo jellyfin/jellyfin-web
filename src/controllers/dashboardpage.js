@@ -10,31 +10,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         }
     }
 
-    function onEditServerNameClick(evt) {
-        var page = dom.parentWithClass(this, "page");
-
-        require(["prompt"], function (prompt) {
-            prompt({
-                label: globalize.translate("LabelFriendlyServerName"),
-                description: globalize.translate("LabelFriendlyServerNameHelp"),
-                value: page.querySelector(".serverNameHeader").innerHTML,
-                confirmText: globalize.translate("ButtonSave")
-            }).then(function (value) {
-                loading.show();
-                ApiClient.getServerConfiguration().then(function (config) {
-                    config.ServerName = value;
-                    ApiClient.updateServerConfiguration(config).then(function () {
-                        page.querySelector(".serverNameHeader").innerHTML = value;
-                        loading.hide();
-                    });
-                });
-            });
-        });
-
-        evt.preventDefault();
-        return false;
-    }
-
     function showPlaybackInfo(btn, session) {
         require(["alert"], function (alert) {
             var showTranscodeReasons;
@@ -202,20 +177,13 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
     function reloadSystemInfo(view, apiClient) {
         apiClient.getSystemInfo().then(function (systemInfo) {
-            view.querySelector(".serverNameHeader").innerHTML = systemInfo.ServerName;
-            var localizedVersion = globalize.translate("LabelVersionNumber", systemInfo.Version);
+            view.querySelector("#serverName").innerHTML = globalize.translate("LabelServerName", systemInfo.ServerName);
 
+            var localizedVersion = globalize.translate("LabelVersionNumber", systemInfo.Version);
             if (systemInfo.SystemUpdateLevel && "Release" != systemInfo.SystemUpdateLevel) {
                 localizedVersion += " " + globalize.translate("Option" + systemInfo.SystemUpdateLevel).toLowerCase();
             }
-
-            if (systemInfo.CanSelfRestart) {
-                view.querySelector("#btnRestartServer").classList.remove("hide");
-            } else {
-                view.querySelector("#btnRestartServer").classList.add("hide");
-            }
-
-            view.querySelector("#appVersionNumber").innerHTML = localizedVersion;
+            view.querySelector("#versionNumber").innerHTML = localizedVersion;
 
             if (systemInfo.SupportsHttps) {
                 view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPorts", systemInfo.HttpServerPortNumber, systemInfo.HttpsPortNumber);
@@ -225,6 +193,12 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             DashboardPage.renderUrls(view, systemInfo);
             DashboardPage.renderPaths(view, systemInfo);
+
+            if (systemInfo.CanSelfRestart) {
+                view.querySelector("#btnRestartServer").classList.remove("hide");
+            } else {
+                view.querySelector("#btnRestartServer").classList.add("hide");
+            }
         });
     }
 
@@ -842,7 +816,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         }
 
         var serverId = ApiClient.serverId();
-        view.querySelector(".btnEditServerName").addEventListener("click", onEditServerNameClick);
         view.querySelector(".activeDevices").addEventListener("click", onActiveDevicesClick);
         view.addEventListener("viewshow", function () {
             var page = this;

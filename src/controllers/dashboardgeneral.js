@@ -2,6 +2,7 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
     "use strict";
 
     function loadPage(page, config, languageOptions, systemInfo) {
+        page.querySelector("#txtServerName").value = config.ServerName;
         if (systemInfo.CanLaunchWebBrowser) {
             page.querySelector("#fldRunWebAppAtStartup").classList.remove("hide");
         } else {
@@ -39,6 +40,7 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
         var form = this;
         $(form).parents(".page");
         return ApiClient.getServerConfiguration().then(function(config) {
+            config.ServerName = $("#txtServerName", form).val();
             config.UICulture = $("#selectLocalizationLanguage", form).val();
             config.CachePath = form.querySelector("#txtCachePath").value;
             config.MetadataPath = $("#txtMetadataPath", form).val();

@@ -214,7 +214,7 @@
     "LabelFinish": "Baigti",
     "LabelFriendlyName": "Draugiškas pavadinimas:",
     "LabelFriendlyServerName": "Draugiškas serverio pavadinimas:",
-    "LabelFriendlyServerNameHelp": "Šis pavadinimas bus naudojamas serverio identifikavimui. Palikus tuščią bus naudojamas kompiuterio pavadinimas.",
+    "LabelServerNameHelp": "Šis pavadinimas bus naudojamas serverio identifikavimui. Palikus tuščią bus naudojamas kompiuterio pavadinimas.",
     "LabelGroupMoviesIntoCollections": "Grupuoti filmus į kolekcijas",
     "LabelGroupMoviesIntoCollectionsHelp": "Rodant filmų sąrašą filmai iš kolekcijos bus rodomi kaip vienas elementas.",
     "LabelHttpsPort": "Vietinis HTTPS porto numeris:",

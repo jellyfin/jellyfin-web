@@ -604,7 +604,7 @@
     "LabelFormat": "Formato:",
     "LabelFriendlyName": "Nome Condiviso:",
     "LabelFriendlyServerName": "Nome condiviso del server:",
-    "LabelFriendlyServerNameHelp": "Questo nome è usato per identificare il server sulla rete.Se lasciato vuoto verra usato il nome del pc",
+    "LabelServerNameHelp": "Questo nome è usato per identificare il server sulla rete.Se lasciato vuoto verra usato il nome del pc",
     "LabelGroupMoviesIntoCollections": "Raggruppa i film nelle collezioni",
     "LabelGroupMoviesIntoCollectionsHelp": "Quando si visualizzano le liste di film, quelli appartenenti ad una collezione saranno visualizzati come un elemento raggruppato.",
     "LabelH264Crf": "CRF di codifica H264:",

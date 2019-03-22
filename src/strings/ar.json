@@ -405,7 +405,7 @@
     "LabelFormat": "الصيغة:",
     "LabelFriendlyName": "اسم مخصوص لك",
     "LabelFriendlyServerName": "اسم الخادم الميسر:",
-    "LabelFriendlyServerNameHelp": "هذا الاسم يسيتخدم للتعرف على الخادم. إن ترك خالٍ، فإن اسم الحاسوب سوف يستخدم.",
+    "LabelServerNameHelp": "هذا الاسم يسيتخدم للتعرف على الخادم. إن ترك خالٍ، فإن اسم الحاسوب سوف يستخدم.",
     "LabelGroupMoviesIntoCollections": "تجميع الأفلام إلى مجاميع",
     "LabelGroupMoviesIntoCollectionsHelp": "عند استعراض قوائم الأفلام، فإن الأفلام التي تنتمي إلى مجموعة واحدة ستظهر كعنصر جامع.",
     "LabelH264Crf": "قيمة CRF لتشفير H264:",

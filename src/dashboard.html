@@ -3,15 +3,14 @@
         <div class="dashboardSections" style="padding-top:.5em;">
             <div class="dashboardColumn dashboardColumn-2-60 dashboardColumn-3-46">
                 <div class="dashboardSection" style="padding-left: 0;">
-                    <div class="flex align-items-center">
-                        <h3 class="serverNameHeader" style="margin: 0;"></h3>
-                        <button is="paper-icon-button-light" type="button" class="btnEditServerName" style="margin-left: .5em;">
-                            <i class="md-icon">mode_edit</i>
-                        </button>
-                    </div>
+                    <a is="emby-linkbutton" href="dashboardgeneral.html" class="button-flat sectionTitleTextButton">
+                        <h3>${TabServer}</h3>
+                        <i class="md-icon">&#xE5CC;</i>
+                    </a>
 
                     <div class="paperList" style="padding: 1em;">
-                        <p id="appVersionNumber"></p>
+                        <p id="serverName"></p>
+                        <p id="versionNumber"></p>
                         <p id="ports"></p>
                         <p class="localUrl"></p>
                         <p class="externalUrl"></p>

@@ -600,7 +600,7 @@
     "LabelFormat": "Formaat:",
     "LabelFriendlyName": "Gebruiksvriendelijke naam:",
     "LabelFriendlyServerName": "Aangepaste servernaam",
-    "LabelFriendlyServerNameHelp": "Deze naam wordt gebruikt om deze server te identificeren. Indien leeg gelaten, zal de naam van de computer worden gebruikt.",
+    "LabelServerNameHelp": "Deze naam wordt gebruikt om deze server te identificeren. Indien leeg gelaten, zal de naam van de computer worden gebruikt.",
     "LabelGroupMoviesIntoCollections": "Groepeer films in collecties",
     "LabelGroupMoviesIntoCollectionsHelp": "Bij de weergave van film lijsten, zullen films die tot een collectie behoren worden weergegeven als een gegroepeerd object.",
     "LabelH264EncodingPreset": "H264 codering preset:",

@@ -120,7 +120,7 @@
     "LabelEveryXMinutes": "每：",
     "LabelFinish": "完成",
     "LabelFriendlyServerName": "友好伺服器名稱：",
-    "LabelFriendlyServerNameHelp": "此名稱將用於標識伺服器。如果留空，計算機名稱將被使用。",
+    "LabelServerNameHelp": "此名稱將用於標識伺服器。如果留空，計算機名稱將被使用。",
     "LabelLanguage": "語言：",
     "LabelMaxBackdropsPerItem": "每個項目背景的最大數目：",
     "LabelMaxParentalRating": "最大允許的家長評級：",

@@ -922,7 +922,7 @@
     "LabelFont": "Betűtípus:",
     "LabelFormat": "Formátum:",
     "LabelFriendlyName": "Könnyen megjegyezhető név:",
-    "LabelFriendlyServerNameHelp": "Ez a név kerül a Szerver azonosítására. Ha üresen marad, a számítógép neve kerül felhasználásra.",
+    "LabelServerNameHelp": "Ez a név kerül a Szerver azonosítására. Ha üresen marad, a számítógép neve kerül felhasználásra.",
     "LabelGroupMoviesIntoCollectionsHelp": "A filmlisták megjelenítésekor a gyűjteményhez tartozó filmek egy csoportos elemként jelennek meg.",
     "LabelH264Crf": "H264 encoding CRF:",
     "LabelHomeNetworkQuality": "Otthoni hálózat minősége:",
