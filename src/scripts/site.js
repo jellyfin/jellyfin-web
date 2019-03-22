@@ -316,20 +316,6 @@ var AppInfo = {};
     }
 
     function getSettingsBuilder(UserSettings, layoutManager, browser) {
-        UserSettings.prototype.enableThemeVideos = function (val) {
-            if (val != null) {
-                return this.set('enableThemeVideos', val.toString(), false);
-            }
-
-            val = this.get('enableThemeVideos', false);
-
-            if (val !== 'false') {
-                return !layoutManager.mobile;
-            } else {
-                return !browser.slow;
-            }
-        };
-
         return UserSettings;
     }
 
