@@ -396,7 +396,7 @@ var AppInfo = {};
                 return self.ResizeObserver;
             });
         } else {
-            define("ResizeObserver", ["components/resize-observer-polyfill/ResizeObserver"], returnFirstDependency);
+            define("ResizeObserver", ["thirdparty/resize-observer-polyfill/ResizeObserver"], returnFirstDependency);
         }
     }
 
@@ -672,7 +672,7 @@ var AppInfo = {};
         }
 
         if (!window.Promise || browser.web0s) {
-            require(["components/native-promise-only/lib/npo.src"], init);
+            require(["thirdparty/native-promise-only/lib/npo.src"], init);
         } else {
             init();
         }
@@ -710,7 +710,7 @@ var AppInfo = {};
             inputManager: componentsPath + "/inputmanager",
             qualityoptions: componentsPath + "/qualityoptions",
             hammer: bowerPath + "/hammerjs/hammer.min",
-            pageJs: componentsPath + "/pagejs/page",
+            pageJs: "thirdparty/pagejs/page",
             focusManager: componentsPath + "/focusmanager",
             datetime: componentsPath + "/datetime",
             globalize: componentsPath + "/globalize",
@@ -723,8 +723,8 @@ var AppInfo = {};
             packageManager: componentsPath + "/packagemanager"
         };
         paths.hlsjs = bowerPath + "/hlsjs/dist/hls.min";
-        paths.flvjs = componentsPath + "/flvjs/flv.min";
-        paths.shaka = componentsPath + "/shaka/shaka-player.compiled";
+        paths.flvjs = "thirdparty/flvjs/flv.min";
+        paths.shaka = "thirdparty/shaka/shaka-player.compiled";
         define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
         define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);
         define("actionsheet", [componentsPath + "/actionsheet/actionsheet"], returnFirstDependency);
@@ -863,9 +863,9 @@ var AppInfo = {};
         define("appSettings", [componentsPath + "/appsettings"], returnFirstDependency);
         define("userSettings", [componentsPath + "/usersettings/usersettings"], returnFirstDependency);
         define("userSettingsBuilder", [componentsPath + "/usersettings/usersettingsbuilder", "layoutManager", "browser"], getSettingsBuilder);
-        define("material-icons", ["css!" + componentsPath + "/fonts/material-icons/style"], returnFirstDependency);
-        define("systemFontsCss", ["css!" + componentsPath + "/fonts/fonts"], returnFirstDependency);
-        define("systemFontsSizedCss", ["css!" + componentsPath + "/fonts/fonts.sized"], returnFirstDependency);
+        define("material-icons", ["css!css/material-icons/style"], returnFirstDependency);
+        define("systemFontsCss", ["css!css/fonts"], returnFirstDependency);
+        define("systemFontsSizedCss", ["css!css/fonts.sized"], returnFirstDependency);
         define("scrollStyles", ["css!" + componentsPath + "/scrollstyles"], returnFirstDependency);
         define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
         define("navdrawer", ["components/navdrawer/navdrawer"], returnFirstDependency);
