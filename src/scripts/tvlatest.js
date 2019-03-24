@@ -1,4 +1,4 @@
-define(["loading", "components/categorysyncbuttons", "components/groupedcards", "cardBuilder", "apphost", "imageLoader"], function(loading, categorysyncbuttons, groupedcards, cardBuilder, appHost, imageLoader) {
+define(["loading", "components/groupedcards", "cardBuilder", "apphost", "imageLoader"], function(loading, groupedcards, cardBuilder, appHost, imageLoader) {
     "use strict";
 
     function getLatestPromise(context, params) {
@@ -43,7 +43,6 @@ define(["loading", "components/categorysyncbuttons", "components/groupedcards", 
     }
     return function(view, params, tabContent) {
         var self = this;
-        categorysyncbuttons.init(tabContent);
         var latestPromise;
         self.preRender = function() {
             latestPromise = getLatestPromise(view, params)
