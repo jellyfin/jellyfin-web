@@ -36,8 +36,6 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function($, loading, l
         } else {
             $(".disabledUserBanner", page).hide();
         }
-        "Guest" == user.ConnectLinkType ? ($("#fldConnectInfo", page).hide(), 
-        $("#txtUserName", page).prop("disabled", "disabled")) : ($("#txtUserName", page).prop("disabled", "").removeAttr("disabled"), 
         if ("Guest" == user.ConnectLinkType) {
             $("#fldConnectInfo", page).hide();
             $("#txtUserName", page).prop("disabled", "disabled");
