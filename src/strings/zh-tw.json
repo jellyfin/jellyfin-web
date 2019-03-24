@@ -144,7 +144,6 @@
     "LabelSaveLocalMetadata": "將媒體圖像及資料檔存到媒體所在的資料夾",
     "LabelSaveLocalMetadataHelp": "直接保存媒體圖像及資料到媒體所在的文件夾能使編輯工作更容易。",
     "LabelTime": "時間：",
-    "LabelTranscodingTempPath": "轉碼臨時路徑：",
     "LabelTriggerType": "觸發類型：",
     "LabelUser": "使用者：",
     "LabelYourFirstName": "你的名字：",

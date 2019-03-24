@@ -463,7 +463,6 @@
   "LabelTimeLimitHours": "Времево ограничение (часове):",
   "LabelTitle": "Заглавие:",
   "LabelTranscodingAudioCodec": "Звуков кодек:",
-  "LabelTranscodingTempPath": "Временен път на прекодиране:",
   "LabelTranscodingTempPathHelp": "Тази папка съдържа работни файлове използвани от транскодера. Задайте място по избор или оставете празно за мястото по подразбиране.",
   "LabelTranscodingVideoCodec": "Видеокодек:",
   "LabelTriggerType": "Тип на спусъка:",

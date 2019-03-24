@@ -292,7 +292,6 @@
     "LabelTimeLimitHours": "Laiko limitas (val.):",
     "LabelTitle": "Pavadinimas:",
     "LabelTrackNumber": "Dainos numeris:",
-    "LabelTranscodingTempPath": "Transkodavimo laikinas kelias:",
     "LabelTranscodingTempPathHelp": "Šiame aplanke bus darbiniai transkoderio failai. Nurodykite savo vietą, arba palikite tuščią, kad būtų naudojamas serverio duomenų aplankas.",
     "LabelTriggerType": "Jungiklio tipas:",
     "LabelType": "Tipas:",
