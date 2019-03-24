@@ -410,7 +410,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         if (apiClient && apiClient.isLoggedIn()) {
 
             console.log('appRouter - user is authenticated');
-            
+
             if (route.isDefaultRoute) {
                 console.log('appRouter - loading skin home page');
                 loadUserSkinWithOptions(ctx);
