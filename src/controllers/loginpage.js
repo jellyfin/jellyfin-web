@@ -87,9 +87,23 @@ define(["appSettings", "dom", "connectionManager", "loading", "cardStyle", "emby
         }), view.addEventListener("viewshow", function(e) {
             loading.show();
             var apiClient = getApiClient();
-            apiClient.getPublicUsers().then(function(users) {
-                users.length ? users.length && users[0].EnableAutoLogin ? authenticateUserByName(view, apiClient, users[0].Name, "") : (showVisualForm(), loadUserList(view, apiClient, users)) : (view.querySelector("#txtManualName").value = "", showManualForm(view, !1, !1)), loading.hide()
+            apiClient.getPublicUsers().then(function(users) {debugger;
+                if (users.length) {
+                    if (users[0].EnableAutoLogin) {
+                        authenticateUserByName(view, apiClient, users[0].Name, "");
+                    } else {
+                        showVisualForm();
+                        loadUserList(view, apiClient, users);
+                    }
+                } else {
+                    view.querySelector("#txtManualName").value = "";
+                    showManualForm(view, false, false);
+                }
+
+            }).finally(function () {
+                loading.hide();
             });
+
             apiClient.getJSON(apiClient.getUrl("Branding/Configuration")).then(function(options) {
                 view.querySelector(".disclaimer").textContent = options.LoginDisclaimer || ""
             });

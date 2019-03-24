@@ -357,16 +357,6 @@ var AppInfo = {};
         return layoutManager;
     }
 
-    function getAppStorage(basePath) {
-        try {
-            localStorage.setItem("_test", "0");
-            localStorage.removeItem("_test");
-            return basePath + "/appstorage-localstorage";
-        } catch (e) {
-            return basePath + "/appstorage-memory";
-        }
-    }
-
     function createWindowHeadroom(Headroom) {
         var headroom = new Headroom([], {});
         headroom.init();
@@ -426,7 +416,7 @@ var AppInfo = {};
 
     function initRequireWithBrowser(browser) {
         var bowerPath = getBowerPath();
-        var apiClientBowerPath = bowerPath + "/emby-apiclient";
+        var apiClientBowerPath = bowerPath + "/apiclient";
         var componentsPath = "components";
 
         define("filesystem", [componentsPath + "/filesystem"], returnFirstDependency);
@@ -439,12 +429,7 @@ var AppInfo = {};
 
         define("shell", [componentsPath + "/shell"], returnFirstDependency);
 
-        if ("cordova" === self.appMode || "android" === self.appMode) {
-            define("apiclientcore", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency);
-            define("apiclient", ["bower_components/emby-apiclient/apiclientex"], returnFirstDependency);
-        } else {
-            define("apiclient", ["bower_components/emby-apiclient/apiclient"], returnFirstDependency);
-        }
+        define("apiclient", ["bower_components/apiclient/apiclient"], returnFirstDependency);
 
         if ("registerElement" in document) {
             define("registerElement", []);
@@ -506,22 +491,6 @@ var AppInfo = {};
             promises.push(require(["fetch"]));
         }
 
-        if ("function" != typeof Object.assign) {
-            promises.push(require(["objectassign"]));
-        }
-
-        if (!Array.prototype.filter) {
-            promises.push(require(["arraypolyfills"]));
-        }
-
-        if (!Function.prototype.bind) {
-            promises.push(require(["functionbind"]));
-        }
-
-        if (!window.requestAnimationFrame) {
-            promises.push(require(["raf"]));
-        }
-
         Promise.all(promises).then(function () {
             createConnectionManager().then(function () {
                 console.log("initAfterDependencies promises resolved");
@@ -575,514 +544,6 @@ var AppInfo = {};
         });
     }
 
-    function defineRoute(newRoute, dictionary) {
-        var baseRoute = Emby.Page.baseUrl();
-        var path = newRoute.path;
-        path = path.replace(baseRoute, "");
-        console.log("Defining route: " + path);
-        newRoute.dictionary = newRoute.dictionary || dictionary || "core";
-        Emby.Page.addRoute(path, newRoute);
-    }
-
-    function defineCoreRoutes(appHost) {
-        console.log("Defining core routes");
-        defineRoute({
-            path: "/addplugin.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin",
-            controller: "scripts/addpluginpage"
-        });
-        defineRoute({
-            path: "/autoorganizelog.html",
-            dependencies: [],
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/channelsettings.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/addserver.html",
-            dependencies: ["emby-button", "emby-input"],
-            autoFocus: false,
-            anonymous: true,
-            startup: true,
-            controller: "scripts/addserver"
-        });
-        defineRoute({
-            path: "/dashboard.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin",
-            controller: "scripts/dashboardpage"
-        });
-        defineRoute({
-            path: "/dashboardgeneral.html",
-            controller: "dashboard/dashboardgeneral",
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/dashboardhosting.html",
-            dependencies: ["emby-input", "emby-button"],
-            autoFocus: false,
-            roles: "admin",
-            controller: "dashboard/dashboardhosting"
-        });
-        defineRoute({
-            path: "/devices/devices.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin",
-            controller: "devices/devices"
-        });
-        defineRoute({
-            path: "/devices/device.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin",
-            controller: "devices/device"
-        });
-        defineRoute({
-            path: "/dlnaprofile.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/dlnaprofiles.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/dlnaserversettings.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/dlnasettings.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/edititemmetadata.html",
-            dependencies: [],
-            controller: "scripts/edititemmetadata",
-            autoFocus: false
-        });
-        defineRoute({
-            path: "/encodingsettings.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/forgotpassword.html",
-            dependencies: ["emby-input", "emby-button"],
-            anonymous: true,
-            startup: true,
-            controller: "scripts/forgotpassword"
-        });
-        defineRoute({
-            path: "/forgotpasswordpin.html",
-            dependencies: ["emby-input", "emby-button"],
-            autoFocus: false,
-            anonymous: true,
-            startup: true,
-            controller: "scripts/forgotpasswordpin"
-        });
-        defineRoute({
-            path: "/home.html",
-            dependencies: [],
-            autoFocus: false,
-            controller: "home/home",
-            transition: "fade",
-            type: "home"
-        });
-        defineRoute({
-            path: "/list/list.html",
-            dependencies: [],
-            autoFocus: false,
-            controller: "list/list",
-            transition: "fade"
-        });
-        defineRoute({
-            path: "/index.html",
-            dependencies: [],
-            autoFocus: false,
-            isDefaultRoute: true
-        });
-        defineRoute({
-            path: "/itemdetails.html",
-            dependencies: ["emby-button", "scripts/livetvcomponents", "paper-icon-button-light", "emby-itemscontainer"],
-            controller: "scripts/itemdetailpage",
-            autoFocus: false,
-            transition: "fade"
-        });
-        defineRoute({
-            path: "/library.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/librarydisplay.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin",
-            controller: "dashboard/librarydisplay"
-        });
-        defineRoute({
-            path: "/librarysettings.html",
-            dependencies: ["emby-collapse", "emby-input", "emby-button", "emby-select"],
-            autoFocus: false,
-            roles: "admin",
-            controller: "dashboard/librarysettings"
-        });
-        defineRoute({
-            path: "/livetv.html",
-            dependencies: ["emby-button", "livetvcss"],
-            controller: "scripts/livetvsuggested",
-            autoFocus: false,
-            transition: "fade"
-        });
-        defineRoute({
-            path: "/livetvguideprovider.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/livetvseriestimer.html",
-            dependencies: ["emby-checkbox", "emby-input", "emby-button", "emby-collapse", "scripts/livetvcomponents", "scripts/livetvseriestimer", "livetvcss"],
-            autoFocus: false,
-            controller: "scripts/livetvseriestimer"
-        });
-        defineRoute({
-            path: "/livetvsettings.html",
-            dependencies: [],
-            autoFocus: false
-        });
-        defineRoute({
-            path: "/livetvstatus.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/livetvtuner.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin",
-            controller: "dashboard/livetvtuner"
-        });
-        defineRoute({
-            path: "/log.html",
-            dependencies: ["emby-checkbox"],
-            roles: "admin",
-            controller: "dashboard/logpage"
-        });
-        defineRoute({
-            path: "/login.html",
-            dependencies: ["emby-button", "emby-input"],
-            autoFocus: false,
-            anonymous: true,
-            startup: true,
-            controller: "scripts/loginpage"
-        });
-        defineRoute({
-            path: "/metadataadvanced.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/metadataimages.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/metadatanfo.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/movies.html",
-            dependencies: ["emby-button"],
-            autoFocus: false,
-            controller: "scripts/moviesrecommended",
-            transition: "fade"
-        });
-        defineRoute({
-            path: "/music.html",
-            dependencies: [],
-            controller: "scripts/musicrecommended",
-            autoFocus: false,
-            transition: "fade"
-        });
-        defineRoute({
-            path: "/mypreferencesdisplay.html",
-            dependencies: ["emby-checkbox", "emby-button", "emby-select"],
-            autoFocus: false,
-            transition: "fade",
-            controller: "scripts/mypreferencesdisplay"
-        });
-        defineRoute({
-            path: "/mypreferenceshome.html",
-            dependencies: [],
-            autoFocus: false,
-            transition: "fade",
-            controller: "scripts/mypreferenceshome"
-        });
-        defineRoute({
-            path: "/mypreferencessubtitles.html",
-            dependencies: [],
-            autoFocus: false,
-            transition: "fade",
-            controller: "scripts/mypreferencessubtitles"
-        });
-        defineRoute({
-            path: "/mypreferenceslanguages.html",
-            dependencies: ["emby-button", "emby-checkbox", "emby-select"],
-            autoFocus: false,
-            transition: "fade",
-            controller: "scripts/mypreferenceslanguages"
-        });
-        defineRoute({
-            path: "/mypreferencesmenu.html",
-            dependencies: ["emby-button"],
-            autoFocus: false,
-            transition: "fade",
-            controller: "scripts/mypreferencescommon"
-        });
-        defineRoute({
-            path: "/myprofile.html",
-            dependencies: ["emby-button", "emby-collapse", "emby-checkbox", "emby-input"],
-            autoFocus: false,
-            transition: "fade",
-            controller: "scripts/myprofile"
-        });
-        defineRoute({
-            path: "/notificationsetting.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/notificationsettings.html",
-            controller: "scripts/notificationsettings",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/nowplaying.html",
-            dependencies: ["paper-icon-button-light", "emby-slider", "emby-button", "emby-input", "emby-itemscontainer"],
-            controller: "scripts/nowplayingpage",
-            autoFocus: false,
-            transition: "fade",
-            fullscreen: true,
-            supportsThemeMedia: true,
-            enableMediaControl: false
-        });
-        defineRoute({
-            path: "/playbackconfiguration.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/plugincatalog.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin",
-            controller: "scripts/plugincatalogpage"
-        });
-        defineRoute({
-            path: "/plugins.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/scheduledtask.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin",
-            controller: "scripts/scheduledtaskpage"
-        });
-        defineRoute({
-            path: "/scheduledtasks.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin",
-            controller: "scripts/scheduledtaskspage"
-        });
-        defineRoute({
-            path: "/search.html",
-            dependencies: [],
-            controller: "scripts/searchpage"
-        });
-        defineRoute({
-            path: "/selectserver.html",
-            dependencies: ["listViewStyle", "emby-button"],
-            autoFocus: false,
-            anonymous: true,
-            startup: true,
-            controller: "scripts/selectserver"
-        });
-        defineRoute({
-            path: "/serveractivity.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin",
-            controller: "dashboard/serveractivity"
-        });
-        defineRoute({
-            path: "/serversecurity.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/streamingsettings.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/support.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/tv.html",
-            dependencies: ["paper-icon-button-light", "emby-button"],
-            autoFocus: false,
-            controller: "scripts/tvrecommended",
-            transition: "fade"
-        });
-        defineRoute({
-            path: "/useredit.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/userlibraryaccess.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/usernew.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/userparentalcontrol.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/userpassword.html",
-            dependencies: ["emby-input", "emby-button", "emby-checkbox"],
-            autoFocus: false,
-            controller: "scripts/userpasswordpage"
-        });
-        defineRoute({
-            path: "/userprofiles.html",
-            dependencies: [],
-            autoFocus: false,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/wizardremoteaccess.html",
-            dependencies: ["dashboardcss"],
-            autoFocus: false,
-            anonymous: true,
-            controller: "dashboard/wizardremoteaccess"
-        });
-        defineRoute({
-            path: "/wizardfinish.html",
-            dependencies: ["emby-button", "dashboardcss"],
-            autoFocus: false,
-            anonymous: true,
-            controller: "dashboard/wizardfinishpage"
-        });
-        defineRoute({
-            path: "/wizardlibrary.html",
-            dependencies: ["dashboardcss"],
-            autoFocus: false,
-            anonymous: true
-        });
-        defineRoute({
-            path: "/wizardsettings.html",
-            dependencies: ["dashboardcss"],
-            autoFocus: false,
-            anonymous: true,
-            controller: "dashboard/wizardsettings"
-        });
-        defineRoute({
-            path: "/wizardstart.html",
-            dependencies: ["dashboardcss"],
-            autoFocus: false,
-            anonymous: true,
-            controller: "dashboard/wizardstart"
-        });
-        defineRoute({
-            path: "/wizarduser.html",
-            dependencies: ["dashboardcss", "emby-input"],
-            controller: "scripts/wizarduserpage",
-            autoFocus: false,
-            anonymous: true
-        });
-        defineRoute({
-            path: "/videoosd.html",
-            dependencies: [],
-            transition: "fade",
-            controller: "scripts/videoosd",
-            autoFocus: false,
-            type: "video-osd",
-            supportsThemeMedia: true,
-            fullscreen: true,
-            enableMediaControl: false
-        });
-        defineRoute({
-            path: "/configurationpage",
-            dependencies: [],
-            autoFocus: false,
-            enableCache: false,
-            enableContentQueryString: true,
-            roles: "admin"
-        });
-        defineRoute({
-            path: "/",
-            isDefaultRoute: true,
-            autoFocus: false,
-            dependencies: []
-        });
-    }
-
-    function getPluginPageContentPath() {
-        if (window.ApiClient) {
-            return ApiClient.getUrl("web/ConfigurationPage");
-        }
-
-        return null;
-    }
-
     function loadPlugins(externalPlugins, appHost, browser, shell) {
         console.log("Loading installed plugins");
         var list = [
@@ -1127,7 +588,7 @@ var AppInfo = {};
         console.log("Begin onAppReady");
 
         // ensure that appHost is loaded in this point
-        require(['apphost'], function (appHost) {
+        require(['apphost', 'appRouter'], function (appHost, appRouter) {
             var isInBackground = -1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync");
 
             window.Emby = {};
@@ -1142,11 +603,9 @@ var AppInfo = {};
                     require(['css!devices/ios/ios.css']);
                 }
 
-                require(['appRouter', 'scripts/themeloader', 'libraryMenu'], function (pageObjects) {
-                    window.Emby.Page = pageObjects;
+                window.Emby.Page = appRouter;
 
-                    defineCoreRoutes(appHost);
-
+                require(['scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
                     Emby.Page.start({
                         click: false,
                         hashbang: true
@@ -1238,7 +697,7 @@ var AppInfo = {};
     (function () {
         var urlArgs = "v=" + (window.dashboardVersion || new Date().getDate());
         var bowerPath = getBowerPath();
-        var apiClientBowerPath = bowerPath + "/emby-apiclient";
+        var apiClientBowerPath = bowerPath + "/apiclient";
         var componentsPath = "components";
         var paths = {
             velocity: bowerPath + "/velocity/velocity.min",
@@ -1258,7 +717,7 @@ var AppInfo = {};
             libraryBrowser: "scripts/librarybrowser",
             events: apiClientBowerPath + "/events",
             credentialprovider: apiClientBowerPath + "/credentials",
-            connectionManagerFactory: bowerPath + "/emby-apiclient/connectionmanager",
+            connectionManagerFactory: bowerPath + "/apiclient/connectionmanager",
             visibleinviewport: componentsPath + "/visibleinviewport",
             browserdeviceprofile: componentsPath + "/browserdeviceprofile",
             browser: componentsPath + "/browser",
@@ -1272,7 +731,7 @@ var AppInfo = {};
             itemHelper: componentsPath + "/itemhelper",
             itemShortcuts: componentsPath + "/shortcuts",
             playQueueManager: componentsPath + "/playback/playqueuemanager",
-            autoPlayDetect: componentsPath + "/playback/autoplaydetect",
+            autoPlayDetect: componentsPath + "/playback/autoPlayDetect",
             nowPlayingHelper: componentsPath + "/playback/nowplayinghelper",
             pluginManager: componentsPath + "/pluginmanager",
             packageManager: componentsPath + "/packagemanager"
@@ -1372,7 +831,7 @@ var AppInfo = {};
         });
 
         paths.apphost = "components/apphost";
-        paths.appStorage = getAppStorage(apiClientBowerPath);
+        define('appStorage', [apiClientBowerPath + '/appStorage'], returnFirstDependency);
 
         requirejs.config({
             waitSeconds: 0,
@@ -1391,10 +850,6 @@ var AppInfo = {};
         define("dashboardcss", ["css!css/dashboard"], returnFirstDependency);
         define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
         define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency);
-        define("raf", [componentsPath + "/polyfills/raf"], returnFirstDependency);
-        define("functionbind", [componentsPath + "/polyfills/bind"], returnFirstDependency);
-        define("arraypolyfills", [componentsPath + "/polyfills/array"], returnFirstDependency);
-        define("objectassign", [componentsPath + "/polyfills/objectassign"], returnFirstDependency);
         define("clearButtonStyle", ["css!" + componentsPath + "/clearbutton"], returnFirstDependency);
         define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
         define("emby-playstatebutton", [componentsPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
@@ -1446,63 +901,7 @@ var AppInfo = {};
         define("serverNotifications", [componentsPath + "/apiInput/apiInput"], returnFirstDependency);
         define("headroom-window", ["headroom"], createWindowHeadroom);
         define("appFooter-shared", ["appFooter"], createSharedAppFooter);
-        define("skinManager", [componentsPath + "/skinmanager"], function (skinManager) {
-            skinManager.loadUserSkin = function (options) {
-                require(["appRouter"], function (appRouter) {
-                    options = options || {};
-
-                    if (options.start) {
-                        appRouter.invokeShortcut(options.start);
-                    } else {
-                        appRouter.goHome();
-                    }
-                });
-            };
-
-            skinManager.getThemes = function () {
-                return [{
-                    name: "Apple TV",
-                    id: "appletv"
-                }, {
-                    name: "Blue Radiance",
-                    id: "blueradiance"
-                }, {
-                    name: "Dark",
-                    id: "dark",
-                    isDefault: true,
-                    isDefaultServerDashboard: true
-                }, {
-                    name: "Dark (green accent)",
-                    id: "dark-green"
-                }, {
-                    name: "Dark (red accent)",
-                    id: "dark-red"
-                }, {
-                    name: "Light",
-                    id: "light"
-                }, {
-                    name: "Light (blue accent)",
-                    id: "light-blue"
-                }, {
-                    name: "Light (green accent)",
-                    id: "light-green"
-                }, {
-                    name: "Light (pink accent)",
-                    id: "light-pink"
-                }, {
-                    name: "Light (purple accent)",
-                    id: "light-purple"
-                }, {
-                    name: "Light (red accent)",
-                    id: "light-red"
-                }, {
-                    name: "Windows Media Center",
-                    id: "wmc"
-                }];
-            };
-
-            return skinManager;
-        });
+        define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
         define("connectionManager", [], function () {
             return ConnectionManager;
         });
@@ -1511,7 +910,7 @@ var AppInfo = {};
                 return window.ApiClient;
             };
         });
-        define("appRouter", [componentsPath + "/router", "itemHelper"], function (appRouter, itemHelper) {
+        define("appRouter", [componentsPath + "/appRouter", "itemHelper"], function (appRouter, itemHelper) {
             function showItem(item, serverId, options) {
                 if ("string" == typeof item) {
                     require(["connectionManager"], function (connectionManager) {

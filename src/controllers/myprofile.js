@@ -1,4 +1,4 @@
-define(["scripts/userpasswordpage", "loading", "libraryMenu", "apphost", "emby-linkbutton"], function (Userpasswordpage, loading, libraryMenu, appHost) {
+define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "emby-linkbutton"], function (Userpasswordpage, loading, libraryMenu, appHost) {
     "use strict";
 
     function reloadUser(page) {
