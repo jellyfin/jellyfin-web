@@ -177,9 +177,9 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
     function reloadSystemInfo(view, apiClient) {
         apiClient.getSystemInfo().then(function (systemInfo) {
-            view.querySelector("#serverName").innerHTML = globalize.translate("LabelServerName", systemInfo.ServerName);
+            view.querySelector("#serverName").innerHTML = globalize.translate("DashboardServerName", systemInfo.ServerName);
 
-            var localizedVersion = globalize.translate("LabelVersionNumber", systemInfo.Version);
+            var localizedVersion = globalize.translate("DashboardVersionNumber", systemInfo.Version);
             if (systemInfo.SystemUpdateLevel && "Release" != systemInfo.SystemUpdateLevel) {
                 localizedVersion += " " + globalize.translate("Option" + systemInfo.SystemUpdateLevel).toLowerCase();
             }
