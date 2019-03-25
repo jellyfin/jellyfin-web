@@ -101,7 +101,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         };
 
         if (route.controller) {
-            require([`controllers/${route.controller}`], onInitComplete);
+            require(['controllers/' + route.controller], onInitComplete);
         } else {
             onInitComplete();
         }
