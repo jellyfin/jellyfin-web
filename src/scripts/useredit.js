@@ -36,13 +36,8 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function($, loading, l
         } else {
             $(".disabledUserBanner", page).hide();
         }
-        if ("Guest" == user.ConnectLinkType) {
-            $("#fldConnectInfo", page).hide();
-            $("#txtUserName", page).prop("disabled", "disabled");
-        } else {
-            $("#txtUserName", page).prop("disabled", "").removeAttr("disabled");
-            $("#fldConnectInfo", page).show();
-        }
+        $("#txtUserName", page).prop("disabled", "").removeAttr("disabled");
+        $("#fldConnectInfo", page).show();
         $(".lnkEditUserPreferences", page).attr("href", "mypreferencesmenu.html?userId=" + user.Id);
         libraryMenu.setTitle(user.Name);
         page.querySelector(".username").innerHTML = user.Name;
