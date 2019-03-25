@@ -81,16 +81,11 @@ define(['events', 'dom', 'apphost', 'browser'], function (events, dom, appHost, 
 
     if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
         function isTargetValid(target) {
-
-            if (dom.parentWithTag(target, ['BUTTON', 'INPUT', 'TEXTAREA'])) {
-                return false;
-            }
-    
-            return true;
+            return !dom.parentWithTag(target, ['BUTTON', 'INPUT', 'TEXTAREA']);
         }
-    
+
         dom.addEventListener(window, 'dblclick', function (e) {
-    
+
             if (isTargetValid(e.target)) {
                 if (manager.isFullScreen()) {
                     manager.exitFullscreen();
@@ -98,7 +93,7 @@ define(['events', 'dom', 'apphost', 'browser'], function (events, dom, appHost, 
                     manager.requestFullscreen();
                 }
             }
-    
+
         }, {
             passive: true
         });
