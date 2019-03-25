@@ -118,6 +118,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         if (headerSearchButton) {
             headerSearchButton.addEventListener("click", showSearch);
         }
+        if (headerRefreshButton) {
+            headerRefreshButton.addEventListener("click", refreshCurrentLibrary);
+        }
 
         headerUserButton.addEventListener("click", onHeaderUserButtonClick);
         headerHomeButton.addEventListener("click", onHeaderHomeButtonClick);
@@ -126,6 +129,19 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
         if (headerSettingsButton) {
             headerSettingsButton.addEventListener("click", onSettingsClick);
+        }
+    }
+
+    function refreshCurrentLibrary(){
+        var currentLibraryId = getTopParentId() || getParentId();
+        if (currentLibraryId !== null) {
+            require(["refreshDialog"], function(refreshDialog) {
+                new refreshDialog({
+                    itemIds: [currentLibraryId],
+                    serverId: getCurrentApiClient().serverId(),
+                    mode: "scan"
+                }).show()
+            })
         }
     }
 
@@ -582,6 +598,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }
     }
 
+    function getParentId() {
+        return getParameterByName("parentId") || null;
+    }
     function getTopParentId() {
         return getParameterByName("topParentId") || null;
     }
@@ -723,6 +742,21 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }
     }
 
+    function updateRefreshButton(){
+        if (!headerRefreshButton) {
+            headerRefreshButton = document.querySelector(".headerRefreshButton");
+        }
+
+        var refreshId = getTopParentId() || getParentId();
+        
+        if ( refreshId !== null){
+            headerRefreshButton.classList.remove("hide");
+        }
+        else {
+            headerRefreshButton.classList.add("hide");
+        }
+    }
+
     function initHeadRoom(elem) {
         require(["headroom-window"], function (headroom) {
             headroom.add(elem);
@@ -780,6 +814,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     var headerBackButton;
     var headerUserButton;
     var currentUser;
+    var headerRefreshButton;
     var headerSettingsButton;
     var headerCastButton;
     var headerSearchButton;
@@ -886,7 +921,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         if (!e.detail.isRestored) {
             window.scrollTo(0, 0);
         }
-
+        
+        updateRefreshButton();
         updateTitle(page);
         updateBackButton(page);
         updateLibraryNavLinks(page);
@@ -906,6 +942,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="md-icon">&#xE307;</i></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="md-icon">&#xE8B6;</i></button>';
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="md-icon">&#xE7FD;</i></button>';
+        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerRefreshButton hide"><i class="md-icon">refresh</i></button>';
 
         if (!layoutManager.mobile) {
             html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerSettingsButton hide"><i class="md-icon">dashboard</i></button>';
@@ -920,6 +957,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         headerHomeButton = skinHeader.querySelector(".headerHomeButton");
         headerUserButton = skinHeader.querySelector(".headerUserButton");
         headerSettingsButton = skinHeader.querySelector(".headerSettingsButton");
+        headerRefreshButton = skinHeader.querySelector(".headerRefreshButton");
         headerCastButton = skinHeader.querySelector(".headerCastButton");
         headerSearchButton = skinHeader.querySelector(".headerSearchButton");
 
