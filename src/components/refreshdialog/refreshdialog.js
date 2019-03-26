@@ -47,12 +47,12 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         html += '<div class="dialogContentInner dialog-content-centered">';
 
         if (show.simple) {
-            html += '<p>' + globalize.translate('LabelRefreshMode') + ': ' + simpleDialog.text + '</p>'
+            html += '<h3>' + globalize.translate('LabelRefreshMode') + ' ' + simpleDialog.text + '</h3>'
         }
 
 
         html += '<form style="margin:auto;">';
-        html += '<div class="fldSelectPlaylist selectContainer' + simpleDialog.hider + '">';
+        html += '<div class="fldSelectPlaylist selectContainer ' + simpleDialog.hider + '">';
         html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
 
         if (show.scanNewAndUpdated){
