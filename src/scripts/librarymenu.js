@@ -139,7 +139,12 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 new refreshDialog({
                     itemIds: [currentLibraryId],
                     serverId: getCurrentApiClient().serverId(),
-                    mode: "scan"
+                    show: {
+                        simple: true,
+                        scanNewAndUpdated: true,
+                        updateMissing: false,
+                        replaceAll: false
+                    }
                 }).show()
             })
         }

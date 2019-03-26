@@ -14,6 +14,85 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         return elem;
     }
 
+    function getDialogHtml(show) {
+
+        // If there is only one options passed, show a simpler dialog
+        var simpleDialog = {
+            hider: ''
+        }
+
+        if (show.simple) {
+
+            simpleDialog.hider = 'hide';
+
+            if (show.scanNewAndUpdated){
+                simpleDialog.text = globalize.translate('ScanForNewAndUpdatedFiles');
+            }
+            else if (show.updateMissing){
+                simpleDialog.text = globalize.translate('SearchForMissingMetadata');
+            }
+            else if (show.replaceAll){
+                simpleDialog.text = globalize.translate('ReplaceAllMetadata');
+            }
+            else {
+                show.simple = false;
+                simpleDialog.hider = '';
+            }
+        }
+
+
+        var html = '';
+
+        html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
+        html += '<div class="dialogContentInner dialog-content-centered">';
+
+        if (show.simple) {
+            html += '<p>' + globalize.translate('LabelRefreshMode') + ': ' + simpleDialog.text + '</p>'
+        }
+
+
+        html += '<form style="margin:auto;">';
+        html += '<div class="fldSelectPlaylist selectContainer' + simpleDialog.hider + '">';
+        html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
+
+        if (show.scanNewAndUpdated){
+            html += '<option value="scan">' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
+        }
+
+        if (show.updateMissing){
+            html += '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
+        }
+
+        if (show.replaceAll){
+            html += '<option value="all" selected>' + globalize.translate('ReplaceAllMetadata') + '</option>';
+        }
+        
+        html += '</select>';
+        html += '</div>';
+
+        html += '<label class="checkboxContainer hide fldReplaceExistingImages">';
+        html += '<input type="checkbox" is="emby-checkbox" class="chkReplaceImages" />';
+        html += '<span>' + globalize.translate('ReplaceExistingImages') + '</span>';
+        html += '</label>';
+
+        html += '<div class="fieldDescription">';
+        html += globalize.translate('RefreshDialogHelp');
+        html += '</div>';
+
+        html += '<input type="hidden" class="fldSelectedItemIds" />';
+
+        html += '<br />';
+        html += '<div class="formDialogFooter">';
+        html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('Refresh') + '</button>';
+        html += '</div>';
+
+        html += '</form>';
+        html += '</div>';
+        html += '</div>';
+
+        return html;
+    }
+
     function getEditorHtml() {
 
         var html = '';
@@ -100,6 +179,15 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
 
     function RefreshDialog(options) {
         this.options = options;
+
+        // Make sure show options are set if options.show exists
+        this.options.show = options.show || null;
+        if (this.options.show !== null) {
+            this.options.show.simple = options.show.simple || false;
+            this.options.show.scanNewAndUpdated = options.show.scanNewAndUpdated || false;
+            this.options.show.updateMissing = options.show.updateMissing || false;
+            this.options.show.replaceAll = options.show.replaceAll || false;
+        }
     }
 
     RefreshDialog.prototype.show = function () {
@@ -130,8 +218,13 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
 
         html += '</div>';
 
-        html += getEditorHtml();
-
+        if ( this.options.show !== null ){
+            html += getDialogHtml(this.options.show);
+        }
+        else{
+            html += getEditorHtml();
+        }
+        
         dlg.innerHTML = html;
 
         dlg.querySelector('form').addEventListener('submit', onSubmit.bind(this));
