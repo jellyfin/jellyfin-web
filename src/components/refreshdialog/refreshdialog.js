@@ -21,6 +21,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
             hider: ''
         }
 
+        
         if (show.simple) {
 
             simpleDialog.hider = 'hide';
@@ -55,57 +56,18 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         html += '<div class="fldSelectPlaylist selectContainer ' + simpleDialog.hider + '">';
         html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
 
-        if (show.scanNewAndUpdated){
+        if (show.scanNewAndUpdated || !show.simple){
             html += '<option value="scan">' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
         }
 
-        if (show.updateMissing){
+        if (show.updateMissing || !show.simple){
             html += '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
         }
 
-        if (show.replaceAll){
+        if (show.replaceAll || !show.simple){
             html += '<option value="all" selected>' + globalize.translate('ReplaceAllMetadata') + '</option>';
         }
         
-        html += '</select>';
-        html += '</div>';
-
-        html += '<label class="checkboxContainer hide fldReplaceExistingImages">';
-        html += '<input type="checkbox" is="emby-checkbox" class="chkReplaceImages" />';
-        html += '<span>' + globalize.translate('ReplaceExistingImages') + '</span>';
-        html += '</label>';
-
-        html += '<div class="fieldDescription">';
-        html += globalize.translate('RefreshDialogHelp');
-        html += '</div>';
-
-        html += '<input type="hidden" class="fldSelectedItemIds" />';
-
-        html += '<br />';
-        html += '<div class="formDialogFooter">';
-        html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('Refresh') + '</button>';
-        html += '</div>';
-
-        html += '</form>';
-        html += '</div>';
-        html += '</div>';
-
-        return html;
-    }
-
-    function getEditorHtml() {
-
-        var html = '';
-
-        html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
-        html += '<div class="dialogContentInner dialog-content-centered">';
-        html += '<form style="margin:auto;">';
-
-        html += '<div class="fldSelectPlaylist selectContainer">';
-        html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
-        html += '<option value="scan">' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
-        html += '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
-        html += '<option value="all" selected>' + globalize.translate('ReplaceAllMetadata') + '</option>';
         html += '</select>';
         html += '</div>';
 
@@ -188,6 +150,11 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
             this.options.show.updateMissing = options.show.updateMissing || false;
             this.options.show.replaceAll = options.show.replaceAll || false;
         }
+        else {
+            this.options.show = { 
+                simple: false
+            }
+        }
     }
 
     RefreshDialog.prototype.show = function () {
@@ -218,12 +185,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
 
         html += '</div>';
 
-        if ( this.options.show !== null ){
-            html += getDialogHtml(this.options.show);
-        }
-        else{
-            html += getEditorHtml();
-        }
+        html += getDialogHtml(this.options.show);
         
         dlg.innerHTML = html;
 
