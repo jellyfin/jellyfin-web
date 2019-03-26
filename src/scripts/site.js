@@ -581,7 +581,7 @@ var AppInfo = {};
 
                 window.Emby.Page = appRouter;
 
-                require(['scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
+                require(['emby-button', 'scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
                     Emby.Page.start({
                         click: false,
                         hashbang: true
