@@ -1,4 +1,4 @@
-define(["layoutManager", "loading", "components/categorysyncbuttons", "cardBuilder", "apphost", "imageLoader", "scripts/livetvcomponents", "listViewStyle", "emby-itemscontainer"], function(layoutManager, loading, categorysyncbuttons, cardBuilder, appHost, imageLoader) {
+define(["layoutManager", "loading", "cardBuilder", "apphost", "imageLoader", "scripts/livetvcomponents", "listViewStyle", "emby-itemscontainer"], function(layoutManager, loading, cardBuilder, appHost, imageLoader) {
     "use strict";
 
     function renderRecordings(elem, recordings, cardOptions, scrollX) {
@@ -54,7 +54,6 @@ define(["layoutManager", "loading", "components/categorysyncbuttons", "cardBuild
         }
         var foldersPromise, latestPromise, self = this,
             lastFullRender = 0;
-        categorysyncbuttons.init(tabContent);
         for (var moreButtons = tabContent.querySelectorAll(".more"), i = 0, length = moreButtons.length; i < length; i++) moreButtons[i].addEventListener("click", onMoreClick);
         self.preRender = function() {
             enableFullRender() && (latestPromise = ApiClient.getLiveTvRecordings({
