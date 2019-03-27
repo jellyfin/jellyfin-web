@@ -964,7 +964,7 @@
     "MessageNoServersAvailableToConnect": "No servers are available to connect to. If you've been invited to share a server, make sure to accept it below or by clicking the link in the email.",
     "MessageNoTrailersFound": "No trailers found. Install the Trailer channel to enhance your movie experience by adding a library of internet trailers.",
     "MessageNothingHere": "Nothing here.",
-    "MessagePasswordResetForUsers": "The following users have had their passwords reset. They can now sign in with the PIN code that was used this reset.",
+    "MessagePasswordResetForUsers": "The following users have had their passwords reset. They can now sign in with the PIN codes that were used to perform the reset.",
     "MessagePlayAccessRestricted": "Playback of this content is currently restricted. Please contact your Jellyfin Server administrator for more information.",
     "MessagePleaseEnsureInternetMetadata": "Please ensure downloading of internet metadata is enabled.",
     "MessagePleaseWait": "Please wait. This may take a minute.",

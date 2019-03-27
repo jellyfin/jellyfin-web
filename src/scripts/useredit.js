@@ -29,7 +29,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function($, loading, l
         }
         var currentProviderId = user.Policy.PasswordResetProviderId;
         page.querySelector(".selectPasswordResetProvider").innerHTML = providers.map(function(provider) {
-            var selected = provider.Id === currentProviderId || providers.length < 2 ? " selected" : "";
+            var selected = (provider.Id === currentProviderId || providers.length < 2) ? " selected" : "";
             return '<option value="' + provider.Id + '"' + selected + ">" + provider.Name + "</option>"
         })
     }
