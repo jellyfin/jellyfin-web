@@ -225,32 +225,25 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
 
         if (user.Id === apiClient.getCurrentUserId()) {
-
             skinManager.setTheme(userSettingsInstance.theme());
         }
 
         layoutManager.setLayout(context.querySelector('.selectLayout').value);
-
         return apiClient.updateUserConfiguration(user.Id, user.Configuration);
     }
 
     function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
-
         loading.show();
 
         apiClient.getUser(userId).then(function (user) {
-
             saveUser(context, user, userSettings, apiClient).then(function () {
-
                 loading.hide();
                 if (enableSaveConfirmation) {
                     require(['toast'], function (toast) {
                         toast(globalize.translate('SettingsSaved'));
                     });
                 }
-
                 events.trigger(instance, 'saved');
-
             }, function () {
                 loading.hide();
             });
@@ -258,14 +251,12 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
     }
 
     function onSubmit(e) {
-
         var self = this;
         var apiClient = connectionManager.getApiClient(self.options.serverId);
         var userId = self.options.userId;
         var userSettings = self.options.userSettings;
 
         userSettings.setUserInfo(userId, apiClient).then(function () {
-
             var enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
@@ -278,30 +269,22 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
     }
 
     function embed(options, self) {
-
         require(['text!./displaysettings.template.html'], function (template) {
-
             options.element.innerHTML = globalize.translateDocument(template, 'core');
-
             options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
-
             if (options.enableSaveButton) {
                 options.element.querySelector('.btnSave').classList.remove('hide');
             }
-
             self.loadData(options.autoFocus);
         });
     }
 
     function DisplaySettings(options) {
-
         this.options = options;
-
         embed(options, this);
     }
 
     DisplaySettings.prototype.loadData = function (autoFocus) {
-
         var self = this;
         var context = self.options.element;
 
@@ -312,13 +295,9 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         var userSettings = self.options.userSettings;
 
         return apiClient.getUser(userId).then(function (user) {
-
             return userSettings.setUserInfo(userId, apiClient).then(function () {
-
                 self.dataLoaded = true;
-
                 loadForm(context, user, userSettings, apiClient);
-
                 if (autoFocus) {
                     focusManager.autoFocus(context);
                 }
@@ -331,7 +310,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
     };
 
     DisplaySettings.prototype.destroy = function () {
-
         this.options = null;
     };
 

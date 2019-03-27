@@ -27,28 +27,21 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
     }
 
     function displayContent(cmd, apiClient) {
-
         if (!playbackManager.isPlayingLocally(['Video', 'Book'])) {
             appRouter.showItem(cmd.Arguments.ItemId, apiClient.serverId());
         }
     }
 
     function playTrailers(apiClient, itemId) {
-
         apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-
             playbackManager.playTrailers(item);
         });
     }
 
     function processGeneralCommand(cmd, apiClient) {
-
-        // Full list
-        // https://github.com/MediaBrowser/MediaBrowser/blob/master/MediaBrowser.Model/Session/GeneralCommand.cs#L23
-        //console.log('Received command: ' + cmd.Name);
-
+        // https://github.com/jellyfin/jellyfin/blob/master/MediaBrowser.Model/Session/GeneralCommandType.cs
+        console.log('Received command: ' + cmd.Name);
         switch (cmd.Name) {
-
             case 'Select':
                 inputManager.trigger('select');
                 return;

@@ -107,7 +107,6 @@
     "LabelSeriesRecordingPath": "Calea pentru înregistrări seriale (opțional):",
     "LabelStopWhenPossible": "Oprește când este posibil:",
     "LabelTimeLimitHours": "Limită de timp(ore):",
-    "LabelTranscodingTempPath": "Cale temporară pentru conversie:",
     "LabelTranscodingTempPathHelp": "Acest director conține fișierele de lucru folosite de convertor. Specificați o cale specială sau lasați gol pentru a folosi pe cea implicită în directorul de lucru al serverului.",
     "LabelTriggerType": "Tip Declanșator:",
     "LabelUser": "Utilizator:",

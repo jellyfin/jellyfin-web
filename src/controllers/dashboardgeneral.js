@@ -2,14 +2,15 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
     "use strict";
 
     function loadPage(page, config, languageOptions, systemInfo) {
+        page.querySelector("#txtServerName").value = systemInfo.ServerName;
         if (systemInfo.CanLaunchWebBrowser) {
             page.querySelector("#fldRunWebAppAtStartup").classList.remove("hide");
         } else {
             page.querySelector("#fldRunWebAppAtStartup").classList.add("hide");
         }
-        page.querySelector("#txtCachePath").value = config.CachePath || "";
-        $("#txtMetadataPath", page).val(config.MetadataPath || "");
-        $("#txtMetadataNetworkPath", page).val(config.MetadataNetworkPath || "");
+        page.querySelector("#txtCachePath").value = systemInfo.CachePath || "";
+        $("#txtMetadataPath", page).val(systemInfo.InternalMetadataPath || "");
+        $("#txtMetadataNetworkPath", page).val(systemInfo.MetadataNetworkPath || "");
         $("#selectLocalizationLanguage", page).html(languageOptions.map(function(language) {
             return '<option value="' + language.Value + '">' + language.Name + "</option>"
         })).val(config.UICulture);
@@ -39,6 +40,7 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
         var form = this;
         $(form).parents(".page");
         return ApiClient.getServerConfiguration().then(function(config) {
+            config.ServerName = $("#txtServerName", form).val();
             config.UICulture = $("#selectLocalizationLanguage", form).val();
             config.CachePath = form.querySelector("#txtCachePath").value;
             config.MetadataPath = $("#txtMetadataPath", form).val();

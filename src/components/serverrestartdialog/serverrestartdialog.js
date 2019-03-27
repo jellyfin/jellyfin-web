@@ -90,27 +90,20 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 
-        //dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
-        //    dialogHelper.close(dlg);
-        //});
-
-        dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('HeaderRestartingEmbyServer');
+        dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('HeaderRestartingServer');
 
         dlg.querySelector('.text').innerHTML = globalize.translate('RestartPleaseWaitMessage');
 
         var i, length;
         var html = '';
         for (i = 0, length = configuredButtons.length; i < length; i++) {
-
             var item = configuredButtons[i];
             var autoFocus = i === 0 ? ' autofocus' : '';
-
             var buttonClass = 'btnOption raised formDialogFooterItem formDialogFooterItem-autosize';
 
             if (item.type) {
                 buttonClass += ' button-' + item.type;
             }
-
             html += '<button is="emby-button" type="button" class="' + buttonClass + '" data-id="' + item.id + '"' + autoFocus + '>' + item.name + '</button>';
         }
 

@@ -10,7 +10,7 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
             uploadUserImage.value = "";
             uploadUserImage.dispatchEvent(new CustomEvent("change", {}));
             libraryMenu.setTitle(user.Name);
-            var imageUrl = "css/images/logindefault.png";
+            var imageUrl = "img/logindefault.png";
             if (user.PrimaryImageTag) {
                 imageUrl = ApiClient.getUserImageUrl(user.Id, {
                     height: 200,
