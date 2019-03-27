@@ -754,7 +754,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
         var refreshId = getTopParentId() || getParentId();
         
-        if ( refreshId !== null){
+        if (refreshId !== null) {
             headerRefreshButton.classList.remove("hide");
         }
         else {
