@@ -1173,7 +1173,7 @@
     "PasswordResetComplete": "The password has been reset.",
     "PasswordResetConfirmation": "Are you sure you wish to reset the password?",
     "PasswordResetHeader": "Reset Password",
-    "PasswordResetProviderHelp": "Choose a Password Reset Provider to be used if this user resets their password",
+    "PasswordResetProviderHelp": "Choose a Password Reset Provider to be used when this user requests a password reset",
     "PasswordSaved": "Password saved.",
     "People": "People",
     "PerfectMatch": "Perfect match",
