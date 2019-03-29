@@ -37,6 +37,9 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             isDefault: true,
             isDefaultServerDashboard: true
         }, {
+            name: "Dark Classic",
+            id: "dark-classic",
+        }, {
             name: "Dark (green accent)",
             id: "dark-green"
         }, {
@@ -45,6 +48,9 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         }, {
             name: "Light",
             id: "light"
+        }, {
+            name: "Light Classic",
+            id: "light-classic"
         }, {
             name: "Light (blue accent)",
             id: "light-blue"
