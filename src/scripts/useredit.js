@@ -21,10 +21,26 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function($, loading, l
         })
     }
 
+    function loadPasswordResetProviders(page, user, providers) {
+        if (providers.length > 1 && !user.Policy.IsAdministrator) {
+            page.querySelector(".fldSelectPasswordResetProvider").classList.remove("hide");
+        } else {
+            page.querySelector(".fldSelectPasswordResetProvider").classList.add("hide");
+        }
+        var currentProviderId = user.Policy.PasswordResetProviderId;
+        page.querySelector(".selectPasswordResetProvider").innerHTML = providers.map(function(provider) {
+            var selected = (provider.Id === currentProviderId || providers.length < 2) ? " selected" : "";
+            return '<option value="' + provider.Id + '"' + selected + ">" + provider.Name + "</option>"
+        })
+    }
+
     function loadUser(page, user) {
         currentUser = user;
         ApiClient.getJSON(ApiClient.getUrl("Auth/Providers")).then(function(providers) {
             loadAuthProviders(page, user, providers)
+        });
+        ApiClient.getJSON(ApiClient.getUrl("Auth/PasswordResetProviders")).then(function(providers) {
+            loadPasswordResetProviders(page, user, providers)
         });
         ApiClient.getJSON(ApiClient.getUrl("Library/MediaFolders", {
              IsHidden: false
@@ -92,6 +108,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function($, loading, l
         user.Policy.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat($("#txtRemoteClientBitrateLimit", page).val() || "0"));
         user.Policy.LoginAttemptsBeforeLockout = parseInt($("#txtLoginAttemptsBeforeLockout", page).val() || "0");
         user.Policy.AuthenticationProviderId = page.querySelector(".selectLoginProvider").value;
+        user.Policy.PasswordResetProviderId = page.querySelector(".selectPasswordResetProvider").value;
         user.Policy.EnableContentDeletion = $("#chkEnableDeleteAllFolders", page).checked();
         user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : $(".chkFolder", page).get().filter(function(c) {
                 return c.checked
