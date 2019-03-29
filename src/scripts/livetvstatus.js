@@ -1,4 +1,4 @@
-define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layoutManager", "loading", "listViewStyle", "flexStyles", "emby-itemscontainer", "cardStyle", "material-icons", "emby-linkbutton"], function($, globalize, taskButton, dom, libraryMenu, layoutManager, loading) {
+define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layoutManager", "loading", "listViewStyle", "flexStyles", "emby-itemscontainer", "cardStyle", "material-icons", "emby-button"], function($, globalize, taskButton, dom, libraryMenu, layoutManager, loading) {
     "use strict";
 
     function getDeviceHtml(device) {

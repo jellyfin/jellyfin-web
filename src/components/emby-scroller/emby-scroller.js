@@ -108,8 +108,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
             var headroom = new Headroom([], {
                 scroller: elem
             });
-            // initialise
-            headroom.init();
+            
             headroom.add(document.querySelector('.skinHeader'));
             elem.headroom = headroom;
         });

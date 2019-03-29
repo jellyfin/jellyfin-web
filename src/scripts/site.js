@@ -345,7 +345,6 @@ var AppInfo = {};
 
     function createWindowHeadroom(Headroom) {
         var headroom = new Headroom([], {});
-        headroom.init();
         return headroom;
     }
 
@@ -425,7 +424,7 @@ var AppInfo = {};
             define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
         }
 
-        define("imageFetcher", [componentsPath + "/images/basicimagefetcher"], returnFirstDependency);
+        define("imageFetcher", [componentsPath + "/images/imageFetcher"], returnFirstDependency);
 
         var preferNativeAlerts = browser.tv;
 
@@ -446,12 +445,7 @@ var AppInfo = {};
             define("prompt", [componentsPath + "/prompt/prompt"], returnFirstDependency);
         }
 
-        if (browser.tizen || browser.operaTv || browser.chromecast || browser.orsay || browser.web0s || browser.ps4) {
-            define("loading", [componentsPath + "/loading/loading-legacy"], returnFirstDependency);
-        } else {
-            define("loading", [componentsPath + "/loading/loading-lite"], returnFirstDependency);
-        }
-
+        define("loading", [componentsPath + "/loading/loading"], returnFirstDependency);
         define("multi-download", [componentsPath + "/multidownload"], returnFirstDependency);
         define("fileDownloader", [componentsPath + "/filedownloader"], returnFirstDependency);
         define("localassetmanager", [apiClientBowerPath + "/localassetmanager"], returnFirstDependency);
@@ -472,10 +466,6 @@ var AppInfo = {};
         define("detailtablecss", ["css!css/detailtable.css"], returnFirstDependency);
         define("buttonenabled", ["legacy/buttonenabled"], returnFirstDependency);
         var promises = [];
-
-        if (!window.fetch) {
-            promises.push(require(["fetch"]));
-        }
 
         Promise.all(promises).then(function () {
             createConnectionManager().then(function () {
@@ -591,7 +581,7 @@ var AppInfo = {};
 
                 window.Emby.Page = appRouter;
 
-                require(['scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
+                require(['emby-button', 'scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
                     Emby.Page.start({
                         click: false,
                         hashbang: true
@@ -622,11 +612,7 @@ var AppInfo = {};
                         }
                     }
 
-                    require(["playerSelectionMenu"]);
-
-                    if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
-                        require(["fullscreen-doubleclick"]);
-                    }
+                    require(["playerSelectionMenu", "fullscreenManager"]);
 
                     if (appHost.supports("sync")) {
                         initLocalSyncEvents();
@@ -710,7 +696,7 @@ var AppInfo = {};
             inputManager: componentsPath + "/inputmanager",
             qualityoptions: componentsPath + "/qualityoptions",
             hammer: bowerPath + "/hammerjs/hammer.min",
-            pageJs: "thirdparty/pagejs/page",
+            page: "thirdparty/page",
             focusManager: componentsPath + "/focusmanager",
             datetime: componentsPath + "/datetime",
             globalize: componentsPath + "/globalize",
@@ -731,19 +717,18 @@ var AppInfo = {};
         define("libjass", [bowerPath + "/libjass/libjass.min", "css!" + bowerPath + "/libjass/libjass"], returnFirstDependency);
         define("tunerPicker", ["components/tunerpicker"], returnFirstDependency);
         define("mainTabsManager", [componentsPath + "/maintabsmanager"], returnFirstDependency);
-        define("imageLoader", [componentsPath + "/images/imagehelper"], returnFirstDependency);
+        define("imageLoader", [componentsPath + "/images/imageLoader"], returnFirstDependency);
         define("appFooter", [componentsPath + "/appfooter/appfooter"], returnFirstDependency);
         define("directorybrowser", ["components/directorybrowser/directorybrowser"], returnFirstDependency);
         define("metadataEditor", [componentsPath + "/metadataeditor/metadataeditor"], returnFirstDependency);
         define("personEditor", [componentsPath + "/metadataeditor/personeditor"], returnFirstDependency);
-        define("playerSelectionMenu", [componentsPath + "/playback/playerselection"], returnFirstDependency);
+        define("playerSelectionMenu", [componentsPath + "/playback/playerSelectionMenu"], returnFirstDependency);
         define("playerSettingsMenu", [componentsPath + "/playback/playersettingsmenu"], returnFirstDependency);
         define("playMethodHelper", [componentsPath + "/playback/playmethodhelper"], returnFirstDependency);
         define("brightnessOsd", [componentsPath + "/playback/brightnessosd"], returnFirstDependency);
         define("libraryMenu", ["scripts/librarymenu"], returnFirstDependency);
         define("emby-collapse", [componentsPath + "/emby-collapse/emby-collapse"], returnFirstDependency);
         define("emby-button", [componentsPath + "/emby-button/emby-button"], returnFirstDependency);
-        define("emby-linkbutton", ["emby-button"], returnFirstDependency);
         define("emby-itemscontainer", [componentsPath + "/emby-itemscontainer/emby-itemscontainer"], returnFirstDependency);
         define("alphaNumericShortcuts", [componentsPath + "/alphanumericshortcuts/alphanumericshortcuts"], returnFirstDependency);
         define("emby-scroller", [componentsPath + "/emby-scroller/emby-scroller"], returnFirstDependency);
@@ -764,7 +749,7 @@ var AppInfo = {};
         define("emby-radio", [componentsPath + "/emby-radio/emby-radio"], returnFirstDependency);
         define("emby-textarea", [componentsPath + "/emby-textarea/emby-textarea"], returnFirstDependency);
         define("collectionEditor", [componentsPath + "/collectioneditor/collectioneditor"], returnFirstDependency);
-        define("serverRestartDialog", [componentsPath + "/serverrestartdialog/serverrestartdialog"], returnFirstDependency);
+        define("serverRestartDialog", [componentsPath + "/serverRestartDialog"], returnFirstDependency);
         define("playlistEditor", [componentsPath + "/playlisteditor/playlisteditor"], returnFirstDependency);
         define("recordingCreator", [componentsPath + "/recordingcreator/recordingcreator"], returnFirstDependency);
         define("recordingEditor", [componentsPath + "/recordingcreator/recordingeditor"], returnFirstDependency);
@@ -784,7 +769,7 @@ var AppInfo = {};
         define("searchResults", [componentsPath + "/search/searchresults"], returnFirstDependency);
         define("upNextDialog", [componentsPath + "/upnextdialog/upnextdialog"], returnFirstDependency);
         define("fullscreen-doubleclick", [componentsPath + "/fullscreen/fullscreen-dc"], returnFirstDependency);
-        define("fullscreenManager", [componentsPath + "/fullscreen/fullscreenmanager", "events"], returnFirstDependency);
+        define("fullscreenManager", [componentsPath + "/fullscreenManager", "events"], returnFirstDependency);
         define("headroom", [componentsPath + "/headroom/headroom"], returnFirstDependency);
         define("subtitleAppearanceHelper", [componentsPath + "/subtitlesettings/subtitleappearancehelper"], returnFirstDependency);
         define("subtitleSettings", [componentsPath + "/subtitlesettings/subtitlesettings"], returnFirstDependency);
@@ -810,7 +795,7 @@ var AppInfo = {};
         define("programStyles", ["css!" + componentsPath + "/guide/programs"], returnFirstDependency);
         define("guide-settings-dialog", [componentsPath + "/guide/guide-settings"], returnFirstDependency);
         define("loadingDialog", [componentsPath + "/loadingdialog/loadingdialog"], returnFirstDependency);
-        define("viewManager", [componentsPath + "/viewmanager/viewmanager"], function (viewManager) {
+        define("viewManager", [componentsPath + "/viewManager/viewManager"], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
             return viewManager;
@@ -835,7 +820,6 @@ var AppInfo = {};
         define("jstree", ["thirdparty/jstree/jstree", "css!thirdparty/jstree/themes/default/style.css"], returnFirstDependency);
         define("dashboardcss", ["css!css/dashboard"], returnFirstDependency);
         define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
-        define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency);
         define("clearButtonStyle", ["css!" + componentsPath + "/clearbutton"], returnFirstDependency);
         define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
         define("emby-playstatebutton", [componentsPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
@@ -856,7 +840,7 @@ var AppInfo = {};
         define("itemrepository", [apiClientBowerPath + "/sync/itemrepository"], returnFirstDependency);
         define("useractionrepository", [apiClientBowerPath + "/sync/useractionrepository"], returnFirstDependency);
         define("swiper", [bowerPath + "/Swiper/dist/js/swiper.min", "css!" + bowerPath + "/Swiper/dist/css/swiper.min"], returnFirstDependency);
-        define("scroller", [componentsPath + "/scroller/smoothscroller"], returnFirstDependency);
+        define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
         define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);
         define("touchHelper", [componentsPath + "/touchhelper"], returnFirstDependency);
@@ -869,8 +853,8 @@ var AppInfo = {};
         define("scrollStyles", ["css!" + componentsPath + "/scrollstyles"], returnFirstDependency);
         define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
         define("navdrawer", ["components/navdrawer/navdrawer"], returnFirstDependency);
-        define("htmlMediaHelper", [componentsPath + "/htmlvideoplayer/htmlmediahelper"], returnFirstDependency);
-        define("viewcontainer", ["components/viewcontainer-lite", "css!" + componentsPath + "/viewmanager/viewcontainer-lite"], returnFirstDependency);
+        define("htmlMediaHelper", [componentsPath + "/htmlMediaHelper"], returnFirstDependency);
+        define("viewcontainer", ["components/viewContainer"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
         });
@@ -882,10 +866,9 @@ var AppInfo = {};
             return jQuery;
         });
         define("fnchecked", ["legacy/fnchecked"], returnFirstDependency);
-        define("dialogHelper", [componentsPath + "/dialoghelper/dialoghelper"], returnFirstDependency);
+        define("dialogHelper", [componentsPath + "/dialogHelper/dialogHelper"], returnFirstDependency);
         define("inputmanager", ["inputManager"], returnFirstDependency);
-        define("serverNotifications", [componentsPath + "/apiInput/apiInput"], returnFirstDependency);
-        define("headroom-window", ["headroom"], createWindowHeadroom);
+        define("serverNotifications", [componentsPath + "/serverNotifications/serverNotifications"], returnFirstDependency);
         define("appFooter-shared", ["appFooter"], createSharedAppFooter);
         define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
         define("connectionManager", [], function () {

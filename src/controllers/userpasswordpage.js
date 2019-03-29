@@ -1,4 +1,4 @@
-define(["loading", "libraryMenu", "emby-linkbutton"], function(loading, libraryMenu) {
+define(["loading", "libraryMenu", "emby-button"], function(loading, libraryMenu) {
     "use strict";
 
     function loadUser(page, params) {

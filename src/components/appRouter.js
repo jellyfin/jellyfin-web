@@ -1,4 +1,4 @@
-define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, layoutManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
+define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, layoutManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
     var appRouter = {
@@ -410,7 +410,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         if (apiClient && apiClient.isLoggedIn()) {
 
             console.log('appRouter - user is authenticated');
-            
+
             if (route.isDefaultRoute) {
                 console.log('appRouter - loading skin home page');
                 loadUserSkinWithOptions(ctx);

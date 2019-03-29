@@ -1,4 +1,4 @@
-define(["browser", "dom", "layoutManager", "css!components/viewmanager/viewcontainer-lite"], function(browser, dom, layoutManager) {
+define(["browser", "dom", "layoutManager", "css!components/viewManager/viewContainer"], function(browser, dom, layoutManager) {
     "use strict";
 
     function setControllerClass(view, options) {

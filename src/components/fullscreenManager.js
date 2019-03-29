@@ -1,4 +1,4 @@
-define(['events', 'dom'], function (events, dom) {
+define(['events', 'dom', 'apphost', 'browser'], function (events, dom, appHost, browser) {
     'use strict';
 
     function fullscreenManager() {
@@ -78,6 +78,26 @@ define(['events', 'dom'], function (events, dom) {
     dom.addEventListener(document, 'mozfullscreenchange', onFullScreenChange, {
         passive: true
     });
+
+    if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
+        function isTargetValid(target) {
+            return !dom.parentWithTag(target, ['BUTTON', 'INPUT', 'TEXTAREA']);
+        }
+
+        dom.addEventListener(window, 'dblclick', function (e) {
+
+            if (isTargetValid(e.target)) {
+                if (manager.isFullScreen()) {
+                    manager.exitFullscreen();
+                } else {
+                    manager.requestFullscreen();
+                }
+            }
+
+        }, {
+            passive: true
+        });
+    }
 
     return manager;
 });

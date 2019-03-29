@@ -1,4 +1,4 @@
-define(["apphost", "connectionManager", "listViewStyle", "emby-linkbutton"], function(appHost, connectionManager) {
+define(["apphost", "connectionManager", "listViewStyle", "emby-button"], function(appHost, connectionManager) {
     "use strict";
 
     return function(view, params) {

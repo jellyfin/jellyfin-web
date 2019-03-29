@@ -1,4 +1,4 @@
-define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-linkbutton", "emby-checkbox", "emby-select"], function (loading, libraryMenu, globalize) {
+define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby-checkbox", "emby-select"], function (loading, libraryMenu, globalize) {
     "use strict";
 
     function reloadList(page) {

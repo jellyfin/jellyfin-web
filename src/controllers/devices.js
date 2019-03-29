@@ -1,4 +1,4 @@
-define(["loading", "dom", "libraryMenu", "globalize", "humanedate", "emby-linkbutton", "emby-itemscontainer", "cardStyle"], function(loading, dom, libraryMenu, globalize) {
+define(["loading", "dom", "libraryMenu", "globalize", "humanedate", "emby-button", "emby-itemscontainer", "cardStyle"], function(loading, dom, libraryMenu, globalize) {
     "use strict";
 
     function canDelete(deviceId) {

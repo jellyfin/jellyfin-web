@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "events", "globalize", "serverNotifications", "humanedate", "listViewStyle", "emby-linkbutton"], function($, loading, events, globalize, serverNotifications) {
+define(["jQuery", "loading", "events", "globalize", "serverNotifications", "humanedate", "listViewStyle", "emby-button"], function($, loading, events, globalize, serverNotifications) {
     "use strict";
 
     function reloadList(page) {

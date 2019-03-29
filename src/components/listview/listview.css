@@ -100,7 +100,7 @@
     min-width: 2.78em;
     min-height: 2.78em;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     flex-shrink: 0;
     background-position: center center;
     position: relative;

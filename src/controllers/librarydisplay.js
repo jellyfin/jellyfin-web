@@ -1,4 +1,4 @@
-define(["globalize", "loading", "libraryMenu", "emby-checkbox", "emby-button", "emby-linkbutton"], function(globalize, loading, libraryMenu) {
+define(["globalize", "loading", "libraryMenu", "emby-checkbox", "emby-button", "emby-button"], function(globalize, loading, libraryMenu) {
     "use strict";
 
     function getTabs() {
