@@ -2,14 +2,12 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     'use strict';
 
     function addNotificationEvent(instance, name, handler) {
-
         var localHandler = handler.bind(instance);
         events.on(serverNotifications, name, localHandler);
         instance[name] = localHandler;
     }
 
     function removeNotificationEvent(instance, name) {
-
         var handler = instance[name];
         if (handler) {
             events.off(serverNotifications, name, handler);
@@ -25,31 +23,22 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         var apiClient = connectionManager.getApiClient(serverId);
 
         if (!button.classList.contains('playstatebutton-played')) {
-
             apiClient.markPlayed(apiClient.getCurrentUserId(), id, new Date());
-
             setState(button, true);
-
         } else {
-
             apiClient.markUnplayed(apiClient.getCurrentUserId(), id, new Date());
-
             setState(button, false);
         }
     }
 
     function onUserDataChanged(e, apiClient, userData) {
-
         var button = this;
-
         if (userData.ItemId === button.getAttribute('data-id')) {
-
             setState(button, userData.Played);
         }
     }
 
     function setState(button, played, updateAttribute) {
-
         var icon = button.iconElement;
         if (!icon) {
             button.iconElement = button.querySelector('i');
@@ -57,18 +46,13 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         }
 
         if (played) {
-
             button.classList.add('playstatebutton-played');
-
             if (icon) {
                 icon.classList.add('playstatebutton-icon-played');
                 icon.classList.remove('playstatebutton-icon-unplayed');
             }
-
         } else {
-
             button.classList.remove('playstatebutton-played');
-
             if (icon) {
                 icon.classList.remove('playstatebutton-icon-played');
                 icon.classList.add('playstatebutton-icon-unplayed');

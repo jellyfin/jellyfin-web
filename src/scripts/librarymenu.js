@@ -307,7 +307,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         });
         links.push({
             name: globalize.translate("TabDevices"),
-            href: "devices/devices.html",
+            href: "devices.html",
             pageIds: ["devicesPage", "devicePage"],
             icon: "devices"
         });

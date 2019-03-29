@@ -1537,17 +1537,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction';
 
             if (playbackManager.canPlay(item)) {
-
                 html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
             }
 
             html += '<div class="cardOverlayButton-br">';
-
-            //if (itemHelper.canEdit({ Policy: { IsAdministrator: true } }, item)) {
-
-            //    //require(['emby-playstatebutton']);
-            //    html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="edit"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE254;</i></button>';
-            //}
 
             var userData = item.UserData || {};
 
