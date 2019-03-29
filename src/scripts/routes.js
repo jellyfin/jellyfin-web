@@ -119,7 +119,7 @@ define([
         type: "home"
     });
     defineRoute({
-        path: "/list/list.html",
+        path: "/list.html",
         autoFocus: false,
         controller: "list",
         transition: "fade"
