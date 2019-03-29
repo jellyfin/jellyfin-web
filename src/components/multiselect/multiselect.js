@@ -239,12 +239,7 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                 id: 'refresh'
             });
 
-            if (user.Policy.EnableContentDownloading) {
-                menuItems.push({
-                    name: globalize.translate('Sync'),
-                    id: 'sync'
-                });
-            }
+
 
             require(['actionsheet'], function (actionsheet) {
                 actionsheet.show({
