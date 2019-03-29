@@ -207,7 +207,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
 
         if (options.stats) {
             menuItems.push({
-                name: globalize.translate('StatsForNerds'),
+                name: globalize.translate('PlaybackData'),
                 id: 'stats',
                 asideText: null
             });
