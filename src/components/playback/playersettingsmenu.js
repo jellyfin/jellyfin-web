@@ -196,11 +196,6 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             });
         }
 
-        menuItems.push({
-            name: globalize.translate('PlaybackSettings'),
-            id: 'playbacksettings'
-        });
-
         if (user && user.Policy.EnableVideoPlaybackTranscoding) {
             var secondaryQualityText = getQualitySecondaryText(player);
 
@@ -214,7 +209,6 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         var repeatMode = playbackManager.getRepeatMode(player);
 
         if (supportedCommands.indexOf('SetRepeatMode') !== -1 && playbackManager.currentMediaSource(player).RunTimeTicks) {
-
             menuItems.push({
                 name: globalize.translate('RepeatMode'),
                 id: 'repeatmode',
@@ -223,7 +217,6 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         }
 
         if (options.stats) {
-
             menuItems.push({
                 name: globalize.translate('StatsForNerds'),
                 id: 'stats',
@@ -237,12 +230,9 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         });
 
         return actionsheet.show({
-
             items: menuItems,
             positionTo: options.positionTo
-
         }).then(function (id) {
-
             return handleSelectedOption(id, options, player);
         });
     }
@@ -279,14 +269,8 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         return alertText(globalize.translate('SubtitleSettingsIntro'));
     }
 
-    function showPlaybackSettings(player, btn) {
-        return alertText(globalize.translate('PlaybackSettingsIntro'));
-    }
-
     function handleSelectedOption(id, options, player) {
-
         switch (id) {
-
             case 'quality':
                 return showQualityMenu(player, options.positionTo);
             case 'aspectratio':
@@ -295,8 +279,6 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
                 return showRepeatModeMenu(player, options.positionTo);
             case 'subtitlesettings':
                 return showSubtitleSettings(player, options.positionTo);
-            case 'playbacksettings':
-                return showPlaybackSettings(player, options.positionTo);
             case 'stats':
                 if (options.onOption) {
                     options.onOption('stats');

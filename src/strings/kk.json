@@ -1165,7 +1165,6 @@
     "PlayFromBeginning": "Basynan oınatý",
     "PlayNext": "Kelesini oınatý",
     "PlayNextEpisodeAutomatically": "Kelesi bólimdi avtomatty júktep alý",
-    "PlaybackSettingsIntro": "Ádepki oınatý parametrlerin teńsheý úshin beıne oınatýdy toqtatyńyz, sodan keıin qoldanbanyń joǵarǵy oń jaq bóligindegi paıdalanýshy belgishesin basyńyz.",
     "Played": "Oınatylǵan",
     "Playlists": "Oınatý tizimderi",
     "PleaseAddAtLeastOneFolder": "Qosý túımeshigin basý arqyly, osy tasyǵyshhanaǵa kem degende bir qalta qosyńyz.",
@@ -1418,6 +1417,5 @@
     "MessageImageFileTypeAllowed": "Tek qana JPEG jáne PNG faıldary qoldaýda.",
     "MessageImageTypeNotSelected": "Sýret túrin ashylmaly mázirden tandańyz.",
     "OptionResElement": "res elementi",
-    "PlaybackSettings": "Oınatý parametrleri",
     "SubtitleSettings": "Sýbtıtrler parametrleri"
 }
