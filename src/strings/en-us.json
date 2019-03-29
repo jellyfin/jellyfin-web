@@ -1301,8 +1301,6 @@
     "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "These settings also apply to any Chromecast playback started by this device.",
     "SubtitleAppearanceSettingsDisclaimer": "These settings will not apply to graphical subtitles (PGS, DVD, etc), or subtitles that have their own styles embedded (ASS/SSA).",
     "SubtitleDownloadersHelp": "Enable and rank your preferred subtitle downloaders in order of priority.",
-    "SubtitleSettings": "Subtitle settings",
-    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
     "Subtitles": "Subtitles",
     "Suggestions": "Suggestions",
     "Sunday": "Sunday",

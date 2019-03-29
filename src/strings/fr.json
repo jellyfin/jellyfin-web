@@ -1242,8 +1242,6 @@
     "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Ces paramètres s'appliquent également à toute lecture Chromecast démarrée par cet appareil.",
     "SubtitleAppearanceSettingsDisclaimer": "Ces paramètres ne s'appliqueront pas aux sous-titres graphiques (PGS, DVD etc) ou aux sous-titres qui ont leurs propres styles incorporés (ASS/SSA).",
     "SubtitleDownloadersHelp": "Activer et ranger vos outils de téléchargement de sous-titres favoris par ordre de priorité.",
-    "SubtitleSettings": "Paramètres des sous-titres",
-    "SubtitleSettingsIntro": "Pour configurer l'apparence des sous-titres et la langue par défaut, arrêtez la lecture de la vidéo, puis cliquez sur votre icône utilisateur située en haut à droite dans l'application.",
     "Subtitles": "Sous-titres",
     "Sunday": "Dimanche",
     "Sync": "Synchroniser",

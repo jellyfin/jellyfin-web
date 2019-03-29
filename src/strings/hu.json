@@ -1267,8 +1267,6 @@
     "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Ezek a beállítások a készülék által elindított összes Chromecast lejátszásra is vonatkoznak.",
     "SubtitleAppearanceSettingsDisclaimer": "Ezek a beállítások nem vonatkoznak a grafikus feliratokra (PGS, DVD, stb.) Vagy a saját stílusokkal ellátott feliratokra (ASS / SSA).",
     "SubtitleDownloadersHelp": "Engedélyezd és rangsorold az előnyben részesített feliratok letöltőket sorrendben.",
-    "SubtitleSettings": "Felirat beállítások",
-    "SubtitleSettingsIntro": "Az alapértelmezett felirat megjelenésének és nyelvi beállításainak konfigurálásához állítsd le a videót, majd kattints a felhasználói ikonra az alkalmazás jobb felső részén.",
     "SystemDlnaProfilesHelp": "A rendszerprofilok csak olvashatóak. A rendszerprofil módosításai egy új egyéni profilba kerülnek.",
     "TV": "TV",
     "TabDirectPlay": "Közvetlen lejátszás",
