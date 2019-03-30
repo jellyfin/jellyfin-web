@@ -144,6 +144,13 @@
     flex-grow: 1
 }
 
+.subtitleSyncSliderContainer {
+    width: 12em;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    flex-grow: 1
+}
+
 .osdMediaInfo,
 .volumeButtons {
     display: -webkit-box;

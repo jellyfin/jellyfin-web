@@ -1635,6 +1635,28 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             getPlayerData(player).subtitleStreamIndex = index;
         };
 
+        self.supportSubtitleOffset = function(player) {
+            player = player || self._currentPlayer;
+            return 'setSubtitleOffset' in player;
+        }
+
+        self.isSubtitleStreamExternal = function(index, player) {
+            var stream = getSubtitleStream(player, index);
+            return stream ? getDeliveryMethod(stream) === 'External' : false;
+        }
+
+        self.setSubtitleOffset = function (sliderValue, player) {
+            player = player || self._currentPlayer;
+            player.setSubtitleOffset(self.getOffsetFromSliderValue(sliderValue));
+        };
+
+        self.getOffsetFromSliderValue = function(value) {
+            var offset = (value - 50) / 50;
+            // multiply by offset min/max range value (-x to +x) :
+            offset *= 30;
+            return offset.toFixed(1);
+        };
+
         self.seek = function (ticks, player) {
 
             ticks = Math.max(0, ticks);
