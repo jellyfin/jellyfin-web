@@ -782,7 +782,9 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
      ChromecastPlayer.prototype.volumeDown = function () {
         vol = this._castPlayer.session.receiver.volume.level;
         if (vol == null)
+        {
             vol = 0.5;
+        }
         vol -= 0.02;
         vol = Math.max(vol, 0);
 
@@ -804,7 +806,9 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
     ChromecastPlayer.prototype.volumeUp = function () {
         vol = this._castPlayer.session.receiver.volume.level;
         if (vol == null)
+        {
             vol = 0.5;
+        }
         vol += 0.02;
         vol = Math.min(vol, 1);
 
