@@ -1,10 +1,10 @@
-define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], function (viewcontainer, focusManager, queryString, layoutManager) {
+define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], function (viewContainer, focusManager, queryString, layoutManager) {
     'use strict';
 
     var currentView;
     var dispatchPageEvents;
 
-    viewcontainer.setOnBeforeChange(function (newView, isRestored, options) {
+    viewContainer.setOnBeforeChange(function (newView, isRestored, options) {
 
         var lastView = currentView;
         if (lastView) {
@@ -125,7 +125,7 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
 
     function resetCachedViews() {
         // Reset all cached views whenever the skin changes
-        viewcontainer.reset();
+        viewContainer.reset();
     }
 
     document.addEventListener('skinunload', resetCachedViews);
@@ -146,7 +146,7 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
             return;
         }
 
-        viewcontainer.loadView(options).then(function (view) {
+        viewContainer.loadView(options).then(function (view) {
 
             onViewChange(view, options);
         });
@@ -163,7 +163,7 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
             currentView.activeElement = document.activeElement;
         }
 
-        return viewcontainer.tryRestoreView(options).then(function (view) {
+        return viewContainer.tryRestoreView(options).then(function (view) {
 
             onViewChanging();
             onViewChange(view, options, true);

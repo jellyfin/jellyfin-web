@@ -687,7 +687,7 @@ var AppInfo = {};
             humanedate: "components/humanedate",
             libraryBrowser: "scripts/librarybrowser",
             events: apiClientBowerPath + "/events",
-            credentialprovider: apiClientBowerPath + "/credentials",
+            credentialprovider: apiClientBowerPath + "/credentialprovider",
             connectionManagerFactory: bowerPath + "/apiclient/connectionmanager",
             visibleinviewport: componentsPath + "/visibleinviewport",
             browserdeviceprofile: componentsPath + "/browserdeviceprofile",
@@ -696,7 +696,7 @@ var AppInfo = {};
             qualityoptions: componentsPath + "/qualityoptions",
             hammer: bowerPath + "/hammerjs/hammer.min",
             page: "thirdparty/page",
-            focusManager: componentsPath + "/focusmanager",
+            focusManager: componentsPath + "/focusManager",
             datetime: componentsPath + "/datetime",
             globalize: componentsPath + "/globalize",
             itemHelper: componentsPath + "/itemhelper",
@@ -784,9 +784,8 @@ var AppInfo = {};
         define("refreshDialog", [componentsPath + "/refreshdialog/refreshdialog"], returnFirstDependency);
         define("backdrop", [componentsPath + "/backdrop/backdrop"], returnFirstDependency);
         define("fetchHelper", [componentsPath + "/fetchhelper"], returnFirstDependency);
-        define("roundCardStyle", ["cardStyle", "css!" + componentsPath + "/cardbuilder/roundcard"], returnFirstDependency);
         define("cardStyle", ["css!" + componentsPath + "/cardbuilder/card"], returnFirstDependency);
-        define("cardBuilder", [componentsPath + "/cardbuilder/cardbuilder"], returnFirstDependency);
+        define("cardBuilder", [componentsPath + "/cardbuilder/cardBuilder"], returnFirstDependency);
         define("peoplecardbuilder", [componentsPath + "/cardbuilder/peoplecardbuilder"], returnFirstDependency);
         define("chaptercardbuilder", [componentsPath + "/cardbuilder/chaptercardbuilder"], returnFirstDependency);
         define("flexStyles", ["css!" + componentsPath + "/flexstyles"], returnFirstDependency);
@@ -831,7 +830,6 @@ var AppInfo = {};
         define("viewSettings", [componentsPath + "/viewsettings/viewsettings"], returnFirstDependency);
         define("filterMenu", [componentsPath + "/filtermenu/filtermenu"], returnFirstDependency);
         define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
-        define("connectionmanager", [apiClientBowerPath + "/connectionmanager"]);
         define("serversync", [apiClientBowerPath + "/sync/serversync"], returnFirstDependency);
         define("multiserversync", [apiClientBowerPath + "/sync/multiserversync"], returnFirstDependency);
         define("mediasync", [apiClientBowerPath + "/sync/mediasync"], returnFirstDependency);
@@ -854,7 +852,7 @@ var AppInfo = {};
         define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
         define("navdrawer", ["components/navdrawer/navdrawer"], returnFirstDependency);
         define("htmlMediaHelper", [componentsPath + "/htmlMediaHelper"], returnFirstDependency);
-        define("viewcontainer", ["components/viewContainer"], returnFirstDependency);
+        define("viewContainer", ["components/viewContainer"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
         });
