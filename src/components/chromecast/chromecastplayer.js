@@ -574,8 +574,15 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
 
             events.trigger(instance, "playbackstop", [state]);
 
+            var state = instance.lastPlayerData.PlayState || {};
+            var volume = state.VolumeLevel || 0.5;
+            var mute = state.IsMuted || false;
+
             // Reset this so the next query doesn't make it appear like content is playing.
             instance.lastPlayerData = {};
+            instance.lastPlayerData.PlayState = {};
+            instance.lastPlayerData.PlayState.VolumeLevel = volume;
+            instance.lastPlayerData.PlayState.IsMuted = mute;
         });
 
         events.on(instance._castPlayer, "playbackprogress", function (e, data) {
