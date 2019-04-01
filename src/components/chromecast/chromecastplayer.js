@@ -575,8 +575,8 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
             events.trigger(instance, "playbackstop", [state]);
 
             var state = instance.lastPlayerData.PlayState || {};
-            var volume = state.VolumeLevel;
-            var mute = state.IsMuted;
+            var volume = state.VolumeLevel || 0.5;
+            var mute = state.IsMuted || false;
 
             // Reset this so the next query doesn't make it appear like content is playing.
             instance.lastPlayerData = {};
