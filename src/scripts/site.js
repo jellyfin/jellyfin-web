@@ -844,7 +844,7 @@ var AppInfo = {};
         define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
         define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);
         define("touchHelper", [componentsPath + "/touchhelper"], returnFirstDependency);
-        define("appSettings", [componentsPath + "/appsettings"], returnFirstDependency);
+        define("appSettings", [componentsPath + "/appSettings"], returnFirstDependency);
         define("userSettings", [componentsPath + "/usersettings/usersettings"], returnFirstDependency);
         define("userSettingsBuilder", [componentsPath + "/usersettings/usersettingsbuilder", "layoutManager", "browser"], getSettingsBuilder);
         define("material-icons", ["css!css/material-icons/style"], returnFirstDependency);
