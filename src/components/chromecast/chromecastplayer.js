@@ -786,12 +786,17 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         });
     };
 
-    ChromecastPlayer.prototype.volumeDown = function () {
+     ChromecastPlayer.prototype.volumeDown = function () {
+        vol = this._castPlayer.session.receiver.volume.level;
+        if (vol == null)
+        {
+            vol = 0.5;
+        }
+        vol -= 0.02;
+        vol = Math.max(vol, 0);
 
-        this._castPlayer.sendMessage({
-            options: {},
-            command: 'VolumeDown'
-        });
+        this._castPlayer.session.setReceiverVolumeLevel(vol);
+
     };
 
     ChromecastPlayer.prototype.endSession = function () {
@@ -806,24 +811,24 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
     };
 
     ChromecastPlayer.prototype.volumeUp = function () {
+        vol = this._castPlayer.session.receiver.volume.level;
+        if (vol == null)
+        {
+            vol = 0.5;
+        }
+        vol += 0.02;
+        vol = Math.min(vol, 1);
 
-        this._castPlayer.sendMessage({
-            options: {},
-            command: 'VolumeUp'
-        });
+        this._castPlayer.session.setReceiverVolumeLevel(vol);
     };
 
     ChromecastPlayer.prototype.setVolume = function (vol) {
 
         vol = Math.min(vol, 100);
         vol = Math.max(vol, 0);
-
-        this._castPlayer.sendMessage({
-            options: {
-                volume: vol
-            },
-            command: 'SetVolume'
-        });
+        vol = vol / 100;
+        
+        this._castPlayer.session.setReceiverVolumeLevel(vol);
     };
 
     ChromecastPlayer.prototype.unpause = function () {
