@@ -187,17 +187,17 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
     }
 
     function beforeAnimate(allPages, newPageIndex, oldPageIndex) {
-        for (var i__q = 0, length = allPages.length; i__q < length; i__q++) {
-            if (newPageIndex !== i__q && oldPageIndex !== i__q) {
-                allPages[i__q].classList.add("hide");
+        for (var index = 0, length = allPages.length; index < length; index++) {
+            if (newPageIndex !== index && oldPageIndex !== index) {
+                allPages[index].classList.add("hide");
             }
         }
     }
 
     function afterAnimate(allPages, newPageIndex) {
-        for (var i__w = 0, length = allPages.length; i__w < length; i__w++) {
-            if (newPageIndex !== i__w) {
-                allPages[i__w].classList.add("hide");
+        for (var index = 0, length = allPages.length; index < length; index++) {
+            if (newPageIndex !== index) {
+                allPages[index].classList.add("hide");
             }
         }
     }
