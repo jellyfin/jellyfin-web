@@ -41,98 +41,85 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
             var isPluginpage = -1 !== options.url.toLowerCase().indexOf("/configurationpage");
             var newViewInfo = normalizeNewView(options, isPluginpage);
             var newView = newViewInfo.elem;
-            var dependencies = "string" == typeof newView ? null : newView.getAttribute("data-require");
-            dependencies = dependencies ? dependencies.split(",") : [];
+
 
             if (isPluginpage) {
-                dependencies.push("legacy/dashboard");
+                require(["legacy/dashboard"]);
             }
 
             if (newViewInfo.hasjQuerySelect) {
-                dependencies.push("legacy/selectmenu");
+                require(["legacy/selectmenu"]);
             }
 
             if (newViewInfo.hasjQueryChecked) {
-                dependencies.push("fnchecked");
+                require(["fnchecked"]);
             }
 
-            if (newViewInfo.hasjQuery) {
-                dependencies.push("jQuery");
-            }
+            return new Promise(function (resolve) {
+                var currentPage = allPages[pageIndex];
 
-            if (isPluginpage || newView.classList && newView.classList.contains("type-interior")) {
-                dependencies.push("dashboardcss");
-            }
+                if (currentPage) {
+                    triggerDestroy(currentPage);
+                }
 
-            return new Promise(function (resolve, reject) {
-                dependencies.join(",");
+                var view = newView;
 
-                require(dependencies, function () {
-                    var currentPage = allPages[pageIndex];
+                if ("string" == typeof view) {
+                    view = document.createElement("div");
+                    view.innerHTML = newView;
+                }
 
-                    if (currentPage) {
-                        triggerDestroy(currentPage);
-                    }
+                view.classList.add("mainAnimatedPage");
 
-                    var view = newView;
-
-                    if ("string" == typeof view) {
-                        view = document.createElement("div");
-                        view.innerHTML = newView;
-                    }
-
-                    view.classList.add("mainAnimatedPage");
-
-                    if (currentPage) {
-                        if (newViewInfo.hasScript && window.$) {
-                            view = $(view).appendTo(mainAnimatedPages)[0];
-                            mainAnimatedPages.removeChild(currentPage);
-                        } else {
-                            mainAnimatedPages.replaceChild(view, currentPage);
-                        }
+                if (currentPage) {
+                    if (newViewInfo.hasScript && window.$) {
+                        view = $(view).appendTo(mainAnimatedPages)[0];
+                        mainAnimatedPages.removeChild(currentPage);
                     } else {
-                        if (newViewInfo.hasScript && window.$) {
-                            view = $(view).appendTo(mainAnimatedPages)[0];
-                        } else {
-                            mainAnimatedPages.appendChild(view);
-                        }
+                        mainAnimatedPages.replaceChild(view, currentPage);
+                    }
+                } else {
+                    if (newViewInfo.hasScript && window.$) {
+                        view = $(view).appendTo(mainAnimatedPages)[0];
+                    } else {
+                        mainAnimatedPages.appendChild(view);
+                    }
+                }
+
+                if (options.type) {
+                    view.setAttribute("data-type", options.type);
+                }
+
+                var properties = [];
+
+                if (options.fullscreen) {
+                    properties.push("fullscreen");
+                }
+
+                if (properties.length) {
+                    view.setAttribute("data-properties", properties.join(","));
+                }
+
+                allPages[pageIndex] = view;
+                setControllerClass(view, options).then(function () {
+                    if (onBeforeChange) {
+                        onBeforeChange(view, false, options);
                     }
 
-                    if (options.type) {
-                        view.setAttribute("data-type", options.type);
+                    beforeAnimate(allPages, pageIndex, selected);
+                    selectedPageIndex = pageIndex;
+                    currentUrls[pageIndex] = options.url;
+
+                    if (!options.cancel && previousAnimatable) {
+                        afterAnimate(allPages, pageIndex);
                     }
 
-                    var properties = [];
-
-                    if (options.fullscreen) {
-                        properties.push("fullscreen");
+                    if (window.$) {
+                        $.mobile = $.mobile || {};
+                        $.mobile.activePage = view;
                     }
 
-                    if (properties.length) {
-                        view.setAttribute("data-properties", properties.join(","));
-                    }
-
-                    allPages[pageIndex] = view;
-                    setControllerClass(view, options).then(function () {
-                        if (onBeforeChange) {
-                            onBeforeChange(view, false, options);
-                        }
-
-                        beforeAnimate(allPages, pageIndex, selected);
-                        selectedPageIndex = pageIndex;
-                        currentUrls[pageIndex] = options.url;
-
-                        if (!options.cancel && previousAnimatable) {
-                            afterAnimate(allPages, pageIndex);
-                        }
-
-                        if (window.$) {
-                            $.mobile = $.mobile || {};
-                            $.mobile.activePage = view;
-                        }
-
-                        resolve(view);
-                    });
+                    resolve(view);
                 });
             });
         }
