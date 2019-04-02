@@ -2188,5 +2188,11 @@
     "XmlTvSportsCategoriesHelp": "Los programas con estas categorías serán mostrados como programas deportivos. Separe varios con un \"|\".",
     "Yes": "Sí",
     "Yesterday": "Ayer",
-    "Actor": "Actor"
+    "Actor": "Actor",
+    "Audio": "Audio",
+    "Auto": "Auto",
+    "ButtonInfo": "Info",
+    "ButtonNo": "No",
+    "ButtonOk": "Ok",
+    "ButtonTrailer": "Trailer"
 }
