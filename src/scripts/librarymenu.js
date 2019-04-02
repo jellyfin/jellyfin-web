@@ -362,7 +362,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             name: globalize.translate("TabPlugins"),
             icon: "shopping_cart",
             color: "#9D22B1",
-            href: "plugins.html",
+            href: "installedplugins.html",
             pageIds: ["pluginsPage", "pluginCatalogPage"]
         });
         links.push({

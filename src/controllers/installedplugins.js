@@ -88,7 +88,7 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
         } else {
             html += '<div style="padding:5px;">';
             html += "<p>" + globalize.translate("MessageNoPluginsInstalled") + "</p>";
-            html += '<p><a is="emby-linkbutton" class="button-link" href="plugincatalog.html">';
+            html += '<p><a is="emby-linkbutton" class="button-link" href="availableplugins.html">';
             html += globalize.translate("BrowsePluginCatalogMessage");
             html += "</a></p>";
             html += "</div>";
@@ -141,10 +141,10 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
 
     function getTabs() {
         return [{
-            href: "plugins.html",
+            href: "installedplugins.html",
             name: globalize.translate("TabMyPlugins")
         }, {
-            href: "plugincatalog.html",
+            href: "availableplugins.html",
             name: globalize.translate("TabCatalog")
         }]
     }
