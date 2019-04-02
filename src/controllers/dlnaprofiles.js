@@ -54,6 +54,7 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
             name: globalize.translate("TabProfiles")
         }]
     }
+
     $(document).on("pageshow", "#dlnaProfilesPage", function() {
         libraryMenu.setTabs("dlna", 1, getTabs), loadProfiles(this)
     })

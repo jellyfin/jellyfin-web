@@ -21,7 +21,7 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
         if (!newView.initComplete) {
             newView.initComplete = true;
 
-            if (options.controllerFactory) {
+            if (typeof options.controllerFactory === 'function') {
 
                 // Use controller method
                 var controller = new options.controllerFactory(newView, eventDetail.detail.params);
