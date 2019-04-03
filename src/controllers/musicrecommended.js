@@ -41,7 +41,6 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                 overlayPlayButton: !supportsImageAnalysis,
                 allowBottomPadding: !enableScrollX(),
                 cardLayout: supportsImageAnalysis,
-                vibrant: supportsImageAnalysis,
                 coverImage: !0
             }), imageLoader.lazyChildren(elem), loading.hide()
         })
@@ -78,7 +77,6 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                 overlayMoreButton: !supportsImageAnalysis,
                 allowBottomPadding: !enableScrollX(),
                 cardLayout: supportsImageAnalysis,
-                vibrant: supportsImageAnalysis,
                 coverImage: !0
             }), imageLoader.lazyChildren(itemsContainer)
         })
@@ -115,7 +113,6 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                 overlayMoreButton: !supportsImageAnalysis,
                 allowBottomPadding: !enableScrollX(),
                 cardLayout: supportsImageAnalysis,
-                vibrant: supportsImageAnalysis,
                 coverImage: !0
             }), imageLoader.lazyChildren(itemsContainer)
         })

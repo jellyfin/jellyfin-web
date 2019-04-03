@@ -30,139 +30,12 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
     function fillImageElement(elem, source, enableEffects) {
         imageFetcher.loadImage(elem, source).then(function () {
 
-            var fillingVibrant = false;//fillVibrant(elem, source);
-
-            if (enableFade && enableEffects !== false && !fillingVibrant) {
+            if (enableFade && enableEffects !== false) {
                 fadeIn(elem);
             }
 
             elem.removeAttribute("data-src");
         });
-    }
-
-    function fillVibrant(img, url, canvas, canvasContext) {
-
-        var vibrantElement = img.getAttribute('data-vibrant');
-        if (!vibrantElement) {
-            return false;
-        }
-
-        if (window.Vibrant) {
-            fillVibrantOnLoaded(img, url, vibrantElement, canvas, canvasContext);
-            return true;
-        }
-
-        require(['vibrant'], function () {
-            fillVibrantOnLoaded(img, url, vibrantElement, canvas, canvasContext);
-        });
-        return true;
-    }
-
-    function fillVibrantOnLoaded(img, url, vibrantElement) {
-
-        vibrantElement = document.getElementById(vibrantElement);
-        if (!vibrantElement) {
-            return;
-        }
-
-        requestIdleCallback(function () {
-
-            //var now = new Date().getTime();
-            getVibrantInfoFromElement(img, url).then(function (vibrantInfo) {
-
-                var swatch = vibrantInfo.split('|');
-                //console.log('vibrant took ' + (new Date().getTime() - now) + 'ms');
-                if (swatch.length) {
-
-                    var index = 0;
-                    var style = vibrantElement.style;
-                    style.backgroundColor = swatch[index];
-                    style.color = swatch[index + 1];
-
-                    var classList = vibrantElement.classList;
-
-                    if (classList.contains('cardFooter')) {
-                        classList.add('cardFooter-vibrant');
-                    } else {
-                        classList.add('vibrant');
-                    }
-                }
-            });
-        });
-        /*
-         * Results into:
-         * Vibrant #7a4426
-         * Muted #7b9eae
-         * DarkVibrant #348945
-         * DarkMuted #141414
-         * LightVibrant #f3ccb4
-         */
-    }
-
-    function getVibrantInfoFromElement(elem, url) {
-
-        return new Promise(function (resolve, reject) {
-
-            require(['vibrant'], function () {
-
-                if (elem.tagName === 'IMG') {
-                    resolve(getVibrantInfo(elem, url));
-                    return;
-                }
-
-                var img = new Image();
-                img.onload = function () {
-                    resolve(getVibrantInfo(img, url));
-                };
-                img.src = url;
-            });
-        });
-    }
-
-    function getSettingsKey(url) {
-
-        var parts = url.split('://');
-        url = parts[parts.length - 1];
-
-        url = url.substring(url.indexOf('/') + 1);
-
-        url = url.split('?')[0];
-
-        var cacheKey = 'vibrant31';
-        //cacheKey = 'vibrant' + new Date().getTime();
-        return cacheKey + url;
-    }
-
-    function getCachedVibrantInfo(url) {
-
-        return appSettings.get(getSettingsKey(url));
-    }
-
-    function getVibrantInfo(img, url) {
-
-        var value = getCachedVibrantInfo(url);
-        if (value) {
-            return value;
-        }
-
-        var vibrant = new Vibrant(img);
-        var swatches = vibrant.swatches();
-
-        value = '';
-        var swatch = swatches.DarkVibrant;
-        value += getSwatchString(swatch);
-
-        appSettings.set(getSettingsKey(url), value);
-
-        return value;
-    }
-
-    function getSwatchString(swatch) {
-
-        if (swatch) {
-            return swatch.getHex() + '|' + swatch.getBodyTextColor() + '|' + swatch.getTitleTextColor();
-        }
-        return '||';
     }
 
     function fadeIn(elem) {
@@ -248,8 +121,6 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
     self.lazyImage = fillImage;
     self.lazyChildren = lazyChildren;
     self.getPrimaryImageAspectRatio = getPrimaryImageAspectRatio;
-    self.getCachedVibrantInfo = getCachedVibrantInfo;
-    self.getVibrantInfoFromElement = getVibrantInfoFromElement;
 
     return self;
 });

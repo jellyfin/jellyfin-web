@@ -132,8 +132,7 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
                     overlayMoreButton: section.overlayMoreButton && !cardLayout,
                     action: section.action,
                     allowBottomPadding: !enableScrollX(),
-                    cardLayout: cardLayout,
-                    vibrant: supportsImageAnalysis && cardLayout
+                    cardLayout: cardLayout
                 }), html += "</div>"
             }
             elem.innerHTML = html, imageLoader.lazyChildren(elem)

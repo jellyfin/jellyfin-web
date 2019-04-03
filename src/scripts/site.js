@@ -673,7 +673,6 @@ var AppInfo = {};
         var componentsPath = "components";
         var paths = {
             velocity: bowerPath + "/velocity/velocity.min",
-            vibrant: bowerPath + "/vibrant/dist/vibrant",
             ironCardList: "components/ironcardlist/ironcardlist",
             scrollThreshold: "components/scrollthreshold",
             playlisteditor: "components/playlisteditor/playlisteditor",
