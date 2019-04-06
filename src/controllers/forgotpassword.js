@@ -14,7 +14,7 @@ define([], function() {
             var msg = Globalize.translate("MessageForgotPasswordFileCreated");
             return msg += "<br/>", msg += "<br/>", msg += "Enter PIN here to finish Password Reset<br/>" ,msg += "<br/>",msg += result.PinFile, msg += "<br/>", void Dashboard.alert({
                 message: msg,
-                title: Globalize.translate("HeaderForgotPassword")
+                title: Globalize.translate("HeaderForgotPassword"),
                 callback: function() {
                     Dashboard.navigate("forgotpasswordpin.html")
                 }
