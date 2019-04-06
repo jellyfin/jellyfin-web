@@ -284,12 +284,6 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
             getTabController(page, index, function (controller) {
                 initialTabIndex = null;
 
-                if (1 === index) {
-                    document.body.classList.add("autoScrollY");
-                } else {
-                    document.body.classList.remove("autoScrollY");
-                }
-
                 if (-1 == renderedTabs.indexOf(index)) {
                     if (1 === index) {
                         renderedTabs.push(index);
@@ -362,7 +356,6 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
             if (currentTabController && currentTabController.onHide) {
                 currentTabController.onHide();
             }
-            document.body.classList.remove("autoScrollY");
             inputManager.off(window, onInputCommand);
         });
         view.addEventListener("viewdestroy", function (evt) {

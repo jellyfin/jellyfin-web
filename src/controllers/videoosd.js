@@ -1169,7 +1169,6 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             dom.addEventListener(document, window.PointerEvent ? "pointermove" : "mousemove", onPointerMove, {
                 passive: true
             });
-            document.body.classList.add("autoScrollY");
             showOsd();
             inputManager.on(window, onInputCommand);
             dom.addEventListener(window, "keydown", onWindowKeyDown, {
@@ -1190,7 +1189,6 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             dom.removeEventListener(document, window.PointerEvent ? "pointermove" : "mousemove", onPointerMove, {
                 passive: true
             });
-            document.body.classList.remove("autoScrollY");
             inputManager.off(window, onInputCommand);
             events.off(playbackManager, "playerchange", onPlayerChange);
             releaseCurrentPlayer();
