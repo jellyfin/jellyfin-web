@@ -1,4 +1,4 @@
-define(["appSettings", "dom", "connectionManager", "loading", "cardStyle", "emby-checkbox"], function(appSettings, dom, connectionManager, loading) {
+define(["apphost", "appSettings", "dom", "connectionManager", "loading", "cardStyle", "emby-checkbox"], function(appHost, appSettings, dom, connectionManager, loading) {
     "use strict";
 
     function authenticateUserByName(page, apiClient, username, password) {
@@ -140,6 +140,9 @@ define(["appSettings", "dom", "connectionManager", "loading", "cardStyle", "emby
 
         view.addEventListener("viewshow", function(e) {
             loading.show();
+            if (!appHost.supports('multiserver')) {
+                view.querySelector(".btnSelectServer").classList.add("hide");
+            }
             var apiClient = getApiClient();
             apiClient.getPublicUsers().then(function(users) {
                 if (users.length) {
