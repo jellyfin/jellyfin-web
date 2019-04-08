@@ -188,6 +188,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var currentAssRenderer;
         var customTrackIndex = -1;
 
+        var showTrackOffset = false;
         var currentTrackOffset;
 
         var videoSubtitlesElem;
@@ -545,6 +546,18 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             setCurrentTrackElement(index);
         };
 
+        self.enableShowingSubtitleOffset = function() {
+            showTrackOffset = true;
+        }
+
+        self.disableShowingSubtitleOffset = function() {
+            showTrackOffset = false;
+        }
+
+        self.isShowingSubtitleOffsetEnabled = function() {
+            return showTrackOffset;
+        }
+
         self.setSubtitleOffset = function(offset) {
 
             var offsetValue = parseFloat(offset);
@@ -552,7 +565,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
 
             Array.from(videoElement.textTracks)
-            .filter(trackElement => {
+            .filter((trackElement) => {
                 if (customTrackIndex === -1 ) {
                     // get showing .vtt textTacks
                     return trackElement.mode === 'showing';
@@ -563,7 +576,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             })
             .forEach(trackElement => {
 
-                var track = mediaStreamTextTracks.filter(stream => {
+                var track = mediaStreamTextTracks.filter((stream) => {
                     return ("textTrack" + stream.Index) === trackElement.id;
                 })[0];
 
@@ -596,12 +609,16 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             if(currentTrack.cues) {
                 Array.from(currentTrack.cues)
-                .forEach(cue => {
+                .forEach((cue) => {
                     cue.startTime -= offsetValue;
                     cue.endTime -= offsetValue;
                 });
             }
 
+        }
+
+        self.getSubtitleOffset = function() {
+            return currentTrackOffset;
         }
 
         function isAudioStreamSupported(stream, deviceProfile) {
