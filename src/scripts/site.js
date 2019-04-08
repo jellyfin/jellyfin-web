@@ -758,6 +758,7 @@ var AppInfo = {};
         define("recordingButton", [componentsPath + "/recordingcreator/recordingbutton"], returnFirstDependency);
         define("recordingHelper", [componentsPath + "/recordingcreator/recordinghelper"], returnFirstDependency);
         define("subtitleEditor", [componentsPath + "/subtitleeditor/subtitleeditor"], returnFirstDependency);
+        define("subtitleSync", [componentsPath + "/subtitlesync/subtitlesync"], returnFirstDependency);
         define("itemIdentifier", [componentsPath + "/itemidentifier/itemidentifier"], returnFirstDependency);
         define("mediaInfo", [componentsPath + "/mediainfo/mediainfo"], returnFirstDependency);
         define("itemContextMenu", [componentsPath + "/itemcontextmenu"], returnFirstDependency);

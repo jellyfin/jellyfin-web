@@ -1637,7 +1637,22 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         self.supportSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
-            return 'setSubtitleOffset' in player;
+            return player && 'setSubtitleOffset' in player;
+        }
+
+        self.enableShowingSubtitleOffset = function(player) {
+            player = player || self._currentPlayer;
+            player.enableShowingSubtitleOffset();
+        }
+
+        self.disableShowingSubtitleOffset = function(player) {
+            player = player || self._currentPlayer;
+            player.disableShowingSubtitleOffset();
+        }
+
+        self.isShowingSubtitleOffsetEnabled = function(player) {
+            player = player || self._currentPlayer;
+            return player.isShowingSubtitleOffsetEnabled();
         }
 
         self.isSubtitleStreamExternal = function(index, player) {
@@ -1645,17 +1660,20 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             return stream ? getDeliveryMethod(stream) === 'External' : false;
         }
 
-        self.setSubtitleOffset = function (sliderValue, player) {
+        self.setSubtitleOffset = function (value, player) {
             player = player || self._currentPlayer;
-            player.setSubtitleOffset(self.getOffsetFromSliderValue(sliderValue));
+            player.setSubtitleOffset(value);
         };
 
-        self.getOffsetFromSliderValue = function(value) {
-            var offset = (value - 50) / 50;
-            // multiply by offset min/max range value (-x to +x) :
-            offset *= 30;
-            return offset.toFixed(1);
-        };
+        self.getPlayerSubtitleOffset = function(player) {
+            player = player || self._currentPlayer;
+            return player.getSubtitleOffset();
+        }
+
+        self.canHandleOffsetOnCurrentSubtitle = function(player) {
+            var index = self.getSubtitleStreamIndex(player);
+            return index !== -1  && self.isSubtitleStreamExternal(index, player);
+        }
 
         self.seek = function (ticks, player) {
 

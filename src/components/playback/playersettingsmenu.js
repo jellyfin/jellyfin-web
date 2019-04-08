@@ -231,6 +231,15 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             });
         }
 
+        if (options.suboffset) {
+
+            menuItems.push({
+                name: globalize.translate('SubtitleOffset'),
+                id: 'suboffset',
+                asideText: null
+            });
+        }
+
         menuItems.push({
             name: globalize.translate('SubtitleSettings'),
             id: 'subtitlesettings'
@@ -300,6 +309,11 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             case 'stats':
                 if (options.onOption) {
                     options.onOption('stats');
+                }
+                return Promise.resolve();
+            case 'suboffset':
+                if (options.onOption) {
+                    options.onOption('suboffset');
                 }
                 return Promise.resolve();
             default:

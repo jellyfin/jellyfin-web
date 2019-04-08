@@ -280,7 +280,6 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                 btnFastForward.disabled = true;
                 btnRewind.disabled = true;
                 view.querySelector(".btnSubtitles").classList.add("hide");
-                view.querySelector(".subtitleSyncSliderContainer").classList.add("hide");
                 view.querySelector(".btnAudio").classList.add("hide");
                 view.querySelector(".osdTitle").innerHTML = "";
                 view.querySelector(".osdMediaInfo").innerHTML = "";
@@ -296,23 +295,10 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
 
             if (playbackManager.subtitleTracks(player).length) {
                 view.querySelector(".btnSubtitles").classList.remove("hide");
-
-                if(playbackManager.supportSubtitleOffset()) {
-                    var index = playbackManager.getSubtitleStreamIndex(player);
-                    // if there is an external subtitle stream enabled
-                    if(index !== -1  && playbackManager.isSubtitleStreamExternal(index, player)){
-                        // show subtitle sync slider
-                        subtitleSyncSliderContainer.classList.remove("hide");
-                    }else{
-                        // hide subtitle sync slider
-                        subtitleSyncSliderContainer.classList.add("hide");
-                    }
-                }
-
+                toggleSubtitleSync();
             } else {
                 view.querySelector(".btnSubtitles").classList.add("hide");
-                // hide subtitle sync slider
-                subtitleSyncSliderContainer.classList.add("hide");
+                toggleSubtitleSync("forceToHide");
             }
 
             if (playbackManager.audioTracks(player).length > 1) {
@@ -435,6 +421,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                         focusManager.focus(elem.querySelector(".btnPause"));
                     }, 50);
                 }
+                toggleSubtitleSync();
             }
         }
 
@@ -447,6 +434,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                     once: true
                 });
                 currentVisibleMenu = null;
+                toggleSubtitleSync("hide");
             }
         }
 
@@ -638,6 +626,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
 
         function releaseCurrentPlayer() {
             destroyStats();
+            destroySubtitleSync();
             resetUpNextDialog();
             var player = currentPlayer;
 
@@ -913,11 +902,17 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                 var player = currentPlayer;
 
                 if (player) {
+
+                    // show subtitle offset feature only if player and media support it
+                    var showSubOffset = playbackManager.supportSubtitleOffset(player) && 
+                        playbackManager.canHandleOffsetOnCurrentSubtitle(player);
+
                     playerSettingsMenu.show({
                         mediaType: "Video",
                         player: player,
                         positionTo: btn,
                         stats: true,
+                        suboffset: showSubOffset,
                         onOption: onSettingsOption
                     });
                 }
@@ -927,6 +922,12 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         function onSettingsOption(selectedOption) {
             if ("stats" === selectedOption) {
                 toggleStats();
+            } else if ("suboffset" === selectedOption) {
+                var player = currentPlayer;
+                if (player) {
+                    playbackManager.enableShowingSubtitleOffset(player);
+                    toggleSubtitleSync();
+                }
             }
         }
 
@@ -1024,30 +1025,28 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                     if (index !== currentIndex) {
                         playbackManager.setSubtitleStreamIndex(index, player);
                     }
-                    return id;
 
-                }).then(function (id) {
-                    var index = parseInt(id);
-                    // on subtitle stream change
-                    if (playbackManager.supportSubtitleOffset() && index !== currentIndex) {
-
-                        /// if there is an external subtitle stream enabled
-                        if (index !== -1 && playbackManager.isSubtitleStreamExternal(index, player)){
-
-                            // set default offset to '0' (slider's middle value)
-                            var subtitleSyncSliderMiddleValue = 50;
-                            subtitleSyncSlider.value = subtitleSyncSliderMiddleValue.toString();
-                            playbackManager.setSubtitleOffset(subtitleSyncSliderMiddleValue, player);
-
-                            // show subtitle sync slider
-                            subtitleSyncSliderContainer.classList.remove("hide");
-                        } else {
-                            // hide subtitle sync slider
-                            subtitleSyncSliderContainer.classList.add("hide");
-                        }
-                    }
+                    toggleSubtitleSync();                    
                 });
             });
+        }
+
+        function toggleSubtitleSync(action) {
+            require(["subtitleSync"], function (SubtitleSync) {
+                var player = currentPlayer;
+                if (subtitleSyncOverlay) {
+                    subtitleSyncOverlay.toggle(action);
+                } else if(player){
+                    subtitleSyncOverlay = new SubtitleSync(player);
+                }
+            });
+        }
+
+        function destroySubtitleSync() {
+            if (subtitleSyncOverlay) {
+                subtitleSyncOverlay.destroy();
+                subtitleSyncOverlay = null;
+            }
         }
 
         function onWindowKeyDown(e) {
@@ -1184,8 +1183,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         var programStartDateMs = 0;
         var programEndDateMs = 0;
         var playbackStartTimeTicks = 0;
-        var subtitleSyncSlider = view.querySelector(".subtitleSyncSlider");
-        var subtitleSyncSliderContainer = view.querySelector(".subtitleSyncSliderContainer");
+        var subtitleSyncOverlay;
         var nowPlayingVolumeSlider = view.querySelector(".osdVolumeSlider");
         var nowPlayingVolumeSliderContainer = view.querySelector(".osdVolumeSliderContainer");
         var nowPlayingPositionSlider = view.querySelector(".osdPositionSlider");
@@ -1257,6 +1255,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             }
 
             destroyStats();
+            destroySubtitleSync();
         });
         var lastPointerDown = 0;
         dom.addEventListener(view, window.PointerEvent ? "pointerdown" : "click", function (e) {
@@ -1308,20 +1307,6 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         nowPlayingVolumeSlider.addEventListener("touchmove", function () {
             playbackManager.setVolume(this.value, currentPlayer);
         });
-
-        subtitleSyncSlider.addEventListener("change", function () {
-            playbackManager.setSubtitleOffset(this.value, currentPlayer);
-        });
-        subtitleSyncSlider.addEventListener("touchmove", function () {
-            playbackManager.setSubtitleOffset(this.value, currentPlayer);
-        });
-
-        subtitleSyncSlider.getBubbleHtml = function (value) {
-            var newOffset = playbackManager.getOffsetFromSliderValue(value);
-            return '<h1 class="sliderBubbleText">' +
-            (newOffset > 0 ? "+" : "") + parseFloat(newOffset) + "s" +
-            "</h1>";
-        };
 
         nowPlayingPositionSlider.addEventListener("change", function () {
             var player = currentPlayer;
