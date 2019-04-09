@@ -2186,5 +2186,17 @@
     "Option3D": "3D",
     "Option3Player": "3+",
     "Option4Player": "4+",
-    "OptionActor": "Actor"
+    "OptionActor": "Actor",
+    "OptionAuto": "Automático",
+    "OptionAutomatic": "Automático",
+    "OptionBanner": "Cabecera",
+    "OptionBeta": "Beta",
+    "OptionBlockTrailers": "Tráilers",
+    "OptionBluray": "Bluray",
+    "OptionDirector": "Director",
+    "OptionDownloadLogoImage": "Logo",
+    "OptionDvd": "DVD",
+    "OptionHasTrailer": "Tráiler",
+    "OptionIsHD": "HD",
+    "OptionIsSD": "SD"
 }
