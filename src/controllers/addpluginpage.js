@@ -85,7 +85,7 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
                     loading.hide(), alertText(globalize.translate("PluginInstalledMessage"))
                 }))
             };
-        if ("luke" != developer && "ebr" != developer) {
+        if ("jellyfin" != developer) {
             loading.hide();
             var msg = globalize.translate("MessagePluginInstallDisclaimer");
             msg += "<br/>", msg += "<br/>", msg += globalize.translate("PleaseConfirmPluginInstallation"), require(["confirm"], function(confirm) {
