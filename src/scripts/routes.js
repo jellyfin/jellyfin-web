@@ -284,15 +284,16 @@ define([
         roles: "admin"
     });
     defineRoute({
-        path: "/plugincatalog.html",
+        path: "/availableplugins.html",
         autoFocus: false,
         roles: "admin",
-        controller: "plugincatalogpage"
+        controller: "availableplugins"
     });
     defineRoute({
-        path: "/plugins.html",
+        path: "/installedplugins.html",
         autoFocus: false,
-        roles: "admin"
+        roles: "admin",
+        controller: "installedplugins"
     });
     defineRoute({
         path: "/scheduledtask.html",

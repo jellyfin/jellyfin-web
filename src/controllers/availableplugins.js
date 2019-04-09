@@ -3,7 +3,7 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
 
     function reloadList(page) {
         loading.show();
-        var promise1 = ApiClient.getAvailablePlugins(query);
+        var promise1 = ApiClient.getAvailablePlugins();
         var promise2 = ApiClient.getInstalledPlugins();
         Promise.all([promise1, promise2]).then(function (responses) {
             populateList({
@@ -33,19 +33,15 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
     function populateList(options) {
         var availablePlugins = options.availablePlugins;
         var installedPlugins = options.installedPlugins;
-        var allPlugins = availablePlugins.filter(function (plugin) {
-            plugin.category = plugin.category || "General";
-            plugin.categoryDisplayName = getHeaderText(plugin.category);
 
-            if (!options.categories || -1 != options.categories.indexOf(plugin.category)) {
-                if (!options.targetSystem || plugin.targetSystem == options.targetSystem) {
-                    return "UserInstalled" == plugin.type;
-                }
-            }
-            return false;
+        var categories = [];
+        availablePlugins.forEach(function (plugin, index, array) {
+            plugin.category = plugin.category || 'General';
+            plugin.categoryDisplayName = getHeaderText(plugin.category);
+            array[index] = plugin;
         });
 
-        availablePlugins = allPlugins.sort(function (a, b) {
+        availablePlugins.sort(function (a, b) {
             if (a.category > b.category) {
                 return 1;
             } else if (b.category > a.category) {
@@ -59,45 +55,29 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
             return 0;
         });
 
-        var length;
-        var plugin;
-        var currentCategory;
+        var currentCategory = null;
         var html = "";
 
-        var hasOpenTag = false;
-        currentCategory = null;
-        if (options.showCategory === false) {
-            html += '<div class="itemsContainer vertical-wrap">';
-            hasOpenTag = true;
-        }
         for (var i = 0; i < availablePlugins.length; i++) {
-            plugin = availablePlugins[i];
+            var plugin = availablePlugins[i];
             var category = plugin.categoryDisplayName;
-
             if (category != currentCategory) {
-                if (false !== options.showCategory) {
-                    if (currentCategory) {
-                        hasOpenTag = false;
-                        html += "</div>";
-                        html += "</div>";
-                    }
-                    html += '<div class="verticalSection">';
-                    html += '<h2 class="sectionTitle sectionTitle-cards">' + category + "</h2>";
-                    html += '<div class="itemsContainer vertical-wrap">';
-                    hasOpenTag = true;
+                if (currentCategory) {
+                    html += "</div>";
+                    html += "</div>";
                 }
+                html += '<div class="verticalSection">';
+                html += '<h2 class="sectionTitle sectionTitle-cards">' + category + "</h2>";
+                html += '<div class="itemsContainer vertical-wrap">';
                 currentCategory = category;
             }
             html += getPluginHtml(plugin, options, installedPlugins);
         }
-
-        if (hasOpenTag) {
-            html += "</div>";
-            html += "</div>";
-        }
+        html += "</div>";
+        html += "</div>";
 
         if (!availablePlugins.length && options.noItemsElement) {
-            options.noItemsElement.classList.add("hide");
+            options.noItemsElement.classList.remove("hide");
         }
 
         options.catalogElement.innerHTML = html;
@@ -145,29 +125,19 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
 
     function getTabs() {
         return [{
-            href: "plugins.html",
+            href: "installedplugins.html",
             name: globalize.translate("TabMyPlugins")
         }, {
-            href: "plugincatalog.html",
+            href: "availableplugins.html",
             name: globalize.translate("TabCatalog")
         }];
     }
-
-    var query = {
-        TargetSystems: "Server",
-        IsAppStoreSafe: true,
-        IsAdult: false
-    };
 
     window.PluginCatalog = {
         renderCatalog: populateList
     };
 
     return function (view, params) {
-        view.querySelector("#selectSystem").addEventListener("change", function () {
-            query.TargetSystems = this.value;
-            reloadList(view);
-        });
         view.addEventListener("viewshow", function () {
             libraryMenu.setTabs("plugins", 1, getTabs);
             reloadList(this);
