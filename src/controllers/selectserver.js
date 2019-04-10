@@ -1,4 +1,4 @@
-define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focusManager", "connectionManager", "backdrop", "globalize", "staticBackdrops", "actionsheet", "dom", "material-icons", "flexStyles", "emby-scroller", "emby-itemscontainer", "cardStyle", "emby-button"], function(loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, backdrop, globalize, staticBackdrops, actionSheet, dom) {
+define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focusManager", "connectionManager", "globalize", "actionsheet", "dom", "material-icons", "flexStyles", "emby-scroller", "emby-itemscontainer", "cardStyle", "emby-button"], function(loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom) {
     "use strict";
 
     function renderSelectServerItems(view, servers) {
@@ -117,11 +117,9 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
         var servers;
         layoutManager.desktop;
         updatePageStyle(view, params);
-        var backdropUrl = staticBackdrops.getRandomImageUrl();
         view.addEventListener("viewshow", function(e) {
             var isRestored = e.detail.isRestored;
             appRouter.setTitle(null);
-            backdrop.setBackdrop(backdropUrl);
             if (!isRestored) loadServers();
         }), view.querySelector(".servers").addEventListener("click", function(e) {
             var card = dom.parentWithClass(e.target, "card");
