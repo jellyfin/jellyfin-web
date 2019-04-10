@@ -43,7 +43,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
         }).join("");
         var itemsContainer = view.querySelector(".servers");
         if (!items.length) {
-            html = '<p>' + globalize.translate("MessageNoServersAvailableToConnect") + "</p>";
+            html = '<p>' + globalize.translate("MessageNoServersAvailable") + "</p>";
         }
         itemsContainer.innerHTML = html;
         loading.hide();
