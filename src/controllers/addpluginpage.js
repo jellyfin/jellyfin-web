@@ -133,9 +133,9 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
                             message: globalize.translate("MessageAlreadyInstalled"),
                             title: globalize.translate("HeaderPluginInstallation")
                         });
-                    } else {
-                        performInstallation(page, name, guid, vals[1], version);
                     }
+                } else {
+                    performInstallation(page, name, guid, vals[1], version);
                 }
             });
             return false;
