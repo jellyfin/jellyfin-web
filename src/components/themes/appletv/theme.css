@@ -444,3 +444,8 @@ html {
 .card:focus .card-focuscontent {
     border-color: #00a4dc
 }
+
+.mediaInfoOfficialRating {
+    border: .09em solid #039BE5;
+    background-color: #e4e4e4
+}

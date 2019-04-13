@@ -436,3 +436,8 @@ html {
 .timeslotHeaders-desktop::-webkit-scrollbar {
     height: .7em
 }
+
+.mediaInfoOfficialRating {
+    border: .09em solid #039BE5;
+    background-color: #011432
+}

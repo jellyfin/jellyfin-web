@@ -447,3 +447,8 @@ html {
     -webkit-border-radius: 2px;
     background: center no-repeat #888
 }
+
+.mediaInfoOfficialRating {
+    border: .09em solid #039BE5;
+    background-color: #011432
+}
