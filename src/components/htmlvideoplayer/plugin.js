@@ -565,7 +565,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
 
             Array.from(videoElement.textTracks)
-            .filter((trackElement) => {
+            .filter(function(trackElement) {
                 if (customTrackIndex === -1 ) {
                     // get showing .vtt textTacks
                     return trackElement.mode === 'showing';
@@ -574,9 +574,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     return ("textTrack" + customTrackIndex) === trackElement.id;
                 }
             })
-            .forEach(trackElement => {
+            .forEach(function(trackElement) {
 
-                var track = mediaStreamTextTracks.filter((stream) => {
+                var track = mediaStreamTextTracks.filter(function(stream) {
                     return ("textTrack" + stream.Index) === trackElement.id;
                 })[0];
 
@@ -609,7 +609,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             if(currentTrack.cues) {
                 Array.from(currentTrack.cues)
-                .forEach((cue) => {
+                .forEach(function(cue) {
                     cue.startTime -= offsetValue;
                     cue.endTime -= offsetValue;
                 });
