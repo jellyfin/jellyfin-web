@@ -84,5 +84,10 @@
     "AllLanguages": "Kaikki kielet",
     "AllLibraries": "Kaikki kirjastot",
     "AllowDeletionFromAll": "Salli tiedostojen poistaminen kaikista kirjastoista",
-    "AllowOnTheFlySubtitleExtraction": "Salli tekstitysten purkamien lennossa"
+    "AllowOnTheFlySubtitleExtraction": "Salli tekstitysten purkamien lennossa",
+    "AccessRestrictedTryAgainLater": "Pääsy on toistaiseksi estetty. Yritä myöhemmin uudelleen.",
+    "AddGuideProviderHelp": "Lisää lähde ohjelmaoppaalle.",
+    "AddItemToCollectionHelp": "Lisää nimikkeitä etsimällä niitä ja käyttämällä hiiren oikeaa nappia tai valikkoa lisätäksesi ne kokoelmaan.",
+    "Advanced": "Lisäasetukset",
+    "Aired": "Esityspäivä"
 }
