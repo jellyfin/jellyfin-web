@@ -173,7 +173,6 @@ button {
     /* This is only needed for scalable cards */
     height: 100%;
     contain: strict;
-    border-radius: 1.000em
 }
 
 .chapterCardImageContainer {
@@ -201,6 +200,7 @@ button {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
     contain: strict;
+    border-radius: 1.000em
 }
 
 .cardContent-button {
