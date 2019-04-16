@@ -1,7 +1,6 @@
 {
 
-    "name": "Emby",
-    "_comment": "This should be Jellyfin, but that breaks apps...",
+    "name": "Jellyfin",
     "description": "Jellyfin: the Free Software Media System.",
     "lang": "en-US",
     "display": "minimal-ui",
