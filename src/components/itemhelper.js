@@ -16,16 +16,13 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         var name = ((item.Type === 'Program' || item.Type === 'Recording') && (item.IsSeries || item.EpisodeTitle) ? item.EpisodeTitle : item.Name) || '';
 
         if (item.Type === "TvChannel") {
-
             if (item.ChannelNumber) {
                 return item.ChannelNumber + ' ' + name;
             }
             return name;
         }
-        if (/*options.isInlineSpecial &&*/ item.Type === "Episode" && item.ParentIndexNumber === 0) {
-
+        if (item.Type === "Episode" && item.ParentIndexNumber === 0) {
             name = globalize.translate('ValueSpecialEpisodeName', name);
-
         } else if ((item.Type === "Episode" || item.Type === 'Program') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
 
             var displayIndexNumber = item.IndexNumber;
@@ -104,7 +101,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         var itemType = item.Type;
 
-        if (itemType === "UserRootFolder" || /*itemType == "CollectionFolder" ||*/ itemType === "UserView") {
+        if (itemType === "UserRootFolder" || itemType === "UserView") {
             return false;
         }
 

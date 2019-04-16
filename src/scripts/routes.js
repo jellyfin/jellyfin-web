@@ -62,13 +62,13 @@ define([
         controller: "dashboardhosting"
     });
     defineRoute({
-        path: "/devices/devices.html",
+        path: "/devices.html",
         autoFocus: false,
         roles: "admin",
         controller: "devices"
     });
     defineRoute({
-        path: "/devices/device.html",
+        path: "/device.html",
         autoFocus: false,
         roles: "admin",
         controller: "device"
@@ -119,7 +119,7 @@ define([
         type: "home"
     });
     defineRoute({
-        path: "/list/list.html",
+        path: "/list.html",
         autoFocus: false,
         controller: "list",
         transition: "fade"
