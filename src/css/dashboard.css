@@ -63,10 +63,6 @@ progress[aria-valuenow]:before {
     }
 }
 
-.dashboardDocument {
-    font-size: 94.1%
-}
-
 .dashboardDocument .dashboardEntryHeaderButton,
 .dashboardDocument .lnkManageServer {
     display: none !important

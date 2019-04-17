@@ -712,7 +712,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         },
         systemUpdateTaskKey: "SystemUpdateTask",
         renderUrls: function (page, systemInfo) {
-            var helpButton = '<a is="emby-linkbutton" class="raised raised-mini button-submit" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Connectivity" target="_blank" style="margin-left:.7em;font-size:84%;padding:.2em .8em;">' + globalize.translate("ButtonHelp") + "</a>";
+            var helpButton = '<a is="emby-linkbutton" class="raised raised-mini button-submit" href="https://jellyfin.readthedocs.io/en/latest/administrator-docs/connectivity" target="_blank" style="margin-left:.7em;font-size:84%;padding:.2em .8em;">' + globalize.translate("ButtonHelp") + "</a>";
             var localUrlElem = page.querySelector(".localUrl");
             var externalUrlElem = page.querySelector(".externalUrl");
 

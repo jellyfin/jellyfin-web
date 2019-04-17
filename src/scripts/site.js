@@ -992,11 +992,11 @@ var AppInfo = {};
                 }
 
                 if ("nextup" === item) {
-                    return "list/list.html?type=nextup&serverId=" + options.serverId;
+                    return "list.html?type=nextup&serverId=" + options.serverId;
                 }
 
                 if ("list" === item) {
-                    var url = "list/list.html?serverId=" + options.serverId + "&type=" + options.itemTypes;
+                    var url = "list.html?serverId=" + options.serverId + "&type=" + options.itemTypes;
 
                     if (options.isFavorite) {
                         url += "&IsFavorite=true";
@@ -1011,27 +1011,27 @@ var AppInfo = {};
                     }
 
                     if ("movies" === options.section) {
-                        return "list/list.html?type=Programs&IsMovie=true&serverId=" + options.serverId;
+                        return "list.html?type=Programs&IsMovie=true&serverId=" + options.serverId;
                     }
 
                     if ("shows" === options.section) {
-                        return "list/list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=" + options.serverId;
+                        return "list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=" + options.serverId;
                     }
 
                     if ("sports" === options.section) {
-                        return "list/list.html?type=Programs&IsSports=true&serverId=" + options.serverId;
+                        return "list.html?type=Programs&IsSports=true&serverId=" + options.serverId;
                     }
 
                     if ("kids" === options.section) {
-                        return "list/list.html?type=Programs&IsKids=true&serverId=" + options.serverId;
+                        return "list.html?type=Programs&IsKids=true&serverId=" + options.serverId;
                     }
 
                     if ("news" === options.section) {
-                        return "list/list.html?type=Programs&IsNews=true&serverId=" + options.serverId;
+                        return "list.html?type=Programs&IsNews=true&serverId=" + options.serverId;
                     }
 
                     if ("onnow" === options.section) {
-                        return "list/list.html?type=Programs&IsAiring=true&serverId=" + options.serverId;
+                        return "list.html?type=Programs&IsAiring=true&serverId=" + options.serverId;
                     }
 
                     if ("dvrschedule" === options.section) {
@@ -1050,7 +1050,7 @@ var AppInfo = {};
                 }
 
                 if ("Genre" === item.Type) {
-                    url = "list/list.html?genreId=" + item.Id + "&serverId=" + serverId;
+                    url = "list.html?genreId=" + item.Id + "&serverId=" + serverId;
 
                     if ("livetv" === context) {
                         url += "&type=Programs";
@@ -1064,7 +1064,7 @@ var AppInfo = {};
                 }
 
                 if ("MusicGenre" === item.Type) {
-                    url = "list/list.html?musicGenreId=" + item.Id + "&serverId=" + serverId;
+                    url = "list.html?musicGenreId=" + item.Id + "&serverId=" + serverId;
 
                     if (options.parentId) {
                         url += "&parentId=" + options.parentId;
@@ -1074,7 +1074,7 @@ var AppInfo = {};
                 }
 
                 if ("Studio" === item.Type) {
-                    url = "list/list.html?studioId=" + item.Id + "&serverId=" + serverId;
+                    url = "list.html?studioId=" + item.Id + "&serverId=" + serverId;
 
                     if (options.parentId) {
                         url += "&parentId=" + options.parentId;
@@ -1123,7 +1123,7 @@ var AppInfo = {};
 
                 if (item.IsFolder) {
                     if (id) {
-                        return "list/list.html?parentId=" + id + "&serverId=" + serverId;
+                        return "list.html?parentId=" + id + "&serverId=" + serverId;
                     }
 
                     return "#";

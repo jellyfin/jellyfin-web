@@ -46,9 +46,9 @@ button {
     flex-wrap: wrap;
 }
 
-    .vertical-wrap.centered {
-        justify-content: center;
-    }
+.vertical-wrap.centered {
+    justify-content: center;
+}
 
 .cardScalable {
     position: relative;
@@ -225,10 +225,6 @@ button {
 .cardContent-shadow {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
-
-/*.card:focus .cardContent-shadow {
-    box-shadow: 0 .63em 1.26em rgba(0, 0, 0, 0.37);
-}*/
 
 .cardImageContainer {
     display: flex;
@@ -767,7 +763,7 @@ button {
 }
 
 .cardOverlayContainer {
-    background: radial-gradient(farthest-corner at 50% 50%,rgba(30,30,30,.5) 50%,#2c2c2c 100%);
+    background: rgba(0,0,0,0.5);
     opacity: 0;
     transition: opacity .2s;
     position: absolute;
@@ -810,7 +806,7 @@ button {
     left: 50%;
 }
 
-    .cardOverlayFab-primary i {
-        border: .07em solid rgba(255,255,255,.9);
-        color: #fff;
-    }
+.cardOverlayFab-primary i {
+    border: .07em solid rgba(255,255,255,.9);
+    color: #fff;
+}

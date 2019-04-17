@@ -210,7 +210,7 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
     }
 
     function getMoreItemsHref(item, type) {
-        return "Genre" == item.Type ? "list/list.html?type=" + type + "&genreId=" + item.Id + "&serverId=" + item.ServerId : "MusicGenre" == item.Type ? "list/list.html?type=" + type + "&musicGenreId=" + item.Id + "&serverId=" + item.ServerId : "Studio" == item.Type ? "list/list.html?type=" + type + "&studioId=" + item.Id + "&serverId=" + item.ServerId : "MusicArtist" == item.Type ? "list/list.html?type=" + type + "&artistId=" + item.Id + "&serverId=" + item.ServerId : "Person" == item.Type ? "list/list.html?type=" + type + "&personId=" + item.Id + "&serverId=" + item.ServerId : "list/list.html?type=" + type + "&parentId=" + item.Id + "&serverId=" + item.ServerId
+        return "Genre" == item.Type ? "list.html?type=" + type + "&genreId=" + item.Id + "&serverId=" + item.ServerId : "MusicGenre" == item.Type ? "list.html?type=" + type + "&musicGenreId=" + item.Id + "&serverId=" + item.ServerId : "Studio" == item.Type ? "list.html?type=" + type + "&studioId=" + item.Id + "&serverId=" + item.ServerId : "MusicArtist" == item.Type ? "list.html?type=" + type + "&artistId=" + item.Id + "&serverId=" + item.ServerId : "Person" == item.Type ? "list.html?type=" + type + "&personId=" + item.Id + "&serverId=" + item.ServerId : "list.html?type=" + type + "&parentId=" + item.Id + "&serverId=" + item.ServerId
     }
 
     function addCurrentItemToQuery(query, item) {

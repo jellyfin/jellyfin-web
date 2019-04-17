@@ -183,28 +183,19 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function getLibraryButtonsHtml(items) {
-
         var html = "";
 
         html += '<div class="verticalSection verticalSection-extrabottompadding">';
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
-
-        if (!layoutManager.tv) {
-            html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE5D3;</i></button>';
-        }
-
         html += '</div>';
 
         html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-multiselect="false">';
 
         // "My Library" backgrounds
         for (var i = 0, length = items.length; i < length; i++) {
-
             var item = items[i];
-
             var icon;
-
             switch (item.CollectionType) {
                 case "movies":
                     icon = "local_movies";
@@ -258,7 +249,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         var html = getLibraryButtonsHtml(userViews);
 
         elem.innerHTML = html;
-        bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
         imageLoader.lazyChildren(elem);
     }
 
@@ -410,39 +400,8 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function getRequirePromise(deps) {
-
         return new Promise(function (resolve, reject) {
-
             require(deps, resolve);
-        });
-    }
-
-    function showHomeScreenSettings(elem, options) {
-        return getRequirePromise(['homescreenSettingsDialog']).then(function (homescreenSettingsDialog) {
-
-            return homescreenSettingsDialog.show(options).then(function () {
-
-                dom.parentWithClass(elem, 'homeSectionsContainer').dispatchEvent(new CustomEvent('settingschange', {
-                    cancelable: false
-                }));
-            });
-        });
-    }
-
-    function bindHomeScreenSettingsIcon(elem, apiClient, userId, userSettings) {
-
-        var btnHomeScreenSettings = elem.querySelector('.btnHomeScreenSettings');
-        if (!btnHomeScreenSettings) {
-            return;
-        }
-
-        btnHomeScreenSettings.addEventListener('click', function () {
-            showHomeScreenSettings(elem, {
-                serverId: apiClient.serverId(),
-                userId: userId,
-                userSettings: userSettings
-
-            });
         });
     }
 
@@ -460,11 +419,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
             html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
-
-            if (!layoutManager.tv) {
-                html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE5D3;</i></button>';
-            }
-
             html += '</div>';
 
             if (scrollX) {
@@ -492,7 +446,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
 
         elem.innerHTML = html;
-        bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
         imageLoader.lazyChildren(elem);
     }
 

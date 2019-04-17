@@ -111,7 +111,7 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
             var html = "";
             if (result.Items.length) {
                 if (html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">', !layoutManager.tv && options.Limit && result.Items.length >= options.Limit) {
-                    html += '<a is="emby-linkbutton" href="' + ("list/list.html?serverId=" + ApiClient.serverId() + "&type=" + section.types + "&IsFavorite=true") + '" class="more button-flat button-flat-mini sectionTitleTextButton">', html += '<h2 class="sectionTitle sectionTitle-cards">', html += globalize.translate(section.name), html += "</h2>", html += '<i class="md-icon">&#xE5CC;</i>', html += "</a>"
+                    html += '<a is="emby-linkbutton" href="' + ("list.html?serverId=" + ApiClient.serverId() + "&type=" + section.types + "&IsFavorite=true") + '" class="more button-flat button-flat-mini sectionTitleTextButton">', html += '<h2 class="sectionTitle sectionTitle-cards">', html += globalize.translate(section.name), html += "</h2>", html += '<i class="md-icon">&#xE5CC;</i>', html += "</a>"
                 } else html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(section.name) + "</h2>";
                 if (html += "</div>", enableScrollX()) {
                     var scrollXClass = "scrollX hiddenScrollX";
