@@ -65,6 +65,9 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             name: "Light (Red Accent)",
             id: "light-red"
         }, {
+            name: "Purple Haze",
+            id: "purple-haze"
+        }, {
             name: "Windows Media Center",
             id: "wmc"
         }];
