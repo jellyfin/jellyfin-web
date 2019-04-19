@@ -1,0 +1,263 @@
+.listItem {
+    background: transparent;
+    border: 0;
+    outline: none !important;
+    color: inherit;
+    vertical-align: middle;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    display: block;
+    align-items: center;
+    text-align: left;
+    padding: .25em .25em .25em .5em;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.listItem-withContentWrapper {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.listItem[data-action=none] {
+    cursor: default;
+}
+
+.listItem-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.listItem-button {
+    width: 100%;
+}
+
+.listItem-indexnumberleft {
+    margin-right: 1em;
+}
+
+.listItem-border {
+    border-bottom-width: .1em;
+    border-bottom-style: solid;
+}
+
+.listItemImage, .listItemIcon, .listItemAside {
+    flex-shrink: 0;
+}
+
+.listItemBody, .listItemImage, .listItemIcon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.listItemButton {
+    margin: 0;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+    contain: layout style;
+}
+
+.listViewDragHandle {
+    margin-left: -.25em !important;
+    touch-action: none;
+}
+
+.listItemBody {
+    flex-grow: 1;
+    padding: .85em .75em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-direction: column;
+    vertical-align: middle;
+    justify-content: center;
+}
+
+.layout-tv .listItemBody {
+    padding: .35em .75em;
+}
+
+.listItemBody-noleftpadding {
+    padding-left: 0 !important;
+}
+
+.listItemBodyText {
+    margin: 0;
+    padding: .1em 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.listItemBodyText-nowrap {
+    white-space: nowrap;
+}
+
+.listItemImage {
+    width: 4em;
+    height: 4em;
+    min-width: 2.78em;
+    min-height: 2.78em;
+    background-repeat: no-repeat;
+    background-size: cover;
+    flex-shrink: 0;
+    background-position: center center;
+    position: relative;
+    display: flex;
+}
+
+.listItemImage-large {
+    width: 19.5vw;
+    height: 13vw;
+    background-position: center center;
+    margin-right: .75em;
+}
+
+.listItemImageButton {
+    align-self: center;
+    justify-self: center;
+    margin: auto;
+    color: rgba(255, 255, 255, .6);
+    font-size: 1.6em;
+    background: transparent;
+    transition: transform 200ms ease-out;
+    display: flex;
+}
+
+.listItemImageButton:hover {
+        transform: scale(1.2, 1.2);
+}
+
+.listItemImageButton-icon {
+    background: rgba(0,0,0,.4);
+    border: .08em solid currentColor;
+    border-radius: 100em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .21em;
+}
+
+@media all and (max-width: 64em) {
+
+    .listItemImage-large {
+        width: 33.75vw;
+        height: 22.5vw;
+        margin-right: 0 !important;
+    }
+
+    .listItemImageButton {
+        font-size: 1.02em !important;
+    }
+
+    .listItemBody {
+        padding-left: .75em;
+    }
+}
+
+@media all and (max-width: 50em) {
+
+    .listItemBody {
+        padding-right: .5em;
+    }
+}
+
+.listItemImage-large-tv {
+    width: 30vw !important;
+    height: 20vw !important;
+}
+
+.listItemIcon {
+    width: 1em !important;
+    height: 1em !important;
+    font-size: 143%;
+    padding: 0 .25em 0 0;
+}
+
+.listItemIcon:not(.listItemIcon-transparent) {
+    background-color: #00a4dc;
+    color: #fff;
+    padding: .5em;
+    border-radius: 100em;
+    margin: 0 .2em 0 .4em;
+}
+
+.listItemProgressBar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.listItem:focus {
+    border-radius: .2em;
+}
+
+.listItem:focus .secondary {
+    color: inherit !important;
+}
+
+.listItem-focusscale {
+    transition: transform .2s ease-out;
+}
+
+.listItem-focusscale:focus {
+    transform: scale(1.025, 1.025);
+}
+
+.paperList {
+    margin: .5em auto;
+}
+
+.paperList-clear {
+    background-color: transparent !important;
+}
+
+.listItemMediaInfo {
+    /* Don't display if flex not supported */
+    display: none;
+    align-items: center;
+    margin-right: 1em;
+}
+
+.listGroupHeader-first {
+    margin-top: 0;
+}
+
+.listItemIndicators {
+    right: .324em;
+    top: .324em;
+    position: absolute;
+    display: flex;
+    align-items: center;
+}
+
+.listItem, .listItemBody, .listItemMediaInfo {
+    display: flex;
+    contain: layout style;
+}
+
+.listItem-bottomoverview {
+    font-size: 88%;
+    margin-bottom: 1em;
+    margin-top: .2em;
+}
+
+@media all and (max-width: 50em) {
+
+    .listItem .endsAt, .listItem .criticRating, .listItem-overview {
+        display: none !important;
+    }
+}
+
+@media all and (min-width: 50em) {
+
+    .listItem-bottomoverview {
+        display: none !important;
+    }
+}
+
+.listItemCheckboxContainer {
+    width: auto !important;
+}

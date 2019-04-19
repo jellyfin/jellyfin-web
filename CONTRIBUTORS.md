@@ -19,7 +19,8 @@
  - [nkmerrill](https://github.com/nkmerrill)
  - [TtheCreator](https://github.com/Tthecreator)
  - [RazeLighter777](https://github.com/RazeLighter777)
- - [anthonylavado](https://github.com/anthonylavado)
+ - [LogicalPhallacy](https://github.com/LogicalPhallacy)
+ - [thornbill](https://github.com/thornbill)
 
 # Emby Contributors
 

@@ -189,6 +189,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             html += globalize.translate("HeaderAdmin");
             html += "</h3>";
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="dashboard.html"><i class="md-icon navMenuOptionIcon">dashboard</i><span class="navMenuOptionText">' + globalize.translate("TabDashboard") + "</span></a>";
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="edititemmetadata.html"><i class="md-icon navMenuOptionIcon">mode_edit</i><span class="navMenuOptionText">' + globalize.translate("Metadata") + "</span></a>";
             html += "</div>";
         }
 
@@ -198,7 +199,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += "</h3>";
         if (user.localUser) {
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkMySettings" href="mypreferencesmenu.html"><i class="md-icon navMenuOptionIcon">settings</i><span class="navMenuOptionText">' + globalize.translate("ButtonSettings") + "</span></a>";
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="md-icon navMenuOptionIcon">wifi</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
+            if (appHost.supports("multiserver")) {
+                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="md-icon navMenuOptionIcon">wifi</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
+            }
             if (!user.localUser.EnableAutoLogin) {
                 html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="md-icon navMenuOptionIcon">exit_to_app</i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
             }
@@ -271,7 +274,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             pageIds: ["dashboardPage", "serverActivityPage"],
             icon: "dashboard"
         }, {
-            name: globalize.translate("TabSettings"),
+            name: globalize.translate("General"),
             href: "dashboardgeneral.html",
             pageIds: ["dashboardGeneralPage"],
             icon: "settings"
@@ -359,7 +362,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             name: globalize.translate("TabPlugins"),
             icon: "shopping_cart",
             color: "#9D22B1",
-            href: "plugins.html",
+            href: "installedplugins.html",
             pageIds: ["pluginsPage", "pluginCatalogPage"]
         });
         links.push({
@@ -368,12 +371,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             pageIds: ["scheduledTasksPage", "scheduledTaskPage"],
             icon: "schedule"
         });
-        links.push({
-            name: globalize.translate("MetadataManager"),
-            href: "edititemmetadata.html",
-            pageIds: [],
-            icon: "mode_edit"
-        });
         addPluginPagesToMainMenu(links, pluginItems);
         return links;
     }
@@ -381,16 +378,13 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     function addPluginPagesToMainMenu(links, pluginItems, section) {
         for (var i = 0, length = pluginItems.length; i < length; i++) {
             var pluginItem = pluginItems[i];
-
-            if (Dashboard.allowPluginPages(pluginItem.PluginId)) {
-                if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === section) {
-                    links.push({
-                        name: pluginItem.DisplayName,
-                        icon: pluginItem.MenuIcon || "folder",
-                        href: Dashboard.getConfigurationPageUrl(pluginItem.Name),
-                        pageUrls: [Dashboard.getConfigurationPageUrl(pluginItem.Name)]
-                    });
-                }
+            if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === section) {
+                links.push({
+                    name: pluginItem.DisplayName,
+                    icon: pluginItem.MenuIcon || "folder",
+                    href: Dashboard.getConfigurationPageUrl(pluginItem.Name),
+                    pageUrls: [Dashboard.getConfigurationPageUrl(pluginItem.Name)]
+                });
             }
         }
     }
@@ -446,7 +440,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
             var html = "";
             html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="home.html" style="text-align:left;">';
-            html += '<img src="css/images/logoblack.png" />';
+            html += '<img src="img/logoblack.png" />';
             html += "</a>";
             html += toolsMenuHtml;
             navDrawerScrollContainer.innerHTML = html;
@@ -730,7 +724,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function initHeadRoom(elem) {
-        require(["headroom-window"], function (headroom) {
+        require(["headroom"], function (Headroom) {
+            var headroom = new Headroom([], {});
             headroom.add(elem);
         });
     }

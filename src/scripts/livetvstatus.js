@@ -1,4 +1,4 @@
-define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layoutManager", "loading", "listViewStyle", "flexStyles", "emby-itemscontainer", "cardStyle", "material-icons", "emby-linkbutton"], function($, globalize, taskButton, dom, libraryMenu, layoutManager, loading) {
+define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layoutManager", "loading", "listViewStyle", "flexStyles", "emby-itemscontainer", "cardStyle", "material-icons", "emby-button"], function($, globalize, taskButton, dom, libraryMenu, layoutManager, loading) {
     "use strict";
 
     function getDeviceHtml(device) {
@@ -188,16 +188,6 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         Dashboard.navigate("livetvtuner.html")
     }
 
-    function getTabs() {
-        return [{
-            href: "livetvstatus.html",
-            name: globalize.translate("TabDevices")
-        }, {
-            href: "appservices.html?context=livetv",
-            name: globalize.translate("TabServices")
-        }]
-    }
-
     function showDeviceMenu(button, tunerDeviceId) {
         var items = [];
         items.push({
@@ -240,7 +230,6 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
             addProvider(this)
         }), page.querySelector(".devicesList").addEventListener("click", onDevicesListClick)
     }).on("pageshow", "#liveTvStatusPage", function() {
-        libraryMenu.setTabs("livetvadmin", 0, getTabs);
         var page = this;
         reload(page), taskButton({
             mode: "on",

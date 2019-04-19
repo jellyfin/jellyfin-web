@@ -1,0 +1,11 @@
+{
+  "name": "jellyfin-web",
+  "version": "0.0.0",
+  "description": "Web interface for Jellyfin",
+  "repository": "https://github.com/jellyfin/jellyfin-web",
+  "license": "GPL-2",
+  "devDependencies": {
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3"
+  }
+}

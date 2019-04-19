@@ -1,4 +1,4 @@
-define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader", "apphost", "globalize", "appRouter", "dom", "emby-linkbutton"], function(layoutManager, loading, libraryBrowser, cardBuilder, lazyLoader, appHost, globalize, appRouter, dom) {
+define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader", "apphost", "globalize", "appRouter", "dom", "emby-button"], function(layoutManager, loading, libraryBrowser, cardBuilder, lazyLoader, appHost, globalize, appRouter, dom) {
     "use strict";
     return function(view, params, tabContent) {
         function getPageData() {

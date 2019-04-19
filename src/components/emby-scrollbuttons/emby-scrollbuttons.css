@@ -1,0 +1,60 @@
+.emby-scrollbuttons-scroller {
+    position: relative;
+}
+
+.scrollbuttoncontainer {
+    position: absolute;
+    top: 10%;
+    bottom: 35%;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    font-size: 3em;
+    color: #fff;
+    display: none;
+    overflow: hidden;
+}
+
+.scrollbuttoncontainer-left {
+    background: rgba(20, 20, 20, .5);
+    background: -moz-linear-gradient(left,#000 0,rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(left,#000 0,rgba(0,0,0,0) 100%);
+    background: linear-gradient(to right,#000,rgba(0,0,0,0));
+}
+
+.scrollbuttoncontainer-right {
+    background: rgba(20, 20, 20, .5);
+    background: -moz-linear-gradient(right,#000 0,rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(right,#000 0,rgba(0,0,0,0) 100%);
+    background: linear-gradient(to left,#000,rgba(0,0,0,0));
+}
+
+.emby-scrollbuttons-scroller:hover .scrollbuttoncontainer {
+    display: flex;
+}
+
+.scrollbuttoncontainer-left {
+    left: 0;
+}
+
+.scrollbuttoncontainer-right {
+    right: 0;
+}
+
+.emby-scrollbuttons-scrollbutton {
+    margin: 0 -.2em;
+    transition: transform 160ms ease-out;
+}
+
+.scrollbuttoncontainer:hover > .emby-scrollbuttons-scrollbutton {
+    transform: scale(1.3, 1.3);
+}
+
+.emby-scrollbuttons-scrollbutton:after {
+    content: '';
+    display: none !important;
+}
+
+.emby-scrollbuttons-scrollbutton:focus {
+    color: inherit !important;
+}

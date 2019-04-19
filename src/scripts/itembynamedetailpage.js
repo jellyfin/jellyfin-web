@@ -1,4 +1,4 @@
-define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryBrowser", "emby-itemscontainer", "emby-linkbutton"], function(connectionManager, listView, cardBuilder, imageLoader, libraryBrowser) {
+define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryBrowser", "emby-itemscontainer", "emby-button"], function(connectionManager, listView, cardBuilder, imageLoader, libraryBrowser) {
     "use strict";
 
     function renderItems(page, item) {

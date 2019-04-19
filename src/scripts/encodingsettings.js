@@ -4,8 +4,19 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
     function loadPage(page, config, systemInfo) {
         Array.prototype.forEach.call(page.querySelectorAll(".chkDecodeCodec"), function(c) {
             c.checked = -1 !== (config.HardwareDecodingCodecs || []).indexOf(c.getAttribute("data-codec"))
-        }), page.querySelector("#chkHardwareEncoding").checked = config.EnableHardwareEncoding, $("#selectVideoDecoder", page).val(config.HardwareAccelerationType), $("#selectThreadCount", page).val(config.EncodingThreadCount), $("#txtDownMixAudioBoost", page).val(config.DownMixAudioBoost), page.querySelector(".txtEncoderPath").value = config.EncoderAppPath || "", $("#txtTranscodingTempPath", page).val(config.TranscodingTempPath || ""), $("#txtVaapiDevice", page).val(config.VaapiDevice || ""), page.querySelector("#selectH264Preset").value = config.H264Preset || "", page.querySelector("#txtH264Crf").value = config.H264Crf || "", page.querySelector("#chkEnableSubtitleExtraction").checked = config.EnableSubtitleExtraction || !1, page.querySelector("#selectVideoDecoder").dispatchEvent(new CustomEvent("change", {
-            bubbles: !0
+        });
+        page.querySelector("#chkHardwareEncoding").checked = config.EnableHardwareEncoding;
+        $("#selectVideoDecoder", page).val(config.HardwareAccelerationType);
+        $("#selectThreadCount", page).val(config.EncodingThreadCount);
+        $("#txtDownMixAudioBoost", page).val(config.DownMixAudioBoost);
+        page.querySelector(".txtEncoderPath").value = config.EncoderAppPathDisplay || "";
+        $("#txtTranscodingTempPath", page).val(config.TranscodingTempPath || "");
+        $("#txtVaapiDevice", page).val(config.VaapiDevice || "");
+        page.querySelector("#selectH264Preset").value = config.H264Preset || "";
+        page.querySelector("#txtH264Crf").value = config.H264Crf || "";
+        page.querySelector("#chkEnableSubtitleExtraction").checked = config.EnableSubtitleExtraction || false;
+        page.querySelector("#selectVideoDecoder").dispatchEvent(new CustomEvent("change", {
+            bubbles: true
         })), loading.hide()
     }
 
@@ -90,7 +101,7 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
         var page = this;
         ApiClient.getNamedConfiguration("encoding").then(function(config) {
             ApiClient.getSystemInfo().then(function(systemInfo) {
-                "External" == systemInfo.EncoderLocationType ? (page.querySelector(".fldEncoderPath").classList.add("hide"), page.querySelector(".txtEncoderPath").removeAttribute("required")) : (page.querySelector(".fldEncoderPath").classList.remove("hide"), page.querySelector(".txtEncoderPath").setAttribute("required", "required")), loadPage(page, config, systemInfo)
+                loadPage(page, config, systemInfo);
             })
         })
     })

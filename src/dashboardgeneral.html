@@ -13,12 +13,16 @@
                 </div>
 
                 <div class="verticalSection">
+                    <div class="inputContainer">
+                        <input is="emby-input" type="text" id="txtServerName" label="${LabelServerName}" />
+                        <div class="fieldDescription">${LabelServerNameHelp}</div>
+                    </div>
                     <div class="selectContainer">
                         <select is="emby-select" id="selectLocalizationLanguage" label="${LabelPreferredDisplayLanguage}"></select>
                         <div class="fieldDescription">
                             <div>${LabelPreferredDisplayLanguageHelp}</div>
                             <div style="margin-top: .25em;">
-                                <a is="emby-linkbutton" class="button-link" href="https://jellyfin.readthedocs.io/en/latest/developer-docs/contributing/" target="_blank">${LabelReadHowYouCanContribute}</a>
+                                <a is="emby-linkbutton" class="button-link" href="https://jellyfin.readthedocs.io/en/latest/contributor-docs/contributing/" target="_blank">${LabelReadHowYouCanContribute}</a>
                             </div>
                         </div>
                     </div>
@@ -34,7 +38,7 @@
                 </div>
 
                 <div class="verticalSection verticalSection-extrabottompadding">
-                    <h2>${Advanced}</h2>
+                    <h2>${HeaderPaths}</h2>
                     <div class="inputContainer">
                         <div style="display: flex; align-items: center;">
                             <div style="flex-grow:1;">
@@ -43,6 +47,17 @@
                             <button type="button" is="paper-icon-button-light" id="btnSelectCachePath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><i class="md-icon">search</i></button>
                         </div>
                         <div class="fieldDescription">${LabelCachePathHelp}</div>
+                    </div>
+
+                    <div class="inputContainer">
+                        <div style="display: flex; align-items: center;">
+                            <div style="flex-grow:1;">
+                                <input is="emby-input" id="txtMetadataPath" label="${LabelMetadataPath}" autocomplete="off" />
+                            </div>
+                            <button type="button" is="paper-icon-button-light" id="btnSelectMetadataPath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><i class="md-icon">search</i></button>
+                        </div>
+                        <div class="fieldDescription">${LabelMetadataPathHelp}</div>
+                        <input type="hidden" id="txtMetadataNetworkPath" />
                     </div>
                 </div>
 
@@ -62,6 +77,7 @@
                 </div>
 
                 <div class="verticalSection">
+                    <h2>${HeaderBranding}</h2>
                     <div class="inputContainer">
                         <input is="emby-input" type="text" id="txtLoginDisclaimer" label="${LabelLoginDisclaimer}" />
                         <div class="fieldDescription">${LabelLoginDisclaimerHelp}</div>

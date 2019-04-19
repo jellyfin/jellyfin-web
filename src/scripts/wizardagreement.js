@@ -1,4 +1,4 @@
-define(["dom", "emby-linkbutton"], function(dom) {
+define(["dom", "emby-button"], function(dom) {
     "use strict";
 
     function onSubmit(e) {
