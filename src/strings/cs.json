@@ -1467,5 +1467,8 @@
     "LabelWeb": "Web: ",
     "MediaInfoStreamTypeEmbeddedImage": "Vložený obrázek",
     "MediaInfoStreamTypeSubtitle": "Titulky",
-    "MediaIsBeingConverted": "Média se konvertují do formátu kompatibilního se zařízením, které médium přehrává."
+    "MediaIsBeingConverted": "Média se konvertují do formátu kompatibilního se zařízením, které médium přehrává.",
+    "MessageEnablingOptionLongerScans": "Povolení této možnosti může mít za následek podstatně delší skenování knihoven.",
+    "MessageImageFileTypeAllowed": "Podporovány jsou pouze soubory JPEG a PNG.",
+    "MessageImageTypeNotSelected": "Vyberte formát obrázku z rozevírací nabídky."
 }
