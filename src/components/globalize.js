@@ -128,7 +128,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     function loadStrings(options) {
         var locale = getCurrentLocale();
         var promises = [];
-        var optionsName;;
+        var optionsName;
         if (typeof options === 'string') {
             optionsName = options;
         } else {
