@@ -1310,5 +1310,20 @@
     "HeaderCastAndCrew": "Cast & Crew",
     "HeaderCastCrew": "Cast & Crew",
     "Art": "Afbeeldingen",
-    "HeaderLiveTV": "Live TV"
+    "HeaderLiveTV": "Live TV",
+    "HeaderDetails": "Details",
+    "HeaderExport": "Exporteer",
+    "HeaderFilters": "Filters",
+    "HeaderGenres": "Genres",
+    "HeaderHttpHeaders": "Http Headers",
+    "HeaderImageLogo": "Logo",
+    "HeaderMenu": "Menu",
+    "HeaderOffline": "Offline",
+    "HeaderOfflineDownloads": "Offline Media",
+    "HeaderResetTuner": "Ontvanger resetten",
+    "HeaderReviews": "Beoordelingen",
+    "HeaderStatus": "Status",
+    "HeaderSync": "Synchronisatie",
+    "HeaderTV": "TV",
+    "HeaderTopPlugins": "Top Plugins"
 }
