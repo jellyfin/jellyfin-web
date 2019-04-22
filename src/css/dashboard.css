@@ -17,6 +17,7 @@ progress {
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
+    border: 2px solid #ccc;
     -webkit-border-radius: .4em;
     border-radius: .4em;
     margin: 0;
