@@ -33,7 +33,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
                 html += currentCategory;
                 html += "</h2>";
                 if (i === 0) {
-                    html += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Scheduled-tasks">' + globalize.translate("Help") + "</a>";
+                    html += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://jellyfin.readthedocs.io/en/latest/server/tasks/">' + globalize.translate("Help") + "</a>";
                 }
                 html += "</div>";
                 html += '<div class="paperList">';
