@@ -169,7 +169,7 @@
     "DetectingDevices": "正在侦测设备",
     "DeviceAccessHelp": "这仅适用于可以唯一标识的设备，而不会阻止浏览器访问。限制用户设备访问会阻止使用未在此被批准的新增设备。",
     "DirectPlaying": "直接播放",
-    "DirectStreamHelp2": "直接串流一个文件仅仅会占用非常少的处理能力并且视频的品质不会有任何损失。",
+    "DirectStreamHelp2": "直接串流只占用占用很少的CPU并且视频的品质不会有任何损失。",
     "DirectStreaming": "直接串流",
     "Director": "导演",
     "Disabled": "已禁用",
@@ -1335,7 +1335,7 @@
     "XmlTvSportsCategoriesHelp": "这些类别的节目将显示为体育节目。用 \"|\" 分隔多个。",
     "Yes": "是",
     "Yesterday": "昨天",
-    "Absolute": "绝对",
+    "Absolute": "绝对路径",
     "AnyLanguage": "任何语言",
     "Art": "图像",
     "AspectRatio": "长宽比",
@@ -1344,5 +1344,10 @@
     "ChannelNumber": "频道号码",
     "ColorSpace": "色彩空间",
     "DirectorValue": "导演：{0}",
-    "DirectorsValue": "导演：{0}"
+    "DirectorsValue": "导演：{0}",
+    "ColorTransfer": "色彩转换",
+    "ConfirmDeleteItem": "这将同时在磁盘和媒体库中删除这个项目。确认删除？",
+    "ConfirmDeleteItems": "这将同时在磁盘和媒体库中删除这些项目。确认删除？",
+    "ConfirmEndPlayerSession": "确认要关闭位于{0}的Jellyfin吗？",
+    "ValueSeconds": "{0}秒"
 }
