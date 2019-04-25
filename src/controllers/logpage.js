@@ -1,13 +1,6 @@
 define(["datetime", "loading", "apphost", "listViewStyle", "emby-button", "flexStyles"], function(datetime, loading, appHost) {
     "use strict";
     return function(view, params) {
-        view.querySelector("#chkDebugLog").addEventListener("change", function() {
-            ApiClient.getServerConfiguration().then(function(config) {
-                config.EnableDebugLevelLogging = view.querySelector("#chkDebugLog").checked;
-                ApiClient.updateServerConfiguration(config);
-            })
-        });
-
         view.addEventListener("viewbeforeshow", function() {
             loading.show();
             var apiClient = ApiClient;
@@ -34,10 +27,6 @@ define(["datetime", "loading", "apphost", "listViewStyle", "emby-button", "flexS
                 html += "</div>";
                 view.querySelector(".serverLogs").innerHTML = html;
                 loading.hide();
-            });
-
-            apiClient.getServerConfiguration().then(function(config) {
-                view.querySelector("#chkDebugLog").checked = config.EnableDebugLevelLogging;
             });
         });
     }
