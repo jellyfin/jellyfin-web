@@ -166,7 +166,7 @@ define([
     defineRoute({
         path: "/livetvseriestimer.html",
         autoFocus: false,
-        controller: "livetvseriestimer"
+        controller: "scripts/livetvseriestimer"
     });
     defineRoute({
         path: "/livetvsettings.html",
