@@ -164,11 +164,6 @@ define([
         roles: "admin"
     });
     defineRoute({
-        path: "/livetvseriestimer.html",
-        autoFocus: false,
-        controller: "scripts/livetvseriestimer"
-    });
-    defineRoute({
         path: "/livetvsettings.html",
         autoFocus: false
     });
