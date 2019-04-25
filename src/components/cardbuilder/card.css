@@ -315,6 +315,12 @@ button {
     padding-top: .24em;
 }
 
+.cardText > .textActionButton {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .innerCardFooter > .cardText {
     padding: .3em .5em;
 }
