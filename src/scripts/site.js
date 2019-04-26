@@ -703,7 +703,7 @@ var AppInfo = {};
             itemHelper: componentsPath + "/itemhelper",
             itemShortcuts: componentsPath + "/shortcuts",
             playQueueManager: componentsPath + "/playback/playqueuemanager",
-            autoPlayDetect: componentsPath + "/playback/autoPlayDetect",
+            autoPlayDetect: componentsPath + "/playback/autoplaydetect",
             nowPlayingHelper: componentsPath + "/playback/nowplayinghelper",
             pluginManager: componentsPath + "/pluginmanager",
             packageManager: componentsPath + "/packagemanager"
