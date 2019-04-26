@@ -1331,5 +1331,21 @@
     "ConfirmDeleteItem": "这将同时在磁盘和媒体库中删除这个项目。确认删除？",
     "ConfirmDeleteItems": "这将同时在磁盘和媒体库中删除这些项目。确认删除？",
     "ConfirmEndPlayerSession": "确认要关闭位于{0}的Jellyfin吗？",
-    "ValueSeconds": "{0}秒"
+    "ValueSeconds": "{0}秒",
+    "Features": "功能",
+    "GenreValue": "风格",
+    "GenresValue": "风格",
+    "Guide": "指南",
+    "HeaderCancelRecording": "",
+    "HeaderFavoriteMovies": "最爱的电影",
+    "HeaderFavoriteShows": "最爱的节目",
+    "HeaderFavoriteAlbums": "最爱的专辑",
+    "HeaderFavoriteSongs": "最爱的歌曲",
+    "HeaderFavoriteVideos": "最爱的视频",
+    "HeaderVideoType": "视频类型",
+    "Items": "项目",
+    "LabelAudio": "音频：",
+    "LabelServerName": "服务器名称：",
+    "LabelTranscodePath": "转码路径：",
+    "LabelTranscodes": "转码："
 }
