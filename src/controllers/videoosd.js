@@ -1255,11 +1255,8 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         if (browser.touch) {
             dom.addEventListener(view, "dblclick", onDoubleClick, {});
         } else {
-            dom.addEventListener(view, "dblclick", function () {
-                playbackManager.toggleFullscreen(currentPlayer);
-            }, {
-                passive: true
-            });
+            var options = { passive: true };
+            dom.addEventListener(view, "dblclick", function () { playbackManager.toggleFullscreen(currentPlayer); }, options);
         }
 
         view.querySelector(".buttonMute").addEventListener("click", function () {
