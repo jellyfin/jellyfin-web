@@ -17,7 +17,6 @@ _:-ms-input-placeholder {
     -ms-user-select: none;
     user-select: none;
     outline: 0;
-    padding: 1em 0;
     color: #00a4dc;
     -webkit-align-self: center;
     -ms-flex-item-align: center;
