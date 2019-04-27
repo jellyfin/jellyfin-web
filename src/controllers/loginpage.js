@@ -146,12 +146,8 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "cardSt
             var apiClient = getApiClient();
             apiClient.getPublicUsers().then(function(users) {
                 if (users.length) {
-                    if (users[0].EnableAutoLogin) {
-                        authenticateUserByName(view, apiClient, users[0].Name, "");
-                    } else {
-                        showVisualForm();
-                        loadUserList(view, apiClient, users);
-                    }
+                    showVisualForm();
+                    loadUserList(view, apiClient, users);
                 } else {
                     view.querySelector("#txtManualName").value = "";
                     showManualForm(view, false, false);
