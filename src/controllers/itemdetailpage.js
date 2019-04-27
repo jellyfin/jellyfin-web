@@ -1037,7 +1037,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 shape: getPortraitShape()
             })
         })
-        
     }
 
     function itemDetailPage() {
