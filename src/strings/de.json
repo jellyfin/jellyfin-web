@@ -1469,5 +1469,6 @@
     "OptionDownloadBoxImage": "Box",
     "OptionLoginAttemptsBeforeLockout": "Legt fest, wie viele falsche Anmeldeversuche durchgeführt werden können, bevor es zur Sperrung kommt.",
     "OptionLoginAttemptsBeforeLockoutHelp": "0 bedeutet, die Vorgabe von 3 für Nicht-Administratoren und 5 für Administratoren zu übernehmen, -1 deaktiviert die Sperre",
-    "PasswordResetProviderHelp": "Wählen Sie einen Password Reset Provider, der verwendet werden soll, wenn dieser Benutzer ein Passwort zurücksetzen möchte"
+    "PasswordResetProviderHelp": "Wählen Sie einen Password Reset Provider, der verwendet werden soll, wenn dieser Benutzer ein Passwort zurücksetzen möchte",
+    "Box": "Box"
 }
