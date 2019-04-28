@@ -74,7 +74,8 @@ div[data-role=page] {
 .padded-bottom-page,
 .page,
 .pageWithAbsoluteTabs .pageTabContent {
-    padding-bottom: 2em !important
+    /* provides room for the music controls */
+    padding-bottom: 5em !important
 }
 
 @media all and (min-width:50em) {

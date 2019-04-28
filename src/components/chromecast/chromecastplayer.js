@@ -220,7 +220,9 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
             this.session = null;
             this.deviceState = DEVICE_STATE.IDLE;
             this.castPlayerState = PLAYER_STATE.IDLE;
-
+            document.removeEventListener("volumeupbutton", onVolumeUpKeyDown, false);
+            document.removeEventListener("volumedownbutton", onVolumeDownKeyDown, false);
+    
             //console.log('sessionUpdateListener: setting currentMediaSession to null');
             this.currentMediaSession = null;
 
@@ -258,6 +260,9 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         this.session.addMediaListener(this.sessionMediaListener.bind(this));
         this.session.addUpdateListener(this.sessionUpdateListener.bind(this));
 
+        document.addEventListener("volumeupbutton", onVolumeUpKeyDown, false);
+        document.addEventListener("volumedownbutton", onVolumeDownKeyDown, false);
+
         events.trigger(this, 'connect');
 
         this.sendMessage({
@@ -265,6 +270,14 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
             command: 'Identify'
         });
     };
+
+    function onVolumeUpKeyDown() {
+        playbackManager.volumeUp();
+    }
+    
+    function onVolumeDownKeyDown() {
+        playbackManager.volumeDown();
+    }
 
     /**
      * session update listener
@@ -305,6 +318,8 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         //console.log(message);
         this.deviceState = DEVICE_STATE.IDLE;
         this.castPlayerState = PLAYER_STATE.IDLE;
+        document.removeEventListener("volumeupbutton", onVolumeUpKeyDown, false);
+        document.removeEventListener("volumedownbutton", onVolumeDownKeyDown, false);
 
         //console.log('onStopAppSuccess: setting currentMediaSession to null');
         this.currentMediaSession = null;
@@ -574,8 +589,15 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
 
             events.trigger(instance, "playbackstop", [state]);
 
+            var state = instance.lastPlayerData.PlayState || {};
+            var volume = state.VolumeLevel || 0.5;
+            var mute = state.IsMuted || false;
+
             // Reset this so the next query doesn't make it appear like content is playing.
             instance.lastPlayerData = {};
+            instance.lastPlayerData.PlayState = {};
+            instance.lastPlayerData.PlayState.VolumeLevel = volume;
+            instance.lastPlayerData.PlayState.IsMuted = mute;
         });
 
         events.on(instance._castPlayer, "playbackprogress", function (e, data) {
@@ -780,11 +802,16 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
     };
 
     ChromecastPlayer.prototype.volumeDown = function () {
+        var vol = this._castPlayer.session.receiver.volume.level;
+        if (vol == null)
+        {
+            vol = 0.5;
+        }
+        vol -= 0.05;
+        vol = Math.max(vol, 0);
 
-        this._castPlayer.sendMessage({
-            options: {},
-            command: 'VolumeDown'
-        });
+        this._castPlayer.session.setReceiverVolumeLevel(vol);
+
     };
 
     ChromecastPlayer.prototype.endSession = function () {
@@ -799,24 +826,24 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
     };
 
     ChromecastPlayer.prototype.volumeUp = function () {
+        var vol = this._castPlayer.session.receiver.volume.level;
+        if (vol == null)
+        {
+            vol = 0.5;
+        }
+        vol += 0.05;
+        vol = Math.min(vol, 1);
 
-        this._castPlayer.sendMessage({
-            options: {},
-            command: 'VolumeUp'
-        });
+        this._castPlayer.session.setReceiverVolumeLevel(vol);
     };
 
     ChromecastPlayer.prototype.setVolume = function (vol) {
 
         vol = Math.min(vol, 100);
         vol = Math.max(vol, 0);
-
-        this._castPlayer.sendMessage({
-            options: {
-                volume: vol
-            },
-            command: 'SetVolume'
-        });
+        vol = vol / 100;
+        
+        this._castPlayer.session.setReceiverVolumeLevel(vol);
     };
 
     ChromecastPlayer.prototype.unpause = function () {

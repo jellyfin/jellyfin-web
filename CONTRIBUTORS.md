@@ -20,6 +20,7 @@
  - [TtheCreator](https://github.com/Tthecreator)
  - [RazeLighter777](https://github.com/RazeLighter777)
  - [LogicalPhallacy](https://github.com/LogicalPhallacy)
+ - [thornbill](https://github.com/thornbill)
 
 # Emby Contributors
 

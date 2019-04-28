@@ -127,12 +127,17 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
     function loadStrings(options) {
         var locale = getCurrentLocale();
+        var promises = [];
+        var optionsName;
         if (typeof options === 'string') {
-            return ensureTranslation(allTranslations[options], locale);
+            optionsName = options;
         } else {
+            optionsName = options.name;
             register(options);
-            return ensureTranslation(allTranslations[options.name], locale);
         }
+        promises.push(ensureTranslation(allTranslations[optionsName], locale));
+        promises.push(ensureTranslation(allTranslations[optionsName], fallbackCulture));
+        return Promise.all(promises);
     }
 
     var cacheParam = new Date().getTime();

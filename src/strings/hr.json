@@ -1027,5 +1027,12 @@
     "XmlTvNewsCategoriesHelp": "Programi s tim kategorijama će biti prikazani kao programi vijesti. Odvojite više s '|'.",
     "XmlTvPathHelp": "Putanja do xml tv datoteke. Jellyfin će pročitati ovu datoteku i povremeno provjeravati ažuriranja. Vi ste odgovorni za stvaranje i ažuriranje datoteke.",
     "XmlTvSportsCategoriesHelp": "Programi s tim kategorijama će biti prikazani kao sportski programi. Odvojite više s '|'.",
-    "Yesterday": "Jučer"
+    "Yesterday": "Jučer",
+    "AccessRestrictedTryAgainLater": "Dostup je trenutačno ograničen. Pokušajte poslije ponovno.",
+    "Albums": "Albumi",
+    "All": "Sve",
+    "AllComplexFormats": "Svi kompleksni formati (ASS, SSA, VOBSUB, PGS, SUB/IDX, itd.)",
+    "Books": "Knjige",
+    "Channels": "Kanali",
+    "Collections": "Kolekcije"
 }

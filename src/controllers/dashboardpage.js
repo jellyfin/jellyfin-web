@@ -750,7 +750,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     var page = dom.parentWithClass(btn, "page");
                     buttonEnabled(page.querySelector("#btnRestartServer"), false);
                     buttonEnabled(page.querySelector("#btnShutdown"), false);
-                    Dashboard.restartServer();
+                    ApiClient.restartServer();
                 });
             });
         },
