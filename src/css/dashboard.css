@@ -17,8 +17,6 @@ progress {
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
-    border: 2px solid #ccc;
-    -webkit-border-radius: .4em;
     border-radius: .4em;
     margin: 0;
     background: #ccc !important
@@ -29,6 +27,7 @@ progress[role]:after {
 }
 
 progress::-webkit-progress-bar {
+    border-radius: .4em;
     background: #ccc
 }
 
