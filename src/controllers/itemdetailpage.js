@@ -1028,9 +1028,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         if (!people.length) return void page.querySelector("#castCollapsible").classList.add("hide");
         page.querySelector("#castCollapsible").classList.remove("hide");
         var castContent = page.querySelector("#castContent");
-        enableScrollX() ? (castContent.classList.add("scrollX"), limit = 32) : castContent.classList.add("vertical-wrap");
-        var limitExceeded = limit && people.length > limit;
-        limitExceeded && (people = people.slice(0), people.length = Math.min(limit, people.length)), require(["peoplecardbuilder"], function(peoplecardbuilder) {
+        require(["peoplecardbuilder"], function(peoplecardbuilder) {
             peoplecardbuilder.buildPeopleCards(people, {
                 itemsContainer: castContent,
                 coverImage: !0,
@@ -1038,9 +1036,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 width: 160,
                 shape: getPortraitShape()
             })
-        });
-        var morePeopleButton = page.querySelector(".morePeople");
-        morePeopleButton && (limitExceeded && !enableScrollX() ? morePeopleButton.classList.remove("hide") : morePeopleButton.classList.add("hide"))
+        })
     }
 
     function itemDetailPage() {
