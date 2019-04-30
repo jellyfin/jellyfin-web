@@ -45,7 +45,7 @@ define(["layoutManager", "loading", "cardBuilder", "apphost", "imageLoader", "sc
             serverId = ApiClient.serverId();
         switch (type) {
             case "latest":
-                Dashboard.navigate("list/list.html?type=Recordings&serverId=" + serverId)
+                Dashboard.navigate("list.html?type=Recordings&serverId=" + serverId)
         }
     }
     return function(view, params, tabContent) {

@@ -370,7 +370,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             if ("osd" === currentVisibleMenu) {
                 hideOsd();
             } else if (!currentVisibleMenu) {
-                    showOsd();
+                showOsd();
             }
         }
 
@@ -1207,7 +1207,6 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             dom.addEventListener(document, window.PointerEvent ? "pointermove" : "mousemove", onPointerMove, {
                 passive: true
             });
-            document.body.classList.add("autoScrollY");
             showOsd();
             inputManager.on(window, onInputCommand);
             dom.addEventListener(window, "keydown", onWindowKeyDown, {
@@ -1228,7 +1227,6 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             dom.removeEventListener(document, window.PointerEvent ? "pointermove" : "mousemove", onPointerMove, {
                 passive: true
             });
-            document.body.classList.remove("autoScrollY");
             inputManager.off(window, onInputCommand);
             events.off(playbackManager, "playerchange", onPlayerChange);
             releaseCurrentPlayer();
@@ -1293,6 +1291,9 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
 
         if (browser.touch) {
             dom.addEventListener(view, "dblclick", onDoubleClick, {});
+        } else {
+            var options = { passive: true };
+            dom.addEventListener(view, "dblclick", function () { playbackManager.toggleFullscreen(currentPlayer); }, options);
         }
 
         view.querySelector(".buttonMute").addEventListener("click", function () {

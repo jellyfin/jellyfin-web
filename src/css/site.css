@@ -29,14 +29,9 @@ html {
 }
 
 body {
-    overflow-y: scroll !important;
     overflow-x: hidden;
     background-color: transparent !important;
     -webkit-font-smoothing: antialiased
-}
-
-body.autoScrollY {
-    overflow-y: auto !important
 }
 
 .mainAnimatedPage {
@@ -74,7 +69,8 @@ div[data-role=page] {
 .padded-bottom-page,
 .page,
 .pageWithAbsoluteTabs .pageTabContent {
-    padding-bottom: 2em !important
+    /* provides room for the music controls */
+    padding-bottom: 5em !important
 }
 
 @media all and (min-width:50em) {

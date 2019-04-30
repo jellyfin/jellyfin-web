@@ -303,6 +303,7 @@ define(["events", "appStorage"], function(events, appStorage) {
     }, ApiClient.prototype.logout = function() {
         stopBitrateDetection(this), this.closeWebSocket();
         var done = function() {
+            appStorage.removeItem("user-" + this._currentUser.Id + "-" + this._currentUser.ServerId)
             this.setAuthenticationInfo(null, null)
         }.bind(this);
         if (this.accessToken()) {

@@ -2,25 +2,19 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
     "use strict";
 
     function fillThemes(select, isDashboard) {
-
         select.innerHTML = skinManager.getThemes().map(function (t) {
-
             var value = t.id;
-
             if (t.isDefault && !isDashboard) {
                 value = '';
-            }
-            else if (t.isDefaultServerDashboard && isDashboard) {
+            } else if (t.isDefaultServerDashboard && isDashboard) {
                 value = '';
             }
 
             return '<option value="' + value + '">' + t.name + '</option>';
-
         }).join('');
     }
 
     function loadScreensavers(context, userSettings) {
-
         var selectScreensaver = context.querySelector('.selectScreensaver');
         var options = pluginManager.ofType('screensaver').map(function (plugin) {
             return {

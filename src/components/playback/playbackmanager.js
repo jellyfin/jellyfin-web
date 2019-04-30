@@ -1771,7 +1771,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
                 var maxBitrate = params.MaxStreamingBitrate || self.getMaxStreamingBitrate(player);
 
-                var currentPlayOptions = currentItem.playOptions || {};
+                var currentPlayOptions = currentItem.playOptions || getDefaultPlayOptions();
 
                 getPlaybackInfo(player, apiClient, currentItem, deviceProfile, maxBitrate, ticks, true, currentMediaSource.Id, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
 
@@ -2738,7 +2738,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             if (newItem) {
 
-                var newItemPlayOptions = newItem.playOptions || {};
+                var newItemPlayOptions = newItem.playOptions || getDefaultPlayOptions();
 
                 playInternal(newItem, newItemPlayOptions, function () {
                     setPlaylistState(newItem.PlaylistItemId, newItemIndex);
@@ -2843,7 +2843,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
                 console.log('playing next track');
 
-                var newItemPlayOptions = newItemInfo.item.playOptions || {};
+                var newItemPlayOptions = newItemInfo.item.playOptions || getDefaultPlayOptions();
 
                 playInternal(newItemInfo.item, newItemPlayOptions, function () {
                     setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
@@ -2866,7 +2866,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
                 if (newItem) {
 
-                    var newItemPlayOptions = newItem.playOptions || {};
+                    var newItemPlayOptions = newItem.playOptions || getDefaultPlayOptions();
                     newItemPlayOptions.startPositionTicks = 0;
 
                     playInternal(newItem, newItemPlayOptions, function () {
@@ -3037,7 +3037,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             var player = this;
             setCurrentPlayerInternal(player);
 
-            var playOptions = item.playOptions || {};
+            var playOptions = item.playOptions || getDefaultPlayOptions();
             var isFirstItem = playOptions.isFirstItem;
             var fullscreen = playOptions.fullscreen;
 

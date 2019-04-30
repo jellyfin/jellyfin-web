@@ -1267,13 +1267,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var showTitle = options.showTitle === 'auto' ? true : (options.showTitle || item.Type === 'PhotoAlbum' || item.Type === 'Folder');
             var overlayText = options.overlayText;
 
-            if (forceName && !options.cardLayout) {
-
-                if (overlayText == null) {
-                    overlayText = true;
-                }
-            }
-
             var cardImageContainerClass = 'cardImageContainer';
             var coveredImage = options.coverImage || imgInfo.coverImage;
 
@@ -1537,17 +1530,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction';
 
             if (playbackManager.canPlay(item)) {
-
                 html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
             }
 
             html += '<div class="cardOverlayButton-br">';
-
-            //if (itemHelper.canEdit({ Policy: { IsAdministrator: true } }, item)) {
-
-            //    //require(['emby-playstatebutton']);
-            //    html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="edit"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE254;</i></button>';
-            //}
 
             var userData = item.UserData || {};
 

@@ -10,9 +10,10 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
                 primary: "cancel",
                 confirmText: globalize.translate("UninstallPluginHeader")
             }).then(function() {
-                loading.show(), ApiClient.uninstallPlugin(uniqueid).then(function() {
-                    reloadList(page)
-                })
+                loading.show();
+                ApiClient.uninstallPlugin(uniqueid).then(function() {
+                    reloadList(page);
+                });
             })
         })
     }
@@ -20,18 +21,18 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
     function showNoConfigurationMessage() {
         Dashboard.alert({
             message: globalize.translate("NoPluginConfigurationMessage")
-        })
+        });
     }
 
     function showConnectMessage() {
         Dashboard.alert({
             message: globalize.translate("MessagePluginConfigurationRequiresLocalAccess")
-        })
+        });
     }
 
     function getPluginCardHtml(plugin, pluginConfigurationPages) {
         var configPage = pluginConfigurationPages.filter(function(pluginConfigurationPage) {
-                return pluginConfigurationPage.PluginId == plugin.Id
+                return pluginConfigurationPage.PluginId == plugin.Id;
         })[0];
         var configPageUrl = configPage ? Dashboard.getConfigurationPageUrl(configPage.Name) : null;
 
@@ -65,38 +66,56 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
         return html;
     }
 
-    function renderPlugins(page, plugins, showNoPluginsMessage) {
+    function renderPlugins(page, plugins) {
         ApiClient.getJSON(ApiClient.getUrl("web/configurationpages") + "?pageType=PluginConfiguration").then(function(configPages) {
-            populateList(page, plugins, configPages, showNoPluginsMessage)
-        })
+            populateList(page, plugins, configPages);
+        });
     }
 
-    function populateList(page, plugins, pluginConfigurationPages, showNoPluginsMessage) {
+    function populateList(page, plugins, pluginConfigurationPages) {
         plugins = plugins.sort(function(plugin1, plugin2) {
             return plugin1.Name > plugin2.Name ? 1 : -1
         });
         var html = plugins.map(function(p) {
                 return getPluginCardHtml(p, pluginConfigurationPages)
-            }).join(""),
-            installedPluginsElement = page.querySelector(".installedPlugins");
-        installedPluginsElement.removeEventListener("click", onInstalledPluginsClick), installedPluginsElement.addEventListener("click", onInstalledPluginsClick), plugins.length ? (installedPluginsElement.classList.add("itemsContainer"), installedPluginsElement.classList.add("vertical-wrap"), installedPluginsElement.innerHTML = html) : (showNoPluginsMessage && (html += '<div style="padding:5px;">', html += "<p>" + globalize.translate("MessageNoPluginsInstalled") + "</p>", html += '<p><a is="emby-linkbutton" class="button-link" href="plugincatalog.html">', html += globalize.translate("BrowsePluginCatalogMessage"), html += "</a></p>", html += "</div>"), installedPluginsElement.innerHTML = html), loading.hide()
+        }).join("");
+        var installedPluginsElement = page.querySelector(".installedPlugins");
+        installedPluginsElement.removeEventListener("click", onInstalledPluginsClick);
+        installedPluginsElement.addEventListener("click", onInstalledPluginsClick);
+        if (plugins.length) {
+            installedPluginsElement.classList.add("itemsContainer");
+            installedPluginsElement.classList.add("vertical-wrap");
+        } else {
+            html += '<div style="padding:5px;">';
+            html += "<p>" + globalize.translate("MessageNoPluginsInstalled") + "</p>";
+            html += '<p><a is="emby-linkbutton" class="button-link" href="availableplugins.html">';
+            html += globalize.translate("BrowsePluginCatalogMessage");
+            html += "</a></p>";
+            html += "</div>";
+        }
+        installedPluginsElement.innerHTML = html;
+        loading.hide();
     }
 
     function showPluginMenu(page, elem) {
-        var card = dom.parentWithClass(elem, "card"),
-            id = card.getAttribute("data-id"),
-            name = card.getAttribute("data-name"),
-            configHref = card.querySelector(".cardContent").getAttribute("href"),
-            menuItems = [];
-        configHref && menuItems.push({
-            name: globalize.translate("ButtonSettings"),
-            id: "open",
-            ironIcon: "mode-edit"
-        }), menuItems.push({
+        var card = dom.parentWithClass(elem, "card");
+        var id = card.getAttribute("data-id");
+        var name = card.getAttribute("data-name");
+        var configHref = card.querySelector(".cardContent").getAttribute("href");
+        var menuItems = [];
+        if (configHref) {
+            menuItems.push({
+                name: globalize.translate("ButtonSettings"),
+                id: "open",
+                ironIcon: "mode-edit"
+            });
+        }
+        menuItems.push({
             name: globalize.translate("ButtonUninstall"),
             id: "delete",
             ironIcon: "delete"
-        }), require(["actionsheet"], function(actionsheet) {
+        });
+        require(["actionsheet"], function(actionsheet) {
             actionsheet.show({
                 items: menuItems,
                 positionTo: elem,
@@ -109,37 +128,44 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
                             deletePlugin(page, id, name)
                     }
                 }
-            })
-        })
+            });
+        });
     }
 
     function reloadList(page) {
-        loading.show(), ApiClient.getInstalledPlugins().then(function(plugins) {
-            renderPlugins(page, plugins, !0)
-        })
+        loading.show();
+        ApiClient.getInstalledPlugins().then(function(plugins) {
+            renderPlugins(page, plugins);
+        });
     }
 
     function getTabs() {
         return [{
-            href: "plugins.html",
+            href: "installedplugins.html",
             name: globalize.translate("TabMyPlugins")
         }, {
-            href: "plugincatalog.html",
+            href: "availableplugins.html",
             name: globalize.translate("TabCatalog")
         }]
     }
 
     function onInstalledPluginsClick(e) {
-        if (dom.parentWithClass(e.target, "noConfigPluginCard")) showNoConfigurationMessage();
-        else if (dom.parentWithClass(e.target, "connectModePluginCard")) showConnectMessage();
-        else {
+        if (dom.parentWithClass(e.target, "noConfigPluginCard")) {
+            showNoConfigurationMessage();
+        } else if (dom.parentWithClass(e.target, "connectModePluginCard")) {
+            showConnectMessage();
+        } else {
             var btnCardMenu = dom.parentWithClass(e.target, "btnCardMenu");
-            btnCardMenu && showPluginMenu(dom.parentWithClass(btnCardMenu, "page"), btnCardMenu)
+            btnCardMenu && showPluginMenu(dom.parentWithClass(btnCardMenu, "page"), btnCardMenu);
         }
     }
+
     pageIdOn("pageshow", "pluginsPage", function() {
-        libraryMenu.setTabs("plugins", 0, getTabs), reloadList(this)
-    }), window.PluginsPage = {
+        libraryMenu.setTabs("plugins", 0, getTabs);
+        reloadList(this);
+    });
+
+    window.PluginsPage = {
         renderPlugins: renderPlugins
     }
 });

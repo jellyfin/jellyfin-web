@@ -31,7 +31,7 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
             });
 
             Dashboard.getCurrentUser().then(function(user) {
-                page.querySelector(".headerUser").innerHTML = user.Name;
+                page.querySelector(".headerUsername").innerHTML = user.Name;
                 if (user.Policy.IsAdministrator) {
                     page.querySelector(".adminSection").classList.remove("hide");
                 } else {

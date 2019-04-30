@@ -187,8 +187,13 @@ define(['events'], function (events) {
         return apiClient.getEndpointInfo().then(function (endpoint) {
             if (endpoint.IsInNetwork) {
                 return apiClient.getPublicSystemInfo().then(function (info) {
-                    addToCache(serverAddress, info.LocalAddress);
-                    return info.LocalAddress;
+                    var localAddress = info.LocalAddress
+                    if (!localAddress) {
+                        console.log("No valid local address returned, defaulting to external one")
+                        localAddress = serverAddress;
+                    }
+                    addToCache(serverAddress, localAddress);
+                    return localAddress;
                 });
             } else {
                 addToCache(serverAddress, serverAddress);

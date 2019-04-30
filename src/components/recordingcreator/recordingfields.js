@@ -38,7 +38,7 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         var options = instance.options;
         var apiClient = connectionManager.getApiClient(options.serverId);
 
-        instance.querySelector('.recordingFields').classList.remove('hide');
+        options.parent.querySelector('.recordingFields').classList.remove('hide');
         return apiClient.getLiveTvProgram(options.programId, apiClient.getCurrentUserId()).then(function (program) {
             instance.TimerId = program.TimerId;
             instance.Status = program.Status;
