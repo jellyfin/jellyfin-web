@@ -188,6 +188,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var currentAssRenderer;
         var customTrackIndex = -1;
 
+        var showTrackOffset = false;
+        var currentTrackOffset;
+
         var videoSubtitlesElem;
         var currentTrackEvents;
 
@@ -542,6 +545,81 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             setCurrentTrackElement(index);
         };
+
+        self.enableShowingSubtitleOffset = function() {
+            showTrackOffset = true;
+        }
+
+        self.disableShowingSubtitleOffset = function() {
+            showTrackOffset = false;
+        }
+
+        self.isShowingSubtitleOffsetEnabled = function() {
+            return showTrackOffset;
+        }
+
+        self.setSubtitleOffset = function(offset) {
+
+            var offsetValue = parseFloat(offset);
+            var videoElement = self._mediaElement;
+            var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
+
+            Array.from(videoElement.textTracks)
+            .filter(function(trackElement) {
+                if (customTrackIndex === -1 ) {
+                    // get showing .vtt textTacks
+                    return trackElement.mode === 'showing';
+                } else {
+                    // get current .ass textTrack
+                    return ("textTrack" + customTrackIndex) === trackElement.id;
+                }
+            })
+            .forEach(function(trackElement) {
+
+                var track = mediaStreamTextTracks.filter(function(stream) {
+                    return ("textTrack" + stream.Index) === trackElement.id;
+                })[0];
+
+                if(track) {
+                    offsetValue = updateCurrentTrackOffset(offsetValue);
+                    var format = (track.Codec || '').toLowerCase();
+                    if (format !== 'ass' && format !== 'ssa') {
+                        setVttSubtitleOffset(trackElement, offsetValue);
+                    }
+                } else {
+                    console.log("No available track, cannot apply offset : " + offsetValue);
+                }
+
+            });
+        };
+
+        function updateCurrentTrackOffset(offsetValue) {
+
+            var relativeOffset = offsetValue;
+            var newTrackOffset = offsetValue;
+            if(currentTrackOffset){
+                relativeOffset -= currentTrackOffset;
+            }
+            currentTrackOffset = newTrackOffset;
+            // relative to currentTrackOffset
+            return relativeOffset;
+        }
+
+        function setVttSubtitleOffset(currentTrack, offsetValue) {
+
+            if(currentTrack.cues) {
+                Array.from(currentTrack.cues)
+                .forEach(function(cue) {
+                    cue.startTime -= offsetValue;
+                    cue.endTime -= offsetValue;
+                });
+            }
+
+        }
+
+        self.getSubtitleOffset = function() {
+            return currentTrackOffset;
+        }
 
         function isAudioStreamSupported(stream, deviceProfile) {
 
@@ -1166,6 +1244,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function updateSubtitleText(timeMs) {
+
+            // handle offset for ass tracks
+            if(currentTrackOffset) {
+                timeMs += (currentTrackOffset * 1000);
+            }
 
             var clock = currentClock;
             if (clock) {

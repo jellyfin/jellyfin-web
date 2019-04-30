@@ -295,8 +295,10 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
 
             if (playbackManager.subtitleTracks(player).length) {
                 view.querySelector(".btnSubtitles").classList.remove("hide");
+                toggleSubtitleSync();
             } else {
                 view.querySelector(".btnSubtitles").classList.add("hide");
+                toggleSubtitleSync("forceToHide");
             }
 
             if (playbackManager.audioTracks(player).length > 1) {
@@ -419,6 +421,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                         focusManager.focus(elem.querySelector(".btnPause"));
                     }, 50);
                 }
+                toggleSubtitleSync();
             }
         }
 
@@ -431,6 +434,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                     once: true
                 });
                 currentVisibleMenu = null;
+                toggleSubtitleSync("hide");
             }
         }
 
@@ -622,6 +626,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
 
         function releaseCurrentPlayer() {
             destroyStats();
+            destroySubtitleSync();
             resetUpNextDialog();
             var player = currentPlayer;
 
@@ -897,11 +902,17 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                 var player = currentPlayer;
 
                 if (player) {
+
+                    // show subtitle offset feature only if player and media support it
+                    var showSubOffset = playbackManager.supportSubtitleOffset(player) && 
+                        playbackManager.canHandleOffsetOnCurrentSubtitle(player);
+
                     playerSettingsMenu.show({
                         mediaType: "Video",
                         player: player,
                         positionTo: btn,
                         stats: true,
+                        suboffset: showSubOffset,
                         onOption: onSettingsOption
                     });
                 }
@@ -911,6 +922,12 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         function onSettingsOption(selectedOption) {
             if ("stats" === selectedOption) {
                 toggleStats();
+            } else if ("suboffset" === selectedOption) {
+                var player = currentPlayer;
+                if (player) {
+                    playbackManager.enableShowingSubtitleOffset(player);
+                    toggleSubtitleSync();
+                }
             }
         }
 
@@ -1008,8 +1025,28 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                     if (index !== currentIndex) {
                         playbackManager.setSubtitleStreamIndex(index, player);
                     }
+
+                    toggleSubtitleSync();                    
                 });
             });
+        }
+
+        function toggleSubtitleSync(action) {
+            require(["subtitleSync"], function (SubtitleSync) {
+                var player = currentPlayer;
+                if (subtitleSyncOverlay) {
+                    subtitleSyncOverlay.toggle(action);
+                } else if(player){
+                    subtitleSyncOverlay = new SubtitleSync(player);
+                }
+            });
+        }
+
+        function destroySubtitleSync() {
+            if (subtitleSyncOverlay) {
+                subtitleSyncOverlay.destroy();
+                subtitleSyncOverlay = null;
+            }
         }
 
         function onWindowKeyDown(e) {
@@ -1146,6 +1183,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         var programStartDateMs = 0;
         var programEndDateMs = 0;
         var playbackStartTimeTicks = 0;
+        var subtitleSyncOverlay;
         var nowPlayingVolumeSlider = view.querySelector(".osdVolumeSlider");
         var nowPlayingVolumeSliderContainer = view.querySelector(".osdVolumeSliderContainer");
         var nowPlayingPositionSlider = view.querySelector(".osdPositionSlider");
@@ -1215,6 +1253,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             }
 
             destroyStats();
+            destroySubtitleSync();
         });
         var lastPointerDown = 0;
         dom.addEventListener(view, window.PointerEvent ? "pointerdown" : "click", function (e) {
@@ -1269,6 +1308,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         nowPlayingVolumeSlider.addEventListener("touchmove", function () {
             playbackManager.setVolume(this.value, currentPlayer);
         });
+
         nowPlayingPositionSlider.addEventListener("change", function () {
             var player = currentPlayer;
 
