@@ -63,6 +63,22 @@ html {
     background-color: rgba(0,164,220, .2)
 }
 
+progress {
+    border-radius: .4em;
+}
+
+progress::-webkit-progress-bar {
+    border-radius: .4em;
+}
+
+progress::-moz-progress-bar {
+    border-radius: .4em;
+}
+
+progress::-webkit-progress-value {
+    border-radius: .4em;
+}
+
 .fab,
 .raised {
     background: rgba(0, 0, 0, .5);
