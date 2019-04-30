@@ -1347,5 +1347,14 @@
     "LabelAudio": "音频：",
     "LabelServerName": "服务器名称：",
     "LabelTranscodePath": "转码路径：",
-    "LabelTranscodes": "转码："
+    "LabelTranscodes": "转码：",
+    "AuthProviderHelp": "选择用于验证此用户密码的身份验证提供者",
+    "ColorPrimaries": "基色",
+    "ConfigureDateAdded": "在媒体库设置里服务器如何判定添加日期",
+    "DisplayModeHelp": "选择您正在运行Jellyfin的屏幕类型。",
+    "EnableColorCodedBackgrounds": "启用彩色背景",
+    "ErrorDeletingItem": "服务器删除项目时出错。请确认服务器具有对媒体文件夹的写入权限并重试。",
+    "GroupBySeries": "按系列分组",
+    "HeaderApp": "应用程序",
+    "HeaderAudioLanguages": "音频语言"
 }
