@@ -368,7 +368,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             if ("osd" === currentVisibleMenu) {
                 hideOsd();
             } else if (!currentVisibleMenu) {
-                    showOsd();
+                showOsd();
             }
         }
 
@@ -1252,6 +1252,9 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
 
         if (browser.touch) {
             dom.addEventListener(view, "dblclick", onDoubleClick, {});
+        } else {
+            var options = { passive: true };
+            dom.addEventListener(view, "dblclick", function () { playbackManager.toggleFullscreen(currentPlayer); }, options);
         }
 
         view.querySelector(".buttonMute").addEventListener("click", function () {
