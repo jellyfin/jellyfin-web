@@ -22,7 +22,7 @@ define(["loading", "libraryMenu", "globalize", "listViewStyle", "emby-button"], 
                     itemHtml += "</h2>";
                     if (showHelp) {
                         showHelp = false;
-                        itemHtml += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Notifications">';
+                        itemHtml += '<a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://jellyfin.readthedocs.io/en/latest/server/notifications/">';
                         itemHtml += globalize.translate("Help");
                         itemHtml += "</a>";
                     }
