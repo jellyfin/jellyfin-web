@@ -979,7 +979,7 @@
     "MessageNoCollectionsAvailable": "Collections allow you to enjoy personalized groupings of Movies, Series, and albums Albums. Click the + button to start creating collections.",
     "MessageNoMovieSuggestionsAvailable": "No movie suggestions are currently available. Start watching and rating your movies, and then come back to view your recommendations.",
     "MessageNoPluginsInstalled": "You have no plugins installed.",
-    "MessageNoServersAvailableToConnect": "No servers are available to connect to. If you've been invited to share a server, make sure to accept it below or by clicking the link in the email.",
+    "MessageNoServersAvailable": "No servers have been found using the automatic server discovery.",
     "MessageNoTrailersFound": "No trailers found. Install the Trailer channel to enhance your movie experience by adding a library of internet trailers.",
     "MessageNothingHere": "Nothing here.",
     "MessagePasswordResetForUsers": "The following users have had their passwords reset. They can now sign in with the PIN codes that were used to perform the reset.",

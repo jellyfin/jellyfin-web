@@ -1,4 +1,4 @@
-define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focusManager", "connectionManager", "backdrop", "globalize", "staticBackdrops", "actionsheet", "dom", "material-icons", "flexStyles", "emby-scroller", "emby-itemscontainer", "cardStyle", "emby-button"], function(loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, backdrop, globalize, staticBackdrops, actionSheet, dom) {
+define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focusManager", "connectionManager", "globalize", "actionsheet", "dom", "material-icons", "flexStyles", "emby-scroller", "emby-itemscontainer", "cardStyle", "emby-button"], function(loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom) {
     "use strict";
 
     function renderSelectServerItems(view, servers) {
@@ -11,56 +11,93 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                     id: server.Id,
                     server: server
                 }
-            }),
-            html = items.map(function(item) {
+        });
+        var html = items.map(function(item) {
                 var cardImageContainer;
-                cardImageContainer = item.showIcon ? '<i class="cardImageIcon md-icon">' + item.icon + "</i>" : '<div class="cardImage" style="' + item.cardImageStyle + '"></div>';
+                if (item.showIcon) {
+                    cardImageContainer = '<i class="cardImageIcon md-icon">' + item.icon + "</i>";
+                } else {
+                    cardImageContainer = '<div class="cardImage" style="' + item.cardImageStyle + '"></div>';
+                }
                 var cardBoxCssClass = "cardBox";
-                layoutManager.tv && (cardBoxCssClass += " cardBox-focustransform");
+                if (layoutManager.tv) {
+                    cardBoxCssClass += " cardBox-focustransform";
+                }
                 var innerOpening = '<div class="' + cardBoxCssClass + '">';
-                return '<button raised class="card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable" style="display:inline-block;" data-id="' + item.id + '" data-url="' + (item.url || "") + '" data-cardtype="' + item.cardType + '">' + innerOpening + '<div class="cardScalable card-focuscontent"><div class="cardPadder cardPadder-square"></div><div class="cardContent"><div class="cardImageContainer coveredImage" style="background:#0288D1;border-radius:.15em;">' + cardImageContainer + '</div></div></div><div class="cardFooter"><div class="cardText cardTextCentered">' + item.name + "</div></div></div></button>"
-            }).join(""),
-            itemsContainer = view.querySelector(".servers");
-        items.length || (html = "<p>" + globalize.translate("MessageNoServersAvailableToConnect") + "</p>"), itemsContainer.innerHTML = html, loading.hide()
+                var cardContainer = '';
+                cardContainer += '<button raised class="card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable" style="display:inline-block;" data-id="' + item.id + '" data-url="' + (item.url || "") + '" data-cardtype="' + item.cardType + '">';
+                cardContainer += innerOpening;
+                cardContainer += '<div class="cardScalable card-focuscontent">';
+                cardContainer += '<div class="cardPadder cardPadder-square">';
+                cardContainer += '</div>';
+                cardContainer += '<div class="cardContent">';
+                cardContainer += '<div class="cardImageContainer coveredImage" style="background:#0288D1;border-radius:.15em;">';
+                cardContainer += cardImageContainer;
+                cardContainer += '</div>';
+                cardContainer += '</div>';
+                cardContainer += '</div>';
+                cardContainer += '<div class="cardFooter">';
+                cardContainer += '<div class="cardText cardTextCentered">' + item.name + '</div>';
+                cardContainer += '</div></div></button>';
+                return cardContainer;
+        }).join("");
+        var itemsContainer = view.querySelector(".servers");
+        if (!items.length) {
+            html = '<p>' + globalize.translate("MessageNoServersAvailable") + "</p>";
+        }
+        itemsContainer.innerHTML = html;
+        loading.hide();
     }
 
     function updatePageStyle(view, params) {
-        "1" == params.showuser ? (view.classList.add("libraryPage"), view.classList.remove("standalonePage"), view.classList.add("noSecondaryNavPage")) : (view.classList.add("standalonePage"), view.classList.remove("libraryPage"), view.classList.remove("noSecondaryNavPage"))
+        if (params.showuser == "1") {
+            view.classList.add("libraryPage");
+            view.classList.remove("standalonePage");
+            view.classList.add("noSecondaryNavPage");
+        } else {
+            view.classList.add("standalonePage");
+            view.classList.remove("libraryPage");
+            view.classList.remove("noSecondaryNavPage");
+        }
     }
 
     function showGeneralError() {
-        loading.hide(), alertText(globalize.translate("DefaultErrorMessage"))
+        loading.hide();
+        alertText(globalize.translate("DefaultErrorMessage"));
     }
 
     function alertText(text) {
         alertTextWithOptions({
             text: text
-        })
+        });
     }
 
     function alertTextWithOptions(options) {
         require(["alert"], function(alert) {
-            alert(options)
-        })
+            alert(options);
+        });
     }
 
     function showServerConnectionFailure() {
-        alertText(globalize.translate("MessageUnableToConnectToServer"), globalize.translate("HeaderConnectionFailure"))
+        alertText(globalize.translate("MessageUnableToConnectToServer"), globalize.translate("HeaderConnectionFailure"));
     }
 
     return function(view, params) {
         function connectToServer(server) {
-            loading.show(), connectionManager.connectToServer(server, {
+            loading.show();
+            connectionManager.connectToServer(server, {
                 enableAutoLogin: appSettings.enableAutoLogin()
             }).then(function(result) {
                 loading.hide();
                 var apiClient = result.ApiClient;
                 switch (result.State) {
                     case "SignedIn":
-                        Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient), Dashboard.navigate("home.html");
+                        Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
+                        Dashboard.navigate("home.html");
                         break;
                     case "ServerSignIn":
-                        Dashboard.onServerChanged(null, null, apiClient), Dashboard.navigate("login.html?serverid=" + result.Servers[0].Id);
+                        Dashboard.onServerChanged(null, null, apiClient);
+                        Dashboard.navigate("login.html?serverid=" + result.Servers[0].Id);
                         break;
                     case "ServerUpdateNeeded":
                         alertTextWithOptions({
@@ -69,17 +106,17 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                         });
                         break;
                     default:
-                        showServerConnectionFailure()
+                        showServerConnectionFailure();
                 }
             })
         }
 
         function deleteServer(server) {
-            loading.show(), connectionManager.deleteServer(server.Id).then(function() {
-                loading.hide(), loadServers()
-            }, function() {
-                loading.hide(), loadServers()
-            })
+            loading.show();
+            connectionManager.deleteServer(server.Id).then(function() {
+                loading.hide();
+                loadServers();
+            });
         }
 
         function onServerClick(server) {
@@ -87,7 +124,8 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
             menuItems.push({
                 name: globalize.translate("Connect"),
                 id: "connect"
-            }), menuItems.push({
+            });
+            menuItems.push({
                 name: globalize.translate("Delete"),
                 id: "delete"
             });
@@ -106,33 +144,37 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
         }
 
         function onServersRetrieved(result) {
-            servers = result, renderSelectServerItems(view, result), layoutManager.tv && focusManager.autoFocus(view)
+            servers = result;
+            renderSelectServerItems(view, result);
+            if (layoutManager.tv) {
+                focusManager.autoFocus(view);
+            }
         }
 
         function loadServers() {
-            loading.show(), connectionManager.getAvailableServers().then(onServersRetrieved, function(result) {
-                onServersRetrieved([])
-            })
+            loading.show();
+            connectionManager.getAvailableServers().then(onServersRetrieved);
         }
+
         var servers;
-        layoutManager.desktop;
         updatePageStyle(view, params);
-        var backdropUrl = staticBackdrops.getRandomImageUrl();
+
         view.addEventListener("viewshow", function(e) {
             var isRestored = e.detail.isRestored;
             appRouter.setTitle(null);
-            backdrop.setBackdrop(backdropUrl);
             if (!isRestored) loadServers();
-        }), view.querySelector(".servers").addEventListener("click", function(e) {
+        });
+        view.querySelector(".servers").addEventListener("click", function(e) {
             var card = dom.parentWithClass(e.target, "card");
             if (card) {
                 var url = card.getAttribute("data-url");
-                if (url) appRouter.show(url);
-                else {
+                if (url) {
+                    appRouter.show(url);
+                } else {
                     var id = card.getAttribute("data-id");
                     onServerClick(servers.filter(function(s) {
-                        return s.Id === id
-                    })[0])
+                        return s.Id === id;
+                    })[0]);
                 }
             }
         })
