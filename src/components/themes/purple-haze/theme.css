@@ -1,7 +1,7 @@
 .skinHeader,
 html {
-    color: #ddd;
-    color: rgba(255, 255, 255, .8)
+    color: #f8f8fe;
+    color: rgba(248, 248, 254, 0.973)
 }
 
 .wizardStartForm,
@@ -39,7 +39,7 @@ html {
 
 .dialog,
 html {
-    background-color: #3f2d7a
+    background-color: #0e0f2d
 }
 
 .backgroundContainer {
@@ -59,7 +59,7 @@ html {
 }
 
 .paper-icon-button-light:focus {
-    color: #00a4dc;
+    color: #48C3C8;
     background-color: rgba(0,164,220, .2)
 }
 
@@ -91,13 +91,13 @@ progress::-webkit-progress-value {
 }
 
 .button-submit {
-    background: #00a4dc;
-    color: #fff
+    background: #48C3C8;
+    color: #f8f8fe
 }
 
-.button-submit:focus {
-    background: #0cb0e8;
-    color: #fff
+.button-submit:hover {
+    background: #0ce8d6;
+    color: #f8f8fe
 }
 
 .checkboxLabel {
@@ -116,7 +116,7 @@ progress::-webkit-progress-value {
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: #00a4dc
+    color: #48C3C8
 }
 
 .checkboxOutline {
@@ -191,7 +191,7 @@ progress::-webkit-progress-value {
 
 .toast {
     background: #303030;
-    color: #fff;
+    color: #f8f8fe;
     color: rgba(255, 255, 255, .87)
 }
 
@@ -210,16 +210,16 @@ progress::-webkit-progress-value {
 }
 
 .itemSelectionPanel {
-    border: 1px solid #00a4dc
+    border: 1px solid #48C3C8
 }
 
 .selectionCommandsPanel {
-    background: #00a4dc;
-    color: #fff
+    background: #48C3C8;
+    color: #f8f8fe
 }
 
 .upNextDialog-countdownText {
-    color: #00a4dc
+    color: #48C3C8
 }
 
 .alphaPickerButton {
@@ -229,12 +229,12 @@ progress::-webkit-progress-value {
 }
 
 .alphaPickerButton-selected {
-    color: #fff
+    color: #0ce8d6
 }
 
 .alphaPickerButton-tv:focus {
-    background-color: #00a4dc;
-    color: #fff !important
+    background: #0ce8d6;
+    color: #f8f8fe !important
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
@@ -251,16 +251,16 @@ progress::-webkit-progress-value {
 }
 
 .progressring-spiner {
-    border-color: #00a4dc
+    border-color: #48C3C8
 }
 
 .button-flat-accent,
 .button-link {
-    color: #00a4dc
+    color: #48C3C8
 }
 
 .mediaInfoText {
-    color: #ddd;
+    color: #f8f8fe;
     background: rgba(170, 170, 190, .2)
 }
 
@@ -280,7 +280,7 @@ progress::-webkit-progress-value {
 
 .emby-input:focus,
 .emby-textarea:focus {
-    border-color: #00a4dc
+    border-color: #48C3C8
 }
 
 .emby-select-withcolor {
@@ -291,20 +291,20 @@ progress::-webkit-progress-value {
 
 .emby-select-withcolor>option {
     color: inherit;
-    background: #222
+    background: #030322d7
 }
 
 .emby-select-withcolor:focus {
-    border-color: #00a4dc !important
+    border-color: #48C3C8 !important
 }
 
 .emby-select-tv-withcolor:focus {
-    background-color: #00a4dc !important;
+    background-color: #48C3C8 !important;
     color: #fff !important
 }
 
 .emby-checkbox:checked+span+span+.checkboxOutline {
-    border-color: #00a4dc
+    border-color: #48C3C8
 }
 
 .emby-checkbox:focus+span+.emby-checkbox-focushelper {
@@ -313,7 +313,7 @@ progress::-webkit-progress-value {
 
 .emby-checkbox:checked+span+span+.checkboxOutline,
 .itemProgressBarForeground {
-    background-color: #00a4dc
+    background-color: #48C3C8
 }
 
 .itemProgressBarForeground-recording {
@@ -323,7 +323,7 @@ progress::-webkit-progress-value {
 .countIndicator,
 .fullSyncIndicator,
 .playedIndicator {
-    background: #00a4dc
+    background: #48C3C8
 }
 
 .fullSyncIndicator {
@@ -331,6 +331,7 @@ progress::-webkit-progress-value {
 }
 
 .mainDrawer {
+    color: #f8f8fe;
     background: rgba(0, 0, 0, .5);
 }
 
@@ -345,12 +346,12 @@ progress::-webkit-progress-value {
 
 .navMenuOption-selected {
     background: #6f0765 !important;
-    color: #fff
+    color: #f8f8fe
 }
 
 .emby-button-focusscale:focus {
-    background: #00a4dc;
-    color: #fff
+    background: #48C3C8;
+    color: #f8f8fe
 }
 
 .emby-tab-button {
@@ -359,15 +360,15 @@ progress::-webkit-progress-value {
 }
 
 .emby-tab-button-active {
-    color: #fff
+    color: #f8f8fe
 }
 
 .emby-tab-button-active.emby-button-tv {
-    color: #fff
+    color: #f8f8fe
 }
 
 .emby-tab-button.emby-button-tv:focus {
-    color: #00a4dc;
+    color: #48C3C8;
     background: 0 0
 }
 
@@ -399,7 +400,7 @@ progress::-webkit-progress-value {
 
 .guide-channelHeaderCell:focus,
 .programCell:focus {
-    background-color: #00a4dc !important;
+    background-color: #48C3C8 !important;
     color: #fff !important
 }
 
@@ -419,11 +420,11 @@ progress::-webkit-progress-value {
 
 .guide-date-tab-button.emby-tab-button-active,
 .guide-date-tab-button:focus {
-    color: #00a4dc
+    color: #48C3C8
 }
 
 .guide-date-tab-button.emby-button-tv:focus {
-    background-color: #00a4dc;
+    background-color: #48C3C8;
     color: #fff
 }
 
@@ -435,8 +436,8 @@ progress::-webkit-progress-value {
 }
 
 .infoBanner {
-    color: #ddd;
-    background: #111;
+    color: #0e0f2d;
+    background: #dbe6ff;
     padding: 1em;
     -webkit-border-radius: .25em;
     border-radius: .25em
@@ -460,7 +461,7 @@ progress::-webkit-progress-value {
 }
 
 .card:focus .card-focuscontent {
-    border-color: #00a4dc
+    border-color: #48C3C8
 }
 
 .layout-desktop ::-webkit-scrollbar {
@@ -488,5 +489,6 @@ progress::-webkit-progress-value {
 
 .mediaInfoOfficialRating {
     border: .09em solid #583fa0;
-    background-color: #5a1259
+    background-color: #dbe6ff;
+    color: #0e0f2d;
 }
