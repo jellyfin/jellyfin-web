@@ -879,6 +879,8 @@
     "LabelVersionInstalled": "{0} installed",
     "DashboardVersionNumber": "Version: {0}",
     "DashboardServerName": "Server: {0}",
+    "DashboardOperatingSystem": "Operating System: {0}",
+    "DashboardArchitecture": "Architecture: {0}",
     "LabelVideo": "Video:",
     "LabelWeb": "Web: ",
     "LabelXDlnaCap": "X-Dlna cap:",
