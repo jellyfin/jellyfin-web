@@ -156,8 +156,6 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "cardSt
                     view.querySelector("#txtManualName").value = "";
                     showManualForm(view, false, false);
                 }
-
-            }).finally(function () {
                 loading.hide();
             });
 

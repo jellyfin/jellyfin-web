@@ -273,11 +273,11 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         events.on(currentPlayer, 'timeupdate', onGeneralEvent);
     }
 
+    function execute(name) {
+        playbackManager[name](currentPlayer);
+    }
     if (navigator.mediaSession) {
 
-        function execute(name) {
-            playbackManager[name](currentPlayer);
-        }
 
         navigator.mediaSession.setActionHandler('previoustrack', function () {
             execute('previousTrack');

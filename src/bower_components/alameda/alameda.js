@@ -239,6 +239,7 @@ var requirejs, require, define;
         }
 
         function delayedError(e) {
+            console.log(e.stack);
             return setTimeout(function() {
                 e.dynaId && trackedErrors[e.dynaId] || (trackedErrors[e.dynaId] = !0, req.onError(e))
             }), e

@@ -329,7 +329,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         events.on(appHost, 'resume', onAppResume);
 
         connectionManager.connect({
-
             enableAutoLogin: appSettings.enableAutoLogin()
 
         }).then(function (result) {
@@ -343,7 +342,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 hashbang: options.hashbang !== false,
                 enableHistory: enableHistory()
             });
-        }).finally(function () {
             loading.hide();
         });
     }
