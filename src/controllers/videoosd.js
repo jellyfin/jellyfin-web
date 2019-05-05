@@ -534,7 +534,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                 view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("ExitFullscreen"));
                 view.querySelector(".btnFullscreen i").innerHTML = "&#xE5D1;";
             } else {
-                view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("Fullscreen"));
+                view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("Fullscreen") + " (f)");
                 view.querySelector(".btnFullscreen i").innerHTML = "&#xE5D0;";
             }
         }
@@ -718,7 +718,14 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         }
 
         function updatePlayPauseState(isPaused) {
-            view.querySelector(".btnPause i").innerHTML = isPaused ? "&#xE037;" : "&#xE034;";
+            var button = view.querySelector(".btnPause i");
+            if (isPaused) {
+                button.innerHTML = "&#xE037;";
+                button.setAttribute("title", globalize.translate("ButtonPlay") + " (k)");
+            } else {
+                button.innerHTML = "&#xE034;";
+                button.setAttribute("title", globalize.translate("ButtonPause") + " (k)");
+            }
         }
 
         function updatePlayerStateInternal(event, player, state) {
@@ -841,10 +848,10 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             }
 
             if (isMuted) {
-                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute"));
+                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute") + " (m)");
                 view.querySelector(".buttonMute i").innerHTML = "&#xE04F;";
             } else {
-                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute"));
+                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute") + " (m)");
                 view.querySelector(".buttonMute i").innerHTML = "&#xE050;";
             }
 
@@ -1050,43 +1057,61 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         }
 
         function onWindowKeyDown(e) {
-            if (!currentVisibleMenu && (32 === e.keyCode || 13 === e.keyCode)) {
+            if (!currentVisibleMenu && 32 === e.keyCode) {
                 playbackManager.playPause(currentPlayer);
                 return void showOsd();
             }
 
             switch (e.key) {
-                case "f":
-                if (!e.ctrlKey) {
-                    playbackManager.toggleFullscreen(currentPlayer);
-                }
+                case "k":
+                    playbackManager.playPause(currentPlayer);
+                    showOsd();
+                break;
 
+                case "l":
+                case "ArrowRight":
+                case "Right":
+                    playbackManager.fastForward(currentPlayer);
+                    showOsd();
+                break;
+
+                case "j":
+                case "ArrowLeft":
+                case "Left":
+                    playbackManager.rewind(currentPlayer);
+                    showOsd();
+                break;
+
+                case "f":
+                if (!e.ctrlKey && !e.metaKey) {
+                    playbackManager.toggleFullscreen(currentPlayer);
+                    showOsd();
+                }
                 break;
 
                 case "m":
                 playbackManager.toggleMute(currentPlayer);
+                showOsd();
                 break;
 
-                case "ArrowLeft":
-                case "Left":
                 case "NavigationLeft":
                 case "GamepadDPadLeft":
                 case "GamepadLeftThumbstickLeft":
-                if (e.shiftKey) {
+                // Ignores gamepad events that are always triggered, even when not focused.
+                if (document.hasFocus()) {
                     playbackManager.rewind(currentPlayer);
+                    showOsd();
                 }
-
                 break;
 
-                case "ArrowRight":
-                case "Right":
                 case "NavigationRight":
                 case "GamepadDPadRight":
                 case "GamepadLeftThumbstickRight":
-                if (e.shiftKey) {
+                // Ignores gamepad events that are always triggered, even when not focused.
+                if (document.hasFocus()) {
                     playbackManager.fastForward(currentPlayer);
+                    showOsd();
                 }
-
             }
         }
 
