@@ -1,6 +1,11 @@
 define(['browser', 'dialog', 'globalize'], function (browser, dialog, globalize) {
     'use strict';
 
+    function replaceAll(originalString, strReplace, strWith) {
+        var reg = new RegExp(strReplace, 'ig');
+        return originalString.replace(reg, strWith);
+    }
+
     return function (text, title) {
 
         var options;
