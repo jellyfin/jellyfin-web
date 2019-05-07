@@ -1,10 +1,7 @@
 define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionseditor/libraryoptionseditor", "emby-toggle", "emby-input", "emby-select", "paper-icon-button-light", "listViewStyle", "formDialogStyle", "emby-button", "flexStyles"], function(loading, dialogHelper, dom, $, libraryoptionseditor) {
     "use strict";
 
-    function onSubmit(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
+    function onAddLibrary() {
         if (isCreating) return false;
 
         if (pathInfos.length == 0) {
@@ -20,10 +17,9 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
         isCreating = true;
         loading.show();
 
-        var form = this;
-        var dlg = $(form).parents(".dialog")[0];
-        var name = $("#txtValue", form).val();
-        var type = $("#selectCollectionType", form).val();
+        var dlg = dom.parentWithClass(this, "dlg-librarycreator");
+        var name = $("#txtValue", dlg).val();
+        var type = $("#selectCollectionType", dlg).val();
         if (type == "mixed") type = null;
         var libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector(".libraryOptions"));
         libraryOptions.PathInfos = pathInfos;
@@ -73,7 +69,7 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
         });
 
         page.querySelector(".btnAddFolder").addEventListener("click", onAddButtonClick);
-        page.querySelector("form").addEventListener("submit", onSubmit);
+        page.querySelector(".btnSubmit").addEventListener("click", onAddLibrary);
         page.querySelector(".folderList").addEventListener("click", onRemoveClick);
         page.querySelector(".chkAdvanced").addEventListener("change", onToggleAdvancedChange);
     }
@@ -111,10 +107,10 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
 
     function addMediaLocation(page, path, networkSharePath) {
         var pathLower = path.toLowerCase();
-        var path = pathInfos.filter(function(p) {
+        var pathFilter = pathInfos.filter(function(p) {
             return p.Path.toLowerCase() == pathLower;
         });
-        if (path.length === 0) {
+        if (!pathFilter.length) {
             var pathInfo = {
                 Path: path
             };
