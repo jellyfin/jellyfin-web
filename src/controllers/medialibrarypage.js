@@ -157,12 +157,13 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
             Name: globalize.translate("ButtonAddMediaLibrary"),
             icon: "add_circle",
             Locations: [],
-            showType: !1,
-            showLocations: !1,
-            showMenu: !1,
-            showNameWithIcon: !0
+            showType: false,
+            showLocations: false,
+            showMenu: false,
+            showNameWithIcon: true
         });
-        for (var i = 0, length = virtualFolders.length; i < length; i++) {
+
+        for (var i = 0; i < virtualFolders.length; i++) {
             var virtualFolder = virtualFolders[i];
             html += getVirtualFolderHtml(page, virtualFolder, i)
         }
