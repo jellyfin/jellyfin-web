@@ -296,7 +296,9 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
         html += "</div>";
         html += "</div>";
         html += '<div class="cardFooter visualCardBox-cardFooter">';
-        if (virtualFolder.showMenu === true) {
+
+        // always show menu unless explicitly hidden
+        if (virtualFolder.showMenu !== false) {
             html += '<div style="text-align:right; float:right;padding-top:5px;">';
             html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="md-icon">&#xE5D3;</i></button>';
             html += "</div>";
