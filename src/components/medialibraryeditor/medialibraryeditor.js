@@ -193,8 +193,9 @@ define(["loading", "dialogHelper", "dom", "components/libraryoptionseditor/libra
     }
 
     var currentDeferred;
-    var hasChanges;
     var currentOptions;
+
+    var hasChanges = false;
 
     return editor;
 });

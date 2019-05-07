@@ -34,8 +34,8 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
             dialogHelper.close(dlg);
         }, function() {
             require(["toast"], function(toast) {
-                toast(Globalize.translate("ErrorAddingMediaPathToVirtualFolder"))
-            })
+                toast(Globalize.translate("ErrorAddingMediaPathToVirtualFolder"));
+            });
             isCreating = false;
             loading.hide();
         });
@@ -70,7 +70,12 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
                     $(".collectionTypeFieldDescription", dlg).html(folderOption.message || "")
                 }
             }
-        }), page.querySelector(".btnAddFolder").addEventListener("click", onAddButtonClick), page.querySelector("form").addEventListener("submit", onSubmit), page.querySelector(".folderList").addEventListener("click", onRemoveClick), page.querySelector(".chkAdvanced").addEventListener("change", onToggleAdvancedChange)
+        });
+
+        page.querySelector(".btnAddFolder").addEventListener("click", onAddButtonClick);
+        page.querySelector("form").addEventListener("submit", onSubmit);
+        page.querySelector(".folderList").addEventListener("click", onRemoveClick);
+        page.querySelector(".chkAdvanced").addEventListener("change", onToggleAdvancedChange);
     }
 
     function onToggleAdvancedChange() {
@@ -131,9 +136,6 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
     }
 
     function onDialogClosed() {
-        // I can't see any corresponding call to loading.show,
-        // so I think this is not supposed to be here.
-        loading.hide();
         currentResolve(hasChanges);
     }
 
@@ -176,7 +178,7 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
                     initLibraryOptions(dlg);
                 };
                 xhr.send();
-            })
+            });
         }
     }
 
@@ -184,7 +186,7 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
     var currentResolve;
     var currentOptions;
 
-    var hasChanges;
+    var hasChanges = false;
     var isCreating = false;
 
     return editor
