@@ -1,6 +1,28 @@
 define(["loading", "dialogHelper", "dom", "components/libraryoptionseditor/libraryoptionseditor", "emby-button", "listViewStyle", "paper-icon-button-light", "formDialogStyle", "emby-toggle", "flexStyles"], function(loading, dialogHelper, dom, libraryoptionseditor) {
     "use strict";
 
+    function onEditLibrary() {
+        if (isCreating) return false;
+
+        isCreating = true;
+        loading.show();
+
+        var dlg = dom.parentWithClass(this, "dlg-libraryeditor");
+        var libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector(".libraryOptions"));
+        libraryOptions = Object.assign(currentOptions.library.LibraryOptions || {}, libraryOptions);
+
+        ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(function() {
+            hasChanges = true;
+            isCreating = false;
+            loading.hide();
+            dialogHelper.close(dlg);
+        }, function() {
+            isCreating = false;
+            loading.hide();
+        });
+        return false;
+    }
+
     function addMediaLocation(page, path, networkSharePath) {
         var virtualFolder = currentOptions.library;
         var refreshAfterChange = currentOptions.refresh;
@@ -138,21 +160,13 @@ define(["loading", "dialogHelper", "dom", "components/libraryoptionseditor/libra
         dlg.querySelector(".btnAddFolder").addEventListener("click", onAddButtonClick);
         dlg.querySelector(".folderList").addEventListener("click", onListItemClick);
         dlg.querySelector(".chkAdvanced").addEventListener("change", onToggleAdvancedChange);
+        dlg.querySelector(".btnSubmit").addEventListener("click", onEditLibrary);
         libraryoptionseditor.embed(dlg.querySelector(".libraryOptions"), options.library.CollectionType, options.library.LibraryOptions).then(function() {
             onToggleAdvancedChange.call(dlg.querySelector(".chkAdvanced"));
         });
     }
 
-    function onDialogClosing() {
-        var dlg = this;
-        var libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector(".libraryOptions"));
-        libraryOptions = Object.assign(currentOptions.library.LibraryOptions || {}, libraryOptions);
-        ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions);
-    }
-
     function onDialogClosed() {
-        loading.hide();
-        hasChanges = true;
         currentDeferred.resolveWith(null, [hasChanges]);
     }
 
@@ -179,7 +193,6 @@ define(["loading", "dialogHelper", "dom", "components/libraryoptionseditor/libra
                 dlg.innerHTML = Globalize.translateDocument(template);
                 dlg.querySelector(".formDialogHeaderTitle").innerHTML = options.library.Name;
                 initEditor(dlg, options);
-                dlg.addEventListener("closing", onDialogClosing);
                 dlg.addEventListener("close", onDialogClosed);
                 dialogHelper.open(dlg);
                 dlg.querySelector(".btnCancel").addEventListener("click", function() {
@@ -196,6 +209,7 @@ define(["loading", "dialogHelper", "dom", "components/libraryoptionseditor/libra
     var currentOptions;
 
     var hasChanges = false;
+    var isCreating = false;
 
     return editor;
 });
