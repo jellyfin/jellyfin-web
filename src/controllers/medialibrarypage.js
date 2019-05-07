@@ -1,15 +1,6 @@
 define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "globalize", "dom", "indicators", "cardStyle", "emby-itemrefreshindicator"], function($, appHost, taskButton, loading, libraryMenu, globalize, dom, indicators) {
     "use strict";
 
-    function changeCollectionType(page, virtualFolder) {
-        require(["alert"], function(alert) {
-            alert({
-                title: globalize.translate("HeaderChangeFolderType"),
-                text: globalize.translate("HeaderChangeFolderTypeHelp")
-            })
-        })
-    }
-
     function addVirtualFolder(page) {
         require(["medialibrarycreator"], function(medialibrarycreator) {
             (new medialibrarycreator).show({
@@ -82,11 +73,6 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
         var virtualFolder = virtualFolders[index];
         var menuItems = [];
         menuItems.push({
-            name: globalize.translate("ButtonChangeContentType"),
-            id: "changetype",
-            ironIcon: "videocam"
-        });
-        menuItems.push({
             name: globalize.translate("ButtonEditImages"),
             id: "editimages",
             ironIcon: "photo"
@@ -117,9 +103,6 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
                 positionTo: elem,
                 callback: function(resultId) {
                     switch (resultId) {
-                        case "changetype":
-                            changeCollectionType(page, virtualFolder);
-                            break;
                         case "edit":
                             editVirtualFolder(page, virtualFolder);
                             break;
