@@ -342,6 +342,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 hashbang: options.hashbang !== false,
                 enableHistory: enableHistory()
             });
+        }).catch().then(function() {
             loading.hide();
         });
     }
