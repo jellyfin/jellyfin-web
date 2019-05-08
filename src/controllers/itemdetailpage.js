@@ -322,6 +322,25 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             itemBirthLocation.classList.remove("hide"), itemBirthLocation.innerHTML = globalize.translate("BirthPlaceValue").replace("{0}", gmap)
         } else itemBirthLocation.classList.add("hide");
         setPeopleHeader(page, item), loading.hide()
+
+        try {
+            require(["focusManager"], function(focusManager) {
+                [".btnResume", ".btnPlay"].every(function (cls) {
+                    
+                    var elems = page.querySelectorAll(cls);
+                    
+                    for (var i = 0; i < elems.length; i++) {
+                        if (focusManager.isCurrentlyFocusable(elems[i])) {
+                            focusManager.focus(elems[i]);
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+            });
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     function logoImageUrl(item, apiClient, options) {
