@@ -79,10 +79,10 @@ define(['events', 'dom', 'apphost', 'browser'], function (events, dom, appHost, 
         passive: true
     });
 
+    function isTargetValid(target) {
+        return !dom.parentWithTag(target, ['BUTTON', 'INPUT', 'TEXTAREA']);
+    }
     if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
-        function isTargetValid(target) {
-            return !dom.parentWithTag(target, ['BUTTON', 'INPUT', 'TEXTAREA']);
-        }
 
         dom.addEventListener(window, 'dblclick', function (e) {
 
