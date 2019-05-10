@@ -107,10 +107,10 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         deviceName = browser.tizen ? "Samsung Smart TV" : browser.web0s ? "LG Smart TV" : browser.operaTv ? "Opera TV" : browser.xboxOne ? "Xbox One" : browser.ps4 ? "Sony PS4" : browser.chrome ? "Chrome" : browser.edge ? "Edge" : browser.firefox ? "Firefox" : browser.msie ? "Internet Explorer" : browser.opera ? "Opera" : "Web Browser";
 
         if (browser.ipad) {
-            deviceName += " Ipad";
+            deviceName += " iPad";
         } else {
             if (browser.iphone) {
-                deviceName += " Iphone";
+                deviceName += " iPhone";
             } else {
                 if (browser.android) {
                     deviceName += " Android";
