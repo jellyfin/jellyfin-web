@@ -8,15 +8,11 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
     };
 
     function initCenterFocus(elem, scrollerInstance) {
-
         dom.addEventListener(elem, 'focus', function (e) {
-
             var focused = focusManager.focusableParent(e.target);
-
             if (focused) {
                 scrollerInstance.toCenter(focused);
             }
-
         }, {
             capture: true,
             passive: true
@@ -28,11 +24,13 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
             this.scroller.slideTo(0, true);
         }
     };
+
     ScrollerProtoType.toStart = function (elem, immediate) {
         if (this.scroller) {
             this.scroller.toStart(elem, immediate);
         }
     };
+
     ScrollerProtoType.toCenter = function (elem, immediate) {
         if (this.scroller) {
             this.scroller.toCenter(elem, immediate);
@@ -82,20 +80,16 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
     };
 
     function onInputCommand(e) {
-
         var cmd = e.detail.command;
-
         if (cmd === 'end') {
             focusManager.focusLast(this, '.' + this.getAttribute('data-navcommands'));
             e.preventDefault();
             e.stopPropagation();
-        }
-        else if (cmd === 'pageup') {
+        } else if (cmd === 'pageup') {
             focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), -12);
             e.preventDefault();
             e.stopPropagation();
-        }
-        else if (cmd === 'pagedown') {
+        } else if (cmd === 'pagedown') {
             focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), 12);
             e.preventDefault();
             e.stopPropagation();
@@ -104,18 +98,16 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
 
     function initHeadroom(elem) {
         require(['headroom'], function (Headroom) {
-
             var headroom = new Headroom([], {
                 scroller: elem
             });
-            
+
             headroom.add(document.querySelector('.skinHeader'));
             elem.headroom = headroom;
         });
     }
 
     ScrollerProtoType.attachedCallback = function () {
-
         if (this.getAttribute('data-navcommands')) {
             inputManager.on(this, onInputCommand);
         }
@@ -141,10 +133,8 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
             slidee: slider,
             scrollBy: 200,
             speed: horizontal ? 270 : 240,
-            //immediateSpeed: pageOptions.immediateSpeed,
             elasticBounds: 1,
             dragHandle: 1,
-            scrollWidth: this.getAttribute('data-scrollsize') === 'auto' ? null : 5000000,
             autoImmediate: true,
             skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
             dispatchScrollEvent: enableScrollButtons || bindHeader || this.getAttribute('data-scrollevent') === 'true',
@@ -152,7 +142,6 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
             allowNativeSmoothScroll: this.getAttribute('data-allownativesmoothscroll') === 'true' && !enableScrollButtons,
             allowNativeScroll: !enableScrollButtons,
             forceHideScrollbars: enableScrollButtons,
-
             // In edge, with the native scroll, the content jumps around when hovering over the buttons
             requireAnimation: enableScrollButtons && browser.edge
         };
@@ -175,14 +164,12 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
     };
 
     function loadScrollButtons(scroller) {
-
         require(['emby-scrollbuttons'], function () {
-            scroller.insertAdjacentHTML('beforeend', '<div is="emby-scrollbuttons"></div>');
+            scroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
         });
     }
 
     ScrollerProtoType.pause = function () {
-
         var headroom = this.headroom;
         if (headroom) {
             headroom.pause();
@@ -190,7 +177,6 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
     };
 
     ScrollerProtoType.resume = function () {
-
         var headroom = this.headroom;
         if (headroom) {
             headroom.resume();
@@ -198,7 +184,6 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
     };
 
     ScrollerProtoType.detachedCallback = function () {
-
         if (this.getAttribute('data-navcommands')) {
             inputManager.off(this, onInputCommand);
         }
