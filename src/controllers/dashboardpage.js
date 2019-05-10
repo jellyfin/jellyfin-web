@@ -180,25 +180,25 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             view.querySelector("#serverName").innerHTML = globalize.translate("DashboardServerName", systemInfo.ServerName);
 
             var localizedVersion = globalize.translate("DashboardVersionNumber", systemInfo.Version);
-            if (systemInfo.SystemUpdateLevel && "Release" != systemInfo.SystemUpdateLevel) {
-                localizedVersion += " " + globalize.translate("Option" + systemInfo.SystemUpdateLevel).toLowerCase();
+            if (systemInfo.SystemUpdateLevel !== "Release") {
+                localizedVersion += " " + systemInfo.SystemUpdateLevel;
             }
             view.querySelector("#versionNumber").innerHTML = localizedVersion;
 
-            if (systemInfo.SupportsHttps) {
-                view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPorts", systemInfo.HttpServerPortNumber, systemInfo.HttpsPortNumber);
-            } else {
-                view.querySelector("#ports").innerHTML = globalize.translate("LabelRunningOnPort", systemInfo.HttpServerPortNumber);
-            }
-
-            DashboardPage.renderUrls(view, systemInfo);
-            DashboardPage.renderPaths(view, systemInfo);
+            view.querySelector("#operatingSystem").innerHTML = globalize.translate("DashboardOperatingSystem", systemInfo.OperatingSystem);
+            view.querySelector("#architecture").innerHTML = globalize.translate("DashboardArchitecture", systemInfo.SystemArchitecture);
 
             if (systemInfo.CanSelfRestart) {
                 view.querySelector("#btnRestartServer").classList.remove("hide");
             } else {
                 view.querySelector("#btnRestartServer").classList.add("hide");
             }
+
+            view.querySelector("#cachePath").innerHTML = systemInfo.CachePath;
+            view.querySelector("#logPath").innerHTML = systemInfo.LogPath;
+            view.querySelector("#transcodePath").innerHTML = systemInfo.TranscodingTempPath;
+            view.querySelector("#metadataPath").innerHTML = systemInfo.InternalMetadataPath;
+            view.querySelector("#webPath").innerHTML = systemInfo.WebPath;
         });
     }
 
@@ -373,13 +373,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
     }
 
     window.DashboardPage = {
-        renderPaths: function (page, systemInfo) {
-            page.querySelector("#cachePath").innerHTML = systemInfo.CachePath;
-            page.querySelector("#logPath").innerHTML = systemInfo.LogPath;
-            page.querySelector("#transcodePath").innerHTML = systemInfo.TranscodingTempPath;
-            page.querySelector("#metadataPath").innerHTML = systemInfo.InternalMetadataPath;
-            page.querySelector("#webPath").innerHTML = systemInfo.WebPath;
-        },
         startInterval: function (apiClient) {
             apiClient.sendMessage("SessionsStart", "0,1500");
             apiClient.sendMessage("ScheduledTasksInfoStart", "0,1000");
@@ -711,28 +704,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             return null;
         },
         systemUpdateTaskKey: "SystemUpdateTask",
-        renderUrls: function (page, systemInfo) {
-            var helpButton = '<a is="emby-linkbutton" class="raised raised-mini button-submit" href="https://jellyfin.readthedocs.io/en/latest/administrator-docs/connectivity" target="_blank" style="margin-left:.7em;font-size:84%;padding:.2em .8em;">' + globalize.translate("ButtonHelp") + "</a>";
-            var localUrlElem = page.querySelector(".localUrl");
-            var externalUrlElem = page.querySelector(".externalUrl");
-
-            if (systemInfo.LocalAddress) {
-                var localAccessHtml = globalize.translate("LabelLocalAccessUrl", '<a is="emby-linkbutton" class="button-link" href="' + systemInfo.LocalAddress + '" target="_blank">' + systemInfo.LocalAddress + "</a>");
-                localUrlElem.innerHTML = localAccessHtml + helpButton;
-                localUrlElem.classList.remove("hide");
-            } else {
-                localUrlElem.classList.add("hide");
-            }
-
-            if (systemInfo.WanAddress) {
-                var externalUrl = systemInfo.WanAddress;
-                var remoteAccessHtml = globalize.translate("LabelRemoteAccessUrl", '<a is="emby-linkbutton" class="button-link" href="' + externalUrl + '" target="_blank">' + externalUrl + "</a>");
-                externalUrlElem.innerHTML = remoteAccessHtml + helpButton;
-                externalUrlElem.classList.remove("hide");
-            } else {
-                externalUrlElem.classList.add("hide");
-            }
-        },
         stopTask: function (btn, id) {
             var page = dom.parentWithClass(btn, "page");
             ApiClient.stopScheduledTask(id).then(function () {

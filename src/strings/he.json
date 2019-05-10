@@ -189,7 +189,6 @@
     "LabelDynamicExternalId": "{0} תעודת זהות:",
     "LabelEnableBlastAliveMessages": "הודעות דחיפה",
     "LabelEnableBlastAliveMessagesHelp": "אפשר זאת אם השרת לא מזוהה כאמין על ידי מכשירי UPnP אחרים ברשת שלך.",
-    "LabelEnableDebugLogging": "אפשר תיעוד פעילות לאיתור תקלות",
     "LabelEnableDlnaClientDiscoveryInterval": "זמן גילוי קליינטים (בשניות)",
     "LabelEnableDlnaDebugLogging": "אפשר ניהול רישום באגים בDLNA",
     "LabelEnableDlnaDebugLoggingHelp": "אפשרות זו תיצור קבצי לוג גדולים יותר ועליך להשתמש בה רק על מנת לפתור תקלות.",
