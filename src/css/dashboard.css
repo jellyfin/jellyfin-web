@@ -212,20 +212,6 @@ div[data-role=controlgroup] a.ui-btn-active {
     }
 }
 
-@media all and (min-width:94em) {
-    .dashboardColumn-3-46 {
-        width: 46%
-    }
-
-    .dashboardColumn-3-27 {
-        width: 27%
-    }
-
-    .activeRecordingItems>.card {
-        width: 50%
-    }
-}
-
 .premiumBanner img {
     position: absolute;
     text-align: right;
