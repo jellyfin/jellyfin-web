@@ -43,8 +43,7 @@ define(["libraryBrowser", "cardBuilder", "apphost", "imageLoader", "loading"], f
                     centerText: !0,
                     overlayPlayButton: !0,
                     allowBottomPadding: !0,
-                    cardLayout: !1,
-                    vibrant: !1
+                    cardLayout: !1
                 });
                 var elem = context.querySelector("#items");
                 elem.innerHTML = html, imageLoader.lazyChildren(elem), libraryBrowser.saveQueryValues(getSavedQueryKey(), query), loading.hide()

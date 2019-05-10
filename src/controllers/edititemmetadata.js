@@ -1,4 +1,4 @@
-define(["loading"], function(loading) {
+define(["loading", "scripts/editorsidebar"], function(loading) {
     "use strict";
 
     function reload(context, itemId) {

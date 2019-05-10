@@ -673,7 +673,6 @@ var AppInfo = {};
         var componentsPath = "components";
         var paths = {
             velocity: bowerPath + "/velocity/velocity.min",
-            vibrant: bowerPath + "/vibrant/dist/vibrant",
             ironCardList: "components/ironcardlist/ironcardlist",
             scrollThreshold: "components/scrollthreshold",
             playlisteditor: "components/playlisteditor/playlisteditor",
@@ -687,16 +686,16 @@ var AppInfo = {};
             humanedate: "components/humanedate",
             libraryBrowser: "scripts/librarybrowser",
             events: apiClientBowerPath + "/events",
-            credentialprovider: apiClientBowerPath + "/credentials",
+            credentialprovider: apiClientBowerPath + "/credentialprovider",
             connectionManagerFactory: bowerPath + "/apiclient/connectionmanager",
             visibleinviewport: componentsPath + "/visibleinviewport",
             browserdeviceprofile: componentsPath + "/browserdeviceprofile",
             browser: componentsPath + "/browser",
-            inputManager: componentsPath + "/inputmanager",
+            inputManager: componentsPath + "/inputManager",
             qualityoptions: componentsPath + "/qualityoptions",
             hammer: bowerPath + "/hammerjs/hammer.min",
             page: "thirdparty/page",
-            focusManager: componentsPath + "/focusmanager",
+            focusManager: componentsPath + "/focusManager",
             datetime: componentsPath + "/datetime",
             globalize: componentsPath + "/globalize",
             itemHelper: componentsPath + "/itemhelper",
@@ -704,7 +703,7 @@ var AppInfo = {};
             playQueueManager: componentsPath + "/playback/playqueuemanager",
             autoPlayDetect: componentsPath + "/playback/autoplaydetect",
             nowPlayingHelper: componentsPath + "/playback/nowplayinghelper",
-            pluginManager: componentsPath + "/pluginmanager",
+            pluginManager: componentsPath + "/pluginManager",
             packageManager: componentsPath + "/packagemanager"
         };
         paths.hlsjs = bowerPath + "/hlsjs/dist/hls.min";
@@ -778,15 +777,14 @@ var AppInfo = {};
         define("homescreenSettings", [componentsPath + "/homescreensettings/homescreensettings"], returnFirstDependency);
         define("homescreenSettingsDialog", [componentsPath + "/homescreensettings/homescreensettingsdialog"], returnFirstDependency);
         define("playbackManager", [componentsPath + "/playback/playbackmanager"], getPlaybackManager);
-        define("layoutManager", [componentsPath + "/layoutmanager", "apphost"], getLayoutManager);
+        define("layoutManager", [componentsPath + "/layoutManager", "apphost"], getLayoutManager);
         define("homeSections", [componentsPath + "/homesections/homesections"], returnFirstDependency);
         define("playMenu", [componentsPath + "/playmenu"], returnFirstDependency);
         define("refreshDialog", [componentsPath + "/refreshdialog/refreshdialog"], returnFirstDependency);
         define("backdrop", [componentsPath + "/backdrop/backdrop"], returnFirstDependency);
         define("fetchHelper", [componentsPath + "/fetchhelper"], returnFirstDependency);
-        define("roundCardStyle", ["cardStyle", "css!" + componentsPath + "/cardbuilder/roundcard"], returnFirstDependency);
         define("cardStyle", ["css!" + componentsPath + "/cardbuilder/card"], returnFirstDependency);
-        define("cardBuilder", [componentsPath + "/cardbuilder/cardbuilder"], returnFirstDependency);
+        define("cardBuilder", [componentsPath + "/cardbuilder/cardBuilder"], returnFirstDependency);
         define("peoplecardbuilder", [componentsPath + "/cardbuilder/peoplecardbuilder"], returnFirstDependency);
         define("chaptercardbuilder", [componentsPath + "/cardbuilder/chaptercardbuilder"], returnFirstDependency);
         define("flexStyles", ["css!" + componentsPath + "/flexstyles"], returnFirstDependency);
@@ -831,7 +829,6 @@ var AppInfo = {};
         define("viewSettings", [componentsPath + "/viewsettings/viewsettings"], returnFirstDependency);
         define("filterMenu", [componentsPath + "/filtermenu/filtermenu"], returnFirstDependency);
         define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
-        define("connectionmanager", [apiClientBowerPath + "/connectionmanager"]);
         define("serversync", [apiClientBowerPath + "/sync/serversync"], returnFirstDependency);
         define("multiserversync", [apiClientBowerPath + "/sync/multiserversync"], returnFirstDependency);
         define("mediasync", [apiClientBowerPath + "/sync/mediasync"], returnFirstDependency);
@@ -844,7 +841,7 @@ var AppInfo = {};
         define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
         define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);
         define("touchHelper", [componentsPath + "/touchhelper"], returnFirstDependency);
-        define("appSettings", [componentsPath + "/appsettings"], returnFirstDependency);
+        define("appSettings", [componentsPath + "/appSettings"], returnFirstDependency);
         define("userSettings", [componentsPath + "/usersettings/usersettings"], returnFirstDependency);
         define("userSettingsBuilder", [componentsPath + "/usersettings/usersettingsbuilder", "layoutManager", "browser"], getSettingsBuilder);
         define("material-icons", ["css!css/material-icons/style"], returnFirstDependency);
@@ -854,7 +851,7 @@ var AppInfo = {};
         define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
         define("navdrawer", ["components/navdrawer/navdrawer"], returnFirstDependency);
         define("htmlMediaHelper", [componentsPath + "/htmlMediaHelper"], returnFirstDependency);
-        define("viewcontainer", ["components/viewContainer"], returnFirstDependency);
+        define("viewContainer", ["components/viewContainer"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
         });

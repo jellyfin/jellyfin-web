@@ -69,6 +69,7 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
             -1 === c.getAttribute("data-types").split(",").indexOf(value) ? dom.parentWithTag(c, "LABEL").classList.add("hide") : (dom.parentWithTag(c, "LABEL").classList.remove("hide"), any = !0)
         }), any ? context.querySelector(".decodingCodecsList").classList.remove("hide") : context.querySelector(".decodingCodecsList").classList.add("hide")
     }
+
     $(document).on("pageinit", "#encodingSettingsPage", function() {
         var page = this;
         page.querySelector("#selectVideoDecoder").addEventListener("change", function() {

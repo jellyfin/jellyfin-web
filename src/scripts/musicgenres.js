@@ -49,15 +49,13 @@ define(["libraryBrowser", "cardBuilder", "apphost", "imageLoader", "loading"], f
                     preferThumb: !0,
                     context: "music",
                     cardLayout: !0,
-                    showTitle: !0,
-                    vibrant: !0
+                    showTitle: !0
                 }) : "PosterCard" == viewStyle ? html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: "auto",
                     context: "music",
                     cardLayout: !0,
-                    showTitle: !0,
-                    vibrant: !0
+                    showTitle: !0
                 }) : "Poster" == viewStyle && (html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: "auto",
