@@ -295,8 +295,10 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
 
             if (playbackManager.subtitleTracks(player).length) {
                 view.querySelector(".btnSubtitles").classList.remove("hide");
+                toggleSubtitleSync();
             } else {
                 view.querySelector(".btnSubtitles").classList.add("hide");
+                toggleSubtitleSync("forceToHide");
             }
 
             if (playbackManager.audioTracks(player).length > 1) {
@@ -368,7 +370,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             if ("osd" === currentVisibleMenu) {
                 hideOsd();
             } else if (!currentVisibleMenu) {
-                    showOsd();
+                showOsd();
             }
         }
 
@@ -419,6 +421,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                         focusManager.focus(elem.querySelector(".btnPause"));
                     }, 50);
                 }
+                toggleSubtitleSync();
             }
         }
 
@@ -431,6 +434,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                     once: true
                 });
                 currentVisibleMenu = null;
+                toggleSubtitleSync("hide");
             }
         }
 
@@ -530,7 +534,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                 view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("ExitFullscreen"));
                 view.querySelector(".btnFullscreen i").innerHTML = "&#xE5D1;";
             } else {
-                view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("Fullscreen"));
+                view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("Fullscreen") + " (f)");
                 view.querySelector(".btnFullscreen i").innerHTML = "&#xE5D0;";
             }
         }
@@ -622,6 +626,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
 
         function releaseCurrentPlayer() {
             destroyStats();
+            destroySubtitleSync();
             resetUpNextDialog();
             var player = currentPlayer;
 
@@ -713,7 +718,14 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         }
 
         function updatePlayPauseState(isPaused) {
-            view.querySelector(".btnPause i").innerHTML = isPaused ? "&#xE037;" : "&#xE034;";
+            var button = view.querySelector(".btnPause i");
+            if (isPaused) {
+                button.innerHTML = "&#xE037;";
+                button.setAttribute("title", globalize.translate("ButtonPlay") + " (k)");
+            } else {
+                button.innerHTML = "&#xE034;";
+                button.setAttribute("title", globalize.translate("ButtonPause") + " (k)");
+            }
         }
 
         function updatePlayerStateInternal(event, player, state) {
@@ -836,10 +848,10 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             }
 
             if (isMuted) {
-                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute"));
+                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute") + " (m)");
                 view.querySelector(".buttonMute i").innerHTML = "&#xE04F;";
             } else {
-                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute"));
+                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute") + " (m)");
                 view.querySelector(".buttonMute i").innerHTML = "&#xE050;";
             }
 
@@ -897,11 +909,17 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                 var player = currentPlayer;
 
                 if (player) {
+
+                    // show subtitle offset feature only if player and media support it
+                    var showSubOffset = playbackManager.supportSubtitleOffset(player) && 
+                        playbackManager.canHandleOffsetOnCurrentSubtitle(player);
+
                     playerSettingsMenu.show({
                         mediaType: "Video",
                         player: player,
                         positionTo: btn,
                         stats: true,
+                        suboffset: showSubOffset,
                         onOption: onSettingsOption
                     });
                 }
@@ -911,6 +929,12 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         function onSettingsOption(selectedOption) {
             if ("stats" === selectedOption) {
                 toggleStats();
+            } else if ("suboffset" === selectedOption) {
+                var player = currentPlayer;
+                if (player) {
+                    playbackManager.enableShowingSubtitleOffset(player);
+                    toggleSubtitleSync();
+                }
             }
         }
 
@@ -1008,48 +1032,86 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                     if (index !== currentIndex) {
                         playbackManager.setSubtitleStreamIndex(index, player);
                     }
+
+                    toggleSubtitleSync();                    
                 });
             });
         }
 
+        function toggleSubtitleSync(action) {
+            require(["subtitleSync"], function (SubtitleSync) {
+                var player = currentPlayer;
+                if (subtitleSyncOverlay) {
+                    subtitleSyncOverlay.toggle(action);
+                } else if(player){
+                    subtitleSyncOverlay = new SubtitleSync(player);
+                }
+            });
+        }
+
+        function destroySubtitleSync() {
+            if (subtitleSyncOverlay) {
+                subtitleSyncOverlay.destroy();
+                subtitleSyncOverlay = null;
+            }
+        }
+
         function onWindowKeyDown(e) {
-            if (!currentVisibleMenu && (32 === e.keyCode || 13 === e.keyCode)) {
+            if (!currentVisibleMenu && 32 === e.keyCode) {
                 playbackManager.playPause(currentPlayer);
                 return void showOsd();
             }
 
             switch (e.key) {
-                case "f":
-                if (!e.ctrlKey) {
-                    playbackManager.toggleFullscreen(currentPlayer);
-                }
+                case "k":
+                    playbackManager.playPause(currentPlayer);
+                    showOsd();
+                break;
 
+                case "l":
+                case "ArrowRight":
+                case "Right":
+                    playbackManager.fastForward(currentPlayer);
+                    showOsd();
+                break;
+
+                case "j":
+                case "ArrowLeft":
+                case "Left":
+                    playbackManager.rewind(currentPlayer);
+                    showOsd();
+                break;
+
+                case "f":
+                if (!e.ctrlKey && !e.metaKey) {
+                    playbackManager.toggleFullscreen(currentPlayer);
+                    showOsd();
+                }
                 break;
 
                 case "m":
                 playbackManager.toggleMute(currentPlayer);
+                showOsd();
                 break;
 
-                case "ArrowLeft":
-                case "Left":
                 case "NavigationLeft":
                 case "GamepadDPadLeft":
                 case "GamepadLeftThumbstickLeft":
-                if (e.shiftKey) {
+                // Ignores gamepad events that are always triggered, even when not focused.
+                if (document.hasFocus()) {
                     playbackManager.rewind(currentPlayer);
+                    showOsd();
                 }
-
                 break;
 
-                case "ArrowRight":
-                case "Right":
                 case "NavigationRight":
                 case "GamepadDPadRight":
                 case "GamepadLeftThumbstickRight":
-                if (e.shiftKey) {
+                // Ignores gamepad events that are always triggered, even when not focused.
+                if (document.hasFocus()) {
                     playbackManager.fastForward(currentPlayer);
+                    showOsd();
                 }
-
             }
         }
 
@@ -1146,6 +1208,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         var programStartDateMs = 0;
         var programEndDateMs = 0;
         var playbackStartTimeTicks = 0;
+        var subtitleSyncOverlay;
         var nowPlayingVolumeSlider = view.querySelector(".osdVolumeSlider");
         var nowPlayingVolumeSliderContainer = view.querySelector(".osdVolumeSliderContainer");
         var nowPlayingPositionSlider = view.querySelector(".osdPositionSlider");
@@ -1169,7 +1232,6 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             dom.addEventListener(document, window.PointerEvent ? "pointermove" : "mousemove", onPointerMove, {
                 passive: true
             });
-            document.body.classList.add("autoScrollY");
             showOsd();
             inputManager.on(window, onInputCommand);
             dom.addEventListener(window, "keydown", onWindowKeyDown, {
@@ -1190,7 +1252,6 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             dom.removeEventListener(document, window.PointerEvent ? "pointermove" : "mousemove", onPointerMove, {
                 passive: true
             });
-            document.body.classList.remove("autoScrollY");
             inputManager.off(window, onInputCommand);
             events.off(playbackManager, "playerchange", onPlayerChange);
             releaseCurrentPlayer();
@@ -1217,6 +1278,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             }
 
             destroyStats();
+            destroySubtitleSync();
         });
         var lastPointerDown = 0;
         dom.addEventListener(view, window.PointerEvent ? "pointerdown" : "click", function (e) {
@@ -1254,6 +1316,9 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
 
         if (browser.touch) {
             dom.addEventListener(view, "dblclick", onDoubleClick, {});
+        } else {
+            var options = { passive: true };
+            dom.addEventListener(view, "dblclick", function () { playbackManager.toggleFullscreen(currentPlayer); }, options);
         }
 
         view.querySelector(".buttonMute").addEventListener("click", function () {
@@ -1268,6 +1333,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         nowPlayingVolumeSlider.addEventListener("touchmove", function () {
             playbackManager.setVolume(this.value, currentPlayer);
         });
+
         nowPlayingPositionSlider.addEventListener("change", function () {
             var player = currentPlayer;
 

@@ -29,14 +29,9 @@ html {
 }
 
 body {
-    overflow-y: scroll !important;
     overflow-x: hidden;
     background-color: transparent !important;
     -webkit-font-smoothing: antialiased
-}
-
-body.autoScrollY {
-    overflow-y: auto !important
 }
 
 .mainAnimatedPage {

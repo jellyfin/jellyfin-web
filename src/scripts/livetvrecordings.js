@@ -15,7 +15,6 @@ define(["layoutManager", "loading", "cardBuilder", "apphost", "imageLoader", "sc
             coverImage: !0,
             cardLayout: !1,
             centerText: !0,
-            vibrant: !1,
             allowBottomPadding: !scrollX,
             preferThumb: "auto",
             overlayText: !1

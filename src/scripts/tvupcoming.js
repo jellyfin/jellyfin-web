@@ -73,7 +73,6 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
                 overlayText: !1,
                 allowBottomPadding: allowBottomPadding,
                 cardLayout: supportsImageAnalysis,
-                vibrant: supportsImageAnalysis,
                 overlayMoreButton: !0,
                 missingIndicator: !1
             }), html += "</div>", html += "</div>"

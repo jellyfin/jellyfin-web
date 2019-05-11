@@ -69,8 +69,7 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                     shape: "square",
                     coverImage: !0,
                     showTitle: !0,
-                    cardLayout: !0,
-                    vibrant: !0
+                    cardLayout: !0
                 }) : "Thumb" == viewStyle ? cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: "backdrop",
@@ -83,8 +82,7 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                     shape: "backdrop",
                     showTitle: !0,
                     preferThumb: !0,
-                    cardLayout: !0,
-                    vibrant: !0
+                    cardLayout: !0
                 }) : cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: "square",

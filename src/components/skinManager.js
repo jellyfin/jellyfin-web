@@ -35,35 +35,11 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             isDefault: true,
             isDefaultServerDashboard: true
         }, {
-            name: "Dark Classic",
-            id: "dark-classic",
-        }, {
-            name: "Dark (Green Accent)",
-            id: "dark-green"
-        }, {
-            name: "Dark (Red Accent)",
-            id: "dark-red"
+            name: "Emby",
+            id: "emby",
         }, {
             name: "Light",
             id: "light"
-        }, {
-            name: "Light Classic",
-            id: "light-classic"
-        }, {
-            name: "Light (Blue Accent)",
-            id: "light-blue"
-        }, {
-            name: "Light (Green Accent)",
-            id: "light-green"
-        }, {
-            name: "Light (Pink Accent)",
-            id: "light-pink"
-        }, {
-            name: "Light (Purple Accent)",
-            id: "light-purple"
-        }, {
-            name: "Light (Red Accent)",
-            id: "light-red"
         }, {
             name: "Purple Haze",
             id: "purple-haze"

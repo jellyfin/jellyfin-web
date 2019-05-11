@@ -55,7 +55,7 @@ html {
 
 .backgroundContainer,
 .dialog {
-    background: url(https://github.com/MediaBrowser/Emby.Resources/raw/master/images/wallpaper/atv1-1080.png) center center no-repeat #D5E9F2;
+    background: #D5E9F2;
     -webkit-background-size: 100% 100%;
     background-size: 100% 100%
 }

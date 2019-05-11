@@ -67,8 +67,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                     context: "movies",
                     cardLayout: !0,
                     showTitle: !0,
-                    showYear: !0,
-                    vibrant: !0
+                    showYear: !0
                 }) : "Banner" == viewStyle ? cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: "banner",
@@ -84,8 +83,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                     context: "movies",
                     showTitle: !0,
                     showYear: !0,
-                    cardLayout: !0,
-                    vibrant: !0
+                    cardLayout: !0
                 }) : cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: "portrait",
