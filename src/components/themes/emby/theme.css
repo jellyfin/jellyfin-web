@@ -43,9 +43,14 @@ html {
     background-color: rgba(0, 0, 0, .86)
 }
 
+.paper-icon-button-light:hover {
+    color: #52b54b;
+    background-color: rgba(82, 181, 75, .2);
+    transition: 0.2s;
+}
+
 .paper-icon-button-light:focus {
     color: #52b54b;
-    background-color: rgba(82, 181, 75, .2)
 }
 
 .fab,
