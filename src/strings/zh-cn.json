@@ -1430,5 +1430,7 @@
     "SubtitleSettingsIntro": "要配置默认字幕外观和语言设置，请停止视频播放，然后单击应用程序右上角的用户图标。",
     "TagsValue": "标签：{0}",
     "Vertical": "垂直的",
-    "VideoRange": "视频范围"
+    "VideoRange": "视频范围",
+    "Depressed": "凹陷",
+    "Uniform": "轮廓"
 }
