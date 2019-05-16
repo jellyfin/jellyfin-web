@@ -329,7 +329,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             name: globalize.translate("DVR"),
             href: "livetvsettings.html",
             pageIds: ["liveTvSettingsPage"],
-            icon: "list"
+            icon: "dvr"
         });
         links.push({
             divider: true,
