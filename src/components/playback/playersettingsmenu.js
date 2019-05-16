@@ -136,8 +136,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
     }
 
     function showAspectRatioMenu(player, btn) {
-
-        // Each has name/id
+        // each has a name and id
         var currentId = playbackManager.getAspectRatio(player);
         var menuItems = playbackManager.getSupportedAspectRatios(player).map(function (i) {
             return {
@@ -148,12 +147,9 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         });
 
         return actionsheet.show({
-
             items: menuItems,
             positionTo: btn
-
         }).then(function (id) {
-
             if (id) {
                 playbackManager.setAspectRatio(id, player);
                 return Promise.resolve();
@@ -164,15 +160,11 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
     }
 
     function showWithUser(options, player, user) {
-
         var supportedCommands = playbackManager.getSupportedCommands(player);
-
         var mediaType = options.mediaType;
 
         var menuItems = [];
-
         if (supportedCommands.indexOf('SetAspectRatio') !== -1) {
-
             var currentAspectRatioId = playbackManager.getAspectRatio(player);
             var currentAspectRatio = playbackManager.getSupportedAspectRatios(player).filter(function (i) {
                 return i.id === currentAspectRatioId;
@@ -205,19 +197,18 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             });
         }
 
-        if (options.stats) {
+        if (options.suboffset) {
             menuItems.push({
-                name: globalize.translate('PlaybackData'),
-                id: 'stats',
+                name: globalize.translate('SubtitleOffset'),
+                id: 'suboffset',
                 asideText: null
             });
         }
 
-        if (options.suboffset) {
-
+        if (options.stats) {
             menuItems.push({
-                name: globalize.translate('SubtitleOffset'),
-                id: 'suboffset',
+                name: globalize.translate('PlaybackData'),
+                id: 'stats',
                 asideText: null
             });
         }
