@@ -22,6 +22,7 @@
  - [LogicalPhallacy](https://github.com/LogicalPhallacy)
  - [thornbill](https://github.com/thornbill)
  - [redSpoutnik](https://github.com/redSpoutnik)
+ - [DrPandemic](https://github.com/drpandemic)
 
 # Emby Contributors
 
