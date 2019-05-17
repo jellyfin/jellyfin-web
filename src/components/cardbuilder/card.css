@@ -410,7 +410,7 @@ button {
 }
 
 .cardOverlayButton {
-    color: rgba(255, 255, 255, .76) !important;
+    color: rgba(255, 255, 255, .76);
     margin: 0;
     z-index: 1;
     padding: .75em;
@@ -453,10 +453,6 @@ button {
     transition: transform 200ms ease-out;
 }
 
-    .cardOverlayButton-centered:hover {
-        transform: scale(1.2, 1.2);
-    }
-
 .bannerCard {
     width: 100%;
 }
@@ -490,14 +486,12 @@ button {
 }
 
 @media (min-width: 25em) {
-
     .backdropCard {
         width: 50%;
     }
 }
 
 @media (min-width: 31.25em) {
-
     .smallBackdropCard {
         width: 33.333333333333333333333333333333%;
     }
@@ -520,7 +514,6 @@ button {
 }
 
 @media (min-width: 50em) {
-
     .bannerCard {
         width: 50%;
     }
@@ -535,15 +528,12 @@ button {
 }
 
 @media (min-width: 62.5em) {
-
-
     .smallBackdropCard {
         width: 20%;
     }
 }
 
 @media (min-width: 75em) {
-
     .backdropCard {
         width: 25%;
     }
@@ -563,7 +553,6 @@ button {
 
 
 @media (min-width: 87.5em) {
-
     .squareCard, .portraitCard {
         width: 14.285714285714285714285714285714%;
     }
@@ -574,7 +563,6 @@ button {
 }
 
 @media (min-width: 100em) {
-
     .smallBackdropCard {
         width: 12.5%;
     }
@@ -589,14 +577,12 @@ button {
 }
 
 @media (min-width: 120em) {
-
     .squareCard, .portraitCard {
         width: 11.111111111111111111111111111111%;
     }
 }
 
 @media (min-width: 131.25em) {
-
     .bannerCard {
         width: 25%;
     }
@@ -607,7 +593,6 @@ button {
 }
 
 @media (min-width: 156.25em) {
-
     .backdropCard {
         width: 16.666666666666666666666666666667%;
     }
@@ -692,14 +677,12 @@ button {
 }
 
 @media (min-width: 50em) {
-
     .overflowSquareCard, .overflowPortraitCard {
         width: 18.4vw;
     }
 }
 
 @media (min-width: 75em) {
-
     .overflowBackdropCard, .overflowSmallBackdropCard {
         width: 23.3vw;
     }
@@ -710,7 +693,6 @@ button {
 }
 
 @media (min-width: 87.5em) {
-
     .overflowSquareCard, .overflowPortraitCard {
         width: 13.3vw;
     }
@@ -780,16 +762,15 @@ button {
     user-select: none;
 }
 
-.card-hoverable :hover .cardOverlayContainer {
+.card-hoverable:hover .cardOverlayContainer {
     opacity: 1;
 }
 
 .cardOverlayButton-hover {
     opacity: 0;
-    transition: opacity .2s;
+    transition: 0.2s;
     background: transparent;
-    color: #fff !important;
-    padding: .5em;
+    padding: 0.5em;
 }
 
 .cardOverlayButtonIcon-hover {
@@ -801,6 +782,7 @@ button {
 }
 
 .cardOverlayFab-primary {
+    background-color: rgba(0,0,0,0.7);
     font-size: 130%;
     padding: 0;
     width: 3em;
@@ -812,7 +794,7 @@ button {
     left: 50%;
 }
 
-.cardOverlayFab-primary i {
-    border: .07em solid rgba(255,255,255,.9);
-    color: #fff;
+.cardOverlayFab-primary:hover {
+    transform: scale(1.4, 1.4);
+    transition: 0.2s;
 }
