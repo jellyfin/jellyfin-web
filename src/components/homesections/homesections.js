@@ -216,7 +216,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                     icon = "local_movies";
                     break;
                 case "homevideos":
-                    icon = "video_label";
+                    icon = "photo_library";
                     break;
                 case "musicvideos":
                     icon = "music_video";

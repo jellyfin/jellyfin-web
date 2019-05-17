@@ -1572,7 +1572,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 return '<i class="cardImageIcon md-icon">&#xe333;</i>';
             }
             if (collectionType === 'homevideos' || collectionType === 'photos') {
-                return '<i class="cardImageIcon md-icon">&#xe071;</i>';
+                return '<i class="cardImageIcon md-icon">&#xe413;</i>';
             }
             if (collectionType === 'music') {
                 return '<i class="cardImageIcon md-icon">&#xE310;</i>';

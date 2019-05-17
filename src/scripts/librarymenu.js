@@ -534,10 +534,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                     else if ("livetv" === i.CollectionType) {
                         itemId = "livetv";
                     }
-
-                    else if ("photos" === i.CollectionType) {
-                        icon = "photo_library";
-                    }
                     else if ("music" === i.CollectionType) {
                         icon = "library_music";
                     }
@@ -553,8 +549,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                     else if ("movies" === i.CollectionType) {
                         icon = "video_library";
                     }
-                    else if ("homevideos" === i.CollectionType) {
-                        icon = "video_label";
+                    else if ("homevideos" === i.CollectionType || "photos" === i.CollectionType) {
+                        icon = "photo_library";
                     }
                     else if ("channels" === i.CollectionType || "Channel" === i.Type) {
                         icon = "videocam";

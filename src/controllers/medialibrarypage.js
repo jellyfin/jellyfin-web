@@ -232,7 +232,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
             case "trailers":
                 return "local_movies";
             case "homevideos":
-                return "video_library";
+                return "photo_library";
             case "musicvideos":
                 return "video_library";
             case "books":
