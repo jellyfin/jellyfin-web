@@ -77,7 +77,8 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                     context: "tvshows",
                     cardLayout: !0,
                     showTitle: !0,
-                    showYear: !0
+                    showYear: !0,
+                    centerText: !0
                 }) : "Banner" == viewStyle ? cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: "banner",
@@ -93,6 +94,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                     context: "tvshows",
                     showTitle: !0,
                     showYear: !0,
+                    centerText: !0,
                     cardLayout: !0
                 }) : cardBuilder.getCardsHtml({
                     items: result.Items,
@@ -101,7 +103,8 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                     centerText: !0,
                     lazy: !0,
                     overlayMoreButton: !0,
-                    showTitle: !0
+                    showTitle: !0,
+                    showYear: !0
                 });
                 var i, length, elems = tabContent.querySelectorAll(".paging");
                 for (i = 0, length = elems.length; i < length; i++) elems[i].innerHTML = pagingHtml;
