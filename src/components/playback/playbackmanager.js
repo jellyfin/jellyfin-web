@@ -2576,7 +2576,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
                     } else {
 
-                        playerStartPositionTicks = null;
                         contentType = getMimeType(type.toLowerCase(), mediaSource.TranscodingContainer);
 
                         if (mediaUrl.toLowerCase().indexOf('copytimestamps=true') === -1) {
