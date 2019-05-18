@@ -1386,5 +1386,6 @@
     "OptionDvd": "DVD",
     "OptionHasTrailer": "Tráiler",
     "OptionIsHD": "HD",
-    "OptionIsSD": "SD"
+    "OptionIsSD": "SD",
+    "AuthProviderHelp": "Selecciona un proveedor de autenticación para ser utilizado en la autenticación de este usuario"
 }
