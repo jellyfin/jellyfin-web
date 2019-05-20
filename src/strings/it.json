@@ -1326,5 +1326,20 @@
     "HeaderCastAndCrew": "Cast",
     "HeaderCastCrew": "Cast",
     "HeaderMedia": "Media",
-    "HeaderPassword": "Password"
+    "HeaderPassword": "Password",
+    "AuthProviderHelp": "Selezionare un Authentication Provider da utilizzare per autenticare la password dell'utente",
+    "HeaderFavoriteMovies": "Film Preferiti",
+    "HeaderFavoriteShows": "Serie TV Preferite",
+    "HeaderFavoriteEpisodes": "Episodi Favoriti",
+    "HeaderFavoriteAlbums": "Album Favoriti",
+    "HeaderFavoriteArtists": "Artisti Preferiti",
+    "HeaderFavoriteSongs": "Canzoni Preferite",
+    "HeaderFavoriteVideos": "Video Preferiti",
+    "HeaderFetcherSettings": "Impostazioni Fetcher",
+    "HeaderImageOptions": "Opzioni Immagine",
+    "HeaderRestartingServer": "Riavvio Server",
+    "Home": "Home",
+    "LabelAlbum": "Album:",
+    "LabelAudio": "Audio:",
+    "LabelCache": "Cache:"
 }

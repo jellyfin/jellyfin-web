@@ -1402,5 +1402,22 @@
     "ValueAlbumCount": "{0} albums",
     "ValueMinutes": "{0} min",
     "ValueOneAlbum": "1 album",
-    "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)"
+    "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
+    "HeaderFavoriteMovies": "Films favoris",
+    "HeaderFavoriteShows": "Séries favorites",
+    "HeaderFavoriteEpisodes": "Épisodes favoris",
+    "HeaderFavoriteAlbums": "Albums favoris",
+    "HeaderFavoriteArtists": "Artistes favoris",
+    "HeaderFavoriteSongs": "Chansons favorites",
+    "HeaderFavoriteVideos": "Vidéos favorites",
+    "HeaderRestartingServer": "Redémarrage du serveur",
+    "LabelServerName": "Nom du serveur :",
+    "DashboardVersionNumber": "Version : {0}",
+    "DashboardServerName": "Serveur : {0}",
+    "LabelWeb": "Web : ",
+    "MediaInfoSoftware": "Logiciel",
+    "MediaInfoStreamTypeAudio": "Audio",
+    "MediaInfoStreamTypeData": "Données",
+    "MediaInfoStreamTypeSubtitle": "Sous-titres",
+    "MediaInfoStreamTypeVideo": "Video"
 }
