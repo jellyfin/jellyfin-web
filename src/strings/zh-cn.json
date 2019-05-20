@@ -1432,5 +1432,9 @@
     "Vertical": "垂直的",
     "VideoRange": "视频范围",
     "Depressed": "凹陷",
-    "Uniform": "轮廓"
+    "Uniform": "轮廓",
+    "HeaderHome": "主页",
+    "HeaderHomeSettings": "主页设置",
+    "DashboardOperatingSystem": "操作系统：{0}",
+    "DashboardArchitecture": "架构：{0}"
 }
