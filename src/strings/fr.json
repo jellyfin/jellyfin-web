@@ -1419,5 +1419,7 @@
     "MediaInfoStreamTypeAudio": "Audio",
     "MediaInfoStreamTypeData": "Données",
     "MediaInfoStreamTypeSubtitle": "Sous-titres",
-    "MediaInfoStreamTypeVideo": "Video"
+    "MediaInfoStreamTypeVideo": "Video",
+    "AuthProviderHelp": "Sélectionnez le fournisseur d'authentification à utiliser pour identifier cet utilisateur par mot de passe",
+    "PasswordResetProviderHelp": "Choisissez un Fournisseur de réinitialisation de mot de passe à utiliser lorsqu'un utilisateur demande la réinitialisation de son mot de passe"
 }
