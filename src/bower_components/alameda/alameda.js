@@ -239,6 +239,7 @@ var requirejs, require, define;
         }
 
         function delayedError(e) {
+            console.log(e.stack);
             return setTimeout(function() {
                 e.dynaId && trackedErrors[e.dynaId] || (trackedErrors[e.dynaId] = !0, req.onError(e))
             }), e
@@ -265,7 +266,7 @@ var requirejs, require, define;
             trackedErrors = obj(),
             urlFetched = obj(),
             bundlesMap = obj(),
-            asyncResolve = Promise.resolve();
+            asyncResolve = Promise.resolve(undefined);
         return load = "function" == typeof importScripts ? function(map) {
             var url = map.url;
             urlFetched[url] || (urlFetched[url] = !0, getDefer(map.id), importScripts(url), takeQueue(map.id))

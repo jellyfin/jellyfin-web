@@ -90,20 +90,11 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
             html += '<div class="infoBanner" style="margin-bottom:1.5em;">';
             html += instruction;
             html += Globalize.translate("MessageDirectoryPickerInstruction").replace("{0}", "<b>\\\\server</b>").replace("{1}", "<b>\\\\192.168.1.101</b>");
-            if ("synology" === (systemInfo.PackageName || "").toLowerCase()) {
-                html += "<br/>";
-                html += "<br/>";
-                html += '<a is="emby-linkbutton" class="button-link" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Synology-:-Setting-Up-Your-Media-Library-Share" target="_blank">';
-                html += Globalize.translate("LearnHowToCreateSynologyShares");
-                html += "</a>";
-            } else if ("bsd" === systemInfo.OperatingSystem.toLowerCase()) {
+            if ("bsd" === systemInfo.OperatingSystem.toLowerCase()) {
                 html += "<br/>";
                 html += "<br/>";
                 html += Globalize.translate("MessageDirectoryPickerBSDInstruction");
                 html += "<br/>";
-                html += '<a is="emby-linkbutton" class="button-link" href="http://doc.freenas.org/9.3/freenas_jails.html#add-storage" target="_blank">';
-                html += Globalize.translate("ButtonMoreInformation");
-                html += "</a>";
             } else if ("linux" === systemInfo.OperatingSystem.toLowerCase()) {
                 html += "<br/>";
                 html += "<br/>";

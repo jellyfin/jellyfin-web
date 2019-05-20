@@ -19,7 +19,6 @@ define(["layoutManager", "cardBuilder", "apphost", "imageLoader", "loading", "sc
             coverImage: !0,
             cardLayout: cardLayout,
             centerText: !cardLayout,
-            vibrant: cardLayout && supportsImageAnalysis,
             allowBottomPadding: !enableScrollX(),
             preferThumb: "auto"
         }, cardOptions || {})), imageLoader.lazyChildren(recordingItems)

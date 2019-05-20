@@ -15,7 +15,6 @@ define(["layoutManager", "loading", "cardBuilder", "apphost", "imageLoader", "sc
             coverImage: !0,
             cardLayout: !1,
             centerText: !0,
-            vibrant: !1,
             allowBottomPadding: !scrollX,
             preferThumb: "auto",
             overlayText: !1
@@ -45,7 +44,7 @@ define(["layoutManager", "loading", "cardBuilder", "apphost", "imageLoader", "sc
             serverId = ApiClient.serverId();
         switch (type) {
             case "latest":
-                Dashboard.navigate("list/list.html?type=Recordings&serverId=" + serverId)
+                Dashboard.navigate("list.html?type=Recordings&serverId=" + serverId)
         }
     }
     return function(view, params, tabContent) {

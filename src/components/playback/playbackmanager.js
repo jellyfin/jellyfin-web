@@ -1635,6 +1635,46 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             getPlayerData(player).subtitleStreamIndex = index;
         };
 
+        self.supportSubtitleOffset = function(player) {
+            player = player || self._currentPlayer;
+            return player && 'setSubtitleOffset' in player;
+        }
+
+        self.enableShowingSubtitleOffset = function(player) {
+            player = player || self._currentPlayer;
+            player.enableShowingSubtitleOffset();
+        }
+
+        self.disableShowingSubtitleOffset = function(player) {
+            player = player || self._currentPlayer;
+            player.disableShowingSubtitleOffset();
+        }
+
+        self.isShowingSubtitleOffsetEnabled = function(player) {
+            player = player || self._currentPlayer;
+            return player.isShowingSubtitleOffsetEnabled();
+        }
+
+        self.isSubtitleStreamExternal = function(index, player) {
+            var stream = getSubtitleStream(player, index);
+            return stream ? getDeliveryMethod(stream) === 'External' : false;
+        }
+
+        self.setSubtitleOffset = function (value, player) {
+            player = player || self._currentPlayer;
+            player.setSubtitleOffset(value);
+        };
+
+        self.getPlayerSubtitleOffset = function(player) {
+            player = player || self._currentPlayer;
+            return player.getSubtitleOffset();
+        }
+
+        self.canHandleOffsetOnCurrentSubtitle = function(player) {
+            var index = self.getSubtitleStreamIndex(player);
+            return index !== -1  && self.isSubtitleStreamExternal(index, player);
+        }
+
         self.seek = function (ticks, player) {
 
             ticks = Math.max(0, ticks);
@@ -2536,7 +2576,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
                     } else {
 
-                        playerStartPositionTicks = null;
                         contentType = getMimeType(type.toLowerCase(), mediaSource.TranscodingContainer);
 
                         if (mediaUrl.toLowerCase().indexOf('copytimestamps=true') === -1) {

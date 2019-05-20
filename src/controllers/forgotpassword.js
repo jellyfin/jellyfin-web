@@ -12,9 +12,12 @@ define([], function() {
         });
         if ("PinCode" == result.Action) {
             var msg = Globalize.translate("MessageForgotPasswordFileCreated");
-            return msg += "<br/>", msg += "<br/>", msg += "<a href=\"forgotpasswordpin.html\">Enter PIN here to finish Password Reset</a>" ,msg += "<br/>",msg += result.PinFile, msg += "<br/>", void Dashboard.alert({
+            return msg += "<br/>", msg += "<br/>", msg += "Enter PIN here to finish Password Reset<br/>" ,msg += "<br/>",msg += result.PinFile, msg += "<br/>", void Dashboard.alert({
                 message: msg,
-                title: Globalize.translate("HeaderForgotPassword")
+                title: Globalize.translate("HeaderForgotPassword"),
+                callback: function() {
+                    Dashboard.navigate("forgotpasswordpin.html")
+                }
             })
         }
     }

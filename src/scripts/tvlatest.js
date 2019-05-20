@@ -34,7 +34,6 @@ define(["loading", "components/groupedcards", "cardBuilder", "apphost", "imageLo
                 centerText: !0,
                 lazy: !0,
                 overlayPlayButton: !0,
-                vibrant: !1,
                 lines: 2
             });
             var elem = context.querySelector("#latestEpisodes");

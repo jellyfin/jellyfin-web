@@ -167,7 +167,6 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
                 action: section.action,
                 allowBottomPadding: !enableScrollX(),
                 cardLayout: cardLayout,
-                vibrant: supportsImageAnalysis && cardLayout,
                 leadingButtons: leadingButtons,
                 lines: lines
             })

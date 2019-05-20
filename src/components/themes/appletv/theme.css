@@ -55,7 +55,7 @@ html {
 
 .backgroundContainer,
 .dialog {
-    background: url(https://github.com/MediaBrowser/Emby.Resources/raw/master/images/wallpaper/atv1-1080.png) center center no-repeat #D5E9F2;
+    background: #D5E9F2;
     -webkit-background-size: 100% 100%;
     background-size: 100% 100%
 }
@@ -71,9 +71,14 @@ html {
     background: #f0f0f0
 }
 
+.paper-icon-button-light:hover {
+    color: #00a4dc;
+    background-color: rgba(0,164,220, .2);
+    transition: 0.2s;
+}
+
 .paper-icon-button-light:focus {
     color: #00a4dc;
-    background-color: rgba(0,164,220, .2)
 }
 
 .fab,
@@ -281,9 +286,17 @@ html {
     border: .07em solid rgba(0, 0, 0, .158)
 }
 
-.emby-checkbox:checked+span+span+.checkboxOutline,
+.emby-checkbox:checked+span+.checkboxOutline,
 .emby-select-withcolor:focus {
     border-color: #00a4dc
+}
+
+.emby-checkbox:focus+span+.checkboxOutline {
+    border-color: #fff;
+}
+
+.emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
+    border-color: #00a4dc;
 }
 
 .emby-select-withcolor>option {
@@ -296,11 +309,7 @@ html {
     color: #fff
 }
 
-.emby-checkbox:focus+span+.emby-checkbox-focushelper {
-    background-color: rgba(0,164,220, .26)
-}
-
-.emby-checkbox:checked+span+span+.checkboxOutline,
+.emby-checkbox:checked+span+.checkboxOutline,
 .itemProgressBarForeground {
     background-color: #00a4dc
 }

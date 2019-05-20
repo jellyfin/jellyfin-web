@@ -467,6 +467,13 @@ var AppInfo = {};
         define("buttonenabled", ["legacy/buttonenabled"], returnFirstDependency);
         var promises = [];
 
+        if (!window.fetch) {
+            promises.push(require(["fetch"]));
+        }
+        if ("function" != typeof Object.assign) {
+            promises.push(require(["objectassign"]));
+        }
+
         Promise.all(promises).then(function () {
             createConnectionManager().then(function () {
                 console.log("initAfterDependencies promises resolved");
@@ -673,8 +680,6 @@ var AppInfo = {};
         var componentsPath = "components";
         var paths = {
             velocity: bowerPath + "/velocity/velocity.min",
-            vibrant: bowerPath + "/vibrant/dist/vibrant",
-            staticBackdrops: componentsPath + "/staticbackdrops",
             ironCardList: "components/ironcardlist/ironcardlist",
             scrollThreshold: "components/scrollthreshold",
             playlisteditor: "components/playlisteditor/playlisteditor",
@@ -688,24 +693,24 @@ var AppInfo = {};
             humanedate: "components/humanedate",
             libraryBrowser: "scripts/librarybrowser",
             events: apiClientBowerPath + "/events",
-            credentialprovider: apiClientBowerPath + "/credentials",
+            credentialprovider: apiClientBowerPath + "/credentialprovider",
             connectionManagerFactory: bowerPath + "/apiclient/connectionmanager",
             visibleinviewport: componentsPath + "/visibleinviewport",
             browserdeviceprofile: componentsPath + "/browserdeviceprofile",
             browser: componentsPath + "/browser",
-            inputManager: componentsPath + "/inputmanager",
+            inputManager: componentsPath + "/inputManager",
             qualityoptions: componentsPath + "/qualityoptions",
             hammer: bowerPath + "/hammerjs/hammer.min",
             page: "thirdparty/page",
-            focusManager: componentsPath + "/focusmanager",
+            focusManager: componentsPath + "/focusManager",
             datetime: componentsPath + "/datetime",
             globalize: componentsPath + "/globalize",
             itemHelper: componentsPath + "/itemhelper",
             itemShortcuts: componentsPath + "/shortcuts",
             playQueueManager: componentsPath + "/playback/playqueuemanager",
-            autoPlayDetect: componentsPath + "/playback/autoPlayDetect",
+            autoPlayDetect: componentsPath + "/playback/autoplaydetect",
             nowPlayingHelper: componentsPath + "/playback/nowplayinghelper",
-            pluginManager: componentsPath + "/pluginmanager",
+            pluginManager: componentsPath + "/pluginManager",
             packageManager: componentsPath + "/packagemanager"
         };
         paths.hlsjs = bowerPath + "/hlsjs/dist/hls.min";
@@ -758,6 +763,7 @@ var AppInfo = {};
         define("recordingButton", [componentsPath + "/recordingcreator/recordingbutton"], returnFirstDependency);
         define("recordingHelper", [componentsPath + "/recordingcreator/recordinghelper"], returnFirstDependency);
         define("subtitleEditor", [componentsPath + "/subtitleeditor/subtitleeditor"], returnFirstDependency);
+        define("subtitleSync", [componentsPath + "/subtitlesync/subtitlesync"], returnFirstDependency);
         define("itemIdentifier", [componentsPath + "/itemidentifier/itemidentifier"], returnFirstDependency);
         define("mediaInfo", [componentsPath + "/mediainfo/mediainfo"], returnFirstDependency);
         define("itemContextMenu", [componentsPath + "/itemcontextmenu"], returnFirstDependency);
@@ -778,15 +784,14 @@ var AppInfo = {};
         define("homescreenSettings", [componentsPath + "/homescreensettings/homescreensettings"], returnFirstDependency);
         define("homescreenSettingsDialog", [componentsPath + "/homescreensettings/homescreensettingsdialog"], returnFirstDependency);
         define("playbackManager", [componentsPath + "/playback/playbackmanager"], getPlaybackManager);
-        define("layoutManager", [componentsPath + "/layoutmanager", "apphost"], getLayoutManager);
+        define("layoutManager", [componentsPath + "/layoutManager", "apphost"], getLayoutManager);
         define("homeSections", [componentsPath + "/homesections/homesections"], returnFirstDependency);
         define("playMenu", [componentsPath + "/playmenu"], returnFirstDependency);
         define("refreshDialog", [componentsPath + "/refreshdialog/refreshdialog"], returnFirstDependency);
         define("backdrop", [componentsPath + "/backdrop/backdrop"], returnFirstDependency);
         define("fetchHelper", [componentsPath + "/fetchhelper"], returnFirstDependency);
-        define("roundCardStyle", ["cardStyle", "css!" + componentsPath + "/cardbuilder/roundcard"], returnFirstDependency);
         define("cardStyle", ["css!" + componentsPath + "/cardbuilder/card"], returnFirstDependency);
-        define("cardBuilder", [componentsPath + "/cardbuilder/cardbuilder"], returnFirstDependency);
+        define("cardBuilder", [componentsPath + "/cardbuilder/cardBuilder"], returnFirstDependency);
         define("peoplecardbuilder", [componentsPath + "/cardbuilder/peoplecardbuilder"], returnFirstDependency);
         define("chaptercardbuilder", [componentsPath + "/cardbuilder/chaptercardbuilder"], returnFirstDependency);
         define("flexStyles", ["css!" + componentsPath + "/flexstyles"], returnFirstDependency);
@@ -820,6 +825,8 @@ var AppInfo = {};
         define("jstree", ["thirdparty/jstree/jstree", "css!thirdparty/jstree/themes/default/style.css"], returnFirstDependency);
         define("dashboardcss", ["css!css/dashboard"], returnFirstDependency);
         define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
+        define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency);
+        define("objectassign", [componentsPath + "/polyfills/objectassign"], returnFirstDependency);
         define("clearButtonStyle", ["css!" + componentsPath + "/clearbutton"], returnFirstDependency);
         define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
         define("emby-playstatebutton", [componentsPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
@@ -831,7 +838,6 @@ var AppInfo = {};
         define("viewSettings", [componentsPath + "/viewsettings/viewsettings"], returnFirstDependency);
         define("filterMenu", [componentsPath + "/filtermenu/filtermenu"], returnFirstDependency);
         define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
-        define("connectionmanager", [apiClientBowerPath + "/connectionmanager"]);
         define("serversync", [apiClientBowerPath + "/sync/serversync"], returnFirstDependency);
         define("multiserversync", [apiClientBowerPath + "/sync/multiserversync"], returnFirstDependency);
         define("mediasync", [apiClientBowerPath + "/sync/mediasync"], returnFirstDependency);
@@ -844,7 +850,7 @@ var AppInfo = {};
         define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
         define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);
         define("touchHelper", [componentsPath + "/touchhelper"], returnFirstDependency);
-        define("appSettings", [componentsPath + "/appsettings"], returnFirstDependency);
+        define("appSettings", [componentsPath + "/appSettings"], returnFirstDependency);
         define("userSettings", [componentsPath + "/usersettings/usersettings"], returnFirstDependency);
         define("userSettingsBuilder", [componentsPath + "/usersettings/usersettingsbuilder", "layoutManager", "browser"], getSettingsBuilder);
         define("material-icons", ["css!css/material-icons/style"], returnFirstDependency);
@@ -854,7 +860,7 @@ var AppInfo = {};
         define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
         define("navdrawer", ["components/navdrawer/navdrawer"], returnFirstDependency);
         define("htmlMediaHelper", [componentsPath + "/htmlMediaHelper"], returnFirstDependency);
-        define("viewcontainer", ["components/viewContainer"], returnFirstDependency);
+        define("viewContainer", ["components/viewContainer"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
         });
@@ -992,11 +998,11 @@ var AppInfo = {};
                 }
 
                 if ("nextup" === item) {
-                    return "list/list.html?type=nextup&serverId=" + options.serverId;
+                    return "list.html?type=nextup&serverId=" + options.serverId;
                 }
 
                 if ("list" === item) {
-                    var url = "list/list.html?serverId=" + options.serverId + "&type=" + options.itemTypes;
+                    var url = "list.html?serverId=" + options.serverId + "&type=" + options.itemTypes;
 
                     if (options.isFavorite) {
                         url += "&IsFavorite=true";
@@ -1011,27 +1017,27 @@ var AppInfo = {};
                     }
 
                     if ("movies" === options.section) {
-                        return "list/list.html?type=Programs&IsMovie=true&serverId=" + options.serverId;
+                        return "list.html?type=Programs&IsMovie=true&serverId=" + options.serverId;
                     }
 
                     if ("shows" === options.section) {
-                        return "list/list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=" + options.serverId;
+                        return "list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=" + options.serverId;
                     }
 
                     if ("sports" === options.section) {
-                        return "list/list.html?type=Programs&IsSports=true&serverId=" + options.serverId;
+                        return "list.html?type=Programs&IsSports=true&serverId=" + options.serverId;
                     }
 
                     if ("kids" === options.section) {
-                        return "list/list.html?type=Programs&IsKids=true&serverId=" + options.serverId;
+                        return "list.html?type=Programs&IsKids=true&serverId=" + options.serverId;
                     }
 
                     if ("news" === options.section) {
-                        return "list/list.html?type=Programs&IsNews=true&serverId=" + options.serverId;
+                        return "list.html?type=Programs&IsNews=true&serverId=" + options.serverId;
                     }
 
                     if ("onnow" === options.section) {
-                        return "list/list.html?type=Programs&IsAiring=true&serverId=" + options.serverId;
+                        return "list.html?type=Programs&IsAiring=true&serverId=" + options.serverId;
                     }
 
                     if ("dvrschedule" === options.section) {
@@ -1050,7 +1056,7 @@ var AppInfo = {};
                 }
 
                 if ("Genre" === item.Type) {
-                    url = "list/list.html?genreId=" + item.Id + "&serverId=" + serverId;
+                    url = "list.html?genreId=" + item.Id + "&serverId=" + serverId;
 
                     if ("livetv" === context) {
                         url += "&type=Programs";
@@ -1064,7 +1070,7 @@ var AppInfo = {};
                 }
 
                 if ("MusicGenre" === item.Type) {
-                    url = "list/list.html?musicGenreId=" + item.Id + "&serverId=" + serverId;
+                    url = "list.html?musicGenreId=" + item.Id + "&serverId=" + serverId;
 
                     if (options.parentId) {
                         url += "&parentId=" + options.parentId;
@@ -1074,7 +1080,7 @@ var AppInfo = {};
                 }
 
                 if ("Studio" === item.Type) {
-                    url = "list/list.html?studioId=" + item.Id + "&serverId=" + serverId;
+                    url = "list.html?studioId=" + item.Id + "&serverId=" + serverId;
 
                     if (options.parentId) {
                         url += "&parentId=" + options.parentId;
@@ -1123,7 +1129,7 @@ var AppInfo = {};
 
                 if (item.IsFolder) {
                     if (id) {
-                        return "list/list.html?parentId=" + id + "&serverId=" + serverId;
+                        return "list.html?parentId=" + id + "&serverId=" + serverId;
                     }
 
                     return "#";
@@ -1138,7 +1144,7 @@ var AppInfo = {};
     })();
 
     require(["css!css/site"]);
-
+    
     return require(["browser"], onWebComponentsReady);
 }();
 pageClassOn("viewshow", "standalonePage", function () {

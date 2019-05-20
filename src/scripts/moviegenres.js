@@ -80,7 +80,6 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
                     scalable: !0,
                     centerText: !1,
                     cardLayout: !0,
-                    vibrant: supportsImageAnalysis,
                     showYear: !0
                 }) : "PosterCard" == viewStyle ? cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,
@@ -89,7 +88,6 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
                     scalable: !0,
                     centerText: !1,
                     cardLayout: !0,
-                    vibrant: supportsImageAnalysis,
                     showYear: !0
                 }) : "Poster" == viewStyle && cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,

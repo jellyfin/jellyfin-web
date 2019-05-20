@@ -7,14 +7,15 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
         });
 
         view.addEventListener("viewshow", function() {
-            var page = this;
+            // this page can also be used by admins to change user preferences from the user edit page
             var userId = params.userId || Dashboard.getCurrentUserId();
+            var page = this;
 
-            page.querySelector(".lnkDisplayPreferences").setAttribute("href", "mypreferencesdisplay.html?userId=" + userId);
-            page.querySelector(".lnkLanguagePreferences").setAttribute("href", "mypreferenceslanguages.html?userId=" + userId);
-            page.querySelector(".lnkSubtitleSettings").setAttribute("href", "mypreferencessubtitles.html?userId=" + userId);
-            page.querySelector(".lnkHomeScreenPreferences").setAttribute("href", "mypreferenceshome.html?userId=" + userId);
             page.querySelector(".lnkMyProfile").setAttribute("href", "myprofile.html?userId=" + userId);
+            page.querySelector(".lnkDisplayPreferences").setAttribute("href", "mypreferencesdisplay.html?userId=" + userId);
+            page.querySelector(".lnkHomePreferences").setAttribute("href", "mypreferenceshome.html?userId=" + userId);
+            page.querySelector(".lnkLanguagePreferences").setAttribute("href", "mypreferenceslanguages.html?userId=" + userId);
+            page.querySelector(".lnkSubtitlePreferences").setAttribute("href", "mypreferencessubtitles.html?userId=" + userId);
 
             if (appHost.supports("multiserver")) {
                 page.querySelector(".selectServer").classList.remove("hide")
@@ -22,19 +23,15 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
                 page.querySelector(".selectServer").classList.add("hide");
             }
 
-            connectionManager.user(ApiClient).then(function(user) {
-                if (user.localUser && !user.localUser.EnableAutoLogin) {
-                    view.querySelector(".btnLogout").classList.remove("hide");
-                } else {
-                    view.querySelector(".btnLogout").classList.add("hide");
-                }
-            });
+            // hide the actions if user preferences are being edited for a different user
+            if (params.userId && params.userId !== Dashboard.getCurrentUserId) {
+                page.querySelector(".userSection").classList.add("hide");
+                page.querySelector(".adminSection").classList.add("hide");
+            }
 
-            Dashboard.getCurrentUser().then(function(user) {
-                page.querySelector(".headerUser").innerHTML = user.Name;
-                if (user.Policy.IsAdministrator) {
-                    page.querySelector(".adminSection").classList.remove("hide");
-                } else {
+            ApiClient.getUser(userId).then(function(user) {
+                page.querySelector(".headerUsername").innerHTML = user.Name;
+                if (!user.Policy.IsAdministrator) {
                     page.querySelector(".adminSection").classList.add("hide");
                 }
             });

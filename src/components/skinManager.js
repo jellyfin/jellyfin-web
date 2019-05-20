@@ -7,7 +7,6 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
     function unloadTheme() {
         var elem = themeStyleElement;
         if (elem) {
-
             elem.parentNode.removeChild(elem);
             themeStyleElement = null;
             currentThemeId = null;
@@ -16,7 +15,6 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
     function loadUserSkin(options) {
         options = options || {};
-
         if (options.start) {
             Emby.Page.invokeShortcut(options.start);
         } else {
@@ -37,29 +35,14 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             isDefault: true,
             isDefaultServerDashboard: true
         }, {
-            name: "Dark (green accent)",
-            id: "dark-green"
-        }, {
-            name: "Dark (red accent)",
-            id: "dark-red"
+            name: "Emby",
+            id: "emby",
         }, {
             name: "Light",
             id: "light"
         }, {
-            name: "Light (blue accent)",
-            id: "light-blue"
-        }, {
-            name: "Light (green accent)",
-            id: "light-green"
-        }, {
-            name: "Light (pink accent)",
-            id: "light-pink"
-        }, {
-            name: "Light (purple accent)",
-            id: "light-purple"
-        }, {
-            name: "Light (red accent)",
-            id: "light-red"
+            name: "Purple Haze",
+            id: "purple-haze"
         }, {
             name: "Windows Media Center",
             id: "wmc"
@@ -71,7 +54,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         loadUserSkin: loadUserSkin
     };
 
-    function getThemeStylesheetInfo(id, requiresRegistration, isDefaultProperty) {
+    function getThemeStylesheetInfo(id, isDefaultProperty) {
         var themes = skinManager.getThemes();
         var defaultTheme;
         var selectedTheme;
@@ -122,14 +105,13 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
     skinManager.setTheme = function (id, context) {
         return new Promise(function (resolve, reject) {
-            var requiresRegistration = true;
             if (currentThemeId && currentThemeId === id) {
                 resolve();
                 return;
             }
 
             var isDefaultProperty = context === 'serverdashboard' ? 'isDefaultServerDashboard' : 'isDefault';
-            var info = getThemeStylesheetInfo(id, requiresRegistration, isDefaultProperty);
+            var info = getThemeStylesheetInfo(id, isDefaultProperty);
             if (currentThemeId && currentThemeId === info.themeId) {
                 resolve();
                 return;
@@ -181,21 +163,16 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
     document.addEventListener('viewshow', onViewBeforeShow);
 
     function playSound(path, volume) {
-
         lastSound = new Date().getTime();
-
         require(['howler'], function (howler) {
-
             try {
                 var sound = new Howl({
                     src: [path],
                     volume: volume || 0.1
                 });
-
                 sound.play();
                 currentSound = sound;
-            }
-            catch (err) {
+            } catch (err) {
                 console.log('Error playing sound: ' + err);
             }
         });

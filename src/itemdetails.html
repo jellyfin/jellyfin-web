@@ -251,12 +251,13 @@
         </div>
 
         <div id="castCollapsible" class="verticalSection detailVerticalSection hide">
-            <h2 id="peopleHeader" class="sectionTitle sectionTitle-cards padded-left">
+            <h2 id="peopleHeader" class="sectionTitle sectionTitle-cards padded-left padded-right">
                 ${HeaderCastCrew}
             </h2>
-            <div id="castContent" is="emby-itemscontainer" class="itemsContainer padded-left padded-right"></div>
-            <div class="padded-left">
-                <button is="emby-button" type="button" class="raised more morePeople hide">${ButtonMore}</button>
+            <div is="emby-scroller" class="emby-scroller" data-mousewheel="false" data-centerfocus="true" data-horizontal="true">
+                <div class="scrollerframe padded-top-focusscale padded-bottom-focusscale">
+                    <div id="castContent" is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer padded-left padded-right"></div>
+                </div>
             </div>
         </div>
         <div id="seriesScheduleSection" class="verticalSection detailVerticalSection hide">

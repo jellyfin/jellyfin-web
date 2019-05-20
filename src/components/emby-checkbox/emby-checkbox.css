@@ -63,29 +63,6 @@
     justify-content: center;
 }
 
-/* Commenting this out - set by theme */
-/*.emby-checkbox:checked + span + span + .checkboxOutline {
-    border-color: #52B54B;
-}*/
-
-.emby-checkbox-focushelper {
-    position: absolute;
-    top: -0.915em;
-    left: -0.915em;
-    width: 3.66em;
-    height: 3.66em;
-    display: inline-block;
-    box-sizing: border-box;
-    margin: 3px 0 0 0;
-    border-radius: 50%;
-    background-color: transparent;
-}
-
-/* Commenting this out - set by theme */
-/*.emby-checkbox:focus + span + .emby-checkbox-focushelper {
-    background-color: rgba(82, 181, 75, 0.26);
-}*/
-
 .checkboxIcon {
     font-size: 1.6em;
     color: #fff;
@@ -95,18 +72,18 @@
     display: none;
 }
 
-.emby-checkbox:checked + span + span + .checkboxOutline > .checkboxIcon-checked {
+.emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-checked {
     /* background-color set by theme */
     /*background-color: #52B54B;*/
     display: flex !important;
 }
 
-.emby-checkbox:checked + span + span + .checkboxOutline > .checkboxIcon-unchecked {
+.emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-unchecked {
     /* background-color set by theme */
     display: none !important;
 }
 
-.emby-checkbox:checked[disabled] + span + span + .checkboxOutline > .checkboxIcon {
+.emby-checkbox:checked[disabled] + span + .checkboxOutline > .checkboxIcon {
     background-color: rgba(0, 0, 0, 0.26);
 }
 

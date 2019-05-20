@@ -1,10 +1,7 @@
 define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionseditor/libraryoptionseditor", "emby-toggle", "emby-input", "emby-select", "paper-icon-button-light", "listViewStyle", "formDialogStyle", "emby-button", "flexStyles"], function(loading, dialogHelper, dom, $, libraryoptionseditor) {
     "use strict";
 
-    function onSubmit(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
+    function onAddLibrary() {
         if (isCreating) return false;
 
         if (pathInfos.length == 0) {
@@ -14,30 +11,30 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
                     type: "error"
                 })
             });
-        } else {
-            isCreating = true;
-            loading.show();
-
-            var form = this,
-                dlg = $(form).parents(".dialog")[0],
-                name = $("#txtValue", form).val(),
-                type = $("#selectCollectionType", form).val();
-            if (type == "mixed") type = null;
-            var libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector(".libraryOptions"));
-            libraryOptions.PathInfos = pathInfos;
-            ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(function() {
-                hasChanges = true;
-                isCreating = false;
-                loading.hide();
-                dialogHelper.close(dlg);
-            }, function() {
-                require(["toast"], function(toast) {
-                    toast(Globalize.translate("ErrorAddingMediaPathToVirtualFolder"))
-                })
-                isCreating = false;
-                loading.hide();
-            });
+            return false;
         }
+
+        isCreating = true;
+        loading.show();
+
+        var dlg = dom.parentWithClass(this, "dlg-librarycreator");
+        var name = $("#txtValue", dlg).val();
+        var type = $("#selectCollectionType", dlg).val();
+        if (type == "mixed") type = null;
+        var libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector(".libraryOptions"));
+        libraryOptions.PathInfos = pathInfos;
+        ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(function() {
+            hasChanges = true;
+            isCreating = false;
+            loading.hide();
+            dialogHelper.close(dlg);
+        }, function() {
+            require(["toast"], function(toast) {
+                toast(Globalize.translate("ErrorAddingMediaPathToVirtualFolder"));
+            });
+            isCreating = false;
+            loading.hide();
+        });
         return false;
     }
 
@@ -49,13 +46,14 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
 
     function initEditor(page, collectionTypeOptions) {
         $("#selectCollectionType", page).html(getCollectionTypeOptionsHtml(collectionTypeOptions)).val("").on("change", function() {
-            var value = this.value,
-                dlg = $(this).parents(".dialog")[0];
+            var value = this.value;
+            var dlg = $(this).parents(".dialog")[0];
             libraryoptionseditor.setContentType(dlg.querySelector(".libraryOptions"), value == "mixed" ? "" : value);
-            if (value)
+            if (value) {
                 dlg.querySelector(".libraryOptions").classList.remove("hide");
-            else
+            } else {
                 dlg.querySelector(".libraryOptions").classList.add("hide");
+            }
 
             if (value != "mixed") {
                 var index = this.selectedIndex;
@@ -68,12 +66,17 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
                     $(".collectionTypeFieldDescription", dlg).html(folderOption.message || "")
                 }
             }
-        }), page.querySelector(".btnAddFolder").addEventListener("click", onAddButtonClick), page.querySelector("form").addEventListener("submit", onSubmit), page.querySelector(".folderList").addEventListener("click", onRemoveClick), page.querySelector(".chkAdvanced").addEventListener("change", onToggleAdvancedChange)
+        });
+
+        page.querySelector(".btnAddFolder").addEventListener("click", onAddButtonClick);
+        page.querySelector(".btnSubmit").addEventListener("click", onAddLibrary);
+        page.querySelector(".folderList").addEventListener("click", onRemoveClick);
+        page.querySelector(".chkAdvanced").addEventListener("change", onToggleAdvancedChange);
     }
 
     function onToggleAdvancedChange() {
         var dlg = dom.parentWithClass(this, "dlg-librarycreator");
-        libraryoptionseditor.setAdvancedVisible(dlg.querySelector(".libraryOptions"), this.checked)
+        libraryoptionseditor.setAdvancedVisible(dlg.querySelector(".libraryOptions"), this.checked);
     }
 
     function onAddButtonClick() {
@@ -83,7 +86,8 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
             picker.show({
                 enableNetworkSharePath: true,
                 callback: function(path, networkSharePath) {
-                    path && addMediaLocation(page, path, networkSharePath), picker.close()
+                    path && addMediaLocation(page, path, networkSharePath);
+                    picker.close();
                 }
             })
         })
@@ -95,50 +99,55 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
     }
 
     function renderPaths(page) {
-        var foldersHtml = pathInfos.map(getFolderHtml).join(""),
-            folderList = page.querySelector(".folderList");
-        folderList.innerHTML = foldersHtml, foldersHtml ? folderList.classList.remove("hide") : folderList.classList.add("hide")
+        var foldersHtml = pathInfos.map(getFolderHtml).join("");
+        var folderList = page.querySelector(".folderList");
+        folderList.innerHTML = foldersHtml;
+        foldersHtml ? folderList.classList.remove("hide") : folderList.classList.add("hide");
     }
 
     function addMediaLocation(page, path, networkSharePath) {
         var pathLower = path.toLowerCase();
-        if (0 == pathInfos.filter(function(p) {
-                return p.Path.toLowerCase() == pathLower
-            }).length) {
+        var pathFilter = pathInfos.filter(function(p) {
+            return p.Path.toLowerCase() == pathLower;
+        });
+        if (!pathFilter.length) {
             var pathInfo = {
                 Path: path
             };
-            networkSharePath && (pathInfo.NetworkPath = networkSharePath), pathInfos.push(pathInfo), renderPaths(page)
+            networkSharePath && (pathInfo.NetworkPath = networkSharePath);
+            pathInfos.push(pathInfo);
+            renderPaths(page);
         }
     }
 
     function onRemoveClick(e) {
-        var button = dom.parentWithClass(e.target, "btnRemovePath"),
-            index = parseInt(button.getAttribute("data-index")),
-            location = pathInfos[index].Path,
-            locationLower = location.toLowerCase();
+        var button = dom.parentWithClass(e.target, "btnRemovePath");
+        var index = parseInt(button.getAttribute("data-index"));
+        var location = pathInfos[index].Path;
+        var locationLower = location.toLowerCase();
         pathInfos = pathInfos.filter(function(p) {
-            return p.Path.toLowerCase() != locationLower
-        }), renderPaths(dom.parentWithClass(button, "dlg-librarycreator"))
+            return p.Path.toLowerCase() != locationLower;
+        });
+        renderPaths(dom.parentWithClass(button, "dlg-librarycreator"));
     }
 
     function onDialogClosed() {
-        // I can't see any corresponding call to loading.show,
-        // so I think this is not supposed to be here.
-        loading.hide();
         currentResolve(hasChanges);
     }
 
     function initLibraryOptions(dlg) {
         libraryoptionseditor.embed(dlg.querySelector(".libraryOptions")).then(function() {
-            $("#selectCollectionType", dlg).trigger("change"), onToggleAdvancedChange.call(dlg.querySelector(".chkAdvanced"))
+            $("#selectCollectionType", dlg).trigger("change");
+            onToggleAdvancedChange.call(dlg.querySelector(".chkAdvanced"));
         })
     }
 
     function editor() {
         this.show = function(options) {
             return new Promise(function(resolve, reject) {
-                currentOptions = options, currentResolve = resolve, hasChanges = false;
+                currentOptions = options;
+                currentResolve = resolve;
+                hasChanges = false;
                 var xhr = new XMLHttpRequest;
                 xhr.open("GET", "components/medialibrarycreator/medialibrarycreator.template.html", true);
                 xhr.onload = function(e) {
@@ -165,9 +174,16 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
                     initLibraryOptions(dlg);
                 };
                 xhr.send();
-            })
+            });
         }
     }
-    var currentResolve, hasChanges, currentOptions, pathInfos = [], isCreating = false;
+
+    var pathInfos = [];
+    var currentResolve;
+    var currentOptions;
+
+    var hasChanges = false;
+    var isCreating = false;
+
     return editor
 });
