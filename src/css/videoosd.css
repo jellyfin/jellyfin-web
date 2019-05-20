@@ -20,11 +20,7 @@
     transition: opacity .3s ease-out;
     position: relative;
     z-index: 1;
-    background-color: rgba(0, 0, 0, .3) !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .6)), to(rgba(0, 0, 0, 0))) !important;
-    background: -webkit-linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0)) !important;
-    background: -o-linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0)) !important;
-    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0)) !important;
+    background-color: rgba(0, 0, 0, 0.7) !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     color: #eee
@@ -93,7 +89,7 @@
 
 .videoOsdBottom {
     position: fixed;
-    background-color: rgba(0, 0, 0, .7);
+    background-color: rgba(0, 0, 0, 0.7);
     padding: 1%;
     display: -webkit-box;
     display: -webkit-flex;
@@ -103,13 +99,9 @@
     -webkit-flex-direction: row;
     flex-direction: row;
     will-change: opacity;
-    -webkit-transition: opacity .3s ease-out;
-    -o-transition: opacity .3s ease-out;
-    transition: opacity .3s ease-out;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .5)), to(rgba(0, 0, 0, .8)));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .8));
-    background: -o-linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .8));
-    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .8));
+    -webkit-transition: opacity 0.3s ease-out;
+    -o-transition: opacity 0.3s ease-out;
+    transition: opacity 0.3s ease-out;
     color: #fff;
     user-select: none;
     -webkit-touch-callout: none
