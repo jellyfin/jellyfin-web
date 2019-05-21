@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Web interface for Jellyfin",
   "repository": "https://github.com/jellyfin/jellyfin-web",
-  "license": "GPL-2",
+  "license": "GPL-2.0-or-later",
   "devDependencies": {
     "connect": "^3.6.6",
     "css-loader": "^2.1.0",
