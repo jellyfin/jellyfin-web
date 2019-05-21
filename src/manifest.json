@@ -28,8 +28,5 @@
             "src": "touchicon512.png",
             "type": "image/png"
         }
-    ],
-    "related_applications": [{
-        "platform": "web"
-    }]
+    ]
 }
