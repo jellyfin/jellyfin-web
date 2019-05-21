@@ -965,7 +965,7 @@
     "MessageItemsAdded": "Items added.",
     "MessageLeaveEmptyToInherit": "Leave empty to inherit settings from a parent item, or the global default value.",
     "MessageNoAvailablePlugins": "No available plugins.",
-    "MessageNoCollectionsAvailable": "Collections allow you to enjoy personalized groupings of Movies, Series, and albums Albums. Click the + button to start creating collections.",
+    "MessageNoCollectionsAvailable": "Collections allow you to enjoy personalized groupings of Movies, Series, and Albums. Click the + button to start creating collections.",
     "MessageNoMovieSuggestionsAvailable": "No movie suggestions are currently available. Start watching and rating your movies, and then come back to view your recommendations.",
     "MessageNoPluginsInstalled": "You have no plugins installed.",
     "MessageNoServersAvailable": "No servers have been found using the automatic server discovery.",
