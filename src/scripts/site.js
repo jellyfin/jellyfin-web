@@ -521,13 +521,13 @@ var AppInfo = {};
         }
 
         require(["apphost", "css!css/librarybrowser"], function (appHost) {
-            loadPlugins([], appHost, browser).then(function () {
+            loadPlugins(appHost, browser).then(function () {
                 onAppReady(browser);
             });
         });
     }
 
-    function loadPlugins(externalPlugins, appHost, browser, shell) {
+    function loadPlugins(appHost, browser, shell) {
         console.log("Loading installed plugins");
         var list = [
             "components/playback/playaccessvalidation",
@@ -546,8 +546,8 @@ var AppInfo = {};
             }
         }
 
-        for (var index = 0, length = externalPlugins.length; index < length; index++) {
-            list.push(externalPlugins[index]);
+        if (window.NativeShell) {
+            list = list.concat(window.NativeShell.getPlugins());
         }
 
         return new Promise(function (resolve, reject) {
