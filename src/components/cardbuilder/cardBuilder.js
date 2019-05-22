@@ -6,22 +6,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         var enableFocusTransfrom = !browser.slow && !browser.edge;
 
         function getCardsHtml(items, options) {
-
             if (arguments.length === 1) {
-
                 options = arguments[0];
                 items = options.items;
             }
 
-            var html = buildCardsHtmlInternal(items, options);
-
-            return html;
+            return buildCardsHtmlInternal(items, options);
         }
 
         function getPostersPerRow(shape, screenWidth, isOrientationLandscape) {
-
             switch (shape) {
-
                 case 'portrait':
                     if (layoutManager.tv) {
                         return 100 / 16.66666667;
@@ -229,7 +223,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         }
 
         function isResizable(windowWidth) {
-
             var screen = window.screen;
             if (screen) {
                 var screenWidth = screen.availWidth;
@@ -243,11 +236,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         }
 
         function getImageWidth(shape, screenWidth, isOrientationLandscape) {
-
-            //console.log(screenWidth);
             var imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
-            //console.log(shape + '--' + imagesPerRow);
-
             var shapeWidth = screenWidth / imagesPerRow;
 
             return Math.round(shapeWidth);
@@ -1362,13 +1351,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, logoUrl, true);
             }
 
-            if (outerCardFooter && !options.cardLayout /*&& options.allowBottomPadding !== false*/) {
+            if (outerCardFooter && !options.cardLayout) {
                 cardBoxClass += ' cardBox-bottompadded';
             }
 
             var overlayButtons = '';
             if (layoutManager.mobile) {
-
                 var overlayPlayButton = options.overlayPlayButton;
 
                 if (overlayPlayButton == null && !options.overlayMoreButton && !options.overlayInfoButton && !options.cardLayout) {
@@ -1386,7 +1374,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (options.overlayMoreButton) {
-
                     overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon">&#xE5D3;</i></button>';
                 }
             }
@@ -1527,10 +1514,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
 
-            var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction';
+            var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
             if (playbackManager.canPlay(item)) {
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE037;</i></button>';
             }
 
             html += '<div class="cardOverlayButton-br">';
@@ -1538,7 +1525,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var userData = item.UserData || {};
 
             if (itemHelper.canMarkPlayed(item)) {
-
                 require(['emby-playstatebutton']);
                 html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5CA;</i></button>';
             }

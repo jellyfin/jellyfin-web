@@ -50,8 +50,8 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             html += "</div>";
             if (task.State === "Running") {
                 html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStop") + '"><i class="md-icon">stop</i></button>';
-            } else {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask hide" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStart") + '"><i class="md-icon">play_arrow</i></button>';
+            } else if (task.State === "Idle") {
+                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStart") + '"><i class="md-icon">play_arrow</i></button>';
             }
             html += "</div>";
         }
@@ -106,13 +106,11 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
         if (state === "Running") {
             elem.classList.remove("btnStartTask");
             elem.classList.add("btnStopTask");
-            elem.classList.remove("hide");
             elem.querySelector("i").innerHTML = "stop";
             elem.title = globalize.translate("ButtonStop");
-        } else {
+        } else if (state === "Idle") {
             elem.classList.add("btnStartTask");
             elem.classList.remove("btnStopTask");
-            elem.classList.add("hide");
             elem.querySelector("i").innerHTML = "play_arrow";
             elem.title = globalize.translate("ButtonStart");
         }

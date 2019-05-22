@@ -59,9 +59,14 @@ html {
     background-color: #f0f0f0
 }
 
+.paper-icon-button-light:hover {
+    color: #00a4dc;
+    background-color: rgba(0,164,220, .2);
+    transition: 0.2s;
+}
+
 .paper-icon-button-light:focus {
     color: #00a4dc;
-    background-color: rgba(0,164,220, .2)
 }
 
 .fab,
@@ -267,9 +272,17 @@ html {
     border: .07em solid rgba(0, 0, 0, .158)
 }
 
-.emby-checkbox:checked+span+span+.checkboxOutline,
+.emby-checkbox:checked+span+.checkboxOutline,
 .emby-select-withcolor:focus {
     border-color: #00a4dc
+}
+
+.emby-checkbox:focus+span+.checkboxOutline {
+    border-color: #000;
+}
+
+.emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
+    border-color: #00a4dc;
 }
 
 .emby-select-withcolor>option {
@@ -282,11 +295,7 @@ html {
     color: #fff
 }
 
-.emby-checkbox:focus+span+.emby-checkbox-focushelper {
-    background-color: rgba(0,164,220, .26)
-}
-
-.emby-checkbox:checked+span+span+.checkboxOutline,
+.emby-checkbox:checked+span+.checkboxOutline,
 .itemProgressBarForeground {
     background-color: #00a4dc
 }

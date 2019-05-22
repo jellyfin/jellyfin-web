@@ -1227,16 +1227,22 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             Emby.Page.setTransparency("full");
         });
         view.addEventListener("viewshow", function (e) {
-            events.on(playbackManager, "playerchange", onPlayerChange);
-            bindToPlayer(playbackManager.getCurrentPlayer());
-            dom.addEventListener(document, window.PointerEvent ? "pointermove" : "mousemove", onPointerMove, {
-                passive: true
-            });
-            showOsd();
-            inputManager.on(window, onInputCommand);
-            dom.addEventListener(window, "keydown", onWindowKeyDown, {
-                passive: true
-            });
+            try {
+                events.on(playbackManager, "playerchange", onPlayerChange);
+                bindToPlayer(playbackManager.getCurrentPlayer());
+                dom.addEventListener(document, window.PointerEvent ? "pointermove" : "mousemove", onPointerMove, {
+                    passive: true
+                });
+                showOsd();
+                inputManager.on(window, onInputCommand);
+                dom.addEventListener(window, "keydown", onWindowKeyDown, {
+                    passive: true
+                });
+            } catch(e) {
+                require(['appRouter'], function(appRouter) {
+                    appRouter.showDirect('/');
+                });
+            }
         });
         view.addEventListener("viewbeforehide", function () {
             if (statsOverlay) {
