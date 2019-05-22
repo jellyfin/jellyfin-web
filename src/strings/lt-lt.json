@@ -541,7 +541,7 @@
     "WelcomeToProject": "Sveiki atvykę į Jellyfin!",
     "WizardCompleted": "Kol kas to užteks. Jellyfin pradėjo rinkti duomenis apie Jūsų medijos biblioteką. Peržiūrėkite programėles, o po to spauskite <b>Baigti</b> ir perkelsime jus į <b>Serverio skydelį</b>.",
     "Writer": "Rašytojas",
-    "AccessRestrictedTryAgainLater": "Prieiga šiuo metu yra apribota. Bandykite vėliau",
+    "AccessRestrictedTryAgainLater": "Prieiga šiuo metu yra apribota. Bandykite vėliau.",
     "Albums": "Albumai",
     "Alerts": "Perspėjimai",
     "All": "Visi",
@@ -617,5 +617,10 @@
     "Folders": "Katalogai",
     "HeaderAlbumArtists": "Albumo atlikėjai",
     "HeaderFavoriteAlbums": "Mėgstami Albumai",
-    "HeaderFavoriteArtists": "Mėgstami Atlikėjai"
+    "HeaderFavoriteArtists": "Mėgstami Atlikėjai",
+    "AddedOnValue": "Pridėtas {0}",
+    "AirDate": "Išleidimo data",
+    "Aired": "Išleista",
+    "AllowOnTheFlySubtitleExtraction": "Leisti subtitrų ištraukimą grojimo metu",
+    "AlwaysPlaySubtitlesHelp": "Subtitrai atitinkantys kalbos parinktį bus visada užkraunami nepaisant garso takelio kalbos."
 }
