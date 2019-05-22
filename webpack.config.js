@@ -2,11 +2,18 @@ const path = require('path');
 
 module.exports = {
     context: __dirname + '/src',
-    entry: './scripts/site.js',
+    entry: './bundle.js',
     output: {
-        filename: 'main.js',
-        path: path.resolve(__dirname, 'dist')
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+        libraryTarget: 'amd'
     },
+
+    externals: [{
+        jquery: {
+            amd: "jQuery"
+        }
+    }],
 
     resolve: {
         modules: [
@@ -20,15 +27,19 @@ module.exports = {
             path.resolve(__dirname, 'src/bower_components/apiclient'),
             path.resolve(__dirname, 'src/bower_components/apiclient/sync'),
             path.resolve(__dirname, 'src/components/cardbuilder'),
-            'node_modules'
+            path.resolve(__dirname, 'node_modules')
         ]
     },
 
     module: {
         rules: [
             {
-                test: /\.css$/,
+                test: /\.css$/i,
                 use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.(png|jpg|gif)$/i,
+                use: ['file-loader']
             }
         ]
     }
