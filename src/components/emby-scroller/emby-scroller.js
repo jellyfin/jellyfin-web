@@ -149,6 +149,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         // If just inserted it might not have any height yet - yes this is a hack
         this.scroller = new scroller(scrollFrame, options);
         this.scroller.init();
+        this.scroller.reload();
 
         if (layoutManager.tv && this.getAttribute('data-centerfocus')) {
             initCenterFocus(this, this.scroller);
@@ -182,6 +183,14 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
             headroom.resume();
         }
     };
+
+    ScrollerProtoType.afterRefresh = function () {
+        var buttons = this.parentNode.parentNode.querySelector('.emby-scrollbuttons');
+        if (buttons) {
+            this.parentNode.scroller.reload();
+            buttons.refresh(this.parentNode);
+        }
+    }
 
     ScrollerProtoType.detachedCallback = function () {
         if (this.getAttribute('data-navcommands')) {

@@ -7,8 +7,8 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
 
     function getScrollButtonHtml(direction) {
         var html = '';
-
         var icon = direction === 'left' ? '&#xE5CB;' : '&#xE5CC;';
+
         html += '<button type="button" is="paper-icon-button-light" data-ripple="false" data-direction="' + direction + '" class="emby-scrollbuttons-button">';
         html += '<i class="md-icon">' + icon + '</i>';
         html += '</button>';
@@ -32,30 +32,35 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
         return 0;
     }
 
-    function updateScrollButtons(scrollButtons, pos, scrollWidth) {
-        if (pos > 0) {
+    function updateScrollButtons(scrollButtons, scrollSize, scrollPos, scrollWidth) {
+        if (scrollWidth <= scrollSize) {
+            scrollButtons.scrollButtonsLeft.classList.add('hide');
+            scrollButtons.scrollButtonsRight.classList.add('hide');
+        }
+
+        if (scrollPos > 0) {
             scrollButtons.scrollButtonsLeft.disabled = false;
         } else {
             scrollButtons.scrollButtonsLeft.disabled = true;
         }
 
-        if (scrollWidth > 0) {
-            pos += scrollButtons.offsetLeft + scrollButtons.offsetWidth;
-            if (pos >= scrollWidth) {
-                scrollButtons.scrollButtonsRight.disabled = true;
-            } else {
-                scrollButtons.scrollButtonsRight.disabled = false;
-            }
+        var scrollPosEnd = scrollPos + scrollSize;
+        if (scrollWidth > 0 && scrollPosEnd >= scrollWidth) {
+            scrollButtons.scrollButtonsRight.disabled = true;
+        } else {
+            scrollButtons.scrollButtonsRight.disabled = false;
         }
     }
 
     function onScroll(e) {
         var scrollButtons = this;
         var scroller = this.scroller;
-        var pos = getScrollPosition(scroller);
+
+        var scrollSize = getScrollSize(scroller);
+        var scrollPos = getScrollPosition(scroller);
         var scrollWidth = getScrollWidth(scroller);
 
-        updateScrollButtons(scrollButtons, pos, scrollWidth);
+        updateScrollButtons(scrollButtons, scrollSize, scrollPos, scrollWidth);
     }
 
     function getStyleValue(style, name) {
@@ -112,16 +117,25 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
 
         var direction = this.getAttribute('data-direction');
         var scrollSize = getScrollSize(scroller);
-        var pos = getScrollPosition(scroller);
+        var scrollPos = getScrollPosition(scroller);
+        var scrollWidth = getScrollWidth(scroller);
 
         var newPos;
         if (direction === 'left') {
-            newPos = Math.max(0, pos - scrollSize);
+            newPos = Math.max(0, scrollPos - scrollSize);
         } else {
-            newPos = pos + scrollSize;
+            newPos = scrollPos + scrollSize;
         }
 
         scroller.scrollToPosition(newPos, false);
+    }
+
+    EmbyScrollButtonsPrototype.refresh = function (scroller) {
+        var scrollSize = getScrollSize(scroller);
+        var scrollPos = getScrollPosition(scroller);
+        var scrollWidth = getScrollWidth(scroller);
+
+        updateScrollButtons(this, scrollSize, scrollPos, scrollWidth);
     }
 
     EmbyScrollButtonsPrototype.attachedCallback = function () {
@@ -146,10 +160,6 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
             capture: false,
             passive: true
         });
-
-        var pos = getScrollPosition(scroller);
-        var scrollWidth = getScrollWidth(scroller);
-        updateScrollButtons(this, pos, scrollWidth);
     };
 
     EmbyScrollButtonsPrototype.detachedCallback = function () {

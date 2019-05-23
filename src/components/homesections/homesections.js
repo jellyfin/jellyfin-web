@@ -334,6 +334,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.fetchData = getFetchLatestItemsFn(apiClient.serverId(), parent.Id, parent.CollectionType);
         itemsContainer.getItemsHtml = getLatestItemsHtmlFn(parent.Type, parent.CollectionType);
         itemsContainer.parentContainer = elem;
+
+        var scroller = elem.querySelector('.emby-scroller');
+        itemsContainer.afterRefresh = scroller.afterRefresh;
     }
 
     function loadRecentlyAdded(elem, apiClient, user, userViews) {
@@ -471,6 +474,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.fetchData = getContinueWatchingFetchFn(apiClient.serverId());
         itemsContainer.getItemsHtml = getContinueWatchingItemsHtml;
         itemsContainer.parentContainer = elem;
+
+        var scroller = elem.querySelector('.emby-scroller');
+        itemsContainer.afterRefresh = scroller.afterRefresh;
     }
 
     function getContinueListeningFetchFn(serverId) {
@@ -544,6 +550,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.fetchData = getContinueListeningFetchFn(apiClient.serverId());
         itemsContainer.getItemsHtml = getContinueListeningItemsHtml;
         itemsContainer.parentContainer = elem;
+
+        var scroller = elem.querySelector('.emby-scroller');
+        itemsContainer.afterRefresh = scroller.afterRefresh;
     }
 
     function getOnNowFetchFn(serverId) {
@@ -687,6 +696,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 itemsContainer.parentContainer = elem;
                 itemsContainer.fetchData = getOnNowFetchFn(apiClient.serverId());
                 itemsContainer.getItemsHtml = getOnNowItemsHtml;
+
+                var scroller = elem.querySelector('.emby-scroller');
+                itemsContainer.afterRefresh = scroller.afterRefresh;
             }
         });
     }
@@ -760,6 +772,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId());
         itemsContainer.getItemsHtml = getNextUpItemsHtml;
         itemsContainer.parentContainer = elem;
+
+        var scroller = elem.querySelector('.emby-scroller');
+        itemsContainer.afterRefresh = scroller.afterRefresh;
     }
 
     function getLatestRecordingsFetchFn(serverId, activeRecordingsOnly) {
@@ -832,6 +847,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.fetchData = getLatestRecordingsFetchFn(apiClient.serverId(), activeRecordingsOnly);
         itemsContainer.getItemsHtml = getLatestRecordingItemsHtml(activeRecordingsOnly);
         itemsContainer.parentContainer = elem;
+
+        var scroller = elem.querySelector('.emby-scroller');
+        itemsContainer.afterRefresh = scroller.afterRefresh;
     }
 
     return {
