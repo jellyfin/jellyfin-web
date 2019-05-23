@@ -1,9 +1,9 @@
 define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'browser', 'registerElement'], function (scroller, dom, layoutManager, inputManager, focusManager, browser) {
     'use strict';
 
-    var ScrollerProtoType = Object.create(HTMLDivElement.prototype);
+    var ScrollerPrototype = Object.create(HTMLDivElement.prototype);
 
-    ScrollerProtoType.createdCallback = function () {
+    ScrollerPrototype.createdCallback = function () {
         this.classList.add('emby-scroller');
     };
 
@@ -19,61 +19,61 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         });
     }
 
-    ScrollerProtoType.scrollToBeginning = function () {
+    ScrollerPrototype.scrollToBeginning = function () {
         if (this.scroller) {
             this.scroller.slideTo(0, true);
         }
     };
 
-    ScrollerProtoType.toStart = function (elem, immediate) {
+    ScrollerPrototype.toStart = function (elem, immediate) {
         if (this.scroller) {
             this.scroller.toStart(elem, immediate);
         }
     };
 
-    ScrollerProtoType.toCenter = function (elem, immediate) {
+    ScrollerPrototype.toCenter = function (elem, immediate) {
         if (this.scroller) {
             this.scroller.toCenter(elem, immediate);
         }
     };
 
-    ScrollerProtoType.scrollToPosition = function (pos, immediate) {
+    ScrollerPrototype.scrollToPosition = function (pos, immediate) {
         if (this.scroller) {
             this.scroller.slideTo(pos, immediate);
         }
     };
 
-    ScrollerProtoType.getScrollPosition = function () {
+    ScrollerPrototype.getScrollPosition = function () {
         if (this.scroller) {
             return this.scroller.getScrollPosition();
         }
     };
 
-    ScrollerProtoType.getScrollSize = function () {
+    ScrollerPrototype.getScrollSize = function () {
         if (this.scroller) {
             return this.scroller.getScrollSize();
         }
     };
 
-    ScrollerProtoType.getScrollEventName = function () {
+    ScrollerPrototype.getScrollEventName = function () {
         if (this.scroller) {
             return this.scroller.getScrollEventName();
         }
     };
 
-    ScrollerProtoType.getScrollSlider = function () {
+    ScrollerPrototype.getScrollSlider = function () {
         if (this.scroller) {
             return this.scroller.getScrollSlider();
         }
     };
 
-    ScrollerProtoType.addScrollEventListener = function (fn, options) {
+    ScrollerPrototype.addScrollEventListener = function (fn, options) {
         if (this.scroller) {
             dom.addEventListener(this.scroller.getScrollFrame(), this.scroller.getScrollEventName(), fn, options);
         }
     };
 
-    ScrollerProtoType.removeScrollEventListener = function (fn, options) {
+    ScrollerPrototype.removeScrollEventListener = function (fn, options) {
         if (this.scroller) {
             dom.removeEventListener(this.scroller.getScrollFrame(), this.scroller.getScrollEventName(), fn, options);
         }
@@ -107,7 +107,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         });
     }
 
-    ScrollerProtoType.attachedCallback = function () {
+    ScrollerPrototype.attachedCallback = function () {
         if (this.getAttribute('data-navcommands')) {
             inputManager.on(this, onInputCommand);
         }
@@ -170,21 +170,21 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         });
     }
 
-    ScrollerProtoType.pause = function () {
+    ScrollerPrototype.pause = function () {
         var headroom = this.headroom;
         if (headroom) {
             headroom.pause();
         }
     };
 
-    ScrollerProtoType.resume = function () {
+    ScrollerPrototype.resume = function () {
         var headroom = this.headroom;
         if (headroom) {
             headroom.resume();
         }
     };
 
-    ScrollerProtoType.afterRefresh = function () {
+    ScrollerPrototype.afterRefresh = function () {
         var buttons = this.parentNode.parentNode.querySelector('.emby-scrollbuttons');
         if (buttons) {
             this.parentNode.scroller.reload();
@@ -192,7 +192,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         }
     }
 
-    ScrollerProtoType.detachedCallback = function () {
+    ScrollerPrototype.detachedCallback = function () {
         if (this.getAttribute('data-navcommands')) {
             inputManager.off(this, onInputCommand);
         }
@@ -211,7 +211,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
     };
 
     document.registerElement('emby-scroller', {
-        prototype: ScrollerProtoType,
+        prototype: ScrollerPrototype,
         extends: 'div'
     });
 });

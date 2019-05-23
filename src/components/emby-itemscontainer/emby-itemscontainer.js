@@ -1,7 +1,7 @@
 define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager', 'imageLoader', 'layoutManager', 'browser', 'dom', 'loading', 'focusManager', 'serverNotifications', 'events', 'registerElement'], function (itemShortcuts, inputManager, connectionManager, playbackManager, imageLoader, layoutManager, browser, dom, loading, focusManager, serverNotifications, events) {
     'use strict';
 
-    var ItemsContainerProtoType = Object.create(HTMLDivElement.prototype);
+    var ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
 
     function onClick(e) {
         var itemsContainer = this;
@@ -46,7 +46,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         };
     }
 
-    ItemsContainerProtoType.enableMultiSelect = function (enabled) {
+    ItemsContainerPrototype.enableMultiSelect = function (enabled) {
         var current = this.multiSelect;
 
         if (!enabled) {
@@ -107,7 +107,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         });
     }
 
-    ItemsContainerProtoType.enableDragReordering = function (enabled) {
+    ItemsContainerPrototype.enableDragReordering = function (enabled) {
         var current = this.sortable;
         if (!enabled) {
             if (current) {
@@ -296,12 +296,12 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         }
     }
 
-    ItemsContainerProtoType.createdCallback = function () {
+    ItemsContainerPrototype.createdCallback = function () {
 
         this.classList.add('itemsContainer');
     };
 
-    ItemsContainerProtoType.attachedCallback = function () {
+    ItemsContainerPrototype.attachedCallback = function () {
 
         this.addEventListener('click', onClick);
 
@@ -338,7 +338,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         }
     };
 
-    ItemsContainerProtoType.detachedCallback = function () {
+    ItemsContainerPrototype.detachedCallback = function () {
         clearRefreshInterval(this);
 
         this.enableMultiSelect(false);
@@ -361,12 +361,12 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         this.parentContainer = null;
     };
 
-    ItemsContainerProtoType.pause = function () {
+    ItemsContainerPrototype.pause = function () {
         clearRefreshInterval(this, true);
         this.paused = true;
     };
 
-    ItemsContainerProtoType.resume = function (options) {
+    ItemsContainerPrototype.resume = function (options) {
         this.paused = false;
 
         var refreshIntervalEndTime = this.refreshIntervalEndTime;
@@ -390,7 +390,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         return Promise.resolve();
     };
 
-    ItemsContainerProtoType.refreshItems = function () {
+    ItemsContainerPrototype.refreshItems = function () {
         if (!this.fetchData) {
             return Promise.resolve();
         }
@@ -405,7 +405,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         return this.fetchData().then(onDataFetched.bind(this));
     };
 
-    ItemsContainerProtoType.notifyRefreshNeeded = function (isInForeground) {
+    ItemsContainerPrototype.notifyRefreshNeeded = function (isInForeground) {
         if (this.paused) {
             this.needsRefresh = true;
             return;
@@ -500,7 +500,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
     }
 
     document.registerElement('emby-itemscontainer', {
-        prototype: ItemsContainerProtoType,
+        prototype: ItemsContainerPrototype,
         extends: 'div'
     });
 });
