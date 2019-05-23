@@ -372,8 +372,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         var html = '';
 
         if (userViews.length) {
-            html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
-            html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
+            html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
+            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderMyMedia') + '</h2>';
+            html += '</div>';
 
             if (enableScrollX()) {
                 html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';

@@ -33,7 +33,8 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
     }
 
     function updateScrollButtons(scrollButtons, scrollSize, scrollPos, scrollWidth) {
-        if (scrollWidth <= scrollSize) {
+        // hack alert add ten for rounding errors
+        if (scrollWidth <= scrollSize + 10) {
             scrollButtons.scrollButtonsLeft.classList.add('hide');
             scrollButtons.scrollButtonsRight.classList.add('hide');
         }

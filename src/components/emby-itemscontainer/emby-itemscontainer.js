@@ -181,10 +181,8 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
     }
 
     function onSeriesTimerCreated(e, apiClient, data) {
-
         var itemsContainer = this;
         if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1) {
-
             itemsContainer.notifyRefreshNeeded();
             return;
         }
@@ -192,42 +190,33 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
 
     function onTimerCancelled(e, apiClient, data) {
         var itemsContainer = this;
-
         if (getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
-
             itemsContainer.notifyRefreshNeeded();
             return;
         }
 
-        var id = data.Id;
-
         require(['cardBuilder'], function (cardBuilder) {
-            cardBuilder.onTimerCancelled(id, itemsContainer);
+            cardBuilder.onTimerCancelled(data.Id, itemsContainer);
         });
     }
 
     function onSeriesTimerCancelled(e, apiClient, data) {
-
         var itemsContainer = this;
         if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1) {
-
             itemsContainer.notifyRefreshNeeded();
             return;
         }
 
-        var id = data.Id;
-
         require(['cardBuilder'], function (cardBuilder) {
-            cardBuilder.onSeriesTimerCancelled(id, itemsContainer);
+            cardBuilder.onSeriesTimerCancelled(data.Id, itemsContainer);
         });
     }
 
     function onLibraryChanged(e, apiClient, data) {
-
         var itemsContainer = this;
+
         var eventsToMonitor = getEventsToMonitor(itemsContainer);
         if (eventsToMonitor.indexOf('seriestimers') !== -1 || eventsToMonitor.indexOf('timers') !== -1) {
-
             // yes this is an assumption
             return;
         }
@@ -253,25 +242,17 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
     }
 
     function onPlaybackStopped(e, stopInfo) {
-
         var itemsContainer = this;
-
         var state = stopInfo.state;
 
         var eventsToMonitor = getEventsToMonitor(itemsContainer);
         if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Video') {
-
             if (eventsToMonitor.indexOf('videoplayback') !== -1) {
-
                 itemsContainer.notifyRefreshNeeded(true);
                 return;
             }
-        }
-
-        else if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Audio') {
-
+        } else if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Audio') {
             if (eventsToMonitor.indexOf('audioplayback') !== -1) {
-
                 itemsContainer.notifyRefreshNeeded(true);
                 return;
             }
@@ -279,7 +260,6 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
     }
 
     function addNotificationEvent(instance, name, handler, owner) {
-
         var localHandler = handler.bind(instance);
         owner = owner || serverNotifications;
         events.on(owner, name, localHandler);
@@ -287,7 +267,6 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
     }
 
     function removeNotificationEvent(instance, name, owner) {
-
         var handler = instance['event_' + name];
         if (handler) {
             owner = owner || serverNotifications;
@@ -297,12 +276,10 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
     }
 
     ItemsContainerPrototype.createdCallback = function () {
-
         this.classList.add('itemsContainer');
     };
 
     ItemsContainerPrototype.attachedCallback = function () {
-
         this.addEventListener('click', onClick);
 
         if (browser.touch) {
@@ -346,6 +323,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         this.removeEventListener('click', onClick);
         this.removeEventListener('contextmenu', onContextMenu);
         this.removeEventListener('contextmenu', disableEvent);
+
         itemShortcuts.off(this, getShortcutOptions());
 
         removeNotificationEvent(this, 'UserDataChanged');
@@ -374,9 +352,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
 
             var remainingMs = refreshIntervalEndTime - new Date().getTime();
             if (remainingMs > 0 && !this.needsRefresh) {
-
                 resetRefreshInterval(this, remainingMs);
-
             } else {
                 this.needsRefresh = true;
                 this.refreshIntervalEndTime = null;
