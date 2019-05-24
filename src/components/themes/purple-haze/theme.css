@@ -83,26 +83,53 @@ progress::-moz-progress-bar {
 progress::-webkit-progress-value {
     border-radius: .4em;
 }
-
 .fab,
 .raised {
     background: rgba(0, 0, 0, .5);
     color: rgba(255, 255, 255, .87)
 }
 
-.fab:focus,
-.raised:focus {
-    background: rgba(0, 0, 0, .7)
-}
-
-.button-submit {
+.submit,
+.btnBrowse,
+.mini,
+.btnRefresh,
+.button-submit,
+.viewTabButton,
+.button-cancel,
+.button-alt,
+.btnOption,
+.block {
     background: #48C3C8;
-    color: #f8f8fe
+    color: rgba(255, 255, 255, .87)
 }
 
-.button-submit:hover {
+.alphaPickerButton:hover,
+.submit:hover,
+.btnBrowse:hover,
+.mini:hover,
+.btnRefresh:hover,
+.button-submit:hover,
+.viewTabButton:hover,
+.button-cancel:hover,
+.button-alt:hover,
+.btnOption:hover,
+.block:hover {
     background: #0ce8d6;
-    color: #f8f8fe
+    color: rgba(255, 255, 255, .87)
+}
+
+#btnRestart,
+#btnDeleteImage,
+#btnShutdown {
+    background: #48C3C8;
+    color: rgba(255, 255, 255, .87)
+}
+
+#btnRestart:hover,
+#btnDeleteImage:hover,
+#btnShutdown:hover {
+    background: #0ce8d6;
+    color: rgba(255, 255, 255, .87)
 }
 
 .checkboxLabel {
