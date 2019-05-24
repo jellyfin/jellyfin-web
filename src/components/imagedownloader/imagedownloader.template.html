@@ -10,15 +10,15 @@
         <div class="flex align-items-center justify-content-center flex-wrap-wrap" style="margin: 2em 0;">
 
             <div style="margin: 0;">
-                <label for="selectImageProvider" style="display: inline-block;">${LabelSource}</label>
-                <select id="selectImageProvider" style="padding-left:.5em;padding-right:0;display: inline-block;width:auto!important;">
+                <div class="selectContainer">
+                    <select id="selectImageProvider" name="selectImageProvider" is="emby-select" label="${LabelSource}">
                     <option value="">${All}</option>
                 </select>
             </div>
 
             <div style="margin-left:1em;">
-                <label for="selectBrowsableImageType" style="display: inline-block;">${LabelType}</label>
-                <select id="selectBrowsableImageType" style="padding-left:.5em;padding-right:0;display: inline-block;width:auto!important;">
+                <div class="selectContainer">
+                    <select id="selectBrowsableImageType" name="selectBrowsableImageType" is="emby-select" label="${LabelType}">
                     <option value="Primary">${Primary}</option>
                     <option value="Art">${Art}</option>
                     <option value="Backdrop">${Backdrop}</option>
