@@ -813,7 +813,7 @@
     "MessageConfirmRecordingCancellation": "¿Está seguro que desea cancelar esta grabación?",
     "MessageConfirmRemoveMediaLocation": "¿Estás seguro que quieres quitar esta ubicación?",
     "MessageConfirmRestart": "¿Está seguro de que quieres reiniciar el servidor?",
-    "MessageConfirmRevokeApiKey": "¿Estásseguro de que quieres revocar esta clave API? Las conexiones de aplicaciones que usen la API se terminarán.",
+    "MessageConfirmRevokeApiKey": "¿Está seguro de que quieres revocar esta clave API? Las conexiones de aplicaciones que usen la API se terminarán.",
     "MessageConfirmShutdown": "¿Está seguro de que quieres apagar el servidor?",
     "MessageContactAdminToResetPassword": "Por favor, contacta con el administrador del sistema para restablecer tu contraseña.",
     "MessageCreateAccountAt": "Crear una cuenta en {0}",
