@@ -323,13 +323,13 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             name: globalize.translate("TabLiveTV"),
             href: "livetvstatus.html",
             pageIds: ["liveTvStatusPage", "liveTvTunerPage"],
-            icon: "tv"
+            icon: "live_tv"
         });
         links.push({
             name: globalize.translate("DVR"),
             href: "livetvsettings.html",
             pageIds: ["liveTvSettingsPage"],
-            icon: "list"
+            icon: "dvr"
         });
         links.push({
             divider: true,
@@ -534,12 +534,11 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                     else if ("livetv" === i.CollectionType) {
                         itemId = "livetv";
                     }
-
-                    else if ("photos" === i.CollectionType) {
-                        icon = "photo_library";
-                    }
-                    else if ("music" === i.CollectionType || "musicvideos" === i.CollectionType) {
+                    else if ("music" === i.CollectionType) {
                         icon = "library_music";
+                    }
+                    else if ("musicvideos" === i.CollectionType) {
+                        icon = "music_video";
                     }
                     else if ("books" === i.CollectionType) {
                         icon = "library_books";
@@ -549,6 +548,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                     }
                     else if ("movies" === i.CollectionType) {
                         icon = "video_library";
+                    }
+                    else if ("homevideos" === i.CollectionType || "photos" === i.CollectionType) {
+                        icon = "photo_library";
                     }
                     else if ("channels" === i.CollectionType || "Channel" === i.Type) {
                         icon = "videocam";

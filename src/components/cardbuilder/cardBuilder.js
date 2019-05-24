@@ -1551,11 +1551,23 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (collectionType === 'livetv') {
                 return '<i class="cardImageIcon md-icon">&#xE1B2;</i>';
             }
+            if (collectionType === 'movies') {
+                return '<i class="cardImageIcon md-icon">&#xe04a;</i>';
+            }
+            if (collectionType === 'tvshows') {
+                return '<i class="cardImageIcon md-icon">&#xe333;</i>';
+            }
             if (collectionType === 'homevideos' || collectionType === 'photos') {
-                return '<i class="cardImageIcon md-icon">&#xE412;</i>';
+                return '<i class="cardImageIcon md-icon">&#xe413;</i>';
             }
             if (collectionType === 'music') {
                 return '<i class="cardImageIcon md-icon">&#xE310;</i>';
+            }
+            if (collectionType === 'musicvideos') {
+                return '<i class="cardImageIcon md-icon">&#xe063;</i>';
+            }
+            if (collectionType === 'books') {
+                return '<i class="cardImageIcon md-icon">&#xe02f;</i>';
             }
             if (item.Type === 'MusicAlbum') {
                 return '<i class="cardImageIcon md-icon">&#xE019;</i>';

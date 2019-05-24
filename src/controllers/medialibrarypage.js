@@ -220,22 +220,27 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
     function getIcon(type) {
         switch (type) {
             case "movies":
-                return "local_movies";
+                return "video_library";
             case "music":
                 return "library_music";
             case "photos":
-                return "photo";
+                return "photo_library";
             case "livetv":
-            case "tvshows":
                 return "live_tv";
+            case "tvshows":
+                return "tv";
             case "trailers":
                 return "local_movies";
             case "homevideos":
+                return "photo_library";
             case "musicvideos":
                 return "video_library";
             case "books":
+                return "library_books";
             case "channels":
+                return "videocam";
             case "playlists":
+                return "view_list";
             default:
                 return "folder";
         }
@@ -302,9 +307,9 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
             html += "&nbsp;";
             html += "</div>";
         } else if (virtualFolder.Locations.length && virtualFolder.Locations.length === 1) {
-             html += "<div class='cardText cardText-secondary'>";
-             html += virtualFolder.Locations[0];
-             html += "</div>";
+            html += "<div class='cardText cardText-secondary'>";
+            html += virtualFolder.Locations[0];
+            html += "</div>";
         } else {
             html += "<div class='cardText cardText-secondary'>";
             html += globalize.translate("NumLocationsValue", virtualFolder.Locations.length);

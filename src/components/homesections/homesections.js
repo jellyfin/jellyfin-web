@@ -198,37 +198,37 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             var icon;
             switch (item.CollectionType) {
                 case "movies":
-                    icon = "local_movies";
+                    icon = "video_library";
                     break;
                 case "music":
                     icon = "library_music";
                     break;
                 case "photos":
-                    icon = "photo";
+                    icon = "photo_library";
                     break;
                 case "livetv":
                     icon = "live_tv";
                     break;
                 case "tvshows":
-                    icon = "live_tv";
+                    icon = "tv";
                     break;
                 case "trailers":
                     icon = "local_movies";
                     break;
                 case "homevideos":
-                    icon = "video_library";
+                    icon = "photo_library";
                     break;
                 case "musicvideos":
-                    icon = "video_library";
+                    icon = "music_video";
                     break;
                 case "books":
-                    icon = "folder";
+                    icon = "library_books";
                     break;
                 case "channels":
-                    icon = "folder";
+                    icon = "videocam";
                     break;
                 case "playlists":
-                    icon = "folder";
+                    icon = "view_list";
                     break;
                 default:
                     icon = "folder";
