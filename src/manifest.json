@@ -4,7 +4,7 @@
     "description": "Jellyfin: the Free Software Media System.",
     "lang": "en-US",
     "short_name": "Jellyfin",
-    "start_url": "/web/index.html",
+    "start_url": "/web/index.html#!/home.html",
     "theme_color": "#101010",
     "background_color": "#101010",
     "display": "standalone",
@@ -28,8 +28,5 @@
             "src": "touchicon512.png",
             "type": "image/png"
         }
-    ],
-    "related_applications": [{
-        "platform": "web"
-    }]
+    ]
 }
