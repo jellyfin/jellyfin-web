@@ -4,14 +4,21 @@ define(["events", "globalize", "dom", "datetime", "userSettings", "serverNotific
     function getEntryHtml(entry, apiClient) {
         var html = "";
         html += '<div class="listItem listItem-border">';
-        var color = "Error" == entry.Severity || "Fatal" == entry.Severity || "Warn" == entry.Severity ? "#cc0000" : "#00a4dc";
+        var color = "#00a4dc";
+        var icon =  "notifications";
+        if ("Error" == entry.Severity || "Fatal" == entry.Severity || "Warn" == entry.Severity) {
+            color = "#cc0000";
+            icon = "notification_important";
+        }
         if (entry.UserId && entry.UserPrimaryImageTag) {
             html += '<i class="listItemIcon md-icon" style="width:2em!important;height:2em!important;padding:0;color:transparent;background-color:' + color + ";background-image:url('" + apiClient.getUserImageUrl(entry.UserId, {
                 type: "Primary",
                 tag: entry.UserPrimaryImageTag,
                 height: 40
             }) + "');background-repeat:no-repeat;background-position:center center;background-size: cover;\">dvr</i>"
-        } else html += '<i class="listItemIcon md-icon" style="background-color:' + color + '">dvr</i>';
+        } else {
+            html += '<i class="listItemIcon md-icon" style="background-color:' + color + '">' + icon + '</i>';
+        }
         html += '<div class="listItemBody three-line">', html += '<div class="listItemBodyText">', html += entry.Name, html += "</div>", html += '<div class="listItemBodyText secondary">';
         var date = datetime.parseISO8601Date(entry.Date, !0);
         return html += datetime.toLocaleString(date).toLowerCase(), html += "</div>", html += '<div class="listItemBodyText secondary listItemBodyText-nowrap">', html += entry.ShortOverview || "", html += "</div>", html += "</div>", entry.Overview && (html += '<button type="button" is="paper-icon-button-light" class="btnEntryInfo" data-id="' + entry.Id + '" title="' + globalize.translate("Info") + '"><i class="md-icon">info</i></button>'), html += "</div>"
