@@ -83,10 +83,11 @@ progress::-moz-progress-bar {
 progress::-webkit-progress-value {
     border-radius: .4em;
 }
+
 .fab,
 .raised {
     background: rgba(0, 0, 0, .5);
-    color: rgba(255, 255, 255, .87)
+    color: rgba(255, 255, 255, .87);
 }
 
 .submit,
@@ -95,14 +96,15 @@ progress::-webkit-progress-value {
 .btnRefresh,
 .button-submit,
 .viewTabButton,
-.button-cancel,
 .button-alt,
 .btnOption,
 .block {
     background: #48C3C8;
-    color: rgba(255, 255, 255, .87)
+    color: rgb(0, 0, 0)
 }
 
+.fab:hover,
+.raised:hover,
 .alphaPickerButton:hover,
 .submit:hover,
 .btnBrowse:hover,
@@ -110,10 +112,19 @@ progress::-webkit-progress-value {
 .btnRefresh:hover,
 .button-submit:hover,
 .viewTabButton:hover,
-.button-cancel:hover,
 .button-alt:hover,
 .btnOption:hover,
 .block:hover {
+    background: #0ce8d6;
+    color: rgba(255, 255, 255, .87)
+}
+
+.button-cancel {
+    background: #D8E6FF;
+    color: rgb(0, 0, 0)
+}
+
+.button-cancel:hover{
     background: #0ce8d6;
     color: rgba(255, 255, 255, .87)
 }
@@ -122,7 +133,7 @@ progress::-webkit-progress-value {
 #btnDeleteImage,
 #btnShutdown {
     background: #48C3C8;
-    color: rgba(255, 255, 255, .87)
+    color: rgb(0, 0, 0)
 }
 
 #btnRestart:hover,
@@ -142,7 +153,7 @@ progress::-webkit-progress-value {
 .paperListLabel,
 .textareaLabelUnfocused {
     color: #bbb;
-    color: rgba(255, 255, 255, .7)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 .inputLabelFocused,
