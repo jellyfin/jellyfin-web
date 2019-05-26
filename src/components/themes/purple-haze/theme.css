@@ -90,19 +90,27 @@ progress::-webkit-progress-value {
     color: rgba(255, 255, 255, .87);
 }
 
+#btnRestart,
+#btnDeleteImage,
+#btnShutdown,
 .submit,
 .btnBrowse,
 .mini,
 .btnRefresh,
+.btnManual,
 .button-submit,
 .viewTabButton,
 .button-alt,
-.btnOption,
-.block {
+.btnOption {
     background: #48C3C8;
     color: rgb(0, 0, 0)
 }
 
+#btnResetPassword:hover,
+#btnRestart:hover,
+#btnDeleteImage:hover,
+#btnShutdown:hover,
+.button-cancel:hover,
 .fab:hover,
 .raised:hover,
 .alphaPickerButton:hover,
@@ -114,33 +122,18 @@ progress::-webkit-progress-value {
 .viewTabButton:hover,
 .button-alt:hover,
 .btnOption:hover,
+.btnManual:hover,
 .block:hover {
     background: #0ce8d6;
     color: rgba(255, 255, 255, .87)
 }
 
+#btnResetPassword,
+.btnForgotPassword,
+.btnCancel,
 .button-cancel {
     background: #D8E6FF;
     color: rgb(0, 0, 0)
-}
-
-.button-cancel:hover{
-    background: #0ce8d6;
-    color: rgba(255, 255, 255, .87)
-}
-
-#btnRestart,
-#btnDeleteImage,
-#btnShutdown {
-    background: #48C3C8;
-    color: rgb(0, 0, 0)
-}
-
-#btnRestart:hover,
-#btnDeleteImage:hover,
-#btnShutdown:hover {
-    background: #0ce8d6;
-    color: rgba(255, 255, 255, .87)
 }
 
 .checkboxLabel {
