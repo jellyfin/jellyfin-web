@@ -1549,5 +1549,9 @@
     "OptionPosterCard": "Filmový pás",
     "OptionThumb": "Náhled",
     "OptionThumbCard": "Panel náhledů",
-    "PlaybackData": "Data přehrávání"
+    "PlaybackData": "Data přehrávání",
+    "MusicAlbum": "Hudební album",
+    "MusicArtist": "Interpret",
+    "MusicVideo": "Videoklip",
+    "SubtitleOffset": "Nastavení titulků"
 }
