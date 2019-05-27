@@ -271,7 +271,7 @@
     "HeaderAllowMediaDeletionFrom": "允许从中删除媒体",
     "HeaderApiKey": "API 密钥",
     "HeaderApiKeys": "API 密钥",
-    "HeaderApiKeysHelp": "外部应用程序需要 API 密钥才能与 Jellyfin 服务器进行通信。使用 Jellyfin 账户进行登录时密钥将会自动生成，您也可以手动为某个应用程序分配一个密钥。",
+    "HeaderApiKeysHelp": "外部应用程序需要 API 密钥才能与 Jellyfin Server 进行通信。使用 Jellyfin 账户进行登录时密钥将会自动生成，您也可以手动为某个应用程序分配一个密钥。",
     "HeaderAudioBooks": "有声读物",
     "HeaderAudioSettings": "声音设置",
     "HeaderAutomaticUpdates": "自动更新",
