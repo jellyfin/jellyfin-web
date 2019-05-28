@@ -846,7 +846,7 @@
     "LabelffmpegPathHelp": "La ruta hacia el archivo de aplicación de ffmpeg, o la carpeta que contenga ffmpeg.",
     "LanNetworksHelp": "Lista separada por comas de direcciones IP/mascaras de subred para las redes que serán consideradas como locales al enforzar restricciones de ancho de banda. Si se establece, todas las demás direcciones IP serán consideradas como redes externas y estarán sujetas a restricciones de ancho de banda. Si se deja en blanco, sólo la subred del servidor será considerada como red local.",
     "Large": "Grande",
-    "LatestFromLibrary": "Más recientes {0}",
+    "LatestFromLibrary": "Más recientes - {0}",
     "LearnHowYouCanContribute": "Aprenda como puede contribuír.",
     "LibraryAccessHelp": "Seleccione las carpetas de medios para compartir con este usuario. Los administradores podrán editar todas las carpetas usando el administrador de metadatos.",
     "Like": "Me gusta",
