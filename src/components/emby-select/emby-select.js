@@ -116,7 +116,7 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
             inputId++;
         }
 
-        if (!browser.firefox) {
+        if (browser) {
             this.classList.add('emby-select-withcolor');
 
 			if (layoutManager.tv) {
