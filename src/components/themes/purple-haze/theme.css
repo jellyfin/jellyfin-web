@@ -202,7 +202,6 @@ h3 {
 .cardOverlayContainer {
     border-radius: 0.8em;
 }
-
 .visualCardBox .cardOverlayContainer {
     border-bottom-right-radius: 0em;
     border-bottom-left-radius: 0em;
@@ -368,18 +367,13 @@ h3 {
 }
 
 .emby-checkbox:checked+span+.checkboxOutline {
-    border-color: #8ae9c1
+    background-color: #8ae9c1
 }
 
 .emby-checkbox:focus+span+.checkboxOutline {
-    border-color: #fff;
-}
-
-.emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
     border-color: #8ae9c1;
 }
 
-.emby-checkbox:checked+span+.checkboxOutline,
 .itemProgressBarForeground {
     background-color: #48C3C8
 }
@@ -400,12 +394,11 @@ h3 {
 
 .mainDrawer {
     color: #f8f8fe;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, .5)
 }
 
 .drawer-open {
     background-color: #030322
-
 }
 
 .navMenuOption:hover {
@@ -533,7 +526,7 @@ h3 {
 }
 
 .layout-desktop ::-webkit-scrollbar {
-    width: 1em;
+    width: .4em;
     height: 1em
 }
 
@@ -542,7 +535,7 @@ h3 {
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: #3b3b3b
+    background-color: rgba(59, 59, 59, 0.5)
 }
 
 ::-webkit-scrollbar-thumb:horizontal,
