@@ -370,10 +370,6 @@ h3 {
     background-color: #8ae9c1
 }
 
-.emby-checkbox:focus+span+.checkboxOutline {
-    border-color: #8ae9c1;
-}
-
 .itemProgressBarForeground {
     background-color: #48C3C8
 }
