@@ -235,7 +235,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                     break;
             }
 
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><i class="md-icon">' + icon + '</i><span>' + item.Name + '</span></a>';
+            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><i class="md-icon homeLibraryIcon">' + icon + '</i><span class="homeLibraryText">' + item.Name + '</span></a>';
         }
 
         html += '</div>';
