@@ -349,8 +349,6 @@
   "LabelEvent": "Събитие:",
   "LabelEveryXMinutes": "На всеки:",
   "LabelFailed": "Неуспешно",
-  "LabelFanartApiKey": "Личен ППИ ключ:",
-  "LabelFanartApiKeyHelp": "Заявки до fanart без личен API ключ връщат изображения, които са били одобрени преди повече от 7 дни. С личен API ключ, това време пада на 48 часа, а ако сте и fanart VIP потребител, това става около 10 минути.",
   "LabelFinish": "Готово",
   "LabelFont": "Шрифт:",
   "LabelForgotPasswordUsernameHelp": "Въведете потребителското си име, ако го помните.",

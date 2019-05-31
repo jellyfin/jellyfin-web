@@ -594,8 +594,6 @@
     "LabelExtractChaptersDuringLibraryScan": "Erzeuge Kapitelbilder während des Bibliothekscans",
     "LabelExtractChaptersDuringLibraryScanHelp": "Fall aktiviert, werden Kapitelbilder während des Imports von Videos beim Bibliothekenscan erzeugt. Falls deaktiviert, werden die Kapitelbilder während einer eigens dafür geplanten Aufgabe erstellt, was den regelmäßig Bibliothekenscan beschleunigt.",
     "LabelFailed": "Fehlgeschlagen",
-    "LabelFanartApiKey": "Persönlicher API Schlüssel:",
-    "LabelFanartApiKeyHelp": "Fanart Anfragen ohne einen persönlichen API Schlüssel liefert Bilder der letzten 7 Tage. Bei Verwendung eines persönlichen API Schlüssels werden Ergebnisse der letzten 48 Stunden, und als VIP Member, der letzten 10 Minuten geliefert.",
     "LabelFileOrUrl": "Datei oder URL:",
     "LabelFinish": "Fertig",
     "LabelFont": "Schriftart:",

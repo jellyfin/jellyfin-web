@@ -580,8 +580,6 @@
     "LabelExtractChaptersDuringLibraryScan": "媒体库扫描过程中解压章节图像",
     "LabelExtractChaptersDuringLibraryScanHelp": "如果启用，当媒体库导入视频并扫描时，将提取章节图像。如果禁用，章节图像将在之后的计划任务提取，而媒体库会更快完成扫描。",
     "LabelFailed": "失败",
-    "LabelFanartApiKey": "个人 API 密钥：",
-    "LabelFanartApiKeyHelp": "请求 fanart 没有个人 API 密钥返回已在7天前批准的图像。与个人 API 的Key, 下降到48小时, 如果你也是一个 fanart VIP 会员, 将进一步下降到约10分钟。",
     "LabelFileOrUrl": "文件或网址：",
     "LabelFinish": "完成",
     "LabelFont": "字体：",

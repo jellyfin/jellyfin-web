@@ -545,8 +545,6 @@
     "LabelExtractChaptersDuringLibraryScan": "Extraer imágenes de los capítulos durante el escaneo de la biblioteca",
     "LabelExtractChaptersDuringLibraryScanHelp": "Si está activado, se extraerán imágenes de capíulos cuando se importen vídeos durante el escaneo de las bibliotecas. Si se desactiva, las imágenes se descargarán cuando se ejecute la terea programada para ello, permitiendo asi un escaneo de la biblioteca más rápido.",
     "LabelFailed": "Error",
-    "LabelFanartApiKey": "Clave personal de API:",
-    "LabelFanartApiKeyHelp": "Las solicitudes de fanart sin una clave de API personal devuelven imágenes que fueron aprobadas hace más de 7 días. Con una clave de API personal se reduce a 48 horas y si también eres un miembro VIP de fanart se reducirá a alrededor de 10 minutos.",
     "LabelFileOrUrl": "Archivo o URL:",
     "LabelFinish": "Terminar",
     "LabelFont": "Fuente:",

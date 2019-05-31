@@ -483,8 +483,6 @@
     "LabelExtractChaptersDuringLibraryScan": "Udtræk kapitelbilleder under biblioteksskanning",
     "LabelExtractChaptersDuringLibraryScanHelp": "Aktiver dette for at udtrække kapitelbillleder mens videofiler bliver importeret under biblioteksskanningen. Hvi det ikke er aktiveret, bliver de udtrukket når den planlagte opgave kapitelbilleder kører, og lader den almindelige biblioteksskanning afslutte hurtigere.",
     "LabelFailed": "Fejlet",
-    "LabelFanartApiKey": "Personlig API nøgle:",
-    "LabelFanartApiKeyHelp": "Forespørgsler til fanart uden en personlig api nøgle returnerer resultater godkendt for over 7 dage siden. Med en personlig api nøgle falder dette til 48 timer, og hvis du er fanart VIP-medlem falder dette yderligere til omkring 10 minutter.",
     "LabelFileOrUrl": "Fil eller url:",
     "LabelFinish": "Afslut",
     "LabelForgotPasswordUsernameHelp": "Indtast dit brugernavn, hvis du kan huske det.",
