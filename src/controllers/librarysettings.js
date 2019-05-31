@@ -3,27 +3,10 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked", "emby-checkbox", "emby-
 
     function loadPage(page, config) {
         $("#chkSaveMetadataHidden", page).checked(config.SaveMetadataHidden);
-        loading.hide();
     }
 
     function loadMetadataConfig(page, config) {
         $("#selectDateAdded", page).val(config.UseFileCreationTimeForDateAdded ? "1" : "0");
-    }
-
-    function loadFanartConfig(page, config) {
-        $("#txtFanartApiKey", page).val(config.UserApiKey || "");
-    }
-
-    function saveFanart(form) {
-        ApiClient.getNamedConfiguration("fanart").then(function(config) {
-            config.UserApiKey = $("#txtFanartApiKey", form).val(), ApiClient.updateNamedConfiguration("fanart", config);
-        });
-    }
-
-    function saveMetadata(form) {
-        ApiClient.getNamedConfiguration("metadata").then(function(config) {
-            config.UseFileCreationTimeForDateAdded = "1" === $("#selectDateAdded", form).val(), ApiClient.updateNamedConfiguration("metadata", config);
-        })
     }
 
     function alertText(options) {
@@ -37,11 +20,13 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked", "emby-checkbox", "emby-
         var form = this;
         ApiClient.getServerConfiguration().then(function(config) {
             config.SaveMetadataHidden = $("#chkSaveMetadataHidden", form).checked();
-            config.FanartApiKey = $("#txtFanartApiKey", form).val();
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
         });
-        saveMetadata(form);
-        saveFanart(form);
+        ApiClient.getNamedConfiguration("metadata").then(function(config) {
+            config.UseFileCreationTimeForDateAdded = "1" === $("#selectDateAdded", form).val();
+            ApiClient.updateNamedConfiguration("metadata", config);
+        });
+        loading.hide();
         return false;
     }
 
@@ -76,9 +61,6 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked", "emby-checkbox", "emby-
             ApiClient.getNamedConfiguration("metadata").then(function(metadata) {
                 loadMetadataConfig(page, metadata)
             });
-            ApiClient.getNamedConfiguration("fanart").then(function(metadata) {
-                loadFanartConfig(page, metadata)
-            });
             ApiClient.getSystemInfo().then(function(info) {
                  if ("Windows" === info.OperatingSystem) {
                      page.querySelector(".fldSaveMetadataHidden").classList.remove("hide");
@@ -86,6 +68,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked", "emby-checkbox", "emby-
                      page.querySelector(".fldSaveMetadataHidden").classList.add("hide");
                  }
             });
+            loading.hide();
         });
     }
 });
