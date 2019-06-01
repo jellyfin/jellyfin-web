@@ -1437,5 +1437,7 @@
     "OptionLoginAttemptsBeforeLockout": "Détermine le nombre de tentative de connexion infructueuse avant le blocage d'accès.",
     "OptionPoster": "Affiche",
     "OptionPosterCard": "Affichette",
-    "OptionThumb": "Index"
+    "OptionThumb": "Index",
+    "LabelAuthProvider": "Fournisseur d'authentification :",
+    "LabelPasswordResetProvider": "Fournisseur de réinitialisation de mot de passe"
 }
