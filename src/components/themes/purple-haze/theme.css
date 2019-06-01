@@ -39,7 +39,7 @@ html {
 
 .dialog,
 html {
-    background-color: #0e0f2d
+    background-color: #230c33
 }
 
 .backgroundContainer {
@@ -96,7 +96,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 a[data-role=button] {
-    background: #022b3a !important;
+    background: rgba(2, 43, 58, 0.521) !important;
 }
 
 #btnRestart,
@@ -111,7 +111,7 @@ a[data-role=button] {
 .viewTabButton,
 .button-alt,
 .btnOption {
-    background: rgb(135, 187, 162);
+    background: rgb(72, 195, 200);
     color: rgb(225, 229, 242)
 }
 
@@ -141,25 +141,19 @@ a[data-role=button] {
 .btnForgotPassword,
 .btnCancel,
 .button-cancel {
-    background: rgb(85, 130, 139);
-    color: rgb(225, 229, 242)
+    background: rgba(0, 0, 0, .5);
+    color: rgba(255, 255, 255, .87);
 }
 
-h1,
-h2,
-h3 {
-    color: rgb(160, 238, 192);
-}
-
-.itemName{
-    color: rgb(241, 247, 238)
+.itemName {
+    color: #f1f7ee
 }
 
 .textareaLabel,
 .sectionTitle,
 .fieldDescription,
 .checkboxLabel {
-    color: rgb(201, 228, 202)
+    color: #f1f7ee
 }
 
 .checkboxLabel {
@@ -179,7 +173,7 @@ h3 {
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: rgb(138, 233, 193)
+    color: #8ae9c1
 }
 
 .checkboxOutline {
@@ -367,11 +361,20 @@ h3 {
 }
 
 .emby-checkbox:checked+span+.checkboxOutline {
-    background-color: #8ae9c1
+    background-color: #030322;
+    border:2px solid rgb(72, 195, 200);
+}
+
+.emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-checked {
+    color: rgb(12, 232, 214);
+}
+
+.emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
+    border:2px solid #ddd;
 }
 
 .itemProgressBarForeground {
-    background-color: #48C3C8
+    background-color: rgb(12, 232, 214);
 }
 
 .itemProgressBarForeground-recording {
@@ -381,7 +384,7 @@ h3 {
 .countIndicator,
 .fullSyncIndicator,
 .playedIndicator {
-    background: #48C3C8
+    background: rgb(12, 232, 214);
 }
 
 .fullSyncIndicator {
@@ -521,15 +524,15 @@ h3 {
     border-color: #8ae9c1
 }
 
-.layout-desktop ::-webkit-scrollbar {
-    width: .4em;
-    height: 1em
-}
-
 .layout-desktop,
 .scrollY {
     scrollbar-width: thin;
     scrollbar-color: #888 rgba(59, 59, 59, 0.5)
+}
+
+.layout-desktop ::-webkit-scrollbar {
+    width: .4em;
+    height: 1em
 }
 
 ::-webkit-scrollbar-track {
