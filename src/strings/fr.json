@@ -1428,7 +1428,7 @@
     "DashboardOperatingSystem": "Système d'Exploitation: {0}",
     "DashboardArchitecture": "Architecture: {0}",
     "LaunchWebAppOnStartup": "Démarrer Jellyfin dans mon navigateur quand le serveur Jellyfin est lancé",
-    "LaunchWebAppOnStartupHelp": "Cette fonction ouvrira l'application Jellyfin dans votre navigateur internet quand le serveur Jellyfin est démarré initialement. Cela ne se produira pas quand le serveur est redémarré.",
+    "LaunchWebAppOnStartupHelp": "Cette fonction ouvrira l'application Jellyfin dans votre navigateur internet quand le serveur Jellyfin sera démarré la première fois. Cela ne se produira pas quand le serveur redémarre.",
     "MediaInfoStreamTypeEmbeddedImage": "Image intégrée",
     "MessageNoCollectionsAvailable": "Les collections vous permettent de profiter de groupes personnalisés de Films, Séries et d'Albums. Cliquer sur le bouton + pour démarrer la création de collections.",
     "MessageNoServersAvailable": "Aucun serveur n'a été trouvé en utilisant la recherche automatique de serveur.",
@@ -1439,5 +1439,7 @@
     "OptionPosterCard": "Affichette",
     "OptionThumb": "Index",
     "LabelAuthProvider": "Fournisseur d'authentification :",
-    "LabelPasswordResetProvider": "Fournisseur de réinitialisation de mot de passe"
+    "LabelPasswordResetProvider": "Fournisseur de réinitialisation de mot de passe :",
+    "LabelTranscodePath": "Chemin pour le transcodage :",
+    "LabelTranscodes": "Transcodages :"
 }
