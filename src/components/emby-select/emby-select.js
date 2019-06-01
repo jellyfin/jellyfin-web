@@ -116,13 +116,7 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
             inputId++;
         }
 
-        if (browser) {
-            this.classList.add('emby-select-withcolor');
-
-			if (layoutManager.tv) {
-                this.classList.add('emby-select-tv-withcolor');
-			}
-        }
+        this.classList.add('emby-select-withcolor');
 
         if (layoutManager.tv) {
             this.classList.add('emby-select-focusscale');
