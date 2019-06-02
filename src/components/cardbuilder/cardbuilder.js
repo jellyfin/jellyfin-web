@@ -1267,13 +1267,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var showTitle = options.showTitle === 'auto' ? true : (options.showTitle || item.Type === 'PhotoAlbum' || item.Type === 'Folder');
             var overlayText = options.overlayText;
 
-            if (forceName && !options.cardLayout) {
-
-                if (overlayText == null) {
-                    overlayText = true;
-                }
-            }
-
             var cardImageContainerClass = 'cardImageContainer';
             var coveredImage = options.coverImage || imgInfo.coverImage;
 
