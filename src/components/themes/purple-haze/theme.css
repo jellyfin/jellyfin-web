@@ -65,7 +65,7 @@ html {
 }
 
 .paper-icon-button-light:focus {
-    color: #8ae9c1;
+    color: #ff77f1;
 }
 
 progress {
@@ -173,7 +173,7 @@ a[data-role=button] {
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: #8ae9c1
+    color: #ff77f1
 }
 
 .checkboxOutline {
@@ -290,7 +290,7 @@ a[data-role=button] {
 }
 
 .alphaPickerButton-tv:focus {
-    background: #8ae9c1;
+    background: #ff77f1;
     color: #f8f8fe !important
 }
 
@@ -337,7 +337,7 @@ a[data-role=button] {
 
 .emby-input:focus,
 .emby-textarea:focus {
-    border-color: #8ae9c1
+    border-color: #ff77f1
 }
 
 .emby-select-withcolor {
@@ -352,11 +352,11 @@ a[data-role=button] {
 }
 
 .emby-select-withcolor:focus {
-    border-color: #8ae9c1 !important
+    border-color: #ff77f1 !important
 }
 
 .emby-select-tv-withcolor:focus {
-    background-color: #8ae9c1 !important;
+    background-color: #ff77f1 !important;
     color: #fff !important
 }
 
@@ -370,7 +370,11 @@ a[data-role=button] {
 }
 
 .emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
-    border:2px solid #ddd;
+    border:2px solid #ff77f1;
+}
+
+.emby-checkbox:focus+span+.checkboxOutline {
+    border-color: #ff77f1;
 }
 
 .itemProgressBarForeground {
@@ -428,7 +432,7 @@ a[data-role=button] {
 }
 
 .emby-tab-button.emby-button-tv:focus {
-    color: #8ae9c1;
+    color: #ff77f1;
     background: 0 0
 }
 
@@ -480,7 +484,7 @@ a[data-role=button] {
 
 .guide-date-tab-button.emby-tab-button-active,
 .guide-date-tab-button:focus {
-    color: #8ae9c1
+    color: #ff77f1
 }
 
 .guide-date-tab-button.emby-button-tv:focus {
@@ -521,7 +525,7 @@ a[data-role=button] {
 }
 
 .card:focus .card-focuscontent {
-    border-color: #8ae9c1
+    border-color: #ff77f1
 }
 
 .layout-desktop,
