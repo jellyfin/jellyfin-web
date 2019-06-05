@@ -50,9 +50,9 @@
     vertical-align: initial;
 }
 
-.button-link-inline {
+/*.button-link-inline {
     display: inline;
-}
+}*/
 
 .button-link:hover {
     text-decoration: underline;
