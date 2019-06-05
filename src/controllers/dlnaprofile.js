@@ -270,7 +270,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<a is="emby-linkbutton" href="#" data-icon="delete" class="btnDeleteProfile" data-profileindex="' + i__y + '">Delete</a>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__y + '"><i class="md-icon">delete</i></button>';
             html += "</div>";
         }
 
@@ -331,7 +331,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<a is="emby-linkbutton" href="#" data-icon="delete" class="btnDeleteProfile" data-profileindex="' + i__u + '">Delete</a>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__u + '"><i class="md-icon">delete</i></button>';
             html += "</div>";
         }
 
@@ -415,7 +415,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<a is="emby-linkbutton" href="#" data-icon="delete" class="btnDeleteProfile" data-profileindex="' + i__i + '">Delete</a>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__i + '"><i class="md-icon">delete</i></button>';
             html += "</div>";
         }
 
@@ -487,7 +487,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<a is="emby-linkbutton" href="#" data-icon="delete" class="btnDeleteProfile" data-profileindex="' + i__p + '">Delete</a>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__p + '"><i class="md-icon">delete</i></button>';
             html += "</div>";
         }
 
@@ -567,7 +567,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<a is="emby-linkbutton" href="#" data-icon="delete" class="btnDeleteProfile" data-profileindex="' + i__s + '">Delete</a>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__s + '"><i class="md-icon">delete</i></button>';
             html += "</div>";
         }
 
