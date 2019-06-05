@@ -352,7 +352,6 @@
   "LabelExtractChaptersDuringLibraryScan": "Extrair imagens dos capítulos durante o rastreamento da biblioteca",
   "LabelExtractChaptersDuringLibraryScanHelp": "Se ativado, as imagens dos capítulos serão extraídas quando os vídeos forem importados durante a pesquisa na biblioteca. Se desativado, elas serão extraídas durante a tarefa agendada de imagens dos capítulos, permitindo que a pesquisa na biblioteca seja mais rápida.",
   "LabelFailed": "Falhou",
-  "LabelFanartApiKey": "Chave da api pessoal:",
   "LabelFinish": "Terminar",
   "LabelForgotPasswordUsernameHelp": "Digite o nome de seu utilizador, se lembrar.",
   "LabelFormat": "Formato:",

@@ -548,8 +548,6 @@
     "LabelExtractChaptersDuringLibraryScan": "Extrakce obrázků kapitol během prohledávání vaší knihovny",
     "LabelExtractChaptersDuringLibraryScanHelp": "Jestliže povolíte, budou snímky kapitol extrahovány při pravidelném prohledávání vaší knihovny. Pokud zakážete budou snímky extrahovány během naplánované úlohy pro extrakci snímků z kapitol, což umožní, při pravidelném prohledávání vaší knihovny, dokončit skenování rychleji.",
     "LabelFailed": "Selhání",
-    "LabelFanartApiKey": "Osobní klíč api:",
-    "LabelFanartApiKeyHelp": "Žádosti o fanart bez osobního API klíče vrátí pouze výsledky, které byly schváleny před 7-mi dny a dříve. S osobním API klíčem, získáte schválené výsledky do 48 hodin, a pokud jste fanart VIP člen, pak limit klesne na 10 minut.",
     "LabelFileOrUrl": "Soubor nebo URL:",
     "LabelFinish": "Dokončit",
     "LabelFont": "Písmo:",

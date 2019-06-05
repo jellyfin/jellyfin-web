@@ -331,7 +331,6 @@
   "LabelExternalDDNS": "Domini extern:",
   "LabelExtractChaptersDuringLibraryScan": "Extrau imatges dels episodis durant l'escaneig de la biblioteca",
   "LabelFailed": "Fallit",
-  "LabelFanartApiKey": "Clau api personal:",
   "LabelFinish": "Finalitzar",
   "LabelFriendlyName": "Nom amistós",
   "LabelServerNameHelp": "El nom servirà per identificar aquest servidor. Si es deixa en blanc s'emprarà el nom de l'ordinador.",

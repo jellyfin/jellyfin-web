@@ -582,8 +582,6 @@
     "LabelExtractChaptersDuringLibraryScan": "Hoofdstuk afbeeldingen uitpakken tijdens het scannen van de bibliotheek",
     "LabelExtractChaptersDuringLibraryScanHelp": "Wanneer ingeschakeld worden hoofdstuk afbeeldingen uitgepakt wanneer video's worden geïmporteerd tijdens het scannen van de bibliotheek. Wanneer uitgeschakeld worden de hoofdstuk afbeeldingen uitgepakt tijdens de geplande taak \"Hoofdstukken uitpakken\", waardoor de standaard bibliotheek scan sneller voltooid is.",
     "LabelFailed": "Mislukt",
-    "LabelFanartApiKey": "Persoonlijke api sleutel:",
-    "LabelFanartApiKeyHelp": "Verzoeken voor fanart zonder persoonlijk API-sleutel resulteren in afbeeldingen die langer dan 7 dagen geleden zijn goedgekeurd. Met een persoonlijke API-sleutel daalt het tot 48 uur en als je ook een fanart VIP-lid bent, dan zal het verder dalen tot ongeveer 10 minuten.",
     "LabelFileOrUrl": "Bstand of URL:",
     "LabelFinish": "Voltooien",
     "LabelFont": "Lettertype:",

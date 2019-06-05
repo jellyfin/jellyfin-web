@@ -427,8 +427,6 @@
     "LabelExtractChaptersDuringLibraryScan": "Izvadi slike poglavlja dok traje skeniranje biblioteke",
     "LabelExtractChaptersDuringLibraryScanHelp": "Ako je omogućeno, slike poglavlje će se izdvojiti kad se videozapisi uvezu tijekom skeniranja biblioteke. Ako je onemogućeno izdvojiti će se u rasporedu zadatka slika poglavlja, čime se omogućuje da se skeniranje redovne biblioteke završiti brže.",
     "LabelFailed": "Neuspješno",
-    "LabelFanartApiKey": "Osobni api ključ:",
-    "LabelFanartApiKeyHelp": "Zahtjev za fanart bez osobnog API ključ za povratak slika koje su odobrene prije više od sedam dana. Uz osobni API ključ to se spušta do 48 sati, a ako ste i VIP član fanart-a to će još dodatno pasti na oko 10 minuta.",
     "LabelFileOrUrl": "Datoteka ili url:",
     "LabelFinish": "Kraj",
     "LabelForgotPasswordUsernameHelp": "Unesite korisničko ime, ako se sjećate.",

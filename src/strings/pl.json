@@ -619,8 +619,6 @@
     "LabelExtractChaptersDuringLibraryScan": "Wydobywaj obrazy rozdziałów podczas skanowania biblioteki",
     "LabelExtractChaptersDuringLibraryScanHelp": "Jeśli aktywne, obrazy rozdziałów będą wydobywane, kiedy pliki wideo są importowane, podczas skanowania biblioteki. Jeżeli nieaktywne, będą one wydobywane podczas zaplanowanego zadania, dzięki czemu zwykłe skanowanie biblioteki będzie wykonywało się szybciej.",
     "LabelFailed": "Nieudane",
-    "LabelFanartApiKey": "Osobisty klucz API:",
-    "LabelFanartApiKeyHelp": "Żądania fototapet, bez osobistego klucza API, zwrócą obrazy, które były zatwierdzone 7 dni temu. Z osobistym kluczem API wartość spada do 48 godzin, a jeżeli jesteś członkiem VIP fototapety wartość ta spadnie do około 10 minut.",
     "LabelFileOrUrl": "Plik, lub adres url:",
     "LabelFinish": "Zakończ",
     "LabelFont": "Czcionka:",

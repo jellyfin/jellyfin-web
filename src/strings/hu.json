@@ -905,7 +905,6 @@
     "LabelExtractChaptersDuringLibraryScan": "A fejezet képeinek elkészítése a könyvtár beolvasása során",
     "LabelExtractChaptersDuringLibraryScanHelp": "Ha engedélyezve van, a fejezetképek elkészítése a könyvtár beolvasása során történik meg. Ha le van tiltva, akkor az elkészítés az Ütemezett feladatokban meghatározott időben készül el, ami lehetővé teszi a könyvtárbeolvasás gyorsítását.",
     "LabelFailed": "Sikertelen",
-    "LabelFanartApiKey": "Személyes API kulcs:",
     "LabelFileOrUrl": "Fájl vagy URL:",
     "LabelFont": "Betűtípus:",
     "LabelFormat": "Formátum:",

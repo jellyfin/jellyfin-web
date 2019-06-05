@@ -120,7 +120,6 @@
     "LabelEvent": "事件：",
     "LabelEveryXMinutes": "每次：",
     "LabelFailed": "失敗",
-    "LabelFanartApiKey": "個人 API 鎖匙：",
     "LabelFinish": "完成",
     "LabelServerNameHelp": "名稱用於識辨伺服器。如果留空，將使用本機(伺服器)名稱。",
     "LabelHttpsPort": "本地 https 連接埠號碼：",

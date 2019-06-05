@@ -636,8 +636,6 @@
     "LabelExtractChaptersDuringLibraryScan": "Sahna sýretterin tasyǵyshhanany skanerleý mezgilinde shyǵaryp alý",
     "LabelExtractChaptersDuringLibraryScanHelp": "Qosylǵanda, sahna sýretteri tasyǵyshhanany skanerleý mezgilinde, beıneler sheten ákelingende, bólinip alynady. Ajyratylǵanda, bular sahna sýretterine josparlaǵan tapsyrmasy mezgilinde, turaqty tasyǵyshhanany skanerleýin jyldamyraq aıaqtalýy ushin ruqsat etip, bólinip alynady.",
     "LabelFailed": "Sátsiz",
-    "LabelFanartApiKey": "Ózindik API-kilt:",
-    "LabelFanartApiKeyHelp": "Ózindik API-kiltisiz Fanart úshin jiberilgen saýaldarǵa 7 kúninen buryn rastalǵan sýretter qaıtarylady. Ózindik API-kiltimen bul 48 saǵatqa deıin qysqartylady, al,sondaı-aq, Fanart VIP-múshesi bolsańyz, bul shamamen 10 mınótke deıin taǵy da qysqartylady.",
     "LabelFileOrUrl": "Faıl nemese URL:",
     "LabelFinish": "Aıaqtaý",
     "LabelFont": "Qarip:",

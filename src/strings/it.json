@@ -587,8 +587,6 @@
     "LabelExtractChaptersDuringLibraryScan": "Estrarre immagini capitolo durante la scansione della libreria",
     "LabelExtractChaptersDuringLibraryScanHelp": "Se abilitata, le immagini capitolo verranno estratti quando i video vengono importati durante la scansione della libreria. Se disabilitata verranno estratti durante l'operazione pianificata di estrazione delle immagini capitolo, permettendo la scansione della libreria più velocemente.",
     "LabelFailed": "Fallito",
-    "LabelFanartApiKey": "Chiavi API personali",
-    "LabelFanartApiKeyHelp": "Le richieste di fanart effettuate senza una chiave API personale restituiranno immagini approvate più di 7 giorni fa. Con una chiave API personale questo tempo scende a 48 ore e, se sei un membro VIP, questo tempo scenderà ulteriormente a circa 10 minuti.",
     "LabelFileOrUrl": "File o URL:",
     "LabelFinish": "Finito",
     "LabelForgotPasswordUsernameHelp": "Inserisci il tuo nome utente, se te lo ricordi.",

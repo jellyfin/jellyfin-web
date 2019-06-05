@@ -605,8 +605,6 @@
     "LabelExtractChaptersDuringLibraryScan": "Extraire les images des chapitres pendant l'actualisation de la médiathèque",
     "LabelExtractChaptersDuringLibraryScanHelp": "Si l'option est activée, les images des chapitres seront extraites lors de l'importation de vidéos pendant l'actualisation de la médiathèque. Sinon elles seront extraites pendant la tâche planifiée des images des chapitres, permettant de terminer plus rapidement les actualisations de la médiathèque.",
     "LabelFailed": "Échoué",
-    "LabelFanartApiKey": "Clé d'API personnelle :",
-    "LabelFanartApiKeyHelp": "Les requêtes de fanart sans clé d'API personnelle renvoient des résultats approuvés il y a plus de 7 jours. Avec une clé d'API personnelle,  cette valeur descend à 48 heures, et si vous êtes aussi membre fanart VIP, cette valeur descendra encore plus, à environ 10 minutes.",
     "LabelFileOrUrl": "Fichier ou URL :",
     "LabelFinish": "Terminer",
     "LabelFont": "Police :",
