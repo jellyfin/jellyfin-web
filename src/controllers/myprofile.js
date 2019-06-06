@@ -11,7 +11,6 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
             var imageUrl = "img/logindefault.png";
             if (user.PrimaryImageTag) {
                 imageUrl = ApiClient.getUserImageUrl(user.Id, {
-                    height: 200,
                     tag: user.PrimaryImageTag,
                     type: "Primary"
                 });
