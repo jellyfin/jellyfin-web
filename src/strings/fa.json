@@ -1,5 +1,4 @@
 {
-    "Advanced": "پیشرفته",
     "All": "همه",
     "AllowMediaConversion": "اجازه تبدیل رسانه ها",
     "AllowMediaConversionHelp": "دادن یا ندادن دسترسی به ویژگی تبدیل رسانه ها",
@@ -108,7 +107,6 @@
     "TabPlaylist": "لیست پخش",
     "TabProfile": "پروفایل",
     "TabProfiles": "پروفایل ها",
-    "TabSecurity": "امنیت",
     "TabShows": "سریال ها",
     "TabSongs": "آهنگ ها",
     "TabSuggestions": "پیشنهادات",

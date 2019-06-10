@@ -58,10 +58,10 @@ define([
         roles: "admin"
     });
     defineRoute({
-        path: "/dashboardhosting.html",
+        path: "/networking.html",
         autoFocus: false,
         roles: "admin",
-        controller: "dashboardhosting"
+        controller: "networking"
     });
     defineRoute({
         path: "/devices.html",
@@ -334,10 +334,10 @@ define([
         controller: "serveractivity"
     });
     defineRoute({
-        path: "/serversecurity.html",
+        path: "/apikeys.html",
         autoFocus: false,
         roles: "admin",
-        controller: "serversecurity"
+        controller: "apikeys"
     });
     defineRoute({
         path: "/streamingsettings.html",
