@@ -268,7 +268,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }, {
             name: globalize.translate("TabDashboard"),
             href: "dashboard.html",
-            pageIds: ["dashboardPage", "serverActivityPage"],
+            pageIds: ["dashboardPage"],
             icon: "dashboard"
         }, {
             name: globalize.translate("General"),
