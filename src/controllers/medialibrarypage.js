@@ -334,11 +334,9 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
         }, {
             href: "metadatanfo.html",
             name: globalize.translate("TabNfoSettings")
-        }, {
-            href: "librarysettings.html",
-            name: globalize.translate("TabAdvanced")
         }]
     }
+
     window.WizardLibraryPage = {
         next: function() {
             Dashboard.navigate("wizardsettings.html")
