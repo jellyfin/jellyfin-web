@@ -90,6 +90,11 @@ progress::-webkit-progress-value {
     color: rgba(255, 255, 255, .87);
 }
 
+.fab:focus,
+.raised:focus {
+    background: #ff77f1
+}
+
 div[data-role=controlgroup] a.ui-btn-active {
     background: #55828b !important;
     color: #e1e5f2 !important
@@ -99,9 +104,7 @@ a[data-role=button] {
     background: rgba(2, 43, 58, 0.521) !important;
 }
 
-#btnRestart,
 #btnDeleteImage,
-#btnShutdown,
 .submit,
 .btnBrowse,
 .mini,
@@ -135,6 +138,10 @@ a[data-role=button] {
 .block:hover {
     background: rgb(12, 232, 214);
     color: rgba(255, 255, 255, .87)
+}
+
+.button-submit:focus {
+    background: #ff77f1
 }
 
 #btnResetPassword,
