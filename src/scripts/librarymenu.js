@@ -308,6 +308,12 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             icon: "devices"
         });
         links.push({
+            name: globalize.translate("HeaderActivity"),
+            href: "serveractivity.html",
+            pageIds: ["serverActivityPage"],
+            icon: "assessment"
+        });
+        links.push({
             name: globalize.translate("DLNA"),
             href: "dlnasettings.html",
             pageIds: ["dlnaSettingsPage", "dlnaProfilesPage", "dlnaProfilePage"],
