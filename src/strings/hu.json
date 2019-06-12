@@ -1309,5 +1309,13 @@
     "MediaInfoSoftware": "Szoftver",
     "MediaInfoStreamTypeAudio": "Audió",
     "MediaInfoStreamTypeSubtitle": "Felirat",
-    "MediaInfoStreamTypeVideo": "Videó"
+    "MediaInfoStreamTypeVideo": "Videó",
+    "LabelUserAgent": "Felhasználó ügynök:",
+    "LabelUserLoginAttemptsBeforeLockout": "Sikertelen bejelentkezési kísérletek a felhasználó zárolása előtt:",
+    "DashboardOperatingSystem": "Operációs rendszer: {0}",
+    "DashboardArchitecture": "Arhitektúra: {0}",
+    "LaunchWebAppOnStartup": "Indítsa el a Jellyfin webes alkalmazást a böngészőben, amikor a Jellyfin Szerver elindul",
+    "MessageNoCollectionsAvailable": "A gyűjtemények lehetővé teszik Filmek, Sorozatok és Albumok egyéni csoportosítását. A gyűjtemények létrehozásához kattints a + gombra.",
+    "MessageNoServersAvailable": "Az automatikus kiszolgálókeresés nem talált szervert.",
+    "OptionLoginAttemptsBeforeLockout": "Meghatározza, hogy hány érvénytelen bejelentkezési kísérlet történhet zárolás előtt."
 }
