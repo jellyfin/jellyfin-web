@@ -23,9 +23,9 @@
             </div>
         </div>
     </div>
-    <div data-role="popup" id="popupAddTrigger" class="dialog dialog-fixedSize dialog-small hide" style="position: fixed; top: 10%;">
+    <div data-role="popup" id="popupAddTrigger" class="dialog dialog-fixedSize dialog-medium-tall hide" style="position: fixed; top: 10%;">
         <form class="addTriggerForm" style="padding:1em;">
-            <div class="ui-bar-a" style="text-align: center; padding: 0 20px;">
+            <div class="ui-bar-a">
                 <h3>${HeaderAddScheduledTaskTrigger}</h3>
             </div>
             <div data-role="content">
@@ -75,11 +75,11 @@
                     <input is="emby-input" id="txtTimeLimit" type="number" pattern="[0-9]*" min="1" step=".5" label="${LabelTimeLimitHours}" />
                 </div>
                 <div>
-                    <button type="submit" data-icon="check">
-                        ${ButtonAdd}
+                    <button is="emby-button" type="submit" class="raised button-submit block" data-icon="check">
+                        <span>${ButtonAdd}</span>
                     </button>
-                    <button type="button" data-icon="delete" onclick="$(this).parents('.dialog').addClass('hide');">
-                        ${ButtonCancel}
+                    <button is="emby-button" type="button" class="raised button-cancel block" data-icon="delete" onclick="$(this).parents('.dialog').addClass('hide');">
+                        <span>${ButtonCancel}</span>
                     </button>
                 </div>
             </div>

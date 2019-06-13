@@ -499,3 +499,8 @@ a[data-role=button] {
     -webkit-box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
     box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
 }
+
+.ui-bar-a{
+    text-align: center;
+    padding: 0 20px;
+}
