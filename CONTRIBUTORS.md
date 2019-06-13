@@ -21,6 +21,7 @@
  - [RazeLighter777](https://github.com/RazeLighter777)
  - [LogicalPhallacy](https://github.com/LogicalPhallacy)
  - [thornbill](https://github.com/thornbill)
+ - [Oddstr13](https://github.com/oddstr13)
 
 # Emby Contributors
 
