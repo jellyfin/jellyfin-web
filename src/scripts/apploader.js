@@ -1,24 +1,29 @@
 (function() {
     "use strict";
 
-    function loadApp() {
-        var script = document.createElement("script"),
-            src = "./scripts/site.js";
+    function injectScriptElement(src, onload) {
+        if (!src) {
+            return;
+        }
+
+        var script = document.createElement("script");
         if (self.dashboardVersion) {
             src += "?v=" + self.dashboardVersion;
         }
         script.src = src;
+
+        if (onload) {
+            script.onload = onload;
+        }
+
         document.head.appendChild(script);
     }
 
-    (function() {
-        var src, script = document.createElement("script");
-        src = self.Promise ? "./bower_components/alameda/alameda.js" : "./bower_components/requirejs/require.js";
-        if (self.dashboardVersion) {
-            src += "?v=" + self.dashboardVersion;
+    injectScriptElement(
+        self.Promise ? "./bower_components/alameda/alameda.js" : "./bower_components/requirejs/require.js",
+        function() {
+            // onload of require library
+            injectScriptElement("./scripts/site.js");
         }
-        script.src = src;
-        script.onload = loadApp;
-        document.head.appendChild(script);
-    })();
+    );
 })();
