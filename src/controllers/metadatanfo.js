@@ -40,11 +40,9 @@ define(["jQuery", "loading", "libraryMenu"], function($, loading, libraryMenu) {
         }, {
             href: "metadatanfo.html",
             name: Globalize.translate("TabNfoSettings")
-        }, {
-            href: "librarysettings.html",
-            name: Globalize.translate("TabAdvanced")
         }]
     }
+
     var metadataKey = "xbmcmetadata";
     $(document).on("pageinit", "#metadataNfoPage", function() {
         $(".metadataNfoForm").off("submit", onSubmit).on("submit", onSubmit)

@@ -4,14 +4,15 @@ define(["datetime", "loading", "libraryMenu", "dom", "globalize", "emby-button"]
     function revoke(page, key) {
         require(["confirm"], function(confirm) {
             confirm(globalize.translate("MessageConfirmRevokeApiKey"), globalize.translate("HeaderConfirmRevokeApiKey")).then(function() {
-                loading.show(), ApiClient.ajax({
+                loading.show();
+                ApiClient.ajax({
                     type: "DELETE",
                     url: ApiClient.getUrl("Auth/Keys/" + key)
                 }).then(function() {
-                    loadData(page)
-                })
-            })
-        })
+                    loadData(page);
+                });
+            });
+        });
     }
 
     function renderKeys(page, keys) {
@@ -21,13 +22,15 @@ define(["datetime", "loading", "libraryMenu", "dom", "globalize", "emby-button"]
             var date = datetime.parseISO8601Date(item.DateCreated, !0);
             return html += datetime.toLocaleDateString(date) + " " + datetime.getDisplayTime(date), html += "</td>", html += "</tr>"
         }).join("");
-        page.querySelector(".resultBody").innerHTML = rows, loading.hide()
+        page.querySelector(".resultBody").innerHTML = rows;
+        loading.hide();
     }
 
     function loadData(page) {
-        loading.show(), ApiClient.getJSON(ApiClient.getUrl("Auth/Keys")).then(function(result) {
-            renderKeys(page, result.Items)
-        })
+        loading.show();
+        ApiClient.getJSON(ApiClient.getUrl("Auth/Keys")).then(function(result) {
+            renderKeys(page, result.Items);
+        });
     }
 
     function showNewKeyPrompt(page) {
@@ -49,24 +52,18 @@ define(["datetime", "loading", "libraryMenu", "dom", "globalize", "emby-button"]
         })
     }
 
-    function getTabs() {
-        return [{
-            href: "dashboardhosting.html",
-            name: globalize.translate("TabHosting")
-        }, {
-            href: "serversecurity.html",
-            name: globalize.translate("TabSecurity")
-        }]
-    }
-    pageIdOn("pageinit", "serverSecurityPage", function() {
+    pageIdOn("pageinit", "apiKeysPage", function() {
         var page = this;
         page.querySelector(".btnNewKey").addEventListener("click", function() {
             showNewKeyPrompt(page)
-        }), page.querySelector(".tblApiKeys").addEventListener("click", function(e) {
+        });
+        page.querySelector(".tblApiKeys").addEventListener("click", function(e) {
             var btnRevoke = dom.parentWithClass(e.target, "btnRevoke");
             btnRevoke && revoke(page, btnRevoke.getAttribute("data-token"))
-        })
-    }), pageIdOn("pagebeforeshow", "serverSecurityPage", function() {
-        libraryMenu.setTabs("adminadvanced", 1, getTabs), loadData(this)
+        });
+    });
+
+    pageIdOn("pagebeforeshow", "apiKeysPage", function() {
+        loadData(this);
     })
 });

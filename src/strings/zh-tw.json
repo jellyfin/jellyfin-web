@@ -1,6 +1,5 @@
 {
     "Add": "添加",
-    "Advanced": "進階",
     "All": "全部",
     "AllowRemoteAccessHelp": "如果未勾選，所有連線都將被阻擋。",
     "Browse": "瀏覽",
@@ -285,7 +284,6 @@
     "TabProfile": "配置",
     "TabProfiles": "配置",
     "TabRecordings": "錄影",
-    "TabSecurity": "安全性",
     "TabSeries": "電視劇",
     "TabServer": "伺服器",
     "TabSettings": "設定",

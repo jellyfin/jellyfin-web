@@ -268,7 +268,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }, {
             name: globalize.translate("TabDashboard"),
             href: "dashboard.html",
-            pageIds: ["dashboardPage", "serverActivityPage"],
+            pageIds: ["dashboardPage"],
             icon: "dashboard"
         }, {
             name: globalize.translate("General"),
@@ -284,12 +284,10 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             name: globalize.translate("TabLibrary"),
             href: "library.html",
             pageIds: ["mediaLibraryPage", "librarySettingsPage", "libraryDisplayPage", "metadataImagesConfigurationPage", "metadataNfoPage"],
-            icon: "folder",
-            color: "#38c"
+            icon: "folder"
         }, {
             name: globalize.translate("TabPlayback"),
             icon: "play_arrow",
-            color: "#E5342E",
             href: "playbackconfiguration.html",
             pageIds: ["playbackConfigurationPage", "streamingSettingsPage"]
         }, {
@@ -308,6 +306,12 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             href: "devices.html",
             pageIds: ["devicesPage", "devicePage"],
             icon: "devices"
+        });
+        links.push({
+            name: globalize.translate("HeaderActivity"),
+            href: "serveractivity.html",
+            pageIds: ["serverActivityPage"],
+            icon: "assessment"
         });
         links.push({
             name: globalize.translate("DLNA"),
@@ -333,14 +337,19 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         });
         links.push({
             divider: true,
-            name: globalize.translate("TabExpert")
+            name: globalize.translate("TabAdvanced")
         });
         links.push({
-            name: globalize.translate("TabAdvanced"),
-            icon: "code",
-            href: "dashboardhosting.html",
-            color: "#F16834",
-            pageIds: ["dashboardHostingPage", "serverSecurityPage"]
+            name: globalize.translate("TabNetworking"),
+            icon: "cloud",
+            href: "networking.html",
+            pageIds: ["networkingPage"]
+        });
+        links.push({
+            name: globalize.translate("HeaderApiKeys"),
+            icon: "vpn_key",
+            href: "apikeys.html",
+            pageIds: ["apiKeysPage"]
         });
         links.push({
             name: globalize.translate("TabLogs"),
@@ -351,14 +360,12 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         links.push({
             name: globalize.translate("TabNotifications"),
             icon: "notifications",
-            color: "brown",
             href: "notificationsettings.html",
             pageIds: ["notificationSettingsPage", "notificationSettingPage"]
         });
         links.push({
             name: globalize.translate("TabPlugins"),
             icon: "shopping_cart",
-            color: "#9D22B1",
             href: "installedplugins.html",
             pageIds: ["pluginsPage", "pluginCatalogPage"]
         });
