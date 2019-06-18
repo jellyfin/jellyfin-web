@@ -708,8 +708,8 @@
     "LabelMetadataSaversHelp": "Metaderekterdi qaıda saqtaıtyn faıl pishimderin tańdaý.",
     "LabelMethod": "Ádis:",
     "LabelMinBackdropDownloadWidth": "Artqy sýrettiń júktep alynatyn eń az eni:",
-    "LabelMinResumeDuration": "Jalǵastyrý úshin eń az uzaqtyǵy (sekýnd):",
-    "LabelMinResumeDurationHelp": "Budan qysqa týyndylar jalǵastyrylmaıdy",
+    "LabelMinResumeDuration": "Jalǵastyrý úshin eń az uzaqtyǵy:",
+    "LabelMinResumeDurationHelp": "Oınatý orny saqtalatyn jáne jalǵastyrýǵa múmkindik beretin sekýndtar arqyly eń qysqa beıne uzyndyǵy",
     "LabelMinResumePercentage": "Jalǵastyrý úshin eń az paıyzy:",
     "LabelMinResumePercentageHelp": "Bul kezden buryn toqtatylsa týyndylar oınatylmaǵan dep boljaldy",
     "LabelMinScreenshotDownloadWidth": "Júktep alý úshin eń az skrınshot eni:",
@@ -1335,7 +1335,7 @@
     "TabProfiles": "Profaıldar",
     "TabRecordings": "Jazbalar",
     "TabResponses": "Ún qatýlar",
-    "TabResumeSettings": "Jalǵastyrý parametrleri",
+    "TabResumeSettings": "Jalǵastyrý",
     "TabScheduledTasks": "Josparlaýshy",
     "TabSeries": "Telehıkaıalar",
     "TabServer": "Server",
@@ -1476,5 +1476,6 @@
     "OptionThumbCard": "Nobaı-karta",
     "PasswordResetProviderHelp": "Bul paıdalanýshy paróldi ysyrý saýalyn jibergen kezde paıdalanylatyn paróldi ysyrý jetkizýshisin tańdańyz",
     "PlaybackData": "Oınatý derekteri",
-    "SubtitleOffset": "Sýbtıtrler yǵysýy"
+    "SubtitleOffset": "Sýbtıtrler yǵysýy",
+    "TabNetworking": "Jelilik jumys"
 }
