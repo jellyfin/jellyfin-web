@@ -679,7 +679,7 @@
     "LabelMaxResumePercentageHelp": "Произведения предполагаются воспроизведёнными полностью, при остановке после данного момента",
     "LabelMaxScreenshotsPerItem": "Макс. число снимков экрана на элемент:",
     "LabelMaxStreamingBitrate": "Макс. качество трансляции:",
-    "LabelMaxStreamingBitrateHelp": "Укажите максимальную потоковую скорость при трансляции.",
+    "LabelMaxStreamingBitrateHelp": "Укажите макс. потоковую скорость трансляции.",
     "LabelMessageText": "Текст сообщения:",
     "LabelMessageTitle": "Заголовок сообщения:",
     "LabelMetadata": "Метаданные:",
@@ -693,8 +693,8 @@
     "LabelMetadataSaversHelp": "Выберите форматы файлов, куда будут сохраняться метаданные.",
     "LabelMethod": "Метод:",
     "LabelMinBackdropDownloadWidth": "Мин. ширина загружаемого задника:",
-    "LabelMinResumeDuration": "Мин. длительность для возобновления, с:",
-    "LabelMinResumeDurationHelp": "Невозможно возобновление для произведений, при длительности менее данного",
+    "LabelMinResumeDuration": "Мин. длительность для возобновления:",
+    "LabelMinResumeDurationHelp": "Наименьшая длительность видео в секундах, при которой сохраняется позиция воспроизведения и позволяется возобновление",
     "LabelMinResumePercentage": "Мин. доля для возобновления, %:",
     "LabelMinResumePercentageHelp": "Произведения предполагаются не воспроизведёнными, при остановке до данного момента",
     "LabelMinScreenshotDownloadWidth": "Мин. ширина загружаемого снимка экрана:",
@@ -1303,7 +1303,7 @@
     "TabProfiles": "Профили",
     "TabRecordings": "Записи",
     "TabResponses": "Отклики",
-    "TabResumeSettings": "Параметры возобновления",
+    "TabResumeSettings": "Возобновление",
     "TabScheduledTasks": "Планировщик",
     "TabSeries": "Сериалы",
     "TabServer": "Сервер",
@@ -1441,5 +1441,6 @@
     "OptionThumbCard": "Бегунок-карта",
     "PasswordResetProviderHelp": "Выберите поставщика сброса пароля, который будет использоваться, когда этот пользователь запрашивает сброс пароля",
     "PlaybackData": "Данные воспроизведения",
-    "SubtitleOffset": "Сдвиг субтитров"
+    "SubtitleOffset": "Сдвиг субтитров",
+    "TabNetworking": "Работа в сети"
 }
