@@ -919,14 +919,10 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             events.trigger(self, 'pairing');
 
             promise.then(function () {
-
                 events.trigger(self, 'paired');
-
                 setCurrentPlayerInternal(player, targetInfo);
             }, function () {
-
                 events.trigger(self, 'pairerror');
-
                 if (currentPairingId === targetInfo.id) {
                     currentPairingId = null;
                 }
