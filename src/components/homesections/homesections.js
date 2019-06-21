@@ -414,12 +414,8 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         var scrollX = !layoutManager.desktop;
 
         if (userViews.length) {
-
             html += '<div class="verticalSection">';
-
-            html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
-            html += '</div>';
 
             if (scrollX) {
                 html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
