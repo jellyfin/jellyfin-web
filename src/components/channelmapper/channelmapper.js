@@ -26,11 +26,11 @@ define(["dialogHelper", "loading", "connectionManager", "globalize", "actionshee
         }
 
         function onChannelsElementClick(e) {
-            const btnMap = parentWithClass(e.target, "btnMap");
+            var btnMap = parentWithClass(e.target, "btnMap");
             if (btnMap) {
-                const channelId = btnMap.getAttribute("data-id");
-                const providerChannelId = btnMap.getAttribute("data-providerid");
-                const menuItems = currentMappingOptions.ProviderChannels.map(function(m) {
+                var channelId = btnMap.getAttribute("data-id");
+                var providerChannelId = btnMap.getAttribute("data-providerid");
+                var menuItems = currentMappingOptions.ProviderChannels.map(function(m) {
                     return {
                         name: m.Name,
                         id: m.Id,
