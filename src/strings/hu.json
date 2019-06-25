@@ -724,7 +724,7 @@
     "HeaderAlert": "Figyelem",
     "HeaderAllowMediaDeletionFrom": "Média törlés engedélyezése",
     "HeaderApiKey": "API Key",
-    "HeaderApiKeys": "API Keys",
+    "HeaderApiKeys": "API Kulcsok",
     "HeaderAppearsOn": "Megjelenik",
     "HeaderAudioLanguages": "Audió nyelv",
     "HeaderBooks": "Könyvek",
@@ -1286,7 +1286,7 @@
     "VideoRange": "Videó tartomány",
     "ViewAlbum": "Album megtekintése",
     "ViewArtist": "Művész megtekintése",
-    "Whitelist": "Whitelist",
+    "Whitelist": "Fehérlista",
     "WizardCompleted": "Ez most minden amire szükség volt. A Jellyfin megkezdte a médiakönyvtáraddal kapcsolatos információk gyűjtését. Nézz meg néhány alkalmazásunkat, majd kattints a <b>Befejezés </b> gombra a <b>Szerver Vezérlőpult</b> megtekintéséhez.",
     "XmlTvKidsCategoriesHelp": "Az ilyen kategóriákkal rendelkező programok gyerekeknek szóló programokként jelennek meg. Válaszd el őket a '|' elválasztóval.",
     "XmlTvMovieCategoriesHelp": "Az ilyen kategóriákkal rendelkező programok filmként jelennek meg. Válaszd el őket a '|' elválasztóval.",
@@ -1313,5 +1313,6 @@
     "LaunchWebAppOnStartup": "Indítsa el a Jellyfin webes alkalmazást a böngészőben, amikor a Jellyfin Szerver elindul",
     "MessageNoCollectionsAvailable": "A gyűjtemények lehetővé teszik Filmek, Sorozatok és Albumok egyéni csoportosítását. A gyűjtemények létrehozásához kattints a + gombra.",
     "MessageNoServersAvailable": "Az automatikus kiszolgálókeresés nem talált szervert.",
-    "OptionLoginAttemptsBeforeLockout": "Meghatározza, hogy hány érvénytelen bejelentkezési kísérlet történhet zárolás előtt."
+    "OptionLoginAttemptsBeforeLockout": "Meghatározza, hogy hány érvénytelen bejelentkezési kísérlet történhet zárolás előtt.",
+    "TabNetworking": "Hálózat"
 }
