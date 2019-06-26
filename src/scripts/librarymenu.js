@@ -281,7 +281,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             pageIds: ["userProfilesPage", "newUserPage", "editUserPage", "userLibraryAccessPage", "userParentalControlPage", "userPasswordPage"],
             icon: "people"
         }, {
-            name: globalize.translate("TabLibrary"),
+            name: globalize.translate("HeaderLibraries"),
             href: "library.html",
             pageIds: ["mediaLibraryPage", "librarySettingsPage", "libraryDisplayPage", "metadataImagesConfigurationPage", "metadataNfoPage"],
             icon: "folder"

@@ -14,7 +14,6 @@
 }
 
 .osdHeader {
-    padding-bottom: 3vh;
     -webkit-transition: opacity .3s ease-out;
     -o-transition: opacity .3s ease-out;
     transition: opacity .3s ease-out;
