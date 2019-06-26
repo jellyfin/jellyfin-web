@@ -22,6 +22,7 @@
  - [LogicalPhallacy](https://github.com/LogicalPhallacy)
  - [thornbill](https://github.com/thornbill)
  - [Oddstr13](https://github.com/oddstr13)
+ - [petermcneil](https://github.com/petermcneil)
 
 # Emby Contributors
 
