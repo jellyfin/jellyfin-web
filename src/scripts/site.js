@@ -1048,10 +1048,6 @@ var AppInfo = {};
                         return "livetv.html?tab=5&serverId=" + options.serverId;
                     }
 
-		if ("seriesrecording" === options.section) { return "livetv.html?tab=5&serverId=" + options.serverId; }
-                    return "livetv.html?serverId=" + options.serverId;
-                }
-
                 if ("SeriesTimer" == itemType) {
                     return "itemdetails.html?seriesTimerId=" + id + "&serverId=" + serverId;
                 }

@@ -703,7 +703,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
                 html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
                     serverId: apiClient.serverId(),
-                    section: 'seriesrecording' 
+                    section: 'seriesrecording'
                 }) + '" class="raised"><span>' + globalize.translate('Series') + '</span></a>';
 
                 html += '</div>';
