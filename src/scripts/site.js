@@ -1044,6 +1044,11 @@ var AppInfo = {};
                         return "livetv.html?tab=4&serverId=" + options.serverId;
                     }
 
+                    if ("seriesrecording" === options.section) {
+                        return "livetv.html?tab=5&serverId=" + options.serverId;
+                    }
+
+		if ("seriesrecording" === options.section) { return "livetv.html?tab=5&serverId=" + options.serverId; }
                     return "livetv.html?serverId=" + options.serverId;
                 }
 
