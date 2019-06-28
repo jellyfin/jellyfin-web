@@ -284,5 +284,10 @@
     "Playlists": "Çalma listeleri",
     "Shows": "Diziler",
     "Songs": "Şarkılar",
-    "Sync": "Eşitle"
+    "Sync": "Eşitle",
+    "AllChannels": "Bütün kanallar",
+    "AllComplexFormats": "Bütün karmaşık formatlar (ASS, SSA, VOBSUB, PGS, SUB/IDX, vb.)",
+    "AllEpisodes": "Bütün bölümler",
+    "AllLanguages": "Bütün diller",
+    "AllowMediaConversion": "Medya dönüşümüne izin ver"
 }
