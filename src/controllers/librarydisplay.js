@@ -61,9 +61,9 @@ define(["globalize", "loading", "libraryMenu", "emby-checkbox", "emby-button", "
             loadData();
             ApiClient.getSystemInfo().then(function(info) {
                  if ("Windows" === info.OperatingSystem) {
-                     this.querySelector(".fldSaveMetadataHidden").classList.remove("hide");
+                     view.querySelector(".fldSaveMetadataHidden").classList.remove("hide");
                  } else {
-                     this.querySelector(".fldSaveMetadataHidden").classList.add("hide");
+                     view.querySelector(".fldSaveMetadataHidden").classList.add("hide");
                  }
             });
         });
