@@ -190,7 +190,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
      */
     CastPlayer.prototype.sessionUpdateListener = function (isAlive) {
         if (isAlive) {
-            console.log('sessionUpdateListener: not alive');
+            console.log('sessionUpdateListener: already alive');
         } else {
             this.session = null;
             this.deviceState = DEVICE_STATE.IDLE;
