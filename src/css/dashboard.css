@@ -70,7 +70,7 @@ progress[aria-valuenow]:before {
 }
 
 .adminDrawerLogo img {
-    height: 2.2em
+    height: 4em
 }
 
 div[data-role=controlgroup] a[data-role=button] {

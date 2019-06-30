@@ -443,8 +443,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     function createDashboardMenu(apiClient) {
         return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
             var html = "";
-            html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="home.html" style="text-align:left;">';
-            html += '<img src="img/logoblack.png" />';
+            html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="home.html">';
+            html += '<img src="img/logo.png" />';
             html += "</a>";
             html += toolsMenuHtml;
             navDrawerScrollContainer.innerHTML = html;
