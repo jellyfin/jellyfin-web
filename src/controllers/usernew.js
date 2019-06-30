@@ -29,7 +29,8 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox"], function($, loading)
     }
 
     function loadUser(page) {
-        $("#txtUserName", page).val("");
+        $("#txtUsername", page).val("");
+        $("#txtPassword", page).val("");
         loading.show();
         var promiseFolders = ApiClient.getJSON(ApiClient.getUrl("Library/MediaFolders", {
                 IsHidden: false
@@ -43,8 +44,10 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox"], function($, loading)
     }
 
     function saveUser(page) {
-        var name = $("#txtUserName", page).val();
-        ApiClient.createUser(name).then(function(user) {
+        var user = {};
+        user.Name = $("#txtUsername", page).val();
+        user.Password = $("#txtPassword", page).val();
+        ApiClient.createUser(user).then(function(user) {
             user.Policy.EnableAllFolders = $("#chkEnableAllFolders", page).checked();
             user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : $(".chkFolder", page).get().filter(function(i) {
                 return i.checked
@@ -61,15 +64,9 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox"], function($, loading)
                 Dashboard.navigate("useredit.html?userId=" + user.Id);
             });
         }, function(response) {
-            if (response.status == 400) {
-                Dashboard.alert({
-                    message: page.querySelector(".labelNewUserNameHelp").innerHTML
-                });
-            } else {
-                require(["toast"], function(toast) {
-                    toast(Globalize.translate("DefaultErrorMessage"));
-                });
-            }
+            require(["toast"], function(toast) {
+                toast(Globalize.translate("DefaultErrorMessage"));
+            });
             loading.hide();
         });
     }
