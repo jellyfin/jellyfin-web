@@ -701,6 +701,11 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                     section: 'dvrschedule'
                 }) + '" class="raised"><span>' + globalize.translate('Schedule') + '</span></a>';
 
+                html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                    serverId: apiClient.serverId(),
+                    section: 'seriesrecording'
+                }) + '" class="raised"><span>' + globalize.translate('Series') + '</span></a>';
+
                 html += '</div>';
                 if (enableScrollX()) {
                     html += '</div>';
