@@ -1,5 +1,5 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'playbackManager', 'itemShortcuts', 'css!./card', 'paper-icon-button-light', 'programStyles'],
-    function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, playbackManager, itemShortcuts) {
+define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'playbackManager', 'itemShortcuts', 'scripts/imagehelper', 'css!./card', 'paper-icon-button-light', 'programStyles'],
+    function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, playbackManager, itemShortcuts, imageHelper) {
         'use strict';
 
         var devicePixelRatio = window.devicePixelRatio || 1;
@@ -1546,28 +1546,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         }
 
         function getCardDefaultText(item, options) {
-
-            var collectionType = item.CollectionType;
-            if (collectionType === 'livetv') {
-                return '<i class="cardImageIcon md-icon">&#xE1B2;</i>';
-            }
-            if (collectionType === 'movies') {
-                return '<i class="cardImageIcon md-icon">&#xe04a;</i>';
-            }
-            if (collectionType === 'tvshows') {
-                return '<i class="cardImageIcon md-icon">&#xe333;</i>';
-            }
-            if (collectionType === 'homevideos' || collectionType === 'photos') {
-                return '<i class="cardImageIcon md-icon">&#xe413;</i>';
-            }
-            if (collectionType === 'music') {
-                return '<i class="cardImageIcon md-icon">&#xE310;</i>';
-            }
-            if (collectionType === 'musicvideos') {
-                return '<i class="cardImageIcon md-icon">&#xe063;</i>';
-            }
-            if (collectionType === 'books') {
-                return '<i class="cardImageIcon md-icon">&#xe02f;</i>';
+            if (item.CollectionType) {
+                return '<i class="cardImageIcon md-icon">' + imageHelper.getLibraryIcon(item.CollectionType) + '</i>'
             }
             if (item.Type === 'MusicAlbum') {
                 return '<i class="cardImageIcon md-icon">&#xE019;</i>';

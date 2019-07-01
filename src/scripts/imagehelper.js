@@ -28,7 +28,37 @@ define(["browser"], function (browser) {
         }
     }
 
+    function getLibraryIcon(library) {
+        switch (library) {
+            case "movies":
+                return "video_library";
+            case "music":
+                return "library_music";
+            case "photos":
+                return "photo_library";
+            case "livetv":
+                return "live_tv";
+            case "tvshows":
+                return "tv";
+            case "trailers":
+                return "local_movies";
+            case "homevideos":
+                return "photo_library";
+            case "musicvideos":
+                return "music_video";
+            case "books":
+                return "library_books";
+            case "channels":
+                return "videocam";
+            case "playlists":
+                return "view_list";
+            default:
+                return "folder";
+        }
+    }
+
     return {
         getDeviceIcon: getDeviceIcon,
+        getLibraryIcon: getLibraryIcon
     };
 });
