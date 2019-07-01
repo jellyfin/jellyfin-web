@@ -1,4 +1,4 @@
-define(["loading", "dom", "libraryMenu", "globalize", "humanedate", "emby-button", "emby-itemscontainer", "cardStyle"], function(loading, dom, libraryMenu, globalize) {
+define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "humanedate", "emby-button", "emby-itemscontainer", "cardStyle"], function(loading, dom, libraryMenu, globalize, imageHelper) {
     "use strict";
 
     function canDelete(deviceId) {
@@ -62,7 +62,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "humanedate", "emby-button
             deviceHtml += '<div class="cardScalable">';
             deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>';
             deviceHtml += '<a is="emby-linkbutton" href="' + (canEdit ? "device.html?id=" + device.Id : "#") + '" class="cardContent cardImageContainer">';
-            var iconUrl = device.IconUrl;
+            var iconUrl = imageHelper.getDeviceIcon(device.Name);
             if (iconUrl) {
                 deviceHtml += '<div class="cardImage" style="background-image:url(\'' + iconUrl + "');background-size: auto 64%;background-position:center center;\">";
                 deviceHtml += "</div>";
@@ -93,9 +93,9 @@ define(["loading", "dom", "libraryMenu", "globalize", "humanedate", "emby-button
             deviceHtml += "</div>";
             deviceHtml += "</div>";
             deviceHtml += "</div>";
+            return deviceHtml;
         }).join("");
         page.querySelector(".devicesList").innerHTML = html;
-        return html;
     }
 
     function loadData(page) {

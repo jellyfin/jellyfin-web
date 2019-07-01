@@ -213,17 +213,14 @@ var Dashboard = {
         }
     },
     capabilities: function (appHost) {
-        var caps = {
+        var capabilities = {
             PlayableMediaTypes: ["Audio", "Video"],
             SupportedCommands: ["MoveUp", "MoveDown", "MoveLeft", "MoveRight", "PageUp", "PageDown", "PreviousLetter", "NextLetter", "ToggleOsd", "ToggleContextMenu", "Select", "Back", "SendKey", "SendString", "GoHome", "GoToSettings", "VolumeUp", "VolumeDown", "Mute", "Unmute", "ToggleMute", "SetVolume", "SetAudioStreamIndex", "SetSubtitleStreamIndex", "DisplayContent", "GoToSearch", "DisplayMessage", "SetRepeatMode", "ChannelUp", "ChannelDown", "PlayMediaSource", "PlayTrailers"],
             SupportsPersistentIdentifier: "cordova" === self.appMode || "android" === self.appMode,
             SupportsMediaControl: true
         };
-        caps.IconUrl = appHost.deviceIconUrl();
-        caps.SupportsSync = appHost.supports("sync");
-        caps.SupportsContentUploading = appHost.supports("cameraupload");
         appHost.getPushTokenInfo();
-        return caps = Object.assign(caps, appHost.getPushTokenInfo());
+        return capabilities = Object.assign(capabilities, appHost.getPushTokenInfo());
     }
 };
 var AppInfo = {};
@@ -1155,7 +1152,7 @@ var AppInfo = {};
     })();
 
     require(["css!css/site"]);
-    
+
     return require(["browser"], onWebComponentsReady);
 }();
 pageClassOn("viewshow", "standalonePage", function () {
