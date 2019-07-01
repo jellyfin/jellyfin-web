@@ -24,7 +24,11 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox"], function($, loading)
         }
         html += "</div>";
         $(".channelAccess", page).show().html(html).trigger("create");
-        channels.length ? $(".channelAccessContainer", page).show() : $(".channelAccessContainer", page).hide();
+        if (channels.length) {
+            $(".channelAccessContainer", page).show();
+        } else {
+            $(".channelAccessContainer", page).hide();
+        }
         $("#chkEnableAllChannels", page).checked(true).trigger("change");
     }
 
@@ -49,17 +53,23 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox"], function($, loading)
         user.Password = $("#txtPassword", page).val();
         ApiClient.createUser(user).then(function(user) {
             user.Policy.EnableAllFolders = $("#chkEnableAllFolders", page).checked();
-            user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : $(".chkFolder", page).get().filter(function(i) {
-                return i.checked
-            }).map(function(i) {
-                return i.getAttribute("data-id");
-            });
+            user.Policy.EnabledFolders = [];
+            if (!user.Policy.EnableAllFolders) {
+                user.Policy.EnabledFolders = $(".chkFolder", page).get().filter(function(i) {
+                    return i.checked
+                }).map(function(i) {
+                    return i.getAttribute("data-id");
+                });
+            }
             user.Policy.EnableAllChannels = $("#chkEnableAllChannels", page).checked();
-            user.Policy.EnabledChannels = user.Policy.EnableAllChannels ? [] : $(".chkChannel", page).get().filter(function(i) {
-                return i.checked
-            }).map(function(i) {
-                return i.getAttribute("data-id");
-            });
+            user.Policy.EnabledChannels = [];
+            if (!user.Policy.EnableAllChannels) {
+                user.Policy.EnabledChannels = $(".chkChannel", page).get().filter(function(i) {
+                    return i.checked
+                }).map(function(i) {
+                    return i.getAttribute("data-id");
+                });
+            }
             ApiClient.updateUserPolicy(user.Id, user.Policy).then(function() {
                 Dashboard.navigate("useredit.html?userId=" + user.Id);
             });
@@ -85,10 +95,18 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox"], function($, loading)
     $(document).on("pageinit", "#newUserPage", function() {
         var page = this;
         $("#chkEnableAllChannels", page).on("change", function() {
-            this.checked ? $(".channelAccessListContainer", page).hide() : $(".channelAccessListContainer", page).show();
+            if (this.checked) {
+                $(".channelAccessListContainer", page).hide();
+            } else {
+                $(".channelAccessListContainer", page).show();
+            }
         });
         $("#chkEnableAllFolders", page).on("change", function() {
-            this.checked ? $(".folderAccessListContainer", page).hide() : $(".folderAccessListContainer", page).show();
+            if (this.checked) {
+                $(".folderAccessListContainer", page).hide();
+            } else {
+                $(".folderAccessListContainer", page).show();
+            }
         });
         $(".newUserProfileForm").off("submit", onSubmit).on("submit", onSubmit);
     }).on("pageshow", "#newUserPage", function() {
