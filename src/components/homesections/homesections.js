@@ -684,8 +684,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 }
 
                 html += '<a style="margin-left:.8em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
-                    serverId: apiClient.serverId(),
-					section: 'programs'
+                    serverId: apiClient.serverId()
                 }) + '" class="raised"><span>' + globalize.translate('Programs') + '</span></a>';
 
                 html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
