@@ -6,7 +6,7 @@ define(["globalize", "loading", "libraryMenu", "dom", "emby-input", "emby-button
     }
 
     function fillTypes(view, currentId) {
-        ApiClient.getJSON(ApiClient.getUrl("LiveTv/TunerHosts/Types")).then(function(types) {
+        return ApiClient.getJSON(ApiClient.getUrl("LiveTv/TunerHosts/Types")).then(function(types) {
             var selectType = view.querySelector(".selectType");
             var html = "";
             html += types.map(function(tuner) {
