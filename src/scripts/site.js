@@ -1012,6 +1012,10 @@ var AppInfo = {};
                 }
 
                 if ("livetv" === item) {
+                    if ("programs" === options.section) {
+                        return "livetv.html?tab=0&serverId=" + options.serverId;
+                    }
+					
                     if ("guide" === options.section) {
                         return "livetv.html?tab=1&serverId=" + options.serverId;
                     }
