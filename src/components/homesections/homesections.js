@@ -629,23 +629,18 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     function getOnNowItemsHtml(items) {
         var cardLayout = false;
         return cardBuilder.getCardsHtml({
-            items: items,
-            preferThumb: 'auto',
-            inheritThumb: false,
-            shape: (enableScrollX() ? 'autooverflow' : 'auto'),
-            showParentTitleOrTitle: true,
-            showTitle: true,
-            centerText: true,
-            coverImage: true,
-            overlayText: false,
-            allowBottomPadding: !enableScrollX(),
-            showAirTime: true,
-            showChannelName: false,
-            showAirDateTime: false,
-            showAirEndTime: true,
-            defaultShape: getThumbShape(),
-            lines: 3,
-            overlayPlayButton: true
+		items: items,
+		preferThumb: true,
+		shape: getThumbShape(),
+		overlayText: false,
+		showTitle: true,
+		showParentTitle: true,
+		lazy: true,
+		overlayPlayButton: true,
+		context: 'home',
+		centerText: !cardLayout,
+		allowBottomPadding: !enableScrollX(),
+		cardLayout: cardLayout
         });
     }
 
@@ -655,7 +650,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
 
         var userId = user.Id;
-        apiClient.getLiveTvRecommendedPrograms({
+        return apiClient.getLiveTvRecommendedPrograms({
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
             limit: 1,
