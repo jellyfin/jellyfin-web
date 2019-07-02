@@ -91,7 +91,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
 
         var promise = Promise.all(promises);
-
         if (!options || options.returnPromise !== false) {
             return promise;
         }
@@ -106,32 +105,22 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
         if (section === 'latestmedia') {
             loadRecentlyAdded(elem, apiClient, user, userViews);
-        }
-        else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
+        } else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
             loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews, allSections);
-        }
-        else if (section === 'librarybuttons') {
+        } else if (section === 'librarybuttons') {
             loadlibraryButtons(elem, apiClient, user, userSettings, userViews, allSections);
-        }
-        else if (section === 'resume') {
+        } else if (section === 'resume') {
             loadResumeVideo(elem, apiClient, userId);
-        }
-        else if (section === 'resumeaudio') {
+        } else if (section === 'resumeaudio') {
             loadResumeAudio(elem, apiClient, userId);
-        }
-        else if (section === 'activerecordings') {
+        } else if (section === 'activerecordings') {
             loadLatestLiveTvRecordings(elem, true, apiClient, userId);
-        }
-        else if (section === 'nextup') {
+        } else if (section === 'nextup') {
             loadNextUp(elem, apiClient, userId);
-        }
-        else if (section === 'onnow' || section === 'livetv') {
+        } else if (section === 'onnow' || section === 'livetv') {
             return loadOnNow(elem, apiClient, user);
-        }
-        else {
-
+        } else {
             elem.innerHTML = '';
-
             return Promise.resolve();
         }
         return Promise.resolve();
@@ -163,9 +152,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         var html = "";
 
         html += '<div class="verticalSection verticalSection-extrabottompadding">';
-        html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
-        html += '</div>';
 
         html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-multiselect="false">';
 
@@ -317,8 +304,8 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         html += '</div>';
 
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x scrollSlider">';
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
         }
@@ -334,9 +321,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.fetchData = getFetchLatestItemsFn(apiClient.serverId(), parent.Id, parent.CollectionType);
         itemsContainer.getItemsHtml = getLatestItemsHtmlFn(parent.Type, parent.CollectionType);
         itemsContainer.parentContainer = elem;
-
-        var scroller = elem.querySelector('.emby-scroller');
-        itemsContainer.afterRefresh = scroller.afterRefresh;
     }
 
     function loadRecentlyAdded(elem, apiClient, user, userViews) {
@@ -370,15 +354,11 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews, allSections) {
         var html = '';
-
         if (userViews.length) {
-            html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
-            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderMyMedia') + '</h2>';
-            html += '</div>';
-
+            html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
             if (enableScrollX()) {
                 html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
-                html += '<div is="emby-itemscontainer" class="scrollSlider focuscontainer-x">';
+                html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
             } else {
                 html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right focuscontainer-x vertical-wrap">';
             }
@@ -457,7 +437,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale">';
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
             html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
@@ -475,9 +455,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.fetchData = getContinueWatchingFetchFn(apiClient.serverId());
         itemsContainer.getItemsHtml = getContinueWatchingItemsHtml;
         itemsContainer.parentContainer = elem;
-
-        var scroller = elem.querySelector('.emby-scroller');
-        itemsContainer.afterRefresh = scroller.afterRefresh;
     }
 
     function getContinueListeningFetchFn(serverId) {
@@ -533,7 +510,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale">';
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
             html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="audioplayback,markplayed">';
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="audioplayback,markplayed">';
@@ -551,9 +528,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.fetchData = getContinueListeningFetchFn(apiClient.serverId());
         itemsContainer.getItemsHtml = getContinueListeningItemsHtml;
         itemsContainer.parentContainer = elem;
-
-        var scroller = elem.querySelector('.emby-scroller');
-        itemsContainer.afterRefresh = scroller.afterRefresh;
     }
 
     function getOnNowFetchFn(serverId) {
@@ -623,9 +597,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
                 if (enableScrollX()) {
                     html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true" data-scrollbuttons="false">';
-                    html += '<div class="scrollSlider padded-left padded-right padded-top padded-bottom focuscontainer-x">';
+                    html += '<div class="padded-left padded-right padded-top padded-bottom scrollSlider focuscontainer-x">';
                 } else {
-                    html += '<div class="padded-left padded-right padded-top focuscontainer-x">';
+                    html += '<div class="padded-left padded-right padded-top padded-bottom focuscontainer-x">';
                 }
 
                 html += '<a style="margin-left:.8em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
@@ -678,10 +652,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 html += '</div>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale">';
-                    html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-refreshinterval="300000">'
+                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+                    html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">'
                 } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-refreshinterval="300000">';
+                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
 
                 if (enableScrollX()) {
@@ -697,9 +671,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 itemsContainer.parentContainer = elem;
                 itemsContainer.fetchData = getOnNowFetchFn(apiClient.serverId());
                 itemsContainer.getItemsHtml = getOnNowItemsHtml;
-
-                var scroller = elem.querySelector('.emby-scroller');
-                itemsContainer.afterRefresh = scroller.afterRefresh;
             }
         });
     }
@@ -755,7 +726,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         html += '</div>';
 
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale">';
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
             html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">'
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
@@ -773,9 +744,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId());
         itemsContainer.getItemsHtml = getNextUpItemsHtml;
         itemsContainer.parentContainer = elem;
-
-        var scroller = elem.querySelector('.emby-scroller');
-        itemsContainer.afterRefresh = scroller.afterRefresh;
     }
 
     function getLatestRecordingsFetchFn(serverId, activeRecordingsOnly) {
@@ -830,7 +798,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         html += '</div>';
 
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale">';
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
             html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">'
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
@@ -848,9 +816,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.fetchData = getLatestRecordingsFetchFn(apiClient.serverId(), activeRecordingsOnly);
         itemsContainer.getItemsHtml = getLatestRecordingItemsHtml(activeRecordingsOnly);
         itemsContainer.parentContainer = elem;
-
-        var scroller = elem.querySelector('.emby-scroller');
-        itemsContainer.afterRefresh = scroller.afterRefresh;
     }
 
     return {

@@ -33,8 +33,8 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
     }
 
     function updateScrollButtons(scrollButtons, scrollSize, scrollPos, scrollWidth) {
-        // hack alert add ten for rounding errors
-        if (scrollWidth <= scrollSize + 10) {
+        // hack alert add twenty for rounding errors
+        if (scrollWidth <= scrollSize + 20) {
             scrollButtons.scrollButtonsLeft.classList.add('hide');
             scrollButtons.scrollButtonsRight.classList.add('hide');
         }
@@ -129,14 +129,6 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
         }
 
         scroller.scrollToPosition(newPos, false);
-    }
-
-    EmbyScrollButtonsPrototype.refresh = function (scroller) {
-        var scrollSize = getScrollSize(scroller);
-        var scrollPos = getScrollPosition(scroller);
-        var scrollWidth = getScrollWidth(scroller);
-
-        updateScrollButtons(this, scrollSize, scrollPos, scrollWidth);
     }
 
     EmbyScrollButtonsPrototype.attachedCallback = function () {

@@ -184,14 +184,6 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         }
     };
 
-    ScrollerPrototype.afterRefresh = function () {
-        var buttons = this.parentNode.parentNode.querySelector('.emby-scrollbuttons');
-        if (buttons) {
-            this.parentNode.scroller.reload();
-            buttons.refresh(this.parentNode);
-        }
-    }
-
     ScrollerPrototype.detachedCallback = function () {
         if (this.getAttribute('data-navcommands')) {
             inputManager.off(this, onInputCommand);
