@@ -655,7 +655,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
 
         var userId = user.Id;
-        return apiClient.getLiveTvRecommendedPrograms({
+        apiClient.getLiveTvRecommendedPrograms({
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
             limit: 1,
