@@ -1,0 +1,17 @@
+.emby-scroller-container {
+    position: relative;
+}
+
+.emby-scroller {
+    margin-left: 3.3%;
+    margin-right: 3.3%;
+}
+
+@media all and (max-width:50em) {
+    .emby-scroller {
+        padding-left: 3.3%;
+        padding-right: 3.3%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}

@@ -36,6 +36,16 @@ button {
     margin-right: -0.6em;
 }
 
+/* TODO replace this with a proper fix */
+/* doesnt work on mobile devices */
+/* negative margin fixes annoying misalignment with cards and title */
+@media all and (max-width:50em) {
+    .itemsContainer {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
 .vertical-list {
     display: flex;
     flex-direction: column;

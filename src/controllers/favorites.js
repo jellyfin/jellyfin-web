@@ -2,19 +2,19 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
     "use strict";
 
     function enableScrollX() {
-        return !0
+        return true;
     }
 
     function getThumbShape() {
-        return enableScrollX() ? "overflowBackdrop" : "backdrop"
+        return enableScrollX() ? "overflowBackdrop" : "backdrop";
     }
 
     function getPosterShape() {
-        return enableScrollX() ? "overflowPortrait" : "portrait"
+        return enableScrollX() ? "overflowPortrait" : "portrait";
     }
 
     function getSquareShape() {
-        return enableScrollX() ? "overflowSquare" : "square"
+        return enableScrollX() ? "overflowSquare" : "square";
     }
 
     function getSections() {

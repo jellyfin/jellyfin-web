@@ -32,10 +32,10 @@ html {
     box-shadow: none !important
 }
 
-.skinHeader .semiTransparent {
+.skinHeader.semiTransparent {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .pageTitleWithDefaultLogo {
