@@ -1,12 +1,3 @@
-.emby-scroller-container {
-    position: relative;
-}
-
-.emby-scroller {
-    margin-left: 4em;
-    margin-right: 4em;
-}
-
 .emby-scrollbuttons {
     position: absolute;
     top: 0;
