@@ -484,6 +484,9 @@ var AppInfo = {};
                         onGlobalizeInit(browser);
                     });
                 });
+                require(["keyboardnavigation"], function(keyboardnavigation) {
+                    keyboardnavigation.enable();
+                });
             });
         });
     }
@@ -877,6 +880,7 @@ var AppInfo = {};
         define("serverNotifications", [componentsPath + "/serverNotifications/serverNotifications"], returnFirstDependency);
         define("appFooter-shared", ["appFooter"], createSharedAppFooter);
         define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
+        define("keyboardnavigation", [componentsPath + "/keyboardnavigation"], returnFirstDependency);
         define("connectionManager", [], function () {
             return ConnectionManager;
         });
