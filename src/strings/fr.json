@@ -1435,5 +1435,8 @@
     "LabelAuthProvider": "Fournisseur d'authentification :",
     "LabelPasswordResetProvider": "Fournisseur de réinitialisation de mot de passe :",
     "LabelTranscodePath": "Chemin pour le transcodage :",
-    "LabelTranscodes": "Transcodages :"
+    "LabelTranscodes": "Transcodages :",
+    "MusicAlbum": "Album de musique",
+    "MusicArtist": "Artiste musical",
+    "MusicVideo": "Clip musical"
 }
