@@ -1078,6 +1078,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 })
             }
 
+            function moremediainfo() {
+                view.querySelector(".MoreMediaInfo").classList.remove("hide");
+            }
+
             function getPlayOptions(startPosition) {
                 var audioStreamIndex = view.querySelector(".selectAudio").value || null;
                 return {
