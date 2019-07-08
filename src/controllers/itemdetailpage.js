@@ -1222,6 +1222,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                     renderSpecials(view, currentItem, user)
                 })
             });
+            view.querySelector(".btnMoreMediaInfo").addEventListener("click", function(e) {
+                moremediainfo(self, view, apiClient, params)
+            });
             view.querySelector(".detailImageContainer").addEventListener("click", function(e) {
                 dom.parentWithClass(e.target, "itemDetailGalleryLink") && editImages().then(function() {
                     reload(self, view, params)
