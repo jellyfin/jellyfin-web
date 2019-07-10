@@ -185,6 +185,15 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
+        if (options.moremediainfo !== false) {
+            if (itemHelper.canMoreMediaInfo(user, item)) {
+                commands.push({
+                    name: globalize.translate('MoreMediaInfo'),
+                    id: 'moremediainfo'
+                });
+            }
+        }
+
         if (item.Type === 'Program' && options.record !== false) {
 
             if (item.TimerId) {
@@ -353,6 +362,14 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                             itemIdentifier.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
+                    }
+                case 'moremediainfo':
+                    {
+                        require(['itemMediaInfo'], function (itemMediaInfo) {
+
+                            itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                     });
+                     break;
                     }
                 case 'refresh':
                     {

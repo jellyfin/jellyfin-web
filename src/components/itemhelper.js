@@ -170,6 +170,27 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         },
 
+        canMoreMediaInfo: function (user, item) {
+
+            var itemType = item.Type;
+
+            if (itemType === "Movie" ||
+                itemType === "Episode" ||
+                itemType === "Book" ||
+                itemType === "MusicAlbum" ||
+                itemType === "MusicVideo") {
+
+                if (user.Policy.IsAdministrator) {
+
+                    if (!isLocalItem(item)) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        },
+
         canEdit: canEdit,
 
         canEditImages: function (user, item) {
