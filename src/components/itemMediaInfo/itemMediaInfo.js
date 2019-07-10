@@ -1,7 +1,12 @@
 define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 'scrollHelper', 'layoutManager', 'focusManager', 'browser', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'cardStyle'], function (dialogHelper, loading, connectionManager, require, globalize, scrollHelper, layoutManager, focusManager, browser) {
     'use strict';
 
+    var currentItem;
     var currentServerId;
+    var currentResolve;
+    var currentReject;
+    var hasChanges = false;
+
 
     function getApiClient() {
         return connectionManager.getApiClient(currentServerId);
@@ -9,6 +14,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
 
     function setInitialCollapsibleState(page, item, apiClient, context, user) {
         item.MediaSources && item.MediaSources.length && (null == item.EnableMediaSourceDisplay ? "Channel" !== item.SourceType : item.EnableMediaSourceDisplay) ? renderMediaSources(page, user, item) : page.querySelector(".audioVideoMediaInfo").classList.add("hide")
+
     }
 
     function renderMediaSources(page, user, item) {
@@ -53,6 +59,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoSize") + '</span><span class="mediaInfoAttribute">' + size + " MB</span></div>"
         }
         return html
+
     }
 
     function createAttribute(label, value) {
@@ -106,6 +113,8 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
                 loading.hide();
             });
         });
+
+
     }
 
     function splitVersions(instance, page, apiClient, params) {
@@ -120,6 +129,8 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             })
         })
     }
+
+
 
     return {
         show: function (itemId, serverId) {
