@@ -1,13 +1,7 @@
 define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 'scrollHelper', 'layoutManager', 'focusManager', 'browser', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'cardStyle'], function (dialogHelper, loading, connectionManager, require, globalize, scrollHelper, layoutManager, focusManager, browser) {
     'use strict';
 
-    var currentItem;
-    //var currentItemType;
     var currentServerId;
-    var currentResolve;
-    var currentReject;
-    var hasChanges = false;
-
 
     function getApiClient() {
         return connectionManager.getApiClient(currentServerId);
@@ -15,7 +9,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
 
     function setInitialCollapsibleState(page, item, apiClient, context, user) {
         item.MediaSources && item.MediaSources.length && (null == item.EnableMediaSourceDisplay ? "Channel" !== item.SourceType : item.EnableMediaSourceDisplay) ? renderMediaSources(page, user, item) : page.querySelector(".audioVideoMediaInfo").classList.add("hide")
-
     }
 
     function renderMediaSources(page, user, item) {
@@ -60,10 +53,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoSize") + '</span><span class="mediaInfoAttribute">' + size + " MB</span></div>"
         }
         return html
-
     }
-
-
 
     function createAttribute(label, value) {
         return '<span class="mediaInfoLabel">' + label + '</span><span class="mediaInfoAttribute">' + value + "</span>"
@@ -81,8 +71,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
 
                 currentItem = item;
                 //currentItemType = currentItem.Type;
-
-
 
                 var dialogOptions = {
                     size: 'fullscreen-border',
@@ -103,11 +91,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
 
                 dlg.innerHTML = html;
 
-
-
-                // Has to be assigned a z-index after the call to .open()
-                dlg.addEventListener('close', onDialogClosed);
-
                 if (layoutManager.tv) {
                     scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
                 }
@@ -119,13 +102,10 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
                     dialogHelper.close(dlg);
                 });
 
-
                 setInitialCollapsibleState(dlg, item);
                 loading.hide();
             });
         });
-
-
     }
 
     function splitVersions(instance, page, apiClient, params) {
@@ -140,21 +120,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             })
         })
     }
-
-    function onDialogClosed() {
-
-        loading.hide();
-        if (hasChanges) {
-            currentResolve();
-        } else {
-            currentReject();
-        }
-    }
-
-    /*function itemDetailPage() {
-        var self = this;
-        self.renderMediaSources = renderMediaSources
-    }*/
 
     return {
         show: function (itemId, serverId) {
