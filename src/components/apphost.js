@@ -274,6 +274,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
 
         features.push("displaylanguage");
         features.push("otherapppromotions");
+        features.push("displaymode");
         features.push("targetblank"); // allows users to connect to more than one server
         //features.push("multiserver");
 
