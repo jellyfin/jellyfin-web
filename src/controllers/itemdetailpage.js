@@ -298,10 +298,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             hideAll(page, "mainDetailButtons");
         }
         showRecordingFields(instance, page, item, user);
-        var groupedVersions = (item.MediaSources || []).filter(function(g) {
-            return "Grouping" == g.Type
-        });
-        user.Policy.IsAdministrator && groupedVersions.length ? page.querySelector(".splitVersionContainer").classList.remove("hide") : page.querySelector(".splitVersionContainer").classList.add("hide"), itemContextMenu.getCommands(getContextMenuOptions(item, user)).length ? hideAll(page, "btnMoreCommands", !0) : hideAll(page, "btnMoreCommands");
+        itemContextMenu.getCommands(getContextMenuOptions(item, user)).length ? hideAll(page, "btnMoreCommands", !0) : hideAll(page, "btnMoreCommands");
         var itemBirthday = page.querySelector("#itemBirthday");
         if ("Person" == item.Type && item.PremiereDate) try {
             var birthday = datetime.parseISO8601Date(item.PremiereDate, !0).toDateString();
@@ -451,7 +448,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function setInitialCollapsibleState(page, item, apiClient, context, user) {
-        page.querySelector(".collectionItems").innerHTML = "", "Playlist" == item.Type ? (page.querySelector("#childrenCollapsible").classList.remove("hide"), renderPlaylistItems(page, item, user)) : "Studio" == item.Type || "Person" == item.Type || "Genre" == item.Type || "MusicGenre" == item.Type || "MusicArtist" == item.Type ? (page.querySelector("#childrenCollapsible").classList.remove("hide"), renderItemsByName(page, item, user)) : item.IsFolder ? ("BoxSet" == item.Type && page.querySelector("#childrenCollapsible").classList.add("hide"), renderChildren(page, item)) : page.querySelector("#childrenCollapsible").classList.add("hide"), "Series" == item.Type && renderSeriesSchedule(page, item, user), "Series" == item.Type ? renderNextUp(page, item, user) : page.querySelector(".nextUpSection").classList.add("hide"), item.MediaSources && item.MediaSources.length && (null == item.EnableMediaSourceDisplay ? "Channel" !== item.SourceType : item.EnableMediaSourceDisplay) ? renderMediaSources(page, user, item) : page.querySelector(".audioVideoMediaInfo, .btnMoreMediaInfo").classList.add("hide"), renderScenes(page, item), item.SpecialFeatureCount && 0 != item.SpecialFeatureCount && "Series" != item.Type ? (page.querySelector("#specialsCollapsible").classList.remove("hide"), renderSpecials(page, item, user, 6)) : page.querySelector("#specialsCollapsible").classList.add("hide"), renderCast(page, item, context, enableScrollX() ? null : 12), item.PartCount && item.PartCount > 1 ? (page.querySelector("#additionalPartsCollapsible").classList.remove("hide"), renderAdditionalParts(page, item, user)) : page.querySelector("#additionalPartsCollapsible").classList.add("hide"), "MusicAlbum" == item.Type ? renderMusicVideos(page, item, user) : page.querySelector("#musicVideosCollapsible").classList.add("hide")
+        page.querySelector(".collectionItems").innerHTML = "", "Playlist" == item.Type ? (page.querySelector("#childrenCollapsible").classList.remove("hide"), renderPlaylistItems(page, item, user)) : "Studio" == item.Type || "Person" == item.Type || "Genre" == item.Type || "MusicGenre" == item.Type || "MusicArtist" == item.Type ? (page.querySelector("#childrenCollapsible").classList.remove("hide"), renderItemsByName(page, item, user)) : item.IsFolder ? ("BoxSet" == item.Type && page.querySelector("#childrenCollapsible").classList.add("hide"), renderChildren(page, item)) : page.querySelector("#childrenCollapsible").classList.add("hide"), "Series" == item.Type && renderSeriesSchedule(page, item, user), "Series" == item.Type ? renderNextUp(page, item, user) : page.querySelector(".nextUpSection").classList.add("hide"), renderScenes(page, item), item.SpecialFeatureCount && 0 != item.SpecialFeatureCount && "Series" != item.Type ? (page.querySelector("#specialsCollapsible").classList.remove("hide"), renderSpecials(page, item, user, 6)) : page.querySelector("#specialsCollapsible").classList.add("hide"), renderCast(page, item, context, enableScrollX() ? null : 12), item.PartCount && item.PartCount > 1 ? (page.querySelector("#additionalPartsCollapsible").classList.remove("hide"), renderAdditionalParts(page, item, user)) : page.querySelector("#additionalPartsCollapsible").classList.add("hide"), "MusicAlbum" == item.Type ? renderMusicVideos(page, item, user) : page.querySelector("#musicVideosCollapsible").classList.add("hide")
     }
 
     function renderOverview(elems, item) {
@@ -953,54 +950,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         } else page.querySelector("#scenesCollapsible").classList.add("hide")
     }
 
-    function renderMediaSources(page, user, item) {
-        var html = item.MediaSources.map(function(v) {
-            return getMediaSourceHtml(user, item, v)
-        }).join('<div style="border-top:1px solid #444;margin: 1em 0;"></div>');
-        item.MediaSources.length > 1 && (html = "<br/>" + html), page.querySelector("#mediaInfoContent").innerHTML = html, html ? page.querySelector(".audioVideoMediaInfo").classList.remove("hide") : page.querySelector(".audioVideoMediaInfo").classList.add("hide")
-    }
-
-    function getMediaSourceHtml(user, item, version) {
-        var html = "";
-        version.Name && item.MediaSources.length > 1 && (html += '<div><span class="mediaInfoAttribute">' + version.Name + "</span></div><br/>");
-        for (var i = 0, length = version.MediaStreams.length; i < length; i++) {
-            var stream = version.MediaStreams[i];
-            if ("Data" != stream.Type) {
-                html += '<div class="mediaInfoStream">';
-                html += '<h3 class="mediaInfoStreamType">';
-                switch (stream.Type) {
-                    case 'Audio':
-                        html += globalize.translate("MediaInfoStreamTypeAudio");
-                        break;
-                    case 'Subtitle':
-                        html += globalize.translate("MediaInfoStreamTypeSubtitle");
-                        break;
-                    case 'Video':
-                        html += globalize.translate("MediaInfoStreamTypeVideo");
-                        break;
-                    case 'Data':
-                        html += globalize.translate("MediaInfoStreamTypeData");
-                        break;
-                    case 'EmbeddedImage':
-                        html += globalize.translate("MediaInfoStreamTypeEmbeddedImage");
-                        break;
-                }
-                html += "</h3>";
-                var attributes = [];
-                stream.DisplayTitle && attributes.push(createAttribute("Title", stream.DisplayTitle)), stream.Language && "Video" != stream.Type && attributes.push(createAttribute(globalize.translate("MediaInfoLanguage"), stream.Language)), stream.Codec && attributes.push(createAttribute(globalize.translate("MediaInfoCodec"), stream.Codec.toUpperCase())), stream.CodecTag && attributes.push(createAttribute(globalize.translate("MediaInfoCodecTag"), stream.CodecTag)), null != stream.IsAVC && attributes.push(createAttribute("AVC", stream.IsAVC ? "Yes" : "No")), stream.Profile && attributes.push(createAttribute(globalize.translate("MediaInfoProfile"), stream.Profile)), stream.Level && attributes.push(createAttribute(globalize.translate("MediaInfoLevel"), stream.Level)), (stream.Width || stream.Height) && attributes.push(createAttribute(globalize.translate("MediaInfoResolution"), stream.Width + "x" + stream.Height)), stream.AspectRatio && "mjpeg" != stream.Codec && attributes.push(createAttribute(globalize.translate("MediaInfoAspectRatio"), stream.AspectRatio)), "Video" == stream.Type && (null != stream.IsAnamorphic && attributes.push(createAttribute(globalize.translate("MediaInfoAnamorphic"), stream.IsAnamorphic ? "Yes" : "No")), attributes.push(createAttribute(globalize.translate("MediaInfoInterlaced"), stream.IsInterlaced ? "Yes" : "No"))), (stream.AverageFrameRate || stream.RealFrameRate) && attributes.push(createAttribute(globalize.translate("MediaInfoFramerate"), stream.AverageFrameRate || stream.RealFrameRate)), stream.ChannelLayout && attributes.push(createAttribute(globalize.translate("MediaInfoLayout"), stream.ChannelLayout)), stream.Channels && attributes.push(createAttribute(globalize.translate("MediaInfoChannels"), stream.Channels + " ch")), stream.BitRate && "mjpeg" != stream.Codec && attributes.push(createAttribute(globalize.translate("MediaInfoBitrate"), parseInt(stream.BitRate / 1e3) + " kbps")), stream.SampleRate && attributes.push(createAttribute(globalize.translate("MediaInfoSampleRate"), stream.SampleRate + " Hz")), stream.VideoRange && "SDR" !== stream.VideoRange && attributes.push(createAttribute(globalize.translate("VideoRange"), stream.VideoRange)), stream.ColorPrimaries && attributes.push(createAttribute(globalize.translate("ColorPrimaries"), stream.ColorPrimaries)), stream.ColorSpace && attributes.push(createAttribute(globalize.translate("ColorSpace"), stream.ColorSpace)), stream.ColorTransfer && attributes.push(createAttribute(globalize.translate("ColorTransfer"), stream.ColorTransfer)), stream.BitDepth && attributes.push(createAttribute(globalize.translate("MediaInfoBitDepth"), stream.BitDepth + " bit")), stream.PixelFormat && attributes.push(createAttribute(globalize.translate("MediaInfoPixelFormat"), stream.PixelFormat)), stream.RefFrames && attributes.push(createAttribute(globalize.translate("MediaInfoRefFrames"), stream.RefFrames)), stream.NalLengthSize && attributes.push(createAttribute("NAL", stream.NalLengthSize)), "Video" != stream.Type && attributes.push(createAttribute(globalize.translate("MediaInfoDefault"), stream.IsDefault ? "Yes" : "No")), "Subtitle" == stream.Type && (attributes.push(createAttribute(globalize.translate("MediaInfoForced"), stream.IsForced ? "Yes" : "No")), attributes.push(createAttribute(globalize.translate("MediaInfoExternal"), stream.IsExternal ? "Yes" : "No"))), "Video" == stream.Type && version.Timestamp && attributes.push(createAttribute(globalize.translate("MediaInfoTimestamp"), version.Timestamp)), html += attributes.join("<br/>"), html += "</div>"
-            }
-        }
-        if (version.Container && (html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoContainer") + '</span><span class="mediaInfoAttribute">' + version.Container + "</span></div>"), version.Formats && version.Formats.length, version.Path && "Http" != version.Protocol && user && user.Policy.IsAdministrator && (html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoPath") + '</span><span class="mediaInfoAttribute">' + version.Path + "</span></div>"), version.Size) {
-            var size = (version.Size / 1048576).toFixed(0);
-            html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoSize") + '</span><span class="mediaInfoAttribute">' + size + " MB</span></div>"
-        }
-        return html
-    }
-
-    function createAttribute(label, value) {
-        return '<span class="mediaInfoLabel">' + label + '</span><span class="mediaInfoAttribute">' + value + "</span>"
-    }
-
     function getVideosHtml(items, user, limit, moreButtonClass) {
         var html = cardBuilder.getCardsHtml({
             items: items,
@@ -1041,7 +990,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
     function itemDetailPage() {
         var self = this;
-        self.setInitialCollapsibleState = setInitialCollapsibleState, self.renderDetails = renderDetails, self.renderCast = renderCast, self.renderMediaSources = renderMediaSources
+        self.setInitialCollapsibleState = setInitialCollapsibleState, self.renderDetails = renderDetails, self.renderCast = renderCast
     }
 
     function bindAll(view, selector, eventName, fn) {
@@ -1063,23 +1012,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                         user = responses[1];
                     currentItem = item, reloadFromItem(instance, page, params, item, user)
                 })
-            }
-
-            function splitVersions(instance, page, apiClient, params) {
-                require(["confirm"], function(confirm) {
-                    confirm("Are you sure you wish to split the media sources into separate items?", "Split Media Apart").then(function() {
-                        loading.show(), apiClient.ajax({
-                            type: "DELETE",
-                            url: apiClient.getUrl("Videos/" + params.id + "/AlternateSources")
-                        }).then(function() {
-                            loading.hide(), reload(instance, page, params)
-                        })
-                    })
-                })
-            }
-
-            function moremediainfo() {
-                view.querySelector(".MoreMediaInfo").classList.remove("hide");
             }
 
             function getPlayOptions(startPosition) {
@@ -1210,9 +1142,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
             view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
             view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
-            view.querySelector(".btnSplitVersions").addEventListener("click", function() {
-                splitVersions(self, view, apiClient, params)
-            });
             bindAll(view, ".btnMoreCommands", "click", onMoreCommandsClick);
             view.querySelector(".selectSource").addEventListener("change", function() {
                 renderVideoSelections(view, self._currentPlaybackMediaSources);

@@ -159,10 +159,6 @@
                             <i class="md-icon">&#xE87D;</i>
                         </button>
 
-                        <button is="emby-button" type="button" class="fab btnMoreMediaInfo  detailButton">
-                            <i class="md-icon">&#xe88e;</i>
-                        </button>
-
                         <button is="emby-button" type="button" class="button-flat btnMoreCommands hide detailButton-mobile">
                             <div class="detailButton-mobile-content">
                                 <i class="md-icon detailButton-mobile-icon"></i>
@@ -293,19 +289,6 @@
             <div is="emby-scroller" class="emby-scroller" data-mousewheel="false" data-centerfocus="true" data-horizontal="true">
                 <div class="scrollerframe padded-top-focusscale padded-bottom-focusscale">
                     <div is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer similarContent"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="MoreMediaInfo show-modal hide">
-            <div class="dialog modal-content audioVideoMediaInfo hide">
-                <span onclick="$(this).parents('.MoreMediaInfo').addClass('hide');" class="close-button">&times;</span>
-                <h2 class="sectionTitle">${HeaderMediaInfo}</h2>
-                <div class="dialogContentInner dialog-content-centered" style="padding: 1em">
-                    <div class="splitVersionContainer" style="border-bottom: 1px solid #444; padding: 1em 0;">
-                        <button is="emby-button" type="button" class="raised btnSplitVersions subdued">${ButtonSplitVersionsApart}</button>
-                    </div>
-                    <div id="mediaInfoContent" class="mediaInfoContent"></div>
                 </div>
             </div>
         </div>
