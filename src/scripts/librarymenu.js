@@ -771,7 +771,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         return new Promise(function (resolve, reject) {
             require(["navdrawer"], function (navdrawer) {
                 navDrawerInstance = new navdrawer(getNavDrawerOptions());
-                navDrawerElement.classList.remove("hide");
+                if (!layoutManager.tv) {
+                    navDrawerElement.classList.remove("hide");
+                }
                 resolve(navDrawerInstance);
             });
         });
