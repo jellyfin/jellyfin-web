@@ -247,23 +247,17 @@
         width: 20.205em !important;
         font-size: 94%
     }
+    
+    .headerTabs {
+    	margin-top: -2em;
+    }
 
     .dashboardDocument .mainDrawer-scrollContainer {
         margin-top: 5em !important
     }
 
-    .dashboardDocument withSectionTabs .mainDrawer-scrollContainer {
-        margin-top: 8.7em !important
-    }
-
     .dashboardDocument .skinBody {
         left: 20em
-    }
-}
-
-@media all and (min-width:40em) and (max-width:84em) {
-    .dashboardDocument.withSectionTabs .mainDrawer-scrollContainer {
-        margin-top: 8.4em !important
     }
 }
 
@@ -315,12 +309,8 @@
         top: 5.7em !important
     }
 
-    .dashboardDocument.withSectionTabs .mainDrawer-scrollContainer {
-        margin-top: 6.1em !important
-    }
-
     .dashboardDocument .mainDrawer-scrollContainer {
-        margin-top: 6.3em !important
+        margin-top: 6.1em !important
     }
 }
 
