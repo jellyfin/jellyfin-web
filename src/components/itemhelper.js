@@ -179,15 +179,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 itemType === "Book" ||
                 itemType === "MusicAlbum" ||
                 itemType === "MusicVideo") {
-
-                if (user.Policy.IsAdministrator) {
-
-                    if (!isLocalItem(item)) {
-                        return true;
-                    }
-                }
+                return true;
             }
-
             return false;
         },
 
