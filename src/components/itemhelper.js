@@ -176,13 +176,12 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
             if (itemType === "Movie" ||
                 itemType === "Episode" ||
-                itemType === "Book" ||
-                itemType === "MusicAlbum" ||
                 itemType === "MusicVideo") {
                 return true;
             }
             return false;
         },
+
 
         canEdit: canEdit,
 
