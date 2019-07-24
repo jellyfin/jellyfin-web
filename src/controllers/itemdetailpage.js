@@ -298,7 +298,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             hideAll(page, "mainDetailButtons");
         }
         showRecordingFields(instance, page, item, user);
-        itemContextMenu.getCommands(getContextMenuOptions(item, user)).length ? hideAll(page, "btnMoreCommands", !0) : hideAll(page, "btnMoreCommands");
+        var groupedVersions = (item.MediaSources || []).filter(function(g) {
+            return "Grouping" == g.Type
+        });
+        user.Policy.IsAdministrator && groupedVersions.length ? page.querySelector(".btnSplitVersions").classList.remove("hide") : page.querySelector(".btnSplitVersions").classList.add("hide"), itemContextMenu.getCommands(getContextMenuOptions(item, user)).length ? hideAll(page, "btnMoreCommands", !0) : hideAll(page, "btnMoreCommands");
         var itemBirthday = page.querySelector("#itemBirthday");
         if ("Person" == item.Type && item.PremiereDate) try {
             var birthday = datetime.parseISO8601Date(item.PremiereDate, !0).toDateString();
@@ -645,8 +648,8 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         if ("Series" != item.Type) return void seriesAirTime.classList.add("hide");
         var html = "";
         if (item.AirDays && item.AirDays.length && (html += 7 == item.AirDays.length ? "daily" : item.AirDays.map(function(a) {
-                return a + "s"
-            }).join(",")), item.AirTime && (html += " at " + item.AirTime), item.Studios.length)
+            return a + "s"
+        }).join(",")), item.AirTime && (html += " at " + item.AirTime), item.Studios.length)
             if (isStatic) html += " on " + item.Studios[0].Name;
             else {
                 var context = inferContext(item),
@@ -1014,6 +1017,19 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 })
             }
 
+            function splitVersions(instance, page, apiClient, params) {
+                require(["confirm"], function(confirm) {
+                    confirm("Are you sure you wish to split the media sources into separate items?", "Split Media Apart").then(function() {
+                        loading.show(), apiClient.ajax({
+                            type: "DELETE",
+                            url: apiClient.getUrl("Videos/" + params.id + "/AlternateSources")
+                        }).then(function() {
+                            loading.hide(), reload(instance, page, params)
+                        })
+                    })
+                })
+            }
+
             function getPlayOptions(startPosition) {
                 var audioStreamIndex = view.querySelector(".selectAudio").value || null;
                 return {
@@ -1142,6 +1158,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
             view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
             view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
+            view.querySelector(".btnSplitVersions").addEventListener("click", function() {
+                splitVersions(self, view, apiClient, params)
+            });
             bindAll(view, ".btnMoreCommands", "click", onMoreCommandsClick);
             view.querySelector(".selectSource").addEventListener("change", function() {
                 renderVideoSelections(view, self._currentPlaybackMediaSources);
