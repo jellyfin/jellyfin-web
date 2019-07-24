@@ -5,29 +5,13 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
     var currentServerId;
     var currentResolve;
     var currentReject;
-    var hasChanges = false;
 
 
     function getApiClient() {
         return connectionManager.getApiClient(currentServerId);
     }
 
-    function init(view, page) {
-        view.querySelector(".btnSplitVersions").addEventListener("click", function() {
-            splitVersions(self, view)
-        })
-    }
-
     function setMediaInfo(page, item, apiClient, context, user) {
-        var groupedVersions = (item.MediaSources || []).filter(function (g) {
-            return g.Type == "Grouping";
-        });
-
-        if (user && user.Policy.IsAdministrator && groupedVersions.length) {
-            page.querySelector('.splitVersionContainer').classList.remove('hide');
-        } else {
-            page.querySelector('.splitVersionContainer').classList.add('hide');
-        }
         if (item.MediaSources && item.MediaSources.length) {
             renderMediaSources(page, user, item);
         }
@@ -180,6 +164,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             //html += '<div><span class="mediaInfoLabel">'+Globalize.translate('MediaInfoFormat')+'</span><span class="mediaInfoAttribute">' + version.Formats.join(',') + '</span></div>';
         }
 
+
         /* TODO
         if (version.Path && version.Protocol != 'Http' && user && user.Policy.IsAdministrator) {
             html += '<div><span class="mediaInfoLabel">' + globalize.translate('MediaInfoPath') + '</span><span class="mediaInfoAttribute">' + version.Path + '</span></div>';
@@ -240,24 +225,10 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
                     dialogHelper.close(dlg);
                 });
 
-                init(dlg, item);
                 setMediaInfo(dlg, item);
                 loading.hide();
             });
         });
-    }
-
-    function splitVersions(instance, page, apiClient, params) {
-        require(["confirm"], function (confirm) {
-            confirm("Are you sure you wish to split the media sources into separate items?", "Split Media Apart").then(function () {
-                loading.show(), apiClient.ajax({
-                    type: "DELETE",
-                    url: apiClient.getUrl("Videos/" + params.id + "/AlternateSources")
-                }).then(function () {
-                    loading.hide(), reload(instance, page, params)
-                })
-            })
-        })
     }
 
     return {
@@ -266,7 +237,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
                 currentResolve = resolve;
                 currentReject = reject;
                 currentServerId = serverId;
-                hasChanges = false;
                 show(itemId);
             });
         },
