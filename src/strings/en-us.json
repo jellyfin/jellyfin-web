@@ -1098,6 +1098,8 @@
     "OptionEnableForAllTuners": "Enable for all tuner devices",
     "OptionEnableM2tsMode": "Enable M2ts mode",
     "OptionEnableM2tsModeHelp": "Enable m2ts mode when encoding to mpegts.",
+    "OptionEnableTranscodingThrottle": "Enable throttling",
+    "OptionEnableTranscodingThrottleHelp": "Throttling will automatically adjust transcoding speed in order to reduce CPU utilization.",
     "OptionEnded": "Ended",
     "OptionEquals": "Equals",
     "OptionEstimateContentLength": "Estimate content length when transcoding",

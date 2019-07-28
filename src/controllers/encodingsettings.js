@@ -6,6 +6,7 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
             c.checked = -1 !== (config.HardwareDecodingCodecs || []).indexOf(c.getAttribute("data-codec"))
         });
 
+        page.querySelector('#chkEnableThrottle').checked = config.EnableThrottling;
         page.querySelector("#chkHardwareEncoding").checked = config.EnableHardwareEncoding;
 
         $("#selectVideoDecoder", page).val(config.HardwareAccelerationType);
@@ -73,14 +74,13 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
                 config.H264Crf = parseInt(form.querySelector('#txtH264Crf').value || '0');
 
                 config.EnableSubtitleExtraction = form.querySelector("#chkEnableSubtitleExtraction").checked,
-
                     config.HardwareDecodingCodecs = Array.prototype.map.call(Array.prototype.filter.call(form.querySelectorAll(".chkDecodeCodec"), function(c) {
                         return c.checked
                     }), function(c) {
                         return c.getAttribute("data-codec")
                     }),
-
                 config.EnableHardwareEncoding = form.querySelector('#chkHardwareEncoding').checked;
+                config.EnableThrottling = form.querySelector('#chkEnableThrottle').checked;
 
                 ApiClient.updateNamedConfiguration("encoding", config).then(function () {
 
