@@ -1,5 +1,5 @@
-define(['searchFields', 'searchResults', 'events'], function (SearchFields, SearchResults, events) {
-    'use strict';
+define(["searchFields", "searchResults", "events"], function (SearchFields, SearchResults, events) {
+    "use strict";
 
     function init(instance, tabContent, options) {
 
@@ -29,8 +29,7 @@ define(['searchFields', 'searchResults', 'events'], function (SearchFields, Sear
         options = options || {};
         init(this, tabContent, options);
 
-        self.preRender = function () {
-        };
+        self.preRender = function () {};
 
         self.renderTab = function () {
 
@@ -58,3 +57,4 @@ define(['searchFields', 'searchResults', 'events'], function (SearchFields, Sear
 
     return SearchTab;
 });
+

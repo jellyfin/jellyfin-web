@@ -49,6 +49,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
         function reloadItems() {
 
             loading.show();
+            isLoading = true;
 
             var query = getQuery(tabContent);
 
@@ -81,8 +82,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         context: 'movies',
                         overlayPlayButton: true
                     });
-                }
-                else if (viewStyle == "ThumbCard") {
+                } else if (viewStyle == "ThumbCard") {
 
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
@@ -92,10 +92,9 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         cardLayout: true,
                         showTitle: true,
                         showYear: true,
-                        vibrant: true
+                        centerText: true
                     });
-                }
-                else if (viewStyle == "Banner") {
+                } else if (viewStyle == "Banner") {
 
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
@@ -103,16 +102,14 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         preferBanner: true,
                         context: 'movies'
                     });
-                }
-                else if (viewStyle == "List") {
+                } else if (viewStyle == "List") {
 
                     html = listView.getListViewHtml({
                         items: result.Items,
                         context: 'movies',
                         sortBy: query.SortBy
                     });
-                }
-                else if (viewStyle == "PosterCard") {
+                } else if (viewStyle == "PosterCard") {
 
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
@@ -121,10 +118,9 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         showTitle: true,
                         showYear: true,
                         cardLayout: true,
-                        vibrant: true
+                        centerText: true
                     });
-                }
-                else {
+                } else {
 
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
@@ -261,7 +257,8 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         {
                             name: Globalize.translate('OptionReleaseDate'),
                             id: 'PremiereDate,SortName'
-                        }],
+                        }
+                    ],
                     callback: function () {
                         getQuery(tabContent).StartIndex = 0;
                         reloadItems();
@@ -284,7 +281,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
             updateFilterControls(tabContent);
         };
 
-        self.destroy = function () {
-        };
+        self.destroy = function () {};
     };
 });
+

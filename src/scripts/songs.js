@@ -1,11 +1,11 @@
-define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'emby-itemscontainer'], function (events, libraryBrowser, imageLoader, listView, loading) {
-    'use strict';
+define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-itemscontainer"], function (events, libraryBrowser, imageLoader, listView, loading) {
+    "use strict";
 
     return function (view, params, tabContent) {
 
         var self = this;
-
         var data = {};
+        var isLoading = false;
 
         function getPageData(context) {
             var key = getSavedQueryKey(context);
@@ -48,12 +48,12 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'emby-
         function reloadItems(page) {
 
             loading.show();
+            isLoading = true;
 
             var query = getQuery(page);
 
             ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
 
-                // Scroll back up so they can see the results from the beginning
                 window.scrollTo(0, 0);
 
                 updateFilterControls(page);
@@ -84,11 +84,13 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'emby-
                 }
 
                 function onNextPageClick() {
+                    if (isLoading) return;
                     query.StartIndex += query.Limit;
                     reloadItems(tabContent);
                 }
 
                 function onPreviousPageClick() {
+                    if (isLoading) return;
                     query.StartIndex -= query.Limit;
                     reloadItems(tabContent);
                 }
@@ -110,6 +112,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'emby-
                 libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
 
                 loading.hide();
+                isLoading = false;
             });
         }
 
@@ -119,7 +122,8 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'emby-
 
                 var filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
-                    mode: 'songs'
+                    mode: 'songs',
+                    serverId: ApiClient.serverId()
                 });
 
                 events.on(filterDialog, 'filterchange', function () {
@@ -178,7 +182,8 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'emby-
                         {
                             name: Globalize.translate('OptionRuntime'),
                             id: 'Runtime,AlbumArtist,Album,SortName'
-                        }],
+                        }
+                    ],
                     callback: function () {
                         getQuery(tabContent).StartIndex = 0;
                         reloadItems(tabContent);
@@ -201,7 +206,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'emby-
             updateFilterControls(tabContent);
         };
 
-        self.destroy = function () {
-        };
+        self.destroy = function () {};
     };
 });
+

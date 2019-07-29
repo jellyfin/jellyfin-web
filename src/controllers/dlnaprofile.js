@@ -1,5 +1,5 @@
-define(['jQuery', 'loading', 'fnchecked', 'emby-select', 'emby-button', 'emby-input', 'emby-checkbox', 'listViewStyle'], function ($, loading) {
-    'use strict';
+define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-input", "emby-checkbox", "listViewStyle", "emby-button"], function ($, loading) {
+    "use strict";
 
     var currentProfile;
 
@@ -1188,3 +1188,4 @@ define(['jQuery', 'loading', 'fnchecked', 'emby-select', 'emby-button', 'emby-in
     };
 
 });
+

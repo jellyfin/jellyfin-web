@@ -1,5 +1,5 @@
-define(['dialogHelper', 'events', 'browser', 'emby-checkbox', 'emby-collapse', 'css!components/filterdialog/style'], function (dialogHelper, events, browser) {
-    'use strict';
+define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "require", "emby-checkbox", "emby-collapse", "css!./style"], function (dialogHelper, globalize, connectionManager, events, browser, require) {
+    "use strict";
 
     function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 
@@ -15,7 +15,6 @@ define(['dialogHelper', 'events', 'browser', 'emby-checkbox', 'emby-collapse', '
 
         var html = '';
 
-        //  style="margin: -.2em -.8em;"
         html += '<div class="checkboxList">';
 
         html += items.map(function (filter) {
@@ -39,7 +38,6 @@ define(['dialogHelper', 'events', 'browser', 'emby-checkbox', 'emby-collapse', '
 
     function renderFilters(context, result, query) {
 
-        // If there's a huge number of these they will be really show to render
         if (result.Tags) {
             result.Tags.length = Math.min(result.Tags.length, 50);
         }
@@ -282,7 +280,6 @@ define(['dialogHelper', 'events', 'browser', 'emby-checkbox', 'emby-collapse', '
         }
 
 
-
         function bindEvents(context) {
 
             var query = options.query;
@@ -358,7 +355,6 @@ define(['dialogHelper', 'events', 'browser', 'emby-checkbox', 'emby-collapse', '
             for (i = 0, length = elems.length; i < length; i++) {
                 elems[i].addEventListener('change', onStatusChange);
             }
-
 
 
             context.querySelector('#chkTrailer').addEventListener('change', function () {
@@ -574,3 +570,4 @@ define(['dialogHelper', 'events', 'browser', 'emby-checkbox', 'emby-collapse', '
 
     };
 });
+

@@ -1,5 +1,5 @@
-define(['loading', 'scripts/editorsidebar'], function (loading) {
-    'use strict';
+define(["loading", "scripts/editorsidebar"], function (loading) {
+    "use strict";
 
     function reload(context, itemId) {
 
@@ -36,3 +36,4 @@ define(['loading', 'scripts/editorsidebar'], function (loading) {
         });
     };
 });
+

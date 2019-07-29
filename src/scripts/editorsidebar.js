@@ -1,5 +1,5 @@
-define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
-    'use strict';
+define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
+    "use strict";
 
     function getNode(item, folderState, selected) {
 
@@ -21,14 +21,12 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         };
 
         if (item.IsFolder) {
-            node.children = [
-                {
-                    text: 'Loading...',
-                    icon: false
-                }];
+            node.children = [{
+                text: 'Loading...',
+                icon: false
+            }];
             node.icon = false;
-        }
-        else {
+        } else {
             node.icon = false;
         }
 
@@ -47,7 +45,6 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
 
         var name = item.Name;
 
-        // Channel number
         if (item.Number) {
             name = item.Number + " - " + name;
         }
@@ -55,47 +52,13 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
             name = item.IndexNumber + " - " + name;
         }
 
-        var cssClass = "editorNode";
-
-        if (item.LocationType == "Offline") {
-            cssClass += " offlineEditorNode";
-        }
-
-        var htmlName = "<div class='" + cssClass + "'>";
+        var htmlName = "<div class='editorNode'>";
 
         if (item.LockData) {
             htmlName += '<i class="md-icon">lock</i>';
         }
 
         htmlName += name;
-
-        if (!item.ImageTags || !item.ImageTags.Primary) {
-            htmlName += '<img src="css/images/editor/missingprimaryimage.png" title="' + Globalize.translate('MissingPrimaryImage') + '" />';
-        }
-
-        if (!item.BackdropImageTags || !item.BackdropImageTags.length) {
-            if (item.Type !== "Episode" && item.Type !== "Season" && item.MediaType !== "Audio" && item.Type !== "TvChannel" && item.Type !== "MusicAlbum") {
-                htmlName += '<img src="css/images/editor/missingbackdrop.png" title="' + Globalize.translate('MissingBackdropImage') + '" />';
-            }
-        }
-
-        if (!item.ImageTags || !item.ImageTags.Logo) {
-            if (item.Type == "Movie" || item.Type == "Trailer" || item.Type == "Series" || item.Type == "MusicArtist" || item.Type == "BoxSet") {
-                htmlName += '<img src="css/images/editor/missinglogo.png" title="' + Globalize.translate('MissingLogoImage') + '" />';
-            }
-        }
-
-        if (item.Type == "Episode" && item.LocationType == "Virtual") {
-
-            try {
-                if (item.PremiereDate && (new Date().getTime() >= datetime.parseISO8601Date(item.PremiereDate, true).getTime())) {
-                    htmlName += '<img src="css/images/editor/missing.png" title="' + Globalize.translate('MissingEpisode') + '" />';
-                }
-            } catch (err) {
-
-            }
-
-        }
 
         htmlName += "</div>";
 
@@ -104,7 +67,9 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
 
     function loadChildrenOfRootNode(page, scope, callback) {
 
-        ApiClient.getLiveTvChannels({ limit: 0 }).then(function (result) {
+        ApiClient.getLiveTvChannels({
+            limit: 0
+        }).then(function (result) {
 
             var nodes = [];
 
@@ -134,11 +99,10 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
                     li_attr: {
                         itemtype: 'livetv'
                     },
-                    children: [
-                        {
-                            text: 'Loading...',
-                            icon: false
-                        }],
+                    children: [{
+                        text: 'Loading...',
+                        icon: false
+                    }],
                     icon: false
                 });
             }
@@ -223,7 +187,10 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
             ParentId: id,
             Fields: 'Settings',
             IsVirtualUnaired: false,
-            IsMissing: false
+            IsMissing: false,
+            EnableTotalRecordCount: false,
+            EnableImages: false,
+            EnableUserData: false
         };
 
         var itemtype = node.li_attr.itemtype;
@@ -260,7 +227,6 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         var elem = $('#' + id)[0];
 
         if (elem) {
-            // commenting out for now because it's causing the whole window to scroll in chrome
             elem.scrollIntoView();
         }
     }
@@ -284,8 +250,6 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
 
         if (eventData.itemType != 'livetv' && eventData.itemType != 'mediafolders') {
 
-            // We'd like to prevent these from being editable but this removes the ability to perform a top level refresh
-            //if (eventData.serverItemType != 'UserView' && eventData.serverItemType != 'CollectionFolder' && !eventData.collectionType)
             {
                 this.dispatchEvent(new CustomEvent('itemclicked', {
                     detail: eventData,
@@ -457,6 +421,7 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
     });
 
     var itemId;
+
     function setCurrentItemId(id) {
         itemId = id;
     }
@@ -487,3 +452,4 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
     };
 
 });
+

@@ -1,5 +1,5 @@
-define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-button'], function ($, globalize, loading, libraryMenu) {
-    'use strict';
+define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-button"], function ($, globalize, loading, libraryMenu) {
+    "use strict";
 
     function loadProfiles(page) {
 
@@ -98,15 +98,15 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
     }
 
     function getTabs() {
-        return [
-            {
-                href: 'dlnasettings.html',
-                name: globalize.translate('TabSettings')
-            },
+        return [{
+            href: 'dlnasettings.html',
+            name: globalize.translate('TabSettings')
+        },
             {
                 href: 'dlnaprofiles.html',
                 name: globalize.translate('TabProfiles')
-            }];
+            }
+        ];
     }
 
     $(document).on('pageshow', "#dlnaProfilesPage", function () {
@@ -119,3 +119,4 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
     });
 
 });
+
