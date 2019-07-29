@@ -1,11 +1,12 @@
-define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'apphost', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, appHost) {
-    'use strict';
+define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "apphost", "emby-itemscontainer"], function (layoutManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, appHost) {
+    "use strict";
 
     return function (view, params, tabContent) {
 
         var self = this;
-
+        var pageSize = 100;
         var data = {};
+        var isLoading = false;
 
         function getPageData(context) {
             var key = getSavedQueryKey(context);
@@ -53,7 +54,6 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
 
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
 
-                // Scroll back up so they can see the results from the beginning
                 window.scrollTo(0, 0);
 
                 updateFilterControls(tabContent);
@@ -126,7 +126,6 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                 }
                 else {
 
-                    // Poster
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
                         shape: "portrait",
@@ -145,11 +144,13 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                 }
 
                 function onNextPageClick() {
+                    if (isLoading) return;
                     query.StartIndex += query.Limit;
                     reloadItems();
                 }
 
                 function onPreviousPageClick() {
+                    if (isLoading) return;
                     query.StartIndex -= query.Limit;
                     reloadItems();
                 }
@@ -175,6 +176,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                 libraryBrowser.saveQueryValues(getSavedQueryKey(tabContent), query);
 
                 loading.hide();
+                isLoading = false;
             });
         }
 
@@ -184,7 +186,8 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
 
                 var filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
-                    mode: 'movies'
+                    mode: 'movies',
+                    serverId: ApiClient.serverId()
                 });
 
                 events.on(filterDialog, 'filterchange', function () {
