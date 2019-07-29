@@ -160,9 +160,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     }
 
     function getIconUrl(name) {
-
         name = name || 'notificationicon.png';
-
         return require.toUrl('.').split('?')[0] + '/' + name;
     }
 

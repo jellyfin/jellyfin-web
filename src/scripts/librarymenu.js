@@ -1,4 +1,4 @@
-define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "viewManager", "libraryBrowser", "appRouter", "apphost", "playbackManager", "browser", "globalize", "paper-icon-button-light", "material-icons", "scrollStyles", "flexStyles"], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, browser, globalize) {
+define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "viewManager", "libraryBrowser", "appRouter", "apphost", "playbackManager", "browser", "globalize", "scripts/imagehelper", "paper-icon-button-light", "material-icons", "scrollStyles", "flexStyles"], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, browser, globalize, imageHelper) {
     "use strict";
 
     function getCurrentApiClient() {
@@ -532,48 +532,11 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 html += globalize.translate("HeaderMedia");
                 html += "</h3>";
                 html += items.map(function (i) {
-                    var icon = "folder";
+                    var icon = i.icon || imageHelper.getLibraryIcon(i.CollectionType);
                     var itemId = i.Id;
-
-                    if ("channels" === i.CollectionType) {
-                        itemId = "channels";
-                    }
-                    else if ("livetv" === i.CollectionType) {
-                        itemId = "livetv";
-                    }
-                    else if ("music" === i.CollectionType) {
-                        icon = "library_music";
-                    }
-                    else if ("musicvideos" === i.CollectionType) {
-                        icon = "music_video";
-                    }
-                    else if ("books" === i.CollectionType) {
-                        icon = "library_books";
-                    }
-                    else if ("playlists" === i.CollectionType) {
-                        icon = "view_list";
-                    }
-                    else if ("movies" === i.CollectionType) {
-                        icon = "video_library";
-                    }
-                    else if ("homevideos" === i.CollectionType || "photos" === i.CollectionType) {
-                        icon = "photo_library";
-                    }
-                    else if ("channels" === i.CollectionType || "Channel" === i.Type) {
-                        icon = "videocam";
-                    }
-                    else if ("tvshows" === i.CollectionType) {
-                        icon = "tv";
-                    }
-                    else if ("livetv" === i.CollectionType) {
-                        icon = "live_tv";
-                    }
-                    icon = i.icon || icon;
-
                     if (i.onclick) {
                         i.onclick;
                     }
-
                     return '<a is="emby-linkbutton" data-itemid="' + itemId + '" class="lnkMediaFolder navMenuOption" href="' + getItemHref(i, i.CollectionType) + '"><i class="md-icon navMenuOptionIcon">' + icon + '</i><span class="sectionName navMenuOptionText">' + i.Name + "</span></a>";
                 }).join("");
                 libraryMenuOptions.innerHTML = html;

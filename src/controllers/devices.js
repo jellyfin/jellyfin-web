@@ -1,4 +1,4 @@
-define(["loading", "dom", "libraryMenu", "globalize", "humanedate", "emby-button", "emby-itemscontainer", "cardStyle"], function(loading, dom, libraryMenu, globalize) {
+define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "humanedate", "emby-button", "emby-itemscontainer", "cardStyle"], function(loading, dom, libraryMenu, globalize, imageHelper) {
     "use strict";
 
     function canDelete(deviceId) {
@@ -57,10 +57,45 @@ define(["loading", "dom", "libraryMenu", "globalize", "humanedate", "emby-button
         var html = "";
         html += devices.map(function(device) {
             var deviceHtml = "";
-            deviceHtml += "<div data-id='" + device.Id + "' class='card backdropCard'>", deviceHtml += '<div class="cardBox visualCardBox">', deviceHtml += '<div class="cardScalable">', deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>', deviceHtml += '<a is="emby-linkbutton" href="' + (canEdit ? "device.html?id=" + device.Id : "#") + '" class="cardContent cardImageContainer">';
-            var iconUrl = device.IconUrl;
-            return iconUrl && -1 === iconUrl.indexOf("://") && (iconUrl = ApiClient.getUrl(iconUrl)), iconUrl ? (deviceHtml += '<div class="cardImage" style="background-image:url(\'' + iconUrl + "');background-size: auto 64%;background-position:center center;\">", deviceHtml += "</div>") : deviceHtml += '<i class="cardImageIcon md-icon">tablet_android</i>', deviceHtml += "</a>", deviceHtml += "</div>", deviceHtml += '<div class="cardFooter">', (canEdit || canDelete(device.Id)) && (deviceHtml += '<div style="text-align:right; float:right;padding-top:5px;">', deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate("Menu") + '" class="btnDeviceMenu"><i class="md-icon">&#xE5D3;</i></button>', deviceHtml += "</div>"), deviceHtml += "<div class='cardText'>", deviceHtml += device.Name, deviceHtml += "</div>", deviceHtml += "<div class='cardText cardText-secondary'>", deviceHtml += device.AppName + " " + device.AppVersion, deviceHtml += "</div>", deviceHtml += "<div class='cardText cardText-secondary'>", device.LastUserName && (deviceHtml += device.LastUserName, deviceHtml += ", " + humane_date(device.DateLastActivity)), deviceHtml += "&nbsp;", deviceHtml += "</div>", deviceHtml += "</div>", deviceHtml += "</div>", deviceHtml += "</div>"
-        }).join(""), page.querySelector(".devicesList").innerHTML = html
+            deviceHtml += "<div data-id='" + device.Id + "' class='card backdropCard'>";
+            deviceHtml += '<div class="cardBox visualCardBox">';
+            deviceHtml += '<div class="cardScalable">';
+            deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>';
+            deviceHtml += '<a is="emby-linkbutton" href="' + (canEdit ? "device.html?id=" + device.Id : "#") + '" class="cardContent cardImageContainer">';
+            var iconUrl = imageHelper.getDeviceIcon(device.Name);
+            if (iconUrl) {
+                deviceHtml += '<div class="cardImage" style="background-image:url(\'' + iconUrl + "');background-size: auto 64%;background-position:center center;\">";
+                deviceHtml += "</div>";
+            } else {
+                deviceHtml += '<i class="cardImageIcon md-icon">tablet_android</i>';
+            }
+            deviceHtml += "</a>";
+            deviceHtml += "</div>";
+            deviceHtml += '<div class="cardFooter">';
+            if (canEdit || canDelete(device.Id)) {
+                deviceHtml += '<div style="text-align:right; float:right;padding-top:5px;">';
+                deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate("Menu") + '" class="btnDeviceMenu"><i class="md-icon">&#xE5D3;</i></button>';
+                deviceHtml += "</div>";
+            }
+            deviceHtml += "<div class='cardText'>";
+            deviceHtml += device.Name;
+            deviceHtml += "</div>";
+            deviceHtml += "<div class='cardText cardText-secondary'>";
+            deviceHtml += device.AppName + " " + device.AppVersion;
+            deviceHtml += "</div>";
+            deviceHtml += "<div class='cardText cardText-secondary'>";
+            if (device.LastUserName) {
+                deviceHtml += device.LastUserName;
+                deviceHtml += ", " + humane_date(device.DateLastActivity);
+            }
+            deviceHtml += "&nbsp;";
+            deviceHtml += "</div>";
+            deviceHtml += "</div>";
+            deviceHtml += "</div>";
+            deviceHtml += "</div>";
+            return deviceHtml;
+        }).join("");
+        page.querySelector(".devicesList").innerHTML = html;
     }
 
     function loadData(page) {
