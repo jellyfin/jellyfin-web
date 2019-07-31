@@ -632,6 +632,8 @@
     "LabelEveryXMinutes": "Every:",
     "LabelExternalDDNS": "External domain:",
     "LabelExternalDDNSHelp": "If you have a dynamic DNS enter it here for clients to use when connecting remotely. This field is required when used with a custom SSL certificate. Example: mydomain.com.",
+    "LabelBaseUrl": "Base URL:",
+    "LabelBaseUrlHelp": "You can add a custom subdirectory here to access the server from a more unique URL.",
     "LabelExtractChaptersDuringLibraryScan": "Extract chapter images during the library scan",
     "LabelExtractChaptersDuringLibraryScanHelp": "If enabled, chapter images will be extracted when videos are imported during the library scan. If disabled they will be extracted during the chapter images scheduled task, allowing the regular library scan to complete faster.",
     "LabelFailed": "Failed",

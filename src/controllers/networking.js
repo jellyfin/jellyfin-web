@@ -52,6 +52,7 @@ define(["loading", "libraryMenu", "globalize", "emby-checkbox", "emby-select"], 
                     config.HttpServerPortNumber = form.querySelector("#txtPortNumber").value;
                     config.EnableUPnP = enableUpnp;
                     config.WanDdns = form.querySelector("#txtDdns").value;
+                    config.BaseUrl = form.querySelector("#txtBaseUrl").value;
                     config.EnableRemoteAccess = form.querySelector("#chkRemoteAccess").checked;
                     config.CertificatePath = form.querySelector("#txtCertificatePath").value || null;
                     config.CertificatePassword = form.querySelector("#txtCertPassword").value || null;
@@ -111,6 +112,7 @@ define(["loading", "libraryMenu", "globalize", "emby-checkbox", "emby-select"], 
             config.IsBehindProxy ? selectHttpsMode.value = "proxy" : config.RequireHttps ? selectHttpsMode.value = "required" : config.EnableHttps ? selectHttpsMode.value = "enabled" : selectHttpsMode.value = "disabled";
             page.querySelector("#txtHttpsPort").value = config.HttpsPortNumber;
             page.querySelector("#txtDdns").value = config.WanDdns || "";
+            page.querySelector("#txtBaseUrl").value = config.BaseUrl || "";
             var txtCertificatePath = page.querySelector("#txtCertificatePath");
             txtCertificatePath.value = config.CertificatePath || "";
             page.querySelector("#txtCertPassword").value = config.CertificatePassword || "";
