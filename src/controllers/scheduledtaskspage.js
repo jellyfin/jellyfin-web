@@ -2,19 +2,30 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
     "use strict";
 
     function reloadList(page) {
-        ApiClient.getScheduledTasks({
-            isHidden: false
-        }).then(function(tasks) {
+
+        ApiClient.getScheduledTasks({ isHidden: false }).then(function (tasks) {
+
             populateList(page, tasks);
+
             loading.hide();
-        })
+        });
     }
 
     function populateList(page, tasks) {
-        tasks = tasks.sort(function(a, b) {
+        tasks = tasks.sort(function (a, b) {
+
             a = a.Category + " " + a.Name;
             b = b.Category + " " + b.Name;
-            return a == b ? 0 : a < b ? -1 : 1;
+
+            if (a == b) {
+                return 0;
+            }
+
+            if (a < b) {
+                return -1;
+            }
+
+            return 1;
         });
 
         var currentCategory;
@@ -63,15 +74,27 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
     }
 
     function humane_elapsed(firstDateStr, secondDateStr) {
-        var dt1 = new Date(firstDateStr),
-            dt2 = new Date(secondDateStr),
-            seconds = (dt2.getTime() - dt1.getTime()) / 1e3,
-            numdays = Math.floor(seconds % 31536e3 / 86400),
-            numhours = Math.floor(seconds % 31536e3 % 86400 / 3600),
-            numminutes = Math.floor(seconds % 31536e3 % 86400 % 3600 / 60),
-            numseconds = Math.round(seconds % 31536e3 % 86400 % 3600 % 60),
-            elapsedStr = "";
-        return elapsedStr += 1 == numdays ? numdays + " day " : "", elapsedStr += numdays > 1 ? numdays + " days " : "", elapsedStr += 1 == numhours ? numhours + " hour " : "", elapsedStr += numhours > 1 ? numhours + " hours " : "", elapsedStr += 1 == numminutes ? numminutes + " minute " : "", elapsedStr += numminutes > 1 ? numminutes + " minutes " : "", elapsedStr += elapsedStr.length > 0 ? "and " : "", elapsedStr += 1 == numseconds ? numseconds + " second" : "", elapsedStr += 0 == numseconds || numseconds > 1 ? numseconds + " seconds" : ""
+        var dt1 = new Date(firstDateStr);
+        var dt2 = new Date(secondDateStr);
+        var seconds = (dt2.getTime() - dt1.getTime()) / 1000;
+        var numdays = Math.floor((seconds % 31536000) / 86400);
+        var numhours = Math.floor(((seconds % 31536000) % 86400) / 3600);
+        var numminutes = Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
+        var numseconds = Math.round((((seconds % 31536000) % 86400) % 3600) % 60);
+
+        var elapsedStr = '';
+        elapsedStr += numdays == 1 ? numdays + ' day ' : '';
+        elapsedStr += numdays > 1 ? numdays + ' days ' : '';
+        elapsedStr += numhours == 1 ? numhours + ' hour ' : '';
+        elapsedStr += numhours > 1 ? numhours + ' hours ' : '';
+        elapsedStr += numminutes == 1 ? numminutes + ' minute ' : '';
+        elapsedStr += numminutes > 1 ? numminutes + ' minutes ' : '';
+        elapsedStr += elapsedStr.length > 0 ? 'and ' : '';
+        elapsedStr += numseconds == 1 ? numseconds + ' second' : '';
+        elapsedStr += numseconds == 0 || numseconds > 1 ? numseconds + ' seconds' : '';
+
+        return elapsedStr;
+
     }
 
     function getTaskProgressHtml(task) {
