@@ -1,20 +1,10 @@
-define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 'scrollHelper', 'layoutManager', 'focusManager', 'browser', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'cardStyle'], function (dialogHelper, loading, connectionManager, require, globalize, scrollHelper, layoutManager, focusManager, browser) {
+define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings', 'connectionManager', 'loading', 'focusManager', 'dom', 'apphost', 'emby-select', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'emby-button', 'flexStyles'], function (dialogHelper, require, layoutManager, globalize, userSettings, connectionManager, loading, focusManager, dom, appHost) {
     'use strict';
 
-    var currentItem;
-    var currentServerId;
-    var currentResolve;
-    var currentReject;
-
-
-    function getApiClient() {
-        return connectionManager.getApiClient(currentServerId);
-    }
 
     function setMediaInfo(page, item, apiClient, context, user) {
-        if (item.MediaSources && item.MediaSources.length) {
-            renderMediaSources(page, user, item);
-        }
+
+        renderMediaSources(page, user, item);
     }
 
     function renderMediaSources(page, user, item) {
@@ -29,11 +19,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         }
         var mediaInfoContent = page.querySelector('#mediaInfoContent');
         mediaInfoContent.innerHTML = html;
-        if (item.MediaSources && item.MediaSources.length && item.Path) {
-            page.querySelector('.audioVideoMediaInfo').classList.remove('hide');
-        } else {
-            page.querySelector('.audioVideoMediaInfo').classList.add('hide');
-        }
     }
 
     function getMediaSourceHtml(user, item, version) {
@@ -48,7 +33,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
 
             var stream = version.MediaStreams[i];
 
-            if (stream.Type == "Data") {
+            if (stream.Type === "Data") {
                 continue;
             }
 
@@ -56,7 +41,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
 
             var displayType = globalize.translate('MediaInfoStreamType' + stream.Type);
 
-            html += '<h3 class="mediaInfoStreamType">' + displayType + '</h3>';
+            html += '<h2 class="mediaInfoStreamType">' + displayType + '</h2>';
 
             var attributes = [];
 
@@ -64,7 +49,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
                 attributes.push(createAttribute('Title', stream.DisplayTitle));
             }
 
-            if (stream.Language && stream.Type != "Video") {
+            if (stream.Language && stream.Type !== "Video") {
                 attributes.push(createAttribute(globalize.translate('MediaInfoLanguage'), stream.Language));
             }
 
@@ -92,11 +77,11 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
                 attributes.push(createAttribute(globalize.translate('MediaInfoResolution'), stream.Width + 'x' + stream.Height));
             }
 
-            if (stream.AspectRatio && stream.Codec != "mjpeg") {
+            if (stream.AspectRatio && stream.Codec !== "mjpeg") {
                 attributes.push(createAttribute(globalize.translate('MediaInfoAspectRatio'), stream.AspectRatio));
             }
 
-            if (stream.Type == "Video") {
+            if (stream.Type === "Video") {
                 if (stream.IsAnamorphic != null) {
                     attributes.push(createAttribute(globalize.translate('MediaInfoAnamorphic'), (stream.IsAnamorphic ? 'Yes' : 'No')));
                 }
@@ -115,7 +100,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
                 attributes.push(createAttribute(globalize.translate('MediaInfoChannels'), stream.Channels + ' ch'));
             }
 
-            if (stream.BitRate && stream.Codec != "mjpeg") {
+            if (stream.BitRate && stream.Codec !== "mjpeg") {
                 attributes.push(createAttribute(globalize.translate('MediaInfoBitrate'), (parseInt(stream.BitRate / 1000)) + ' kbps'));
             }
 
@@ -139,15 +124,15 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
                 attributes.push(createAttribute('NAL', stream.NalLengthSize));
             }
 
-            if (stream.Type != "Video") {
+            if (stream.Type !== "Video") {
                 attributes.push(createAttribute(globalize.translate('MediaInfoDefault'), (stream.IsDefault ? 'Yes' : 'No')));
             }
-            if (stream.Type == "Subtitle") {
+            if (stream.Type === "Subtitle") {
                 attributes.push(createAttribute(globalize.translate('MediaInfoForced'), (stream.IsForced ? 'Yes' : 'No')));
                 attributes.push(createAttribute(globalize.translate('MediaInfoExternal'), (stream.IsExternal ? 'Yes' : 'No')));
             }
 
-            if (stream.Type == "Video" && version.Timestamp) {
+            if (stream.Type === "Video" && version.Timestamp) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoTimestamp'), version.Timestamp));
             }
 
@@ -163,10 +148,9 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         if (version.Formats && version.Formats.length) {
             //html += '<div><span class="mediaInfoLabel">'+Globalize.translate('MediaInfoFormat')+'</span><span class="mediaInfoAttribute">' + version.Formats.join(',') + '</span></div>';
         }
+        /*ToDo
+        if (version.Path && version.Protocol !== 'Http' && user && user.Policy.IsAdministrator) {
 
-
-        /* TODO
-        if (version.Path && version.Protocol != 'Http' && user && user.Policy.IsAdministrator) {
             html += '<div><span class="mediaInfoLabel">' + globalize.translate('MediaInfoPath') + '</span><span class="mediaInfoAttribute">' + version.Path + '</span></div>';
         }*/
 
@@ -184,61 +168,63 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         return '<span class="mediaInfoLabel">' + label + '</span><span class="mediaInfoAttribute">' + value + '</span>'
     }
 
-    function show(itemId) {
+    function showMediaInfoMore(itemId, serverId, template) {
 
-        loading.show();
+        var apiClient = connectionManager.getApiClient(serverId);
+        return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
 
-        require(['text!./itemMediaInfo.template.html'], function (template) {
+            var dialogOptions = {
+                size: 'small',
+                removeOnClose: true,
+                scrollY: false
+            };
 
-            var apiClient = getApiClient();
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            }
 
-            apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+            var dlg = dialogHelper.createDialog(dialogOptions);
 
-                currentItem = item;
-                var dialogOptions = {
-                    size: 'small',
-                    removeOnClose: true,
-                    scrollY: false
-                };
+            dlg.classList.add('formDialog');
 
-                if (layoutManager.tv) {
-                    dialogOptions.size = 'fullscreen';
-                }
+            var html = '';
+            html += globalize.translateDocument(template, 'core');
 
-                var dlg = dialogHelper.createDialog(dialogOptions);
+            dlg.innerHTML = html;
 
-                dlg.classList.add('formDialog');
+            if (layoutManager.tv) {
+                scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
+            }
 
-                var html = '';
-                html += globalize.translateDocument(template, 'core');
+            dialogHelper.open(dlg);
 
-                dlg.innerHTML = html;
+            dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
 
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-                }
-
-                dialogHelper.open(dlg);
-
-                dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
-
-                    dialogHelper.close(dlg);
-                });
-
-                setMediaInfo(dlg, item);
-                loading.hide();
+                dialogHelper.close(dlg);
             });
+
+            setMediaInfo(dlg, item);
+            loading.hide();
+
+
         });
     }
 
-    return {
-        show: function (itemId, serverId) {
-            return new Promise(function (resolve, reject) {
-                currentResolve = resolve;
-                currentReject = reject;
-                currentServerId = serverId;
-                show(itemId);
+    function showMediaInfo(itemId, serverId) {
+
+        loading.show();
+
+        return new Promise(function (resolve, reject) {
+
+            require(['text!./itemMediaInfo.template.html'], function (template) {
+
+                showMediaInfoMore(itemId, serverId, template).then(resolve, reject);
             });
-        },
+        });
+
+    }
+
+    return {
+        show: showMediaInfo
     };
 });

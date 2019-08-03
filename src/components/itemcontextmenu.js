@@ -18,7 +18,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 commands.push({
                     name: globalize.translate('Play'),
                     id: 'resume'
-        });
+                });
             }
 
             if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'TvChannel') {
@@ -147,12 +147,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
                 var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
 
-            commands.push({
-                name: text,
+                commands.push({
+                    name: text,
                     id: 'edit'
                 });
+            }
         }
-    }
 
         if (itemHelper.canEditImages(user, item)) {
 
@@ -185,8 +185,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
-        if (options.moremediainfo !== false) {
-            if (itemHelper.canMoreMediaInfo(user, item)) {
+        if (item.MediaSources && item.MediaSources.length && (null == item.EnableMediaSourceDisplay ? "Channel" !== item.SourceType : item.EnableMediaSourceDisplay)) {
+            if (options.moremediainfo !== false) {
                 commands.push({
                     name: globalize.translate('MoreMediaInfo'),
                     id: 'moremediainfo'
@@ -281,7 +281,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 deleted: deleted
             });
         };
-        }
+    }
 
     function executeCommand(item, id, options) {
 
@@ -294,141 +294,141 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             switch (id) {
 
                 case 'addtocollection':
-                    {
-                        require(['collectionEditor'], function (collectionEditor) {
+                {
+                    require(['collectionEditor'], function (collectionEditor) {
 
-                            new collectionEditor().show({
+                        new collectionEditor().show({
                             items: [itemId],
                             serverId: serverId
 
-                            }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                        }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
-                    }
+                }
                 case 'addtoplaylist':
-                    {
-                        require(['playlistEditor'], function (playlistEditor) {
+                {
+                    require(['playlistEditor'], function (playlistEditor) {
 
-                            new playlistEditor().show({
+                        new playlistEditor().show({
                             items: [itemId],
                             serverId: serverId
 
-                            }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                        }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
-                    }
+                }
                 case 'download':
-                    {
-                        require(['fileDownloader'], function (fileDownloader) {
+                {
+                    require(['fileDownloader'], function (fileDownloader) {
                         var downloadHref = apiClient.getItemDownloadUrl(itemId);
-                            fileDownloader.download([{
-                                url: downloadHref,
-                                itemId: itemId,
-                                serverId: serverId
-                            }]);
-                            getResolveFunction(getResolveFunction(resolve, id), id)();
+                        fileDownloader.download([{
+                            url: downloadHref,
+                            itemId: itemId,
+                            serverId: serverId
+                        }]);
+                        getResolveFunction(getResolveFunction(resolve, id), id)();
                     });
                     break;
-                    }
+                }
                 case 'editsubtitles':
-                    {
-                        require(['subtitleEditor'], function (subtitleEditor) {
+                {
+                    require(['subtitleEditor'], function (subtitleEditor) {
 
-                            subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                        subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
-                    }
+                }
                 case 'edit':
-                    {
-                        editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                {
+                    editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     break;
-                    }
+                }
                 case 'editimages':
-                    {
-                        require(['imageEditor'], function (imageEditor) {
+                {
+                    require(['imageEditor'], function (imageEditor) {
 
                         imageEditor.show({
                             itemId: itemId,
                             serverId: serverId
 
-                            }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                        }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
-                    }
+                }
                 case 'identify':
-                    {
-                        require(['itemIdentifier'], function (itemIdentifier) {
+                {
+                    require(['itemIdentifier'], function (itemIdentifier) {
 
-                            itemIdentifier.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                        itemIdentifier.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
-                    }
+                }
                 case 'moremediainfo':
-                    {
-                        require(['itemMediaInfo'], function (itemMediaInfo) {
+                {
+                    require(['itemMediaInfo'], function (itemMediaInfo) {
 
-                            itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                     });
-                     break;
-                    }
+                        itemMediaInfo.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                    });
+                    break;
+                }
                 case 'refresh':
-                    {
-                        refresh(apiClient, item);
-                        getResolveFunction(resolve, id)();
+                {
+                    refresh(apiClient, item);
+                    getResolveFunction(resolve, id)();
                     break;
-                    }
+                }
                 case 'open':
-                    {
-                        appRouter.showItem(item);
-                        getResolveFunction(resolve, id)();
+                {
+                    appRouter.showItem(item);
+                    getResolveFunction(resolve, id)();
                     break;
-                    }
+                }
                 case 'play':
-                    {
-                        play(item, false);
-                        getResolveFunction(resolve, id)();
+                {
+                    play(item, false);
+                    getResolveFunction(resolve, id)();
                     break;
-                    }
+                }
                 case 'resume':
-                    {
-                        play(item, true);
-                        getResolveFunction(resolve, id)();
+                {
+                    play(item, true);
+                    getResolveFunction(resolve, id)();
                     break;
-                    }
+                }
                 case 'queue':
-                    {
-                        play(item, false, true);
-                        getResolveFunction(resolve, id)();
+                {
+                    play(item, false, true);
+                    getResolveFunction(resolve, id)();
                     break;
-                    }
+                }
                 case 'queuenext':
-                    {
-                        play(item, false, true, true);
-                        getResolveFunction(resolve, id)();
+                {
+                    play(item, false, true, true);
+                    getResolveFunction(resolve, id)();
                     break;
-                    }
+                }
                 case 'record':
                     require(['recordingCreator'], function (recordingCreator) {
                         recordingCreator.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                     });
                     break;
                 case 'shuffle':
-                    {
-                        playbackManager.shuffle(item);
-                        getResolveFunction(resolve, id)();
+                {
+                    playbackManager.shuffle(item);
+                    getResolveFunction(resolve, id)();
                     break;
-                    }
+                }
                 case 'instantmix':
-                    {
-                        playbackManager.instantMix(item);
-                        getResolveFunction(resolve, id)();
+                {
+                    playbackManager.instantMix(item);
+                    getResolveFunction(resolve, id)();
                     break;
-                    }
+                }
                 case 'delete':
-                    {
-                        deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
+                {
+                    deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
                     break;
-                    }
+                }
                 case 'share':
                     navigator.share({
                         title: item.Name,
@@ -448,10 +448,10 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     getResolveFunction(resolve, id)();
                     break;
                 case 'queueallfromhere':
-                    {
+                {
                     getResolveFunction(resolve, id)();
                     break;
-                    }
+                }
                 case 'removefromplaylist':
                     apiClient.ajax({
                         url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items', {
@@ -519,14 +519,14 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
         if (item.Type === 'Program') {
             playbackManager[method]({
-            ids: [item.ChannelId],
-            startPositionTicks: startPosition,
-            serverId: item.ServerId
+                ids: [item.ChannelId],
+                startPositionTicks: startPosition,
+                serverId: item.ServerId
             });
         } else {
             playbackManager[method]({
-            items: [item],
-            startPositionTicks: startPosition
+                items: [item],
+                startPositionTicks: startPosition
             });
         }
     }
