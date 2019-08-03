@@ -31,6 +31,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "cardSt
         context.querySelector(".chkRememberLogin").checked = appSettings.enableAutoLogin();
         context.querySelector(".manualLoginForm").classList.remove("hide");
         context.querySelector(".visualLoginForm").classList.add("hide");
+        context.querySelector(".btnManual").classList.add("hide");
         focusPassword ? context.querySelector("#txtManualPassword").focus() : context.querySelector("#txtManualName").focus();
         showCancel ? context.querySelector(".btnCancel").classList.remove("hide") : context.querySelector(".btnCancel").classList.add("hide");
     }
@@ -96,6 +97,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "cardSt
         function showVisualForm() {
             view.querySelector(".visualLoginForm").classList.remove("hide");
             view.querySelector(".manualLoginForm").classList.add("hide");
+            view.querySelector(".btnManual").classList.remove("hide");
         }
 
         view.querySelector("#divUsers").addEventListener("click", function(e) {
