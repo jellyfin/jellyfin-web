@@ -6,6 +6,11 @@
     overflow: hidden;
 }
 
+.nowPlayingBarSecondaryText{
+    width: 45%;
+    overflow: hidden;
+}
+
 /* Now playing bar */
 .nowPlayingBar {
     /* Above everything, except for the video player and popup overlays */
