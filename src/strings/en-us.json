@@ -55,7 +55,7 @@
     "BoxRear": "Box (rear)",
     "Browse": "Browse",
     "BrowsePluginCatalogMessage": "Browse our plugin catalog to view available plugins.",
-    "BurnSubtitlesHelp": "Determines if the server should burn in subtitles when converting video depending on the subtitles format. Avoiding burning in subtitles will improve server performance. Select Auto to burn image based formats (e.g. VOBSUB, PGS, SUB/IDX, etc.) as well as certain ASS/SSA subtitles",
+    "BurnSubtitlesHelp": "Determines if the server should burn in subtitles when converting video depending on the subtitles format. Avoiding burning in subtitles will improve server performance. Select Auto to burn image based formats (e.g. VOBSUB, PGS, SUB/IDX, etc.) as well as certain ASS/SSA subtitles.",
     "ButtonAdd": "Add",
     "ButtonAddMediaLibrary": "Add Media Library",
     "ButtonAddScheduledTaskTrigger": "Add Trigger",
