@@ -816,7 +816,13 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function setPeopleHeader(page, item) {
-        "Audio" == item.MediaType || "MusicAlbum" == item.Type || "Book" == item.MediaType || "Photo" == item.MediaType ? page.querySelector("#peopleHeader").innerHTML = globalize.translate("HeaderPeople") : page.querySelector("#peopleHeader").innerHTML = globalize.translate("HeaderCastAndCrew")
+
+        if (item.MediaType == "Audio" || item.Type == "MusicAlbum" || item.MediaType == "Book" || item.MediaType == "Photo") {
+            page.querySelector('#peopleHeader').innerHTML = globalize.translate('HeaderPeople');
+        } else {
+            page.querySelector('#peopleHeader').innerHTML = globalize.translate('HeaderCastAndCrew');
+        }
+
     }
 
     function renderNextUp(page, item, user) {
@@ -895,9 +901,13 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             page.querySelector('.nextUpSection').classList.add('hide');
         }
 
-        item.MediaSources && item.MediaSources.length && (null == item.EnableMediaSourceDisplay ? "Channel" !== item.SourceType : item.EnableMediaSourceDisplay) ? renderMediaSources(page, user, item) : page.querySelector(".audioVideoMediaInfo").classList.add("hide")
+        if (item.MediaSources && item.MediaSources.length) {
 
-
+            if (item.EnableMediaSourceDisplay == null ? item.SourceType !== 'Channel' : item.EnableMediaSourceDisplay) {
+                page.querySelector(".audioVideoMediaInfo").classList.add("hide");
+            }
+            renderMediaSources(page, user, item);
+        }
 
         renderScenes(page, item);
 
@@ -1516,18 +1526,27 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderChannelGuide(page, apiClient, item) {
-        "TvChannel" === item.Type && (page.querySelector(".programGuideSection").classList.remove("hide"), apiClient.getLiveTvPrograms({
-            ChannelIds: item.Id,
-            UserId: apiClient.getCurrentUserId(),
-            HasAired: false,
-            SortBy: "StartDate",
-            EnableTotalRecordCount: false,
-            EnableImages: false,
-            ImageTypeLimit: 0,
-            EnableUserData: false
-        }).then(function(result) {
-            renderProgramsForChannel(page, result)
-        }))
+        if (item.Type === 'TvChannel') {
+
+            page.querySelector(".programGuideSection").classList.remove("hide");
+
+            apiClient.getLiveTvPrograms({
+
+                ChannelIds: channelId,
+                UserId: Dashboard.getCurrentUserId(),
+                HasAired: false,
+                SortBy: "StartDate",
+                EnableTotalRecordCount: false,
+                EnableImages: false,
+                ImageTypeLimit: 0,
+                EnableUserData: false
+
+            }).then(function (result) {
+
+                renderPrograms(page, result);
+                loading.hide();
+            });
+        }
     }
 
     function renderSeriesSchedule(page, item, user) {
@@ -1762,51 +1781,170 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderMediaSources(page, user, item) {
-        var html = item.MediaSources.map(function(v) {
-            return getMediaSourceHtml(user, item, v)
+
+        var html = item.MediaSources.map(function (v) {
+
+            return getMediaSourceHtml(user, item, v);
+
         }).join('<div style="border-top:1px solid #444;margin: 1em 0;"></div>');
-        item.MediaSources.length > 1 && (html = "<br/>" + html), page.querySelector("#mediaInfoContent").innerHTML = html, html ? page.querySelector(".audioVideoMediaInfo").classList.remove("hide") : page.querySelector(".audioVideoMediaInfo").classList.add("hide")
+
+        if (item.MediaSources.length > 1) {
+            html = '<br/>' + html;
+        }
+
+        var mediaInfoContent = page.querySelector('#mediaInfoContent');
+        mediaInfoContent.innerHTML = html;
+        if (html) {
+            page.querySelector('.audioVideoMediaInfo').classList.remove('hide');
+        } else {
+            page.querySelector('.audioVideoMediaInfo').classList.add('hide');
+        }
     }
 
     function getMediaSourceHtml(user, item, version) {
-        var html = "";
-        version.Name && item.MediaSources.length > 1 && (html += '<div><span class="mediaInfoAttribute">' + version.Name + "</span></div><br/>");
+
+        var html = '';
+
+        if (version.Name && item.MediaSources.length > 1) {
+            html += '<div><span class="mediaInfoAttribute">' + version.Name + '</span></div><br/>';
+        }
+
         for (var i = 0, length = version.MediaStreams.length; i < length; i++) {
+
             var stream = version.MediaStreams[i];
-            if ("Data" != stream.Type) {
-                html += '<div class="mediaInfoStream">';
-                html += '<h3 class="mediaInfoStreamType">';
-                switch (stream.Type) {
-                    case 'Audio':
-                        html += globalize.translate("MediaInfoStreamTypeAudio");
-                        break;
-                    case 'Subtitle':
-                        html += globalize.translate("MediaInfoStreamTypeSubtitle");
-                        break;
-                    case 'Video':
-                        html += globalize.translate("MediaInfoStreamTypeVideo");
-                        break;
-                    case 'Data':
-                        html += globalize.translate("MediaInfoStreamTypeData");
-                        break;
-                    case 'EmbeddedImage':
-                        html += globalize.translate("MediaInfoStreamTypeEmbeddedImage");
-                        break;
-                }
-                html += "</h3>";
-                var attributes = [];
-                stream.DisplayTitle && attributes.push(createAttribute("Title", stream.DisplayTitle)), stream.Language && "Video" != stream.Type && attributes.push(createAttribute(globalize.translate("MediaInfoLanguage"), stream.Language)), stream.Codec && attributes.push(createAttribute(globalize.translate("MediaInfoCodec"), stream.Codec.toUpperCase())), stream.CodecTag && attributes.push(createAttribute(globalize.translate("MediaInfoCodecTag"), stream.CodecTag)), null != stream.IsAVC && attributes.push(createAttribute("AVC", stream.IsAVC ? "Yes" : "No")), stream.Profile && attributes.push(createAttribute(globalize.translate("MediaInfoProfile"), stream.Profile)), stream.Level && attributes.push(createAttribute(globalize.translate("MediaInfoLevel"), stream.Level)), (stream.Width || stream.Height) && attributes.push(createAttribute(globalize.translate("MediaInfoResolution"), stream.Width + "x" + stream.Height)), stream.AspectRatio && "mjpeg" != stream.Codec && attributes.push(createAttribute(globalize.translate("MediaInfoAspectRatio"), stream.AspectRatio)), "Video" == stream.Type && (null != stream.IsAnamorphic && attributes.push(createAttribute(globalize.translate("MediaInfoAnamorphic"), stream.IsAnamorphic ? "Yes" : "No")), attributes.push(createAttribute(globalize.translate("MediaInfoInterlaced"), stream.IsInterlaced ? "Yes" : "No"))), (stream.AverageFrameRate || stream.RealFrameRate) && attributes.push(createAttribute(globalize.translate("MediaInfoFramerate"), stream.AverageFrameRate || stream.RealFrameRate)), stream.ChannelLayout && attributes.push(createAttribute(globalize.translate("MediaInfoLayout"), stream.ChannelLayout)), stream.Channels && attributes.push(createAttribute(globalize.translate("MediaInfoChannels"), stream.Channels + " ch")), stream.BitRate && "mjpeg" != stream.Codec && attributes.push(createAttribute(globalize.translate("MediaInfoBitrate"), parseInt(stream.BitRate / 1e3) + " kbps")), stream.SampleRate && attributes.push(createAttribute(globalize.translate("MediaInfoSampleRate"), stream.SampleRate + " Hz")), stream.VideoRange && "SDR" !== stream.VideoRange && attributes.push(createAttribute(globalize.translate("VideoRange"), stream.VideoRange)), stream.ColorPrimaries && attributes.push(createAttribute(globalize.translate("ColorPrimaries"), stream.ColorPrimaries)), stream.ColorSpace && attributes.push(createAttribute(globalize.translate("ColorSpace"), stream.ColorSpace)), stream.ColorTransfer && attributes.push(createAttribute(globalize.translate("ColorTransfer"), stream.ColorTransfer)), stream.BitDepth && attributes.push(createAttribute(globalize.translate("MediaInfoBitDepth"), stream.BitDepth + " bit")), stream.PixelFormat && attributes.push(createAttribute(globalize.translate("MediaInfoPixelFormat"), stream.PixelFormat)), stream.RefFrames && attributes.push(createAttribute(globalize.translate("MediaInfoRefFrames"), stream.RefFrames)), stream.NalLengthSize && attributes.push(createAttribute("NAL", stream.NalLengthSize)), "Video" != stream.Type && attributes.push(createAttribute(globalize.translate("MediaInfoDefault"), stream.IsDefault ? "Yes" : "No")), "Subtitle" == stream.Type && (attributes.push(createAttribute(globalize.translate("MediaInfoForced"), stream.IsForced ? "Yes" : "No")), attributes.push(createAttribute(globalize.translate("MediaInfoExternal"), stream.IsExternal ? "Yes" : "No"))), "Video" == stream.Type && version.Timestamp && attributes.push(createAttribute(globalize.translate("MediaInfoTimestamp"), version.Timestamp)), html += attributes.join("<br/>"), html += "</div>"
+
+            if (stream.Type === "Data") {
+                continue;
             }
+
+            html += '<div class="mediaInfoStream">';
+
+            var displayType = globalize.translate('MediaInfoStreamType' + stream.Type);
+
+            html += '<h2 class="mediaInfoStreamType">' + displayType + '</h2>';
+
+            var attributes = [];
+
+            if (stream.DisplayTitle) {
+                attributes.push(createAttribute('Title', stream.DisplayTitle));
+            }
+
+            if (stream.Language && stream.Type !== "Video") {
+                attributes.push(createAttribute(globalize.translate('MediaInfoLanguage'), stream.Language));
+            }
+
+            if (stream.Codec) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoCodec'), stream.Codec.toUpperCase()));
+            }
+
+            if (stream.CodecTag) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoCodecTag'), stream.CodecTag));
+            }
+
+            if (stream.IsAVC != null) {
+                attributes.push(createAttribute('AVC', (stream.IsAVC ? 'Yes' : 'No')));
+            }
+
+            if (stream.Profile) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoProfile'), stream.Profile));
+            }
+
+            if (stream.Level) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoLevel'), stream.Level));
+            }
+
+            if (stream.Width || stream.Height) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoResolution'), stream.Width + 'x' + stream.Height));
+            }
+
+            if (stream.AspectRatio && stream.Codec !== "mjpeg") {
+                attributes.push(createAttribute(globalize.translate('MediaInfoAspectRatio'), stream.AspectRatio));
+            }
+
+            if (stream.Type === "Video") {
+                if (stream.IsAnamorphic != null) {
+                    attributes.push(createAttribute(globalize.translate('MediaInfoAnamorphic'), (stream.IsAnamorphic ? 'Yes' : 'No')));
+                }
+
+                attributes.push(createAttribute(globalize.translate('MediaInfoInterlaced'), (stream.IsInterlaced ? 'Yes' : 'No')));
+            }
+
+            if (stream.AverageFrameRate || stream.RealFrameRate) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoFramerate'), (stream.AverageFrameRate || stream.RealFrameRate)));
+            }
+
+            if (stream.ChannelLayout) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoLayout'), stream.ChannelLayout));
+            }
+            if (stream.Channels) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoChannels'), stream.Channels + ' ch'));
+            }
+
+            if (stream.BitRate && stream.Codec !== "mjpeg") {
+                attributes.push(createAttribute(globalize.translate('MediaInfoBitrate'), (parseInt(stream.BitRate / 1000)) + ' kbps'));
+            }
+
+            if (stream.SampleRate) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoSampleRate'), stream.SampleRate + ' Hz'));
+            }
+
+            if (stream.BitDepth) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoBitDepth'), stream.BitDepth + ' bit'));
+            }
+
+            if (stream.PixelFormat) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoPixelFormat'), stream.PixelFormat));
+            }
+
+            if (stream.RefFrames) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoRefFrames'), stream.RefFrames));
+            }
+
+            if (stream.NalLengthSize) {
+                attributes.push(createAttribute('NAL', stream.NalLengthSize));
+            }
+
+            if (stream.Type !== "Video") {
+                attributes.push(createAttribute(globalize.translate('MediaInfoDefault'), (stream.IsDefault ? 'Yes' : 'No')));
+            }
+            if (stream.Type === "Subtitle") {
+                attributes.push(createAttribute(globalize.translate('MediaInfoForced'), (stream.IsForced ? 'Yes' : 'No')));
+                attributes.push(createAttribute(globalize.translate('MediaInfoExternal'), (stream.IsExternal ? 'Yes' : 'No')));
+            }
+
+            if (stream.Type === "Video" && version.Timestamp) {
+                attributes.push(createAttribute(globalize.translate('MediaInfoTimestamp'), version.Timestamp));
+            }
+
+            html += attributes.join('<br/>');
+
+            html += '</div>';
         }
-        if (version.Container && (html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoContainer") + '</span><span class="mediaInfoAttribute">' + version.Container + "</span></div>"), version.Formats && version.Formats.length, version.Path && "Http" != version.Protocol && user && user.Policy.IsAdministrator && (html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoPath") + '</span><span class="mediaInfoAttribute">' + version.Path + "</span></div>"), version.Size) {
-            var size = (version.Size / 1048576).toFixed(0);
-            html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoSize") + '</span><span class="mediaInfoAttribute">' + size + " MB</span></div>"
+
+        if (version.Container) {
+            html += '<div><span class="mediaInfoLabel">' + globalize.translate('MediaInfoContainer') + '</span><span class="mediaInfoAttribute">' + version.Container + '</span></div>';
         }
-        return html
+
+        if (version.Formats && version.Formats.length) {
+            //html += '<div><span class="mediaInfoLabel">'+Globalize.translate('MediaInfoFormat')+'</span><span class="mediaInfoAttribute">' + version.Formats.join(',') + '</span></div>';
+        }
+
+        if (version.Path && version.Protocol !== 'Http' && user && user.Policy.IsAdministrator) {
+            html += '<div><span class="mediaInfoLabel">' + globalize.translate('MediaInfoPath') + '</span><span class="mediaInfoAttribute">' + version.Path + '</span></div>';
+        }
+
+        if (version.Size) {
+
+            var size = (version.Size / (1024 * 1024)).toFixed(0);
+
+            html += '<div><span class="mediaInfoLabel">' + globalize.translate('MediaInfoSize') + '</span><span class="mediaInfoAttribute">' + size + ' MB</span></div>';
+        }
+
+        return html;
     }
 
     function createAttribute(label, value) {
-        return '<span class="mediaInfoLabel">' + label + '</span><span class="mediaInfoAttribute">' + value + "</span>"
+        return '<span class="mediaInfoLabel">' + label + '</span><span class="mediaInfoAttribute">' + value + '</span>'
     }
 
     function getVideosHtml(items, user, limit, moreButtonClass) {
@@ -1879,28 +2017,42 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
     return window.ItemDetailPage = new itemDetailPage,
         function(view, params) {
+
             function reload(instance, page, params) {
+
                 loading.show();
+
                 var apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient,
                     promises = [getPromise(apiClient, params), apiClient.getCurrentUser()];
+
                 Promise.all(promises).then(function(responses) {
-                    var item = responses[0],
-                        user = responses[1];
-                    currentItem = item, reloadFromItem(instance, page, params, item, user)
+                    var item = responses[0];
+                    var user = responses[1];
+                    currentItem = item;
+                    reloadFromItem(instance, page, params, item, user)
                 })
             }
 
             function splitVersions(instance, page, apiClient, params) {
-                require(["confirm"], function(confirm) {
-                    confirm("Are you sure you wish to split the media sources into separate items?", "Split Media Apart").then(function() {
-                        loading.show(), apiClient.ajax({
+
+                require(['confirm'], function (confirm) {
+
+                    confirm("Are you sure you wish to split the media sources into separate items?", "Split Media Apart").then(function () {
+
+                        loading.show();
+
+                        apiClient.ajax({
                             type: "DELETE",
                             url: apiClient.getUrl("Videos/" + params.id + "/AlternateSources")
-                        }).then(function() {
-                            loading.hide(), reload(instance, page, params)
-                        })
-                    })
-                })
+
+                        }).then(function () {
+
+                            loading.hide();
+
+                            reload(instance, page, params);
+                        });
+                    });
+                });
             }
 
             function getPlayOptions(startPosition) {
@@ -1923,14 +2075,20 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             }
 
             function playCurrentItem(button, mode) {
+
                 var item = currentItem;
-                if ("Program" === item.Type) {
+
+                if (item.Type === 'Program') {
+
                     var apiClient = connectionManager.getApiClient(item.ServerId);
-                    return void apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function(channel) {
+                    apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function (channel) {
+
                         playbackManager.play({
                             items: [channel]
-                        })
-                    })
+                        });
+                    });
+
+                    return;
                 }
                 playItem(item, item.UserData && "resume" === mode ? item.UserData.PlaybackPositionTicks : 0)
             }
@@ -1948,28 +2106,34 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             }
 
             function onDeleteClick() {
-                require(["deleteHelper"], function(deleteHelper) {
+
+                require(['deleteHelper'], function (deleteHelper) {
+
                     deleteHelper.deleteItem({
                         item: currentItem,
                         navigate: true
-                    })
-                })
+                    });
+                });
             }
 
             function onCancelSeriesTimerClick() {
-                require(["recordingHelper"], function(recordingHelper) {
-                    recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(function() {
-                        Dashboard.navigate("livetv.html")
-                    })
-                })
+
+                require(['recordingHelper'], function (recordingHelper) {
+
+                    recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(function () {
+                        Dashboard.navigate('livetv.html');
+                    });
+                });
             }
 
             function onCancelTimerClick() {
-                require(["recordingHelper"], function(recordingHelper) {
+
+                require(['recordingHelper'], function (recordingHelper) {
+
                     recordingHelper.cancelTimer(connectionManager.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function() {
-                        reload(self, view, params)
-                    })
-                })
+                        reload(self, view, params);
+                    });
+                });
             }
 
             function onPlayTrailerClick() {
@@ -1982,45 +2146,77 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
             function onMoreCommandsClick() {
                 var button = this;
-                apiClient.getCurrentUser().then(function(user) {
-                    itemContextMenu.show(getContextMenuOptions(currentItem, user, button)).then(function(result) {
-                        result.deleted ? appRouter.goHome() : result.updated && reload(self, view, params)
-                    })
-                })
+
+                apiClient.getCurrentUser().then(function (user) {
+                    itemContextMenu.show(getContextMenuOptions(currentItem, user, button)).then(function (result) {
+
+                        if (result.deleted) {
+                            appRouter.goHome();
+
+                        } else if (result.updated) {
+                            reload(self, view, params);
+                        }
+                    });
+                });
             }
 
             function onPlayerChange() {
-                renderTrackSelections(view, self, currentItem), setTrailerButtonVisibility(view, currentItem)
+                renderTrackSelections(view, self, currentItem);
+                setTrailerButtonVisibility(view, currentItem)
             }
 
             function editImages() {
-                return new Promise(function(resolve, reject) {
-                    require(["imageEditor"], function(imageEditor) {
+                return new Promise(function (resolve, reject) {
+
+                    require(['imageEditor'], function (imageEditor) {
+
                         imageEditor.show({
+
                             itemId: currentItem.Id,
                             serverId: currentItem.ServerId
-                        }).then(resolve, reject)
-                    })
-                })
+
+                        }).then(resolve, reject);
+                    });
+                });
             }
 
             function onWebSocketMessage(e, data) {
+
                 var msg = data;
-                if ("UserDataChanged" === msg.MessageType && currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
-                    var key = currentItem.UserData.Key,
-                        userData = msg.Data.UserDataList.filter(function(u) {
-                            return u.Key == key
+
+                if (msg.MessageType === "UserDataChanged") {
+
+                    if (currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
+
+                        var key = currentItem.UserData.Key;
+
+                        var userData = msg.Data.UserDataList.filter(function (u) {
+
+                            return u.Key == key;
                         })[0];
-                    userData && (currentItem.UserData = userData, reloadPlayButtons(view, currentItem), apiClient.getCurrentUser().then(function(user) {
-                        refreshImage(view, currentItem, user)
-                    }))
+
+                        if (userData) {
+
+                            currentItem.UserData = userData;
+
+                            reloadPlayButtons(view, currentItem);
+
+                            apiClient.getCurrentUser().then(function (user) {
+
+                                refreshImage(view, currentItem, user);
+                            });
+                        }
+                    }
                 }
+
             }
 
             var currentItem;
             var self = this;
             var apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
+
             view.querySelectorAll(".btnPlay");
+
             bindAll(view, ".btnPlay", "click", onPlayClick);
             bindAll(view, ".btnResume", "click", onPlayClick);
             bindAll(view, ".btnInstantMix", "click", onInstantMixClick);
@@ -2029,38 +2225,59 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             bindAll(view, ".btnCancelSeriesTimer", "click", onCancelSeriesTimerClick);
             bindAll(view, ".btnCancelTimer", "click", onCancelTimerClick);
             bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
+
             view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
             view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
+
             view.querySelector(".btnSplitVersions").addEventListener("click", function() {
                 splitVersions(self, view, apiClient, params)
             });
+
             bindAll(view, ".btnMoreCommands", "click", onMoreCommandsClick);
+
             view.querySelector(".selectSource").addEventListener("change", function() {
                 renderVideoSelections(view, self._currentPlaybackMediaSources);
                 renderAudioSelections(view, self._currentPlaybackMediaSources);
                 renderSubtitleSelections(view, self._currentPlaybackMediaSources);
             });
-            view.addEventListener("click", function(e) {
-                dom.parentWithClass(e.target, "moreScenes") ? apiClient.getCurrentUser().then(function(user) {
-                    renderScenes(view, currentItem)
-                }) : dom.parentWithClass(e.target, "morePeople") ? renderCast(view, currentItem, params.context) : dom.parentWithClass(e.target, "moreSpecials") && apiClient.getCurrentUser().then(function(user) {
-                    renderSpecials(view, currentItem, user)
-                })
+
+            view.addEventListener('click', function (e) {
+
+                if (dom.parentWithClass(e.target, 'moreScenes')) {
+                    apiClient.getCurrentUser().then(function (user) {
+                        renderScenes(view, currentItem, user);
+                    });
+                }
+                else if (dom.parentWithClass(e.target, 'morePeople')) {
+                    renderCast(view, currentItem, params.context);
+                }
+                else if (dom.parentWithClass(e.target, 'moreSpecials')) {
+                    apiClient.getCurrentUser().then(function (user) {
+                        renderSpecials(view, currentItem, user);
+                    });
+                }
             });
-            view.querySelector(".detailImageContainer").addEventListener("click", function(e) {
-                dom.parentWithClass(e.target, "itemDetailGalleryLink") && editImages().then(function() {
-                    reload(self, view, params)
-                })
+
+            view.querySelector('.detailImageContainer').addEventListener('click', function (e) {
+                var itemDetailGalleryLink = dom.parentWithClass(e.target, 'itemDetailGalleryLink');
+                if (itemDetailGalleryLink) {
+                    editImages().then(function () {
+                        reload(self, view, params);
+                    });
+                }
             });
+
             view.addEventListener("viewshow", function(e) {
                 var page = this;
                 libraryMenu.setTransparentMenu(true), e.detail.isRestored ? currentItem && (setTitle(currentItem, connectionManager.getApiClient(currentItem.ServerId)), renderTrackSelections(page, self, currentItem, true)) : reload(self, page, params), events.on(apiClient, "message", onWebSocketMessage), events.on(playbackManager, "playerchange", onPlayerChange)
             });
+
             view.addEventListener("viewbeforehide", function() {
                 events.off(apiClient, "message", onWebSocketMessage);
                 events.off(playbackManager, "playerchange", onPlayerChange);
                 libraryMenu.setTransparentMenu(false);
             });
+
             view.addEventListener("viewdestroy", function() {
                 currentItem = null;
                 self._currentPlaybackMediaSources = null;
