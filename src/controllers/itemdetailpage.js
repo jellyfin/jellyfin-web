@@ -296,18 +296,13 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function getArtistLinksHtml(artists, serverId, context) {
-
-        var html = [];
-
-        for (var i = 0, length = artists.length; i < length; i++) {
-
-            var artist = artists[i];
-
-            href = appRouter.getRouteUrl(artist, {
-                context: context,
-                itemType: "MusicArtist",
-                serverId: serverId
-            });
+        for (var html = [], i = 0, length = artists.length; i < length; i++) {
+            var artist = artists[i],
+                href = appRouter.getRouteUrl(artist, {
+                    context: context,
+                    itemType: "MusicArtist",
+                    serverId: serverId
+                });
             html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + artist.Name + "</a>")
         }
         return html = html.join(" / ")
@@ -1533,7 +1528,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             apiClient.getLiveTvPrograms({
 
                 ChannelIds: channelId,
-                UserId: Dashboard.getCurrentUserId(),
+                UserId: apiClient.getCurrentUserId(),
                 HasAired: false,
                 SortBy: "StartDate",
                 EnableTotalRecordCount: false,
