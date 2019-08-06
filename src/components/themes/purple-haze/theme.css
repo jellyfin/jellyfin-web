@@ -39,7 +39,7 @@ html {
 
 .dialog,
 html {
-    background-color: #0e0f2d
+    background-color: #230c33
 }
 
 .backgroundContainer {
@@ -59,13 +59,13 @@ html {
 }
 
 .paper-icon-button-light:hover {
-    color: #48C3C8;
+    color: rgb(12, 232, 214);
     background-color: rgba(0,164,220, .2);
     transition: 0.2s;
 }
 
 .paper-icon-button-light:focus {
-    color: #48C3C8;
+    color: #ff77f1;
 }
 
 progress {
@@ -87,41 +87,100 @@ progress::-webkit-progress-value {
 .fab,
 .raised {
     background: rgba(0, 0, 0, .5);
-    color: rgba(255, 255, 255, .87)
+    color: rgba(255, 255, 255, .87);
 }
 
 .fab:focus,
 .raised:focus {
-    background: rgba(0, 0, 0, .7)
+    background: #ff77f1
 }
 
-.button-submit {
-    background: #48C3C8;
-    color: #f8f8fe
+div[data-role=controlgroup] a.ui-btn-active {
+    background: #55828b !important;
+    color: #e1e5f2 !important
 }
 
-.button-submit:hover {
-    background: #0ce8d6;
-    color: #f8f8fe
+a[data-role=button] {
+    background: rgba(2, 43, 58, 0.521) !important;
+}
+
+#btnDeleteImage,
+.submit,
+.btnBrowse,
+.mini,
+.btnRefresh,
+.btnManual,
+.button-submit,
+.viewTabButton,
+.button-alt,
+.btnOption {
+    background: rgb(72, 195, 200);
+    color: rgb(225, 229, 242)
+}
+
+#btnResetPassword:hover,
+#btnRestart:hover,
+#btnDeleteImage:hover,
+#btnShutdown:hover,
+.button-cancel:hover,
+.fab:hover,
+.raised:hover,
+.alphaPickerButton:hover,
+.submit:hover,
+.btnBrowse:hover,
+.mini:hover,
+.btnRefresh:hover,
+.button-submit:hover,
+.viewTabButton:hover,
+.button-alt:hover,
+.btnOption:hover,
+.btnManual:hover,
+.block:hover {
+    background: rgb(12, 232, 214);
+    color: rgba(255, 255, 255, .87)
+}
+
+.button-submit:focus {
+    background: #ff77f1
+}
+
+#btnResetPassword,
+.btnForgotPassword,
+.btnCancel,
+.button-cancel {
+    background: rgba(0, 0, 0, .5);
+    color: rgba(255, 255, 255, .87);
+}
+
+.itemName {
+    color: #f1f7ee
+}
+
+.textareaLabel,
+.sectionTitle,
+.fieldDescription,
+.checkboxLabel {
+    color: #f1f7ee
 }
 
 .checkboxLabel {
     color: inherit
 }
 
+.selectLabel,
+.checkboxLabel,
 .checkboxListLabel,
 .inputLabel,
 .inputLabelUnfocused,
 .paperListLabel,
 .textareaLabelUnfocused {
-    color: #bbb;
-    color: rgba(255, 255, 255, .7)
+    color: rgb(191, 219, 247);
 }
 
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: #48C3C8
+    color: #ff77f1
 }
 
 .checkboxOutline {
@@ -238,7 +297,7 @@ progress::-webkit-progress-value {
 }
 
 .alphaPickerButton-tv:focus {
-    background: #0ce8d6;
+    background: #ff77f1;
     color: #f8f8fe !important
 }
 
@@ -285,7 +344,7 @@ progress::-webkit-progress-value {
 
 .emby-input:focus,
 .emby-textarea:focus {
-    border-color: #48C3C8
+    border-color: #ff77f1
 }
 
 .emby-select-withcolor {
@@ -300,29 +359,33 @@ progress::-webkit-progress-value {
 }
 
 .emby-select-withcolor:focus {
-    border-color: #48C3C8 !important
+    border-color: #ff77f1 !important
 }
 
 .emby-select-tv-withcolor:focus {
-    background-color: #48C3C8 !important;
+    background-color: #ff77f1 !important;
     color: #fff !important
 }
 
 .emby-checkbox:checked+span+.checkboxOutline {
-    border-color: #48C3C8
+    background-color: #030322;
+    border:2px solid rgb(72, 195, 200);
 }
 
-.emby-checkbox:focus+span+.checkboxOutline {
-    border-color: #fff;
+.emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-checked {
+    color: rgb(12, 232, 214);
 }
 
 .emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
-    border-color: #48C3C8;
+    border:2px solid #ff77f1;
 }
 
-.emby-checkbox:checked+span+.checkboxOutline,
+.emby-checkbox:focus+span+.checkboxOutline {
+    border-color: #ff77f1;
+}
+
 .itemProgressBarForeground {
-    background-color: #48C3C8
+    background-color: rgb(12, 232, 214);
 }
 
 .itemProgressBarForeground-recording {
@@ -332,7 +395,7 @@ progress::-webkit-progress-value {
 .countIndicator,
 .fullSyncIndicator,
 .playedIndicator {
-    background: #48C3C8
+    background: rgb(12, 232, 214);
 }
 
 .fullSyncIndicator {
@@ -341,12 +404,11 @@ progress::-webkit-progress-value {
 
 .mainDrawer {
     color: #f8f8fe;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, .5)
 }
 
 .drawer-open {
     background-color: #030322
-
 }
 
 .navMenuOption:hover {
@@ -359,7 +421,7 @@ progress::-webkit-progress-value {
 }
 
 .emby-button-focusscale:focus {
-    background: #48C3C8;
+    background: #8ae9c1;
     color: #f8f8fe
 }
 
@@ -377,7 +439,7 @@ progress::-webkit-progress-value {
 }
 
 .emby-tab-button.emby-button-tv:focus {
-    color: #48C3C8;
+    color: #ff77f1;
     background: 0 0
 }
 
@@ -429,7 +491,7 @@ progress::-webkit-progress-value {
 
 .guide-date-tab-button.emby-tab-button-active,
 .guide-date-tab-button:focus {
-    color: #48C3C8
+    color: #ff77f1
 }
 
 .guide-date-tab-button.emby-button-tv:focus {
@@ -470,11 +532,17 @@ progress::-webkit-progress-value {
 }
 
 .card:focus .card-focuscontent {
-    border-color: #48C3C8
+    border-color: #ff77f1
+}
+
+.layout-desktop,
+.scrollY {
+    scrollbar-width: thin;
+    scrollbar-color: #888 rgba(59, 59, 59, 0.5)
 }
 
 .layout-desktop ::-webkit-scrollbar {
-    width: 1em;
+    width: .4em;
     height: 1em
 }
 
@@ -483,7 +551,7 @@ progress::-webkit-progress-value {
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: #3b3b3b
+    background-color: rgba(59, 59, 59, 0.5)
 }
 
 ::-webkit-scrollbar-thumb:horizontal,

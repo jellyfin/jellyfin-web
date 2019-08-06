@@ -1,4 +1,4 @@
-define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "humanedate", "listViewStyle", "emby-button", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog) {
+define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "scripts/imagehelper", "humanedate", "listViewStyle", "emby-button", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper) {
     "use strict";
 
     function buttonEnabled(elem, enabled) {
@@ -622,17 +622,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             }
         },
         getClientImage: function (connection) {
-            var iconUrl = (connection.Client.toLowerCase(), connection.DeviceName.toLowerCase(), connection.AppIconUrl);
-
-            if (iconUrl) {
-                if (-1 === iconUrl.indexOf("://")) {
-                    iconUrl = ApiClient.getUrl(iconUrl);
-                }
-
-                return "<img src='" + iconUrl + "' />";
-            }
-
-            return null;
+            var iconUrl = imageHelper.getDeviceIcon(connection.DeviceName);
+            return "<img src='" + iconUrl + "' />";
         },
         getNowPlayingImageUrl: function (item) {
             if (item && item.BackdropImageTags && item.BackdropImageTags.length) {

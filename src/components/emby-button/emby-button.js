@@ -28,11 +28,6 @@ define(['browser', 'dom', 'layoutManager', 'shell', 'appRouter', 'apphost', 'css
 
         this.classList.add('emby-button');
 
-        if (browser.firefox) {
-            // a ff hack is needed for vertical alignment
-            this.classList.add('button-link-inline');
-        }
-
         if (layoutManager.tv) {
             if (this.getAttribute('data-focusscale') !== 'false') {
                 this.classList.add('emby-button-focusscale');

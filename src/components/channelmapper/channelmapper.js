@@ -28,15 +28,18 @@ define(["dialogHelper", "loading", "connectionManager", "globalize", "actionshee
         function onChannelsElementClick(e) {
             var btnMap = parentWithClass(e.target, "btnMap");
             if (btnMap) {
-                var channelId = btnMap.getAttribute("data-id"),
-                    providerChannelId = btnMap.getAttribute("data-providerid"),
-                    menuItems = currentMappingOptions.ProviderChannels.map(function(m) {
-                        return {
-                            name: m.Name,
-                            id: m.Id,
-                            selected: m.Id.toLowerCase() === providerChannelId.toLowerCase()
-                        }
-                    });
+                var channelId = btnMap.getAttribute("data-id");
+                var providerChannelId = btnMap.getAttribute("data-providerid");
+                var menuItems = currentMappingOptions.ProviderChannels.map(function(m) {
+                    return {
+                        name: m.Name,
+                        id: m.Id,
+                        selected: m.Id.toLowerCase() === providerChannelId.toLowerCase()
+                    }
+                }).sort(function (a, b) {
+                    return a.name.localeCompare(b.name);
+                });
+
                 actionsheet.show({
                     positionTo: btnMap,
                     items: menuItems

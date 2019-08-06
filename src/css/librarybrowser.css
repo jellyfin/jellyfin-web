@@ -887,10 +887,6 @@
     margin-bottom: 2.7em
 }
 
-.sectionTitleContainer {
-    margin: 1.25em 0
-}
-
 .sectionTitleButton,
 .sectionTitleIconButton {
     margin-right: 0 !important;
@@ -898,30 +894,22 @@
     vertical-align: middle
 }
 
-.sectionTitleContainer-cards {
-    margin-bottom: .1em
+.sectionTitleContainer {
+    margin: 1.25em 0;
 }
 
-.sectionTitle {
-    margin-bottom: 1em
+.sectionTitleContainer > .sectionTitle {
+    margin: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.sectionTitleContainer-cards {
+    margin-bottom: 0;
 }
 
 .sectionTitle-cards {
-    margin-left: .28em;
-    margin-bottom: 0
-}
-
-@media all and (min-width:50em) {
-    .sectionTitle-cards {
-        margin-left: .55em
-    }
-}
-
-.sectionTitleContainer>.sectionTitle {
-    margin-top: 0;
     margin-bottom: 0;
-    display: inline-block;
-    vertical-align: middle
 }
 
 .sectionTitleButton {
@@ -930,7 +918,7 @@
     flex-shrink: 0
 }
 
-.sectionTitleButton+.sectionTitleButton {
+.sectionTitleButton + .sectionTitleButton {
     margin-left: .5em !important
 }
 
@@ -972,97 +960,47 @@
 }
 
 .padded-left {
-    padding-left: 2%
+    padding-left: 3.3%;
 }
 
 .padded-right {
-    padding-right: 2%
+    padding-right: 3.3%;
 }
 
 .padded-top {
-    padding-top: 1em
+    padding-top: 1em;
 }
 
 .padded-bottom {
-    padding-bottom: 1em
+    padding-bottom: 1em;
 }
 
 .layout-tv .padded-top-focusscale {
     padding-top: 1em;
-    margin-top: -1em
+    margin-top: -1em;
 }
 
 .layout-tv .padded-bottom-focusscale {
     padding-bottom: 1em;
-    margin-bottom: -1em
+    margin-bottom: -1em;
 }
 
 @media all and (min-height:31.25em) {
     .padded-left-withalphapicker {
-        padding-left: 7.5%
+        padding-left: 7.5%;
     }
 
     .padded-right-withalphapicker {
-        padding-right: 7.5%
-    }
-}
-
-@media all and (min-width:31.25em) {
-    .padded-left {
-        padding-left: 6%
-    }
-
-    .padded-right {
-        padding-right: 6%
-    }
-}
-
-@media all and (min-width:37.5em) {
-    .padded-left {
-        padding-left: 4%
-    }
-
-    .padded-right {
-        padding-right: 4%
-    }
-}
-
-@media all and (min-width:50em) {
-    .padded-left {
-        padding-left: 3.2%
-    }
-
-    .padded-right {
-        padding-right: 3.2%
-    }
-}
-
-@media all and (min-width:64em) {
-    .padded-left {
-        padding-left: 3.3%
-    }
-
-    .padded-right {
-        padding-right: 3.3%
-    }
-}
-
-@media all and (min-width:50em) {
-    .layout-tv .padded-left-withalphapicker {
-        padding-left: 4.5%
-    }
-
-    .layout-tv .padded-right-withalphapicker {
-        padding-right: 4.5%
+        padding-right: 7.5%;
     }
 }
 
 .searchfields-icon {
-    color: #aaa
+    color: #aaaaaa;
 }
 
 .button-accent-flat {
-    color: #00a4dc !important
+    color: #00a4dc !important;
 }
 
 .clearLink {

@@ -1,5 +1,4 @@
 {
-    "Advanced": "پیشرفته",
     "All": "همه",
     "AllowMediaConversion": "اجازه تبدیل رسانه ها",
     "AllowMediaConversionHelp": "دادن یا ندادن دسترسی به ویژگی تبدیل رسانه ها",
@@ -108,7 +107,6 @@
     "TabPlaylist": "لیست پخش",
     "TabProfile": "پروفایل",
     "TabProfiles": "پروفایل ها",
-    "TabSecurity": "امنیت",
     "TabShows": "سریال ها",
     "TabSongs": "آهنگ ها",
     "TabSuggestions": "پیشنهادات",
@@ -139,5 +137,10 @@
     "Shows": "سریال ها",
     "Songs": "آهنگ ها",
     "Sync": "همگامسازی",
-    "ValueSpecialEpisodeName": "ویژه- {0}"
+    "ValueSpecialEpisodeName": "ویژه- {0}",
+    "AllEpisodes": "تمام قسمت ها",
+    "AllLanguages": "تمام زبان ها",
+    "AllLibraries": "تمام کتابخانه ها",
+    "AllowHWTranscodingHelp": "اگر فعال شود, اجازه میدهید تبدیل ( کم و زیاد کردن کیفیت ) درلحظه و توسط کارت دریافت سیگنال صورت گیرد. این کمک میکند به اینکه سرور جلیفین کمتر عمل تبدیل را انجام دهد.",
+    "AllowOnTheFlySubtitleExtraction": "اجازه میدهد در لحظه زیرنویس بازشود"
 }

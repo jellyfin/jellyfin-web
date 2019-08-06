@@ -61,15 +61,6 @@ define(["loading", "libraryMenu", "globalize", "emby-checkbox", "emby-select"], 
         }).then(callback) : callback()
     }
 
-    function getTabs() {
-        return [{
-            href: "dashboardhosting.html",
-            name: globalize.translate("TabHosting")
-        }, {
-            href: "serversecurity.html",
-            name: globalize.translate("TabSecurity")
-        }]
-    }
     return function(view, params) {
         function loadPage(page, config) {
             page.querySelector("#txtPortNumber").value = config.HttpServerPortNumber, page.querySelector("#txtPublicPort").value = config.PublicPort, page.querySelector("#txtPublicHttpsPort").value = config.PublicHttpsPort, page.querySelector("#txtLocalAddress").value = config.LocalNetworkAddresses[0] || "", page.querySelector("#txtLanNetworks").value = (config.LocalNetworkSubnets || []).join(", "), page.querySelector("#txtExternalAddressFilter").value = (config.RemoteIPFilter || []).join(", "), page.querySelector("#selectExternalAddressFilterMode").value = config.IsRemoteIPFilterBlacklist ? "blacklist" : "whitelist", page.querySelector("#chkRemoteAccess").checked = null == config.EnableRemoteAccess || config.EnableRemoteAccess;
@@ -96,10 +87,13 @@ define(["loading", "libraryMenu", "globalize", "emby-checkbox", "emby-select"], 
                     header: globalize.translate("HeaderSelectCertificatePath")
                 })
             })
-        }), view.querySelector(".dashboardHostingForm").addEventListener("submit", onSubmit), view.querySelector("#txtCertificatePath").addEventListener("change", onCertPathChange), view.addEventListener("viewshow", function(e) {
-            libraryMenu.setTabs("adminadvanced", 0, getTabs), loading.show(), ApiClient.getServerConfiguration().then(function(config) {
-                loadPage(view, config)
-            })
-        })
+        });
+
+        view.querySelector(".dashboardHostingForm").addEventListener("submit", onSubmit), view.querySelector("#txtCertificatePath").addEventListener("change", onCertPathChange), view.addEventListener("viewshow", function(e) {
+            loading.show();
+            ApiClient.getServerConfiguration().then(function(config) {
+                loadPage(view, config);
+            });
+        });
     }
 });

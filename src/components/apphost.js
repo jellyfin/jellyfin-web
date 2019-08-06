@@ -274,7 +274,9 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
 
         features.push("displaylanguage");
         features.push("otherapppromotions");
-        features.push("targetblank"); // allows users to connect to more than one server
+        features.push("displaymode");
+        features.push("targetblank");
+        // allows users to connect to more than one server
         //features.push("multiserver");
 
         if (!browser.orsay && !browser.tizen && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || cueSupported())) {
@@ -310,9 +312,11 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
 
     var deviceId;
     var deviceName;
+    var appName = "Jellyfin Web";
+    var appVersion = "10.3.6";
     var visibilityChange;
     var visibilityState;
-    var appVersion = window.dashboardVersion || "3.0";
+
     var appHost = {
         getWindowState: function () {
             return document.windowState || "Normal";
@@ -357,9 +361,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             }
 
             deviceName = getDeviceName();
-            return getDeviceId().then(function (resolvedDeviceId) {
-                deviceId = resolvedDeviceId;
-            });
+            deviceId = getDeviceId();
         },
         deviceName: function () {
             return window.NativeShell ? window.NativeShell.AppHost.deviceName() : deviceName;
@@ -368,7 +370,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             return window.NativeShell ? window.NativeShell.AppHost.deviceId() : deviceId;
         },
         appName: function () {
-            return window.NativeShell ? window.NativeShell.AppHost.appName() : "Jellyfin Web";
+            return window.NativeShell ? window.NativeShell.AppHost.appName() : appName;
         },
         appVersion: function () {
             return window.NativeShell ? window.NativeShell.AppHost.appVersion() : appVersion;
@@ -388,53 +390,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
                 var att = scalable ? "width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes" : "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no";
                 document.querySelector("meta[name=viewport]").setAttribute("content", att);
             }
-        },
-        deviceIconUrl: function () {
-            if (browser.edgeUwp) {
-                return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/windowsrt.png";
-            }
-
-            if (browser.opera || browser.operaTv) {
-                return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/opera.png";
-            }
-
-            if (browser.orsay || browser.tizen) {
-                return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/samsungtv.png";
-            }
-
-            if (browser.web0s) {
-                return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/lgtv.png";
-            }
-
-            if (browser.ps4) {
-                return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/ps4.png";
-            }
-
-            if (browser.chromecast) {
-                return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/chromecast.png";
-            }
-
-            if (browser.chrome) {
-                return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/chrome.png";
-            }
-
-            if (browser.edge) {
-                return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/edge.png";
-            }
-
-            if (browser.firefox) {
-                return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/firefox.png";
-            }
-
-            if (browser.msie) {
-                return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/internetexplorer.png";
-            }
-
-            if (browser.safari) {
-                return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/safari.png";
-            }
-
-            return "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/html5.png";
         }
     };
     var doc = self.document;

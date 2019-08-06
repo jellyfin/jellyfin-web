@@ -194,7 +194,7 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         var isChecked = !button.querySelector('i').classList.contains('recordingIcon-active');
 
         if (isChecked) {
-            context.querySelector('.recordSeriesContainer').classList.remove('hide');
+            options.parent.querySelector('.recordSeriesContainer').classList.remove('hide');
             if (!this.SeriesTimerId) {
                 var promise = this.TimerId ?
                     recordingHelper.changeRecordingToSeries(apiClient, this.TimerId, options.programId) :

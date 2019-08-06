@@ -70,7 +70,7 @@ progress[aria-valuenow]:before {
 }
 
 .adminDrawerLogo img {
-    height: 2.2em
+    height: 4em
 }
 
 div[data-role=controlgroup] a[data-role=button] {
@@ -498,4 +498,9 @@ a[data-role=button] {
 .pluginPreviewImg {
     -webkit-box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
     box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
+}
+
+.ui-bar-a{
+    text-align: center;
+    padding: 0 20px;
 }

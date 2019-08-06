@@ -41,10 +41,6 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         var windowHeight = windowSize.innerHeight;
         var windowWidth = windowSize.innerWidth;
 
-        if (windowWidth < 600 || windowHeight < 600) {
-            return null;
-        }
-
         var pos = getOffsets([options.positionTo])[0];
 
         if (options.positionY !== 'top') {
@@ -56,7 +52,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         var height = dlg.offsetHeight || 300;
         var width = dlg.offsetWidth || 160;
 
-        // Account for popup size 
+        // Account for popup size
         pos.top -= height / 2;
         pos.left -= width / 2;
 

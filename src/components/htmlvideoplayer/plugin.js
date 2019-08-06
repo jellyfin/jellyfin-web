@@ -714,12 +714,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         };
 
         self.stop = function (destroyPlayer) {
-
             var elem = self._mediaElement;
             var src = self._currentSrc;
 
             if (elem) {
-
                 if (src) {
                     elem.pause();
                 }
@@ -737,7 +735,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         };
 
         self.destroy = function () {
-
             htmlMediaHelper.destroyHlsPlayer(self);
             htmlMediaHelper.destroyFlvPlayer(self);
 
@@ -746,11 +743,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var videoElement = self._mediaElement;
 
             if (videoElement) {
-
                 self._mediaElement = null;
 
                 destroyCustomTrack(videoElement);
-
                 videoElement.removeEventListener('timeupdate', onTimeUpdate);
                 videoElement.removeEventListener('ended', onEnded);
                 videoElement.removeEventListener('volumechange', onVolumeChange);
@@ -765,9 +760,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             var dlg = videoDialog;
             if (dlg) {
-
                 videoDialog = null;
-
                 dlg.parentNode.removeChild(dlg);
             }
 
@@ -781,8 +774,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function onTimeUpdate(e) {
-
-            // Get the player position + the transcoding offset
+            // get the player position and the transcoding offset
             var time = this.currentTime;
 
             if (time && !self._timeUpdated) {
@@ -804,13 +796,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function onVolumeChange() {
-
             htmlMediaHelper.saveVolume(this.volume);
             events.trigger(self, 'volumechange');
         }
 
         function onNavigatedToOsd() {
-
             var dlg = videoDialog;
             if (dlg) {
                 dlg.classList.remove('videoPlayerContainer-withBackdrop');
@@ -819,8 +809,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 onStartedAndNavigatedToOsd();
             }
         }
-        function onStartedAndNavigatedToOsd() {
 
+        function onStartedAndNavigatedToOsd() {
             // If this causes a failure during navigation we end up in an awkward UI state
             setCurrentTrackElement(subtitleTrackIndexToSetOnPlaying);
 
@@ -830,7 +820,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function onPlaying(e) {
-
             if (!self._started) {
                 self._started = true;
                 this.removeAttribute('controls');
@@ -855,7 +844,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function onPlay(e) {
-
             events.trigger(self, 'unpause');
         }
 
@@ -865,7 +853,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             if (elem.videoWidth === 0 && elem.videoHeight === 0) {
-
                 var mediaSource = (self._currentPlayOptions || {}).mediaSource;
 
                 // Only trigger this if there is media info
@@ -875,10 +862,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     return;
                 }
             }
-
-            //if (elem.audioTracks && !elem.audioTracks.length) {
-            //    htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
-            //}
         }
 
         function onClick() {
@@ -894,7 +877,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function onError() {
-
             var errorCode = this.error ? (this.error.code || 0) : 0;
             var errorMessage = this.error ? (this.error.message || '') : '';
             console.log('Media element error: ' + errorCode.toString() + ' ' + errorMessage);
@@ -933,7 +915,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function destroyCustomTrack(videoElement) {
-
             if (self._resizeObserver) {
                 self._resizeObserver.disconnect();
                 self._resizeObserver = null;
@@ -975,18 +956,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         self.destroyCustomTrack = destroyCustomTrack;
 
         function fetchSubtitlesUwp(track, item) {
-
             return Windows.Storage.StorageFile.getFileFromPathAsync(track.Path).then(function (storageFile) {
-
                 return Windows.Storage.FileIO.readTextAsync(storageFile).then(function (text) {
                     return JSON.parse(text);
                 });
             });
-
         }
 
         function fetchSubtitles(track, item) {
-
             if (window.Windows && itemHelper.isLocalItem(item)) {
                 return fetchSubtitlesUwp(track, item);
             }
@@ -1016,7 +993,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return;
             }
 
-            // if already playing thids track, skip
+            // skip if already playing this track
             if (customTrackIndex === track.Index) {
                 return;
             }
@@ -1077,10 +1054,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function onVideoResize() {
-
             if (browser.iOS) {
-
-                // with wkwebview, the new sizes will be delayed for about 500ms
+                // the new sizes will be delayed for about 500ms with wkwebview
                 setTimeout(resetVideoRendererSize, 500);
             } else {
                 resetVideoRendererSize();
@@ -1127,7 +1102,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function renderSubtitlesWithCustomElement(videoElement, track, item) {
-
             fetchSubtitles(track, item).then(function (data) {
                 if (!videoSubtitlesElem) {
                     var subtitlesContainer = document.createElement('div');
@@ -1142,14 +1116,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function setSubtitleAppearance(elem, innerElem) {
-
             require(['userSettings', 'subtitleAppearanceHelper'], function (userSettings, subtitleAppearanceHelper) {
-
                 subtitleAppearanceHelper.applyStyles({
-
                     text: innerElem,
                     window: elem
-
                 }, userSettings.getSubtitleAppearanceSettings());
             });
         }
@@ -1206,7 +1176,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var trackElement = null;
             var expectedId = 'manualTrack' + track.Index;
 
-            var allTracks = videoElement.textTracks; // get list of tracks
+            // get list of tracks
+            var allTracks = videoElement.textTracks;
             for (var i = 0; i < allTracks.length; i++) {
 
                 var currentTrack = allTracks[i];
@@ -1379,9 +1350,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             var tracks = self._mediaElement.querySelectorAll('track');
             for (i = 0; i < tracks.length; i++) {
-
                 track = tracks[i];
-
                 track.src = replaceQueryString(track.src, 'startPositionTicks', startPositionTicks);
             }
         }
@@ -1478,9 +1447,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     });
 
                 } else {
-
                     if (options.backdropUrl) {
-
                         dlg.classList.add('videoPlayerContainer-withBackdrop');
                         dlg.style.backgroundImage = "url('" + options.backdropUrl + "')";
                     }
@@ -1492,12 +1459,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     }
 
     HtmlVideoPlayer.prototype.canPlayMediaType = function (mediaType) {
-
         return (mediaType || '').toLowerCase() === 'video';
     };
 
     HtmlVideoPlayer.prototype.supportsPlayMethod = function (playMethod, item) {
-
         if (appHost.supportsPlayMethod) {
             return appHost.supportsPlayMethod(playMethod, item);
         }
@@ -1506,7 +1471,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.getDeviceProfile = function (item, options) {
-
         var instance = this;
         return getDeviceProfileInternal(item, options).then(function (profile) {
             instance._lastProfile = profile;
@@ -1523,6 +1487,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     }
 
     var supportedFeatures;
+
     function getSupportedFeatures() {
 
         var list = [];
@@ -1530,9 +1495,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var video = document.createElement('video');
         if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function" || document.pictureInPictureEnabled) {
             list.push('PictureInPicture');
-        }
-        else if (browser.ipad) {
-
+        } else if (browser.ipad) {
             // Unfortunately this creates a false positive on devices where its' not actually supported
             if (navigator.userAgent.toLowerCase().indexOf('os 9') === -1) {
                 if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
@@ -1540,7 +1503,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 }
             }
         } else if (window.Windows) {
-
             if (Windows.UI.ViewManagement.ApplicationView.getForCurrentView().isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)) {
                 list.push('PictureInPicture');
             }
@@ -1552,7 +1514,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     }
 
     HtmlVideoPlayer.prototype.supports = function (feature) {
-
         if (!supportedFeatures) {
             supportedFeatures = getSupportedFeatures();
         }
@@ -1593,7 +1554,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.canSetAudioStreamIndex = function (index) {
-
         if (browser.tizen || browser.orsay) {
             return true;
         }
@@ -1624,8 +1584,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     document.exitPictureInPicture().catch(onPictureInPictureError);
                 }
             }
-        }
-        else if (window.Windows) {
+        } else if (window.Windows) {
 
             this.isPip = isEnabled;
             if (isEnabled) {
@@ -1634,12 +1593,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             else {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
-        }
-        else {
-            if (video) {
-                if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
-                    video.webkitSetPresentationMode(isEnabled ? "picture-in-picture" : "inline");
-                }
+        } else {
+            if (video && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
+                video.webkitSetPresentationMode(isEnabled ? "picture-in-picture" : "inline");
             }
         }
     };
@@ -1648,11 +1604,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         if (document.pictureInPictureEnabled) {
             return document.pictureInPictureElement ? true : false;
-        }
-        else if (window.Windows) {
+        } else if (window.Windows) {
             return this.isPip || false;
-        }
-        else {
+        } else {
             var video = this._mediaElement;
             if (video) {
                 return video.webkitPresentationMode === "picture-in-picture";
@@ -1667,7 +1621,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var elem = this._mediaElement;
 
         if (elem) {
-
             val = Math.max(0, val);
             val = Math.min(100, val);
 
@@ -1683,9 +1636,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.getBrightness = function () {
-
         var elem = this._mediaElement;
-
         if (elem) {
             var val = elem.brightnessValue;
             return val == null ? 100 : val;
@@ -1758,7 +1709,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     HtmlVideoPlayer.prototype.getVolume = function () {
         var mediaElement = this._mediaElement;
         if (mediaElement) {
-
             return Math.min(Math.round(mediaElement.volume * 100), 100);
         }
     };
@@ -1772,7 +1722,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.setMute = function (mute) {
-
         var mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.muted = mute;
@@ -1792,12 +1741,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.getAspectRatio = function () {
-
         return this._currentAspectRatio;
     };
 
     HtmlVideoPlayer.prototype.getSupportedAspectRatios = function () {
-
         return [];
     };
 
@@ -1808,7 +1755,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     HtmlVideoPlayer.prototype.getBufferedRanges = function () {
         var mediaElement = this._mediaElement;
         if (mediaElement) {
-
             return htmlMediaHelper.getBufferedRanges(this, mediaElement);
         }
 

@@ -1,5 +1,5 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'playbackManager', 'itemShortcuts', 'css!./card', 'paper-icon-button-light', 'programStyles'],
-    function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, playbackManager, itemShortcuts) {
+define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'playbackManager', 'itemShortcuts', 'scripts/imagehelper', 'css!./card', 'paper-icon-button-light', 'programStyles'],
+    function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, playbackManager, itemShortcuts, imageHelper) {
         'use strict';
 
         var devicePixelRatio = window.devicePixelRatio || 1;
@@ -1546,16 +1546,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         }
 
         function getCardDefaultText(item, options) {
-
-            var collectionType = item.CollectionType;
-            if (collectionType === 'livetv') {
-                return '<i class="cardImageIcon md-icon">&#xE1B2;</i>';
-            }
-            if (collectionType === 'homevideos' || collectionType === 'photos') {
-                return '<i class="cardImageIcon md-icon">&#xE412;</i>';
-            }
-            if (collectionType === 'music') {
-                return '<i class="cardImageIcon md-icon">&#xE310;</i>';
+            if (item.CollectionType) {
+                return '<i class="cardImageIcon md-icon">' + imageHelper.getLibraryIcon(item.CollectionType) + '</i>'
             }
             if (item.Type === 'MusicAlbum') {
                 return '<i class="cardImageIcon md-icon">&#xE019;</i>';

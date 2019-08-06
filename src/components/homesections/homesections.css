@@ -9,3 +9,17 @@
         width: 46% !important;
     }
 }
+
+.homeLibraryIcon {
+    margin-left: .5em;
+    margin-right: .5em;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0
+}
+
+.homeLibraryText {
+    white-space: nowrap;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    overflow: hidden
+}

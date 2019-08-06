@@ -32,6 +32,18 @@ button {
 
 .itemsContainer {
     display: flex;
+    margin-left: -0.6em;
+    margin-right: -0.6em;
+}
+
+/* TODO replace this with a proper fix */
+/* doesnt work on mobile devices */
+/* negative margin fixes annoying misalignment with cards and title */
+@media all and (max-width:50em) {
+    .itemsContainer {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 .vertical-list {
@@ -77,7 +89,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .42em;
+    margin: 0.6em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
@@ -86,24 +98,9 @@ button {
     contain: layout style;
 }
 
-/*.cardBox-withfocuscontent {
-    margin: .68em;
-}*/
-
-@media (min-width: 50em) {
-
-    .cardBox {
-        margin: .9em;
-    }
-}
-
 .cardBox-withfocuscontent-large {
     margin: .4em;
 }
-
-/*.card-focuscontent {
-    border: .12em solid transparent;
-}*/
 
 .card-focuscontent-large {
     border: .5em solid transparent;
@@ -123,7 +120,6 @@ button {
 }
 
 @media (max-width: 50em) {
-
     .cardBox-bottompadded {
         margin-bottom: 1.2em !important;
     }
@@ -213,9 +209,9 @@ button {
     font-size: inherit;
 }
 
-    .cardContent-button:not(.defaultCardBackground) {
-        background-color: transparent;
-    }
+.cardContent-button:not(.defaultCardBackground) {
+    background-color: transparent;
+}
 
 .visualCardBox .cardContent {
     border-bottom-left-radius: 0;
@@ -371,9 +367,9 @@ button {
     justify-content: center;*/
 }
 
-    .textActionButton:hover {
-        text-decoration: underline;
-    }
+.textActionButton:hover {
+    text-decoration: underline;
+}
 
 .cardImageIcon {
     font-size: 5em;

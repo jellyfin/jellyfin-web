@@ -1,4 +1,4 @@
-define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "viewManager", "libraryBrowser", "appRouter", "apphost", "playbackManager", "browser", "globalize", "paper-icon-button-light", "material-icons", "scrollStyles", "flexStyles"], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, browser, globalize) {
+define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "viewManager", "libraryBrowser", "appRouter", "apphost", "playbackManager", "browser", "globalize", "scripts/imagehelper", "paper-icon-button-light", "material-icons", "scrollStyles", "flexStyles"], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, browser, globalize, imageHelper) {
     "use strict";
 
     function getCurrentApiClient() {
@@ -268,7 +268,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }, {
             name: globalize.translate("TabDashboard"),
             href: "dashboard.html",
-            pageIds: ["dashboardPage", "serverActivityPage"],
+            pageIds: ["dashboardPage"],
             icon: "dashboard"
         }, {
             name: globalize.translate("General"),
@@ -281,15 +281,13 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             pageIds: ["userProfilesPage", "newUserPage", "editUserPage", "userLibraryAccessPage", "userParentalControlPage", "userPasswordPage"],
             icon: "people"
         }, {
-            name: globalize.translate("TabLibrary"),
+            name: globalize.translate("HeaderLibraries"),
             href: "library.html",
             pageIds: ["mediaLibraryPage", "librarySettingsPage", "libraryDisplayPage", "metadataImagesConfigurationPage", "metadataNfoPage"],
-            icon: "folder",
-            color: "#38c"
+            icon: "folder"
         }, {
             name: globalize.translate("TabPlayback"),
             icon: "play_arrow",
-            color: "#E5342E",
             href: "playbackconfiguration.html",
             pageIds: ["playbackConfigurationPage", "streamingSettingsPage"]
         }, {
@@ -310,6 +308,12 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             icon: "devices"
         });
         links.push({
+            name: globalize.translate("HeaderActivity"),
+            href: "serveractivity.html",
+            pageIds: ["serverActivityPage"],
+            icon: "assessment"
+        });
+        links.push({
             name: globalize.translate("DLNA"),
             href: "dlnasettings.html",
             pageIds: ["dlnaSettingsPage", "dlnaProfilesPage", "dlnaProfilePage"],
@@ -323,24 +327,29 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             name: globalize.translate("TabLiveTV"),
             href: "livetvstatus.html",
             pageIds: ["liveTvStatusPage", "liveTvTunerPage"],
-            icon: "tv"
+            icon: "live_tv"
         });
         links.push({
             name: globalize.translate("DVR"),
             href: "livetvsettings.html",
             pageIds: ["liveTvSettingsPage"],
-            icon: "list"
+            icon: "dvr"
         });
         links.push({
             divider: true,
-            name: globalize.translate("TabExpert")
+            name: globalize.translate("TabAdvanced")
         });
         links.push({
-            name: globalize.translate("TabAdvanced"),
-            icon: "code",
-            href: "dashboardhosting.html",
-            color: "#F16834",
-            pageIds: ["dashboardHostingPage", "serverSecurityPage"]
+            name: globalize.translate("TabNetworking"),
+            icon: "cloud",
+            href: "networking.html",
+            pageIds: ["networkingPage"]
+        });
+        links.push({
+            name: globalize.translate("HeaderApiKeys"),
+            icon: "vpn_key",
+            href: "apikeys.html",
+            pageIds: ["apiKeysPage"]
         });
         links.push({
             name: globalize.translate("TabLogs"),
@@ -351,14 +360,12 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         links.push({
             name: globalize.translate("TabNotifications"),
             icon: "notifications",
-            color: "brown",
             href: "notificationsettings.html",
             pageIds: ["notificationSettingsPage", "notificationSettingPage"]
         });
         links.push({
             name: globalize.translate("TabPlugins"),
             icon: "shopping_cart",
-            color: "#9D22B1",
             href: "installedplugins.html",
             pageIds: ["pluginsPage", "pluginCatalogPage"]
         });
@@ -436,8 +443,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     function createDashboardMenu(apiClient) {
         return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
             var html = "";
-            html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="home.html" style="text-align:left;">';
-            html += '<img src="img/logoblack.png" />';
+            html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="home.html">';
+            html += '<img src="img/logo.png" />';
             html += "</a>";
             html += toolsMenuHtml;
             navDrawerScrollContainer.innerHTML = html;
@@ -525,46 +532,11 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 html += globalize.translate("HeaderMedia");
                 html += "</h3>";
                 html += items.map(function (i) {
-                    var icon = "folder";
+                    var icon = i.icon || imageHelper.getLibraryIcon(i.CollectionType);
                     var itemId = i.Id;
-
-                    if ("channels" === i.CollectionType) {
-                        itemId = "channels";
-                    }
-                    else if ("livetv" === i.CollectionType) {
-                        itemId = "livetv";
-                    }
-
-                    else if ("photos" === i.CollectionType) {
-                        icon = "photo_library";
-                    }
-                    else if ("music" === i.CollectionType || "musicvideos" === i.CollectionType) {
-                        icon = "library_music";
-                    }
-                    else if ("books" === i.CollectionType) {
-                        icon = "library_books";
-                    }
-                    else if ("playlists" === i.CollectionType) {
-                        icon = "view_list";
-                    }
-                    else if ("movies" === i.CollectionType) {
-                        icon = "video_library";
-                    }
-                    else if ("channels" === i.CollectionType || "Channel" === i.Type) {
-                        icon = "videocam";
-                    }
-                    else if ("tvshows" === i.CollectionType) {
-                        icon = "tv";
-                    }
-                    else if ("livetv" === i.CollectionType) {
-                        icon = "live_tv";
-                    }
-                    icon = i.icon || icon;
-
                     if (i.onclick) {
                         i.onclick;
                     }
-
                     return '<a is="emby-linkbutton" data-itemid="' + itemId + '" class="lnkMediaFolder navMenuOption" href="' + getItemHref(i, i.CollectionType) + '"><i class="md-icon navMenuOptionIcon">' + icon + '</i><span class="sectionName navMenuOptionText">' + i.Name + "</span></a>";
                 }).join("");
                 libraryMenuOptions.innerHTML = html;
@@ -762,7 +734,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         return new Promise(function (resolve, reject) {
             require(["navdrawer"], function (navdrawer) {
                 navDrawerInstance = new navdrawer(getNavDrawerOptions());
-                navDrawerElement.classList.remove("hide");
+                if (!layoutManager.tv) {
+                    navDrawerElement.classList.remove("hide");
+                }
                 resolve(navDrawerInstance);
             });
         });

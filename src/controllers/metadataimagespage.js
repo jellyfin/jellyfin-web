@@ -53,11 +53,9 @@ define(["jQuery", "dom", "loading", "libraryMenu", "listViewStyle"], function($,
         }, {
             href: "metadatanfo.html",
             name: Globalize.translate("TabNfoSettings")
-        }, {
-            href: "librarysettings.html",
-            name: Globalize.translate("TabAdvanced")
         }]
     }
+
     $(document).on("pageinit", "#metadataImagesConfigurationPage", function() {
         $(".metadataImagesConfigurationForm").off("submit", onSubmit).on("submit", onSubmit)
     }).on("pageshow", "#metadataImagesConfigurationPage", function() {

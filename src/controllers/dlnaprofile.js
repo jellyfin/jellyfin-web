@@ -256,8 +256,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
                 currentType = profile.Type;
             }
 
-            html += "<li>";
-            html += '<a data-profileindex="' + i__y + '" class="lnkEditSubProfile" is="emby-linkbutton" href="#">';
+            html += "<div>";
+            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i__y + '">';
             html += "<p>" + Globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
 
             if ("Video" == profile.Type) {
@@ -270,8 +270,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<a is="emby-linkbutton" href="#" data-icon="delete" class="btnDeleteProfile" data-profileindex="' + i__y + '">Delete</a>';
-            html += "</li>";
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__y + '"><i class="md-icon">delete</i></button>';
+            html += "</div>";
         }
 
         html += "</ul>";
@@ -316,8 +316,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
                 currentType = profile.Type;
             }
 
-            html += "<li>";
-            html += '<a data-profileindex="' + i__u + '" class="lnkEditSubProfile" is="emby-linkbutton" href="#">';
+            html += "<div>";
+            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i__u + '">';
             html += "<p>Protocol: " + (profile.Protocol || "Http") + "</p>";
             html += "<p>" + Globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
 
@@ -331,8 +331,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<a is="emby-linkbutton" href="#" data-icon="delete" class="btnDeleteProfile" data-profileindex="' + i__u + '">Delete</a>';
-            html += "</li>";
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__u + '"><i class="md-icon">delete</i></button>';
+            html += "</div>";
         }
 
         html += "</ul>";
@@ -402,8 +402,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
                 currentType = profile.Type;
             }
 
-            html += "<li>";
-            html += '<a data-profileindex="' + i__i + '" class="lnkEditSubProfile" is="emby-linkbutton" href="#">';
+            html += "<div>";
+            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i__i + '">';
             html += "<p>" + Globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
 
             if (profile.Conditions && profile.Conditions.length) {
@@ -415,8 +415,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<a is="emby-linkbutton" href="#" data-icon="delete" class="btnDeleteProfile" data-profileindex="' + i__i + '">Delete</a>';
-            html += "</li>";
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__i + '"><i class="md-icon">delete</i></button>';
+            html += "</div>";
         }
 
         html += "</ul>";
@@ -474,8 +474,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
                 currentType = type;
             }
 
-            html += "<li>";
-            html += '<a data-profileindex="' + i__p + '" class="lnkEditSubProfile" is="emby-linkbutton" href="#">';
+            html += "<div>";
+            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i__p + '">';
             html += "<p>" + Globalize.translate("ValueCodec").replace("{0}", profile.Codec || allText) + "</p>";
 
             if (profile.Conditions && profile.Conditions.length) {
@@ -487,8 +487,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<a is="emby-linkbutton" href="#" data-icon="delete" class="btnDeleteProfile" data-profileindex="' + i__p + '">Delete</a>';
-            html += "</li>";
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__p + '"><i class="md-icon">delete</i></button>';
+            html += "</div>";
         }
 
         html += "</ul>";
@@ -545,8 +545,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
                 currentType = profile.Type;
             }
 
-            html += "<li>";
-            html += '<a data-profileindex="' + i__s + '" class="lnkEditSubProfile" is="emby-linkbutton" href="#">';
+            html += "<div>";
+            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i__s + '">';
             html += "<p>" + Globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
 
             if ("Video" == profile.Type) {
@@ -567,8 +567,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<a is="emby-linkbutton" href="#" data-icon="delete" class="btnDeleteProfile" data-profileindex="' + i__s + '">Delete</a>';
-            html += "</li>";
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__s + '"><i class="md-icon">delete</i></button>';
+            html += "</div>";
         }
 
         html += "</ul>";

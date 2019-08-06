@@ -299,13 +299,10 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             }
 
             // Start animation rendering
-            if (newPos !== pos.dest) {
-                pos.dest = newPos;
-
-                renderAnimateWithTransform(from, newPos, immediate);
-
-                lastAnimate = now;
-            }
+            // NOTE the dependency was modified here to fix a scrollbutton issue
+            pos.dest = newPos;
+            renderAnimateWithTransform(from, newPos, immediate);
+            lastAnimate = now;
         };
 
         function setStyleProperty(elem, name, value, speed, resetTransition) {

@@ -1190,15 +1190,13 @@ define(["events", "appStorage"], function(events, appStorage) {
             data: JSON.stringify(info),
             contentType: "application/json"
         })
-    }, ApiClient.prototype.createUser = function(name) {
+    }, ApiClient.prototype.createUser = function(user) {
         var url = this.getUrl("Users/New");
         return this.ajax({
             type: "POST",
             url: url,
-            data: {
-                Name: name
-            },
-            dataType: "json"
+            data: JSON.stringify(user),
+            contentType: "application/json"
         })
     }, ApiClient.prototype.updateUser = function(user) {
         if (!user) throw new Error("null user");

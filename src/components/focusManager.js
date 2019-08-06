@@ -40,7 +40,7 @@ define(['dom'], function (dom) {
 
         try {
             element.focus({
-                preventScroll: true
+                preventScroll: false
             });
         } catch (err) {
             console.log('Error in focusManager.autoFocus: ' + err);
