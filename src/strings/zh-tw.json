@@ -364,7 +364,7 @@
     "BookLibraryHelp": "支援有聲書和電子書。請瀏覽Jellyfin書籍命名指南。",
     "Box": "盒子",
     "BoxRear": "盒子（背面）",
-    "BurnSubtitlesHelp": "根據字幕格式決定服務器在轉換視頻時是否燒錄字幕。避免燒錄字幕會提高服務器性能。選擇“自動”以燒錄基於圖像的字幕格式（如 VOBSUB, PGS, SUB/IDX 等）和一些複雜的 ASS/SSA 字幕",
+    "BurnSubtitlesHelp": "根據字幕格式決定服務器在轉換視頻時是否燒錄字幕。避免燒錄字幕會提高服務器性能。選擇“自動”以燒錄基於圖像的字幕格式（如 VOBSUB, PGS, SUB/IDX 等）和一些複雜的 ASS/SSA 字幕。",
     "ButtonArrowDown": "下",
     "ButtonConnect": "連結",
     "ButtonDown": "下",
@@ -959,5 +959,16 @@
     "LabelCustomRating": "自訂分級：",
     "LabelDashboardTheme": "儀表板佈景主題：",
     "LabelDateAdded": "新增日期：",
-    "LabelDateAddedBehavior": "新内容加入的日期應使用："
+    "LabelDateAddedBehavior": "新内容加入的日期應使用：",
+    "LabelDateTimeLocale": "設定時區：",
+    "LabelDeathDate": "死亡時間：",
+    "LabelDefaultScreen": "預設螢幕：",
+    "LabelDefaultUser": "預設使用者：",
+    "LabelDeviceDescription": "裝置說明",
+    "LabelDidlMode": "DIDL 模式：",
+    "LabelDiscNumber": "光碟編號：",
+    "LabelDisplayLanguage": "顯示語言：",
+    "LabelDisplayLanguageHelp": "翻譯 Jellyfin 是個進行中的專案。",
+    "LabelDisplayMode": "顯示模式：",
+    "LabelDisplayName": "顯示名稱："
 }
