@@ -17,21 +17,21 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
 
     function renderUserProfiles(page, profiles) {
 
-        renderProfiles(page, page.querySelector('.customProfiles'), profiles.filter(function (p) {
-            return p.Type == 'User';
+        renderProfiles(page, page.querySelector(".customProfiles"), profiles.filter(function (p) {
+            return p.Type == "User";
         }));
     }
 
     function renderSystemProfiles(page, profiles) {
 
-        renderProfiles(page, page.querySelector('.systemProfiles'), profiles.filter(function (p) {
-            return p.Type == 'System';
+        renderProfiles(page, page.querySelector(".systemProfiles"), profiles.filter(function (p) {
+            return p.Type == "System";
         }));
     }
 
     function renderProfiles(page, element, profiles) {
 
-        var html = '';
+        var html = "";
 
         if (profiles.length) {
             html += '<div class="paperList">';
@@ -41,13 +41,9 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
 
             var profile = profiles[i];
 
-            html += '<div class="listItem">';
-
-            html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink listItemIconContainer' href='dlnaprofile.html?id=" + profile.Id + "'>";
-            html += '<i class="md-icon listItemIcon">dvr</i>';
-            html += "</a>";
-
-            html += '<div class="listItemBody">';
+            html += '<div class="listItem listItem-border">';
+            html += '<i class="listItemIcon md-icon">live_tv</i>';
+            html += '<div class="listItemBody two-line">';
             html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='dlnaprofile.html?id=" + profile.Id + "'>";
 
             html += "<div>" + profile.Name + "</div>";
@@ -55,31 +51,31 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
             html += "</a>";
             html += '</div>';
 
-            if (profile.Type == 'User') {
-                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate('ButtonDelete') + '"><i class="md-icon">delete</i></button>';
+            if (profile.Type == "User") {
+                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate("ButtonDelete") + '"><i class="md-icon">delete</i></button>';
             }
 
-            html += '</div>';
+            html += "</div>";
         }
 
         if (profiles.length) {
-            html += '</div>';
+            html += "</div>";
         }
 
         element.innerHTML = html;
 
-        $('.btnDeleteProfile', element).on('click', function () {
+        $(".btnDeleteProfile", element).on("click", function () {
 
-            var id = this.getAttribute('data-profileid');
+            var id = this.getAttribute("data-profileid");
             deleteProfile(page, id);
         });
     }
 
     function deleteProfile(page, id) {
 
-        require(['confirm'], function (confirm) {
+        require(["confirm"], function (confirm) {
 
-            confirm(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
+            confirm(globalize.translate("MessageConfirmProfileDeletion"), globalize.translate("HeaderConfirmProfileDeletion")).then(function () {
 
                 loading.show();
 
@@ -99,19 +95,19 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
 
     function getTabs() {
         return [{
-            href: 'dlnasettings.html',
-            name: globalize.translate('TabSettings')
-        },
+                href: "dlnasettings.html",
+                name: globalize.translate("TabSettings")
+            },
             {
-                href: 'dlnaprofiles.html',
-                name: globalize.translate('TabProfiles')
+                href: "dlnaprofiles.html",
+                name: globalize.translate("TabProfiles")
             }
         ];
     }
 
-    $(document).on('pageshow', "#dlnaProfilesPage", function () {
+    $(document).on("pageshow", "#dlnaProfilesPage", function () {
 
-        libraryMenu.setTabs('dlna', 1, getTabs);
+        libraryMenu.setTabs("dlna", 1, getTabs);
         var page = this;
 
         loadProfiles(page);
@@ -119,4 +115,3 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
     });
 
 });
-

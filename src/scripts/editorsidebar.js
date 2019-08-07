@@ -10,7 +10,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
             text: htmlName,
 
             state: {
-                opened: item.IsFolder && folderState == 'open',
+                opened: item.IsFolder && folderState == "open",
                 selected: selected
             },
 
@@ -22,7 +22,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
         if (item.IsFolder) {
             node.children = [{
-                text: 'Loading...',
+                text: "Loading...",
                 icon: false
             }];
             node.icon = false;
@@ -75,13 +75,13 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
             nodes.push({
 
-                id: 'MediaFolders',
-                text: Globalize.translate('HeaderMediaFolders'),
+                id: "MediaFolders",
+                text: Globalize.translate("HeaderMediaFolders"),
                 state: {
                     opened: true
                 },
                 li_attr: {
-                    itemtype: 'mediafolders',
+                    itemtype: "mediafolders",
                     loadedFromServer: true
                 },
                 icon: false
@@ -91,16 +91,16 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
                 nodes.push({
 
-                    id: 'livetv',
-                    text: Globalize.translate('HeaderLiveTV'),
+                    id: "livetv",
+                    text: Globalize.translate("HeaderLiveTV"),
                     state: {
                         opened: false
                     },
                     li_attr: {
-                        itemtype: 'livetv'
+                        itemtype: "livetv"
                     },
                     children: [{
-                        text: 'Loading...',
+                        text: "Loading...",
                         icon: false
                     }],
                     icon: false
@@ -109,7 +109,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
             callback.call(scope, nodes);
 
-            nodesToLoad.push('MediaFolders');
+            nodesToLoad.push("MediaFolders");
         });
     }
 
@@ -124,7 +124,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
             var nodes = result.Items.map(function (i) {
 
-                var state = openItems.indexOf(i.Id) == -1 ? 'closed' : 'open';
+                var state = openItems.indexOf(i.Id) == -1 ? "closed" : "open";
 
                 return getNode(i, state, false);
 
@@ -142,7 +142,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
             var nodes = result.Items.map(function (n) {
 
-                var state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
+                var state = openItems.indexOf(n.Id) == -1 ? "closed" : "open";
 
                 return getNode(n, state, false);
 
@@ -165,19 +165,19 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
         var id = node.id;
 
-        if (id == '#') {
+        if (id == "#") {
 
             loadChildrenOfRootNode(page, scope, callback);
             return;
         }
 
-        if (id == 'livetv') {
+        if (id == "livetv") {
 
             loadLiveTvChannels(id, openItems, callback);
             return;
         }
 
-        if (id == 'MediaFolders') {
+        if (id == "MediaFolders") {
 
             loadMediaFolders(page, scope, openItems, callback);
             return;
@@ -185,7 +185,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
         var query = {
             ParentId: id,
-            Fields: 'Settings',
+            Fields: "Settings",
             IsVirtualUnaired: false,
             IsMissing: false,
             EnableTotalRecordCount: false,
@@ -203,7 +203,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
             var nodes = result.Items.map(function (n) {
 
-                var state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
+                var state = openItems.indexOf(n.Id) == -1 ? "closed" : "open";
 
                 return getNode(n, state, n.Id == selectedId);
 
@@ -224,7 +224,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
     function scrollToNode(id) {
 
-        var elem = $('#' + id)[0];
+        var elem = $("#" + id)[0];
 
         if (elem) {
             elem.scrollIntoView();
@@ -233,7 +233,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
     function initializeTree(page, currentUser, openItems, selectedId) {
 
-        require(['jstree'], function () {
+        require(["jstree"], function () {
             initializeTreeInternal(page, currentUser, openItems, selectedId);
         });
     }
@@ -248,33 +248,33 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
             collectionType: node.li_attr.collectiontype
         };
 
-        if (eventData.itemType != 'livetv' && eventData.itemType != 'mediafolders') {
+        if (eventData.itemType != "livetv" && eventData.itemType != "mediafolders") {
 
             {
-                this.dispatchEvent(new CustomEvent('itemclicked', {
+                this.dispatchEvent(new CustomEvent("itemclicked", {
                     detail: eventData,
                     bubbles: true,
                     cancelable: false
                 }));
             }
 
-            document.querySelector('.editPageSidebar').classList.add('editPageSidebar-withcontent');
+            document.querySelector(".editPageSidebar").classList.add("editPageSidebar-withcontent");
 
         } else {
-            document.querySelector('.editPageSidebar').classList.remove('editPageSidebar-withcontent');
+            document.querySelector(".editPageSidebar").classList.remove("editPageSidebar-withcontent");
         }
     }
 
     function onNodeOpen(event, data) {
 
-        var page = $(this).parents('.page')[0];
+        var page = $(this).parents(".page")[0];
         var node = data.node;
 
         if (node.children && node.children) {
             loadNodesToLoad(page, node);
         }
 
-        if (node.li_attr && node.id != '#' && !node.li_attr.loadedFromServer) {
+        if (node.li_attr && node.id != "#" && !node.li_attr.loadedFromServer) {
 
             node.li_attr.loadedFromServer = true;
 
@@ -284,14 +284,14 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
     function onNodeLoad(event, data) {
 
-        var page = $(this).parents('.page')[0];
+        var page = $(this).parents(".page")[0];
         var node = data.node;
 
         if (node.children && node.children) {
             loadNodesToLoad(page, node);
         }
 
-        if (node.li_attr && node.id != '#' && !node.li_attr.loadedFromServer) {
+        if (node.li_attr && node.id != "#" && !node.li_attr.loadedFromServer) {
 
             node.li_attr.loadedFromServer = true;
 
@@ -306,7 +306,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
         $.jstree.destroy();
 
-        $('.libraryTree', page).jstree({
+        $(".libraryTree", page).jstree({
 
             "plugins": ["wholerow"],
 
@@ -319,11 +319,11 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
                 },
 
                 themes: {
-                    variant: 'large'
+                    variant: "large"
                 }
             }
 
-        }).off('select_node.jstree', onNodeSelect).on('select_node.jstree', onNodeSelect).off('open_node.jstree', onNodeOpen).on('open_node.jstree', onNodeOpen).off('load_node.jstree', onNodeLoad).on('load_node.jstree', onNodeLoad);
+        }).off("select_node.jstree", onNodeSelect).on("select_node.jstree", onNodeSelect).off("open_node.jstree", onNodeOpen).on("open_node.jstree", onNodeOpen).off("load_node.jstree", onNodeLoad).on("load_node.jstree", onNodeLoad);
     }
 
     function loadNodesToLoad(page, node) {
@@ -361,13 +361,13 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
     function updateEditorNode(page, item) {
 
-        var elem = $('#' + item.Id + '>a', page)[0];
+        var elem = $("#" + item.Id + ">a", page)[0];
 
         if (elem == null) {
             return;
         }
 
-        $('.editorNode', elem).remove();
+        $(".editorNode", elem).remove();
 
         $(elem).append(getNodeInnerHtml(item));
 
@@ -379,15 +379,15 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
         }
     }
 
-    $(document).on('itemsaved', ".metadataEditorPage", function (e, item) {
+    $(document).on("itemsaved", ".metadataEditorPage", function (e, item) {
 
         updateEditorNode(this, item);
 
-    }).on('pagebeforeshow', ".metadataEditorPage", function () {
+    }).on("pagebeforeshow", ".metadataEditorPage", function () {
 
-        require(['css!css/metadataeditor.css']);
+        require(["css!css/metadataeditor.css"]);
 
-    }).on('pagebeforeshow', ".metadataEditorPage", function () {
+    }).on("pagebeforeshow", ".metadataEditorPage", function () {
 
         var page = this;
 
@@ -412,11 +412,11 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
         });
 
-    }).on('pagebeforehide', ".metadataEditorPage", function () {
+    }).on("pagebeforehide", ".metadataEditorPage", function () {
 
         var page = this;
 
-        $('.libraryTree', page).off('select_node.jstree', onNodeSelect).off('open_node.jstree', onNodeOpen).off('load_node.jstree', onNodeLoad);
+        $(".libraryTree", page).off("select_node.jstree", onNodeSelect).off("open_node.jstree", onNodeOpen).off("load_node.jstree", onNodeLoad);
 
     });
 
@@ -434,7 +434,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
 
         var url = window.location.hash || window.location.href;
 
-        return getParameterByName('id', url);
+        return getParameterByName("id", url);
     }
 
     window.MetadataEditor = {
@@ -452,4 +452,3 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
     };
 
 });
-

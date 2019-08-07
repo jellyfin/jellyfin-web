@@ -20,7 +20,7 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                         StartIndex: 0,
                         Limit: 100
                     },
-                    view: libraryBrowser.getSavedView(key) || 'Poster'
+                    view: libraryBrowser.getSavedView(key) || "Poster"
                 };
 
                 pageData.query.ParentId = libraryMenu.getTopParentId();
@@ -55,18 +55,18 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
 
             var viewStyle = getPageData(view).view;
 
-            var itemsContainer = view.querySelector('.itemsContainer');
+            var itemsContainer = view.querySelector(".itemsContainer");
 
             if (viewStyle == "List") {
 
-                itemsContainer.classList.add('vertical-list');
-                itemsContainer.classList.remove('vertical-wrap');
+                itemsContainer.classList.add("vertical-list");
+                itemsContainer.classList.remove("vertical-wrap");
             } else {
 
-                itemsContainer.classList.remove('vertical-list');
-                itemsContainer.classList.add('vertical-wrap');
+                itemsContainer.classList.remove("vertical-list");
+                itemsContainer.classList.add("vertical-wrap");
             }
-            itemsContainer.innerHTML = '';
+            itemsContainer.innerHTML = "";
         }
 
         function reloadItems() {
@@ -84,10 +84,10 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
 
                 window.scrollTo(0, 0);
 
-                var html = '';
+                var html = "";
                 var viewStyle = getPageData(view).view;
 
-                view.querySelector('.listTopPaging').innerHTML = libraryBrowser.getQueryPagingHtml({
+                view.querySelector(".listTopPaging").innerHTML = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -95,7 +95,7 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                     showLimit: false,
                     updatePageSizeSetting: false,
                     addLayoutButton: true,
-                    layouts: 'List,Poster,PosterCard,Thumb,ThumbCard',
+                    layouts: "List,Poster,PosterCard,Thumb,ThumbCard",
                     currentLayout: viewStyle
 
                 });
@@ -144,36 +144,36 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                         });
                     }
 
-                    view.querySelector('.noItemsMessage').classList.add('hide');
+                    view.querySelector(".noItemsMessage").classList.add("hide");
 
                 } else {
 
-                    view.querySelector('.noItemsMessage').classList.remove('hide');
+                    view.querySelector(".noItemsMessage").classList.remove("hide");
                 }
 
-                var elem = view.querySelector('.itemsContainer');
+                var elem = view.querySelector(".itemsContainer");
                 elem.innerHTML = html;
                 imageLoader.lazyChildren(elem);
 
-                var btnNextPage = view.querySelector('.btnNextPage');
+                var btnNextPage = view.querySelector(".btnNextPage");
                 if (btnNextPage) {
-                    btnNextPage.addEventListener('click', function () {
+                    btnNextPage.addEventListener("click", function () {
                         query.StartIndex += query.Limit;
                         reloadItems();
                     });
                 }
 
-                var btnPreviousPage = view.querySelector('.btnPreviousPage');
+                var btnPreviousPage = view.querySelector(".btnPreviousPage");
                 if (btnPreviousPage) {
-                    btnPreviousPage.addEventListener('click', function () {
+                    btnPreviousPage.addEventListener("click", function () {
                         query.StartIndex -= query.Limit;
                         reloadItems();
                     });
                 }
 
-                var btnChangeLayout = view.querySelector('.btnChangeLayout');
+                var btnChangeLayout = view.querySelector(".btnChangeLayout");
                 if (btnChangeLayout) {
-                    btnChangeLayout.addEventListener('layoutchange', function (e) {
+                    btnChangeLayout.addEventListener("layoutchange", function (e) {
                         var layout = e.detail.viewStyle;
                         getPageData(view).view = layout;
                         libraryBrowser.saveViewSetting(getSavedQueryKey(view), layout);
@@ -188,13 +188,13 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
             });
         }
 
-        view.addEventListener('viewbeforeshow', function () {
+        view.addEventListener("viewbeforeshow", function () {
             reloadItems();
         });
 
-        view.querySelector('.btnNewPlaylist').addEventListener('click', function () {
+        view.querySelector(".btnNewPlaylist").addEventListener("click", function () {
 
-            require(['playlistEditor'], function (playlistEditor) {
+            require(["playlistEditor"], function (playlistEditor) {
 
                 var serverId = ApiClient.serverInfo().Id;
                 new playlistEditor().show({
@@ -208,4 +208,3 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
 
     };
 });
-

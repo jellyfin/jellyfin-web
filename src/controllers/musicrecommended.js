@@ -1,4 +1,4 @@
-define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "cardBuilder", "dom", "apphost", "imageLoader", "libraryMenu", "playbackManager", "mainTabsManager", "scrollStyles", "emby-itemscontainer", "emby-tabs", "emby-button", "flexStyles"], function(browser, layoutManager, userSettings, inputManager, loading, cardBuilder, dom, appHost, imageLoader, libraryMenu, playbackManager, mainTabsManager) {
+define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "cardBuilder", "dom", "apphost", "imageLoader", "libraryMenu", "playbackManager", "mainTabsManager", "scrollStyles", "emby-itemscontainer", "emby-tabs", "emby-button", "flexStyles"], function (browser, layoutManager, userSettings, inputManager, loading, cardBuilder, dom, appHost, imageLoader, libraryMenu, playbackManager, mainTabsManager) {
     "use strict";
 
     function itemsPerRow() {
@@ -32,11 +32,11 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
             EnableTotalRecordCount: false
         };
 
-        ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
+        ApiClient.getJSON(ApiClient.getUrl("Users/" + userId + "/Items/Latest", options)).then(function (items) {
 
-            var elem = page.querySelector('#recentlyAddedSongs');
+            var elem = page.querySelector("#recentlyAddedSongs");
 
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
+            var supportsImageAnalysis = appHost.supports("imageanalysis");
             supportsImageAnalysis = false;
 
             elem.innerHTML = cardBuilder.getCardsHtml({
@@ -80,17 +80,17 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
 
         ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
 
-            var elem = page.querySelector('#recentlyPlayed');
+            var elem = page.querySelector("#recentlyPlayed");
 
             if (result.Items.length) {
-                elem.classList.remove('hide');
+                elem.classList.remove("hide");
             } else {
-                elem.classList.add('hide');
+                elem.classList.add("hide");
             }
 
-            var itemsContainer = elem.querySelector('.itemsContainer');
+            var itemsContainer = elem.querySelector(".itemsContainer");
 
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
+            var supportsImageAnalysis = appHost.supports("imageanalysis");
             supportsImageAnalysis = false;
 
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
@@ -99,7 +99,7 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                 shape: getSquareShape(),
                 showTitle: true,
                 showParentTitle: true,
-                action: 'instantmix',
+                action: "instantmix",
                 lazy: true,
                 centerText: !supportsImageAnalysis,
                 overlayMoreButton: !supportsImageAnalysis,
@@ -133,17 +133,17 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
 
         ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
 
-            var elem = page.querySelector('#topPlayed');
+            var elem = page.querySelector("#topPlayed");
 
             if (result.Items.length) {
-                elem.classList.remove('hide');
+                elem.classList.remove("hide");
             } else {
-                elem.classList.add('hide');
+                elem.classList.add("hide");
             }
 
-            var itemsContainer = elem.querySelector('.itemsContainer');
+            var itemsContainer = elem.querySelector(".itemsContainer");
 
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
+            var supportsImageAnalysis = appHost.supports("imageanalysis");
             supportsImageAnalysis = false;
 
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
@@ -152,7 +152,7 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                 shape: getSquareShape(),
                 showTitle: true,
                 showParentTitle: true,
-                action: 'instantmix',
+                action: "instantmix",
                 lazy: true,
                 centerText: !supportsImageAnalysis,
                 overlayMoreButton: !supportsImageAnalysis,
@@ -169,14 +169,14 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
 
     function loadSuggestionsTab(page, tabContent, parentId) {
 
-        console.log('loadSuggestionsTab');
+        console.log("loadSuggestionsTab");
         loadLatest(tabContent, parentId);
         loadRecentlyPlayed(tabContent, parentId);
         loadFrequentlyPlayed(tabContent, parentId);
 
-        require(['components/favoriteitems'], function (favoriteItems) {
+        require(["components/favoriteitems"], function (favoriteItems) {
 
-            favoriteItems.render(tabContent, ApiClient.getCurrentUserId(), parentId, ['favoriteArtists', 'favoriteAlbums', 'favoriteSongs']);
+            favoriteItems.render(tabContent, ApiClient.getCurrentUserId(), parentId, ["favoriteArtists", "favoriteAlbums", "favoriteSongs"]);
 
         });
     }
@@ -220,7 +220,7 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                 return 0
         }
     }
-    return function(view, params) {
+    return function (view, params) {
         function reload() {
             loading.show();
             var tabContent = view.querySelector(".pageTabContent[data-index='0']");
@@ -275,7 +275,7 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                 case 7:
                     depends.push("scripts/searchtab")
             }
-            require(depends, function(controllerFactory) {
+            require(depends, function (controllerFactory) {
                 var tabContent;
                 if (index == 0) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
@@ -287,10 +287,9 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
 
                     if (index === 0) {
                         controller = self;
-                    }
-                    else if (index === 7) {
+                    } else if (index === 7) {
                         controller = new controllerFactory(view, tabContent, {
-                            collectionType: 'music',
+                            collectionType: "music",
                             parentId: params.topParentId
                         });
                     } else {
@@ -298,9 +297,9 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                     }
 
                     if (index == 2) {
-                        controller.mode = 'albumartists';
+                        controller.mode = "albumartists";
                     } else if (index == 3) {
-                        controller.mode = 'artists';
+                        controller.mode = "artists";
                     }
 
                     tabControllers[index] = controller;
@@ -352,42 +351,41 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
 
             var tabContent = view.querySelector(".pageTabContent[data-index='0']");
 
-            var containers = tabContent.querySelectorAll('.itemsContainer');
+            var containers = tabContent.querySelectorAll(".itemsContainer");
             for (var i = 0, length = containers.length; i < length; i++) {
-                setScrollClasses(containers[i], enableScrollX()
-                )
+                setScrollClasses(containers[i], enableScrollX())
             }
         };
 
-        self.renderTab = function() {
+        self.renderTab = function () {
             reload()
         };
         var tabControllers = [],
             renderedTabs = [];
-        view.addEventListener("viewshow", function(e) {
-            if (isViewRestored = e.detail.isRestored, initTabs(), !view.getAttribute("data-title")) {
-                var parentId = params.topParentId;
-                if (parentId) {
+        view.addEventListener("viewshow", function (e) {
+                if (isViewRestored = e.detail.isRestored, initTabs(), !view.getAttribute("data-title")) {
+                    var parentId = params.topParentId;
+                    if (parentId) {
 
-                    ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
+                        ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
 
-                        view.setAttribute('data-title', item.Name);
-                        libraryMenu.setTitle(item.Name);
-                    });
-                } else {
-                    view.setAttribute('data-title', Globalize.translate('TabMusic'));
-                    libraryMenu.setTitle(Globalize.translate('TabMusic'));
+                            view.setAttribute("data-title", item.Name);
+                            libraryMenu.setTitle(item.Name);
+                        });
+                    } else {
+                        view.setAttribute("data-title", Globalize.translate("TabMusic"));
+                        libraryMenu.setTitle(Globalize.translate("TabMusic"));
+                    }
                 }
-            }
-            inputManager.on(window, onInputCommand)
-        }),
+                inputManager.on(window, onInputCommand)
+            }),
 
-            view.addEventListener("viewbeforehide", function(e) {
+            view.addEventListener("viewbeforehide", function (e) {
                 inputManager.off(window, onInputCommand)
             }),
 
-            view.addEventListener("viewdestroy", function(e) {
-                tabControllers.forEach(function(t) {
+            view.addEventListener("viewdestroy", function (e) {
+                tabControllers.forEach(function (t) {
                     t.destroy && t.destroy()
                 })
             })

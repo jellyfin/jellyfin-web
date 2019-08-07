@@ -1,12 +1,12 @@
-define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize, dom) {
+define(["jQuery", "loading", "globalize", "dom"], function ($, loading, globalize, dom) {
     "use strict";
 
     function loadPage(page, config, systemInfo) {
-        Array.prototype.forEach.call(page.querySelectorAll(".chkDecodeCodec"), function(c) {
+        Array.prototype.forEach.call(page.querySelectorAll(".chkDecodeCodec"), function (c) {
             c.checked = -1 !== (config.HardwareDecodingCodecs || []).indexOf(c.getAttribute("data-codec"))
         });
 
-        page.querySelector('#chkEnableThrottle').checked = config.EnableThrottling;
+        page.querySelector("#chkEnableThrottle").checked = config.EnableThrottling;
         page.querySelector("#chkHardwareEncoding").checked = config.EnableHardwareEncoding;
 
         $("#selectVideoDecoder", page).val(config.HardwareAccelerationType);
@@ -20,7 +20,7 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
         page.querySelector("#txtH264Crf").value = config.H264Crf || "";
         page.querySelector("#chkEnableSubtitleExtraction").checked = config.EnableSubtitleExtraction || false;
 
-        page.querySelector('#selectVideoDecoder').dispatchEvent(new CustomEvent('change', {
+        page.querySelector("#selectVideoDecoder").dispatchEvent(new CustomEvent("change", {
             bubbles: true
         }));
 
@@ -31,11 +31,11 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
 
         loading.hide();
 
-        var msg = '';
+        var msg = "";
 
-        msg = globalize.translate('FFmpegSavePathNotFound');
+        msg = globalize.translate("FFmpegSavePathNotFound");
 
-        require(['alert'], function (alert) {
+        require(["alert"], function (alert) {
             alert(msg);
         });
     }
@@ -45,10 +45,10 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
         return ApiClient.getSystemInfo().then(function (systemInfo) {
 
             return ApiClient.ajax({
-                url: ApiClient.getUrl('System/MediaEncoder/Path'),
-                type: 'POST',
+                url: ApiClient.getUrl("System/MediaEncoder/Path"),
+                type: "POST",
                 data: {
-                    Path: form.querySelector('.txtEncoderPath').value,
+                    Path: form.querySelector(".txtEncoderPath").value,
                     PathType: "Custom"
                 }
             }).then(Dashboard.processServerConfigurationUpdateResult, onSaveEncodingPathFailure);
@@ -64,23 +64,23 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
 
             ApiClient.getNamedConfiguration("encoding").then(function (config) {
 
-                config.DownMixAudioBoost = $('#txtDownMixAudioBoost', form).val();
-                config.TranscodingTempPath = $('#txtTranscodingTempPath', form).val();
-                config.EncodingThreadCount = $('#selectThreadCount', form).val();
-                config.HardwareAccelerationType = $('#selectVideoDecoder', form).val();
-                config.VaapiDevice = $('#txtVaapiDevice', form).val();
+                config.DownMixAudioBoost = $("#txtDownMixAudioBoost", form).val();
+                config.TranscodingTempPath = $("#txtTranscodingTempPath", form).val();
+                config.EncodingThreadCount = $("#selectThreadCount", form).val();
+                config.HardwareAccelerationType = $("#selectVideoDecoder", form).val();
+                config.VaapiDevice = $("#txtVaapiDevice", form).val();
 
-                config.H264Preset = form.querySelector('#selectH264Preset').value;
-                config.H264Crf = parseInt(form.querySelector('#txtH264Crf').value || '0');
+                config.H264Preset = form.querySelector("#selectH264Preset").value;
+                config.H264Crf = parseInt(form.querySelector("#txtH264Crf").value || "0");
 
                 config.EnableSubtitleExtraction = form.querySelector("#chkEnableSubtitleExtraction").checked,
-                    config.HardwareDecodingCodecs = Array.prototype.map.call(Array.prototype.filter.call(form.querySelectorAll(".chkDecodeCodec"), function(c) {
+                    config.HardwareDecodingCodecs = Array.prototype.map.call(Array.prototype.filter.call(form.querySelectorAll(".chkDecodeCodec"), function (c) {
                         return c.checked
-                    }), function(c) {
+                    }), function (c) {
                         return c.getAttribute("data-codec")
                     }),
-                config.EnableHardwareEncoding = form.querySelector('#chkHardwareEncoding').checked;
-                config.EnableThrottling = form.querySelector('#chkEnableThrottle').checked;
+                    config.EnableHardwareEncoding = form.querySelector("#chkHardwareEncoding").checked;
+                config.EnableThrottling = form.querySelector("#chkEnableThrottle").checked;
 
                 ApiClient.updateNamedConfiguration("encoding", config).then(function () {
 
@@ -89,12 +89,12 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
             });
         };
 
-        if ($('#selectVideoDecoder', form).val()) {
+        if ($("#selectVideoDecoder", form).val()) {
 
-            require(['alert'], function (alert) {
+            require(["alert"], function (alert) {
                 alert({
-                    title: globalize.translate('TitleHardwareAcceleration'),
-                    text: globalize.translate('HardwareAccelerationWarning')
+                    title: globalize.translate("TitleHardwareAcceleration"),
+                    text: globalize.translate("HardwareAccelerationWarning")
                 }).then(onDecoderConfirmed);
             });
 
@@ -109,40 +109,40 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
     function setDecodingCodecsVisible(context, value) {
         value = value || "";
         var any;
-        Array.prototype.forEach.call(context.querySelectorAll(".chkDecodeCodec"), function(c) {
+        Array.prototype.forEach.call(context.querySelectorAll(".chkDecodeCodec"), function (c) {
             -1 === c.getAttribute("data-types").split(",").indexOf(value) ? dom.parentWithTag(c, "LABEL").classList.add("hide") : (dom.parentWithTag(c, "LABEL").classList.remove("hide"), any = !0)
         }), any ? context.querySelector(".decodingCodecsList").classList.remove("hide") : context.querySelector(".decodingCodecsList").classList.add("hide")
     }
 
-    $(document).on('pageinit', "#encodingSettingsPage", function () {
+    $(document).on("pageinit", "#encodingSettingsPage", function () {
 
         var page = this;
 
-        page.querySelector('#selectVideoDecoder').addEventListener('change', function () {
+        page.querySelector("#selectVideoDecoder").addEventListener("change", function () {
 
-            if (this.value == 'vaapi') {
+            if (this.value == "vaapi") {
 
-                page.querySelector('.fldVaapiDevice').classList.remove('hide');
-                page.querySelector('#txtVaapiDevice').setAttribute('required', 'required');
+                page.querySelector(".fldVaapiDevice").classList.remove("hide");
+                page.querySelector("#txtVaapiDevice").setAttribute("required", "required");
 
             } else {
-                page.querySelector('.fldVaapiDevice').classList.add('hide');
-                page.querySelector('#txtVaapiDevice').removeAttribute('required');
+                page.querySelector(".fldVaapiDevice").classList.add("hide");
+                page.querySelector("#txtVaapiDevice").removeAttribute("required");
             }
 
             if (this.value) {
-                page.querySelector('.hardwareAccelerationOptions').classList.remove('hide');
+                page.querySelector(".hardwareAccelerationOptions").classList.remove("hide");
             } else {
-                page.querySelector('.hardwareAccelerationOptions').classList.add('hide');
+                page.querySelector(".hardwareAccelerationOptions").classList.add("hide");
             }
 
             setDecodingCodecsVisible(page, this.value)
 
         });
 
-        $('#btnSelectEncoderPath', page).on("click.selectDirectory", function () {
+        $("#btnSelectEncoderPath", page).on("click.selectDirectory", function () {
 
-            require(['directorybrowser'], function (directoryBrowser) {
+            require(["directorybrowser"], function (directoryBrowser) {
 
                 var picker = new directoryBrowser();
 
@@ -152,7 +152,7 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
                     callback: function (path) {
 
                         if (path) {
-                            $('.txtEncoderPath', page).val(path);
+                            $(".txtEncoderPath", page).val(path);
                         }
                         picker.close();
                     }
@@ -160,9 +160,9 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
             });
         });
 
-        $('#btnSelectTranscodingTempPath', page).on("click.selectDirectory", function () {
+        $("#btnSelectTranscodingTempPath", page).on("click.selectDirectory", function () {
 
-            require(['directorybrowser'], function (directoryBrowser) {
+            require(["directorybrowser"], function (directoryBrowser) {
 
                 var picker = new directoryBrowser();
 
@@ -171,23 +171,23 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
                     callback: function (path) {
 
                         if (path) {
-                            $('#txtTranscodingTempPath', page).val(path);
+                            $("#txtTranscodingTempPath", page).val(path);
                         }
                         picker.close();
                     },
                     validateWriteable: true,
 
-                    header: globalize.translate('HeaderSelectTranscodingPath'),
+                    header: globalize.translate("HeaderSelectTranscodingPath"),
 
-                    instruction: globalize.translate('HeaderSelectTranscodingPathHelp')
+                    instruction: globalize.translate("HeaderSelectTranscodingPathHelp")
                 });
             });
         });
 
-        $('.encodingSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
+        $(".encodingSettingsForm").off("submit", onSubmit).on("submit", onSubmit);
 
 
-    }).on('pageshow', "#encodingSettingsPage", function () {
+    }).on("pageshow", "#encodingSettingsPage", function () {
 
         loading.show();
 

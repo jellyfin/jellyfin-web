@@ -1,21 +1,21 @@
-(function() {
+(function () {
 
     "use strict";
 
     function loadRequire() {
 
-        var script = document.createElement('script');
+        var script = document.createElement("script");
 
         var src;
 
         if (self.Promise) {
-            src = './bower_components/alameda/alameda.js';
+            src = "./bower_components/alameda/alameda.js";
         } else {
-            src = './bower_components/requirejs/require.js';
+            src = "./bower_components/requirejs/require.js";
         }
 
         if (self.dashboardVersion) {
-            src += '?v=' + self.dashboardVersion;
+            src += "?v=" + self.dashboardVersion;
         }
 
         script.src = src;
@@ -27,12 +27,12 @@
 
     function loadApp() {
 
-        var script = document.createElement('script');
+        var script = document.createElement("script");
 
-        var src = './scripts/site.js';
+        var src = "./scripts/site.js";
 
         if (self.dashboardVersion) {
-            src += '?v=' + self.dashboardVersion;
+            src += "?v=" + self.dashboardVersion;
         }
 
         script.src = src;

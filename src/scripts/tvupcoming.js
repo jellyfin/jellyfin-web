@@ -1,4 +1,4 @@
-define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder", "apphost", "imageLoader", "scrollStyles", "emby-itemscontainer"], function(layoutManager, loading, datetime, libraryBrowser, cardBuilder, appHost, imageLoader) {
+define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder", "apphost", "imageLoader", "scrollStyles", "emby-itemscontainer"], function (layoutManager, loading, datetime, libraryBrowser, cardBuilder, appHost, imageLoader) {
     "use strict";
 
     function getUpcomingPromise(context, params) {
@@ -27,12 +27,12 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
             var items = result.Items;
 
             if (items.length) {
-                context.querySelector('.noItemsMessage').style.display = 'none';
+                context.querySelector(".noItemsMessage").style.display = "none";
             } else {
-                context.querySelector('.noItemsMessage').style.display = 'block';
+                context.querySelector(".noItemsMessage").style.display = "block";
             }
 
-            var elem = context.querySelector('#upcomingItems');
+            var elem = context.querySelector("#upcomingItems");
             renderUpcoming(elem, items);
 
             loading.hide();
@@ -51,7 +51,7 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
 
         var groups = [];
 
-        var currentGroupName = '';
+        var currentGroupName = "";
         var currentGroup = [];
 
         var i, length;
@@ -60,7 +60,7 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
 
             var item = items[i];
 
-            var dateText = '';
+            var dateText = "";
 
             if (item.PremiereDate) {
                 try {
@@ -68,17 +68,16 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
                     var premiereDate = datetime.parseISO8601Date(item.PremiereDate, true);
 
                     if (datetime.isRelativeDay(premiereDate, -1)) {
-                        dateText = Globalize.translate('Yesterday');
+                        dateText = Globalize.translate("Yesterday");
                     } else {
                         dateText = datetime.toLocaleDateString(premiereDate, {
-                            weekday: 'long',
-                            month: 'short',
-                            day: 'numeric'
+                            weekday: "long",
+                            month: "short",
+                            day: "numeric"
                         });
                     }
 
-                } catch (err) {
-                }
+                } catch (err) {}
             }
 
             if (dateText != currentGroupName) {
@@ -97,25 +96,26 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
             }
         }
 
-        var html = '';
+        var html = "";
 
         for (i = 0, length = groups.length; i < length; i++) {
 
             var group = groups[i];
 
             html += '<div class="verticalSection">';
-            html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + '</h2>';
+            html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + "</h2>";
 
             var allowBottomPadding = true;
 
             if (enableScrollX()) {
                 allowBottomPadding = false;
-                html += '<div is="emby-itemscontainer" class="itemsContainer hiddenScrollX padded-left padded-right">';
+                var scrollXClass = "scrollX hiddenScrollX";
+                html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">'
             } else {
                 html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
             }
 
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
+            var supportsImageAnalysis = appHost.supports("imageanalysis");
             supportsImageAnalysis = false;
 
             html += cardBuilder.getCardsHtml({
@@ -135,9 +135,9 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
                 missingIndicator: false
 
             });
-            html += '</div>';
+            html += "</div>";
 
-            html += '</div>';
+            html += "</div>";
         }
 
         elem.innerHTML = html;

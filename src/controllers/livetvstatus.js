@@ -1,22 +1,22 @@
-define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layoutManager", "loading", "listViewStyle", "flexStyles", "emby-itemscontainer", "cardStyle", "material-icons", "emby-button"], function($, globalize, taskButton, dom, libraryMenu, layoutManager, loading) {
+define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layoutManager", "loading", "listViewStyle", "flexStyles", "emby-itemscontainer", "cardStyle", "material-icons", "emby-button"], function ($, globalize, taskButton, dom, libraryMenu, layoutManager, loading) {
     "use strict";
 
     function getDeviceHtml(device) {
 
-        var html = '';
+        var html = "";
         var cssClass = "card scalableCard";
-        var cardBoxCssClass = 'cardBox visualCardBox';
+        var cardBoxCssClass = "cardBox visualCardBox";
         var padderClass;
 
         cssClass += " backdropCard backdropCard-scalable";
-        padderClass = 'cardPadder-backdrop';
+        padderClass = "cardPadder-backdrop";
 
         if (layoutManager.tv) {
-            cssClass += ' card-focusscale';
-            cardBoxCssClass += ' cardBox-focustransform';
+            cssClass += " card-focusscale";
+            cardBoxCssClass += " cardBox-focustransform";
         }
 
-        cardBoxCssClass += ' card-focuscontent';
+        cardBoxCssClass += " card-focuscontent";
 
         html += '<div type="button" class="' + cssClass + '" data-id="' + device.Id + '">';
         html += '<div class="' + cardBoxCssClass + '">';
@@ -27,45 +27,45 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
         html += '<div class="cardImageContainer coveredImage"><i class="cardImageIcon md-icon">dvr</i></div>';
 
-        html += '</div>';
-        html += '</div>';
+        html += "</div>";
+        html += "</div>";
 
         html += '<div class="cardFooter visualCardBox-cardFooter">';
 
         html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions autoSize" data-action="menu"><i class="md-icon">more_vert</i></button>';
 
-        html += '<div class="cardText">' + (device.FriendlyName || device.Type) + '</div>';
+        html += '<div class="cardText">' + (device.FriendlyName || device.Type) + "</div>";
 
         html += '<div class="cardText cardText-secondary">';
-        html += device.Url || '&nbsp;';
-        html += '</div>';
+        html += device.Url || "&nbsp;";
+        html += "</div>";
 
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
+        html += "</div>";
+        html += "</div>";
+        html += "</div>";
         return html;
     }
 
     function renderDevices(page, devices) {
 
-        var html = devices.map(getDeviceHtml).join('');
+        var html = devices.map(getDeviceHtml).join("");
 
-        page.querySelector('.devicesList').innerHTML = html;
+        page.querySelector(".devicesList").innerHTML = html;
     }
 
     function deleteDevice(page, id) {
 
-        var message = globalize.translate('MessageConfirmDeleteTunerDevice');
+        var message = globalize.translate("MessageConfirmDeleteTunerDevice");
 
-        require(['confirm'], function (confirm) {
+        require(["confirm"], function (confirm) {
 
-            confirm(message, globalize.translate('HeaderDeleteDevice')).then(function () {
+            confirm(message, globalize.translate("HeaderDeleteDevice")).then(function () {
 
                 loading.show();
 
                 ApiClient.ajax({
                     type: "DELETE",
-                    url: ApiClient.getUrl('LiveTv/TunerHosts', {
+                    url: ApiClient.getUrl("LiveTv/TunerHosts", {
                         Id: id
                     })
 
@@ -81,25 +81,25 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
         loading.show();
 
-        ApiClient.getNamedConfiguration("livetv").then(function(config) {
-            renderDevices(page, config.TunerHosts);
-            renderProviders(page, config.ListingProviders)
-        }),
+        ApiClient.getNamedConfiguration("livetv").then(function (config) {
+                renderDevices(page, config.TunerHosts);
+                renderProviders(page, config.ListingProviders)
+            }),
 
             loading.hide()
     }
 
     function submitAddDeviceForm(page) {
 
-        page.querySelector('.dlgAddDevice').close();
+        page.querySelector(".dlgAddDevice").close();
         loading.show();
 
         ApiClient.ajax({
             type: "POST",
-            url: ApiClient.getUrl('LiveTv/TunerHosts'),
+            url: ApiClient.getUrl("LiveTv/TunerHosts"),
             data: JSON.stringify({
-                Type: $('#selectTunerDeviceType', page).val(),
-                Url: $('#txtDevicePath', page).val()
+                Type: $("#selectTunerDeviceType", page).val(),
+                Url: $("#txtDevicePath", page).val()
             }),
             contentType: "application/json"
 
@@ -109,7 +109,7 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
         }, function () {
             Dashboard.alert({
-                message: globalize.translate('ErrorAddingTunerDevice')
+                message: globalize.translate("ErrorAddingTunerDevice")
             });
         });
 
@@ -117,7 +117,7 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
     function renderProviders(page, providers) {
 
-        var html = '';
+        var html = "";
 
         if (providers.length) {
             html += '<div class="paperList">';
@@ -131,29 +131,29 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
                 html += '<div class="listItemBody two-line">';
 
-                html += '<a is="emby-linkbutton" style="display:block;padding:0;margin:0;text-align:left;" class="clearLink" href="' + getProviderConfigurationUrl(provider.Type) + '&id=' + provider.Id + '">';
+                html += '<a is="emby-linkbutton" style="display:block;padding:0;margin:0;text-align:left;" class="clearLink" href="' + getProviderConfigurationUrl(provider.Type) + "&id=" + provider.Id + '">';
 
                 html += '<h3 class="listItemBodyText">';
                 html += getProviderName(provider.Type);
-                html += '</h3>';
+                html += "</h3>";
                 html += '<div class="listItemBodyText secondary">';
                 html += provider.Path || provider.ListingsId || "";
-                html += '</div>'
+                html += "</div>"
 
-                html += '</a>';
-                html += '</div>';
+                html += "</a>";
+                html += "</div>";
                 html += '<button type="button" is="paper-icon-button-light" class="btnOptions" data-id="' + provider.Id + '"><i class="md-icon">more_vert</i></button>';
-                html += '</div>';
+                html += "</div>";
             }
 
-            html += '</div>';
+            html += "</div>";
         }
 
-        var elem = $('.providerList', page).html(html);
+        var elem = $(".providerList", page).html(html);
 
-        $('.btnOptions', elem).on('click', function () {
+        $(".btnOptions", elem).on("click", function () {
 
-            var id = this.getAttribute('data-id');
+            var id = this.getAttribute("data-id");
 
             showProviderOptions(page, id, this);
         });
@@ -164,16 +164,16 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         var items = [];
 
         items.push({
-            name: globalize.translate('ButtonDelete'),
-            id: 'delete'
+            name: globalize.translate("ButtonDelete"),
+            id: "delete"
         });
 
         items.push({
-            name: globalize.translate('MapChannels'),
-            id: 'map'
+            name: globalize.translate("MapChannels"),
+            id: "map"
         });
 
-        require(['actionsheet'], function (actionsheet) {
+        require(["actionsheet"], function (actionsheet) {
 
             actionsheet.show({
                 items: items,
@@ -183,10 +183,10 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
                 switch (id) {
 
-                    case 'delete':
+                    case "delete":
                         deleteProvider(page, providerId);
                         break;
-                    case 'map':
+                    case "map":
                         mapChannels(page, providerId);
                         break;
                     default:
@@ -199,7 +199,7 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
     function mapChannels(page, providerId) {
 
-        require(['components/channelmapper/channelmapper'], function (channelmapper) {
+        require(["components/channelmapper/channelmapper"], function (channelmapper) {
             new channelmapper({
                 serverId: ApiClient.serverInfo().Id,
                 providerId: providerId
@@ -209,17 +209,17 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
     function deleteProvider(page, id) {
 
-        var message = globalize.translate('MessageConfirmDeleteGuideProvider');
+        var message = globalize.translate("MessageConfirmDeleteGuideProvider");
 
-        require(['confirm'], function (confirm) {
+        require(["confirm"], function (confirm) {
 
-            confirm(message, globalize.translate('HeaderDeleteProvider')).then(function () {
+            confirm(message, globalize.translate("HeaderDeleteProvider")).then(function () {
 
                 loading.show();
 
                 ApiClient.ajax({
                     type: "DELETE",
-                    url: ApiClient.getUrl('LiveTv/ListingProviders', {
+                    url: ApiClient.getUrl("LiveTv/ListingProviders", {
                         Id: id
                     })
 
@@ -241,14 +241,14 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
         switch (providerId) {
 
-            case 'm3u':
-                return 'M3U';
-            case 'hdhomerun':
-                return 'HDHomerun';
-            case 'satip':
-                return 'DVB';
+            case "m3u":
+                return "M3U";
+            case "hdhomerun":
+                return "HDHomerun";
+            case "satip":
+                return "DVB";
             default:
-                return 'Unknown';
+                return "Unknown";
         }
     }
 
@@ -258,14 +258,14 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
         switch (providerId) {
 
-            case 'schedulesdirect':
-                return 'Schedules Direct';
-            case 'xmltv':
-                return 'Xml TV';
-            case 'emby':
-                return 'Emby Guide';
+            case "schedulesdirect":
+                return "Schedules Direct";
+            case "xmltv":
+                return "Xml TV";
+            case "emby":
+                return "Emby Guide";
             default:
-                return 'Unknown';
+                return "Unknown";
         }
     }
 
@@ -275,12 +275,12 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
         switch (providerId) {
 
-            case 'xmltv':
-                return 'livetvguideprovider.html?type=xmltv';
-            case 'schedulesdirect':
-                return 'livetvguideprovider.html?type=schedulesdirect';
-            case 'emby':
-                return 'livetvguideprovider.html?type=emby';
+            case "xmltv":
+                return "livetvguideprovider.html?type=xmltv";
+            case "schedulesdirect":
+                return "livetvguideprovider.html?type=schedulesdirect";
+            case "emby":
+                return "livetvguideprovider.html?type=emby";
             default:
                 break;
         }
@@ -291,30 +291,30 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         var menuItems = [];
 
         menuItems.push({
-            name: 'Schedules Direct',
-            id: 'SchedulesDirect'
+            name: "Schedules Direct",
+            id: "SchedulesDirect"
         });
 
         menuItems.push({
-            name: 'Xml TV',
-            id: 'xmltv'
+            name: "Xml TV",
+            id: "xmltv"
         });
 
         menuItems.push({
-            name: globalize.translate('ButtonOther'),
-            id: 'other'
+            name: globalize.translate("ButtonOther"),
+            id: "other"
         });
 
-        require(['actionsheet'], function (actionsheet) {
+        require(["actionsheet"], function (actionsheet) {
 
             actionsheet.show({
                 items: menuItems,
                 positionTo: button,
                 callback: function (id) {
 
-                    if (id == 'other') {
+                    if (id == "other") {
                         Dashboard.alert({
-                            message: globalize.translate('ForAdditionalLiveTvOptions')
+                            message: globalize.translate("ForAdditionalLiveTvOptions")
                         });
                     } else {
                         Dashboard.navigate(getProviderConfigurationUrl(id));
@@ -334,16 +334,16 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         var items = [];
 
         items.push({
-            name: globalize.translate('ButtonDelete'),
-            id: 'delete'
+            name: globalize.translate("ButtonDelete"),
+            id: "delete"
         });
 
         items.push({
-            name: globalize.translate('ButtonEdit'),
-            id: 'edit'
+            name: globalize.translate("ButtonEdit"),
+            id: "edit"
         });
 
-        require(['actionsheet'], function (actionsheet) {
+        require(["actionsheet"], function (actionsheet) {
 
             actionsheet.show({
                 items: items,
@@ -353,11 +353,11 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
                 switch (id) {
 
-                    case 'delete':
-                        deleteDevice(dom.parentWithClass(button, 'page'), tunerDeviceId);
+                    case "delete":
+                        deleteDevice(dom.parentWithClass(button, "page"), tunerDeviceId);
                         break;
-                    case 'edit':
-                        Dashboard.navigate('livetvtuner.html?id=' + tunerDeviceId);
+                    case "edit":
+                        Dashboard.navigate("livetvtuner.html?id=" + tunerDeviceId);
                         break;
                     default:
                         break;
@@ -369,61 +369,61 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
 
     function onDevicesListClick(e) {
 
-        var card = dom.parentWithClass(e.target, 'card');
+        var card = dom.parentWithClass(e.target, "card");
         if (card) {
-            var id = card.getAttribute('data-id');
+            var id = card.getAttribute("data-id");
 
-            var btnCardOptions = dom.parentWithClass(e.target, 'btnCardOptions');
+            var btnCardOptions = dom.parentWithClass(e.target, "btnCardOptions");
 
             if (btnCardOptions) {
                 showDeviceMenu(btnCardOptions, id);
             } else {
-                Dashboard.navigate('livetvtuner.html?id=' + id);
+                Dashboard.navigate("livetvtuner.html?id=" + id);
             }
         }
     }
 
-    $(document).on('pageinit', "#liveTvStatusPage", function () {
+    $(document).on("pageinit", "#liveTvStatusPage", function () {
 
         var page = this;
 
-        $('.btnAddDevice', page).on('click', function () {
+        $(".btnAddDevice", page).on("click", function () {
             addDevice(this);
         });
 
-        $('.formAddDevice', page).on('submit', function () {
+        $(".formAddDevice", page).on("submit", function () {
             submitAddDeviceForm(page);
             return false;
         });
 
-        $('.btnAddProvider', page).on('click', function () {
+        $(".btnAddProvider", page).on("click", function () {
             addProvider(this);
         });
 
-        page.querySelector('.devicesList').addEventListener('click', onDevicesListClick);
+        page.querySelector(".devicesList").addEventListener("click", onDevicesListClick);
 
-    }).on('pageshow', "#liveTvStatusPage", function () {
+    }).on("pageshow", "#liveTvStatusPage", function () {
 
         var page = this;
 
         reload(page);
 
         taskButton({
-            mode: 'on',
-            progressElem: page.querySelector('.refreshGuideProgress'),
-            taskKey: 'RefreshGuide',
-            button: page.querySelector('.btnRefresh')
+            mode: "on",
+            progressElem: page.querySelector(".refreshGuideProgress"),
+            taskKey: "RefreshGuide",
+            button: page.querySelector(".btnRefresh")
         });
 
-    }).on('pagehide', "#liveTvStatusPage", function () {
+    }).on("pagehide", "#liveTvStatusPage", function () {
 
         var page = this;
 
         taskButton({
-            mode: 'off',
-            progressElem: page.querySelector('.refreshGuideProgress'),
-            taskKey: 'RefreshGuide',
-            button: page.querySelector('.btnRefresh')
+            mode: "off",
+            progressElem: page.querySelector(".refreshGuideProgress"),
+            taskKey: "RefreshGuide",
+            button: page.querySelector(".btnRefresh")
         });
 
     });

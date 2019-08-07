@@ -19,7 +19,7 @@ define(["datetime", "loading", "libraryMenu", "dom", "globalize", "emby-button"]
 
         var rows = keys.map(function (item) {
 
-            var html = '';
+            var html = "";
 
             html += '<tr class="detailTableBodyRow detailTableBodyRow-shaded">';
             html += '<td class="detailTableBodyCell">';
@@ -35,9 +35,9 @@ define(["datetime", "loading", "libraryMenu", "dom", "globalize", "emby-button"]
 
             var date = datetime.parseISO8601Date(item.DateCreated, true);
 
-            html += datetime.toLocaleDateString(date) + ' ' + datetime.getDisplayTime(date);
-            html += '</td>';
-            html += '</tr>';
+            html += datetime.toLocaleDateString(date) + " " + datetime.getDisplayTime(date);
+            html += "</td>";
+            html += "</tr>";
 
             return html;
 

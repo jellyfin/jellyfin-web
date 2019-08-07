@@ -1,22 +1,22 @@
-define(["jQuery", "loading", "libraryMenu"], function($, loading, libraryMenu) {
+define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) {
     "use strict";
 
     var metadataKey = "xbmcmetadata";
 
     function loadPage(page, config, users) {
 
-        var html = '<option value="" selected="selected">' + Globalize.translate('OptionNone') + '</option>';
+        var html = '<option value="" selected="selected">' + Globalize.translate("OptionNone") + "</option>";
 
         html += users.map(function (user) {
-            return '<option value="' + user.Id + '">' + user.Name + '</option>';
-        }).join('');
+            return '<option value="' + user.Id + '">' + user.Name + "</option>";
+        }).join("");
 
-        $('#selectUser', page).html(html).val(config.UserId || '');
-        $('#selectReleaseDateFormat', page).val(config.ReleaseDateFormat);
+        $("#selectUser", page).html(html).val(config.UserId || "");
+        $("#selectReleaseDateFormat", page).val(config.ReleaseDateFormat);
 
-        page.querySelector('#chkSaveImagePaths').checked = config.SaveImagePathsInNfo;
-        page.querySelector('#chkEnablePathSubstitution').checked = config.EnablePathSubstitution;
-        page.querySelector('#chkEnableExtraThumbs').checked = config.EnableExtraThumbsDuplication;
+        page.querySelector("#chkSaveImagePaths").checked = config.SaveImagePathsInNfo;
+        page.querySelector("#chkEnablePathSubstitution").checked = config.EnablePathSubstitution;
+        page.querySelector("#chkEnableExtraThumbs").checked = config.EnableExtraThumbsDuplication;
 
         loading.hide();
     }
@@ -28,12 +28,12 @@ define(["jQuery", "loading", "libraryMenu"], function($, loading, libraryMenu) {
 
         ApiClient.getNamedConfiguration(metadataKey).then(function (config) {
 
-            config.UserId = $('#selectUser', form).val() || null;
-            config.ReleaseDateFormat = $('#selectReleaseDateFormat', form).val();
+            config.UserId = $("#selectUser", form).val() || null;
+            config.ReleaseDateFormat = $("#selectReleaseDateFormat", form).val();
 
-            config.SaveImagePathsInNfo = form.querySelector('#chkSaveImagePaths').checked;
-            config.EnablePathSubstitution = form.querySelector('#chkEnablePathSubstitution').checked;
-            config.EnableExtraThumbsDuplication = form.querySelector('#chkEnableExtraThumbs').checked;
+            config.SaveImagePathsInNfo = form.querySelector("#chkSaveImagePaths").checked;
+            config.EnablePathSubstitution = form.querySelector("#chkEnablePathSubstitution").checked;
+            config.EnableExtraThumbsDuplication = form.querySelector("#chkEnableExtraThumbs").checked;
 
             ApiClient.updateNamedConfiguration(metadataKey, config).then(function () {
                 Dashboard.processServerConfigurationUpdateResult();
@@ -49,11 +49,11 @@ define(["jQuery", "loading", "libraryMenu"], function($, loading, libraryMenu) {
 
         var msg = [];
 
-        msg.push(Globalize.translate('MetadataSettingChangeHelp'));
+        msg.push(Globalize.translate("MetadataSettingChangeHelp"));
 
-        require(['alert'], function (alert) {
+        require(["alert"], function (alert) {
             alert({
-                text: msg.join('<br/><br/>')
+                text: msg.join("<br/><br/>")
             });
         });
     }
@@ -74,13 +74,13 @@ define(["jQuery", "loading", "libraryMenu"], function($, loading, libraryMenu) {
         }]
     }
 
-    $(document).on('pageinit', "#metadataNfoPage", function () {
+    $(document).on("pageinit", "#metadataNfoPage", function () {
 
-        $('.metadataNfoForm').off('submit', onSubmit).on('submit', onSubmit);
+        $(".metadataNfoForm").off("submit", onSubmit).on("submit", onSubmit);
 
-    }).on('pageshow', "#metadataNfoPage", function () {
+    }).on("pageshow", "#metadataNfoPage", function () {
 
-        libraryMenu.setTabs('metadata', 3, getTabs);
+        libraryMenu.setTabs("metadata", 3, getTabs);
         loading.show();
 
         var page = this;

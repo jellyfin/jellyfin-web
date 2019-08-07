@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby-button", "emby-select"], function($, loading, datetime, dom, globalize) {
+define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby-button", "emby-select"], function ($, loading, datetime, dom, globalize) {
     "use strict";
 
     function fillTimeOfDay(select) {
@@ -15,9 +15,9 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
 
         select.innerHTML = options.map(function (o) {
 
-            return '<option value="' + o.value + '">' + o.name + '</option>';
+            return '<option value="' + o.value + '">' + o.name + "</option>";
 
-        }).join('');
+        }).join("");
     }
 
     Array.prototype.remove = function (from, to) {
@@ -31,7 +31,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
         refreshScheduledTask: function (view) {
             loading.show();
 
-            var id = getParameterByName('id');
+            var id = getParameterByName("id");
 
 
             ApiClient.getScheduledTask(id).then(function (task) {
@@ -41,11 +41,11 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
 
         loadScheduledTask: function (view, task) {
 
-            $('.taskName', view).html(task.Name);
+            $(".taskName", view).html(task.Name);
 
-            $('#pTaskDescription', view).html(task.Description);
+            $("#pTaskDescription", view).html(task.Description);
 
-            require(['listViewStyle'], function () {
+            require(["listViewStyle"], function () {
                 ScheduledTaskPage.loadTaskTriggers(view, task);
             });
 
@@ -54,7 +54,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
 
         loadTaskTriggers: function (context, task) {
 
-            var html = '';
+            var html = "";
 
             html += '<div class="paperList">';
 
@@ -80,44 +80,44 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
                     var hours = trigger.MaxRuntimeTicks / 3600000;
 
                     if (hours == 1) {
-                        html += globalize.translate('ValueTimeLimitSingleHour');
+                        html += globalize.translate("ValueTimeLimitSingleHour");
                     } else {
-                        html += globalize.translate('ValueTimeLimitMultiHour', hours);
+                        html += globalize.translate("ValueTimeLimitMultiHour", hours);
                     }
-                    html += '</div>';
+                    html += "</div>";
                 }
 
-                html += '</div>';
+                html += "</div>";
 
-                html += '<button class="btnDeleteTrigger" data-index="' + i + '" type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonDelete') + '"><i class="md-icon">delete</i></button>';
+                html += '<button class="btnDeleteTrigger" data-index="' + i + '" type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDelete") + '"><i class="md-icon">delete</i></button>';
 
-                html += '</div>';
+                html += "</div>";
             }
 
-            html += '</div>';
+            html += "</div>";
 
-            context.querySelector('.taskTriggers').innerHTML = html;
+            context.querySelector(".taskTriggers").innerHTML = html;
         },
 
         getTriggerFriendlyName: function (trigger) {
 
-            if (trigger.Type == 'DailyTrigger') {
-                return 'Daily at ' + ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks);
+            if (trigger.Type == "DailyTrigger") {
+                return "Daily at " + ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks);
             }
 
-            if (trigger.Type == 'WeeklyTrigger') {
+            if (trigger.Type == "WeeklyTrigger") {
 
-                return trigger.DayOfWeek + 's at ' + ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks);
+                return trigger.DayOfWeek + "s at " + ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks);
             }
 
-            if (trigger.Type == 'SystemEventTrigger') {
+            if (trigger.Type == "SystemEventTrigger") {
 
-                if (trigger.SystemEvent == 'WakeFromSleep') {
-                    return 'On wake from sleep';
+                if (trigger.SystemEvent == "WakeFromSleep") {
+                    return "On wake from sleep";
                 }
             }
 
-            if (trigger.Type == 'IntervalTrigger') {
+            if (trigger.Type == "IntervalTrigger") {
 
                 var hours = trigger.IntervalTicks / 36000000000;
 
@@ -134,11 +134,11 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
                     return "Every hour";
                 }
 
-                return 'Every ' + hours + ' hours';
+                return "Every " + hours + " hours";
             }
 
-            if (trigger.Type == 'StartupTrigger') {
-                return 'On application startup';
+            if (trigger.Type == "StartupTrigger") {
+                return "On application startup";
             }
 
             return trigger.Type;
@@ -156,17 +156,17 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
 
         showAddTriggerPopup: function (view) {
 
-            $('#selectTriggerType', view).val('DailyTrigger');
+            $("#selectTriggerType", view).val("DailyTrigger");
 
-            view.querySelector('#selectTriggerType').dispatchEvent(new CustomEvent('change', {}));
+            view.querySelector("#selectTriggerType").dispatchEvent(new CustomEvent("change", {}));
 
-            $('#popupAddTrigger', view).removeClass("hide")
+            $("#popupAddTrigger", view).removeClass("hide")
         },
 
         confirmDeleteTrigger: function (view, index) {
 
-            require(['confirm'], function (confirm) {
-                confirm(globalize.translate('MessageDeleteTaskTrigger'), globalize.translate('HeaderDeleteTaskTrigger')).then(function () {
+            require(["confirm"], function (confirm) {
+                confirm(globalize.translate("MessageDeleteTaskTrigger"), globalize.translate("HeaderDeleteTaskTrigger")).then(function () {
                     ScheduledTaskPage.deleteTrigger(view, index);
                 });
             });
@@ -176,7 +176,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
 
             loading.show();
 
-            var id = getParameterByName('id');
+            var id = getParameterByName("id");
 
 
             ApiClient.getScheduledTask(id).then(function (task) {
@@ -194,72 +194,58 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
 
         refreshTriggerFields: function (page, triggerType) {
 
-            if (triggerType == 'DailyTrigger') {
+            if (triggerType == "DailyTrigger") {
 
-                $('#fldTimeOfDay', page).show();
-                $('#fldDayOfWeek', page).hide();
-                $('#fldSelectSystemEvent', page).hide();
-                $('#fldSelectInterval', page).hide();
-                $('#selectTimeOfDay', page).attr('required', 'required');
-            }
-
-            else if (triggerType == 'WeeklyTrigger') {
-                $('#fldTimeOfDay', page).show();
-                $('#fldDayOfWeek', page).show();
-                $('#fldSelectSystemEvent', page).hide();
-                $('#fldSelectInterval', page).hide();
-                $('#selectTimeOfDay', page).attr('required', 'required');
-            }
-
-            else if (triggerType == 'SystemEventTrigger') {
-                $('#fldTimeOfDay', page).hide();
-                $('#fldDayOfWeek', page).hide();
-                $('#fldSelectSystemEvent', page).show();
-                $('#fldSelectInterval', page).hide();
-                $('#selectTimeOfDay', page).removeAttr('required');
-            }
-
-            else if (triggerType == 'IntervalTrigger') {
-                $('#fldTimeOfDay', page).hide();
-                $('#fldDayOfWeek', page).hide();
-                $('#fldSelectSystemEvent', page).hide();
-                $('#fldSelectInterval', page).show();
-                $('#selectTimeOfDay', page).removeAttr('required');
-            }
-
-            else if (triggerType == 'StartupTrigger') {
-                $('#fldTimeOfDay', page).hide();
-                $('#fldDayOfWeek', page).hide();
-                $('#fldSelectSystemEvent', page).hide();
-                $('#fldSelectInterval', page).hide();
-                $('#selectTimeOfDay', page).removeAttr('required');
+                $("#fldTimeOfDay", page).show();
+                $("#fldDayOfWeek", page).hide();
+                $("#fldSelectSystemEvent", page).hide();
+                $("#fldSelectInterval", page).hide();
+                $("#selectTimeOfDay", page).attr("required", "required");
+            } else if (triggerType == "WeeklyTrigger") {
+                $("#fldTimeOfDay", page).show();
+                $("#fldDayOfWeek", page).show();
+                $("#fldSelectSystemEvent", page).hide();
+                $("#fldSelectInterval", page).hide();
+                $("#selectTimeOfDay", page).attr("required", "required");
+            } else if (triggerType == "SystemEventTrigger") {
+                $("#fldTimeOfDay", page).hide();
+                $("#fldDayOfWeek", page).hide();
+                $("#fldSelectSystemEvent", page).show();
+                $("#fldSelectInterval", page).hide();
+                $("#selectTimeOfDay", page).removeAttr("required");
+            } else if (triggerType == "IntervalTrigger") {
+                $("#fldTimeOfDay", page).hide();
+                $("#fldDayOfWeek", page).hide();
+                $("#fldSelectSystemEvent", page).hide();
+                $("#fldSelectInterval", page).show();
+                $("#selectTimeOfDay", page).removeAttr("required");
+            } else if (triggerType == "StartupTrigger") {
+                $("#fldTimeOfDay", page).hide();
+                $("#fldDayOfWeek", page).hide();
+                $("#fldSelectSystemEvent", page).hide();
+                $("#fldSelectInterval", page).hide();
+                $("#selectTimeOfDay", page).removeAttr("required");
             }
         },
 
         getTriggerToAdd: function (page) {
 
             var trigger = {
-                Type: $('#selectTriggerType', page).val()
+                Type: $("#selectTriggerType", page).val()
             };
 
-            if (trigger.Type == 'DailyTrigger') {
-                trigger.TimeOfDayTicks = $('#selectTimeOfDay', page).val();
+            if (trigger.Type == "DailyTrigger") {
+                trigger.TimeOfDayTicks = $("#selectTimeOfDay", page).val();
+            } else if (trigger.Type == "WeeklyTrigger") {
+                trigger.DayOfWeek = $("#selectDayOfWeek", page).val();
+                trigger.TimeOfDayTicks = $("#selectTimeOfDay", page).val();
+            } else if (trigger.Type == "SystemEventTrigger") {
+                trigger.SystemEvent = $("#selectSystemEvent", page).val();
+            } else if (trigger.Type == "IntervalTrigger") {
+                trigger.IntervalTicks = $("#selectInterval", page).val();
             }
 
-            else if (trigger.Type == 'WeeklyTrigger') {
-                trigger.DayOfWeek = $('#selectDayOfWeek', page).val();
-                trigger.TimeOfDayTicks = $('#selectTimeOfDay', page).val();
-            }
-
-            else if (trigger.Type == 'SystemEventTrigger') {
-                trigger.SystemEvent = $('#selectSystemEvent', page).val();
-            }
-
-            else if (trigger.Type == 'IntervalTrigger') {
-                trigger.IntervalTicks = $('#selectInterval', page).val();
-            }
-
-            var timeLimit = $('#txtTimeLimit', page).val() || '0';
+            var timeLimit = $("#txtTimeLimit", page).val() || "0";
             timeLimit = parseFloat(timeLimit) * 3600000;
 
             trigger.MaxRuntimeMs = timeLimit || null;
@@ -274,7 +260,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
 
             loading.show();
 
-            var id = getParameterByName('id');
+            var id = getParameterByName("id");
 
             ApiClient.getScheduledTask(id).then(function (task) {
 
@@ -282,7 +268,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
 
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
 
-                    $('#popupAddTrigger').addClass('hide');
+                    $("#popupAddTrigger").addClass("hide");
 
                     ScheduledTaskPage.refreshScheduledTask(view);
 
@@ -293,28 +279,28 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
             e.preventDefault();
         }
 
-        view.querySelector('.addTriggerForm').addEventListener('submit', onSubmit);
+        view.querySelector(".addTriggerForm").addEventListener("submit", onSubmit);
 
-        fillTimeOfDay(view.querySelector('#selectTimeOfDay'));
+        fillTimeOfDay(view.querySelector("#selectTimeOfDay"));
 
-        $(view.querySelector('#popupAddTrigger').parentNode).trigger('create');
+        $(view.querySelector("#popupAddTrigger").parentNode).trigger("create");
 
-        view.querySelector('.selectTriggerType').addEventListener('change', function () {
+        view.querySelector(".selectTriggerType").addEventListener("change", function () {
             ScheduledTaskPage.refreshTriggerFields(view, this.value);
         });
 
-        view.querySelector('.btnAddTrigger').addEventListener('click', function () {
+        view.querySelector(".btnAddTrigger").addEventListener("click", function () {
             ScheduledTaskPage.showAddTriggerPopup(view);
         });
 
-        view.addEventListener('click', function (e) {
-            var btnDeleteTrigger = dom.parentWithClass(e.target, 'btnDeleteTrigger');
+        view.addEventListener("click", function (e) {
+            var btnDeleteTrigger = dom.parentWithClass(e.target, "btnDeleteTrigger");
             if (btnDeleteTrigger) {
-                ScheduledTaskPage.confirmDeleteTrigger(view, parseInt(btnDeleteTrigger.getAttribute('data-index')));
+                ScheduledTaskPage.confirmDeleteTrigger(view, parseInt(btnDeleteTrigger.getAttribute("data-index")));
             }
         });
 
-        view.addEventListener('viewshow', function () {
+        view.addEventListener("viewshow", function () {
 
             ScheduledTaskPage.refreshScheduledTask(view);
         });

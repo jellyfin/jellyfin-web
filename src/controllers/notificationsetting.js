@@ -1,4 +1,4 @@
-define(["jQuery", "emby-checkbox", "fnchecked"], function($) {
+define(["jQuery", "emby-checkbox", "fnchecked"], function ($) {
     "use strict";
 
     var notificationsConfigurationKey = "notifications";
@@ -11,20 +11,20 @@ define(["jQuery", "emby-checkbox", "fnchecked"], function($) {
 
             var isChecked = isEnabledList ? currentList.indexOf(u.Id) != -1 : currentList.indexOf(u.Id) == -1;
 
-            var checkedHtml = isChecked ? ' checked="checked"' : '';
+            var checkedHtml = isChecked ? ' checked="checked"' : "";
 
-            return '<label><input is="emby-checkbox" class="' + cssClass + '" type="checkbox" data-itemid="' + u.Id + '"' + checkedHtml + '/><span>' + u.Name + '</span></label>';
+            return '<label><input is="emby-checkbox" class="' + cssClass + '" type="checkbox" data-itemid="' + u.Id + '"' + checkedHtml + "/><span>" + u.Name + "</span></label>";
 
-        }).join('');
+        }).join("");
 
-        html += '</div>';
+        html += "</div>";
 
-        elem.html(html).trigger('create');
+        elem.html(html).trigger("create");
     }
 
     function reload(page) {
 
-        var type = getParameterByName('type');
+        var type = getParameterByName("type");
 
         var promise1 = ApiClient.getUsers();
         var promise2 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
@@ -51,12 +51,12 @@ define(["jQuery", "emby-checkbox", "fnchecked"], function($) {
             })[0] || {};
 
             if (typeInfo.IsBasedOnUserEvent) {
-                $('.monitorUsers', page).show();
+                $(".monitorUsers", page).show();
             } else {
-                $('.monitorUsers', page).hide();
+                $(".monitorUsers", page).hide();
             }
 
-            $('.notificationType', page).html(typeInfo.Name || 'Unknown Notification');
+            $(".notificationType", page).html(typeInfo.Name || "Unknown Notification");
 
             if (!notificationConfig) {
 
@@ -64,23 +64,23 @@ define(["jQuery", "emby-checkbox", "fnchecked"], function($) {
                     DisabledMonitorUsers: [],
                     SendToUsers: [],
                     DisabledServices: [],
-                    SendToUserMode: 'Admins'
+                    SendToUserMode: "Admins"
                 };
             }
 
-            fillItems($('.monitorUsersList', page), users, 'chkMonitor', 'chkMonitor', notificationConfig.DisabledMonitorUsers);
-            fillItems($('.sendToUsersList', page), users, 'chkSendTo', 'chkSendTo', notificationConfig.SendToUsers, true);
-            fillItems($('.servicesList', page), services, 'chkService', 'chkService', notificationConfig.DisabledServices);
+            fillItems($(".monitorUsersList", page), users, "chkMonitor", "chkMonitor", notificationConfig.DisabledMonitorUsers);
+            fillItems($(".sendToUsersList", page), users, "chkSendTo", "chkSendTo", notificationConfig.SendToUsers, true);
+            fillItems($(".servicesList", page), services, "chkService", "chkService", notificationConfig.DisabledServices);
 
-            $('#chkEnabled', page).checked(notificationConfig.Enabled || false);
-            $('#selectUsers', page).val(notificationConfig.SendToUserMode).trigger('change');
+            $("#chkEnabled", page).checked(notificationConfig.Enabled || false);
+            $("#selectUsers", page).val(notificationConfig.SendToUserMode).trigger("change");
 
         });
     }
 
     function save(page) {
 
-        var type = getParameterByName('type');
+        var type = getParameterByName("type");
 
         var promise1 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
         var promise2 = ApiClient.getJSON(ApiClient.getUrl("Notifications/Types"));
@@ -109,58 +109,58 @@ define(["jQuery", "emby-checkbox", "fnchecked"], function($) {
 
             })[0];
 
-            notificationConfig.Enabled = $('#chkEnabled', page).checked();
-            notificationConfig.SendToUserMode = $('#selectUsers', page).val();
-            notificationConfig.DisabledMonitorUsers = $('.chkMonitor', page).get().filter(function (c) {
+            notificationConfig.Enabled = $("#chkEnabled", page).checked();
+            notificationConfig.SendToUserMode = $("#selectUsers", page).val();
+            notificationConfig.DisabledMonitorUsers = $(".chkMonitor", page).get().filter(function (c) {
                 return !c.checked;
             }).map(function (c) {
-                return c.getAttribute('data-itemid');
+                return c.getAttribute("data-itemid");
             });
 
-            notificationConfig.SendToUsers = $('.chkSendTo', page).get().filter(function (c) {
+            notificationConfig.SendToUsers = $(".chkSendTo", page).get().filter(function (c) {
                 return c.checked;
             }).map(function (c) {
-                return c.getAttribute('data-itemid');
+                return c.getAttribute("data-itemid");
             });
 
-            notificationConfig.DisabledServices = $('.chkService', page).get().filter(function (c) {
+            notificationConfig.DisabledServices = $(".chkService", page).get().filter(function (c) {
                 return !c.checked;
             }).map(function (c) {
-                return c.getAttribute('data-itemid');
+                return c.getAttribute("data-itemid");
             });
 
             ApiClient.updateNamedConfiguration(notificationsConfigurationKey, notificationOptions).then(function (r) {
 
                 Dashboard.processServerConfigurationUpdateResult();
-                Dashboard.navigate('notificationsettings.html');
+                Dashboard.navigate("notificationsettings.html");
             });
 
         });
     }
 
     function onSubmit() {
-        var page = $(this).parents('.page');
+        var page = $(this).parents(".page");
         save(page);
         return false;
     }
 
-    $(document).on('pageinit', "#notificationSettingPage", function () {
+    $(document).on("pageinit", "#notificationSettingPage", function () {
 
         var page = this;
 
-        $('#selectUsers', page).on('change', function () {
+        $("#selectUsers", page).on("change", function () {
 
-            if (this.value == 'Custom') {
-                $('.selectCustomUsers', page).show();
+            if (this.value == "Custom") {
+                $(".selectCustomUsers", page).show();
             } else {
-                $('.selectCustomUsers', page).hide();
+                $(".selectCustomUsers", page).hide();
             }
 
         });
 
-        $('.notificationSettingForm').off('submit', onSubmit).on('submit', onSubmit);
+        $(".notificationSettingForm").off("submit", onSubmit).on("submit", onSubmit);
 
-    }).on('pageshow', "#notificationSettingPage", function () {
+    }).on("pageshow", "#notificationSettingPage", function () {
 
         var page = this;
 
