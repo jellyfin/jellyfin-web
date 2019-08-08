@@ -2,14 +2,11 @@
     display: flex;
     align-items: center;
     height: 100%;
-    flex-grow: 1;
+    width: 40%;
     overflow: hidden;
 }
 
-.nowPlayingBarSecondaryText{
-    width: 45%;
-    overflow: hidden;
-}
+
 
 /* Now playing bar */
 .nowPlayingBar {
@@ -98,6 +95,8 @@
     /* Need this to make sure it's on top of nowPlayingBarPositionContainer so that buttons are fully clickable */
     z-index: 2;
     display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
     align-items: center;
     flex-shrink: 0;
 }
@@ -158,6 +157,9 @@
 @media all and (max-width: 36em) {
     .nowPlayingBarRight .nowPlayingBarVolumeSliderContainer {
         display: none !important;
+    }
+    .nowPlayingBarInfoContainer {
+        width: 70%;
     }
 }
 
