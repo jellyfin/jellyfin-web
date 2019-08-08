@@ -46,9 +46,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         }
 
         function loadNextUp() {
-
             var query = {
-
                 Limit: 24,
                 Fields: "PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo",
                 UserId: ApiClient.getCurrentUserId(),
@@ -56,19 +54,14 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
                 EnableImageTypes: "Primary,Backdrop,Thumb",
                 EnableTotalRecordCount: false
             };
-
             query.ParentId = libraryMenu.getTopParentId();
-
             ApiClient.getNextUpEpisodes(query).then(function (result) {
-
                 if (result.Items.length) {
                     view.querySelector(".noNextUpItems").classList.add("hide");
                 } else {
                     view.querySelector(".noNextUpItems").classList.remove("hide");
                 }
-
                 var container = view.querySelector("#nextUpItems");
-
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: container,
                     preferThumb: true,
@@ -81,7 +74,6 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
                     overlayPlayButton: true,
                     cardLayout: false,
                 });
-
                 loading.hide();
             });
         }
@@ -95,14 +87,10 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         }
 
         function loadResume() {
-
             var parentId = libraryMenu.getTopParentId();
-
             var screenWidth = dom.getWindowSize().innerWidth;
             var limit = screenWidth >= 1600 ? 5 : 6;
-
             var options = {
-
                 SortBy: "DatePlayed",
                 SortOrder: "Descending",
                 IncludeItemTypes: "Episode",
@@ -116,19 +104,14 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
                 EnableImageTypes: "Primary,Backdrop,Thumb",
                 EnableTotalRecordCount: false
             };
-
             ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-
                 if (result.Items.length) {
                     view.querySelector("#resumableSection").classList.remove("hide");
                 } else {
                     view.querySelector("#resumableSection").classList.add("hide");
                 }
-
                 var allowBottomPadding = !enableScrollX();
-
                 var container = view.querySelector("#resumableItems");
-
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: container,
                     preferThumb: true,
@@ -197,7 +180,6 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
                 var controller = tabControllers[index];
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-
                     if (index === 1) {
                         controller = self;
                     } else if (index === 7) {
@@ -208,20 +190,16 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
                     } else {
                         controller = new controllerFactory(view, params, tabContent);
                     }
-
                     tabControllers[index] = controller;
-
                     if (controller.initTab) {
                         controller.initTab();
                     }
                 }
-
                 callback(controller);
             });
         }
 
         function preLoadTab(page, index) {
-
             getTabController(page, index, function (controller) {
                 if (renderedTabs.indexOf(index) == -1) {
                     if (controller.preRender) {
@@ -232,9 +210,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         }
 
         function loadTab(page, index) {
-
             currentTabIndex = index;
-
             getTabController(page, index, function (controller) {
                 initialTabIndex = null;
                 if (renderedTabs.indexOf(index) == -1) {
@@ -245,22 +221,16 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         }
 
         function onPlaybackStop(e, state) {
-
             if (state.NowPlayingItem && state.NowPlayingItem.MediaType == "Video") {
-
                 renderedTabs = [];
                 mainTabsManager.getTabsElement().triggerTabChange();
             }
         }
 
         function onWebSocketMessage(e, data) {
-
             var msg = data;
-
             if (msg.MessageType === "UserDataChanged") {
-
                 if (msg.Data.UserId == ApiClient.getCurrentUserId()) {
-
                     renderedTabs = [];
                 }
             }
@@ -276,51 +246,44 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         var isViewRestored, self = this,
             currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId)),
             initialTabIndex = currentTabIndex;
-
         self.initTab = function () {
-                var tabContent = self.tabContent;
-                setScrollClasses(tabContent.querySelector("#resumableItems"), enableScrollX());
-            },
-
-            self.renderTab = function () {
-                reload()
-            };
+             var tabContent = self.tabContent;
+            setScrollClasses(tabContent.querySelector("#resumableItems"), enableScrollX())
+        },
+        self.renderTab = function () {
+            reload()
+        };
         var tabControllers = [],
             renderedTabs = [];
         setScrollClasses(view.querySelector("#resumableItems"), enableScrollX()),
-
-            view.addEventListener("viewshow", function (e) {
-                if (isViewRestored = e.detail.isRestored, initTabs(), !view.getAttribute("data-title")) {
-                    var parentId = params.topParentId;
-                    if (parentId) {
-
-                        ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
-
-                            view.setAttribute("data-title", item.Name);
-                            libraryMenu.setTitle(item.Name);
-                        });
-                    } else {
-                        view.setAttribute("data-title", Globalize.translate("TabShows"));
-                        libraryMenu.setTitle(Globalize.translate("TabShows"));
-                    }
+        view.addEventListener("viewshow", function (e) {
+            if (isViewRestored = e.detail.isRestored, initTabs(), !view.getAttribute("data-title")) {
+                var parentId = params.topParentId;
+                if (parentId) {
+                    ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
+                        view.setAttribute("data-title", item.Name);
+                        libraryMenu.setTitle(item.Name);
+                    });
+                } else {
+                    view.setAttribute("data-title", Globalize.translate("TabShows"));
+                    libraryMenu.setTitle(Globalize.translate("TabShows"));
                 }
-                events.on(playbackManager, "playbackstop", onPlaybackStop);
-                events.on(ApiClient, "message", onWebSocketMessage);
-                inputManager.on(window, onInputCommand)
-            }),
-
-            view.addEventListener("viewbeforehide", function (e) {
-                inputManager.off(window, onInputCommand);
-                events.off(playbackManager, "playbackstop", onPlaybackStop);
-                events.off(ApiClient, "message", onWebSocketMessage)
-            }),
-
-            view.addEventListener("viewdestroy", function (e) {
-                tabControllers.forEach(function (t) {
-                    if (t.destroy) {
-                        t.destroy();
-                    }
-                });
+            }
+            events.on(playbackManager, "playbackstop", onPlaybackStop);
+            events.on(ApiClient, "message", onWebSocketMessage);
+            inputManager.on(window, onInputCommand)
+        }),
+        view.addEventListener("viewbeforehide", function (e) {
+            inputManager.off(window, onInputCommand);
+            events.off(playbackManager, "playbackstop", onPlaybackStop);
+            events.off(ApiClient, "message", onWebSocketMessage)
+        }),
+        view.addEventListener("viewdestroy", function (e) {
+            tabControllers.forEach(function (t) {
+                if (t.destroy) {
+                    t.destroy();
+                }
             });
+        });
     };
 });

@@ -2,7 +2,6 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
     "use strict";
 
     return function (view, params, tabContent) {
-
         var self = this;
         var data = {};
         var isLoading = false;
@@ -10,7 +9,6 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
         function getPageData(context) {
             var key = getSavedQueryKey(context);
             var pageData = data[key];
-
             if (!pageData) {
                 pageData = data[key] = {
                     query: {
@@ -25,7 +23,6 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                         EnableImageTypes: "Primary"
                     }
                 };
-
                 pageData.query.ParentId = params.topParentId;
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
@@ -33,12 +30,10 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
         }
 
         function getQuery(context) {
-
             return getPageData(context).query;
         }
 
         function getSavedQueryKey(context) {
-
             if (!context.savedQueryKey) {
                 context.savedQueryKey = libraryBrowser.getSavedQueryKey("songs");
             }
@@ -46,18 +41,12 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
         }
 
         function reloadItems(page) {
-
             loading.show();
             isLoading = true;
-
             var query = getQuery(page);
-
             ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
-
                 window.scrollTo(0, 0);
-
                 updateFilterControls(page);
-
                 var pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
@@ -68,7 +57,6 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                     sortButton: false,
                     filterButton: false
                 });
-
                 var html = listView.getListViewHtml({
                     items: result.Items,
                     action: "playallfromhere",
@@ -76,7 +64,6 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                     artist: true,
                     addToListButton: true
                 });
-
                 var i, length;
                 var elems = tabContent.querySelectorAll(".paging");
                 for (i = 0, length = elems.length; i < length; i++) {
@@ -94,57 +81,45 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                     query.StartIndex -= query.Limit;
                     reloadItems(tabContent);
                 }
-
                 elems = tabContent.querySelectorAll(".btnNextPage");
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onNextPageClick);
                 }
-
                 elems = tabContent.querySelectorAll(".btnPreviousPage");
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onPreviousPageClick);
                 }
-
                 var itemsContainer = tabContent.querySelector(".itemsContainer");
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
-
                 libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
-
                 loading.hide();
                 isLoading = false;
             });
         }
 
         self.showFilterMenu = function () {
-
             require(["components/filterdialog/filterdialog"], function (filterDialogFactory) {
-
                 var filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: "songs",
                     serverId: ApiClient.serverId()
                 });
-
                 events.on(filterDialog, "filterchange", function () {
                     getQuery(tabContent).StartIndex = 0;
                     reloadItems(tabContent);
                 });
-
                 filterDialog.show();
             });
         }
 
         function updateFilterControls(tabContent) {
-
         }
 
         function initPage(tabContent) {
-
             tabContent.querySelector(".btnFilter").addEventListener("click", function () {
                 self.showFilterMenu();
             });
-
             tabContent.querySelector(".btnSort").addEventListener("click", function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
@@ -193,19 +168,14 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                 });
             });
         }
-
         self.getCurrentViewStyle = function () {
             return getPageData(tabContent).view;
         };
-
         initPage(tabContent);
-
         self.renderTab = function () {
-
             reloadItems(tabContent);
             updateFilterControls(tabContent);
         };
-
         self.destroy = function () {};
     };
 });

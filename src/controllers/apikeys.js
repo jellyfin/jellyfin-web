@@ -16,11 +16,8 @@ define(["datetime", "loading", "libraryMenu", "dom", "globalize", "emby-button"]
     }
 
     function renderKeys(page, keys) {
-
         var rows = keys.map(function (item) {
-
             var html = "";
-
             html += '<tr class="detailTableBodyRow detailTableBodyRow-shaded">';
             html += '<td class="detailTableBodyCell">';
             html += '<button type="button" is="emby-button" data-token="' + item.AccessToken + '" class="raised raised-mini btnRevoke" data-mini="true" title="' + globalize.translate("ButtonRevoke") + '" style="margin:0;">' + globalize.translate("ButtonRevoke") + "</button>";
@@ -32,17 +29,12 @@ define(["datetime", "loading", "libraryMenu", "dom", "globalize", "emby-button"]
             html += item.AppName || "";
             html += "</td>";
             html += '<td class="detailTableBodyCell" style="vertical-align:middle;">';
-
             var date = datetime.parseISO8601Date(item.DateCreated, true);
-
             html += datetime.toLocaleDateString(date) + " " + datetime.getDisplayTime(date);
             html += "</td>";
             html += "</tr>";
-
             return html;
-
         }).join("");
-
         page.querySelector(".resultBody").innerHTML = rows;
         loading.hide();
     }
@@ -72,7 +64,6 @@ define(["datetime", "loading", "libraryMenu", "dom", "globalize", "emby-button"]
             })
         })
     }
-
     pageIdOn("pageinit", "apiKeysPage", function () {
         var page = this;
         page.querySelector(".btnNewKey").addEventListener("click", function () {
@@ -83,7 +74,6 @@ define(["datetime", "loading", "libraryMenu", "dom", "globalize", "emby-button"]
             btnRevoke && revoke(page, btnRevoke.getAttribute("data-token"))
         });
     });
-
     pageIdOn("pagebeforeshow", "apiKeysPage", function () {
         loadData(this);
     })

@@ -2,9 +2,7 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
     "use strict";
 
     function itemsPerRow() {
-
         var screenWidth = dom.getWindowSize().innerWidth;
-
         return screenWidth >= 1920 ? 9 : (screenWidth >= 1200 ? 12 : (screenWidth >= 1000 ? 10 : 8));
     }
 
@@ -17,11 +15,8 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
     }
 
     function loadLatest(page, parentId) {
-
         loading.show();
-
         var userId = ApiClient.getCurrentUserId();
-
         var options = {
             IncludeItemTypes: "Audio",
             Limit: enableScrollX() ? (itemsPerRow() * 3) : (itemsPerRow() * 2),
@@ -31,14 +26,10 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
             EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
             EnableTotalRecordCount: false
         };
-
         ApiClient.getJSON(ApiClient.getUrl("Users/" + userId + "/Items/Latest", options)).then(function (items) {
-
             var elem = page.querySelector("#recentlyAddedSongs");
-
             var supportsImageAnalysis = appHost.supports("imageanalysis");
             supportsImageAnalysis = false;
-
             elem.innerHTML = cardBuilder.getCardsHtml({
                 items: items,
                 showUnplayedIndicator: false,
@@ -53,18 +44,14 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                 cardLayout: supportsImageAnalysis,
                 vibrant: supportsImageAnalysis,
                 coverImage: true
-
             });
             imageLoader.lazyChildren(elem);
-
             loading.hide();
         });
     }
 
     function loadRecentlyPlayed(page, parentId) {
-
         var options = {
-
             SortBy: "DatePlayed",
             SortOrder: "Descending",
             IncludeItemTypes: "Audio",
@@ -77,22 +64,16 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
             EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
             EnableTotalRecordCount: false
         };
-
         ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-
             var elem = page.querySelector("#recentlyPlayed");
-
             if (result.Items.length) {
                 elem.classList.remove("hide");
             } else {
                 elem.classList.add("hide");
             }
-
             var itemsContainer = elem.querySelector(".itemsContainer");
-
             var supportsImageAnalysis = appHost.supports("imageanalysis");
             supportsImageAnalysis = false;
-
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -106,18 +87,13 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                 allowBottomPadding: !enableScrollX(),
                 cardLayout: supportsImageAnalysis,
                 coverImage: true
-
             });
             imageLoader.lazyChildren(itemsContainer);
-
         });
-
     }
 
     function loadFrequentlyPlayed(page, parentId) {
-
         var options = {
-
             SortBy: "PlayCount",
             SortOrder: "Descending",
             IncludeItemTypes: "Audio",
@@ -130,22 +106,16 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
             EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
             EnableTotalRecordCount: false
         };
-
         ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-
             var elem = page.querySelector("#topPlayed");
-
             if (result.Items.length) {
                 elem.classList.remove("hide");
             } else {
                 elem.classList.add("hide");
             }
-
             var itemsContainer = elem.querySelector(".itemsContainer");
-
             var supportsImageAnalysis = appHost.supports("imageanalysis");
             supportsImageAnalysis = false;
-
             itemsContainer.innerHTML = cardBuilder.getCardsHtml({
                 items: result.Items,
                 showUnplayedIndicator: false,
@@ -159,25 +129,19 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                 allowBottomPadding: !enableScrollX(),
                 cardLayout: supportsImageAnalysis,
                 coverImage: true
-
             });
             imageLoader.lazyChildren(itemsContainer);
-
         });
 
     }
 
     function loadSuggestionsTab(page, tabContent, parentId) {
-
         console.log("loadSuggestionsTab");
         loadLatest(tabContent, parentId);
         loadRecentlyPlayed(tabContent, parentId);
         loadFrequentlyPlayed(tabContent, parentId);
-
         require(["components/favoriteitems"], function (favoriteItems) {
-
             favoriteItems.render(tabContent, ApiClient.getCurrentUserId(), parentId, ["favoriteArtists", "favoriteAlbums", "favoriteSongs"]);
-
         });
     }
 
@@ -284,7 +248,6 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                 var controller = tabControllers[index];
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-
                     if (index === 0) {
                         controller = self;
                     } else if (index === 7) {
@@ -295,26 +258,21 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                     } else {
                         controller = new controllerFactory(view, params, tabContent);
                     }
-
                     if (index == 2) {
                         controller.mode = "albumartists";
                     } else if (index == 3) {
                         controller.mode = "artists";
                     }
-
                     tabControllers[index] = controller;
-
                     if (controller.initTab) {
                         controller.initTab();
                     }
                 }
-
                 callback(controller);
             });
         }
 
         function preLoadTab(page, index) {
-
             getTabController(page, index, function (controller) {
                 if (renderedTabs.indexOf(index) == -1) {
                     if (controller.preRender) {
@@ -325,9 +283,7 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
         }
 
         function loadTab(page, index) {
-
             currentTabIndex = index;
-
             getTabController(page, index, function (controller) {
                 if (renderedTabs.indexOf(index) == -1) {
                     renderedTabs.push(index);
@@ -346,48 +302,42 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
         var self = this;
         var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId));
         var initialTabIndex = currentTabIndex;
-
         self.initTab = function () {
-
             var tabContent = view.querySelector(".pageTabContent[data-index='0']");
-
             var containers = tabContent.querySelectorAll(".itemsContainer");
             for (var i = 0, length = containers.length; i < length; i++) {
                 setScrollClasses(containers[i], enableScrollX())
             }
         };
-
         self.renderTab = function () {
             reload()
         };
         var tabControllers = [],
             renderedTabs = [];
         view.addEventListener("viewshow", function (e) {
-                if (isViewRestored = e.detail.isRestored, initTabs(), !view.getAttribute("data-title")) {
-                    var parentId = params.topParentId;
-                    if (parentId) {
-
-                        ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
-
-                            view.setAttribute("data-title", item.Name);
-                            libraryMenu.setTitle(item.Name);
-                        });
-                    } else {
-                        view.setAttribute("data-title", Globalize.translate("TabMusic"));
-                        libraryMenu.setTitle(Globalize.translate("TabMusic"));
-                    }
+            if (isViewRestored = e.detail.isRestored, initTabs(), !view.getAttribute("data-title")) {
+                var parentId = params.topParentId;
+                if (parentId) {
+                    ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
+                        view.setAttribute("data-title", item.Name);
+                        libraryMenu.setTitle(item.Name);
+                    });
+                } else {
+                    view.setAttribute("data-title", Globalize.translate("TabMusic"));
+                    libraryMenu.setTitle(Globalize.translate("TabMusic"));
                 }
-                inputManager.on(window, onInputCommand)
-            }),
-
-            view.addEventListener("viewbeforehide", function (e) {
-                inputManager.off(window, onInputCommand)
-            }),
-
-            view.addEventListener("viewdestroy", function (e) {
-                tabControllers.forEach(function (t) {
-                    t.destroy && t.destroy()
-                })
-            })
-    }
+            }
+            inputManager.on(window, onInputCommand)
+        }),
+        view.addEventListener("viewbeforehide", function (e) {
+            inputManager.off(window, onInputCommand)
+        }),
+        view.addEventListener("viewdestroy", function (e) {
+            tabControllers.forEach(function (t) {
+                if (t.destroy) {
+                    t.destroy();
+                }
+            });
+        });
+    };
 });

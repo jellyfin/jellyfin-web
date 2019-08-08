@@ -2,13 +2,11 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
     "use strict";
 
     return function (view, params) {
-
         var data = {};
 
         function getPageData(context) {
             var key = getSavedQueryKey(context);
             var pageData = data[key];
-
             if (!pageData) {
                 pageData = data[key] = {
                     query: {
@@ -22,7 +20,6 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                     },
                     view: libraryBrowser.getSavedView(key) || "Poster"
                 };
-
                 pageData.query.ParentId = libraryMenu.getTopParentId();
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
@@ -30,12 +27,10 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
         }
 
         function getQuery(context) {
-
             return getPageData(context).query;
         }
 
         function getSavedQueryKey(context) {
-
             if (!context.savedQueryKey) {
                 context.savedQueryKey = libraryBrowser.getSavedQueryKey();
             }
@@ -43,7 +38,6 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
         }
 
         function showLoadingMessage() {
-
             loading.show();
         }
 
@@ -52,17 +46,12 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
         }
 
         function onViewStyleChange() {
-
             var viewStyle = getPageData(view).view;
-
             var itemsContainer = view.querySelector(".itemsContainer");
-
             if (viewStyle == "List") {
-
                 itemsContainer.classList.add("vertical-list");
                 itemsContainer.classList.remove("vertical-wrap");
             } else {
-
                 itemsContainer.classList.remove("vertical-list");
                 itemsContainer.classList.add("vertical-wrap");
             }
@@ -70,23 +59,16 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
         }
 
         function reloadItems() {
-
             showLoadingMessage();
-
             var query = getQuery(view);
             var promise1 = ApiClient.getItems(Dashboard.getCurrentUserId(), query);
             var promise2 = Dashboard.getCurrentUser();
-
             Promise.all([promise1, promise2]).then(function (responses) {
-
                 var result = responses[0];
                 var user = responses[1];
-
                 window.scrollTo(0, 0);
-
                 var html = "";
                 var viewStyle = getPageData(view).view;
-
                 view.querySelector(".listTopPaging").innerHTML = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
@@ -97,13 +79,9 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                     addLayoutButton: true,
                     layouts: "List,Poster,PosterCard,Thumb,ThumbCard",
                     currentLayout: viewStyle
-
                 });
-
                 if (result.TotalRecordCount) {
-
                     if (viewStyle == "List") {
-
                         html = listView.getListViewHtml({
                             items: result.Items,
                             sortBy: query.SortBy
@@ -143,18 +121,13 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                             overlayPlayButton: true
                         });
                     }
-
                     view.querySelector(".noItemsMessage").classList.add("hide");
-
                 } else {
-
                     view.querySelector(".noItemsMessage").classList.remove("hide");
                 }
-
                 var elem = view.querySelector(".itemsContainer");
                 elem.innerHTML = html;
                 imageLoader.lazyChildren(elem);
-
                 var btnNextPage = view.querySelector(".btnNextPage");
                 if (btnNextPage) {
                     btnNextPage.addEventListener("click", function () {
@@ -162,7 +135,6 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                         reloadItems();
                     });
                 }
-
                 var btnPreviousPage = view.querySelector(".btnPreviousPage");
                 if (btnPreviousPage) {
                     btnPreviousPage.addEventListener("click", function () {
@@ -170,7 +142,6 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                         reloadItems();
                     });
                 }
-
                 var btnChangeLayout = view.querySelector(".btnChangeLayout");
                 if (btnChangeLayout) {
                     btnChangeLayout.addEventListener("layoutchange", function (e) {
@@ -181,21 +152,15 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                         reloadItems();
                     });
                 }
-
                 libraryBrowser.saveQueryValues(getSavedQueryKey(view), query);
-
                 hideLoadingMessage();
             });
         }
-
         view.addEventListener("viewbeforeshow", function () {
             reloadItems();
         });
-
         view.querySelector(".btnNewPlaylist").addEventListener("click", function () {
-
             require(["playlistEditor"], function (playlistEditor) {
-
                 var serverId = ApiClient.serverInfo().Id;
                 new playlistEditor().show({
                     items: [],
@@ -203,8 +168,6 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                 });
             });
         });
-
         onViewStyleChange();
-
     };
 });

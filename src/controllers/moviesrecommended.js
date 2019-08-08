@@ -14,9 +14,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
     }
 
     function loadLatest(page, userId, parentId) {
-
         var options = {
-
             IncludeItemTypes: "Movie",
             Limit: 18,
             Fields: "PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo",
@@ -25,11 +23,8 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
             EnableTotalRecordCount: false
         };
-
         ApiClient.getJSON(ApiClient.getUrl("Users/" + userId + "/Items/Latest", options)).then(function (items) {
-
             var allowBottomPadding = !enableScrollX();
-
             var container = page.querySelector("#recentlyAddedItems");
             cardBuilder.buildCards(items, {
                 itemsContainer: container,
@@ -45,11 +40,8 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
     }
 
     function loadResume(page, userId, parentId) {
-
         var screenWidth = dom.getWindowSize().innerWidth;
-
         var options = {
-
             SortBy: "DatePlayed",
             SortOrder: "Descending",
             IncludeItemTypes: "Movie",
@@ -63,21 +55,15 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
             EnableTotalRecordCount: false
         };
-
         ApiClient.getItems(userId, options).then(function (result) {
-
             if (result.Items.length) {
                 page.querySelector("#resumableSection").classList.remove("hide");
             } else {
                 page.querySelector("#resumableSection").classList.add("hide");
             }
-
             var allowBottomPadding = !enableScrollX();
-
             var container = page.querySelector("#resumableItems");
-
             var cardLayout = false;
-
             cardBuilder.buildCards(result.Items, {
                 itemsContainer: container,
                 preferThumb: true,
@@ -90,18 +76,13 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
                 showYear: true,
                 centerText: true
             });
-
         });
     }
 
     function getRecommendationHtml(recommendation) {
-
         var html = "";
-
         var title = "";
-
         switch (recommendation.RecommendationType) {
-
             case "SimilarToRecentlyPlayed":
                 title = Globalize.translate("RecommendationBecauseYouWatched").replace("{0}", recommendation.BaselineItemName);
                 break;
@@ -117,39 +98,29 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
                 title = Globalize.translate("RecommendationStarring").replace("{0}", recommendation.BaselineItemName);
                 break;
         }
-
         html += '<div class="verticalSection">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + title + "</h2>";
-
-        var allowBottomPadding = !0;
         var allowBottomPadding = true;
-
         if (enableScrollX()) {
             allowBottomPadding = false;
             html += '<div is="emby-itemscontainer" class="itemsContainer hiddenScrollX padded-left padded-right">';
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
         }
-
         html += cardBuilder.getCardsHtml(recommendation.Items, {
             shape: getPortraitShape(),
             scalable: true,
             overlayPlayButton: true,
             allowBottomPadding: allowBottomPadding
         });
-
         html += "</div>";
         html += "</div>";
-
         return html;
     }
 
     function loadSuggestions(page, userId, parentId) {
-
         var screenWidth = dom.getWindowSize().innerWidth;
-
         var url = ApiClient.getUrl("Movies/Recommendations", {
-
             userId: userId,
             categoryLimit: 6,
             ItemLimit: screenWidth >= 1920 ? 8 : (screenWidth >= 1600 ? 8 : (screenWidth >= 1200 ? 6 : 5)),
@@ -157,20 +128,14 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             ImageTypeLimit: 1,
             EnableImageTypes: "Primary,Backdrop,Banner,Thumb"
         });
-
         ApiClient.getJSON(url).then(function (recommendations) {
-
             if (!recommendations.length) {
-
                 page.querySelector(".noItemsMessage").classList.remove("hide");
                 page.querySelector(".recommendations").innerHTML = "";
                 return;
             }
-
             var html = recommendations.map(getRecommendationHtml).join("");
-
             page.querySelector(".noItemsMessage").classList.add("hide");
-
             var recs = page.querySelector(".recommendations");
             recs.innerHTML = html;
             imageLoader.lazyChildren(recs);
@@ -182,7 +147,6 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
     }
 
     function initSuggestedTab(page, tabContent) {
-
         var containers = tabContent.querySelectorAll(".itemsContainer");
         for (var i = 0, length = containers.length; i < length; i++) {
             setScrollClasses(containers[i], enableScrollX())
@@ -190,15 +154,11 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
     }
 
     function loadSuggestionsTab(view, params, tabContent) {
-
         var parentId = params.topParentId;
-
         var userId = ApiClient.getCurrentUserId();
-
         console.log("loadSuggestionsTab");
         loadResume(tabContent, userId, parentId);
         loadLatest(tabContent, userId, parentId);
-
         loadSuggestions(tabContent, userId, parentId);
     }
 
@@ -293,7 +253,6 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
         }
 
         function preLoadTab(page, index) {
-
             getTabController(page, index, function (controller) {
                 if (renderedTabs.indexOf(index) == -1) {
                     if (controller.preRender) {
@@ -304,9 +263,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
         }
 
         function loadTab(page, index) {
-
             currentTabIndex = index;
-
             getTabController(page, index, function (controller) {
                 initialTabIndex = null;
                 if (renderedTabs.indexOf(index) == -1) {
@@ -317,9 +274,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
         }
 
         function onPlaybackStop(e, state) {
-
             if (state.NowPlayingItem && state.NowPlayingItem.MediaType == "Video") {
-
                 renderedTabs = [];
                 mainTabsManager.getTabsElement().triggerTabChange();
             }
@@ -336,12 +291,10 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
         var currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId)),
             initialTabIndex = currentTabIndex,
             suggestionsTabIndex = 1;
-
         self.initTab = function () {
                 var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
                 initSuggestedTab(view, tabContent);
             },
-
             self.renderTab = function () {
                 var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
                 loadSuggestionsTab(view, params, tabContent)
@@ -352,9 +305,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             if (isViewRestored = e.detail.isRestored, initTabs(), !view.getAttribute("data-title")) {
                 var parentId = params.topParentId;
                 if (parentId) {
-
                     ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
-
                         view.setAttribute("data-title", item.Name);
                         libraryMenu.setTitle(item.Name);
                     });
@@ -365,11 +316,9 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             }
             events.on(playbackManager, "playbackstop", onPlaybackStop);
         });
-
         view.addEventListener("viewbeforehide", function (e) {
             inputManager.off(window, onInputCommand)
         });
-
         view.addEventListener("viewdestroy", function (e) {
             tabControllers.forEach(function (t) {
                 if (t.destroy) {

@@ -2,31 +2,22 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     "use strict";
 
     function getPromise(apiClient, params) {
-
         var id = params.id;
-
         if (id) {
             return apiClient.getItem(apiClient.getCurrentUserId(), id);
         }
-
         if (params.seriesTimerId) {
             return apiClient.getLiveTvSeriesTimer(params.seriesTimerId);
         }
-
         var name = params.genre;
-
         if (name) {
             return apiClient.getGenre(name, apiClient.getCurrentUserId());
         }
-
         name = params.musicgenre;
-
         if (name) {
             return apiClient.getMusicGenre(name, apiClient.getCurrentUserId());
         }
-
         name = params.musicartist;
-
         if (name) {
             return apiClient.getArtist(name, apiClient.getCurrentUserId());
         } else {
@@ -35,7 +26,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function hideAll(page, className, show) {
-
         var i, length;
         var elems = page.querySelectorAll("." + className);
         for (i = 0, length = elems.length; i < length; i++) {
@@ -48,7 +38,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function getContextMenuOptions(item, user, button) {
-
         var options = {
             item: item,
             open: false,
@@ -64,14 +53,11 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             user: user,
             share: true
         };
-
         return options;
     }
 
     function getProgramScheduleHtml(items, options) {
-
         options = options || {};
-
         var html = "";
         html += '<div is="emby-itemscontainer" class="itemsContainer vertical-list" data-contextmenu="false">';
         html += listView.getListViewHtml({
@@ -86,14 +72,11 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             moreButton: false,
             recordButton: false
         });
-
         html += "</div>";
-
         return html;
     }
 
     function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
-
         apiClient.getLiveTvTimers({
             UserId: apiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
@@ -103,18 +86,13 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             EnableUserData: false,
             SeriesTimerId: seriesTimerId,
             Fields: "ChannelInfo,ChannelImage"
-
         }).then(function (result) {
-
             if (result.Items.length && result.Items[0].SeriesTimerId != seriesTimerId) {
                 result.Items = [];
             }
-
             var html = getProgramScheduleHtml(result.Items);
-
             var scheduleTab = page.querySelector(".seriesTimerSchedule");
             scheduleTab.innerHTML = html;
-
             imageLoader.lazyChildren(scheduleTab);
         });
     }
@@ -125,26 +103,21 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderSeriesTimerEditor(page, item, apiClient, user) {
-
         if (item.Type !== "SeriesTimer") {
             return;
         }
-
         if (!user.Policy.EnableLiveTvManagement) {
             page.querySelector(".seriesTimerScheduleSection").classList.add("hide");
             hideAll(page, "btnCancelSeriesTimer");
             return;
         }
-
         require(["seriesRecordingEditor"], function (seriesRecordingEditor) {
             seriesRecordingEditor.embed(item, apiClient.serverId(), {
                 context: page.querySelector(".seriesRecordingEditor")
             });
         });
-
         page.querySelector(".seriesTimerScheduleSection").classList.remove("hide");
         hideAll(page, "btnCancelSeriesTimer", true);
-
         renderSeriesTimerSchedule(page, apiClient, item.Id);
     }
 
@@ -218,13 +191,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function reloadPlayButtons(page, item) {
-
         var canPlay = false;
-
         if (item.Type == "Program") {
-
             var now = new Date();
-
             if (now >= datetime.parseISO8601Date(item.StartDate, true) && now < datetime.parseISO8601Date(item.EndDate, true)) {
                 hideAll(page, "btnPlay", true);
                 canPlay = true;
@@ -236,15 +205,11 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             hideAll(page, "btnShuffle");
         } else if (playbackManager.canPlay(item)) {
             hideAll(page, "btnPlay", true);
-
             var enableInstantMix = ["MusicAlbum", "MusicGenre", "MusicArtist"].indexOf(item.Type) !== -1;
             hideAll(page, "btnInstantMix", enableInstantMix);
-
             var enableShuffle = item.IsFolder || ["MusicAlbum", "MusicGenre", "MusicArtist"].indexOf(item.Type) !== -1;
             hideAll(page, "btnShuffle", enableShuffle);
-
             canPlay = true;
-
             hideAll(page, "btnResume", item.UserData && item.UserData.PlaybackPositionTicks > 0);
         } else {
             hideAll(page, "btnPlay");
@@ -252,39 +217,28 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             hideAll(page, "btnInstantMix");
             hideAll(page, "btnShuffle");
         }
-
         return canPlay;
     }
 
     function reloadUserDataButtons(page, item) {
-
         var i, length;
         var btnPlaystates = page.querySelectorAll(".btnPlaystate");
-
         for (i = 0, length = btnPlaystates.length; i < length; i++) {
-
             var btnPlaystate = btnPlaystates[i];
             if (itemHelper.canMarkPlayed(item)) {
-
                 btnPlaystate.classList.remove("hide");
                 btnPlaystate.setItem(item);
-
             } else {
                 btnPlaystate.classList.add("hide");
                 btnPlaystate.setItem(null);
             }
         }
-
         var btnUserRatings = page.querySelectorAll(".btnUserRating");
         for (i = 0, length = btnUserRatings.length; i < length; i++) {
-
             var btnUserRating = btnUserRatings[i];
-
             if (itemHelper.canRate(item)) {
-
                 btnUserRating.classList.remove("hide");
                 btnUserRating.setItem(item);
-
             } else {
                 btnUserRating.classList.add("hide");
                 btnUserRating.setItem(null);
@@ -354,80 +308,65 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderDetailPageBackdrop(page, item, apiClient) {
-
         var screenWidth = screen.availWidth;
         var imgUrl;
         var hasbackdrop = false;
-
         var itemBackdropElement = page.querySelector("#itemBackdrop");
         var usePrimaryImage = (item.MediaType === "Video" && item.Type !== "Movie" && item.Type !== "Trailer") || (item.MediaType && item.MediaType !== "Video") || (item.Type === "MusicAlbum") || (item.Type === "MusicArtist");
-
         if (item.Type === "Program" && item.ImageTags && item.ImageTags.Thumb) {
-
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
                 index: 0,
                 maxWidth: screenWidth,
                 tag: item.ImageTags.Thumb
             });
-
             itemBackdropElement.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else if (usePrimaryImage && item.ImageTags && item.ImageTags.Primary) {
-
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Primary",
                 index: 0,
                 maxWidth: screenWidth,
                 tag: item.ImageTags.Primary
             });
-
             itemBackdropElement.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
-
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Backdrop",
                 index: 0,
                 maxWidth: screenWidth,
                 tag: item.BackdropImageTags[0]
             });
-
             itemBackdropElement.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
-
             imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                 type: "Backdrop",
                 index: 0,
                 tag: item.ParentBackdropImageTags[0],
                 maxWidth: screenWidth
             });
-
             itemBackdropElement.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else if (item.ImageTags && item.ImageTags.Thumb) {
-
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
                 index: 0,
                 maxWidth: screenWidth,
                 tag: item.ImageTags.Thumb
             });
-
             itemBackdropElement.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else {
-
             itemBackdropElement.classList.add("noBackdrop");
             itemBackdropElement.style.backgroundImage = "";
         }
-
         return hasbackdrop;
     }
 
@@ -443,25 +382,19 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         setInitialCollapsibleState(page, item, apiClient, context, user);
         renderDetails(page, item, apiClient, context);
         renderTrackSelections(page, instance, item);
-
         if (dom.getWindowSize().innerWidth >= 1000) {
             backdrop.setBackdrops([item]);
         } else {
             backdrop.clear();
         }
-
         renderDetailPageBackdrop(page, item, apiClient);
-
         var canPlay = reloadPlayButtons(page, item);
-
         if ((item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && -1 !== playbackManager.getSupportedCommands().indexOf("PlayTrailers")) {
             hideAll(page, "btnPlayTrailer", true);
         } else {
             hideAll(page, "btnPlayTrailer");
         }
-
         setTrailerButtonVisibility(page, item);
-
         if (item.CanDelete && !item.IsFolder) {
             hideAll(page, "btnDeleteItem", true);
         } else {
@@ -473,31 +406,24 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             hideAll(page, "mainDetailButtons");
         }
         showRecordingFields(instance, page, item, user);
-
         var groupedVersions = (item.MediaSources || []).filter(function (g) {
             return "Grouping" == g.Type
         });
-
         if (user.Policy.IsAdministrator && groupedVersions.length) {
             page.querySelector(".splitVersionContainer").classList.remove("hide");
         } else {
             page.querySelector(".splitVersionContainer").classList.add("hide");
         }
-
         var commands = itemContextMenu.getCommands(getContextMenuOptions(item, user));
-
         if (commands.length) {
             hideAll(page, "btnMoreCommands", true);
         } else {
             hideAll(page, "btnMoreCommands");
         }
-
         var itemBirthday = page.querySelector("#itemBirthday");
         if (item.Type == "Person" && item.PremiereDate) {
-
             try {
                 var birthday = datetime.parseISO8601Date(item.PremiereDate, true).toDateString();
-
                 itemBirthday.classList.remove("hide");
                 itemBirthday.innerHTML = globalize.translate("BirthDateValue").replace("{0}", birthday);
             } catch (err) {
@@ -506,41 +432,30 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         } else {
             itemBirthday.classList.add("hide");
         }
-
         var itemDeathDate = page.querySelector("#itemDeathDate");
         if (item.Type == "Person" && item.EndDate) {
-
             try {
                 var deathday = datetime.parseISO8601Date(item.EndDate, true).toDateString();
-
                 itemDeathDate.classList.remove("hide");
                 itemDeathDate.innerHTML = globalize.translate("DeathDateValue").replace("{0}", deathday);
             } catch (err) {
                 itemDeathDate.classList.add("hide");
             }
         } else {}
-
         var itemBirthLocation = page.querySelector("#itemBirthLocation");
         if (item.Type == "Person" && item.ProductionLocations && item.ProductionLocations.length) {
-
             var gmap = '<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://maps.google.com/maps?q=' + item.ProductionLocations[0] + '">' + item.ProductionLocations[0] + "</a>";
-
             itemBirthLocation.classList.remove("hide");
             itemBirthLocation.innerHTML = globalize.translate("BirthPlaceValue").replace("{0}", gmap);
         } else {
             itemBirthLocation.classList.add("hide");
         }
-
         setPeopleHeader(page, item);
-
         loading.hide();
-
         try {
             require(["focusManager"], function (focusManager) {
                 [".btnResume", ".btnPlay"].every(function (cls) {
-
                     var elems = page.querySelectorAll(cls);
-
                     for (var i = 0; i < elems.length; i++) {
                         if (focusManager.isCurrentlyFocusable(elems[i])) {
                             focusManager.focus(elems[i]);
@@ -556,21 +471,16 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function logoImageUrl(item, apiClient, options) {
-
         options = options || {};
         options.type = "Logo";
-
         if (item.ImageTags && item.ImageTags.Logo) {
-
             options.tag = item.ImageTags.Logo;
             return apiClient.getScaledImageUrl(item.Id, options);
         }
-
         if (item.ParentLogoImageTag) {
             options.tag = item.ParentLogoImageTag;
             return apiClient.getScaledImageUrl(item.ParentLogoItemId, options);
         }
-
         return null;
     }
 
@@ -588,9 +498,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var url = logoImageUrl(item, apiClient, {
             maxWidth: 300
         });
-
         var detailLogo = page.querySelector(".detailLogo");
-
         if (url) {
             detailLogo.classList.remove("hide");
             detailLogo.classList.add("lazy");
@@ -602,17 +510,12 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function showRecordingFields(instance, page, item, user) {
-
         if (instance.currentRecordingFields) {
             return;
         }
-
         var recordingFieldsElement = page.querySelector(".recordingFields");
-
         if (item.Type == "Program" && user.Policy.EnableLiveTvManagement) {
-
             require(["recordingFields"], function (recordingFields) {
-
                 instance.currentRecordingFields = new recordingFields({
                     parent: recordingFieldsElement,
                     programId: item.Id,
@@ -645,29 +548,21 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         if (item.Type === "SeriesTimer" || item.Type === "Program") {
             editable = false;
         }
-
         if (item.Type !== "Person") {
             elem.classList.add("detailimg-hidemobile");
             page.querySelector(".detailPageContent").classList.add("detailPageContent-nodetailimg");
         } else {
             page.querySelector(".detailPageContent").classList.remove("detailPageContent-nodetailimg");
         }
-
         var imageTags = item.ImageTags || {};
-
         if (item.PrimaryImageTag) {
             imageTags.Primary = item.PrimaryImageTag;
         }
-
         var html = "";
-
         var url;
         var shape = "portrait";
-
         var detectRatio = false;
-
         if (imageTags.Primary) {
-
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Primary",
                 maxHeight: 360,
@@ -721,40 +616,29 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 tag: item.ParentPrimaryImageTag
             });
         }
-
         html += '<div style="position:relative;">';
-
         if (editable) {
             html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;padding:2px;margin:0;' href='#'>";
         }
-
         if (detectRatio && item.PrimaryImageAspectRatio) {
-
             if (item.PrimaryImageAspectRatio >= 1.48) {
                 shape = "thumb";
             } else if (item.PrimaryImageAspectRatio >= .85 && item.PrimaryImageAspectRatio <= 1.34) {
                 shape = "square";
             }
         }
-
         html += "<img class='itemDetailImage lazy' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' />";
-
         if (editable) {
             html += "</a>";
         }
-
         var progressHtml = item.IsFolder || !item.UserData ? "" : indicators.getProgressBarHtml(item);
-
         html += '<div class="detailImageProgressContainer">';
         if (progressHtml) {
             html += progressHtml;
         }
         html += "</div>";
-
         html += "</div>";
-
         elem.innerHTML = html;
-
         if (shape == "thumb") {
             elem.classList.add("thumbDetailImageContainer");
             elem.classList.remove("portraitDetailImageContainer");
@@ -768,7 +652,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             elem.classList.add("portraitDetailImageContainer");
             elem.classList.remove("squareDetailImageContainer");
         }
-
         if (url) {
             var img = elem.querySelector("img");
             img.onload = function () {
@@ -793,37 +676,28 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function setPeopleHeader(page, item) {
-
         if (item.MediaType == "Audio" || item.Type == "MusicAlbum" || item.MediaType == "Book" || item.MediaType == "Photo") {
             page.querySelector("#peopleHeader").innerHTML = globalize.translate("HeaderPeople");
         } else {
             page.querySelector("#peopleHeader").innerHTML = globalize.translate("HeaderCastAndCrew");
         }
-
     }
 
     function renderNextUp(page, item, user) {
-
         var section = page.querySelector(".nextUpSection");
-
         if (item.Type != "Series") {
             section.classList.add("hide");
             return;
         }
-
         connectionManager.getApiClient(item.ServerId).getNextUpEpisodes({
-
             SeriesId: item.Id,
             UserId: user.Id
-
         }).then(function (result) {
-
             if (result.Items.length) {
                 section.classList.remove("hide");
             } else {
                 section.classList.add("hide");
             }
-
             var html = cardBuilder.getCardsHtml({
                 items: result.Items,
                 shape: getThumbShape(false),
@@ -833,28 +707,21 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 centerText: true,
                 overlayPlayButton: true
             });
-
             var itemsContainer = section.querySelector(".nextUpItems");
-
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
         });
     }
 
     function setInitialCollapsibleState(page, item, apiClient, context, user) {
-
         page.querySelector(".collectionItems").innerHTML = "";
-
         if (item.Type == "Playlist") {
-
             page.querySelector("#childrenCollapsible").classList.remove("hide");
             renderPlaylistItems(page, item, user);
         } else if (item.Type == "Studio" || item.Type == "Person" || item.Type == "Genre" || item.Type == "MusicGenre" || item.Type == "MusicArtist") {
-
             page.querySelector("#childrenCollapsible").classList.remove("hide");
             renderItemsByName(page, item, user);
         } else if (item.IsFolder) {
-
             if (item.Type == "BoxSet") {
                 page.querySelector("#childrenCollapsible").classList.add("hide");
             }
@@ -862,45 +729,34 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         } else {
             page.querySelector("#childrenCollapsible").classList.add("hide");
         }
-
         if (item.Type == "Series") {
-
             renderSeriesSchedule(page, item, user);
         }
-
         if (item.Type == "Series") {
-
             renderNextUp(page, item, user);
         } else {
             page.querySelector(".nextUpSection").classList.add("hide");
         }
-
         if (item.MediaSources && item.MediaSources.length) {
-
             if (item.EnableMediaSourceDisplay == null ? item.SourceType !== "Channel" : item.EnableMediaSourceDisplay) {
                 page.querySelector(".audioVideoMediaInfo").classList.add("hide");
             }
             renderMediaSources(page, user, item);
         }
-
         renderScenes(page, item);
-
         if (!item.SpecialFeatureCount || item.SpecialFeatureCount == 0 || item.Type == "Series") {
             page.querySelector("#specialsCollapsible").classList.add("hide");
         } else {
             page.querySelector("#specialsCollapsible").classList.remove("hide");
             renderSpecials(page, item, user, 6);
         }
-
         renderCast(page, item, context, enableScrollX() ? null : 12);
-
         if (item.PartCount && item.PartCount > 1) {
             page.querySelector("#additionalPartsCollapsible").classList.remove("hide");
             renderAdditionalParts(page, item, user);
         } else {
             page.querySelector("#additionalPartsCollapsible").classList.add("hide");
         }
-
         if (item.Type == "MusicAlbum") {
             renderMusicVideos(page, item, user);
         } else {
@@ -909,43 +765,31 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderOverview(elems, item) {
-
         for (var i = 0, length = elems.length; i < length; i++) {
             var elem = elems[i];
             var overview = item.Overview || "";
-
             if (overview) {
                 elem.innerHTML = overview;
-
                 elem.classList.remove("hide");
-
-
                 for (var anchors = elem.querySelectorAll("a"), j = 0, length2 = anchors.length; j < length2; j++) {
                     anchors[j].setAttribute("target", "_blank");
                 }
-
             } else {
                 elem.innerHTML = "";
-
                 elem.classList.add("hide");
             }
         }
     }
 
     function renderGenres(page, item, apiClient, context, isStatic) {
-
         var context = inferContext(item);
-
-
         var type, genres = item.GenreItems || [];
-
         switch (context) {
             case "music":
                 type = "MusicGenre";
                 break;
             default:
                 type = "Genre"
-
         }
 
         var html = genres.map(function (p) {
@@ -987,26 +831,20 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         renderDirector(page, item, apiClient, context, isStatic);
         renderGenres(page, item, apiClient, context, isStatic);
         renderChannelGuide(page, apiClient, item);
-
         var taglineElement = page.querySelector(".tagline");
-
         if (item.Taglines && item.Taglines.length) {
             taglineElement.classList.remove("hide");
             taglineElement.innerHTML = item.Taglines[0];
         } else {
             taglineElement.classList.add("hide");
         }
-
         var overview = page.querySelector(".overview");
         var externalLinksElem = page.querySelector(".itemExternalLinks");
-
         if (item.Type === "Season" || item.Type === "MusicAlbum" || item.Type === "MusicArtist") {
             overview.classList.add("detailsHiddenOnMobile");
             externalLinksElem.classList.add("detailsHiddenOnMobile");
         }
-
         renderOverview([overview], item);
-
         var i, length;
         var itemMiscInfo = page.querySelectorAll(".itemMiscInfo-primary");
         for (i = 0, length = itemMiscInfo.length; i < length; i++) {
@@ -1032,7 +870,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 itemMiscInfo[i].classList.add("hide");
             }
         }
-
         reloadUserDataButtons(page, item);
         renderLinks(externalLinksElem, item);
         renderTags(page, item);
@@ -1058,7 +895,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function getThumbShape(scrollX) {
-
         if (scrollX == null) {
             scrollX = enableScrollX();
         }
@@ -1132,47 +968,32 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderSimilarItems(page, item, context) {
-
         var similarCollapsible = page.querySelector("#similarCollapsible");
-
         if (!similarCollapsible) {
             return;
         }
-
         if (item.Type == "Movie" || item.Type == "Trailer" || item.Type == "Series" || item.Type == "Program" || item.Type == "Recording" || item.Type == "MusicAlbum" || item.Type == "MusicArtist" || item.Type == "Playlist") {
             similarCollapsible.classList.remove("hide");
         } else {
             similarCollapsible.classList.add("hide");
             return;
         }
-
         var apiClient = connectionManager.getApiClient(item.ServerId);
-
         var options = {
             userId: apiClient.getCurrentUserId(),
             limit: 12,
             fields: "PrimaryImageAspectRatio,UserData,CanDelete"
         };
-
         if (item.Type == "MusicAlbum" && item.AlbumArtists && item.AlbumArtists.length) {
             options.ExcludeArtistIds = item.AlbumArtists[0].Id;
         }
-
-
-
         apiClient.getSimilarItems(item.Id, options).then(function (result) {
-
             if (!result.Items.length) {
-
                 similarCollapsible.classList.add("hide");
                 return;
             }
-
             similarCollapsible.classList.remove("hide");
-
             var html = "";
-
-
             html += cardBuilder.getCardsHtml({
                 items: result.Items,
                 shape: "autooverflow",
@@ -1187,7 +1008,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 overlayText: false,
                 showYear: item.Type == "Movie" || item.Type == "Trailer"
             });
-
             var similarContent = similarCollapsible.querySelector(".similarContent");
             similarContent.innerHTML = html;
             imageLoader.lazyChildren(similarContent);
@@ -1195,35 +1015,25 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderSeriesAirTime(page, item, isStatic) {
-
         var seriesAirTime = page.querySelector("#seriesAirTime");
-
         if (item.Type != "Series") {
             seriesAirTime.classList.add("hide");
             return;
         }
-
         var html = "";
-
         if (item.AirDays && item.AirDays.length) {
             html += item.AirDays.length == 7 ? "daily" : item.AirDays.map(function (a) {
                 return a + "s";
-
             }).join(",");
         }
-
         if (item.AirTime) {
             html += " at " + item.AirTime;
         }
-
         if (item.Studios.length) {
-
             if (isStatic) {
                 html += " on " + item.Studios[0].Name;
             } else {
-
                 var context = inferContext(item);
-
                 var href = appRouter.getRouteUrl(item.Studios[0], {
                     context: context,
                     itemType: "Studio",
@@ -1232,10 +1042,8 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 html += ' on <a class="textlink button-link" is="emby-button" href="' + href + '">' + item.Studios[0].Name + "</a>";
             }
         }
-
         if (html) {
             html = (item.Status == "Ended" ? "Aired " : "Airs ") + html;
-
             seriesAirTime.innerHTML = html;
             seriesAirTime.classList.remove("hide");
         } else {
@@ -1254,61 +1062,39 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
     function renderChildren(page, item) {
         var fields = "ItemCounts,PrimaryImageAspectRatio,BasicSyncInfo,CanDelete,MediaSourceCount";
-
         var query = {
             ParentId: item.Id,
             Fields: fields
         };
-
-        // Let the server pre-sort boxsets
         if (item.Type !== "BoxSet") {
             query.SortBy = "SortName";
         }
-
         var apiClient = connectionManager.getApiClient(item.ServerId);
-
         var userId = apiClient.getCurrentUserId();
         var promise;
-
         if (item.Type == "Series") {
-
             promise = apiClient.getSeasons(item.Id, {
-
                 userId: userId,
                 Fields: fields
             });
         } else if (item.Type == "Season") {
-
             fields += ",Overview";
-
-            // Use dedicated episodes endpoint
             promise = apiClient.getEpisodes(item.SeriesId, {
-
                 seasonId: item.Id,
                 userId: userId,
                 Fields: fields
             });
-
-
         } else if (item.Type == "MusicAlbum" || item.Type == "MusicArtist") {
-
             query.SortBy = "ProductionYear,SortName";
         }
-
         promise = promise || apiClient.getItems(apiClient.getCurrentUserId(), query);
-
         promise.then(function (result) {
-
             var html = "";
-
             var scrollX = false;
             var isList = false;
-
             var scrollClass = "hiddenScrollX";
             var childrenItemsContainer = page.querySelector(".childrenItemsContainer");
-
             if (item.Type == "MusicAlbum") {
-
                 html = listView.getListViewHtml({
                     items: result.Items,
                     smallIcon: true,
@@ -1324,9 +1110,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 });
                 isList = true;
             } else if (item.Type == "Series") {
-
                 scrollX = enableScrollX();
-
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: getPortraitShape(),
@@ -1337,22 +1121,17 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                     allowBottomPadding: !scrollX
                 });
             } else if (item.Type == "Season" || item.Type == "Episode") {
-
                 if (item.Type === "Episode") {
                     childrenItemsContainer.classList.add("darkScroller");
                 } else {
                     isList = true;
                 }
-
                 scrollX = item.Type == "Episode";
                 if (!browser.touch) {
                     scrollClass = "smoothScrollX";
                 }
-
                 if (result.Items.length < 2 && item.Type === "Episode") {
-
                     return;
-
                 } else if (item.Type === "Episode") {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
@@ -1367,9 +1146,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                         allowBottomPadding: !scrollX,
                         includeParentInfoInTitle: false
                     });
-
                 } else if (item.Type === "Season") {
-
                     html = listView.getListViewHtml({
                         items: result.Items,
                         showIndexNumber: false,
@@ -1384,12 +1161,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                     });
                 }
             }
-
-
             if (item.Type !== "BoxSet") {
                 page.querySelector("#childrenCollapsible").classList.remove("hide");
             }
-
             if (scrollX) {
                 childrenItemsContainer.classList.add(scrollClass);
                 childrenItemsContainer.classList.remove("vertical-wrap");
@@ -1397,7 +1171,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             } else {
                 childrenItemsContainer.classList.remove("hiddenScrollX");
                 childrenItemsContainer.classList.remove("smoothScrollX");
-
                 if (isList) {
                     childrenItemsContainer.classList.add("vertical-list");
                     childrenItemsContainer.classList.remove("vertical-wrap");
@@ -1406,12 +1179,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                     childrenItemsContainer.classList.remove("vertical-list");
                 }
             }
-
             childrenItemsContainer.innerHTML = html;
             imageLoader.lazyChildren(childrenItemsContainer);
-
             if (item.Type == "BoxSet") {
-
                 var collectionItemTypes = [{
                         name: globalize.translate("HeaderVideos"),
                         mediaType: "Video"
@@ -1429,11 +1199,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                         type: "Book"
                     }
                 ];
-
                 renderCollectionItems(page, item, collectionItemTypes, result.Items);
             }
         });
-
         if (item.Type == "Season") {
             page.querySelector("#childrenTitle").innerHTML = globalize.translate("HeaderEpisodes");
         } else if (item.Type == "Series") {
@@ -1443,7 +1211,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         } else {
             page.querySelector("#childrenTitle").innerHTML = globalize.translate("HeaderItems");
         }
-
         if (item.Type == "MusicAlbum" || item.Type == "Season") {
             page.querySelector(".childrenSectionHeader", page).classList.add("hide");
         } else {
@@ -1452,19 +1219,13 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderItemsByName(page, item, user) {
-
         require("scripts/itembynamedetailpage".split(","), function () {
-
-
             window.ItemsByName.renderItems(page, item);
         });
     }
 
     function renderPlaylistItems(page, item, user) {
-
         require("scripts/playlistedit".split(","), function () {
-
-
             PlaylistViewer.render(page, item);
         });
     }
@@ -1504,11 +1265,8 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
     function renderChannelGuide(page, apiClient, item) {
         if (item.Type === "TvChannel") {
-
             page.querySelector(".programGuideSection").classList.remove("hide");
-
             apiClient.getLiveTvPrograms({
-
                 ChannelIds: channelId,
                 UserId: apiClient.getCurrentUserId(),
                 HasAired: false,
@@ -1517,9 +1275,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 EnableImages: false,
                 ImageTypeLimit: 0,
                 EnableUserData: false
-
             }).then(function (result) {
-
                 renderPrograms(page, result);
                 loading.hide();
             });
@@ -1529,7 +1285,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     function renderSeriesSchedule(page, item, user) {
         var apiClient = connectionManager.getApiClient(item.ServerId);
         apiClient.getLiveTvPrograms({
-
             UserId: apiClient.getCurrentUserId(),
             HasAired: false,
             SortBy: "StartDate",
@@ -1539,16 +1294,12 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             Limit: 50,
             EnableUserData: false,
             LibrarySeriesId: item.Id
-
         }).then(function (result) {
-
             if (result.Items.length) {
                 page.querySelector("#seriesScheduleSection").classList.remove("hide");
-
             } else {
                 page.querySelector("#seriesScheduleSection").classList.add("hide");
             }
-
             page.querySelector("#seriesScheduleList").innerHTML = listView.getListViewHtml({
                 items: result.Items,
                 enableUserDataButtons: false,
@@ -1560,13 +1311,11 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 moreButton: false,
                 action: "programdialog"
             });
-
             loading.hide();
         });
     }
 
     function inferContext(item) {
-
         if (item.Type == "Movie" || item.Type == "BoxSet") {
             return "movies";
         }
@@ -1579,14 +1328,11 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         if (item.Type == "Program") {
             return "livetv";
         }
-
         return null;
     }
 
     function filterItemsByCollectionItemType(items, typeInfo) {
-
         return items.filter(function (item) {
-
             if (typeInfo.mediaType) {
                 return item.MediaType == typeInfo.mediaType;
             }
@@ -1595,45 +1341,31 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderCollectionItems(page, parentItem, types, items) {
-
         page.querySelector(".collectionItems").innerHTML = "";
         var i, length;
-
         for (i = 0, length = types.length; i < length; i++) {
-
             var type = types[i];
-
             var typeItems = filterItemsByCollectionItemType(items, type);
-
             if (typeItems.length) {
                 renderCollectionItemType(page, parentItem, type, typeItems);
             }
         }
-
         var otherType = {
             name: globalize.translate("HeaderOtherItems")
         };
-
         var otherTypeItems = items.filter(function (curr) {
-
             return !types.filter(function (t) {
-
                 return filterItemsByCollectionItemType([curr], t).length > 0;
-
             }).length;
-
         });
-
         if (otherTypeItems.length) {
             renderCollectionItemType(page, parentItem, otherType, otherTypeItems);
         }
-
         if (!items.length) {
             renderCollectionItemType(page, parentItem, {
                 name: globalize.translate("HeaderItems")
             }, items);
         }
-
         var containers = page.querySelectorAll(".collectionItemsContainer"),
             notifyRefreshNeeded = function () {
                 renderChildren(page, parentItem)
@@ -1642,23 +1374,16 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderCollectionItemType(page, parentItem, type, items) {
-
         var html = "";
-
         html += '<div class="verticalSection">';
-
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
         html += '<h2 class="sectionTitle sectionTitle-cards">';
         html += "<span>" + type.name + "</span>";
-
         html += "</h2>";
         html += '<button class="btnAddToCollection sectionTitleButton" type="button" is="paper-icon-button-light" style="margin-left:1em;"><i class="md-icon" icon="add">add</i></button>';
         html += "</div>";
-
         html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
-
         var shape = type.type == "MusicAlbum" ? getSquareShape(false) : getPortraitShape(false);
-
         html += cardBuilder.getCardsHtml({
             items: items,
             shape: shape,
@@ -1672,13 +1397,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             collectionId: parentItem.Id
         });
         html += "</div>";
-
         html += "</div>";
-
         var collectionItems = page.querySelector(".collectionItems");
         collectionItems.insertAdjacentHTML("beforeend", html);
         imageLoader.lazyChildren(collectionItems);
-
         collectionItems.querySelector(".btnAddToCollection").addEventListener("click", function () {
             require(["alert"], function (alert) {
                 alert({
@@ -1690,25 +1412,19 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderMusicVideos(page, item, user) {
-
         connectionManager.getApiClient(item.ServerId).getItems(user.Id, {
-
             SortBy: "SortName",
             SortOrder: "Ascending",
             IncludeItemTypes: "MusicVideo",
             Recursive: true,
             Fields: "PrimaryImageAspectRatio,BasicSyncInfo,CanDelete,MediaSourceCount",
             AlbumIds: item.Id
-
         }).then(function (result) {
             if (result.Items.length) {
-
                 page.querySelector("#musicVideosCollapsible").classList.remove("hide");
-
                 var musicVideosContent = page.querySelector(".musicVideosContent");
                 musicVideosContent.innerHTML = getVideosHtml(result.Items, user);
                 imageLoader.lazyChildren(musicVideosContent);
-
             } else {
                 page.querySelector("#musicVideosCollapsible").classList.add("hide");
             }
@@ -1717,17 +1433,12 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderAdditionalParts(page, item, user) {
-
         connectionManager.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then(function (result) {
-
             if (result.Items.length) {
-
                 page.querySelector("#additionalPartsCollapsible").classList.remove("hide");
-
                 var additionalPartsContent = page.querySelector("#additionalPartsContent");
                 additionalPartsContent.innerHTML = getVideosHtml(result.Items, user);
                 imageLoader.lazyChildren(additionalPartsContent);
-
             } else {
                 page.querySelector("#additionalPartsCollapsible").classList.add("hide");
             }
@@ -1735,22 +1446,16 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderScenes(page, item) {
-
         var chapters = item.Chapters || [];
-
         if (chapters.length && !chapters[0].ImageTag) {
             chapters = [];
         }
-
         if (!chapters.length) {
             page.querySelector("#scenesCollapsible").classList.add("hide");
         } else {
             page.querySelector("#scenesCollapsible").classList.remove("hide");
-
             var scenesContent = page.querySelector("#scenesContent");
-
             require(["chaptercardbuilder"], function (chaptercardbuilder) {
-
                 chaptercardbuilder.buildChapterCards(item, chapters, {
                     itemsContainer: scenesContent,
                     width: 400,
@@ -1762,17 +1467,12 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderMediaSources(page, user, item) {
-
         var html = item.MediaSources.map(function (v) {
-
             return getMediaSourceHtml(user, item, v);
-
         }).join('<div style="border-top:1px solid #444;margin: 1em 0;"></div>');
-
         if (item.MediaSources.length > 1) {
             html = "<br/>" + html;
         }
-
         var mediaInfoContent = page.querySelector("#mediaInfoContent");
         mediaInfoContent.innerHTML = html;
         if (html) {
@@ -1783,108 +1483,79 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function getMediaSourceHtml(user, item, version) {
-
         var html = "";
-
         if (version.Name && item.MediaSources.length > 1) {
             html += '<div><span class="mediaInfoAttribute">' + version.Name + "</span></div><br/>";
         }
-
         for (var i = 0, length = version.MediaStreams.length; i < length; i++) {
-
             var stream = version.MediaStreams[i];
-
             if (stream.Type === "Data") {
                 continue;
             }
-
             html += '<div class="mediaInfoStream">';
-
             var displayType = globalize.translate("MediaInfoStreamType" + stream.Type);
-
             html += '<h2 class="mediaInfoStreamType">' + displayType + "</h2>";
-
             var attributes = [];
-
             if (stream.DisplayTitle) {
                 attributes.push(createAttribute("Title", stream.DisplayTitle));
             }
-
             if (stream.Language && stream.Type !== "Video") {
                 attributes.push(createAttribute(globalize.translate("MediaInfoLanguage"), stream.Language));
             }
-
             if (stream.Codec) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoCodec"), stream.Codec.toUpperCase()));
             }
-
             if (stream.CodecTag) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoCodecTag"), stream.CodecTag));
             }
-
             if (stream.IsAVC != null) {
                 attributes.push(createAttribute("AVC", (stream.IsAVC ? "Yes" : "No")));
             }
-
             if (stream.Profile) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoProfile"), stream.Profile));
             }
-
             if (stream.Level) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoLevel"), stream.Level));
             }
-
             if (stream.Width || stream.Height) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoResolution"), stream.Width + "x" + stream.Height));
             }
-
             if (stream.AspectRatio && stream.Codec !== "mjpeg") {
                 attributes.push(createAttribute(globalize.translate("MediaInfoAspectRatio"), stream.AspectRatio));
             }
-
             if (stream.Type === "Video") {
                 if (stream.IsAnamorphic != null) {
                     attributes.push(createAttribute(globalize.translate("MediaInfoAnamorphic"), (stream.IsAnamorphic ? "Yes" : "No")));
                 }
-
                 attributes.push(createAttribute(globalize.translate("MediaInfoInterlaced"), (stream.IsInterlaced ? "Yes" : "No")));
             }
-
             if (stream.AverageFrameRate || stream.RealFrameRate) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoFramerate"), (stream.AverageFrameRate || stream.RealFrameRate)));
             }
-
             if (stream.ChannelLayout) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoLayout"), stream.ChannelLayout));
             }
             if (stream.Channels) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoChannels"), stream.Channels + " ch"));
             }
-
             if (stream.BitRate && stream.Codec !== "mjpeg") {
                 attributes.push(createAttribute(globalize.translate("MediaInfoBitrate"), (parseInt(stream.BitRate / 1000)) + " kbps"));
             }
-
             if (stream.SampleRate) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoSampleRate"), stream.SampleRate + " Hz"));
             }
-
             if (stream.BitDepth) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoBitDepth"), stream.BitDepth + " bit"));
             }
-
             if (stream.PixelFormat) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoPixelFormat"), stream.PixelFormat));
             }
-
             if (stream.RefFrames) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoRefFrames"), stream.RefFrames));
             }
-
             if (stream.NalLengthSize) {
                 attributes.push(createAttribute("NAL", stream.NalLengthSize));
             }
-
             if (stream.Type !== "Video") {
                 attributes.push(createAttribute(globalize.translate("MediaInfoDefault"), (stream.IsDefault ? "Yes" : "No")));
             }
@@ -1892,35 +1563,25 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 attributes.push(createAttribute(globalize.translate("MediaInfoForced"), (stream.IsForced ? "Yes" : "No")));
                 attributes.push(createAttribute(globalize.translate("MediaInfoExternal"), (stream.IsExternal ? "Yes" : "No")));
             }
-
             if (stream.Type === "Video" && version.Timestamp) {
                 attributes.push(createAttribute(globalize.translate("MediaInfoTimestamp"), version.Timestamp));
             }
-
             html += attributes.join("<br/>");
-
             html += "</div>";
         }
-
         if (version.Container) {
             html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoContainer") + '</span><span class="mediaInfoAttribute">' + version.Container + "</span></div>";
         }
-
         if (version.Formats && version.Formats.length) {
             //html += "<div><span class="mediaInfoLabel">"+Globalize.translate("MediaInfoFormat")+"</span><span class="mediaInfoAttribute">" + version.Formats.join(",") + "</span></div>";
         }
-
         if (version.Path && version.Protocol !== "Http" && user && user.Policy.IsAdministrator) {
             html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoPath") + '</span><span class="mediaInfoAttribute">' + version.Path + "</span></div>";
         }
-
         if (version.Size) {
-
             var size = (version.Size / (1024 * 1024)).toFixed(0);
-
             html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoSize") + '</span><span class="mediaInfoAttribute">' + size + " MB</span></div>";
         }
-
         return html;
     }
 
@@ -1929,7 +1590,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function getVideosHtml(items, user, limit, moreButtonClass) {
-
         var html = cardBuilder.getCardsHtml({
             items: items,
             shape: "auto",
@@ -1939,22 +1599,17 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             centerText: true,
             showRuntime: true
         });
-
         if (limit && items.length > limit) {
             html += '<p style="margin: 0;padding-left:5px;"><button is="emby-button" type="button" class="raised more ' + moreButtonClass + '">' + globalize.translate("ButtonMore") + "</button></p>";
         }
-
         return html;
     }
 
     function renderSpecials(page, item, user, limit) {
-
         connectionManager.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
-
             var specialsContent = page.querySelector("#specialsContent");
             specialsContent.innerHTML = getVideosHtml(specials, user, limit, "moreSpecials");
             imageLoader.lazyChildren(specialsContent);
-
         });
     }
 
@@ -1998,14 +1653,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
     return window.ItemDetailPage = new itemDetailPage,
         function (view, params) {
-
             function reload(instance, page, params) {
-
                 loading.show();
-
                 var apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient,
                     promises = [getPromise(apiClient, params), apiClient.getCurrentUser()];
-
                 Promise.all(promises).then(function (responses) {
                     var item = responses[0];
                     var user = responses[1];
@@ -2015,21 +1666,14 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             }
 
             function splitVersions(instance, page, apiClient, params) {
-
                 require(["confirm"], function (confirm) {
-
                     confirm("Are you sure you wish to split the media sources into separate items?", "Split Media Apart").then(function () {
-
                         loading.show();
-
                         apiClient.ajax({
                             type: "DELETE",
                             url: apiClient.getUrl("Videos/" + params.id + "/AlternateSources")
-
                         }).then(function () {
-
                             loading.hide();
-
                             reload(instance, page, params);
                         });
                     });
@@ -2056,19 +1700,14 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             }
 
             function playCurrentItem(button, mode) {
-
                 var item = currentItem;
-
                 if (item.Type === "Program") {
-
                     var apiClient = connectionManager.getApiClient(item.ServerId);
                     apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function (channel) {
-
                         playbackManager.play({
                             items: [channel]
                         });
                     });
-
                     return;
                 }
                 playItem(item, item.UserData && "resume" === mode ? item.UserData.PlaybackPositionTicks : 0)
@@ -2087,9 +1726,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             }
 
             function onDeleteClick() {
-
                 require(["deleteHelper"], function (deleteHelper) {
-
                     deleteHelper.deleteItem({
                         item: currentItem,
                         navigate: true
@@ -2098,9 +1735,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             }
 
             function onCancelSeriesTimerClick() {
-
                 require(["recordingHelper"], function (recordingHelper) {
-
                     recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(function () {
                         Dashboard.navigate("livetv.html");
                     });
@@ -2108,9 +1743,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             }
 
             function onCancelTimerClick() {
-
                 require(["recordingHelper"], function (recordingHelper) {
-
                     recordingHelper.cancelTimer(connectionManager.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
                         reload(self, view, params);
                     });
@@ -2127,13 +1760,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
             function onMoreCommandsClick() {
                 var button = this;
-
                 apiClient.getCurrentUser().then(function (user) {
                     itemContextMenu.show(getContextMenuOptions(currentItem, user, button)).then(function (result) {
-
                         if (result.deleted) {
                             appRouter.goHome();
-
                         } else if (result.updated) {
                             reload(self, view, params);
                         }
@@ -2148,42 +1778,27 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
             function editImages() {
                 return new Promise(function (resolve, reject) {
-
                     require(["imageEditor"], function (imageEditor) {
-
                         imageEditor.show({
-
                             itemId: currentItem.Id,
                             serverId: currentItem.ServerId
-
                         }).then(resolve, reject);
                     });
                 });
             }
 
             function onWebSocketMessage(e, data) {
-
                 var msg = data;
-
                 if (msg.MessageType === "UserDataChanged") {
-
                     if (currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
-
                         var key = currentItem.UserData.Key;
-
                         var userData = msg.Data.UserDataList.filter(function (u) {
-
                             return u.Key == key;
                         })[0];
-
                         if (userData) {
-
                             currentItem.UserData = userData;
-
                             reloadPlayButtons(view, currentItem);
-
                             apiClient.getCurrentUser().then(function (user) {
-
                                 refreshImage(view, currentItem, user);
                             });
                         }
@@ -2191,13 +1806,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 }
 
             }
-
             var currentItem;
             var self = this;
             var apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
-
             view.querySelectorAll(".btnPlay");
-
             bindAll(view, ".btnPlay", "click", onPlayClick);
             bindAll(view, ".btnResume", "click", onPlayClick);
             bindAll(view, ".btnInstantMix", "click", onInstantMixClick);
@@ -2206,24 +1818,18 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             bindAll(view, ".btnCancelSeriesTimer", "click", onCancelSeriesTimerClick);
             bindAll(view, ".btnCancelTimer", "click", onCancelTimerClick);
             bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
-
             view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
             view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
-
             view.querySelector(".btnSplitVersions").addEventListener("click", function () {
                 splitVersions(self, view, apiClient, params)
             });
-
             bindAll(view, ".btnMoreCommands", "click", onMoreCommandsClick);
-
             view.querySelector(".selectSource").addEventListener("change", function () {
                 renderVideoSelections(view, self._currentPlaybackMediaSources);
                 renderAudioSelections(view, self._currentPlaybackMediaSources);
                 renderSubtitleSelections(view, self._currentPlaybackMediaSources);
             });
-
             view.addEventListener("click", function (e) {
-
                 if (dom.parentWithClass(e.target, "moreScenes")) {
                     apiClient.getCurrentUser().then(function (user) {
                         renderScenes(view, currentItem, user);
@@ -2236,7 +1842,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                     });
                 }
             });
-
             view.querySelector(".detailImageContainer").addEventListener("click", function (e) {
                 var itemDetailGalleryLink = dom.parentWithClass(e.target, "itemDetailGalleryLink");
                 if (itemDetailGalleryLink) {
@@ -2245,18 +1850,15 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                     });
                 }
             });
-
             view.addEventListener("viewshow", function (e) {
                 var page = this;
                 libraryMenu.setTransparentMenu(true), e.detail.isRestored ? currentItem && (setTitle(currentItem, connectionManager.getApiClient(currentItem.ServerId)), renderTrackSelections(page, self, currentItem, true)) : reload(self, page, params), events.on(apiClient, "message", onWebSocketMessage), events.on(playbackManager, "playerchange", onPlayerChange)
             });
-
             view.addEventListener("viewbeforehide", function () {
                 events.off(apiClient, "message", onWebSocketMessage);
                 events.off(playbackManager, "playerchange", onPlayerChange);
                 libraryMenu.setTransparentMenu(false);
             });
-
             view.addEventListener("viewdestroy", function () {
                 currentItem = null;
                 self._currentPlaybackMediaSources = null;

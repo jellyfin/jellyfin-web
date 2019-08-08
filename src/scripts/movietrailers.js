@@ -27,19 +27,16 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                     },
                     view: libraryBrowser.getSavedView(key) || "Poster"
                 };
-
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
             return pageData;
         }
 
         function getQuery(context) {
-
             return getPageData(context).query;
         }
 
         function getSavedQueryKey(context) {
-
             if (!context.savedQueryKey) {
                 context.savedQueryKey = libraryBrowser.getSavedQueryKey("trailers");
             }
@@ -47,16 +44,11 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
         }
 
         function reloadItems() {
-
             loading.show();
             isLoading = true;
-
             var query = getQuery(tabContent);
-
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
-
                 window.scrollTo(0, 0);
-
                 updateFilterControls(tabContent);
 
                 var pagingHtml = libraryBrowser.getQueryPagingHtml({
@@ -74,7 +66,6 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                 var viewStyle = self.getCurrentViewStyle();
 
                 if (viewStyle == "Thumb") {
-
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
                         shape: "backdrop",
@@ -83,7 +74,6 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         overlayPlayButton: true
                     });
                 } else if (viewStyle == "ThumbCard") {
-
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
                         shape: "backdrop",
@@ -95,7 +85,6 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         centerText: true
                     });
                 } else if (viewStyle == "Banner") {
-
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
                         shape: "banner",
@@ -103,14 +92,12 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         context: "movies"
                     });
                 } else if (viewStyle == "List") {
-
                     html = listView.getListViewHtml({
                         items: result.Items,
                         context: "movies",
                         sortBy: query.SortBy
                     });
                 } else if (viewStyle == "PosterCard") {
-
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
                         shape: "portrait",
@@ -121,7 +108,6 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         centerText: true
                     });
                 } else {
-
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
                         shape: "portrait",
@@ -150,59 +136,47 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                     query.StartIndex -= query.Limit;
                     reloadItems();
                 }
-
                 elems = tabContent.querySelectorAll(".btnNextPage");
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onNextPageClick);
                 }
-
                 elems = tabContent.querySelectorAll(".btnPreviousPage");
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onPreviousPageClick);
                 }
-
                 if (!result.Items.length) {
                     html = '<p style="text-align:center;">' + Globalize.translate("MessageNoTrailersFound") + "</p>";
                 }
-
                 var itemsContainer = tabContent.querySelector(".itemsContainer");
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
-
                 libraryBrowser.saveQueryValues(getSavedQueryKey(tabContent), query);
-
                 loading.hide();
                 isLoading = false;
             });
         }
 
         self.showFilterMenu = function () {
-
             require(["components/filterdialog/filterdialog"], function (filterDialogFactory) {
-
                 var filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: "movies",
                     serverId: ApiClient.serverId()
                 });
-
                 events.on(filterDialog, "filterchange", function () {
                     getQuery(tabContent).StartIndex = 0;
                     reloadItems();
                 });
-
                 filterDialog.show();
             });
         }
 
         function updateFilterControls(tabContent) {
-
             var query = getQuery(tabContent);
             self.alphaPicker.value(query.NameStartsWithOrGreater);
         }
 
         function initPage(tabContent) {
-
             var alphaPickerElement = tabContent.querySelector(".alphaPicker");
             alphaPickerElement.addEventListener("alphavaluechanged", function (e) {
                 var newValue = e.detail.value;
@@ -211,23 +185,19 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                 query.StartIndex = 0;
                 reloadItems();
             });
-
             self.alphaPicker = new alphaPicker({
                 element: alphaPickerElement,
                 valueChangeEvent: "click"
             });
-
             if (layoutManager.desktop || layoutManager.mobile) {
                 tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-right");
                 var itemsContainer = tabContent.querySelector(".itemsContainer");
                 itemsContainer.classList.remove("padded-left-withalphapicker");
                 itemsContainer.classList.add("padded-right-withalphapicker");
             }
-
             tabContent.querySelector(".btnFilter").addEventListener("click", function () {
                 self.showFilterMenu();
             });
-
             tabContent.querySelector(".btnSort").addEventListener("click", function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
@@ -268,7 +238,6 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                 });
             });
         }
-
         self.getCurrentViewStyle = function () {
             return getPageData(tabContent).view;
         };
@@ -276,11 +245,9 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
         initPage(tabContent);
 
         self.renderTab = function () {
-
             reloadItems();
             updateFilterControls(tabContent);
         };
-
         self.destroy = function () {};
     };
 });
