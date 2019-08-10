@@ -184,5 +184,6 @@
     "ButtonManageServer": "Gérer le serveur",
     "ButtonManualLogin": "Connexion manuelle",
     "ButtonMenu": "Menu",
-    "ButtonMore": "Plus"
+    "ButtonMore": "Plus",
+    "ButtonNetwork": "Réseau"
 }
