@@ -1,13 +1,17 @@
 define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-icon-button-light', 'css!./directorybrowser', 'formDialogStyle', 'emby-button'], function(loading, dialogHelper, dom) {
     'use strict';
 
+    var systemInfo;
     function getSystemInfo() {
-        return systemInfo ? Promise.resolve(systemInfo) : ApiClient.getPublicSystemInfo().then(
-            function(info) {
+
+        if (systemInfo) {
+            return Promise.resolve(systemInfo);
+        } else {
+            return ApiClient.getPublicSystemInfo().then(function (info) {
                 systemInfo = info;
                 return info;
-            }
-        )
+            });
+        }
     }
 
     function onDialogClosed() {
@@ -15,23 +19,22 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
     }
 
     function refreshDirectoryBrowser(page, path, fileOptions, updatePathOnError) {
-        if (path && typeof path !== 'string') {
-            throw new Error("invalid path");
+        if (path && typeof (path) !== 'string') {
+            throw new Error('invalid path');
         }
-
         loading.show();
 
         var promises = [];
 
-        if ("Network" === path) {
-            promises.push(ApiClient.getNetworkDevices())
+        if (path === "Network") {
+            promises.push(ApiClient.getNetworkDevices());
+        }
+        else if (path) {
+
+            promises.push(ApiClient.getDirectoryContents(path, fileOptions));
+            promises.push(ApiClient.getParentPath(path));
         } else {
-            if (path) {
-                promises.push(ApiClient.getDirectoryContents(path, fileOptions));
-                promises.push(ApiClient.getParentPath(path));
-            } else {
-                promises.push(ApiClient.getDrives());
-            }
+            promises.push(ApiClient.getDrives());
         }
 
         Promise.all(promises).then(
