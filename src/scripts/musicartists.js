@@ -176,16 +176,16 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
             });
             var btnSelectView = tabContent.querySelector(".btnSelectView");
             btnSelectView.addEventListener("click", function (e) {
-                    libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), "List,Poster,PosterCard".split(","));
-                }),
-                btnSelectView.addEventListener("layoutchange", function (e) {
-                    var viewStyle = e.detail.viewStyle;
-                    getPageData(tabContent).view = viewStyle;
-                    libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
-                    getQuery(tabContent).StartIndex = 0;
-                    onViewStyleChange();
-                    reloadItems(tabContent);
-                });
+                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), "List,Poster,PosterCard".split(","));
+            }),
+            btnSelectView.addEventListener("layoutchange", function (e) {
+                var viewStyle = e.detail.viewStyle;
+                getPageData(tabContent).view = viewStyle;
+                libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
+                getQuery(tabContent).StartIndex = 0;
+                onViewStyleChange();
+                reloadItems(tabContent);
+            });
         }
         initPage(tabContent);
         onViewStyleChange();

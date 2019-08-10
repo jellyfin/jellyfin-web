@@ -126,7 +126,7 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
             var query = getQuery();
             promise.then(function (result) {
                 var elem = context.querySelector('#items');
-                html = "";
+                var html = "";
                 var items = result.Items;
                 for (var i = 0, length = items.length; i < length; i++) {
                     var item = items[i];
