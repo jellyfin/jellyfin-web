@@ -894,11 +894,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         headerSettingsButton = skinHeader.querySelector(".headerSettingsButton");
         headerCastButton = skinHeader.querySelector(".headerCastButton");
         headerSearchButton = skinHeader.querySelector(".headerSearchButton");
-
-        if (!browser.chrome) {
-            skinHeader.classList.add("skinHeader-blurred");
-        }
-
+        skinHeader.classList.add("skinHeader-blurred");
         lazyLoadViewMenuBarImages();
         bindMenuEvents();
     })();
