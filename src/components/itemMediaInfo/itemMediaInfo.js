@@ -1,7 +1,6 @@
 define(["dialogHelper", "require", "layoutManager", "globalize", "userSettings", "connectionManager", "loading", "focusManager", "dom", "apphost", "emby-select", "listViewStyle", "paper-icon-button-light", "css!./../formdialog", "material-icons", "emby-button", "flexStyles"], function (dialogHelper, require, layoutManager, globalize, userSettings, connectionManager, loading, focusManager, dom, appHost) {
     "use strict";
 
-
     function setMediaInfo(page, item, apiClient, context, user) {
         renderMediaSources(page, user, item);
     }
@@ -161,6 +160,7 @@ define(["dialogHelper", "require", "layoutManager", "globalize", "userSettings",
             });
         });
     }
+
     return {
         show: showMediaInfo
     };
