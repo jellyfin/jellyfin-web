@@ -532,7 +532,7 @@
     "TabMusicVideos": "Zenei Videók",
     "TabMyPlugins": "Telepített bővítmények",
     "TabNetworks": "Csatornák",
-    "TabNfoSettings": "NFO Beállítások",
+    "TabNfoSettings": "NFO beállítások",
     "TabNotifications": "Értesítések",
     "TabOther": "Egyéb",
     "TabParentalControl": "Szülői Felügyelet",
@@ -667,7 +667,7 @@
     "DirectPlaying": "Közvetlen lejátszás",
     "DirectStreamHelp1": "Az adathordozó kompatibilis a készülékkel a felbontás és a médiatípus (H.264, AC3, stb.) tekintetében, de nem kompatibilis a fájltárolóban (.mkv, .avi, .wmv, stb.). A videófelvétel újra csomagolásra kerül, mielőtt azt a készülékre továbbítaná.",
     "DirectStreamHelp2": "A fájl közvetlen közvetítése (Direct Streaming) nagyon kevés feldolgozási erőforrást használ, ennek ellenére a videó nem veszít a minőségéből.",
-    "DirectStreaming": "Közvetlen közvetítés",
+    "DirectStreaming": "Direct streaming",
     "Disabled": "Tiltva",
     "Disc": "Lemez",
     "Disconnect": "Szétkapcsol",
@@ -1122,7 +1122,7 @@
     "OptionBlockLiveTvChannels": "Élő TV csatornák",
     "OptionBlockMusic": "Zene",
     "OptionBlockTvShows": "TV műsorok",
-    "OptionBluray": "Bluray",
+    "OptionBluray": "Blu-ray",
     "OptionCaptionInfoExSamsung": "CaptionInfoEx (Samsung)",
     "OptionContinuing": "Folytatva",
     "OptionDateAddedImportTime": "Használja a könyvtárba beolvasási dátumot",
@@ -1371,5 +1371,6 @@
     "LabelKodiMetadataUserHelp": "Ha ezt engedélyezed, akkor a kiválasztott felhasználó megtekintési adata elmentésre kerül az NFO fájlokba, melyet azután más alkalmazások használhatnak.",
     "LabelLocalHttpServerPortNumberHelp": "A TCP port száma, melyen a Jellyfin HTTP szerver figyel.",
     "UserAgentHelp": "Adj meg egy egyedi http user-agent fejlécet, amennyiben szükséges.",
-    "XmlDocumentAttributeListHelp": "Ezek a tulajdonságok minden xml válaszüzenet gyökér elemére alkalmazásra kerülnek."
+    "XmlDocumentAttributeListHelp": "Ezek a tulajdonságok minden xml válaszüzenet gyökér elemére alkalmazásra kerülnek.",
+    "Thumb": "Thumb"
 }
