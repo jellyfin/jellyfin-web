@@ -106,7 +106,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         cardLayout: true,
                         showTitle: true,
                         showSeriesYear: true,
-						centerText:true
+                        centerText:true
                     })
                 }
                 else if (viewStyle == "Banner") {
@@ -132,7 +132,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         showTitle: true,
                         showSeriesYear: true,
                         cardLayout: true,
-						centerText: true
+                        centerText: true
                     });
                 }
                 else {
@@ -143,8 +143,8 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         centerText: true,
                         lazy: true,
                         overlayMoreButton: true,
-						showTitle: true,
-						showYear: true
+                        showTitle: true,
+                        showYear: true
                     });
                 }
                 var i, length;

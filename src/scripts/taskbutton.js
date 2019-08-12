@@ -76,13 +76,13 @@ define(["events", "userSettings", "serverNotifications", "connectionManager", "e
         if (options.mode == "off") {
             button.removeEventListener("click", onButtonClick);
             events.off(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate), function() {
-            connectionManager.getApiClient(serverId).sendMessage("ScheduledTasksInfoStop"), pollInterval && clearInterval(pollInterval)
-        }} else {
+                connectionManager.getApiClient(serverId).sendMessage("ScheduledTasksInfoStop"), pollInterval && clearInterval(pollInterval)
+            }} else {
             button.addEventListener("click", onButtonClick);
             pollTasks(), function() {
-            var apiClient = connectionManager.getApiClient(serverId);
-            pollInterval && clearInterval(pollInterval), apiClient.sendMessage("ScheduledTasksInfoStart", "1000,1000"), pollInterval = setInterval(onPollIntervalFired, 1e4)
-        }};
+                var apiClient = connectionManager.getApiClient(serverId);
+                pollInterval && clearInterval(pollInterval), apiClient.sendMessage("ScheduledTasksInfoStart", "1000,1000"), pollInterval = setInterval(onPollIntervalFired, 1e4)
+            }};
         events.on(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate);
     }
 });

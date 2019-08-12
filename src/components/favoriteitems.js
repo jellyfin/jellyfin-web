@@ -105,18 +105,18 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
                 ExcludeLocationTypes: "Virtual",
                 EnableTotalRecordCount: false
             };
-            if (topParentId) {
-                options.ParentId = topParentId;
-            }
+        if (topParentId) {
+            options.ParentId = topParentId;
+        }
 
-            if (!isSingleSection) {
-                options.Limit = screenWidth >= 1920 ? 10 : (screenWidth >= 1440 ? 8 : 6);
+        if (!isSingleSection) {
+            options.Limit = screenWidth >= 1920 ? 10 : (screenWidth >= 1440 ? 8 : 6);
 
-                if (enableScrollX()) {
-                    options.Limit = 20;
-                }
+            if (enableScrollX()) {
+                options.Limit = 20;
             }
-            var promise;
+        }
+        var promise;
         if (section.types == "MusicArtist") {
             promise = ApiClient.getArtists(userId, options);
         } else {

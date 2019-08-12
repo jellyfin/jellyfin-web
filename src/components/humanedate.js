@@ -36,10 +36,10 @@ define(["datetime"], function(datetime) {
         }
         // overflow for centuries
         if (seconds > 4730400000)
-        return Math.round(seconds / 4730400000) + ' centuries' + token;
+            return Math.round(seconds / 4730400000) + ' centuries' + token;
 
-    return date_str;
-}
-window.humane_date = humane_date;
+        return date_str;
+    }
+    window.humane_date = humane_date;
     return humane_date;
 });
