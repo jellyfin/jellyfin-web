@@ -292,13 +292,13 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             initialTabIndex = currentTabIndex,
             suggestionsTabIndex = 1;
         self.initTab = function () {
-                var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
-                initSuggestedTab(view, tabContent);
-            },
-            self.renderTab = function () {
-                var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
-                loadSuggestionsTab(view, params, tabContent)
-            };
+            var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            initSuggestedTab(view, tabContent);
+        },
+        self.renderTab = function () {
+            var tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+            loadSuggestionsTab(view, params, tabContent)
+        };
         var tabControllers = [],
             renderedTabs = [];
         view.addEventListener("viewshow", function (e) {

@@ -74,12 +74,12 @@ define(["jQuery", "loading", "globalize", "dom"], function ($, loading, globaliz
                 config.H264Crf = parseInt(form.querySelector("#txtH264Crf").value || "0");
 
                 config.EnableSubtitleExtraction = form.querySelector("#chkEnableSubtitleExtraction").checked,
-                    config.HardwareDecodingCodecs = Array.prototype.map.call(Array.prototype.filter.call(form.querySelectorAll(".chkDecodeCodec"), function (c) {
-                        return c.checked
-                    }), function (c) {
-                        return c.getAttribute("data-codec")
-                    }),
-                    config.EnableHardwareEncoding = form.querySelector("#chkHardwareEncoding").checked;
+                config.HardwareDecodingCodecs = Array.prototype.map.call(Array.prototype.filter.call(form.querySelectorAll(".chkDecodeCodec"), function (c) {
+                    return c.checked
+                }), function (c) {
+                    return c.getAttribute("data-codec")
+                }),
+                config.EnableHardwareEncoding = form.querySelector("#chkHardwareEncoding").checked;
                 config.EnableThrottling = form.querySelector("#chkEnableThrottle").checked;
 
                 ApiClient.updateNamedConfiguration("encoding", config).then(function () {

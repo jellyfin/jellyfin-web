@@ -48,6 +48,6 @@ define(["backdrop", "userSettings", "libraryMenu"], function(backdrop, userSetti
                         parentId = page.classList.contains("globalBackdropPage") ? "" : libraryMenu.getTopParentId();
                     showBackdrop(type, parentId)
                 } else page.classList.remove("backdropPage"), backdrop.clear();
-        else backdrop.clear()
+            else backdrop.clear()
     })
 });

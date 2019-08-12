@@ -68,13 +68,13 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
 
     function getTabs() {
         return [{
-                href: "dlnasettings.html",
-                name: globalize.translate("TabSettings")
-            },
-            {
-                href: "dlnaprofiles.html",
-                name: globalize.translate("TabProfiles")
-            }
+            href: "dlnasettings.html",
+            name: globalize.translate("TabSettings")
+        },
+        {
+            href: "dlnaprofiles.html",
+            name: globalize.translate("TabProfiles")
+        }
         ];
     }
     $(document).on("pageshow", "#dlnaProfilesPage", function () {

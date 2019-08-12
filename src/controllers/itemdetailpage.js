@@ -1183,21 +1183,21 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             imageLoader.lazyChildren(childrenItemsContainer);
             if (item.Type == "BoxSet") {
                 var collectionItemTypes = [{
-                        name: globalize.translate("HeaderVideos"),
-                        mediaType: "Video"
-                    },
-                    {
-                        name: globalize.translate("HeaderSeries"),
-                        type: "Series"
-                    },
-                    {
-                        name: globalize.translate("HeaderAlbums"),
-                        type: "MusicAlbum"
-                    },
-                    {
-                        name: globalize.translate("HeaderBooks"),
-                        type: "Book"
-                    }
+                    name: globalize.translate("HeaderVideos"),
+                    mediaType: "Video"
+                },
+                {
+                    name: globalize.translate("HeaderSeries"),
+                    type: "Series"
+                },
+                {
+                    name: globalize.translate("HeaderAlbums"),
+                    type: "MusicAlbum"
+                },
+                {
+                    name: globalize.translate("HeaderBooks"),
+                    type: "Book"
+                }
                 ];
                 renderCollectionItems(page, item, collectionItemTypes, result.Items);
             }
@@ -1652,217 +1652,217 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         return e.preventDefault(), false
     }
     return window.ItemDetailPage = new itemDetailPage,
-        function (view, params) {
-            function reload(instance, page, params) {
-                loading.show();
-                var apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient,
-                    promises = [getPromise(apiClient, params), apiClient.getCurrentUser()];
-                Promise.all(promises).then(function (responses) {
-                    var item = responses[0];
-                    var user = responses[1];
-                    currentItem = item;
-                    reloadFromItem(instance, page, params, item, user)
-                })
-            }
-
-            function splitVersions(instance, page, apiClient, params) {
-                require(["confirm"], function (confirm) {
-                    confirm("Are you sure you wish to split the media sources into separate items?", "Split Media Apart").then(function () {
-                        loading.show();
-                        apiClient.ajax({
-                            type: "DELETE",
-                            url: apiClient.getUrl("Videos/" + params.id + "/AlternateSources")
-                        }).then(function () {
-                            loading.hide();
-                            reload(instance, page, params);
-                        });
-                    });
-                });
-            }
-
-            function getPlayOptions(startPosition) {
-                var audioStreamIndex = view.querySelector(".selectAudio").value || null;
-                return {
-                    startPositionTicks: startPosition,
-                    mediaSourceId: view.querySelector(".selectSource").value,
-                    audioStreamIndex: audioStreamIndex,
-                    subtitleStreamIndex: view.querySelector(".selectSubtitles").value
-                }
-            }
-
-            function playItem(item, startPosition) {
-                var playOptions = getPlayOptions(startPosition);
-                playOptions.items = [item], playbackManager.play(playOptions)
-            }
-
-            function playTrailer(page) {
-                playbackManager.playTrailers(currentItem)
-            }
-
-            function playCurrentItem(button, mode) {
-                var item = currentItem;
-                if (item.Type === "Program") {
-                    var apiClient = connectionManager.getApiClient(item.ServerId);
-                    apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function (channel) {
-                        playbackManager.play({
-                            items: [channel]
-                        });
-                    });
-                    return;
-                }
-                playItem(item, item.UserData && "resume" === mode ? item.UserData.PlaybackPositionTicks : 0)
-            }
-
-            function onPlayClick() {
-                playCurrentItem(this, this.getAttribute("data-mode"))
-            }
-
-            function onInstantMixClick() {
-                playbackManager.instantMix(currentItem)
-            }
-
-            function onShuffleClick() {
-                playbackManager.shuffle(currentItem)
-            }
-
-            function onDeleteClick() {
-                require(["deleteHelper"], function (deleteHelper) {
-                    deleteHelper.deleteItem({
-                        item: currentItem,
-                        navigate: true
-                    });
-                });
-            }
-
-            function onCancelSeriesTimerClick() {
-                require(["recordingHelper"], function (recordingHelper) {
-                    recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(function () {
-                        Dashboard.navigate("livetv.html");
-                    });
-                });
-            }
-
-            function onCancelTimerClick() {
-                require(["recordingHelper"], function (recordingHelper) {
-                    recordingHelper.cancelTimer(connectionManager.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
-                        reload(self, view, params);
-                    });
-                });
-            }
-
-            function onPlayTrailerClick() {
-                playTrailer(view)
-            }
-
-            function onDownloadChange() {
-                reload(self, view, params)
-            }
-
-            function onMoreCommandsClick() {
-                var button = this;
-                apiClient.getCurrentUser().then(function (user) {
-                    itemContextMenu.show(getContextMenuOptions(currentItem, user, button)).then(function (result) {
-                        if (result.deleted) {
-                            appRouter.goHome();
-                        } else if (result.updated) {
-                            reload(self, view, params);
-                        }
-                    });
-                });
-            }
-
-            function onPlayerChange() {
-                renderTrackSelections(view, self, currentItem);
-                setTrailerButtonVisibility(view, currentItem)
-            }
-
-            function editImages() {
-                return new Promise(function (resolve, reject) {
-                    require(["imageEditor"], function (imageEditor) {
-                        imageEditor.show({
-                            itemId: currentItem.Id,
-                            serverId: currentItem.ServerId
-                        }).then(resolve, reject);
-                    });
-                });
-            }
-
-            function onWebSocketMessage(e, data) {
-                var msg = data;
-                if (msg.MessageType === "UserDataChanged") {
-                    if (currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
-                        var key = currentItem.UserData.Key;
-                        var userData = msg.Data.UserDataList.filter(function (u) {
-                            return u.Key == key;
-                        })[0];
-                        if (userData) {
-                            currentItem.UserData = userData;
-                            reloadPlayButtons(view, currentItem);
-                            apiClient.getCurrentUser().then(function (user) {
-                                refreshImage(view, currentItem, user);
-                            });
-                        }
-                    }
-                }
-
-            }
-            var currentItem;
-            var self = this;
-            var apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
-            view.querySelectorAll(".btnPlay");
-            bindAll(view, ".btnPlay", "click", onPlayClick);
-            bindAll(view, ".btnResume", "click", onPlayClick);
-            bindAll(view, ".btnInstantMix", "click", onInstantMixClick);
-            bindAll(view, ".btnShuffle", "click", onShuffleClick);
-            bindAll(view, ".btnPlayTrailer", "click", onPlayTrailerClick);
-            bindAll(view, ".btnCancelSeriesTimer", "click", onCancelSeriesTimerClick);
-            bindAll(view, ".btnCancelTimer", "click", onCancelTimerClick);
-            bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
-            view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
-            view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
-            view.querySelector(".btnSplitVersions").addEventListener("click", function () {
-                splitVersions(self, view, apiClient, params)
-            });
-            bindAll(view, ".btnMoreCommands", "click", onMoreCommandsClick);
-            view.querySelector(".selectSource").addEventListener("change", function () {
-                renderVideoSelections(view, self._currentPlaybackMediaSources);
-                renderAudioSelections(view, self._currentPlaybackMediaSources);
-                renderSubtitleSelections(view, self._currentPlaybackMediaSources);
-            });
-            view.addEventListener("click", function (e) {
-                if (dom.parentWithClass(e.target, "moreScenes")) {
-                    apiClient.getCurrentUser().then(function (user) {
-                        renderScenes(view, currentItem, user);
-                    });
-                } else if (dom.parentWithClass(e.target, "morePeople")) {
-                    renderCast(view, currentItem, params.context);
-                } else if (dom.parentWithClass(e.target, "moreSpecials")) {
-                    apiClient.getCurrentUser().then(function (user) {
-                        renderSpecials(view, currentItem, user);
-                    });
-                }
-            });
-            view.querySelector(".detailImageContainer").addEventListener("click", function (e) {
-                var itemDetailGalleryLink = dom.parentWithClass(e.target, "itemDetailGalleryLink");
-                if (itemDetailGalleryLink) {
-                    editImages().then(function () {
-                        reload(self, view, params);
-                    });
-                }
-            });
-            view.addEventListener("viewshow", function (e) {
-                var page = this;
-                libraryMenu.setTransparentMenu(true), e.detail.isRestored ? currentItem && (setTitle(currentItem, connectionManager.getApiClient(currentItem.ServerId)), renderTrackSelections(page, self, currentItem, true)) : reload(self, page, params), events.on(apiClient, "message", onWebSocketMessage), events.on(playbackManager, "playerchange", onPlayerChange)
-            });
-            view.addEventListener("viewbeforehide", function () {
-                events.off(apiClient, "message", onWebSocketMessage);
-                events.off(playbackManager, "playerchange", onPlayerChange);
-                libraryMenu.setTransparentMenu(false);
-            });
-            view.addEventListener("viewdestroy", function () {
-                currentItem = null;
-                self._currentPlaybackMediaSources = null;
-                self.currentRecordingFields = null;
+    function (view, params) {
+        function reload(instance, page, params) {
+            loading.show();
+            var apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient,
+                promises = [getPromise(apiClient, params), apiClient.getCurrentUser()];
+            Promise.all(promises).then(function (responses) {
+                var item = responses[0];
+                var user = responses[1];
+                currentItem = item;
+                reloadFromItem(instance, page, params, item, user)
             })
         }
+
+        function splitVersions(instance, page, apiClient, params) {
+            require(["confirm"], function (confirm) {
+                confirm("Are you sure you wish to split the media sources into separate items?", "Split Media Apart").then(function () {
+                    loading.show();
+                    apiClient.ajax({
+                        type: "DELETE",
+                        url: apiClient.getUrl("Videos/" + params.id + "/AlternateSources")
+                    }).then(function () {
+                        loading.hide();
+                        reload(instance, page, params);
+                    });
+                });
+            });
+        }
+
+        function getPlayOptions(startPosition) {
+            var audioStreamIndex = view.querySelector(".selectAudio").value || null;
+            return {
+                startPositionTicks: startPosition,
+                mediaSourceId: view.querySelector(".selectSource").value,
+                audioStreamIndex: audioStreamIndex,
+                subtitleStreamIndex: view.querySelector(".selectSubtitles").value
+            }
+        }
+
+        function playItem(item, startPosition) {
+            var playOptions = getPlayOptions(startPosition);
+            playOptions.items = [item], playbackManager.play(playOptions)
+        }
+
+        function playTrailer(page) {
+            playbackManager.playTrailers(currentItem)
+        }
+
+        function playCurrentItem(button, mode) {
+            var item = currentItem;
+            if (item.Type === "Program") {
+                var apiClient = connectionManager.getApiClient(item.ServerId);
+                apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function (channel) {
+                    playbackManager.play({
+                        items: [channel]
+                    });
+                });
+                return;
+            }
+            playItem(item, item.UserData && "resume" === mode ? item.UserData.PlaybackPositionTicks : 0)
+        }
+
+        function onPlayClick() {
+            playCurrentItem(this, this.getAttribute("data-mode"))
+        }
+
+        function onInstantMixClick() {
+            playbackManager.instantMix(currentItem)
+        }
+
+        function onShuffleClick() {
+            playbackManager.shuffle(currentItem)
+        }
+
+        function onDeleteClick() {
+            require(["deleteHelper"], function (deleteHelper) {
+                deleteHelper.deleteItem({
+                    item: currentItem,
+                    navigate: true
+                });
+            });
+        }
+
+        function onCancelSeriesTimerClick() {
+            require(["recordingHelper"], function (recordingHelper) {
+                recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(function () {
+                    Dashboard.navigate("livetv.html");
+                });
+            });
+        }
+
+        function onCancelTimerClick() {
+            require(["recordingHelper"], function (recordingHelper) {
+                recordingHelper.cancelTimer(connectionManager.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
+                    reload(self, view, params);
+                });
+            });
+        }
+
+        function onPlayTrailerClick() {
+            playTrailer(view)
+        }
+
+        function onDownloadChange() {
+            reload(self, view, params)
+        }
+
+        function onMoreCommandsClick() {
+            var button = this;
+            apiClient.getCurrentUser().then(function (user) {
+                itemContextMenu.show(getContextMenuOptions(currentItem, user, button)).then(function (result) {
+                    if (result.deleted) {
+                        appRouter.goHome();
+                    } else if (result.updated) {
+                        reload(self, view, params);
+                    }
+                });
+            });
+        }
+
+        function onPlayerChange() {
+            renderTrackSelections(view, self, currentItem);
+            setTrailerButtonVisibility(view, currentItem)
+        }
+
+        function editImages() {
+            return new Promise(function (resolve, reject) {
+                require(["imageEditor"], function (imageEditor) {
+                    imageEditor.show({
+                        itemId: currentItem.Id,
+                        serverId: currentItem.ServerId
+                    }).then(resolve, reject);
+                });
+            });
+        }
+
+        function onWebSocketMessage(e, data) {
+            var msg = data;
+            if (msg.MessageType === "UserDataChanged") {
+                if (currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
+                    var key = currentItem.UserData.Key;
+                    var userData = msg.Data.UserDataList.filter(function (u) {
+                        return u.Key == key;
+                    })[0];
+                    if (userData) {
+                        currentItem.UserData = userData;
+                        reloadPlayButtons(view, currentItem);
+                        apiClient.getCurrentUser().then(function (user) {
+                            refreshImage(view, currentItem, user);
+                        });
+                    }
+                }
+            }
+
+        }
+        var currentItem;
+        var self = this;
+        var apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
+        view.querySelectorAll(".btnPlay");
+        bindAll(view, ".btnPlay", "click", onPlayClick);
+        bindAll(view, ".btnResume", "click", onPlayClick);
+        bindAll(view, ".btnInstantMix", "click", onInstantMixClick);
+        bindAll(view, ".btnShuffle", "click", onShuffleClick);
+        bindAll(view, ".btnPlayTrailer", "click", onPlayTrailerClick);
+        bindAll(view, ".btnCancelSeriesTimer", "click", onCancelSeriesTimerClick);
+        bindAll(view, ".btnCancelTimer", "click", onCancelTimerClick);
+        bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
+        view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
+        view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
+        view.querySelector(".btnSplitVersions").addEventListener("click", function () {
+            splitVersions(self, view, apiClient, params)
+        });
+        bindAll(view, ".btnMoreCommands", "click", onMoreCommandsClick);
+        view.querySelector(".selectSource").addEventListener("change", function () {
+            renderVideoSelections(view, self._currentPlaybackMediaSources);
+            renderAudioSelections(view, self._currentPlaybackMediaSources);
+            renderSubtitleSelections(view, self._currentPlaybackMediaSources);
+        });
+        view.addEventListener("click", function (e) {
+            if (dom.parentWithClass(e.target, "moreScenes")) {
+                apiClient.getCurrentUser().then(function (user) {
+                    renderScenes(view, currentItem, user);
+                });
+            } else if (dom.parentWithClass(e.target, "morePeople")) {
+                renderCast(view, currentItem, params.context);
+            } else if (dom.parentWithClass(e.target, "moreSpecials")) {
+                apiClient.getCurrentUser().then(function (user) {
+                    renderSpecials(view, currentItem, user);
+                });
+            }
+        });
+        view.querySelector(".detailImageContainer").addEventListener("click", function (e) {
+            var itemDetailGalleryLink = dom.parentWithClass(e.target, "itemDetailGalleryLink");
+            if (itemDetailGalleryLink) {
+                editImages().then(function () {
+                    reload(self, view, params);
+                });
+            }
+        });
+        view.addEventListener("viewshow", function (e) {
+            var page = this;
+            libraryMenu.setTransparentMenu(true), e.detail.isRestored ? currentItem && (setTitle(currentItem, connectionManager.getApiClient(currentItem.ServerId)), renderTrackSelections(page, self, currentItem, true)) : reload(self, page, params), events.on(apiClient, "message", onWebSocketMessage), events.on(playbackManager, "playerchange", onPlayerChange)
+        });
+        view.addEventListener("viewbeforehide", function () {
+            events.off(apiClient, "message", onWebSocketMessage);
+            events.off(playbackManager, "playerchange", onPlayerChange);
+            libraryMenu.setTransparentMenu(false);
+        });
+        view.addEventListener("viewdestroy", function () {
+            currentItem = null;
+            self._currentPlaybackMediaSources = null;
+            self.currentRecordingFields = null;
+        })
+    }
 });

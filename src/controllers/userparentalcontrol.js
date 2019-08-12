@@ -30,33 +30,33 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "listViewStyle", "paper-
     function loadUnratedItems(page, user) {
 
         var items = [{
-                name: Globalize.translate("OptionBlockBooks"),
-                value: "Book"
-            },
-            {
-                name: Globalize.translate("OptionBlockChannelContent"),
-                value: "ChannelContent"
-            },
-            {
-                name: Globalize.translate("OptionBlockLiveTvChannels"),
-                value: "LiveTvChannel"
-            },
-            {
-                name: Globalize.translate("OptionBlockMovies"),
-                value: "Movie"
-            },
-            {
-                name: Globalize.translate("OptionBlockMusic"),
-                value: "Music"
-            },
-            {
-                name: Globalize.translate("OptionBlockTrailers"),
-                value: "Trailer"
-            },
-            {
-                name: Globalize.translate("OptionBlockTvShows"),
-                value: "Series"
-            }
+            name: Globalize.translate("OptionBlockBooks"),
+            value: "Book"
+        },
+        {
+            name: Globalize.translate("OptionBlockChannelContent"),
+            value: "ChannelContent"
+        },
+        {
+            name: Globalize.translate("OptionBlockLiveTvChannels"),
+            value: "LiveTvChannel"
+        },
+        {
+            name: Globalize.translate("OptionBlockMovies"),
+            value: "Movie"
+        },
+        {
+            name: Globalize.translate("OptionBlockMusic"),
+            value: "Music"
+        },
+        {
+            name: Globalize.translate("OptionBlockTrailers"),
+            value: "Trailer"
+        },
+        {
+            name: Globalize.translate("OptionBlockTvShows"),
+            value: "Series"
+        }
         ];
 
         var html = "";

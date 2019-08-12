@@ -247,7 +247,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
             currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId)),
             initialTabIndex = currentTabIndex;
         self.initTab = function () {
-             var tabContent = self.tabContent;
+            var tabContent = self.tabContent;
             setScrollClasses(tabContent.querySelector("#resumableItems"), enableScrollX())
         },
         self.renderTab = function () {

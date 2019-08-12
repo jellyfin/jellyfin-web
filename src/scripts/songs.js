@@ -123,41 +123,41 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
             tabContent.querySelector(".btnSort").addEventListener("click", function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                            name: Globalize.translate("OptionTrackName"),
-                            id: "Name"
-                        },
-                        {
-                            name: Globalize.translate("OptionAlbum"),
-                            id: "Album,SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionAlbumArtist"),
-                            id: "AlbumArtist,Album,SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionArtist"),
-                            id: "Artist,Album,SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionDateAdded"),
-                            id: "DateCreated,SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionDatePlayed"),
-                            id: "DatePlayed,SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionPlayCount"),
-                            id: "PlayCount,SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionReleaseDate"),
-                            id: "PremiereDate,AlbumArtist,Album,SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionRuntime"),
-                            id: "Runtime,AlbumArtist,Album,SortName"
-                        }
+                        name: Globalize.translate("OptionTrackName"),
+                        id: "Name"
+                    },
+                    {
+                        name: Globalize.translate("OptionAlbum"),
+                        id: "Album,SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionAlbumArtist"),
+                        id: "AlbumArtist,Album,SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionArtist"),
+                        id: "Artist,Album,SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionDateAdded"),
+                        id: "DateCreated,SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionDatePlayed"),
+                        id: "DatePlayed,SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionPlayCount"),
+                        id: "PlayCount,SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionReleaseDate"),
+                        id: "PremiereDate,AlbumArtist,Album,SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionRuntime"),
+                        id: "Runtime,AlbumArtist,Album,SortName"
+                    }
                     ],
                     callback: function () {
                         getQuery(tabContent).StartIndex = 0;

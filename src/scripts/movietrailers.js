@@ -201,33 +201,33 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
             tabContent.querySelector(".btnSort").addEventListener("click", function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                            name: Globalize.translate("OptionNameSort"),
-                            id: "SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionImdbRating"),
-                            id: "CommunityRating,SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionDateAdded"),
-                            id: "DateCreated,SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionDatePlayed"),
-                            id: "DatePlayed,SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionParentalRating"),
-                            id: "OfficialRating,SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionPlayCount"),
-                            id: "PlayCount,SortName"
-                        },
-                        {
-                            name: Globalize.translate("OptionReleaseDate"),
-                            id: "PremiereDate,SortName"
-                        }
+                        name: Globalize.translate("OptionNameSort"),
+                        id: "SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionImdbRating"),
+                        id: "CommunityRating,SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionDateAdded"),
+                        id: "DateCreated,SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionDatePlayed"),
+                        id: "DatePlayed,SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionParentalRating"),
+                        id: "OfficialRating,SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionPlayCount"),
+                        id: "PlayCount,SortName"
+                    },
+                    {
+                        name: Globalize.translate("OptionReleaseDate"),
+                        id: "PremiereDate,SortName"
+                    }
                     ],
                     callback: function () {
                         getQuery(tabContent).StartIndex = 0;

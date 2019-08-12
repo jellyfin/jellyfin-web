@@ -33,13 +33,13 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
 
     function getTabs() {
         return [{
-                href: "dlnasettings.html",
-                name: Globalize.translate("TabSettings")
-            },
-            {
-                href: "dlnaprofiles.html",
-                name: Globalize.translate("TabProfiles")
-            }
+            href: "dlnasettings.html",
+            name: Globalize.translate("TabSettings")
+        },
+        {
+            href: "dlnaprofiles.html",
+            name: Globalize.translate("TabProfiles")
+        }
         ];
     }
     $(document).on("pageinit", "#dlnaSettingsPage", function () {
