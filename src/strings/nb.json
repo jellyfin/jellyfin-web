@@ -540,7 +540,7 @@
     "LabelMessageText": "Meldingstekst:",
     "LabelMessageTitle": "Meldingstittel:",
     "LabelMetadataDownloadLanguage": "Foretrukket nedlastingsspråk:",
-    "LabelMetadataDownloadersHelp": "Aktiver og ranger din foretrukne kapittel nedlasting i følgende prioritet. Lavere prioritet nedlastinger vil kun bli brukt for å fylle inn manglende informasjon",
+    "LabelMetadataDownloadersHelp": "Aktiver og ranger dine foretrukne kapittel nedlasting i følgende prioritet. Lavere prioritet nedlastinger vil kun bli brukt for å fylle inn manglende informasjon",
     "LabelMetadataPath": "Metadata sti:",
     "LabelMetadataPathHelp": "Spesifisere en tilpasset lokasjon for ned lastet grafikk og metadata.",
     "LabelMetadataReaders": "Metadata Behandler:",
