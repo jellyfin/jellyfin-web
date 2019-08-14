@@ -133,7 +133,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
-        if (item.CanDownload && appHost.supports('filedownload')) {
+        // Books are promoted to major download Button and therefor excluded in the context menu
+        if ((item.CanDownload && appHost.supports('filedownload')) && item.Type !== "Book") {
             commands.push({
                 name: globalize.translate('Download'),
                 id: 'download'
