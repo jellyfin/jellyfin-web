@@ -205,7 +205,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             hideAll(page, "btnShuffle");
         } else if (playbackManager.canPlay(item)) {
             hideAll(page, "btnPlay", true);
-            var enableInstantMix = ["MusicAlbum", "MusicGenre", "MusicArtist"].indexOf(item.Type) !== -1;
+            var enableInstantMix = ["Audio", "MusicAlbum", "MusicGenre", "MusicArtist"].indexOf(item.Type) !== -1;
             hideAll(page, "btnInstantMix", enableInstantMix);
             var enableShuffle = item.IsFolder || ["MusicAlbum", "MusicGenre", "MusicArtist"].indexOf(item.Type) !== -1;
             hideAll(page, "btnShuffle", enableShuffle);
@@ -654,11 +654,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         }
         if (url) {
             var img = elem.querySelector("img");
-            img.onload = function () {
-                if (img.src.indexOf("empty.png") == -1) {
-                    img.classList.add("loaded");
-                }
-            };
             imageLoader.lazyImage(img, url);
         }
     }
