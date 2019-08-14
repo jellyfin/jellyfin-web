@@ -45,8 +45,18 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
             isLoading = true;
             var query = getQuery(page);
             ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
+                function onNextPageClick() {
+                    if (isLoading) return;
+                    query.StartIndex += query.Limit;
+                    reloadItems(tabContent)
+                }
+
+                function onPreviousPageClick() {
+                    if (isLoading) return;
+                    query.StartIndex -= query.Limit;
+                    reloadItems(tabContent)
+                }
                 window.scrollTo(0, 0);
-                updateFilterControls(page);
                 var pagingHtml = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
@@ -68,18 +78,6 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                 var elems = tabContent.querySelectorAll(".paging");
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
-                }
-
-                function onNextPageClick() {
-                    if (isLoading) return;
-                    query.StartIndex += query.Limit;
-                    reloadItems(tabContent);
-                }
-
-                function onPreviousPageClick() {
-                    if (isLoading) return;
-                    query.StartIndex -= query.Limit;
-                    reloadItems(tabContent);
                 }
                 elems = tabContent.querySelectorAll(".btnNextPage");
                 for (i = 0, length = elems.length; i < length; i++) {
@@ -111,9 +109,6 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                 });
                 filterDialog.show();
             });
-        }
-
-        function updateFilterControls(tabContent) {
         }
 
         function initPage(tabContent) {
@@ -174,7 +169,6 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
         initPage(tabContent);
         self.renderTab = function () {
             reloadItems(tabContent);
-            updateFilterControls(tabContent);
         };
         self.destroy = function () {};
     };
