@@ -1,13 +1,9 @@
 define(["dialogHelper", "require", "layoutManager", "globalize", "userSettings", "connectionManager", "loading", "focusManager", "dom", "apphost", "emby-select", "listViewStyle", "paper-icon-button-light", "css!./../formdialog", "material-icons", "emby-button", "flexStyles"], function (dialogHelper, require, layoutManager, globalize, userSettings, connectionManager, loading, focusManager, dom, appHost) {
     "use strict";
 
-    function setMediaInfo(page, item, apiClient, context, user) {
-        renderMediaSources(page, user, item);
-    }
-
-    function renderMediaSources(page, user, item) {
-        var html = item.MediaSources.map(function (v) {
-            return getMediaSourceHtml(user, item, v);
+    function setMediaInfo(user, page, item) {
+        var html = item.MediaSources.map(function (version) {
+            return getMediaSourceHtml(user, item, version);
         }).join('<div style="border-top:1px solid #444;margin: 1em 0;"></div>');
         if (item.MediaSources.length > 1) {
             html = "<br/>" + html;
@@ -18,8 +14,21 @@ define(["dialogHelper", "require", "layoutManager", "globalize", "userSettings",
 
     function getMediaSourceHtml(user, item, version) {
         var html = "";
-        if (version.Name && item.MediaSources.length > 1) {
-            html += '<div><span class="mediaInfoAttribute">' + version.Name + "</span></div><br/>";
+        if (version.Name) {
+            html += '<div><h2 class="mediaInfoStreamType">' + version.Name + "</h2></div>";
+        }
+        if (version.Container) {
+            html += createAttribute(globalize.translate("MediaInfoContainer"), version.Container) + "<br/>";
+        }
+        if (version.Formats && version.Formats.length) {
+            html += createAttribute(globalize.translate("MediaInfoFormat"), version.Formats.join(",")) + "<br/>";
+        }
+        if (version.Path && user && user.Policy.IsAdministrator) {
+            html += createAttribute(globalize.translate("MediaInfoPath"), version.Path) + "<br/>";
+        }
+        if (version.Size && user && user.Policy.IsAdministrator) {
+            var size = (version.Size / (1024 * 1024)).toFixed(0) + " MB";
+            html += createAttribute(globalize.translate("MediaInfoSize"), size) + "<br/>";
         }
         for (var i = 0, length = version.MediaStreams.length; i < length; i++) {
             var stream = version.MediaStreams[i];
@@ -103,20 +112,6 @@ define(["dialogHelper", "require", "layoutManager", "globalize", "userSettings",
             html += attributes.join("<br/>");
             html += "</div>";
         }
-        if (version.Container) {
-            html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoContainer") + '</span><span class="mediaInfoAttribute">' + version.Container + "</span></div>";
-        }
-        if (version.Formats && version.Formats.length) {
-            //html += "<div><span class="mediaInfoLabel">"+Globalize.translate("MediaInfoFormat")+"</span><span class="mediaInfoAttribute">" + version.Formats.join(",") + "</span></div>";
-        }
-        /*ToDo
-        if (version.Path && version.Protocol !== "Http" && user && user.Policy.IsAdministrator) {
-            html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoPath") + '</span><span class="mediaInfoAttribute">' + version.Path + "</span></div>";
-        }*/
-        if (version.Size) {
-            var size = (version.Size / (1024 * 1024)).toFixed(0);
-            html += '<div><span class="mediaInfoLabel">' + globalize.translate("MediaInfoSize") + '</span><span class="mediaInfoAttribute">' + size + " MB</span></div>";
-        }
         return html;
     }
 
@@ -147,7 +142,9 @@ define(["dialogHelper", "require", "layoutManager", "globalize", "userSettings",
             dlg.querySelector(".btnCancel").addEventListener("click", function (e) {
                 dialogHelper.close(dlg);
             });
-            setMediaInfo(dlg, item);
+            apiClient.getCurrentUser().then(function (user) {
+                setMediaInfo(user, dlg, item);
+            });
             loading.hide();
         });
     }
