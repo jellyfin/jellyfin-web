@@ -1350,7 +1350,6 @@
     "ErrorDeletingItem": "服务器删除项目时出错。请确认服务器具有对媒体文件夹的写入权限并重试。",
     "GroupBySeries": "按系列分组",
     "HeaderApp": "应用程序",
-    "HeaderAudioLanguages": "音频语言",
     "DirectStreamHelp1": "该媒体文件的分辨率和编码（H.264、AC3 等）与您的设备兼容，但容器格式（.mkv、.avi、.wmv 等）不受支持。因此，视频在串流至您的设备之前将会被即时封装为另一种格式。",
     "HeaderAppearsOn": "出现于",
     "HeaderCancelSeries": "取消系列",

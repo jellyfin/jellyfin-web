@@ -21,8 +21,6 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
             return -1 != ("|" + (query.Tags || "") + "|").indexOf("|" + i + "|")
         }), renderOptions(context, ".yearFilters", "chkYearFilter", result.Years, function(i) {
             return -1 != ("," + (query.Years || "") + ",").indexOf("," + i + ",")
-        }), renderOptions(context, ".audioLanguagesFilters", "chkAudioLanguagesFilter", result.AudioLanguages, function(i) {
-            return -1 != ("," + (query.AudioLanguages || "") + ",").indexOf("," + i + ",")
         })
     }
 
@@ -71,7 +69,7 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
     }
 
     function setVisibility(context, options) {
-        "livetvchannels" != options.mode && "albums" != options.mode && "artists" != options.mode && "albumartists" != options.mode && "songs" != options.mode || hideByClass(context, "videoStandard"), enableDynamicFilters(options.mode) && (context.querySelector(".genreFilters").classList.remove("hide"), context.querySelector(".officialRatingFilters").classList.remove("hide"), context.querySelector(".tagFilters").classList.remove("hide"), context.querySelector(".yearFilters").classList.remove("hide"), context.querySelector(".audioLanguagesFilters").classList.remove("hide")), "movies" != options.mode && "episodes" != options.mode || context.querySelector(".videoTypeFilters").classList.remove("hide"), options.mode, "movies" != options.mode && "series" != options.mode && "episodes" != options.mode || context.querySelector(".features").classList.remove("hide"), "series" == options.mode && context.querySelector(".seriesStatus").classList.remove("hide"), "episodes" == options.mode && showByClass(context, "episodeFilter")
+        "livetvchannels" != options.mode && "albums" != options.mode && "artists" != options.mode && "albumartists" != options.mode && "songs" != options.mode || hideByClass(context, "videoStandard"), enableDynamicFilters(options.mode) && (context.querySelector(".genreFilters").classList.remove("hide"), context.querySelector(".officialRatingFilters").classList.remove("hide"), context.querySelector(".tagFilters").classList.remove("hide"), context.querySelector(".yearFilters").classList.remove("hide")), "movies" != options.mode && "episodes" != options.mode || context.querySelector(".videoTypeFilters").classList.remove("hide"), options.mode, "movies" != options.mode && "series" != options.mode && "episodes" != options.mode || context.querySelector(".features").classList.remove("hide"), "series" == options.mode && context.querySelector(".seriesStatus").classList.remove("hide"), "episodes" == options.mode && showByClass(context, "episodeFilter")
     }
 
     function showByClass(context, className) {
@@ -125,14 +123,14 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
                 for (elems = context.querySelectorAll(".chkStandardFilter"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("change", onStandardFilterChange);
             for (elems = context.querySelectorAll(".chkVideoTypeFilter"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("change", onVideoTypeFilterChange);
             for (context.querySelector(".chk3DFilter").addEventListener("change", function() {
-                    query.StartIndex = 0, query.Is3D = !!this.checked || null, triggerChange(self)
-                }), context.querySelector(".chk4KFilter").addEventListener("change", function() {
-                    query.StartIndex = 0, query.Is4K = !!this.checked || null, triggerChange(self)
-                }), context.querySelector(".chkHDFilter").addEventListener("change", function() {
-                    query.StartIndex = 0, query.IsHD = !!this.checked || null, triggerChange(self)
-                }), context.querySelector(".chkSDFilter").addEventListener("change", function() {
-                    query.StartIndex = 0, query.IsHD = !this.checked && null, triggerChange(self)
-                }), elems = context.querySelectorAll(".chkStatus"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("change", onStatusChange);
+                query.StartIndex = 0, query.Is3D = !!this.checked || null, triggerChange(self)
+            }), context.querySelector(".chk4KFilter").addEventListener("change", function() {
+                query.StartIndex = 0, query.Is4K = !!this.checked || null, triggerChange(self)
+            }), context.querySelector(".chkHDFilter").addEventListener("change", function() {
+                query.StartIndex = 0, query.IsHD = !!this.checked || null, triggerChange(self)
+            }), context.querySelector(".chkSDFilter").addEventListener("change", function() {
+                query.StartIndex = 0, query.IsHD = !this.checked && null, triggerChange(self)
+            }), elems = context.querySelectorAll(".chkStatus"), i = 0, length = elems.length; i < length; i++) elems[i].addEventListener("change", onStatusChange);
             context.querySelector("#chkTrailer").addEventListener("change", function() {
                 query.StartIndex = 0, query.HasTrailer = !!this.checked || null, triggerChange(self)
             }), context.querySelector("#chkThemeSong").addEventListener("change", function() {
@@ -170,13 +168,6 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
                         filters = query.Years || "",
                         delimiter = ",";
                     return filters = (delimiter + filters).replace(delimiter + filterName, "").substring(1), chkYearFilter.checked && (filters = filters ? filters + delimiter + filterName : filterName), query.StartIndex = 0, query.Years = filters, void triggerChange(self)
-                }
-                var chkAudioLanguagesFilter = parentWithClass(e.target, "chkAudioLanguagesFilter");
-                if (chkAudioLanguagesFilter) {
-                    var filterName = chkAudioLanguagesFilter.getAttribute("data-filter"),
-                        filters = query.AudioLanguages || "",
-                        delimiter = ",";
-                    return filters = (delimiter + filters).replace(delimiter + filterName, "").substring(1), chkAudioLanguagesFilter.checked && (filters = filters ? filters + delimiter + filterName : filterName), query.StartIndex = 0, query.AudioLanguages = filters, void triggerChange(self)
                 }
                 var chkOfficialRatingFilter = parentWithClass(e.target, "chkOfficialRatingFilter");
                 if (chkOfficialRatingFilter) {
