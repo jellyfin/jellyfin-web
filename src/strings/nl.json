@@ -510,7 +510,7 @@
     "LabelBlockContentWithTags": "Blokkeer items met volgende tags:",
     "LabelBurnSubtitles": "Ondertitels inbranden:",
     "LabelCachePath": "Cache pad:",
-    "LabelCachePathHelp": "Geef een aangepaste lokatie voor cache bestanden zoals afbeeldingen. Laat leeg om de standaard lokatie te gebruiken.",
+    "LabelCachePathHelp": "Geef een aangepaste locatie voor cache bestanden zoals afbeeldingen. Laat leeg om de standaard locatie te gebruiken.",
     "LabelCancelled": "Geannuleerd",
     "LabelCertificatePassword": "Certificaat paswoord:",
     "LabelCertificatePasswordHelp": "Als je certificaat een paswoord vereist, vul het dan hier in alstublieft.",
