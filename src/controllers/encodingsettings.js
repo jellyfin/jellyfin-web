@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize, dom) {
+define(["jQuery", "loading", "globalize", "dom", "libraryMenu"], function($, loading, globalize, dom, libraryMenu) {
     "use strict";
 
     function loadPage(page, config, systemInfo) {
@@ -70,6 +70,19 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
         }), any ? context.querySelector(".decodingCodecsList").classList.remove("hide") : context.querySelector(".decodingCodecsList").classList.add("hide")
     }
 
+    function getTabs() {
+        return [{
+            href: "encodingsettings.html",
+            name: Globalize.translate("Transcoding")
+        }, {
+            href: "playbackconfiguration.html",
+            name: Globalize.translate("TabResumeSettings")
+        }, {
+            href: "streamingsettings.html",
+            name: Globalize.translate("TabStreaming")
+        }]
+    }
+
     $(document).on("pageinit", "#encodingSettingsPage", function() {
         var page = this;
         page.querySelector("#selectVideoDecoder").addEventListener("change", function() {
@@ -99,6 +112,7 @@ define(["jQuery", "loading", "globalize", "dom"], function($, loading, globalize
         }), $(".encodingSettingsForm").off("submit", onSubmit).on("submit", onSubmit)
     }).on("pageshow", "#encodingSettingsPage", function() {
         loading.show();
+        libraryMenu.setTabs("playback", 0, getTabs);
         var page = this;
         ApiClient.getNamedConfiguration("encoding").then(function(config) {
             ApiClient.getSystemInfo().then(function(systemInfo) {

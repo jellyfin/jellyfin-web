@@ -15,6 +15,9 @@ define(["jQuery", "loading", "libraryMenu"], function($, loading, libraryMenu) {
 
     function getTabs() {
         return [{
+            href: "encodingsettings.html",
+            name: Globalize.translate("Transcoding")
+        }, {
             href: "playbackconfiguration.html",
             name: Globalize.translate("TabResumeSettings")
         }, {
@@ -22,10 +25,12 @@ define(["jQuery", "loading", "libraryMenu"], function($, loading, libraryMenu) {
             name: Globalize.translate("TabStreaming")
         }]
     }
+
     $(document).on("pageinit", "#playbackConfigurationPage", function() {
         $(".playbackConfigurationForm").off("submit", onSubmit).on("submit", onSubmit)
     }).on("pageshow", "#playbackConfigurationPage", function() {
-        libraryMenu.setTabs("playback", 0, getTabs), loading.show();
+        loading.show();
+        libraryMenu.setTabs("playback", 1, getTabs);
         var page = this;
         ApiClient.getServerConfiguration().then(function(config) {
             loadPage(page, config)
