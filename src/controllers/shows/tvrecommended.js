@@ -139,24 +139,24 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
             var depends = [];
             switch (index) {
                 case 0:
-                    depends.push("scripts/tvshows");
+                    depends.push("controllers/shows/tvshows");
                     break;
                 case 1:
                     break;
                 case 2:
-                    depends.push("scripts/tvlatest");
+                    depends.push("controllers/shows/tvlatest");
                     break;
                 case 3:
-                    depends.push("scripts/tvupcoming");
+                    depends.push("controllers/shows/tvupcoming");
                     break;
                 case 4:
-                    depends.push("scripts/tvgenres");
+                    depends.push("controllers/shows/tvgenres");
                     break;
                 case 5:
-                    depends.push("scripts/tvstudios");
+                    depends.push("controllers/shows/tvstudios");
                     break;
                 case 6:
-                    depends.push("scripts/episodes");
+                    depends.push("controllers/shows/episodes");
                     break;
                 case 7:
                     depends.push("scripts/searchtab")

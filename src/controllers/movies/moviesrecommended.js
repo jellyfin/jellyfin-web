@@ -190,21 +190,21 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             var depends = [];
             switch (index) {
                 case 0:
-                    depends.push("scripts/movies");
+                    depends.push("controllers/movies/movies");
                     break;
                 case 1:
                     break;
                 case 2:
-                    depends.push("scripts/movietrailers");
+                    depends.push("controllers/movies/movietrailers");
                     break;
                 case 3:
-                    depends.push("scripts/movies");
+                    depends.push("controllers/movies/movies");
                     break;
                 case 4:
-                    depends.push("scripts/moviecollections");
+                    depends.push("controllers/movies/moviecollections");
                     break;
                 case 5:
-                    depends.push("scripts/moviegenres");
+                    depends.push("controllers/movies/moviegenres");
                     break;
                 case 6:
                     depends.push("scripts/searchtab")

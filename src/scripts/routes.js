@@ -161,7 +161,7 @@ define([
     });
     defineRoute({
         path: "/livetv.html",
-        controller: "livetvsuggested",
+        controller: "livetv/livetvsuggested",
         autoFocus: false,
         transition: "fade"
     });
@@ -220,12 +220,12 @@ define([
     defineRoute({
         path: "/movies.html",
         autoFocus: false,
-        controller: "moviesrecommended",
+        controller: "movies/moviesrecommended",
         transition: "fade"
     });
     defineRoute({
         path: "/music.html",
-        controller: "musicrecommended",
+        controller: "music/musicrecommended",
         autoFocus: false,
         transition: "fade"
     });
@@ -353,7 +353,7 @@ define([
     defineRoute({
         path: "/tv.html",
         autoFocus: false,
-        controller: "tvrecommended",
+        controller: "shows/tvrecommended",
         transition: "fade"
     });
     defineRoute({
