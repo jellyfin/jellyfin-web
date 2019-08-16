@@ -361,7 +361,9 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             }
 
             deviceName = getDeviceName();
-            deviceId = getDeviceId();
+            getDeviceId().then(function (id) {
+                deviceId = id;
+            });
         },
         deviceName: function () {
             return window.NativeShell ? window.NativeShell.AppHost.deviceName() : deviceName;
