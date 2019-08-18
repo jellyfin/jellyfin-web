@@ -175,7 +175,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
-        if (item.MediaSources && item.MediaSources.length && (null == item.EnableMediaSourceDisplay ? "Channel" !== item.SourceType : item.EnableMediaSourceDisplay)) {
+        if (item.MediaSources) {
             if (options.moremediainfo !== false) {
                 commands.push({
                     name: globalize.translate('MoreMediaInfo'),
