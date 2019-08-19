@@ -322,6 +322,29 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             itemBirthLocation.classList.remove("hide"), itemBirthLocation.innerHTML = globalize.translate("BirthPlaceValue").replace("{0}", gmap)
         } else itemBirthLocation.classList.add("hide");
         setPeopleHeader(page, item), loading.hide()
+
+        if (item.Type === "Book") {
+            hideAll(page, "btnDownload", true);
+        }
+
+        try {
+            require(["focusManager"], function(focusManager) {
+                [".btnResume", ".btnPlay"].every(function (cls) {
+                    
+                    var elems = page.querySelectorAll(cls);
+                    
+                    for (var i = 0; i < elems.length; i++) {
+                        if (focusManager.isCurrentlyFocusable(elems[i])) {
+                            focusManager.focus(elems[i]);
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+            });
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     function logoImageUrl(item, apiClient, options) {
@@ -1107,6 +1130,17 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 reload(self, view, params)
             }
 
+            function onDownloadClick() {
+                require(['fileDownloader'], function (fileDownloader) {
+                    var downloadHref = apiClient.getItemDownloadUrl(currentItem.Id);
+                    fileDownloader.download([{
+                        url: downloadHref,
+                        itemId: currentItem.Id,
+                        serverId: currentItem.serverId
+                    }]);
+                });
+            }
+
             function onMoreCommandsClick() {
                 var button = this;
                 apiClient.getCurrentUser().then(function(user) {
@@ -1156,6 +1190,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             bindAll(view, ".btnCancelSeriesTimer", "click", onCancelSeriesTimerClick);
             bindAll(view, ".btnCancelTimer", "click", onCancelTimerClick);
             bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
+            bindAll(view, ".btnDownload", "click", onDownloadClick);
             view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
             view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
             view.querySelector(".btnSplitVersions").addEventListener("click", function() {

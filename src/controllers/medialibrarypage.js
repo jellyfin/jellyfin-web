@@ -1,4 +1,4 @@
-define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "globalize", "dom", "indicators", "cardStyle", "emby-itemrefreshindicator"], function($, appHost, taskButton, loading, libraryMenu, globalize, dom, indicators) {
+define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "globalize", "dom", "indicators", "scripts/imagehelper", "cardStyle", "emby-itemrefreshindicator"], function($, appHost, taskButton, loading, libraryMenu, globalize, dom, indicators, imageHelper) {
     "use strict";
 
     function addVirtualFolder(page) {
@@ -217,35 +217,6 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
         }]
     }
 
-    function getIcon(type) {
-        switch (type) {
-            case "movies":
-                return "video_library";
-            case "music":
-                return "library_music";
-            case "photos":
-                return "photo_library";
-            case "livetv":
-                return "live_tv";
-            case "tvshows":
-                return "tv";
-            case "trailers":
-                return "local_movies";
-            case "homevideos":
-                return "photo_library";
-            case "musicvideos":
-                return "video_library";
-            case "books":
-                return "library_books";
-            case "channels":
-                return "videocam";
-            case "playlists":
-                return "view_list";
-            default:
-                return "folder";
-        }
-    }
-
     function getVirtualFolderHtml(page, virtualFolder, index) {
         var html = "";
         var style = "";
@@ -267,7 +238,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
             hasCardImageContainer = true;
         } else if (!virtualFolder.showNameWithIcon) {
             html += '<div class="cardImageContainer editLibrary" style="cursor:pointer;">';
-            html += '<i class="cardImageIcon-small md-icon">' + (virtualFolder.icon || getIcon(virtualFolder.CollectionType)) + "</i>";
+            html += '<i class="cardImageIcon-small md-icon">' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + "</i>";
             hasCardImageContainer = true;
         }
         if (hasCardImageContainer) {
@@ -278,7 +249,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
         }
         if (!imgUrl && virtualFolder.showNameWithIcon) {
             html += '<h3 class="cardImageContainer addLibrary" style="position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;flex-direction:column;">';
-            html += '<i class="cardImageIcon-small md-icon">' + (virtualFolder.icon || getIcon(virtualFolder.CollectionType)) + "</i>";
+            html += '<i class="cardImageIcon-small md-icon">' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + "</i>";
             virtualFolder.showNameWithIcon && (html += '<div style="margin:1em 0;position:width:100%;">', html += virtualFolder.Name, html += "</div>");
             html += "</h3>";
         }

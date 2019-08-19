@@ -1,8 +1,6 @@
 <div id="newUserPage" data-role="page" class="page type-interior">
-
     <div>
         <div class="content-primary">
-
             <form class="newUserProfileForm">
                 <div class="verticalSection">
                     <div class="sectionTitleContainer flex align-items-center">
@@ -11,7 +9,11 @@
                     </div>
 
                     <div class="inputContainer">
-                        <input is="emby-input" id="txtUserName" required type="text" label="${LabelName}" />
+                        <input is="emby-input" id="txtUsername" required type="text" label="${LabelName}" />
+                    </div>
+
+                    <div class="inputContainer">
+                        <input is="emby-input" id="txtPassword" type="password" label="${LabelPassword}" />
                     </div>
                 </div>
 
@@ -29,6 +31,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="channelAccessContainer verticalSection verticalSection-extrabottompadding" style="display:none;">
                     <h2 class="sectionTitle">${HeaderChannelAccess}</h2>
                     <div class="checkboxContainer checkboxContainer-withDescription">

@@ -200,20 +200,20 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                 case 0:
                     break;
                 case 1:
-                    depends.push("scripts/musicalbums");
+                    depends.push("controllers/music/musicalbums");
                     break;
                 case 2:
                 case 3:
-                    depends.push("scripts/musicartists");
+                    depends.push("controllers/music/musicartists");
                     break;
                 case 4:
-                    depends.push("scripts/musicplaylists");
+                    depends.push("controllers/music/musicplaylists");
                     break;
                 case 5:
-                    depends.push("scripts/songs");
+                    depends.push("controllers/music/songs");
                     break;
                 case 6:
-                    depends.push("scripts/musicgenres");
+                    depends.push("controllers/music/musicgenres");
                     break;
                 case 7:
                     depends.push("scripts/searchtab")

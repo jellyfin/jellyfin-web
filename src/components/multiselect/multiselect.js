@@ -212,17 +212,19 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
 
             if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
                 menuItems.push({
-                   name: Globalize.translate('ButtonDownload'),
-                   id: 'download',
-                   ironIcon: 'file-download'
+                    name: Globalize.translate('ButtonDownload'),
+                    id: 'download',
+                    ironIcon: 'file-download'
                 });
             }
 
-            menuItems.push({
-                name: globalize.translate('GroupVersions'),
-                id: 'groupvideos',
-                ironIcon: 'call-merge'
-            });
+            if (user.Policy.IsAdministrator) {
+                menuItems.push({
+                    name: globalize.translate('GroupVersions'),
+                    id: 'groupvideos',
+                    ironIcon: 'call-merge'
+                });
+            }
 
             menuItems.push({
                 name: globalize.translate('MarkPlayed'),

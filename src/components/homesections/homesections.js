@@ -1,4 +1,4 @@
-define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-button', 'css!./homesections'], function (connectionManager, cardBuilder, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
+define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'scripts/imagehelper','paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-button', 'css!./homesections'], function (connectionManager, cardBuilder, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter, imageHelper) {
     'use strict';
 
     function getDefaultSection(index) {
@@ -156,49 +156,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
         html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-multiselect="false">';
 
-        // "My Library" backgrounds
+        // library card background images
         for (var i = 0, length = items.length; i < length; i++) {
             var item = items[i];
-            var icon;
-            switch (item.CollectionType) {
-                case "movies":
-                    icon = "video_library";
-                    break;
-                case "music":
-                    icon = "library_music";
-                    break;
-                case "photos":
-                    icon = "photo_library";
-                    break;
-                case "livetv":
-                    icon = "live_tv";
-                    break;
-                case "tvshows":
-                    icon = "tv";
-                    break;
-                case "trailers":
-                    icon = "local_movies";
-                    break;
-                case "homevideos":
-                    icon = "photo_library";
-                    break;
-                case "musicvideos":
-                    icon = "music_video";
-                    break;
-                case "books":
-                    icon = "library_books";
-                    break;
-                case "channels":
-                    icon = "videocam";
-                    break;
-                case "playlists":
-                    icon = "view_list";
-                    break;
-                default:
-                    icon = "folder";
-                    break;
-            }
-
+            var icon = imageHelper.getLibraryIcon(item.CollectionType);
             html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><i class="md-icon homeLibraryIcon">' + icon + '</i><span class="homeLibraryText">' + item.Name + '</span></a>';
         }
 
@@ -574,7 +535,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
 
         var userId = user.Id;
-        apiClient.getLiveTvRecommendedPrograms({
+        return apiClient.getLiveTvRecommendedPrograms({
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
             limit: 1,
@@ -603,7 +564,8 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 }
 
                 html += '<a style="margin-left:.8em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
-                    serverId: apiClient.serverId()
+                    serverId: apiClient.serverId(),
+					section: 'programs'
                 }) + '" class="raised"><span>' + globalize.translate('Programs') + '</span></a>';
 
                 html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
