@@ -6,14 +6,17 @@ define(["loading"], function(loading) {
             url: ApiClient.getUrl("Startup/Complete"),
             type: "POST"
         }).then(function() {
-            Dashboard.navigate_direct("/dashboard.html"), loading.hide()
-        })
+            Dashboard.navigate("dashboard.html");
+            loading.hide();
+        });
     }
     return function(view, params) {
-        view.querySelector(".btnWizardNext").addEventListener("click", onFinish), view.addEventListener("viewshow", function() {
+        view.querySelector(".btnWizardNext").addEventListener("click", onFinish);
+        view.addEventListener("viewshow", function() {
             document.querySelector(".skinHeader").classList.add("noHomeButtonHeader")
-        }), view.addEventListener("viewhide", function() {
+        });
+        view.addEventListener("viewhide", function() {
             document.querySelector(".skinHeader").classList.remove("noHomeButtonHeader")
-        })
-    }
+        });
+    };
 });
