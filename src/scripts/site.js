@@ -765,6 +765,7 @@ var AppInfo = {};
         define("subtitleEditor", [componentsPath + "/subtitleeditor/subtitleeditor"], returnFirstDependency);
         define("subtitleSync", [componentsPath + "/subtitlesync/subtitlesync"], returnFirstDependency);
         define("itemIdentifier", [componentsPath + "/itemidentifier/itemidentifier"], returnFirstDependency);
+        define("itemMediaInfo", [componentsPath + "/itemMediaInfo/itemMediaInfo"], returnFirstDependency);
         define("mediaInfo", [componentsPath + "/mediainfo/mediainfo"], returnFirstDependency);
         define("itemContextMenu", [componentsPath + "/itemcontextmenu"], returnFirstDependency);
         define("imageEditor", [componentsPath + "/imageeditor/imageeditor"], returnFirstDependency);

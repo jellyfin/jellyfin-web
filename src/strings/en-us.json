@@ -989,6 +989,7 @@
     "Monday": "Monday",
     "MoreFromValue": "More from {0}",
     "MoreUsersCanBeAddedLater": "More users can be added later from within the dashboard.",
+    "MoreMediaInfo": "Media Info",
     "MoveLeft": "Move left",
     "MoveRight": "Move right",
     "MovieLibraryHelp": "Review the {0}Jellyfin movie naming guide{1}.",
