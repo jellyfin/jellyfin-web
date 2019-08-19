@@ -221,19 +221,19 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                 case 0:
                     break;
                 case 1:
-                    depends.push("scripts/livetvguide");
+                    depends.push("controllers/livetv/livetvguide");
                     break;
                 case 2:
-                    depends.push("scripts/livetvchannels");
+                    depends.push("controllers/livetv/livetvchannels");
                     break;
                 case 3:
-                    depends.push("scripts/livetvrecordings");
+                    depends.push("controllers/livetv/livetvrecordings");
                     break;
                 case 4:
-                    depends.push("scripts/livetvschedule");
+                    depends.push("controllers/livetv/livetvschedule");
                     break;
                 case 5:
-                    depends.push("scripts/livetvseriestimers");
+                    depends.push("controllers/livetv/livetvseriestimers");
                     break;
                 case 6:
                     depends.push("scripts/searchtab");

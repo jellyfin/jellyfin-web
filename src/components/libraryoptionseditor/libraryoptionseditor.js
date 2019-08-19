@@ -179,11 +179,6 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             html += '<h3 class="listItemBodyText">';
             html += plugin.Name;
             html += "</h3>";
-            if (plugin.Name === "Open Subtitles") {
-                html += '<div class="listItemBodyText secondary">';
-                html += globalize.translate("OpenSubtitleInstructions");
-                html += "</div>";
-            }
             html += "</div>";
             if (i > 0) {
                 html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonUp") + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><i class="md-icon">keyboard_arrow_up</i></button>';

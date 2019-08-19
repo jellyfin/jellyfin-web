@@ -288,13 +288,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }, {
             name: globalize.translate("TabPlayback"),
             icon: "play_arrow",
-            href: "playbackconfiguration.html",
-            pageIds: ["playbackConfigurationPage", "streamingSettingsPage"]
-        }, {
-            name: globalize.translate("TabTranscoding"),
-            icon: "swap_horiz",
             href: "encodingsettings.html",
-            pageIds: ["encodingSettingsPage"]
+            pageIds: ["encodingSettingsPage", "playbackConfigurationPage", "streamingSettingsPage"]
         }];
         addPluginPagesToMainMenu(links, pluginItems, "server");
         links.push({
