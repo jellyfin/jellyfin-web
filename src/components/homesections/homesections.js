@@ -218,7 +218,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getLatestItemsHtmlFn(itemType, viewType) {
         return function (items) {
-            var shape = itemType === 'Channel' || viewType === 'movies' ?
+            var shape = itemType === 'Channel' || viewType === 'movies' || viewType === 'books' ?
                 getPortraitShape() :
                 viewType === 'music' ?
                     getSquareShape() :
