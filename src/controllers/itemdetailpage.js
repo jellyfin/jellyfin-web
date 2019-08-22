@@ -880,6 +880,16 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         })
     }
 
+    function canPlaySomeItemInCollection(items) {
+        var i = 0;
+        for (length = items.length; i < length; i++) {
+            if (playbackManager.canPlay(items[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function renderCollectionItems(page, parentItem, types, items) {
         page.querySelector(".collectionItems").innerHTML = "";
         var i, length;
@@ -904,6 +914,12 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 renderChildren(page, parentItem)
             };
         for (i = 0, length = containers.length; i < length; i++) containers[i].notifyRefreshNeeded = notifyRefreshNeeded
+
+        // if nothing in the collection can be played hide play and shuffle buttons
+        if (!canPlaySomeItemInCollection(items)) {
+            hideAll(page, "btnPlay", false);
+            hideAll(page, "btnShuffle", false);
+        }   
     }
 
     function renderCollectionItemType(page, parentItem, type, items) {
