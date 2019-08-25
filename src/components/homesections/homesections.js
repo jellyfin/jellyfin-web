@@ -218,13 +218,15 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getLatestItemsHtmlFn(itemType, viewType) {
         return function (items) {
-            var shape = itemType === 'Channel' || viewType === 'movies' ?
-                getPortraitShape() :
-                viewType === 'music' ?
-                    getSquareShape() :
-                    getThumbShape();
-
             var cardLayout = false;
+            var shape;
+            if (itemType === 'Channel' || viewType === 'movies' || viewType === 'books') {
+                shape = getPortraitShape();
+            } else if (viewType === 'music') {
+                shape = getSquareShape();
+            } else {
+                shape = getThumbShape();
+            }
 
             return cardBuilder.getCardsHtml({
                 items: items,
