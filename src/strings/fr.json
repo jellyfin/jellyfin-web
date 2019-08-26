@@ -1437,7 +1437,7 @@
     "MusicArtist": "Artiste musical",
     "MusicVideo": "Clip musical",
     "OptionLoginAttemptsBeforeLockoutHelp": "0 signifie la règle par défaut soit 5 pour les admin et 3 pour les autres. -1 désactive le blocage",
-    "TabNetworking": "Mise en réseau",
+    "TabNetworking": "Réseau",
     "PlaybackData": "Données de lecture",
     "OptionThumbCard": "Vignette (cadre)",
     "SubtitleOffset": "Décalage des sous-titres"
