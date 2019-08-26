@@ -6,7 +6,8 @@ define(["appSettings", "loading", "browser", "emby-button"], function(appSetting
         switch (result.State) {
             case "SignedIn":
                 var apiClient = result.ApiClient;
-                Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient), Dashboard.navigate("home.html");
+                Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
+                Dashboard.navigate("home.html");
                 break;
             case "ServerSignIn":
                 Dashboard.navigate("login.html?serverid=" + result.Servers[0].Id, false, "none");
@@ -27,14 +28,9 @@ define(["appSettings", "loading", "browser", "emby-button"], function(appSetting
         }
     }
 
-    function submitManualServer(page) {
-        var host = page.querySelector("#txtServerHost").value;
-        var port = page.querySelector("#txtServerPort").value;
-        if (port) {
-            host += ":" + port;
-        }
-
+    function submitServer(page) {
         loading.show();
+        var host = page.querySelector("#txtServerHost").value;
         ConnectionManager.connectToAddress(host, {
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then(function(result) {
@@ -47,11 +43,11 @@ define(["appSettings", "loading", "browser", "emby-button"], function(appSetting
     }
 
     return function(view, params) {
-        view.querySelector(".manualServerForm").addEventListener("submit", onManualServerSubmit);
-        view.querySelector(".btnCancelManualServer").addEventListener("click", goBack);
+        view.querySelector(".addServerForm").addEventListener("submit", onServerSubmit);
+        view.querySelector(".btnCancel").addEventListener("click", goBack);
 
-        function onManualServerSubmit(e) {
-            submitManualServer(view);
+        function onServerSubmit(e) {
+            submitServer(view);
             e.preventDefault();
             return false;
         }

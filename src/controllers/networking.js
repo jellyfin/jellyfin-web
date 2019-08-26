@@ -2,25 +2,62 @@ define(["loading", "libraryMenu", "globalize", "emby-checkbox", "emby-select"], 
     "use strict";
 
     function onSubmit(e) {
-        var form = this,
-            localAddress = form.querySelector("#txtLocalAddress").value,
-            enableUpnp = form.querySelector("#chkEnableUpnp").checked;
+        var form = this;
+        var localAddress = form.querySelector("#txtLocalAddress").value;
+        var enableUpnp = form.querySelector("#chkEnableUpnp").checked;
         confirmSelections(localAddress, enableUpnp, function() {
             var validationResult = getValidationAlert(form);
             if (validationResult) return void alertText(validationResult);
             validateHttps(form).then(function() {
-                loading.show(), ApiClient.getServerConfiguration().then(function(config) {
+                loading.show();
+                ApiClient.getServerConfiguration().then(function(config) {
                     config.LocalNetworkSubnets = form.querySelector("#txtLanNetworks").value.split(",").map(function(s) {
                         return s.trim()
                     }).filter(function(s) {
                         return s.length > 0
-                    }), config.RemoteIPFilter = form.querySelector("#txtExternalAddressFilter").value.split(",").map(function(s) {
+                    });
+
+                    config.RemoteIPFilter = form.querySelector("#txtExternalAddressFilter").value.split(",").map(function(s) {
                         return s.trim()
                     }).filter(function(s) {
                         return s.length > 0
-                    }), config.IsRemoteIPFilterBlacklist = "blacklist" === form.querySelector("#selectExternalAddressFilterMode").value, config.PublicPort = form.querySelector("#txtPublicPort").value, config.PublicHttpsPort = form.querySelector("#txtPublicHttpsPort").value;
+                    });
+
+                    config.IsRemoteIPFilterBlacklist = "blacklist" === form.querySelector("#selectExternalAddressFilterMode").value;
+                    config.PublicPort = form.querySelector("#txtPublicPort").value;
+                    config.PublicHttpsPort = form.querySelector("#txtPublicHttpsPort").value;
                     var httpsMode = form.querySelector("#selectHttpsMode").value;
-                    "proxy" === httpsMode ? (config.EnableHttps = !0, config.RequireHttps = !1, config.IsBehindProxy = !0) : "required" === httpsMode ? (config.EnableHttps = !0, config.RequireHttps = !0, config.IsBehindProxy = !1) : "enabled" === httpsMode ? (config.EnableHttps = !0, config.RequireHttps = !1, config.IsBehindProxy = !1) : (config.EnableHttps = !1, config.RequireHttps = !1, config.IsBehindProxy = !1), config.HttpsPortNumber = form.querySelector("#txtHttpsPort").value, config.HttpServerPortNumber = form.querySelector("#txtPortNumber").value, config.EnableUPnP = enableUpnp, config.WanDdns = form.querySelector("#txtDdns").value, config.EnableRemoteAccess = form.querySelector("#chkRemoteAccess").checked, config.CertificatePath = form.querySelector("#txtCertificatePath").value || null, config.CertificatePassword = form.querySelector("#txtCertPassword").value || null, config.LocalNetworkAddresses = localAddress ? [localAddress] : [], ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult, Dashboard.processErrorResponse)
+                    switch (httpsMode) {
+                        case "proxy":
+                            config.EnableHttps = true;
+                            config.RequireHttps = false;
+                            config.IsBehindProxy = true;
+                            break;
+                        case "required":
+                            config.EnableHttps = true;
+                            config.RequireHttps = true;
+                            config.IsBehindProxy = false;
+                            break;
+                        case "enabled":
+                            config.EnableHttps = true;
+                            config.RequireHttps = false;
+                            config.IsBehindProxy = false;
+                            break;
+                        default:
+                            config.EnableHttps = false;
+                            config.RequireHttps = false;
+                            config.IsBehindProxy = false;
+                    }
+                    config.HttpsPortNumber = form.querySelector("#txtHttpsPort").value;
+                    config.HttpServerPortNumber = form.querySelector("#txtPortNumber").value;
+                    config.EnableUPnP = enableUpnp;
+                    config.WanDdns = form.querySelector("#txtDdns").value;
+                    config.BaseUrl = form.querySelector("#txtBaseUrl").value;
+                    config.EnableRemoteAccess = form.querySelector("#chkRemoteAccess").checked;
+                    config.CertificatePath = form.querySelector("#txtCertificatePath").value || null;
+                    config.CertificatePassword = form.querySelector("#txtCertPassword").value || null;
+                    config.LocalNetworkAddresses = localAddress ? [localAddress] : [];
+                    ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult, Dashboard.processErrorResponse);
                 })
             })
         }), e.preventDefault()
@@ -63,11 +100,26 @@ define(["loading", "libraryMenu", "globalize", "emby-checkbox", "emby-select"], 
 
     return function(view, params) {
         function loadPage(page, config) {
-            page.querySelector("#txtPortNumber").value = config.HttpServerPortNumber, page.querySelector("#txtPublicPort").value = config.PublicPort, page.querySelector("#txtPublicHttpsPort").value = config.PublicHttpsPort, page.querySelector("#txtLocalAddress").value = config.LocalNetworkAddresses[0] || "", page.querySelector("#txtLanNetworks").value = (config.LocalNetworkSubnets || []).join(", "), page.querySelector("#txtExternalAddressFilter").value = (config.RemoteIPFilter || []).join(", "), page.querySelector("#selectExternalAddressFilterMode").value = config.IsRemoteIPFilterBlacklist ? "blacklist" : "whitelist", page.querySelector("#chkRemoteAccess").checked = null == config.EnableRemoteAccess || config.EnableRemoteAccess;
+            page.querySelector("#txtPortNumber").value = config.HttpServerPortNumber;
+            page.querySelector("#txtPublicPort").value = config.PublicPort;
+            page.querySelector("#txtPublicHttpsPort").value = config.PublicHttpsPort;
+            page.querySelector("#txtLocalAddress").value = config.LocalNetworkAddresses[0] || "";
+            page.querySelector("#txtLanNetworks").value = (config.LocalNetworkSubnets || []).join(", ");
+            page.querySelector("#txtExternalAddressFilter").value = (config.RemoteIPFilter || []).join(", ");
+            page.querySelector("#selectExternalAddressFilterMode").value = config.IsRemoteIPFilterBlacklist ? "blacklist" : "whitelist";
+            page.querySelector("#chkRemoteAccess").checked = null == config.EnableRemoteAccess || config.EnableRemoteAccess;
             var selectHttpsMode = page.querySelector("#selectHttpsMode");
-            config.IsBehindProxy ? selectHttpsMode.value = "proxy" : config.RequireHttps ? selectHttpsMode.value = "required" : config.EnableHttps ? selectHttpsMode.value = "enabled" : selectHttpsMode.value = "disabled", page.querySelector("#txtHttpsPort").value = config.HttpsPortNumber, page.querySelector("#txtDdns").value = config.WanDdns || "";
+            config.IsBehindProxy ? selectHttpsMode.value = "proxy" : config.RequireHttps ? selectHttpsMode.value = "required" : config.EnableHttps ? selectHttpsMode.value = "enabled" : selectHttpsMode.value = "disabled";
+            page.querySelector("#txtHttpsPort").value = config.HttpsPortNumber;
+            page.querySelector("#txtDdns").value = config.WanDdns || "";
+            page.querySelector("#txtBaseUrl").value = config.BaseUrl || "";
             var txtCertificatePath = page.querySelector("#txtCertificatePath");
-            txtCertificatePath.value = config.CertificatePath || "", page.querySelector("#txtCertPassword").value = config.CertificatePassword || "", page.querySelector("#chkEnableUpnp").checked = config.EnableUPnP, onCertPathChange.call(txtCertificatePath), triggerChange(page.querySelector("#chkRemoteAccess")), loading.hide()
+            txtCertificatePath.value = config.CertificatePath || "";
+            page.querySelector("#txtCertPassword").value = config.CertificatePassword || "";
+            page.querySelector("#chkEnableUpnp").checked = config.EnableUPnP;
+            onCertPathChange.call(txtCertificatePath);
+            triggerChange(page.querySelector("#chkRemoteAccess"));
+            loading.hide();
         }
 
         function onCertPathChange() {

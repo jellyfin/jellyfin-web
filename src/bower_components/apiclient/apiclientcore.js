@@ -242,7 +242,7 @@ define(["events", "appStorage"], function(events, appStorage) {
         var url = serverAddress || this._serverAddress;
         if (!url) throw new Error("serverAddress is yet not set");
         var lowered = url.toLowerCase();
-        return -1 === lowered.indexOf("/emby") && -1 === lowered.indexOf("/mediabrowser") && (url += "/emby"), "/" !== name.charAt(0) && (url += "/"), url += name, params && (params = paramsToString(params)) && (url += "?" + params), url
+        return "/" !== name.charAt(0) && (url += "/"), url += name, params && (params = paramsToString(params)) && (url += "?" + params), url
     }, ApiClient.prototype.fetchWithFailover = function(request, enableReconnection) {
         console.log("Requesting " + request.url), request.timeout = 3e4;
         var instance = this;

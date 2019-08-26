@@ -40,7 +40,7 @@ define(["events", "apiclient", "appStorage"], function(events, apiClientFactory,
     }
 
     function getEmbyServerUrl(baseUrl, handler) {
-        return baseUrl + "/emby/" + handler
+        return baseUrl + "/" + handler
     }
 
     function getFetchPromise(request) {
