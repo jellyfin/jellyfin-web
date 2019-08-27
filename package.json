@@ -3,18 +3,22 @@
   "version": "0.0.0",
   "description": "Web interface for Jellyfin",
   "repository": "https://github.com/jellyfin/jellyfin-web",
-  "license": "GPL-2",
+  "license": "GPL-2.0-or-later",
   "devDependencies": {
-    "connect": "^3.6.6",
+    "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.0",
+    "eslint": "^5.16.0",
     "file-loader": "^3.0.1",
-    "serve-static": "^1.13.2",
     "style-loader": "^0.23.1",
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
-    "howler": "^2.1.1",
     "jstree": "^3.3.7"
+  },
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "lint": "eslint src"
   }
 }
