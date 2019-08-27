@@ -452,5 +452,6 @@
     "HeaderPassword": "Password",
     "HeaderPasswordReset": "Password Reset",
     "HeaderPaths": "Paths",
-    "HeaderPendingInvitations": "Pending Invitations"
+    "HeaderPendingInvitations": "Pending Invitations",
+    "CopyStreamURL": "Copy Stream URL"
 }
