@@ -320,7 +320,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     try {
                         document.execCommand('copy');
                     } catch (err) {
-
+                        console.error("Failed to copy to clipboard");
                     }
 
                     document.body.removeChild(textArea);
