@@ -1372,5 +1372,7 @@
     "LabelLocalHttpServerPortNumberHelp": "A TCP port száma, melyen a Jellyfin HTTP szerver figyel.",
     "UserAgentHelp": "Adj meg egy egyedi http user-agent fejlécet, amennyiben szükséges.",
     "XmlDocumentAttributeListHelp": "Ezek a tulajdonságok minden xml válaszüzenet gyökér elemére alkalmazásra kerülnek.",
-    "Thumb": "Thumb"
+    "Thumb": "Thumb",
+    "MediaInfoStreamTypeData": "Adat",
+    "MediaInfoStreamTypeEmbeddedImage": "Beágyazott kép"
 }
