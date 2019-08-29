@@ -230,7 +230,6 @@
 }
 
 @media all and (min-width:40em) {
-
     .dashboardDocument .adminDrawerLogo,
     .dashboardDocument .mainDrawerButton {
         display: none !important
@@ -252,18 +251,8 @@
         margin-top: 5em !important
     }
 
-    .dashboardDocument withSectionTabs .mainDrawer-scrollContainer {
-        margin-top: 8.7em !important
-    }
-
     .dashboardDocument .skinBody {
         left: 20em
-    }
-}
-
-@media all and (min-width:40em) and (max-width:84em) {
-    .dashboardDocument.withSectionTabs .mainDrawer-scrollContainer {
-        margin-top: 8.4em !important
     }
 }
 
@@ -275,11 +264,11 @@
 
 @media all and (max-width:84em) {
     .withSectionTabs .headerTop {
-        padding-bottom: .2em
+        padding-bottom: 0.2em;
     }
 
     .sectionTabs {
-        font-size: 83.5%
+        font-size: 83.5%;
     }
 }
 
@@ -315,12 +304,8 @@
         top: 5.7em !important
     }
 
-    .dashboardDocument.withSectionTabs .mainDrawer-scrollContainer {
-        margin-top: 6.1em !important
-    }
-
     .dashboardDocument .mainDrawer-scrollContainer {
-        margin-top: 6.3em !important
+        margin-top: 6em !important;
     }
 }
 
