@@ -25,6 +25,7 @@
  - [DrPandemic](https://github.com/drpandemic)
  - [Oddstr13](https://github.com/oddstr13)
  - [petermcneil](https://github.com/petermcneil)
+ - [lewazo](https://github.com/lewazo)
 
 # Emby Contributors
 

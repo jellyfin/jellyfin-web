@@ -132,7 +132,9 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
                     IncludeItemTypes: "MusicAlbum",
                     PersonTypes: "",
                     ArtistIds: "",
-                    AlbumArtistIds: ""
+                    AlbumArtistIds: "",
+                    SortOrder: "Descending",
+                    SortBy: "ProductionYear,Sortname"
                 }, {
                     shape: "square",
                     playFromHere: !0,
