@@ -140,31 +140,31 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                 libraryBrowser.showSortMenu({
                     items: [{
                         name: Globalize.translate("OptionNameSort"),
-                        id: "SortName"
+                        id: "SortName,ProductionYear"
                     }, {
                         name: Globalize.translate("OptionImdbRating"),
-                        id: "CommunityRating,SortName"
+                        id: "CommunityRating,SortName,ProductionYear"
                     }, {
                         name: Globalize.translate("OptionCriticRating"),
-                        id: "CriticRating,SortName"
+                        id: "CriticRating,SortName,ProductionYear"
                     }, {
                         name: Globalize.translate("OptionDateAdded"),
-                        id: "DateCreated,SortName"
+                        id: "DateCreated,SortName,ProductionYear"
                     }, {
                         name: Globalize.translate("OptionDatePlayed"),
-                        id: "DatePlayed,SortName"
+                        id: "DatePlayed,SortName,ProductionYear"
                     }, {
                         name: Globalize.translate("OptionParentalRating"),
-                        id: "OfficialRating,SortName"
+                        id: "OfficialRating,SortName,ProductionYear"
                     }, {
                         name: Globalize.translate("OptionPlayCount"),
-                        id: "PlayCount,SortName"
+                        id: "PlayCount,SortName,ProductionYear"
                     }, {
                         name: Globalize.translate("OptionReleaseDate"),
-                        id: "PremiereDate,SortName"
+                        id: "PremiereDate,SortName,ProductionYear"
                     }, {
                         name: Globalize.translate("OptionRuntime"),
-                        id: "Runtime,SortName"
+                        id: "Runtime,SortName,ProductionYear"
                     }],
                     callback: function() {
                         query.StartIndex = 0, userSettings.saveQuerySettings(savedQueryKey, query), itemsContainer.refreshItems()
@@ -189,7 +189,7 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
             savedQueryKey = params.topParentId + "-" + options.mode,
             savedViewKey = savedQueryKey + "-view",
             query = {
-                SortBy: "SortName",
+                SortBy: "SortName,ProductionYear",
                 SortOrder: "Ascending",
                 IncludeItemTypes: "Movie",
                 Recursive: !0,
