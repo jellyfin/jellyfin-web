@@ -221,6 +221,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
     });
 
     return {
+        getProgressHtml: getProgressHtml,
         getProgressBarHtml: getProgressBarHtml,
         getPlayedIndicatorHtml: getPlayedIndicator,
         getChildCountIndicatorHtml: getChildCountIndicatorHtml,

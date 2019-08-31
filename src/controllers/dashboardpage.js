@@ -1,4 +1,4 @@
-define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "scripts/imagehelper", "humanedate", "listViewStyle", "emby-button", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper) {
+define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "scripts/imagehelper", "indicators", "humanedate", "listViewStyle", "emby-button", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper, indicators) {
     "use strict";
 
     function buttonEnabled(elem, enabled) {
@@ -249,20 +249,19 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 html += '<div class="cardScalable visualCardBox-cardScalable">';
                 html += '<div class="cardPadder cardPadder-backdrop"></div>';
                 html += '<div class="cardContent">';
-                var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem);
 
+                var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem);
                 if (imgUrl) {
                     html += '<div class="sessionNowPlayingContent sessionNowPlayingContent-withbackground"';
-                    html += ' data-src="' + imgUrl + '" style="display:inline-block;background-image:url(\'' + imgUrl + "');\"";
+                    html += ' data-src="' + imgUrl + '" style="display:inline-block;background-image:url(\'' + imgUrl + "');\"></div>";
                 } else {
-                    html += '<div class="sessionNowPlayingContent"';
+                    html += '<div class="sessionNowPlayingContent"></div>';
                 }
 
-                html += "></div>";
                 html += '<div class="sessionNowPlayingInnerContent">';
                 html += '<div class="sessionAppInfo">';
-                var clientImage = DashboardPage.getClientImage(session);
 
+                var clientImage = DashboardPage.getClientImage(session);
                 if (clientImage) {
                     html += clientImage;
                 }
@@ -272,7 +271,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 html += '<div class="sessionAppSecondaryText">' + DashboardPage.getAppSecondaryText(session) + "</div>";
                 html += "</div>";
                 html += "</div>";
-                html += '<div class="sessionNowPlayingTime">' + DashboardPage.getSessionNowPlayingTime(session) + "</div>";
 
                 if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
                     html += '<div class="sessionTranscodingFramerate">' + session.TranscodingInfo.Framerate + " fps</div>";
@@ -280,20 +278,22 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     html += '<div class="sessionTranscodingFramerate"></div>';
                 }
 
+                html += '<div class="sessionNowPlayingDetails">'
                 var nowPlayingName = DashboardPage.getNowPlayingName(session);
                 html += '<div class="sessionNowPlayingInfo" data-imgsrc="' + nowPlayingName.image + '">';
                 html += nowPlayingName.html;
                 html += "</div>";
+                html += '<div class="sessionNowPlayingTime">' + DashboardPage.getSessionNowPlayingTime(session) + "</div>";
+                html += '</div>'
+
                 if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
-                    html += '<progress class="playbackProgress" min="0" max="100" value="' + 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks + '"></progress>';
-                } else {
-                    html += '<progress class="playbackProgress hide" min="0" max="100"></progress>';
+                    var percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
+                    html += indicators.getProgressHtml(percent, { containerClass: "playbackProgress" });
                 }
 
                 if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
-                    html += '<progress class="transcodingProgress" min="0" max="100" value="' + session.TranscodingInfo.CompletionPercentage.toFixed(1) + '"></progress>';
-                } else {
-                    html += '<progress class="transcodingProgress hide" min="0" max="100"></progress>';
+                    var percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
+                    html += indicators.getProgressHtml(percent, { containerClass: "transcodingProgress" });
                 }
 
                 html += "</div>";
