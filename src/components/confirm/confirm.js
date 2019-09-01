@@ -24,7 +24,7 @@ define(['dialog', 'globalize'], function (dialog, globalize) {
         items.push({
             name: options.confirmText || globalize.translate('ButtonOk'),
             id: 'ok',
-            type: options.primary === 'cancel' ? 'cancel' : 'submit'
+            type: options.primary === 'cancel' ? 'cancel' : 'delete'
         });
 
         options.buttons = items;
