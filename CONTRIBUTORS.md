@@ -26,6 +26,7 @@
  - [Oddstr13](https://github.com/oddstr13)
  - [petermcneil](https://github.com/petermcneil)
  - [lewazo](https://github.com/lewazo)
+ - [Raghu Saxena](https://github.com/ckcr4lyf)
 
 # Emby Contributors
 
