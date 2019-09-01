@@ -87,6 +87,17 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             overlayPlayButton: true,
             coverImage: true
         }, {
+            name: "HeaderFavoritePeople",
+            types: "Person",
+            shape: getPosterShape(),
+            preferThumb: false,
+            showTitle: true,
+            overlayText: false,
+            showParentTitle: false,
+            centerText: true,
+            overlayPlayButton: true,
+            coverImage: true
+        }, {
             name: "HeaderFavoriteArtists",
             types: "MusicArtist",
             shape: getSquareShape(),
@@ -141,6 +152,10 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
 
             if ("MusicArtist" === section.types) {
                 return apiClient.getArtists(userId, options);
+            }
+
+            if ("Person" === section.types) {
+                return apiClient.getPeople(userId, options);
             }
 
             options.IncludeItemTypes = section.types;
