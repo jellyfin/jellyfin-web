@@ -437,3 +437,7 @@ html {
 .card:focus .card-focuscontent {
     border-color: #00a4dc
 }
+
+.metadataSidebarIcon {
+    color: #00a4dc
+}

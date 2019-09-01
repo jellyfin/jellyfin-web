@@ -456,3 +456,7 @@ html {
     -webkit-border-radius: 2px;
     background: center no-repeat rgba(255, 255, 255, .7)
 }
+
+.metadataSidebarIcon {
+    color: #00a4dc
+}
