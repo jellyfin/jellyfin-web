@@ -818,12 +818,15 @@ var AppInfo = {};
                     text: "components/require/requiretext"
                 }
             },
+            bundles: {
+                bundle: ["jstree"]
+            },
             urlArgs: urlArgs,
             paths: paths,
             onError: onRequireJsError
         });
         requirejs.onError = onRequireJsError;
-        define("jstree", ["thirdparty/jstree/jstree", "css!thirdparty/jstree/themes/default/style.css"], returnFirstDependency);
+
         define("dashboardcss", ["css!css/dashboard"], returnFirstDependency);
         define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
         define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency);

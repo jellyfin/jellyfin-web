@@ -94,7 +94,6 @@
     z-index: 2;
     display: flex;
     justify-content: flex-end;
-    flex-grow: 1;
     align-items: center;
     flex-shrink: 0;
 }
