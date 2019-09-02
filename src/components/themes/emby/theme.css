@@ -441,3 +441,7 @@ html {
 .timeslotHeaders-desktop::-webkit-scrollbar {
     height: .7em
 }
+
+.metadataSidebarIcon {
+    color: #00a4dc
+}

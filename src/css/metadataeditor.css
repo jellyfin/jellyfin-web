@@ -47,6 +47,10 @@
     background: #00a4dc !important
 }
 
+.metadataSidebarIcon {
+    margin-right: .4em
+}
+
 @media all and (min-width:50em) {
     .editPageSidebar {
         position: fixed;

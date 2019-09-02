@@ -569,3 +569,7 @@ a[data-role=button] {
     background-color: #dbe6ff;
     color: #0e0f2d;
 }
+
+.metadataSidebarIcon {
+    color: #dbe6ff
+}
