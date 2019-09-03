@@ -196,17 +196,35 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         }
     }
 
+    function getReadableSize(size) {
+        if (size >= 1000000000) {
+            return (size / 1000000000).toFixed(1) + ' GB';
+        } else if (size >= 1000000) {
+            return (size / 1000000).toFixed(1) + ' MB';
+        } else {
+            return Math.floor(size / 1000) + ' KB';
+        }
+    }
+
     function getMediaSourceStats(session, player, displayPlayMethod) {
 
         var sessionStats = [];
 
         var mediaSource = playbackManager.currentMediaSource(player) || {};
         var totalBitrate = mediaSource.Bitrate;
+        var mediaFileSize = mediaSource.Size;
 
         if (mediaSource.Container) {
             sessionStats.push({
                 label: 'Container:',
                 value: mediaSource.Container
+            });
+        }
+
+        if (mediaFileSize) {
+            sessionStats.push({
+                label: 'File size:',
+                value: getReadableSize(mediaFileSize)
             });
         }
 
