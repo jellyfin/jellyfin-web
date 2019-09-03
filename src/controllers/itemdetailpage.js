@@ -361,7 +361,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
     function renderLogo(page, item, apiClient) {
         var url = logoImageUrl(item, apiClient, {
-                maxWidth: 300
+                maxWidth: 400
             }),
             detailLogo = page.querySelector(".detailLogo");
         url ? (detailLogo.classList.remove("hide"), detailLogo.classList.add("lazy"), detailLogo.setAttribute("data-src", url), imageLoader.lazyImage(detailLogo)) : detailLogo.classList.add("hide")
@@ -404,7 +404,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             detectRatio = !1;
         imageTags.Primary ? (url = apiClient.getScaledImageUrl(item.Id, {
             type: "Primary",
-            maxHeight: 360,
+            maxHeight: 460,
             tag: item.ImageTags.Primary
         }), detectRatio = !0) : item.BackdropImageTags && item.BackdropImageTags.length ? (url = apiClient.getScaledImageUrl(item.Id, {
             type: "Backdrop",
