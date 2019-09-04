@@ -26,7 +26,7 @@ define(["dialogHelper", "require", "layoutManager", "globalize", "userSettings",
         if (version.Path && user && user.Policy.IsAdministrator) {
             html += createAttribute(globalize.translate("MediaInfoPath"), version.Path) + "<br/>";
         }
-        if (version.Size && user && user.Policy.IsAdministrator) {
+        if (version.Size) {
             var size = (version.Size / (1024 * 1024)).toFixed(0) + " MB";
             html += createAttribute(globalize.translate("MediaInfoSize"), size) + "<br/>";
         }
