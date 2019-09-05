@@ -12,27 +12,23 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
     function showPlaybackInfo(btn, session) {
         require(["alert"], function (alert) {
-            var showTranscodeReasons;
             var title;
             var text = [];
-            var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
-            var isDirectStream = "DirectStream" === displayPlayMethod;
-            var isTranscode = "Transcode" === displayPlayMethod;
 
-            if (isDirectStream) {
+            var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+            if (displayPlayMethod === "DirectStream") {
                 title = globalize.translate("DirectStreaming");
                 text.push(globalize.translate("DirectStreamHelp1"));
                 text.push("<br/>");
                 text.push(globalize.translate("DirectStreamHelp2"));
-            } else if (isTranscode) {
+            } else if (displayPlayMethod === "Transcode") {
                 title = globalize.translate("Transcoding");
                 text.push(globalize.translate("MediaIsBeingConverted"));
-
                 if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
                     text.push("<br/>");
                     text.push(globalize.translate("LabelReasonForTranscoding"));
                     session.TranscodingInfo.TranscodeReasons.forEach(function (transcodeReason) {
-                        text.push(globalize.translate("" + transcodeReason));
+                        text.push(globalize.translate(transcodeReason));
                     });
                 }
             }
@@ -316,8 +312,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 html += '<div class="flex align-items-center justify-content-center">';
                 var userImage = DashboardPage.getUserImage(session);
                 html += userImage ? '<img style="height:1.71em;border-radius:50px;margin-right:.5em;" src="' + userImage + '" />' : '<div style="height:1.71em;"></div>';
-                html += '<div class="sessionUserName" style="text-transform:uppercase;">';
-                html += DashboardPage.getUsersHtml(session) || "&nbsp;";
+                html += '<div class="sessionUserName">';
+                html += DashboardPage.getUsersHtml(session);
                 html += "</div>";
                 html += "</div>";
                 html += "</div>";
@@ -398,13 +394,12 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             }
             if (showTranscodingInfo) {
                 var line = [];
-
                 if (session.TranscodingInfo) {
                     if (session.TranscodingInfo.Bitrate) {
                         if (session.TranscodingInfo.Bitrate > 1e6) {
                             line.push((session.TranscodingInfo.Bitrate / 1e6).toFixed(1) + " Mbps");
                         } else {
-                            line.push(Math.floor(session.TranscodingInfo.Bitrate / 1e3) + " kbps");
+                            line.push(Math.floor(session.TranscodingInfo.Bitrate / 1e3) + " Kbps");
                         }
                     }
 
@@ -426,7 +421,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 }
             }
 
-            return html || "&nbsp;";
+            return html;
         },
         getSessionNowPlayingTime: function (session) {
             var nowPlayingItem = session.NowPlayingItem;
@@ -436,7 +431,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 if (session.PlayState.PositionTicks) {
                     html += datetime.getDisplayRunningTime(session.PlayState.PositionTicks);
                 } else {
-                    html += "--:--:--";
+                    html += "0:00";
                 }
 
                 html += " / ";
@@ -444,10 +439,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
                     html += datetime.getDisplayRunningTime(nowPlayingItem.RunTimeTicks);
                 } else {
-                    html += "--:--:--";
+                    html += "0:00";
                 }
-
-                return html;
             }
 
             return html;
@@ -488,15 +481,13 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     maxWidth: 130,
                     type: "Logo"
                 });
-            } else {
-                if (nowPlayingItem.ParentLogoImageTag) {
-                    imgUrl = ApiClient.getScaledImageUrl(nowPlayingItem.ParentLogoItemId, {
-                        tag: nowPlayingItem.ParentLogoImageTag,
-                        maxHeight: 24,
-                        maxWidth: 130,
-                        type: "Logo"
-                    });
-                }
+            } else if (nowPlayingItem.ParentLogoImageTag) {
+                imgUrl = ApiClient.getScaledImageUrl(nowPlayingItem.ParentLogoItemId, {
+                    tag: nowPlayingItem.ParentLogoImageTag,
+                    maxHeight: 24,
+                    maxWidth: 130,
+                    type: "Logo"
+                });
             }
 
             if (imgUrl) {
@@ -510,7 +501,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         },
         getUsersHtml: function (session) {
             var html = [];
-
             if (session.UserId) {
                 html.push(session.UserName);
             }
@@ -787,7 +777,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 loading.show();
                 pollForInfo(page, apiClient);
                 DashboardPage.startInterval(apiClient);
-                // TODO we currently don't support packages and thus these events are useless
                 events.on(serverNotifications, "RestartRequired", onRestartRequired);
                 events.on(serverNotifications, "ServerShuttingDown", onServerShuttingDown);
                 events.on(serverNotifications, "ServerRestarting", onServerRestarting);
