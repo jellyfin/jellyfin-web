@@ -328,7 +328,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
             html += cardBuilder.getCardsHtml({
                 items: userViews,
-                shape: enableScrollX() ? 'overflowSmallBackdrop' : shape,
+                shape: getThumbShape(),
                 showTitle: true,
                 centerText: true,
                 overlayText: false,
