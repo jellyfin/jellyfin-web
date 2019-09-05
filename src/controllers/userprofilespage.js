@@ -9,7 +9,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
                 title: globalize.translate("DeleteUser"),
                 text: msg,
                 confirmText: globalize.translate("ButtonDelete"),
-                primary: "ok"
+                primary: "delete"
             }).then(function () {
                 loading.show();
                 ApiClient.deleteUser(id).then(function () {

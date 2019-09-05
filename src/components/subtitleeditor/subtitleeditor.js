@@ -74,7 +74,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
                 title: globalize.translate('ConfirmDeletion'),
                 text: msg,
                 confirmText: globalize.translate('Delete'),
-                primary: 'ok'
+                primary: 'delete'
 
             }).then(function () {
 

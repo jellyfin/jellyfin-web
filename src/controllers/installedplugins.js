@@ -7,7 +7,7 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
             confirm({
                 title: globalize.translate("UninstallPluginHeader"),
                 text: msg,
-                primary: "ok",
+                primary: "delete",
                 confirmText: globalize.translate("UninstallPluginHeader")
             }).then(function() {
                 loading.show();

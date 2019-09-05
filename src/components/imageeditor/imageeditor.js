@@ -203,7 +203,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
                 text: globalize.translate('ConfirmDeleteImage'),
                 confirmText: globalize.translate('Delete'),
-                primary: 'ok'
+                primary: 'delete'
 
             }).then(afterConfirm);
         });
