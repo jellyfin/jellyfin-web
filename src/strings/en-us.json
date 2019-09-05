@@ -651,7 +651,7 @@
     "LabelH264Crf": "H264 encoding CRF:",
     "LabelH264EncodingPreset": "H264 encoding preset:",
     "LabelHardwareAccelerationType": "Hardware acceleration:",
-    "LabelHardwareAccelerationTypeHelp": "Only available on supported systems.",
+    "LabelHardwareAccelerationTypeHelp": "This is an experimental feature only available on supported systems.",
     "LabelHomeNetworkQuality": "Home network quality:",
     "LabelHomeScreenSectionValue": "Home screen section {0}:",
     "LabelHttpsPort": "Local HTTPS port number:",
