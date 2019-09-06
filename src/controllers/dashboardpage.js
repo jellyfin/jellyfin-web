@@ -236,10 +236,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 var nowPlayingItem = session.NowPlayingItem;
                 var className = "scalableCard card activeSession backdropCard backdropCard-scalable";
 
-                if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
-                    className += " transcodingSession";
-                }
-
                 html += '<div class="' + className + '" id="' + rowId + '">';
                 html += '<div class="cardBox visualCardBox">';
                 html += '<div class="cardScalable visualCardBox-cardScalable">';
@@ -285,11 +281,17 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
                     var percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
                     html += indicators.getProgressHtml(percent, { containerClass: "playbackProgress" });
+                } else {
+                    // need to leave the element in just in case the device starts playback
+                    html += indicators.getProgressHtml(0, { containerClass: "playbackProgress hide" });
                 }
 
                 if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
                     var percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
                     html += indicators.getProgressHtml(percent, { containerClass: "transcodingProgress" });
+                } else {
+                    // same issue as playbackProgress element above
+                    html += indicators.getProgressHtml(0, { containerClass: "transcodingProgress hide" });
                 }
 
                 html += "</div>";
@@ -324,7 +326,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
         parentElement.insertAdjacentHTML("beforeend", html);
         var deadSessionElem = parentElement.querySelector(".deadSession");
-
         if (deadSessionElem) {
             deadSessionElem.parentNode.removeChild(deadSessionElem);
         }
@@ -524,8 +525,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         },
         updateSession: function (row, session) {
             row.classList.remove("deadSession");
-            var nowPlayingItem = session.NowPlayingItem;
 
+            var nowPlayingItem = session.NowPlayingItem;
             if (nowPlayingItem) {
                 row.classList.add("playingSession");
             } else {
@@ -545,7 +546,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             }
 
             var btnSessionPlayPause = row.querySelector(".btnSessionPlayPause");
-
             if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId()) {
                 btnSessionPlayPause.classList.remove("hide");
                 row.querySelector(".btnSessionStop").classList.remove("hide");
@@ -562,7 +562,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             row.querySelector(".sessionNowPlayingStreamInfo").innerHTML = DashboardPage.getSessionNowPlayingStreamInfo(session);
             row.querySelector(".sessionNowPlayingTime").innerHTML = DashboardPage.getSessionNowPlayingTime(session);
-            row.querySelector(".sessionUserName").innerHTML = DashboardPage.getUsersHtml(session) || "&nbsp;";
+            row.querySelector(".sessionUserName").innerHTML = DashboardPage.getUsersHtml(session);
             row.querySelector(".sessionAppSecondaryText").innerHTML = DashboardPage.getAppSecondaryText(session);
             row.querySelector(".sessionTranscodingFramerate").innerHTML = session.TranscodingInfo && session.TranscodingInfo.Framerate ? session.TranscodingInfo.Framerate + " fps" : "";
             var nowPlayingName = DashboardPage.getNowPlayingName(session);
@@ -574,27 +574,19 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             }
 
             var playbackProgressElem = row.querySelector(".playbackProgress");
-
-            if (playbackProgressElem) {
-                if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
-                    var position = session.PlayState.PositionTicks || 0;
-                    var value = 100 * position / nowPlayingItem.RunTimeTicks;
-                    playbackProgressElem.classList.remove("hide");
-                    playbackProgressElem.value = value;
-                } else {
-                    playbackProgressElem.classList.add("hide");
-                }
+            if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
+                var percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
+                html += indicators.getProgressHtml(percent, { containerClass: "playbackProgress" });
+            } else {
+                html += indicators.getProgressHtml(0, { containerClass: "playbackProgress hide" });
             }
 
             var transcodingProgress = row.querySelector(".transcodingProgress");
-
             if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
-                row.classList.add("transcodingSession");
-                transcodingProgress.value = session.TranscodingInfo.CompletionPercentage;
-                transcodingProgress.classList.remove("hide");
+                var percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
+                html += indicators.getProgressHtml(percent, { containerClass: "transcodingProgress" });
             } else {
-                transcodingProgress.classList.add("hide");
-                row.classList.remove("transcodingSession");
+                html += indicators.getProgressHtml(0, { containerClass: "transcodingProgress hide" });
             }
 
             var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem) || "";
