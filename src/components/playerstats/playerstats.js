@@ -197,12 +197,12 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
     }
 
     function getReadableSize(size) {
-        if (size >= 1000000000) {
-            return (size / 1000000000).toFixed(1) + ' GB';
-        } else if (size >= 1000000) {
-            return (size / 1000000).toFixed(1) + ' MB';
+        if (size >= 1073741824) {
+            return parseFloat((size / 1073741824).toFixed(2)) + ' GiB';
+        } else if (size >= 1048576) {
+            return parseFloat((size / 1048576).toFixed(2)) + ' MiB';
         } else {
-            return Math.floor(size / 1000) + ' KB';
+            return Math.floor(size / 1024) + ' KiB';
         }
     }
 
