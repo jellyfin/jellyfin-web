@@ -37,7 +37,7 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
                 confirm({
 
                     text: globalize.translate('MessageConfirmRecordingCancellation'),
-                    primary: 'cancel',
+                    primary: 'delete',
                     confirmText: globalize.translate('HeaderCancelRecording'),
                     cancelText: globalize.translate('HeaderKeepRecording')
 
@@ -62,7 +62,7 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
                 confirm({
 
                     text: globalize.translate('MessageConfirmRecordingCancellation'),
-                    primary: 'cancel',
+                    primary: 'delete',
                     confirmText: globalize.translate('HeaderCancelSeries'),
                     cancelText: globalize.translate('HeaderKeepSeries')
 

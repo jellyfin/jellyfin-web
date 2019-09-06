@@ -707,7 +707,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     title: globalize.translate("HeaderRestart"),
                     text: globalize.translate("MessageConfirmRestart"),
                     confirmText: globalize.translate("ButtonRestart"),
-                    primary: "cancel"
+                    primary: "delete"
                 }).then(function () {
                     var page = dom.parentWithClass(btn, "page");
                     buttonEnabled(page.querySelector("#btnRestartServer"), false);
@@ -722,7 +722,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     title: globalize.translate("HeaderShutdown"),
                     text: globalize.translate("MessageConfirmShutdown"),
                     confirmText: globalize.translate("ButtonShutdown"),
-                    primary: "cancel"
+                    primary: "delete"
                 }).then(function () {
                     var page = dom.parentWithClass(btn, "page");
                     buttonEnabled(page.querySelector("#btnRestartServer"), false);
