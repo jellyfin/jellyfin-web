@@ -27,7 +27,7 @@ define(["dialogHelper", "require", "layoutManager", "globalize", "userSettings",
             html += createAttribute(globalize.translate("MediaInfoPath"), version.Path) + "<br/>";
         }
         if (version.Size && user && user.Policy.IsAdministrator) {
-            var size = (version.Size / (1024 * 1024)).toFixed(0) + " MB";
+            var size = (version.Size / (1024 * 1024)).toFixed(0) + " MiB";
             html += createAttribute(globalize.translate("MediaInfoSize"), size) + "<br/>";
         }
         for (var i = 0, length = version.MediaStreams.length; i < length; i++) {
