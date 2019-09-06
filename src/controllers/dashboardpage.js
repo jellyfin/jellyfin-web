@@ -674,6 +674,14 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 });
             }
 
+            if (item && item.AlbumPrimaryImageTag) {
+                return ApiClient.getScaledImageUrl(item.AlbumId, {
+                    type: "Primary",
+                    width: 275,
+                    tag: item.AlbumPrimaryImageTag
+                });
+            }
+
             return null;
         },
         systemUpdateTaskKey: "SystemUpdateTask",
