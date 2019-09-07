@@ -764,6 +764,7 @@
     "LabelPlayer": "Player:",
     "LabelPlaylist": "Playlist:",
     "LabelPlayMethod": "Play method:",
+    "LabelPleaseRestart": "Changes will take effect after manually reloading the web client.",
     "LabelPostProcessor": "Post-processing application:",
     "LabelPostProcessorArguments": "Post-processor command line arguments:",
     "LabelPostProcessorArgumentsHelp": "Use {path} as the path to the recording file.",

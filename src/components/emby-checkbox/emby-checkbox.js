@@ -4,7 +4,6 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
     var EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);
 
     function onKeyDown(e) {
-
         // Don't submit form on enter
         if (e.keyCode === 13) {
             e.preventDefault();
@@ -22,7 +21,6 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
     var enableRefreshHack = browser.tizen || browser.orsay || browser.operaTv || browser.web0s ? true : false;
 
     function forceRefresh(loading) {
-
         var elem = this.parentNode;
 
         elem.style.webkitAnimationName = 'repaintChrome';
@@ -36,7 +34,6 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
     }
 
     EmbyCheckboxPrototype.attachedCallback = function () {
-
         if (this.getAttribute('data-embycheckbox') === 'true') {
             return;
         }
@@ -68,7 +65,6 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
         this.addEventListener('keydown', onKeyDown);
 
         if (enableRefreshHack) {
-
             forceRefresh.call(this, true);
             dom.addEventListener(this, 'click', forceRefresh, {
                 passive: true
@@ -86,7 +82,6 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
     };
 
     EmbyCheckboxPrototype.detachedCallback = function () {
-
         this.removeEventListener('keydown', onKeyDown);
 
         dom.removeEventListener(this, 'click', forceRefresh, {
