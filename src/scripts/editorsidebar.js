@@ -241,6 +241,8 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
         $(".libraryTree", page).jstree({
             "plugins": ["wholerow"],
             core: {
+                // Disable animations because jQuery slim does not support them
+                animation: false,
                 check_callback: true,
                 data: function (node, callback) {
                     loadNode(page, this, node, openItems, selectedId, currentUser, callback);
