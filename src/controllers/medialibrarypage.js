@@ -38,7 +38,14 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
         }
 
         require(["confirm"], function (confirm) {
-            confirm(msg, globalize.translate("HeaderRemoveMediaFolder")).then(function () {
+            confirm({
+
+                text: msg,
+                title: globalize.translate('HeaderRemoveMediaFolder'),
+                confirmText: globalize.translate('Delete'),
+                primary: 'delete'
+
+            }).then(function () {
                 var refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
                 ApiClient.removeVirtualFolder(virtualFolder.Name, refreshAfterChange).then(function () {
                     reloadLibrary(page);
