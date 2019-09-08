@@ -783,7 +783,6 @@ var AppInfo = {};
         define("displaySettings", [componentsPath + "/displaysettings/displaysettings"], returnFirstDependency);
         define("playbackSettings", [componentsPath + "/playbacksettings/playbacksettings"], returnFirstDependency);
         define("homescreenSettings", [componentsPath + "/homescreensettings/homescreensettings"], returnFirstDependency);
-        define("homescreenSettingsDialog", [componentsPath + "/homescreensettings/homescreensettingsdialog"], returnFirstDependency);
         define("playbackManager", [componentsPath + "/playback/playbackmanager"], getPlaybackManager);
         define("layoutManager", [componentsPath + "/layoutManager", "apphost"], getLayoutManager);
         define("homeSections", [componentsPath + "/homesections/homesections"], returnFirstDependency);
