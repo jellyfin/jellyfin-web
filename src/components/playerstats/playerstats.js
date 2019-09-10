@@ -132,7 +132,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         if (videoCodec) {
 
             sessionStats.push({
-                label: 'Video codec:',
+                label: globalize.translate("LabelVideoCodec"),
                 value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
             });
         }
@@ -140,7 +140,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         if (audioCodec) {
 
             sessionStats.push({
-                label: 'Audio codec:',
+                label: globalize.translate("LabelAudioCodec"),
                 value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
             });
         }
@@ -157,28 +157,28 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
             if (totalBitrate) {
 
                 sessionStats.push({
-                    label: 'Bitrate:',
+                    label: globalize.translate("LabelBitrate"),
                     value: getDisplayBitrate(totalBitrate)
                 });
             }
             if (session.TranscodingInfo.CompletionPercentage) {
 
                 sessionStats.push({
-                    label: 'Transcoding progress:',
+                    label: globalize.translate("LabelTranscodingProgress"),
                     value: session.TranscodingInfo.CompletionPercentage.toFixed(1) + '%'
                 });
             }
             if (session.TranscodingInfo.Framerate) {
 
                 sessionStats.push({
-                    label: 'Transcoding framerate:',
+                    label: globalize.translate("LabelTranscodingFramerate"),
                     value: session.TranscodingInfo.Framerate + ' fps'
                 });
             }
             if (session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
 
                 sessionStats.push({
-                    label: 'Reason for transcoding:',
+                    label: globalize.translate("LabelReasonForTranscoding"),
                     value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')
                 });
             }
@@ -198,9 +198,9 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
     function getReadableSize(size) {
         if (size >= 1073741824) {
-            return parseFloat((size / 1073741824).toFixed(2)) + ' GiB';
+            return parseFloat((size / 1073741824).toFixed(1)) + ' GiB';
         } else if (size >= 1048576) {
-            return parseFloat((size / 1048576).toFixed(2)) + ' MiB';
+            return parseFloat((size / 1048576).toFixed(1)) + ' MiB';
         } else {
             return Math.floor(size / 1024) + ' KiB';
         }
@@ -216,14 +216,14 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
         if (mediaSource.Container) {
             sessionStats.push({
-                label: 'Container:',
+                label: globalize.translate("LabelProfileContainer"),
                 value: mediaSource.Container
             });
         }
 
         if (mediaFileSize) {
             sessionStats.push({
-                label: 'File size:',
+                label: globalize.translate("LabelSize"),
                 value: getReadableSize(mediaFileSize)
             });
         }
@@ -231,7 +231,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         if (totalBitrate) {
 
             sessionStats.push({
-                label: 'Bitrate:',
+                label: globalize.translate("LabelBitrate"),
                 value: getDisplayBitrate(totalBitrate)
             });
         }
@@ -267,14 +267,14 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
         if (videoInfos.length) {
             sessionStats.push({
-                label: 'Video codec:',
+                label: globalize.translate("LabelVideoCodec"),
                 value: videoInfos.join(' ')
             });
         }
 
         if (videoStream.BitRate) {
             sessionStats.push({
-                label: 'Video bitrate:',
+                label: globalize.translate("LabelVideoBitrate"),
                 value: getDisplayBitrate(videoStream.BitRate)
             });
         }
@@ -291,35 +291,35 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
         if (audioInfos.length) {
             sessionStats.push({
-                label: 'Audio codec:',
+                label: globalize.translate("LabelAudioCodec"),
                 value: audioInfos.join(' ')
             });
         }
 
         if (audioStream.BitRate) {
             sessionStats.push({
-                label: 'Audio bitrate:',
+                label: globalize.translate("LabelAudioBitrate"),
                 value: getDisplayBitrate(audioStream.BitRate)
             });
         }
 
         if (audioChannels) {
             sessionStats.push({
-                label: 'Audio channels:',
+                label: globalize.translate("LabelAudioChannels"),
                 value: audioChannels
             });
         }
 
         if (audioStream.SampleRate) {
             sessionStats.push({
-                label: 'Audio sample rate:',
+                label: globalize.translate("LabelAudioSampleRate"),
                 value: audioStream.SampleRate + ' Hz'
             });
         }
 
         if (audioStream.BitDepth) {
             sessionStats.push({
-                label: 'Audio bit depth:',
+                label: globalize.translate("LabelAudioBitDepth"),
                 value: audioStream.BitDepth
             });
         }
@@ -346,12 +346,12 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
             };
 
             baseCategory.stats.unshift({
-                label: 'Play method:',
+                label: globalize.translate("LabelPlayMethod"),
                 value: displayPlayMethod
             });
 
             baseCategory.stats.unshift({
-                label: 'Player:',
+                label: globalize.translate("LabelPlayer"),
                 value: player.name
             });
 
