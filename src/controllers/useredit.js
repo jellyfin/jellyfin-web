@@ -13,7 +13,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function($, loading, l
     }
 
     function loadAuthProviders(page, user, providers) {
-        providers.length > 1 && !user.Policy.IsAdministrator ? page.querySelector(".fldSelectLoginProvider").classList.remove("hide") : page.querySelector(".fldSelectLoginProvider").classList.add("hide");
+        providers.length > 1 ? page.querySelector(".fldSelectLoginProvider").classList.remove("hide") : page.querySelector(".fldSelectLoginProvider").classList.add("hide");
         var currentProviderId = user.Policy.AuthenticationProviderId;
         page.querySelector(".selectLoginProvider").innerHTML = providers.map(function(provider) {
             var selected = provider.Id === currentProviderId || providers.length < 2 ? " selected" : "";
@@ -22,11 +22,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function($, loading, l
     }
 
     function loadPasswordResetProviders(page, user, providers) {
-        if (providers.length > 1 && !user.Policy.IsAdministrator) {
-            page.querySelector(".fldSelectPasswordResetProvider").classList.remove("hide");
-        } else {
-            page.querySelector(".fldSelectPasswordResetProvider").classList.add("hide");
-        }
+        providers.length > 1 ? page.querySelector(".fldSelectPasswordResetProvider").classList.remove("hide") : page.querySelector(".fldSelectPasswordResetProvider").classList.add("hide");
         var currentProviderId = user.Policy.PasswordResetProviderId;
         page.querySelector(".selectPasswordResetProvider").innerHTML = providers.map(function(provider) {
             var selected = (provider.Id === currentProviderId || providers.length < 2) ? " selected" : "";
