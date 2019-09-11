@@ -195,7 +195,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
         }, {
             name: globalize.translate("FolderTypeMusic"),
             value: "music",
-            message: getLink("MovieLibraryHelp", "https://jellyfin.readthedocs.io/en/latest/media/music/")
+            message: getLink("MusicLibraryHelp", "https://jellyfin.readthedocs.io/en/latest/media/music/")
         }, {
             name: globalize.translate("FolderTypeTvShows"),
             value: "tvshows",
@@ -203,7 +203,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
         }, {
             name: globalize.translate("FolderTypeBooks"),
             value: "books",
-            message: getLink("BookLibraryHelp", "https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Book-naming")
+            message: getLink("BookLibraryHelp", "https://jellyfin.readthedocs.io/en/latest/media/books/")
         }, {
             name: globalize.translate("OptionHomeVideos"),
             value: "homevideos"

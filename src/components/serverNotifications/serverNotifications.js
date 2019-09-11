@@ -39,7 +39,6 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
     }
 
     function processGeneralCommand(cmd, apiClient) {
-        // https://github.com/jellyfin/jellyfin/blob/master/MediaBrowser.Model/Session/GeneralCommandType.cs
         console.log('Received command: ' + cmd.Name);
         switch (cmd.Name) {
             case 'Select':
