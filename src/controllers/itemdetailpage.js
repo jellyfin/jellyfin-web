@@ -544,22 +544,63 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderDetails(page, item, apiClient, context, isStatic) {
-        renderSimilarItems(page, item, context), renderMoreFromSeason(page, item, apiClient), renderMoreFromArtist(page, item, apiClient), renderDirector(page, item, apiClient, context, isStatic), renderGenres(page, item, apiClient, context, isStatic), renderChannelGuide(page, apiClient, item);
+        renderSimilarItems(page, item, context);
+        renderMoreFromSeason(page, item, apiClient);
+        renderMoreFromArtist(page, item, apiClient);
+        renderDirector(page, item, apiClient, context, isStatic);
+        renderGenres(page, item, apiClient, context, isStatic);
+        renderChannelGuide(page, apiClient, item);
+
         var taglineElement = page.querySelector(".tagline");
-        item.Taglines && item.Taglines.length ? (taglineElement.classList.remove("hide"), taglineElement.innerHTML = item.Taglines[0]) : taglineElement.classList.add("hide");
-        var overview = page.querySelector(".overview"),
-            externalLinksElem = page.querySelector(".itemExternalLinks");
-        "Season" !== item.Type && "MusicAlbum" !== item.Type && "MusicArtist" !== item.Type || (overview.classList.add("detailsHiddenOnMobile"), externalLinksElem.classList.add("detailsHiddenOnMobile")), renderOverview([overview], item);
-        var i, length, itemMiscInfo = page.querySelectorAll(".itemMiscInfo-primary");
-        for (i = 0, length = itemMiscInfo.length; i < length; i++) mediaInfo.fillPrimaryMediaInfo(itemMiscInfo[i], item, {
-            interactive: !0,
-            episodeTitle: !1,
-            subtitles: !1
-        }), itemMiscInfo[i].innerHTML && "SeriesTimer" !== item.Type ? itemMiscInfo[i].classList.remove("hide") : itemMiscInfo[i].classList.add("hide");
-        for (itemMiscInfo = page.querySelectorAll(".itemMiscInfo-secondary"), i = 0, length = itemMiscInfo.length; i < length; i++) mediaInfo.fillSecondaryMediaInfo(itemMiscInfo[i], item, {
-            interactive: !0
-        }), itemMiscInfo[i].innerHTML ? itemMiscInfo[i].classList.remove("hide") : itemMiscInfo[i].classList.add("hide");
-        reloadUserDataButtons(page, item), renderLinks(externalLinksElem, item), renderTags(page, item), renderSeriesAirTime(page, item, isStatic)
+        if (item.Taglines && item.Taglines.length) {
+            taglineElement.classList.remove("hide");
+            taglineElement.innerHTML = item.Taglines[0];
+        } else {
+            taglineElement.classList.add("hide");
+        }
+
+        var overview = page.querySelector(".overview");
+        var externalLinksElem = page.querySelector(".itemExternalLinks");
+
+        if ("Season" !== item.Type && "MusicAlbum" !== item.Type && "MusicArtist" !== item.Type) {
+            overview.classList.add("detailsHiddenOnMobile");
+            externalLinksElem.classList.add("detailsHiddenOnMobile");
+        }
+        renderOverview([overview], item);
+
+        var i, itemMiscInfo;
+        itemMiscInfo = page.querySelectorAll(".itemMiscInfo-primary");
+        for (i = 0; i < itemMiscInfo.length; i++) {
+            mediaInfo.fillPrimaryMediaInfo(itemMiscInfo[i], item, {
+                interactive: !0,
+                episodeTitle: !1,
+                subtitles: !1
+            });
+
+            if (itemMiscInfo[i].innerHTML && "SeriesTimer" !== item.Type) {
+                itemMiscInfo[i].classList.remove("hide");
+            } else {
+                itemMiscInfo[i].classList.add("hide");
+            }
+        }
+
+        itemMiscInfo = page.querySelectorAll(".itemMiscInfo-secondary")
+        for (i = 0; i < itemMiscInfo.length; i++) {
+            mediaInfo.fillSecondaryMediaInfo(itemMiscInfo[i], item, {
+                interactive: !0
+            })
+
+            if (itemMiscInfo[i].innerHTML && "SeriesTimer" !== item.Type) {
+                itemMiscInfo[i].classList.remove("hide");
+            } else {
+                itemMiscInfo[i].classList.add("hide");
+            }
+        }
+        
+        reloadUserDataButtons(page, item);
+        renderLinks(externalLinksElem, item);
+        renderTags(page, item);
+        renderSeriesAirTime(page, item, isStatic)
     }
 
     function enableScrollX() {
