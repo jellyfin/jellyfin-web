@@ -1295,6 +1295,8 @@
     "ButtonTrailer": "Trailer",
     "ButtonWebsite": "Webseite",
     "ChangingMetadataImageSettingsNewContent": "Änderungen an Metadaten- und Artwork-Einstellungen betreffen nur der Bibliothek neu hinzugefügte Inhalte. Um diese Änderungen auf existierende Medien anzuwenden müssen die Metadaten manuell aktualisiert werden.",
+    "CopyStreamURL": "Kopiere Streaminglink",
+    "CopyStreamURLSuccess": "Link erfolgreich kopiert.",
     "Desktop": "Desktop",
     "Download": "Download",
     "Extras": "Extras",
