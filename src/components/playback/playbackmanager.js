@@ -1643,7 +1643,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         self.disableShowingSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
-            player.disableShowingSubtitleOffset();
+            if (player.disableShowingSubtitleOffset) {
+                player.disableShowingSubtitleOffset();
+            }            
         }
 
         self.isShowingSubtitleOffsetEnabled = function(player) {
@@ -1658,12 +1660,16 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         self.setSubtitleOffset = function (value, player) {
             player = player || self._currentPlayer;
-            player.setSubtitleOffset(value);
+            if (player.setSubtitleOffset) {
+                player.setSubtitleOffset(value);
+            }
         };
 
         self.getPlayerSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
-            return player.getSubtitleOffset();
+            if (player.getPlayerSubtitleOffset) {
+                return player.getSubtitleOffset();
+            }
         }
 
         self.canHandleOffsetOnCurrentSubtitle = function(player) {
