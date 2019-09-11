@@ -26,10 +26,10 @@ define(['browser', 'dom', 'layoutManager', 'shell', 'appRouter', 'apphost', 'css
         }
 
         this.classList.add('emby-button');
+        // TODO replace all instances of element-showfocus with this method
         if (layoutManager.tv) {
             // handles all special css for tv layout
-            // the old method was element-showfocus
-            // this method utilizes class chaining instead
+            // this method utilizes class chaining
             this.classList.add('show-focus');
         }
     };
