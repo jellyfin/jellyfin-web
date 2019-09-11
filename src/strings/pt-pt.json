@@ -1082,5 +1082,7 @@
     "LabelSimultaneousConnectionLimit": "Limite de transmissões simultâneas:",
     "LabelMaxStreamingBitrate": "Qualidade máxima de transmissão:",
     "LabelMaxChromecastBitrate": "Qualidade de transmissão para Chromecast:",
-    "EnableStreamLoopingHelp": "Ative esta opção no caso de a transmissão em direto apenas conter alguns segundos de dados, e necessitar de ser continuamente requisitada. Ativar esta opção quando não é necessário pode causar problemas."
+    "EnableStreamLoopingHelp": "Ative esta opção no caso de a transmissão em direto apenas conter alguns segundos de dados, e necessitar de ser continuamente requisitada. Ativar esta opção quando não é necessário pode causar problemas.",
+    "LiveBroadcasts": "Emissões em Direto",
+    "Live": "Em Direto"
 }
