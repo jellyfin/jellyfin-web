@@ -43,7 +43,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
         }
         var htmlName = "<div class='editorNode'>";
         if (item.IsFolder) {
-            htmlName += '<i class="md-icon">folder</i>';
+            htmlName += '<i class="md-icon metadataSidebarIcon">folder</i>';
         }
         else if (item.MediaType === "Video") {
             htmlName += '<i class="md-icon metadataSidebarIcon">movie</i>';
