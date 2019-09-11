@@ -235,7 +235,23 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var name = itemHelper.getDisplayName(item, {
             includeParentInfo: !1
         });
-        html && !parentNameLast ? html += '<h3 class="itemName" style="margin: .25em 0 .5em;">' + name + "</h3>" : html = parentNameLast ? '<h1 class="itemName" style="margin: .1em 0 .25em;">' + name + "</h1>" + html : '<h1 class="itemName" style="margin: .1em 0 .5em;">' + name + "</h1>" + html, container.innerHTML = html, html.length ? container.classList.remove("hide") : container.classList.add("hide")
+
+        if (html && !parentNameLast) {
+            html += '<h3 class="itemName" style="margin: .25em 0 .5em;">' + name + '</h3>';
+        } else {
+            if (parentNameLast) {
+                html = '<h1 class="itemName" style="margin: .1em 0 .25em;">' + name + "</h1>" + html;
+            } else {
+                html = '<h1 class="itemName" style="margin: .1em 0 .5em;">' + name + "</h1>" + html;
+            }
+        }
+
+        if (item.OriginalTitle) {
+            html += '<h3 class="itemName" style="margin: .25em 0 .5em;">' + item.OriginalTitle + '</h3>';
+        }
+
+        container.innerHTML = html;
+        html.length ? container.classList.remove("hide") : container.classList.add("hide")
     }
 
     function setTrailerButtonVisibility(page, item) {
