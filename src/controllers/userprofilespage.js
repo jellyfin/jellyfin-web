@@ -128,7 +128,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
 
     function getLastSeenText(lastActivityDate) {
         if (lastActivityDate) {
-            return "Last seen " + humane_date(lastActivityDate);
+            return "Last seen " + humaneDate(lastActivityDate);
         }
 
         return "";
@@ -207,7 +207,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
 
         page.querySelector(".pending").innerHTML = users.map(getPendingUserHtml).join("");
     }
-    
+
     // TODO cvium: maybe reuse for invitation system
     function cancelAuthorization(page, id) {
         loading.show();
@@ -230,7 +230,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
         // TODO cvium
         renderPendingGuests(page, []);
         // ApiClient.getJSON(ApiClient.getUrl("Connect/Pending")).then(function (pending) {
-        //    
+        //
         // });
     }
 

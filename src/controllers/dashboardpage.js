@@ -461,7 +461,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (!nowPlayingItem) {
                 return {
-                    html: "Last seen " + humane_date(session.LastActivityDate),
+                    html: "Last seen " + humaneDate(session.LastActivityDate),
                     image: imgUrl
                 };
             }
