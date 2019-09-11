@@ -312,10 +312,6 @@ var AppInfo = {};
         return obj;
     }
 
-    function getSettingsBuilder(UserSettings, layoutManager, browser) {
-        return UserSettings;
-    }
-
     function getBowerPath() {
         return "bower_components";
     }
@@ -411,7 +407,7 @@ var AppInfo = {};
 
         define("shell", [componentsPath + "/shell"], returnFirstDependency);
 
-        define("apiclient", ["bower_components/apiclient/apiclient"], returnFirstDependency);
+        define("apiclient", [apiClientBowerPath + "/apiclient"], returnFirstDependency);
 
         if ("registerElement" in document) {
             define("registerElement", []);
@@ -680,17 +676,17 @@ var AppInfo = {};
         var componentsPath = "components";
         var paths = {
             velocity: bowerPath + "/velocity/velocity.min",
-            ironCardList: "components/ironcardlist/ironcardlist",
-            scrollThreshold: "components/scrollthreshold",
-            playlisteditor: "components/playlisteditor/playlisteditor",
-            medialibrarycreator: "components/medialibrarycreator/medialibrarycreator",
-            medialibraryeditor: "components/medialibraryeditor/medialibraryeditor",
-            imageoptionseditor: "components/imageoptionseditor/imageoptionseditor",
+            ironCardList: componentsPath + "/ironcardlist/ironcardlist",
+            scrollThreshold: componentsPath + "/scrollthreshold",
+            playlisteditor: componentsPath + "/playlisteditor/playlisteditor",
+            medialibrarycreator: componentsPath + "/medialibrarycreator/medialibrarycreator",
+            medialibraryeditor: componentsPath + "/medialibraryeditor/medialibraryeditor",
+            imageoptionseditor: componentsPath + "/imageoptionseditor/imageoptionseditor",
             howler: bowerPath + "/howlerjs/dist/howler.min",
             sortable: bowerPath + "/Sortable/Sortable.min",
             isMobile: bowerPath + "/isMobile/isMobile.min",
             masonry: bowerPath + "/masonry/dist/masonry.pkgd.min",
-            humanedate: "components/humanedate",
+            humanedate: componentsPath + "/humanedate",
             libraryBrowser: "scripts/librarybrowser",
             events: apiClientBowerPath + "/events",
             credentialprovider: apiClientBowerPath + "/credentialprovider",
@@ -719,11 +715,11 @@ var AppInfo = {};
         define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);
         define("actionsheet", [componentsPath + "/actionsheet/actionsheet"], returnFirstDependency);
         define("libjass", [bowerPath + "/libjass/libjass.min", "css!" + bowerPath + "/libjass/libjass"], returnFirstDependency);
-        define("tunerPicker", ["components/tunerpicker"], returnFirstDependency);
+        define("tunerPicker", [componentsPath + "/tunerpicker"], returnFirstDependency);
         define("mainTabsManager", [componentsPath + "/maintabsmanager"], returnFirstDependency);
         define("imageLoader", [componentsPath + "/images/imageLoader"], returnFirstDependency);
         define("appFooter", [componentsPath + "/appfooter/appfooter"], returnFirstDependency);
-        define("directorybrowser", ["components/directorybrowser/directorybrowser"], returnFirstDependency);
+        define("directorybrowser", [componentsPath + "/directorybrowser/directorybrowser"], returnFirstDependency);
         define("metadataEditor", [componentsPath + "/metadataeditor/metadataeditor"], returnFirstDependency);
         define("personEditor", [componentsPath + "/metadataeditor/personeditor"], returnFirstDependency);
         define("playerSelectionMenu", [componentsPath + "/playback/playerSelectionMenu"], returnFirstDependency);
@@ -806,7 +802,7 @@ var AppInfo = {};
             return viewManager;
         });
 
-        paths.apphost = "components/apphost";
+        paths.apphost = componentsPath + "/apphost";
         define('appStorage', [apiClientBowerPath + '/appStorage'], returnFirstDependency);
 
         requirejs.config({
@@ -855,15 +851,15 @@ var AppInfo = {};
         define("touchHelper", [componentsPath + "/touchhelper"], returnFirstDependency);
         define("appSettings", [componentsPath + "/appSettings"], returnFirstDependency);
         define("userSettings", [componentsPath + "/usersettings/usersettings"], returnFirstDependency);
-        define("userSettingsBuilder", [componentsPath + "/usersettings/usersettingsbuilder", "layoutManager", "browser"], getSettingsBuilder);
+        define("userSettingsBuilder", [componentsPath + "/usersettings/usersettingsbuilder", "layoutManager", "browser"], returnFirstDependency);
         define("material-icons", ["css!css/material-icons/style"], returnFirstDependency);
         define("systemFontsCss", ["css!css/fonts"], returnFirstDependency);
         define("systemFontsSizedCss", ["css!css/fonts.sized"], returnFirstDependency);
         define("scrollStyles", ["css!" + componentsPath + "/scrollstyles"], returnFirstDependency);
         define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
-        define("navdrawer", ["components/navdrawer/navdrawer"], returnFirstDependency);
+        define("navdrawer", [componentsPath + "/navdrawer/navdrawer"], returnFirstDependency);
         define("htmlMediaHelper", [componentsPath + "/htmlMediaHelper"], returnFirstDependency);
-        define("viewContainer", ["components/viewContainer"], returnFirstDependency);
+        define("viewContainer", [componentsPath + "/viewContainer"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
         });
@@ -1018,7 +1014,7 @@ var AppInfo = {};
                 if ("livetv" === item) {
                     if ("programs" === options.section) {
                         return "livetv.html?tab=0&serverId=" + options.serverId;
-                    }					
+                    }
                     if ("guide" === options.section) {
                         return "livetv.html?tab=1&serverId=" + options.serverId;
                     }
