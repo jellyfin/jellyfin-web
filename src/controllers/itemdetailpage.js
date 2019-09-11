@@ -246,8 +246,8 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             }
         }
 
-        if (item.OriginalTitle) {
-            html += '<h3 class="itemName" style="margin: .25em 0 .5em;">' + item.OriginalTitle + '</h3>';
+        if (item.OriginalTitle && item.OriginalTitle != item.Name) {
+            html += '<h4 class="itemName" style="margin: 0">' + item.OriginalTitle + '</h4>';
         }
 
         container.innerHTML = html;
