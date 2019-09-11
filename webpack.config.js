@@ -7,7 +7,7 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
-        libraryTarget: 'amd'
+        libraryTarget: 'amd-require'
     },
 
     externals: [{

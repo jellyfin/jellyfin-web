@@ -713,7 +713,6 @@ var AppInfo = {};
             pluginManager: componentsPath + "/pluginManager",
             packageManager: componentsPath + "/packagemanager"
         };
-        paths.hlsjs = bowerPath + "/hlsjs/dist/hls.min";
         paths.flvjs = "thirdparty/flvjs/flv.min";
         paths.shaka = "thirdparty/shaka/shaka-player.compiled";
         define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
@@ -819,7 +818,7 @@ var AppInfo = {};
                 }
             },
             bundles: {
-                bundle: ["jstree"]
+                bundle: ["jstree", "hlsjs"]
             },
             urlArgs: urlArgs,
             paths: paths,
