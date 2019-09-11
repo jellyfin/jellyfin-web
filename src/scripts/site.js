@@ -675,17 +675,12 @@ var AppInfo = {};
         var apiClientBowerPath = bowerPath + "/apiclient";
         var componentsPath = "components";
         var paths = {
-            velocity: bowerPath + "/velocity/velocity.min",
-            ironCardList: componentsPath + "/ironcardlist/ironcardlist",
-            scrollThreshold: componentsPath + "/scrollthreshold",
             playlisteditor: componentsPath + "/playlisteditor/playlisteditor",
             medialibrarycreator: componentsPath + "/medialibrarycreator/medialibrarycreator",
             medialibraryeditor: componentsPath + "/medialibraryeditor/medialibraryeditor",
             imageoptionseditor: componentsPath + "/imageoptionseditor/imageoptionseditor",
             howler: bowerPath + "/howlerjs/dist/howler.min",
             sortable: bowerPath + "/Sortable/Sortable.min",
-            isMobile: bowerPath + "/isMobile/isMobile.min",
-            masonry: bowerPath + "/masonry/dist/masonry.pkgd.min",
             humanedate: componentsPath + "/humanedate",
             libraryBrowser: "scripts/librarybrowser",
             events: apiClientBowerPath + "/events",
@@ -696,7 +691,6 @@ var AppInfo = {};
             browser: componentsPath + "/browser",
             inputManager: componentsPath + "/inputManager",
             qualityoptions: componentsPath + "/qualityoptions",
-            hammer: bowerPath + "/hammerjs/hammer.min",
             page: "thirdparty/page",
             focusManager: componentsPath + "/focusManager",
             datetime: componentsPath + "/datetime",
