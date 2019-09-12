@@ -16,3 +16,8 @@ _define("hlsjs", function() { return hlsjs; });
 // howler
 var howler = require("howler");
 _define("howler", function() { return howler; });
+
+// libjass
+var libjass = require("libjass");
+require("libjass/libjass.css");
+_define("libjass", function() { return libjass; });
