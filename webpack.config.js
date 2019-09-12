@@ -9,19 +9,11 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         libraryTarget: 'amd-require'
     },
-
-    externals: [{
-        jquery: {
-            amd: "jQuery"
-        }
-    }],
-
     resolve: {
         modules: [
             path.resolve(__dirname, 'node_modules')
         ]
     },
-
     module: {
         rules: [
             {
@@ -34,7 +26,6 @@ module.exports = {
             }
         ]
     },
-
     plugins: [
         new CopyPlugin([{
             from: '**/*',

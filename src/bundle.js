@@ -7,7 +7,11 @@ var _define = window.define;
 // jstree
 var jstree = require("jstree");
 require("jstree/dist/themes/default/style.css");
-_define("jstree", ["jQuery"], function() { return jstree; });
+_define("jstree", function() { return jstree; });
+
+// jquery
+var jquery = require("jquery");
+_define("jQuery", function() { return jquery; });
 
 // hlsjs
 var hlsjs = require("hls.js");

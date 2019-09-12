@@ -227,12 +227,6 @@ var AppInfo = {};
 !function () {
     "use strict";
 
-    function onApiClientCreated(e, newApiClient) {
-        if (window.$) {
-            $.ajax = newApiClient.ajax;
-        }
-    }
-
     function defineConnectionManager(connectionManager) {
         window.ConnectionManager = connectionManager;
         define("connectionManager", [], function () {
@@ -242,7 +236,6 @@ var AppInfo = {};
 
     function bindConnectionManagerEvents(connectionManager, events, userSettings) {
         window.Events = events;
-        events.on(ConnectionManager, "apiclientcreated", onApiClientCreated);
 
         connectionManager.currentApiClient = function () {
             if (!localApiClient) {
@@ -805,7 +798,7 @@ var AppInfo = {};
                 }
             },
             bundles: {
-                bundle: ["jstree", "hlsjs", "howler", "libjass"]
+                bundle: ["jstree", "jQuery", "hlsjs", "howler", "libjass"]
             },
             urlArgs: urlArgs,
             paths: paths,
@@ -853,13 +846,6 @@ var AppInfo = {};
         define("viewContainer", [componentsPath + "/viewContainer"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
-        });
-        define("jQuery", [bowerPath + "/jquery/dist/jquery.slim.min"], function () {
-            if (window.ApiClient) {
-                jQuery.ajax = ApiClient.ajax;
-            }
-
-            return jQuery;
         });
         define("fnchecked", ["legacy/fnchecked"], returnFirstDependency);
         define("dialogHelper", [componentsPath + "/dialogHelper/dialogHelper"], returnFirstDependency);

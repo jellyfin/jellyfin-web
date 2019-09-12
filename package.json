@@ -15,9 +15,10 @@
   },
   "dependencies": {
     "jstree": "^3.3.7",
+    "jquery": "^3.4.1",
     "hls.js": "^0.12.4",
     "howler": "^2.1.2",
-    "libjass": "0.11.0"
+    "libjass": "^0.11.0"
   },
   "scripts": {
     "dev": "webpack --mode development",
