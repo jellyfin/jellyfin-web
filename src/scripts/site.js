@@ -457,9 +457,8 @@ var AppInfo = {};
     function init() {
         define("livetvcss", ["css!css/livetv.css"], returnFirstDependency);
         define("detailtablecss", ["css!css/detailtable.css"], returnFirstDependency);
-        define("buttonenabled", ["legacy/buttonenabled"], returnFirstDependency);
-        var promises = [];
 
+        var promises = [];
         if (!window.fetch) {
             promises.push(require(["fetch"]));
         }

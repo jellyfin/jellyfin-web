@@ -156,10 +156,6 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         }
     }
 
-    function buttonEnabled(btn, enabled) {
-        btn.disabled = !enabled;
-    }
-
     function buttonVisible(btn, enabled) {
         if (enabled) {
             btn.classList.remove("hide");
@@ -172,7 +168,8 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         var all = context.querySelectorAll(".btnCommand");
 
         for (var i = 0, length = all.length; i < length; i++) {
-            buttonEnabled(all[i], -1 != commands.indexOf(all[i].getAttribute("data-command")));
+            var enableButton = -1 !== commands.indexOf(all[i].getAttribute("data-command"));
+            all[i].disabled = !enableButton;
         }
     }
 
