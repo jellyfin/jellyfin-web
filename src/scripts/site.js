@@ -678,7 +678,6 @@ var AppInfo = {};
             medialibrarycreator: componentsPath + "/medialibrarycreator/medialibrarycreator",
             medialibraryeditor: componentsPath + "/medialibraryeditor/medialibraryeditor",
             imageoptionseditor: componentsPath + "/imageoptionseditor/imageoptionseditor",
-            howler: bowerPath + "/howlerjs/dist/howler.min",
             sortable: bowerPath + "/Sortable/Sortable.min",
             humanedate: componentsPath + "/humanedate",
             libraryBrowser: "scripts/librarybrowser",
@@ -807,7 +806,7 @@ var AppInfo = {};
                 }
             },
             bundles: {
-                bundle: ["jstree", "hlsjs"]
+                bundle: ["jstree", "hlsjs", "howler"]
             },
             urlArgs: urlArgs,
             paths: paths,

@@ -12,3 +12,7 @@ _define("jstree", ["jQuery"], function() { return jstree; });
 // hlsjs
 var hlsjs = require("hls.js");
 _define("hlsjs", function() { return hlsjs; });
+
+// howler
+var howler = require("howler");
+_define("howler", function() { return howler; });

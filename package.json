@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "jstree": "^3.3.7",
-    "hls.js": "^0.12.4"
+    "hls.js": "^0.12.4",
+    "howler": "^2.1.2"
   },
   "scripts": {
     "dev": "webpack --mode development",
