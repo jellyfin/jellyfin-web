@@ -603,6 +603,14 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             }, state);
         }
 
+        function onBeginFetch() {
+            document.querySelector(".osdMediaStatus").classList.remove("hide");
+        }
+
+        function onEndFetch() {
+            document.querySelector(".osdMediaStatus").classList.add("hide");
+        }
+
         function bindToPlayer(player) {
             if (player !== currentPlayer) {
                 releaseCurrentPlayer();
@@ -621,7 +629,13 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             events.on(player, "timeupdate", onTimeUpdate);
             events.on(player, "fullscreenchange", updateFullscreenIcon);
             events.on(player, "mediastreamschange", onMediaStreamsChanged);
+            events.on(player, "beginFetch", onBeginFetch);
+            events.on(player, "endFetch", onEndFetch);
             resetUpNextDialog();
+
+            if (player.isFetching) {
+                onBeginFetch();
+            }
         }
 
         function releaseCurrentPlayer() {

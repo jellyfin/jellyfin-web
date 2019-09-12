@@ -200,6 +200,27 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return self._currentSrc;
         };
 
+        self._fetchQueue = 0;
+        self.isFetching = false;
+
+        function incrementFetchQueue() {
+            if (self._fetchQueue <= 0) {
+                self.isFetching = true;
+                events.trigger(self, "beginFetch");
+            }
+
+            self._fetchQueue++;
+        }
+
+        function decrementFetchQueue() {
+            self._fetchQueue--;
+
+            if (self._fetchQueue <= 0) {
+                self.isFetching = false;
+                events.trigger(self, "endFetch");
+            }
+        }
+
         function updateVideoUrl(streamInfo) {
 
             var isHls = streamInfo.url.toLowerCase().indexOf('.m3u8') !== -1;
@@ -510,19 +531,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             } else*/ if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
 
-                setTracks(elem, tracks, options.item, options.mediaSource);
                 return setCurrentSrcChromecast(self, elem, options, val);
             }
 
             else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
-
-                setTracks(elem, tracks, options.item, options.mediaSource);
-
+                
                 return setSrcWithHlsJs(self, elem, options, val);
 
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
-
-                setTracks(elem, tracks, options.item, options.mediaSource);
 
                 return setSrcWithFlvJs(self, elem, options, val);
 
@@ -531,8 +547,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 elem.autoplay = true;
 
                 return htmlMediaHelper.applySrc(elem, val, options).then(function () {
-
-                    setTracks(elem, tracks, options.item, options.mediaSource);
 
                     self._currentSrc = val;
 
@@ -968,8 +982,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return fetchSubtitlesUwp(track, item);
             }
 
+            incrementFetchQueue();
             return new Promise(function (resolve, reject) {
-
                 var xhr = new XMLHttpRequest();
 
                 var url = getTextTrackUrl(track, item, '.js');
@@ -978,15 +992,19 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 xhr.onload = function (e) {
                     resolve(JSON.parse(this.response));
+                    decrementFetchQueue();
                 };
 
-                xhr.onerror = reject;
+                xhr.onerror = function (e) {
+                    reject(e);
+                    decrementFetchQueue();
+                }
 
                 xhr.send();
             });
         }
 
-        function setTrackForCustomDisplay(videoElement, track) {
+        function setTrackForDisplay(videoElement, track) {
 
             if (!track) {
                 destroyCustomTrack(videoElement);
@@ -1267,59 +1285,16 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return t.Index === streamIndex;
             })[0];
 
+            setTrackForDisplay(self._mediaElement, track);
             if (enableNativeTrackSupport(self._currentSrc, track)) {
-
-                setTrackForCustomDisplay(self._mediaElement, null);
-
                 if (streamIndex !== -1) {
                     setCueAppearance();
                 }
 
             } else {
-                setTrackForCustomDisplay(self._mediaElement, track);
-
                 // null these out to disable the player's native display (handled below)
                 streamIndex = -1;
                 track = null;
-            }
-
-            var expectedId = 'textTrack' + streamIndex;
-            var trackIndex = streamIndex === -1 || !track ? -1 : mediaStreamTextTracks.indexOf(track);
-            var modes = ['disabled', 'showing', 'hidden'];
-
-            var allTracks = self._mediaElement.textTracks; // get list of tracks
-            for (var i = 0; i < allTracks.length; i++) {
-
-                var currentTrack = allTracks[i];
-
-                console.log('currentTrack id: ' + currentTrack.id);
-
-                var mode;
-
-                console.log('expectedId: ' + expectedId + '--currentTrack.Id:' + currentTrack.id);
-
-                // IE doesn't support track id
-                if (browser.msie || browser.edge) {
-                    if (trackIndex === i) {
-                        mode = 1; // show this track
-                    } else {
-                        mode = 0; // hide all other tracks
-                    }
-                } else {
-
-                    if (currentTrack.label.indexOf('manualTrack') !== -1) {
-                        continue;
-                    }
-                    if (currentTrack.id === expectedId) {
-                        mode = 1; // show this track
-                    } else {
-                        mode = 0; // hide all other tracks
-                    }
-                }
-
-                console.log('Setting track ' + i + ' mode to: ' + mode);
-
-                currentTrack.mode = modes[mode];
             }
         }
 
