@@ -71,11 +71,11 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "cardSt
                     tag: user.PrimaryImageTag,
                     type: "Primary"
                 });
-                html += '<div class="cardImageContainer coveredImage coveredImage-noScale cardProfilePhoto" style="background-image:url(\'' + imgUrl + "');\"></div>";
+                html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');\"></div>";
             } else {
                 var background = getMetroColor(user.Id);
                 imgUrl = "img/logindefault.png";
-                html += '<div class="cardImageContainer coveredImage coveredImage-noScale cardProfilePhoto" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>';
+                html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>';
             }
             html += "</div>";
             html += "</div>";
