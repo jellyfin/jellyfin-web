@@ -43,10 +43,6 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
             var delimeter = ",";
             return (delimeter + (query.Years || "") + delimeter).indexOf(delimeter + i + delimeter) != -1;
         });
-        renderOptions(context, ".audioLanguagesFilters", "chkAudioLanguagesFilter", result.AudioLanguages, function (i) {
-            var delimeter = ",";
-            return (delimeter + (query.AudioLanguages || "") + delimeter).indexOf(delimeter + i + delimeter) != -1;
-        });
     }
 
     function loadDynamicFilters(context, apiClient, userId, itemQuery) {
