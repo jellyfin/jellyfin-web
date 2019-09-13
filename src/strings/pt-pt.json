@@ -524,7 +524,7 @@
     "MessageItemsAdded": "Itens adicionados.",
     "MessageLeaveEmptyToInherit": "Deixar em branco para herdar as configurações do item pai, ou o valor global por defeito.",
     "MessageNoAvailablePlugins": "Não existem extensões disponíveis.",
-    "MessageNoMovieSuggestionsAvailable": "Não existem sugestões de filmes disponíveis atualmente. Comece por assistir e avaliar seus filmes e, então, volte para verificar suas recomendações.",
+    "MessageNoMovieSuggestionsAvailable": "De momento, não existem sugestões de filmes disponíveis. Veja filmes e avalie-os, e regresse para ver as recomendações.",
     "MessageNoPluginsInstalled": "Não existe nenhuma extensão instalada.",
     "MessageNoTrailersFound": "Nenhum trailer encontrado. Instale o canal Trailer para melhorar sua experiência com filmes, adicionando uma biblioteca de trailers da Internet.",
     "MessageNothingHere": "Nada aqui.",
@@ -1086,5 +1086,7 @@
     "LiveBroadcasts": "Emissões em Direto",
     "Live": "Em Direto",
     "Sports": "Desporto",
-    "News": "Notícias"
+    "News": "Notícias",
+    "Programs": "Programas",
+    "HeaderMovies": "Filmes"
 }
