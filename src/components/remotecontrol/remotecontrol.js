@@ -1,4 +1,4 @@
-define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageLoader", "playbackManager", "nowPlayingHelper", "events", "connectionManager", "apphost", "globalize", "cardStyle", "emby-itemscontainer", "css!css/nowplaying.css", "emby-ratingbutton"], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize) {
+define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageLoader", "playbackManager", "nowPlayingHelper", "events", "connectionManager", "apphost", "globalize", "cardStyle", "emby-itemscontainer", "css!./remotecontrol.css", "emby-ratingbutton"], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize) {
     "use strict";
 
     function showAudioMenu(context, player, button, item) {

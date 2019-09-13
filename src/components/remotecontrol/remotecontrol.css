@@ -178,7 +178,7 @@
 .playlistIndexIndicatorImage {
     -webkit-background-size: initial initial !important;
     background-size: initial !important;
-    background-image: url(../img/equalizer.gif) !important
+    background-image: url(../../img/equalizer.gif) !important;
 }
 
 .hideVideoButtons .videoButton {
@@ -202,7 +202,6 @@
 }
 
 @media all and (max-width:34em) {
-
     .nowPlayingInfoButtons .btnNowPlayingFastForward,
     .nowPlayingInfoButtons .btnNowPlayingRewind,
     .nowPlayingInfoButtons .playlist .listItemMediaInfo {

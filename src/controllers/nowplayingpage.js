@@ -1,4 +1,4 @@
-define(["components/remotecontrol", "libraryMenu", "emby-button"], function(remotecontrolFactory, libraryMenu) {
+define(["components/remotecontrol/remotecontrol", "libraryMenu", "emby-button"], function(remotecontrolFactory, libraryMenu) {
     "use strict";
     return function(view, params) {
         var remoteControl = new remotecontrolFactory;

@@ -27,7 +27,7 @@ require("swiper/dist/css/swiper.min.css");
 _define("swiper", function() { return swiper; });
 
 // sortable
-var sortable = require("sortable");
+var sortable = require("sortablejs");
 _define("sortable", function() { return sortable; });
 
 // libjass
