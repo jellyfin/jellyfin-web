@@ -18,6 +18,8 @@
     "jquery": "^3.4.1",
     "hls.js": "^0.12.4",
     "howler": "^2.1.2",
+    "swiper": "^4.5.0",
+    "sortable": "^2.0.0",
     "libjass": "^0.11.0"
   },
   "scripts": {

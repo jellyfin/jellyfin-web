@@ -671,7 +671,6 @@ var AppInfo = {};
             medialibrarycreator: componentsPath + "/medialibrarycreator/medialibrarycreator",
             medialibraryeditor: componentsPath + "/medialibraryeditor/medialibraryeditor",
             imageoptionseditor: componentsPath + "/imageoptionseditor/imageoptionseditor",
-            sortable: bowerPath + "/Sortable/Sortable.min",
             humanedate: componentsPath + "/humanedate",
             libraryBrowser: "scripts/librarybrowser",
             events: apiClientBowerPath + "/events",
@@ -798,7 +797,7 @@ var AppInfo = {};
                 }
             },
             bundles: {
-                bundle: ["jstree", "jQuery", "hlsjs", "howler", "libjass"]
+                bundle: ["jstree", "jQuery", "hlsjs", "howler", "swiper", "sortable", "libjass"]
             },
             urlArgs: urlArgs,
             paths: paths,
@@ -828,7 +827,6 @@ var AppInfo = {};
         define("sanitizefilename", [componentsPath + "/sanitizefilename"], returnFirstDependency);
         define("itemrepository", [apiClientBowerPath + "/sync/itemrepository"], returnFirstDependency);
         define("useractionrepository", [apiClientBowerPath + "/sync/useractionrepository"], returnFirstDependency);
-        define("swiper", [bowerPath + "/Swiper/dist/js/swiper.min", "css!" + bowerPath + "/Swiper/dist/css/swiper.min"], returnFirstDependency);
         define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
         define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);

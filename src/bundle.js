@@ -21,6 +21,15 @@ _define("hlsjs", function() { return hlsjs; });
 var howler = require("howler");
 _define("howler", function() { return howler; });
 
+// swiper
+var swiper = require("swiper");
+require("swiper/dist/css/swiper.min.css");
+_define("swiper", function() { return swiper; });
+
+// sortable
+var sortable = require("sortable");
+_define("sortable", function() { return sortable; });
+
 // libjass
 var libjass = require("libjass");
 require("libjass/libjass.css");
