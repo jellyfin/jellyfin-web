@@ -12,4 +12,4 @@ steps:
 
 - script: |
     yarn install
-  displayName: 'Web Build'
+  displayName: 'Yarn Build'
