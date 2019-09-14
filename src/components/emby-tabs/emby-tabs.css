@@ -2,7 +2,7 @@
     background: transparent;
     box-shadow: none;
     cursor: pointer;
-    outline: none !important;
+    outline: none;
     width: auto;
     font-family: inherit;
     font-size: inherit;
@@ -10,36 +10,25 @@
     vertical-align: middle;
     flex-shrink: 0;
     margin: 0;
-    padding: 1em .9em;
+    padding: 1em 0.9em;
     position: relative;
     height: auto;
     min-width: initial;
     line-height: initial;
-    border-radius: 0 !important;
+    border-radius: 0;
     overflow: hidden;
     font-weight: 600;
 }
 
-    /*.emby-tab-button-active {
-    color: #52B54B;
+.emby-tab-button.show-focus:focus {
+    /* these buttons are small so scale larger than usual */
+    transform: scale(1.6) !important;
+    background: 0 !important;
 }
-
-    .emby-tab-button-active.emby-button-tv {
-        color: #fff;
-    }*/
-
-    .emby-tab-button.emby-button-tv:focus {
-        /*color: #52B54B;*/
-        transform: scale(1.32);
-        transform-origin: center center;
-    }
 
 .emby-tabs-slider {
     position: relative;
-}
-
-.emby-tab-button-ripple-effect {
-    background: rgba(0,0,0,.7) !important;
+    overflow: hidden;
 }
 
 .tabContent:not(.is-active) {

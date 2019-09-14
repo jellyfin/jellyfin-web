@@ -21,30 +21,23 @@ define(['browser', 'dom', 'layoutManager', 'shell', 'appRouter', 'apphost', 'css
     }
 
     EmbyButtonPrototype.createdCallback = function () {
-
         if (this.classList.contains('emby-button')) {
             return;
         }
 
         this.classList.add('emby-button');
-
+        // TODO replace all instances of element-showfocus with this method
         if (layoutManager.tv) {
-            if (this.getAttribute('data-focusscale') !== 'false') {
-                this.classList.add('emby-button-focusscale');
-            }
-            this.classList.add('emby-button-tv');
+            // handles all special css for tv layout
+            // this method utilizes class chaining
+            this.classList.add('show-focus');
         }
     };
 
     EmbyButtonPrototype.attachedCallback = function () {
-
         if (this.tagName === 'A') {
-
-            dom.removeEventListener(this, 'click', onAnchorClick, {
-            });
-
-            dom.addEventListener(this, 'click', onAnchorClick, {
-            });
+            dom.removeEventListener(this, 'click', onAnchorClick, {});
+            dom.addEventListener(this, 'click', onAnchorClick, {});
 
             if (this.getAttribute('data-autohide') === 'true') {
                 if (appHost.supports('externallinks')) {
@@ -57,9 +50,7 @@ define(['browser', 'dom', 'layoutManager', 'shell', 'appRouter', 'apphost', 'css
     };
 
     EmbyButtonPrototype.detachedCallback = function () {
-
-        dom.removeEventListener(this, 'click', onAnchorClick, {
-        });
+        dom.removeEventListener(this, 'click', onAnchorClick, {});
     };
 
     EmbyLinkButtonPrototype.createdCallback = EmbyButtonPrototype.createdCallback;
@@ -75,6 +66,5 @@ define(['browser', 'dom', 'layoutManager', 'shell', 'appRouter', 'apphost', 'css
         extends: 'a'
     });
 
-    // For extension purposes
     return EmbyButtonPrototype;
 });

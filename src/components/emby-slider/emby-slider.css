@@ -70,8 +70,8 @@ _:-ms-input-placeholder {
 
     .mdl-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
-        width: 1.8em;
-        height: 1.8em;
+        width: 1.2em;
+        height: 1.2em;
         box-sizing: border-box;
         border-radius: 50%;
         background: #00a4dc;
@@ -80,11 +80,11 @@ _:-ms-input-placeholder {
     }
 
 .mdl-slider-hoverthumb::-webkit-slider-thumb {
-    transform: scale(.7, .7);
+    transform: none;
 }
 
 .mdl-slider:hover::-webkit-slider-thumb {
-    transform: none;
+    transform: scale(1.6);
 }
 
 .slider-no-webkit-thumb::-webkit-slider-thumb {

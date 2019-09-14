@@ -424,7 +424,7 @@
         border-color: transparent !important;
     }
 
-    .guide-date-tab-button.emby-button-tv:focus {
+    .guide-date-tab-button.show-focus:focus {
         border-radius: .15em !important;
         transform: none !important;
     }

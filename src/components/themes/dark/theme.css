@@ -39,13 +39,12 @@ html {
     background-color: rgba(0, 0, 0, .86)
 }
 
-.paper-icon-button-light:hover {
+.paper-icon-button-light:hover:not(:disabled) {
     color: #00a4dc;
     background-color: rgba(0,164,220, .2);
-    transition: 0.2s;
 }
 
-.paper-icon-button-light:focus {
+.paper-icon-button-light.show-focus:focus {
     color: #00a4dc;
 }
 
@@ -304,28 +303,25 @@ html {
     color: #fff
 }
 
-.emby-button-focusscale:focus {
+.emby-button.show-focus:focus {
     background: #00a4dc;
     color: #fff
 }
 
 .emby-tab-button {
     color: #999;
-    color: rgba(255, 255, 255, .4)
 }
 
 .emby-tab-button-active {
-    color: #fff
-}
-
-.emby-tab-button-active.emby-button-tv {
-    color: #999;
-    color: rgba(255, 255, 255, .4)
-}
-
-.emby-tab-button.emby-button-tv:focus {
     color: #fff;
-    background: 0 0
+}
+
+.emby-tab-button.show-focus:focus {
+    color: #00a4dc;
+}
+
+.emby-tab-button:hover {
+    color: #00a4dc;
 }
 
 .channelPrograms,
@@ -379,7 +375,7 @@ html {
     color: #00a4dc
 }
 
-.guide-date-tab-button.emby-button-tv:focus {
+.guide-date-tab-button.show-focus:focus {
     background-color: #00a4dc;
     color: #fff
 }
