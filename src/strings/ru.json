@@ -1458,5 +1458,7 @@
     "LabelAudioBitrate": "Потоковая скорость аудио:",
     "LabelAudioBitDepth": "Битовая глубина аудио:",
     "HeaderFavoriteBooks": "Избранные книги",
-    "CopyStreamURL": "Копировать URL потока"
+    "CopyStreamURL": "Копировать URL потока",
+    "LabelPleaseRestart": "Изменения вступят в силу после перезагрузки веб-клиента вручную.",
+    "CopyStreamURLSuccess": "URL  скопирован успешно."
 }
