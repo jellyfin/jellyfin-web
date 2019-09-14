@@ -161,6 +161,7 @@
     "ContinueWatching": "Continue watching",
     "Continuing": "Continuing",
     "CopyStreamURL": "Copy Stream URL",
+    "CopyStreamURLSuccess": "URL copied successfully.",
     "CriticRating": "Critic rating",
     "CustomDlnaProfilesHelp": "Create a custom profile to target a new device or override a system profile.",
     "DateAdded": "Date added",

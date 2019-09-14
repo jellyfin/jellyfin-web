@@ -319,6 +319,10 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     textArea.select();
                     try {
                         document.execCommand('copy');
+
+                        require(['toast'], function (toast) {
+                            toast(globalize.translate('CopyStreamURLSuccess'));
+                        });
                     } catch (err) {
                         console.error("Failed to copy to clipboard");
                     }
