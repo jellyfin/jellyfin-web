@@ -1399,7 +1399,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         }
 
                         // Can't autoplay in these browsers so we need to use the full controls, at least until playback starts
-                        if (!appHost.supports('htmlvideoautoplay')) {
+                        if (appHost.supports('htmlvideoautoplay')) {
                             html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
                         } else {
 
