@@ -767,7 +767,7 @@
     "LabelSerialNumber": "Número de serie",
     "LabelSeriesRecordingPath": "Ruta para grabaciones de Series (Opcional):",
     "LabelServerHost": "Servidor:",
-    "LabelServerHostHelp": "192.168.1.100 O https://miservidor.com",
+    "LabelServerHostHelp": "192.168.1.100:8096 o https://miservidor.com",
     "LabelServerPort": "Puerto:",
     "LabelSimultaneousConnectionLimit": "Limite de transmisiones simultaneas:",
     "LabelSkin": "Piel:",
