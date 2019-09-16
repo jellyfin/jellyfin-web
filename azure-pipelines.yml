@@ -21,12 +21,12 @@ steps:
 - task: ExtractFiles@1
   inputs:
     archiveFilePatterns: 'jellyfin-web-*.tgz'
-    destinationFolder: 'package'
+    destinationFolder: '$(Build.ArtifactStagingDirectory)/package'
     cleanDestinationFolder: true
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)/package'
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/package'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
