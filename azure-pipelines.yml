@@ -15,6 +15,10 @@ steps:
   displayName: 'Yarn Build'
 
 - script: |
+    yarn run lint
+  displayName: 'Lint Javascript'
+
+- script: |
     yarn pack
   displayName: 'Yarn Pack'
 

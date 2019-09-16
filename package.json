@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
-    "lint": "eslint src",
+    "lint": "eslint \"src\"",
     "prepare": "webpack --mode production"
   }
 }
