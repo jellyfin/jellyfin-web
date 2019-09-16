@@ -13,3 +13,18 @@ steps:
 - script: |
     yarn install
   displayName: 'Yarn Build'
+- task: CopyFiles@2
+  inputs:
+    Contents: |
+      **
+      !.gitattributes
+      !.github
+      !.drone.yml
+      !.eslintrc.yml
+      !run-eslint.sh
+      !webpack.config.js
+      !yarn.lock
+      !src
+    TargetFolder: 'build'
+    CleanTargetFolder: true
+    OverWrite: true
