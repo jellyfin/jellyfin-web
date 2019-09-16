@@ -517,7 +517,7 @@
     "LabelSerialNumber": "الرقم التسلسلي",
     "LabelSeriesRecordingPath": "مسار تسجيل المسلسلات (خيارية):",
     "LabelServerHost": "المضيف:",
-    "LabelServerHostHelp": "192.168.1.100 أو https://myserver.com",
+    "LabelServerHostHelp": "192.168.1.100:8096 أو https://myserver.com",
     "LabelServerPort": "المنفذ:",
     "LabelSkipIfAudioTrackPresent": "تخطّىإن كان المقطع الصوتي الافتراضي يتوافق مع اللغة المنزلة",
     "LabelSkipIfAudioTrackPresentHelp": "لا تختر هذه لكي تؤكد وجود ترجمة لجميع الفيديوهات، بغض النظر عن لغة الصوت.",
