@@ -20,7 +20,7 @@ steps:
 
 - task: ExtractFiles@1
   inputs:
-    archiveFilePatterns: '*.tgz'
+    archiveFilePatterns: 'jellyfin-web-*.tgz'
     destinationFolder: 'package'
     cleanDestinationFolder: true
 
