@@ -20,7 +20,7 @@ steps:
 
 - task: ExtractFiles@1
   inputs:
-    archiveFilePatterns: '*.tar.gz'
+    archiveFilePatterns: '*.tgz'
     destinationFolder: 'package'
     cleanDestinationFolder: true
 
