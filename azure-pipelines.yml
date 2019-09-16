@@ -18,16 +18,9 @@ steps:
     yarn pack
   displayName: 'Yarn Pack'
 
-- task: ExtractFiles@1
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Package'
   inputs:
-    archiveFilePatterns: 'jellyfin-web-*.tgz'
-    destinationFolder: '$(Build.ArtifactStagingDirectory)/package'
-    cleanDestinationFolder: true
-
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/package'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    replaceExistingArchive: true
+    PathtoPublish: '$(Build.SourcesDirectory)/jellyfin-web-*.tgz'
+    ArtifactName: 'jellyfin-web'
+    publishLocation: 'Container'
