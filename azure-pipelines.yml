@@ -6,14 +6,16 @@ pool:
 
 steps:
 - task: NodeTool@0
+  displayName: 'Install Node.js'
   inputs:
     versionSpec: '10.x'
-  displayName: 'Install Node.js'
 
 - script: |
     yarn install
   displayName: 'Yarn Build'
+
 - task: CopyFiles@2
+  displayName: 'Copy Build Output'
   inputs:
     Contents: |
       **
@@ -25,6 +27,7 @@ steps:
       !.drone.yml
       !.eslintrc.yml
       !.npmignore
+      !azure-pipelines.yml
       !run-eslint.sh
       !webpack.config.js
       !yarn.lock
@@ -33,3 +36,12 @@ steps:
     TargetFolder: 'build'
     CleanTargetFolder: true
     OverWrite: true
+
+- task: ArchiveFiles@2
+  displayName: 'Create ZIP Package'
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)/build'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/jellyfin-web-$(Build.BuildId).zip'
+    replaceExistingArchive: true
