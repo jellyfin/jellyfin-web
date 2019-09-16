@@ -14,34 +14,20 @@ steps:
     yarn install
   displayName: 'Yarn Build'
 
-- task: CopyFiles@2
-  displayName: 'Copy Build Output'
+- script: |
+    yarn pack
+  displayName: 'Yarn Pack'
+
+- task: ExtractFiles@1
   inputs:
-    Contents: |
-      **
-      !.editorconfig
-      !.gitattributes
-      !.gitignore
-      !.git/**
-      !.github/**
-      !.drone.yml
-      !.eslintrc.yml
-      !.npmignore
-      !azure-pipelines.yml
-      !run-eslint.sh
-      !webpack.config.js
-      !yarn.lock
-      !node_modules/**
-      !src/**
-    TargetFolder: 'build'
-    CleanTargetFolder: true
-    OverWrite: true
+    archiveFilePatterns: '*.tar.gz'
+    destinationFolder: 'package'
+    cleanDestinationFolder: true
 
 - task: ArchiveFiles@2
-  displayName: 'Create ZIP Package'
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)/build'
-    includeRootFolder: false
+    rootFolderOrFile: '$(Build.BinariesDirectory)/package'
+    includeRootFolder: true
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/jellyfin-web-$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
