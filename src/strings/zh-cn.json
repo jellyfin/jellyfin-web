@@ -1444,5 +1444,20 @@
     "SmallCaps": "小型大写字母",
     "SubtitleOffset": "字幕偏移",
     "MessageNoServersAvailable": "未能自动发现服务器。",
-    "TabNetworking": "联网"
+    "TabNetworking": "联网",
+    "HeaderFavoriteBooks": "最爱的书籍",
+    "LabelVideoCodec": "视频编码:",
+    "LabelVideoBitrate": "视频码率:",
+    "LabelTranscodingProgress": "转码进度:",
+    "LabelTranscodingFramerate": "转码帧率:",
+    "LabelSize": "大小:",
+    "LabelPleaseRestart": "改动将在手动重启客户端后生效。",
+    "LabelPlayMethod": "播放方式:",
+    "LabelFolder": "文件夹:",
+    "LabelBitrate": "比特率:",
+    "LabelAudioSampleRate": "采样率:",
+    "LabelAudioCodec": "编码:",
+    "LabelAudioChannels": "声道:",
+    "LabelAudioBitrate": "比特率:",
+    "LabelAudioBitDepth": "采样位宽:"
 }
