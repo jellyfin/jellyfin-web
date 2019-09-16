@@ -17,14 +17,17 @@ steps:
   inputs:
     Contents: |
       **
+      !.editorconfig
       !.gitattributes
-      !.github
+      !.git/**
+      !.github/**
       !.drone.yml
       !.eslintrc.yml
       !run-eslint.sh
       !webpack.config.js
       !yarn.lock
-      !src
+      !node_modules/**
+      !src/**
     TargetFolder: 'build'
     CleanTargetFolder: true
     OverWrite: true
