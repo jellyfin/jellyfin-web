@@ -19,10 +19,12 @@ steps:
       **
       !.editorconfig
       !.gitattributes
+      !.gitignore
       !.git/**
       !.github/**
       !.drone.yml
       !.eslintrc.yml
+      !.npmignore
       !run-eslint.sh
       !webpack.config.js
       !yarn.lock
