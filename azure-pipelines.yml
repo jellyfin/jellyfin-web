@@ -21,6 +21,6 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Package'
   inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)/jellyfin-web-*.tgz'
+    PathtoPublish: '$(Build.SourcesDirectory)/jellyfin-web-v0.0.0.tgz'
     ArtifactName: 'jellyfin-web'
     publishLocation: 'Container'
