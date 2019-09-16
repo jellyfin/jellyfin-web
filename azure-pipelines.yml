@@ -1,30 +1,50 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+jobs:
+  - job: main_build
+    displayName: 'Main Build'
 
-steps:
-- task: NodeTool@0
-  displayName: 'Install Node.js'
-  inputs:
-    versionSpec: '10.x'
+    pool:
+      vmImage: 'ubuntu-latest'
 
-- script: |
-    yarn install
-  displayName: 'Yarn Build'
+    steps:
+    - task: NodeTool@0
+      displayName: 'Install Node.js'
+      inputs:
+        versionSpec: '10.x'
 
-- script: |
-    yarn run lint
-  displayName: 'Lint Javascript'
+    - script: |
+        yarn install
+      displayName: 'Install dependencies'
 
-- script: |
-    yarn pack
-  displayName: 'Yarn Pack'
+    - script: |
+        yarn pack
+      displayName: 'Build package'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Package'
-  inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)/jellyfin-web-v0.0.0.tgz'
-    ArtifactName: 'jellyfin-web'
-    publishLocation: 'Container'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish package'
+      inputs:
+        PathtoPublish: '$(Build.SourcesDirectory)/jellyfin-web-v0.0.0.tgz'
+        ArtifactName: 'jellyfin-web'
+        publishLocation: 'Container'
+
+  - job: lint
+    displayName: 'Lint'
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - task: NodeTool@0
+      displayName: 'Install Node.js'
+      inputs:
+        versionSpec: '10.x'
+
+    - script: |
+        yarn install
+      displayName: 'Install dependencies'
+
+    - script: |
+        yarn run lint
+      displayName: 'Run ESLint'
