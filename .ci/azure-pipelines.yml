@@ -22,14 +22,14 @@ jobs:
       displayName: 'Install dependencies'
 
     - script: |
-        yarn pack
+        yarn pack --filename jellyfin-web.tgz
       displayName: 'Build package'
 
     - task: PublishPipelineArtifact@1
       displayName: 'Publish package'
       condition: succeeded()
       inputs:
-        targetPath: '$(Build.SourcesDirectory)/jellyfin-web-v*.tgz'
+        targetPath: '$(Build.SourcesDirectory)/jellyfin-web.tgz'
         artifactName: 'jellyfin-web'
 
   - job: lint
