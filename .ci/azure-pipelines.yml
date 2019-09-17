@@ -10,6 +10,9 @@ jobs:
   - job: main_build
     displayName: 'Main Build'
 
+    dependsOn: lint
+    condition: succeeded()
+
     pool:
       vmImage: 'ubuntu-latest'
 
