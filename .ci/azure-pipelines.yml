@@ -1,8 +1,3 @@
-variables:
-  - name: WebVersion
-    # This should match package.json version
-    value: '0.0.0'
-
 trigger:
 - master
 
@@ -34,7 +29,7 @@ jobs:
       displayName: 'Publish package'
       condition: succeeded()
       inputs:
-        targetPath: '$(Build.SourcesDirectory)/jellyfin-web-v$(WebVersion).tgz'
+        targetPath: '$(Build.SourcesDirectory)/jellyfin-web-v*.tgz'
         artifactName: 'jellyfin-web'
 
   - job: lint
