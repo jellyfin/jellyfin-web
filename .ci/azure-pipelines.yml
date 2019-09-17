@@ -1,3 +1,8 @@
+variables:
+  - name: WebVersion
+  # This should match package.json version
+  value: '0.0.0'
+
 trigger:
 - master
 
@@ -22,12 +27,12 @@ jobs:
         yarn pack
       displayName: 'Build package'
 
-    - task: PublishBuildArtifacts@1
+    - task: PublishPipelineArtifact@1
       displayName: 'Publish package'
+      condition: succeeded()
       inputs:
-        PathtoPublish: '$(Build.SourcesDirectory)/jellyfin-web-v0.0.0.tgz'
-        ArtifactName: 'jellyfin-web'
-        publishLocation: 'Container'
+        targetPath: '$(Build.SourcesDirectory)/jellyfin-web-v$(WebVersion).tgz'
+        artifactName: 'jellyfin-web'
 
   - job: lint
     displayName: 'Lint'
