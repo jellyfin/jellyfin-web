@@ -1,5 +1,12 @@
 trigger:
-- master
+  batch: true
+  branches:
+    include:
+    - master
+    - release-*
+  tags:
+    include:
+    - '*'
 
 jobs:
   - job: main_build
