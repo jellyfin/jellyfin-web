@@ -713,7 +713,6 @@ var AppInfo = {};
             pluginManager: componentsPath + "/pluginManager",
             packageManager: componentsPath + "/packagemanager"
         };
-        paths.hlsjs = bowerPath + "/hlsjs/dist/hls.min";
         paths.flvjs = "thirdparty/flvjs/flv.min";
         paths.shaka = "thirdparty/shaka/shaka-player.compiled";
         define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
@@ -783,7 +782,6 @@ var AppInfo = {};
         define("displaySettings", [componentsPath + "/displaysettings/displaysettings"], returnFirstDependency);
         define("playbackSettings", [componentsPath + "/playbacksettings/playbacksettings"], returnFirstDependency);
         define("homescreenSettings", [componentsPath + "/homescreensettings/homescreensettings"], returnFirstDependency);
-        define("homescreenSettingsDialog", [componentsPath + "/homescreensettings/homescreensettingsdialog"], returnFirstDependency);
         define("playbackManager", [componentsPath + "/playback/playbackmanager"], getPlaybackManager);
         define("layoutManager", [componentsPath + "/layoutManager", "apphost"], getLayoutManager);
         define("homeSections", [componentsPath + "/homesections/homesections"], returnFirstDependency);
@@ -819,7 +817,7 @@ var AppInfo = {};
                 }
             },
             bundles: {
-                bundle: ["jstree"]
+                bundle: ["jstree", "hlsjs"]
             },
             urlArgs: urlArgs,
             paths: paths,

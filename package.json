@@ -14,12 +14,13 @@
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
-    "jstree": "^3.3.7"
+    "jstree": "^3.3.7",
+    "hls.js": "^0.12.4"
   },
   "scripts": {
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
-    "lint": "eslint src",
+    "lint": "eslint \"src\"",
     "prepare": "webpack --mode production"
   }
 }

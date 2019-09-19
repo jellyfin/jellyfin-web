@@ -108,6 +108,15 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             overlayMoreButton: !0,
             action: "instantmix",
             coverImage: !0
+        }, {
+            name: "HeaderFavoriteBooks",
+            types: "Book",
+            shape: getPosterShape(),
+            showTitle: true,
+            showYear: true,
+            overlayPlayButton: true,
+            overlayText: false,
+            centerText: true
         }]
     }
 

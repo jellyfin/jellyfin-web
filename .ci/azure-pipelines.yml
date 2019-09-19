@@ -1,0 +1,60 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+    - release-*
+  tags:
+    include:
+    - '*'
+
+jobs:
+  - job: main_build
+    displayName: 'Main Build'
+
+    dependsOn: lint
+    condition: succeeded()
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - task: NodeTool@0
+      displayName: 'Install Node.js'
+      inputs:
+        versionSpec: '10.x'
+
+    - script: |
+        yarn install
+      displayName: 'Install dependencies'
+
+    - script: |
+        yarn pack --filename jellyfin-web.tgz
+      displayName: 'Build package'
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish package'
+      condition: succeeded()
+      inputs:
+        targetPath: '$(Build.SourcesDirectory)/jellyfin-web.tgz'
+        artifactName: 'jellyfin-web'
+
+  - job: lint
+    displayName: 'Lint'
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - task: NodeTool@0
+      displayName: 'Install Node.js'
+      inputs:
+        versionSpec: '10.x'
+
+    - script: |
+        yarn install
+      displayName: 'Install dependencies'
+
+    - script: |
+        yarn run lint
+      displayName: 'Run ESLint'

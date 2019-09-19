@@ -58,13 +58,12 @@ html {
     }
 }
 
-.paper-icon-button-light:hover {
+.paper-icon-button-light:hover:not(:disabled) {
     color: rgb(12, 232, 214);
     background-color: rgba(0,164,220, .2);
-    transition: 0.2s;
 }
 
-.paper-icon-button-light:focus {
+.paper-icon-button-light.show-focus:focus {
     color: #ff77f1;
 }
 
@@ -142,6 +141,11 @@ a[data-role=button] {
 
 .button-submit:focus {
     background: #ff77f1
+}
+
+.button-delete {
+    background: rgb(247, 0, 0);
+    color: rgba(255, 255, 255, .87)
 }
 
 #btnResetPassword,
@@ -420,27 +424,25 @@ a[data-role=button] {
     color: #f8f8fe
 }
 
-.emby-button-focusscale:focus {
+.emby-button.show-focus:focus {
     background: #8ae9c1;
     color: #f8f8fe
 }
 
 .emby-tab-button {
     color: #999;
-    color: rgba(255, 255, 255, .4)
 }
 
 .emby-tab-button-active {
-    color: #f8f8fe
+    color: #f8f8fe;
 }
 
-.emby-tab-button-active.emby-button-tv {
-    color: #f8f8fe
-}
-
-.emby-tab-button.emby-button-tv:focus {
+.emby-tab-button.show-focus:focus {
     color: #ff77f1;
-    background: 0 0
+}
+
+.emby-tab-button:hover {
+    color: #ff77f1;
 }
 
 .channelPrograms,
@@ -494,7 +496,7 @@ a[data-role=button] {
     color: #ff77f1
 }
 
-.guide-date-tab-button.emby-button-tv:focus {
+.guide-date-tab-button.show-focus:focus {
     background-color: #48C3C8;
     color: #fff
 }
@@ -568,4 +570,8 @@ a[data-role=button] {
     border: .09em solid #583fa0;
     background-color: #dbe6ff;
     color: #0e0f2d;
+}
+
+.metadataSidebarIcon {
+    color: #dbe6ff
 }

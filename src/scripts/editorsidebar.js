@@ -1,4 +1,4 @@
-define(["datetime", "jQuery", "material-icons"], function(datetime, $) {
+define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
     "use strict";
 
     function getNode(item, folderState, selected) {
@@ -7,7 +7,7 @@ define(["datetime", "jQuery", "material-icons"], function(datetime, $) {
                 id: item.Id,
                 text: htmlName,
                 state: {
-                    opened: item.IsFolder && "open" == folderState,
+                    opened: item.IsFolder && folderState == "open",
                     selected: selected
                 },
                 li_attr: {
@@ -15,211 +15,326 @@ define(["datetime", "jQuery", "material-icons"], function(datetime, $) {
                     collectiontype: item.CollectionType
                 }
             };
-        return item.IsFolder ? (node.children = [{
-            text: "Loading...",
-            icon: !1
-        }], node.icon = !1) : node.icon = !1, node.state.opened && (node.li_attr.loadedFromServer = !0), selected && (selectedNodeId = item.Id), node
+        if (item.IsFolder) {
+            node.children = [{
+                text: "Loading...",
+                icon: false
+            }];
+            node.icon = false;
+        } else {
+            node.icon = false;
+        }
+        if (node.state.opened) {
+            node.li_attr.loadedFromServer = true;
+        }
+        if (selected) {
+            selectedNodeId = item.Id;
+        }
+        return node;
     }
 
     function getNodeInnerHtml(item) {
         var name = item.Name;
-        item.Number && (name = item.Number + " - " + name), null != item.IndexNumber && "Season" != item.Type && (name = item.IndexNumber + " - " + name);
+        if (item.Number) {
+            name = item.Number + " - " + name;
+        }
+        if (item.IndexNumber != null && item.Type != "Season") {
+            name = item.IndexNumber + " - " + name;
+        }
         var htmlName = "<div class='editorNode'>";
-        return item.LockData && (htmlName += '<i class="md-icon">lock</i>'), htmlName += name, htmlName += "</div>"
+        if (item.IsFolder) {
+            htmlName += '<i class="md-icon metadataSidebarIcon">folder</i>';
+        }
+        else if (item.MediaType === "Video") {
+            htmlName += '<i class="md-icon metadataSidebarIcon">movie</i>';
+        }
+        else if (item.MediaType === "Audio") {
+            htmlName += '<i class="md-icon metadataSidebarIcon">audiotrack</i>';
+        }
+        else if (item.Type === "TvChannel") {
+            htmlName += '<i class="md-icon metadataSidebarIcon">live_tv</i>';
+        }
+        else if (item.MediaType === "Photo") {
+            htmlName += '<i class="md-icon metadataSidebarIcon">photo</i>';
+        }
+        else if (item.MediaType === "Book") {
+            htmlName += '<i class="md-icon metadataSidebarIcon">book</i>';
+        }
+        if (item.LockData) {
+            htmlName += '<i class="md-icon metadataSidebarIcon">lock</i>';
+        }
+        htmlName += name;
+        htmlName += "</div>";
+        return htmlName;
     }
 
     function loadChildrenOfRootNode(page, scope, callback) {
         ApiClient.getLiveTvChannels({
             limit: 0
-        }).then(function(result) {
+        }).then(function (result) {
             var nodes = [];
             nodes.push({
                 id: "MediaFolders",
                 text: Globalize.translate("HeaderMediaFolders"),
                 state: {
-                    opened: !0
+                    opened: true
                 },
                 li_attr: {
                     itemtype: "mediafolders",
-                    loadedFromServer: !0
+                    loadedFromServer: true
                 },
-                icon: !1
-            }), result.TotalRecordCount && nodes.push({
-                id: "livetv",
-                text: Globalize.translate("HeaderLiveTV"),
-                state: {
-                    opened: !1
-                },
-                li_attr: {
-                    itemtype: "livetv"
-                },
-                children: [{
-                    text: "Loading...",
-                    icon: !1
-                }],
-                icon: !1
-            }), callback.call(scope, nodes), nodesToLoad.push("MediaFolders")
-        })
+                icon: false
+            });
+            if (result.TotalRecordCount) {
+                nodes.push({
+                    id: "livetv",
+                    text: Globalize.translate("HeaderLiveTV"),
+                    state: {
+                        opened: false
+                    },
+                    li_attr: {
+                        itemtype: "livetv"
+                    },
+                    children: [{
+                        text: "Loading...",
+                        icon: false
+                    }],
+                    icon: false
+                });
+            }
+            callback.call(scope, nodes);
+            nodesToLoad.push("MediaFolders");
+        });
     }
 
     function loadLiveTvChannels(openItems, callback) {
         ApiClient.getLiveTvChannels({
-            AddCurrentProgram: !1
-        }).then(function(result) {
-            var nodes = result.Items.map(function(i) {
-                return getNode(i, -1 == openItems.indexOf(i.Id) ? "closed" : "open", !1)
+            AddCurrentProgram: false
+        }).then(function (result) {
+            var nodes = result.Items.map(function (i) {
+                var state = openItems.indexOf(i.Id) == -1 ? "closed" : "open";
+                return getNode(i, state, false);
             });
-            callback(nodes)
-        })
+            callback(nodes);
+        });
     }
 
     function loadMediaFolders(page, scope, openItems, callback) {
-        ApiClient.getJSON(ApiClient.getUrl("Library/MediaFolders")).then(function(result) {
-            var nodes = result.Items.map(function(n) {
-                return getNode(n, -1 == openItems.indexOf(n.Id) ? "closed" : "open", !1)
+        ApiClient.getJSON(ApiClient.getUrl("Library/MediaFolders")).then(function (result) {
+            var nodes = result.Items.map(function (n) {
+                var state = openItems.indexOf(n.Id) == -1 ? "closed" : "open";
+                return getNode(n, state, false);
             });
             callback.call(scope, nodes);
-            for (var i = 0, length = nodes.length; i < length; i++) nodes[i].state.opened && nodesToLoad.push(nodes[i].id)
-        })
+            for (var i = 0, length = nodes.length; i < length; i++) {
+                if (nodes[i].state.opened) {
+                    nodesToLoad.push(nodes[i].id);
+                }
+            }
+        });
     }
 
     function loadNode(page, scope, node, openItems, selectedId, currentUser, callback) {
         var id = node.id;
-        if ("#" == id) return void loadChildrenOfRootNode(page, scope, callback);
-        if ("livetv" == id) return void loadLiveTvChannels(openItems, callback);
-        if ("MediaFolders" == id) return void loadMediaFolders(page, scope, openItems, callback);
+        if (id == "#") {
+            loadChildrenOfRootNode(page, scope, callback);
+            return;
+        }
+        if (id == "livetv") {
+            loadLiveTvChannels(id, openItems, callback);
+            return;
+        }
+        if (id == "MediaFolders") {
+            loadMediaFolders(page, scope, openItems, callback);
+            return;
+        }
         var query = {
-                ParentId: id,
-                Fields: "Settings",
-                IsVirtualUnaired: !1,
-                IsMissing: !1,
-                EnableTotalRecordCount: !1,
-                EnableImages: !1,
-                EnableUserData: !1
-            },
-            itemtype = node.li_attr.itemtype;
-        "Season" != itemtype && "Series" != itemtype && (query.SortBy = "SortName"), ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function(result) {
-            var nodes = result.Items.map(function(n) {
-                return getNode(n, -1 == openItems.indexOf(n.Id) ? "closed" : "open", n.Id == selectedId)
+            ParentId: id,
+            Fields: "Settings",
+            IsVirtualUnaired: false,
+            IsMissing: false,
+            EnableTotalRecordCount: false,
+            EnableImages: false,
+            EnableUserData: false
+        };
+        var itemtype = node.li_attr.itemtype;
+        if (itemtype != "Season" && itemtype != "Series") {
+            query.SortBy = "SortName";
+        }
+        ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
+            var nodes = result.Items.map(function (n) {
+                var state = openItems.indexOf(n.Id) == -1 ? "closed" : "open";
+                return getNode(n, state, n.Id == selectedId);
             });
             callback.call(scope, nodes);
-            for (var i = 0, length = nodes.length; i < length; i++) nodes[i].state.opened && nodesToLoad.push(nodes[i].id)
-        })
+            for (var i = 0, length = nodes.length; i < length; i++) {
+                if (nodes[i].state.opened) {
+                    nodesToLoad.push(nodes[i].id);
+                }
+            }
+        });
     }
 
     function scrollToNode(id) {
         var elem = $("#" + id)[0];
-        elem && elem.scrollIntoView()
+        if (elem) {
+            elem.scrollIntoView();
+        }
     }
 
     function initializeTree(page, currentUser, openItems, selectedId) {
-        require(["jstree"], function() {
-            initializeTreeInternal(page, currentUser, openItems, selectedId)
-        })
+        require(["jstree"], function () {
+            initializeTreeInternal(page, currentUser, openItems, selectedId);
+        });
     }
 
     function onNodeSelect(event, data) {
-        var node = data.node,
-            eventData = {
-                id: node.id,
-                itemType: node.li_attr.itemtype,
-                serverItemType: node.li_attr.serveritemtype,
-                collectionType: node.li_attr.collectiontype
-            };
-        "livetv" != eventData.itemType && "mediafolders" != eventData.itemType ? (this.dispatchEvent(new CustomEvent("itemclicked", {
-            detail: eventData,
-            bubbles: !0,
-            cancelable: !1
-        })), document.querySelector(".editPageSidebar").classList.add("editPageSidebar-withcontent")) : document.querySelector(".editPageSidebar").classList.remove("editPageSidebar-withcontent")
+        var node = data.node;
+        var eventData = {
+            id: node.id,
+            itemType: node.li_attr.itemtype,
+            serverItemType: node.li_attr.serveritemtype,
+            collectionType: node.li_attr.collectiontype
+        };
+        if (eventData.itemType != "livetv" && eventData.itemType != "mediafolders") {
+            {
+                this.dispatchEvent(new CustomEvent("itemclicked", {
+                    detail: eventData,
+                    bubbles: true,
+                    cancelable: false
+                }));
+            }
+            document.querySelector(".editPageSidebar").classList.add("editPageSidebar-withcontent");
+        } else {
+            document.querySelector(".editPageSidebar").classList.remove("editPageSidebar-withcontent");
+        }
     }
 
     function onNodeOpen(event, data) {
-        var page = $(this).parents(".page")[0],
-            node = data.node;
-        node.children && node.children && loadNodesToLoad(page, node), node.li_attr && "#" != node.id && !node.li_attr.loadedFromServer && (node.li_attr.loadedFromServer = !0, $.jstree.reference(".libraryTree", page).load_node(node.id, loadNodeCallback))
+        var page = $(this).parents(".page")[0];
+        var node = data.node;
+        if (node.children && node.children) {
+            loadNodesToLoad(page, node);
+        }
+        if (node.li_attr && node.id != "#" && !node.li_attr.loadedFromServer) {
+            node.li_attr.loadedFromServer = true;
+            $.jstree.reference(".libraryTree", page).load_node(node.id, loadNodeCallback);
+        }
     }
 
     function onNodeLoad(event, data) {
-        var page = $(this).parents(".page")[0],
-            node = data.node;
-        node.children && node.children && loadNodesToLoad(page, node), node.li_attr && "#" != node.id && !node.li_attr.loadedFromServer && (node.li_attr.loadedFromServer = !0, $.jstree.reference(".libraryTree", page).load_node(node.id, loadNodeCallback))
+        var page = $(this).parents(".page")[0];
+        var node = data.node;
+        if (node.children && node.children) {
+            loadNodesToLoad(page, node);
+        }
+        if (node.li_attr && node.id != "#" && !node.li_attr.loadedFromServer) {
+            node.li_attr.loadedFromServer = true;
+            $.jstree.reference(".libraryTree", page).load_node(node.id, loadNodeCallback);
+        }
     }
 
     function initializeTreeInternal(page, currentUser, openItems, selectedId) {
-        nodesToLoad = [], selectedNodeId = null, $.jstree.destroy(), $(".libraryTree", page).jstree({
-            plugins: ["wholerow"],
+        nodesToLoad = [];
+        selectedNodeId = null;
+        $.jstree.destroy();
+        $(".libraryTree", page).jstree({
+            "plugins": ["wholerow"],
             core: {
                 // Disable animations because jQuery slim does not support them
                 animation: false,
                 check_callback: true,
-                data: function(node, callback) {
-                    loadNode(page, this, node, openItems, selectedId, currentUser, callback)
+                data: function (node, callback) {
+                    loadNode(page, this, node, openItems, selectedId, currentUser, callback);
                 },
                 themes: {
                     variant: "large"
                 }
             }
-        }).off("select_node.jstree", onNodeSelect).on("select_node.jstree", onNodeSelect).off("open_node.jstree", onNodeOpen).on("open_node.jstree", onNodeOpen).off("load_node.jstree", onNodeLoad).on("load_node.jstree", onNodeLoad)
+        }).off("select_node.jstree", onNodeSelect).on("select_node.jstree", onNodeSelect).off("open_node.jstree", onNodeOpen).on("open_node.jstree", onNodeOpen).off("load_node.jstree", onNodeLoad).on("load_node.jstree", onNodeLoad);
     }
 
     function loadNodesToLoad(page, node) {
-        for (var children = node.children, i = 0, length = children.length; i < length; i++) {
-            var child = children[i]; - 1 != nodesToLoad.indexOf(child) && (nodesToLoad = nodesToLoad.filter(function(n) {
-                return n != child
-            }), $.jstree.reference(".libraryTree", page).load_node(child, loadNodeCallback))
+        var children = node.children;
+        for (var i = 0, length = children.length; i < length; i++) {
+            var child = children[i];
+            if (nodesToLoad.indexOf(child) != -1) {
+                nodesToLoad = nodesToLoad.filter(function (n) {
+                    return n != child;
+                });
+                $.jstree.reference(".libraryTree", page).load_node(child, loadNodeCallback);
+            }
         }
     }
 
     function loadNodeCallback(node) {
-        selectedNodeId && node.children && -1 != node.children.indexOf(selectedNodeId) && setTimeout(function() {
-            scrollToNode(selectedNodeId)
-        }, 500)
+        if (selectedNodeId && node.children && node.children.indexOf(selectedNodeId) != -1) {
+            setTimeout(function () {
+                scrollToNode(selectedNodeId);
+            }, 500);
+        }
     }
 
     function updateEditorNode(page, item) {
         var elem = $("#" + item.Id + ">a", page)[0];
-        if (null != elem && ($(".editorNode", elem).remove(), $(elem).append(getNodeInnerHtml(item)), item.IsFolder)) {
-            var tree = jQuery.jstree._reference(".libraryTree"),
-                currentNode = tree._get_node(null, !1);
-            tree.refresh(currentNode)
+        if (elem == null) {
+            return;
+        }
+        $(".editorNode", elem).remove();
+        $(elem).append(getNodeInnerHtml(item));
+        if (item.IsFolder) {
+            var tree = jQuery.jstree._reference(".libraryTree");
+            var currentNode = tree._get_node(null, false);
+            tree.refresh(currentNode);
         }
     }
 
     function setCurrentItemId(id) {
-        itemId = id
+        itemId = id;
     }
 
     function getCurrentItemId() {
-        if (itemId) return itemId;
+        if (itemId) {
+            return itemId;
+        }
         var url = window.location.hash || window.location.href;
-        return getParameterByName("id", url)
+        return getParameterByName("id", url);
     }
-    var selectedNodeId, nodesToLoad = [];
-    $(document).on("itemsaved", ".metadataEditorPage", function(e, item) {
-        updateEditorNode(this, item)
-    }).on("pagebeforeshow", ".metadataEditorPage", function() {
-        require(["css!css/metadataeditor.css"])
-    }).on("pagebeforeshow", ".metadataEditorPage", function() {
+    var nodesToLoad = [];
+    var selectedNodeId;
+    $(document).on("itemsaved", ".metadataEditorPage", function (e, item) {
+        updateEditorNode(this, item);
+    }).on("pagebeforeshow", ".metadataEditorPage", function () {
+        require(["css!css/metadataeditor.css"]);
+    }).on("pagebeforeshow", ".metadataEditorPage", function () {
         var page = this;
-        Dashboard.getCurrentUser().then(function(user) {
+        Dashboard.getCurrentUser().then(function (user) {
             var id = getCurrentItemId();
-            id ? ApiClient.getAncestorItems(id, user.Id).then(function(ancestors) {
-                var ids = ancestors.map(function(i) {
-                    return i.Id
+            if (id) {
+                ApiClient.getAncestorItems(id, user.Id).then(function (ancestors) {
+                    var ids = ancestors.map(function (i) {
+                        return i.Id;
+                    });
+                    initializeTree(page, user, ids, id);
                 });
-                initializeTree(page, user, ids, id)
-            }) : initializeTree(page, user, [])
-        })
-    }).on("pagebeforehide", ".metadataEditorPage", function() {
-        $(".libraryTree", this).off("select_node.jstree", onNodeSelect).off("open_node.jstree", onNodeOpen).off("load_node.jstree", onNodeLoad)
+            } else {
+                initializeTree(page, user, []);
+            }
+        });
+    }).on("pagebeforehide", ".metadataEditorPage", function () {
+        var page = this;
+        $(".libraryTree", page).off("select_node.jstree", onNodeSelect).off("open_node.jstree", onNodeOpen).off("load_node.jstree", onNodeLoad);
     });
     var itemId;
     window.MetadataEditor = {
-        getItemPromise: function() {
+        getItemPromise: function () {
             var currentItemId = getCurrentItemId();
-            return currentItemId ? ApiClient.getItem(Dashboard.getCurrentUserId(), currentItemId) : ApiClient.getRootFolder(Dashboard.getCurrentUserId())
+            if (currentItemId) {
+                return ApiClient.getItem(Dashboard.getCurrentUserId(), currentItemId);
+            }
+            return ApiClient.getRootFolder(Dashboard.getCurrentUserId());
         },
         getCurrentItemId: getCurrentItemId,
         setCurrentItemId: setCurrentItemId
-    }
+    };
 });

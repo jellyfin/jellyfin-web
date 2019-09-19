@@ -59,7 +59,7 @@ define(["loading", "dialogHelper", "dom", "components/libraryoptionseditor/libra
                 title: Globalize.translate("HeaderRemoveMediaLocation"),
                 text: Globalize.translate("MessageConfirmRemoveMediaLocation"),
                 confirmText: Globalize.translate("ButtonDelete"),
-                primary: "cancel"
+                primary: "delete"
             }).then(function() {
                 var refreshAfterChange = currentOptions.refresh;
                 ApiClient.removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(function() {

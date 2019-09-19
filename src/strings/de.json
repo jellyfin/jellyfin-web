@@ -156,7 +156,7 @@
     "CriticRating": "Kritiker Bewertung",
     "CustomDlnaProfilesHelp": "Erstelle ein benutzerdefiniertes Profil für ein neues Zielgerät, oder um ein vorhandenes Systemprofil zu überschreiben.",
     "DateAdded": "Hinzugefügt am",
-    "DatePlayed": "Gesehen am",
+    "DatePlayed": "Abgespielt am",
     "DeathDateValue": "Gestorben: {0}",
     "Default": "Standard",
     "DefaultErrorMessage": "Es gab einen Fehler beim verarbeiten der Anfrage. Bitte versuche es später erneut.",
@@ -1293,6 +1293,8 @@
     "ButtonTrailer": "Trailer",
     "ButtonWebsite": "Webseite",
     "ChangingMetadataImageSettingsNewContent": "Änderungen an Metadaten- und Artwork-Einstellungen betreffen nur der Bibliothek neu hinzugefügte Inhalte. Um diese Änderungen auf existierende Medien anzuwenden müssen die Metadaten manuell aktualisiert werden.",
+    "CopyStreamURL": "Kopiere Streaminglink",
+    "CopyStreamURLSuccess": "Link erfolgreich kopiert.",
     "Desktop": "Desktop",
     "Download": "Download",
     "Extras": "Extras",
@@ -1410,6 +1412,7 @@
     "Whitelist": "Erlaubt",
     "AuthProviderHelp": "Auswählen eines Authentifizierungsanbieter, der zur Authentifizierung des Passworts dieses Benutzes verwendet werden soll",
     "Features": "Features",
+    "HeaderFavoriteBooks": "Lieblingsbücher",
     "HeaderFavoriteMovies": "Lieblingsfilme",
     "HeaderFavoriteShows": "Lieblingsserien",
     "HeaderFavoriteEpisodes": "Lieblingsepisoden",
@@ -1438,5 +1441,9 @@
     "PasswordResetProviderHelp": "Wählen Sie einen Password Reset Provider, der verwendet werden soll, wenn dieser Benutzer ein Passwort zurücksetzen möchte",
     "Box": "Box",
     "HeaderHome": "Home",
-    "HeaderHomeSettings": "Home Einstellungen"
+    "HeaderHomeSettings": "Home Einstellungen",
+    "LabelAudioCodec": "Audiocodec:",
+    "LabelAudioChannels": "Audiokanäle:",
+    "HeaderTypeImageFetchers": "{0} Bildquellen",
+    "CopyStreamURL": "Stream URL kopieren"
 }

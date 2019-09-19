@@ -70,11 +70,10 @@ div[data-role=page] {
 .page,
 .pageWithAbsoluteTabs .pageTabContent {
     /* provides room for the music controls */
-    padding-bottom: 5em !important
+    padding-bottom: 5em !important;
 }
 
 @media all and (min-width:50em) {
-
     .readOnlyContent,
     form {
         max-width: 54em

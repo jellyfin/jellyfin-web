@@ -73,13 +73,12 @@
 }
 
 .emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-checked {
-    /* background-color set by theme */
-    /*background-color: #52B54B;*/
+    /* background color set by theme */
     display: flex !important;
 }
 
 .emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-unchecked {
-    /* background-color set by theme */
+    /* background color set by theme */
     display: none !important;
 }
 
@@ -94,7 +93,7 @@
 
 .checkboxList > .emby-checkbox-label {
     display: flex;
-    margin: .5em 0;
+    margin: 0.5em 0;
 }
 
 .checkboxList-verticalwrap {

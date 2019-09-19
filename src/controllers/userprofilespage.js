@@ -9,7 +9,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
                 title: globalize.translate("DeleteUser"),
                 text: msg,
                 confirmText: globalize.translate("ButtonDelete"),
-                primary: "cancel"
+                primary: "delete"
             }).then(function () {
                 loading.show();
                 ApiClient.deleteUser(id).then(function () {
@@ -207,7 +207,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
 
         page.querySelector(".pending").innerHTML = users.map(getPendingUserHtml).join("");
     }
-    
+
     // TODO cvium: maybe reuse for invitation system
     function cancelAuthorization(page, id) {
         loading.show();
@@ -230,7 +230,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
         // TODO cvium
         renderPendingGuests(page, []);
         // ApiClient.getJSON(ApiClient.getUrl("Connect/Pending")).then(function (pending) {
-        //    
+        //
         // });
     }
 

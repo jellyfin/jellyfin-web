@@ -385,6 +385,7 @@
     "HeaderEpisodes": "Episodes",
     "HeaderError": "Error",
     "HeaderExternalIds": "External IDs:",
+    "HeaderFavoriteBooks": "Favourite Books",
     "HeaderFavoriteMovies": "Favourite Movies",
     "HeaderFavoriteShows": "Favourite Shows",
     "HeaderFavoriteEpisodes": "Favourite Episodes",
@@ -452,5 +453,7 @@
     "HeaderPassword": "Password",
     "HeaderPasswordReset": "Password Reset",
     "HeaderPaths": "Paths",
-    "HeaderPendingInvitations": "Pending Invitations"
+    "HeaderPendingInvitations": "Pending Invitations",
+    "CopyStreamURL": "Copy Stream URL",
+    "CopyStreamURLSuccess": "URL copied successfully."
 }

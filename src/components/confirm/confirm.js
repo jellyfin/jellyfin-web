@@ -18,13 +18,13 @@ define(['dialog', 'globalize'], function (dialog, globalize) {
         items.push({
             name: options.cancelText || globalize.translate('ButtonCancel'),
             id: 'cancel',
-            type: options.primary === 'cancel' ? 'submit' : 'cancel'
+            type: 'cancel'
         });
 
         items.push({
             name: options.confirmText || globalize.translate('ButtonOk'),
             id: 'ok',
-            type: options.primary === 'cancel' ? 'cancel' : 'submit'
+            type: options.primary === 'delete' ? 'delete' : 'submit'
         });
 
         options.buttons = items;

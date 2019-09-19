@@ -1409,7 +1409,7 @@
     "MediaInfoStreamTypeData": "Données",
     "MediaInfoStreamTypeSubtitle": "Sous-titres",
     "MediaInfoStreamTypeVideo": "Video",
-    "AuthProviderHelp": "Sélectionnez le fournisseur d'authentification à utiliser pour identifier cet utilisateur par mot de passe",
+    "AuthProviderHelp": "Sélectionner un fournisseur d'authentification pour authentifier le mot de passe de cet utilisateur",
     "PasswordResetProviderHelp": "Choisissez un Fournisseur de réinitialisation de mot de passe à utiliser lorsqu'un utilisateur demande la réinitialisation de son mot de passe",
     "HeaderHome": "Accueil",
     "HeaderHomeSettings": "Paramètre d'Accueil",

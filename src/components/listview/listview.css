@@ -39,8 +39,16 @@
 }
 
 .listItem-border {
-    border-bottom-width: .1em;
-    border-bottom-style: solid;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border-width: 0 0 0.1em 0;
+    border-style: solid;
+    border-radius: 0;
+}
+
+.listItem-border.show-focus:focus {
+    transform: scale(1.0) !important;
 }
 
 .listItemImage, .listItemIcon, .listItemAside {
@@ -126,21 +134,20 @@
 }
 
 .listItemImageButton:hover {
-        transform: scale(1.2, 1.2);
+    transform: scale(1.2, 1.2);
 }
 
 .listItemImageButton-icon {
     background: rgba(0,0,0,.4);
-    border: .08em solid currentColor;
+    border: 0.1em solid currentColor;
     border-radius: 100em;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: .21em;
+    padding: 0.2em;
 }
 
 @media all and (max-width: 64em) {
-
     .listItemImage-large {
         width: 33.75vw;
         height: 22.5vw;
@@ -148,7 +155,7 @@
     }
 
     .listItemImageButton {
-        font-size: 1.02em !important;
+        font-size: 1em !important;
     }
 
     .listItemBody {
@@ -157,7 +164,6 @@
 }
 
 @media all and (max-width: 50em) {
-
     .listItemBody {
         padding-right: .5em;
     }
@@ -245,14 +251,12 @@
 }
 
 @media all and (max-width: 50em) {
-
     .listItem .endsAt, .listItem .criticRating, .listItem-overview {
         display: none !important;
     }
 }
 
 @media all and (min-width: 50em) {
-
     .listItem-bottomoverview {
         display: none !important;
     }

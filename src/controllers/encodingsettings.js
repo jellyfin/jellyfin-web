@@ -10,7 +10,7 @@ define(["jQuery", "loading", "globalize", "dom", "libraryMenu"], function($, loa
         $("#selectThreadCount", page).val(config.EncodingThreadCount);
         $("#txtDownMixAudioBoost", page).val(config.DownMixAudioBoost);
         page.querySelector(".txtEncoderPath").value = config.EncoderAppPathDisplay || "";
-        $("#txtTranscodingTempPath", page).val(config.TranscodingTempPath || "");
+        $("#txtTranscodingTempPath", page).val(systemInfo.TranscodingTempPath || "");
         $("#txtVaapiDevice", page).val(config.VaapiDevice || "");
         page.querySelector("#selectH264Preset").value = config.H264Preset || "";
         page.querySelector("#txtH264Crf").value = config.H264Crf || "";

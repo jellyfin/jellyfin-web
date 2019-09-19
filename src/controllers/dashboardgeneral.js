@@ -3,10 +3,11 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
 
     function loadPage(page, config, languageOptions, systemInfo) {
         page.querySelector("#txtServerName").value = systemInfo.ServerName;
+        $("#chkAutoRunWebApp", page).checked(config.AutoRunWebApp);
         if (systemInfo.CanLaunchWebBrowser) {
-            page.querySelector("#fldRunWebAppAtStartup").classList.remove("hide");
+            page.querySelector("#fldAutoRunWebApp").classList.remove("hide");
         } else {
-            page.querySelector("#fldRunWebAppAtStartup").classList.add("hide");
+            page.querySelector("#fldAutoRunWebApp").classList.add("hide");
         }
         page.querySelector("#txtCachePath").value = systemInfo.CachePath || "";
         $("#txtMetadataPath", page).val(systemInfo.InternalMetadataPath || "");
@@ -46,6 +47,7 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
             config.MetadataPath = $("#txtMetadataPath", form).val();
             config.MetadataNetworkPath = $("#txtMetadataNetworkPath", form).val();
             var requiresReload = (config.UICulture !== currentLanguage);
+            config.AutoRunWebApp = $("#chkAutoRunWebApp", form).checked();
             config.EnableAutomaticRestart = $("#chkEnableAutomaticRestart", form).checked();
             config.EnableAutoUpdate = $("#chkEnableAutomaticServerUpdates", form).checked();
             ApiClient.updateServerConfiguration(config).then(function() {

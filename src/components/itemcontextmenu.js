@@ -134,6 +134,11 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 name: globalize.translate('Download'),
                 id: 'download'
             });
+
+            commands.push({
+                name: globalize.translate('CopyStreamURL'),
+                id: 'copy-stream'
+            });
         }
 
         var canEdit = itemHelper.canEdit(user, item);
@@ -304,6 +309,26 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                         }]);
                         getResolveFunction(getResolveFunction(resolve, id), id)();
                     });
+                    break;
+                case 'copy-stream':
+                    var downloadHref = apiClient.getItemDownloadUrl(itemId);
+                    var textArea = document.createElement("textarea");
+                    textArea.value = downloadHref;
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+
+                        require(['toast'], function (toast) {
+                            toast(globalize.translate('CopyStreamURLSuccess'));
+                        });
+                    } catch (err) {
+                        console.error("Failed to copy to clipboard");
+                    }
+
+                    document.body.removeChild(textArea);
+                    getResolveFunction(resolve, id)();
                     break;
                 case 'editsubtitles':
                     require(['subtitleEditor'], function (subtitleEditor) {

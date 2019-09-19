@@ -71,13 +71,12 @@ html {
     background: #f0f0f0
 }
 
-.paper-icon-button-light:hover {
+.paper-icon-button-light:hover:not(:disabled) {
     color: #00a4dc;
     background-color: rgba(0,164,220, .2);
-    transition: 0.2s;
 }
 
-.paper-icon-button-light:focus {
+.paper-icon-button-light.show-focus:focus {
     color: #00a4dc;
 }
 
@@ -100,6 +99,11 @@ html {
 
 .button-submit:focus {
     background: #0cb0e8
+}
+
+.button-delete {
+    background: rgb(247, 0, 0);
+    color: rgba(255, 255, 255, .87)
 }
 
 .checkboxLabel {
@@ -341,24 +345,25 @@ html {
     color: #fff
 }
 
-.emby-button-focusscale:focus {
+.emby-button.show-focus:focus {
     background: #00a4dc;
     color: #fff
 }
 
 .emby-tab-button {
     color: #999;
-    color: rgba(0, 0, 0, .5)
 }
 
-.emby-tab-button-active,
-.emby-tab-button-active.emby-button-tv {
-    color: #fff
-}
-
-.emby-tab-button.emby-button-tv:focus {
+.emby-tab-button-active {
     color: #fff;
-    background: 0 0
+}
+
+.emby-tab-button.show-focus:focus {
+    color: #fff;
+}
+
+.emby-tab-button:hover {
+    color: #fff;
 }
 
 .channelPrograms,
@@ -413,7 +418,7 @@ html {
     color: #00a4dc
 }
 
-.guide-date-tab-button.emby-button-tv:focus {
+.guide-date-tab-button.show-focus:focus {
     background-color: #00a4dc;
     color: #fff
 }
@@ -452,4 +457,8 @@ html {
 
 .card:focus .card-focuscontent {
     border-color: #00a4dc
+}
+
+.metadataSidebarIcon {
+    color: #00a4dc
 }

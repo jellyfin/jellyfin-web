@@ -1,6 +1,7 @@
+.editorconfig
+.ci
 .gitattributes
 .github
-.drone.yml
 .eslintrc.yml
 run-eslint.sh
 webpack.config.js
