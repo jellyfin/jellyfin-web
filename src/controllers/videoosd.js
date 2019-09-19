@@ -1209,6 +1209,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         var programEndDateMs = 0;
         var playbackStartTimeTicks = 0;
         var subtitleSyncOverlay;
+        var volumeSliderTimer = 0;
         var nowPlayingVolumeSlider = view.querySelector(".osdVolumeSlider");
         var nowPlayingVolumeSliderContainer = view.querySelector(".osdVolumeSliderContainer");
         var nowPlayingPositionSlider = view.querySelector(".osdPositionSlider");
@@ -1334,10 +1335,18 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             playbackManager.setVolume(this.value, currentPlayer);
         });
         nowPlayingVolumeSlider.addEventListener("mousemove", function () {
-            playbackManager.setVolume(this.value, currentPlayer);
+            var now = new Date().getTime();
+            if ((now - volumeSliderTimer) > 700) {
+                volumeSliderTimer = now;
+                playbackManager.setVolume(this.value, currentPlayer);
+            }
         });
         nowPlayingVolumeSlider.addEventListener("touchmove", function () {
-            playbackManager.setVolume(this.value, currentPlayer);
+            var now = new Date().getTime();
+            if ((now - volumeSliderTimer) > 700) {
+                volumeSliderTimer = now;
+                playbackManager.setVolume(this.value, currentPlayer);
+            }
         });
 
         nowPlayingPositionSlider.addEventListener("change", function () {
