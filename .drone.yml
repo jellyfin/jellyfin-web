@@ -1,9 +1,0 @@
----
-kind: pipeline
-name: eslint
-
-steps:
-- name: run
-  image: nextcloudci/eslint:eslint-1
-  commands:
-    - ./run-eslint.sh
