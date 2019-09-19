@@ -203,7 +203,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
                 text: globalize.translate('ConfirmDeleteImage'),
                 confirmText: globalize.translate('Delete'),
-                primary: 'cancel'
+                primary: 'delete'
 
             }).then(afterConfirm);
         });
@@ -471,7 +471,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
                 initEditor(dlg, options);
 
-                // Has to be assigned a z-index after the call to .open() 
+                // Has to be assigned a z-index after the call to .open()
                 dlg.addEventListener('close', function () {
 
                     if (layoutManager.tv) {

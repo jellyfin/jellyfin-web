@@ -143,6 +143,11 @@ a[data-role=button] {
     background: #ff77f1
 }
 
+.button-delete {
+    background: rgb(247, 0, 0);
+    color: rgba(255, 255, 255, .87)
+}
+
 #btnResetPassword,
 .btnForgotPassword,
 .btnCancel,

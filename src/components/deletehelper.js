@@ -27,7 +27,7 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
             title: title,
             text: msg,
             confirmText: globalize.translate('Delete'),
-            primary: 'cancel'
+            primary: 'delete'
 
         }).then(function () {
 

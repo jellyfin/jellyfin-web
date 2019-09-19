@@ -84,6 +84,11 @@ html {
     background: #0cb0e8
 }
 
+.button-delete {
+    background: rgb(247, 0, 0);
+    color: rgba(255, 255, 255, .87)
+}
+
 .checkboxLabel {
     color: inherit
 }

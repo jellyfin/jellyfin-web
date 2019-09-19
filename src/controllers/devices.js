@@ -12,7 +12,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "hu
                 text: msg,
                 title: globalize.translate("HeaderDeleteDevice"),
                 confirmText: globalize.translate("ButtonDelete"),
-                primary: "cancel"
+                primary: "delete"
             }).then(function() {
                 loading.show(), ApiClient.ajax({
                     type: "DELETE",
