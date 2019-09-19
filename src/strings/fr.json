@@ -599,8 +599,6 @@
     "LabelEpisodeNumber": "Numéro d'épisode :",
     "LabelEvent": "Évènement :",
     "LabelEveryXMinutes": "Tous les :",
-    "LabelExternalDDNS": "Domaine extérieur :",
-    "LabelExternalDDNSHelp": "Si vous avez un DNS dynamique saisissez-le ici. Les applications Jellyfin vont l'utiliser pour les connexions distantes. Ce champ est obligatoire lorsqu'il est utilisé avec un certificat SSL personnalisé. Exemple : mondomaine.com.",
     "LabelExtractChaptersDuringLibraryScan": "Extraire les images des chapitres pendant l'actualisation de la médiathèque",
     "LabelExtractChaptersDuringLibraryScanHelp": "Si l'option est activée, les images des chapitres seront extraites lors de l'importation de vidéos pendant l'actualisation de la médiathèque. Sinon elles seront extraites pendant la tâche planifiée des images des chapitres, permettant de terminer plus rapidement les actualisations de la médiathèque.",
     "LabelFailed": "Échoué",

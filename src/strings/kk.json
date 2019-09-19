@@ -630,8 +630,6 @@
     "LabelEpisodeNumber": "Bólim nómiri:",
     "LabelEvent": "Oqıǵa:",
     "LabelEveryXMinutes": "Ár:",
-    "LabelExternalDDNS": "Syrtqy domen:",
-    "LabelExternalDDNSHelp": "Eger sizde dınamıkalyq DNS bolsa, ony osynda engizińiz. Ol Jellyfin qoldanbalary qashyqtan qosylý kezinde paıdalanylady. Teńsheletin SSL-kýálandyrýmen paıdalanǵan kezde bul óris mindetti bolady. Mysaly: mydomain.com.",
     "LabelExtractChaptersDuringLibraryScan": "Sahna sýretterin tasyǵyshhanany skanerleý mezgilinde shyǵaryp alý",
     "LabelExtractChaptersDuringLibraryScanHelp": "Qosylǵanda, sahna sýretteri tasyǵyshhanany skanerleý mezgilinde, beıneler sheten ákelingende, bólinip alynady. Ajyratylǵanda, bular sahna sýretterine josparlaǵan tapsyrmasy mezgilinde, turaqty tasyǵyshhanany skanerleýin jyldamyraq aıaqtalýy ushin ruqsat etip, bólinip alynady.",
     "LabelFailed": "Sátsiz",

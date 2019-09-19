@@ -483,7 +483,6 @@
     "LabelEpisodeNumber": "Episode nummer:",
     "LabelEvent": "Hendelse:",
     "LabelEveryXMinutes": "Hver:",
-    "LabelExternalDDNS": "Eksternt domene:",
     "LabelExtractChaptersDuringLibraryScan": "Hent ut kapittel bilder under bibliotek skann",
     "LabelExtractChaptersDuringLibraryScanHelp": "Hvis aktivert, vil kapittel bilder bli hentet ut mens videoer importeres under bibliotek skanning.\nHvis deaktivert, vil de bli hentet ut under planlagte oppgaver for kapittel bilder, som medfører at vanlig bibliotek skanning blir fortere ferdig.",
     "LabelFailed": "Feilet",

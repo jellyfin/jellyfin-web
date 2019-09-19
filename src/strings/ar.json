@@ -385,7 +385,6 @@
     "LabelEpisodeNumber": "رقم الحلقة:",
     "LabelEvent": "الحدث:",
     "LabelEveryXMinutes": "كل:",
-    "LabelExternalDDNS": "النطاق الخارجي:",
     "LabelExtractChaptersDuringLibraryScan": "استخلص صور الأبواب أثناء تمشيط المكتبة",
     "LabelExtractChaptersDuringLibraryScanHelp": "عند التفعيل، فإن صور الأبواب ستُستخلص عندما تدرج الفيديوهات الجديدة أثناء تمشيط المكتبة. عند عدم التفعيل فإن عملية الاستخلاص ستكون محصورة أثناء مهمة صور الأبواب المجدولة، ما يسمح لعملية تمشيط المكتبة أن تنتهي بصورة أسرع.",
     "LabelFailed": "العملية فشلت",

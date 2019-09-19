@@ -574,8 +574,6 @@
     "LabelEpisodeNumber": "集号：",
     "LabelEvent": "事件：",
     "LabelEveryXMinutes": "每：",
-    "LabelExternalDDNS": "外部域名：",
-    "LabelExternalDDNSHelp": "如果你输入了一个动态 DNS，Jellyfin 应用程序将会在远程连接时使用它。当你使用一个自定义的 SSL 证书时你需要填写这一栏。例子：mydomain.com 。",
     "LabelExtractChaptersDuringLibraryScan": "媒体库扫描过程中解压章节图像",
     "LabelExtractChaptersDuringLibraryScanHelp": "如果启用，当媒体库导入视频并扫描时，将提取章节图像。如果禁用，章节图像将在之后的计划任务提取，而媒体库会更快完成扫描。",
     "LabelFailed": "失败",
