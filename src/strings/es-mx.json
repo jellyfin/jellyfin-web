@@ -1443,5 +1443,6 @@
     "ValueSeriesCount": "{0} series",
     "Vertical": "Vertical",
     "OptionThumb": "Miniatura",
-    "OptionThumbCard": "Pequeña miniatura"
+    "OptionThumbCard": "Pequeña miniatura",
+    "HeaderFavoriteBooks": "Libros Favoritos"
 }
