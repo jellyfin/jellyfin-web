@@ -1398,13 +1398,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                             cssClass += ' htmlvideoplayer-moveupsubtitles';
                         }
 
-                        // Can't autoplay in these browsers so we need to use the full controls, at least until playback starts
-                        if (appHost.supports('htmlvideoautoplay')) {
-                            html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
-                        } else {
-
-                            // Chrome 35 won't play with preload none
+                        if (!appHost.supports('htmlvideoautoplay')) {
                             html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" webkit-playsinline playsinline>';
+                        } else {
+                            html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
                         }
 
                         html += '</video>';
