@@ -1400,7 +1400,7 @@
     "OptionLoginAttemptsBeforeLockout": "Determina cuántos intentos de inicio de sesión fallidos se pueden realizar antes de que se produzca el bloqueo.",
     "OptionLoginAttemptsBeforeLockoutHelp": "El valor cero implica heredar el valor por defecto de tres intentos para usuarios y cinco intentos para administradores. El valor -1  desactiva esta funcionalidad.",
     "OptionPoster": "Póster",
-    "OptionPosterCard": "Cartelera",
+    "OptionPosterCard": "Tarjeta de póster",
     "OptionProfileAudio": "Audio",
     "OptionProfileVideo": "Vídeo",
     "OptionProtocolHttp": "HTTP",
