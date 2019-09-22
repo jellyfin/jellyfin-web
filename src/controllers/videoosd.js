@@ -1209,7 +1209,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
         var programEndDateMs = 0;
         var playbackStartTimeTicks = 0;
         var subtitleSyncOverlay;
-        var volumeSliderTimer = 0;
+        var volumeSliderTimer;
         var nowPlayingVolumeSlider = view.querySelector(".osdVolumeSlider");
         var nowPlayingVolumeSliderContainer = view.querySelector(".osdVolumeSliderContainer");
         var nowPlayingPositionSlider = view.querySelector(".osdPositionSlider");
@@ -1332,20 +1332,33 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
             playbackManager.toggleMute(currentPlayer);
         });
         nowPlayingVolumeSlider.addEventListener("change", function () {
+            if(volumeSliderTimer){
+                // interupt and remove existing timer
+                clearTimeout(volumeSliderTimer);
+                volumeSliderTimer = null;
+            }
             playbackManager.setVolume(this.value, currentPlayer);
         });
         nowPlayingVolumeSlider.addEventListener("mousemove", function () {
-            var now = new Date().getTime();
-            if ((now - volumeSliderTimer) > 700) {
-                volumeSliderTimer = now;
-                playbackManager.setVolume(this.value, currentPlayer);
+            if(!volumeSliderTimer){
+                var that = this;
+                // register new timer
+                volumeSliderTimer = setTimeout(function(){
+                    playbackManager.setVolume(that.value, currentPlayer);
+                    // delete timer after completion
+                    volumeSliderTimer = null;
+                }, 700);
             }
         });
         nowPlayingVolumeSlider.addEventListener("touchmove", function () {
-            var now = new Date().getTime();
-            if ((now - volumeSliderTimer) > 700) {
-                volumeSliderTimer = now;
-                playbackManager.setVolume(this.value, currentPlayer);
+            if(!volumeSliderTimer){
+                var that = this;
+                // register new timer
+                volumeSliderTimer = setTimeout(function(){
+                    playbackManager.setVolume(that.value, currentPlayer);
+                    // delete timer after completion
+                    volumeSliderTimer = null;
+                }, 700);
             }
         });
 
