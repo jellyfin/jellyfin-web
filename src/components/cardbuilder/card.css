@@ -267,6 +267,7 @@ button {
 
 .cardFooter {
     padding: .3em .3em .5em .3em;
+    height: 3.5em;
     position: relative;
 }
 
@@ -297,7 +298,6 @@ button {
 
 .cardText {
     padding: .06em .5em;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
@@ -309,6 +309,11 @@ button {
 
 .cardText-first {
     padding-top: .24em;
+    display: -webkit-box;
+    line-height: 16px; /* fallback */
+    max-height: 32px; /* fallback */
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
 }
 
 .cardText > .textActionButton {
