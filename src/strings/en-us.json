@@ -251,6 +251,7 @@
     "Favorite": "Favorite",
     "Favorites": "Favorites",
     "Features": "Features",
+    "FetchingData": "Fetching additional data",
     "File": "File",
     "FileNotFound": "File not found.",
     "FileReadCancelled": "The file read has been canceled.",
