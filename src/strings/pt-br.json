@@ -1460,5 +1460,6 @@
     "LabelAudioBitDepth": "Profundidade de Bits de Áudio:",
     "HeaderFavoriteBooks": "Livros Favoritos",
     "CopyStreamURLSuccess": "URL copiada com sucesso.",
-    "CopyStreamURL": "Copiar URL da Stream"
+    "CopyStreamURL": "Copiar URL da Stream",
+    "FetchingData": "Buscando dados adicionais"
 }
