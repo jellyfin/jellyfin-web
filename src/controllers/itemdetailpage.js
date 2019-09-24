@@ -330,9 +330,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         try {
             require(["focusManager"], function(focusManager) {
                 [".btnResume", ".btnPlay"].every(function (cls) {
-                    
+
                     var elems = page.querySelectorAll(cls);
-                    
+
                     for (var i = 0; i < elems.length; i++) {
                         if (focusManager.isCurrentlyFocusable(elems[i])) {
                             focusManager.focus(elems[i]);
@@ -919,7 +919,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         if (!canPlaySomeItemInCollection(items)) {
             hideAll(page, "btnPlay", false);
             hideAll(page, "btnShuffle", false);
-        }   
+        }
     }
 
     function renderCollectionItemType(page, parentItem, type, items) {
@@ -1237,7 +1237,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             view.addEventListener("viewbeforehide", function() {
                 events.off(apiClient, "message", onWebSocketMessage);
                 events.off(playbackManager, "playerchange", onPlayerChange);
-                libraryMenu.setTransparentMenu(false);
+                libraryMenu.setTransparentMenu(true);
             });
             view.addEventListener("viewdestroy", function() {
                 currentItem = null;
