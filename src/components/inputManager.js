@@ -22,12 +22,16 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
 
     var eventListenerCount = 0;
     function on(scope, fn) {
-        if (eventListenerCount) eventListenerCount++;
+        if (eventListenerCount) {
+            eventListenerCount++;
+        }
         dom.addEventListener(scope, 'command', fn, {});
     }
 
     function off(scope, fn) {
-        if (eventListenerCount) eventListenerCount--;
+        if (eventListenerCount) {
+            eventListenerCount--;
+        }
         dom.removeEventListener(scope, 'command', fn, {});
     }
 
