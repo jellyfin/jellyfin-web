@@ -86,7 +86,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "hu
             deviceHtml += "<div class='cardText cardText-secondary'>";
             if (device.LastUserName) {
                 deviceHtml += device.LastUserName;
-                deviceHtml += ", " + humane_date(device.DateLastActivity);
+                deviceHtml += ", " + humaneDate(device.DateLastActivity);
             }
             deviceHtml += "&nbsp;";
             deviceHtml += "</div>";

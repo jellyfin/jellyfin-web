@@ -5,7 +5,6 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
 
     function notify() {
         lastInputTime = new Date().getTime();
-
         handleCommand('unknown');
     }
 
@@ -18,27 +17,22 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
     }
 
     function select(sourceElement) {
-
         sourceElement.click();
     }
 
     var eventListenerCount = 0;
     function on(scope, fn) {
-        eventListenerCount++;
-        dom.addEventListener(scope, 'command', fn, {
-
-        });
+        if (eventListenerCount) {
+            eventListenerCount++;
+        }
+        dom.addEventListener(scope, 'command', fn, {});
     }
 
     function off(scope, fn) {
-
         if (eventListenerCount) {
             eventListenerCount--;
         }
-
-        dom.removeEventListener(scope, 'command', fn, {
-
-        });
+        dom.removeEventListener(scope, 'command', fn, {});
     }
 
     var commandTimes = {};
@@ -85,7 +79,6 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
         }
 
         switch (name) {
-
             case 'up':
                 focusManager.moveUp(sourceElement);
                 break;
@@ -119,6 +112,7 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
             case 'end':
                 break;
             case 'menu':
+                break;
             case 'info':
                 break;
             case 'nextchapter':
@@ -214,52 +208,8 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
             case 'toggledisplaymirror':
                 playbackManager.toggleDisplayMirroring();
                 break;
-            case 'togglestats':
-                //playbackManager.toggleStats();
-                break;
-            case 'movies':
-                // TODO
-                appRouter.goHome();
-                break;
-            case 'music':
-                // TODO
-                appRouter.goHome();
-                break;
-            case 'tv':
-                // TODO
-                appRouter.goHome();
-                break;
             case 'nowplaying':
                 appRouter.showNowPlaying();
-                break;
-            case 'save':
-                break;
-            case 'screensaver':
-                // TODO
-                break;
-            case 'refresh':
-                // TODO
-                break;
-            case 'changebrightness':
-                // TODO
-                break;
-            case 'red':
-                // TODO
-                break;
-            case 'green':
-                // TODO
-                break;
-            case 'yellow':
-                // TODO
-                break;
-            case 'blue':
-                // TODO
-                break;
-            case 'grey':
-                // TODO
-                break;
-            case 'brown':
-                // TODO
                 break;
             case 'repeatnone':
                 playbackManager.setRepeatMode('RepeatNone');

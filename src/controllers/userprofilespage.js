@@ -128,7 +128,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
 
     function getLastSeenText(lastActivityDate) {
         if (lastActivityDate) {
-            return "Last seen " + humane_date(lastActivityDate);
+            return "Last seen " + humaneDate(lastActivityDate);
         }
 
         return "";

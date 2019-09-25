@@ -1,15 +1,6 @@
 define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "scripts/imagehelper", "indicators", "humanedate", "listViewStyle", "emby-button", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper, indicators) {
     "use strict";
 
-    function buttonEnabled(elem, enabled) {
-        if (enabled) {
-            elem.setAttribute("disabled", "");
-            elem.removeAttribute("disabled");
-        } else {
-            elem.setAttribute("disabled", "disabled");
-        }
-    }
-
     function showPlaybackInfo(btn, session) {
         require(["alert"], function (alert) {
             var title;
@@ -455,7 +446,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (!nowPlayingItem) {
                 return {
-                    html: "Last seen " + humane_date(session.LastActivityDate),
+                    html: "Last seen " + humaneDate(session.LastActivityDate),
                     image: imgUrl
                 };
             }
@@ -700,8 +691,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     primary: "delete"
                 }).then(function () {
                     var page = dom.parentWithClass(btn, "page");
-                    buttonEnabled(page.querySelector("#btnRestartServer"), false);
-                    buttonEnabled(page.querySelector("#btnShutdown"), false);
+                    page.querySelector("#btnRestartServer").disabled = true;
+                    page.querySelector("#btnShutdown").disabled = true;
                     ApiClient.restartServer();
                 });
             });
@@ -715,8 +706,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     primary: "delete"
                 }).then(function () {
                     var page = dom.parentWithClass(btn, "page");
-                    buttonEnabled(page.querySelector("#btnRestartServer"), false);
-                    buttonEnabled(page.querySelector("#btnShutdown"), false);
+                    page.querySelector("#btnRestartServer").disabled = true;
+                    page.querySelector("#btnShutdown").disabled = true;
                     ApiClient.shutdownServer();
                 });
             });

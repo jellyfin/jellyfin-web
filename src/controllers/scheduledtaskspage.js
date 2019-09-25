@@ -62,23 +62,11 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
         page.querySelector(".divScheduledTasks").innerHTML = html;
     }
 
-    function humane_elapsed(firstDateStr, secondDateStr) {
-        var dt1 = new Date(firstDateStr),
-            dt2 = new Date(secondDateStr),
-            seconds = (dt2.getTime() - dt1.getTime()) / 1e3,
-            numdays = Math.floor(seconds % 31536e3 / 86400),
-            numhours = Math.floor(seconds % 31536e3 % 86400 / 3600),
-            numminutes = Math.floor(seconds % 31536e3 % 86400 % 3600 / 60),
-            numseconds = Math.round(seconds % 31536e3 % 86400 % 3600 % 60),
-            elapsedStr = "";
-        return elapsedStr += 1 == numdays ? numdays + " day " : "", elapsedStr += numdays > 1 ? numdays + " days " : "", elapsedStr += 1 == numhours ? numhours + " hour " : "", elapsedStr += numhours > 1 ? numhours + " hours " : "", elapsedStr += 1 == numminutes ? numminutes + " minute " : "", elapsedStr += numminutes > 1 ? numminutes + " minutes " : "", elapsedStr += elapsedStr.length > 0 ? "and " : "", elapsedStr += 1 == numseconds ? numseconds + " second" : "", elapsedStr += 0 == numseconds || numseconds > 1 ? numseconds + " seconds" : ""
-    }
-
     function getTaskProgressHtml(task) {
         var html = "";
         if (task.State === "Idle") {
             if (task.LastExecutionResult) {
-                html += globalize.translate("LabelScheduledTaskLastRan").replace("{0}", humane_date(task.LastExecutionResult.EndTimeUtc)).replace("{1}", humane_elapsed(task.LastExecutionResult.StartTimeUtc, task.LastExecutionResult.EndTimeUtc));
+                html += globalize.translate("LabelScheduledTaskLastRan").replace("{0}", humaneDate(task.LastExecutionResult.EndTimeUtc)).replace("{1}", humaneElapsed(task.LastExecutionResult.StartTimeUtc, task.LastExecutionResult.EndTimeUtc));
                 if (task.LastExecutionResult.Status === "Failed") {
                     html += " <span style='color:#FF0000;'>(" + globalize.translate("LabelFailed") + ")</span>";
                 } else if (task.LastExecutionResult.Status === "Cancelled") {

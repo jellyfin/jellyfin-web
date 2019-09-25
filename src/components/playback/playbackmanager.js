@@ -3846,7 +3846,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         player = player || this._currentPlayer || { isLocalPlayer: true };
 
         if (player.isLocalPlayer) {
-            // https://github.com/jellyfin/jellyfin/blob/master/MediaBrowser.Model/Session/GeneralCommandType.cs
             var list = [
                 "GoHome",
                 "GoToSettings",
@@ -3974,7 +3973,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     };
 
     PlaybackManager.prototype.sendCommand = function (cmd, player) {
-        // https://github.com/jellyfin/jellyfin/blob/master/MediaBrowser.Model/Session/GeneralCommandType.cs
         console.log('MediaController received command: ' + cmd.Name);
         switch (cmd.Name) {
             case 'SetRepeatMode':
