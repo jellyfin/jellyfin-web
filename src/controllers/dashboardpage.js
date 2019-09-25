@@ -567,17 +567,17 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             var playbackProgressElem = row.querySelector(".playbackProgress");
             if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
                 var percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
-                html += indicators.getProgressHtml(percent, { containerClass: "playbackProgress" });
+                playbackProgressElem.innerHTML = indicators.getProgressHtml(percent, { containerClass: "playbackProgress" });
             } else {
-                html += indicators.getProgressHtml(0, { containerClass: "playbackProgress hide" });
+                playbackProgressElem.innerHTML = indicators.getProgressHtml(0, { containerClass: "playbackProgress hide" });
             }
 
             var transcodingProgress = row.querySelector(".transcodingProgress");
             if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
                 var percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
-                html += indicators.getProgressHtml(percent, { containerClass: "transcodingProgress" });
+                transcodingProgress.innerHTML = indicators.getProgressHtml(percent, { containerClass: "transcodingProgress" });
             } else {
-                html += indicators.getProgressHtml(0, { containerClass: "transcodingProgress hide" });
+                transcodingProgress.innerHTML = indicators.getProgressHtml(0, { containerClass: "transcodingProgress hide" });
             }
 
             var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem) || "";
