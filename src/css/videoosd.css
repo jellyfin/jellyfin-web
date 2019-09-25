@@ -19,10 +19,10 @@
     transition: opacity .3s ease-out;
     position: relative;
     z-index: 1;
-    background-color: rgba(0, 0, 0, 0.7) !important;
+    background: rgba(0, 0, 0, 0.7) !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
-    color: #eee
+    color: #eee !important;
 }
 
 .osdHeader-hidden {
