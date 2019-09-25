@@ -1,46 +1,22 @@
 <div id="userImagePage" data-role="page" class="page libraryPage userPreferencesPage userPasswordPage noSecondaryNavPage" data-title="${HeaderProfile}" data-menubutton="false">
-
     <div class="padded-left padded-right padded-bottom-page">
-        <br />
         <div class="readOnlyContent" style="margin: 0 auto; padding: 0 1em;">
-            <div id="fldImage" style="display:inline-block;"></div>
-
-            <div style="vertical-align:top;margin: .5em 0 0 1em;display:inline-block;">
-                <h2 class="username" style="margin: 0;"></h2>
-                <br />
+            <div style="position:relative;display:inline-block;max-width:200px;">
+                <img id="image" width="200px" />
+                <input id="uploadImage" type="file" accept="image/*" style="position:absolute;right:0;width:100%;height:100%;opacity:0;" />
+            </div>
+            <div style="vertical-align:top;margin:1em 2em;display:inline-block;">
+                <h2 class="username" style="margin:0;font-size:xx-large;"></h2>
+                <br/>
+                <button is="emby-button" type="button" class="raised hide" id="btnAddImage">
+                    <span>${ButtonAddImage}</span>
+                </button>
                 <button is="emby-button" type="button" class="raised hide" id="btnDeleteImage">
                     <span>${ButtonDeleteImage}</span>
                 </button>
             </div>
         </div>
-        
-        <form class="newImageForm userProfileSettingsForm hide" style="margin: 1em auto 0;">
-
-            <div class="flex align-items-center" style="margin:1.5em 0;">
-                <h1 style="margin:0;">${HeaderUploadNewImage}</h1>
-
-                <button is="emby-button" type="button" class="fab btnBrowse" style="margin-left:1em;" title="${Browse}">
-                    <i class="md-icon">add</i>
-                </button>
-            </div>
-
-            <div id="fldNewImage">
-
-                <div id="userImageDropZone" class="imageDropZone squareImageDropZone fieldDescription">
-                    <div>${LabelDropImageHere}</div>
-                    <output id="userImageOutput" class="flex align-items-center justify-content-center" style="position: absolute;top:0;left:0;right:0;bottom:0;width:100%;"></output>
-                    <input type="file" accept="image/*" id="uploadUserImage" name="uploadUserImage" style="position: absolute;top:0;left:0;right:0;bottom:0;width:100%;opacity:0;" />
-                </div>
-            </div>
-
-            <div id="fldUpload" class="hide" style="margin-top:1em;">
-                <button is="emby-button" type="submit" class="raised button-submit block">${ButtonUpload}</button>
-            </div>
-
-        </form>
-
         <form class="updatePasswordForm passwordSection userProfileSettingsForm hide" style="margin: 3em auto 0;">
-
             <div class="verticalSection">
                 <h2 class="sectionTitle">
                     ${HeaderPassword}
@@ -55,7 +31,9 @@
                     <input is="emby-input" type="password" id="txtNewPasswordConfirm" label="${LabelNewPasswordConfirm}" autocomplete="off" />
                 </div>
                 <div>
-                    <button is="emby-button" type="submit" class="raised button-submit block"><span>${ButtonSave}</span></button>
+                    <button is="emby-button" type="submit" class="raised button-submit block">
+                        <span>${ButtonSave}</span>
+                    </button>
                     <button is="emby-button" type="button" id="btnResetPassword" class="raised cancel block hide">
                         <span>${ButtonResetPassword}</span>
                     </button>
