@@ -271,6 +271,10 @@ button {
     position: relative;
 }
 
+.visualCardBox-cardFooter {
+    height: 5.5em;
+}
+
 .visualCardBox {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
     border-radius: .145em;
