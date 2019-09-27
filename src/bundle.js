@@ -42,3 +42,7 @@ _define("sortable", function() { return sortable; });
 var libjass = require("libjass");
 require("libjass/libjass.css");
 _define("libjass", function() { return libjass; });
+
+// libass-wasm
+var libass_wasm = require("libass-wasm");
+_define("JavascriptSubtitlesOctopus", function() { return libass_wasm; });

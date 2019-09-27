@@ -27,6 +27,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         return _supportsTextTracks;
     }
 
+    function supportsCanvas() {
+        return !!document.createElement('canvas').getContext;
+    }
+
+    function supportsWebWorkers() {
+        return !!window.Worker;
+    }
+
     function enableNativeTrackSupport(currentSrc, track) {
 
         if (track) {
@@ -185,6 +193,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         var lastCustomTrackMs = 0;
         var currentClock;
+        var currentSubtitlesOctopus;
         var currentAssRenderer;
         var customTrackIndex = -1;
 
@@ -960,6 +969,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             currentClock = null;
             self._currentAspectRatio = null;
 
+            var octopus = currentSubtitlesOctopus;
+            if (octopus) {
+                octopus.dispose();
+            }
+            currentSubtitlesOctopus = null;
+
             var renderer = currentAssRenderer;
             if (renderer) {
                 renderer.setEnabled(false);
@@ -1024,6 +1039,21 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             lastCustomTrackMs = 0;
         }
 
+        function renderWithSubtitlesOctopus(videoElement, track, item) {
+            var options = {
+                video: videoElement,
+                subUrl: getTextTrackUrl(track, item),
+                fonts: [],
+                workerUrl: appRouter.baseUrl() + "/JavascriptSubtitlesOctopus/subtitles-octopus-worker.js",
+                onError: function() {
+                    htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror')
+                }
+            };
+            require(['JavascriptSubtitlesOctopus'], function(SubtitlesOctopus) {
+                currentSubtitlesOctopus = new SubtitlesOctopus(options);
+            });
+        }
+
         function renderWithLibjass(videoElement, track, item) {
 
             var rendererSettings = {};
@@ -1069,6 +1099,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
                 });
             });
+        }
+
+        function renderSsaAss(videoElement, track, item) {
+            if (supportsCanvas() && supportsWebWorkers()) {
+                renderWithSubtitlesOctopus(videoElement, track, item);
+            } else {
+                renderWithLibjass(videoElement, track, item);
+            }
         }
 
         function onVideoResize() {
@@ -1181,7 +1219,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 var format = (track.Codec || '').toLowerCase();
                 if (format === 'ssa' || format === 'ass') {
                     // libjass is needed here
-                    renderWithLibjass(videoElement, track, item);
+                    renderSsaAss(videoElement, track, item);
                     return;
                 }
 

@@ -10,9 +10,18 @@ module.exports = {
         ]
     },
     plugins: [
-        new CopyPlugin([{
-            from: "**/*",
-            to: "."
-        }])
+        new CopyPlugin([
+            {
+                from: "**/*",
+                to: "."
+            },
+            {
+                from: "../node_modules/libass-wasm/dist/subtitles-octopus-worker.*",
+                to: "JavascriptSubtitlesOctopus",
+                transformPath(targetPath, absolutePath) {
+                    return Promise.resolve(path.join("JavascriptSubtitlesOctopus", path.basename(targetPath)));
+                }
+            }
+        ])
     ]
 };
