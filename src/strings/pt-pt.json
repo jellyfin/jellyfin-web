@@ -762,7 +762,7 @@
     "Writer": "Escritor",
     "XmlDocumentAttributeListHelp": "Estes atributos são aplicados ao elemento principal de cada resposta xml.",
     "AccessRestrictedTryAgainLater": "Acesso restrito. Por favor, tente mais tarde.",
-    "AddItemToCollectionHelp": "Adicione itens às coleções pesquisando-os e utilizando o respetivo menu de toque ou clique direito para as adicionar a uma coleção.",
+    "AddItemToCollectionHelp": "Adicione itens às coleções pesquisando-os e utilizando o respetivo menu de toque ou clique direito para os adicionar a uma coleção.",
     "AddToCollection": "Adicionar à coleção",
     "AddToPlayQueue": "Adicionar à fila de reprodução",
     "AddedOnValue": "Adicionado {0}",
@@ -774,7 +774,7 @@
     "AllEpisodes": "Todos os episódios",
     "AllLanguages": "Todos os idiomas",
     "AllLibraries": "Todas as bibliotecas",
-    "AllowHWTranscodingHelp": "Quando ativado, permite ao sintonizador converter emissões em tempo real. Poderá reduzir a necessidade de conversão a fazer pelo Jellyfin Server.",
+    "AllowHWTranscodingHelp": "Permite ao sintonizador converter emissões em tempo real. Poderá reduzir a necessidade de conversão a fazer pelo servidor.",
     "AllowMediaConversion": "Permitir conversão multimédia",
     "AllowMediaConversionHelp": "Permitir ou negar acesso à funcionalidade de conversão multimédia.",
     "AllowOnTheFlySubtitleExtraction": "Permitir a extração de legendas em tempo real",
@@ -795,7 +795,7 @@
     "BirthPlaceValue": "Local de nascimento: {0}",
     "Blacklist": "Lista Negra",
     "Books": "Livros",
-    "BurnSubtitlesHelp": "Determina se o servidor deve integrar as legendas durante a conversão de vídeo, dependendo do formato da legenda. Evitar integração de legendas melhora o desempenho do servidor. Selecione Auto para que legendas baseadas em imagem (VOBSUB, PGS, SUB/IDX, etc.), assim como alguns formatos ASS/SSA sejam integrados.",
+    "BurnSubtitlesHelp": "Determina se o servidor deve integrar as legendas durante a conversão de vídeo, dependendo do formato da legenda. Evitar integração de legendas melhora o desempenho do servidor. Selecione Auto para que legendas baseadas em imagem (VOBSUB, PGS, SUB/IDX), e certos formatos ASS/SSA sejam integrados.",
     "Channels": "Canais",
     "Collections": "Coleções",
     "Favorites": "Favoritos",
@@ -1090,5 +1090,6 @@
     "Programs": "Programas",
     "HeaderMovies": "Filmes",
     "DirectorsValue": "Realização: {0}",
-    "DirectorValue": "Realizador: {0}"
+    "DirectorValue": "Realizador: {0}",
+    "ButtonOff": "Desligado"
 }
