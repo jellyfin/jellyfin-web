@@ -576,8 +576,6 @@
     "LabelEpisodeNumber": "Afleveringsnummer:",
     "LabelEvent": "Gebeurtenis:",
     "LabelEveryXMinutes": "Iedere:",
-    "LabelExternalDDNS": "Extern domein:",
-    "LabelExternalDDNSHelp": "Als je een dynamische DNS hebt, geef deze dan hier in. Jellyfin apps zullen deze gebruiken om vanop afstand te verbinden. Dit veld is verplicht bij het gebruik van een aangepast SSL-certificaat. Voorbeeld: mijndomein.com.",
     "LabelExtractChaptersDuringLibraryScan": "Hoofdstuk afbeeldingen uitpakken tijdens het scannen van de bibliotheek",
     "LabelExtractChaptersDuringLibraryScanHelp": "Wanneer ingeschakeld worden hoofdstuk afbeeldingen uitgepakt wanneer video's worden geïmporteerd tijdens het scannen van de bibliotheek. Wanneer uitgeschakeld worden de hoofdstuk afbeeldingen uitgepakt tijdens de geplande taak \"Hoofdstukken uitpakken\", waardoor de standaard bibliotheek scan sneller voltooid is.",
     "LabelFailed": "Mislukt",

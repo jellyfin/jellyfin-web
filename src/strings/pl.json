@@ -613,8 +613,6 @@
     "LabelEpisodeNumber": "Numer odcinka:",
     "LabelEvent": "Zdarzenie:",
     "LabelEveryXMinutes": "Częstotliwość:",
-    "LabelExternalDDNS": "Domena zewnętrzna:",
-    "LabelExternalDDNSHelp": "Jeśli korzystasz z dynamicznego adresu DNS - wprowadź go tutaj. Aplikacje Jellyfin będą jej używać podczas zdalnego połączenia. To pole jest wymagane, w przypadku używania niestandardowego certyfikatu SSL. Przykład: domena.pl.",
     "LabelExtractChaptersDuringLibraryScan": "Wydobywaj obrazy rozdziałów podczas skanowania biblioteki",
     "LabelExtractChaptersDuringLibraryScanHelp": "Jeśli aktywne, obrazy rozdziałów będą wydobywane, kiedy pliki wideo są importowane, podczas skanowania biblioteki. Jeżeli nieaktywne, będą one wydobywane podczas zaplanowanego zadania, dzięki czemu zwykłe skanowanie biblioteki będzie wykonywało się szybciej.",
     "LabelFailed": "Nieudane",

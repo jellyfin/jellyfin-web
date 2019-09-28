@@ -569,8 +569,6 @@
     "LabelEpisodeNumber": "Avsnittsnummer:",
     "LabelEvent": "Händelse:",
     "LabelEveryXMinutes": "Varje:",
-    "LabelExternalDDNS": "Extern domän:",
-    "LabelExternalDDNSHelp": "Lägg in Dynamisk DNS här om du använder det. Jellyfin-appar kommer använda det när man ansluter externt. Det här fältet krävs när man använder ett anpassat SSL-certifikat. T.ex. mindoman.com.",
     "LabelExtractChaptersDuringLibraryScan": "Extrahera kapitelbildrutor vid genomsökning av biblioteket",
     "LabelExtractChaptersDuringLibraryScanHelp": "Om aktiverat extraheras kapitelbildrutor när videor importeras vid genomsökning av biblioteket. Om avaktiverat kommer extrahering att ske vid schemalagd kapitelbildrutebehandling, för att snabba upp den regelbundna genomsökningen av biblioteket.",
     "LabelFailed": "Misslyckades",

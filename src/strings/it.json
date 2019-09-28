@@ -581,8 +581,6 @@
     "LabelEpisodeNumber": "Numero espisodio:",
     "LabelEvent": "Evento:",
     "LabelEveryXMinutes": "Tutti:",
-    "LabelExternalDDNS": "Dominio esterno:",
-    "LabelExternalDDNSHelp": "Se hai un DNS dinamico inseriscilo qui. Le applicazioni Jellyfin lo useranno per le connessioni remote. Questo campo è richiesto quando si usa un certificato SSL personalizzato. Esempio: miodominio.com",
     "LabelExtractChaptersDuringLibraryScan": "Estrarre immagini capitolo durante la scansione della libreria",
     "LabelExtractChaptersDuringLibraryScanHelp": "Se abilitata, le immagini capitolo verranno estratti quando i video vengono importati durante la scansione della libreria. Se disabilitata verranno estratti durante l'operazione pianificata di estrazione delle immagini capitolo, permettendo la scansione della libreria più velocemente.",
     "LabelFailed": "Fallito",

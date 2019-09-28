@@ -477,8 +477,6 @@
     "LabelEpisodeNumber": "Episodenummer:",
     "LabelEvent": "Hændelse:",
     "LabelEveryXMinutes": "Hver:",
-    "LabelExternalDDNS": "Eksternt domæne:",
-    "LabelExternalDDNSHelp": "Hvis du har en dynamisk DNS skriv den her. Jellyfin apps vil bruge den når de forbinder via fjernadgang. Dette felt er påkrævet når et brugerdefineret SSL certifikat bliver brugt. Eksempel: mydomain.com.",
     "LabelExtractChaptersDuringLibraryScan": "Udtræk kapitelbilleder under biblioteksskanning",
     "LabelExtractChaptersDuringLibraryScanHelp": "Aktiver dette for at udtrække kapitelbillleder mens videofiler bliver importeret under biblioteksskanningen. Hvi det ikke er aktiveret, bliver de udtrukket når den planlagte opgave kapitelbilleder kører, og lader den almindelige biblioteksskanning afslutte hurtigere.",
     "LabelFailed": "Fejlet",

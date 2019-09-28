@@ -596,8 +596,6 @@
     "LabelEpisodeNumber": "Número do episódio:",
     "LabelEvent": "Evento:",
     "LabelEveryXMinutes": "A cada:",
-    "LabelExternalDDNS": "Domínio externo:",
-    "LabelExternalDDNSHelp": "Se você usa DNS dinâmico digite aqui os clientes para usar ao conectar remotamente. Este campo é necessario quando for usado com um certificado SSL personalizado. Exemplo:  meudominio.com.",
     "LabelExtractChaptersDuringLibraryScan": "Extrair imagens dos capítulos durante o rastreamento da biblioteca",
     "LabelExtractChaptersDuringLibraryScanHelp": "Gera as imagens dos capítulos quando os vídeos forem importados durante o rastreamento da biblioteca. De outra forma, elas serão extraídas durante a tarefa agendada de imagens dos capítulos, permitindo que a tarefa de rastreamento da biblioteca seja mais rápida.",
     "LabelFailed": "Falhou",

@@ -894,8 +894,6 @@
     "LabelEnableSingleImageInDidlLimit": "Korlátozás egyetlen beágyazott képre",
     "LabelEnableSingleImageInDidlLimitHelp": "Néhány eszköz nem jeleníti meg megfelelően, ha több kép van beágyazva a Didl-be.",
     "LabelEndDate": "Befejezés dátuma:",
-    "LabelExternalDDNS": "Külső domain:",
-    "LabelExternalDDNSHelp": "Ha dinamikus DNS-t használsz, írd be ide. A Jellyfin alkalmazások fogják ezt használni távoli kapcsolódáskor. Ezt a mezőt akkor kell megadni ha egyéni SSL tanúsítványt használsz. Példa: mydomain.com.",
     "LabelExtractChaptersDuringLibraryScan": "Fejezet képek készítése a könyvtár beolvasása során",
     "LabelExtractChaptersDuringLibraryScanHelp": "Ha engedélyezve van, a fejezetképek elkészítése a könyvtár beolvasása során történik meg. Ha le van tiltva, akkor az elkészítés az Ütemezett feladatokban meghatározott időben készül el, ami lehetővé teszi a könyvtárbeolvasás gyorsítását.",
     "LabelFailed": "Sikertelen",

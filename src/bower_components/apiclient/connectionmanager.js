@@ -36,7 +36,7 @@ define(["events", "apiclient", "appStorage"], function(events, apiClientFactory,
     }
 
     function updateServerInfo(server, systemInfo) {
-        server.Name = systemInfo.ServerName, systemInfo.Id && (server.Id = systemInfo.Id), systemInfo.LocalAddress && (server.LocalAddress = systemInfo.LocalAddress), systemInfo.WanAddress && (server.RemoteAddress = systemInfo.WanAddress)
+        server.Name = systemInfo.ServerName, systemInfo.Id && (server.Id = systemInfo.Id), systemInfo.LocalAddress && (server.LocalAddress = systemInfo.LocalAddress)
     }
 
     function getEmbyServerUrl(baseUrl, handler) {
