@@ -1,62 +1,67 @@
 <div style="margin: 0;padding:1.5em 2em;" class="filterDialogContent">
-    <h2 style="margin-bottom: .25em;">
-        ${HeaderFilters}
-    </h2>
-    <div class="checkboxList">
-        <label>
-            <input type="checkbox" is="emby-checkbox" class="chkStandardFilter videoStandard" data-filter="IsPlayed" />
-            <span>${OptionPlayed}</span>
-        </label>
-        <label>
-            <input type="checkbox" is="emby-checkbox" class="chkStandardFilter videoStandard" data-filter="IsUnPlayed" />
-            <span>${OptionUnplayed}</span>
-        </label>
-        <label>
-            <input type="checkbox" is="emby-checkbox" class="chkStandardFilter videoStandard" data-filter="IsResumable" />
-            <span>${OptionResumable}</span>
-        </label>
-        <label>
-            <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkFavorite" data-filter="IsFavorite" />
-            <span>${OptionFavorite}</span>
-        </label>
-        <label>
-            <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkLikes" data-filter="Likes" />
-            <span>${OptionLikes}</span>
-        </label>
-        <label>
-            <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkDislikes" data-filter="Dislikes" />
-            <span>${OptionDislikes}</span>
-        </label>
-        <label class="episodeFilter hide">
-            <input type="checkbox" is="emby-checkbox" id="chkSpecialEpisode" />
-            <span>${OptionSpecialEpisode}</span>
-        </label>
-        <label class="episodeFilter hide">
-            <input type="checkbox" is="emby-checkbox" id="chkMissingEpisode" />
-            <span>${OptionMissingEpisode}</span>
-        </label>
-        <label class="episodeFilter hide">
-            <input type="checkbox" is="emby-checkbox" id="chkFutureEpisode" />
-            <span>${OptionUnairedEpisode}</span>
-        </label>
-    </div>
-    <div class="seriesStatus hide">
-        <br />
-        <h2 style="margin-bottom: .25em;">
-            ${HeaderStatus}
-        </h2>
-        <div class="checkboxList">
-            <label>
-                <input type="checkbox" is="emby-checkbox" class="chkStatus" data-filter="Continuing" />
-                <span>${OptionContinuing}</span>
-            </label>
-            <label>
-                <input type="checkbox" is="emby-checkbox" class="chkStatus" data-filter="Ended" />
-                <span>${OptionEnded}</span>
-            </label>
+
+    <div is="emby-collapse" title="${HeaderFilters}">
+        <div class="collapseContent">
+            <div class="checkboxList">
+                <label>
+                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter videoStandard"
+                        data-filter="IsPlayed" />
+                    <span>${OptionPlayed}</span>
+                </label>
+                <label>
+                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter videoStandard"
+                        data-filter="IsUnPlayed" />
+                    <span>${OptionUnplayed}</span>
+                </label>
+                <label>
+                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter videoStandard"
+                        data-filter="IsResumable" />
+                    <span>${OptionResumable}</span>
+                </label>
+                <label>
+                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkFavorite"
+                        data-filter="IsFavorite" />
+                    <span>${OptionFavorite}</span>
+                </label>
+                <label>
+                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkLikes" data-filter="Likes" />
+                    <span>${OptionLikes}</span>
+                </label>
+                <label>
+                    <input type="checkbox" is="emby-checkbox" class="chkStandardFilter chkDislikes"
+                        data-filter="Dislikes" />
+                    <span>${OptionDislikes}</span>
+                </label>
+                <label class="episodeFilter hide">
+                    <input type="checkbox" is="emby-checkbox" id="chkSpecialEpisode" />
+                    <span>${OptionSpecialEpisode}</span>
+                </label>
+                <label class="episodeFilter hide">
+                    <input type="checkbox" is="emby-checkbox" id="chkMissingEpisode" />
+                    <span>${OptionMissingEpisode}</span>
+                </label>
+                <label class="episodeFilter hide">
+                    <input type="checkbox" is="emby-checkbox" id="chkFutureEpisode" />
+                    <span>${OptionUnairedEpisode}</span>
+                </label>
+            </div>
         </div>
     </div>
-    <br />
+
+    <div is="emby-collapse" title="${HeaderStatus}" class="seriesStatus hide">
+        <div class="collapseContent">
+            <div class="checkboxList">
+                <label>
+                    <input type="checkbox" is="emby-checkbox" class="chkStatus" data-filter="Continuing" />
+                    <span>${OptionContinuing}</span>
+                </label>
+                <label>
+                    <input type="checkbox" is="emby-checkbox" class="chkStatus" data-filter="Ended" />
+                    <span>${OptionEnded}</span>
+                </label>
+            </div>
+        </div>
+    </div>
 
     <div is="emby-collapse" title="${HeaderFeatures}" class="features hide">
         <div class="collapseContent">
@@ -104,7 +109,8 @@
         <div class="collapseContent">
             <div class="checkboxList">
                 <label>
-                    <input type="checkbox" is="emby-checkbox" class="chkVideoTypeFilter chkBluray" data-filter="Bluray" />
+                    <input type="checkbox" is="emby-checkbox" class="chkVideoTypeFilter chkBluray"
+                        data-filter="Bluray" />
                     <span>${OptionBluray}</span>
                 </label>
                 <label>
@@ -136,11 +142,6 @@
     </div>
 
     <div is="emby-collapse" title="${HeaderYears}" class="yearFilters hide">
-        <div class="collapseContent filterOptions">
-        </div>
-    </div>
-
-    <div is="emby-collapse" title="${HeaderAudioLanguages}" class="audioLanguagesFilters hide">
         <div class="collapseContent filterOptions">
         </div>
     </div>

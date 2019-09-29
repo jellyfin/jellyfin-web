@@ -14,7 +14,7 @@
 @media all and (min-height:600px) {
     .dynamicFilterDialog {
         top: 10% !important;
-        bottom: 10% !important
+        bottom: 25% !important
     }
 }
 

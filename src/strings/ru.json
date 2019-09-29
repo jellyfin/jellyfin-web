@@ -1381,7 +1381,6 @@
     "Yes": "Да",
     "Yesterday": "Вчера",
     "ChangingMetadataImageSettingsNewContent": "Изменения в настройках загрузки метаданных или иллюстраций применяются только к новому содержанию, добавляемому в медиатеку. Чтобы применить изменения к наличным произведениям, необходимо обновить их метаданные вручную.",
-    "HeaderAudioLanguages": "Языки аудио",
     "LabelDynamicExternalId": "{0} Ид:",
     "LeaveBlankToNotSetAPassword": "Оставьте пустым, чтобы не назначать пароль.",
     "MessageImageFileTypeAllowed": "Поддерживаются только файлы JPEG и PNG.",

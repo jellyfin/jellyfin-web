@@ -285,7 +285,6 @@
     "HeaderApiKeysHelp": "Externe Applikationen benötigen einen API-Schlüssel, um mit dem Jellyfin-Server zu kommunizieren. API-Schlüssel werden beim Anmelden mit einem Jellyfin-Konto oder durch eine manuelle Freigabe vergeben.",
     "HeaderAppearsOn": "Erscheint auf",
     "HeaderAudioBooks": "Hörbücher",
-    "HeaderAudioLanguages": "Audiosprachen",
     "HeaderAudioSettings": "Audioeinstellungen",
     "HeaderAutomaticUpdates": "Automatische Updates",
     "HeaderBlockItemsWithNoRating": "Blockiere Inhalte mit keiner oder nicht erkannter Altersfreigabe:",

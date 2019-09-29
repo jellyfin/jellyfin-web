@@ -1314,7 +1314,6 @@
     "HeaderAllowMediaDeletionFrom": "Povolit smazání médií z",
     "HeaderAppearsOn": "Appears On",
     "HeaderAudio": "Audio",
-    "HeaderAudioLanguages": "Jazyk zvuku",
     "HeaderBlockItemsWithNoRating": "Blokovat položky s žádnými nebo nerozpoznanými informacemi o hodnocení:",
     "HeaderCameraUploadHelp": "Aplikace Jellyfin mohou automaticky nahrávat fotografie z mobilních zařízení do serveru Jellyfin.",
     "HeaderChapterImages": "Obrázky kapitol",
