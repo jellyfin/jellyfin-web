@@ -4,6 +4,10 @@
 // Use define from require.js not webpack's define
 var _define = window.define;
 
+// flvjs
+var flvjs = require("flv.js");
+_define("flvjs", function() { return flvjs; });
+
 // jstree
 var jstree = require("jstree");
 require("jstree/dist/themes/default/style.css");
@@ -20,6 +24,10 @@ _define("hlsjs", function() { return hlsjs; });
 // howler
 var howler = require("howler");
 _define("howler", function() { return howler; });
+
+// shaka
+var shaka = require("shaka-player");
+_define("shaka", function() { return shaka });
 
 // swiper
 var swiper = require("swiper");

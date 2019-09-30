@@ -223,7 +223,9 @@ var Dashboard = {
         return capabilities = Object.assign(capabilities, appHost.getPushTokenInfo());
     }
 };
+
 var AppInfo = {};
+
 !function () {
     "use strict";
 
@@ -290,7 +292,7 @@ var AppInfo = {};
                         connectionManager.addApiClient(apiClient);
 
                         window.ApiClient = apiClient;
-                        localApiClient   = apiClient;
+                        localApiClient = apiClient;
 
                         console.log("loaded ApiClient singleton");
                     });
@@ -307,6 +309,10 @@ var AppInfo = {};
 
     function getBowerPath() {
         return "bower_components";
+    }
+
+    function getComponentsPath() {
+        return "components";
     }
 
     function getPlaybackManager(playbackManager) {
@@ -381,14 +387,13 @@ var AppInfo = {};
                 return self.ResizeObserver;
             });
         } else {
-            define("ResizeObserver", ["thirdparty/resize-observer-polyfill/ResizeObserver"], returnFirstDependency);
+            define("ResizeObserver", [getBowerPath() + "/resize-observer-polyfill/ResizeObserver"], returnFirstDependency);
         }
     }
 
     function initRequireWithBrowser(browser) {
         var bowerPath = getBowerPath();
-        var apiClientBowerPath = bowerPath + "/apiclient";
-        var componentsPath = "components";
+        var componentsPath = getComponentsPath();
 
         define("filesystem", [componentsPath + "/filesystem"], returnFirstDependency);
 
@@ -400,7 +405,7 @@ var AppInfo = {};
 
         define("shell", [componentsPath + "/shell"], returnFirstDependency);
 
-        define("apiclient", [apiClientBowerPath + "/apiclient"], returnFirstDependency);
+        define("apiclient", [bowerPath + "/apiclient/apiclient"], returnFirstDependency);
 
         if ("registerElement" in document) {
             define("registerElement", []);
@@ -434,7 +439,7 @@ var AppInfo = {};
         define("loading", [componentsPath + "/loading/loading"], returnFirstDependency);
         define("multi-download", [componentsPath + "/multidownload"], returnFirstDependency);
         define("fileDownloader", [componentsPath + "/filedownloader"], returnFirstDependency);
-        define("localassetmanager", [apiClientBowerPath + "/localassetmanager"], returnFirstDependency);
+        define("localassetmanager", [bowerPath + "/apiclient/localassetmanager"], returnFirstDependency);
 
         if ("cordova" === self.appMode || "android" === self.appMode) {
             define("castSenderApiLoader", [], getDummyCastSenderApiLoader);
@@ -442,9 +447,9 @@ var AppInfo = {};
             define("castSenderApiLoader", [], getCastSenderApiLoader);
         }
 
-        define("transfermanager", [apiClientBowerPath + "/sync/transfermanager"], returnFirstDependency);
-        define("filerepository", [apiClientBowerPath + "/sync/filerepository"], returnFirstDependency);
-        define("localsync", [apiClientBowerPath + "/sync/localsync"], returnFirstDependency);
+        define("transfermanager", [bowerPath + "/apiclient/sync/transfermanager"], returnFirstDependency);
+        define("filerepository", [bowerPath + "/apiclient/sync/filerepository"], returnFirstDependency);
+        define("localsync", [bowerPath + "/apiclient/sync/localsync"], returnFirstDependency);
     }
 
     function init() {
@@ -560,64 +565,52 @@ var AppInfo = {};
 
         // ensure that appHost is loaded in this point
         require(['apphost', 'appRouter'], function (appHost, appRouter) {
-            var isInBackground = -1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync");
-
             window.Emby = {};
 
             console.log("onAppReady - loading dependencies");
+            if (browser.iOS) {
+                require(['css!css/ios.css']);
+            }
 
-            if (isInBackground) {
-                syncNow();
-            } else {
+            window.Emby.Page = appRouter;
 
-                if (browser.iOS) {
-                    require(['css!css/ios.css']);
+            require(['emby-button', 'scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
+                Emby.Page.start({
+                    click: false,
+                    hashbang: true
+                });
+
+                require(["components/thememediaplayer", "scripts/autobackdrops"]);
+
+                if (!browser.tv && !browser.xboxOne && !browser.ps4) {
+                    require(["components/nowplayingbar/nowplayingbar"]);
                 }
 
-                window.Emby.Page = appRouter;
+                if (appHost.supports("remotecontrol")) {
+                    require(["playerSelectionMenu", "components/playback/remotecontrolautoplay"]);
+                }
 
-                require(['emby-button', 'scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
-                    Emby.Page.start({
-                        click: false,
-                        hashbang: true
-                    });
+                if (!appHost.supports("physicalvolumecontrol") || browser.touch) {
+                    require(["components/playback/volumeosd"]);
+                }
 
-                    require(["components/thememediaplayer", "scripts/autobackdrops"]);
+                require(["mediaSession", "serverNotifications"]);
 
-                    if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-                        require(["components/nowplayingbar/nowplayingbar"]);
+                if (!browser.tv && !browser.xboxOne) {
+                    require(["components/playback/playbackorientation"]);
+                    registerServiceWorker();
+
+                    if (window.Notification) {
+                        require(["components/notifications/notifications"]);
                     }
+                }
 
-                    if (appHost.supports("remotecontrol")) {
-                        require(["playerSelectionMenu", "components/playback/remotecontrolautoplay"]);
-                    }
+                require(["playerSelectionMenu", "fullscreenManager"]);
 
-                    if (!appHost.supports("physicalvolumecontrol") || browser.touch) {
-                        require(["components/playback/volumeosd"]);
-                    }
-
-                    require(["mediaSession", "serverNotifications"]);
-
-                    if (!browser.tv && !browser.xboxOne) {
-                        require(["components/playback/playbackorientation"]);
-                        registerServiceWorker();
-
-                        if (window.Notification) {
-                            require(["components/notifications/notifications"]);
-                        }
-                    }
-
-                    require(["playerSelectionMenu", "fullscreenManager"]);
-
-                    if (appHost.supports("sync")) {
-                        initLocalSyncEvents();
-                    }
-
-                    if (!AppInfo.isNativeApp && window.ApiClient) {
-                        require(["css!" + ApiClient.getUrl("Branding/Css")]);
-                    }
-                });
-            }
+                if (!AppInfo.isNativeApp && window.ApiClient) {
+                    require(["css!" + ApiClient.getUrl("Branding/Css")]);
+                }
+            });
         });
     }
 
@@ -631,20 +624,6 @@ var AppInfo = {};
         }
     }
 
-    function syncNow() {
-        require(["localsync"], function (localSync) {
-            localSync.sync();
-        });
-    }
-
-    function initLocalSyncEvents() {
-        require(["serverNotifications", "events"], function (serverNotifications, events) {
-            events.on(serverNotifications, "SyncJobItemReady", syncNow);
-            events.on(serverNotifications, "SyncJobCancelled", syncNow);
-            events.on(serverNotifications, "SyncJobItemCancelled", syncNow);
-        });
-    }
-
     function onWebComponentsReady(browser) {
         initRequireWithBrowser(browser);
 
@@ -653,7 +632,7 @@ var AppInfo = {};
         }
 
         if (!window.Promise || browser.web0s) {
-            require(["thirdparty/native-promise-only/lib/npo.src"], init);
+            require([getBowerPath() + "/native-promise-only/lib/npo.src"], init);
         } else {
             init();
         }
@@ -664,24 +643,24 @@ var AppInfo = {};
     (function () {
         var urlArgs = "v=" + (window.dashboardVersion || new Date().getDate());
         var bowerPath = getBowerPath();
-        var apiClientBowerPath = bowerPath + "/apiclient";
-        var componentsPath = "components";
+        var componentsPath = getComponentsPath();
         var paths = {
             playlisteditor: componentsPath + "/playlisteditor/playlisteditor",
             medialibrarycreator: componentsPath + "/medialibrarycreator/medialibrarycreator",
             medialibraryeditor: componentsPath + "/medialibraryeditor/medialibraryeditor",
             imageoptionseditor: componentsPath + "/imageoptionseditor/imageoptionseditor",
             humanedate: componentsPath + "/humanedate",
+            apphost: componentsPath + "/apphost",
             libraryBrowser: "scripts/librarybrowser",
-            events: apiClientBowerPath + "/events",
-            credentialprovider: apiClientBowerPath + "/credentialprovider",
+            events: bowerPath + "/apiclient/events",
+            credentialprovider: bowerPath + "/apiclient/credentialprovider",
             connectionManagerFactory: bowerPath + "/apiclient/connectionmanager",
             visibleinviewport: componentsPath + "/visibleinviewport",
             browserdeviceprofile: componentsPath + "/browserdeviceprofile",
             browser: componentsPath + "/browser",
             inputManager: componentsPath + "/inputManager",
             qualityoptions: componentsPath + "/qualityoptions",
-            page: "thirdparty/page",
+            page: bowerPath + "/page",
             focusManager: componentsPath + "/focusManager",
             datetime: componentsPath + "/datetime",
             globalize: componentsPath + "/globalize",
@@ -693,10 +672,8 @@ var AppInfo = {};
             pluginManager: componentsPath + "/pluginManager",
             packageManager: componentsPath + "/packagemanager"
         };
-        paths.flvjs = "thirdparty/flvjs/flv.min";
-        paths.shaka = "thirdparty/shaka/shaka-player.compiled";
-        paths.apphost = componentsPath + "/apphost";
 
+        requirejs.onError = onRequireJsError;
         requirejs.config({
             waitSeconds: 0,
             map: {
@@ -706,13 +683,22 @@ var AppInfo = {};
                 }
             },
             bundles: {
-                bundle: ["jstree", "jQuery", "hlsjs", "howler", "swiper", "sortable", "libjass"]
+                bundle: [
+                    "flvjs",
+                    "jstree",
+                    "jQuery",
+                    "hlsjs",
+                    "howler",
+                    "shaka",
+                    "swiper",
+                    "sortable",
+                    "libjass"
+                ]
             },
             urlArgs: urlArgs,
             paths: paths,
             onError: onRequireJsError
         });
-        requirejs.onError = onRequireJsError;
 
         // Expose jQuery globally
         require(["jQuery"], function(jQuery) {
@@ -808,7 +794,7 @@ var AppInfo = {};
             viewManager.dispatchPageEvents(true);
             return viewManager;
         });
-        define('appStorage', [apiClientBowerPath + '/appStorage'], returnFirstDependency);
+        define('appStorage', [bowerPath + "/apiclient/appStorage"], returnFirstDependency);
         define("dashboardcss", ["css!css/dashboard"], returnFirstDependency);
         define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
         define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency);
@@ -824,13 +810,13 @@ var AppInfo = {};
         define("viewSettings", [componentsPath + "/viewsettings/viewsettings"], returnFirstDependency);
         define("filterMenu", [componentsPath + "/filtermenu/filtermenu"], returnFirstDependency);
         define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
-        define("serversync", [apiClientBowerPath + "/sync/serversync"], returnFirstDependency);
-        define("multiserversync", [apiClientBowerPath + "/sync/multiserversync"], returnFirstDependency);
-        define("mediasync", [apiClientBowerPath + "/sync/mediasync"], returnFirstDependency);
+        define("serversync", [bowerPath + "/apiclient/sync/serversync"], returnFirstDependency);
+        define("multiserversync", [bowerPath + "/apiclient/sync/multiserversync"], returnFirstDependency);
+        define("mediasync", [bowerPath + "/apiclient/sync/mediasync"], returnFirstDependency);
         define("idb", [componentsPath + "/idb"], returnFirstDependency);
         define("sanitizefilename", [componentsPath + "/sanitizefilename"], returnFirstDependency);
-        define("itemrepository", [apiClientBowerPath + "/sync/itemrepository"], returnFirstDependency);
-        define("useractionrepository", [apiClientBowerPath + "/sync/useractionrepository"], returnFirstDependency);
+        define("itemrepository", [bowerPath + "/apiclient/sync/itemrepository"], returnFirstDependency);
+        define("useractionrepository", [bowerPath + "/apiclient/sync/useractionrepository"], returnFirstDependency);
         define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
         define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);
@@ -1133,9 +1119,11 @@ var AppInfo = {};
 
     return require(["browser"], onWebComponentsReady);
 }();
+
 pageClassOn("viewshow", "standalonePage", function () {
     document.querySelector(".skinHeader").classList.add("noHeaderRight");
 });
+
 pageClassOn("viewhide", "standalonePage", function () {
     document.querySelector(".skinHeader").classList.remove("noHeaderRight");
 });
