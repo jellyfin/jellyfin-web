@@ -65,7 +65,7 @@
     "ButtonFilter": "Filtro",
     "ButtonForgotPassword": "Contraseña olvidada",
     "ButtonFullscreen": "Pantalla completa",
-    "ButtonGotIt": "Lo tengo",
+    "ButtonGotIt": "Entendido",
     "ButtonGuide": "Guía",
     "ButtonHelp": "Ayuda",
     "ButtonHome": "Inicio",
@@ -1259,7 +1259,7 @@
     "DisplayInOtherHomeScreenSections": "Mostrar en las secciones de la pantalla de inicio al igual que \"últimos\" y \"continuar viendo\"",
     "DisplayMissingEpisodesWithinSeasons": "Mostrar episodios ausentes en las temporadas",
     "DisplayMissingEpisodesWithinSeasonsHelp": "Esto también debe ser habilitado para la biblioteca de TV en la configuración del servidor.",
-    "DropShadow": "Sombra paralela",
+    "DropShadow": "Sombra",
     "EditMetadata": "Editar metadatos",
     "EnableBackdrops": "Imágenes de fondo",
     "EnableBackdropsHelp": "Mostrar imágenes de fondo en algunas páginas mientras se explora la biblioteca.",
@@ -1458,5 +1458,6 @@
     "HeaderFavoriteBooks": "Libros Favoritos",
     "CopyStreamURLSuccess": "URL copiada correctamente.",
     "MusicLibraryHelp": "Revisar la {0}guía de nombres de música{1}.",
-    "FetchingData": "Obteniendo datos adicionales"
+    "FetchingData": "Obteniendo datos adicionales",
+    "ButtonAddImage": "Añadir imagen"
 }
