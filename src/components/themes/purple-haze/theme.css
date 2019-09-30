@@ -575,3 +575,9 @@ a[data-role=button] {
 .metadataSidebarIcon {
     color: #dbe6ff
 }
+
+.mediaInfoContent {
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%
+}
