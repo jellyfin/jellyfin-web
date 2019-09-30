@@ -407,5 +407,10 @@
     "GuestStar": "Estrella invitada",
     "Guide": "Guía",
     "GuideProviderLogin": "Iniciar Sesión",
-    "GuideProviderSelectListings": "Seleccionar Listados"
+    "GuideProviderSelectListings": "Seleccionar Listados",
+    "HeaderFavoriteSongs": "Canciones favoritas",
+    "HeaderFavoriteShows": "Programas favoritos",
+    "HeaderFavoriteEpisodes": "Episodios favoritos",
+    "HeaderFavoriteArtists": "Artistas favoritos",
+    "HeaderFavoriteAlbums": "Álbumes favoritos"
 }
