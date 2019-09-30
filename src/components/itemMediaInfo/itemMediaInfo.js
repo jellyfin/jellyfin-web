@@ -136,7 +136,7 @@ define(["dialogHelper", "require", "layoutManager", "globalize", "userSettings",
             html += globalize.translateDocument(template, "core");
             dlg.innerHTML = html;
             if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg.querySelector(".formDialogContent"), false);
+                dlg.querySelector(".formDialogContent");
             }
             dialogHelper.open(dlg);
             dlg.querySelector(".btnCancel").addEventListener("click", function (e) {
