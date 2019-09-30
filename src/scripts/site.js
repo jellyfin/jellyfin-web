@@ -695,6 +695,31 @@ var AppInfo = {};
         };
         paths.flvjs = "thirdparty/flvjs/flv.min";
         paths.shaka = "thirdparty/shaka/shaka-player.compiled";
+        paths.apphost = componentsPath + "/apphost";
+
+        requirejs.config({
+            waitSeconds: 0,
+            map: {
+                "*": {
+                    css: "components/require/requirecss",
+                    text: "components/require/requiretext"
+                }
+            },
+            bundles: {
+                bundle: ["jstree", "jQuery", "hlsjs", "howler", "swiper", "sortable", "libjass"]
+            },
+            urlArgs: urlArgs,
+            paths: paths,
+            onError: onRequireJsError
+        });
+        requirejs.onError = onRequireJsError;
+
+        // Expose jQuery globally
+        require(["jQuery"], function(jQuery) {
+            window.$ = jQuery;
+            window.jQuery = jQuery;
+        });
+
         define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
         define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);
         define("actionsheet", [componentsPath + "/actionsheet/actionsheet"], returnFirstDependency);
@@ -783,27 +808,7 @@ var AppInfo = {};
             viewManager.dispatchPageEvents(true);
             return viewManager;
         });
-
-        paths.apphost = componentsPath + "/apphost";
         define('appStorage', [apiClientBowerPath + '/appStorage'], returnFirstDependency);
-
-        requirejs.config({
-            waitSeconds: 0,
-            map: {
-                "*": {
-                    css: "components/require/requirecss",
-                    text: "components/require/requiretext"
-                }
-            },
-            bundles: {
-                bundle: ["jstree", "jQuery", "hlsjs", "howler", "swiper", "sortable", "libjass"]
-            },
-            urlArgs: urlArgs,
-            paths: paths,
-            onError: onRequireJsError
-        });
-        requirejs.onError = onRequireJsError;
-
         define("dashboardcss", ["css!css/dashboard"], returnFirstDependency);
         define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
         define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency);
