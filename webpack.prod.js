@@ -1,19 +1,24 @@
 const path = require("path");
 const common = require("./webpack.common");
 const merge = require("webpack-merge");
-const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = merge(common, {
     mode: "production",
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-        libraryTarget: 'amd-require'
+        filename: "bundle.js",
+        path: path.resolve(__dirname, "dist"),
+        libraryTarget: "amd-require"
     },
-    plugins: [
-        new CopyPlugin([{
-            from: '**/*',
-            to: '.'
-        }])
-    ]
+    module: {
+        rules: [
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"]
+            },
+            {
+                test: /\.(png|jpg|gif)$/i,
+                use: ["file-loader"]
+            }
+        ]
+    },
 });
