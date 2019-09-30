@@ -8,9 +8,9 @@
     align-items: center;
 }
 
-    .videoPlayerContainer:not(.videoPlayerContainer-withBackdrop) {
-        background: #000 !important;
-    }
+.videoPlayerContainer:not(.videoPlayerContainer-withBackdrop) {
+    background: #000 !important;
+}
 
 .videoPlayerContainer-withBackdrop {
     background-repeat: no-repeat;
@@ -24,6 +24,10 @@
     z-index: 1000;
 }
 
+video::-webkit-media-controls {
+    display: none !important;
+}
+
 .htmlvideoplayer {
     margin: 0 !important;
     padding: 0 !important;
@@ -31,15 +35,15 @@
     height: 100%;
 }
 
-    .htmlvideoplayer::cue {
-        background-color: transparent;
-        text-shadow: .14em .14em .14em rgba(0, 0, 0, 1);
-        -webkit-font-smoothing: antialiased;
-        font-family: inherit;
-    }
+.htmlvideoplayer::cue {
+    background-color: transparent;
+    text-shadow: 0.14em 0.14em 0.14em rgba(0, 0, 0, 1);
+    -webkit-font-smoothing: antialiased;
+    font-family: inherit;
+}
 
 .htmlvideoplayer-moveupsubtitles::-webkit-media-text-track-display {
-    /*Style the text itself*/
+    /* style the text itself */
     margin-top: -2em;
 }
 
@@ -55,15 +59,15 @@
 
 .videoSubtitlesInner {
     max-width: 70%;
-    background-color: rgba(0,0,0,.8);
-    padding: .25em;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 0.25em;
     margin: auto;
     display: inline-block;
 }
 
 @keyframes htmlvideoplayer-zoomin {
     from {
-        transform: scale3d(.2, .2, .2);
+        transform: scale3d(0.2, 0.2, 0.2);
         opacity: .6;
     }
 
