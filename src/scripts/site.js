@@ -645,25 +645,22 @@ var AppInfo = {};
         var bowerPath = getBowerPath();
         var componentsPath = getComponentsPath();
         var paths = {
+            browserdeviceprofile: "scripts/browserdeviceprofile",
+            browser: "scripts/browser",
+            libraryBrowser: "scripts/librarybrowser",
+            inputManager: "scripts/inputManager",
+            datetime: "scripts/datetime",
+            globalize: "scripts/globalize",
+            libraryMenu: "scripts/librarymenu",
             playlisteditor: componentsPath + "/playlisteditor/playlisteditor",
             medialibrarycreator: componentsPath + "/medialibrarycreator/medialibrarycreator",
             medialibraryeditor: componentsPath + "/medialibraryeditor/medialibraryeditor",
             imageoptionseditor: componentsPath + "/imageoptionseditor/imageoptionseditor",
             humanedate: componentsPath + "/humanedate",
             apphost: componentsPath + "/apphost",
-            libraryBrowser: "scripts/librarybrowser",
-            events: bowerPath + "/apiclient/events",
-            credentialprovider: bowerPath + "/apiclient/credentialprovider",
-            connectionManagerFactory: bowerPath + "/apiclient/connectionmanager",
             visibleinviewport: componentsPath + "/visibleinviewport",
-            browserdeviceprofile: componentsPath + "/browserdeviceprofile",
-            browser: componentsPath + "/browser",
-            inputManager: componentsPath + "/inputManager",
             qualityoptions: componentsPath + "/qualityoptions",
-            page: bowerPath + "/page",
             focusManager: componentsPath + "/focusManager",
-            datetime: componentsPath + "/datetime",
-            globalize: componentsPath + "/globalize",
             itemHelper: componentsPath + "/itemhelper",
             itemShortcuts: componentsPath + "/shortcuts",
             playQueueManager: componentsPath + "/playback/playqueuemanager",
@@ -706,13 +703,57 @@ var AppInfo = {};
             window.jQuery = jQuery;
         });
 
+        require(["css!css/site"]);
+
+        // define styles
+        // TODO determine which of these files can be moved to the components themselves
+        define("material-icons", ["css!css/material-icons/style"], returnFirstDependency);
+        define("systemFontsCss", ["css!css/fonts"], returnFirstDependency);
+        define("systemFontsSizedCss", ["css!css/fonts.sized"], returnFirstDependency);
+        define("scrollStyles", ["css!css/scrollstyles"], returnFirstDependency);
+        define("dashboardcss", ["css!css/dashboard"], returnFirstDependency);
+        define("programStyles", ["css!" + componentsPath + "/guide/programs"], returnFirstDependency);
+        define("listViewStyle", ["css!" + componentsPath + "/listview/listview"], returnFirstDependency);
+        define("formDialogStyle", ["css!" + componentsPath + "/formdialog"], returnFirstDependency);
+        define("clearButtonStyle", ["css!" + componentsPath + "/clearbutton"], returnFirstDependency);
+        define("cardStyle", ["css!" + componentsPath + "/cardbuilder/card"], returnFirstDependency);
+        define("flexStyles", ["css!" + componentsPath + "/flexstyles"], returnFirstDependency);
+
+        // define legacy features
+        // TODO delete the rest of these
+        define("fnchecked", ["legacy/fnchecked"], returnFirstDependency);
+        define("legacyDashboard", ["legacy/dashboard"], returnFirstDependency);
+        define("legacySelectMenu", ["legacy/selectmenu"], returnFirstDependency);
+
+        // there are several objects that need to be instantiated
+        // TODO find a better way to do this
+        define("appFooter", [componentsPath + "/appfooter/appfooter"], returnFirstDependency);
+        define("appFooter-shared", ["appFooter"], createSharedAppFooter);
+
+        // TODO pull apiclient out of this repository
+        define('events', [bowerPath + "/apiclient/events"], returnFirstDependency);
+        define('credentialprovider', [bowerPath + "/apiclient/credentialprovider"], returnFirstDependency);
+        define('connectionManagerFactory', [bowerPath + "/apiclient/connectionmanager"], returnFirstDependency);
+        define('appStorage', [bowerPath + "/apiclient/appStorage"], returnFirstDependency);
+        define("serversync", [bowerPath + "/apiclient/sync/serversync"], returnFirstDependency);
+        define("multiserversync", [bowerPath + "/apiclient/sync/multiserversync"], returnFirstDependency);
+        define("mediasync", [bowerPath + "/apiclient/sync/mediasync"], returnFirstDependency);
+        define("itemrepository", [bowerPath + "/apiclient/sync/itemrepository"], returnFirstDependency);
+        define("useractionrepository", [bowerPath + "/apiclient/sync/useractionrepository"], returnFirstDependency);
+
+        // also pull out these libs
+        define("page", [bowerPath + "/page"], returnFirstDependency);
+        define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency);
+        define("queryString", [bowerPath + "/query-string/index"], function () {
+            return queryString;
+        });
+
         define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
         define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);
         define("actionsheet", [componentsPath + "/actionsheet/actionsheet"], returnFirstDependency);
         define("tunerPicker", [componentsPath + "/tunerpicker"], returnFirstDependency);
         define("mainTabsManager", [componentsPath + "/maintabsmanager"], returnFirstDependency);
         define("imageLoader", [componentsPath + "/images/imageLoader"], returnFirstDependency);
-        define("appFooter", [componentsPath + "/appfooter/appfooter"], returnFirstDependency);
         define("directorybrowser", [componentsPath + "/directorybrowser/directorybrowser"], returnFirstDependency);
         define("metadataEditor", [componentsPath + "/metadataeditor/metadataeditor"], returnFirstDependency);
         define("personEditor", [componentsPath + "/metadataeditor/personeditor"], returnFirstDependency);
@@ -720,7 +761,6 @@ var AppInfo = {};
         define("playerSettingsMenu", [componentsPath + "/playback/playersettingsmenu"], returnFirstDependency);
         define("playMethodHelper", [componentsPath + "/playback/playmethodhelper"], returnFirstDependency);
         define("brightnessOsd", [componentsPath + "/playback/brightnessosd"], returnFirstDependency);
-        define("libraryMenu", ["scripts/librarymenu"], returnFirstDependency);
         define("emby-collapse", [componentsPath + "/emby-collapse/emby-collapse"], returnFirstDependency);
         define("emby-button", [componentsPath + "/emby-button/emby-button"], returnFirstDependency);
         define("emby-itemscontainer", [componentsPath + "/emby-itemscontainer/emby-itemscontainer"], returnFirstDependency);
@@ -779,14 +819,11 @@ var AppInfo = {};
         define("refreshDialog", [componentsPath + "/refreshdialog/refreshdialog"], returnFirstDependency);
         define("backdrop", [componentsPath + "/backdrop/backdrop"], returnFirstDependency);
         define("fetchHelper", [componentsPath + "/fetchhelper"], returnFirstDependency);
-        define("cardStyle", ["css!" + componentsPath + "/cardbuilder/card"], returnFirstDependency);
         define("cardBuilder", [componentsPath + "/cardbuilder/cardBuilder"], returnFirstDependency);
         define("peoplecardbuilder", [componentsPath + "/cardbuilder/peoplecardbuilder"], returnFirstDependency);
         define("chaptercardbuilder", [componentsPath + "/cardbuilder/chaptercardbuilder"], returnFirstDependency);
-        define("flexStyles", ["css!" + componentsPath + "/flexstyles"], returnFirstDependency);
         define("deleteHelper", [componentsPath + "/deletehelper"], returnFirstDependency);
         define("tvguide", [componentsPath + "/guide/guide"], returnFirstDependency);
-        define("programStyles", ["css!" + componentsPath + "/guide/programs"], returnFirstDependency);
         define("guide-settings-dialog", [componentsPath + "/guide/guide-settings"], returnFirstDependency);
         define("loadingDialog", [componentsPath + "/loadingdialog/loadingdialog"], returnFirstDependency);
         define("viewManager", [componentsPath + "/viewManager/viewManager"], function (viewManager) {
@@ -794,29 +831,18 @@ var AppInfo = {};
             viewManager.dispatchPageEvents(true);
             return viewManager;
         });
-        define('appStorage', [bowerPath + "/apiclient/appStorage"], returnFirstDependency);
-        define("dashboardcss", ["css!css/dashboard"], returnFirstDependency);
         define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
-        define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency);
         define("objectassign", [componentsPath + "/polyfills/objectassign"], returnFirstDependency);
-        define("clearButtonStyle", ["css!" + componentsPath + "/clearbutton"], returnFirstDependency);
         define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
         define("emby-playstatebutton", [componentsPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
         define("emby-ratingbutton", [componentsPath + "/userdatabuttons/emby-ratingbutton"], returnFirstDependency);
         define("listView", [componentsPath + "/listview/listview"], returnFirstDependency);
-        define("listViewStyle", ["css!" + componentsPath + "/listview/listview"], returnFirstDependency);
-        define("formDialogStyle", ["css!" + componentsPath + "/formdialog"], returnFirstDependency);
         define("indicators", [componentsPath + "/indicators/indicators"], returnFirstDependency);
         define("viewSettings", [componentsPath + "/viewsettings/viewsettings"], returnFirstDependency);
         define("filterMenu", [componentsPath + "/filtermenu/filtermenu"], returnFirstDependency);
         define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
-        define("serversync", [bowerPath + "/apiclient/sync/serversync"], returnFirstDependency);
-        define("multiserversync", [bowerPath + "/apiclient/sync/multiserversync"], returnFirstDependency);
-        define("mediasync", [bowerPath + "/apiclient/sync/mediasync"], returnFirstDependency);
         define("idb", [componentsPath + "/idb"], returnFirstDependency);
         define("sanitizefilename", [componentsPath + "/sanitizefilename"], returnFirstDependency);
-        define("itemrepository", [bowerPath + "/apiclient/sync/itemrepository"], returnFirstDependency);
-        define("useractionrepository", [bowerPath + "/apiclient/sync/useractionrepository"], returnFirstDependency);
         define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
         define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);
@@ -824,22 +850,13 @@ var AppInfo = {};
         define("appSettings", [componentsPath + "/appSettings"], returnFirstDependency);
         define("userSettings", [componentsPath + "/usersettings/usersettings"], returnFirstDependency);
         define("userSettingsBuilder", [componentsPath + "/usersettings/usersettingsbuilder", "layoutManager", "browser"], returnFirstDependency);
-        define("material-icons", ["css!css/material-icons/style"], returnFirstDependency);
-        define("systemFontsCss", ["css!css/fonts"], returnFirstDependency);
-        define("systemFontsSizedCss", ["css!css/fonts.sized"], returnFirstDependency);
-        define("scrollStyles", ["css!" + componentsPath + "/scrollstyles"], returnFirstDependency);
         define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
         define("navdrawer", [componentsPath + "/navdrawer/navdrawer"], returnFirstDependency);
         define("htmlMediaHelper", [componentsPath + "/htmlMediaHelper"], returnFirstDependency);
         define("viewContainer", [componentsPath + "/viewContainer"], returnFirstDependency);
-        define("queryString", [bowerPath + "/query-string/index"], function () {
-            return queryString;
-        });
-        define("fnchecked", ["legacy/fnchecked"], returnFirstDependency);
         define("dialogHelper", [componentsPath + "/dialogHelper/dialogHelper"], returnFirstDependency);
         define("inputmanager", ["inputManager"], returnFirstDependency);
         define("serverNotifications", [componentsPath + "/serverNotifications/serverNotifications"], returnFirstDependency);
-        define("appFooter-shared", ["appFooter"], createSharedAppFooter);
         define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
         define("keyboardnavigation", [componentsPath + "/keyboardnavigation"], returnFirstDependency);
         define("connectionManager", [], function () {
@@ -1114,8 +1131,6 @@ var AppInfo = {};
             return appRouter;
         });
     })();
-
-    require(["css!css/site"]);
 
     return require(["browser"], onWebComponentsReady);
 }();
