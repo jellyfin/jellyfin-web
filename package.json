@@ -25,7 +25,7 @@
     "libjass": "^0.11.0"
   },
   "scripts": {
-    "start": "webpack-dev-server  --config webpack.dev.js --open",
+    "serve": "webpack-dev-server --config webpack.dev.js --open",
     "build": "webpack --config webpack.prod.js",
     "lint": "eslint \"src\""
   }
