@@ -4,8 +4,15 @@
     right: 0;
     align-items: center;
     justify-content: center;
+    min-width:104px;
+    min-height:24px;
     z-index: 1;
     color: #ffffff;
     display: flex;
-    overflow: hidden;
+}
+
+.emby-scrollbuttons-button > i {
+    min-width: 24px;
+    min-height: 24px;
+    display: block;
 }
