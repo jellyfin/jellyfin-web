@@ -173,9 +173,7 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
                 items: menuItems,
                 positionTo: button,
                 callback: function(id) {
-                    "other" == id ? Dashboard.alert({
-                        message: globalize.translate("ForAdditionalLiveTvOptions")
-                    }) : Dashboard.navigate(getProviderConfigurationUrl(id))
+                    Dashboard.navigate(getProviderConfigurationUrl(id))
                 }
             })
         })
