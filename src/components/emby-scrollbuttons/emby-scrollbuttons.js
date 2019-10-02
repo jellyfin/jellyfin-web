@@ -133,15 +133,12 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
 
     EmbyScrollButtonsPrototype.attachedCallback = function () {
         var scroller = this.nextSibling;
-        var parent = this.parentNode;
         this.scroller = scroller;
 
+        var parent = this.parentNode;
         parent.classList.add('emby-scroller-container');
 
         this.innerHTML = getScrollButtonHtml('left') + getScrollButtonHtml('right');
-
-        var scrollHandler = onScroll.bind(this);
-        this.scrollHandler = scrollHandler;
 
         var buttons = this.querySelectorAll('.emby-scrollbuttons-button');
         buttons[0].addEventListener('click', onScrollButtonClick);
@@ -149,6 +146,8 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
         this.scrollButtonsLeft = buttons[0];
         this.scrollButtonsRight = buttons[1];
 
+        var scrollHandler = onScroll.bind(this);
+        this.scrollHandler = scrollHandler;
         scroller.addScrollEventListener(scrollHandler, {
             capture: false,
             passive: true
