@@ -213,19 +213,19 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
         }, {
             name: globalize.translate("FolderTypeMovies"),
             value: "movies",
-            message: getLink("MovieLibraryHelp", "https://jellyfin.readthedocs.io/en/latest/media/movies/")
+            message: getLink("MovieLibraryHelp", "https://jellyfin.org/docs/general/server/media/movies.html")
         }, {
             name: globalize.translate("FolderTypeMusic"),
             value: "music",
-            message: getLink("MusicLibraryHelp", "https://jellyfin.readthedocs.io/en/latest/media/music/")
+            message: getLink("MusicLibraryHelp", "https://jellyfin.org/docs/general/server/media/music.html")
         }, {
             name: globalize.translate("FolderTypeTvShows"),
             value: "tvshows",
-            message: getLink("TvLibraryHelp", "https://jellyfin.readthedocs.io/en/latest/media/shows/")
+            message: getLink("TvLibraryHelp", "https://jellyfin.org/docs/general/server/media/shows.html")
         }, {
             name: globalize.translate("FolderTypeBooks"),
             value: "books",
-            message: getLink("BookLibraryHelp", "https://jellyfin.readthedocs.io/en/latest/media/books/")
+            message: getLink("BookLibraryHelp", "https://jellyfin.org/docs/general/server/media/books.html")
         }, {
             name: globalize.translate("OptionHomeVideos"),
             value: "homevideos"
