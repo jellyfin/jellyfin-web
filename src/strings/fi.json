@@ -164,7 +164,6 @@
     "ButtonOff": "Pois päältä",
     "ButtonOk": "Ok",
     "ButtonOpen": "Avoin",
-    "ButtonOther": "Muu",
     "BurnSubtitlesHelp": "Määrittää jos palvelimen pitäisi upottaa tekstitykset suoraan videotiedostoon muuntamisvaiheessa tekstitysformaatista riippuen. Upottamisen välttäminen parantaa palvelimen suorituskykyä. Valitse Automaattinen upottaaksesi sekä kuvapohjaiset- (esim. VOBSUB, PGS, SUB/IDX, jne.) että ASS/SSA tekstitysmuodot",
     "ButtonParentalControl": "Lapsilukko",
     "ButtonPause": "Tauko",
