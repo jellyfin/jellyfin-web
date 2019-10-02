@@ -855,7 +855,6 @@ var AppInfo = {};
         define("htmlMediaHelper", [componentsPath + "/htmlMediaHelper"], returnFirstDependency);
         define("viewContainer", [componentsPath + "/viewContainer"], returnFirstDependency);
         define("dialogHelper", [componentsPath + "/dialogHelper/dialogHelper"], returnFirstDependency);
-        define("inputmanager", ["inputManager"], returnFirstDependency);
         define("serverNotifications", [componentsPath + "/serverNotifications/serverNotifications"], returnFirstDependency);
         define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
         define("keyboardnavigation", [componentsPath + "/keyboardnavigation"], returnFirstDependency);
