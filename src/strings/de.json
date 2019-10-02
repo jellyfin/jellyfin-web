@@ -1436,5 +1436,8 @@
     "HeaderHome": "Home",
     "LabelAudioCodec": "Audiocodec:",
     "LabelAudioChannels": "Audiokanäle:",
-    "HeaderTypeImageFetchers": "{0} Bildquellen"
+    "HeaderTypeImageFetchers": "{0} Bildquellen",
+    "LabelBitrate": "Bitrate:",
+    "LabelAudioBitrate": "Tonbitrate:",
+    "ButtonAddImage": "Bild hinzufügen"
 }
