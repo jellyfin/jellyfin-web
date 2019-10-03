@@ -29,6 +29,10 @@ jobs:
       displayName: 'Install dependencies'
 
     - script: |
+        test -d dist
+      displayName: 'Check dist directory'
+
+    - script: |
         yarn pack --filename jellyfin-web.tgz
       displayName: 'Build package'
 
