@@ -165,6 +165,8 @@
     "CustomDlnaProfilesHelp": "Create a custom profile to target a new device or override a system profile.",
     "DateAdded": "Date added",
     "DatePlayed": "Date played",
+    "DateAddedColon": "Date added:",
+    "DatePlayedColon": "Date played:",
     "DeathDateValue": "Died: {0}",
     "Default": "Default",
     "DefaultErrorMessage": "There was an error processing the request. Please try again later.",
