@@ -294,5 +294,18 @@
     "ButtonSubmit": "Oddaj",
     "ButtonAddImage": "Dodaj sliko",
     "ValueSpecialEpisodeName": "Poseben - {0}",
-    "Shows": "Serije"
+    "Shows": "Serije",
+    "DoNotRecord": "Ne snemaj",
+    "DisplayModeHelp": "Izberite tip zaslona na katerem uporabljate Jellyfin.",
+    "DisplayMissingEpisodesWithinSeasonsHelp": "To mora biti omogočeno tudi za TV knjižnice v nastavitvah strežnika.",
+    "DisplayMissingEpisodesWithinSeasons": "Prikaži manjkajoče epizode znotraj sezon",
+    "DisplayInOtherHomeScreenSections": "Prikaži na razdelkih domačega zaslona kot so najnovejše in nadaljuj gledanje",
+    "DisplayInMyMedia": "Prikaži na začetnem zaslonu",
+    "Display": "Prikaz",
+    "Disconnect": "Prekini povezavo",
+    "Disc": "Disk",
+    "DirectStreaming": "Neposredno pretakanje",
+    "DirectStreamHelp2": "Neposredno pretakanje porabi zelo malo procesorske moči in ne povzroči izgube kvalitete videa.",
+    "DirectStreamHelp1": "Predstavnost je kompatibilna z napravo glede resolucije in vrste (H.264, AC3, itd.), vendar je v nepodprtem kontejnerju (mkv, avi, wmv, itd.). Predstavnost bo sproti prepakirana pred prenosom na napravo.",
+    "DefaultSubtitlesHelp": "Podnapisi so naloženi na podlagi privzetih in prisiljenih oznak v metapodatkih. Če je na voljo več podnapisov, so upoštevane jezikovne nastavitve."
 }
