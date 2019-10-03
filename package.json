@@ -27,6 +27,7 @@
   "scripts": {
     "serve": "webpack-dev-server --config webpack.dev.js --open",
     "build": "webpack --config webpack.prod.js",
-    "lint": "eslint \"src\""
+    "lint": "eslint \"src\"",
+    "prepare": "webpack --config webpack.prod.js"
   }
 }
