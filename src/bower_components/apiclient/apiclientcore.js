@@ -1195,7 +1195,7 @@ define(["events", "appStorage"], function(events, appStorage) {
         return this.ajax({
             type: "POST",
             url: url,
-            data: {
+            data: user,
                     Name: user.Name,
                     Password: user.Password
                 },
