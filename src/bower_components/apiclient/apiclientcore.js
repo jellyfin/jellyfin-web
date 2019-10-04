@@ -1198,7 +1198,6 @@ define(["events", "appStorage"], function(events, appStorage) {
             data: {
                     Name: user.Name,
                     Password: user.Password
-
                 },
             dataType: "json"
         })
