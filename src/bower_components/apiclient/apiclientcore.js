@@ -1196,9 +1196,6 @@ define(["events", "appStorage"], function(events, appStorage) {
             type: "POST",
             url: url,
             data: user,
-                    Name: user.Name,
-                    Password: user.Password
-                },
             dataType: "json"
         })
     }, ApiClient.prototype.updateUser = function(user) {
