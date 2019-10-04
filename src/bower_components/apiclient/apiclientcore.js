@@ -1195,8 +1195,8 @@ define(["events", "appStorage"], function(events, appStorage) {
         return this.ajax({
             type: "POST",
             url: url,
-            data: JSON.stringify(user),
-            contentType: "application/json"
+            data: user,
+            dataType: "json"
         })
     }, ApiClient.prototype.updateUser = function(user) {
         if (!user) throw new Error("null user");
