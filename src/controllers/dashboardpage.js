@@ -567,17 +567,17 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             var playbackProgressElem = row.querySelector(".playbackProgress");
             if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
                 var percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
-                playbackProgressElem.innerHTML = indicators.getProgressHtml(percent, { containerClass: "playbackProgress" });
+                playbackProgressElem.outerHTML = indicators.getProgressHtml(percent, { containerClass: "playbackProgress" });
             } else {
-                playbackProgressElem.innerHTML = indicators.getProgressHtml(0, { containerClass: "playbackProgress hide" });
+                playbackProgressElem.outerHTML = indicators.getProgressHtml(0, { containerClass: "playbackProgress hide" });
             }
 
             var transcodingProgress = row.querySelector(".transcodingProgress");
             if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
                 var percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
-                transcodingProgress.innerHTML = indicators.getProgressHtml(percent, { containerClass: "transcodingProgress" });
+                transcodingProgress.outerHTML = indicators.getProgressHtml(percent, { containerClass: "transcodingProgress" });
             } else {
-                transcodingProgress.innerHTML = indicators.getProgressHtml(0, { containerClass: "transcodingProgress hide" });
+                transcodingProgress.outerHTML = indicators.getProgressHtml(0, { containerClass: "transcodingProgress hide" });
             }
 
             var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem) || "";
