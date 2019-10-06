@@ -85,3 +85,9 @@ div[data-role=page] {
     padding-bottom: .4em !important;
     padding-top: .4em !important
 }
+
+.mediaInfoContent {
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%
+}
