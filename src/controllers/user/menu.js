@@ -14,7 +14,7 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
             page.querySelector(".lnkMyProfile").setAttribute("href", "myprofile.html?userId=" + userId);
             page.querySelector(".lnkDisplayPreferences").setAttribute("href", "mypreferencesdisplay.html?userId=" + userId);
             page.querySelector(".lnkHomePreferences").setAttribute("href", "mypreferenceshome.html?userId=" + userId);
-            page.querySelector(".lnkLanguagePreferences").setAttribute("href", "mypreferenceslanguages.html?userId=" + userId);
+            page.querySelector(".lnkPlaybackPreferences").setAttribute("href", "mypreferencesplayback.html?userId=" + userId);
             page.querySelector(".lnkSubtitlePreferences").setAttribute("href", "mypreferencessubtitles.html?userId=" + userId);
 
             if (appHost.supports("multiserver")) {
