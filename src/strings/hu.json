@@ -1319,7 +1319,7 @@
     "H264CrfHelp": "A Constant Rate Factor (CRF) az alapértelmezett minőségi beállítás az x264 enkóderhez. Az értékek 0 és 51 között állíthatók, ahol az alacsonyabb érték jobb minőséget eredményez (nagyobb fájl méret mellett). Az ajánlott érték 18 és 28 között van. Az x264 alapértelmezett beállítása 23, ez lehet kiindulási alap.",
     "HeaderAddScheduledTaskTrigger": "Vezérlő Hozzáadása",
     "HeaderApiKeysHelp": "A külső alkalmazásoknak egy API kulcsra van szükésge, hogy kommunikáljanak a Jellyfin szerverrel. A kulcsokat egy Jellyfin fiókkal történő belépéssel lehet megkapni, vagy kézileg felvenni egy alkalmazáshoz tartozó kulcsot.",
-    "HeaderBranding": "Személyes Márka",
+    "HeaderBranding": "Személyes védjegy",
     "HeaderContinueListening": "Folyamatban lévő zenék",
     "HeaderDeleteTaskTrigger": "Feladatvezérlő törlése",
     "HeaderFavoriteMovies": "Kedvenc Filmek",
