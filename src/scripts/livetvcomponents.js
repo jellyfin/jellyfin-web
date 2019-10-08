@@ -6,7 +6,7 @@ define(["layoutManager", "datetime", "cardBuilder", "apphost"], function (layout
     }
 
     function getBackdropShape() {
-        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
+        return enableScrollX() ? "overflowBackdrop" : "backdrop";
     }
 
     function getTimersHtml(timers, options) {
