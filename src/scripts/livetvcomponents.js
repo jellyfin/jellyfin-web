@@ -33,7 +33,9 @@ define(["layoutManager", "datetime", "cardBuilder", "apphost"], function (layout
                         month: "short",
                         day: "numeric"
                     });
-                } catch (err) {}
+                } catch (err) {
+                    console.log("Error parsing premiereDate:" + item.StartDate);
+                }
             }
 
             if (dateText != currentGroupName) {

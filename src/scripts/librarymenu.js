@@ -210,7 +210,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
         // add buttons to navigation drawer
 
-        navDrawerScrollContainer.innerHTML = html; // bind logout button click to method
+        navDrawerScrollContainer.innerHTML = html;
+        // bind logout button click to method
 
         var btnLogout = navDrawerScrollContainer.querySelector(".btnLogout");
 
