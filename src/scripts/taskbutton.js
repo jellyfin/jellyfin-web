@@ -73,15 +73,33 @@ define(["events", "userSettings", "serverNotifications", "connectionManager", "e
             }
         }
 
+        var pollInterval;
+        var button = options.button;
+        var serverId = ApiClient.serverId();
+
         function onPollIntervalFired() {
             if (!connectionManager.getApiClient(serverId).isMessageChannelOpen()) {
                 pollTasks();
             }
         }
 
-        var pollInterval;
-        var button = options.button;
-        var serverId = ApiClient.serverId();
+        function startInterval() {
+            var apiClient = connectionManager.getApiClient(serverId);
+
+            if (pollInterval) {
+                clearInterval(pollInterval);
+            }
+            apiClient.sendMessage("ScheduledTasksInfoStart", "1000,1000");
+            pollInterval = setInterval(onPollIntervalFired, 5000);
+        }
+
+        function stopInterval() {
+            connectionManager.getApiClient(serverId).sendMessage("ScheduledTasksInfoStop");
+
+            if (pollInterval) {
+                clearInterval(pollInterval);
+            }
+        }
 
         if (options.panel) {
             options.panel.classList.add("hide");
@@ -90,29 +108,11 @@ define(["events", "userSettings", "serverNotifications", "connectionManager", "e
         if (options.mode == 'off') {
             button.removeEventListener("click", onButtonClick);
             events.off(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate);
-
-            (function () {
-                connectionManager.getApiClient(serverId).sendMessage("ScheduledTasksInfoStop");
-
-                if (pollInterval) {
-                    clearInterval(pollInterval);
-                }
-            })();
+            stopInterval();
         } else {
             button.addEventListener("click", onButtonClick);
             pollTasks();
-
-            (function () {
-                var apiClient = connectionManager.getApiClient(serverId);
-
-                if (pollInterval) {
-                    clearInterval(pollInterval);
-                }
-
-                apiClient.sendMessage("ScheduledTasksInfoStart", "1000,1000");
-                pollInterval = setInterval(onPollIntervalFired, 1e4);
-            })();
-
+            startInterval();
             events.on(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate);
         }
     };
