@@ -890,13 +890,13 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += '<span class="headerSelectedPlayer"></span>';
         html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="md-icon">&#xE307;</i></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="md-icon">&#xE8B6;</i></button>';
-        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="md-icon">&#xE7FD;</i></button>';
 
         if (!layoutManager.mobile) {
             html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerMetadataEditorButton hide"><i class="md-icon">mode_edit</i></button>';
             html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerSettingsButton hide"><i class="md-icon">dashboard</i></button>';
         }
 
+        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="md-icon">&#xE7FD;</i></button>';
         html += "</div>";
         html += "</div>";
         html += '<div class="headerTabs sectionTabs hide">';
