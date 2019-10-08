@@ -580,18 +580,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             Array.from(videoElement.textTracks)
             .filter(function(trackElement) {
-                if (customTrackIndex === -1 ) {
-                    // get showing .vtt textTacks
-                    return trackElement.mode === 'showing';
-                } else {
-                    // get current .ass textTrack
-                    return ("textTrack" + customTrackIndex) === trackElement.id;
-                }
+                // get showing .vtt textTacks
+                return (trackElement.mode === 'showing') ||
+                // get current .ass textTrack
+                (("textTrack" + customTrackIndex) === trackElement.id);
             })
             .forEach(function(trackElement) {
 
-                var track = mediaStreamTextTracks.filter(function(stream) {
-                    return ("textTrack" + stream.Index) === trackElement.id;
+                var track = customTrackIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
+                    return t.Index === customTrackIndex;
                 })[0];
 
                 if(track) {
