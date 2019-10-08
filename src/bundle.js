@@ -27,7 +27,7 @@ _define("howler", function() { return howler; });
 
 // shaka
 var shaka = require("shaka-player");
-_define("shaka", function() { return shaka });
+_define("shaka", function() { return shaka; });
 
 // swiper
 var swiper = require("swiper");
