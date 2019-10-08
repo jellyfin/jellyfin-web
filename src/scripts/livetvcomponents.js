@@ -6,11 +6,7 @@ define(["layoutManager", "datetime", "cardBuilder", "apphost"], function (layout
     }
 
     function getBackdropShape() {
-        if (enableScrollX()) {
-            return "overflowBackdrop";
-        }
-
-        return "backdrop";
+        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
     }
 
     function getTimersHtml(timers, options) {
@@ -29,7 +25,7 @@ define(["layoutManager", "datetime", "cardBuilder", "apphost"], function (layout
             var item = items[i];
             var dateText = "";
 
-            if (false !== options.indexByDate && item.StartDate) {
+            if (options.indexByDate !== false && item.StartDate) {
                 try {
                     var premiereDate = datetime.parseISO8601Date(item.StartDate, true);
                     dateText = datetime.toLocaleDateString(premiereDate, {
@@ -69,7 +65,12 @@ define(["layoutManager", "datetime", "cardBuilder", "apphost"], function (layout
             var supportsImageAnalysis = appHost.supports("imageanalysis");
             var cardLayout = appHost.preferVisualCards || supportsImageAnalysis;
 
-            if (cardLayout = true, group.name && (html += '<div class="verticalSection">', html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + "</h2>"), enableScrollX()) {
+            cardLayout = true;
+            if (group.name) {
+                html += '<div class="verticalSection">';
+                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + "</h2>";
+            }
+            if (enableScrollX()) {
                 var scrollXClass = "scrollX hiddenScrollX";
 
                 if (layoutManager.tv) {

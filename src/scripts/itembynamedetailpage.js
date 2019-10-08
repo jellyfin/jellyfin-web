@@ -312,27 +312,21 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
     }
 
     function addCurrentItemToQuery(query, item) {
-        if ("Person" == item.Type) {
+        if (item.Type == "Person") {
             query.PersonIds = item.Id;
-        } else {
-            if ("Genre" == item.Type) {
-                query.GenreIds = item.Id;
+        } else if (item.Type == "Genre") {
+            query.Genres = item.Name;
+        } else if (item.Type == "MusicGenre") {
+            query.Genres = item.Name;
+        } else if (item.Type == "GameGenre") {
+            query.Genres = item.Name;
+        } else if (item.Type == "Studio") {
+            query.StudioIds = item.Id;
+        } else if (item.Type == "MusicArtist") {
+            if (connectionManager.getApiClient(item.ServerId).isMinServerVersion("3.4.1.18")) {
+                query.AlbumArtistIds = item.Id;
             } else {
-                if ("MusicGenre" == item.Type) {
-                    query.GenreIds = item.Id;
-                } else {
-                    if ("Studio" == item.Type) {
-                        query.StudioIds = item.Id;
-                    } else {
-                        if ("MusicArtist" == item.Type) {
-                            if (connectionManager.getApiClient(item.ServerId).isMinServerVersion("3.4.1.18")) {
-                                query.AlbumArtistIds = item.Id;
-                            } else {
-                                query.ArtistIds = item.Id;
-                            }
-                        }
-                    }
-                }
+                query.ArtistIds = item.Id;
             }
         }
     }

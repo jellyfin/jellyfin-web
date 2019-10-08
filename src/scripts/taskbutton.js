@@ -13,32 +13,48 @@ define(["events", "userSettings", "serverNotifications", "connectionManager", "e
                 return t.Key == options.taskKey;
             })[0];
 
-            if (options.panel && (task ? options.panel.classList.remove("hide") : options.panel.classList.add("hide")), task) {
-                if ("Idle" == task.State) {
-                    button.removeAttribute("disabled");
+            if (options.panel) {
+                if (task) {
+                    options.panel.classList.remove('hide');
                 } else {
-                    button.setAttribute("disabled", "disabled");
+                    options.panel.classList.add('hide');
                 }
+            }
 
-                button.setAttribute("data-taskid", task.Id);
-                var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
+            if (!task) {
+                return;
+            }
 
-                if (options.progressElem && (options.progressElem.value = progress, "Running" == task.State ? options.progressElem.classList.remove("hide") : options.progressElem.classList.add("hide")), options.lastResultElem) {
-                    var lastResult = task.LastExecutionResult ? task.LastExecutionResult.Status : "";
+            if (task.State == 'Idle') {
+                button.removeAttribute("disabled");
+            } else {
+                button.setAttribute("disabled", "disabled");
+            }
 
-                    if ("Failed" == lastResult) {
-                        options.lastResultElem.html('<span style="color:#FF0000;">(' + Globalize.translate("LabelFailed") + ")</span>");
-                    } else {
-                        if ("Cancelled" == lastResult) {
-                            options.lastResultElem.html('<span style="color:#0026FF;">(' + Globalize.translate("LabelCancelled") + ")</span>");
-                        } else {
-                            if ("Aborted" == lastResult) {
-                                options.lastResultElem.html('<span style="color:#FF0000;">' + Globalize.translate("LabelAbortedByServerShutdown") + "</span>");
-                            } else {
-                                options.lastResultElem.html(lastResult);
-                            }
-                        }
-                    }
+            button.setAttribute("data-taskid", task.Id);
+            var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
+
+            if (options.progressElem) {
+                options.progressElem.value = progress;
+
+                if (task.State == 'Running') {
+                    options.progressElem.classList.remove('hide');
+                } else {
+                    options.progressElem.classList.add('hide');
+                }
+            }
+
+            if (options.lastResultElem) {
+                var lastResult = task.LastExecutionResult ? task.LastExecutionResult.Status : '';
+
+                if (lastResult == "Failed") {
+                    options.lastResultElem.html('<span style="color:#FF0000;">(' + Globalize.translate('LabelFailed') + ')</span>');
+                } else if (lastResult == "Cancelled") {
+                    options.lastResultElem.html('<span style="color:#0026FF;">(' + Globalize.translate('LabelCancelled') + ')</span>');
+                } else if (lastResult == "Aborted") {
+                    options.lastResultElem.html('<span style="color:#FF0000;">' + Globalize.translate('LabelAbortedByServerShutdown') + '</span>');
+                } else {
+                    options.lastResultElem.html(lastResult);
                 }
             }
         }
@@ -71,7 +87,7 @@ define(["events", "userSettings", "serverNotifications", "connectionManager", "e
             options.panel.classList.add("hide");
         }
 
-        if ("off" == options.mode) {
+        if (options.mode == 'off') {
             button.removeEventListener("click", onButtonClick);
             events.off(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate);
 

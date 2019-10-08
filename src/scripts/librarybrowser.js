@@ -156,11 +156,10 @@ define(["userSettings"], function (userSettings) {
                 html += '<h2 style="margin:0 0 .5em;">';
                 html += Globalize.translate("HeaderSortBy");
                 html += "</h2>";
-                var i;
-                var length;
+                var i, length;
                 var isChecked;
-
-                for (html += "<div>", i = 0, length = options.items.length; i < length; i++) {
+                html += '<div>';
+                for (i = 0, length = options.items.length; i < length; i++) {
                     var option = options.items[i];
                     var radioValue = option.id.replace(",", "_");
                     isChecked = (options.query.SortBy || "").replace(",", "_") == radioValue ? " checked" : "";

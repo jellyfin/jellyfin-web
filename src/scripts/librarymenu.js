@@ -206,8 +206,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="md-icon navMenuOptionIcon">exit_to_app</i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
             html += "</div>";
-        } // add buttons to navigation drawer
+        }
 
+        // add buttons to navigation drawer
 
         navDrawerScrollContainer.innerHTML = html; // bind logout button click to method
 
@@ -501,8 +502,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             showBySelector(".libraryMenuDownloads", false);
             showBySelector(".lnkSyncToOtherDevices", false);
             return void showBySelector(".userMenuOptions", false);
-        } // FIXME: Potentially the same as above
+        }
 
+        // FIXME: Potentially the same as above
 
         if (user.Policy.EnableContentDownloading) {
             showBySelector(".lnkSyncToOtherDevices", true);

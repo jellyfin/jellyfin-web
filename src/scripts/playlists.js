@@ -85,36 +85,46 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                 });
 
                 if (result.TotalRecordCount) {
-                    html = "List" == viewStyle ? listView.getListViewHtml({
-                        items: result.Items,
-                        sortBy: query.SortBy
-                    }) : "PosterCard" == viewStyle ? cardBuilder.getCardsHtml({
-                        items: result.Items,
-                        shape: "square",
-                        coverImage: true,
-                        showTitle: true,
-                        cardLayout: true
-                    }) : "Thumb" == viewStyle ? cardBuilder.getCardsHtml({
-                        items: result.Items,
-                        shape: "backdrop",
-                        showTitle: true,
-                        centerText: true,
-                        preferThumb: true,
-                        overlayPlayButton: true
-                    }) : "ThumbCard" == viewStyle ? cardBuilder.getCardsHtml({
-                        items: result.Items,
-                        shape: "backdrop",
-                        showTitle: true,
-                        preferThumb: true,
-                        cardLayout: true
-                    }) : cardBuilder.getCardsHtml({
-                        items: result.Items,
-                        shape: "square",
-                        showTitle: true,
-                        coverImage: true,
-                        centerText: true,
-                        overlayPlayButton: true
-                    });
+                    if (viewStyle == "List") {
+                        html = listView.getListViewHtml({
+                            items: result.Items,
+                            sortBy: query.SortBy
+                        });
+                    } else if (viewStyle == "PosterCard") {
+                        html = cardBuilder.getCardsHtml({
+                            items: result.Items,
+                            shape: "square",
+                            coverImage: true,
+                            showTitle: true,
+                            cardLayout: true
+                        });
+                    } else if (viewStyle == "Thumb") {
+                        html = cardBuilder.getCardsHtml({
+                            items: result.Items,
+                            shape: "backdrop",
+                            showTitle: true,
+                            centerText: true,
+                            preferThumb: true,
+                            overlayPlayButton: true
+                        });
+                    } else if (viewStyle == "ThumbCard") {
+                        html = cardBuilder.getCardsHtml({
+                            items: result.Items,
+                            shape: "backdrop",
+                            showTitle: true,
+                            preferThumb: true,
+                            cardLayout: true
+                        });
+                    } else {
+                        html = cardBuilder.getCardsHtml({
+                            items: result.Items,
+                            shape: "square",
+                            showTitle: true,
+                            coverImage: true,
+                            centerText: true,
+                            overlayPlayButton: true
+                        });
+                    }
                     view.querySelector(".noItemsMessage").classList.add("hide");
                 } else {
                     view.querySelector(".noItemsMessage").classList.remove("hide");
