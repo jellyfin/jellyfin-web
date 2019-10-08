@@ -5,8 +5,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         require(["alert"], function (alert) {
             var title;
             var text = [];
-
             var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+
             if (displayPlayMethod === "DirectStream") {
                 title = globalize.translate("DirectStreaming");
                 text.push(globalize.translate("DirectStreamHelp1"));
@@ -15,6 +15,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             } else if (displayPlayMethod === "Transcode") {
                 title = globalize.translate("Transcoding");
                 text.push(globalize.translate("MediaIsBeingConverted"));
+
                 if (session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
                     text.push("<br/>");
                     text.push(globalize.translate("LabelReasonForTranscoding"));
@@ -23,6 +24,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     });
                 }
             }
+
             alert({
                 text: text.join("<br/>"),
                 title: title
@@ -73,6 +75,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     case "sendmessage":
                         showSendMessageForm(btn, session);
                         break;
+
                     case "transcodinginfo":
                         showPlaybackInfo(btn, session);
                 }
@@ -124,6 +127,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 list.push(session);
             }
         }
+
         return list;
     }
 
@@ -139,7 +143,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (!result.Items.length) {
                 view.querySelector(".activeRecordingsSection").classList.add("hide");
-                return void (itemsContainer.innerHTML = "");
+                return void(itemsContainer.innerHTML = "");
             }
 
             view.querySelector(".activeRecordingsSection").classList.remove("hide");
@@ -165,13 +169,13 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
     function reloadSystemInfo(view, apiClient) {
         apiClient.getSystemInfo().then(function (systemInfo) {
             view.querySelector("#serverName").innerHTML = globalize.translate("DashboardServerName", systemInfo.ServerName);
-
             var localizedVersion = globalize.translate("DashboardVersionNumber", systemInfo.Version);
+
             if (systemInfo.SystemUpdateLevel !== "Release") {
                 localizedVersion += " " + systemInfo.SystemUpdateLevel;
             }
-            view.querySelector("#versionNumber").innerHTML = localizedVersion;
 
+            view.querySelector("#versionNumber").innerHTML = localizedVersion;
             view.querySelector("#operatingSystem").innerHTML = globalize.translate("DashboardOperatingSystem", systemInfo.OperatingSystem);
             view.querySelector("#architecture").innerHTML = globalize.translate("DashboardArchitecture", systemInfo.SystemArchitecture);
 
@@ -226,14 +230,13 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             } else {
                 var nowPlayingItem = session.NowPlayingItem;
                 var className = "scalableCard card activeSession backdropCard backdropCard-scalable";
-
                 html += '<div class="' + className + '" id="' + rowId + '">';
                 html += '<div class="cardBox visualCardBox">';
                 html += '<div class="cardScalable visualCardBox-cardScalable">';
                 html += '<div class="cardPadder cardPadder-backdrop"></div>';
                 html += '<div class="cardContent">';
-
                 var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem);
+
                 if (imgUrl) {
                     html += '<div class="sessionNowPlayingContent sessionNowPlayingContent-withbackground"';
                     html += ' data-src="' + imgUrl + '" style="display:inline-block;background-image:url(\'' + imgUrl + "');\"></div>";
@@ -243,8 +246,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
                 html += '<div class="sessionNowPlayingInnerContent">';
                 html += '<div class="sessionAppInfo">';
-
                 var clientImage = DashboardPage.getClientImage(session);
+
                 if (clientImage) {
                     html += clientImage;
                 }
@@ -261,28 +264,36 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                     html += '<div class="sessionTranscodingFramerate"></div>';
                 }
 
-                html += '<div class="sessionNowPlayingDetails">'
+                html += '<div class="sessionNowPlayingDetails">';
                 var nowPlayingName = DashboardPage.getNowPlayingName(session);
                 html += '<div class="sessionNowPlayingInfo" data-imgsrc="' + nowPlayingName.image + '">';
                 html += nowPlayingName.html;
                 html += "</div>";
                 html += '<div class="sessionNowPlayingTime">' + DashboardPage.getSessionNowPlayingTime(session) + "</div>";
-                html += '</div>'
+                html += '</div>';
 
                 if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
                     var percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
-                    html += indicators.getProgressHtml(percent, { containerClass: "playbackProgress" });
+                    html += indicators.getProgressHtml(percent, {
+                        containerClass: "playbackProgress"
+                    });
                 } else {
                     // need to leave the element in just in case the device starts playback
-                    html += indicators.getProgressHtml(0, { containerClass: "playbackProgress hide" });
+                    html += indicators.getProgressHtml(0, {
+                        containerClass: "playbackProgress hide"
+                    });
                 }
 
                 if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
                     var percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
-                    html += indicators.getProgressHtml(percent, { containerClass: "transcodingProgress" });
+                    html += indicators.getProgressHtml(percent, {
+                        containerClass: "transcodingProgress"
+                    });
                 } else {
                     // same issue as playbackProgress element above
-                    html += indicators.getProgressHtml(0, { containerClass: "transcodingProgress hide" });
+                    html += indicators.getProgressHtml(0, {
+                        containerClass: "transcodingProgress hide"
+                    });
                 }
 
                 html += "</div>";
@@ -317,6 +328,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
         parentElement.insertAdjacentHTML("beforeend", html);
         var deadSessionElem = parentElement.querySelector(".deadSession");
+
         if (deadSessionElem) {
             deadSessionElem.parentNode.removeChild(deadSessionElem);
         }
@@ -340,9 +352,9 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
         for (var i = 0, length = tasks.length; i < length; i++) {
             var task = tasks[i];
-
             html += "<p>";
             html += task.Name + "<br/>";
+
             if (task.State === "Running") {
                 var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
                 html += '<progress max="100" value="' + progress + '" title="' + progress + '%">';
@@ -373,19 +385,24 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             var html = "";
             var showTranscodingInfo = false;
             var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
+
             if (displayPlayMethod === "DirectStream") {
                 html += globalize.translate("DirectStreaming");
             } else if (displayPlayMethod === "Transcode") {
                 html += globalize.translate("Transcoding");
+
                 if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
                     html += " (" + session.TranscodingInfo.Framerate + " fps)";
                 }
+
                 showTranscodingInfo = true;
             } else if (displayPlayMethod === "DirectPlay") {
                 html += globalize.translate("DirectPlaying");
             }
+
             if (showTranscodingInfo) {
                 var line = [];
+
                 if (session.TranscodingInfo) {
                     if (session.TranscodingInfo.Bitrate) {
                         if (session.TranscodingInfo.Bitrate > 1e6) {
@@ -493,6 +510,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         },
         getUsersHtml: function (session) {
             var html = [];
+
             if (session.UserId) {
                 html.push(session.UserName);
             }
@@ -516,8 +534,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         },
         updateSession: function (row, session) {
             row.classList.remove("deadSession");
-
             var nowPlayingItem = session.NowPlayingItem;
+
             if (nowPlayingItem) {
                 row.classList.add("playingSession");
             } else {
@@ -537,6 +555,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             }
 
             var btnSessionPlayPause = row.querySelector(".btnSessionPlayPause");
+
             if (session.ServerId && nowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId()) {
                 btnSessionPlayPause.classList.remove("hide");
                 row.querySelector(".btnSessionStop").classList.remove("hide");
@@ -565,19 +584,29 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             }
 
             var playbackProgressElem = row.querySelector(".playbackProgress");
+
             if (nowPlayingItem && nowPlayingItem.RunTimeTicks) {
                 var percent = 100 * (session.PlayState.PositionTicks || 0) / nowPlayingItem.RunTimeTicks;
-                playbackProgressElem.outerHTML = indicators.getProgressHtml(percent, { containerClass: "playbackProgress" });
+                playbackProgressElem.outerHTML = indicators.getProgressHtml(percent, {
+                    containerClass: "playbackProgress"
+                });
             } else {
-                playbackProgressElem.outerHTML = indicators.getProgressHtml(0, { containerClass: "playbackProgress hide" });
+                playbackProgressElem.outerHTML = indicators.getProgressHtml(0, {
+                    containerClass: "playbackProgress hide"
+                });
             }
 
             var transcodingProgress = row.querySelector(".transcodingProgress");
+
             if (session.TranscodingInfo && session.TranscodingInfo.CompletionPercentage) {
                 var percent = session.TranscodingInfo.CompletionPercentage.toFixed(1);
-                transcodingProgress.outerHTML = indicators.getProgressHtml(percent, { containerClass: "transcodingProgress" });
+                transcodingProgress.outerHTML = indicators.getProgressHtml(percent, {
+                    containerClass: "transcodingProgress"
+                });
             } else {
-                transcodingProgress.outerHTML = indicators.getProgressHtml(0, { containerClass: "transcodingProgress hide" });
+                transcodingProgress.outerHTML = indicators.getProgressHtml(0, {
+                    containerClass: "transcodingProgress hide"
+                });
             }
 
             var imgUrl = DashboardPage.getNowPlayingImageUrl(nowPlayingItem) || "";
@@ -815,10 +844,13 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         view.addEventListener("viewdestroy", function () {
             var page = this;
             var userActivityLog = page.userActivityLog;
+
             if (userActivityLog) {
                 userActivityLog.destroy();
             }
+
             var serverActivityLog = page.serverActivityLog;
+
             if (serverActivityLog) {
                 serverActivityLog.destroy();
             }
