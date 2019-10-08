@@ -52,6 +52,13 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 headerSearchButton.classList.remove("hide");
             }
 
+            if (headerMetadataEditorButton) {
+                if (user.localUser.Policy.IsAdministrator) {
+                    headerMetadataEditorButton.classList.remove("hide");
+                } else {
+                    headerMetadataEditorButton.classList.add("hide");
+                }
+            }
             if (headerSettingsButton) {
                 if (user.localUser.Policy.IsAdministrator) {
                     headerSettingsButton.classList.remove("hide");
@@ -69,6 +76,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 headerSearchButton.classList.add("hide");
             }
 
+            if (headerMetadataEditorButton) {
+                headerMetadataEditorButton.classList.add("hide");
+            }
             if (headerSettingsButton) {
                 headerSettingsButton.classList.add("hide");
             }
@@ -93,6 +103,10 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
     function onHeaderUserButtonClick(e) {
         Dashboard.navigate("mypreferencesmenu.html");
+    }
+
+    function onMetadataEditorClick(e) {
+        Dashboard.navigate("edititemmetadata.html");
     }
 
     function onSettingsClick(e) {
@@ -124,6 +138,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         initHeadRoom(skinHeader);
         headerCastButton.addEventListener("click", onCastButtonClicked);
 
+        if (headerMetadataEditorButton) {
+            headerMetadataEditorButton.addEventListener("click", onMetadataEditorClick);
+        }
         if (headerSettingsButton) {
             headerSettingsButton.addEventListener("click", onSettingsClick);
         }
@@ -747,6 +764,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     var headerBackButton;
     var headerUserButton;
     var currentUser;
+    var headerMetadataEditorButton;
     var headerSettingsButton;
     var headerCastButton;
     var headerSearchButton;
@@ -875,6 +893,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="md-icon">&#xE7FD;</i></button>';
 
         if (!layoutManager.mobile) {
+            html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerMetadataEditorButton hide"><i class="md-icon">mode_edit</i></button>';
             html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerSettingsButton hide"><i class="md-icon">dashboard</i></button>';
         }
 
@@ -886,6 +905,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         skinHeader.innerHTML = html;
         headerHomeButton = skinHeader.querySelector(".headerHomeButton");
         headerUserButton = skinHeader.querySelector(".headerUserButton");
+        headerMetadataEditorButton = skinHeader.querySelector(".headerMetadataEditorButton");
         headerSettingsButton = skinHeader.querySelector(".headerSettingsButton");
         headerCastButton = skinHeader.querySelector(".headerCastButton");
         headerSearchButton = skinHeader.querySelector(".headerSearchButton");
