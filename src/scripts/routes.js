@@ -230,40 +230,40 @@ define([
         transition: "fade"
     });
     defineRoute({
-        path: "/mypreferencesdisplay.html",
-        autoFocus: false,
-        transition: "fade",
-        controller: "mypreferencesdisplay"
-    });
-    defineRoute({
-        path: "/mypreferenceshome.html",
-        autoFocus: false,
-        transition: "fade",
-        controller: "mypreferenceshome"
-    });
-    defineRoute({
-        path: "/mypreferencessubtitles.html",
-        autoFocus: false,
-        transition: "fade",
-        controller: "mypreferencessubtitles"
-    });
-    defineRoute({
-        path: "/mypreferenceslanguages.html",
-        autoFocus: false,
-        transition: "fade",
-        controller: "mypreferenceslanguages"
-    });
-    defineRoute({
         path: "/mypreferencesmenu.html",
         autoFocus: false,
         transition: "fade",
-        controller: "mypreferencescommon"
+        controller: "user/menu"
     });
     defineRoute({
         path: "/myprofile.html",
         autoFocus: false,
         transition: "fade",
-        controller: "myprofile"
+        controller: "user/profile"
+    });
+    defineRoute({
+        path: "/mypreferencesdisplay.html",
+        autoFocus: false,
+        transition: "fade",
+        controller: "user/display"
+    });
+    defineRoute({
+        path: "/mypreferenceshome.html",
+        autoFocus: false,
+        transition: "fade",
+        controller: "user/home"
+    });
+    defineRoute({
+        path: "/mypreferencesplayback.html",
+        autoFocus: false,
+        transition: "fade",
+        controller: "user/playback"
+    });
+    defineRoute({
+        path: "/mypreferencessubtitles.html",
+        autoFocus: false,
+        transition: "fade",
+        controller: "user/subtitles"
     });
     defineRoute({
         path: "/notificationsetting.html",

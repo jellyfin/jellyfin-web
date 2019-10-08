@@ -16,10 +16,12 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "flv.js": "^1.5.0",
     "jstree": "^3.3.7",
     "jquery": "^3.4.1",
     "hls.js": "^0.12.4",
     "howler": "^2.1.2",
+    "shaka-player": "^2.5.5",
     "swiper": "^4.5.0",
     "sortablejs": "^1.9.0",
     "libjass": "^0.11.0"

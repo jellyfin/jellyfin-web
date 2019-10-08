@@ -44,11 +44,11 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
 
 
             if (isPluginpage) {
-                require(["legacy/dashboard"]);
+                require(["legacyDashboard"]);
             }
 
             if (newViewInfo.hasjQuerySelect) {
-                require(["legacy/selectmenu"]);
+                require(["legacySelectMenu"]);
             }
 
             if (newViewInfo.hasjQueryChecked) {
