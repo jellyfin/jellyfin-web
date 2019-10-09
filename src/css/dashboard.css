@@ -252,6 +252,16 @@ div[data-role=controlgroup] a.ui-btn-active {
     width: 100% !important
 }
 
+.activitylogUserPhoto {
+    height:1.71em;
+    width:1.71em;
+    border-radius:100%;
+    margin-right:.5em;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
 @media all and (min-width:40em) {
     .activeSession {
         width: 100% !important
