@@ -23,6 +23,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         if (enableScrollX()) {
             return 12;
         }
+
         return 9;
     }
 
@@ -150,15 +151,22 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
     }
 
     function getTabs() {
-        return [
-            { name: globalize.translate("Programs") },
-            { name: globalize.translate("TabGuide") },
-            { name: globalize.translate("TabChannels") },
-            { name: globalize.translate("TabRecordings") },
-            { name: globalize.translate("HeaderSchedule") },
-            { name: globalize.translate("TabSeries") },
-            { name: globalize.translate("ButtonSearch"), cssClass: "searchTabButton" }
-        ];
+        return [{
+            name: globalize.translate("Programs")
+        }, {
+            name: globalize.translate("TabGuide")
+        }, {
+            name: globalize.translate("TabChannels")
+        }, {
+            name: globalize.translate("TabRecordings")
+        }, {
+            name: globalize.translate("HeaderSchedule")
+        }, {
+            name: globalize.translate("TabSeries")
+        }, {
+            name: globalize.translate("ButtonSearch"),
+            cssClass: "searchTabButton"
+        }];
     }
 
     function setScrollClasses(elem, scrollX) {
@@ -183,6 +191,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         if (userSettings.get("landing-" + folderId) === "guide") {
             return 1;
         }
+
         return 0;
     }
 
@@ -214,27 +223,32 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         }
 
         function getTabController(page, index, callback) {
-            var depends = [];
+            var depends = []; // TODO int is a little hard to read
 
-            // TODO int is a little hard to read
             switch (index) {
                 case 0:
                     break;
+
                 case 1:
                     depends.push("controllers/livetv/livetvguide");
                     break;
+
                 case 2:
                     depends.push("controllers/livetv/livetvchannels");
                     break;
+
                 case 3:
                     depends.push("controllers/livetv/livetvrecordings");
                     break;
+
                 case 4:
                     depends.push("controllers/livetv/livetvschedule");
                     break;
+
                 case 5:
                     depends.push("controllers/livetv/livetvseriestimers");
                     break;
+
                 case 6:
                     depends.push("scripts/searchtab");
             }
@@ -251,6 +265,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
 
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
                     if (0 === index) {
                         controller = self;
                     } else if (6 === index) {
@@ -260,6 +275,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                     } else {
                         controller = new controllerFactory(view, params, tabContent);
                     }
+
                     tabControllers[index] = controller;
 
                     if (controller.initTab) {
@@ -347,15 +363,18 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         });
         view.addEventListener("viewshow", function (evt) {
             isViewRestored = evt.detail.isRestored;
+
             if (!isViewRestored) {
                 mainTabsManager.selectedTabIndex(initialTabIndex);
             }
+
             inputManager.on(window, onInputCommand);
         });
-        view.addEventListener("viewbeforehide", function (e__u) {
+        view.addEventListener("viewbeforehide", function (e) {
             if (currentTabController && currentTabController.onHide) {
                 currentTabController.onHide();
             }
+
             inputManager.off(window, onInputCommand);
         });
         view.addEventListener("viewdestroy", function (evt) {
