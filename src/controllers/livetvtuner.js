@@ -186,10 +186,8 @@ define(["globalize", "loading", "libraryMenu", "dom", "emby-input", "emby-button
 
         if (suppportsSubmit) {
             view.querySelector(".button-submit").classList.remove("hide");
-            view.querySelector(".otherOptionsMessage").classList.add("hide");
         } else {
             view.querySelector(".button-submit").classList.add("hide");
-            view.querySelector(".otherOptionsMessage").classList.remove("hide");
         }
     }
 
