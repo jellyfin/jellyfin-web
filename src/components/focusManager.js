@@ -17,10 +17,16 @@ define(['dom', 'browser'], function (dom, browser) {
 
         var element;
         if (findAutoFocusElement !== false) {
-            element = view.querySelector('*[autofocus]');
-            if (element) {
-                focus(element);
-                return element;
+            var elems = view.querySelectorAll('*[autofocus]');
+
+            for (var i = 0, length = elems.length; i < length; i++) {
+
+                element = elems[i];
+
+                if (isCurrentlyFocusableInternal(element)) {
+                    focus(element);
+                    return element;
+                }
             }
         }
 
