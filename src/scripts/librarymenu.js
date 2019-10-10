@@ -208,11 +208,10 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             html += "</div>";
         }
 
-        // add buttons to navigation drawer
 
+        // add buttons to navigation drawer
         navDrawerScrollContainer.innerHTML = html;
         // bind logout button click to method
-
         var btnLogout = navDrawerScrollContainer.querySelector(".btnLogout");
 
         if (btnLogout) {
@@ -506,7 +505,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }
 
         // FIXME: Potentially the same as above
-
         if (user.Policy.EnableContentDownloading) {
             showBySelector(".lnkSyncToOtherDevices", true);
         } else {
