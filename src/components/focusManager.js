@@ -1,4 +1,4 @@
-define(['dom'], function (dom) {
+define(['dom', 'browser'], function (dom, browser) {
     'use strict';
 
     var scopes = [];
@@ -38,12 +38,19 @@ define(['dom'], function (dom) {
 
     function focus(element) {
 
+        var currentScroll = { x: window.scrollX, y: window.scrollY };
+
         try {
             element.focus({
                 preventScroll: false
             });
         } catch (err) {
             console.log('Error in focusManager.autoFocus: ' + err);
+        }
+
+        // Restore scrolling - Tizen not support 'preventScroll' option for 'focus'
+        if (browser.tizen) {
+            window.scroll(currentScroll.x, currentScroll.y);
         }
     }
 
