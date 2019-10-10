@@ -581,9 +581,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             Array.from(videoElement.textTracks)
             .filter(function(trackElement) {
                 // get showing .vtt textTacks
-                return (trackElement.mode === 'showing') ||
+                var isVttTrackShowing = trackElement.mode === 'showing';
                 // get current .ass textTrack
-                (("textTrack" + customTrackIndex) === trackElement.id);
+                var isAssTrackShowing = ("textTrack" + customTrackIndex) === trackElement.id;
+                
+                return isVttTrackShowing || isAssTrackShowing;
             })
             .forEach(function(trackElement) {
 
