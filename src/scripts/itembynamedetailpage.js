@@ -323,11 +323,7 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
         } else if (item.Type == "Studio") {
             query.StudioIds = item.Id;
         } else if (item.Type == "MusicArtist") {
-            if (connectionManager.getApiClient(item.ServerId).isMinServerVersion("3.4.1.18")) {
-                query.AlbumArtistIds = item.Id;
-            } else {
-                query.ArtistIds = item.Id;
-            }
+            query.AlbumArtistIds = item.Id;
         }
     }
 
