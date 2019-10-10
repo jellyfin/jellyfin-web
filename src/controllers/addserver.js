@@ -1,4 +1,4 @@
-define(["appSettings", "loading", "browser", "emby-button"], function(appSettings, loading, browser) {
+define(["appSettings", "loading", "browser", "focusManager", "emby-button"], function(appSettings, loading, browser, focusManager) {
     "use strict";
 
     function handleConnectionResult(page, result) {
@@ -53,6 +53,8 @@ define(["appSettings", "loading", "browser", "emby-button"], function(appSetting
         view.addEventListener("viewshow", function() {
             loading.hide();
         });
+
+        focusManager.autoFocus(view);
 
         function onServerSubmit(e) {
             submitServer(view);

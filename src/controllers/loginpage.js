@@ -1,4 +1,4 @@
-define(["apphost", "appSettings", "dom", "connectionManager", "loading", "cardStyle", "emby-checkbox"], function(appHost, appSettings, dom, connectionManager, loading) {
+define(["apphost", "appSettings", "dom", "connectionManager", "loading", "focusManager", "cardStyle", "emby-checkbox"], function(appHost, appSettings, dom, connectionManager, loading, focusManager) {
     "use strict";
 
     function authenticateUserByName(page, apiClient, username, password) {
@@ -34,6 +34,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "cardSt
         context.querySelector(".btnManual").classList.add("hide");
         focusPassword ? context.querySelector("#txtManualPassword").focus() : context.querySelector("#txtManualName").focus();
         showCancel ? context.querySelector(".btnCancel").classList.remove("hide") : context.querySelector(".btnCancel").classList.add("hide");
+        focusManager.autoFocus(context);
     }
 
     var metroColors = ["#6FBD45", "#4BB3DD", "#4164A5", "#E12026", "#800080", "#E1B222", "#008040", "#0094FF", "#FF00C7", "#FF870F", "#7F0037"];
@@ -98,6 +99,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "cardSt
             view.querySelector(".visualLoginForm").classList.remove("hide");
             view.querySelector(".manualLoginForm").classList.add("hide");
             view.querySelector(".btnManual").classList.remove("hide");
+            focusManager.autoFocus(view);
         }
 
         view.querySelector("#divUsers").addEventListener("click", function(e) {
