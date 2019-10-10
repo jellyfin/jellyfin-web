@@ -18,13 +18,13 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
 
     function onFocus(e) {
 
-        if (layoutManager.tv) {
+        /*if (layoutManager.tv) {
 
             if (this.focusTimeout) {
                 clearTimeout(this.focusTimeout);
             }
             this.focusTimeout = setTimeout(getFocusCallback(this, e), 700);
-        }
+        }*/
     }
 
     function getTabPanel(tabs, index) {
