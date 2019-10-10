@@ -46,6 +46,14 @@ define(["appSettings", "loading", "browser", "emby-button"], function(appSetting
         view.querySelector(".addServerForm").addEventListener("submit", onServerSubmit);
         view.querySelector(".btnCancel").addEventListener("click", goBack);
 
+        // HACK: To catch the end of loading
+        view.addEventListener("viewbeforeshow", function() {
+            loading.show();
+        });
+        view.addEventListener("viewshow", function() {
+            loading.hide();
+        });
+
         function onServerSubmit(e) {
             submitServer(view);
             e.preventDefault();

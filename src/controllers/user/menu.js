@@ -1,4 +1,4 @@
-define(["apphost", "connectionManager", "listViewStyle", "emby-button"], function(appHost, connectionManager) {
+define(["apphost", "connectionManager", "loading", "listViewStyle", "emby-button"], function(appHost, connectionManager, loading) {
     "use strict";
 
     return function(view, params) {
@@ -7,6 +7,8 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
         });
 
         view.addEventListener("viewshow", function() {
+            loading.show(); // HACK: To catch the end of loading
+
             // this page can also be used by admins to change user preferences from the user edit page
             var userId = params.userId || Dashboard.getCurrentUserId();
             var page = this;
@@ -35,6 +37,8 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
                     page.querySelector(".adminSection").classList.add("hide");
                 }
             });
+
+            loading.hide(); // HACK: To catch the end of loading
         })
     }
 });
