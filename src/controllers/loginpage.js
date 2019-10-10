@@ -60,8 +60,8 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "cardSt
         var html = "";
         for (var i = 0; i < users.length; i++) {
             var user = users[i];
-            html += '<button type="button" class="card squareCard scalableCard squareCard-scalable"><div class="cardBox cardBox-bottompadded">';
-            html += '<div class="cardScalable">';
+            html += '<button type="button" class="card overflowSquareCard scalableCard overflowSquareCard-scalable"><div class="cardBox cardBox-focustransform">';
+            html += '<div class="cardScalable card-focuscontent">';
             html += '<div class="cardPadder cardPadder-square"></div>';
             html += '<div class="cardContent" data-haspw="' + user.HasPassword + '" data-username="' + user.Name + '" data-userid="' + user.Id + '">';
             var imgUrl;
