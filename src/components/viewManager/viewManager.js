@@ -52,7 +52,7 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
             }
         }
         else if (!layoutManager.mobile) {
-            if (view.activeElement && document.body.contains(view.activeElement) && focusManager.isCurrentlyFocusable(view.activeElement)) {
+            if (view.activeElement && document.body.contains(view.activeElement) && focusManager.isCurrentlyFocusable(view.activeElement, false)) {
                 focusManager.focus(view.activeElement);
             } else {
                 focusManager.autoFocus(view);

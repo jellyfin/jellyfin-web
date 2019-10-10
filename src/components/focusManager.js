@@ -111,7 +111,7 @@ define(['dom'], function (dom) {
     }
 
     // Determines if a focusable element can be focused at a given point in time 
-    function isCurrentlyFocusable(elem) {
+    function isCurrentlyFocusable(elem, viewport) {
 
         if (elem.disabled) {
             return false;
@@ -129,6 +129,18 @@ define(['dom'], function (dom) {
             if (type === 'file') {
                 return false;
             }
+        }
+
+        var elementRect = getOffset(elem);
+
+        // not currently visible
+        if (!elementRect.width && !elementRect.height) {
+            return false;
+        }
+
+        // out of view
+        if (viewport !== false && (elementRect.right < 0 || elementRect.bottom < 0 || elementRect.right >= window.innerWidth || elementRect.top >= window.innerHeight)) {
+             return false;
         }
 
         return isCurrentlyFocusableInternal(elem);
@@ -312,6 +324,11 @@ define(['dom'], function (dom) {
 
             // not currently visible
             if (!elementRect.width && !elementRect.height) {
+                continue;
+            }
+
+            // out of view
+            if (elementRect.right < 0 || elementRect.bottom < 0 || elementRect.right >= window.innerWidth || elementRect.top >= window.innerHeight) {
                 continue;
             }
 
