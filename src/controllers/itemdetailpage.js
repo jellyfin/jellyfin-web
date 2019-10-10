@@ -825,7 +825,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                     imageSize: "large",
                     enableSideMediaInfo: !1,
                     highlight: !1,
-                    action: "none",
+                    action: layoutManager.tv ? "resume" : "none",
                     infoButton: !0,
                     imagePlayButton: !0,
                     includeParentInfoInTitle: !1
