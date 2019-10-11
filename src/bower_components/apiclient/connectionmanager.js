@@ -834,7 +834,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         self.getAvailableServers = function () {
             console.log("Begin getAvailableServers");
             var credentials = credentialProvider.credentials();
-            return Promise.all([getConnectServers(credentials), findServers()]).then(function (responses) {
+            return Promise.all([findServers()]).then(function (responses) {
                 var connectServers = responses[0];
                 var foundServers = responses[1];
                 var servers = credentials.Servers.slice(0);
