@@ -135,9 +135,10 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         });
     }
 
-    function getConnectUrl(handler) {
+    //To be remove
+    /*function getConnectUrl(handler) {
         return "https://connect.emby.media/service/" + handler;
-    }
+    }*/
 
     function replaceAll(originalString, strReplace, strWith) {
         var reg = new RegExp(strReplace, "ig");
@@ -262,7 +263,8 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             return Promise.resolve();
         }
 
-        function getConnectUser(userId, accessToken) {
+        //To be remove
+        /*function getConnectUser(userId, accessToken) {
             if (!userId) {
                 throw new Error("null userId");
             }
@@ -280,7 +282,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                     "X-Connect-UserToken": accessToken
                 }
             });
-        }
+        }*/
 
         function addAuthenticationInfoFromConnect(server, serverUrl, credentials) {
             if (!server.ExchangeToken) {
@@ -365,7 +367,8 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             });
         }
 
-        function getConnectServers(credentials) {
+        //To be remove
+        /*function getConnectServers(credentials) {
             console.log("Begin getConnectServers");
 
             if (credentials.ConnectAccessToken && credentials.ConnectUserId) {
@@ -397,7 +400,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             }
 
             return Promise.resolve([]);
-        }
+        }*/
 
         function filterServers(servers, connectServers) {
             return servers.filter(function (server) {
@@ -920,7 +923,8 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             return self.connectToServer(server, options).catch(onFail);
         };
 
-        self.loginToConnect = function (username, password) {
+        //To be remove
+        /*self.loginToConnect = function (username, password) {
             if (username && password) {
                 return ajax({
                     type: "POST",
@@ -1044,7 +1048,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                     "X-Application": appName + "/" + appVersion
                 }
             });
-        };
+        };*/
 
         self.deleteServer = function (serverId) {
             if (!serverId) {
@@ -1137,7 +1141,8 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             });
         };
 
-        self.resetRegistrationInfo = function (apiClient) {
+        //To be remove
+        /*self.resetRegistrationInfo = function (apiClient) {
             var cacheKey = getCacheKey("themes", apiClient, {
                 viewOnly: true
             });
@@ -1155,7 +1160,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                 deviceId: self.deviceId()
             }));
             return Promise.resolve();
-        };
+        };*/
 
         self.createPin = function () {
             var request = {
