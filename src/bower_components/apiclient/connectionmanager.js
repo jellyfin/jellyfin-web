@@ -1048,7 +1048,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                     "X-Application": appName + "/" + appVersion
                 }
             });
-        };*/
+        };
 
         self.deleteServer = function (serverId) {
             if (!serverId) {
@@ -1141,8 +1141,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             });
         };
 
-        //To be remove
-        /*self.resetRegistrationInfo = function (apiClient) {
+        self.resetRegistrationInfo = function (apiClient) {
             var cacheKey = getCacheKey("themes", apiClient, {
                 viewOnly: true
             });
