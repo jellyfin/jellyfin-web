@@ -91,21 +91,30 @@ define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'registerElement'
         }
 
         // Prevent editing until clicked or Return pressed
-        // FIXME: Then "real" readonly property is useless
         if (layoutManager.tv) {
-            this.readOnly = true;
+            var unlock = function(input) {
+                if (!input.readOnlyInitial) {
+                    input.readOnly = false;
+                }
+                return !input.readOnly;
+            }
 
             this.addEventListener('click', function() {
-                this.readOnly = false;
+                unlock(this);
+            });
+
+            this.addEventListener('focus', function() {
+                this.readOnlyInitial = this.readOnly || false;
+                this.readOnly = true;
             });
 
             this.addEventListener('blur', function() {
-                this.readOnly = true;
+                this.readOnly = this.readOnlyInitial || false;
             });
 
             this.addEventListener('keydown', function(e) {
                 if (this.readOnly && e.keyCode === 13) {
-                    this.readOnly = false;
+                    unlock(this);
                     e.preventDefault();
                     e.stopPropagation();
                 }
@@ -121,7 +130,7 @@ define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'registerElement'
             });
 
             this.addEventListener('keypress', function(e) {
-                this.readOnly = false;
+                unlock(this);
             });
         }
     };
