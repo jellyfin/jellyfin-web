@@ -131,7 +131,8 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
 
             return Promise.reject(response);
         }, function (err) {
-            throw console.log("ConnectionManager request failed to url: " + request.url), err;
+            console.log("ConnectionManager request failed to url: " + request.url);
+            throw err;
         });
     }
 
@@ -153,7 +154,9 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         }
 
         address = replaceAll(address, "Http:", "http:");
-        return address = replaceAll(address, "Https:", "https:");
+        address = replaceAll(address, "Https:", "https:");
+
+        return address;
     }
 
     function stringEqualsIgnoreCase(str1, str2) {
@@ -188,10 +191,12 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
     };
 
     var ConnectionManager = function (credentialProvider, appName, appVersion, deviceName, deviceId, capabilities, devicePixelRatio) {
-        function onConnectUserSignIn(user) {
+
+        //ToDo: Remove
+        /*function onConnectUserSignIn(user) {
             connectUser = user;
             events.trigger(self, "connectusersignedin", [user]);
-        }
+        }*/
 
         function onAuthenticated(apiClient, result, options, saveCredentials) {
             var credentials = credentialProvider.credentials();
@@ -250,7 +255,8 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                 return Promise.resolve();
             }
 
-            if (credentials.ConnectUserId && credentials.ConnectAccessToken) {
+            // ToDO: Remove
+            /*if (credentials.ConnectUserId && credentials.ConnectAccessToken) {
                 connectUser = null;
                 return getConnectUser(credentials.ConnectUserId, credentials.ConnectAccessToken).then(function (user) {
                     onConnectUserSignIn(user);
@@ -258,7 +264,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                 }, function () {
                     return Promise.resolve();
                 });
-            }
+            }*/
 
             return Promise.resolve();
         }
