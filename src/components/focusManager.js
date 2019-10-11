@@ -54,7 +54,7 @@ define(['dom', 'browser'], function (dom, browser) {
             console.log('Error in focusManager.autoFocus: ' + err);
         }
 
-        // Restore scrolling - Tizen not support 'preventScroll' option for 'focus'
+        // Restore scrolling - Tizen does not support 'preventScroll' option for 'focus'
         if (browser.tizen) {
             window.scroll(currentScroll.x, currentScroll.y);
         }
