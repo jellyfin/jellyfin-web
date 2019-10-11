@@ -838,8 +838,8 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                 var connectServers = responses[0];
                 var foundServers = responses[1];
                 var servers = credentials.Servers.slice(0);
-                mergeServers(credentialProvider, servers, foundServers);
-                mergeServers(credentialProvider, servers, connectServers);
+                //mergeServers(credentialProvider, servers, foundServers);
+                //mergeServers(credentialProvider, servers, connectServers);
                 servers = filterServers(servers, connectServers);
                 servers.sort(function (a, b) {
                     return (b.DateLastAccessed || 0) - (a.DateLastAccessed || 0);
