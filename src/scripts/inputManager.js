@@ -1,4 +1,4 @@
-define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playbackManager, focusManager, appRouter, dom) {
+define(['playbackManager', 'focusManager', 'scrollManager', 'appRouter', 'dom'], function (playbackManager, focusManager, scrollManager, appRouter, dom) {
     'use strict';
 
     var lastInputTime = new Date().getTime();
@@ -78,18 +78,24 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
             }
         }
 
+        scrollManager.prepare();
+
         switch (name) {
             case 'up':
                 focusManager.moveUp(sourceElement);
+                scrollManager.scrollUp();
                 break;
             case 'down':
                 focusManager.moveDown(sourceElement);
+                scrollManager.scrollDown();
                 break;
             case 'left':
                 focusManager.moveLeft(sourceElement);
+                scrollManager.scrollLeft();
                 break;
             case 'right':
                 focusManager.moveRight(sourceElement);
+                scrollManager.scrollRight();
                 break;
             case 'home':
                 appRouter.goHome();

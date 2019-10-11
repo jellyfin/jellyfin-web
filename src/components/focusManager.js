@@ -1,4 +1,4 @@
-define(['dom', 'browser'], function (dom, browser) {
+define(['dom', 'browser', 'scrollManager'], function (dom, browser, scrollManager) {
     'use strict';
 
     var scopes = [];
@@ -48,7 +48,7 @@ define(['dom', 'browser'], function (dom, browser) {
 
         try {
             element.focus({
-                preventScroll: false
+                preventScroll: true
             });
         } catch (err) {
             console.log('Error in focusManager.autoFocus: ' + err);
@@ -58,6 +58,8 @@ define(['dom', 'browser'], function (dom, browser) {
         if (browser.tizen) {
             window.scroll(currentScroll.x, currentScroll.y);
         }
+
+        scrollManager.scrollIntoView(element);
     }
 
     var focusableTagNames = ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'];
