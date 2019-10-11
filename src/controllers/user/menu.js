@@ -38,7 +38,7 @@ define(["apphost", "connectionManager", "loading", "listViewStyle", "emby-button
                 }
             });
 
-            loading.hide(); // HACK: To catch the end of loading
+            setTimeout(function() { loading.hide(); }, 0); // HACK: To catch the end of loading
         })
     }
 });

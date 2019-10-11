@@ -51,7 +51,7 @@ define(["appSettings", "loading", "browser", "focusManager", "emby-button"], fun
             loading.show();
         });
         view.addEventListener("viewshow", function() {
-            loading.hide();
+            setTimeout(function() { loading.hide(); }, 0);
         });
 
         focusManager.autoFocus(view);
