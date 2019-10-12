@@ -13,14 +13,16 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (options.play !== false) {
                 commands.push({
                     name: globalize.translate('Play'),
-                    id: 'resume'
+                    id: 'resume',
+                    icon: "play_arrow"
                 });
             }
 
             if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'TvChannel') {
                 commands.push({
                     name: globalize.translate('PlayAllFromHere'),
-                    id: 'playallfromhere'
+                    id: 'playallfromhere',
+                    icon: "play_arrow"
                 });
             }
         }
@@ -29,14 +31,16 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (options.queue !== false) {
                 commands.push({
                     name: globalize.translate('AddToPlayQueue'),
-                    id: 'queue'
+                    id: 'queue',
+                    icon: "playlist_add"
                 });
             }
 
             if (options.queue !== false) {
                 commands.push({
                     name: globalize.translate('PlayNext'),
-                    id: 'queuenext'
+                    id: 'queuenext',
+                    icon: "playlist_add"
                 });
             }
 
@@ -55,7 +59,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 if (options.shuffle !== false) {
                     commands.push({
                         name: globalize.translate('Shuffle'),
-                        id: 'shuffle'
+                        id: 'shuffle',
+                        icon: "shuffle"
                     });
                 }
             }
@@ -65,7 +70,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (options.instantMix !== false && !itemHelper.isLocalItem(item)) {
                 commands.push({
                     name: globalize.translate('InstantMix'),
-                    id: 'instantmix'
+                    id: 'instantmix',
+                    icon: "shuffle"
                 });
             }
         }
@@ -80,14 +86,16 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (itemHelper.supportsAddingToCollection(item)) {
                 commands.push({
                     name: globalize.translate('AddToCollection'),
-                    id: 'addtocollection'
+                    id: 'addtocollection',
+                    icon: "playlist_add"
                 });
             }
 
             if (itemHelper.supportsAddingToPlaylist(item)) {
                 commands.push({
                     name: globalize.translate('AddToPlaylist'),
-                    id: 'addtoplaylist'
+                    id: 'addtoplaylist',
+                    icon: "playlist_add"
                 });
             }
         }
@@ -95,21 +103,24 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
             commands.push({
                 name: globalize.translate('CancelRecording'),
-                id: 'canceltimer'
+                id: 'canceltimer',
+                icon: "cancel"
             });
         }
 
         if ((item.Type === 'Recording' && item.Status === 'InProgress') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
             commands.push({
                 name: globalize.translate('CancelRecording'),
-                id: 'canceltimer'
+                id: 'canceltimer',
+                icon: "cancel"
             });
         }
 
         if ((item.Type === 'SeriesTimer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
             commands.push({
                 name: globalize.translate('CancelSeries'),
-                id: 'cancelseriestimer'
+                id: 'cancelseriestimer',
+                icon: "cancel"
             });
         }
 
@@ -118,12 +129,14 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
                 commands.push({
                     name: globalize.translate('Delete'),
-                    id: 'delete'
+                    id: 'delete',
+                    icon: "delete"
                 });
             } else {
                 commands.push({
                     name: globalize.translate('DeleteMedia'),
-                    id: 'delete'
+                    id: 'delete',
+                    icon: "delete"
                 });
             }
         }
@@ -132,12 +145,20 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         if ((item.CanDownload && appHost.supports('filedownload')) && item.Type !== "Book") {
             commands.push({
                 name: globalize.translate('Download'),
-                id: 'download'
+                id: 'download',
+                icon: "file_download"
             });
 
             commands.push({
                 name: globalize.translate('CopyStreamURL'),
-                id: 'copy-stream'
+                id: 'copy-stream',
+                icon: "content_copy"
+            });
+        }
+
+        if (commands.length) {
+            commands.push({
+                divider: true
             });
         }
 
@@ -147,7 +168,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
                 commands.push({
                     name: text,
-                    id: 'edit'
+                    id: 'edit',
+                    icon: "edit"
                 });
             }
         }
@@ -156,7 +178,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (options.editImages !== false) {
                 commands.push({
                     name: globalize.translate('EditImages'),
-                    id: 'editimages'
+                    id: 'editimages',
+                    icon: "edit"
                 });
             }
         }
@@ -166,7 +189,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 if (options.editSubtitles !== false) {
                     commands.push({
                         name: globalize.translate('EditSubtitles'),
-                        id: 'editsubtitles'
+                        id: 'editsubtitles',
+                        icon: "closed_caption"
                     });
                 }
             }
@@ -176,7 +200,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (itemHelper.canIdentify(user, item)) {
                 commands.push({
                     name: globalize.translate('Identify'),
-                    id: 'identify'
+                    id: 'identify',
+                    icon: "edit"
                 });
             }
         }
@@ -185,7 +210,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (options.moremediainfo !== false) {
                 commands.push({
                     name: globalize.translate('MoreMediaInfo'),
-                    id: 'moremediainfo'
+                    id: 'moremediainfo',
+                    icon: "info"
                 });
             }
         }
@@ -194,7 +220,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (item.TimerId) {
                 commands.push({
                     name: Globalize.translate('ManageRecording'),
-                    id: 'record'
+                    id: 'record',
+                    icon: "fiber_manual_record"
                 });
             }
         }
@@ -203,7 +230,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (!item.TimerId) {
                 commands.push({
                     name: Globalize.translate('Record'),
-                    id: 'record'
+                    id: 'record',
+                    icon: "fiber_manual_record"
                 });
             }
         }
@@ -211,21 +239,24 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         if (itemHelper.canRefreshMetadata(item, user)) {
             commands.push({
                 name: globalize.translate('RefreshMetadata'),
-                id: 'refresh'
+                id: 'refresh',
+                icon: "refresh"
             });
         }
 
         if (item.PlaylistItemId && options.playlistId) {
             commands.push({
                 name: globalize.translate('RemoveFromPlaylist'),
-                id: 'removefromplaylist'
+                id: 'removefromplaylist',
+                icon: "remove"
             });
         }
 
         if (options.collectionId) {
             commands.push({
                 name: globalize.translate('RemoveFromCollection'),
-                id: 'removefromcollection'
+                id: 'removefromcollection',
+                icon: "remove"
             });
         }
 
@@ -234,7 +265,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 if (itemHelper.canShare(item, user)) {
                     commands.push({
                         name: globalize.translate('Share'),
-                        id: 'share'
+                        id: 'share',
+                        icon: "share"
                     });
                 }
             }
@@ -244,7 +276,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             if (itemHelper.canSync(user, item)) {
                 commands.push({
                     name: globalize.translate('Sync'),
-                    id: 'sync'
+                    id: 'sync',
+                    icon: "sync"
                 });
             }
         }
@@ -252,14 +285,16 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
             commands.push({
                 name: Globalize.translate('ViewAlbum'),
-                id: 'album'
+                id: 'album',
+                icon: "album"
             });
         }
 
         if (options.openArtist !== false && item.ArtistItems && item.ArtistItems.length) {
             commands.push({
                 name: Globalize.translate('ViewArtist'),
-                id: 'artist'
+                id: 'artist',
+                icon: "person"
             });
         }
 
