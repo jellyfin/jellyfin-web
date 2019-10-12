@@ -149,7 +149,7 @@
 
     .paper-icon-button-light > div {
         max-height: 100%;
-        transform: scale(2);
+        transform: scale(1.8);
         position: relative;
         z-index: 1;
         vertical-align: middle;
