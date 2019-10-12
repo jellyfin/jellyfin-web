@@ -1071,6 +1071,12 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         }
 
         function onWindowKeyDown(e) {
+            // FIXME: Conflicts with keyboard navigation
+            // FIXME: Then the keyboard is completely ignored. Need another solution.
+            if (layoutManager.tv) {
+                return void showOsd();
+            }
+
             if (!currentVisibleMenu && 32 === e.keyCode) {
                 playbackManager.playPause(currentPlayer);
                 return void showOsd();
