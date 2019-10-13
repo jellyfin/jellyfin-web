@@ -11,14 +11,13 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
             var imageUrl = "img/logindefault.png";
             if (user.PrimaryImageTag) {
                 imageUrl = ApiClient.getUserImageUrl(user.Id, {
-                    height: 200,
                     tag: user.PrimaryImageTag,
                     type: "Primary"
                 });
             }
 
             var userImage = page.querySelector("#image");
-            userImage.src = imageUrl;
+            userImage.style.backgroundImage = "url(" + imageUrl + ")";
 
             Dashboard.getCurrentUser().then(function (loggedInUser) {
                 if (user.PrimaryImageTag) {
@@ -71,7 +70,7 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
         reader.onerror = onFileReaderError;
         reader.onabort = onFileReaderAbort;
         reader.onload = function (evt) {
-            userImage.src = evt.target.result;
+            userImage.style.backgroundImage = "url(" + evt.target.result + ")";
             var userId = getParameterByName("userId");
             ApiClient.uploadUserImage(userId, "Primary", file).then(function () {
                 loading.hide();
