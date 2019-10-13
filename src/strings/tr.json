@@ -286,5 +286,7 @@
     "AllComplexFormats": "Bütün karmaşık formatlar (ASS, SSA, VOBSUB, PGS, SUB/IDX, vb.)",
     "AllEpisodes": "Bütün bölümler",
     "AllLanguages": "Bütün diller",
-    "AllowMediaConversion": "Medya dönüşümüne izin ver"
+    "AllowMediaConversion": "Medya dönüşümüne izin ver",
+    "AddItemToCollectionHelp": "Ögeleri koleksiyona eklemek için arama yapın ve üzerine sağ tıklayın veya sekme menüsünden koleksiyona ekleyin.",
+    "AllowHWTranscodingHelp": "Ayarlayıcının anında akışları dönüştürmesine izin verin. Bu, sunucunun gerektirdiği kodlamanın azaltılmasına yardımcı olabilir."
 }
