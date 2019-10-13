@@ -575,35 +575,34 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         self.setSubtitleOffset = function(offset) {
 
             var offsetValue = parseFloat(offset);
-            var videoElement = self._mediaElement;
-            var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
 
-            Array.from(videoElement.textTracks)
-            .filter(function(trackElement) {
-                // get showing .vtt textTacks
-                var isVttTrackShowing = trackElement.mode === 'showing';
-                // get current .ass textTrack
-                var isAssTrackShowing = ("textTrack" + customTrackIndex) === trackElement.id;
-                
-                return isVttTrackShowing || isAssTrackShowing;
-            })
-            .forEach(function(trackElement) {
+            // if .ass currently rendering
+            if(currentAssRenderer){
+                updateCurrentTrackOffset(offsetValue);
+            } else {
+                var videoElement = self._mediaElement;
+                var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
 
-                var track = customTrackIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
-                    return t.Index === customTrackIndex;
-                })[0];
+                Array.from(videoElement.textTracks)
+                .filter(function(trackElement) {
+                    // get showing .vtt textTacks
+                    return trackElement.mode === 'showing';
+                })
+                .forEach(function(trackElement) {
 
-                if(track) {
-                    offsetValue = updateCurrentTrackOffset(offsetValue);
-                    var format = (track.Codec || '').toLowerCase();
-                    if (format !== 'ass' && format !== 'ssa') {
+                    var track = customTrackIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
+                        return t.Index === customTrackIndex;
+                    })[0];
+
+                    if(track) {
+                        offsetValue = updateCurrentTrackOffset(offsetValue);
                         setVttSubtitleOffset(trackElement, offsetValue);
+                    } else {
+                        console.log("No available track, cannot apply offset : " + offsetValue);
                     }
-                } else {
-                    console.log("No available track, cannot apply offset : " + offsetValue);
-                }
 
-            });
+                });
+            }
         };
 
         function updateCurrentTrackOffset(offsetValue) {
