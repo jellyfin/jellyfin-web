@@ -80,7 +80,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     function updateHeaderUserButton(src) {
         if (src) {
             headerUserButton.classList.add("headerUserButtonRound");
-            headerUserButton.innerHTML = '<img src="' + src + '" />';
+            headerUserButton.innerHTML = '<div class="headerButton headerButtonRight paper-icon-button-light headerUserButtonRound" style="background-image:url(\'' + src + "');\"></div>";
         } else {
             headerUserButton.classList.remove("headerUserButtonRound");
             headerUserButton.innerHTML = '<i class="md-icon">&#xE7FD;</i>';
