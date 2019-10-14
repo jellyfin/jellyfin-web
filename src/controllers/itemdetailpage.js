@@ -429,31 +429,24 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             detectRatio = !1;
         imageTags.Primary ? (url = apiClient.getScaledImageUrl(item.Id, {
             type: "Primary",
-            maxHeight: 460,
             tag: item.ImageTags.Primary
         }), detectRatio = !0) : item.BackdropImageTags && item.BackdropImageTags.length ? (url = apiClient.getScaledImageUrl(item.Id, {
             type: "Backdrop",
-            maxHeight: 360,
             tag: item.BackdropImageTags[0]
         }), shape = "thumb") : imageTags.Thumb ? (url = apiClient.getScaledImageUrl(item.Id, {
             type: "Thumb",
-            maxHeight: 360,
             tag: item.ImageTags.Thumb
         }), shape = "thumb") : imageTags.Disc ? (url = apiClient.getScaledImageUrl(item.Id, {
             type: "Disc",
-            maxHeight: 360,
             tag: item.ImageTags.Disc
         }), shape = "square") : item.AlbumId && item.AlbumPrimaryImageTag ? (url = apiClient.getScaledImageUrl(item.AlbumId, {
             type: "Primary",
-            maxHeight: 360,
             tag: item.AlbumPrimaryImageTag
         }), shape = "square") : item.SeriesId && item.SeriesPrimaryImageTag ? url = apiClient.getScaledImageUrl(item.SeriesId, {
             type: "Primary",
-            maxHeight: 360,
             tag: item.SeriesPrimaryImageTag
         }) : item.ParentPrimaryImageItemId && item.ParentPrimaryImageTag && (url = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
             type: "Primary",
-            maxHeight: 360,
             tag: item.ParentPrimaryImageTag
         })), html += '<div style="position:relative;">', editable && (html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;padding:2px;margin:0;' href='#'>"), detectRatio && item.PrimaryImageAspectRatio && (item.PrimaryImageAspectRatio >= 1.48 ? shape = "thumb" : item.PrimaryImageAspectRatio >= .85 && item.PrimaryImageAspectRatio <= 1.34 && (shape = "square")), html += "<img class='itemDetailImage lazy' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' />", editable && (html += "</a>");
         var progressHtml = item.IsFolder || !item.UserData ? "" : indicators.getProgressBarHtml(item);

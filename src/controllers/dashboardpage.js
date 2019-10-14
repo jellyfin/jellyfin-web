@@ -304,7 +304,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 html += "</div>";
                 html += '<div class="flex align-items-center justify-content-center">';
                 var userImage = DashboardPage.getUserImage(session);
-                html += userImage ? '<img style="height:1.71em;border-radius:50px;margin-right:.5em;" src="' + userImage + '" />' : '<div style="height:1.71em;"></div>';
+                html += userImage ? '<div class="activitylogUserPhoto" style="background-image:url(\'' + userImage + "');\"></div>" : '<div style="height:1.71em;"></div>';
                 html += '<div class="sessionUserName">';
                 html += DashboardPage.getUsersHtml(session);
                 html += "</div>";

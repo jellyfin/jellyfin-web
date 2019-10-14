@@ -173,19 +173,6 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./style']
         currentLoadingBackdrop = instance;
     }
 
-    var standardWidths = [480, 720, 1280, 1440, 1920];
-    function getBackdropMaxWidth() {
-        var width = dom.getWindowSize().innerWidth;
-        var roundScreenTo = 100;
-
-        if (standardWidths.indexOf(width) !== -1) {
-            return width;
-        }
-
-        width = Math.floor(width / roundScreenTo) * roundScreenTo;
-        return Math.min(width, 1920);
-    }
-
     function getItemImageUrls(item, imageOptions) {
         imageOptions = imageOptions || {};
 
@@ -195,7 +182,6 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./style']
                 return apiClient.getScaledImageUrl(item.BackdropItemId || item.Id, Object.assign(imageOptions, {
                     type: "Backdrop",
                     tag: imgTag,
-                    maxWidth: getBackdropMaxWidth(),
                     index: index
                 }));
             });
@@ -206,7 +192,6 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./style']
                 return apiClient.getScaledImageUrl(item.ParentBackdropItemId, Object.assign(imageOptions, {
                     type: "Backdrop",
                     tag: imgTag,
-                    maxWidth: getBackdropMaxWidth(),
                     index: index
                 }));
             });

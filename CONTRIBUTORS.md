@@ -28,6 +28,7 @@
  - [lewazo](https://github.com/lewazo)
  - [Raghu Saxena](https://github.com/ckcr4lyf)
  - [Nickbert7](https://github.com/Nickbert7)
+ - [ferferga](https://github.com/ferferga)
 
 # Emby Contributors
 

@@ -8,6 +8,7 @@
 <br/><br/>
 <a href="https://github.com/jellyfin/jellyfin-web"><img alt="GPL 2.0 License" src="https://img.shields.io/github/license/jellyfin/jellyfin-web.svg"/></a>
 <a href="https://github.com/jellyfin/jellyfin-web/releases"><img alt="Current Release" src="https://img.shields.io/github/release/jellyfin/jellyfin-web.svg"/></a>
+<a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-web/?utm_source=widget"><img src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-web/svg-badge.svg" alt="Translation status" /></a>
 </p>
 
 ---
