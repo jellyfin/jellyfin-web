@@ -207,7 +207,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 dlg.querySelector('.swiper-wrapper').innerHTML = currentOptions.items.map(getSwiperSlideHtmlFromItem).join('');
             }
 
-            require(['swiper'], function (swiper) {
+            require(['swiper'], function (Swiper) {
 
                 swiperInstance = new Swiper(dlg.querySelector('.slideshowSwiperContainer'), {
                     // Optional parameters
