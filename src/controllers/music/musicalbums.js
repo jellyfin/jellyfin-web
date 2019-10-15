@@ -106,30 +106,36 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                     filterButton: false
                 });
                 var viewStyle = self.getCurrentViewStyle();
-                html = "List" == viewStyle ? listView.getListViewHtml({
-                    items: result.Items,
-                    context: "music",
-                    sortBy: query.SortBy,
-                    addToListButton: true
-                }) : "PosterCard" == viewStyle ? cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "square",
-                    context: "music",
-                    showTitle: true,
-                    coverImage: true,
-                    showParentTitle: true,
-                    lazy: true,
-                    cardLayout: true
-                }) : cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "square",
-                    context: "music",
-                    showTitle: true,
-                    showParentTitle: true,
-                    lazy: true,
-                    centerText: true,
-                    overlayPlayButton: true
-                });
+                if (viewStyle == "List") {
+                    html = listView.getListViewHtml({
+                        items: result.Items,
+                        context: "music",
+                        sortBy: query.SortBy,
+                        addToListButton: true
+                    });
+                } else if (viewStyle == "PosterCard") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "square",
+                        context: "music",
+                        showTitle: true,
+                        coverImage: true,
+                        showParentTitle: true,
+                        lazy: true,
+                        cardLayout: true
+                    });
+                } else {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "square",
+                        context: "music",
+                        showTitle: true,
+                        showParentTitle: true,
+                        lazy: true,
+                        centerText: true,
+                        overlayPlayButton: true
+                    });
+                }
                 var i;
                 var length;
                 var elems = tabContent.querySelectorAll(".paging");
@@ -138,11 +144,13 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                     elems[i].innerHTML = pagingHtml;
                 }
 
-                for (elems = tabContent.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++) {
+                elems = tabContent.querySelectorAll(".btnNextPage");
+                for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onNextPageClick);
                 }
 
-                for (elems = tabContent.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++) {
+                elems = tabContent.querySelectorAll(".btnPreviousPage");
+                for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onPreviousPageClick);
                 }
 
@@ -185,19 +193,21 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
             return getPageData().view;
         };
 
-        (function (tabContent) {
+        function initPage(tabContent) {
             var alphaPickerElement = tabContent.querySelector(".alphaPicker");
 
-            if (alphaPickerElement.addEventListener("alphavaluechanged", function (e) {
-                    var newValue = e.detail.value;
-                    var query = getQuery();
-                    query.NameStartsWithOrGreater = newValue;
-                    query.StartIndex = 0;
-                    reloadItems(tabContent);
-                }), self.alphaPicker = new alphaPicker({
-                    element: alphaPickerElement,
-                    valueChangeEvent: "click"
-                }), layoutManager.desktop || layoutManager.mobile) {
+            alphaPickerElement.addEventListener("alphavaluechanged", function (e) {
+                var newValue = e.detail.value;
+                var query = getQuery();
+                query.NameStartsWithOrGreater = newValue;
+                query.StartIndex = 0;
+                reloadItems(tabContent);
+            });
+            self.alphaPicker = new alphaPicker({
+                element: alphaPickerElement,
+                valueChangeEvent: "click"
+            });
+            if (layoutManager.desktop || layoutManager.mobile) {
                 tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-right");
                 var itemsContainer = tabContent.querySelector(".itemsContainer");
                 itemsContainer.classList.remove("padded-left-withalphapicker");
@@ -250,8 +260,9 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
             });
             tabContent.querySelector(".btnPlayAll").addEventListener("click", playAll);
             tabContent.querySelector(".btnShuffle").addEventListener("click", shuffle);
-        })(tabContent);
+        }
 
+        initPage(tabContent);
         onViewStyleChange();
 
         self.renderTab = function () {
