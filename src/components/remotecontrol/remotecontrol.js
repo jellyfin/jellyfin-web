@@ -511,7 +511,9 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
 
         function getSaveablePlaylistItems() {
             return getPlaylistItems(currentPlayer).then(function (items) {
-                    return i.Id && i.ServerId
+                return items.filter(function (i) {
+                    return i.Id && i.ServerId;
+                });
             });
         }
 
