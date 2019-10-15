@@ -57,9 +57,9 @@ define(["events", "globalize", "dom", "datetime", "userSettings", "serverNotific
         var hasUserId = "false" !== elem.getAttribute("data-useractivity");
 
         if (hasUserId) {
-            minDate.setTime(minDate.getTime() - 864e5);
+            minDate.setTime(minDate.getTime() - 24 * 60 * 60 * 1000); // one day back
         } else {
-            minDate.setTime(minDate.getTime() - 6048e5);
+            minDate.setTime(minDate.getTime() - 7 * 24 * 60 * 60 * 1000); // one week back
         }
 
         ApiClient.getJSON(ApiClient.getUrl("System/ActivityLog/Entries", {
@@ -68,7 +68,9 @@ define(["events", "globalize", "dom", "datetime", "userSettings", "serverNotific
             minDate: minDate.toISOString(),
             hasUserId: hasUserId
         })).then(function (result) {
-            if (elem.setAttribute("data-activitystartindex", startIndex), elem.setAttribute("data-activitylimit", limit), !startIndex) {
+            elem.setAttribute("data-activitystartindex", startIndex);
+            elem.setAttribute("data-activitylimit", limit);
+            if (!startIndex) {
                 var activityContainer = dom.parentWithClass(elem, "activityContainer");
 
                 if (activityContainer) {
