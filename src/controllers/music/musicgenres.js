@@ -55,7 +55,6 @@ define(["libraryBrowser", "cardBuilder", "apphost", "imageLoader", "loading"], f
                         showTitle: true
                     });
                 } else if (viewStyle == "ThumbCard") {
-
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
                         shape: "backdrop",

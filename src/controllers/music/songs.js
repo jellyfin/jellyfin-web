@@ -88,11 +88,13 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                     elems[i].innerHTML = pagingHtml;
                 }
 
-                for (elems = tabContent.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++) {
+                elems = tabContent.querySelectorAll(".btnNextPage");
+                for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onNextPageClick);
                 }
 
-                for (elems = tabContent.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++) {
+                elems = tabContent.querySelectorAll(".btnPreviousPage");
+                for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onPreviousPageClick);
                 }
 
@@ -128,7 +130,7 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
             return getPageData(tabContent).view;
         };
 
-        (function (tabContent) {
+        function initPage(tabContent) {
             tabContent.querySelector(".btnFilter").addEventListener("click", function () {
                 self.showFilterMenu();
             });
@@ -170,7 +172,9 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                     button: e.target
                 });
             });
-        })(tabContent);
+        }
+
+        initPage(tabContent);
 
         self.renderTab = function () {
             reloadItems(tabContent);

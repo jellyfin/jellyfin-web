@@ -93,40 +93,49 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                 });
                 var viewStyle = self.getCurrentViewStyle();
                 var itemsContainer = tabContent.querySelector(".itemsContainer");
-                html = "List" == viewStyle ? listView.getListViewHtml({
-                    items: result.Items,
-                    sortBy: query.SortBy,
-                    showParentTitle: true
-                }) : "PosterCard" == viewStyle ? cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "backdrop",
-                    showTitle: true,
-                    showParentTitle: true,
-                    scalable: true,
-                    cardLayout: true
-                }) : cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "backdrop",
-                    showTitle: true,
-                    showParentTitle: true,
-                    overlayText: false,
-                    centerText: true,
-                    scalable: true,
-                    overlayPlayButton: true
-                });
+                if (viewStyle == "List") {
+                    html = listView.getListViewHtml({
+                        items: result.Items,
+                        sortBy: query.SortBy,
+                        showParentTitle: true
+                    });
+                } else if (viewStyle == "PosterCard") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "backdrop",
+                        showTitle: true,
+                        showParentTitle: true,
+                        scalable: true,
+                        cardLayout: true
+                    });
+                } else {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "backdrop",
+                        showTitle: true,
+                        showParentTitle: true,
+                        overlayText: false,
+                        centerText: true,
+                        scalable: true,
+                        overlayPlayButton: true
+                    });
+                }
                 var i;
                 var length;
                 var elems;
 
-                for (elems = tabContent.querySelectorAll(".paging"), i = 0, length = elems.length; i < length; i++) {
+                elems = tabContent.querySelectorAll(".paging");
+                for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
                 }
 
-                for (elems = tabContent.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++) {
+                elems = tabContent.querySelectorAll(".btnNextPage");
+                for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onNextPageClick);
                 }
 
-                for (elems = tabContent.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++) {
+                elems = tabContent.querySelectorAll(".btnPreviousPage");
+                for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onPreviousPageClick);
                 }
 
@@ -161,7 +170,7 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
             return getPageData(tabContent).view;
         };
 
-        (function (tabContent) {
+        function initPage(tabContent) {
             tabContent.querySelector(".btnFilter").addEventListener("click", function () {
                 self.showFilterMenu();
             });
@@ -210,8 +219,9 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                 onViewStyleChange();
                 reloadItems(tabContent);
             });
-        })(tabContent);
+        }
 
+        initPage(tabContent);
         onViewStyleChange();
 
         self.renderTab = function () {

@@ -92,50 +92,62 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                     filterButton: false
                 });
                 var viewStyle = self.getCurrentViewStyle();
-                html = "Thumb" == viewStyle ? cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "backdrop",
-                    preferThumb: true,
-                    context: "tvshows",
-                    overlayMoreButton: true,
-                    showTitle: true,
-                    centerText: true
-                }) : "ThumbCard" == viewStyle ? cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "backdrop",
-                    preferThumb: true,
-                    context: "tvshows",
-                    cardLayout: true,
-                    showTitle: true,
-                    showYear: true,
-                    centerText: true
-                }) : "Banner" == viewStyle ? cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "banner",
-                    preferBanner: true,
-                    context: "tvshows"
-                }) : "List" == viewStyle ? listView.getListViewHtml({
-                    items: result.Items,
-                    context: "tvshows",
-                    sortBy: query.SortBy
-                }) : "PosterCard" == viewStyle ? cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "portrait",
-                    context: "tvshows",
-                    showTitle: true,
-                    showYear: true,
-                    centerText: true,
-                    cardLayout: true
-                }) : cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "portrait",
-                    context: "tvshows",
-                    centerText: true,
-                    lazy: true,
-                    overlayMoreButton: true,
-                    showTitle: true,
-                    showYear: true
-                });
+                if (viewStyle == "Thumb") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "backdrop",
+                        preferThumb: true,
+                        context: "tvshows",
+                        overlayMoreButton: true,
+                        showTitle: true,
+                        centerText: true
+                    });
+                } else if (viewStyle == "ThumbCard") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "backdrop",
+                        preferThumb: true,
+                        context: "tvshows",
+                        cardLayout: true,
+                        showTitle: true,
+                        showYear: true,
+                        centerText: true
+                    });
+                } else if (viewStyle == "Banner") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "banner",
+                        preferBanner: true,
+                        context: "tvshows"
+                    });
+                } else if (viewStyle == "List") {
+                    html = listView.getListViewHtml({
+                        items: result.Items,
+                        context: "tvshows",
+                        sortBy: query.SortBy
+                    });
+                } else if (viewStyle == "PosterCard") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "portrait",
+                        context: "tvshows",
+                        showTitle: true,
+                        showYear: true,
+                        centerText: true,
+                        cardLayout: true
+                    });
+                } else {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "portrait",
+                        context: "tvshows",
+                        centerText: true,
+                        lazy: true,
+                        overlayMoreButton: true,
+                        showTitle: true,
+                        showYear: true
+                    });
+                }
                 var i;
                 var length;
                 var elems = tabContent.querySelectorAll(".paging");
@@ -144,11 +156,13 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                     elems[i].innerHTML = pagingHtml;
                 }
 
-                for (elems = tabContent.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++) {
+                elems = tabContent.querySelectorAll(".btnNextPage");
+                for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onNextPageClick);
                 }
 
-                for (elems = tabContent.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++) {
+                elems = tabContent.querySelectorAll(".btnPreviousPage");
+                for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onPreviousPageClick);
                 }
 
@@ -190,7 +204,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
             return getPageData(tabContent).view;
         };
 
-        (function (tabContent) {
+        function initPage(tabContent) {
             var alphaPickerElement = tabContent.querySelector(".alphaPicker");
 
             if (alphaPickerElement.addEventListener("alphavaluechanged", function (e) {
@@ -253,8 +267,9 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                 onViewStyleChange();
                 reloadItems(tabContent);
             });
-        })(tabContent);
+        }
 
+        initPage(tabContent);
         onViewStyleChange();
 
         self.renderTab = function () {

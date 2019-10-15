@@ -300,21 +300,25 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
 
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-                    controller = 0 === index ? self : 7 === index ? new controllerFactory(view, tabContent, {
-                        collectionType: "music",
-                        parentId: params.topParentId
-                    }) : new controllerFactory(view, params, tabContent);
 
-                    if (2 == index) {
-                        controller.mode = "albumartists";
+                    if (index === 0) {
+                        controller = self;
+                    } else if (index === 7) {
+                        controller = new controllerFactory(view, tabContent, {
+                            collectionType: "music",
+                            parentId: params.topParentId
+                        });
                     } else {
-                        if (3 == index) {
-                            controller.mode = "artists";
-                        }
+                        controller = new controllerFactory(view, params, tabContent);
+                    }
+
+                    if (index == 2) {
+                        controller.mode = "albumartists";
+                    } else if (index == 3) {
+                        controller.mode = "artists";
                     }
 
                     tabControllers[index] = controller;
-
                     if (controller.initTab) {
                         controller.initTab();
                     }
@@ -326,8 +330,10 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
 
         function preLoadTab(page, index) {
             getTabController(page, index, function (controller) {
-                if (-1 == renderedTabs.indexOf(index) && controller.preRender) {
-                    controller.preRender();
+                if (renderedTabs.indexOf(index) == -1) {
+                    if (controller.preRender) {
+                        controller.preRender();
+                    }
                 }
             });
         }
@@ -337,7 +343,7 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
             getTabController(page, index, function (controller) {
                 initialTabIndex = null;
 
-                if (-1 == renderedTabs.indexOf(index)) {
+                if (renderedTabs.indexOf(index) == -1) {
                     renderedTabs.push(index);
                     controller.renderTab();
                 }
