@@ -9,7 +9,7 @@ define(["dialogHelper", "datetime", "emby-select", "paper-icon-button-light", "f
             minutes = parseInt(60 * pct);
         }
 
-        return datetime.getDisplayTime(new Date(2e3, 1, 1, hours, minutes, 0, 0));
+        return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
     }
 
     function populateHours(context) {
