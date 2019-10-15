@@ -91,47 +91,59 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                     filterButton: false
                 });
                 var viewStyle = self.getCurrentViewStyle();
-                html = "Thumb" == viewStyle ? cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "backdrop",
-                    preferThumb: true,
-                    context: "movies",
-                    overlayPlayButton: true,
-                    centerText: true,
-                    showTitle: true
-                }) : "ThumbCard" == viewStyle ? cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "backdrop",
-                    preferThumb: true,
-                    context: "movies",
-                    lazy: true,
-                    cardLayout: true,
-                    showTitle: true
-                }) : "Banner" == viewStyle ? cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "banner",
-                    preferBanner: true,
-                    context: "movies",
-                    lazy: true
-                }) : "List" == viewStyle ? listView.getListViewHtml({
-                    items: result.Items,
-                    context: "movies",
-                    sortBy: query.SortBy
-                }) : "PosterCard" == viewStyle ? cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "auto",
-                    context: "movies",
-                    showTitle: true,
-                    centerText: false,
-                    cardLayout: true
-                }) : cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "auto",
-                    context: "movies",
-                    centerText: true,
-                    overlayPlayButton: true,
-                    showTitle: true
-                });
+                if (viewStyle == "Thumb") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "backdrop",
+                        preferThumb: true,
+                        context: "movies",
+                        overlayPlayButton: true,
+                        centerText: true,
+                        showTitle: true
+                    });
+                } else if (viewStyle == "ThumbCard") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "backdrop",
+                        preferThumb: true,
+                        context: "movies",
+                        lazy: true,
+                        cardLayout: true,
+                        showTitle: true
+                    });
+                } else if (viewStyle == "Banner") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "banner",
+                        preferBanner: true,
+                        context: "movies",
+                        lazy: true
+                    });
+                } else if (viewStyle == "List") {
+                    html = listView.getListViewHtml({
+                        items: result.Items,
+                        context: "movies",
+                        sortBy: query.SortBy
+                    });
+                } else if (viewStyle == "PosterCard") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "auto",
+                        context: "movies",
+                        showTitle: true,
+                        centerText: false,
+                        cardLayout: true
+                    });
+                } else {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "auto",
+                        context: "movies",
+                        centerText: true,
+                        overlayPlayButton: true,
+                        showTitle: true
+                    });
+                }
                 var i;
                 var length;
                 var elems = tabContent.querySelectorAll(".paging");
@@ -140,11 +152,13 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                     elems[i].innerHTML = pagingHtml;
                 }
 
-                for (elems = tabContent.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++) {
+                elems = tabContent.querySelectorAll(".btnNextPage");
+                for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onNextPageClick);
                 }
 
-                for (elems = tabContent.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++) {
+                elems = tabContent.querySelectorAll(".btnPreviousPage");
+                for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onPreviousPageClick);
                 }
 
@@ -170,7 +184,7 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
             return getPageData(tabContent).view;
         };
 
-        (function (tabContent) {
+        function initPage(tabContent) {
             tabContent.querySelector(".btnSort").addEventListener("click", function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
@@ -218,8 +232,9 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                     });
                 });
             });
-        })(tabContent);
+        }
 
+        initPage(tabContent);
         onViewStyleChange();
 
         self.renderTab = function () {
