@@ -22,7 +22,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
 
                 page.querySelector(".chkAllTuners").checked = info.EnableAllTuners;
 
-                if (page.querySelector(".chkAllTuners").checked) {
+                if (info.EnableAllTuners) {
                     page.querySelector(".selectTunersSection").classList.add("hide");
                 } else {
                     page.querySelector(".selectTunersSection").classList.remove("hide");
@@ -67,7 +67,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
                     return '<option value="' + c.value + '">' + c.name + "</option>";
                 }).join("")).val(info.Country || "");
                 $(page.querySelector(".txtZipCode")).trigger("change");
-            }, function () {
+            }, function () { // ApiClient.getJSON() error handler
                 Dashboard.alert({
                     message: Globalize.translate("ErrorGettingTvLineups")
                 });
@@ -88,8 +88,9 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
 
         function hex(buffer) {
             var hexCodes = [];
+            var view = new DataView(buffer);
 
-            for (var view = new DataView(buffer), i = 0; i < view.byteLength; i += 4) {
+            for (i = 0; i < view.byteLength; i += 4) {
                 var value = view.getUint32(i);
                 var stringValue = value.toString(16);
                 var paddedValue = ("00000000" + stringValue).slice(-"00000000".length);
@@ -128,7 +129,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
                     providerId = result.Id;
                     reload();
                 }, function () {
-                    Dashboard.alert({
+                    Dashboard.alert({ // ApiClient.ajax() error handler
                         message: Globalize.translate("ErrorSavingTvProvider")
                     });
                 });
@@ -169,7 +170,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
                 }).then(function (result) {
                     loading.hide();
 
-                    if (false !== options.showConfirmation) {
+                    if (options.showConfirmation) {
                         Dashboard.processServerConfigurationUpdateResult();
                     }
 
@@ -220,13 +221,10 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
             switch (providerId = providerId.toLowerCase()) {
                 case "m3u":
                     return "M3U Playlist";
-
                 case "hdhomerun":
                     return "HDHomerun";
-
                 case "satip":
                     return "DVB";
-
                 default:
                     return "Unknown";
             }
@@ -266,13 +264,13 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
         self.init = function () {
             options = options || {};
 
-            if (false !== options.showCancelButton) {
+            if (options.showCancelButton) {
                 page.querySelector(".btnCancel").classList.remove("hide");
             } else {
                 page.querySelector(".btnCancel").classList.add("hide");
             }
 
-            if (false !== options.showSubmitButton) {
+            if (options.showSubmitButton) {
                 page.querySelector(".btnSubmitListings").classList.remove("hide");
             } else {
                 page.querySelector(".btnSubmitListings").classList.add("hide");
