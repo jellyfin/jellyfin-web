@@ -6,27 +6,15 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
     }
 
     function getThumbShape() {
-        if (enableScrollX()) {
-            return "overflowBackdrop";
-        }
-
-        return "backdrop";
+        return enableScrollX() ? "overflowBackdrop" : "backdrop";
     }
 
     function getPosterShape() {
-        if (enableScrollX()) {
-            return "overflowPortrait";
-        }
-
-        return "portrait";
+        return enableScrollX() ? "overflowPortrait" : "portrait";
     }
 
     function getSquareShape() {
-        if (enableScrollX()) {
-            return "overflowSquare";
-        }
-
-        return "square";
+        return enableScrollX() ? "overflowSquare" : "square";
     }
 
     function getSections() {
@@ -154,9 +142,9 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
                     html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(section.name) + "</h2>";
                 }
 
-                if (html += "</div>", enableScrollX()) {
+                html += "</div>";
+                if (enableScrollX()) {
                     var scrollXClass = "scrollX hiddenScrollX";
-
                     if (layoutManager.tv) {
                         scrollXClass += " smoothScrollX";
                     }
