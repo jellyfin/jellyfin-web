@@ -166,7 +166,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
 
     function loadScrollButtons(scroller) {
         require(['emby-scrollbuttons'], function () {
-            scroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
+            scroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons"></div>');
         });
     }
 
