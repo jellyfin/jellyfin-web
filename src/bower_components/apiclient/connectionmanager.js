@@ -48,7 +48,9 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
 
     function updateServerInfo(server, systemInfo) {
         server.Name = systemInfo.ServerName;
-        server.Id = systemInfo.Id;
+        if (systemInfo.Id) {
+            server.Id = systemInfo.Id;
+        }
 
         if (systemInfo.LocalAddress) {
             server.LocalAddress = systemInfo.LocalAddress;
@@ -136,11 +138,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         });
     }
 
-    //To be remove
-    /*function getConnectUrl(handler) {
-        return "https://connect.emby.media/service/" + handler;
-    }*/
-
     function replaceAll(originalString, strReplace, strWith) {
         var reg = new RegExp(strReplace, "ig");
         return originalString.replace(reg, strWith);
@@ -191,12 +188,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
     };
 
     var ConnectionManager = function (credentialProvider, appName, appVersion, deviceName, deviceId, capabilities, devicePixelRatio) {
-
-        //ToDo: Remove
-        /*function onConnectUserSignIn(user) {
-            connectUser = user;
-            events.trigger(self, "connectusersignedin", [user]);
-        }*/
 
         function onAuthenticated(apiClient, result, options, saveCredentials) {
             var credentials = credentialProvider.credentials();
@@ -255,40 +246,8 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                 return Promise.resolve();
             }
 
-            // ToDO: Remove
-            /*if (credentials.ConnectUserId && credentials.ConnectAccessToken) {
-                connectUser = null;
-                return getConnectUser(credentials.ConnectUserId, credentials.ConnectAccessToken).then(function (user) {
-                    onConnectUserSignIn(user);
-                    return Promise.resolve();
-                }, function () {
-                    return Promise.resolve();
-                });
-            }*/
-
             return Promise.resolve();
         }
-
-        //To be remove
-        /*function getConnectUser(userId, accessToken) {
-            if (!userId) {
-                throw new Error("null userId");
-            }
-
-            if (!accessToken) {
-                throw new Error("null accessToken");
-            }
-
-            return ajax({
-                type: "GET",
-                url: "https://connect.emby.media/service/user?id=" + userId,
-                dataType: "json",
-                headers: {
-                    "X-Application": appName + "/" + appVersion,
-                    "X-Connect-UserToken": accessToken
-                }
-            });
-        }*/
 
         function addAuthenticationInfoFromConnect(server, serverUrl, credentials) {
             if (!server.ExchangeToken) {
@@ -372,41 +331,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                 events.trigger(self, "localusersignedout", [logoutInfo]);
             });
         }
-
-        //To be remove
-        /*function getConnectServers(credentials) {
-            console.log("Begin getConnectServers");
-
-            if (credentials.ConnectAccessToken && credentials.ConnectUserId) {
-                return ajax({
-                    type: "GET",
-                    url: "https://connect.emby.media/service/servers?userId=" + credentials.ConnectUserId,
-                    dataType: "json",
-                    headers: {
-                        "X-Application": appName + "/" + appVersion,
-                        "X-Connect-UserToken": credentials.ConnectAccessToken
-                    }
-                }).then(function (servers) {
-                    return servers.map(function (i) {
-                        return {
-                            ExchangeToken: i.AccessKey,
-                            ConnectServerId: i.Id,
-                            Id: i.SystemId,
-                            Name: i.Name,
-                            RemoteAddress: i.Url,
-                            LocalAddress: i.LocalAddress,
-                            UserLinkType: "guest" === (i.UserType || "").toLowerCase() ? "Guest" : "LinkedUser"
-                        };
-                    });
-                }, function () {
-                    return credentials.Servers.slice(0).filter(function (s) {
-                        return s.ExchangeToken;
-                    });
-                });
-            }
-
-            return Promise.resolve([]);
-        }*/
 
         function filterServers(servers, connectServers) {
             return servers.filter(function (server) {
@@ -556,7 +480,8 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         }
 
         function afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, verifyLocalAuthentication, options, resolve) {
-            if (options = options || {}, false === options.enableAutoLogin) {
+            options = options || {};
+            if (false === options.enableAutoLogin) {
                 server.UserId = null;
                 server.AccessToken = null;
             } else if (verifyLocalAuthentication && server.AccessToken && false !== options.enableAutoLogin) {
@@ -700,9 +625,17 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             });
             var existingServer = existingServers.length ? existingServers[0] : apiClient.serverInfo();
 
-            if (existingServer.DateLastAccessed = new Date().getTime(), existingServer.LastConnectionMode = ConnectionMode.Manual, existingServer.ManualAddress = apiClient.serverAddress(), apiClient.manualAddressOnly && (existingServer.manualAddressOnly = true), apiClient.serverInfo(existingServer), apiClient.onAuthenticated = function (instance, result) {
-                    return onAuthenticated(instance, result, {}, true);
-                }, !existingServers.length) {
+            existingServer.DateLastAccessed = new Date().getTime();
+            existingServer.LastConnectionMode = ConnectionMode.Manual;
+            existingServer.ManualAddress = apiClient.serverAddress();
+            if (apiClient.manualAddressOnly) {
+                existingServer.manualAddressOnly = true;
+            }
+            apiClient.serverInfo(existingServer);
+            apiClient.onAuthenticated = function (instance, result) {
+                return onAuthenticated(instance, result, {}, true);
+            };
+            if (!existingServers.length) {
                 var credentials = credentialProvider.credentials();
                 credentials.Servers = [existingServer];
                 credentialProvider.credentials(credentials);
@@ -726,11 +659,8 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
 
             if (!apiClient) {
                 apiClient = new apiClientFactory(serverUrl, appName, appVersion, deviceName, deviceId, devicePixelRatio);
-
                 self._apiClients.push(apiClient);
-
                 apiClient.serverInfo(server);
-
                 apiClient.onAuthenticated = function (instance, result) {
                     return onAuthenticated(instance, result, {}, true);
                 };
@@ -928,244 +858,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             };
             return self.connectToServer(server, options).catch(onFail);
         };
-
-        //To be remove
-        /*self.loginToConnect = function (username, password) {
-            if (username && password) {
-                return ajax({
-                    type: "POST",
-                    url: "https://connect.emby.media/service/user/authenticate",
-                    data: {
-                        nameOrEmail: username,
-                        rawpw: password
-                    },
-                    dataType: "json",
-                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                    headers: {
-                        "X-Application": appName + "/" + appVersion
-                    }
-                }).then(function (result) {
-                    var credentials = credentialProvider.credentials();
-                    credentials.ConnectAccessToken = result.AccessToken;
-                    credentials.ConnectUserId = result.User.Id;
-                    credentialProvider.credentials(credentials);
-                    onConnectUserSignIn(result.User);
-                    return result;
-                });
-            }
-
-            return Promise.reject();
-        };
-
-        self.signupForConnect = function (options) {
-            var email = options.email;
-            var username = options.username;
-            var password = options.password;
-            var passwordConfirm = options.passwordConfirm;
-
-            if (!email) {
-                return Promise.reject({
-                    errorCode: "invalidinput"
-                });
-            }
-
-            if (!username) {
-                return Promise.reject({
-                    errorCode: "invalidinput"
-                });
-            }
-
-            if (!password) {
-                return Promise.reject({
-                    errorCode: "invalidinput"
-                });
-            }
-
-            if (!passwordConfirm) {
-                return Promise.reject({
-                    errorCode: "passwordmatch"
-                });
-            }
-
-            if (password !== passwordConfirm) {
-                return Promise.reject({
-                    errorCode: "passwordmatch"
-                });
-            }
-
-            var data = {
-                email: email,
-                userName: username,
-                rawpw: password
-            };
-
-            if (options.grecaptcha) {
-                data.grecaptcha = options.grecaptcha;
-            }
-
-            return ajax({
-                type: "POST",
-                url: "https://connect.emby.media/service/register",
-                data: data,
-                dataType: "json",
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                headers: {
-                    "X-Application": appName + "/" + appVersion,
-                    "X-CONNECT-TOKEN": "CONNECT-REGISTER"
-                }
-            }).catch(function (response) {
-                try {
-                    return response.json();
-                } catch (err) {
-                    throw err;
-                }
-            }).then(function (result) {
-                if (result && result.Status) {
-                    if ("SUCCESS" === result.Status) {
-                        return Promise.resolve(result);
-                    }
-
-                    return Promise.reject({
-                        errorCode: result.Status
-                    });
-                }
-
-                Promise.reject();
-            });
-        };
-
-        self.getUserInvitations = function () {
-            var connectToken = self.connectToken();
-
-            if (!connectToken) {
-                throw new Error("null connectToken");
-            }
-
-            if (!self.connectUserId()) {
-                throw new Error("null connectUserId");
-            }
-
-            return ajax({
-                type: "GET",
-                url: "https://connect.emby.media/service/servers?userId=" + self.connectUserId() + "&status=Waiting",
-                dataType: "json",
-                headers: {
-                    "X-Connect-UserToken": connectToken,
-                    "X-Application": appName + "/" + appVersion
-                }
-            });
-        };
-
-        self.deleteServer = function (serverId) {
-            if (!serverId) {
-                throw new Error("null serverId");
-            }
-
-            var server = credentialProvider.credentials().Servers.filter(function (s) {
-                return s.Id === serverId;
-            });
-            server = server.length ? server[0] : null;
-            return new Promise(function (resolve, reject) {
-                function onDone() {
-                    var credentials = credentialProvider.credentials();
-                    credentials.Servers = credentials.Servers.filter(function (s) {
-                        return s.Id !== serverId;
-                    });
-                    credentialProvider.credentials(credentials);
-                    resolve();
-                }
-
-                if (!server.ConnectServerId) {
-                    return void onDone();
-                }
-
-                var connectToken = self.connectToken();
-                var connectUserId = self.connectUserId();
-
-                if (!connectToken || !connectUserId) {
-                    return void onDone();
-                }
-
-                ajax({
-                    type: "DELETE",
-                    url: "https://connect.emby.media/service/serverAuthorizations?serverId=" + server.ConnectServerId + "&userId=" + connectUserId,
-                    headers: {
-                        "X-Connect-UserToken": connectToken,
-                        "X-Application": appName + "/" + appVersion
-                    }
-                }).then(onDone, onDone);
-            });
-        };
-
-        self.rejectServer = function (serverId) {
-            var connectToken = self.connectToken();
-
-            if (!serverId) {
-                throw new Error("null serverId");
-            }
-
-            if (!connectToken) {
-                throw new Error("null connectToken");
-            }
-
-            if (!self.connectUserId()) {
-                throw new Error("null connectUserId");
-            }
-
-            var url = "https://connect.emby.media/service/serverAuthorizations?serverId=" + serverId + "&userId=" + self.connectUserId();
-            return fetch(url, {
-                method: "DELETE",
-                headers: {
-                    "X-Connect-UserToken": connectToken,
-                    "X-Application": appName + "/" + appVersion
-                }
-            });
-        };
-
-        self.acceptServer = function (serverId) {
-            var connectToken = self.connectToken();
-
-            if (!serverId) {
-                throw new Error("null serverId");
-            }
-
-            if (!connectToken) {
-                throw new Error("null connectToken");
-            }
-
-            if (!self.connectUserId()) {
-                throw new Error("null connectUserId");
-            }
-
-            return ajax({
-                type: "GET",
-                url: "https://connect.emby.media/service/ServerAuthorizations/accept?serverId=" + serverId + "&userId=" + self.connectUserId(),
-                headers: {
-                    "X-Connect-UserToken": connectToken,
-                    "X-Application": appName + "/" + appVersion
-                }
-            });
-        };
-
-        self.resetRegistrationInfo = function (apiClient) {
-            var cacheKey = getCacheKey("themes", apiClient, {
-                viewOnly: true
-            });
-            appStorage.removeItem(cacheKey);
-            cacheKey = getCacheKey("themes", apiClient, {
-                viewOnly: false
-            });
-            appStorage.removeItem(cacheKey);
-        };
-
-        self.getRegistrationInfo = function (feature, apiClient, options) {
-            var cacheKey = getCacheKey(feature, apiClient, options);
-            appStorage.setItem(cacheKey, JSON.stringify({
-                lastValidDate: new Date().getTime(),
-                deviceId: self.deviceId()
-            }));
-            return Promise.resolve();
-        };*/
 
         self.createPin = function () {
             var request = {
