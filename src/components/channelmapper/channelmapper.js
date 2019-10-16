@@ -3,9 +3,8 @@ define(["dialogHelper", "loading", "connectionManager", "globalize", "actionshee
 
     return function (options) {
         function parentWithClass(elem, className) {
-            while (!elem.classList || !elem.classList.contains(className)) {
-                elem = elem.parentNode;
-                if (!elem) {
+            for (; !elem.classList || !elem.classList.contains(className);) {
+                if (!(elem = elem.parentNode)) {
                     return null;
                 }
             }
