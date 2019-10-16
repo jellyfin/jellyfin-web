@@ -90,7 +90,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
             var hexCodes = [];
             var view = new DataView(buffer);
 
-            for (i = 0; i < view.byteLength; i += 4) {
+            for (var i = 0; i < view.byteLength; i += 4) {
                 var value = view.getUint32(i);
                 var stringValue = value.toString(16);
                 var paddedValue = ("00000000" + stringValue).slice(-"00000000".length);
