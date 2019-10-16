@@ -19,10 +19,13 @@ define(["datetime"], function (datetime) {
         ];
         var dt = new Date();
         var date = datetime.parseISO8601Date(date_str, true);
-        var seconds = (dt - date) / 1e3;
+        var seconds = (dt - date) / 1000.0;
         var i = 0;
 
-        for (seconds < 0 && (seconds = Math.abs(seconds)); format = time_formats[i++];) {
+        if (seconds < 0) {
+            seconds = Math.abs(seconds);
+        }
+        for (; format = time_formats[i++];) {
             if (seconds < format[0]) {
                 if (2 == format.length) {
                     return format[1] + " ago";
