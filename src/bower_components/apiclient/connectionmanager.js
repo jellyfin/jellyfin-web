@@ -242,41 +242,11 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         }
 
         function ensureConnectUser(credentials) {
-            if (connectUser && connectUser.Id === credentials.ConnectUserId) {
-                return Promise.resolve();
-            }
-
             return Promise.resolve();
         }
 
         function addAuthenticationInfoFromConnect(server, serverUrl, credentials) {
-            if (!server.ExchangeToken) {
-                throw new Error("server.ExchangeToken cannot be null");
-            }
-
-            if (!credentials.ConnectUserId) {
-                throw new Error("credentials.ConnectUserId cannot be null");
-            }
-
-            var url = getEmbyServerUrl(serverUrl, "Connect/Exchange?format=json&ConnectUserId=" + credentials.ConnectUserId);
-            var auth = 'MediaBrowser Client="' + appName + '", Device="' + deviceName + '", DeviceId="' + deviceId + '", Version="' + appVersion + '"';
-            return ajax({
-                type: "GET",
-                url: url,
-                dataType: "json",
-                headers: {
-                    "X-MediaBrowser-Token": server.ExchangeToken,
-                    "X-Emby-Authorization": auth
-                }
-            }).then(function (auth) {
-                server.UserId = auth.LocalUserId;
-                server.AccessToken = auth.AccessToken;
-                return auth;
-            }, function () {
-                server.UserId = null;
-                server.AccessToken = null;
-                return Promise.reject();
-            });
+            return Promise.reject();
         }
 
         function validateAuthentication(server, serverUrl) {
@@ -771,12 +741,8 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             console.log("Begin getAvailableServers");
             var credentials = credentialProvider.credentials();
             return Promise.all([findServers()]).then(function (responses) {
-                var connectServers = responses[0];
-                var foundServers = responses[1];
+                var foundServers = responses[0];
                 var servers = credentials.Servers.slice(0);
-                //mergeServers(credentialProvider, servers, foundServers);
-                //mergeServers(credentialProvider, servers, connectServers);
-                servers = filterServers(servers, connectServers);
                 servers.sort(function (a, b) {
                     return (b.DateLastAccessed || 0) - (a.DateLastAccessed || 0);
                 });
