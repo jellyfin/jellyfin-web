@@ -38,14 +38,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         });
     }
 
-    function mergeServers(credentialProvider, list1, list2) {
-        for (var i = 0, length = list2.length; i < length; i++) {
-            credentialProvider.addOrUpdateServer(list1, list2[i]);
-        }
-
-        return list1;
-    }
-
     function updateServerInfo(server, systemInfo) {
         server.Name = systemInfo.ServerName;
         if (systemInfo.Id) {
@@ -303,14 +295,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             });
         }
 
-        function filterServers(servers, connectServers) {
-            return servers.filter(function (server) {
-                return !server.ExchangeToken || connectServers.filter(function (connectServer) {
-                    return server.Id === connectServer.Id;
-                }).length > 0;
-            });
-        }
-
         function findServers() {
             return new Promise(function (resolve, reject) {
                 var onFinish = function (foundServers) {
@@ -493,18 +477,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             } else {
                 resolveActions();
             }
-        }
-
-        function getCacheKey(feature, apiClient, options) {
-            options = options || {};
-            var viewOnly = options.viewOnly;
-            var cacheKey = "regInfo-" + apiClient.serverId();
-
-            if (viewOnly) {
-                cacheKey += "-viewonly";
-            }
-
-            return cacheKey;
         }
 
         function addAppInfoToConnectRequest(request) {
