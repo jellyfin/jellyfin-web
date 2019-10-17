@@ -180,7 +180,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         return 0;
     }
 
-    var defaultTimeout = 2e4;
+    var defaultTimeout = 20000;
     var ConnectionMode = {
         Local: 0,
         Remote: 1,
@@ -236,9 +236,10 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         function onLocalUserSignIn(server, serverUrl, user) {
             self._getOrAddApiClient(server, serverUrl);
 
-            return (self.onLocalUserSignedIn ? self.onLocalUserSignedIn.call(self, user) : Promise.resolve()).then(function () {
-                events.trigger(self, "localusersignedin", [user]);
-            });
+            var promise = self.onLocalUserSignedIn ? self.onLocalUserSignedIn.call(self, user) : Promise.resolve();
+            return promise.then(function () {
+                events.trigger(self, "localusersignedin", [user])
+            })
         }
 
         function ensureConnectUser(credentials) {
