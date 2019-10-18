@@ -503,5 +503,6 @@
     "Shows": "番組",
     "Songs": "曲",
     "Sync": "同期",
-    "ValueSpecialEpisodeName": "スペシャル - {0}"
+    "ValueSpecialEpisodeName": "スペシャル - {0}",
+    "ButtonAddImage": "イメージの追加"
 }
