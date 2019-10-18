@@ -370,6 +370,14 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
                     scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
                 }
 
+                if (item.Path) {
+                    dlg.querySelector('.fldPath').classList.remove('hide');
+                } else {
+                    dlg.querySelector('.fldPath').classList.add('hide');
+                }
+
+                dlg.querySelector('.txtPath').innerHTML = item.Path || '';
+
                 dialogHelper.open(dlg);
 
                 dlg.querySelector('.popupIdentifyForm').addEventListener('submit', function (e) {
@@ -439,6 +447,8 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
             }
+
+
 
             dialogHelper.open(dlg);
 
