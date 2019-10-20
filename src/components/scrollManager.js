@@ -1,6 +1,8 @@
 define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManager) {
     "use strict";
 
+    const ScrollTime = 200;
+
     // FIXME: Need to scroll to top of page to fully show the top menu. This can be solved by some marker of top most elements or their containers
     var _minimumScrollY = 0;
     /**
@@ -197,6 +199,16 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         }
     }
 
+    var scrollTimer;
+
+    /**
+     * Resets scroll timer to stop scrolling.
+     */
+    function resetScrollTimer() {
+        cancelAnimationFrame(scrollTimer);
+        scrollTimer = undefined;
+    }
+
     /**
      * Performs scroll.
      *
@@ -208,13 +220,45 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
      */
     function doScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
 
-        var scrollBehavior = smooth ? "smooth" : "instant";
+        resetScrollTimer();
 
-        if (xScroller !== yScroller) {
-            scrollToHelper(xScroller, {left: scrollX, behavior: scrollBehavior});
-            scrollToHelper(yScroller, {top: scrollY, behavior: scrollBehavior});
+        if (smooth && useAnimatedScroll()) {
+            var start;
+
+            function scrollAnim(currentTimestamp) {
+                start = start || currentTimestamp;
+
+                var dx = scrollX - xScroller.scrollLeft;
+                var dy = scrollY - yScroller.scrollTop;
+
+                if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1) {
+                    resetScrollTimer();
+                    xScroller.scrollLeft = scrollX;
+                    yScroller.scrollTop = scrollY;
+                    return;
+                }
+
+                var k = Math.min(1, (currentTimestamp - start) / ScrollTime);
+
+                dx = Math.round(dx*k);
+                dy = Math.round(dy*k);
+
+                xScroller.scrollLeft += dx;
+                yScroller.scrollTop += dy;
+
+                scrollTimer = requestAnimationFrame(scrollAnim);
+            };
+
+            scrollTimer = requestAnimationFrame(scrollAnim);
         } else {
-            scrollToHelper(xScroller, {left: scrollX, top: scrollY, behavior: scrollBehavior});
+            var scrollBehavior = smooth ? "smooth" : "instant";
+
+            if (xScroller !== yScroller) {
+                scrollToHelper(xScroller, {left: scrollX, behavior: scrollBehavior});
+                scrollToHelper(yScroller, {top: scrollY, behavior: scrollBehavior});
+            } else {
+                scrollToHelper(xScroller, {left: scrollX, top: scrollY, behavior: scrollBehavior});
+            }
         }
     }
 
@@ -228,6 +272,15 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         }
 
         return false;
+    };
+
+    /**
+     * Returns true if animated implementation of smooth scroll must be used.
+     */
+    function useAnimatedScroll() {
+        // Add block to force using (or not) of animated implementation
+
+        return !supportsSmoothScroll;
     };
 
     /**
