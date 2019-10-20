@@ -634,7 +634,7 @@
     "LabelMetadataDownloadLanguage": "首选下载语言：",
     "LabelMetadataDownloadersHelp": "启用媒体资料下载器的优先级排序，低优先级的下载器只会用来填补缺少的信息。",
     "LabelMetadataPath": "媒体资料路径：",
-    "LabelMetadataPathHelp": "为下载的图像和元数据指定自定义路径",
+    "LabelMetadataPathHelp": "为下载的图像和元数据指定自定义路径。",
     "LabelMetadataReaders": "媒体资料读取器：",
     "LabelMetadataReadersHelp": "为你首选的本地媒体资料源按优先级排序。找到的第一个文件将被读取。",
     "LabelMetadataSavers": "媒体资料储存方式：",
@@ -1109,7 +1109,7 @@
     "RecordSeries": "录制电视剧",
     "RecordingCancelled": "录制已取消。",
     "RecordingPathChangeMessage": "更改录制文件夹不会将现有录制从旧位置迁移到新的。您需要手动移动它们 (如果需要)。",
-    "RecordingScheduled": "录制预设",
+    "RecordingScheduled": "录制预设。",
     "Refresh": "刷新",
     "RefreshMetadata": "刷新元数据",
     "RefreshQueued": "列队已刷新。",
@@ -1453,5 +1453,7 @@
     "ButtonAddImage": "添加图片",
     "LabelPlayer": "播放器:",
     "LabelBaseUrl": "基础 URL:",
-    "LabelBaseUrlHelp": "您可以在此处添加自定义子目录，以便从更唯一的 URL 访问服务器。"
+    "LabelBaseUrlHelp": "您可以在此处添加自定义子目录，以便从更唯一的 URL 访问服务器。",
+    "MoreMediaInfo": "媒体信息",
+    "MusicLibraryHelp": "重播 {0}音乐命名指南{1}。"
 }
