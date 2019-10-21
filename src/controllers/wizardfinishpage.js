@@ -8,7 +8,6 @@ define(["loading"], function(loading) {
         }).then(function() {
             loading.hide();
             window.location.href = "index.html";
-
         });
     }
     return function(view, params) {
