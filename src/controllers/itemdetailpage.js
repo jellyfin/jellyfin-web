@@ -263,27 +263,22 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         return "Program" === item.Type && item.ImageTags && item.ImageTags.Thumb ? (imgUrl = apiClient.getScaledImageUrl(item.Id, {
             type: "Thumb",
             index: 0,
-            maxWidth: screenWidth,
             tag: item.ImageTags.Thumb
         }), itemBackdropElement.classList.remove("noBackdrop"), imageLoader.lazyImage(itemBackdropElement, imgUrl, !1), hasbackdrop = !0) : usePrimaryImage && item.ImageTags && item.ImageTags.Primary ? (imgUrl = apiClient.getScaledImageUrl(item.Id, {
             type: "Primary",
             index: 0,
-            maxWidth: screenWidth,
             tag: item.ImageTags.Primary
         }), itemBackdropElement.classList.remove("noBackdrop"), imageLoader.lazyImage(itemBackdropElement, imgUrl, !1), hasbackdrop = !0) : item.BackdropImageTags && item.BackdropImageTags.length ? (imgUrl = apiClient.getScaledImageUrl(item.Id, {
             type: "Backdrop",
             index: 0,
-            maxWidth: screenWidth,
             tag: item.BackdropImageTags[0]
         }), itemBackdropElement.classList.remove("noBackdrop"), imageLoader.lazyImage(itemBackdropElement, imgUrl, !1), hasbackdrop = !0) : item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length ? (imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
             type: "Backdrop",
             index: 0,
             tag: item.ParentBackdropImageTags[0],
-            maxWidth: screenWidth
         }), itemBackdropElement.classList.remove("noBackdrop"), imageLoader.lazyImage(itemBackdropElement, imgUrl, !1), hasbackdrop = !0) : item.ImageTags && item.ImageTags.Thumb ? (imgUrl = apiClient.getScaledImageUrl(item.Id, {
             type: "Thumb",
             index: 0,
-            maxWidth: screenWidth,
             tag: item.ImageTags.Thumb
         }), itemBackdropElement.classList.remove("noBackdrop"), imageLoader.lazyImage(itemBackdropElement, imgUrl, !1), hasbackdrop = !0) : (itemBackdropElement.classList.add("noBackdrop"), itemBackdropElement.style.backgroundImage = ""), hasbackdrop
     }
