@@ -273,8 +273,13 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         },
 
         canRate: function (item) {
+            var itemType = item.Type;
 
-            if (item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'SeriesTimer' || item.Type === 'CollectionFolder' || item.Type === 'UserView' || item.Type === 'Channel') {
+            if (item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'SeriesTimer' || item.Type === 'CollectionFolder' || item.Type === 'UserView' || item.Type === 'Channel' || itemType === 'Season' || itemType === 'Studio') {
+                return false;
+            }
+
+            if (!item.UserData) {
                 return false;
             }
 
