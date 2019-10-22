@@ -1043,7 +1043,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
-                fonts: [],
+                fonts: self._currentPlayOptions.mediaSource.MediaAttachments.map(i => i.DeliveryUrl),
                 workerUrl: appRouter.baseUrl() + "/JavascriptSubtitlesOctopus/subtitles-octopus-worker.js",
                 onError: function() {
                     htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror')
