@@ -1448,5 +1448,6 @@
     "DropShadow": "Underskygge",
     "Depressed": "Nedtrykt",
     "Features": "Med",
-    "LabelParentNumber": "Foreldrenummer:"
+    "LabelParentNumber": "Foreldrenummer:",
+    "OptionResElement": "res element"
 }
