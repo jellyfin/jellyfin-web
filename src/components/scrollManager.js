@@ -316,73 +316,74 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
     };
 
     /**
-     * Scrolls the document to a given position or element.
+     * Scrolls the document to a given position.
      *
-     * @param {Object} options scroll options
-     * @param {number} [options.x] horizontal coordinate
-     * @param {number} [options.y] vertical coordinate
-     * @param {HTMLElement} [options.element] target element of scroll task
-     * @param {boolean} [options.smooth=false] smooth scrolling
+     * @param {number} scrollX horizontal coordinate
+     * @param {number} scrollY vertical coordinate
+     * @param {boolean} [smooth=false] smooth scrolling
      */
-    var scrollTo = function(options) {
+    var scrollTo = function(scrollX, scrollY, smooth) {
 
-        var element = options.element;
-        var smooth = !!options.smooth;
-
-        var xScroller;
-        var yScroller;
-        var scrollX;
-        var scrollY;
+        smooth = !!smooth;
 
         // Scroller is document itself by default
-        xScroller = yScroller = getScrollableParent(null, false);
+        var scroller = getScrollableParent(null, false);
 
-        if (options.element !== undefined) {
-            var scrollCenterX = true;
-            var scrollCenterY = true;
+        var xScrollerData = getScrollerData(scroller, false);
+        var yScrollerData = getScrollerData(scroller, true);
 
-            var offsetParent = element.offsetParent;
+        scrollX = clamp(Math.round(scrollX), 0, xScrollerData.scrollSize - xScrollerData.clientSize);
+        scrollY = clamp(Math.round(scrollY), 0, yScrollerData.scrollSize - yScrollerData.clientSize);
 
-            var isFixed = offsetParent && !offsetParent.offsetParent;
+        doScroll(scroller, scrollX, scroller, scrollY, smooth);
+    }
 
-            // Scroll fixed elements to nearest edge (or do not scroll at all)
-            if (isFixed) {
-                scrollCenterX = scrollCenterY = false;
-            }
+    /**
+     * Scrolls the document to a given element.
+     *
+     * @param {HTMLElement} element target element of scroll task
+     * @param {boolean} [smooth=false] smooth scrolling
+     */
+    var scrollToElement = function(element, smooth) {
 
-            xScroller = getScrollableParent(element, false);
+        smooth = !!smooth;
 
-            var elementRect = element.getBoundingClientRect();
+        var scrollCenterX = true;
+        var scrollCenterY = true;
 
-            var xScrollerData = getScrollerData(xScroller, false);
-            var yScrollerData = getScrollerData(yScroller, true);
+        var offsetParent = element.offsetParent;
 
-            var xPos = getScrollerChildPos(xScroller, element, false);
-            var yPos = getScrollerChildPos(yScroller, element, true);
+        var isFixed = offsetParent && !offsetParent.offsetParent;
 
-            scrollX = calcScroll(xScrollerData, xPos, elementRect.width, scrollCenterX);
-            scrollY = calcScroll(yScrollerData, yPos, elementRect.height, scrollCenterY);
+        // Scroll fixed elements to nearest edge (or do not scroll at all)
+        if (isFixed) {
+            scrollCenterX = scrollCenterY = false;
+        }
 
-            // HACK: Scroll to top for top menu because it is hidden
-            // FIXME: Need a marker to scroll top/bottom
-            if (isFixed && elementRect.bottom < 0) {
-                scrollY = 0;
-            }
+        var xScroller = getScrollableParent(element, false);
+        var yScroller = getScrollableParent(element, true);
 
-            // HACK: Ensure we are at the top
-            // FIXME: Need a marker to scroll top/bottom
-            if (scrollY < minimumScrollY()) {
-                scrollY = 0;
-            }
-        } else {
-            scrollX = (options.x !== undefined ? Math.round(options.x) : xScroller.scrollLeft);
-            scrollY = (options.y !== undefined ? Math.round(options.y) : yScroller.scrollTop);
+        var elementRect = element.getBoundingClientRect();
 
-            var xScrollerData = getScrollerData(xScroller, false);
-            var yScrollerData = getScrollerData(yScroller, true);
+        var xScrollerData = getScrollerData(xScroller, false);
+        var yScrollerData = getScrollerData(yScroller, true);
 
-            scrollX = clamp(scrollX, 0, xScrollerData.scrollSize - xScrollerData.clientSize);
-            scrollY = clamp(scrollY, 0, yScrollerData.scrollSize - yScrollerData.clientSize);
+        var xPos = getScrollerChildPos(xScroller, element, false);
+        var yPos = getScrollerChildPos(yScroller, element, true);
+
+        var scrollX = calcScroll(xScrollerData, xPos, elementRect.width, scrollCenterX);
+        var scrollY = calcScroll(yScrollerData, yPos, elementRect.height, scrollCenterY);
+
+        // HACK: Scroll to top for top menu because it is hidden
+        // FIXME: Need a marker to scroll top/bottom
+        if (isFixed && elementRect.bottom < 0) {
+            scrollY = 0;
+        }
+
+        // HACK: Ensure we are at the top
+        // FIXME: Need a marker to scroll top/bottom
+        if (scrollY < minimumScrollY()) {
+            scrollY = 0;
         }
 
         doScroll(xScroller, scrollX, yScroller, scrollY, smooth);
@@ -391,13 +392,14 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
     if (isEnabled()) {
         dom.addEventListener(window, "focusin", function(e) {
             setTimeout(function() {
-                scrollTo({element: e.target, smooth: useSmoothScroll()});
+                scrollToElement(e.target, useSmoothScroll());
             }, 0);
         }, {capture: true});
     }
 
     return {
         isEnabled: isEnabled,
-        scrollTo: scrollTo
+        scrollTo: scrollTo,
+        scrollToElement: scrollToElement
     };
 });
