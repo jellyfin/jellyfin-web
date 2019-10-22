@@ -1,7 +1,7 @@
 define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManager) {
     "use strict";
 
-    const ScrollTime = 200;
+    var ScrollTime = 200;
 
     // FIXME: Need to scroll to top of page to fully show the top menu. This can be solved by some marker of top most elements or their containers
     var _minimumScrollY = 0;
@@ -210,6 +210,44 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
     }
 
     /**
+     * Performs animated scroll.
+     *
+     * @param {HTMLElement} xScroller horizontal scroller
+     * @param {number} scrollX horizontal coordinate
+     * @param {HTMLElement} yScroller vertical scroller
+     * @param {number} scrollY vertical coordinate
+     */
+    function animateScroll(xScroller, scrollX, yScroller, scrollY) {
+        var start;
+
+        function scrollAnim(currentTimestamp) {
+            start = start || currentTimestamp;
+
+            var dx = scrollX - xScroller.scrollLeft;
+            var dy = scrollY - yScroller.scrollTop;
+
+            if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1) {
+                resetScrollTimer();
+                xScroller.scrollLeft = scrollX;
+                yScroller.scrollTop = scrollY;
+                return;
+            }
+
+            var k = Math.min(1, (currentTimestamp - start) / ScrollTime);
+
+            dx = Math.round(dx*k);
+            dy = Math.round(dy*k);
+
+            xScroller.scrollLeft += dx;
+            yScroller.scrollTop += dy;
+
+            scrollTimer = requestAnimationFrame(scrollAnim);
+        };
+
+        scrollTimer = requestAnimationFrame(scrollAnim);
+    }
+
+    /**
      * Performs scroll.
      *
      * @param {HTMLElement} xScroller horizontal scroller
@@ -223,33 +261,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         resetScrollTimer();
 
         if (smooth && useAnimatedScroll()) {
-            var start;
-
-            function scrollAnim(currentTimestamp) {
-                start = start || currentTimestamp;
-
-                var dx = scrollX - xScroller.scrollLeft;
-                var dy = scrollY - yScroller.scrollTop;
-
-                if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1) {
-                    resetScrollTimer();
-                    xScroller.scrollLeft = scrollX;
-                    yScroller.scrollTop = scrollY;
-                    return;
-                }
-
-                var k = Math.min(1, (currentTimestamp - start) / ScrollTime);
-
-                dx = Math.round(dx*k);
-                dy = Math.round(dy*k);
-
-                xScroller.scrollLeft += dx;
-                yScroller.scrollTop += dy;
-
-                scrollTimer = requestAnimationFrame(scrollAnim);
-            };
-
-            scrollTimer = requestAnimationFrame(scrollAnim);
+            animateScroll(xScroller, scrollX, yScroller, scrollY);
         } else {
             var scrollBehavior = smooth ? "smooth" : "instant";
 
