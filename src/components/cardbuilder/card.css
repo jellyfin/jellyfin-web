@@ -232,9 +232,10 @@ button {
     left: 0;
     right: 0;
     bottom: 0;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
-    background-position: center bottom;
+    background-position: center;
+    border: none;
 }
 
 .cardImage-img {
