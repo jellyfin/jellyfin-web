@@ -199,6 +199,26 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         }
     }
 
+    /**
+     * Performs built-in scroll.
+     *
+     * @param {HTMLElement} xScroller horizontal scroller
+     * @param {number} scrollX horizontal coordinate
+     * @param {HTMLElement} yScroller vertical scroller
+     * @param {number} scrollY vertical coordinate
+     * @param {boolean} smooth smooth scrolling
+     */
+    function builtinScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
+        var scrollBehavior = smooth ? "smooth" : "instant";
+
+        if (xScroller !== yScroller) {
+            scrollToHelper(xScroller, {left: scrollX, behavior: scrollBehavior});
+            scrollToHelper(yScroller, {top: scrollY, behavior: scrollBehavior});
+        } else {
+            scrollToHelper(xScroller, {left: scrollX, top: scrollY, behavior: scrollBehavior});
+        }
+    }
+
     var scrollTimer;
 
     /**
@@ -238,8 +258,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
             dx = Math.round(dx*k);
             dy = Math.round(dy*k);
 
-            xScroller.scrollLeft += dx;
-            yScroller.scrollTop += dy;
+            builtinScroll(xScroller, xScroller.scrollLeft + dx, yScroller, yScroller.scrollTop + dy, false);
 
             scrollTimer = requestAnimationFrame(scrollAnim);
         };
@@ -263,14 +282,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         if (smooth && useAnimatedScroll()) {
             animateScroll(xScroller, scrollX, yScroller, scrollY);
         } else {
-            var scrollBehavior = smooth ? "smooth" : "instant";
-
-            if (xScroller !== yScroller) {
-                scrollToHelper(xScroller, {left: scrollX, behavior: scrollBehavior});
-                scrollToHelper(yScroller, {top: scrollY, behavior: scrollBehavior});
-            } else {
-                scrollToHelper(xScroller, {left: scrollX, top: scrollY, behavior: scrollBehavior});
-            }
+            builtinScroll(xScroller, scrollX, yScroller, scrollY, smooth);
         }
     }
 
