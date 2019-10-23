@@ -30,6 +30,7 @@
  - [Nickbert7](https://github.com/Nickbert7)
  - [ferferga](https://github.com/ferferga)
  - [bilde2910](https://github.com/bilde2910)
+ - [Daniel Hartung](https://github.com/dhartung)
 
 # Emby Contributors
 
