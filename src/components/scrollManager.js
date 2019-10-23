@@ -365,7 +365,8 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
 
         var offsetParent = element.offsetParent;
 
-        var isFixed = offsetParent && !offsetParent.offsetParent;
+        // In Firefox offsetParent.offsetParent is BODY
+        var isFixed = offsetParent && (!offsetParent.offsetParent || window.getComputedStyle(offsetParent).position === "fixed");
 
         // Scroll fixed elements to nearest edge (or do not scroll at all)
         if (isFixed) {
