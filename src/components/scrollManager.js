@@ -70,6 +70,70 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
     };
 
     /**
+     * Document scroll wrapper helps to unify scrolling and fix issues of some browsers.
+     *
+     * webOS 2 Browser: scrolls documentElement (and window), but body has a scroll size
+     *
+     * webOS 3 Browser: scrolls body (and window)
+     *
+     * webOS 4 Native: scrolls body (and window); has a document.scrollingElement
+     *
+     * Tizen 4 Browser/Native: scrolls body (and window); has a document.scrollingElement
+     *
+     * Tizen 5 Browser/Native: scrolls documentElement (and window); has a document.scrollingElement
+     */
+    function DocumentScroller() {
+    }
+
+    DocumentScroller.prototype = {
+        get scrollLeft() {
+            return window.pageXOffset;
+        },
+        set scrollLeft(val) {
+            window.scroll(val, window.pageYOffset);
+        },
+
+        get scrollTop() {
+            return window.pageYOffset;
+        },
+        set scrollTop(val) {
+            window.scroll(window.pageXOffset, val);
+        },
+
+        get scrollWidth() {
+            return Math.max(document.documentElement.scrollWidth, document.body.scrollWidth);
+        },
+
+        get scrollHeight() {
+            return Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+        },
+
+        get clientWidth() {
+            return Math.min(document.documentElement.clientWidth, document.body.clientWidth);
+        },
+
+        get clientHeight() {
+            return Math.min(document.documentElement.clientHeight, document.body.clientHeight);
+        },
+
+        getBoundingClientRect: function() {
+            // Make valid viewport coordinates: documentElement.getBoundingClientRect returns rect of entire document relative to viewport
+            return {
+                left: 0,
+                top: 0,
+                width: this.clientWidth,
+                height: this.clientHeight
+            };
+        },
+
+        scrollTo: function() {
+            window.scrollTo.apply(window, arguments);
+        }
+    };
+
+    var documentScroller = new DocumentScroller();
+
+    /**
      * Returns parent element that can be scrolled. If no such, returns documentElement.
      *
      * @param {HTMLElement} element element for which parent is being searched
@@ -89,7 +153,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
             }
         }
 
-        return document.scrollingElement || document.documentElement;
+        return documentScroller;
     }
 
     /**
@@ -134,19 +198,10 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         var elementRect = element.getBoundingClientRect();
         var scrollerRect = scroller.getBoundingClientRect();
 
-        var scrollerLeft = scrollerRect.left;
-        var scrollerTop = scrollerRect.top;
-
-        // documentElement scrolls itself - coordinates is changed relative to viewport
-        if (scroller === getScrollableParent(null, false)) {
-            scrollerLeft += scroller.scrollLeft;
-            scrollerTop += scroller.scrollTop;
-        }
-
         if (!vertical) {
-            return scroller.scrollLeft + elementRect.left - scrollerLeft;
+            return scroller.scrollLeft + elementRect.left - scrollerRect.left;
         } else {
-            return scroller.scrollTop + elementRect.top - scrollerTop;
+            return scroller.scrollTop + elementRect.top - scrollerRect.top;
         }
     }
 
