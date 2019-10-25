@@ -584,7 +584,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
 
                 Array.from(videoElement.textTracks)
-                .filter(function(trackElement) {
+                    .filter(function(trackElement) {
                     // get showing .vtt textTacks
                     return trackElement.mode === 'showing';
                 })
