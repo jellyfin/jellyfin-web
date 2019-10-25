@@ -594,7 +594,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         return t.Index === customTrackIndex;
                     })[0];
 
-                    if(track) {
+                    if (track) {
                         offsetValue = updateCurrentTrackOffset(offsetValue);
                         setVttSubtitleOffset(trackElement, offsetValue);
                     } else {
