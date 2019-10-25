@@ -577,7 +577,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var offsetValue = parseFloat(offset);
 
             // if .ass currently rendering
-            if(currentAssRenderer){
+            if (currentAssRenderer){
                 updateCurrentTrackOffset(offsetValue);
             } else {
                 var videoElement = self._mediaElement;
