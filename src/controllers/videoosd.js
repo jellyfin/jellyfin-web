@@ -1,4 +1,4 @@
-define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "mediaInfo", "focusManager", "imageLoader", "scrollHelper", "events", "connectionManager", "browser", "globalize", "apphost", "layoutManager", "userSettings", "scrollStyles", "emby-slider", "paper-icon-button-light", "css!css/videoosd"], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager, userSettings) {
+define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "mediaInfo", "focusManager", "imageLoader", "scrollHelper", "events", "connectionManager", "browser", "globalize", "apphost", "layoutManager", "userSettings", "scrollStyles", "emby-slider", "paper-icon-button-light", "css!css/videoosd"], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager, userSettings) {
     "use strict";
 
     function seriesImageUrl(item, options) {
@@ -925,7 +925,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                 if (player) {
 
                     // show subtitle offset feature only if player and media support it
-                    var showSubOffset = playbackManager.supportSubtitleOffset(player) && 
+                    var showSubOffset = playbackManager.supportSubtitleOffset(player) &&
                         playbackManager.canHandleOffsetOnCurrentSubtitle(player);
 
                     playerSettingsMenu.show({
@@ -1047,7 +1047,7 @@ define(["playbackManager", "dom", "inputmanager", "datetime", "itemHelper", "med
                         playbackManager.setSubtitleStreamIndex(index, player);
                     }
 
-                    toggleSubtitleSync();                    
+                    toggleSubtitleSync();
                 });
             });
         }

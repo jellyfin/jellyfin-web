@@ -6,19 +6,13 @@ define(["loading"], function (loading) {
         ApiClient.ajax({
             url: ApiClient.getUrl("Startup/Complete"),
             type: "POST"
-        }).then(function () {
-            Dashboard.navigate("dashboard.html");
+        }).then(function() {
             loading.hide();
+            window.location.href = "index.html";
         });
     }
 
     return function (view, params) {
         view.querySelector(".btnWizardNext").addEventListener("click", onFinish);
-        view.addEventListener("viewshow", function () {
-            document.querySelector(".skinHeader").classList.add("noHomeButtonHeader");
-        });
-        view.addEventListener("viewhide", function () {
-            document.querySelector(".skinHeader").classList.remove("noHomeButtonHeader");
-        });
     };
 });

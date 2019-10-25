@@ -168,17 +168,12 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         }), menuItems.push({
             name: "Xml TV",
             id: "xmltv"
-        }), menuItems.push({
-            name: globalize.translate("ButtonOther"),
-            id: "other"
         }), require(["actionsheet"], function(actionsheet) {
             actionsheet.show({
                 items: menuItems,
                 positionTo: button,
                 callback: function(id) {
-                    "other" == id ? Dashboard.alert({
-                        message: globalize.translate("ForAdditionalLiveTvOptions")
-                    }) : Dashboard.navigate(getProviderConfigurationUrl(id))
+                    Dashboard.navigate(getProviderConfigurationUrl(id))
                 }
             })
         })

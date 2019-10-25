@@ -430,13 +430,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function loadUserSkinWithOptions(ctx) {
-
         require(['queryString'], function (queryString) {
-
-            //var url = options.url;
-            //var index = url.indexOf('?');
             var params = queryString.parse(ctx.querystring);
-
             skinManager.loadUserSkin({
                 start: params.start
             });
@@ -444,16 +439,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function validateRoles(apiClient, roles) {
-
         return Promise.all(roles.split(',').map(function (role) {
             return validateRole(apiClient, role);
         }));
     }
 
     function validateRole(apiClient, role) {
-
         if (role === 'admin') {
-
             return apiClient.getCurrentUser().then(function (user) {
                 if (user.Policy.IsAdministrator) {
                     return Promise.resolve();
@@ -480,7 +472,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             route: route,
             path: ctx.path
         };
-        //next();
 
         ctx.handled = true;
     }
@@ -503,7 +494,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function endsWith(str, srch) {
-
         return str.lastIndexOf(srch) === srch.length - 1;
     }
 
@@ -513,6 +503,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     if (endsWith(baseRoute, '/') && !endsWith(baseRoute, '://')) {
         baseRoute = baseRoute.substring(0, baseRoute.length - 1);
     }
+
     function baseUrl() {
         return baseRoute;
     }
@@ -551,14 +542,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function back() {
-
         page.back();
     }
 
     function canGoBack() {
-
         var curr = current();
-
         if (!curr) {
             return false;
         }
@@ -576,7 +564,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function show(path, options) {
-
         if (path.indexOf('/') !== 0 && path.indexOf('://') === -1) {
             path = '/' + path;
         }
@@ -585,7 +572,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         path = path.replace(baseRoute, '');
 
         if (currentRouteInfo && currentRouteInfo.path === path) {
-
             // can't use this with home right now due to the back menu
             if (currentRouteInfo.route.type !== 'home') {
                 loading.hide();
@@ -594,7 +580,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
 
         return new Promise(function (resolve, reject) {
-
             resolveOnNextShow = resolve;
             page.show(path, options);
         });
@@ -615,14 +600,12 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function showItem(item, serverId, options) {
-
         if (typeof (item) === 'string') {
             var apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
             apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
                 appRouter.showItem(item, options);
             });
         } else {
-
             if (arguments.length === 2) {
                 options = arguments[1];
             }
@@ -637,7 +620,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     var allRoutes = [];
 
     function addRoute(path, newRoute) {
-
         page(path, getHandler(newRoute));
         allRoutes.push(newRoute);
     }
@@ -649,7 +631,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     var backdropContainer;
     var backgroundContainer;
     function setTransparency(level) {
-
         if (!backdropContainer) {
             backdropContainer = document.querySelector('.backdropContainer');
         }
@@ -662,8 +643,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             document.documentElement.classList.add('transparentDocument');
             backgroundContainer.classList.add('backgroundContainer-transparent');
             backdropContainer.classList.add('hide');
-        }
-        else if (level === 'backdrop' || level === 1) {
+        } else if (level === 'backdrop' || level === 1) {
             backdrop.externalBackdrop(true);
             document.documentElement.classList.add('transparentDocument');
             backgroundContainer.classList.add('backgroundContainer-transparent');
@@ -677,9 +657,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function pushState(state, title, url) {
-
         state.navigate = false;
-
         page.pushState(state, title, url);
     }
 
@@ -690,40 +668,24 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
 
         console.log('Setting page base to ' + baseRoute);
-
         page.base(baseRoute);
     }
 
     setBaseRoute();
 
-    function syncNow() {
-        require(['localsync'], function (localSync) {
-            localSync.sync();
-        });
-    }
-
     function invokeShortcut(id) {
-
         if (id.indexOf('library-') === 0) {
-
             id = id.replace('library-', '');
-
             id = id.split('_');
 
             appRouter.showItem(id[0], id[1]);
-
         } else if (id.indexOf('item-') === 0) {
-
             id = id.replace('item-', '');
-
             id = id.split('_');
 
             appRouter.showItem(id[0], id[1]);
-
         } else {
-
             id = id.split('_');
-
             appRouter.show(appRouter.getRouteUrl(id[0], {
                 serverId: id[1]
             }));
@@ -740,6 +702,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     appRouter.canGoBack = canGoBack;
     appRouter.current = current;
     appRouter.beginConnectionWizard = beginConnectionWizard;
+    appRouter.invokeShortcut = invokeShortcut;
     appRouter.showItem = showItem;
     appRouter.setTransparency = setTransparency;
     appRouter.getRoutes = getRoutes;
@@ -751,7 +714,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         Backdrop: 1,
         Full: 2
     };
-    appRouter.invokeShortcut = invokeShortcut;
 
     return appRouter;
 });

@@ -91,7 +91,6 @@
     "ButtonNextTrack": "次のトラック",
     "ButtonOk": "OK",
     "ButtonOpen": "開く",
-    "ButtonOther": "その他",
     "ButtonParentalControl": "ペアレンタルコントロール",
     "ButtonPause": "一時停止",
     "ButtonPlay": "再生",
@@ -263,7 +262,6 @@
     "FolderTypeTvShows": "テレビ番組",
     "FolderTypeUnset": "ミックスコンテンツ",
     "Folders": "フォルダー",
-    "ForAdditionalLiveTvOptions": "その他のLive TV プロバイダーの場合は、[サービス]タブをクリックして利用可能なオプションを確認してください。",
     "FormatValue": "フォーマット: {0}",
     "Friday": "金曜日",
     "Fullscreen": "フルスクリーン",
@@ -505,5 +503,6 @@
     "Shows": "番組",
     "Songs": "曲",
     "Sync": "同期",
-    "ValueSpecialEpisodeName": "スペシャル - {0}"
+    "ValueSpecialEpisodeName": "スペシャル - {0}",
+    "ButtonAddImage": "イメージの追加"
 }

@@ -1,4 +1,4 @@
-define(['inputmanager', 'focusManager'], function(inputmanager, focusManager) {
+define(['inputManager', 'focusManager'], function(inputManager, focusManager) {
     'use strict';
 
     console.log("keyboardnavigation");
@@ -9,16 +9,16 @@ define(['inputmanager', 'focusManager'], function(inputmanager, focusManager) {
 
             switch (e.keyCode) {
             case 37: // ArrowLeft
-                inputmanager.handle('left');
+                inputManager.handle('left');
                 break;
             case 38: // ArrowUp
-                inputmanager.handle('up');
+                inputManager.handle('up');
                 break;
             case 39: // ArrowRight
-                inputmanager.handle('right');
+                inputManager.handle('right');
                 break;
             case 40: // ArrowDown
-                inputmanager.handle('down');
+                inputManager.handle('down');
                 break;
             default:
                 capture = false;

@@ -147,15 +147,14 @@
         vertical-align: middle;
     }
 
-    .paper-icon-button-light > img {
-        width: 1.72em;
-        /* Can't use 100% height or it will stretch past the boundaries in safari */
-        /*height: 100%;*/
+    .paper-icon-button-light > div {
         max-height: 100%;
-        /* Make sure its on top of the ripple */
+        transform: scale(1.8);
         position: relative;
         z-index: 1;
         vertical-align: middle;
+        display: inline;
+        margin: 0 auto;
     }
 
 .emby-button-foreground {

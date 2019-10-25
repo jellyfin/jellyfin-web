@@ -1192,44 +1192,43 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             var trackElement = null;
-            var expectedId = 'manualTrack' + track.Index;
+            if (videoElement.textTracks && videoElement.textTracks.length > 0) {
+                trackElement = videoElement.textTracks[0];
 
-            // get list of tracks
-            var allTracks = videoElement.textTracks;
-            for (var i = 0; i < allTracks.length; i++) {
-
-                var currentTrack = allTracks[i];
-
-                if (currentTrack.label === expectedId) {
-                    trackElement = currentTrack;
-                    break;
-                } else {
-                    currentTrack.mode = 'disabled';
-                }
-            }
-
-            if (!trackElement) {
-                trackElement = videoElement.addTextTrack('subtitles', 'manualTrack' + track.Index, track.Language || 'und');
-
-                // download the track json
-                fetchSubtitles(track, item).then(function (data) {
-
-                    // show in ui
-                    console.log('downloaded ' + data.TrackEvents.length + ' track events');
-                    // add some cues to show the text
-                    // in safari, the cues need to be added before setting the track mode to showing
-                    data.TrackEvents.forEach(function (trackEvent) {
-
-                        var trackCueObject = window.VTTCue || window.TextTrackCue;
-                        var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text));
-
-                        trackElement.addCue(cue);
-                    });
+                // This throws an error in IE, but is fine in chrome
+                // In IE it's not necessary anyway because changing the src seems to be enough
+                try {
                     trackElement.mode = 'showing';
-                });
+                    while (trackElement.cues.length) {
+                        trackElement.removeCue(trackElement.cues[0]);
+                    }
+                } catch (e) {
+                    console.log('Error removing cue from textTrack');
+                }
+
+                trackElement.mode = 'disabled';
             } else {
-                trackElement.mode = 'showing';
+                // There is a function addTextTrack but no function for removeTextTrack
+                // Therefore we add ONE element and replace its cue data
+                trackElement = videoElement.addTextTrack('subtitles', 'manualTrack', 'und');
             }
+
+            // download the track json
+            fetchSubtitles(track, item).then(function (data) {
+
+                // show in ui
+                console.log('downloaded ' + data.TrackEvents.length + ' track events');
+                // add some cues to show the text
+                // in safari, the cues need to be added before setting the track mode to showing
+                data.TrackEvents.forEach(function (trackEvent) {
+
+                    var trackCueObject = window.VTTCue || window.TextTrackCue;
+                    var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text));
+
+                    trackElement.addCue(cue);
+                });
+                trackElement.mode = 'showing';
+            });
         }
 
         function updateSubtitleText(timeMs) {

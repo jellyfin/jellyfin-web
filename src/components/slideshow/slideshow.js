@@ -1,4 +1,4 @@
-define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'loading', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (dialogHelper, inputmanager, connectionManager, layoutManager, focusManager, browser, appHost, loading) {
+define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'loading', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (dialogHelper, inputManager, connectionManager, layoutManager, focusManager, browser, appHost, loading) {
     'use strict';
 
     function getImageUrl(item, options, apiClient) {
@@ -189,7 +189,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 stopInterval();
             });
 
-            inputmanager.on(window, onInputCommand);
+            inputManager.on(window, onInputCommand);
             document.addEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
 
             dlg.addEventListener('close', onDialogClosed);
@@ -207,7 +207,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 dlg.querySelector('.swiper-wrapper').innerHTML = currentOptions.items.map(getSwiperSlideHtmlFromItem).join('');
             }
 
-            require(['swiper'], function (swiper) {
+            require(['swiper'], function (Swiper) {
 
                 swiperInstance = new Swiper(dlg.querySelector('.slideshowSwiperContainer'), {
                     // Optional parameters
@@ -372,7 +372,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 swiperInstance = null;
             }
 
-            inputmanager.off(window, onInputCommand);
+            inputManager.off(window, onInputCommand);
             document.removeEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
         }
 
