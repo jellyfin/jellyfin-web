@@ -235,11 +235,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         }
 
         function ensureConnectUser(credentials) {
-            return Promise.resolve();
-        }
-
-        function addAuthenticationInfoFromConnect(server, serverUrl, credentials) {
-            return Promise.reject();
+                return Promise.resolve();
         }
 
         function validateAuthentication(server, serverUrl) {
@@ -419,15 +415,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
 
             if (credentials.ConnectAccessToken && false !== options.enableAutoLogin) {
                 ensureConnectUser(credentials).then(function () {
-                    if (server.ExchangeToken) {
-                        addAuthenticationInfoFromConnect(server, serverUrl, credentials).then(function () {
-                            afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, true, options, resolve);
-                        }, function () {
-                            afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, true, options, resolve);
-                        });
-                    } else {
-                        afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, true, options, resolve);
-                    }
+                    afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, true, options, resolve);
                 });
             } else {
                 afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, true, options, resolve);
