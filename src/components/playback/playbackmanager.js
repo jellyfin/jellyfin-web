@@ -1667,7 +1667,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         self.getPlayerSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
-            if (player.getPlayerSubtitleOffset) {
+            if (player.getSubtitleOffset) {
                 return player.getSubtitleOffset();
             }
         }
