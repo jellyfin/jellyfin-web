@@ -235,7 +235,9 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         }
 
         function ensureConnectUser(credentials) {
+            if (connectUser && connectUser.Id === credentials.ConnectUserId) {
                 return Promise.resolve();
+            }
         }
 
         function validateAuthentication(server, serverUrl) {
