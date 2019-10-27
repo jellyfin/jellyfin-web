@@ -429,5 +429,15 @@
     "Desktop": "Masaüstü",
     "HeaderFavoriteShows": "Favori Diziler",
     "HeaderFavoriteEpisodes": "Favori Bölümler",
-    "BookLibraryHelp": "Ses ve ders kitapları desteklenir. {0} kitap adlandırma kılavuzunu {1} gözden geçirin."
+    "BookLibraryHelp": "Ses ve ders kitapları desteklenir. {0} kitap adlandırma kılavuzunu {1} gözden geçirin.",
+    "EnableDisplayMirroring": "Ekran Yansıtma",
+    "EnableExternalVideoPlayers": "Harici video oynatıcılar",
+    "EnableExternalVideoPlayersHelp": "Video oynatmaya başlarken harici bir oynatıcı menüsü görüntülenecektir.",
+    "EnableHardwareEncoding": "Donanım kodlamasını etkinleştir",
+    "EnableNextVideoInfoOverlayHelp": "Bir videonun sonunda, geçerli oynatma listesinde çıkan bir sonraki video hakkındaki bilgileri görüntüleyin.",
+    "EnablePhotos": "Fotoğrafları göster",
+    "EnableNextVideoInfoOverlay": "Oynatma sırasında bir sonraki video bilgisini göster",
+    "EnablePhotosHelp": "Görüntüler diğer medya dosyalarıyla birlikte algılanacak ve gösterilecektir.",
+    "EnableCinemaMode": "Sinema Modu",
+    "EnableColorCodedBackgrounds": "Renk kodlu arka planlar"
 }
