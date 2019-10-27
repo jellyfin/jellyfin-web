@@ -399,7 +399,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         if (item.UserData && item.UserData.LastPlayedDate) {
             lastPlayedElement.classList.remove("hide");
             var datePlayed = datetime.parseISO8601Date(item.UserData.LastPlayedDate);
-            lastPlayedElement.innerHTML = globalize.translate("DatePlayed") + " " + datetime.toLocaleDateString(datePlayed) + " " + datetime.getDisplayTime(datePlayed);
+            lastPlayedElement.innerHTML = globalize.translate("DatePlayed") + ": " + datetime.toLocaleDateString(datePlayed) + " " + datetime.getDisplayTime(datePlayed);
         } else {
             lastPlayedElement.classList.add("hide");
         }
