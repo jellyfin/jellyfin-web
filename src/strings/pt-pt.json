@@ -1153,5 +1153,6 @@
     "LabelReasonForTranscoding": "Razão para transcodificação:",
     "LabelScreensaver": "Proteção de Ecrã:",
     "LabelSecureConnectionsMode": "Modo de ligação segura:",
-    "LabelSeriesRecordingPath": "Caminho para gravação de séries (opcional):"
+    "LabelSeriesRecordingPath": "Caminho para gravação de séries (opcional):",
+    "ColorPrimaries": "Cores primárias"
 }
