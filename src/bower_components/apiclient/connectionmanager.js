@@ -457,29 +457,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             }
         }
 
-        function addAppInfoToConnectRequest(request) {
-            request.headers = request.headers || {};
-            request.headers["X-Application"] = appName + "/" + appVersion;
-        }
-
-        function exchangePin(pinInfo) {
-            if (!pinInfo) {
-                throw new Error("pinInfo cannot be null");
-            }
-
-            var request = {
-                type: "POST",
-                url: getConnectUrl("pin/authenticate"),
-                data: {
-                    deviceId: pinInfo.DeviceId,
-                    pin: pinInfo.Pin
-                },
-                dataType: "json"
-            };
-            addAppInfoToConnectRequest(request);
-            return ajax(request);
-        }
-
         console.log("Begin ConnectionManager constructor");
         var self = this;
         this._apiClients = [];
@@ -772,43 +749,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                 LastConnectionMode: ConnectionMode.Manual
             };
             return self.connectToServer(server, options).catch(onFail);
-        };
-
-        self.createPin = function () {
-            var request = {
-                type: "POST",
-                url: getConnectUrl("pin"),
-                data: {
-                    deviceId: deviceId
-                },
-                dataType: "json"
-            };
-            addAppInfoToConnectRequest(request);
-            return ajax(request);
-        };
-
-        self.getPinStatus = function (pinInfo) {
-            if (!pinInfo) {
-                throw new Error("pinInfo cannot be null");
-            }
-
-            var queryString = {
-                deviceId: pinInfo.DeviceId,
-                pin: pinInfo.Pin
-            };
-            var request = {
-                type: "GET",
-                url: getConnectUrl("pin") + "?" + paramsToString(queryString),
-                dataType: "json"
-            };
-            addAppInfoToConnectRequest(request);
-            return ajax(request);
-        };
-
-        self.exchangePin = function (pinInfo) {
-            if (!pinInfo) {
-                throw new Error("pinInfo cannot be null");
-            }
         };
     };
 
