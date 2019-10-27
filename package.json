@@ -5,6 +5,7 @@
   "repository": "https://github.com/jellyfin/jellyfin-web",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.0",
     "eslint": "^5.16.0",
@@ -16,12 +17,14 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "alameda": "^1.3.0",
     "flv.js": "^1.5.0",
     "hls.js": "^0.12.4",
     "howler": "^2.1.2",
     "jquery": "^3.4.1",
     "jstree": "^3.3.7",
     "libjass": "^0.11.0",
+    "requirejs": "^2.3.5",
     "shaka-player": "^2.5.5",
     "sortablejs": "^1.9.0",
     "swiper": "^3.4.2"
