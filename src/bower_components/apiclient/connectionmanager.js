@@ -234,12 +234,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             })
         }
 
-        function ensureConnectUser(credentials) {
-            if (connectUser && connectUser.Id === credentials.ConnectUserId) {
-                return Promise.resolve();
-            }
-        }
-
         function validateAuthentication(server, serverUrl) {
             return ajax({
                 type: "GET",
@@ -415,13 +409,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             var credentials = credentialProvider.credentials();
             options = options || {};
 
-            if (credentials.ConnectAccessToken && false !== options.enableAutoLogin) {
-                ensureConnectUser(credentials).then(function () {
-                    afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, true, options, resolve);
-                });
-            } else {
-                afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, true, options, resolve);
-            }
+            afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, true, options, resolve);
         }
 
         function afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, verifyLocalAuthentication, options, resolve) {
@@ -648,8 +636,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
 
                 if (!credentials.ConnectUserId || !credentials.ConnectAccessToken || apiClient && apiClient.getCurrentUserId()) {
                     onEnsureConnectUserDone();
-                } else {
-                    ensureConnectUser(credentials).then(onEnsureConnectUserDone, onEnsureConnectUserDone);
                 }
             });
         };
@@ -823,14 +809,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             if (!pinInfo) {
                 throw new Error("pinInfo cannot be null");
             }
-
-            return exchangePin(pinInfo).then(function (result) {
-                var credentials = credentialProvider.credentials();
-                credentials.ConnectAccessToken = result.AccessToken;
-                credentials.ConnectUserId = result.UserId;
-                credentialProvider.credentials(credentials);
-                return ensureConnectUser(credentials);
-            });
         };
     };
 
