@@ -711,6 +711,31 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             };
             return self.connectToServer(server, options).catch(onFail);
         };
+
+        self.deleteServer = function (serverId) {
+            if (!serverId) {
+              throw new Error("null serverId");
+            }
+
+            var server = credentialProvider.credentials().Servers.filter(function (s) {
+              return s.Id === serverId;
+            });
+            server = server.length ? server[0] : null;
+            return new Promise(function (resolve, reject) {
+              function onDone() {
+                var credentials = credentialProvider.credentials();
+                credentials.Servers = credentials.Servers.filter(function (s) {
+                  return s.Id !== serverId;
+                });
+                credentialProvider.credentials(credentials);
+                resolve();
+              }
+
+              if (!server.ConnectServerId) {
+                return void onDone();
+              }
+            });
+          };
     };
 
     ConnectionManager.prototype.connect = function (options) {
