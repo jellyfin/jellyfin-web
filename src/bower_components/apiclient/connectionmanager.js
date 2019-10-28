@@ -523,10 +523,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
 
         self.clearData = function () {
             console.log("connection manager clearing data");
-            connectUser = null;
             var credentials = credentialProvider.credentials();
-            credentials.ConnectAccessToken = null;
-            credentials.ConnectUserId = null;
             credentials.Servers = [];
             credentialProvider.credentials(credentials);
         };
@@ -589,7 +586,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                 var localUser;
                 var credentials = credentialProvider.credentials();
 
-                if (!credentials.ConnectUserId || !credentials.ConnectAccessToken || apiClient && apiClient.getCurrentUserId()) {
+                if (apiClient && apiClient.getCurrentUserId()) {
                     onEnsureConnectUserDone();
                 }
             });
