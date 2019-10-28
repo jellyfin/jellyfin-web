@@ -34,7 +34,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
     function resolveFailure(instance, resolve) {
         resolve({
             State: "Unavailable",
-            ConnectUser: instance.connectUser()
         });
     }
 
@@ -253,12 +252,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         }
 
         function getImageUrl(localUser) {
-            if (connectUser && connectUser.ImageUrl) {
-                return {
-                    url: connectUser.ImageUrl
-                };
-            }
-
             if (localUser && localUser.PrimaryImageTag) {
                 return {
                     url: self.getApiClient(localUser).getUserImageUrl(localUser.Id, {
@@ -460,12 +453,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         console.log("Begin ConnectionManager constructor");
         var self = this;
         this._apiClients = [];
-        var connectUser;
-
-        self.connectUser = function () {
-            return connectUser;
-        };
-
         self._minServerVersion = "3.2.33";
 
         self.appVersion = function () {
@@ -486,14 +473,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
 
         self.credentialProvider = function () {
             return credentialProvider;
-        };
-
-        self.connectUserId = function () {
-            return credentialProvider.credentials().ConnectUserId;
-        };
-
-        self.connectToken = function () {
-            return credentialProvider.credentials().ConnectAccessToken;
         };
 
         self.getServerInfo = function (id) {
@@ -590,10 +569,9 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                     var image = getImageUrl(localUser);
                     resolve({
                         localUser: localUser,
-                        name: connectUser ? connectUser.Name : localUser ? localUser.Name : null,
+                        name: localUser ? localUser.Name : null,
                         imageUrl: image.url,
                         supportsImageParams: image.supportsParams,
-                        connectUser: connectUser
                     });
                 }
 
@@ -641,16 +619,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                     server.AccessToken = null;
                     server.ExchangeToken = null;
                 }
-
-                credentials.Servers = servers;
-                credentials.ConnectAccessToken = null;
-                credentials.ConnectUserId = null;
-                credentialProvider.credentials(credentials);
-
-                if (connectUser) {
-                    connectUser = null;
-                    events.trigger(self, "connectusersignedout");
-                }
             });
         };
 
@@ -692,12 +660,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                     return result;
                 });
             }
-
-            return Promise.resolve({
-                Servers: servers,
-                State: servers.length || self.connectUser() ? "ServerSelection" : "ConnectSignIn",
-                ConnectUser: self.connectUser()
-            });
         };
 
         self.connectToServer = function (server, options) {
@@ -734,7 +696,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                 console.log("connectToAddress " + address + " failed");
                 return Promise.resolve({
                     State: "Unavailable",
-                    ConnectUser: instance.connectUser()
                 });
             }
 
