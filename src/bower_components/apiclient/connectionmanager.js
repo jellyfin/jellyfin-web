@@ -39,11 +39,11 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
 
     function mergeServers(credentialProvider, list1, list2) {
         for (var i = 0, length = list2.length; i < length; i++) {
-          credentialProvider.addOrUpdateServer(list1, list2[i]);
+            credentialProvider.addOrUpdateServer(list1, list2[i]);
         }
 
         return list1;
-      }
+    }
 
     function updateServerInfo(server, systemInfo) {
         server.Name = systemInfo.ServerName;
@@ -573,31 +573,22 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         self.user = function (apiClient) {
             return new Promise(function (resolve, reject) {
                 function onLocalUserDone(e) {
-                    var image = getImageUrl(localUser);
-                    resolve({
-                        localUser: localUser,
-                        name: localUser ? localUser.Name : null,
-                        imageUrl: image.url,
-                        supportsImageParams: image.supportsParams,
-                    });
-                }
-
-                function onEnsureConnectUserDone() {
                     if (apiClient && apiClient.getCurrentUserId()) {
                         apiClient.getCurrentUser().then(function (u) {
                             localUser = u;
-                            onLocalUserDone();
+                            var image = getImageUrl(localUser);
+                            resolve({
+                                localUser: localUser,
+                                name: localUser ? localUser.Name : null,
+                                imageUrl: image.url,
+                                supportsImageParams: image.supportsParams,
+                            });
                         }, onLocalUserDone);
-                    } else {
-                        onLocalUserDone();
                     }
                 }
-
                 var localUser;
-                var credentials = credentialProvider.credentials();
-
                 if (apiClient && apiClient.getCurrentUserId()) {
-                    onEnsureConnectUserDone();
+                    onLocalUserDone();
                 }
             });
         };
