@@ -402,7 +402,9 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             var credentials = credentialProvider.credentials();
             options = options || {};
 
-            afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, true, options, resolve);
+            if (false !== options.enableAutoLogin) {
+                afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, true, options, resolve);
+            }
         }
 
         function afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, verifyLocalAuthentication, options, resolve) {
@@ -711,28 +713,28 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
 
         self.deleteServer = function (serverId) {
             if (!serverId) {
-              throw new Error("null serverId");
+                throw new Error("null serverId");
             }
 
             var server = credentialProvider.credentials().Servers.filter(function (s) {
-              return s.Id === serverId;
+                return s.Id === serverId;
             });
             server = server.length ? server[0] : null;
             return new Promise(function (resolve, reject) {
-              function onDone() {
-                var credentials = credentialProvider.credentials();
-                credentials.Servers = credentials.Servers.filter(function (s) {
-                  return s.Id !== serverId;
-                });
-                credentialProvider.credentials(credentials);
-                resolve();
-              }
+                function onDone() {
+                    var credentials = credentialProvider.credentials();
+                    credentials.Servers = credentials.Servers.filter(function (s) {
+                        return s.Id !== serverId;
+                    });
+                    credentialProvider.credentials(credentials);
+                    resolve();
+                }
 
-              if (!server.ConnectServerId) {
-                return void onDone();
-              }
+                if (!server.ConnectServerId) {
+                    return void onDone();
+                }
             });
-          };
+        };
     };
 
     ConnectionManager.prototype.connect = function (options) {
