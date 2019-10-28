@@ -760,10 +760,6 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         });
     };
 
-    ConnectionManager.prototype.isLoggedIntoConnect = function () {
-        return !(!this.connectToken() || !this.connectUserId());
-    };
-
     ConnectionManager.prototype.getApiClients = function () {
         var servers = this.getSavedServers();
 
