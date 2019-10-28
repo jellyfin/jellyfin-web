@@ -1,5 +1,7 @@
 <div class="formDialogHeader">
-    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1">
+        <i class="md-icon">&#xE5C4;</i>
+    </button>
     <h3 class="formDialogHeaderTitle">
         ${Identify}
     </h3>
@@ -10,11 +12,17 @@
         <form class="popupIdentifyForm" style="margin:auto;">
 
             <p>${HeaderIdentifyItemHelp}</p>
+            <div class="padded-bottom fldPath hide">
+                <div>${LabelPath}</div>
+                <div class="txtPath fieldDescription"></div>
+            </div>
             <div class="inputContainer">
-                <input is="emby-input" type="text" id="txtLookupName" class="identifyField" data-lookup="Name" label="${LabelName}" />
+                <input is="emby-input" type="text" id="txtLookupName" class="identifyField" data-lookup="Name"
+                    label="${LabelName}" />
             </div>
             <div class="fldLookupYear inputContainer">
-                <input is="emby-input" type="number" id="txtLookupYear" class="identifyField" data-lookup="Year" pattern="[0-9]*" min="1800" label="${LabelYear}" />
+                <input is="emby-input" type="number" id="txtLookupYear" class="identifyField" data-lookup="Year"
+                    pattern="[0-9]*" min="1800" label="${LabelYear}" />
             </div>
 
             <div class="identifyProviderIds">
@@ -43,7 +51,8 @@
             </label>
 
             <div class="formDialogFooter">
-                <button is="emby-button" type="submit" class="raised button-submit block btnSubmit formDialogFooterItem">
+                <button is="emby-button" type="submit"
+                    class="raised button-submit block btnSubmit formDialogFooterItem">
                     <span>${ButtonOk}</span>
                 </button>
             </div>
