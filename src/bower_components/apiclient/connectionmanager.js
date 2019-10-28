@@ -37,6 +37,14 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         });
     }
 
+    function mergeServers(credentialProvider, list1, list2) {
+        for (var i = 0, length = list2.length; i < length; i++) {
+          credentialProvider.addOrUpdateServer(list1, list2[i]);
+        }
+
+        return list1;
+      }
+
     function updateServerInfo(server, systemInfo) {
         server.Name = systemInfo.ServerName;
         if (systemInfo.Id) {
@@ -636,6 +644,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             return Promise.all([findServers()]).then(function (responses) {
                 var foundServers = responses[0];
                 var servers = credentials.Servers.slice(0);
+                mergeServers(credentialProvider, servers, foundServers);
                 servers.sort(function (a, b) {
                     return (b.DateLastAccessed || 0) - (a.DateLastAccessed || 0);
                 });
