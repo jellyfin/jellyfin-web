@@ -948,11 +948,11 @@
 }
 
 .padded-left {
-    padding-left: 3.3%;
+    padding-left: 3%;
 }
 
 .padded-right {
-    padding-right: 3.3%;
+    padding-right: 3.8%;
 }
 
 .padded-top {
@@ -971,16 +971,6 @@
 .layout-tv .padded-bottom-focusscale {
     padding-bottom: 1em;
     margin-bottom: -1em;
-}
-
-@media all and (min-height:31.25em) {
-    .padded-left-withalphapicker {
-        padding-left: 7.5%;
-    }
-
-    .padded-right-withalphapicker {
-        padding-right: 7.5%;
-    }
 }
 
 .searchfields-icon {
@@ -1020,7 +1010,7 @@
     -webkit-box-pack: end;
     -webkit-justify-content: flex-end;
     justify-content: flex-end;
-    padding: 1.5em .75em 1em 0;
+    padding: 1.2em;
     font-size: 92%
 }
 
