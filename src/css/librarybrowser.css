@@ -1007,9 +1007,6 @@
 }
 
 .layout-tv .itemsViewSettingsContainer {
-    -webkit-box-pack: end;
-    -webkit-justify-content: flex-end;
-    justify-content: flex-end;
     padding: 1.2em;
     font-size: 92%
 }
