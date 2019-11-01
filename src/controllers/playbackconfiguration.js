@@ -12,7 +12,6 @@ define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) 
         loading.show();
         var form = this;
         ApiClient.getServerConfiguration().then(function (config) {
-
             config.MinResumePct = $('#txtMinResumePct', form).val();
             config.MaxResumePct = $('#txtMaxResumePct', form).val();
             config.MinResumeDurationSeconds = $('#txtMinResumeDuration', form).val();

@@ -185,7 +185,7 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "listViewStyle", "paper-
             minutes = parseInt(60 * pct);
         }
 
-        return datetime.getDisplayTime(new Date(2e3, 1, 1, hours, minutes, 0, 0));
+        return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
     }
 
     function showSchedulePopup(page, schedule, index) {

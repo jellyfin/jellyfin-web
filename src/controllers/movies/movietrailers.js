@@ -140,13 +140,11 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                 }
 
                 elems = tabContent.querySelectorAll(".btnNextPage");
-
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onNextPageClick);
                 }
 
                 elems = tabContent.querySelectorAll(".btnPreviousPage");
-
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].addEventListener("click", onPreviousPageClick);
                 }

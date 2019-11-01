@@ -223,8 +223,9 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         }
 
         function getTabController(page, index, callback) {
-            var depends = []; // TODO int is a little hard to read
+            var depends = [];
 
+            // TODO int is a little hard to read
             switch (index) {
                 case 0:
                     break;

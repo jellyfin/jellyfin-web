@@ -68,7 +68,7 @@ define(["layoutManager", "loading", "cardBuilder", "apphost", "imageLoader", "sc
 
     return function (view, params, tabContent) {
         function enableFullRender() {
-            return new Date().getTime() - lastFullRender > 3e5;
+            return new Date().getTime() - lastFullRender > 300000;
         }
 
         var foldersPromise;
