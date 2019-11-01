@@ -207,16 +207,18 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
         function initPage(tabContent) {
             var alphaPickerElement = tabContent.querySelector(".alphaPicker");
 
-            if (alphaPickerElement.addEventListener("alphavaluechanged", function (e) {
-                    var newValue = e.detail.value;
-                    var query = getQuery(tabContent);
-                    query.NameStartsWithOrGreater = newValue;
-                    query.StartIndex = 0;
-                    reloadItems(tabContent);
-                }), self.alphaPicker = new alphaPicker({
-                    element: alphaPickerElement,
-                    valueChangeEvent: "click"
-                }), layoutManager.desktop || layoutManager.mobile) {
+            alphaPickerElement.addEventListener("alphavaluechanged", function (e) {
+                var newValue = e.detail.value;
+                var query = getQuery(tabContent);
+                query.NameStartsWithOrGreater = newValue;
+                query.StartIndex = 0;
+                reloadItems(tabContent);
+            });
+            self.alphaPicker = new alphaPicker({
+                element: alphaPickerElement,
+                valueChangeEvent: "click"
+            });
+            if (layoutManager.desktop || layoutManager.mobile) {
                 tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-right");
                 var itemsContainer = tabContent.querySelector(".itemsContainer");
                 itemsContainer.classList.remove("padded-left-withalphapicker");
