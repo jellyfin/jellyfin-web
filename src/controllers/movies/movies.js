@@ -66,13 +66,11 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
             }
 
             elems = tabContent.querySelectorAll(".btnNextPage");
-
             for (i = 0, length = elems.length; i < length; i++) {
                 elems[i].addEventListener("click", onNextPageClick);
             }
 
             elems = tabContent.querySelectorAll(".btnPreviousPage");
-
             for (i = 0, length = elems.length; i < length; i++) {
                 elems[i].addEventListener("click", onPreviousPageClick);
             }
@@ -181,7 +179,6 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     self.showFilterMenu();
                 });
             }
-
             var btnSort = tabContent.querySelector(".btnSort");
 
             if (btnSort) {
@@ -189,31 +186,31 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     libraryBrowser.showSortMenu({
                         items: [{
                             name: Globalize.translate("OptionNameSort"),
-                            id: "SortName"
+                            id: "SortName,ProductionYear"
                         }, {
                             name: Globalize.translate("OptionImdbRating"),
-                            id: "CommunityRating,SortName"
+                            id: "CommunityRating,SortName,ProductionYear"
                         }, {
                             name: Globalize.translate("OptionCriticRating"),
-                            id: "CriticRating,SortName"
+                            id: "CriticRating,SortName,ProductionYear"
                         }, {
                             name: Globalize.translate("OptionDateAdded"),
-                            id: "DateCreated,SortName"
+                            id: "DateCreated,SortName,ProductionYear"
                         }, {
                             name: Globalize.translate("OptionDatePlayed"),
-                            id: "DatePlayed,SortName"
+                            id: "DatePlayed,SortName,ProductionYear"
                         }, {
                             name: Globalize.translate("OptionParentalRating"),
-                            id: "OfficialRating,SortName"
+                            id: "OfficialRating,SortName,ProductionYear"
                         }, {
                             name: Globalize.translate("OptionPlayCount"),
-                            id: "PlayCount,SortName"
+                            id: "PlayCount,SortName,ProductionYear"
                         }, {
                             name: Globalize.translate("OptionReleaseDate"),
-                            id: "PremiereDate,SortName"
+                            id: "PremiereDate,SortName,ProductionYear"
                         }, {
                             name: Globalize.translate("OptionRuntime"),
-                            id: "Runtime,SortName"
+                            id: "Runtime,SortName,ProductionYear"
                         }],
                         callback: function () {
                             query.StartIndex = 0;
@@ -225,7 +222,6 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     });
                 });
             }
-
             var btnSelectView = tabContent.querySelector(".btnSelectView");
             btnSelectView.addEventListener("click", function (e) {
                 libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), "Banner,List,Poster,PosterCard,Thumb,ThumbCard".split(","));
@@ -244,7 +240,7 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
         var savedQueryKey = params.topParentId + "-" + options.mode;
         var savedViewKey = savedQueryKey + "-view";
         var query = {
-            SortBy: "SortName",
+            SortBy: "SortName,ProductionYear",
             SortOrder: "Ascending",
             IncludeItemTypes: "Movie",
             Recursive: true,
