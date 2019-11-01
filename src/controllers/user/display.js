@@ -45,11 +45,5 @@ define(["displaySettings", "userSettingsBuilder", "userSettings"], function (Dis
                 settingsInstance = null;
             }
         });
-        view.addEventListener("viewdestroy", function () {
-            if (settingsInstance) {
-                settingsInstance.destroy();
-                settingsInstance = null;
-            }
-        });
     };
 });
