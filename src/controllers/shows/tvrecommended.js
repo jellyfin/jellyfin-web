@@ -244,10 +244,8 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
 
         function preLoadTab(page, index) {
             getTabController(page, index, function (controller) {
-                if (renderedTabs.indexOf(index) == -1) {
-                    if (controller.preRender) {
-                        controller.preRender();
-                    }
+                if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
+                    controller.preRender();
                 }
             });
         }
@@ -274,10 +272,8 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         function onWebSocketMessage(e, data) {
             var msg = data;
 
-            if (msg.MessageType === "UserDataChanged") {
-                if (msg.Data.UserId == ApiClient.getCurrentUserId()) {
-                    renderedTabs = [];
-                }
+            if (msg.MessageType === "UserDataChanged" && msg.Data.UserId == ApiClient.getCurrentUserId()) {
+                renderedTabs = [];
             }
         }
 
@@ -307,7 +303,9 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         var renderedTabs = [];
         setScrollClasses(view.querySelector("#resumableItems"), enableScrollX());
         view.addEventListener("viewshow", function (e) {
-            if (isViewRestored = e.detail.isRestored, initTabs(), !view.getAttribute("data-title")) {
+            isViewRestored = e.detail.isRestored;
+             initTabs();
+             if (!view.getAttribute("data-title")) {
                 var parentId = params.topParentId;
 
                 if (parentId) {
