@@ -107,8 +107,9 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
         });
     }
 
-    function loadLiveTvChannels(openItems, callback) {
+    function loadLiveTvChannels(service, openItems, callback) {
         ApiClient.getLiveTvChannels({
+            ServiceName: service,
             AddCurrentProgram: false
         }).then(function (result) {
             var nodes = result.Items.map(function (i) {
