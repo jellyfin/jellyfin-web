@@ -6,7 +6,6 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
         var options = [];
 
         for (var i = 0; i < 86400000; i += 900000) {
-
             options.push({
                 name: ScheduledTaskPage.getDisplayTime(i * 10000),
                 value: i * 10000
@@ -14,9 +13,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
         }
 
         select.innerHTML = options.map(function (o) {
-
             return '<option value="' + o.value + '">' + o.name + '</option>';
-
         }).join("");
     }
 
@@ -51,10 +48,22 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
             for (var i = 0, length = task.Triggers.length; i < length; i++) {
                 var trigger = task.Triggers[i];
 
-                if (html += '<div class="listItem listItem-border">', html += '<i class="md-icon listItemIcon">schedule</i>', trigger.MaxRuntimeTicks ? html += '<div class="listItemBody two-line">' : html += '<div class="listItemBody">', html += "<div class='listItemBodyText'>" + ScheduledTaskPage.getTriggerFriendlyName(trigger) + "</div>", trigger.MaxRuntimeTicks) {
+                html += '<div class="listItem listItem-border">';
+                html += '<i class="md-icon listItemIcon">schedule</i>';
+                if (trigger.MaxRuntimeMs) {
+                    html += '<div class="listItemBody two-line">';
+                } else {
+                    html += '<div class="listItemBody">';
+                }
+                html += "<div class='listItemBodyText'>" + ScheduledTaskPage.getTriggerFriendlyName(trigger) + "</div>";
+                if (trigger.MaxRuntimeMs) {
                     html += '<div class="listItemBodyText secondary">';
                     var hours = trigger.MaxRuntimeTicks / 36e9;
-                    html += 1 == hours ? globalize.translate("ValueTimeLimitSingleHour") : globalize.translate("ValueTimeLimitMultiHour", hours);
+                    if (hours == 1) {
+                        html += globalize.translate("ValueTimeLimitSingleHour");
+                    } else {
+                        html += globalize.translate("ValueTimeLimitMultiHour", hours);
+                    }
                     html += "</div>";
                 }
 
@@ -81,7 +90,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
 
             if (trigger.Type == "IntervalTrigger") {
 
-                var hours = trigger.IntervalTicks / 36000000000;
+                var hours = trigger.IntervalTicks / 36e9;
 
                 if (hours == .25) {
                     return "Every 15 minutes";
@@ -99,8 +108,8 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
                 return "Every " + hours + " hours";
             }
 
-            if (trigger.Type == 'StartupTrigger') {
-                return 'On application startup';
+            if (trigger.Type == "StartupTrigger") {
+                return "On application startup";
             }
 
             return trigger.Type;
@@ -135,56 +144,55 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
             });
         },
         refreshTriggerFields: function (page, triggerType) {
-            if (triggerType == 'DailyTrigger') {
-
-                $('#fldTimeOfDay', page).show();
-                $('#fldDayOfWeek', page).hide();
-                $('#fldSelectSystemEvent', page).hide();
-                $('#fldSelectInterval', page).hide();
-                $('#selectTimeOfDay', page).attr('required', 'required');
-            } else if (triggerType == 'WeeklyTrigger') {
-                $('#fldTimeOfDay', page).show();
-                $('#fldDayOfWeek', page).show();
-                $('#fldSelectSystemEvent', page).hide();
-                $('#fldSelectInterval', page).hide();
-                $('#selectTimeOfDay', page).attr('required', 'required');
-            } else if (triggerType == 'SystemEventTrigger') {
-                $('#fldTimeOfDay', page).hide();
-                $('#fldDayOfWeek', page).hide();
-                $('#fldSelectSystemEvent', page).show();
-                $('#fldSelectInterval', page).hide();
-                $('#selectTimeOfDay', page).removeAttr('required');
-            } else if (triggerType == 'IntervalTrigger') {
-                $('#fldTimeOfDay', page).hide();
-                $('#fldDayOfWeek', page).hide();
-                $('#fldSelectSystemEvent', page).hide();
-                $('#fldSelectInterval', page).show();
-                $('#selectTimeOfDay', page).removeAttr('required');
-            } else if (triggerType == 'StartupTrigger') {
-                $('#fldTimeOfDay', page).hide();
-                $('#fldDayOfWeek', page).hide();
-                $('#fldSelectSystemEvent', page).hide();
-                $('#fldSelectInterval', page).hide();
-                $('#selectTimeOfDay', page).removeAttr('required');
+            if (triggerType == "DailyTrigger") {
+                $("#fldTimeOfDay", page).show();
+                $("#fldDayOfWeek", page).hide();
+                $("#fldSelectSystemEvent", page).hide();
+                $("#fldSelectInterval", page).hide();
+                $("#selectTimeOfDay", page).attr("required", "required");
+            } else if (triggerType == "WeeklyTrigger") {
+                $("#fldTimeOfDay", page).show();
+                $("#fldDayOfWeek", page).show();
+                $("#fldSelectSystemEvent", page).hide();
+                $("#fldSelectInterval", page).hide();
+                $("#selectTimeOfDay", page).attr("required", "required");
+            } else if (triggerType == "SystemEventTrigger") {
+                $("#fldTimeOfDay", page).hide();
+                $("#fldDayOfWeek", page).hide();
+                $("#fldSelectSystemEvent", page).show();
+                $("#fldSelectInterval", page).hide();
+                $("#selectTimeOfDay", page).removeAttr("required");
+            } else if (triggerType == "IntervalTrigger") {
+                $("#fldTimeOfDay", page).hide();
+                $("#fldDayOfWeek", page).hide();
+                $("#fldSelectSystemEvent", page).hide();
+                $("#fldSelectInterval", page).show();
+                $("#selectTimeOfDay", page).removeAttr("required");
+            } else if (triggerType == "StartupTrigger") {
+                $("#fldTimeOfDay", page).hide();
+                $("#fldDayOfWeek", page).hide();
+                $("#fldSelectSystemEvent", page).hide();
+                $("#fldSelectInterval", page).hide();
+                $("#selectTimeOfDay", page).removeAttr("required");
             }
         },
         getTriggerToAdd: function (page) {
             var trigger = {
-                Type: $('#selectTriggerType', page).val()
+                Type: $("#selectTriggerType", page).val()
             };
 
-            if (trigger.Type == 'DailyTrigger') {
-                trigger.TimeOfDayTicks = $('#selectTimeOfDay', page).val();
-            } else if (trigger.Type == 'WeeklyTrigger') {
-                trigger.DayOfWeek = $('#selectDayOfWeek', page).val();
-                trigger.TimeOfDayTicks = $('#selectTimeOfDay', page).val();
-            } else if (trigger.Type == 'SystemEventTrigger') {
-                trigger.SystemEvent = $('#selectSystemEvent', page).val();
-            } else if (trigger.Type == 'IntervalTrigger') {
-                trigger.IntervalTicks = $('#selectInterval', page).val();
+            if (trigger.Type == "DailyTrigger") {
+                trigger.TimeOfDayTicks = $("#selectTimeOfDay", page).val();
+            } else if (trigger.Type == "WeeklyTrigger") {
+                trigger.DayOfWeek = $("#selectDayOfWeek", page).val();
+                trigger.TimeOfDayTicks = $("#selectTimeOfDay", page).val();
+            } else if (trigger.Type == "SystemEventTrigger") {
+                trigger.SystemEvent = $("#selectSystemEvent", page).val();
+            } else if (trigger.Type == "IntervalTrigger") {
+                trigger.IntervalTicks = $("#selectInterval", page).val();
             }
 
-            var timeLimit = $('#txtTimeLimit', page).val() || '0';
+            var timeLimit = $("#txtTimeLimit", page).val() || "0";
             timeLimit = parseFloat(timeLimit) * 3600000;
 
             trigger.MaxRuntimeMs = timeLimit || null;
