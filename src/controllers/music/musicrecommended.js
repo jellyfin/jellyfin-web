@@ -12,7 +12,7 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
             return 12;
         }
 
-        if (screenWidth >= 1e3) {
+        if (screenWidth >= 1000) {
             return 10;
         }
 
@@ -330,10 +330,8 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
 
         function preLoadTab(page, index) {
             getTabController(page, index, function (controller) {
-                if (renderedTabs.indexOf(index) == -1) {
-                    if (controller.preRender) {
-                        controller.preRender();
-                    }
+                if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
+                    controller.preRender();
                 }
             });
         }
@@ -379,7 +377,9 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
         var tabControllers = [];
         var renderedTabs = [];
         view.addEventListener("viewshow", function (e) {
-            if (isViewRestored = e.detail.isRestored, initTabs(), !view.getAttribute("data-title")) {
+            isViewRestored = e.detail.isRestored;
+            initTabs();
+            if (!view.getAttribute("data-title")) {
                 var parentId = params.topParentId;
 
                 if (parentId) {
