@@ -452,7 +452,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var screenWidth = screen.availWidth;
         var hasbackdrop = false;
         var itemBackdropElement = page.querySelector("#itemBackdrop");
-        var usePrimaryImage = "Video" === item.MediaType && "Movie" !== item.Type && "Trailer" !== item.Type || item.MediaType && "Video" !== item.MediaType || "MusicAlbum" === item.Type || "MusicArtist" === item.Type;
+        var usePrimaryImage = item.MediaType === "Video" && item.Type !== "Movie" && item.Type !== "Trailer" ||
+            item.MediaType && item.MediaType !== "Video" ||
+            item.Type === "MusicAlbum" ||
+            item.Type === "MusicArtist";
 
         if ("Program" === item.Type && item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
