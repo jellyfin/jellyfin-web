@@ -21,50 +21,38 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
 
         if ("true" === params.IsMovie) {
             query.IsMovie = true;
-        } else {
-            if ("false" === params.IsMovie) {
-                query.IsMovie = false;
-            }
+        } else if ("false" === params.IsMovie) {
+            query.IsMovie = false;
         }
 
         if ("true" === params.IsSeries) {
             query.IsSeries = true;
-        } else {
-            if ("false" === params.IsSeries) {
-                query.IsSeries = false;
-            }
+        } else if ("false" === params.IsSeries) {
+            query.IsSeries = false;
         }
 
         if ("true" === params.IsNews) {
             query.IsNews = true;
-        } else {
-            if ("false" === params.IsNews) {
-                query.IsNews = false;
-            }
+        } else if ("false" === params.IsNews) {
+            query.IsNews = false;
         }
 
         if ("true" === params.IsSports) {
             query.IsSports = true;
-        } else {
-            if ("false" === params.IsSports) {
-                query.IsSports = false;
-            }
+        } else if ("false" === params.IsSports) {
+            query.IsSports = false;
         }
 
         if ("true" === params.IsKids) {
             query.IsKids = true;
-        } else {
-            if ("false" === params.IsKids) {
-                query.IsKids = false;
-            }
+        } else if ("false" === params.IsKids) {
+            query.IsKids = false;
         }
 
         if ("true" === params.IsAiring) {
             query.IsAiring = true;
-        } else {
-            if ("false" === params.IsAiring) {
-                query.IsAiring = false;
-            }
+        } else if ("false" === params.IsAiring) {
+            query.IsAiring = false;
         }
 
         return modifyQueryWithFilters(instance, query);
@@ -233,7 +221,8 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
     function getItems(instance, params, item, sortBy, startIndex, limit) {
         var apiClient = connectionManager.getApiClient(params.serverId);
 
-        if (instance.queryRecursive = false, "Recordings" === params.type) {
+        instance.queryRecursive = false;
+        if ("Recordings" === params.type) {
             return apiClient.getLiveTvRecordings(getInitialLiveTvQuery(instance, params));
         }
 
@@ -263,10 +252,8 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
 
             if ("MusicArtist" === params.type) {
                 method = "getArtists";
-            } else {
-                if ("Person" === params.type) {
-                    method = "getPeople";
-                }
+            } else if ("Person" === params.type) {
+                method = "getPeople";
             }
 
             return apiClient[method](apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
@@ -295,38 +282,24 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
 
             if ("Studio" === item.Type) {
                 query.StudioIds = item.Id;
-            } else {
-                if ("Genre" === item.Type || "MusicGenre" === item.Type) {
-                    query.GenreIds = item.Id;
-                } else {
-                    if ("Person" === item.Type) {
-                        query.PersonIds = item.Id;
-                    }
-                }
+            } else if ("Genre" === item.Type || "MusicGenre" === item.Type) {
+                query.GenreIds = item.Id;
+            } else if ("Person" === item.Type) {
+                query.PersonIds = item.Id;
             }
 
             if ("MusicGenre" === item.Type) {
                 query.IncludeItemTypes = "MusicAlbum";
-            } else {
-                if ("GameGenre" === item.Type) {
-                    query.IncludeItemTypes = "Game";
-                } else {
-                    if ("movies" === item.CollectionType) {
-                        query.IncludeItemTypes = "Movie";
-                    } else {
-                        if ("tvshows" === item.CollectionType) {
-                            query.IncludeItemTypes = "Series";
-                        } else {
-                            if ("Genre" === item.Type) {
-                                query.IncludeItemTypes = "Movie,Series,Video";
-                            } else {
-                                if ("Person" === item.Type) {
-                                    query.IncludeItemTypes = params.type;
-                                }
-                            }
-                        }
-                    }
-                }
+            } else if ("GameGenre" === item.Type) {
+                query.IncludeItemTypes = "Game";
+            } else if ("movies" === item.CollectionType) {
+                query.IncludeItemTypes = "Movie";
+            } else if ("tvshows" === item.CollectionType) {
+                query.IncludeItemTypes = "Series";
+            } else if ("Genre" === item.Type) {
+                query.IncludeItemTypes = "Movie,Series,Video";
+            } else if ("Person" === item.Type) {
+                query.IncludeItemTypes = params.type;
             }
 
             return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
@@ -343,15 +316,7 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
     }
 
     function getItem(params) {
-        if ("Recordings" === params.type) {
-            return Promise.resolve(null);
-        }
-
-        if ("Programs" === params.type) {
-            return Promise.resolve(null);
-        }
-
-        if ("nextup" === params.type) {
+        if ("Recordings" === params.type || "Programs" === params.type || "nextup" === params.type) {
             return Promise.resolve(null);
         }
 
@@ -489,7 +454,7 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
                 preferThumb = "thumb" === settings.imageType;
             } else if ("Programs" === params.type || "Recordings" === params.type) {
                 shape = "true" === params.IsMovie ? "portrait" : "autoVertical";
-                preferThumb = "true" !== params.IsMovie && "auto";
+                preferThumb = "true" !== params.IsMovie ? "auto" : false;
                 defaultShape = "true" === params.IsMovie ? "portrait" : "backdrop";
             } else {
                 shape = "autoVertical";
@@ -693,46 +658,46 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
             var currentItem = self.currentItem;
 
             if (currentItem && !self.hasFilters) {
-                return void playbackManager.play({
+                playbackManager.play({
                     items: [currentItem]
                 });
-            }
-
-            getItems(self, self.params, currentItem, null, null, 300).then(function (result) {
-                playbackManager.play({
-                    items: result.Items
+            } else {
+                getItems(self, self.params, currentItem, null, null, 300).then(function (result) {
+                    playbackManager.play({
+                        items: result.Items
+                    });
                 });
-            });
+            }
         }
 
         function queue() {
             var currentItem = self.currentItem;
 
             if (currentItem && !self.hasFilters) {
-                return void playbackManager.queue({
+                playbackManager.queue({
                     items: [currentItem]
                 });
-            }
-
-            getItems(self, self.params, currentItem, null, null, 300).then(function (result) {
-                playbackManager.queue({
-                    items: result.Items
+            } else {
+                getItems(self, self.params, currentItem, null, null, 300).then(function (result) {
+                    playbackManager.queue({
+                        items: result.Items
+                    });
                 });
-            });
+            }
         }
 
         function shuffle() {
             var currentItem = self.currentItem;
 
             if (currentItem && !self.hasFilters) {
-                return void playbackManager.shuffle(currentItem);
-            }
-
-            getItems(self, self.params, currentItem, "Random", null, 300).then(function (result) {
-                playbackManager.play({
-                    items: result.Items
+                playbackManager.shuffle(currentItem);
+            } else {
+                getItems(self, self.params, currentItem, "Random", null, 300).then(function (result) {
+                    playbackManager.play({
+                        items: result.Items
+                    });
                 });
-            });
+            }
         }
 
         var self = this;
@@ -813,10 +778,8 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
                     }
                 });
 
-                if (!isRestored) {
-                    if (item && "PhotoAlbum" !== item.Type) {
-                        initAlphaPicker();
-                    }
+                if (!isRestored && item && "PhotoAlbum" !== item.Type) {
+                    initAlphaPicker();
                 }
 
                 var itemType = item ? item.Type : null;
@@ -1151,10 +1114,8 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
 
         var imageType = userSettings.get(basekey + "-imageType");
 
-        if (!imageType) {
-            if ("nextup" === params.type) {
-                imageType = "thumb";
-            }
+        if (!imageType && "nextup" === params.type) {
+            imageType = "thumb";
         }
 
         return {
