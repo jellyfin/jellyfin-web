@@ -867,7 +867,15 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderImage(page, item, apiClient, user) {
-        renderDetailImage(page, page.querySelector(".detailImageContainer"), item, apiClient, user.Policy.IsAdministrator && "Photo" != item.MediaType, imageLoader, indicators);
+        renderDetailImage(
+            page,
+            page.querySelector(".detailImageContainer"),
+            item,
+            apiClient,
+            user.Policy.IsAdministrator && "Photo" != item.MediaType,
+            imageLoader,
+            indicators
+        );
     }
 
     function refreshDetailImageUserData(elem, item) {
