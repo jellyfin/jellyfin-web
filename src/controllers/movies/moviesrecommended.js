@@ -64,7 +64,6 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
 
             var allowBottomPadding = !enableScrollX();
             var container = page.querySelector("#resumableItems");
-            var cardLayout = false;
             cardBuilder.buildCards(result.Items, {
                 itemsContainer: container,
                 preferThumb: true,
@@ -72,7 +71,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
                 scalable: true,
                 overlayPlayButton: true,
                 allowBottomPadding: allowBottomPadding,
-                cardLayout: cardLayout,
+                cardLayout: false,
                 showTitle: true,
                 showYear: true,
                 centerText: true
@@ -314,10 +313,8 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
 
         function preLoadTab(page, index) {
             getTabController(page, index, function (controller) {
-                if (renderedTabs.indexOf(index) == -1) {
-                    if (controller.preRender) {
-                        controller.preRender();
-                    }
+                if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
+                    controller.preRender();
                 }
             });
         }
@@ -383,6 +380,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             }
 
             events.on(playbackManager, "playbackstop", onPlaybackStop);
+            inputManager.on(window, onInputCommand);
         });
         view.addEventListener("viewbeforehide", function (e) {
             inputManager.off(window, onInputCommand);
