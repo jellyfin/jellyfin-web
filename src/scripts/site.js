@@ -477,6 +477,9 @@ var AppInfo = {};
                 require(["keyboardnavigation"], function(keyboardnavigation) {
                     keyboardnavigation.enable();
                 });
+                require(["autoFocuser"], function(autoFocuser) {
+                    autoFocuser.enable();
+                });
             });
         });
     }
@@ -858,6 +861,7 @@ var AppInfo = {};
         define("serverNotifications", [componentsPath + "/serverNotifications/serverNotifications"], returnFirstDependency);
         define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
         define("keyboardnavigation", [componentsPath + "/keyboardnavigation"], returnFirstDependency);
+        define("autoFocuser", [componentsPath + "/autoFocuser"], returnFirstDependency);
         define("connectionManager", [], function () {
             return ConnectionManager;
         });

@@ -617,24 +617,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             hideAll(page, "btnDownload", true);
         }
 
-        try {
-            require(["focusManager"], function (focusManager) {
-                [".btnResume", ".btnPlay"].every(function (cls) {
-                    var elems = page.querySelectorAll(cls);
-
-                    for (var i = 0; i < elems.length; i++) {
-                        if (focusManager.isCurrentlyFocusable(elems[i])) {
-                            focusManager.focus(elems[i]);
-                            return false;
-                        }
-                    }
-
-                    return true;
-                });
-            });
-        } catch (e) {
-            console.log(e);
-        }
+        require(["autoFocuser"], function (autoFocuser) {
+            autoFocuser.autoFocus(page);
+        });
     }
 
     function logoImageUrl(item, apiClient, options) {

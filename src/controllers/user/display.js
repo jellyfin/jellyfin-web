@@ -24,7 +24,8 @@ define(["displaySettings", "userSettingsBuilder", "userSettings"], function (Dis
                     element: view.querySelector(".settingsContainer"),
                     userSettings: userSettings,
                     enableSaveButton: false,
-                    enableSaveConfirmation: false
+                    enableSaveConfirmation: false,
+                    autoFocus: true
                 });
             }
         });

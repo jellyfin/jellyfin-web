@@ -77,6 +77,10 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
 
             isLoading = false;
             loading.hide();
+
+            require(["autoFocuser"], function (autoFocuser) {
+                autoFocuser.autoFocus(tabContent);
+            });
         }
 
         function getItemsHtml(items) {

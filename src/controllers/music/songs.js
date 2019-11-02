@@ -104,6 +104,10 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                 libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
                 loading.hide();
                 isLoading = false;
+
+                require(["autoFocuser"], function (autoFocuser) {
+                    autoFocuser.autoFocus(page);
+                });
             });
         }
 

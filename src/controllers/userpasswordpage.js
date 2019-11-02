@@ -47,6 +47,10 @@ define(["loading", "libraryMenu", "emby-button"], function (loading, libraryMenu
                 }
 
                 page.querySelector(".chkEnableLocalEasyPassword").checked = user.Configuration.EnableLocalPassword;
+
+                require(["autoFocuser"], function (autoFocuser) {
+                    autoFocuser.autoFocus(page);
+                });
             });
         });
         page.querySelector("#txtCurrentPassword").value = "";

@@ -24,7 +24,8 @@ define(["subtitleSettings", "userSettingsBuilder", "userSettings"], function (Su
                     element: view.querySelector(".settingsContainer"),
                     userSettings: userSettings,
                     enableSaveButton: false,
-                    enableSaveConfirmation: false
+                    enableSaveConfirmation: false,
+                    autoFocus: true
                 });
             }
         });

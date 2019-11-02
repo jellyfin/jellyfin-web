@@ -24,7 +24,8 @@ define(["playbackSettings", "userSettingsBuilder", "dom", "globalize", "loading"
                     element: view.querySelector(".settingsContainer"),
                     userSettings: userSettings,
                     enableSaveButton: false,
-                    enableSaveConfirmation: false
+                    enableSaveConfirmation: false,
+                    autoFocus: true
                 });
             }
         });

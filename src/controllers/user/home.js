@@ -24,7 +24,8 @@ define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loadin
                     element: view.querySelector(".homeScreenSettingsContainer"),
                     userSettings: userSettings,
                     enableSaveButton: false,
-                    enableSaveConfirmation: false
+                    enableSaveConfirmation: false,
+                    autoFocus: true
                 });
             }
         });

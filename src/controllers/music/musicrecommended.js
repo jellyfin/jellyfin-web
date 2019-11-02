@@ -59,6 +59,10 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
             });
             imageLoader.lazyChildren(elem);
             loading.hide();
+
+            require(["autoFocuser"], function (autoFocuser) {
+                autoFocuser.autoFocus(page);
+            });
         });
     }
 
