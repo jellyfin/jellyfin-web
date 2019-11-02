@@ -26,7 +26,7 @@ button {
     font-weight: inherit !important;
 }
 
-.card-nofocustransform {
+.card:not(.show-animation) {
     contain: layout style paint;
 }
 
@@ -98,20 +98,21 @@ button {
     contain: layout style;
 }
 
-.cardBox-withfocuscontent-large {
+.card.show-focus:not(.show-animation) .cardBox {
     margin: .4em;
 }
 
-.card-focuscontent-large {
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
     border: .5em solid transparent;
 }
 
-.cardBox-focustransform {
+.card.show-animation .cardBox {
     will-change: transform;
     transition: transform 200ms ease-out;
 }
 
-.card:focus > .cardBox-focustransform {
+.card.show-animation:focus > .cardBox {
     transform: scale(1.18, 1.18);
 }
 

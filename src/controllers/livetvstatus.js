@@ -1,5 +1,7 @@
-define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layoutManager", "loading", "listViewStyle", "flexStyles", "emby-itemscontainer", "cardStyle", "material-icons", "emby-button"], function ($, globalize, taskButton, dom, libraryMenu, layoutManager, loading) {
+define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layoutManager", "loading", "browser", "listViewStyle", "flexStyles", "emby-itemscontainer", "cardStyle", "material-icons", "emby-button"], function ($, globalize, taskButton, dom, libraryMenu, layoutManager, loading, browser) {
     "use strict";
+
+    var enableFocusTransform = !browser.slow && !browser.edge;
 
     function getDeviceHtml(device) {
         var padderClass;
@@ -10,11 +12,14 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         padderClass = "cardPadder-backdrop";
 
         if (layoutManager.tv) {
-            cssClass += " card-focusscale";
-            cardBoxCssClass += " cardBox-focustransform";
+
+            cssClass += ' show-focus'
+
+            if (enableFocusTransform) {
+                cssClass += ' show-animation'
+            }
         }
 
-        cardBoxCssClass += " card-focuscontent";
         html += '<div type="button" class="' + cssClass + '" data-id="' + device.Id + '">';
         html += '<div class="' + cardBoxCssClass + '">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';

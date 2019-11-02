@@ -1,6 +1,8 @@
 define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'paper-icon-button-light', 'emby-button', 'formDialogStyle', 'cardStyle'], function (loading, appHost, dialogHelper, connectionManager, imageLoader, browser, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
+    var enableFocusTransform = !browser.slow && !browser.edge;
+
     var currentItemId;
     var currentItemType;
     var currentResolve;
@@ -196,12 +198,13 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         if (tagName === 'button') {
             cssClass += ' btnImageCard';
 
-            if (layoutManager.tv && !browser.slow) {
-                cardBoxCssClass += ' cardBox-focustransform';
-            }
-
             if (layoutManager.tv) {
-                cardBoxCssClass += ' card-focuscontent cardBox-withfocuscontent';
+
+                cssClass += ' show-focus'
+
+                if (enableFocusTransform) {
+                    cssClass += ' show-animation'
+                }
             }
 
             html += '<button type="button" class="' + cssClass + '"';
