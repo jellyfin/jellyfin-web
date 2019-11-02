@@ -509,5 +509,7 @@
     "Writer": "כותב",
     "Albums": "אלבומים",
     "Artists": "אמנים",
-    "Books": "ספרים"
+    "Books": "ספרים",
+    "Absolute": "מוחלט",
+    "AccessRestrictedTryAgainLater": "הגישה כרגע מוגבלת. אנא נסה שוב מאוחר יותר."
 }
