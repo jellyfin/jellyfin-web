@@ -511,5 +511,6 @@
     "Artists": "אמנים",
     "Books": "ספרים",
     "Absolute": "מוחלט",
-    "AccessRestrictedTryAgainLater": "הגישה כרגע מוגבלת. אנא נסה שוב מאוחר יותר."
+    "AccessRestrictedTryAgainLater": "הגישה כרגע מוגבלת. אנא נסה שוב מאוחר יותר.",
+    "AddedOnValue": "נוסף {0}"
 }
