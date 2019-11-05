@@ -43,19 +43,11 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
         }
 
         function getThumbShape() {
-            if (enableScrollX()) {
-                return "overflowBackdrop";
-            }
-
-            return "backdrop";
+            return enableScrollX() ? "overflowBackdrop" : "backdrop";
         }
 
         function getPortraitShape() {
-            if (enableScrollX()) {
-                return "overflowPortrait";
-            }
-
-            return "portrait";
+            return enableScrollX() ? "overflowPortrait" : "portrait";
         }
 
         function fillItemsContainer(elem) {

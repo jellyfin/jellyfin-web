@@ -105,11 +105,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         }
 
         function getThumbShape() {
-            if (enableScrollX()) {
-                return "overflowBackdrop";
-            }
-
-            return "backdrop";
+            return enableScrollX() ? "overflowBackdrop" : "backdrop";
         }
 
         function loadResume() {
@@ -304,8 +300,8 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         setScrollClasses(view.querySelector("#resumableItems"), enableScrollX());
         view.addEventListener("viewshow", function (e) {
             isViewRestored = e.detail.isRestored;
-             initTabs();
-             if (!view.getAttribute("data-title")) {
+            initTabs();
+            if (!view.getAttribute("data-title")) {
                 var parentId = params.topParentId;
 
                 if (parentId) {

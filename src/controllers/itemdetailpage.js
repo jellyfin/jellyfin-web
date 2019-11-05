@@ -12,8 +12,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             return apiClient.getLiveTvSeriesTimer(params.seriesTimerId);
         }
 
-        var name = params.genre;
-
         if (params.genre) {
             return apiClient.getGenre(params.genre, apiClient.getCurrentUserId());
         }
@@ -1301,7 +1299,8 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     function renderSeriesAirTime(page, item, isStatic) {
         var seriesAirTime = page.querySelector("#seriesAirTime");
         if ("Series" != item.Type) {
-            return void seriesAirTime.classList.add("hide");
+            seriesAirTime.classList.add("hide");
+            return;
         }
         var html = "";
         if (item.AirDays && item.AirDays.length) {
@@ -1387,7 +1386,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 userId: userId,
                 Fields: fields
             });
-        } else if ("MusicAlbum" != item.Type && "MusicArtist" == item.Type) {
+        } else if ("MusicArtist" == item.Type) {
             query.SortBy = "ProductionYear,SortName";
         }
 

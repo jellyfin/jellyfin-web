@@ -14,13 +14,13 @@ define(["loading", "libraryMenu", "emby-button"], function (loading, libraryMenu
                     page.querySelector(".localAccessSection").classList.add("hide");
                     showPasswordSection = false;
                 } else if (user.HasConfiguredPassword) {
-                        page.querySelector("#btnResetPassword").classList.remove("hide");
-                        page.querySelector("#fldCurrentPassword").classList.remove("hide");
-                        showLocalAccessSection = true;
-                    } else {
-                        page.querySelector("#btnResetPassword").classList.add("hide");
-                        page.querySelector("#fldCurrentPassword").classList.add("hide");
-                    }
+                    page.querySelector("#btnResetPassword").classList.remove("hide");
+                    page.querySelector("#fldCurrentPassword").classList.remove("hide");
+                    showLocalAccessSection = true;
+                } else {
+                    page.querySelector("#btnResetPassword").classList.add("hide");
+                    page.querySelector("#fldCurrentPassword").classList.add("hide");
+                }
 
                 if (showPasswordSection && (loggedInUser.Policy.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
                     page.querySelector(".passwordSection").classList.remove("hide");

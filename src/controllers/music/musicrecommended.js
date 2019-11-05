@@ -24,11 +24,7 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
     }
 
     function getSquareShape() {
-        if (enableScrollX()) {
-            return "overflowSquare";
-        }
-
-        return "square";
+        return enableScrollX() ? "overflowSquare" : "square";
     }
 
     function loadLatest(page, parentId) {
