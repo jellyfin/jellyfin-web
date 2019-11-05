@@ -107,13 +107,13 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
             menuItems.push({
                 name: globalize.translate("ButtonSettings"),
                 id: "open",
-                ironIcon: "mode-edit"
+                icon: "mode_edit"
             });
         }
         menuItems.push({
             name: globalize.translate("ButtonUninstall"),
             id: "delete",
-            ironIcon: "delete"
+            icon: "delete"
         });
         require(["actionsheet"], function(actionsheet) {
             actionsheet.show({

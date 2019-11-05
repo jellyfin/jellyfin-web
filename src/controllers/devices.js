@@ -31,11 +31,11 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "hu
         canEdit && menuItems.push({
             name: globalize.translate("Edit"),
             id: "open",
-            ironIcon: "mode-edit"
+            icon: "mode_edit"
         }), canDelete(deviceId) && menuItems.push({
             name: globalize.translate("Delete"),
             id: "delete",
-            ironIcon: "delete"
+            icon: "delete"
         }), require(["actionsheet"], function(actionsheet) {
             actionsheet.show({
                 items: menuItems,

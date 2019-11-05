@@ -192,13 +192,13 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             menuItems.push({
                 name: globalize.translate('AddToCollection'),
                 id: 'addtocollection',
-                ironIcon: 'add'
+                icon: 'add'
             });
 
             menuItems.push({
                 name: globalize.translate('AddToPlaylist'),
                 id: 'playlist',
-                ironIcon: 'playlist-add'
+                icon: 'playlist_add'
             });
 
             // TODO: Be more dynamic based on what is selected
@@ -206,7 +206,7 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                 menuItems.push({
                     name: globalize.translate('Delete'),
                     id: 'delete',
-                    ironIcon: 'delete'
+                    icon: 'delete'
                 });
             }
 
@@ -214,7 +214,7 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                 menuItems.push({
                     name: Globalize.translate('ButtonDownload'),
                     id: 'download',
-                    ironIcon: 'file-download'
+                    icon: 'file_download'
                 });
             }
 
@@ -222,7 +222,7 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                 menuItems.push({
                     name: globalize.translate('GroupVersions'),
                     id: 'groupvideos',
-                    ironIcon: 'call-merge'
+                    icon: 'call_merge'
                 });
             }
 
