@@ -228,17 +228,20 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
 
             menuItems.push({
                 name: globalize.translate('MarkPlayed'),
-                id: 'markplayed'
+                id: 'markplayed',
+                icon: "check_box"
             });
 
             menuItems.push({
                 name: globalize.translate('MarkUnplayed'),
-                id: 'markunplayed'
+                id: 'markunplayed',
+                icon: "check_box_outline_blank"
             });
 
             menuItems.push({
                 name: globalize.translate('RefreshMetadata'),
-                id: 'refresh'
+                id: 'refresh',
+                icon: "refresh"
             });
 
 
