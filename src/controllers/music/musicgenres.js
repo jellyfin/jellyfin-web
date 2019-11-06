@@ -1,91 +1,126 @@
-define(["libraryBrowser", "cardBuilder", "apphost", "imageLoader", "loading"], function(libraryBrowser, cardBuilder, appHost, imageLoader, loading) {
+define(["libraryBrowser", "cardBuilder", "apphost", "imageLoader", "loading"], function (libraryBrowser, cardBuilder, appHost, imageLoader, loading) {
     "use strict";
-    return function(view, params, tabContent) {
+
+    return function (view, params, tabContent) {
         function getPageData() {
-            var key = getSavedQueryKey(),
-                pageData = data[key];
-            return pageData || (pageData = data[key] = {
-                query: {
-                    SortBy: "SortName",
-                    SortOrder: "Ascending",
-                    Recursive: !0,
-                    Fields: "PrimaryImageAspectRatio,ItemCounts",
-                    StartIndex: 0
-                },
-                view: libraryBrowser.getSavedView(key) || "Poster"
-            }, pageData.query.ParentId = params.topParentId, libraryBrowser.loadSavedQueryValues(key, pageData.query)), pageData
+            var key = getSavedQueryKey();
+            var pageData = data[key];
+
+            if (!pageData) {
+                pageData = data[key] = {
+                    query: {
+                        SortBy: "SortName",
+                        SortOrder: "Ascending",
+                        Recursive: true,
+                        Fields: "PrimaryImageAspectRatio,ItemCounts",
+                        StartIndex: 0
+                    },
+                    view: libraryBrowser.getSavedView(key) || "Poster"
+                };
+                pageData.query.ParentId = params.topParentId;
+                libraryBrowser.loadSavedQueryValues(key, pageData.query);
+            }
+
+            return pageData;
         }
 
         function getQuery() {
-            return getPageData().query
+            return getPageData().query;
         }
 
         function getSavedQueryKey() {
-            return libraryBrowser.getSavedQueryKey("genres")
+            return libraryBrowser.getSavedQueryKey("genres");
         }
 
         function getPromise() {
             loading.show();
             var query = getQuery();
-            return ApiClient.getGenres(ApiClient.getCurrentUserId(), query)
+            return ApiClient.getGenres(ApiClient.getCurrentUserId(), query);
         }
 
         function reloadItems(context, promise) {
             var query = getQuery();
-            promise.then(function(result) {
-                var html = "",
-                    viewStyle = self.getCurrentViewStyle();
-                "Thumb" == viewStyle ? html = cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "backdrop",
-                    preferThumb: !0,
-                    context: "music",
-                    centerText: !0,
-                    overlayMoreButton: !0,
-                    showTitle: !0
-                }) : "ThumbCard" == viewStyle ? html = cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "backdrop",
-                    preferThumb: !0,
-                    context: "music",
-                    cardLayout: !0,
-                    showTitle: !0
-                }) : "PosterCard" == viewStyle ? html = cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "auto",
-                    context: "music",
-                    cardLayout: !0,
-                    showTitle: !0
-                }) : "Poster" == viewStyle && (html = cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: "auto",
-                    context: "music",
-                    centerText: !0,
-                    overlayMoreButton: !0,
-                    showTitle: !0
-                }));
+            promise.then(function (result) {
+                var html = "";
+                var viewStyle = self.getCurrentViewStyle();
+
+                if (viewStyle == "Thumb") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "backdrop",
+                        preferThumb: true,
+                        context: 'music',
+                        centerText: true,
+                        overlayMoreButton: true,
+                        showTitle: true
+                    });
+                } else if (viewStyle == "ThumbCard") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "backdrop",
+                        preferThumb: true,
+                        context: 'music',
+                        cardLayout: true,
+                        showTitle: true,
+                    });
+                } else if (viewStyle == "PosterCard") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "auto",
+                        context: 'music',
+                        cardLayout: true,
+                        showTitle: true,
+                    });
+                } else if (viewStyle == "Poster") {
+                    html = cardBuilder.getCardsHtml({
+                        items: result.Items,
+                        shape: "auto",
+                        context: 'music',
+                        centerText: true,
+                        overlayMoreButton: true,
+                        showTitle: true
+                    });
+                }
+
                 var elem = context.querySelector("#items");
-                elem.innerHTML = html, imageLoader.lazyChildren(elem), libraryBrowser.saveQueryValues(getSavedQueryKey(), query), loading.hide()
-            })
+                elem.innerHTML = html;
+                imageLoader.lazyChildren(elem);
+                libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
+                loading.hide();
+            });
         }
 
         function fullyReload() {
-            self.preRender(), self.renderTab()
+            self.preRender();
+            self.renderTab();
         }
-        var self = this,
-            data = {};
-        self.getViewStyles = function() {
-            return "Poster,PosterCard,Thumb,ThumbCard".split(",")
-        }, self.getCurrentViewStyle = function() {
-            return getPageData(tabContent).view
-        }, self.setCurrentViewStyle = function(viewStyle) {
-            getPageData(tabContent).view = viewStyle, libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle), fullyReload()
-        }, self.enableViewSelection = !0;
+
+        var self = this;
+        var data = {};
+
+        self.getViewStyles = function () {
+            return "Poster,PosterCard,Thumb,ThumbCard".split(",");
+        };
+
+        self.getCurrentViewStyle = function () {
+            return getPageData(tabContent).view;
+        };
+
+        self.setCurrentViewStyle = function (viewStyle) {
+            getPageData(tabContent).view = viewStyle;
+            libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
+            fullyReload();
+        };
+
+        self.enableViewSelection = true;
         var promise;
-        self.preRender = function() {
-            promise = getPromise()
-        }, self.renderTab = function() {
-            reloadItems(tabContent, promise)
-        }
-    }
+
+        self.preRender = function () {
+            promise = getPromise();
+        };
+
+        self.renderTab = function () {
+            reloadItems(tabContent, promise);
+        };
+    };
 });

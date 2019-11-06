@@ -1,16 +1,25 @@
-define(["jQuery", "loading", "libraryMenu"], function($, loading, libraryMenu) {
+define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) {
     "use strict";
 
     function loadPage(page, config) {
-        $("#txtMinResumePct", page).val(config.MinResumePct), $("#txtMaxResumePct", page).val(config.MaxResumePct), $("#txtMinResumeDuration", page).val(config.MinResumeDurationSeconds), loading.hide()
+        $("#txtMinResumePct", page).val(config.MinResumePct);
+        $("#txtMaxResumePct", page).val(config.MaxResumePct);
+        $("#txtMinResumeDuration", page).val(config.MinResumeDurationSeconds);
+        loading.hide();
     }
 
     function onSubmit() {
         loading.show();
         var form = this;
-        return ApiClient.getServerConfiguration().then(function(config) {
-            config.MinResumePct = $("#txtMinResumePct", form).val(), config.MaxResumePct = $("#txtMaxResumePct", form).val(), config.MinResumeDurationSeconds = $("#txtMinResumeDuration", form).val(), ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult)
-        }), !1
+        ApiClient.getServerConfiguration().then(function (config) {
+            config.MinResumePct = $('#txtMinResumePct', form).val();
+            config.MaxResumePct = $('#txtMaxResumePct', form).val();
+            config.MinResumeDurationSeconds = $('#txtMinResumeDuration', form).val();
+
+            ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
+        });
+
+        return false;
     }
 
     function getTabs() {
@@ -23,17 +32,17 @@ define(["jQuery", "loading", "libraryMenu"], function($, loading, libraryMenu) {
         }, {
             href: "streamingsettings.html",
             name: Globalize.translate("TabStreaming")
-        }]
+        }];
     }
 
-    $(document).on("pageinit", "#playbackConfigurationPage", function() {
+    $(document).on("pageinit", "#playbackConfigurationPage", function () {
         $(".playbackConfigurationForm").off("submit", onSubmit).on("submit", onSubmit)
-    }).on("pageshow", "#playbackConfigurationPage", function() {
+    }).on("pageshow", "#playbackConfigurationPage", function () {
         loading.show();
         libraryMenu.setTabs("playback", 1, getTabs);
         var page = this;
-        ApiClient.getServerConfiguration().then(function(config) {
-            loadPage(page, config)
-        })
-    })
+        ApiClient.getServerConfiguration().then(function (config) {
+            loadPage(page, config);
+        });
+    });
 });
