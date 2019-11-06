@@ -23,7 +23,7 @@ module.exports = {
             Assets.map(asset => {
                 return {
                     from: path.resolve(__dirname, `./node_modules/${asset}`),
-                    to: path.resolve(__dirname, './dist/bower_components')
+                    to: path.resolve(__dirname, './dist/libraries')
                 };
             })
         )

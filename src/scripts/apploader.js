@@ -20,7 +20,7 @@
     }
 
     injectScriptElement(
-        self.Promise ? "./bower_components/alameda.js" : "./bower_components/require.js",
+        self.Promise ? "./libraries/alameda.js" : "./libraries/require.js",
         function() {
             // onload of require library
             injectScriptElement("./scripts/site.js");
