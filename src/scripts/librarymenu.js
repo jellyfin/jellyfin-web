@@ -52,14 +52,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 headerSearchButton.classList.remove("hide");
             }
 
-            if (headerSettingsButton) {
-                if (user.localUser.Policy.IsAdministrator) {
-                    headerSettingsButton.classList.remove("hide");
-                } else {
-                    headerSettingsButton.classList.add("hide");
-                }
-            }
-
             headerCastButton.classList.remove("hide");
         } else {
             headerHomeButton.classList.add("hide");
@@ -67,10 +59,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
             if (headerSearchButton) {
                 headerSearchButton.classList.add("hide");
-            }
-
-            if (headerSettingsButton) {
-                headerSettingsButton.classList.add("hide");
             }
         }
 
@@ -93,10 +81,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
     function onHeaderUserButtonClick(e) {
         Dashboard.navigate("mypreferencesmenu.html");
-    }
-
-    function onSettingsClick(e) {
-        Dashboard.navigate("dashboard.html");
     }
 
     function onHeaderHomeButtonClick() {
@@ -122,12 +106,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
         headerUserButton.addEventListener("click", onHeaderUserButtonClick);
         headerHomeButton.addEventListener("click", onHeaderHomeButtonClick);
-        initHeadRoom(skinHeader);
         headerCastButton.addEventListener("click", onCastButtonClicked);
 
-        if (headerSettingsButton) {
-            headerSettingsButton.addEventListener("click", onSettingsClick);
-        }
+        initHeadRoom(skinHeader);
     }
 
     function onCastButtonClicked() {
@@ -747,7 +728,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     var headerBackButton;
     var headerUserButton;
     var currentUser;
-    var headerSettingsButton;
     var headerCastButton;
     var headerSearchButton;
     var enableLibraryNavDrawer = !layoutManager.tv;
@@ -873,23 +853,20 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="md-icon">&#xE307;</i></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="md-icon">&#xE8B6;</i></button>';
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="md-icon">&#xE7FD;</i></button>';
-
-        if (!layoutManager.mobile) {
-            html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerSettingsButton hide"><i class="md-icon">dashboard</i></button>';
-        }
-
         html += "</div>";
         html += "</div>";
         html += '<div class="headerTabs sectionTabs hide">';
         html += "</div>";
+
         skinHeader.classList.add("skinHeader-withBackground");
+        skinHeader.classList.add("skinHeader-blurred");
         skinHeader.innerHTML = html;
+
         headerHomeButton = skinHeader.querySelector(".headerHomeButton");
         headerUserButton = skinHeader.querySelector(".headerUserButton");
-        headerSettingsButton = skinHeader.querySelector(".headerSettingsButton");
         headerCastButton = skinHeader.querySelector(".headerCastButton");
         headerSearchButton = skinHeader.querySelector(".headerSearchButton");
-        skinHeader.classList.add("skinHeader-blurred");
+
         lazyLoadViewMenuBarImages();
         bindMenuEvents();
     })();
