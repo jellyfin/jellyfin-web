@@ -1,9 +1,10 @@
 const path = require("path");
 const { CleanWebpackPlugin} = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-
-// assets.js
-const Assets = require('./assets');
+const Assets = [
+    "alameda/alameda.js",
+    "requirejs/require.js"
+];
 
 module.exports = {
     context: path.resolve(__dirname, "src"),
