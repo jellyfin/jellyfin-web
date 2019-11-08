@@ -193,7 +193,6 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
         }
 
         if (layoutManager.tv) {
-
             cssClass += ' show-focus'
 
             if (enableFocusTransform) {

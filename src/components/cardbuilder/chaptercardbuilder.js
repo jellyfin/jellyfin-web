@@ -8,7 +8,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         var className = 'card itemAction chapterCard';
 
         if (layoutManager.tv) {
-
             className += ' show-focus'
 
             if (enableFocusTransform) {

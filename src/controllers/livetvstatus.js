@@ -12,7 +12,6 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         padderClass = "cardPadder-backdrop";
 
         if (layoutManager.tv) {
-
             cssClass += ' show-focus'
 
             if (enableFocusTransform) {

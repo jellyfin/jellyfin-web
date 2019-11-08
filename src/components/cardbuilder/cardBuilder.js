@@ -1222,7 +1222,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (layoutManager.tv) {
-
                 className += ' show-focus'
 
                 if (enableFocusTransform) {

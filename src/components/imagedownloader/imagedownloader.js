@@ -199,7 +199,6 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
             cssClass += ' btnImageCard';
 
             if (layoutManager.tv) {
-
                 cssClass += ' show-focus'
 
                 if (enableFocusTransform) {
