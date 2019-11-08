@@ -174,6 +174,8 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
 
     function getSearchResultHtml(result, index) {
 
+        // TODO move card creation code to Card component
+
         var html = "";
         var cssClass = "card scalableCard";
         var cardBoxCssClass = "cardBox";

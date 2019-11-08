@@ -63,6 +63,8 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
         for (var i = 0; i < users.length; i++) {
             var user = users[i];
 
+            // TODO move card creation code to Card component
+
             var cssClass = "card squareCard scalableCard squareCard-scalable";
 
             if (layoutManager.tv) {

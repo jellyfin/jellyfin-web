@@ -23,6 +23,8 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                 cardImageContainer = '<div class="cardImage" style="' + item.cardImageStyle + '"></div>';
             }
 
+            // TODO move card creation code to Card component
+
             var cssClass = "card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable";
 
             if (layoutManager.tv) {

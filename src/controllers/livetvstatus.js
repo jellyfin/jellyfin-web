@@ -11,6 +11,8 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         cssClass += " backdropCard backdropCard-scalable";
         padderClass = "cardPadder-backdrop";
 
+        // TODO move card creation code to Card component
+
         if (layoutManager.tv) {
             cssClass += " show-focus";
 

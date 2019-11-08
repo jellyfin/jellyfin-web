@@ -166,6 +166,8 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         var tagName = layoutManager.tv ? 'button' : 'div';
         var enableFooterButtons = !layoutManager.tv;
 
+        // TODO move card creation code to Card component
+
         var html = '';
 
         var cssClass = "card scalableCard imageEditorCard";

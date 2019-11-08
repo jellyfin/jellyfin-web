@@ -97,6 +97,8 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
     function getCardHtml(image, index, numImages, apiClient, imageProviders, imageSize, tagName, enableFooterButtons) {
 
+        // TODO move card creation code to Card component
+
         var html = '';
 
         var cssClass = "card scalableCard imageEditorCard";

@@ -5,6 +5,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
 
     function buildChapterCardsHtml(item, chapters, options) {
 
+        // TODO move card creation code to Card component
+
         var className = 'card itemAction chapterCard';
 
         if (layoutManager.tv) {

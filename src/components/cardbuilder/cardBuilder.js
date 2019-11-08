@@ -1203,6 +1203,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 shape = shape || 'mixedSquare';
             }
 
+            // TODO move card creation code to Card component
+
             var className = 'card';
 
             if (shape) {
