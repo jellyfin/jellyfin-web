@@ -27,11 +27,10 @@ define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize"
         padderClass = "cardPadder-backdrop";
 
         if (layoutManager.tv) {
-
-            cssClass += ' show-focus'
+            cssClass += " show-focus";
 
             if (enableFocusTransform) {
-                cssClass += ' show-animation'
+                cssClass += " show-animation";
             }
         }
 

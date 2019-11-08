@@ -199,10 +199,10 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
             cssClass += ' btnImageCard';
 
             if (layoutManager.tv) {
-                cssClass += ' show-focus'
+                cssClass += ' show-focus';
 
                 if (enableFocusTransform) {
-                    cssClass += ' show-animation'
+                    cssClass += ' show-animation';
                 }
             }
 

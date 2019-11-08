@@ -26,11 +26,10 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
             var cssClass = "card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable";
 
             if (layoutManager.tv) {
-
-                cssClass += ' show-focus'
+                cssClass += " show-focus";
 
                 if (enableFocusTransform) {
-                    cssClass += ' show-animation'
+                    cssClass += " show-animation";
                 }
             }
 

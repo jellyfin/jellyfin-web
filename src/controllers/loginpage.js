@@ -66,10 +66,10 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
             var cssClass = "card squareCard scalableCard squareCard-scalable";
 
             if (layoutManager.tv) {
-                cssClass += ' show-focus'
+                cssClass += " show-focus";
 
                 if (enableFocusTransform) {
-                    cssClass += ' show-animation'
+                    cssClass += " show-animation";
                 }
             }
 
