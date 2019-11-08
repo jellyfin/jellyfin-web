@@ -57,5 +57,5 @@ define(["appSettings", "loading", "browser", "emby-button"], function(appSetting
                 appRouter.back();
             });
         }
-    }
+    };
 });

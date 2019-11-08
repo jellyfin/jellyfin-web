@@ -1327,5 +1327,6 @@
     "LabelProfileVideoCodecs": "Video codecs:",
     "LabelProtocolInfo": "Protocol info:",
     "LabelServerName": "Server naam:",
-    "LabelSkin": "Skin:"
+    "LabelSkin": "Skin:",
+    "ButtonAddImage": "Voeg afbeelding toe"
 }

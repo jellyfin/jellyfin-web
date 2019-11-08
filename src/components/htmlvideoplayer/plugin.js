@@ -1043,7 +1043,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
                 fonts: attachments.map(i => i.DeliveryUrl),
-                workerUrl: appRouter.baseUrl() + "/node_modules/libass-wasm/dist/subtitles-octopus-worker.js",
+                workerUrl: appRouter.baseUrl() + "/libraries/subtitles-octopus-worker.js",
                 onError: function() {
                     htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror')
                 }
