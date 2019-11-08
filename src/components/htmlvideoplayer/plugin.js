@@ -1038,10 +1038,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function renderWithSubtitlesOctopus(videoElement, track, item) {
+            var attachments = self._currentPlayOptions.mediaSource.MediaAttachments || [];
             var options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
-                fonts: self._currentPlayOptions.mediaSource.MediaAttachments.map(i => i.DeliveryUrl),
+                fonts: attachments.map(i => i.DeliveryUrl),
                 workerUrl: appRouter.baseUrl() + "/node_modules/libass-wasm/dist/subtitles-octopus-worker.js",
                 onError: function() {
                     htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror')
