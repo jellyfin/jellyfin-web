@@ -770,6 +770,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             var isProgressClear = state.MediaSource && null == state.MediaSource.RunTimeTicks;
             nowPlayingPositionSlider.setIsClear(isProgressClear);
 
+            if (nowPlayingItem.RunTimeTicks) {
+                nowPlayingPositionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / nowPlayingItem.RunTimeTicks, userSettings.skipForwardLength() * 1000000 / nowPlayingItem.RunTimeTicks);
+            }
+
             if (-1 === supportedCommands.indexOf("ToggleFullscreen") || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {
                 view.querySelector(".btnFullscreen").classList.add("hide");
             } else {
@@ -1070,9 +1074,18 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
+        /**
+         * Keys used for keyboard navigation.
+         */
+        var NavigationKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+
         function onWindowKeyDown(e) {
             if (!currentVisibleMenu && 32 === e.keyCode) {
                 playbackManager.playPause(currentPlayer);
+                return void showOsd();
+            }
+
+            if (layoutManager.tv && NavigationKeys.indexOf(e.key) != -1) {
                 return void showOsd();
             }
 
@@ -1237,6 +1250,12 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         var transitionEndEventName = dom.whichTransitionEvent();
         var headerElement = document.querySelector(".skinHeader");
         var osdBottomElement = document.querySelector(".videoOsdBottom-maincontrols");
+
+        if (layoutManager.tv) {
+            nowPlayingPositionSlider.classList.add("focusable");
+            nowPlayingPositionSlider.enableKeyboardDragging();
+        }
+
         view.addEventListener("viewbeforeshow", function (e) {
             headerElement.classList.add("osdHeader");
             Emby.Page.setTransparency("full");
