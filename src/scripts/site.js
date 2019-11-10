@@ -308,7 +308,7 @@ var AppInfo = {};
     }
 
     function getBowerPath() {
-        return "bower_components";
+        return "libraries";
     }
 
     function getComponentsPath() {
@@ -747,7 +747,7 @@ var AppInfo = {};
         define("useractionrepository", [bowerPath + "/apiclient/sync/useractionrepository"], returnFirstDependency);
 
         // also pull out these libs
-        define("page", [bowerPath + "/page"], returnFirstDependency);
+        define("page", [bowerPath + "/pagejs/page"], returnFirstDependency);
         define("fetch", ["fetch"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
