@@ -1,7 +1,15 @@
 define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManager) {
     "use strict";
 
-    var ScrollTime = 200;
+    /**
+     * Scroll time in ms.
+     */
+    var ScrollTime = 270;
+
+    /**
+     * Epsilon for comparing values.
+     */
+    var Epsilon = 1e-6;
 
     // FIXME: Need to scroll to top of page to fully show the top menu. This can be solved by some marker of top most elements or their containers
     var _minimumScrollY = 0;
@@ -68,6 +76,16 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         }
         return 0;
     };
+
+    /**
+     * Ease value.
+     *
+     * @param {number} t value in range [0, 1]
+     * @return {number} eased value in range [0, 1]
+     */
+    function ease(t) {
+        return t*(2 - t); // easeOutQuad === ease-out
+    }
 
     /**
      * Document scroll wrapper helps to unify scrolling and fix issues of some browsers.
@@ -293,27 +311,37 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
      * @param {number} scrollY vertical coordinate
      */
     function animateScroll(xScroller, scrollX, yScroller, scrollY) {
+
+        var ox = xScroller.scrollLeft;
+        var oy = yScroller.scrollTop;
+        var dx = scrollX - ox;
+        var dy = scrollY - oy;
+
+        if (Math.abs(dx) < Epsilon && Math.abs(dy) < Epsilon) {
+            return;
+        }
+
         var start;
 
         function scrollAnim(currentTimestamp) {
+
             start = start || currentTimestamp;
 
-            var dx = scrollX - xScroller.scrollLeft;
-            var dy = scrollY - yScroller.scrollTop;
+            var k = Math.min(1, (currentTimestamp - start) / ScrollTime);
 
-            if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1) {
+            if (k === 1) {
                 resetScrollTimer();
                 xScroller.scrollLeft = scrollX;
                 yScroller.scrollTop = scrollY;
                 return;
             }
 
-            var k = Math.min(1, (currentTimestamp - start) / ScrollTime);
+            k = ease(k);
 
-            dx = Math.round(dx*k);
-            dy = Math.round(dy*k);
+            var x = ox + dx*k;
+            var y = oy + dy*k;
 
-            builtinScroll(xScroller, xScroller.scrollLeft + dx, yScroller, yScroller.scrollTop + dy, false);
+            builtinScroll(xScroller, x, yScroller, y, false);
 
             scrollTimer = requestAnimationFrame(scrollAnim);
         };
