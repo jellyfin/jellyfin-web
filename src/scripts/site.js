@@ -746,9 +746,10 @@ var AppInfo = {};
         define("itemrepository", [bowerPath + "/apiclient/sync/itemrepository"], returnFirstDependency);
         define("useractionrepository", [bowerPath + "/apiclient/sync/useractionrepository"], returnFirstDependency);
 
-        // also pull out these libs
+        // TODO remove these libraries
+        // all three have been modified so we need to fix that first
         define("page", [bowerPath + "/pagejs/page"], returnFirstDependency);
-        define("fetch", ["fetch"], returnFirstDependency);
+        define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
         });
@@ -848,7 +849,6 @@ var AppInfo = {};
         define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
         define("idb", [componentsPath + "/idb"], returnFirstDependency);
         define("sanitizefilename", [componentsPath + "/sanitizefilename"], returnFirstDependency);
-        define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
         define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);
         define("touchHelper", [componentsPath + "/touchhelper"], returnFirstDependency);
