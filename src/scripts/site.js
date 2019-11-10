@@ -387,7 +387,7 @@ var AppInfo = {};
                 return self.ResizeObserver;
             });
         } else {
-            define("ResizeObserver", [getBowerPath() + "/resize-observer-polyfill/ResizeObserver"], returnFirstDependency);
+            define("ResizeObserver", ["resize-observer-polyfill"], returnFirstDependency);
         }
     }
 
@@ -410,9 +410,9 @@ var AppInfo = {};
         if ("registerElement" in document) {
             define("registerElement", []);
         } else if (browser.msie) {
-            define("registerElement", [bowerPath + "/webcomponentsjs/webcomponents-lite.min.js"], returnFirstDependency);
+            define("registerElement", ["webcomponents"], returnFirstDependency);
         } else {
-            define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
+            define("registerElement", ["document-register-element"], returnFirstDependency);
         }
 
         define("imageFetcher", [componentsPath + "/images/imageFetcher"], returnFirstDependency);
@@ -632,7 +632,7 @@ var AppInfo = {};
         }
 
         if (!window.Promise || browser.web0s) {
-            require([getBowerPath() + "/native-promise-only/lib/npo.src"], init);
+            require(["native-promise-only"], init);
         } else {
             init();
         }
@@ -681,15 +681,20 @@ var AppInfo = {};
             },
             bundles: {
                 bundle: [
+                    "document-register-element",
+                    "fetch",
                     "flvjs",
                     "jstree",
                     "jQuery",
                     "hlsjs",
                     "howler",
+                    "native-promise-only",
+                    "resize-observer-polyfill",
                     "shaka",
                     "swiper",
                     "sortable",
-                    "libjass"
+                    "libjass",
+                    "webcomponents"
                 ]
             },
             urlArgs: urlArgs,
@@ -743,7 +748,7 @@ var AppInfo = {};
 
         // also pull out these libs
         define("page", [bowerPath + "/page"], returnFirstDependency);
-        define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency);
+        define("fetch", ["fetch"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
         });

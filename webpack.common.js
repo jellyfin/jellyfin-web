@@ -1,6 +1,8 @@
 const path = require("path");
-const { CleanWebpackPlugin} = require("clean-webpack-plugin");
+
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+
 const Assets = [
     "alameda/alameda.js",
     "requirejs/require.js"
