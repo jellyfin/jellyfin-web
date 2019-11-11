@@ -1,6 +1,8 @@
 define(["dialogHelper", "loading", "connectionManager", "require", "globalize", "scrollHelper", "layoutManager", "focusManager", "browser", "emby-input", "emby-checkbox", "paper-icon-button-light", "css!./../formdialog", "material-icons", "cardStyle"], function (dialogHelper, loading, connectionManager, require, globalize, scrollHelper, layoutManager, focusManager, browser) {
     "use strict";
 
+    var enableFocusTransform = !browser.slow && !browser.edge;
+
     var currentItem;
     var currentItemType;
     var currentServerId;
@@ -172,6 +174,8 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
 
     function getSearchResultHtml(result, index) {
 
+        // TODO move card creation code to Card component
+
         var html = "";
         var cssClass = "card scalableCard";
         var cardBoxCssClass = "cardBox";
@@ -190,15 +194,15 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
             padderClass = "cardPadder-portrait";
         }
 
-        if (layoutManager.tv && !browser.slow) {
-            cardBoxCssClass += " cardBox-focustransform";
+        if (layoutManager.tv) {
+            cssClass += " show-focus";
+
+            if (enableFocusTransform) {
+                cssClass += " show-animation";
+            }
         }
 
         cardBoxCssClass += " cardBox-bottompadded";
-
-        if (layoutManager.tv) {
-            cardBoxCssClass += " card-focuscontent cardBox-withfocuscontent";
-        }
 
         html += '<button type="button" class="' + cssClass + '" data-index="' + index + '">';
         html += '<div class="' + cardBoxCssClass + '">';

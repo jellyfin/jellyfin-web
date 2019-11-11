@@ -1,5 +1,7 @@
-define(["apphost", "appSettings", "dom", "connectionManager", "loading", "cardStyle", "emby-checkbox"], function(appHost, appSettings, dom, connectionManager, loading) {
+define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layoutManager", "browser", "cardStyle", "emby-checkbox"], function(appHost, appSettings, dom, connectionManager, loading, layoutManager, browser) {
     "use strict";
+
+    var enableFocusTransform = !browser.slow && !browser.edge;
 
     function authenticateUserByName(page, apiClient, username, password) {
         loading.show();
@@ -60,7 +62,23 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "cardSt
         var html = "";
         for (var i = 0; i < users.length; i++) {
             var user = users[i];
-            html += '<button type="button" class="card squareCard scalableCard squareCard-scalable"><div class="cardBox cardBox-bottompadded">';
+
+            // TODO move card creation code to Card component
+
+            var cssClass = "card squareCard scalableCard squareCard-scalable";
+
+            if (layoutManager.tv) {
+                cssClass += " show-focus";
+
+                if (enableFocusTransform) {
+                    cssClass += " show-animation";
+                }
+            }
+
+            var cardBoxCssClass = "cardBox cardBox-bottompadded";
+
+            html += '<button type="button" class="' + cssClass + '">';
+            html += '<div class="' + cardBoxCssClass + '">';
             html += '<div class="cardScalable">';
             html += '<div class="cardPadder cardPadder-square"></div>';
             html += '<div class="cardContent" data-haspw="' + user.HasPassword + '" data-username="' + user.Name + '" data-userid="' + user.Id + '">';

@@ -3,7 +3,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         'use strict';
 
         var devicePixelRatio = window.devicePixelRatio || 1;
-        var enableFocusTransfrom = !browser.slow && !browser.edge;
+        var enableFocusTransform = !browser.slow && !browser.edge;
 
         function getCardsHtml(items, options) {
             if (arguments.length === 1) {
@@ -1203,6 +1203,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 shape = shape || 'mixedSquare';
             }
 
+            // TODO move card creation code to Card component
+
             var className = 'card';
 
             if (shape) {
@@ -1221,8 +1223,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += ' card-hoverable';
             }
 
-            if (!enableFocusTransfrom || !layoutManager.tv) {
-                className += ' card-nofocustransform';
+            if (layoutManager.tv) {
+                className += ' show-focus';
+
+                if (enableFocusTransform) {
+                    className += ' show-animation';
+                }
             }
 
             var imgInfo = getCardImageUrl(item, apiClient, options, shape);
@@ -1249,23 +1255,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
-
-            if (layoutManager.tv) {
-
-                if (enableFocusTransfrom) {
-                    cardBoxClass += ' cardBox-focustransform cardBox-withfocuscontent';
-                } else {
-                    cardBoxClass += ' cardBox-withfocuscontent-large';
-                }
-
-                if (options.cardLayout) {
-                    cardBoxClass += ' card-focuscontent';
-
-                    if (!enableFocusTransfrom) {
-                        cardBoxClass += ' card-focuscontent-large';
-                    }
-                }
-            }
 
             var footerCssClass;
             var progressHtml = indicators.getProgressBarHtml(item);
@@ -1384,15 +1373,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var cardScalableClass = 'cardScalable';
-
-            if (layoutManager.tv && !options.cardLayout) {
-
-                cardScalableClass += ' card-focuscontent';
-
-                if (!enableFocusTransfrom) {
-                    cardScalableClass += ' card-focuscontent-large';
-                }
-            }
 
             cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
             cardBoxClose = '</div>';

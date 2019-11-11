@@ -1,5 +1,7 @@
-define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focusManager", "connectionManager", "globalize", "actionsheet", "dom", "material-icons", "flexStyles", "emby-scroller", "emby-itemscontainer", "cardStyle", "emby-button"], function (loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom) {
+define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focusManager", "connectionManager", "globalize", "actionsheet", "dom", "browser", "material-icons", "flexStyles", "emby-scroller", "emby-itemscontainer", "cardStyle", "emby-button"], function (loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom, browser) {
     "use strict";
+
+    var enableFocusTransform = !browser.slow && !browser.edge;
 
     function renderSelectServerItems(view, servers) {
         var items = servers.map(function (server) {
@@ -21,17 +23,25 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                 cardImageContainer = '<div class="cardImage" style="' + item.cardImageStyle + '"></div>';
             }
 
-            var cardBoxCssClass = "cardBox";
+            // TODO move card creation code to Card component
+
+            var cssClass = "card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable";
 
             if (layoutManager.tv) {
-                cardBoxCssClass += " cardBox-focustransform";
+                cssClass += " show-focus";
+
+                if (enableFocusTransform) {
+                    cssClass += " show-animation";
+                }
             }
+
+            var cardBoxCssClass = "cardBox";
 
             var innerOpening = '<div class="' + cardBoxCssClass + '">';
             var cardContainer = '';
-            cardContainer += '<button raised class="card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable" style="display:inline-block;" data-id="' + item.id + '" data-url="' + (item.url || "") + '" data-cardtype="' + item.cardType + '">';
+            cardContainer += '<button raised class="' + cssClass + '" style="display:inline-block;" data-id="' + item.id + '" data-url="' + (item.url || "") + '" data-cardtype="' + item.cardType + '">';
             cardContainer += innerOpening;
-            cardContainer += '<div class="cardScalable card-focuscontent">';
+            cardContainer += '<div class="cardScalable">';
             cardContainer += '<div class="cardPadder cardPadder-square">';
             cardContainer += '</div>';
             cardContainer += '<div class="cardContent">';

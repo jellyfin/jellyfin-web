@@ -1,6 +1,8 @@
 define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 'focusManager', 'globalize', 'scrollHelper', 'imageLoader', 'require', 'browser', 'apphost', 'cardStyle', 'formDialogStyle', 'emby-button', 'paper-icon-button-light', 'css!./imageeditor'], function (dialogHelper, connectionManager, loading, dom, layoutManager, focusManager, globalize, scrollHelper, imageLoader, require, browser, appHost) {
     'use strict';
 
+    var enableFocusTransform = !browser.slow && !browser.edge;
+
     var currentItem;
     var hasChanges = false;
 
@@ -95,6 +97,8 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
     function getCardHtml(image, index, numImages, apiClient, imageProviders, imageSize, tagName, enableFooterButtons) {
 
+        // TODO move card creation code to Card component
+
         var html = '';
 
         var cssClass = "card scalableCard imageEditorCard";
@@ -105,12 +109,12 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         if (tagName === 'button') {
             cssClass += ' btnImageCard';
 
-            if (layoutManager.tv && !browser.slow) {
-                cardBoxCssClass += ' cardBox-focustransform';
-            }
-
             if (layoutManager.tv) {
-                cardBoxCssClass += ' card-focuscontent cardBox-withfocuscontent';
+                cssClass += ' show-focus';
+
+                if (enableFocusTransform) {
+                    cssClass += ' show-animation';
+                }
             }
 
             html += '<button type="button" class="' + cssClass + '"';
