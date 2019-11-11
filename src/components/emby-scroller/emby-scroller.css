@@ -7,6 +7,11 @@
     margin-right: 3.3%;
 }
 
+/* align first card in scroller to heading */
+.emby-scroller .card:first-of-type > .cardBox {
+    margin-left: 0;
+}
+
 @media all and (max-width:50em) {
     .emby-scroller {
         padding-left: 3.3%;
