@@ -202,11 +202,9 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
      * @param {Object} elem slider itself
      */
     function startKeyboardDragging(elem) {
-
         elem.keyboardDragging = true;
 
         clearTimeout(keyboardDraggingTimer);
-
         keyboardDraggingTimer = setTimeout(function () {
             finishKeyboardDragging(elem);
         }, KeyboardDraggingTimeout);
@@ -218,7 +216,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
      * @param {Object} elem slider itself
      */
     function finishKeyboardDragging(elem) {
-
         clearTimeout(keyboardDraggingTimer);
         keyboardDraggingTimer = undefined;
 
@@ -238,7 +235,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
      * @param {number} delta step amount
      */
     function stepKeyboard(elem, delta) {
-
         startKeyboardDragging(elem);
 
         elem.value = Math.max(elem.min, Math.min(elem.max, parseFloat(elem.value) + delta));
@@ -261,14 +257,14 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
                 stepKeyboard(this, -this.keyboardStepDown || -1);
                 e.preventDefault();
                 e.stopPropagation();
-            break;
+                break;
 
             case 'ArrowRight':
             case 'Right':
                 stepKeyboard(this, this.keyboardStepUp || 1);
                 e.preventDefault();
                 e.stopPropagation();
-            break;
+                break;
         }
     }
 
@@ -276,7 +272,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
      * Enable keyboard dragging.
      */
     EmbySliderPrototype.enableKeyboardDragging = function () {
-
         if (!this.keyboardDraggingEnabled) {
             this.addEventListener('keydown', onKeyDown);
             this.keyboardDraggingEnabled = true;
@@ -290,7 +285,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
      * @param {number} stepUp step to increase
      */
     EmbySliderPrototype.setKeyboardSteps = function (stepDown, stepUp) {
-
         this.keyboardStepDown = stepDown || stepUp || 1;
         this.keyboardStepUp = stepUp || stepDown || 1;
     }
