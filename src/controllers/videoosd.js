@@ -771,7 +771,8 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             nowPlayingPositionSlider.setIsClear(isProgressClear);
 
             if (nowPlayingItem.RunTimeTicks) {
-                nowPlayingPositionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / nowPlayingItem.RunTimeTicks, userSettings.skipForwardLength() * 1000000 / nowPlayingItem.RunTimeTicks);
+                nowPlayingPositionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / nowPlayingItem.RunTimeTicks,
+                    userSettings.skipForwardLength() * 1000000 / nowPlayingItem.RunTimeTicks);
             }
 
             if (-1 === supportedCommands.indexOf("ToggleFullscreen") || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {
