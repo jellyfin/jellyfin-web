@@ -165,7 +165,7 @@
     "DeleteImageConfirmation": "Möchtest du dieses Bild wirklich löschen?",
     "DeleteMedia": "Medien löschen",
     "DeleteUser": "Benutzer löschen",
-    "DeleteUserConfirmation": "Möchtest du {0} wirklich löschen?",
+    "DeleteUserConfirmation": "Möchtest du den Benutzer wirklich löschen?",
     "Depressed": "Gedrückt",
     "Descending": "Absteigend",
     "DetectingDevices": "Suche Geräte",
@@ -1455,5 +1455,11 @@
     "DashboardArchitecture": "Architektur: {0}",
     "LabelVideoCodec": "Videocodec:",
     "LaunchWebAppOnStartup": "Das Webinterface öffnen, wenn der Server startet",
-    "LaunchWebAppOnStartupHelp": "Öffne den Webclient in Standard-Webbrowser, wenn der Server zum ersten Mal gestartet wird. Dies tritt bei Verwendung der Neustart-Serverfunktion nicht auf."
+    "LaunchWebAppOnStartupHelp": "Öffne den Webclient in Standard-Webbrowser, wenn der Server zum ersten Mal gestartet wird. Dies tritt bei Verwendung der Neustart-Serverfunktion nicht auf.",
+    "MusicArtist": "Interpret",
+    "MusicAlbum": "Musikalbum",
+    "MoreMediaInfo": "Medieninformation",
+    "MessageNoServersAvailable": "Die automatische Serversuche konnte keinen Server finden.",
+    "LabelPlayer": "Player:",
+    "MediaInfoCodecTag": "Codec Tag"
 }
