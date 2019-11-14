@@ -1,4 +1,4 @@
-define(["playbackSettings", "userSettingsBuilder", "dom", "globalize", "loading", "userSettings", "listViewStyle"], function (PlaybackSettings, userSettingsBuilder, dom, globalize, loading, currentUserSettings) {
+define(["playbackSettings", "userSettingsBuilder", "dom", "globalize", "loading", "userSettings", "autoFocuser", "listViewStyle"], function (PlaybackSettings, userSettingsBuilder, dom, globalize, loading, currentUserSettings, autoFocuser) {
     "use strict";
 
     return function (view, params) {
@@ -25,7 +25,7 @@ define(["playbackSettings", "userSettingsBuilder", "dom", "globalize", "loading"
                     userSettings: userSettings,
                     enableSaveButton: false,
                     enableSaveConfirmation: false,
-                    autoFocus: true
+                    autoFocus: autoFocuser.isEnabled()
                 });
             }
         });

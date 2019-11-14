@@ -1,4 +1,4 @@
-define(["displaySettings", "userSettingsBuilder", "userSettings"], function (DisplaySettings, userSettingsBuilder, currentUserSettings) {
+define(["displaySettings", "userSettingsBuilder", "userSettings", "autoFocuser"], function (DisplaySettings, userSettingsBuilder, currentUserSettings, autoFocuser) {
     "use strict";
 
     return function (view, params) {
@@ -25,7 +25,7 @@ define(["displaySettings", "userSettingsBuilder", "userSettings"], function (Dis
                     userSettings: userSettings,
                     enableSaveButton: false,
                     enableSaveConfirmation: false,
-                    autoFocus: true
+                    autoFocus: autoFocuser.isEnabled()
                 });
             }
         });
