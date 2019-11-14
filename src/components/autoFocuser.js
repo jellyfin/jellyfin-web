@@ -1,4 +1,4 @@
-define(["focusManager"], function (focusManager) {
+define(["focusManager", "layoutManager"], function (focusManager, layoutManager) {
     "use strict";
 
     /**
@@ -7,9 +7,20 @@ define(["focusManager"], function (focusManager) {
     var activeElement;
 
     /**
+     * Returns true if AutoFocuser is enabled.
+     */
+    function isEnabled() {
+        return layoutManager.tv;
+    };
+
+    /**
      * Start AutoFocuser
      */
     function enable() {
+        if (!isEnabled()) {
+            return;
+        }
+
         window.addEventListener("focusin", function (e) {
             activeElement = e.target;
         });
@@ -21,6 +32,10 @@ define(["focusManager"], function (focusManager) {
      * Set focus on a suitable element, taking into account the previously selected.
      */
     function autoFocus(container) {
+        if (!isEnabled()) {
+            return;
+        }
+
         container = container || document.body;
 
         var candidates = [];
@@ -67,6 +82,7 @@ define(["focusManager"], function (focusManager) {
     }
 
     return {
+        isEnabled: isEnabled,
         enable: enable,
         autoFocus: autoFocus
     };
