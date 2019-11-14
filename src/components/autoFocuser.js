@@ -29,6 +29,13 @@ define(["focusManager", "layoutManager"], function (focusManager, layoutManager)
     }
 
     /**
+     * Create an array from some source.
+     */
+    var arrayFrom = Array.prototype.from || function (src) {
+        return Array.prototype.slice.call(src);
+    }
+
+    /**
      * Set focus on a suitable element, taking into account the previously selected.
      */
     function autoFocus(container) {
@@ -55,8 +62,8 @@ define(["focusManager", "layoutManager"], function (focusManager, layoutManager)
             candidates.push(activeElement);
         }
 
-        candidates = candidates.concat(Array.from(container.querySelectorAll(".btnResume")));
-        candidates = candidates.concat(Array.from(container.querySelectorAll(".btnPlay")));
+        candidates = candidates.concat(arrayFrom(container.querySelectorAll(".btnResume")));
+        candidates = candidates.concat(arrayFrom(container.querySelectorAll(".btnPlay")));
 
         var notFound = candidates.every(function (element) {
             if (focusManager.isCurrentlyFocusable(element)) {
