@@ -1715,6 +1715,12 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             hideAll(page, "btnPlay", false);
             hideAll(page, "btnShuffle", false);
         }
+
+        // HACK: Call autoFocuser again because btnPlay may be hidden, but focused by reloadFromItem
+        // FIXME: Sometimes focus does not move until all (?) sections are loaded
+        require(["autoFocuser"], function (autoFocuser) {
+            autoFocuser.autoFocus(page);
+        });
     }
 
     function renderCollectionItemType(page, parentItem, type, items) {
