@@ -53,6 +53,15 @@ define(["focusManager"], function (focusManager) {
         });
 
         if (notFound) {
+            // FIXME: Multiple itemsContainers
+            var itemsContainer = container.querySelector(".itemsContainer");
+
+            if (itemsContainer) {
+                notFound = !focusManager.autoFocus(itemsContainer);
+            }
+        }
+
+        if (notFound) {
             focusManager.autoFocus(container);
         }
     }
