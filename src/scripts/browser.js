@@ -122,7 +122,8 @@ define([], function () {
     }
 
     function iOSversion() {
-        if (/iP(hone|od|ad)/.test(navigator.platform)) {
+        // MacIntel: Apple iPad Pro 11 iOS 13.1
+        if (/iP(hone|od|ad)|MacIntel/.test(navigator.platform)) {
             // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
             var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
             return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
@@ -301,7 +302,10 @@ define([], function () {
 
     if (browser.iOS) {
         browser.iOSVersion = iOSversion();
-        browser.iOSVersion = browser.iOSVersion[0] + (browser.iOSVersion[1] / 10);
+
+        if (browser.iOSVersion && browser.iOSVersion.length >= 2) {
+            browser.iOSVersion = browser.iOSVersion[0] + (browser.iOSVersion[1] / 10);
+        }
     }
 
     browser.chromecast = browser.chrome && userAgent.toLowerCase().indexOf('crkey') !== -1;
