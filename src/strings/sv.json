@@ -1312,5 +1312,6 @@
     "HeaderFavoriteBooks": "Favoritböcker",
     "FormatValue": "Format: {0}",
     "CopyStreamURLSuccess": "URL har kopierats.",
-    "CopyStreamURL": "Kopiera Stream URL"
+    "CopyStreamURL": "Kopiera Stream URL",
+    "FetchingData": "Hämtar ytterligare data"
 }
