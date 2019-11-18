@@ -250,7 +250,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
      * Handle KeyDown event
      */
     function onKeyDown(e) {
-
         switch (e.key) {
             case 'ArrowLeft':
             case 'Left':
@@ -258,7 +257,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
                 e.preventDefault();
                 e.stopPropagation();
                 break;
-
             case 'ArrowRight':
             case 'Right':
                 stepKeyboard(this, this.keyboardStepUp || 1);

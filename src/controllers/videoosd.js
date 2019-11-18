@@ -1083,11 +1083,13 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         function onWindowKeyDown(e) {
             if (!currentVisibleMenu && 32 === e.keyCode) {
                 playbackManager.playPause(currentPlayer);
-                return void showOsd();
+                showOsd();
+                return;
             }
 
             if (layoutManager.tv && NavigationKeys.indexOf(e.key) != -1) {
-                return void showOsd();
+                showOsd();
+                return;
             }
 
             switch (e.key) {
