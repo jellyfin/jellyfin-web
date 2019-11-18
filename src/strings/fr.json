@@ -19,7 +19,7 @@
     "AllLanguages": "Toutes les langues",
     "AllLibraries": "Toutes les médiathèques",
     "AllowDeletionFromAll": "Autoriser la suppression de média depuis toutes les médiathèques",
-    "AllowHWTranscodingHelp": "Permettre au tuner TV de transcoder les flux à la volée. Cela peut aider à réduire le transcodage requis par le serveur.",
+    "AllowHWTranscodingHelp": "Autoriser le tuner TV à transcoder les flux à la volée. Cela peut aider à réduire le transcodage requis par le serveur.",
     "AllowMediaConversion": "Autoriser la conversion des médias",
     "AllowMediaConversionHelp": "Autoriser ou refuser l'accès à la fonctionnalité de conversion des médias.",
     "AllowOnTheFlySubtitleExtraction": "Autoriser l'extraction des sous-titres à la volée",
