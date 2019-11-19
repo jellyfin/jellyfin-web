@@ -265,7 +265,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
 
                     var html = "";
                     html += '<div class="formDialogHeader">';
-                    html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
+                    html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><i class="md-icon">arrow_back</i></button>';
                     html += '<h3 class="formDialogHeaderTitle">';
                     html += options.header || Globalize.translate("HeaderSelectPath");
                     html += "</h3>";

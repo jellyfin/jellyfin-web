@@ -63,7 +63,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         if (isFavorite) {
 
             if (icon) {
-                icon.innerHTML = '&#xE87D;';
+                icon.innerHTML = 'favorite';
 				icon.classList.add('ratingbutton-icon-withrating');
             }
 
@@ -72,27 +72,27 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         } else if (likes) {
 
             if (icon) {
-                icon.innerHTML = '&#xE87D;';
+                icon.innerHTML = 'favorite';
 				icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = '&#xE8DC;';
+                //icon.innerHTML = 'thumb_up';
             }
             button.classList.remove('ratingbutton-withrating');
 
         } else if (likes === false) {
 
             if (icon) {
-                icon.innerHTML = '&#xE87D;';
+                icon.innerHTML = 'favorite';
 				icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = '&#xE8DB;';
+                //icon.innerHTML = 'thumb_down';
             }
             button.classList.remove('ratingbutton-withrating');
 
         } else {
 
             if (icon) {
-                icon.innerHTML = '&#xE87D;';
+                icon.innerHTML = 'favorite';
 				icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = '&#xE8DD;';
+                //icon.innerHTML = 'thumbs_up_down';
             }
             button.classList.remove('ratingbutton-withrating');
         }

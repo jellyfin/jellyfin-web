@@ -156,7 +156,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
                 leadingButtons = layoutManager.tv ? [{
                     name: globalize.translate("All"),
                     id: "more",
-                    icon: "&#xE87D;",
+                    icon: "favorite",
                     routeUrl: getRouteUrl(section, serverId)
                 }] : null,
                 lines = 0;
@@ -192,7 +192,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
         for (i = 0, length = sections.length; i < length; i++) {
             var section = sections[i],
                 sectionClass = "verticalSection";
-            section.showTitle || (sectionClass += " verticalSection-extrabottompadding"), html += '<div class="' + sectionClass + ' hide">', html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">', layoutManager.tv ? html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(section.name) + "</h2>" : (html += '<a is="emby-linkbutton" href="' + getRouteUrl(section, apiClient.serverId()) + '" class="more button-flat button-flat-mini sectionTitleTextButton">', html += '<h2 class="sectionTitle sectionTitle-cards">', html += globalize.translate(section.name), html += "</h2>", html += '<i class="md-icon">&#xE5CC;</i>', html += "</a>"), html += "</div>", html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="markfavorite"></div></div>', html += "</div>"
+            section.showTitle || (sectionClass += " verticalSection-extrabottompadding"), html += '<div class="' + sectionClass + ' hide">', html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">', layoutManager.tv ? html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(section.name) + "</h2>" : (html += '<a is="emby-linkbutton" href="' + getRouteUrl(section, apiClient.serverId()) + '" class="more button-flat button-flat-mini sectionTitleTextButton">', html += '<h2 class="sectionTitle sectionTitle-cards">', html += globalize.translate(section.name), html += "</h2>", html += '<i class="md-icon">chevron_right</i>', html += "</a>"), html += "</div>", html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="markfavorite"></div></div>', html += "</div>"
         }
         elem.innerHTML = html;
         var elems = elem.querySelectorAll(".itemsContainer");

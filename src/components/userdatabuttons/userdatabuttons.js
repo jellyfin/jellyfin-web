@@ -105,9 +105,9 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
 
             if (itemHelper.canMarkPlayed(item)) {
                 if (userData.Played) {
-                    html += getUserDataButtonHtml('markPlayed', itemId, serverId, btnCssClass + ' btnUserDataOn', iconCssClass, '&#xE5CA;', tooltipPlayed, style);
+                    html += getUserDataButtonHtml('markPlayed', itemId, serverId, btnCssClass + ' btnUserDataOn', iconCssClass, 'check', tooltipPlayed, style);
                 } else {
-                    html += getUserDataButtonHtml('markPlayed', itemId, serverId, btnCssClass, iconCssClass, '&#xE5CA;', tooltipPlayed, style);
+                    html += getUserDataButtonHtml('markPlayed', itemId, serverId, btnCssClass, iconCssClass, 'check', tooltipPlayed, style);
                 }
             }
         }
@@ -131,9 +131,9 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         var tooltipFavorite = globalize.translate('Favorite');
         if (userData.IsFavorite) {
 
-            html += getUserDataButtonHtml('markFavorite', itemId, serverId, btnCssClass + ' btnUserData btnUserDataOn', iconCssClass, '&#xE87D;', tooltipFavorite, style);
+            html += getUserDataButtonHtml('markFavorite', itemId, serverId, btnCssClass + ' btnUserData btnUserDataOn', iconCssClass, 'favorite', tooltipFavorite, style);
         } else {
-            html += getUserDataButtonHtml('markFavorite', itemId, serverId, btnCssClass + ' btnUserData', iconCssClass, '&#xE87D;', tooltipFavorite, style);
+            html += getUserDataButtonHtml('markFavorite', itemId, serverId, btnCssClass + ' btnUserData', iconCssClass, 'favorite', tooltipFavorite, style);
         }
 
         return html;

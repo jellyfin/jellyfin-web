@@ -181,7 +181,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
             html += '<div class="cardImage" style="background-image:url(\'' + user.ImageUrl + "');\">";
             html += "</div>";
         } else {
-            html += '<i class="cardImageIcon md-icon">&#xE7FD;</i>';
+            html += '<i class="cardImageIcon md-icon">person</i>';
         }
 
         html += "</a>";

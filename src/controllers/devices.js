@@ -89,7 +89,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "hu
 
             if (canEdit || canDelete(device.Id)) {
                 deviceHtml += '<div style="text-align:right; float:right;padding-top:5px;">';
-                deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate("Menu") + '" class="btnDeviceMenu"><i class="md-icon">&#xE5D3;</i></button>';
+                deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate("Menu") + '" class="btnDeviceMenu"><i class="md-icon">more_horiz</i></button>';
                 deviceHtml += "</div>";
             }
 

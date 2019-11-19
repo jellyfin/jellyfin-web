@@ -63,17 +63,17 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         switch (deviceType) {
 
             case 'smartphone':
-                return '&#xE32C;';
+                return 'smartphone';
             case 'tablet':
-                return '&#xE32F;';
+                return 'tablet';
             case 'tv':
-                return '&#xE333;';
+                return 'tv';
             case 'cast':
-                return '&#xE307;';
+                return 'cast';
             case 'desktop':
-                return '&#xE30A;';
+                return 'computer';
             default:
-                return '&#xE333;';
+                return 'tv';
         }
     }
 
