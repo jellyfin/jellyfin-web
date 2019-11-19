@@ -12,6 +12,12 @@
     margin-left: 0;
 }
 
+/* align heading for normal item containers */
+/* still not ideal solution but better than the last method */
+.verticalSection > .itemsContainer .cardBox {
+    margin-left: 0;
+}
+
 @media all and (max-width:50em) {
     .emby-scroller {
         padding-left: 3.3%;
