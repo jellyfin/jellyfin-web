@@ -19,6 +19,11 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
 
     function updateValues() {
 
+        // Do not update values when dragging with keyboard to keep current progress for reference
+        if (!!this.keyboardDragging) {
+            return;
+        }
+
         var range = this;
         var value = range.value;
 
@@ -81,6 +86,9 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
         }
         if (!layoutManager.mobile) {
             this.classList.add('mdl-slider-hoverthumb');
+        }
+        if (layoutManager.tv) {
+            this.classList.add('show-focus');
         }
 
         var containerElement = this.parentNode;
@@ -176,6 +184,108 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
             }
         }
     };
+
+    /**
+     * Keyboard dragging timeout.
+     * After this delay "change" event will be fired.
+     */
+    var KeyboardDraggingTimeout = 1000;
+
+    /**
+     * Keyboard dragging timer.
+     */
+    var keyboardDraggingTimer;
+
+    /**
+     * Start keyboard dragging.
+     *
+     * @param {Object} elem slider itself
+     */
+    function startKeyboardDragging(elem) {
+        elem.keyboardDragging = true;
+
+        clearTimeout(keyboardDraggingTimer);
+        keyboardDraggingTimer = setTimeout(function () {
+            finishKeyboardDragging(elem);
+        }, KeyboardDraggingTimeout);
+    }
+
+    /**
+     * Finish keyboard dragging.
+     *
+     * @param {Object} elem slider itself
+     */
+    function finishKeyboardDragging(elem) {
+        clearTimeout(keyboardDraggingTimer);
+        keyboardDraggingTimer = undefined;
+
+        elem.keyboardDragging = false;
+
+        var event = new Event('change', {
+            bubbles: true,
+            cancelable: false
+        });
+        elem.dispatchEvent(event);
+    }
+
+    /**
+     * Do step by delta.
+     *
+     * @param {Object} elem slider itself
+     * @param {number} delta step amount
+     */
+    function stepKeyboard(elem, delta) {
+        startKeyboardDragging(elem);
+
+        elem.value = Math.max(elem.min, Math.min(elem.max, parseFloat(elem.value) + delta));
+
+        var event = new Event('input', {
+            bubbles: true,
+            cancelable: false
+        });
+        elem.dispatchEvent(event);
+    }
+
+    /**
+     * Handle KeyDown event
+     */
+    function onKeyDown(e) {
+        switch (e.key) {
+            case 'ArrowLeft':
+            case 'Left':
+                stepKeyboard(this, -this.keyboardStepDown || -1);
+                e.preventDefault();
+                e.stopPropagation();
+                break;
+            case 'ArrowRight':
+            case 'Right':
+                stepKeyboard(this, this.keyboardStepUp || 1);
+                e.preventDefault();
+                e.stopPropagation();
+                break;
+        }
+    }
+
+    /**
+     * Enable keyboard dragging.
+     */
+    EmbySliderPrototype.enableKeyboardDragging = function () {
+        if (!this.keyboardDraggingEnabled) {
+            this.addEventListener('keydown', onKeyDown);
+            this.keyboardDraggingEnabled = true;
+        }
+    }
+
+    /**
+     * Set steps for keyboard input.
+     *
+     * @param {number} stepDown step to reduce
+     * @param {number} stepUp step to increase
+     */
+    EmbySliderPrototype.setKeyboardSteps = function (stepDown, stepUp) {
+        this.keyboardStepDown = stepDown || stepUp || 1;
+        this.keyboardStepUp = stepUp || stepDown || 1;
+    }
 
     function setRange(elem, startPercent, endPercent) {
 
