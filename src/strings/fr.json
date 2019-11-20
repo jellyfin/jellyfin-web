@@ -51,7 +51,7 @@
     "BoxRear": "Dos de boîtier",
     "Browse": "Parcourir",
     "BrowsePluginCatalogMessage": "Explorer notre catalogue des plugins pour voir les plugins disponibles.",
-    "BurnSubtitlesHelp": "Détermine si le serveur doit graver les sous-titres lors de la conversion vidéo en fonction du format de sous-titre. Éviter la gravure des sous-titres améliorera les performances du serveur. Sélectionnez Auto pour graver les formats basés sur l'image (VOBSUB, PGS, SUB/IDX etc) ainsi que certains sous-titres ASS/SSA.",
+    "BurnSubtitlesHelp": "Détermine si le serveur doit incruster les sous-titres lors de la conversion vidéo en fonction du format de sous-titre. Éviter l'incrustation des sous-titres améliorera les performances du serveur. Sélectionnez Auto pour incruster les formats basés sur l'image (VOBSUB, PGS, SUB/IDX etc) ainsi que certains sous-titres ASS/SSA.",
     "ButtonAdd": "Ajouter",
     "ButtonAddMediaLibrary": "Ajouter une médiathèque",
     "ButtonAddScheduledTaskTrigger": "Ajouter un déclencheur",
@@ -172,7 +172,7 @@
     "DetectingDevices": "Détection des appareils",
     "DeviceAccessHelp": "Ceci ne s'applique qu'aux appareils qui peuvent être identifiés de manière unique et n'empêchera pas l'accès par navigateur. Le filtrage de l'accès aux appareil par utilisateur empêchera l'utilisation de nouveaux appareils jusqu'à ce qu'ils soient approuvés ici.",
     "DirectPlaying": "Lecture directe",
-    "DirectStreamHelp1": "Le média est compatible avec l'appareil en ce qui concerne la résolution et le type de média (H.264, AC3 etc), mais se trouve dans un conteneur de fichiers incompatible (mkv, avi, wmv, etc). La vidéo sera rempaquetée à la volée avant d'être diffusée à l'appareil.",
+    "DirectStreamHelp1": "Le média est compatible avec l'appareil en ce qui concerne la résolution et le type de média (H.264, AC3,etc), mais se trouve dans un conteneur de fichiers incompatible (mkv, avi, wmv, etc). La vidéo sera rempaquetée à la volée avant d'être diffusée à l'appareil.",
     "DirectStreamHelp2": "Le streaming en direct d'un fichier utilise très peu de puissance de traitement sans perte de qualité vidéo.",
     "DirectStreaming": "Streaming direct",
     "Director": "Réalisateur(trice)",
@@ -1449,6 +1449,6 @@
     "LabelAudioChannels": "Canaux audio :",
     "HeaderFavoriteBooks": "Livres Favoris",
     "FetchingData": "Récupération de données additionnelles",
-    "CopyStreamURLSuccess": "Lien copié avec succès.",
-    "CopyStreamURL": "Copier le lien du flux"
+    "CopyStreamURLSuccess": "URL copié avec succès.",
+    "CopyStreamURL": "Copier l'URL du flux"
 }
