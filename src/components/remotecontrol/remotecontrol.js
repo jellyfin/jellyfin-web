@@ -215,6 +215,17 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 context.querySelector(".sendTextSection").classList.add("hide");
             }
 
+			buttonVisible(context.querySelector(".btnArrowUp"), -1 != supportedCommands.indexOf("MoveUp"));
+			buttonVisible(context.querySelector(".btnArrowLeft"), -1 != supportedCommands.indexOf("MoveDown"));
+			buttonVisible(context.querySelector(".btnArrowRight"), -1 != supportedCommands.indexOf("MoveRight"));
+			buttonVisible(context.querySelector(".btnArrowDown"), -1 != supportedCommands.indexOf("MoveLeft"));
+			buttonVisible(context.querySelector(".btnOk"), -1 != supportedCommands.indexOf("Select"));
+			buttonVisible(context.querySelector(".btnBack"), -1 != supportedCommands.indexOf("Back"));
+			buttonVisible(context.querySelector(".btnInfo"), -1 != supportedCommands.indexOf("ToggleOsd"));
+			buttonVisible(context.querySelector(".btnShowSearch"), -1 != supportedCommands.indexOf("GoToSearch"));
+			buttonVisible(context.querySelector(".bthShowSettings"), -1 != supportedCommands.indexOf("GoToSettings"));
+			buttonVisible(context.querySelector(".btnGoHome"), -1 != supportedCommands.indexOf("GoHome"));
+
             buttonVisible(context.querySelector(".btnStop"), null != item);
             buttonVisible(context.querySelector(".btnNextTrack"), null != item);
             buttonVisible(context.querySelector(".btnPreviousTrack"), null != item);
