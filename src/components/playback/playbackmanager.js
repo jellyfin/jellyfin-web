@@ -3860,7 +3860,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 "SetMaxStreamingBitrate",
                 "DisplayContent",
                 "GoToSearch",
-                "DisplayMessage",
                 "SetRepeatMode",
                 "PlayMediaSource",
                 "PlayTrailers"
