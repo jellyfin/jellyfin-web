@@ -4,6 +4,14 @@
 // Use define from require.js not webpack's define
 var _define = window.define;
 
+// document-register-element
+var docRegister = require("document-register-element");
+_define("document-register-element", function() { return docRegister; });
+
+// fetch
+var fetch = require("whatwg-fetch");
+_define("fetch", function() { return fetch });
+
 // flvjs
 var flvjs = require("flv.js");
 _define("flvjs", function() { return flvjs; });
@@ -25,6 +33,14 @@ _define("hlsjs", function() { return hlsjs; });
 var howler = require("howler");
 _define("howler", function() { return howler; });
 
+// native-promise-only
+var nativePromise = require("native-promise-only");
+_define("native-promise-only", function() { return nativePromise; });
+
+// resize-observer-polyfill
+var resize = require("resize-observer-polyfill");
+_define("resize-observer-polyfill", function() { return resize; });
+
 // shaka
 var shaka = require("shaka-player");
 _define("shaka", function() { return shaka; });
@@ -37,6 +53,10 @@ _define("swiper", function() { return swiper; });
 // sortable
 var sortable = require("sortablejs");
 _define("sortable", function() { return sortable; });
+
+// webcomponents
+var webcomponents = require("webcomponents.js-2");
+_define("webcomponents", function() { return webcomponents });
 
 // libjass
 var libjass = require("libjass");
