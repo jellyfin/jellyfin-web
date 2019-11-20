@@ -124,8 +124,8 @@
         </div>
         <div>
             <div class="sendMessageSection">
-                <br /><h2>${HeaderSendMessage}</h2>
-                <div style="text-align: left;">
+                <div is="emby-collapse" title="${HeaderSendMessage}">
+                <div class="collapseContent" style="text-align: left;">
                     <form class="sendMessageForm">
                         <div class="inputContainer">
                             <input is="emby-input" class="sendMessageElement" type="text" id="txtMessageTitle" label="${LabelMessageTitle}" required />
@@ -139,10 +139,11 @@
                         </p>
                     </form>
                 </div>
+                </div>
             </div>
             <div class="sendTextSection">
-                <br /><h2>${HeaderTypeText}</h2>
-                <div style="text-align: left;">
+                <div is="emby-collapse" title="${HeaderTypeText}">
+                <div  class="collapseContent" style="text-align: left;">
                     <form class="typeTextForm">
                         <div class="inputContainer">
                             <input is="emby-input" class="typeTextElement" type="text" id="txtTypeText" label="${LabelTypeText}" required />
@@ -151,6 +152,7 @@
                             <button is="emby-button" class="typeTextElement button-submit block raised" type="submit" raised>${ButtonSend}</button>
                         </p>
                     </form>
+                </div>
                 </div>
             </div>
         </div>
