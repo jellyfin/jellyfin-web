@@ -1061,7 +1061,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 var player = currentPlayer;
                 if (subtitleSyncOverlay) {
                     subtitleSyncOverlay.toggle(action);
-                } else if(player){
+                } else if (player) {
                     subtitleSyncOverlay = new SubtitleSync(player);
                 }
             });
@@ -1274,7 +1274,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 dom.addEventListener(window, "keydown", onWindowKeyDown, {
                     passive: true
                 });
-            } catch(e) {
+            } catch (e) {
                 require(['appRouter'], function(appRouter) {
                     appRouter.showDirect('/');
                 });
@@ -1367,7 +1367,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             playbackManager.toggleMute(currentPlayer);
         });
         nowPlayingVolumeSlider.addEventListener("change", function () {
-            if(volumeSliderTimer){
+            if (volumeSliderTimer) {
                 // interupt and remove existing timer
                 clearTimeout(volumeSliderTimer);
                 volumeSliderTimer = null;
@@ -1375,10 +1375,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             playbackManager.setVolume(this.value, currentPlayer);
         });
         nowPlayingVolumeSlider.addEventListener("mousemove", function () {
-            if(!volumeSliderTimer){
+            if (!volumeSliderTimer) {
                 var that = this;
                 // register new timer
-                volumeSliderTimer = setTimeout(function(){
+                volumeSliderTimer = setTimeout(function() {
                     playbackManager.setVolume(that.value, currentPlayer);
                     // delete timer after completion
                     volumeSliderTimer = null;
@@ -1386,10 +1386,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         });
         nowPlayingVolumeSlider.addEventListener("touchmove", function () {
-            if(!volumeSliderTimer){
+            if (!volumeSliderTimer) {
                 var that = this;
                 // register new timer
-                volumeSliderTimer = setTimeout(function(){
+                volumeSliderTimer = setTimeout(function() {
                     playbackManager.setVolume(that.value, currentPlayer);
                     // delete timer after completion
                     volumeSliderTimer = null;

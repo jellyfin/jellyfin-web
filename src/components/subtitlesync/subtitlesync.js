@@ -25,10 +25,10 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
 
         subtitleSyncTextField.addEventListener("keypress", function(event) {
 
-            if(event.key === "Enter"){
+            if (event.key === "Enter") {
                 // if input key is enter search for float pattern
                 var inputOffset = /[-+]?\d+\.?\d*/g.exec(this.textContent);
-                if(inputOffset) {
+                if (inputOffset) {
                     inputOffset = inputOffset[0];
 
                     // replace current text by considered offset
@@ -48,7 +48,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
             } else {
                 // keep focus to prevent fade with bottom layout
                 this.hasFocus = true;
-                if(event.key.match(/[+-\d.s]/) === null) {
+                if (event.key.match(/[+-\d.s]/) === null) {
                     event.preventDefault();
                 }
             }
@@ -114,9 +114,9 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         init(this);
     }
 
-    SubtitleSync.prototype.destroy = function(){
+    SubtitleSync.prototype.destroy = function() {
         SubtitleSync.prototype.toggle("forceToHide");
-        if(player){
+        if (player) {
             playbackManager.disableShowingSubtitleOffset(player);
             playbackManager.setSubtitleOffset(0, player);
         }
@@ -129,16 +129,16 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
 
     SubtitleSync.prototype.toggle = function(action) {
 
-        if(player && playbackManager.supportSubtitleOffset(player)){
+        if (player && playbackManager.supportSubtitleOffset(player)) {
 
-            switch(action) {
+            switch (action) {
                 case undefined:
                     // if showing subtitle sync is enabled
-                    if(playbackManager.isShowingSubtitleOffsetEnabled(player) &&
+                    if (playbackManager.isShowingSubtitleOffsetEnabled(player) &&
                         // if there is an external subtitle stream enabled
-                        playbackManager.canHandleOffsetOnCurrentSubtitle(player)){
+                        playbackManager.canHandleOffsetOnCurrentSubtitle(player)) {
                         // if no subtitle offset is defined
-                        if(!playbackManager.getPlayerSubtitleOffset(player)) {
+                        if (!playbackManager.getPlayerSubtitleOffset(player)) {
                             // set default offset to '0' = 50%
                             subtitleSyncSlider.value = "50";
                             subtitleSyncTextField.textContent = "0s";
@@ -149,7 +149,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
                         break; // stop here
                     } // else continue and hide
                 case "hide":
-                    if(subtitleSyncTextField.hasFocus){break;} // else continue and hide
+                    if (subtitleSyncTextField.hasFocus) { break; } // else continue and hide
                 case "forceToHide":
                     subtitleSyncContainer.classList.add("hide");
                     break;

@@ -575,7 +575,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var offsetValue = parseFloat(offset);
 
             // if .ass currently rendering
-            if (currentAssRenderer){
+            if (currentAssRenderer) {
                 updateCurrentTrackOffset(offsetValue);
             } else {
                 var videoElement = self._mediaElement;
@@ -607,7 +607,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             var relativeOffset = offsetValue;
             var newTrackOffset = offsetValue;
-            if(currentTrackOffset){
+            if (currentTrackOffset) {
                 relativeOffset -= currentTrackOffset;
             }
             currentTrackOffset = newTrackOffset;
@@ -617,7 +617,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function setVttSubtitleOffset(currentTrack, offsetValue) {
 
-            if(currentTrack.cues) {
+            if (currentTrack.cues) {
                 Array.from(currentTrack.cues)
                     .forEach(function(cue) {
                         cue.startTime -= offsetValue;
@@ -1231,7 +1231,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function updateSubtitleText(timeMs) {
 
             // handle offset for ass tracks
-            if(currentTrackOffset) {
+            if (currentTrackOffset) {
                 timeMs += (currentTrackOffset * 1000);
             }
 
