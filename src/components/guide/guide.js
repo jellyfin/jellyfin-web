@@ -277,7 +277,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var nextDay = new Date(date.getTime() + msPerDay - 2000);
 
             // Normally we'd want to just let responsive css handle this,
-            // but since mobile browsers are often underpowered, 
+            // but since mobile browsers are often underpowered,
             // it can help performance to get them out of the markup
             var allowIndicators = dom.getWindowSize().innerWidth >= 600;
 
@@ -392,27 +392,20 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function parseDates(program) {
-
             if (!program.StartDateLocal) {
                 try {
-
                     program.StartDateLocal = datetime.parseISO8601Date(program.StartDate, { toLocal: true });
-
                 } catch (err) {
-
+                    console.log('error parsing timestamp for start date');
                 }
-
             }
 
             if (!program.EndDateLocal) {
                 try {
-
                     program.EndDateLocal = datetime.parseISO8601Date(program.EndDate, { toLocal: true });
-
                 } catch (err) {
-
+                    console.log('error parsing timestamp for end date');
                 }
-
             }
 
             return null;

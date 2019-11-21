@@ -5,5 +5,6 @@ env:
 
 rules:
   indent: ["error", 4, { "SwitchCase": 1 }]
+  no-empty: ["error"]
   no-multiple-empty-lines: ["error", { "max": 1 }]
   one-var: ["error", "never"]

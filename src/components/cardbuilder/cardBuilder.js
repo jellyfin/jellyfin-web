@@ -340,10 +340,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (options.indexBy === 'PremiereDate') {
                         if (item.PremiereDate) {
                             try {
-
                                 newIndexValue = datetime.toLocaleDateString(datetime.parseISO8601Date(item.PremiereDate), { weekday: 'long', month: 'long', day: 'numeric' });
-
                             } catch (err) {
+                                console.log('error parsing timestamp for premiere date');
                             }
                         }
                     }

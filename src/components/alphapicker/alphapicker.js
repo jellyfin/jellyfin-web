@@ -50,9 +50,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
         var vertical = element.classList.contains('alphaPicker-vertical');
 
-        if (vertical) {
-
-        } else {
+        if (!vertical) {
             element.classList.add('focuscontainer-x');
         }
 
