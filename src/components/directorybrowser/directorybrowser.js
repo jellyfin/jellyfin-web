@@ -115,7 +115,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         var readOnlyAttribute = options.pathReadOnly ? " readonly" : "";
         html += '<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ' + readOnlyAttribute + ' label="' + Globalize.translate(labelKey) + '"/>';
         html += "</div>";
-        if (!readOnlyAttribute)  {
+        if (!readOnlyAttribute) {
             html += '<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="' + Globalize.translate("ButtonRefresh") + '"><i class="md-icon">search</i></button>';
         }
         html += "</div>";

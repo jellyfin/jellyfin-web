@@ -82,7 +82,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             intervactive: null, // Selector for special interactive elements.
 
             // Mixed options
-            speed: 0, // Animations speed in milliseconds. 0 to disable animations.
+            speed: 0 // Animations speed in milliseconds. 0 to disable animations.
 
         }, options);
 

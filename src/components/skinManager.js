@@ -36,7 +36,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             isDefaultServerDashboard: true
         }, {
             name: "Emby",
-            id: "emby",
+            id: "emby"
         }, {
             name: "Light",
             id: "light"

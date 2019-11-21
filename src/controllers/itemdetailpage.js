@@ -822,7 +822,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         if (detectRatio && item.PrimaryImageAspectRatio) {
             if (item.PrimaryImageAspectRatio >= 1.48) {
                 shape = "thumb";
-            } else if (item.PrimaryImageAspectRatio >= .85 && item.PrimaryImageAspectRatio <= 1.34) {
+            } else if (item.PrimaryImageAspectRatio >= 0.85 && item.PrimaryImageAspectRatio <= 1.34) {
                 shape = "square";
             }
         }

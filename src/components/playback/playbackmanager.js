@@ -1668,7 +1668,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         self.canHandleOffsetOnCurrentSubtitle = function(player) {
             var index = self.getSubtitleStreamIndex(player);
-            return index !== -1  && self.isSubtitleStreamExternal(index, player);
+            return index !== -1 && self.isSubtitleStreamExternal(index, player);
         }
 
         self.seek = function (ticks, player) {
@@ -1859,7 +1859,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             if (firstItem.Type === "Program") {
 
                 promise = getItemsForPlayback(serverId, {
-                    Ids: firstItem.ChannelId,
+                    Ids: firstItem.ChannelId
                 });
             } else if (firstItem.Type === "Playlist") {
 

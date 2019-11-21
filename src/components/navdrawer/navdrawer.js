@@ -128,7 +128,7 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
                 width: 260,
                 handleSize: 10,
                 disableMask: !1,
-                maxMaskOpacity: .5
+                maxMaskOpacity: 0.5
             }, this.isVisible = !1, this.initialize()
         };
         TouchMenuLA.prototype.initElements = function() {
@@ -152,7 +152,7 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
                 self.close()
             })
         }, TouchMenuLA.prototype.checkMenuState = function(deltaX, deltaY) {
-            velocity >= .4 ? deltaX >= 0 || Math.abs(deltaY || 0) >= 70 ? self.open() : self.close() : newPos >= 100 ? self.open() : newPos && self.close()
+            velocity >= 0.4 ? deltaX >= 0 || Math.abs(deltaY || 0) >= 70 ? self.open() : self.close() : newPos >= 100 ? self.open() : newPos && self.close()
         }, TouchMenuLA.prototype.open = function() {
             this.animateToPosition(options.width), currentPos = options.width, this.isVisible = !0, options.target.classList.add("drawer-open"), self.showMask(), self.invoke(options.onChange)
         }, TouchMenuLA.prototype.close = function() {

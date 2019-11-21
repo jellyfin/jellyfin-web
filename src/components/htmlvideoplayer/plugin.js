@@ -420,7 +420,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function onMediaManagerLoadMedia(event) {
 
             if (self._castPlayer) {
-                self._castPlayer.unload();    // Must unload before starting again.
+                self._castPlayer.unload(); // Must unload before starting again.
             }
             self._castPlayer = null;
 

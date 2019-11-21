@@ -31,6 +31,6 @@ define(['inputManager', 'focusManager'], function(inputManager, focusManager) {
 
     }
     return {
-        enable: enable,
+        enable: enable
     };
 });
