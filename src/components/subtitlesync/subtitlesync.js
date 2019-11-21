@@ -98,7 +98,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         // multiply by offset min/max range value (-x to +x) :
         offset *= 30;
         return offset.toFixed(1);
-    };
+    }
 
     function getPercentageFromOffset(value) {
         // divide by offset min/max range value (-x to +x) :
@@ -107,7 +107,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         percentValue *= 50;
         percentValue += 50;
         return Math.min(100, Math.max(0, percentValue.toFixed()));
-    };
+    }
 
     function SubtitleSync(currentPlayer) {
         player = currentPlayer;

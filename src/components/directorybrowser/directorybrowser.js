@@ -190,7 +190,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                     content.querySelector("#txtDirectoryPickerPath").value = path;
                 } else {
                     refreshDirectoryBrowser(content, path, fileOptions, true)
-                };
+                }
             }
         });
 
