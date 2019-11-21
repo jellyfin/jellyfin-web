@@ -156,7 +156,8 @@ define(["userSettings"], function (userSettings) {
                 html += '<h2 style="margin:0 0 .5em;">';
                 html += Globalize.translate("HeaderSortBy");
                 html += "</h2>";
-                var i, length;
+                var i;
+                var length;
                 var isChecked;
                 html += '<div>';
                 for (i = 0, length = options.items.length; i < length; i++) {

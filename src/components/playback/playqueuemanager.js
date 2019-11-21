@@ -65,8 +65,8 @@ define([], function () {
     }
 
     PlayQueueManager.prototype.queueNext = function (items) {
-
-        var i, length;
+        var i;
+        var length;
 
         for (i = 0, length = items.length; i < length; i++) {
 

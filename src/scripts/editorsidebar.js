@@ -2,19 +2,19 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
     "use strict";
 
     function getNode(item, folderState, selected) {
-        var htmlName = getNodeInnerHtml(item),
-            node = {
-                id: item.Id,
-                text: htmlName,
-                state: {
-                    opened: item.IsFolder && folderState == "open",
-                    selected: selected
-                },
-                li_attr: {
-                    serveritemtype: item.Type,
-                    collectiontype: item.CollectionType
-                }
-            };
+        var htmlName = getNodeInnerHtml(item);
+        var node = {
+            id: item.Id,
+            text: htmlName,
+            state: {
+                opened: item.IsFolder && folderState == "open",
+                selected: selected
+            },
+            li_attr: {
+                serveritemtype: item.Type,
+                collectiontype: item.CollectionType
+            }
+        };
         if (item.IsFolder) {
             node.children = [{
                 text: "Loading...",

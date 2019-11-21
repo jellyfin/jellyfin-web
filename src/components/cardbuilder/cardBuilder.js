@@ -321,7 +321,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var apiClient;
             var lastServerId;
 
-            var i, length;
+            var i;
+            var length;
 
             for (i = 0, length = items.length; i < length; i++) {
 
@@ -681,7 +682,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var html = '';
 
             var valid = 0;
-            var i, length;
+            var i;
+            var length;
 
             for (i = 0, length = lines.length; i < length; i++) {
 

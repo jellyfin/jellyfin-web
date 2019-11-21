@@ -859,7 +859,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         html += "<option value=''></option>";
 
         var ratings = [];
-        var i, length, rating;
+        var i;
+        var length;
+        var rating;
 
         var currentValueFound = false;
 

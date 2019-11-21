@@ -1272,7 +1272,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             var currentMediaSource = self.currentMediaSource(player);
             var mediaStreams = [];
-            var i, length;
+            var i;
+            var length;
             for (i = 0, length = currentMediaSource.MediaStreams.length; i < length; i++) {
                 if (currentMediaSource.MediaStreams[i].Type === 'Audio') {
                     mediaStreams.push(currentMediaSource.MediaStreams[i]);
@@ -1316,7 +1317,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             var currentMediaSource = self.currentMediaSource(player);
             var mediaStreams = [];
-            var i, length;
+            var i;
+            var length;
             for (i = 0, length = currentMediaSource.MediaStreams.length; i < length; i++) {
                 if (currentMediaSource.MediaStreams[i].Type === 'Subtitle') {
                     mediaStreams.push(currentMediaSource.MediaStreams[i]);
@@ -1360,7 +1362,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         function isAudioStreamSupported(mediaSource, index, deviceProfile) {
 
             var mediaStream;
-            var i, length;
+            var i;
+            var length;
             var mediaStreams = mediaSource.MediaStreams;
 
             for (i = 0, length = mediaStreams.length; i < length; i++) {
@@ -1645,7 +1648,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             player = player || self._currentPlayer;
             if (player.disableShowingSubtitleOffset) {
                 player.disableShowingSubtitleOffset();
-            }            
+            }
         }
 
         self.isShowingSubtitleOffsetEnabled = function(player) {

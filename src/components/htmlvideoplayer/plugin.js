@@ -535,9 +535,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
-                
                 return setSrcWithHlsJs(self, elem, options, val);
-
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
 
                 return setSrcWithFlvJs(self, elem, options, val);
@@ -683,7 +681,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             var audioIndex = -1;
-            var i, length, stream;
+            var i;
+            var length;
+            var stream;
 
             for (i = 0, length = streams.length; i < length; i++) {
                 stream = streams[i];

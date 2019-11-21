@@ -134,7 +134,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         });
 
-        var i, length;
+        var i;
+        var length;
         playPauseButtons = elem.querySelectorAll('.playPauseButton');
         for (i = 0, length = playPauseButtons.length; i < length; i++) {
             playPauseButtons[i].addEventListener('click', onPlayPauseClick);
@@ -282,8 +283,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function updatePlayPauseState(isPaused) {
-
-        var i, length;
+        var i;
+        var length;
 
         if (playPauseButtons) {
             if (isPaused) {

@@ -21,7 +21,8 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
             ProviderIds: {}
         };
 
-        var i, length;
+        var i;
+        var length;
         var identifyField = page.querySelectorAll(".identifyField");
         var value;
         for (i = 0, length = identifyField.length; i < length; i++) {
@@ -97,7 +98,8 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
         page.querySelector(".dialogContentInner").classList.remove("dialog-content-centered");
 
         var html = "";
-        var i, length;
+        var i;
+        var length;
         for (i = 0, length = results.length; i < length; i++) {
 
             var result = results[i];

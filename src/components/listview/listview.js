@@ -9,7 +9,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         }
 
         var sortBy = (options.sortBy || '').toLowerCase();
-        var code, name;
+        var code;
+        var name;
 
         if (sortBy.indexOf('sortname') === 0) {
 

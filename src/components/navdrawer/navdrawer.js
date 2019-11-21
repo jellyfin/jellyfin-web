@@ -21,13 +21,13 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
         }
 
         function onMenuTouchMove(e) {
-            var isOpen = self.visible,
-                touches = getTouches(e),
-                touch = touches[0] || {},
-                endX = touch.clientX || 0,
-                endY = touch.clientY || 0,
-                deltaX = endX - (menuTouchStartX || 0),
-                deltaY = endY - (menuTouchStartY || 0);
+            var isOpen = self.visible;
+            var touches = getTouches(e);
+            var touch = touches[0] || {};
+            var endX = touch.clientX || 0;
+            var endY = touch.clientY || 0;
+            var deltaX = endX - (menuTouchStartX || 0);
+            var deltaY = endY - (menuTouchStartY || 0);
             setVelocity(deltaX), isOpen && 1 !== dragMode && deltaX > 0 && (dragMode = 2), 0 === dragMode && (!isOpen || Math.abs(deltaX) >= 10) && Math.abs(deltaY) < 5 ? (dragMode = 1, scrollContainer.addEventListener("scroll", disableEvent), self.showMask()) : 0 === dragMode && Math.abs(deltaY) >= 5 && (dragMode = 2), 1 === dragMode && (newPos = currentPos + deltaX, self.changeMenuPos())
         }
 
@@ -36,12 +36,12 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
             scrollContainer.removeEventListener("scroll", disableEvent);
             dragMode = 0;
 
-            var touches = getTouches(e),
-                touch = touches[0] || {},
-                endX = touch.clientX || 0,
-                endY = touch.clientY || 0,
-                deltaX = endX - (menuTouchStartX || 0),
-                deltaY = endY - (menuTouchStartY || 0);
+            var touches = getTouches(e);
+            var touch = touches[0] || {};
+            var endX = touch.clientX || 0;
+            var endY = touch.clientY || 0;
+            var deltaX = endX - (menuTouchStartX || 0);
+            var deltaY = endY - (menuTouchStartY || 0);
 
             currentPos = deltaX;
             self.checkMenuState(deltaX, deltaY);
@@ -78,15 +78,15 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
         }
 
         function onBackgroundTouchStart(e) {
-            var touches = getTouches(e),
-                touch = touches[0] || {};
+            var touches = getTouches(e);
+            var touch = touches[0] || {};
             backgroundTouchStartX = touch.clientX, backgroundTouchStartTime = (new Date).getTime()
         }
 
         function onBackgroundTouchMove(e) {
-            var touches = getTouches(e),
-                touch = touches[0] || {},
-                endX = touch.clientX || 0;
+            var touches = getTouches(e);
+            var touch = touches[0] || {};
+            var endX = touch.clientX || 0;
             if (endX <= options.width && self.isVisible) {
                 countStart++;
                 var deltaX = endX - (backgroundTouchStartX || 0);
@@ -100,10 +100,10 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
         }
 
         function onBackgroundTouchEnd(e) {
-            var touches = getTouches(e),
-                touch = touches[0] || {},
-                endX = touch.clientX || 0,
-                deltaX = endX - (backgroundTouchStartX || 0);
+            var touches = getTouches(e);
+            var touch = touches[0] || {};
+            var endX = touch.clientX || 0;
+            var deltaX = endX - (backgroundTouchStartX || 0);
             self.checkMenuState(deltaX), countStart = 0
         }
 
@@ -111,14 +111,17 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
             var classList = mask.classList;
             classList.contains("backdrop") || classList.add("hide")
         }
-        var self, defaults, mask, newPos = 0,
-            currentPos = 0,
-            startPoint = 0,
-            countStart = 0,
-            velocity = 0;
+        var self;
+        var defaults;
+        var mask;
+        var newPos = 0;
+        var currentPos = 0;
+        var startPoint = 0;
+        var countStart = 0;
+        var velocity = 0;
         options.target.classList.add("transition");
-        var dragMode = 0,
-            scrollContainer = options.target.querySelector(".mainDrawer-scrollContainer");
+        var dragMode = 0;
+        var scrollContainer = options.target.querySelector(".mainDrawer-scrollContainer");
         scrollContainer.classList.add("scrollY");
         var TouchMenuLA = function() {
             self = this, defaults = {
@@ -133,8 +136,11 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
                 passive: !0
             }))
         };
-        var menuTouchStartX, menuTouchStartY, menuTouchStartTime, edgeContainer = document.querySelector(".mainDrawerHandle"),
-            isPeeking = !1;
+        var menuTouchStartX;
+        var menuTouchStartY;
+        var menuTouchStartTime;
+        var edgeContainer = document.querySelector(".mainDrawerHandle");
+        var isPeeking = !1;
         TouchMenuLA.prototype.animateToPosition = function(pos) {
             requestAnimationFrame(function() {
                 options.target.style.transform = pos ? "translateX(" + pos + "px)" : "none"
@@ -154,7 +160,8 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
         }, TouchMenuLA.prototype.toggle = function() {
             self.isVisible ? self.close() : self.open()
         };
-        var backgroundTouchStartX, backgroundTouchStartTime;
+        var backgroundTouchStartX;
+        var backgroundTouchStartTime;
         TouchMenuLA.prototype.showMask = function() {
             mask.classList.remove("hide"), mask.offsetWidth, mask.classList.add("backdrop")
         }, TouchMenuLA.prototype.hideMask = function() {

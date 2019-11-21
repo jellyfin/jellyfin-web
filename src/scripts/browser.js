@@ -30,7 +30,6 @@ define([], function () {
     }
 
     function isMobile(userAgent) {
-
         var terms = [
             'mobi',
             'ipad',
@@ -144,12 +143,12 @@ define([], function () {
             }
         }
 
-        var animation = false,
-            animationstring = 'animation',
-            keyframeprefix = '',
-            domPrefixes = ['Webkit', 'O', 'Moz'],
-            pfx = '',
-            elm = document.createElement('div');
+        var animation = false;
+        var animationstring = 'animation';
+        var keyframeprefix = '';
+        var domPrefixes = ['Webkit', 'O', 'Moz'];
+        var pfx = '';
+        var elm = document.createElement('div');
 
         if (elm.style.animationName !== undefined) { animation = true; }
 

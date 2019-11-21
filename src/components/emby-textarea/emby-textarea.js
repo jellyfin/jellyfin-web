@@ -14,9 +14,9 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
          * @returns {number}
          */
         self.getOffset = function (textarea) {
-            var style = window.getComputedStyle(textarea, null),
-                props = ['paddingTop', 'paddingBottom'],
-                offset = 0;
+            var style = window.getComputedStyle(textarea, null);
+            var props = ['paddingTop', 'paddingBottom'];
+            var offset = 0;
 
             for (var i = 0; i < props.length; i++) {
                 offset += parseInt(style[props[i]]);
@@ -43,7 +43,8 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
                 textarea.rows = 3;
                 return;
             }
-            var newHeight = 0, hasGrown = false;
+            var newHeight = 0;
+            var hasGrown = false;
 
             if ((textarea.scrollHeight - offset) > self.maxAllowedHeight) {
                 textarea.style.overflowY = 'scroll';

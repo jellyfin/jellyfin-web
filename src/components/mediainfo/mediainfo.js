@@ -36,7 +36,8 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         var html = '';
 
         var miscInfo = [];
-        var text, date;
+        var text;
+        var date;
 
         if (item.StartDate && options.programTime !== false) {
 
@@ -107,7 +108,9 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
         var miscInfo = [];
         options = options || {};
-        var text, date, minutes;
+        var text;
+        var date;
+        var minutes;
         var count;
 
         var showFolderRuntime = item.Type === "MusicAlbum" || item.MediaType === 'MusicArtist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';

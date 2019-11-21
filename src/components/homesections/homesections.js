@@ -83,7 +83,8 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function resume(elem, options) {
         var elems = elem.querySelectorAll('.itemsContainer');
-        var i, length;
+        var i;
+        var length;
         var promises = [];
 
         for (i = 0, length = elems.length; i < length; i++) {

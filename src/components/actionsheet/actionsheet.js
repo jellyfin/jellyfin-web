@@ -139,7 +139,9 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
             style += "min-width:" + minWidth + "px;";
         }
 
-        var i, length, option;
+        var i;
+        var length;
+        var option;
         var renderIcon = false;
         var icons = [];
         var itemIcon;

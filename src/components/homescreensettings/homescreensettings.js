@@ -384,7 +384,8 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
         var viewItems = context.querySelectorAll('.viewItem');
         var orderedViews = [];
-        var i, length;
+        var i;
+        var length;
         for (i = 0, length = viewItems.length; i < length; i++) {
             orderedViews.push(viewItems[i].getAttribute('data-viewid'));
         }
