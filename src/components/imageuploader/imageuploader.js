@@ -150,7 +150,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
                 scrollHelper.centerFocus.on(dlg, false);
             }
 
-            // Has to be assigned a z-index after the call to .open() 
+            // Has to be assigned a z-index after the call to .open()
             dlg.addEventListener('close', function () {
 
                 if (layoutManager.tv) {

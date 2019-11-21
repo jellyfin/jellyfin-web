@@ -134,7 +134,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
             switch(action) {
                 case undefined:
                     // if showing subtitle sync is enabled
-                    if(playbackManager.isShowingSubtitleOffsetEnabled(player) && 
+                    if(playbackManager.isShowingSubtitleOffsetEnabled(player) &&
                         // if there is an external subtitle stream enabled
                         playbackManager.canHandleOffsetOnCurrentSubtitle(player)){
                         // if no subtitle offset is defined

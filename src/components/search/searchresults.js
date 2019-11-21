@@ -142,7 +142,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
 
                 } else if (query.IncludeArtists) {
                     methodName = 'getArtists';
-                } 
+                }
             }
 
             return apiClient[methodName](apiClient.getCurrentUserId(), query);
