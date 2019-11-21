@@ -33,8 +33,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         var isFavorite = this.getAttribute('data-isfavorite') === 'true';
         if (likes === 'true') {
             likes = true;
-        }
-        else if (likes === 'false') {
+        } else if (likes === 'false') {
             likes = false;
         } else {
             likes = null;
@@ -152,8 +151,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
             var isFavorite = this.getAttribute('data-isfavorite') === 'true';
             if (likes === 'true') {
                 likes = true;
-            }
-            else if (likes === 'false') {
+            } else if (likes === 'false') {
                 likes = false;
             } else {
                 likes = null;

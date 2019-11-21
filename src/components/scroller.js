@@ -93,17 +93,14 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         // in cases with firefox, if the smooth scroll api is supported then use that because their implementation is very good
         if (options.allowNativeScroll === false) {
             options.enableNativeScroll = false;
-        }
-        else if (isSmoothScrollSupported && ((browser.firefox && !layoutManager.tv) || options.allowNativeSmoothScroll)) {
+        } else if (isSmoothScrollSupported && ((browser.firefox && !layoutManager.tv) || options.allowNativeSmoothScroll)) {
             // native smooth scroll
             options.enableNativeScroll = true;
-        }
-        else if (options.requireAnimation && (browser.animate || browser.supportsCssAnimation())) {
+        } else if (options.requireAnimation && (browser.animate || browser.supportsCssAnimation())) {
 
             // transform is the only way to guarantee animation
             options.enableNativeScroll = false;
-        }
-        else if (!layoutManager.tv || !browser.animate) {
+        } else if (!layoutManager.tv || !browser.animate) {
 
             options.enableNativeScroll = true;
         }
@@ -243,8 +240,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
                         behavior: immediate ? 'instant' : 'smooth'
                     });
                 }
-            }
-            else if (!immediate && container.scrollTo) {
+            } else if (!immediate && container.scrollTo) {
                 if (o.horizontal) {
                     container.scrollTo(Math.round(pos), 0);
                 } else {

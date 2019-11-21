@@ -18,8 +18,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         if (layoutManager.tv) {
             if (dlg.classList.contains('scrollX')) {
                 centerFocus(dlg, true, false);
-            }
-            else if (dlg.classList.contains('smoothScrollY')) {
+            } else if (dlg.classList.contains('smoothScrollY')) {
                 centerFocus(dlg, false, false);
             }
         }
@@ -433,8 +432,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
             if (layoutManager.tv) {
                 centerFocus(dlg, true, true);
             }
-        }
-        else if (options.scrollY !== false) {
+        } else if (options.scrollY !== false) {
             dlg.classList.add('smoothScrollY');
 
             if (layoutManager.tv) {

@@ -345,8 +345,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         if (repeatMode === 'RepeatAll') {
             toggleRepeatButtonIcon.innerHTML = "repeat";
             toggleRepeatButton.classList.add('repeatButton-active');
-        }
-        else if (repeatMode === 'RepeatOne') {
+        } else if (repeatMode === 'RepeatOne') {
             toggleRepeatButtonIcon.innerHTML = "repeat_one";
             toggleRepeatButton.classList.add('repeatButton-active');
         } else {

@@ -65,8 +65,7 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
 
         if (currentItem && currentItem.Id) {
             lookupInfo.ItemId = currentItem.Id;
-        }
-        else {
+        } else {
             lookupInfo.IncludeDisabledProviders = true;
         }
 
@@ -186,12 +185,10 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
         if (currentItemType === "Episode") {
             cssClass += " backdropCard backdropCard-scalable";
             padderClass = "cardPadder-backdrop";
-        }
-        else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
+        } else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
             cssClass += " squareCard squareCard-scalable";
             padderClass = "cardPadder-square";
-        }
-        else {
+        } else {
             cssClass += " portraitCard portraitCard-scalable";
             padderClass = "cardPadder-portrait";
         }

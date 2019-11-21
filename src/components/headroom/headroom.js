@@ -290,11 +290,9 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             if (currentScrollY <= (isTv ? 120 : 10)) {
                 this.clear();
-            }
-            else if (this.shouldUnpin(currentScrollY)) {
+            } else if (this.shouldUnpin(currentScrollY)) {
                 this.unpin();
-            }
-            else if (this.shouldPin(currentScrollY)) {
+            } else if (this.shouldPin(currentScrollY)) {
 
                 var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= 14;
 

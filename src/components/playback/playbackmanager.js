@@ -107,8 +107,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     TotalRecordCount: 1
                 };
             });
-        }
-        else {
+        } else {
 
             query.Limit = query.Limit || 300;
             query.Fields = "Chapters";
@@ -182,8 +181,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             if (container === 'm4a') {
                 return 'audio/mp4';
             }
-        }
-        else if (type === 'video') {
+        } else if (type === 'video') {
             if (container === 'mkv') {
                 return 'video/x-matroska';
             }
@@ -212,8 +210,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         var results = regex.exec(url);
         if (results == null) {
             return "";
-        }
-        else {
+        } else {
             return decodeURIComponent(results[1].replace(/\+/g, " "));
         }
     }
@@ -649,13 +646,10 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 // If this is the only way it can be played, then allow it
                 if (!mediaSource.SupportsDirectStream && !mediaSource.SupportsTranscoding) {
                     return Promise.resolve(true);
-                }
-                else {
+                } else {
                     return isHostReachable(mediaSource, apiClient);
                 }
-            }
-
-            else if (mediaSource.Protocol === 'File') {
+            } else if (mediaSource.Protocol === 'File') {
 
                 return new Promise(function (resolve, reject) {
 
@@ -1426,8 +1420,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     if (isAudioStreamSupported(self.currentMediaSource(player), index, profile)) {
                         player.setAudioStreamIndex(index);
                         getPlayerData(player).audioStreamIndex = index;
-                    }
-                    else {
+                    } else {
                         changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index });
                         getPlayerData(player).audioStreamIndex = index;
                     }
@@ -1598,8 +1591,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     // Need to change the transcoded stream to remove subs
                     changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: -1 });
                 }
-            }
-            else if (!currentStream && newStream) {
+            } else if (!currentStream && newStream) {
 
                 if (getDeliveryMethod(newStream) === 'External') {
                     selectedTrackElementIndex = index;
@@ -1610,8 +1602,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     // Need to change the transcoded stream to add subs
                     changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: index });
                 }
-            }
-            else if (currentStream && newStream) {
+            } else if (currentStream && newStream) {
 
                 // Switching tracks
                 // We can handle this clientside if the new track is external or the new track is embedded and we're not transcoding
@@ -1870,15 +1861,13 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 promise = getItemsForPlayback(serverId, {
                     Ids: firstItem.ChannelId,
                 });
-            }
-            else if (firstItem.Type === "Playlist") {
+            } else if (firstItem.Type === "Playlist") {
 
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.Id,
                     SortBy: options.shuffle ? 'Random' : null
                 });
-            }
-            else if (firstItem.Type === "MusicArtist") {
+            } else if (firstItem.Type === "MusicArtist") {
 
                 promise = getItemsForPlayback(serverId, {
                     ArtistIds: firstItem.Id,
@@ -1888,8 +1877,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     MediaTypes: "Audio"
                 });
 
-            }
-            else if (firstItem.MediaType === "Photo") {
+            } else if (firstItem.MediaType === "Photo") {
 
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.ParentId,
@@ -1918,8 +1906,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     return Promise.resolve(result);
 
                 });
-            }
-            else if (firstItem.Type === "PhotoAlbum") {
+            } else if (firstItem.Type === "PhotoAlbum") {
 
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.Id,
@@ -1931,8 +1918,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     Limit: 1000
 
                 });
-            }
-            else if (firstItem.Type === "MusicGenre") {
+            } else if (firstItem.Type === "MusicGenre") {
 
                 promise = getItemsForPlayback(serverId, {
                     GenreIds: firstItem.Id,
@@ -1941,8 +1927,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: "Audio"
                 });
-            }
-            else if (firstItem.IsFolder) {
+            } else if (firstItem.IsFolder) {
 
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
 
@@ -1954,8 +1939,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     MediaTypes: "Audio,Video"
 
                 }, queryOptions));
-            }
-            else if (firstItem.Type === "Episode" && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
+            } else if (firstItem.Type === "Episode" && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
 
                 promise = new Promise(function (resolve, reject) {
                     var apiClient = connectionManager.getApiClient(firstItem.ServerId);
@@ -2540,16 +2524,12 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
                     playMethod = 'DirectPlay';
 
-                }
-
-                else if (mediaSource.StreamUrl) {
+                } else if (mediaSource.StreamUrl) {
 
                     // Only used for audio
                     playMethod = 'Transcode';
                     mediaUrl = mediaSource.StreamUrl;
-                }
-
-                else if (mediaSource.SupportsDirectStream) {
+                } else if (mediaSource.SupportsDirectStream) {
 
                     directOptions = {
                         Static: true,
@@ -2709,9 +2689,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                             return p.canPlayItem(item, playOptions);
                         }
                         return true;
-                    }
-
-                    else if (item.Url && p.canPlayUrl) {
+                    } else if (item.Url && p.canPlayUrl) {
                         return p.canPlayUrl(item.Url);
                     }
                 }
@@ -3225,8 +3203,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             if (displayErrorCode && typeof (displayErrorCode) === 'string') {
                 showPlaybackInfoErrorMessage(self, displayErrorCode, nextItem);
-            }
-            else if (nextItem) {
+            } else if (nextItem) {
                 self.nextTrack();
             }
         }

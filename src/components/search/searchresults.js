@@ -56,8 +56,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         if (instance.options.collectionType === 'tvshows') {
             if (query.IncludeArtists) {
                 allowSearch = false;
-            }
-            else if (queryIncludeItemTypes === 'Movie' ||
+            } else if (queryIncludeItemTypes === 'Movie' ||
                 queryIncludeItemTypes === 'LiveTvProgram' ||
                 queryIncludeItemTypes === 'MusicAlbum' ||
                 queryIncludeItemTypes === 'Audio' ||
@@ -69,12 +68,10 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 query.MediaTypes === 'Photo') {
                 allowSearch = false;
             }
-        }
-        else if (instance.options.collectionType === 'movies') {
+        } else if (instance.options.collectionType === 'movies') {
             if (query.IncludeArtists) {
                 allowSearch = false;
-            }
-            else if (queryIncludeItemTypes === 'Series' ||
+            } else if (queryIncludeItemTypes === 'Series' ||
                 queryIncludeItemTypes === 'Episode' ||
                 queryIncludeItemTypes === 'LiveTvProgram' ||
                 queryIncludeItemTypes === 'MusicAlbum' ||
@@ -87,23 +84,19 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 query.MediaTypes === 'Photo') {
                 allowSearch = false;
             }
-        }
-        else if (instance.options.collectionType === 'music') {
+        } else if (instance.options.collectionType === 'music') {
             if (query.People) {
                 allowSearch = false;
-            }
-            else if (queryIncludeItemTypes === 'Series' ||
+            } else if (queryIncludeItemTypes === 'Series' ||
                 queryIncludeItemTypes === 'Episode' ||
                 queryIncludeItemTypes === 'LiveTvProgram' ||
                 queryIncludeItemTypes === 'Movie') {
                 allowSearch = false;
             }
-        }
-        else if (instance.options.collectionType === 'livetv') {
+        } else if (instance.options.collectionType === 'livetv') {
             if (query.IncludeArtists || query.IncludePeople) {
                 allowSearch = false;
-            }
-            else if (queryIncludeItemTypes === 'Series' ||
+            } else if (queryIncludeItemTypes === 'Series' ||
                 queryIncludeItemTypes === 'Episode' ||
                 queryIncludeItemTypes === 'MusicAlbum' ||
                 queryIncludeItemTypes === 'Audio' ||

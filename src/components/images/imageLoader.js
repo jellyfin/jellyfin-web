@@ -80,8 +80,7 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
 
         if (values.length % 2) {
             result = values[half];
-        }
-        else {
+        } else {
             result = (values[half - 1] + values[half]) / 2.0;
         }
 

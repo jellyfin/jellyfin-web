@@ -144,7 +144,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             AirTime: form.querySelector('#txtAirTime').value,
             Genres: getListValues(form.querySelector("#listGenres")),
             Tags: getListValues(form.querySelector("#listTags")),
-            Studios: getListValues(form.querySelector("#listStudios")).map(function (element) { return { Name: element }; }),
+            Studios: getListValues(form.querySelector("#listStudios")).map(function (element) {
+                return { Name: element };
+            }),
 
             PremiereDate: getDateValue(form, '#txtPremiereDate', 'PremiereDate'),
             DateCreated: getDateValue(form, '#txtDateAdded', 'DateCreated'),
@@ -786,8 +788,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         if (item.Type === 'Series') {
             context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
-        }
-        else {
+        } else {
             context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
         }
 

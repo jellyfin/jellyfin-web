@@ -354,9 +354,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                             } else {
                                 onErrorInternal(instance, 'network');
                             }
-                        }
-
-                        else {
+                        } else {
                             console.log("fatal network error encountered, try to recover");
                             hls.startLoad();
                         }

@@ -5,6 +5,7 @@ env:
 
 rules:
   block-spacing: ["error"]
+  brace-style: ["error"]
   indent: ["error", 4, { "SwitchCase": 1 }]
   keyword-spacing: ["error"]
   max-statements-per-line: ["error"]

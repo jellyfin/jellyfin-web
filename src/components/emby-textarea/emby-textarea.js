@@ -49,8 +49,7 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
             if ((textarea.scrollHeight - offset) > self.maxAllowedHeight) {
                 textarea.style.overflowY = 'scroll';
                 newHeight = self.maxAllowedHeight;
-            }
-            else {
+            } else {
                 textarea.style.overflowY = 'hidden';
                 textarea.style.height = 'auto';
                 newHeight = textarea.scrollHeight/* - offset*/;
