@@ -138,16 +138,16 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
                     if(playbackManager.isShowingSubtitleOffsetEnabled(player) && 
                         // if there is an external subtitle stream enabled
                         playbackManager.canHandleOffsetOnCurrentSubtitle(player)){
-                            // if no subtitle offset is defined
-                            if(!playbackManager.getPlayerSubtitleOffset(player)) {
-                                // set default offset to '0' = 50%
-                                subtitleSyncSlider.value = "50";
-                                subtitleSyncTextField.textContent = "0s";
-                                playbackManager.setSubtitleOffset(0, player);
-                            }
-                            // show subtitle sync
-                            subtitleSyncContainer.classList.remove("hide");
-                            break; // stop here
+                        // if no subtitle offset is defined
+                        if(!playbackManager.getPlayerSubtitleOffset(player)) {
+                            // set default offset to '0' = 50%
+                            subtitleSyncSlider.value = "50";
+                            subtitleSyncTextField.textContent = "0s";
+                            playbackManager.setSubtitleOffset(0, player);
+                        }
+                        // show subtitle sync
+                        subtitleSyncContainer.classList.remove("hide");
+                        break; // stop here
                     } // else continue and hide
                 case "hide":
                     if(subtitleSyncTextField.hasFocus){break;} // else continue and hide

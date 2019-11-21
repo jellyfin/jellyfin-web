@@ -89,11 +89,11 @@ define([], function () {
     return {
         sanitize: function (input, replacement) {
             var sanitized = input
-              .replace(illegalRe, replacement)
-              .replace(controlRe, replacement)
-              .replace(reservedRe, replacement)
-              .replace(windowsReservedRe, replacement)
-              .replace(windowsTrailingRe, replacement);
+                .replace(illegalRe, replacement)
+                .replace(controlRe, replacement)
+                .replace(reservedRe, replacement)
+                .replace(windowsReservedRe, replacement)
+                .replace(windowsTrailingRe, replacement);
             return truncate(sanitized, 255);
         }
     };

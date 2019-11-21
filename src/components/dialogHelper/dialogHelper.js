@@ -168,8 +168,8 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
                 close(dlg);
             }
         }, {
-                passive: true
-            });
+            passive: true
+        });
     }
 
     function isHistoryEnabled(dlg) {

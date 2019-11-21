@@ -298,10 +298,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         type: 'flv',
                         url: url
                     },
-                        {
-                            seekType: 'range',
-                            lazyLoad: false
-                        });
+                    {
+                        seekType: 'range',
+                        lazyLoad: false
+                    });
 
                     flvPlayer.attachMediaElement(elem);
                     flvPlayer.load();
@@ -584,22 +584,22 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 Array.from(videoElement.textTracks)
                     .filter(function(trackElement) {
                     // get showing .vtt textTacks
-                    return trackElement.mode === 'showing';
-                })
-                .forEach(function(trackElement) {
+                        return trackElement.mode === 'showing';
+                    })
+                    .forEach(function(trackElement) {
 
-                    var track = customTrackIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
-                        return t.Index === customTrackIndex;
-                    })[0];
+                        var track = customTrackIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
+                            return t.Index === customTrackIndex;
+                        })[0];
 
-                    if (track) {
-                        offsetValue = updateCurrentTrackOffset(offsetValue);
-                        setVttSubtitleOffset(trackElement, offsetValue);
-                    } else {
-                        console.log("No available track, cannot apply offset : " + offsetValue);
-                    }
+                        if (track) {
+                            offsetValue = updateCurrentTrackOffset(offsetValue);
+                            setVttSubtitleOffset(trackElement, offsetValue);
+                        } else {
+                            console.log("No available track, cannot apply offset : " + offsetValue);
+                        }
 
-                });
+                    });
             }
         };
 
@@ -619,10 +619,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             if(currentTrack.cues) {
                 Array.from(currentTrack.cues)
-                .forEach(function(cue) {
-                    cue.startTime -= offsetValue;
-                    cue.endTime -= offsetValue;
-                });
+                    .forEach(function(cue) {
+                        cue.startTime -= offsetValue;
+                        cue.endTime -= offsetValue;
+                    });
             }
 
         }

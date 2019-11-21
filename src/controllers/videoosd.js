@@ -467,34 +467,34 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             switch (e.detail.command) {
                 case "left":
-                if ("osd" === currentVisibleMenu) {
-                    showOsd();
-                } else {
-                    if (!currentVisibleMenu) {
-                        e.preventDefault();
-                        playbackManager.rewind(player);
+                    if ("osd" === currentVisibleMenu) {
+                        showOsd();
+                    } else {
+                        if (!currentVisibleMenu) {
+                            e.preventDefault();
+                            playbackManager.rewind(player);
+                        }
                     }
-                }
 
-                break;
+                    break;
 
                 case "right":
-                if ("osd" === currentVisibleMenu) {
-                    showOsd();
-                } else if (!currentVisibleMenu) {
-                    e.preventDefault();
-                    playbackManager.fastForward(player);
-                }
+                    if ("osd" === currentVisibleMenu) {
+                        showOsd();
+                    } else if (!currentVisibleMenu) {
+                        e.preventDefault();
+                        playbackManager.fastForward(player);
+                    }
 
-                break;
+                    break;
 
                 case "pageup":
-                playbackManager.nextChapter(player);
-                break;
+                    playbackManager.nextChapter(player);
+                    break;
 
                 case "pagedown":
-                playbackManager.previousChapter(player);
-                break;
+                    playbackManager.previousChapter(player);
+                    break;
 
                 case "up":
                 case "down":
@@ -508,16 +508,16 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 case "rewind":
                 case "next":
                 case "previous":
-                showOsd();
-                break;
+                    showOsd();
+                    break;
 
                 case "record":
-                onRecordingCommand();
-                showOsd();
-                break;
+                    onRecordingCommand();
+                    showOsd();
+                    break;
 
                 case "togglestats":
-                toggleStats();
+                    toggleStats();
             }
         }
 
@@ -1096,52 +1096,52 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 case "k":
                     playbackManager.playPause(currentPlayer);
                     showOsd();
-                break;
+                    break;
 
                 case "l":
                 case "ArrowRight":
                 case "Right":
                     playbackManager.fastForward(currentPlayer);
                     showOsd();
-                break;
+                    break;
 
                 case "j":
                 case "ArrowLeft":
                 case "Left":
                     playbackManager.rewind(currentPlayer);
                     showOsd();
-                break;
+                    break;
 
                 case "f":
-                if (!e.ctrlKey && !e.metaKey) {
-                    playbackManager.toggleFullscreen(currentPlayer);
-                    showOsd();
-                }
-                break;
+                    if (!e.ctrlKey && !e.metaKey) {
+                        playbackManager.toggleFullscreen(currentPlayer);
+                        showOsd();
+                    }
+                    break;
 
                 case "m":
-                playbackManager.toggleMute(currentPlayer);
-                showOsd();
-                break;
+                    playbackManager.toggleMute(currentPlayer);
+                    showOsd();
+                    break;
 
                 case "NavigationLeft":
                 case "GamepadDPadLeft":
                 case "GamepadLeftThumbstickLeft":
                 // Ignores gamepad events that are always triggered, even when not focused.
-                if (document.hasFocus()) {
-                    playbackManager.rewind(currentPlayer);
-                    showOsd();
-                }
-                break;
+                    if (document.hasFocus()) {
+                        playbackManager.rewind(currentPlayer);
+                        showOsd();
+                    }
+                    break;
 
                 case "NavigationRight":
                 case "GamepadDPadRight":
                 case "GamepadLeftThumbstickRight":
                 // Ignores gamepad events that are always triggered, even when not focused.
-                if (document.hasFocus()) {
-                    playbackManager.fastForward(currentPlayer);
-                    showOsd();
-                }
+                    if (document.hasFocus()) {
+                        playbackManager.fastForward(currentPlayer);
+                        showOsd();
+                    }
             }
         }
 
@@ -1334,24 +1334,24 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             switch (pointerType) {
                 case "touch":
-                if (now - lastPointerDown > 300) {
-                    lastPointerDown = now;
-                    toggleOsd();
-                }
+                    if (now - lastPointerDown > 300) {
+                        lastPointerDown = now;
+                        toggleOsd();
+                    }
 
-                break;
+                    break;
 
                 case "mouse":
-                if (!e.button) {
-                    playbackManager.playPause(currentPlayer);
-                    showOsd();
-                }
+                    if (!e.button) {
+                        playbackManager.playPause(currentPlayer);
+                        showOsd();
+                    }
 
-                break;
+                    break;
 
                 default:
-                playbackManager.playPause(currentPlayer);
-                showOsd();
+                    playbackManager.playPause(currentPlayer);
+                    showOsd();
             }
         }, {
             passive: true

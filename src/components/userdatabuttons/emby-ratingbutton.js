@@ -64,7 +64,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
             if (icon) {
                 icon.innerHTML = '&#xE87D;';
-				icon.classList.add('ratingbutton-icon-withrating');
+                icon.classList.add('ratingbutton-icon-withrating');
             }
 
             button.classList.add('ratingbutton-withrating');
@@ -73,7 +73,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
             if (icon) {
                 icon.innerHTML = '&#xE87D;';
-				icon.classList.remove('ratingbutton-icon-withrating');
+                icon.classList.remove('ratingbutton-icon-withrating');
                 //icon.innerHTML = '&#xE8DC;';
             }
             button.classList.remove('ratingbutton-withrating');
@@ -82,7 +82,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
             if (icon) {
                 icon.innerHTML = '&#xE87D;';
-				icon.classList.remove('ratingbutton-icon-withrating');
+                icon.classList.remove('ratingbutton-icon-withrating');
                 //icon.innerHTML = '&#xE8DB;';
             }
             button.classList.remove('ratingbutton-withrating');
@@ -91,7 +91,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
             if (icon) {
                 icon.innerHTML = '&#xE87D;';
-				icon.classList.remove('ratingbutton-icon-withrating');
+                icon.classList.remove('ratingbutton-icon-withrating');
                 //icon.innerHTML = '&#xE8DD;';
             }
             button.classList.remove('ratingbutton-withrating');

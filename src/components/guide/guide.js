@@ -1195,14 +1195,14 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             dom.addEventListener(programGrid, 'scroll', function (e) {
                 onProgramGridScroll(context, this, timeslotHeaders);
             }, {
-                    passive: true
-                });
+                passive: true
+            });
 
             dom.addEventListener(timeslotHeaders, 'scroll', function () {
                 onTimeslotHeadersScroll(context, this);
             }, {
-                    passive: true
-                });
+                passive: true
+            });
 
             programGrid.addEventListener('click', onProgramGridClick);
 
