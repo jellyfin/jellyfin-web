@@ -149,7 +149,10 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
                         break; // stop here
                     } // else continue and hide
                 case "hide":
-                    if (subtitleSyncTextField.hasFocus) { break; } // else continue and hide
+                    // only break if element has focus
+                    if (subtitleSyncTextField.hasFocus) {
+                        break;
+                    }
                 case "forceToHide":
                     subtitleSyncContainer.classList.add("hide");
                     break;

@@ -211,7 +211,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             self.frameResizeObserver.observe(frame);
         }
 
-        self.reload = function () { load(); };
+        self.reload = function () {
+            load();
+        };
 
         self.getScrollEventName = function () {
             return transform ? 'scrollanimate' : 'scroll';

@@ -70,7 +70,9 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
         }
 
         // Use the median
-        values.sort(function (a, b) { return a - b; });
+        values.sort(function (a, b) {
+            return a - b;
+        });
 
         var half = Math.floor(values.length / 2);
 

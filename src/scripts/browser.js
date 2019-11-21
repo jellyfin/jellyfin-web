@@ -150,7 +150,9 @@ define([], function () {
         var pfx = '';
         var elm = document.createElement('div');
 
-        if (elm.style.animationName !== undefined) { animation = true; }
+        if (elm.style.animationName !== undefined) {
+            animation = true;
+        }
 
         if (animation === false && allowPrefix) {
             for (var i = 0; i < domPrefixes.length; i++) {

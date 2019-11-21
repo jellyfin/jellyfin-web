@@ -7,6 +7,7 @@ rules:
   block-spacing: ["error"]
   indent: ["error", 4, { "SwitchCase": 1 }]
   keyword-spacing: ["error"]
+  max-statements-per-line: ["error"]
   no-empty: ["error"]
   no-extra-semi: ["error"]
   no-multiple-empty-lines: ["error", { "max": 1 }]

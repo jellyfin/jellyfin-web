@@ -202,7 +202,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     }
 
     function getListValues(list) {
-        return Array.prototype.map.call(list.querySelectorAll('.textValue'), function (el) { return el.textContent; });
+        return Array.prototype.map.call(list.querySelectorAll('.textValue'), function (el) {
+            return el.textContent;
+        });
     }
 
     function addElementToList(source, sortCallback) {
@@ -743,7 +745,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         populateListView(context.querySelector('#listGenres'), item.Genres);
         populatePeople(context, item.People || []);
 
-        populateListView(context.querySelector('#listStudios'), (item.Studios || []).map(function (element) { return element.Name || ''; }));
+        populateListView(context.querySelector('#listStudios'), (item.Studios || []).map(function (element) {
+            return element.Name || '';
+        }));
 
         populateListView(context.querySelector('#listTags'), item.Tags);
 
@@ -902,7 +906,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         items = items || [];
         if (typeof (sortCallback) === 'undefined') {
-            items.sort(function (a, b) { return a.toLowerCase().localeCompare(b.toLowerCase()); });
+            items.sort(function (a, b) {
+                return a.toLowerCase().localeCompare(b.toLowerCase());
+            });
         } else {
             items = sortCallback(items);
         }
