@@ -92,7 +92,6 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         instance.element = parent;
     }
 
-
     function getOffsetFromPercentage(value) {
         // convert percent to fraction
         var offset = (value - 50) / 50;

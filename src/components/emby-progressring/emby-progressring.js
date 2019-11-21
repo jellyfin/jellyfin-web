@@ -85,7 +85,6 @@ define(['require', 'css!./emby-progressring', 'registerElement'], function (requ
 
     EmbyProgressRing.detachedCallback = function () {
 
-
         var observer = this.observer;
 
         if (observer) {

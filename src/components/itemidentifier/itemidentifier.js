@@ -454,8 +454,6 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
                 scrollHelper.centerFocus.on(dlg.querySelector(".formDialogContent"), false);
             }
 
-
-
             dialogHelper.open(dlg);
 
             dlg.querySelector(".btnCancel").addEventListener("click", function (e) {

@@ -256,7 +256,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
             html += '</div>';
         }
 
-
         return html;
     }
 

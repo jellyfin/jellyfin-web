@@ -227,7 +227,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 
         function nativeScrollTo(container, pos, immediate) {
 
-
             if (container.scroll) {
                 if (o.horizontal) {
 

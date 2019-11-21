@@ -278,7 +278,6 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     }
     if (navigator.mediaSession) {
 
-
         navigator.mediaSession.setActionHandler('previoustrack', function () {
             execute('previousTrack');
         });

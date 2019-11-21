@@ -614,7 +614,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             return html;
         }
 
-
         function renderChannelHeaders(context, channels, apiClient) {
 
             var html = '';

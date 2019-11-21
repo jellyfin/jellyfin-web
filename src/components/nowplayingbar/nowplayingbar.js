@@ -196,7 +196,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         volumeSlider.addEventListener('mousemove', setVolume);
         volumeSlider.addEventListener('touchmove', setVolume);
 
-
         positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
         positionSlider.addEventListener('change', function () {
 

@@ -241,8 +241,6 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                 id: 'refresh'
             });
 
-
-
             require(['actionsheet'], function (actionsheet) {
                 actionsheet.show({
                     items: menuItems,

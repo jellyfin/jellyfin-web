@@ -168,7 +168,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
                     });
                 });
 
-
             }, function () {
 
                 elem.autoplay = true;

@@ -852,7 +852,6 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             var volumeSlider = view.querySelector('.osdVolumeSliderContainer');
             var progressElement = volumeSlider.querySelector('.mdl-slider-background-lower');
 
-
             if (-1 === supportedCommands.indexOf("Mute")) {
                 showMuteButton = false;
             }

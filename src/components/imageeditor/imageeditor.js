@@ -60,7 +60,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                 }
             }
 
-
             apiClient.getItemImageInfos(currentItem.Id).then(function (imageInfos) {
 
                 renderStandardImages(page, apiClient, item, imageInfos, providers);

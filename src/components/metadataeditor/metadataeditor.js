@@ -439,7 +439,6 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         var html = metadataInfo.ContentTypeOptions.map(function (i) {
 
-
             return '<option value="' + i.Value + '">' + i.Name + '</option>';
 
         }).join('');

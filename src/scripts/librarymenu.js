@@ -189,7 +189,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             html += "</div>";
         }
 
-
         // add buttons to navigation drawer
         navDrawerScrollContainer.innerHTML = html;
         // bind logout button click to method

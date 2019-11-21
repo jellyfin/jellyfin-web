@@ -132,7 +132,6 @@ define([], function () {
 
     function applyStyleList(styles, elem) {
 
-
         for (var i = 0, length = styles.length; i < length; i++) {
 
             var style = styles[i];

@@ -858,7 +858,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             elem.classList.remove("squareDetailImageContainer");
         }
 
-
         if (url) {
             imageLoader.lazyImage(elem.querySelector("img"), url);
         }

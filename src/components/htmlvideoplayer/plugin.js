@@ -648,7 +648,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             return profiles.filter(function (p) {
 
-
                 if (p.Type === 'Video') {
 
                     if (!p.AudioCodec) {

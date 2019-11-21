@@ -153,7 +153,6 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         });
     }
 
-
     function disconnectFromPlayer(currentDeviceName) {
 
         if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
@@ -192,7 +191,6 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
                 });
 
             });
-
 
         } else {
 
