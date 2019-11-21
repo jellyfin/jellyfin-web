@@ -478,7 +478,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
 
         // HACK: Ensure we are at the top
         // FIXME: Need a marker to scroll top/bottom
-        if (scrollY < minimumScrollY()) {
+        if (scrollY < minimumScrollY() && yScroller === documentScroller) {
             scrollY = 0;
         }
 
