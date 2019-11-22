@@ -94,7 +94,8 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         context.querySelector('form').addEventListener('submit', onSubmit);
 
         var elems = context.querySelectorAll('.simpleFilter');
-        var i, length;
+        var i;
+        var length;
 
         for (i = 0, length = elems.length; i < length; i++) {
 
@@ -137,7 +138,8 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
     function saveValues(context, settings, settingsKey) {
 
         var elems = context.querySelectorAll('.simpleFilter');
-        var i, length;
+        var i;
+        var length;
         for (i = 0, length = elems.length; i < length; i++) {
 
             if (elems[i].tagName === 'INPUT') {

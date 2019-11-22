@@ -2,19 +2,19 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
     "use strict";
 
     function getNode(item, folderState, selected) {
-        var htmlName = getNodeInnerHtml(item),
-            node = {
-                id: item.Id,
-                text: htmlName,
-                state: {
-                    opened: item.IsFolder && folderState == "open",
-                    selected: selected
-                },
-                li_attr: {
-                    serveritemtype: item.Type,
-                    collectiontype: item.CollectionType
-                }
-            };
+        var htmlName = getNodeInnerHtml(item);
+        var node = {
+            id: item.Id,
+            text: htmlName,
+            state: {
+                opened: item.IsFolder && folderState == "open",
+                selected: selected
+            },
+            li_attr: {
+                serveritemtype: item.Type,
+                collectiontype: item.CollectionType
+            }
+        };
         if (item.IsFolder) {
             node.children = [{
                 text: "Loading...",
@@ -44,20 +44,15 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
         var htmlName = "<div class='editorNode'>";
         if (item.IsFolder) {
             htmlName += '<i class="md-icon metadataSidebarIcon">folder</i>';
-        }
-        else if (item.MediaType === "Video") {
+        } else if (item.MediaType === "Video") {
             htmlName += '<i class="md-icon metadataSidebarIcon">movie</i>';
-        }
-        else if (item.MediaType === "Audio") {
+        } else if (item.MediaType === "Audio") {
             htmlName += '<i class="md-icon metadataSidebarIcon">audiotrack</i>';
-        }
-        else if (item.Type === "TvChannel") {
+        } else if (item.Type === "TvChannel") {
             htmlName += '<i class="md-icon metadataSidebarIcon">live_tv</i>';
-        }
-        else if (item.MediaType === "Photo") {
+        } else if (item.MediaType === "Photo") {
             htmlName += '<i class="md-icon metadataSidebarIcon">photo</i>';
-        }
-        else if (item.MediaType === "Book") {
+        } else if (item.MediaType === "Book") {
             htmlName += '<i class="md-icon metadataSidebarIcon">book</i>';
         }
         if (item.LockData) {
@@ -107,8 +102,9 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
         });
     }
 
-    function loadLiveTvChannels(openItems, callback) {
+    function loadLiveTvChannels(service, openItems, callback) {
         ApiClient.getLiveTvChannels({
+            ServiceName: service,
             AddCurrentProgram: false
         }).then(function (result) {
             var nodes = result.Items.map(function (i) {

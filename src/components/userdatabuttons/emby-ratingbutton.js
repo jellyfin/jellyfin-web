@@ -33,8 +33,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         var isFavorite = this.getAttribute('data-isfavorite') === 'true';
         if (likes === 'true') {
             likes = true;
-        }
-        else if (likes === 'false') {
+        } else if (likes === 'false') {
             likes = false;
         } else {
             likes = null;
@@ -64,7 +63,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
             if (icon) {
                 icon.innerHTML = '&#xE87D;';
-				icon.classList.add('ratingbutton-icon-withrating');
+                icon.classList.add('ratingbutton-icon-withrating');
             }
 
             button.classList.add('ratingbutton-withrating');
@@ -73,7 +72,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
             if (icon) {
                 icon.innerHTML = '&#xE87D;';
-				icon.classList.remove('ratingbutton-icon-withrating');
+                icon.classList.remove('ratingbutton-icon-withrating');
                 //icon.innerHTML = '&#xE8DC;';
             }
             button.classList.remove('ratingbutton-withrating');
@@ -82,7 +81,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
             if (icon) {
                 icon.innerHTML = '&#xE87D;';
-				icon.classList.remove('ratingbutton-icon-withrating');
+                icon.classList.remove('ratingbutton-icon-withrating');
                 //icon.innerHTML = '&#xE8DB;';
             }
             button.classList.remove('ratingbutton-withrating');
@@ -91,7 +90,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
             if (icon) {
                 icon.innerHTML = '&#xE87D;';
-				icon.classList.remove('ratingbutton-icon-withrating');
+                icon.classList.remove('ratingbutton-icon-withrating');
                 //icon.innerHTML = '&#xE8DD;';
             }
             button.classList.remove('ratingbutton-withrating');
@@ -152,8 +151,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
             var isFavorite = this.getAttribute('data-isfavorite') === 'true';
             if (likes === 'true') {
                 likes = true;
-            }
-            else if (likes === 'false') {
+            } else if (likes === 'false') {
                 likes = false;
             } else {
                 likes = null;

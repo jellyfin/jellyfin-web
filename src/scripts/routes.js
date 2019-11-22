@@ -447,6 +447,6 @@ define([
     defineRoute({
         path: "/",
         isDefaultRoute: true,
-        autoFocus: false,
+        autoFocus: false
     });
 });

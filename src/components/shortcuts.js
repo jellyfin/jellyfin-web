@@ -128,8 +128,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
 
                         if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
                             executeAction(card, options.positionTo, result.command);
-                        }
-                        else if (result.updated || result.deleted) {
+                        } else if (result.updated || result.deleted) {
                             notifyRefreshNeeded(card, options.itemsContainer);
                         }
                     });
@@ -204,21 +203,15 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                 context: card.getAttribute('data-context'),
                 parentId: card.getAttribute('data-parentid')
             });
-        }
-
-        else if (action === 'programdialog') {
+        } else if (action === 'programdialog') {
 
             showProgramDialog(item);
-        }
-
-        else if (action === 'instantmix') {
+        } else if (action === 'instantmix') {
             playbackManager.instantMix({
                 Id: playableItemId,
                 ServerId: serverId
             });
-        }
-
-        else if (action === 'play' || action === 'resume') {
+        } else if (action === 'play' || action === 'resume') {
 
             var startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0');
 
@@ -227,9 +220,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                 startPositionTicks: startPositionTicks,
                 serverId: serverId
             });
-        }
-
-        else if (action === 'queue') {
+        } else if (action === 'queue') {
 
             if (playbackManager.isPlaying()) {
                 playbackManager.queue({
@@ -243,25 +234,15 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                     serverId: serverId
                 });
             }
-        }
-
-        else if (action === 'playallfromhere') {
+        } else if (action === 'playallfromhere') {
             playAllFromHere(card, serverId);
-        }
-
-        else if (action === 'queueallfromhere') {
+        } else if (action === 'queueallfromhere') {
             playAllFromHere(card, serverId, true);
-        }
-
-        else if (action === 'setplaylistindex') {
+        } else if (action === 'setplaylistindex') {
             playbackManager.setCurrentPlaylistItem(card.getAttribute('data-playlistitemid'));
-        }
-
-        else if (action === 'record') {
+        } else if (action === 'record') {
             onRecordCommand(serverId, id, type, card.getAttribute('data-timerid'), card.getAttribute('data-seriestimerid'));
-        }
-
-        else if (action === 'menu') {
+        } else if (action === 'menu') {
 
             var options = target.getAttribute('data-playoptions') === 'false' ?
                 {
@@ -277,27 +258,17 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
             options.positionTo = target;
 
             showContextMenu(card, options);
-        }
-
-        else if (action === 'playmenu') {
+        } else if (action === 'playmenu') {
             showPlayMenu(card, target);
-        }
-
-        else if (action === 'edit') {
+        } else if (action === 'edit') {
             getItem(target).then(function (item) {
                 editItem(item, serverId);
             });
-        }
-
-        else if (action === 'playtrailer') {
+        } else if (action === 'playtrailer') {
             getItem(target).then(playTrailer);
-        }
-
-        else if (action === 'addtoplaylist') {
+        } else if (action === 'addtoplaylist') {
             getItem(target).then(addToPlaylist);
-        }
-
-        else if (action === 'custom') {
+        } else if (action === 'custom') {
 
             var customAction = target.getAttribute('data-customaction');
 

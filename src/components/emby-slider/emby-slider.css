@@ -87,6 +87,10 @@ _:-ms-input-placeholder {
     transform: scale(1.6);
 }
 
+.mdl-slider.show-focus:focus::-webkit-slider-thumb {
+    transform: scale(1.6);
+}
+
 .slider-no-webkit-thumb::-webkit-slider-thumb {
     opacity: 0 !important;
 }

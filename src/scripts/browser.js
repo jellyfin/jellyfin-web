@@ -30,7 +30,6 @@ define([], function () {
     }
 
     function isMobile(userAgent) {
-
         var terms = [
             'mobi',
             'ipad',
@@ -122,7 +121,8 @@ define([], function () {
     }
 
     function iOSversion() {
-        if (/iP(hone|od|ad)/.test(navigator.platform)) {
+        // MacIntel: Apple iPad Pro 11 iOS 13.1
+        if (/iP(hone|od|ad)|MacIntel/.test(navigator.platform)) {
             // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
             var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
             return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
@@ -143,14 +143,16 @@ define([], function () {
             }
         }
 
-        var animation = false,
-            animationstring = 'animation',
-            keyframeprefix = '',
-            domPrefixes = ['Webkit', 'O', 'Moz'],
-            pfx = '',
-            elm = document.createElement('div');
+        var animation = false;
+        var animationstring = 'animation';
+        var keyframeprefix = '';
+        var domPrefixes = ['Webkit', 'O', 'Moz'];
+        var pfx = '';
+        var elm = document.createElement('div');
 
-        if (elm.style.animationName !== undefined) { animation = true; }
+        if (elm.style.animationName !== undefined) {
+            animation = true;
+        }
 
         if (animation === false && allowPrefix) {
             for (var i = 0; i < domPrefixes.length; i++) {
@@ -203,8 +205,7 @@ define([], function () {
 
                 // http://www.neowin.net/news/ie11-fakes-user-agent-to-fool-gmail-in-windows-phone-81-gdr1-update
                 browser = "msie";
-            }
-            else if (ua.indexOf("like gecko") !== -1 && ua.indexOf('webkit') === -1 && ua.indexOf('opera') === -1 && ua.indexOf('chrome') === -1 && ua.indexOf('safari') === -1) {
+            } else if (ua.indexOf("like gecko") !== -1 && ua.indexOf('webkit') === -1 && ua.indexOf('opera') === -1 && ua.indexOf('chrome') === -1 && ua.indexOf('safari') === -1) {
                 browser = "msie";
             }
         }
@@ -301,7 +302,10 @@ define([], function () {
 
     if (browser.iOS) {
         browser.iOSVersion = iOSversion();
-        browser.iOSVersion = browser.iOSVersion[0] + (browser.iOSVersion[1] / 10);
+
+        if (browser.iOSVersion && browser.iOSVersion.length >= 2) {
+            browser.iOSVersion = browser.iOSVersion[0] + (browser.iOSVersion[1] / 10);
+        }
     }
 
     browser.chromecast = browser.chrome && userAgent.toLowerCase().indexOf('crkey') !== -1;

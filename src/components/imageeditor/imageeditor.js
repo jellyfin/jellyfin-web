@@ -1,6 +1,8 @@
 define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 'focusManager', 'globalize', 'scrollHelper', 'imageLoader', 'require', 'browser', 'apphost', 'cardStyle', 'formDialogStyle', 'emby-button', 'paper-icon-button-light', 'css!./imageeditor'], function (dialogHelper, connectionManager, loading, dom, layoutManager, focusManager, globalize, scrollHelper, imageLoader, require, browser, appHost) {
     'use strict';
 
+    var enableFocusTransform = !browser.slow && !browser.edge;
+
     var currentItem;
     var hasChanges = false;
 
@@ -22,8 +24,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         if (item) {
             apiClient = connectionManager.getApiClient(item.ServerId);
             reloadItem(page, item, apiClient, focusContext);
-        }
-        else {
+        } else {
 
             apiClient = connectionManager.getApiClient(currentItem.ServerId);
             apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (item) {
@@ -57,7 +58,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                     btnBrowseAllImages[i].classList.add('hide');
                 }
             }
-
 
             apiClient.getItemImageInfos(currentItem.Id).then(function (imageInfos) {
 
@@ -95,6 +95,8 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
     function getCardHtml(image, index, numImages, apiClient, imageProviders, imageSize, tagName, enableFooterButtons) {
 
+        // TODO move card creation code to Card component
+
         var html = '';
 
         var cssClass = "card scalableCard imageEditorCard";
@@ -105,12 +107,12 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         if (tagName === 'button') {
             cssClass += ' btnImageCard';
 
-            if (layoutManager.tv && !browser.slow) {
-                cardBoxCssClass += ' cardBox-focustransform';
-            }
-
             if (layoutManager.tv) {
-                cardBoxCssClass += ' card-focuscontent cardBox-withfocuscontent';
+                cssClass += ' show-focus';
+
+                if (enableFocusTransform) {
+                    cssClass += ' show-animation';
+                }
             }
 
             html += '<button type="button" class="' + cssClass + '"';
@@ -163,8 +165,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                 } else {
                     html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveRight') + '"><i class="md-icon">chevron_right</i></button>';
                 }
-            }
-            else {
+            } else {
                 if (imageProviders.length) {
                     html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><i class="md-icon">search</i></button>';
                 }

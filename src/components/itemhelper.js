@@ -250,9 +250,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 if (item.Type !== 'TvChannel') {
                     return true;
                 }
-            }
-
-            else if (item.MediaType === 'Audio') {
+            } else if (item.MediaType === 'Audio') {
                 if (item.Type === 'AudioPodcast') {
                     return true;
                 }
