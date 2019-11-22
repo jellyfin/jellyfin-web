@@ -140,7 +140,7 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
         var menuTouchStartY;
         var menuTouchStartTime;
         var edgeContainer = document.querySelector(".mainDrawerHandle");
-        var isPeeking = !1;
+        var isPeeking = false;
         TouchMenuLA.prototype.animateToPosition = function(pos) {
             requestAnimationFrame(function() {
                 options.target.style.transform = pos ? "translateX(" + pos + "px)" : "none"

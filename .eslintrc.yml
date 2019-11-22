@@ -22,5 +22,6 @@ rules:
   no-void: ["off"]
   one-var: ["error", "never"]
   padding-line-between-statements: ["off"]
+  semi: ["off"]
   space-before-blocks: ["error"]
   yoda: ["off"]
