@@ -203,16 +203,22 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             updateAudioTracksDisplay(player, context);
             updateSubtitleTracksDisplay(player, context);
 
-            if (-1 != supportedCommands.indexOf("DisplayMessage")) {
+            if (-1 != supportedCommands.indexOf("DisplayMessage") && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".sendMessageSection").classList.remove("hide");
             } else {
                 context.querySelector(".sendMessageSection").classList.add("hide");
             }
 
-            if (-1 != supportedCommands.indexOf("SendString")) {
+            if (-1 != supportedCommands.indexOf("SendString") && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".sendTextSection").classList.remove("hide");
             } else {
                 context.querySelector(".sendTextSection").classList.add("hide");
+            }
+
+            if (!currentPlayer.isLocalPlayer) {
+                context.querySelector(".navigationSection").classList.remove("hide");
+            } else {
+                context.querySelector(".navigationSection").classList.add("hide");
             }
 
             buttonVisible(context.querySelector(".btnArrowUp"), -1 != supportedCommands.indexOf("MoveUp"));
