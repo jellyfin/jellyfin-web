@@ -22,17 +22,17 @@ define(['dom'], function (dom) {
 
         var windowSize = dom.getWindowSize();
 
-        var vpWidth = windowSize.innerWidth,
-            vpHeight = windowSize.innerHeight;
+        var vpWidth = windowSize.innerWidth;
+        var vpHeight = windowSize.innerHeight;
 
         // Use this native browser method, if available.
-        var rec = elem.getBoundingClientRect(),
-            tViz = rec.top >= 0 && rec.top < vpHeight + thresholdY,
-            bViz = rec.bottom > 0 && rec.bottom <= vpHeight + thresholdY,
-            lViz = rec.left >= 0 && rec.left < vpWidth + thresholdX,
-            rViz = rec.right > 0 && rec.right <= vpWidth + thresholdX,
-            vVisible = partial ? tViz || bViz : tViz && bViz,
-            hVisible = partial ? lViz || rViz : lViz && rViz;
+        var rec = elem.getBoundingClientRect();
+        var tViz = rec.top >= 0 && rec.top < vpHeight + thresholdY;
+        var bViz = rec.bottom > 0 && rec.bottom <= vpHeight + thresholdY;
+        var lViz = rec.left >= 0 && rec.left < vpWidth + thresholdX;
+        var rViz = rec.right > 0 && rec.right <= vpWidth + thresholdX;
+        var vVisible = partial ? tViz || bViz : tViz && bViz;
+        var hVisible = partial ? lViz || rViz : lViz && rViz;
 
         return vVisible && hVisible;
     }

@@ -21,8 +21,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
 
             if (notification.close) {
                 notification.close();
-            }
-            else if (notification.cancel) {
+            } else if (notification.cancel) {
                 notification.cancel();
             }
         }, timeoutMs);
@@ -180,15 +179,12 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             if (status === 'completed') {
                 notification.title = globalize.translate('PackageInstallCompleted').replace('{0}', installation.Name + ' ' + installation.Version);
                 notification.vibrate = true;
-            }
-            else if (status === 'cancelled') {
+            } else if (status === 'cancelled') {
                 notification.title = globalize.translate('PackageInstallCancelled').replace('{0}', installation.Name + ' ' + installation.Version);
-            }
-            else if (status === 'failed') {
+            } else if (status === 'failed') {
                 notification.title = globalize.translate('PackageInstallFailed').replace('{0}', installation.Name + ' ' + installation.Version);
                 notification.vibrate = true;
-            }
-            else if (status === 'progress') {
+            } else if (status === 'progress') {
                 notification.title = globalize.translate('InstallingPackage').replace('{0}', installation.Name + ' ' + installation.Version);
 
                 notification.actions =

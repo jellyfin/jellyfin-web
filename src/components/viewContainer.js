@@ -42,7 +42,6 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
             var newViewInfo = normalizeNewView(options, isPluginpage);
             var newView = newViewInfo.elem;
 
-
             if (isPluginpage) {
                 require(["legacyDashboard"]);
             }

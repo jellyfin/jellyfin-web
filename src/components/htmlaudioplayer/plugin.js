@@ -52,7 +52,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     function supportsFade() {
 
         if (browser.tv) {
-            // Not working on tizen. 
+            // Not working on tizen.
             // We could possibly enable on other tv's, but all smart tv browsers tend to be pretty primitive
             return false;
         }
@@ -167,7 +167,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
                         self._currentSrc = val;
                     });
                 });
-
 
             }, function () {
 

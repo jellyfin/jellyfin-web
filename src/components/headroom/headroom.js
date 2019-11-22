@@ -255,8 +255,8 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          * @return {bool} true if should unpin, false otherwise
          */
         this.shouldUnpin = function (currentScrollY) {
-            var scrollingDown = currentScrollY > this.lastKnownScrollY,
-                pastOffset = currentScrollY >= this.offset;
+            var scrollingDown = currentScrollY > this.lastKnownScrollY;
+            var pastOffset = currentScrollY >= this.offset;
 
             return scrollingDown && pastOffset;
         };
@@ -267,8 +267,8 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          * @return {bool} true if should pin, false otherwise
          */
         this.shouldPin = function (currentScrollY) {
-            var scrollingUp = currentScrollY < this.lastKnownScrollY,
-                pastOffset = currentScrollY <= this.offset;
+            var scrollingUp = currentScrollY < this.lastKnownScrollY;
+            var pastOffset = currentScrollY <= this.offset;
 
             return scrollingUp || pastOffset;
         };
@@ -290,11 +290,9 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             if (currentScrollY <= (isTv ? 120 : 10)) {
                 this.clear();
-            }
-            else if (this.shouldUnpin(currentScrollY)) {
+            } else if (this.shouldUnpin(currentScrollY)) {
                 this.unpin();
-            }
-            else if (this.shouldPin(currentScrollY)) {
+            } else if (this.shouldPin(currentScrollY)) {
 
                 var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= 14;
 
@@ -310,7 +308,6 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             this.lastKnownScrollY = currentScrollY;
         };
 
-      
         if (browser.supportsCssAnimation()) {
             for (var i = 0, length = this.elems.length; i < length; i++) {
                 this.elems[i].classList.add(this.initialClass);

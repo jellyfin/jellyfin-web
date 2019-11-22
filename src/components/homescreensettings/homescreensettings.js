@@ -57,8 +57,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 name: globalize.translate('Collections'),
                 value: 'collections'
             });
-        }
-        else if (type === 'tvshows') {
+        } else if (type === 'tvshows') {
 
             list.push({
                 name: globalize.translate('Shows'),
@@ -78,8 +77,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 name: globalize.translate('Favorites'),
                 value: 'favorites'
             });
-        }
-        else if (type === 'music') {
+        } else if (type === 'music') {
 
             list.push({
                 name: globalize.translate('Suggestions'),
@@ -111,8 +109,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 name: globalize.translate('Genres'),
                 value: 'genres'
             });
-        }
-        else if (type === 'livetv') {
+        } else if (type === 'livetv') {
 
             list.push({
                 name: globalize.translate('Suggestions'),
@@ -256,7 +253,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
             html += '</div>';
         }
 
-
         return html;
     }
 
@@ -384,7 +380,8 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
         var viewItems = context.querySelectorAll('.viewItem');
         var orderedViews = [];
-        var i, length;
+        var i;
+        var length;
         for (i = 0, length = viewItems.length; i < length; i++) {
             orderedViews.push(viewItems[i].getAttribute('data-viewid'));
         }

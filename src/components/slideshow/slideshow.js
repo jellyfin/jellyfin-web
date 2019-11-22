@@ -77,8 +77,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         try {
             appHost.setUserScalable(scalable);
-        }
-        catch (err) {
+        } catch (err) {
             console.log('error in appHost.setUserScalable: ' + err);
         }
     }

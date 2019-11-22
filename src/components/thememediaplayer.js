@@ -94,8 +94,7 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
 
         if (viewOptions.supportsThemeMedia) {
             // Do nothing here, allow it to keep playing
-        }
-        else {
+        } else {
             playThemeMedia([], null);
         }
 

@@ -321,7 +321,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var apiClient;
             var lastServerId;
 
-            var i, length;
+            var i;
+            var length;
 
             for (i = 0, length = items.length; i < length; i++) {
 
@@ -339,19 +340,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (options.indexBy === 'PremiereDate') {
                         if (item.PremiereDate) {
                             try {
-
                                 newIndexValue = datetime.toLocaleDateString(datetime.parseISO8601Date(item.PremiereDate), { weekday: 'long', month: 'long', day: 'numeric' });
-
                             } catch (err) {
+                                console.log('error parsing timestamp for premiere date');
                             }
                         }
-                    }
-
-                    else if (options.indexBy === 'ProductionYear') {
+                    } else if (options.indexBy === 'ProductionYear') {
                         newIndexValue = item.ProductionYear;
-                    }
-
-                    else if (options.indexBy === 'CommunityRating') {
+                    } else if (options.indexBy === 'CommunityRating') {
                         newIndexValue = item.CommunityRating ? (Math.floor(item.CommunityRating) + (item.CommunityRating % 1 >= 0.5 ? 0.5 : 0)) + '+' : null;
                     }
 
@@ -571,22 +567,19 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
                     }
                 }
-            }
-            else if (item.ParentPrimaryImageTag) {
+            } else if (item.ParentPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
                     type: "Primary",
                     tag: item.ParentPrimaryImageTag
                 });
-            }
-            else if (item.SeriesPrimaryImageTag) {
+            } else if (item.SeriesPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
                     type: "Primary",
                     tag: item.SeriesPrimaryImageTag
                 });
-            }
-            else if (item.AlbumId && item.AlbumPrimaryImageTag) {
+            } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
                 width = primaryImageAspectRatio ? Math.round(height * primaryImageAspectRatio) : null;
 
@@ -601,16 +594,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
                     }
                 }
-            }
-            else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
+            } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
                     tag: item.ImageTags.Thumb
                 });
 
-            }
-            else if (item.BackdropImageTags && item.BackdropImageTags.length) {
+            } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Backdrop",
@@ -681,7 +672,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var html = '';
 
             var valid = 0;
-            var i, length;
+            var i;
+            var length;
 
             for (i = 0, length = lines.length; i < length; i++) {
 
@@ -745,8 +737,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         date = datetime.parseISO8601Date(item.EndDate);
                         airTimeText += ' - ' + datetime.getDisplayTime(date);
                     }
-                }
-                catch (e) {
+                } catch (e) {
                     console.log("Error parsing date: " + item.StartDate);
                 }
             }
@@ -794,8 +785,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         } else {
                             lines.push(item.SeriesName);
                         }
-                    }
-                    else {
+                    } else {
 
                         if (isUsingLiveTvNaming(item)) {
 
@@ -976,8 +966,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (options.showSeriesTimerChannel) {
                     if (item.RecordAnyChannel) {
                         lines.push(globalize.translate('AllChannels'));
-                    }
-                    else {
+                    } else {
                         lines.push(item.ChannelName || globalize.translate('OneChannel'));
                     }
                 }
@@ -985,8 +974,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (options.showPersonRoleOrType) {
                     if (item.Role) {
                         lines.push('as ' + item.Role);
-                    }
-                    else if (item.Type) {
+                    } else if (item.Type) {
                         lines.push(globalize.translate('' + item.Type));
                     } else {
                         lines.push('');
@@ -1060,8 +1048,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 counts.push(childText);
 
-            }
-            else if (item.Type === 'Genre' || item.Type === 'Studio') {
+            } else if (item.Type === 'Genre' || item.Type === 'Studio') {
 
                 if (item.MovieCount) {
 
@@ -1140,8 +1127,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (item.IsPremiere) {
                 html += '<div class="premiereTvProgram programAttributeIndicator">' + globalize.translate('Premiere') + '</div>';
-            }
-            else if (item.IsSeries && !item.IsRepeat) {
+            } else if (item.IsSeries && !item.IsRepeat) {
                 html += '<div class="newTvProgram programAttributeIndicator">' + globalize.translate('AttributeNew') + '</div>';
             }
             //else if (item.IsRepeat) {
@@ -1176,8 +1162,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (action === 'play' && item.IsFolder) {
                 // If this hard-coding is ever removed make sure to test nested photo albums
                 action = 'link';
-            }
-            else if (item.MediaType === 'Photo') {
+            } else if (item.MediaType === 'Photo') {
                 action = 'play';
             }
 
@@ -1272,8 +1257,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     height: logoHeight,
                     tag: item.ChannelPrimaryImageTag
                 });
-            }
-            else if (options.showLogo && item.ParentLogoImageTag) {
+            } else if (options.showLogo && item.ParentLogoImageTag) {
                 logoUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
                     type: "Logo",
                     height: logoHeight,
@@ -1288,8 +1272,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 footerCssClass = progressHtml ? 'innerCardFooter fullInnerCardFooter' : 'innerCardFooter';
                 innerCardFooter += getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, logoUrl, false);
                 footerOverlayed = true;
-            }
-            else if (progressHtml) {
+            } else if (progressHtml) {
                 innerCardFooter += '<div class="innerCardFooter fullInnerCardFooter innerCardFooterClear">';
                 innerCardFooter += progressHtml;
                 innerCardFooter += '</div>';
@@ -1394,8 +1377,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 indicatorsHtml += indicators.getChildCountIndicatorHtml(item, {
                     minCount: 1
                 });
-            }
-            else {
+            } else {
                 indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
             }
 
@@ -1656,8 +1638,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 itemProgressBar.innerHTML = progressHtml;
-            }
-            else {
+            } else {
 
                 itemProgressBar = card.querySelector('.itemProgressBar');
                 if (itemProgressBar) {

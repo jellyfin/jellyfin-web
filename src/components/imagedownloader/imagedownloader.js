@@ -176,22 +176,17 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         var shape = 'backdrop';
         if (imageType === "Backdrop" || imageType === "Art" || imageType === "Thumb" || imageType === "Logo") {
             shape = 'backdrop';
-        }
-        else if (imageType === "Banner") {
+        } else if (imageType === "Banner") {
             shape = 'banner';
-        }
-        else if (imageType === "Disc") {
+        } else if (imageType === "Disc") {
             shape = 'square';
-        }
-        else {
+        } else {
 
             if (currentItemType === "Episode") {
                 shape = 'backdrop';
-            }
-            else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
+            } else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
                 shape = 'square';
-            }
-            else {
+            } else {
                 shape = 'portrait';
             }
         }
@@ -224,8 +219,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
 
         if (layoutManager.tv || !appHost.supports('externallinks')) {
             html += '<div class="cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center bottom;"></div>';
-        }
-        else {
+        } else {
             html += '<a is="emby-linkbutton" target="_blank" href="' + getDisplayUrl(image.Url, apiClient) + '" class="button-link cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center bottom;"></a>';
         }
 

@@ -479,8 +479,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
                     TotalRecordCount: 1
                 };
             });
-        }
-        else {
+        } else {
 
             query.Limit = query.Limit || 100;
             query.ExcludeLocationTypes = "Virtual";
@@ -752,8 +751,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
 
     ChromecastPlayer.prototype.volumeDown = function () {
         var vol = this._castPlayer.session.receiver.volume.level;
-        if (vol == null)
-        {
+        if (vol == null) {
             vol = 0.5;
         }
         vol -= 0.05;
@@ -776,8 +774,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
 
     ChromecastPlayer.prototype.volumeUp = function () {
         var vol = this._castPlayer.session.receiver.volume.level;
-        if (vol == null)
-        {
+        if (vol == null) {
             vol = 0.5;
         }
         vol += 0.05;

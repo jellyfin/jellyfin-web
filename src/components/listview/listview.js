@@ -9,7 +9,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         }
 
         var sortBy = (options.sortBy || '').toLowerCase();
-        var code, name;
+        var code;
+        var name;
 
         if (sortBy.indexOf('sortname') === 0) {
 
@@ -85,15 +86,12 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             options.tag = item.AlbumPrimaryImageTag;
             return apiClient.getScaledImageUrl(item.AlbumId, options);
-        }
-
-        else if (item.SeriesId && item.SeriesPrimaryImageTag) {
+        } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
 
             options.tag = item.SeriesPrimaryImageTag;
             return apiClient.getScaledImageUrl(item.SeriesId, options);
 
-        }
-        else if (item.ParentPrimaryImageTag) {
+        } else if (item.ParentPrimaryImageTag) {
 
             options.tag = item.ParentPrimaryImageTag;
             return apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, options);
@@ -209,8 +207,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                     if (i === 0) {
                         html += '<h2 class="listGroupHeader listGroupHeader-first">';
-                    }
-                    else {
+                    } else {
                         html += '<h2 class="listGroupHeader">';
                     }
                     html += itemGroupTitle;
@@ -349,9 +346,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             if (options.showParentTitle) {
                 if (item.Type === 'Episode') {
                     parentTitle = item.SeriesName;
-                }
-
-                else if (item.IsSeries || (item.EpisodeTitle && item.Name)) {
+                } else if (item.IsSeries || (item.EpisodeTitle && item.Name)) {
                     parentTitle = item.Name;
                 }
             }
@@ -375,8 +370,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
 
                 textlines.push(parentTitle || '');
-            }
-            else if (options.showParentTitle) {
+            } else if (options.showParentTitle) {
                 textlines.push(parentTitle || '');
             }
 
@@ -400,8 +394,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                     if (!artistItems || !artistItems.length) {
                         showArtist = true;
-                    }
-                    else if (artistItems.length > 1 || containerAlbumArtistIds.indexOf(artistItems[0].Id) === -1) {
+                    } else if (artistItems.length > 1 || containerAlbumArtistIds.indexOf(artistItems[0].Id) === -1) {
                         showArtist = true;
                     }
                 }

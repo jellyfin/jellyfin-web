@@ -28,11 +28,12 @@ define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'registerElement'
     }
 
     EmbyInputPrototype.createdCallback = function () {
-
         if (!this.id) {
             this.id = 'embyinput' + inputId;
             inputId++;
-        } if (this.classList.contains('emby-input')) {
+        }
+
+        if (this.classList.contains('emby-input')) {
             return;
         }
 
