@@ -1477,6 +1477,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         list.push('SetBrightness');
+        list.push("SetAspectRatio")
 
         return list;
     }
@@ -1704,7 +1705,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.setAspectRatio = function (val) {
-
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            if ("auto" === val) {
+                mediaElement.style.removeProperty("object-fit")
+            } else {
+                mediaElement.style["object-fit"] = val
+            }
+        }
+        this._currentAspectRatio = val
     };
 
     HtmlVideoPlayer.prototype.getAspectRatio = function () {
@@ -1712,7 +1721,16 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.getSupportedAspectRatios = function () {
-        return [];
+        return [{
+            name: "Auto",
+            id: "auto"
+        }, {
+            name: "Cover",
+            id: "cover"
+        }, {
+            name: "Fill",
+            id: "fill"
+        }]
     };
 
     HtmlVideoPlayer.prototype.togglePictureInPicture = function () {
