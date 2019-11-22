@@ -139,7 +139,9 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
             style += "min-width:" + minWidth + "px;";
         }
 
-        var i, length, option;
+        var i;
+        var length;
+        var option;
         var renderIcon = false;
         var icons = [];
         var itemIcon;
@@ -225,8 +227,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
             if (itemIcon) {
 
                 html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon">' + itemIcon + '</i>';
-            }
-            else if (renderIcon && !center) {
+            } else if (renderIcon && !center) {
                 html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon" style="visibility:hidden;">check</i>';
             }
 

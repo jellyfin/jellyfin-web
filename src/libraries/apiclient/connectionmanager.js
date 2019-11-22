@@ -659,6 +659,11 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                     return result;
                 });
             }
+
+            return Promise.resolve({
+                Servers: servers,
+                State: "ServerSelection"
+            });
         };
 
         self.connectToServer = function (server, options) {

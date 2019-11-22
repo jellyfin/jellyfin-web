@@ -48,9 +48,7 @@ define([], function () {
                 }
 
                 timeout = setTimeout(testAutoplay, 500);
-            }
-
-            catch (e) {
+            } catch (e) {
                 reject();
                 return;
             }

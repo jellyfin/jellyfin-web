@@ -5,7 +5,7 @@ define(['events'], function (events) {
     //
     // https://github.com/ravisorg/LinkParser
     //
-    // Locate and extract almost any URL within a string. Handles protocol-less domains, IPv4 and 
+    // Locate and extract almost any URL within a string. Handles protocol-less domains, IPv4 and
     // IPv6, unrecognised TLDs, and more.
     //
     // This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.
@@ -14,26 +14,26 @@ define(['events'], function (events) {
 
         // Original URL regex from the Android android.text.util.Linkify function, found here:
         // http://stackoverflow.com/a/19696443
-        // 
-        // However there were problems with it, most probably related to the fact it was 
+        //
+        // However there were problems with it, most probably related to the fact it was
         // written in 2007, and it's been highly modified.
-        // 
-        // 1) I didn't like the fact that it was tied to specific TLDs, since new ones 
+        //
+        // 1) I didn't like the fact that it was tied to specific TLDs, since new ones
         // are being added all the time it wouldn't be reasonable to expect developer to
         // be continually updating their regular expressions.
-        // 
-        // 2) It didn't allow unicode characters in the domains which are now allowed in 
+        //
+        // 2) It didn't allow unicode characters in the domains which are now allowed in
         // many languages, (including some IDN TLDs). Again these are constantly being
         // added to and it doesn't seem reasonable to hard-code them. Note this ended up
         // not being possible in standard JS due to the way it handles multibyte strings.
         // It is possible using XRegExp, however a big performance hit results. Disabled
         // for now.
-        // 
+        //
         // 3) It didn't allow for IPv6 hostnames
         // IPv6 regex from http://stackoverflow.com/a/17871737
         //
         // 4) It was very poorly commented
-        // 
+        //
         // 5) It wasn't as smart as it could have been about what should be part of a
         // URL and what should be part of human language.
 
@@ -102,8 +102,8 @@ define(['events'], function (events) {
             + "|(?:\\%[a-f0-9]{2})"
             // some characters are much more likely to be used AFTER a url and
             // were not intended to be included in the url itself. Mostly end
-            // of sentence type things. It's also likely that the URL would 
-            // still work if any of these characters were missing from the end 
+            // of sentence type things. It's also likely that the URL would
+            // still work if any of these characters were missing from the end
             // because we parsed it incorrectly. For these characters to be accepted
             // they must be followed by another character that we're reasonably
             // sure is part of the url

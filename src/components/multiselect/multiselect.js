@@ -244,9 +244,7 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
                 icon: "refresh"
             });
 
-
-
-            require(["actionsheet"], function (actionsheet) {
+            require(['actionsheet'], function (actionsheet) {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: e.target,

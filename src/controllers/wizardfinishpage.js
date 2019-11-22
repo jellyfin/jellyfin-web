@@ -6,7 +6,7 @@ define(["loading"], function (loading) {
         ApiClient.ajax({
             url: ApiClient.getUrl("Startup/Complete"),
             type: "POST"
-        }).then(function() {
+        }).then(function () {
             loading.hide();
             window.location.href = "index.html";
         });

@@ -1,53 +1,84 @@
-define(["jQuery", "loading", "libraryMenu", "fnchecked"], function($, loading, libraryMenu) {
+define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, libraryMenu) {
     "use strict";
 
     function loadDeleteFolders(page, user, mediaFolders) {
         ApiClient.getJSON(ApiClient.getUrl("Channels", {
-            SupportsMediaDeletion: !0
-        })).then(function(channelsResult) {
-            var i, length, folder, isChecked, checkedAttribute, html = "";
-            for (i = 0, length = mediaFolders.length; i < length; i++) folder = mediaFolders[i], isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id), checkedAttribute = isChecked ? ' checked="checked"' : "", html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + "><span>" + folder.Name + "</span></label>";
-            for (i = 0, length = channelsResult.Items.length; i < length; i++) folder = channelsResult.Items[i], isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id), checkedAttribute = isChecked ? ' checked="checked"' : "", html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + "><span>" + folder.Name + "</span></label>";
-            $(".deleteAccess", page).html(html).trigger("create"), $("#chkEnableDeleteAllFolders", page).checked(user.Policy.EnableContentDeletion).trigger("change")
-        })
+            SupportsMediaDeletion: true
+        })).then(function (channelsResult) {
+            var i;
+            var length;
+            var folder;
+            var isChecked;
+            var checkedAttribute;
+            var html = "";
+
+            for (i = 0, length = mediaFolders.length; i < length; i++) {
+                folder = mediaFolders[i];
+                isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
+                checkedAttribute = isChecked ? ' checked="checked"' : "";
+                html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + "><span>" + folder.Name + "</span></label>";
+            }
+
+            for (i = 0, length = channelsResult.Items.length; i < length; i++) {
+                folder = channelsResult.Items[i];
+                isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
+                checkedAttribute = isChecked ? ' checked="checked"' : "";
+                html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + "><span>" + folder.Name + "</span></label>";
+            }
+
+            $(".deleteAccess", page).html(html).trigger("create");
+            $("#chkEnableDeleteAllFolders", page).checked(user.Policy.EnableContentDeletion).trigger("change");
+        });
     }
 
     function loadAuthProviders(page, user, providers) {
-        providers.length > 1 ? page.querySelector(".fldSelectLoginProvider").classList.remove("hide") : page.querySelector(".fldSelectLoginProvider").classList.add("hide");
+        if (providers.length > 1) {
+            page.querySelector(".fldSelectLoginProvider").classList.remove("hide");
+        } else {
+            page.querySelector(".fldSelectLoginProvider").classList.add("hide");
+        }
+
         var currentProviderId = user.Policy.AuthenticationProviderId;
-        page.querySelector(".selectLoginProvider").innerHTML = providers.map(function(provider) {
+        page.querySelector(".selectLoginProvider").innerHTML = providers.map(function (provider) {
             var selected = provider.Id === currentProviderId || providers.length < 2 ? " selected" : "";
-            return '<option value="' + provider.Id + '"' + selected + ">" + provider.Name + "</option>"
-        })
+            return '<option value="' + provider.Id + '"' + selected + ">" + provider.Name + "</option>";
+        });
     }
 
     function loadPasswordResetProviders(page, user, providers) {
-        providers.length > 1 ? page.querySelector(".fldSelectPasswordResetProvider").classList.remove("hide") : page.querySelector(".fldSelectPasswordResetProvider").classList.add("hide");
+        if (providers.length > 1) {
+            page.querySelector(".fldSelectPasswordResetProvider").classList.remove("hide");
+        } else {
+            page.querySelector(".fldSelectPasswordResetProvider").classList.add("hide");
+        }
+
         var currentProviderId = user.Policy.PasswordResetProviderId;
-        page.querySelector(".selectPasswordResetProvider").innerHTML = providers.map(function(provider) {
-            var selected = (provider.Id === currentProviderId || providers.length < 2) ? " selected" : "";
-            return '<option value="' + provider.Id + '"' + selected + ">" + provider.Name + "</option>"
-        })
+        page.querySelector(".selectPasswordResetProvider").innerHTML = providers.map(function (provider) {
+            var selected = provider.Id === currentProviderId || providers.length < 2 ? " selected" : "";
+            return '<option value="' + provider.Id + '"' + selected + ">" + provider.Name + "</option>";
+        });
     }
 
     function loadUser(page, user) {
         currentUser = user;
-        ApiClient.getJSON(ApiClient.getUrl("Auth/Providers")).then(function(providers) {
-            loadAuthProviders(page, user, providers)
+        ApiClient.getJSON(ApiClient.getUrl("Auth/Providers")).then(function (providers) {
+            loadAuthProviders(page, user, providers);
         });
-        ApiClient.getJSON(ApiClient.getUrl("Auth/PasswordResetProviders")).then(function(providers) {
-            loadPasswordResetProviders(page, user, providers)
+        ApiClient.getJSON(ApiClient.getUrl("Auth/PasswordResetProviders")).then(function (providers) {
+            loadPasswordResetProviders(page, user, providers);
         });
         ApiClient.getJSON(ApiClient.getUrl("Library/MediaFolders", {
-             IsHidden: false
-        })).then(function(folders) {
-            loadDeleteFolders(page, user, folders.Items)
+            IsHidden: false
+        })).then(function (folders) {
+            loadDeleteFolders(page, user, folders.Items);
         });
+
         if (user.Policy.IsDisabled) {
             $(".disabledUserBanner", page).show();
         } else {
             $(".disabledUserBanner", page).hide();
         }
+
         $("#txtUserName", page).prop("disabled", "").removeAttr("disabled");
         $("#fldConnectInfo", page).show();
         $(".lnkEditUserPreferences", page).attr("href", "mypreferencesmenu.html?userId=" + user.Id);
@@ -78,7 +109,8 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function($, loading, l
     function onSaveComplete(page, user) {
         Dashboard.navigate("userprofiles.html");
         loading.hide();
-        require(["toast"], function(toast) {
+
+        require(["toast"], function (toast) {
             toast(Globalize.translate("SettingsSaved"));
         });
     }
@@ -106,45 +138,59 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function($, loading, l
         user.Policy.AuthenticationProviderId = page.querySelector(".selectLoginProvider").value;
         user.Policy.PasswordResetProviderId = page.querySelector(".selectPasswordResetProvider").value;
         user.Policy.EnableContentDeletion = $("#chkEnableDeleteAllFolders", page).checked();
-        user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : $(".chkFolder", page).get().filter(function(c) {
-                return c.checked
-        }).map(function(c) {
-            return c.getAttribute("data-id")
+        user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : $(".chkFolder", page).get().filter(function (c) {
+            return c.checked;
+        }).map(function (c) {
+            return c.getAttribute("data-id");
         });
-        ApiClient.updateUser(user).then(function() {
-            ApiClient.updateUserPolicy(user.Id, user.Policy).then(function() {
-                onSaveComplete(page, user)
-            })
-        })
+        ApiClient.updateUser(user).then(function () {
+            ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
+                onSaveComplete(page, user);
+            });
+        });
     }
 
     function onSubmit() {
         var page = $(this).parents(".page")[0];
-        return loading.show(), getUser().then(function(result) {
-            saveUser(result, page)
-        }), !1
+        loading.show();
+        getUser().then(function (result) {
+            saveUser(result, page);
+        });
+        return false;
     }
 
     function getUser() {
         var userId = getParameterByName("userId");
-        return ApiClient.getUser(userId)
+        return ApiClient.getUser(userId);
     }
 
     function loadData(page) {
-        loading.show(), getUser().then(function(user) {
-            loadUser(page, user)
-        })
+        loading.show();
+        getUser().then(function (user) {
+            loadUser(page, user);
+        });
     }
+
     var currentUser;
-    $(document).on("pageinit", "#editUserPage", function() {
-        $(".editUserProfileForm").off("submit", onSubmit).on("submit", onSubmit), this.querySelector(".sharingHelp").innerHTML = Globalize.translate("OptionAllowLinkSharingHelp", 30);
+    $(document).on("pageinit", "#editUserPage", function () {
+        $(".editUserProfileForm").off("submit", onSubmit).on("submit", onSubmit);
+        this.querySelector(".sharingHelp").innerHTML = Globalize.translate("OptionAllowLinkSharingHelp", 30);
         var page = this;
-        $("#chkEnableDeleteAllFolders", this).on("change", function() {
-            this.checked ? $(".deleteAccess", page).hide() : $(".deleteAccess", page).show()
-        }), ApiClient.getServerConfiguration().then(function(config) {
-            config.EnableRemoteAccess ? page.querySelector(".fldRemoteAccess").classList.remove("hide") : page.querySelector(".fldRemoteAccess").classList.add("hide")
-        })
-    }).on("pagebeforeshow", "#editUserPage", function() {
-        loadData(this)
-    })
+        $("#chkEnableDeleteAllFolders", this).on("change", function () {
+            if (this.checked) {
+                $(".deleteAccess", page).hide();
+            } else {
+                $(".deleteAccess", page).show();
+            }
+        });
+        ApiClient.getServerConfiguration().then(function (config) {
+            if (config.EnableRemoteAccess) {
+                page.querySelector(".fldRemoteAccess").classList.remove("hide");
+            } else {
+                page.querySelector(".fldRemoteAccess").classList.add("hide");
+            }
+        });
+    }).on("pagebeforeshow", "#editUserPage", function () {
+        loadData(this);
+    });
 });

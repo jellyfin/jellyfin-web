@@ -39,7 +39,8 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
 
     function save(context) {
 
-        var i, length;
+        var i;
+        var length;
 
         var chkIndicators = context.querySelectorAll('.chkIndicator');
         for (i = 0, length = chkIndicators.length; i < length; i++) {
@@ -62,7 +63,8 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
 
     function load(context) {
 
-        var i, length;
+        var i;
+        var length;
 
         var chkIndicators = context.querySelectorAll('.chkIndicator');
         for (i = 0, length = chkIndicators.length; i < length; i++) {

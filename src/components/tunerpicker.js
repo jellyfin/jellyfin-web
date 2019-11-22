@@ -1,5 +1,7 @@
-define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize", "loading", "material-icons", "formDialogStyle", "emby-button", "emby-itemscontainer", "cardStyle"], function (dialogHelper, dom, layoutManager, connectionManager, globalize, loading) {
+define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize", "loading", "browser", "material-icons", "formDialogStyle", "emby-button", "emby-itemscontainer", "cardStyle"], function (dialogHelper, dom, layoutManager, connectionManager, globalize, loading, browser) {
     "use strict";
+
+    var enableFocusTransform = !browser.slow && !browser.edge;
 
     function getEditorHtml() {
         var html = "";
@@ -24,12 +26,16 @@ define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize"
         cssClass += " backdropCard backdropCard-scalable";
         padderClass = "cardPadder-backdrop";
 
+        // TODO move card creation code to Card component
+
         if (layoutManager.tv) {
-            cssClass += " card-focusscale";
-            cardBoxCssClass += " cardBox-focustransform";
+            cssClass += " show-focus";
+
+            if (enableFocusTransform) {
+                cssClass += " show-animation";
+            }
         }
 
-        cardBoxCssClass += " card-focuscontent";
         html += '<button type="button" class="' + cssClass + '" data-id="' + device.DeviceId + '" style="min-width:33.3333%;">';
         html += '<div class="' + cardBoxCssClass + '">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';

@@ -1,6 +1,8 @@
 define(["dialogHelper", "loading", "connectionManager", "require", "globalize", "scrollHelper", "layoutManager", "focusManager", "browser", "emby-input", "emby-checkbox", "paper-icon-button-light", "css!./../formdialog", "material-icons", "cardStyle"], function (dialogHelper, loading, connectionManager, require, globalize, scrollHelper, layoutManager, focusManager, browser) {
     "use strict";
 
+    var enableFocusTransform = !browser.slow && !browser.edge;
+
     var currentItem;
     var currentItemType;
     var currentServerId;
@@ -19,7 +21,8 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
             ProviderIds: {}
         };
 
-        var i, length;
+        var i;
+        var length;
         var identifyField = page.querySelectorAll(".identifyField");
         var value;
         for (i = 0, length = identifyField.length; i < length; i++) {
@@ -62,8 +65,7 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
 
         if (currentItem && currentItem.Id) {
             lookupInfo.ItemId = currentItem.Id;
-        }
-        else {
+        } else {
             lookupInfo.IncludeDisabledProviders = true;
         }
 
@@ -95,7 +97,8 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
         page.querySelector(".dialogContentInner").classList.remove("dialog-content-centered");
 
         var html = "";
-        var i, length;
+        var i;
+        var length;
         for (i = 0, length = results.length; i < length; i++) {
 
             var result = results[i];
@@ -172,6 +175,8 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
 
     function getSearchResultHtml(result, index) {
 
+        // TODO move card creation code to Card component
+
         var html = "";
         var cssClass = "card scalableCard";
         var cardBoxCssClass = "cardBox";
@@ -180,25 +185,23 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
         if (currentItemType === "Episode") {
             cssClass += " backdropCard backdropCard-scalable";
             padderClass = "cardPadder-backdrop";
-        }
-        else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
+        } else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
             cssClass += " squareCard squareCard-scalable";
             padderClass = "cardPadder-square";
-        }
-        else {
+        } else {
             cssClass += " portraitCard portraitCard-scalable";
             padderClass = "cardPadder-portrait";
         }
 
-        if (layoutManager.tv && !browser.slow) {
-            cardBoxCssClass += " cardBox-focustransform";
+        if (layoutManager.tv) {
+            cssClass += " show-focus";
+
+            if (enableFocusTransform) {
+                cssClass += " show-animation";
+            }
         }
 
         cardBoxCssClass += " cardBox-bottompadded";
-
-        if (layoutManager.tv) {
-            cardBoxCssClass += " card-focuscontent cardBox-withfocuscontent";
-        }
 
         html += '<button type="button" class="' + cssClass + '" data-index="' + index + '">';
         html += '<div class="' + cardBoxCssClass + '">';
@@ -447,8 +450,6 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.on(dlg.querySelector(".formDialogContent"), false);
             }
-
-
 
             dialogHelper.open(dlg);
 

@@ -78,11 +78,9 @@ define(['dom', 'events'], function (dom, events) {
 
                 if (deltaX > swipeXThreshold && Math.abs(deltaY) < swipeXMaxY) {
                     events.trigger(self, 'swiperight', [touchTarget]);
-                }
-                else if (deltaX < (0 - swipeXThreshold) && Math.abs(deltaY) < swipeXMaxY) {
+                } else if (deltaX < (0 - swipeXThreshold) && Math.abs(deltaY) < swipeXMaxY) {
                     events.trigger(self, 'swipeleft', [touchTarget]);
-                }
-                else if ((deltaY < (0 - swipeYThreshold) || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
+                } else if ((deltaY < (0 - swipeYThreshold) || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
 
                     thresholdYMet = true;
 
@@ -94,8 +92,7 @@ define(['dom', 'events'], function (dom, events) {
                         currentDeltaX: currentDeltaX,
                         currentDeltaY: currentDeltaY
                     }]);
-                }
-                else if ((deltaY > swipeYThreshold || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
+                } else if ((deltaY > swipeYThreshold || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
                     thresholdYMet = true;
 
                     events.trigger(self, 'swipedown', [touchTarget, {

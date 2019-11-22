@@ -43,8 +43,7 @@ define([], function () {
         } else if (nowPlayingItem.Artists && nowPlayingItem.Artists.length) {
 
             bottomText = nowPlayingItem.Artists.join(', ');
-        }
-        else if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
+        } else if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
             bottomText = topText;
             topText = nowPlayingItem.SeriesName || nowPlayingItem.Album;
 
@@ -60,8 +59,7 @@ define([], function () {
             } else {
                 topItem = null;
             }
-        }
-        else if (nowPlayingItem.ProductionYear && includeNonNameInfo !== false) {
+        } else if (nowPlayingItem.ProductionYear && includeNonNameInfo !== false) {
             bottomText = nowPlayingItem.ProductionYear;
         }
 

@@ -122,17 +122,17 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
 
     function getFetchDataFn(section) {
         return function() {
-            var apiClient = this.apiClient,
-                options = {
-                    SortBy: (section.types, "SeriesName,SortName"),
-                    SortOrder: "Ascending",
-                    Filters: "IsFavorite",
-                    Recursive: !0,
-                    Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
-                    CollapseBoxSetItems: !1,
-                    ExcludeLocationTypes: "Virtual",
-                    EnableTotalRecordCount: !1
-                };
+            var apiClient = this.apiClient;
+            var options = {
+                SortBy: (section.types, "SeriesName,SortName"),
+                SortOrder: "Ascending",
+                Filters: "IsFavorite",
+                Recursive: !0,
+                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                CollapseBoxSetItems: !1,
+                ExcludeLocationTypes: "Virtual",
+                EnableTotalRecordCount: !1
+            };
             options.Limit = 20;
             var userId = apiClient.getCurrentUserId();
             return "MusicArtist" === section.types ? apiClient.getArtists(userId, options) : (options.IncludeItemTypes = section.types, apiClient.getItems(userId, options))
@@ -149,17 +149,17 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
 
     function getItemsHtmlFn(section) {
         return function(items) {
-            var supportsImageAnalysis = appHost.supports("imageanalysis"),
-                cardLayout = (appHost.preferVisualCards || supportsImageAnalysis) && section.autoCardLayout && section.showTitle;
+            var supportsImageAnalysis = appHost.supports("imageanalysis");
+            var cardLayout = (appHost.preferVisualCards || supportsImageAnalysis) && section.autoCardLayout && section.showTitle;
             cardLayout = !1;
-            var serverId = this.apiClient.serverId(),
-                leadingButtons = layoutManager.tv ? [{
-                    name: globalize.translate("All"),
-                    id: "more",
-                    icon: "&#xE87D;",
-                    routeUrl: getRouteUrl(section, serverId)
-                }] : null,
-                lines = 0;
+            var serverId = this.apiClient.serverId();
+            var leadingButtons = layoutManager.tv ? [{
+                name: globalize.translate("All"),
+                id: "more",
+                icon: "&#xE87D;",
+                routeUrl: getRouteUrl(section, serverId)
+            }] : null;
+            var lines = 0;
             return section.showTitle && lines++, section.showYear && lines++, section.showParentTitle && lines++, cardBuilder.getCardsHtml({
                 items: items,
                 preferThumb: section.preferThumb,
@@ -187,11 +187,13 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
     }
 
     function createSections(instance, elem, apiClient) {
-        var i, length, sections = getSections(),
-            html = "";
+        var i;
+        var length;
+        var sections = getSections();
+        var html = "";
         for (i = 0, length = sections.length; i < length; i++) {
-            var section = sections[i],
-                sectionClass = "verticalSection";
+            var section = sections[i];
+            var sectionClass = "verticalSection";
             section.showTitle || (sectionClass += " verticalSection-extrabottompadding"), html += '<div class="' + sectionClass + ' hide">', html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">', layoutManager.tv ? html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(section.name) + "</h2>" : (html += '<a is="emby-linkbutton" href="' + getRouteUrl(section, apiClient.serverId()) + '" class="more button-flat button-flat-mini sectionTitleTextButton">', html += '<h2 class="sectionTitle sectionTitle-cards">', html += globalize.translate(section.name), html += "</h2>", html += '<i class="md-icon">&#xE5CC;</i>', html += "</a>"), html += "</div>", html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="markfavorite"></div></div>', html += "</div>"
         }
         elem.innerHTML = html;

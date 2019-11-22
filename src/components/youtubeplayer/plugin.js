@@ -135,7 +135,6 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
 
             require(['queryString'], function (queryString) {
 
-
                 instance._currentSrc = options.url;
                 var params = queryString.parse(options.url.split('?')[1]);
                 // 3. This function creates an <iframe> (and YouTube player)
