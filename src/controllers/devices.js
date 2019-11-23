@@ -35,7 +35,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "hu
             menuItems.push({
                 name: globalize.translate("Edit"),
                 id: "open",
-                icon: "mode-edit"
+                icon: "mode_edit"
             });
         }
 
