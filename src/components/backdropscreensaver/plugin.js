@@ -1,12 +1,12 @@
-define([], function () {
+define(["connectionManager"], function (connectionManager) {
 
     return function () {
 
         var self = this;
 
-        self.name = 'Backdrop ScreenSaver';
-        self.type = 'screensaver';
-        self.id = 'backdropscreensaver';
+        self.name = "Backdrop ScreenSaver";
+        self.type = "screensaver";
+        self.id = "backdropscreensaver";
         self.supportsAnonymous = false;
 
         var currentSlideshow;
@@ -16,7 +16,7 @@ define([], function () {
             var query = {
                 ImageTypes: "Backdrop",
                 EnableImageTypes: "Backdrop",
-                IncludeItemTypes: "Movie,Series,MusicArtist,Game",
+                IncludeItemTypes: "Movie,Series,MusicArtist",
                 SortBy: "Random",
                 Recursive: true,
                 Fields: "Taglines",
@@ -25,11 +25,12 @@ define([], function () {
                 Limit: 200
             };
 
-            Emby.Models.items(query).then(function (result) {
+            var apiClient = connectionManager.currentApiClient();
+            apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
 
                 if (result.Items.length) {
 
-                    require(['slideshow'], function (slideshow) {
+                    require(["slideshow"], function (slideshow) {
 
                         var newSlideShow = new slideshow({
                             showTitle: true,
