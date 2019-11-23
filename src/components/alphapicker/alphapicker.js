@@ -69,7 +69,6 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
         html += '<div class="' + rowClassName + '">';
         if (options.mode === 'keyboard') {
-            // space_bar icon
             html += '<button data-value=" " is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><i class="md-icon alphaPickerButtonIcon">space_bar</i></button>';
         } else {
             letters = ['#'];
@@ -80,7 +79,6 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
         html += mapLetters(letters, vertical).join('');
 
         if (options.mode === 'keyboard') {
-            // backspace icon
             html += '<button data-value="backspace" is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><i class="md-icon alphaPickerButtonIcon">backspace</i></button>';
             html += '</div>';
 
