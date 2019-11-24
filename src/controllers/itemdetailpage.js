@@ -256,36 +256,66 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderDetailPageBackdrop(page, item, apiClient) {
-        var imgUrl, screenWidth = screen.availWidth,
-            hasbackdrop = !1,
-            itemBackdropElement = page.querySelector("#itemBackdrop"),
-            usePrimaryImage = ("Video" === item.MediaType && "Movie" !== item.Type && "Trailer" !== item.Type) || (item.MediaType && "Video" !== item.MediaType) || ("MusicAlbum" === item.Type) || ("MusicArtist" === item.Type);
-        return "Program" === item.Type && item.ImageTags && item.ImageTags.Thumb ? (imgUrl = apiClient.getScaledImageUrl(item.Id, {
-            type: "Thumb",
-            index: 0,
-            maxWidth: screenWidth,
-            tag: item.ImageTags.Thumb
-        }), itemBackdropElement.classList.remove("noBackdrop"), imageLoader.lazyImage(itemBackdropElement, imgUrl, !1), hasbackdrop = !0) : usePrimaryImage && item.ImageTags && item.ImageTags.Primary ? (imgUrl = apiClient.getScaledImageUrl(item.Id, {
-            type: "Primary",
-            index: 0,
-            maxWidth: screenWidth,
-            tag: item.ImageTags.Primary
-        }), itemBackdropElement.classList.remove("noBackdrop"), imageLoader.lazyImage(itemBackdropElement, imgUrl, !1), hasbackdrop = !0) : item.BackdropImageTags && item.BackdropImageTags.length ? (imgUrl = apiClient.getScaledImageUrl(item.Id, {
-            type: "Backdrop",
-            index: 0,
-            maxWidth: screenWidth,
-            tag: item.BackdropImageTags[0]
-        }), itemBackdropElement.classList.remove("noBackdrop"), imageLoader.lazyImage(itemBackdropElement, imgUrl, !1), hasbackdrop = !0) : item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length ? (imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-            type: "Backdrop",
-            index: 0,
-            tag: item.ParentBackdropImageTags[0],
-            maxWidth: screenWidth
-        }), itemBackdropElement.classList.remove("noBackdrop"), imageLoader.lazyImage(itemBackdropElement, imgUrl, !1), hasbackdrop = !0) : item.ImageTags && item.ImageTags.Thumb ? (imgUrl = apiClient.getScaledImageUrl(item.Id, {
-            type: "Thumb",
-            index: 0,
-            maxWidth: screenWidth,
-            tag: item.ImageTags.Thumb
-        }), itemBackdropElement.classList.remove("noBackdrop"), imageLoader.lazyImage(itemBackdropElement, imgUrl, !1), hasbackdrop = !0) : (itemBackdropElement.classList.add("noBackdrop"), itemBackdropElement.style.backgroundImage = ""), hasbackdrop
+        var imgUrl;
+        var screenWidth = screen.availWidth;
+        var hasbackdrop = false;
+        var itemBackdropElement = page.querySelector("#itemBackdrop");
+        var usePrimaryImage = item.MediaType === "Video" && item.Type !== "Movie" && item.Type !== "Trailer" ||
+            item.MediaType && item.MediaType !== "Video" ||
+            item.Type === "MusicAlbum" ||
+            item.Type === "MusicArtist";
+
+        if ("Program" === item.Type && item.ImageTags && item.ImageTags.Thumb) {
+            imgUrl = apiClient.getScaledImageUrl(item.Id, {
+                type: "Thumb",
+                index: 0,
+                tag: item.ImageTags.Thumb
+            });
+            itemBackdropElement.classList.remove("noBackdrop");
+            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            hasbackdrop = true;
+        } else if (usePrimaryImage && item.ImageTags && item.ImageTags.Primary) {
+            imgUrl = apiClient.getScaledImageUrl(item.Id, {
+                type: "Primary",
+                index: 0,
+                tag: item.ImageTags.Primary
+            });
+            itemBackdropElement.classList.remove("noBackdrop");
+            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            hasbackdrop = true;
+        } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
+            imgUrl = apiClient.getScaledImageUrl(item.Id, {
+                type: "Backdrop",
+                index: 0,
+                tag: item.BackdropImageTags[0]
+            });
+            itemBackdropElement.classList.remove("noBackdrop");
+            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            hasbackdrop = true;
+        } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
+            imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
+                type: "Backdrop",
+                index: 0,
+                tag: item.ParentBackdropImageTags[0]
+            });
+            itemBackdropElement.classList.remove("noBackdrop");
+            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            hasbackdrop = true;
+        } else if (item.ImageTags && item.ImageTags.Thumb) {
+            imgUrl = apiClient.getScaledImageUrl(item.Id, {
+                type: "Thumb",
+                index: 0,
+                tag: item.ImageTags.Thumb
+            });
+            itemBackdropElement.classList.remove("noBackdrop");
+            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            hasbackdrop = true;
+        } else {
+            itemBackdropElement.classList.add("noBackdrop");
+            itemBackdropElement.style.backgroundImage = "";
+        }
+
+        return hasbackdrop;
     }
 
     function reloadFromItem(instance, page, params, item, user) {
