@@ -36,7 +36,7 @@ html {
 }
 
 .backgroundContainer.withBackdrop {
-    background-color: rgba(0, 0, 0, .86)
+    background-color: rgba(0, 0, 0, 0.60)
 }
 
 .paper-icon-button-light:hover:not(:disabled) {

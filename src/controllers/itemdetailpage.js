@@ -521,11 +521,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         renderDetails(page, item, apiClient, context);
         renderTrackSelections(page, instance, item);
 
-        if (dom.getWindowSize().innerWidth >= 1000) {
-            backdrop.setBackdrops([item]);
-        } else {
-            backdrop.clear();
-        }
+        backdrop.clear();
 
         renderDetailPageBackdrop(page, item, apiClient);
         var canPlay = reloadPlayButtons(page, item);
