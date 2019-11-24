@@ -88,18 +88,14 @@ define(['browser'], function (browser) {
             if (browser.edgeUwp) {
                 return true;
             }
-        }
-
-        else if (format === 'wma') {
+        } else if (format === 'wma') {
             if (browser.tizen || browser.orsay) {
                 return true;
             }
             if (browser.edgeUwp) {
                 return true;
             }
-        }
-
-        else if (format === 'opus') {
+        } else if (format === 'opus') {
             typeString = 'audio/ogg; codecs="opus"';
 
             if (document.createElement('audio').canPlayType(typeString).replace(/no/, '')) {
@@ -107,9 +103,7 @@ define(['browser'], function (browser) {
             }
 
             return false;
-        }
-
-        else if (format === 'mp2') {
+        } else if (format === 'mp2') {
 
             // For now
             return false;
@@ -575,9 +569,7 @@ define(['browser'], function (browser) {
                     Type: 'Audio',
                     AudioCodec: audioFormat
                 });
-            }
-
-            else if (audioFormat === 'mp3') {
+            } else if (audioFormat === 'mp3') {
 
                 profile.DirectPlayProfiles.push({
                     Container: audioFormat,

@@ -29,7 +29,7 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
         }
 
         userSettings.set(settingsKey + '-imageType', context.querySelector('.selectImageType').value);
-   }
+    }
 
     function centerFocus(elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {

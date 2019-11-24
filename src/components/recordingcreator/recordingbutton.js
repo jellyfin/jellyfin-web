@@ -46,16 +46,13 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
 
         if (item.Type === 'SeriesTimer') {
             return 'fiber_smart_record';
-        }
-        else if (item.TimerId || item.SeriesTimerId) {
+        } else if (item.TimerId || item.SeriesTimerId) {
 
             status = item.Status || 'Cancelled';
-        }
-        else if (item.Type === 'Timer') {
+        } else if (item.Type === 'Timer') {
 
             status = item.Status;
-        }
-        else {
+        } else {
             return 'fiber_manual_record';
         }
 

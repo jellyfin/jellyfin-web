@@ -52,8 +52,6 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
             //}
         }
 
-
-
         if (item.IsFolder || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
             if (item.CollectionType !== "livetv") {
                 if (options.shuffle !== false) {

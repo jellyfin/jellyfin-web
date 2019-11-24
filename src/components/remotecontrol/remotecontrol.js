@@ -179,15 +179,15 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             if (player) {
                 switch (playbackManager.getRepeatMode(player)) {
                     case "RepeatNone":
-                    playbackManager.setRepeatMode("RepeatAll", player);
-                    break;
+                        playbackManager.setRepeatMode("RepeatAll", player);
+                        break;
 
                     case "RepeatAll":
-                    playbackManager.setRepeatMode("RepeatOne", player);
-                    break;
+                        playbackManager.setRepeatMode("RepeatOne", player);
+                        break;
 
                     case "RepeatOne":
-                    playbackManager.setRepeatMode("RepeatNone", player);
+                        playbackManager.setRepeatMode("RepeatNone", player);
                 }
             }
         }

@@ -22,44 +22,44 @@
 require(['apphost'], function (appHost) {
     "use strict";
 
-    var _GAMEPAD_A_BUTTON_INDEX = 0,
-    _GAMEPAD_B_BUTTON_INDEX = 1,
-    _GAMEPAD_DPAD_UP_BUTTON_INDEX = 12,
-    _GAMEPAD_DPAD_DOWN_BUTTON_INDEX = 13,
-    _GAMEPAD_DPAD_LEFT_BUTTON_INDEX = 14,
-    _GAMEPAD_DPAD_RIGHT_BUTTON_INDEX = 15,
-    _GAMEPAD_A_KEY = "GamepadA",
-    _GAMEPAD_B_KEY = "GamepadB",
-    _GAMEPAD_DPAD_UP_KEY = "GamepadDPadUp",
-    _GAMEPAD_DPAD_DOWN_KEY = "GamepadDPadDown",
-    _GAMEPAD_DPAD_LEFT_KEY = "GamepadDPadLeft",
-    _GAMEPAD_DPAD_RIGHT_KEY = "GamepadDPadRight",
-    _GAMEPAD_LEFT_THUMBSTICK_UP_KEY = "GamepadLeftThumbStickUp",
-    _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY = "GamepadLeftThumbStickDown",
-    _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY = "GamepadLeftThumbStickLeft",
-    _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY = "GamepadLeftThumbStickRight",
-    _GAMEPAD_A_KEYCODE = 0,
-    _GAMEPAD_B_KEYCODE = 27,
-    _GAMEPAD_DPAD_UP_KEYCODE = 38,
-    _GAMEPAD_DPAD_DOWN_KEYCODE = 40,
-    _GAMEPAD_DPAD_LEFT_KEYCODE = 37,
-    _GAMEPAD_DPAD_RIGHT_KEYCODE = 39,
-    _GAMEPAD_LEFT_THUMBSTICK_UP_KEYCODE = 38,
-    _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEYCODE = 40,
-    _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEYCODE = 37,
-    _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEYCODE = 39,
-    _THUMB_STICK_THRESHOLD = 0.75;
+    var _GAMEPAD_A_BUTTON_INDEX = 0;
+    var _GAMEPAD_B_BUTTON_INDEX = 1;
+    var _GAMEPAD_DPAD_UP_BUTTON_INDEX = 12;
+    var _GAMEPAD_DPAD_DOWN_BUTTON_INDEX = 13;
+    var _GAMEPAD_DPAD_LEFT_BUTTON_INDEX = 14;
+    var _GAMEPAD_DPAD_RIGHT_BUTTON_INDEX = 15;
+    var _GAMEPAD_A_KEY = "GamepadA";
+    var _GAMEPAD_B_KEY = "GamepadB";
+    var _GAMEPAD_DPAD_UP_KEY = "GamepadDPadUp";
+    var _GAMEPAD_DPAD_DOWN_KEY = "GamepadDPadDown";
+    var _GAMEPAD_DPAD_LEFT_KEY = "GamepadDPadLeft";
+    var _GAMEPAD_DPAD_RIGHT_KEY = "GamepadDPadRight";
+    var _GAMEPAD_LEFT_THUMBSTICK_UP_KEY = "GamepadLeftThumbStickUp";
+    var _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY = "GamepadLeftThumbStickDown";
+    var _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY = "GamepadLeftThumbStickLeft";
+    var _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY = "GamepadLeftThumbStickRight";
+    var _GAMEPAD_A_KEYCODE = 0;
+    var _GAMEPAD_B_KEYCODE = 27;
+    var _GAMEPAD_DPAD_UP_KEYCODE = 38;
+    var _GAMEPAD_DPAD_DOWN_KEYCODE = 40;
+    var _GAMEPAD_DPAD_LEFT_KEYCODE = 37;
+    var _GAMEPAD_DPAD_RIGHT_KEYCODE = 39;
+    var _GAMEPAD_LEFT_THUMBSTICK_UP_KEYCODE = 38;
+    var _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEYCODE = 40;
+    var _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEYCODE = 37;
+    var _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEYCODE = 39;
+    var _THUMB_STICK_THRESHOLD = 0.75;
 
-    var _leftThumbstickUpPressed = false,
-    _leftThumbstickDownPressed = false,
-    _leftThumbstickLeftPressed = false,
-    _leftThumbstickRightPressed = false,
-    _dPadUpPressed = false,
-    _dPadDownPressed = false,
-    _dPadLeftPressed = false,
-    _dPadRightPressed = false,
-    _gamepadAPressed = false,
-    _gamepadBPressed = false;
+    var _leftThumbstickUpPressed = false;
+    var _leftThumbstickDownPressed = false;
+    var _leftThumbstickLeftPressed = false;
+    var _leftThumbstickRightPressed = false;
+    var _dPadUpPressed = false;
+    var _dPadDownPressed = false;
+    var _dPadLeftPressed = false;
+    var _dPadRightPressed = false;
+    var _gamepadAPressed = false;
+    var _gamepadBPressed = false;
 
     // The set of buttons on the gamepad we listen for.
     var ProcessedButtons = [
@@ -260,7 +260,9 @@ require(['apphost'], function (appHost) {
             gamepads = navigator.webkitGetGamepads();
         }
         gamepads = gamepads || [];
-        var i, j, len;
+        var i;
+        var j;
+        var len;
         for (i = 0, len = gamepads.length; i < len; i++) {
             var gamepad = gamepads[i];
             if (gamepad) {

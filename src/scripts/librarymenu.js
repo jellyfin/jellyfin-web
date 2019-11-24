@@ -25,11 +25,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         if (user && user.name) {
             if (user.imageUrl) {
                 var url = user.imageUrl;
-
-                if (user.supportsImageParams) {
-                    url += "&height=" + Math.round(26 * Math.max(window.devicePixelRatio || 1, 2));
-                }
-
                 updateHeaderUserButton(url);
                 hasImage = true;
             }
@@ -188,7 +183,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="md-icon navMenuOptionIcon">exit_to_app</i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
             html += "</div>";
         }
-
 
         // add buttons to navigation drawer
         navDrawerScrollContainer.innerHTML = html;

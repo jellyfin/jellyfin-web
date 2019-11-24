@@ -134,7 +134,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         });
 
-        var i, length;
+        var i;
+        var length;
         playPauseButtons = elem.querySelectorAll('.playPauseButton');
         for (i = 0, length = playPauseButtons.length; i < length; i++) {
             playPauseButtons[i].addEventListener('click', onPlayPauseClick);
@@ -194,7 +195,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         volumeSlider.addEventListener('change', setVolume);
         volumeSlider.addEventListener('mousemove', setVolume);
         volumeSlider.addEventListener('touchmove', setVolume);
-
 
         positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
         positionSlider.addEventListener('change', function () {
@@ -282,8 +282,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function updatePlayPauseState(isPaused) {
-
-        var i, length;
+        var i;
+        var length;
 
         if (playPauseButtons) {
             if (isPaused) {
@@ -345,8 +345,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         if (repeatMode === 'RepeatAll') {
             toggleRepeatButtonIcon.innerHTML = "repeat";
             toggleRepeatButton.classList.add('repeatButton-active');
-        }
-        else if (repeatMode === 'RepeatOne') {
+        } else if (repeatMode === 'RepeatOne') {
             toggleRepeatButtonIcon.innerHTML = "repeat_one";
             toggleRepeatButton.classList.add('repeatButton-active');
         } else {

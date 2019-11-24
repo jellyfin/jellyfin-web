@@ -139,7 +139,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
 
         context.querySelector('.selectKeepUpTo').innerHTML = html;
     }
-    
+
     function onFieldChange(e) {
         this.querySelector('.btnSubmit').click();
     }

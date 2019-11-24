@@ -103,8 +103,7 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
         if (iconElement) {
             if (brightness >= 80) {
                 iconElement.innerHTML = 'brightness_high';
-            }
-            else if (brightness >= 20) {
+            } else if (brightness >= 20) {
                 iconElement.innerHTML = 'brightness_medium';
             } else {
                 iconElement.innerHTML = 'brightness_low';

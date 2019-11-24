@@ -35,7 +35,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "hu
             menuItems.push({
                 name: globalize.translate("Edit"),
                 id: "open",
-                ironIcon: "mode-edit"
+                icon: "mode_edit"
             });
         }
 
@@ -43,7 +43,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "hu
             menuItems.push({
                 name: globalize.translate("Delete"),
                 id: "delete",
-                ironIcon: "delete"
+                icon: "delete"
             });
         }
 

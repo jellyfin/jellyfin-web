@@ -33,7 +33,7 @@ define([], function () {
                 case 'smaller':
                     list.push({ name: 'font-size', value: '.8em' });
                     break;
-               case 'small':
+                case 'small':
                     list.push({ name: 'font-size', value: 'inherit' });
                     break;
                 case 'larger':
@@ -131,7 +131,6 @@ define([], function () {
     }
 
     function applyStyleList(styles, elem) {
-
 
         for (var i = 0, length = styles.length; i < length; i++) {
 

@@ -422,7 +422,7 @@
     "HeaderSelectServerCachePathHelp": "Suche oder gib den Pfad für die Speicherung von Server Cache Dateien an. Das Verzeichnis muss beschreibbar sein.",
     "HeaderSelectTranscodingPath": "Wähle Pfad für temporäre Transkodierdateien",
     "HeaderSelectTranscodingPathHelp": "Suche oder gib den Pfad für die Speicherung von temporären Transkodierdateien an. Das Verzeichnis muss beschreibbar sein.",
-    "HeaderSendMessage": "sende Nachricht",
+    "HeaderSendMessage": "Nachricht senden",
     "HeaderSeries": "Serien",
     "HeaderSeriesOptions": "Serienoptionen",
     "HeaderSeriesStatus": "Serienstatus",

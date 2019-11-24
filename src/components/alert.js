@@ -35,7 +35,7 @@ define(['browser', 'dialog', 'globalize'], function (browser, dialog, globalize)
                 if (result === 'ok') {
                     return Promise.resolve();
                 }
-    
+
                 return Promise.reject();
             });
         }

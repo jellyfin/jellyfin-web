@@ -115,7 +115,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         var readOnlyAttribute = options.pathReadOnly ? " readonly" : "";
         html += '<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ' + readOnlyAttribute + ' label="' + Globalize.translate(labelKey) + '"/>';
         html += "</div>";
-        if (!readOnlyAttribute)  {
+        if (!readOnlyAttribute) {
             html += '<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="' + Globalize.translate("ButtonRefresh") + '"><i class="md-icon">search</i></button>';
         }
         html += "</div>";
@@ -188,9 +188,9 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                 var path = lnkPath.getAttribute("data-path");
                 if (lnkPath.classList.contains("lnkFile")) {
                     content.querySelector("#txtDirectoryPickerPath").value = path;
-                 } else {
+                } else {
                     refreshDirectoryBrowser(content, path, fileOptions, true)
-                 };
+                }
             }
         });
 
@@ -254,10 +254,10 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                     var systemInfo = responses[0];
                     var initialPath = responses[1];
                     var dlg = dialogHelper.createDialog({
-                            size: "medium-tall",
-                            removeOnClose: true,
-                            scrollY: false
-                        });
+                        size: "medium-tall",
+                        removeOnClose: true,
+                        scrollY: false
+                    });
                     dlg.classList.add("ui-body-a");
                     dlg.classList.add("background-theme-a");
                     dlg.classList.add("directoryPicker");

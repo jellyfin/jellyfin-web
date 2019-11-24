@@ -7,16 +7,13 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
         if (item.Type === 'SeriesTimer') {
             return '<i class="md-icon mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon">fiber_smart_record</i>';
-        }
-        else if (item.TimerId || item.SeriesTimerId) {
+        } else if (item.TimerId || item.SeriesTimerId) {
 
             status = item.Status || 'Cancelled';
-        }
-        else if (item.Type === 'Timer') {
+        } else if (item.Type === 'Timer') {
 
             status = item.Status;
-        }
-        else {
+        } else {
             return '';
         }
 
@@ -36,7 +33,8 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         var html = '';
 
         var miscInfo = [];
-        var text, date;
+        var text;
+        var date;
 
         if (item.StartDate && options.programTime !== false) {
 
@@ -58,8 +56,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                 }
 
                 miscInfo.push(text);
-            }
-            catch (e) {
+            } catch (e) {
                 console.log("Error parsing date: " + item.StartDate);
             }
         }
@@ -107,7 +104,9 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
         var miscInfo = [];
         options = options || {};
-        var text, date, minutes;
+        var text;
+        var date;
+        var minutes;
         var count;
 
         var showFolderRuntime = item.Type === "MusicAlbum" || item.MediaType === 'MusicArtist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
@@ -124,9 +123,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
             if (item.RunTimeTicks) {
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
             }
-        }
-
-        else if (item.Type === "PhotoAlbum" || item.Type === "BoxSet") {
+        } else if (item.Type === "PhotoAlbum" || item.Type === "BoxSet") {
 
             count = item.ChildCount;
 
@@ -145,8 +142,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
                     text = datetime.toLocaleDateString(date);
                     miscInfo.push(text);
-                }
-                catch (e) {
+                } catch (e) {
                     console.log("Error parsing date: " + item.PremiereDate);
                 }
             }
@@ -162,8 +158,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
             if (item.RecordAnyChannel) {
                 miscInfo.push(globalize.translate('AllChannels'));
-            }
-            else {
+            } else {
                 miscInfo.push(item.ChannelName || globalize.translate('OneChannel'));
             }
         }
@@ -180,8 +175,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     text = datetime.getDisplayTime(date);
                     miscInfo.push(text);
                 }
-            }
-            catch (e) {
+            } catch (e) {
                 console.log("Error parsing date: " + item.StartDate);
             }
         }
@@ -191,8 +185,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
             if (item.Status === "Continuing") {
                 miscInfo.push(globalize.translate('SeriesYearToPresent', item.ProductionYear));
 
-            }
-            else if (item.ProductionYear) {
+            } else if (item.ProductionYear) {
 
                 text = item.ProductionYear;
 
@@ -206,8 +199,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                             text += "-" + datetime.parseISO8601Date(item.EndDate).getFullYear();
                         }
 
-                    }
-                    catch (e) {
+                    } catch (e) {
                         console.log("Error parsing date: " + item.EndDate);
                     }
                 }
@@ -223,18 +215,15 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     miscInfo.push({
                         html: '<div class="mediaInfoProgramAttribute mediaInfoItem liveTvProgram">' + globalize.translate('Live') + '</div>'
                     });
-                }
-                else if (item.IsPremiere) {
+                } else if (item.IsPremiere) {
                     miscInfo.push({
                         html: '<div class="mediaInfoProgramAttribute mediaInfoItem premiereTvProgram">' + globalize.translate('Premiere') + '</div>'
                     });
-                }
-                else if (item.IsSeries && !item.IsRepeat) {
+                } else if (item.IsSeries && !item.IsRepeat) {
                     miscInfo.push({
                         html: '<div class="mediaInfoProgramAttribute mediaInfoItem newTvProgram">' + globalize.translate('AttributeNew') + '</div>'
                     });
-                }
-                else if (item.IsSeries && item.IsRepeat) {
+                } else if (item.IsSeries && item.IsRepeat) {
                     miscInfo.push({
                         html: '<div class="mediaInfoProgramAttribute mediaInfoItem repeatTvProgram">' + globalize.translate('Repeat') + '</div>'
                     });
@@ -250,20 +239,15 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                 if (text) {
                     miscInfo.push(text);
                 }
-            }
-
-            else if (item.IsMovie && item.ProductionYear && options.originalAirDate !== false) {
+            } else if (item.IsMovie && item.ProductionYear && options.originalAirDate !== false) {
                 miscInfo.push(item.ProductionYear);
-            }
-
-            else if (item.PremiereDate && options.originalAirDate !== false) {
+            } else if (item.PremiereDate && options.originalAirDate !== false) {
 
                 try {
                     date = datetime.parseISO8601Date(item.PremiereDate);
                     text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
                     miscInfo.push(text);
-                }
-                catch (e) {
+                } catch (e) {
                     console.log("Error parsing date: " + item.PremiereDate);
                 }
             } else if (item.ProductionYear) {
@@ -277,14 +261,12 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                 if (item.ProductionYear) {
 
                     miscInfo.push(item.ProductionYear);
-                }
-                else if (item.PremiereDate) {
+                } else if (item.PremiereDate) {
 
                     try {
                         text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
                         miscInfo.push(text);
-                    }
-                    catch (e) {
+                    } catch (e) {
                         console.log("Error parsing date: " + item.PremiereDate);
                     }
                 }

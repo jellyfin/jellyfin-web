@@ -92,13 +92,13 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
 
                 var hours = trigger.IntervalTicks / 36e9;
 
-                if (hours == .25) {
+                if (hours == 0.25) {
                     return "Every 15 minutes";
                 }
-                if (hours == .5) {
+                if (hours == 0.5) {
                     return "Every 30 minutes";
                 }
-                if (hours == .75) {
+                if (hours == 0.75) {
                     return "Every 45 minutes";
                 }
                 if (hours == 1) {

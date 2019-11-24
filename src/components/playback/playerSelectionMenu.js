@@ -153,7 +153,6 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         });
     }
 
-
     function disconnectFromPlayer(currentDeviceName) {
 
         if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
@@ -192,7 +191,6 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
                 });
 
             });
-
 
         } else {
 
@@ -275,8 +273,7 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         dialogHelper.open(dlg).then(function () {
             if (destination === 'nowplaying') {
                 appRouter.showNowPlaying();
-            }
-            else if (destination === 'disconnectFromPlayer') {
+            } else if (destination === 'disconnectFromPlayer') {
                 disconnectFromPlayer(currentDeviceName);
             }
         }, emptyCallback);

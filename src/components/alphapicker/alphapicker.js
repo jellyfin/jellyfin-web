@@ -50,9 +50,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
         var vertical = element.classList.contains('alphaPicker-vertical');
 
-        if (vertical) {
-
-        } else {
+        if (!vertical) {
             element.classList.add('focuscontainer-x');
         }
 
@@ -228,7 +226,8 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
     AlphaPicker.prototype.value = function (value, applyValue) {
 
         var element = this.options.element;
-        var btn, selected;
+        var btn;
+        var selected;
 
         if (value !== undefined) {
             if (value != null) {

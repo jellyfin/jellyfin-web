@@ -30,7 +30,6 @@ define([], function () {
     }
 
     function isMobile(userAgent) {
-
         var terms = [
             'mobi',
             'ipad',
@@ -144,14 +143,16 @@ define([], function () {
             }
         }
 
-        var animation = false,
-            animationstring = 'animation',
-            keyframeprefix = '',
-            domPrefixes = ['Webkit', 'O', 'Moz'],
-            pfx = '',
-            elm = document.createElement('div');
+        var animation = false;
+        var animationstring = 'animation';
+        var keyframeprefix = '';
+        var domPrefixes = ['Webkit', 'O', 'Moz'];
+        var pfx = '';
+        var elm = document.createElement('div');
 
-        if (elm.style.animationName !== undefined) { animation = true; }
+        if (elm.style.animationName !== undefined) {
+            animation = true;
+        }
 
         if (animation === false && allowPrefix) {
             for (var i = 0; i < domPrefixes.length; i++) {
@@ -204,8 +205,7 @@ define([], function () {
 
                 // http://www.neowin.net/news/ie11-fakes-user-agent-to-fool-gmail-in-windows-phone-81-gdr1-update
                 browser = "msie";
-            }
-            else if (ua.indexOf("like gecko") !== -1 && ua.indexOf('webkit') === -1 && ua.indexOf('opera') === -1 && ua.indexOf('chrome') === -1 && ua.indexOf('safari') === -1) {
+            } else if (ua.indexOf("like gecko") !== -1 && ua.indexOf('webkit') === -1 && ua.indexOf('opera') === -1 && ua.indexOf('chrome') === -1 && ua.indexOf('safari') === -1) {
                 browser = "msie";
             }
         }

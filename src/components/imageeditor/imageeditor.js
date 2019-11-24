@@ -24,8 +24,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
         if (item) {
             apiClient = connectionManager.getApiClient(item.ServerId);
             reloadItem(page, item, apiClient, focusContext);
-        }
-        else {
+        } else {
 
             apiClient = connectionManager.getApiClient(currentItem.ServerId);
             apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (item) {
@@ -59,7 +58,6 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                     btnBrowseAllImages[i].classList.add('hide');
                 }
             }
-
 
             apiClient.getItemImageInfos(currentItem.Id).then(function (imageInfos) {
 
@@ -167,8 +165,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                 } else {
                     html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveRight') + '"><i class="md-icon">chevron_right</i></button>';
                 }
-            }
-            else {
+            } else {
                 if (imageProviders.length) {
                     html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><i class="md-icon">search</i></button>';
                 }

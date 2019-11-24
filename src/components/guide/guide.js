@@ -392,27 +392,20 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         }
 
         function parseDates(program) {
-
             if (!program.StartDateLocal) {
                 try {
-
                     program.StartDateLocal = datetime.parseISO8601Date(program.StartDate, { toLocal: true });
-
                 } catch (err) {
-
+                    console.log('error parsing timestamp for start date');
                 }
-
             }
 
             if (!program.EndDateLocal) {
                 try {
-
                     program.EndDateLocal = datetime.parseISO8601Date(program.EndDate, { toLocal: true });
-
                 } catch (err) {
-
+                    console.log('error parsing timestamp for end date');
                 }
-
             }
 
             return null;
@@ -424,16 +417,13 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
             if (item.Type === 'SeriesTimer') {
                 return '<i class="md-icon programIcon seriesTimerIcon">fiber_smart_record</i>';
-            }
-            else if (item.TimerId || item.SeriesTimerId) {
+            } else if (item.TimerId || item.SeriesTimerId) {
 
                 status = item.Status || 'Cancelled';
-            }
-            else if (item.Type === 'Timer') {
+            } else if (item.Type === 'Timer') {
 
                 status = item.Status;
-            }
-            else {
+            } else {
                 return '';
             }
 
@@ -529,11 +519,9 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 } else if (program.IsMovie) {
                     displayInnerContent = displayMovieContent;
                     accentCssClass = 'movie';
-                }
-                else if (program.IsSeries) {
+                } else if (program.IsSeries) {
                     displayInnerContent = displaySeriesContent;
-                }
-                else {
+                } else {
                     displayInnerContent = displayMovieContent && displayNewsContent && displaySportsContent && displayKidsContent && displaySeriesContent;
                 }
 
@@ -569,14 +557,11 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     var indicatorHtml = null;
                     if (program.IsLive && options.showLiveIndicator) {
                         indicatorHtml = '<span class="liveTvProgram guideProgramIndicator">' + globalize.translate('Live') + '</span>';
-                    }
-                    else if (program.IsPremiere && options.showPremiereIndicator) {
+                    } else if (program.IsPremiere && options.showPremiereIndicator) {
                         indicatorHtml = '<span class="premiereTvProgram guideProgramIndicator">' + globalize.translate('Premiere') + '</span>';
-                    }
-                    else if (program.IsSeries && !program.IsRepeat && options.showNewIndicator) {
+                    } else if (program.IsSeries && !program.IsRepeat && options.showNewIndicator) {
                         indicatorHtml = '<span class="newTvProgram guideProgramIndicator">' + globalize.translate('AttributeNew') + '</span>';
-                    }
-                    else if (program.IsSeries && program.IsRepeat && options.showRepeatIndicator) {
+                    } else if (program.IsSeries && program.IsRepeat && options.showRepeatIndicator) {
                         indicatorHtml = '<span class="repeatTvProgram guideProgramIndicator">' + globalize.translate('Repeat') + '</span>';
                     }
                     html += indicatorHtml || '';
@@ -613,7 +598,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
             return html;
         }
-
 
         function renderChannelHeaders(context, channels, apiClient) {
 
@@ -1079,17 +1063,13 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                     scrollHelper.toStart(programGrid, programCell, true, true);
                 }
-            }
-
-            else if (lastFocusDirection === 'right') {
+            } else if (lastFocusDirection === 'right') {
 
                 if (programCell) {
 
                     scrollHelper.toCenter(programGrid, programCell, true, true);
                 }
-            }
-
-            else if (lastFocusDirection === 'up' || lastFocusDirection === 'down') {
+            } else if (lastFocusDirection === 'up' || lastFocusDirection === 'down') {
 
                 var verticalScroller = dom.parentWithClass(target, 'guideVerticalScroller');
                 if (verticalScroller) {
@@ -1195,14 +1175,14 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             dom.addEventListener(programGrid, 'scroll', function (e) {
                 onProgramGridScroll(context, this, timeslotHeaders);
             }, {
-                    passive: true
-                });
+                passive: true
+            });
 
             dom.addEventListener(timeslotHeaders, 'scroll', function () {
                 onTimeslotHeadersScroll(context, this);
             }, {
-                    passive: true
-                });
+                passive: true
+            });
 
             programGrid.addEventListener('click', onProgramGridClick);
 
