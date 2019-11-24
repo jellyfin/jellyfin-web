@@ -459,7 +459,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
                 index: 0,
-                maxWidth: screenWidth,
                 tag: item.ImageTags.Thumb
             });
             itemBackdropElement.classList.remove("noBackdrop");
@@ -469,7 +468,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Primary",
                 index: 0,
-                maxWidth: screenWidth,
                 tag: item.ImageTags.Primary
             });
             itemBackdropElement.classList.remove("noBackdrop");
@@ -479,7 +477,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Backdrop",
                 index: 0,
-                maxWidth: screenWidth,
                 tag: item.BackdropImageTags[0]
             });
             itemBackdropElement.classList.remove("noBackdrop");
@@ -489,8 +486,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                 type: "Backdrop",
                 index: 0,
-                tag: item.ParentBackdropImageTags[0],
-                maxWidth: screenWidth
+                tag: item.ParentBackdropImageTags[0]
             });
             itemBackdropElement.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
@@ -499,7 +495,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
                 index: 0,
-                maxWidth: screenWidth,
                 tag: item.ImageTags.Thumb
             });
             itemBackdropElement.classList.remove("noBackdrop");
