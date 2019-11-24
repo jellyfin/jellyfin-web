@@ -439,8 +439,9 @@ html {
     color: #4285F4
 }
 
-.card:focus .card-focuscontent {
-    border-color: #fff
+.card:focus .cardBox.visualCardBox,
+.card:focus .cardBox:not(.visualCardBox) .cardScalable {
+    border-color: #fff !important
 }
 
 .layout-desktop ::-webkit-scrollbar {

@@ -46,16 +46,13 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
 
         if (item.Type === 'SeriesTimer') {
             return '&#xE062;';
-        }
-        else if (item.TimerId || item.SeriesTimerId) {
+        } else if (item.TimerId || item.SeriesTimerId) {
 
             status = item.Status || 'Cancelled';
-        }
-        else if (item.Type === 'Timer') {
+        } else if (item.Type === 'Timer') {
 
             status = item.Status;
-        }
-        else {
+        } else {
             return '&#xE061;';
         }
 

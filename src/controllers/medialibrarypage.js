@@ -88,27 +88,27 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
         menuItems.push({
             name: globalize.translate("ButtonEditImages"),
             id: "editimages",
-            ironIcon: "photo"
+            icon: "photo"
         });
         menuItems.push({
             name: globalize.translate("ManageLibrary"),
             id: "edit",
-            ironIcon: "folder_open"
+            icon: "folder_open"
         });
         menuItems.push({
             name: globalize.translate("ButtonRemove"),
             id: "delete",
-            ironIcon: "remove"
+            icon: "delete"
         });
         menuItems.push({
             name: globalize.translate("ButtonRename"),
             id: "rename",
-            ironIcon: "mode_edit"
+            icon: "mode_edit"
         });
         menuItems.push({
             name: globalize.translate("ScanLibrary"),
             id: "refresh",
-            ironIcon: "refresh"
+            icon: "refresh"
         });
 
         require(["actionsheet"], function (actionsheet) {

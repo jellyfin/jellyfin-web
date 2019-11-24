@@ -65,8 +65,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
         profile.ContainerProfiles = profile.ContainerProfiles || [];
         profile.CodecProfiles = profile.CodecProfiles || [];
         profile.ResponseProfiles = profile.ResponseProfiles || [];
-        var usersHtml = "<option></option>" + users.map(function (u__w) {
-            return '<option value="' + u__w.Id + '">' + u__w.Name + "</option>";
+        var usersHtml = "<option></option>" + users.map(function (u) {
+            return '<option value="' + u.Id + '">' + u.Name + "</option>";
         }).join("");
         $("#selectUser", page).html(usersHtml).val(profile.UserId || "");
         renderSubProfiles(page, profile);
@@ -74,12 +74,12 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
 
     function renderIdentificationHeaders(page, headers) {
         var index = 0;
-        var html = '<div class="paperList">' + headers.map(function (h__e) {
+        var html = '<div class="paperList">' + headers.map(function (h) {
             var li = '<div class="listItem">';
             li += '<i class="md-icon listItemIcon">info</i>';
             li += '<div class="listItemBody">';
-            li += '<h3 class="listItemBodyText">' + h__e.Name + ": " + (h__e.Value || "") + "</h3>";
-            li += '<div class="listItemBodyText secondary">' + (h__e.Match || "") + "</div>";
+            li += '<h3 class="listItemBodyText">' + h.Name + ": " + (h.Value || "") + "</h3>";
+            li += '<div class="listItemBodyText secondary">' + (h.Match || "") + "</div>";
             li += "</div>";
             li += '<button type="button" is="paper-icon-button-light" class="btnDeleteIdentificationHeader listItemButton" data-index="' + index + '"><i class="md-icon">delete</i></button>';
             li += "</div>";
@@ -130,11 +130,11 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
     }
 
     function renderXmlDocumentAttributes(page, attribute) {
-        var html = '<div class="paperList">' + attribute.map(function (h__r) {
+        var html = '<div class="paperList">' + attribute.map(function (h) {
             var li = '<div class="listItem">';
             li += '<i class="md-icon listItemIcon">info</i>';
             li += '<div class="listItemBody">';
-            li += '<h3 class="listItemBodyText">' + h__r.Name + " = " + (h__r.Value || "") + "</h3>";
+            li += '<h3 class="listItemBodyText">' + h.Name + " = " + (h.Value || "") + "</h3>";
             li += "</div>";
             li += '<button type="button" is="paper-icon-button-light" class="btnDeleteXmlAttribute listItemButton" data-index="0"><i class="md-icon">delete</i></button>';
             return li += "</div>";
@@ -172,11 +172,11 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
 
     function renderSubtitleProfiles(page, profiles) {
         var index = 0;
-        var html = '<div class="paperList">' + profiles.map(function (h__t) {
+        var html = '<div class="paperList">' + profiles.map(function (h) {
             var li = '<div class="listItem lnkEditSubProfile" data-index="' + index + '">';
             li += '<i class="md-icon listItemIcon">info</i>';
             li += '<div class="listItemBody">';
-            li += '<h3 class="listItemBodyText">' + (h__t.Format || "") + "</h3>";
+            li += '<h3 class="listItemBodyText">' + (h.Format || "") + "</h3>";
             li += "</div>";
             li += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-index="' + index + '"><i class="md-icon">delete</i></button>';
             li += "</div>";
@@ -248,8 +248,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
         html += '<ul data-role="listview" data-inset="true" data-split-icon="delete">';
         var currentType;
 
-        for (var i__y = 0, length = profiles.length; i__y < length; i__y++) {
-            var profile = profiles[i__y];
+        for (var i = 0, length = profiles.length; i < length; i++) {
+            var profile = profiles[i];
 
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + "</li>";
@@ -257,7 +257,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "<div>";
-            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i__y + '">';
+            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
             html += "<p>" + Globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
 
             if ("Video" == profile.Type) {
@@ -270,7 +270,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__y + '"><i class="md-icon">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="md-icon">delete</i></button>';
             html += "</div>";
         }
 
@@ -308,8 +308,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
         html += '<ul data-role="listview" data-inset="true" data-split-icon="delete">';
         var currentType;
 
-        for (var i__u = 0, length = profiles.length; i__u < length; i__u++) {
-            var profile = profiles[i__u];
+        for (var i = 0, length = profiles.length; i < length; i++) {
+            var profile = profiles[i];
 
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + "</li>";
@@ -317,7 +317,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "<div>";
-            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i__u + '">';
+            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
             html += "<p>Protocol: " + (profile.Protocol || "Http") + "</p>";
             html += "<p>" + Globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
 
@@ -331,7 +331,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__u + '"><i class="md-icon">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="md-icon">delete</i></button>';
             html += "</div>";
         }
 
@@ -394,8 +394,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
         html += '<ul data-role="listview" data-inset="true" data-split-icon="delete">';
         var currentType;
 
-        for (var i__i = 0, length = profiles.length; i__i < length; i__i++) {
-            var profile = profiles[i__i];
+        for (var i = 0, length = profiles.length; i < length; i++) {
+            var profile = profiles[i];
 
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + "</li>";
@@ -403,19 +403,19 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "<div>";
-            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i__i + '">';
+            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
             html += "<p>" + Globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
 
             if (profile.Conditions && profile.Conditions.length) {
                 html += "<p>";
-                html += Globalize.translate("ValueConditions").replace("{0}", profile.Conditions.map(function (c__o) {
-                    return c__o.Property;
+                html += Globalize.translate("ValueConditions").replace("{0}", profile.Conditions.map(function (c) {
+                    return c.Property;
                 }).join(", "));
                 html += "</p>";
             }
 
             html += "</a>";
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__i + '"><i class="md-icon">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="md-icon">delete</i></button>';
             html += "</div>";
         }
 
@@ -465,8 +465,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
         html += '<ul data-role="listview" data-inset="true" data-split-icon="delete">';
         var currentType;
 
-        for (var i__p = 0, length = profiles.length; i__p < length; i__p++) {
-            var profile = profiles[i__p];
+        for (var i = 0, length = profiles.length; i < length; i++) {
+            var profile = profiles[i];
             var type = profile.Type.replace("VideoAudio", "Video Audio");
 
             if (type !== currentType) {
@@ -475,19 +475,19 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "<div>";
-            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i__p + '">';
+            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
             html += "<p>" + Globalize.translate("ValueCodec").replace("{0}", profile.Codec || allText) + "</p>";
 
             if (profile.Conditions && profile.Conditions.length) {
                 html += "<p>";
-                html += Globalize.translate("ValueConditions").replace("{0}", profile.Conditions.map(function (c__a) {
-                    return c__a.Property;
+                html += Globalize.translate("ValueConditions").replace("{0}", profile.Conditions.map(function (c) {
+                    return c.Property;
                 }).join(", "));
                 html += "</p>";
             }
 
             html += "</a>";
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__p + '"><i class="md-icon">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="md-icon">delete</i></button>';
             html += "</div>";
         }
 
@@ -537,8 +537,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
         html += '<ul data-role="listview" data-inset="true" data-split-icon="delete">';
         var currentType;
 
-        for (var i__s = 0, length = profiles.length; i__s < length; i__s++) {
-            var profile = profiles[i__s];
+        for (var i = 0, length = profiles.length; i < length; i++) {
+            var profile = profiles[i];
 
             if (profile.Type !== currentType) {
                 html += '<li data-role="list-divider">' + profile.Type + "</li>";
@@ -546,7 +546,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "<div>";
-            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i__s + '">';
+            html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
             html += "<p>" + Globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
 
             if ("Video" == profile.Type) {
@@ -560,14 +560,14 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
 
             if (profile.Conditions && profile.Conditions.length) {
                 html += "<p>";
-                html += Globalize.translate("ValueConditions").replace("{0}", profile.Conditions.map(function (c__d) {
-                    return c__d.Property;
+                html += Globalize.translate("ValueConditions").replace("{0}", profile.Conditions.map(function (c) {
+                    return c.Property;
                 }).join(", "));
                 html += "</p>";
             }
 
             html += "</a>";
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i__s + '"><i class="md-icon">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="md-icon">delete</i></button>';
             html += "</div>";
         }
 
@@ -649,8 +649,8 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
         profile.Name = $("#txtName", page).val();
         profile.EnableAlbumArtInDidl = $("#chkEnableAlbumArtInDidl", page).checked();
         profile.EnableSingleAlbumArtLimit = $("#chkEnableSingleImageLimit", page).checked();
-        profile.SupportedMediaTypes = $(".chkMediaType:checked", page).get().map(function (c__f) {
-            return c__f.getAttribute("data-value");
+        profile.SupportedMediaTypes = $(".chkMediaType:checked", page).get().map(function (c) {
+            return c.getAttribute("data-value");
         }).join(",");
         profile.Identification = profile.Identification || {};
         profile.FriendlyName = $("#txtInfoFriendlyName", page).val();

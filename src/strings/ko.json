@@ -814,7 +814,7 @@
     "AllComplexFormats": "모든 복잡한 포맷 (ASS, SSA, VOBSUB, PGS, SUB/IDX 등)",
     "AllLibraries": "모든 라이브러리",
     "AllowMediaConversion": "미디어 변환 허용",
-    "AllowOnTheFlySubtitleExtraction": "스트리밍시 자막 추출 허용",
+    "AllowOnTheFlySubtitleExtraction": "실시간 자막 추출 허용",
     "AllowOnTheFlySubtitleExtractionHelp": "비디오 트랜스코딩을 방지하기 위해 내장된 자막을 비디오에서 추출하여 텍스트로 클라이언트에 전송할 수 있습니다. 다만, 일부 시스템에서 추출 과정은 긴 시간이 걸리고 비디오 재생을 멈출 수 있습니다. 클라이언트에서 트랜스코딩을 사용할 수 없는 경우 이 기능을 비활성화하여 트랜스코딩 시 자막을 영상에 삽입하십시오.",
     "AllowRemoteAccess": "이 Jellyfin 서버에 원격 접속을 허용합니다.",
     "AllowRemoteAccessHelp": "체크 해제 시 모든 외부 접속은 차단됩니다.",
@@ -881,7 +881,7 @@
     "DoNotRecord": "녹화 안 함",
     "Disconnect": "연결 끊기",
     "Disabled": "비활성화됨",
-    "DirectorValue": "",
+    "DirectorValue": "감독: {0}",
     "DirectPlaying": "다이렉트 재생",
     "DirectStreaming": "다이렉트 스트리밍",
     "DirectStreamHelp2": "다이렉트 스트리밍은 비디오 퀄리티의 손실없이 매우 적은 처리능력을 사용합니다.",
@@ -1271,5 +1271,13 @@
     "NoPluginConfigurationMessage": "",
     "OptionExtractChapterImage": "챕터 이미지 추출 활성화",
     "RestartPleaseWaitMessage": "Jellyfin 서버가 종료되었다가 다시 시작될 때까지 기다리십시오. 1-2분 정도 걸릴 수 있습니다.",
-    "Up": "위"
+    "Up": "위",
+    "EasyPasswordHelp": "쉬운 핀 코드는 지원되는 기기에서 오프라인 접근을 할 때나 내부 내트워크 로그인에서 사용됩니다.",
+    "CriticRating": "평점",
+    "DisplayInMyMedia": "홈화면에 표시",
+    "DisplayInOtherHomeScreenSections": "보고 있는 것이나 최신 미디어 등을 홈 페이지에 표시합니다",
+    "DisplayMissingEpisodesWithinSeasonsHelp": "서버 환경설정에서도 TV 라이브러리가 활성화되어있어야 합니다.",
+    "ErrorAddingMediaPathToVirtualFolder": "미디어 경로를 추가하는 데에 오류가 발생했습니다. 경로를 다시 확인하거나 Jellyfin 서버가 해당 경로에 접근할 수 있는지 확인해 주세요.",
+    "ErrorGettingTvLineups": "TV 구성을 다운로드 하는 중에 오류가 발생하였습니다. 정보가 맞는지 확인한 후 다시 시도해 주세요.",
+    "BoxRear": "상자 (후면)"
 }

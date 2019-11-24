@@ -298,10 +298,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         type: 'flv',
                         url: url
                     },
-                        {
-                            seekType: 'range',
-                            lazyLoad: false
-                        });
+                    {
+                        seekType: 'range',
+                        lazyLoad: false
+                    });
 
                     flvPlayer.attachMediaElement(elem);
                     flvPlayer.load();
@@ -420,7 +420,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function onMediaManagerLoadMedia(event) {
 
             if (self._castPlayer) {
-                self._castPlayer.unload();    // Must unload before starting again.
+                self._castPlayer.unload(); // Must unload before starting again.
             }
             self._castPlayer = null;
 
@@ -532,12 +532,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             } else*/ if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
 
                 return setCurrentSrcChromecast(self, elem, options, val);
-            }
-
-            else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
-                
+            } else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
                 return setSrcWithHlsJs(self, elem, options, val);
-
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
 
                 return setSrcWithFlvJs(self, elem, options, val);
@@ -575,43 +571,41 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         self.setSubtitleOffset = function(offset) {
 
             var offsetValue = parseFloat(offset);
-            var videoElement = self._mediaElement;
-            var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
 
-            Array.from(videoElement.textTracks)
-            .filter(function(trackElement) {
-                if (customTrackIndex === -1 ) {
+            // if .ass currently rendering
+            if (currentAssRenderer) {
+                updateCurrentTrackOffset(offsetValue);
+            } else {
+                var videoElement = self._mediaElement;
+                var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
+
+                Array.from(videoElement.textTracks)
+                    .filter(function(trackElement) {
                     // get showing .vtt textTacks
-                    return trackElement.mode === 'showing';
-                } else {
-                    // get current .ass textTrack
-                    return ("textTrack" + customTrackIndex) === trackElement.id;
-                }
-            })
-            .forEach(function(trackElement) {
+                        return trackElement.mode === 'showing';
+                    })
+                    .forEach(function(trackElement) {
 
-                var track = mediaStreamTextTracks.filter(function(stream) {
-                    return ("textTrack" + stream.Index) === trackElement.id;
-                })[0];
+                        var track = customTrackIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
+                            return t.Index === customTrackIndex;
+                        })[0];
 
-                if(track) {
-                    offsetValue = updateCurrentTrackOffset(offsetValue);
-                    var format = (track.Codec || '').toLowerCase();
-                    if (format !== 'ass' && format !== 'ssa') {
-                        setVttSubtitleOffset(trackElement, offsetValue);
-                    }
-                } else {
-                    console.log("No available track, cannot apply offset : " + offsetValue);
-                }
+                        if (track) {
+                            offsetValue = updateCurrentTrackOffset(offsetValue);
+                            setVttSubtitleOffset(trackElement, offsetValue);
+                        } else {
+                            console.log("No available track, cannot apply offset : " + offsetValue);
+                        }
 
-            });
+                    });
+            }
         };
 
         function updateCurrentTrackOffset(offsetValue) {
 
             var relativeOffset = offsetValue;
             var newTrackOffset = offsetValue;
-            if(currentTrackOffset){
+            if (currentTrackOffset) {
                 relativeOffset -= currentTrackOffset;
             }
             currentTrackOffset = newTrackOffset;
@@ -621,12 +615,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function setVttSubtitleOffset(currentTrack, offsetValue) {
 
-            if(currentTrack.cues) {
+            if (currentTrack.cues) {
                 Array.from(currentTrack.cues)
-                .forEach(function(cue) {
-                    cue.startTime -= offsetValue;
-                    cue.endTime -= offsetValue;
-                });
+                    .forEach(function(cue) {
+                        cue.startTime -= offsetValue;
+                        cue.endTime -= offsetValue;
+                    });
             }
 
         }
@@ -651,7 +645,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var profiles = deviceProfile.DirectPlayProfiles || [];
 
             return profiles.filter(function (p) {
-
 
                 if (p.Type === 'Video') {
 
@@ -685,7 +678,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             var audioIndex = -1;
-            var i, length, stream;
+            var i;
+            var length;
+            var stream;
 
             for (i = 0, length = streams.length; i < length; i++) {
                 stream = streams[i];
@@ -1031,8 +1026,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (browser.ps4) {
                 // Text outlines are not rendering very well
                 rendererSettings.enableSvg = false;
-            }
-            else if (browser.edge || browser.msie) {
+            } else if (browser.edge || browser.msie) {
                 // svg not rendering at all
                 rendererSettings.enableSvg = false;
             }
@@ -1192,50 +1186,49 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             var trackElement = null;
-            var expectedId = 'manualTrack' + track.Index;
+            if (videoElement.textTracks && videoElement.textTracks.length > 0) {
+                trackElement = videoElement.textTracks[0];
 
-            // get list of tracks
-            var allTracks = videoElement.textTracks;
-            for (var i = 0; i < allTracks.length; i++) {
-
-                var currentTrack = allTracks[i];
-
-                if (currentTrack.label === expectedId) {
-                    trackElement = currentTrack;
-                    break;
-                } else {
-                    currentTrack.mode = 'disabled';
-                }
-            }
-
-            if (!trackElement) {
-                trackElement = videoElement.addTextTrack('subtitles', 'manualTrack' + track.Index, track.Language || 'und');
-
-                // download the track json
-                fetchSubtitles(track, item).then(function (data) {
-
-                    // show in ui
-                    console.log('downloaded ' + data.TrackEvents.length + ' track events');
-                    // add some cues to show the text
-                    // in safari, the cues need to be added before setting the track mode to showing
-                    data.TrackEvents.forEach(function (trackEvent) {
-
-                        var trackCueObject = window.VTTCue || window.TextTrackCue;
-                        var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text));
-
-                        trackElement.addCue(cue);
-                    });
+                // This throws an error in IE, but is fine in chrome
+                // In IE it's not necessary anyway because changing the src seems to be enough
+                try {
                     trackElement.mode = 'showing';
-                });
+                    while (trackElement.cues.length) {
+                        trackElement.removeCue(trackElement.cues[0]);
+                    }
+                } catch (e) {
+                    console.log('Error removing cue from textTrack');
+                }
+
+                trackElement.mode = 'disabled';
             } else {
-                trackElement.mode = 'showing';
+                // There is a function addTextTrack but no function for removeTextTrack
+                // Therefore we add ONE element and replace its cue data
+                trackElement = videoElement.addTextTrack('subtitles', 'manualTrack', 'und');
             }
+
+            // download the track json
+            fetchSubtitles(track, item).then(function (data) {
+
+                // show in ui
+                console.log('downloaded ' + data.TrackEvents.length + ' track events');
+                // add some cues to show the text
+                // in safari, the cues need to be added before setting the track mode to showing
+                data.TrackEvents.forEach(function (trackEvent) {
+
+                    var trackCueObject = window.VTTCue || window.TextTrackCue;
+                    var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text));
+
+                    trackElement.addCue(cue);
+                });
+                trackElement.mode = 'showing';
+            });
         }
 
         function updateSubtitleText(timeMs) {
 
             // handle offset for ass tracks
-            if(currentTrackOffset) {
+            if (currentTrackOffset) {
                 timeMs += (currentTrackOffset * 1000);
             }
 
@@ -1484,6 +1477,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         list.push('SetBrightness');
+        list.push("SetAspectRatio")
 
         return list;
     }
@@ -1564,8 +1558,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             this.isPip = isEnabled;
             if (isEnabled) {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay);
-            }
-            else {
+            } else {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
         } else {
@@ -1712,7 +1705,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.setAspectRatio = function (val) {
-
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            if ("auto" === val) {
+                mediaElement.style.removeProperty("object-fit")
+            } else {
+                mediaElement.style["object-fit"] = val
+            }
+        }
+        this._currentAspectRatio = val
     };
 
     HtmlVideoPlayer.prototype.getAspectRatio = function () {
@@ -1720,7 +1721,16 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.getSupportedAspectRatios = function () {
-        return [];
+        return [{
+            name: "Auto",
+            id: "auto"
+        }, {
+            name: "Cover",
+            id: "cover"
+        }, {
+            name: "Fill",
+            id: "fill"
+        }]
     };
 
     HtmlVideoPlayer.prototype.togglePictureInPicture = function () {

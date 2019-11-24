@@ -72,8 +72,8 @@ define(["loading", "libraryMenu", "globalize", "emby-checkbox", "emby-select"], 
     }
 
     function validateHttps(form) {
-        var certPath = form.querySelector("#txtCertificatePath").value || null,
-            httpsMode = form.querySelector("#selectHttpsMode").value;
+        var certPath = form.querySelector("#txtCertificatePath").value || null;
+        var httpsMode = form.querySelector("#selectHttpsMode").value;
         return "enabled" !== httpsMode && "required" !== httpsMode || certPath ? Promise.resolve() : new Promise(function(resolve, reject) {
             return alertText({
                 title: globalize.translate("TitleHostingSettings"),

@@ -18,7 +18,7 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
             page.querySelector(".lnkSubtitlePreferences").setAttribute("href", "mypreferencessubtitles.html?userId=" + userId);
 
             if (appHost.supports("multiserver")) {
-                page.querySelector(".selectServer").classList.remove("hide")
+                page.querySelector(".selectServer").classList.remove("hide");
             } else {
                 page.querySelector(".selectServer").classList.add("hide");
             }
@@ -35,6 +35,6 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
                     page.querySelector(".adminSection").classList.add("hide");
                 }
             });
-        })
-    }
+        });
+    };
 });

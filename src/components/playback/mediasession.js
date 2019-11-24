@@ -158,7 +158,7 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
 
         lastUpdateTime = now;
 
-        if (navigator.mediaSession){
+        if (navigator.mediaSession) {
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: title,
                 artist: artist,
@@ -277,7 +277,6 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         playbackManager[name](currentPlayer);
     }
     if (navigator.mediaSession) {
-
 
         navigator.mediaSession.setActionHandler('previoustrack', function () {
             execute('previousTrack');

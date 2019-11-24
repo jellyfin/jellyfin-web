@@ -20,7 +20,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         } else {
             Emby.Page.goHome();
         }
-    };
+    }
 
     function getThemes() {
         return [{
@@ -36,7 +36,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             isDefaultServerDashboard: true
         }, {
             name: "Emby",
-            id: "emby",
+            id: "emby"
         }, {
             name: "Light",
             id: "light"
@@ -47,7 +47,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             name: "Windows Media Center",
             id: "wmc"
         }];
-    };
+    }
 
     var skinManager = {
         getThemes: getThemes,

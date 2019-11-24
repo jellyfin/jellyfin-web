@@ -533,8 +533,9 @@ a[data-role=button] {
     color: #4285F4
 }
 
-.card:focus .card-focuscontent {
-    border-color: #ff77f1
+.card:focus .cardBox.visualCardBox,
+.card:focus .cardBox:not(.visualCardBox) .cardScalable {
+    border-color: #ff77f1 !important
 }
 
 .layout-desktop,
