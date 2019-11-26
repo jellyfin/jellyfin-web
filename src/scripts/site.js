@@ -692,7 +692,7 @@ var AppInfo = {};
                     "shaka",
                     "swiper",
                     "sortable",
-                    "libjass",
+                    "libjass"
                 ]
             },
             urlArgs: urlArgs,
