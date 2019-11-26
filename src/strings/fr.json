@@ -1450,5 +1450,6 @@
     "HeaderFavoriteBooks": "Livres Favoris",
     "FetchingData": "Récupération de données additionnelles",
     "CopyStreamURLSuccess": "URL copié avec succès.",
-    "CopyStreamURL": "Copier l'URL du flux"
+    "CopyStreamURL": "Copier l'URL du flux",
+    "LabelBaseUrlHelp": "Vous pouvez ajouter un sous-répertoire personnalisé pour accéder au serveur à partir d'une URL unique."
 }
