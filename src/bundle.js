@@ -4,12 +4,6 @@
 // Use define from require.js not webpack's define
 var _define = window.define;
 
-// document-register-element
-var docRegister = require("document-register-element");
-_define("document-register-element", function() {
-    return docRegister;
-});
-
 // fetch
 var fetch = require("whatwg-fetch");
 _define("fetch", function() {
@@ -76,12 +70,6 @@ _define("swiper", function() {
 var sortable = require("sortablejs");
 _define("sortable", function() {
     return sortable;
-});
-
-// webcomponents
-var webcomponents = require("webcomponents.js-2");
-_define("webcomponents", function() {
-    return webcomponents
 });
 
 // libjass

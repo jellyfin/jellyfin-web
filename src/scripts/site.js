@@ -410,9 +410,9 @@ var AppInfo = {};
         if ("registerElement" in document) {
             define("registerElement", []);
         } else if (browser.msie) {
-            define("registerElement", ["webcomponents"], returnFirstDependency);
+            define("registerElement", [bowerPath + "/webcomponents-lite.min.js"], returnFirstDependency);
         } else {
-            define("registerElement", ["document-register-element"], returnFirstDependency);
+            define("registerElement", [bowerPath + "/document-register-element"], returnFirstDependency);
         }
 
         define("imageFetcher", [componentsPath + "/images/imageFetcher"], returnFirstDependency);
@@ -681,7 +681,6 @@ var AppInfo = {};
             },
             bundles: {
                 bundle: [
-                    "document-register-element",
                     "fetch",
                     "flvjs",
                     "jstree",
@@ -694,7 +693,6 @@ var AppInfo = {};
                     "swiper",
                     "sortable",
                     "libjass",
-                    "webcomponents"
                 ]
             },
             urlArgs: urlArgs,

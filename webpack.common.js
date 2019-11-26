@@ -5,7 +5,9 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 const Assets = [
     "alameda/alameda.js",
-    "requirejs/require.js"
+    "requirejs/require.js",
+    "webcomponents.js-2/webcomponents-lite.min.js",
+    "document-register-element/build/document-register-element.js",
 ];
 
 module.exports = {
@@ -26,7 +28,7 @@ module.exports = {
             Assets.map(asset => {
                 return {
                     from: path.resolve(__dirname, `./node_modules/${asset}`),
-                    to: path.resolve(__dirname, './dist/libraries')
+                    to: path.resolve(__dirname, "./dist/libraries")
                 };
             })
         )
