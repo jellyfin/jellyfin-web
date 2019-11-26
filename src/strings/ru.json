@@ -1450,5 +1450,6 @@
     "CopyStreamURLSuccess": "URL  скопирован успешно.",
     "MusicLibraryHelp": "Просмотрите {0}руководство по именованию музыки{1}.",
     "FetchingData": "Выборка дополнительных данных",
-    "ButtonAddImage": "Добавить рисунок"
+    "ButtonAddImage": "Добавить рисунок",
+    "HeaderFavoritePeople": "Избранные люди"
 }
