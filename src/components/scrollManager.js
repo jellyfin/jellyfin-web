@@ -163,7 +163,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
 
             while (parent) {
                 if ((!vertical && parent.scrollWidth > parent.clientWidth && parent.classList.contains("scrollX")) ||
-                    (vertical && parent.scrollHeight > parent.clientHeight) && parent.classList.contains("scrollY")) {
+                    (vertical && parent.scrollHeight > parent.clientHeight && parent.classList.contains("scrollY"))) {
                     return parent;
                 }
 
