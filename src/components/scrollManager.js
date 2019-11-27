@@ -42,7 +42,9 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         });
 
         elem.scrollTo(opts);
-    } catch(e) {}
+    } catch (e) {
+        console.log("error checking ScrollToOptions support");
+    }
 
     /**
      * Returns value clamped by range [min, max].
@@ -75,7 +77,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
             return delta2;
         }
         return 0;
-    };
+    }
 
     /**
      * Ease value.
@@ -344,7 +346,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
             builtinScroll(xScroller, x, yScroller, y, false);
 
             scrollTimer = requestAnimationFrame(scrollAnim);
-        };
+        }
 
         scrollTimer = requestAnimationFrame(scrollAnim);
     }
@@ -379,7 +381,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         }
 
         return false;
-    };
+    }
 
     /**
      * Returns true if animated implementation of smooth scroll must be used.
@@ -388,7 +390,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         // Add block to force using (or not) of animated implementation
 
         return !supportsSmoothScroll;
-    };
+    }
 
     /**
      * Returns true if scroll manager is enabled.
