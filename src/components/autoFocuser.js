@@ -11,7 +11,7 @@ define(["focusManager", "layoutManager"], function (focusManager, layoutManager)
      */
     function isEnabled() {
         return layoutManager.tv;
-    };
+    }
 
     /**
      * Start AutoFocuser
