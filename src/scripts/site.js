@@ -410,7 +410,7 @@ var AppInfo = {};
         if ("registerElement" in document) {
             define("registerElement", []);
         } else if (browser.msie) {
-            define("registerElement", [bowerPath + "/webcomponents-lite.min.js"], returnFirstDependency);
+            define("registerElement", ["webcomponents"], returnFirstDependency);
         } else {
             define("registerElement", ["document-register-element"], returnFirstDependency);
         }
@@ -693,7 +693,8 @@ var AppInfo = {};
                     "shaka",
                     "swiper",
                     "sortable",
-                    "libjass"
+                    "libjass",
+                    "webcomponents"
                 ]
             },
             urlArgs: urlArgs,

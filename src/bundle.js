@@ -78,6 +78,12 @@ _define("sortable", function() {
     return sortable;
 });
 
+// webcomponents
+var webcomponents = require("webcomponents.js/webcomponents-lite");
+_define("webcomponents", function() {
+    return webcomponents
+});
+
 // libjass
 var libjass = require("libjass");
 require("libjass/libjass.css");
