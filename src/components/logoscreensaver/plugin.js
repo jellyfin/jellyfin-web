@@ -58,6 +58,7 @@ define(["pluginManager"], function (pluginManager) {
             var timing = { duration: 900, iterations: iterations, easing: "cubic-bezier(0.215, 0.610, 0.355, 1.000)" };
             return elem.animate(keyframes, timing);
         }
+
         function shake(elem, iterations) {
             var keyframes = [
                 { transform: "translate3d(0, 0, 0)", offset: 0 },

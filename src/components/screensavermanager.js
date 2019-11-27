@@ -1,12 +1,14 @@
-define(["events", "playbackManager", "pluginManager"], function (events, playbackManager, pluginManager) {
+define(["events", "playbackManager", "pluginManager", "inputManager", "connectionManager", "userSettings"], function (events, playbackManager, pluginManager, inputManager, connectionManager, userSettings) {
+    "use strict";
 
     function getMinIdleTime() {
         // Returns the minimum amount of idle time required before the screen saver can be displayed
-        //return 3000;
+        //time units used Millisecond
         return 180000;
     }
 
     var lastFunctionalEvent = 0;
+
     function getFunctionalEventIdleTime() {
         return new Date().getTime() - lastFunctionalEvent;
     }
@@ -17,6 +19,37 @@ define(["events", "playbackManager", "pluginManager"], function (events, playbac
             lastFunctionalEvent = new Date().getTime();
         }
     });
+
+    var isLoggedIn;
+    var defaultOption = isLoggedIn ? "backdropscreensaver" : "logoscreensaver";
+
+    function getScreensaverPlugin() {
+
+        var apiClient = connectionManager.currentApiClient();
+
+        if (apiClient && apiClient.isLoggedIn()) {
+            isLoggedIn = true;
+        }
+
+        var option;
+        try {
+            option = userSettings.get("screensaver", false);
+        } catch (err) {
+            option = null;
+        }
+
+        if (option === "none" || defaultOption === "none") {
+            return null;
+        }
+
+        var plugin = pluginManager.ofType("screensaver").filter(function (i) {
+            return i.id === option;
+        })[0];
+
+        return plugin = plugin || pluginManager.ofType("screensaver").filter(function (i) {
+            return i.id === defaultOption;
+        })[0];
+    }
 
     function ScreenSaverManager() {
 
@@ -62,42 +95,12 @@ define(["events", "playbackManager", "pluginManager"], function (events, playbac
         };
 
         self.show = function () {
-            var screensavers = pluginManager.ofType("screensaver");
+            var screensaver = getScreensaverPlugin(isLoggedIn);
 
-            require(["connectionManager"], function (connectionManager) {
-
-                var server = connectionManager.currentApiClient();
-
-                show(screensavers, server);
-            });
+            if (screensaver) {
+                showScreenSaver(screensaver);
+            }
         };
-
-        function show(screensavers, currentServer) {
-
-            if (currentServer) {
-
-                var loggedInScreenSavers = screensavers.filter(function (screensaver) {
-                    return !screensaver.supportsAnonymous;
-                });
-
-                if (loggedInScreenSavers.length) {
-                    screensavers = loggedInScreenSavers;
-                }
-
-            } else {
-
-                screensavers = screensavers.filter(function (screensaver) {
-                    return screensaver.supportsAnonymous;
-                });
-            }
-
-            // Perform some other filter here to get the configured screensaver
-
-            var current = screensavers.length ? screensavers[0] : null;
-            if (current) {
-                showScreenSaver(current);
-            }
-        }
 
         self.hide = function () {
             hide();
@@ -109,22 +112,19 @@ define(["events", "playbackManager", "pluginManager"], function (events, playbac
                 return;
             }
 
-            require(["inputmanager"], function (inputmanager) {
+            if (inputManager.idleTime() < getMinIdleTime()) {
+                return;
+            }
 
-                if (inputmanager.idleTime() < getMinIdleTime()) {
-                    return;
-                }
+            if (getFunctionalEventIdleTime < getMinIdleTime()) {
+                return;
+            }
 
-                if (getFunctionalEventIdleTime < getMinIdleTime()) {
-                    return;
-                }
+            if (playbackManager.isPlayingVideo()) {
+                return;
+            }
 
-                if (playbackManager.isPlayingVideo()) {
-                    return;
-                }
-
-                self.show();
-            });
+            self.show();
         }
 
         setInterval(onInterval, 10000);

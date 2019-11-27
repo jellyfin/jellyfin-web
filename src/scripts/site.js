@@ -715,9 +715,6 @@ var AppInfo = {};
 
         require(["css!css/site"]);
 
-        // alias
-        define("inputmanager", ["inputManager"], returnFirstDependency);
-
         // define styles
         // TODO determine which of these files can be moved to the components themselves
         define("material-icons", ["css!css/material-icons/style"], returnFirstDependency);
