@@ -692,5 +692,6 @@
     "HeaderSortOrder": "Sıralama Düzeni",
     "HeaderSortBy": "Sırala",
     "HeaderShutdown": "Kapat",
-    "HeaderSettings": "Ayarlar"
+    "HeaderSettings": "Ayarlar",
+    "LabelLogs": "Günlük:"
 }
