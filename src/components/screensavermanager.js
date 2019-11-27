@@ -20,18 +20,10 @@ define(["events", "playbackManager", "pluginManager", "inputManager", "connectio
         }
     });
 
-    var isLoggedIn;
-    var defaultOption = isLoggedIn ? "backdropscreensaver" : "logoscreensaver";
-
-    function getScreensaverPlugin() {
-
-        var apiClient = connectionManager.currentApiClient();
-
-        if (apiClient && apiClient.isLoggedIn()) {
-            isLoggedIn = true;
-        }
+    function getScreensaverPlugin(isLoggedIn) {
 
         var option;
+        var defaultOption = isLoggedIn ? "backdropscreensaver" : "logoscreensaver";
         try {
             option = userSettings.get("screensaver", false);
         } catch (err) {
@@ -95,6 +87,13 @@ define(["events", "playbackManager", "pluginManager", "inputManager", "connectio
         };
 
         self.show = function () {
+            var isLoggedIn;
+            var apiClient = connectionManager.currentApiClient();
+
+            if (apiClient && apiClient.isLoggedIn()) {
+                isLoggedIn = true;
+            }
+
             var screensaver = getScreensaverPlugin(isLoggedIn);
 
             if (screensaver) {
