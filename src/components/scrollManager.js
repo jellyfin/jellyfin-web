@@ -12,7 +12,6 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
     var Epsilon = 1e-6;
 
     // FIXME: Need to scroll to top of page to fully show the top menu. This can be solved by some marker of top most elements or their containers
-    var _minimumScrollY = 0;
     /**
      * Returns minimum vertical scroll.
      * Scroll less than that value will be zeroed.
@@ -20,13 +19,11 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
      * @return {number} minimum vertical scroll
      */
     function minimumScrollY() {
-        if (_minimumScrollY === 0) {
-            var topMenu = document.querySelector(".headerTop");
-            if (topMenu) {
-                _minimumScrollY = topMenu.clientHeight;
-            }
+        var topMenu = document.querySelector(".headerTop");
+        if (topMenu) {
+            return topMenu.clientHeight;
         }
-        return _minimumScrollY;
+        return 0;
     }
 
     var supportsSmoothScroll = "scrollBehavior" in document.documentElement.style;
@@ -333,8 +330,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
 
             if (k === 1) {
                 resetScrollTimer();
-                xScroller.scrollLeft = scrollX;
-                yScroller.scrollTop = scrollY;
+                builtinScroll(xScroller, scrollX, yScroller, scrollY, false);
                 return;
             }
 
