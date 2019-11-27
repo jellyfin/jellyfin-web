@@ -65,27 +65,32 @@ define(["focusManager", "layoutManager"], function (focusManager, layoutManager)
         candidates = candidates.concat(arrayFrom(container.querySelectorAll(".btnResume")));
         candidates = candidates.concat(arrayFrom(container.querySelectorAll(".btnPlay")));
 
-        var notFound = candidates.every(function (element) {
+        var focusedElement;
+
+        candidates.every(function (element) {
             if (focusManager.isCurrentlyFocusable(element)) {
                 focusManager.focus(element);
+                focusedElement = element;
                 return false;
             }
 
             return true;
         });
 
-        if (notFound) {
+        if (!focusedElement) {
             // FIXME: Multiple itemsContainers
             var itemsContainer = container.querySelector(".itemsContainer");
 
             if (itemsContainer) {
-                notFound = !focusManager.autoFocus(itemsContainer);
+                focusedElement = focusManager.autoFocus(itemsContainer);
             }
         }
 
-        if (notFound) {
-            focusManager.autoFocus(container);
+        if (!focusedElement) {
+            focusedElement = focusManager.autoFocus(container);
         }
+
+        return focusedElement;
     }
 
     return {
