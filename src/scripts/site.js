@@ -412,7 +412,7 @@ var AppInfo = {};
         } else if (browser.msie) {
             define("registerElement", [bowerPath + "/webcomponents-lite.min.js"], returnFirstDependency);
         } else {
-            define("registerElement", [bowerPath + "/document-register-element"], returnFirstDependency);
+            define("registerElement", ["document-register-element"], returnFirstDependency);
         }
 
         define("imageFetcher", [componentsPath + "/images/imageFetcher"], returnFirstDependency);
@@ -681,6 +681,7 @@ var AppInfo = {};
             },
             bundles: {
                 bundle: [
+                    "document-register-element",
                     "fetch",
                     "flvjs",
                     "jstree",

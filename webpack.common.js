@@ -6,8 +6,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const Assets = [
     "alameda/alameda.js",
     "requirejs/require.js",
-    "webcomponents.js-2/webcomponents-lite.min.js",
-    "document-register-element/build/document-register-element.js"
+    "webcomponents.js-2/webcomponents-lite.min.js"
 ];
 
 module.exports = {
