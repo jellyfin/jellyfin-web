@@ -20,27 +20,26 @@ define(["events", "playbackManager", "pluginManager", "inputManager", "connectio
         }
     });
 
-    function getScreensaverPlugin(isLoggedIn) {
+    function getScreensaverPlugin() {
 
         var option;
-        var defaultOption = isLoggedIn ? "backdropscreensaver" : "logoscreensaver";
         try {
             option = userSettings.get("screensaver", false);
         } catch (err) {
             option = null;
         }
 
-        if (option === "none" || defaultOption === "none") {
-            return null;
+        var plugins = pluginManager.ofType("screensaver");
+
+        for (var i = 0, length = plugins.length; i < length; i++) {
+            var plugin = plugins[i];
+
+            if (plugin.id === option) {
+                return plugin;
+            }
         }
 
-        var plugin = pluginManager.ofType("screensaver").filter(function (i) {
-            return i.id === option;
-        })[0];
-
-        return plugin = plugin || pluginManager.ofType("screensaver").filter(function (i) {
-            return i.id === defaultOption;
-        })[0];
+        return null;
     }
 
     function ScreenSaverManager() {
