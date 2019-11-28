@@ -368,7 +368,7 @@
     "EnableBackdrops": "Arka planında",
     "BurnSubtitlesHelp": "Altyazı formatına bağlı olarak video dönüştürülürken sunucunun altyazılarda yazıp yazmayacağını belirler. Altyazılarda yanmaktan kaçınmak, sunucu performansını iyileştirir. Görüntü tabanlı biçimleri (VOBSUB, PGS, SUB / IDX, vb.) Ve bazı ASS / SSA altyazılarını yazmak için Otomatik'i seçin.",
     "ConfirmDeleteItem": "Bu öğeyi silmek, onu hem dosya sisteminden hem de medya kütüphanenizden siler. Devam etmek istediğinize emin misiniz?",
-    "ValueSpecialEpisodeName": "Özel -{0}",
+    "ValueSpecialEpisodeName": "Özel - {0}",
     "DeviceAccessHelp": "Bu, yalnızca benzersiz şekilde tanımlanabilen ve tarayıcı erişimini engellemeyen cihazlar için geçerlidir. Kullanıcı cihazlarına erişimin filtrelenmesi, burada onaylanana kadar yeni cihazları kullanmalarını önler.",
     "DirectStreamHelp1": "Medya, çözünürlük ve medya türüyle (H.264, AC3, vb.) İlgili cihazla uyumludur, ancak uyumsuz bir dosya konteynerinde (mkv, avi, wmv, vb.) Bulunur. Video, cihaza aktarılmadan önce anında yeniden paketlenecek.",
     "DisplayMissingEpisodesWithinSeasonsHelp": "Bu, sunucu yapılandırmasındaki TV kütüphaneleri için de etkinleştirilmelidir.",
