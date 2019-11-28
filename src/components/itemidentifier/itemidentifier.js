@@ -21,7 +21,8 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
             ProviderIds: {}
         };
 
-        var i, length;
+        var i;
+        var length;
         var identifyField = page.querySelectorAll(".identifyField");
         var value;
         for (i = 0, length = identifyField.length; i < length; i++) {
@@ -64,8 +65,7 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
 
         if (currentItem && currentItem.Id) {
             lookupInfo.ItemId = currentItem.Id;
-        }
-        else {
+        } else {
             lookupInfo.IncludeDisabledProviders = true;
         }
 
@@ -97,7 +97,8 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
         page.querySelector(".dialogContentInner").classList.remove("dialog-content-centered");
 
         var html = "";
-        var i, length;
+        var i;
+        var length;
         for (i = 0, length = results.length; i < length; i++) {
 
             var result = results[i];
@@ -184,12 +185,10 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
         if (currentItemType === "Episode") {
             cssClass += " backdropCard backdropCard-scalable";
             padderClass = "cardPadder-backdrop";
-        }
-        else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
+        } else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
             cssClass += " squareCard squareCard-scalable";
             padderClass = "cardPadder-square";
-        }
-        else {
+        } else {
             cssClass += " portraitCard portraitCard-scalable";
             padderClass = "cardPadder-portrait";
         }
@@ -451,8 +450,6 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.on(dlg.querySelector(".formDialogContent"), false);
             }
-
-
 
             dialogHelper.open(dlg);
 

@@ -55,7 +55,7 @@ define(['events', 'dom', 'apphost', 'browser'], function (events, dom, appHost, 
         return document.fullscreen ||
             document.mozFullScreen ||
             document.webkitIsFullScreen ||
-            document.msFullscreenElement ||  /* IE/Edge syntax */
+            document.msFullscreenElement || /* IE/Edge syntax */
             document.fullscreenElement || /* Standard syntax */
             document.webkitFullscreenElement || /* Chrome, Safari and Opera syntax */
             document.mozFullScreenElement; /* Firefox syntax */

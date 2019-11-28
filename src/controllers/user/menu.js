@@ -35,6 +35,10 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
                     page.querySelector(".adminSection").classList.add("hide");
                 }
             });
+
+            require(["autoFocuser"], function (autoFocuser) {
+                autoFocuser.autoFocus(view);
+            });
         });
     };
 });

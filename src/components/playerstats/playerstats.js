@@ -364,8 +364,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
                 var category = playerStats[i];
                 if (category.type === 'audio') {
                     category.name = 'Audio Info';
-                }
-                else if (category.type === 'video') {
+                } else if (category.type === 'video') {
                     category.name = 'Video Info';
                 }
                 categories.push(category);

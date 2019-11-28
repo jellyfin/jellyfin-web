@@ -45,7 +45,7 @@ define(['require', 'browser'], function (require, browser) {
                 }
             }
         },
-            observerOptions
+        observerOptions
         );
 
         this.observer = observer;

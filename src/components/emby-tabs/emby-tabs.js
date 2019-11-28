@@ -142,7 +142,7 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
             tabs.classList.add('scrollX');
             tabs.classList.add('hiddenScrollX');
             tabs.classList.add('smoothScrollX');
-       }
+        }
     }
 
     EmbyTabs.createdCallback = function () {

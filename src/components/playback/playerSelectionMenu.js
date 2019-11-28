@@ -63,17 +63,17 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         switch (deviceType) {
 
             case 'smartphone':
-                return '&#xE32C;';
+                return 'smartphone';
             case 'tablet':
-                return '&#xE32F;';
+                return 'tablet';
             case 'tv':
-                return '&#xE333;';
+                return 'tv';
             case 'cast':
-                return '&#xE307;';
+                return 'cast';
             case 'desktop':
-                return '&#xE30A;';
+                return 'computer';
             default:
-                return '&#xE333;';
+                return 'tv';
         }
     }
 
@@ -153,7 +153,6 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         });
     }
 
-
     function disconnectFromPlayer(currentDeviceName) {
 
         if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
@@ -192,7 +191,6 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
                 });
 
             });
-
 
         } else {
 
@@ -275,8 +273,7 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         dialogHelper.open(dlg).then(function () {
             if (destination === 'nowplaying') {
                 appRouter.showNowPlaying();
-            }
-            else if (destination === 'disconnectFromPlayer') {
+            } else if (destination === 'disconnectFromPlayer') {
                 disconnectFromPlayer(currentDeviceName);
             }
         }, emptyCallback);

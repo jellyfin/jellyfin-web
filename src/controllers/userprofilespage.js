@@ -27,22 +27,22 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
         menuItems.push({
             name: globalize.translate("ButtonOpen"),
             id: "open",
-            ironIcon: "mode-edit"
+            icon: "mode_edit"
         });
         menuItems.push({
             name: globalize.translate("ButtonLibraryAccess"),
             id: "access",
-            ironIcon: "lock"
+            icon: "lock"
         });
         menuItems.push({
             name: globalize.translate("ButtonParentalControl"),
             id: "parentalcontrol",
-            ironIcon: "person"
+            icon: "person"
         });
         menuItems.push({
             name: globalize.translate("ButtonDelete"),
             id: "delete",
-            ironIcon: "delete"
+            icon: "delete"
         });
 
         require(["actionsheet"], function (actionsheet) {
@@ -149,7 +149,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
         menuItems.push({
             name: globalize.translate("ButtonCancel"),
             id: "delete",
-            ironIcon: "delete"
+            icon: "delete"
         });
 
         require(["actionsheet"], function (actionsheet) {
@@ -181,7 +181,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
             html += '<div class="cardImage" style="background-image:url(\'' + user.ImageUrl + "');\">";
             html += "</div>";
         } else {
-            html += '<i class="cardImageIcon md-icon">&#xE7FD;</i>';
+            html += '<i class="cardImageIcon md-icon">person</i>';
         }
 
         html += "</a>";

@@ -144,6 +144,10 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                 libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
                 loading.hide();
                 isLoading = false;
+
+                require(["autoFocuser"], function (autoFocuser) {
+                    autoFocuser.autoFocus(page);
+                });
             });
         }
 

@@ -116,6 +116,10 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
             view.querySelector(".visualLoginForm").classList.remove("hide");
             view.querySelector(".manualLoginForm").classList.add("hide");
             view.querySelector(".btnManual").classList.remove("hide");
+
+            require(["autoFocuser"], function (autoFocuser) {
+                autoFocuser.autoFocus(view);
+            });
         }
 
         view.querySelector("#divUsers").addEventListener("click", function(e) {

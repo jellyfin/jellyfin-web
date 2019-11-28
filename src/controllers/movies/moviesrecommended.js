@@ -36,6 +36,9 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
                 showYear: true,
                 centerText: true
             });
+
+            // FIXME: Wait for all sections to load
+            autoFocus(page);
         });
     }
 
@@ -76,6 +79,9 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
                 showYear: true,
                 centerText: true
             });
+
+            // FIXME: Wait for all sections to load
+            autoFocus(page);
         });
     }
 
@@ -147,6 +153,15 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             var recs = page.querySelector(".recommendations");
             recs.innerHTML = html;
             imageLoader.lazyChildren(recs);
+
+            // FIXME: Wait for all sections to load
+            autoFocus(page);
+        });
+    }
+
+    function autoFocus(page) {
+        require(["autoFocuser"], function (autoFocuser) {
+            autoFocuser.autoFocus(page);
         });
     }
 
