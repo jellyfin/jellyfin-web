@@ -129,7 +129,7 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
             html += '<button is="paper-icon-button-light" class="btnCloseSelectionPanel autoSize"><i class="md-icon">close</i></button>';
             html += '<h1 class="itemSelectionCount"></h1>';
 
-            var moreIcon = "&#xE5D3;";
+            var moreIcon = "more_horiz";
             html += '<button is="paper-icon-button-light" class="btnSelectionPanelOptions autoSize" style="margin-left:auto;"><i class="md-icon">' + moreIcon + '</i></button>';
 
             selectionCommandsPanel.innerHTML = html;

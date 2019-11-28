@@ -42,31 +42,31 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         // The onclicks are needed due to the return false above
         html += '<div class="nowPlayingBarCenter">';
 
-        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><i class="md-icon">&#xE045;</i></button>';
+        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><i class="md-icon">skip_previous</i></button>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="md-icon">&#xE034;</i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="md-icon">pause</i></button>';
 
         html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><i class="md-icon">stop</i></button>';
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><i class="md-icon">&#xE044;</i></button>';
+        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><i class="md-icon">skip_next</i></button>';
 
         html += '<div class="nowPlayingBarCurrentTime"></div>';
         html += '</div>';
 
         html += '<div class="nowPlayingBarRight">';
 
-        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="md-icon">&#xE050;</i></button>';
+        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="md-icon">volume_up</i></button>';
 
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><i class="md-icon">&#xE040;</i></button>';
+        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><i class="md-icon">repeat</i></button>';
 
         html += '<div class="nowPlayingBarUserDataButtons">';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="md-icon">&#xE034;</i></button>';
-        html += '<button is="paper-icon-button-light" class="remoteControlButton mediaButton"><i class="md-icon">&#xE05F;</i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="md-icon">pause</i></button>';
+        html += '<button is="paper-icon-button-light" class="remoteControlButton mediaButton"><i class="md-icon">playlist_play</i></button>';
 
         html += '</div>';
         html += '</div>';
@@ -400,9 +400,9 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         if (isMuted) {
-            muteButton.querySelector('i').innerHTML = '&#xE04F;';
+            muteButton.querySelector('i').innerHTML = 'volume_off';
         } else {
-            muteButton.querySelector('i').innerHTML = '&#xE050;';
+            muteButton.querySelector('i').innerHTML = 'volume_up';
         }
 
         if (progressElement) {
@@ -571,7 +571,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                     var userData = item.UserData || {};
                     var likes = userData.Likes == null ? '' : userData.Likes;
 
-                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon">&#xE87D;</i></button>';
+                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon">favorite</i></button>';
                 });
 
             }

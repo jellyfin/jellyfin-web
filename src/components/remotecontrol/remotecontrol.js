@@ -135,7 +135,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
                 var userData = fullItem.UserData || {};
                 var likes = null == userData.Likes ? "" : userData.Likes;
-                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="md-icon">&#xE87D;</i></button>';
+                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="md-icon">favorite</i></button>';
             });
         } else {
             backdrop.clear();
@@ -291,10 +291,10 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
 
             if (isMuted) {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute"));
-                view.querySelector(".buttonMute i").innerHTML = "&#xE04F;";
+                view.querySelector(".buttonMute i").innerHTML = "volume_off";
             } else {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute"));
-                view.querySelector(".buttonMute i").innerHTML = "&#xE050;";
+                view.querySelector(".buttonMute i").innerHTML = "volume_up";
             }
 
             if (progressElement) {
@@ -361,7 +361,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                     action: "setplaylistindex",
                     enableUserDataButtons: false,
                     rightButtons: [{
-                        icon: "&#xE15D;",
+                        icon: "remove_circle_outline",
                         title: globalize.translate("ButtonRemove"),
                         id: "remove"
                     }],

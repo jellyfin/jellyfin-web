@@ -177,7 +177,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
             var leadingButtons = layoutManager.tv ? [{
                 name: globalize.translate("All"),
                 id: "more",
-                icon: "&#xE87D;",
+                icon: "favorite",
                 routeUrl: getRouteUrl(section, serverId)
             }] : null;
             var lines = 0;
@@ -248,7 +248,7 @@ define(["appRouter", "cardBuilder", "dom", "globalize", "connectionManager", "ap
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
                 html += globalize.translate(section.name);
                 html += "</h2>";
-                html += '<i class="md-icon">&#xE5CC;</i>';
+                html += '<i class="md-icon">chevron_right</i>';
                 html += "</a>";
             }
 

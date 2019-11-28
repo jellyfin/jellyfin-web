@@ -54,7 +54,7 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
             outlineClass += ' ' + customClass;
         }
 
-        var checkedIcon = this.getAttribute('data-checkedicon') || '&#xE5CA;';
+        var checkedIcon = this.getAttribute('data-checkedicon') || 'check';
         var uncheckedIcon = this.getAttribute('data-uncheckedicon') || '';
         var checkHtml = '<i class="md-icon checkboxIcon checkboxIcon-checked">' + checkedIcon + '</i>';
         var uncheckedHtml = '<i class="md-icon checkboxIcon checkboxIcon-unchecked">' + uncheckedIcon + '</i>';

@@ -91,20 +91,20 @@ define(["userSettings"], function (userSettings) {
                 html += '<div style="display:inline-block;">';
 
                 if (showControls) {
-                    html += '<button is="paper-icon-button-light" class="btnPreviousPage autoSize" ' + (startIndex ? "" : "disabled") + '><i class="md-icon">&#xE5C4;</i></button>';
-                    html += '<button is="paper-icon-button-light" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? "disabled" : "") + '><i class="md-icon">&#xE5C8;</i></button>';
+                    html += '<button is="paper-icon-button-light" class="btnPreviousPage autoSize" ' + (startIndex ? "" : "disabled") + '><i class="md-icon">arrow_back</i></button>';
+                    html += '<button is="paper-icon-button-light" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? "disabled" : "") + '><i class="md-icon">arrow_forward</i></button>';
                 }
 
                 if (options.addLayoutButton) {
-                    html += '<button is="paper-icon-button-light" title="' + Globalize.translate("ButtonSelectView") + '" class="btnChangeLayout autoSize" data-layouts="' + (options.layouts || "") + '" onclick="LibraryBrowser.showLayoutMenu(this, \'' + (options.currentLayout || "") + '\');"><i class="md-icon">&#xE42A;</i></button>';
+                    html += '<button is="paper-icon-button-light" title="' + Globalize.translate("ButtonSelectView") + '" class="btnChangeLayout autoSize" data-layouts="' + (options.layouts || "") + '" onclick="LibraryBrowser.showLayoutMenu(this, \'' + (options.currentLayout || "") + '\');"><i class="md-icon">view_comfy</i></button>';
                 }
 
                 if (options.sortButton) {
-                    html += '<button is="paper-icon-button-light" class="btnSort autoSize" title="' + Globalize.translate("ButtonSort") + '"><i class="md-icon">&#xE053;</i></button>';
+                    html += '<button is="paper-icon-button-light" class="btnSort autoSize" title="' + Globalize.translate("ButtonSort") + '"><i class="md-icon">sort_by_alpha</i></button>';
                 }
 
                 if (options.filterButton) {
-                    html += '<button is="paper-icon-button-light" class="btnFilter autoSize" title="' + Globalize.translate("ButtonFilter") + '"><i class="md-icon">&#xE152;</i></button>';
+                    html += '<button is="paper-icon-button-light" class="btnFilter autoSize" title="' + Globalize.translate("ButtonFilter") + '"><i class="md-icon">filter_list</i></button>';
                 }
 
                 html += "</div>";

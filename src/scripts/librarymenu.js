@@ -66,7 +66,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             headerUserButton.innerHTML = '<div class="headerButton headerButtonRight paper-icon-button-light headerUserButtonRound" style="background-image:url(\'' + src + "');\"></div>";
         } else {
             headerUserButton.classList.remove("headerUserButtonRound");
-            headerUserButton.innerHTML = '<i class="md-icon">&#xE7FD;</i>';
+            headerUserButton.innerHTML = '<i class="md-icon">person</i>';
         }
     }
 
@@ -545,11 +545,11 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         var icon = headerCastButton.querySelector("i");
 
         if (info && !info.isLocalPlayer) {
-            icon.innerHTML = "&#xE308;";
+            icon.innerHTML = "cast_connected";
             headerCastButton.classList.add("castButton-active");
             context.querySelector(".headerSelectedPlayer").innerHTML = info.deviceName || info.name;
         } else {
-            icon.innerHTML = "&#xE307;";
+            icon.innerHTML = "cast";
             headerCastButton.classList.remove("castButton-active");
             context.querySelector(".headerSelectedPlayer").innerHTML = "";
         }
@@ -837,16 +837,16 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         var html = "";
         html += '<div class="flex align-items-center flex-grow headerTop">';
         html += '<div class="headerLeft">';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><i class="md-icon">' + (browser.safari ? "chevron_left" : "&#xE5C4;") + "</i></button>";
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><i class="md-icon">&#xE88A;</i></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><i class="md-icon">&#xE5D2;</i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><i class="md-icon">' + (browser.safari ? "chevron_left" : "arrow_back") + "</i></button>";
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><i class="md-icon">home</i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><i class="md-icon">menu</i></button>';
         html += '<h3 class="pageTitle"></h3>';
         html += "</div>";
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
-        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="md-icon">&#xE307;</i></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="md-icon">&#xE8B6;</i></button>';
-        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="md-icon">&#xE7FD;</i></button>';
+        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="md-icon">cast</i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="md-icon">search</i></button>';
+        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="md-icon">person</i></button>';
         html += "</div>";
         html += "</div>";
         html += '<div class="headerTabs sectionTabs hide">';

@@ -7,7 +7,7 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
 
     function getScrollButtonHtml(direction) {
         var html = '';
-        var icon = direction === 'left' ? '&#xE5CB;' : '&#xE5CC;';
+        var icon = direction === 'left' ? 'chevron_left' : 'chevron_right';
 
         html += '<button type="button" is="paper-icon-button-light" data-ripple="false" data-direction="' + direction + '" class="emby-scrollbuttons-button">';
         html += '<i class="md-icon">' + icon + '</i>';

@@ -416,7 +416,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var status;
 
             if (item.Type === 'SeriesTimer') {
-                return '<i class="md-icon programIcon seriesTimerIcon">&#xE062;</i>';
+                return '<i class="md-icon programIcon seriesTimerIcon">fiber_smart_record</i>';
             } else if (item.TimerId || item.SeriesTimerId) {
 
                 status = item.Status || 'Cancelled';
@@ -430,13 +430,13 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             if (item.SeriesTimerId) {
 
                 if (status !== 'Cancelled') {
-                    return '<i class="md-icon programIcon seriesTimerIcon">&#xE062;</i>';
+                    return '<i class="md-icon programIcon seriesTimerIcon">fiber_smart_record</i>';
                 }
 
-                return '<i class="md-icon programIcon seriesTimerIcon seriesTimerIcon-inactive">&#xE062;</i>';
+                return '<i class="md-icon programIcon seriesTimerIcon seriesTimerIcon-inactive">fiber_smart_record</i>';
             }
 
-            return '<i class="md-icon programIcon timerIcon">&#xE061;</i>';
+            return '<i class="md-icon programIcon timerIcon">fiber_manual_record</i>';
         }
 
         function getChannelProgramsHtml(context, date, channel, programs, options, listInfo) {
@@ -550,7 +550,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                     html += '<div class="' + guideProgramNameClass + '">';
 
-                    html += '<div class="guide-programNameCaret hide"><i class="guideProgramNameCaretIcon md-icon">&#xE314;</i></div>';
+                    html += '<div class="guide-programNameCaret hide"><i class="guideProgramNameCaretIcon md-icon">keyboard_arrow_left</i></div>';
 
                     html += '<div class="guideProgramNameText">' + program.Name;
 
@@ -1106,7 +1106,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                 var icon = cell.querySelector('.timerIcon');
                 if (!icon) {
-                    cell.querySelector('.guideProgramName').insertAdjacentHTML('beforeend', '<i class="timerIcon md-icon programIcon">&#xE061;</i>');
+                    cell.querySelector('.guideProgramName').insertAdjacentHTML('beforeend', '<i class="timerIcon md-icon programIcon">fiber_manual_record</i>');
                 }
 
                 if (newTimerId) {

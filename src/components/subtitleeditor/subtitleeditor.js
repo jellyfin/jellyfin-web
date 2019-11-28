@@ -281,7 +281,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             html += '</div>';
 
             if (!layoutManager.tv) {
-                html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><i class="md-icon">&#xE2C4;</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><i class="md-icon">file_download</i></button>';
             }
 
             html += '</' + tagName + '>';
