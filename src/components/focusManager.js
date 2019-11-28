@@ -1,4 +1,4 @@
-define(['dom'], function (dom) {
+define(['dom', 'scrollManager'], function (dom, scrollManager) {
     'use strict';
 
     var scopes = [];
@@ -40,7 +40,7 @@ define(['dom'], function (dom) {
 
         try {
             element.focus({
-                preventScroll: false
+                preventScroll: scrollManager.isEnabled()
             });
         } catch (err) {
             console.log('Error in focusManager.autoFocus: ' + err);
