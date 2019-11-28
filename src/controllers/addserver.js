@@ -46,6 +46,10 @@ define(["appSettings", "loading", "browser", "emby-button"], function(appSetting
         view.querySelector(".addServerForm").addEventListener("submit", onServerSubmit);
         view.querySelector(".btnCancel").addEventListener("click", goBack);
 
+        require(["autoFocuser"], function (autoFocuser) {
+            autoFocuser.autoFocus(view);
+        });
+
         function onServerSubmit(e) {
             submitServer(view);
             e.preventDefault();

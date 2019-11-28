@@ -58,6 +58,10 @@ define(["libraryBrowser", "cardBuilder", "apphost", "imageLoader", "loading"], f
                 imageLoader.lazyChildren(elem);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
+
+                require(["autoFocuser"], function (autoFocuser) {
+                    autoFocuser.autoFocus(context);
+                });
             });
         }
 

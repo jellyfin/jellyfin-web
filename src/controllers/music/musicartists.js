@@ -144,6 +144,10 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                 libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
                 loading.hide();
                 isLoading = false;
+
+                require(["autoFocuser"], function (autoFocuser) {
+                    autoFocuser.autoFocus(tabContent);
+                });
             });
         }
 

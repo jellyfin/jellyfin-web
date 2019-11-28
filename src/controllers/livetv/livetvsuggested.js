@@ -49,6 +49,10 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                 showAirEndTime: true
             });
             loading.hide();
+
+            require(["autoFocuser"], function (autoFocuser) {
+                autoFocuser.autoFocus(page);
+            });
         });
     }
 

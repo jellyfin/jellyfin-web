@@ -40,6 +40,10 @@ define(["loading", "components/groupedcards", "cardBuilder", "apphost", "imageLo
             elem.innerHTML = html;
             imageLoader.lazyChildren(elem);
             loading.hide();
+
+            require(["autoFocuser"], function (autoFocuser) {
+                autoFocuser.autoFocus(context);
+            });
         });
     }
 

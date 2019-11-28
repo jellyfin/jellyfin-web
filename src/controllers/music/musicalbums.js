@@ -160,6 +160,10 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
                 isLoading = false;
+
+                require(["autoFocuser"], function (autoFocuser) {
+                    autoFocuser.autoFocus(tabContent);
+                });
             });
         }
 
