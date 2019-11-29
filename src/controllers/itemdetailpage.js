@@ -1,4 +1,4 @@
-define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function(loading, appRouter, layoutManager, connectionManager, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser) {
+define(["loading", "appRouter", "layoutManager", "userSettings", "connectionManager", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, userSettings, connectionManager, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser) {
     "use strict";
 
     function getPromise(apiClient, params) {
@@ -255,6 +255,20 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         (item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && -1 !== playbackManager.getSupportedCommands().indexOf("PlayTrailers") ? hideAll(page, "btnPlayTrailer", !0) : hideAll(page, "btnPlayTrailer")
     }
 
+    function enabled() {
+        return userSettings.enableBackdrops();
+    }
+
+    function renderBackdrop(page, item, apiClient) {
+        if (enabled()) {
+            if (dom.getWindowSize().innerWidth >= 1000) {
+                backdrop.setBackdrops([item]);
+            } else {
+                backdrop.clear();
+            }
+        }
+    }
+
     function renderDetailPageBackdrop(page, item, apiClient) {
         var imgUrl;
         var screenWidth = screen.availWidth;
@@ -322,7 +336,16 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var context = params.context;
         renderName(item, page.querySelector(".nameContainer"), !1, context);
         var apiClient = connectionManager.getApiClient(item.ServerId);
-        renderSeriesTimerEditor(page, item, apiClient, user), renderTimerEditor(page, item, apiClient, user), renderImage(page, item, apiClient, user), renderLogo(page, item, apiClient), setTitle(item, apiClient), setInitialCollapsibleState(page, item, apiClient, context, user), renderDetails(page, item, apiClient, context), renderTrackSelections(page, instance, item), dom.getWindowSize().innerWidth >= 1e3 ? backdrop.setBackdrops([item]) : backdrop.clear(), renderDetailPageBackdrop(page, item, apiClient);
+        renderSeriesTimerEditor(page, item, apiClient, user);
+        renderTimerEditor(page, item, apiClient, user);
+        renderImage(page, item, apiClient, user);
+        renderLogo(page, item, apiClient);
+        setTitle(item, apiClient);
+        setInitialCollapsibleState(page, item, apiClient, context, user);
+        renderDetails(page, item, apiClient, context);
+        renderTrackSelections(page, instance, item);
+        renderBackdrop(page, item, apiClient);
+        renderDetailPageBackdrop(page, item, apiClient);
         var canPlay = reloadPlayButtons(page, item);
         if ((item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && -1 !== playbackManager.getSupportedCommands().indexOf("PlayTrailers")) {
             hideAll(page, "btnPlayTrailer", true);
