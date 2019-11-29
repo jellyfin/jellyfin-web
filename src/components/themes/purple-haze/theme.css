@@ -49,7 +49,7 @@ html {
 }
 
 .backgroundContainer.withBackdrop {
-    opacity: .93
+    opacity: .86
 }
 
 @media (orientation:portrait) {
