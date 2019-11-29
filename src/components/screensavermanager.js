@@ -20,13 +20,13 @@ define(["events", "playbackManager", "pluginManager", "inputManager", "connectio
         }
     });
 
-    function getScreensaverPlugin() {
+    function getScreensaverPlugin(isLoggedIn) {
 
         var option;
         try {
             option = userSettings.get("screensaver", false);
         } catch (err) {
-            option = null;
+            option = isLoggedIn ? "backdropscreensaver" : "logoscreensaver";
         }
 
         var plugins = pluginManager.ofType("screensaver");
