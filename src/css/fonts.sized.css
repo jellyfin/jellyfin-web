@@ -25,7 +25,6 @@ h3 {
 
 /* This is supposed to be 1080p, but had to reduce the min height to account for possible browser chrome */
 @media all and (min-height: 1000px) {
-
     html {
         font-size: 27px;
     }
