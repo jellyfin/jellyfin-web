@@ -1,7 +1,8 @@
 const path = require("path");
 const common = require("./webpack.common");
 const merge = require("webpack-merge");
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ConcatPlugin = require('webpack-concat-plugin');
 
 module.exports = merge(common, {
     mode: "development",
@@ -24,9 +25,12 @@ module.exports = merge(common, {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            appLoader: '<script>window.dashboardVersion="0.0.0";</script><script src="scripts/apploader.js?v=0.0.0" defer></script></body>',
             filename: 'index.html',
             template: 'index.html'
+        }),
+        new ConcatPlugin({
+            name: 'scripts/apploader.js',
+            filesToConcat: ['./scripts/apploader.js']
         })
     ],
     devServer: {
