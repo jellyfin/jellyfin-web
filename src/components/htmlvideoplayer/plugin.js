@@ -280,6 +280,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             self._currentTime = null;
 
+            self.resetSubtitleOffset();
+
             return createMediaElement(options).then(function (elem) {
 
                 return updateVideoUrl(options, options.mediaSource).then(function () {
@@ -555,6 +557,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             setCurrentTrackElement(index);
         };
+
+        self.resetSubtitleOffset = function() {
+            if (currentTrackOffset) {
+                currentTrackOffset = 0;
+            }
+            if (showTrackOffset) {
+                showTrackOffset = false;
+            }
+        }
 
         self.enableShowingSubtitleOffset = function() {
             showTrackOffset = true;
