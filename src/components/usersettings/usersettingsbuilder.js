@@ -2,8 +2,9 @@ define(['appSettings', 'events'], function (appSettings, events) {
     'use strict';
 
     function onSaveTimeout() {
-        this.saveTimeout = null;
-        this.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
+        var self = this;
+        self.saveTimeout = null;
+        self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
     }
 
     function saveServerPreferences(instance) {
