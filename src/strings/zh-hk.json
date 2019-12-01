@@ -334,5 +334,6 @@
     "ValueSongCount": "{0} 首歌",
     "Wednesday": "星期三",
     "WelcomeToProject": "歡迎來到 Jellyfin！",
-    "WizardCompleted": "這就是我們所需要的。 Jellyfin 已開始收集有關您的媒體庫信息。請看看我們一些應用程式，然後點擊 <b>完成</b> 才查看 <b>服務器控制台</b> 。"
+    "WizardCompleted": "這就是我們所需要的。 Jellyfin 已開始收集有關您的媒體庫信息。請看看我們一些應用程式，然後點擊 <b>完成</b> 才查看 <b>服務器控制台</b> 。",
+    "Actor": "演員"
 }
