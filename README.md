@@ -63,6 +63,3 @@ Jellyfin Web is the frontend used for most of the clients available for end user
    yarn serve
    ```
 
-The webpack dev server will proxy backend requests to http://localhost:8096 - so
-you'll need to start a jellyfin backend either via docker or by running
-the application in the jellyfin main repository.

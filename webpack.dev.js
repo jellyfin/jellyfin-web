@@ -30,14 +30,7 @@ module.exports = merge(common, {
         }),
         new ConcatPlugin({
             name: 'scripts/apploader.js',
-            filesToConcat: ['./scripts/apploader.js']
+            filesToConcat: ['./standalone.js', './scripts/apploader.js']
         })
-    ],
-    devServer: {
-        proxy: {
-            "!/**/*.html" : "http://localhost:8096",
-            "!/**/*.css" : "http://localhost:8086",
-            "!/**/*.js" : "http://localhost:8086"
-        }
-    }
+    ]
 });
