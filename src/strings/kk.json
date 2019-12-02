@@ -500,7 +500,7 @@
     "HideWatchedContentFromLatestMedia": "Eń keıingi tasyǵyshderekterden qaralǵan mazmundy jasyrý",
     "Home": "Basqy",
     "Horizontal": "Kóldeneń",
-    "HttpsRequiresCert": "Qaýipsiz qosylymdar qosý úshin Lets Encrypt sıaqty senimdi SSL-kýáligin jetkizýińiz qajet. Kýálikti jetkizińiz nemese qaýipsiz qosylymdardy óshirińiz.",
+    "HttpsRequiresCert": "Qaýipsiz qosylymdar qosý úshin Letʼs Encrypt sıaqty senimdi SSL-kýáligin jetkizýińiz qajet. Kýálikti jetkizińiz nemese qaýipsiz qosylymdardy óshirińiz.",
     "Identify": "Anyqtaý",
     "Images": "Sýretter",
     "ImportFavoriteChannelsHelp": "Qosylǵanda, túner qurylǵysyndaǵy tańdaýly retinde belgilengen ǵana arnalar shetten ákelinetin bolady.",
@@ -535,7 +535,7 @@
     "LabelAllowedRemoteAddresses": "Qashyqtaǵy IP-mekenjaı súzgisi:",
     "LabelAllowedRemoteAddressesMode": "Qashyqtaǵy IP-mekenjaı súzgisiniń rejimi:",
     "LabelAppName": "Qoldanba aty",
-    "LabelAppNameExample": "Mysaly: Sickbeard, NzbDrone",
+    "LabelAppNameExample": "Mysaly: Sickbeard, Sonarr",
     "LabelArtists": "Oryndaýshylar:",
     "LabelArtistsHelp": "Birneshýin mynaýmen bólińiz ;",
     "LabelAudio": "Dybys:",
@@ -926,7 +926,7 @@
     "MessageDeleteTaskTrigger": "Shynymen osy tapsyrma trıggerin joıý qajet pe?",
     "MessageDirectoryPickerBSDInstruction": "BSD ortasynda, Jellyfin qol jetkizý maqsatynda, sizdiń FreeNAS Jail ishindegi jınaqtaýyshty teńsheý qajet bolýy múmkin.",
     "MessageDirectoryPickerInstruction": "Jeli túımeshigi basylǵanda qurylǵylaryńyz orny tabylmasa, jelilik joldar qolmen engizilýi múmkin. Mysaly, {0} nemese {1}.",
-    "MessageDirectoryPickerLinuxInstruction": "Arch Linux, CentOS, Debian, Fedora, OpenSuse nemese Ubuntu júıelerindegi Linux úshin, Jqyzmet kórsetý paıdalanýshyǵa kem degende saqtaý jerlerińizge oqýǵa qatynas úshin ruqsat etýge tıissiz.",
+    "MessageDirectoryPickerLinuxInstruction": "Arch Linux, CentOS, Debian, Fedora, openSUSE nemese Ubuntu júıelerindegi Linux úshin, Jqyzmet kórsetý paıdalanýshyǵa kem degende saqtaý jerlerińizge oqýǵa qatynas úshin ruqsat etýge tıissiz.",
     "MessageDownloadQueued": "Júktep alý kezekte.",
     "MessageEnablingOptionLongerScans": "Osy opsıa qoıylsa, tasyǵyshhana skanerleýleri edáýir uzyn bolýy múmkin.",
     "MessageFileReadError": "Faıl oqý kezinde qate oryn aldy. Áreketti keıin qaıtalańyz.",
@@ -1131,7 +1131,7 @@
     "OptionThursday": "beısenbi",
     "OptionTrackName": "Jolshyq aty",
     "OptionTuesday": "seısenbi",
-    "OptionTvdbRating": "Tvdb baǵalaýy",
+    "OptionTvdbRating": "TVDB baǵalaýy",
     "OptionUnairedEpisode": "Kórsetilmegen bólimder",
     "OptionUnplayed": "Oınatylmaǵan",
     "OptionWakeFromSleep": "Uıqydan oıatýda",
@@ -1485,5 +1485,6 @@
     "CopyStreamURL": "Aǵyn URL mekenjaıyn kóshirý",
     "FetchingData": "Qosymsha derekterdi shyǵaryp alý",
     "ButtonAddImage": "Sýret ústeý",
-    "MusicLibraryHelp": "{0}Mýzyka ataý nusqaýlyǵyn{1} qarap shyǵý."
+    "MusicLibraryHelp": "{0}Mýzyka ataý nusqaýlyǵyn{1} qarap shyǵý.",
+    "HeaderFavoritePeople": "Tańdaýly adamdar"
 }
