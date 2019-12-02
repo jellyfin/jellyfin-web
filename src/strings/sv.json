@@ -1295,7 +1295,7 @@
     "ButtonGuide": "Guide",
     "Blacklist": "Svartlista",
     "Auto": "Automatisk",
-    "AuthProviderHelp": "Välj en autentiserings leverantör som ska användas för att autentisera denna användarens lösenord",
+    "AuthProviderHelp": "Välj en autentiseringsleverantör som ska användas för att autentisera denna användares lösenord",
     "Ascending": "Stigande",
     "AllowedRemoteAddressesHelp": "Kommaavgränsad lista av IP-adresser eller IP/nätmask poster för nätverk som kommer bli tillåtna att ansluta avlägset. Om fältet lämnas tomt så kommer alla avlägsna adresser tillåtas.",
     "AllowMediaConversionHelp": "Tillåt eller neka tillgång till media konvertings funktionen.",
