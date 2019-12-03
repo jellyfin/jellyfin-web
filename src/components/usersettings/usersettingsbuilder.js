@@ -49,10 +49,6 @@ define(['appSettings', 'events'], function (appSettings, events) {
 
     UserSettings.prototype.set = function (name, value, enableOnServer) {
         var userId = this.currentUserId;
-        if (!userId) {
-            throw new Error('userId cannot be null');
-        }
-
         var currentValue = this.get(name, enableOnServer);
         var result = appSettings.set(name, value, userId);
 
@@ -70,14 +66,8 @@ define(['appSettings', 'events'], function (appSettings, events) {
 
     UserSettings.prototype.get = function (name, enableOnServer) {
         var userId = this.currentUserId;
-        if (!userId) {
-            throw new Error('userId cannot be null');
-        }
-
-        if (enableOnServer !== false) {
-            if (this.displayPrefs) {
-                return this.displayPrefs.CustomPrefs[name];
-            }
+        if (enableOnServer !== false && this.displayPrefs) {
+            return this.displayPrefs.CustomPrefs[name];
         }
 
         return appSettings.get(name, userId);
