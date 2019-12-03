@@ -175,7 +175,7 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
             var btnSortIcon = instance.btnSortIcon;
 
             if (btnSortIcon) {
-                btnSortIcon.innerHTML = "Descending" === values.sortOrder ? "&#xE5DB;" : "&#xE5D8;";
+                btnSortIcon.innerHTML = "Descending" === values.sortOrder ? "arrow_downward" : "arrow_upward";
             }
         }
     }

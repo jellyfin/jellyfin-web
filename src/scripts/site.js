@@ -477,6 +477,10 @@ var AppInfo = {};
                 require(["keyboardnavigation"], function(keyboardnavigation) {
                     keyboardnavigation.enable();
                 });
+                require(["focusPreventScroll"]);
+                require(["autoFocuser"], function(autoFocuser) {
+                    autoFocuser.enable();
+                });
             });
         });
     }
@@ -839,6 +843,7 @@ var AppInfo = {};
         });
         define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
         define("objectassign", [componentsPath + "/polyfills/objectassign"], returnFirstDependency);
+        define("focusPreventScroll", [componentsPath + "/polyfills/focusPreventScroll"], returnFirstDependency);
         define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
         define("emby-playstatebutton", [componentsPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
         define("emby-ratingbutton", [componentsPath + "/userdatabuttons/emby-ratingbutton"], returnFirstDependency);
@@ -863,6 +868,8 @@ var AppInfo = {};
         define("serverNotifications", [componentsPath + "/serverNotifications/serverNotifications"], returnFirstDependency);
         define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
         define("keyboardnavigation", [componentsPath + "/keyboardnavigation"], returnFirstDependency);
+        define("scrollManager", [componentsPath + "/scrollManager"], returnFirstDependency);
+        define("autoFocuser", [componentsPath + "/autoFocuser"], returnFirstDependency);
         define("connectionManager", [], function () {
             return ConnectionManager;
         });

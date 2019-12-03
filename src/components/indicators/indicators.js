@@ -90,7 +90,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
             }
 
             if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
-                return '<div class="playedIndicator indicator"><i class="md-icon indicatorIcon">&#xE5CA;</i></div>';
+                return '<div class="playedIndicator indicator"><i class="md-icon indicatorIcon">check</i></div>';
             }
         }
 
@@ -119,7 +119,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         var status;
 
         if (item.Type === 'SeriesTimer') {
-            return '<i class="md-icon timerIndicator indicatorIcon">&#xE062;</i>';
+            return '<i class="md-icon timerIndicator indicatorIcon">fiber_smart_record</i>';
         } else if (item.TimerId || item.SeriesTimerId) {
             status = item.Status || 'Cancelled';
         } else if (item.Type === 'Timer') {
@@ -130,20 +130,20 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
         if (item.SeriesTimerId) {
             if (status !== 'Cancelled') {
-                return '<i class="md-icon timerIndicator indicatorIcon">&#xE062;</i>';
+                return '<i class="md-icon timerIndicator indicatorIcon">fiber_smart_record</i>';
             }
 
-            return '<i class="md-icon timerIndicator timerIndicator-inactive indicatorIcon">&#xE062;</i>';
+            return '<i class="md-icon timerIndicator timerIndicator-inactive indicatorIcon">fiber_smart_record</i>';
         }
 
-        return '<i class="md-icon timerIndicator indicatorIcon">&#xE061;</i>';
+        return '<i class="md-icon timerIndicator indicatorIcon">fiber_manual_record</i>';
     }
 
     function getSyncIndicator(item) {
         if (item.SyncPercent === 100) {
-            return '<div class="syncIndicator indicator fullSyncIndicator"><i class="md-icon indicatorIcon">&#xE2C4;</i></div>';
+            return '<div class="syncIndicator indicator fullSyncIndicator"><i class="md-icon indicatorIcon">file_download</i></div>';
         } else if (item.SyncPercent != null) {
-            return '<div class="syncIndicator indicator emptySyncIndicator"><i class="md-icon indicatorIcon">&#xE2C4;</i></div>';
+            return '<div class="syncIndicator indicator emptySyncIndicator"><i class="md-icon indicatorIcon">file_download</i></div>';
         }
 
         return '';
@@ -151,13 +151,13 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
     function getTypeIndicator(item) {
         if (item.Type === 'Video') {
-            return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE04B;</i></div>';
+            return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">videocam</i></div>';
         }
         if (item.Type === 'Folder' || item.Type === 'PhotoAlbum') {
-            return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE2C7;</i></div>';
+            return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">folder</i></div>';
         }
         if (item.Type === 'Photo') {
-            return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE410;</i></div>';
+            return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">photo</i></div>';
         }
 
         return '';

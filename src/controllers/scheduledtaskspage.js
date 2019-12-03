@@ -137,7 +137,8 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             pollInterval && clearInterval(pollInterval);
         }
 
-        var pollInterval, serverId = ApiClient.serverId();
+        var pollInterval;
+        var serverId = ApiClient.serverId();
 
         $(".divScheduledTasks", view).on("click", ".btnStartTask", function() {
             var button = this;

@@ -29,8 +29,7 @@ define(['playbackManager', 'layoutManager', 'events'], function (playbackManager
                         // returns a boolean
                         orientationLocked = promise;
                     }
-                }
-                catch (err) {
+                } catch (err) {
                     onOrientationChangeError(err);
                 }
             }
@@ -46,8 +45,7 @@ define(['playbackManager', 'layoutManager', 'events'], function (playbackManager
             if (unlockOrientation) {
                 try {
                     unlockOrientation();
-                }
-                catch (err) {
+                } catch (err) {
                     console.log('error unlocking orientation: ' + err);
                 }
                 orientationLocked = false;

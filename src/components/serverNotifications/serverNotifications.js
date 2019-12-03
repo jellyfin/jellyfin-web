@@ -18,8 +18,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                 toast({ title: args.Header, text: args.Text });
             });
 
-        }
-        else {
+        } else {
             require(['alert'], function (alert) {
                 alert({ title: args.Header, text: args.Text });
             });
@@ -157,11 +156,9 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
 
             if (msg.Data.PlayCommand === "PlayNext") {
                 playbackManager.queueNext({ ids: msg.Data.ItemIds, serverId: serverId });
-            }
-            else if (msg.Data.PlayCommand === "PlayLast") {
+            } else if (msg.Data.PlayCommand === "PlayLast") {
                 playbackManager.queue({ ids: msg.Data.ItemIds, serverId: serverId });
-            }
-            else {
+            } else {
                 playbackManager.play({
                     ids: msg.Data.ItemIds,
                     startPositionTicks: msg.Data.StartPositionTicks,
@@ -173,38 +170,29 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                 });
             }
 
-        }
-        else if (msg.MessageType === "Playstate") {
+        } else if (msg.MessageType === "Playstate") {
 
             if (msg.Data.Command === 'Stop') {
                 inputManager.trigger('stop');
-            }
-            else if (msg.Data.Command === 'Pause') {
+            } else if (msg.Data.Command === 'Pause') {
                 inputManager.trigger('pause');
-            }
-            else if (msg.Data.Command === 'Unpause') {
+            } else if (msg.Data.Command === 'Unpause') {
                 inputManager.trigger('play');
-            }
-            else if (msg.Data.Command === 'PlayPause') {
+            } else if (msg.Data.Command === 'PlayPause') {
                 inputManager.trigger('playpause');
-            }
-            else if (msg.Data.Command === 'Seek') {
+            } else if (msg.Data.Command === 'Seek') {
                 playbackManager.seek(msg.Data.SeekPositionTicks);
-            }
-            else if (msg.Data.Command === 'NextTrack') {
+            } else if (msg.Data.Command === 'NextTrack') {
                 inputManager.trigger('next');
-            }
-            else if (msg.Data.Command === 'PreviousTrack') {
+            } else if (msg.Data.Command === 'PreviousTrack') {
                 inputManager.trigger('previous');
             } else {
                 notifyApp();
             }
-        }
-        else if (msg.MessageType === "GeneralCommand") {
+        } else if (msg.MessageType === "GeneralCommand") {
             var cmd = msg.Data;
             processGeneralCommand(cmd, apiClient);
-        }
-        else if (msg.MessageType === "UserDataChanged") {
+        } else if (msg.MessageType === "UserDataChanged") {
 
             if (msg.Data.UserId === apiClient.getCurrentUserId()) {
 
@@ -212,8 +200,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                     events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
                 }
             }
-        }
-        else {
+        } else {
 
             events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
         }

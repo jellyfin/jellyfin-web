@@ -60,11 +60,11 @@ define(["globalize", "loading", "libraryMenu", "emby-checkbox", "emby-button", "
             libraryMenu.setTabs("librarysetup", 1, getTabs);
             loadData();
             ApiClient.getSystemInfo().then(function(info) {
-                 if ("Windows" === info.OperatingSystem) {
-                     view.querySelector(".fldSaveMetadataHidden").classList.remove("hide");
-                 } else {
-                     view.querySelector(".fldSaveMetadataHidden").classList.add("hide");
-                 }
+                if ("Windows" === info.OperatingSystem) {
+                    view.querySelector(".fldSaveMetadataHidden").classList.remove("hide");
+                } else {
+                    view.querySelector(".fldSaveMetadataHidden").classList.add("hide");
+                }
             });
         });
     }

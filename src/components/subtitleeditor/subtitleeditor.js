@@ -192,8 +192,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         var lastLanguage = userSettings.get('subtitleeditor-language');
         if (lastLanguage) {
             selectLanguage.value = lastLanguage;
-        }
-        else {
+        } else {
 
             apiClient.getCurrentUser().then(function (user) {
 
@@ -282,7 +281,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             html += '</div>';
 
             if (!layoutManager.tv) {
-                html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><i class="md-icon">&#xE2C4;</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><i class="md-icon">file_download</i></button>';
             }
 
             html += '</' + tagName + '>';
@@ -347,8 +346,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
         if (typeof itemId === 'string') {
             apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(onGetItem);
-        }
-        else {
+        } else {
             onGetItem(itemId);
         }
     }

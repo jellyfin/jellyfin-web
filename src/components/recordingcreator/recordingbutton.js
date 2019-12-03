@@ -30,7 +30,7 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
             this.refresh(options.itemId, options.serverId);
         }
         var button = options.button;
-        button.querySelector('i').innerHTML = '&#xE061;';
+        button.querySelector('i').innerHTML = 'fiber_manual_record';
 
         var clickFn = onRecordingButtonClick.bind(this);
         this.clickFn = clickFn;
@@ -45,28 +45,25 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
         var status;
 
         if (item.Type === 'SeriesTimer') {
-            return '&#xE062;';
-        }
-        else if (item.TimerId || item.SeriesTimerId) {
+            return 'fiber_smart_record';
+        } else if (item.TimerId || item.SeriesTimerId) {
 
             status = item.Status || 'Cancelled';
-        }
-        else if (item.Type === 'Timer') {
+        } else if (item.Type === 'Timer') {
 
             status = item.Status;
-        }
-        else {
-            return '&#xE061;';
+        } else {
+            return 'fiber_manual_record';
         }
 
         if (item.SeriesTimerId) {
 
             if (status !== 'Cancelled') {
-                return '&#xE062;';
+                return 'fiber_smart_record';
             }
         }
 
-        return '&#xE061;';
+        return 'fiber_manual_record';
     }
 
     RecordingButton.prototype.refresh = function (serverId, itemId) {

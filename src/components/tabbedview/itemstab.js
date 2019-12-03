@@ -188,7 +188,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
             return;
         }
 
-        btnSortIcon.innerHTML = values.sortOrder === 'Descending' ? '&#xE5DB;' : '&#xE5D8;';
+        btnSortIcon.innerHTML = values.sortOrder === 'Descending' ? 'arrow_downward' : 'arrow_upward';
     }
 
     function bindAll(elems, eventName, fn) {
@@ -246,7 +246,8 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
             this.itemsContainer.setAttribute('data-parentid', params.parentId);
         }
 
-        var i, length;
+        var i;
+        var length;
 
         var btnViewSettings = view.querySelectorAll('.btnViewSettings');
         for (i = 0, length = btnViewSettings.length; i < length; i++) {
@@ -559,7 +560,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.onPause = function () {
-
         var scroller = this.scroller;
         if (scroller && scroller.pause) {
             scroller.pause();
@@ -573,7 +573,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.destroy = function () {
-
         this.view = null;
         this.itemsContainer = null;
         this.params = null;
@@ -585,6 +584,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
             this.alphaPicker.destroy();
             this.alphaPicker = null;
         }
+
         this.sortButtons = null;
         this.btnSortText = null;
         this.btnSortIcon = null;

@@ -8,7 +8,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
             return {
                 name: server.Name,
                 showIcon: true,
-                icon: "&#xE307;",
+                icon: "cast",
                 cardType: "",
                 id: server.Id,
                 server: server

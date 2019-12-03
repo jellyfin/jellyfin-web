@@ -1,5 +1,5 @@
 {
-    "Add": "新增",
+    "Add": "添加",
     "ButtonAdd": "新增",
     "ButtonAddScheduledTaskTrigger": "新增觸發",
     "ButtonAddUser": "添加用戶",
@@ -334,5 +334,18 @@
     "ValueSongCount": "{0} 首歌",
     "Wednesday": "星期三",
     "WelcomeToProject": "歡迎來到 Jellyfin！",
-    "WizardCompleted": "這就是我們所需要的。 Jellyfin 已開始收集有關您的媒體庫信息。請看看我們一些應用程式，然後點擊 <b>完成</b> 才查看 <b>服務器控制台</b> 。"
+    "WizardCompleted": "這就是我們所需要的。 Jellyfin 已開始收集有關您的媒體庫信息。請看看我們一些應用程式，然後點擊 <b>完成</b> 才查看 <b>服務器控制台</b> 。",
+    "Actor": "演員",
+    "Anytime": "任何時間",
+    "AnyLanguage": "任何語言",
+    "Artists": "藝人",
+    "AsManyAsPossible": "盡可能地越多越好",
+    "Audio": "音頻",
+    "Auto": "自動",
+    "AutoBasedOnLanguageSetting": "自動 (基於語言設定)",
+    "BirthLocation": "出生地點",
+    "AllLanguages": "全部語言",
+    "All": "全部",
+    "AddedOnValue": "已添加 {0}",
+    "AddToPlaylist": "添加至播放清單"
 }

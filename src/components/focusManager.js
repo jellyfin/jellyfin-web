@@ -1,4 +1,4 @@
-define(['dom'], function (dom) {
+define(['dom', 'scrollManager'], function (dom, scrollManager) {
     'use strict';
 
     var scopes = [];
@@ -40,7 +40,7 @@ define(['dom'], function (dom) {
 
         try {
             element.focus({
-                preventScroll: false
+                preventScroll: scrollManager.isEnabled()
             });
         } catch (err) {
             console.log('Error in focusManager.autoFocus: ' + err);
@@ -99,7 +99,7 @@ define(['dom'], function (dom) {
         return normalizeFocusable(elem, originalElement);
     }
 
-    // Determines if a focusable element can be focused at a given point in time 
+    // Determines if a focusable element can be focused at a given point in time
     function isCurrentlyFocusableInternal(elem) {
 
         // http://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
@@ -110,7 +110,7 @@ define(['dom'], function (dom) {
         return true;
     }
 
-    // Determines if a focusable element can be focused at a given point in time 
+    // Determines if a focusable element can be focused at a given point in time
     function isCurrentlyFocusable(elem) {
 
         if (elem.disabled) {
@@ -181,21 +181,18 @@ define(['dom'], function (dom) {
             if (classList.contains('focuscontainer-left')) {
                 return true;
             }
-        }
-        else if (direction === 1) {
+        } else if (direction === 1) {
             if (classList.contains('focuscontainer-x')) {
                 return true;
             }
             if (classList.contains('focuscontainer-right')) {
                 return true;
             }
-        }
-        else if (direction === 2) {
+        } else if (direction === 2) {
             if (classList.contains('focuscontainer-y')) {
                 return true;
             }
-        }
-        else if (direction === 3) {
+        } else if (direction === 3) {
             if (classList.contains('focuscontainer-y')) {
                 return true;
             }
@@ -275,14 +272,14 @@ define(['dom'], function (dom) {
         var rect = getOffset(activeElement);
 
         // Get elements and work out x/y points
-        var cache = [],
-            point1x = parseFloat(rect.left) || 0,
-            point1y = parseFloat(rect.top) || 0,
-            point2x = parseFloat(point1x + rect.width - 1) || point1x,
-            point2y = parseFloat(point1y + rect.height - 1) || point1y,
-            // Shortcuts to help with compression
-            min = Math.min,
-            max = Math.max;
+        var cache = [];
+        var point1x = parseFloat(rect.left) || 0;
+        var point1y = parseFloat(rect.top) || 0;
+        var point2x = parseFloat(point1x + rect.width - 1) || point1x;
+        var point2y = parseFloat(point1y + rect.height - 1) || point1y;
+        // Shortcuts to help with compression
+        var min = Math.min;
+        var max = Math.max;
 
         var sourceMidX = rect.left + (rect.width / 2);
         var sourceMidY = rect.top + (rect.height / 2);
@@ -357,10 +354,10 @@ define(['dom'], function (dom) {
                     break;
             }
 
-            var x = elementRect.left,
-                y = elementRect.top,
-                x2 = x + elementRect.width - 1,
-                y2 = y + elementRect.height - 1;
+            var x = elementRect.left;
+            var y = elementRect.top;
+            var x2 = x + elementRect.width - 1;
+            var y2 = y + elementRect.height - 1;
 
             var intersectX = intersects(point1x, point2x, x, x2);
             var intersectY = intersects(point1y, point2y, y, y2);
@@ -470,7 +467,9 @@ define(['dom'], function (dom) {
 
         var elems = container.querySelectorAll(focusableSelector);
         var list = [];
-        var i, length, elem;
+        var i;
+        var length;
+        var elem;
 
         for (i = 0, length = elems.length; i < length; i++) {
 
@@ -513,32 +512,24 @@ define(['dom'], function (dom) {
         focusableParent: focusableParent,
         getFocusableElements: getFocusableElements,
         moveLeft: function (sourceElement, options) {
-
             var container = options ? options.container : null;
             var focusableElements = options ? options.focusableElements : null;
             nav(sourceElement, 0, container, focusableElements);
-
         },
         moveRight: function (sourceElement, options) {
-
             var container = options ? options.container : null;
             var focusableElements = options ? options.focusableElements : null;
             nav(sourceElement, 1, container, focusableElements);
-
         },
         moveUp: function (sourceElement, options) {
-
             var container = options ? options.container : null;
             var focusableElements = options ? options.focusableElements : null;
             nav(sourceElement, 2, container, focusableElements);
-
         },
         moveDown: function (sourceElement, options) {
-
             var container = options ? options.container : null;
             var focusableElements = options ? options.focusableElements : null;
             nav(sourceElement, 3, container, focusableElements);
-
         },
         sendText: sendText,
         isCurrentlyFocusable: isCurrentlyFocusable,

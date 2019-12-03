@@ -61,7 +61,7 @@ define(["libraryBrowser", "cardBuilder", "apphost", "imageLoader", "loading"], f
                         preferThumb: true,
                         context: 'music',
                         cardLayout: true,
-                        showTitle: true,
+                        showTitle: true
                     });
                 } else if (viewStyle == "PosterCard") {
                     html = cardBuilder.getCardsHtml({
@@ -69,7 +69,7 @@ define(["libraryBrowser", "cardBuilder", "apphost", "imageLoader", "loading"], f
                         shape: "auto",
                         context: 'music',
                         cardLayout: true,
-                        showTitle: true,
+                        showTitle: true
                     });
                 } else if (viewStyle == "Poster") {
                     html = cardBuilder.getCardsHtml({
@@ -87,6 +87,10 @@ define(["libraryBrowser", "cardBuilder", "apphost", "imageLoader", "loading"], f
                 imageLoader.lazyChildren(elem);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
+
+                require(["autoFocuser"], function (autoFocuser) {
+                    autoFocuser.autoFocus(context);
+                });
             });
         }
 

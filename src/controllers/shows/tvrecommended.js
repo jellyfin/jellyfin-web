@@ -97,6 +97,10 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
                     cardLayout: false
                 });
                 loading.hide();
+
+                require(["autoFocuser"], function (autoFocuser) {
+                    autoFocuser.autoFocus(view);
+                });
             });
         }
 

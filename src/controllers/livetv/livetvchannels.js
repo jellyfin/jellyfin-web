@@ -102,6 +102,10 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
                 renderChannels(context, result);
                 loading.hide();
                 isLoading = false;
+
+                require(["autoFocuser"], function (autoFocuser) {
+                    autoFocuser.autoFocus(view);
+                });
             });
         }
 

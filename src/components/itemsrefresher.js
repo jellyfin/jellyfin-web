@@ -11,8 +11,7 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
         if (eventsToMonitor.indexOf('markfavorite') !== -1) {
 
             instance.notifyRefreshNeeded();
-        }
-        else if (eventsToMonitor.indexOf('markplayed') !== -1) {
+        } else if (eventsToMonitor.indexOf('markplayed') !== -1) {
 
             instance.notifyRefreshNeeded();
         }
@@ -115,9 +114,7 @@ define(['playbackManager', 'serverNotifications', 'events'], function (playbackM
                 instance.notifyRefreshNeeded(true);
                 return;
             }
-        }
-
-        else if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Audio') {
+        } else if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Audio') {
 
             if (eventsToMonitor.indexOf('audioplayback') !== -1) {
 

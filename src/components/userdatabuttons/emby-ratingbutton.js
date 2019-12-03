@@ -33,8 +33,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         var isFavorite = this.getAttribute('data-isfavorite') === 'true';
         if (likes === 'true') {
             likes = true;
-        }
-        else if (likes === 'false') {
+        } else if (likes === 'false') {
             likes = false;
         } else {
             likes = null;
@@ -63,8 +62,8 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         if (isFavorite) {
 
             if (icon) {
-                icon.innerHTML = '&#xE87D;';
-				icon.classList.add('ratingbutton-icon-withrating');
+                icon.innerHTML = 'favorite';
+                icon.classList.add('ratingbutton-icon-withrating');
             }
 
             button.classList.add('ratingbutton-withrating');
@@ -72,27 +71,27 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         } else if (likes) {
 
             if (icon) {
-                icon.innerHTML = '&#xE87D;';
-				icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = '&#xE8DC;';
+                icon.innerHTML = 'favorite';
+                icon.classList.remove('ratingbutton-icon-withrating');
+                //icon.innerHTML = 'thumb_up';
             }
             button.classList.remove('ratingbutton-withrating');
 
         } else if (likes === false) {
 
             if (icon) {
-                icon.innerHTML = '&#xE87D;';
-				icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = '&#xE8DB;';
+                icon.innerHTML = 'favorite';
+                icon.classList.remove('ratingbutton-icon-withrating');
+                //icon.innerHTML = 'thumb_down';
             }
             button.classList.remove('ratingbutton-withrating');
 
         } else {
 
             if (icon) {
-                icon.innerHTML = '&#xE87D;';
-				icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = '&#xE8DD;';
+                icon.innerHTML = 'favorite';
+                icon.classList.remove('ratingbutton-icon-withrating');
+                //icon.innerHTML = 'thumbs_up_down';
             }
             button.classList.remove('ratingbutton-withrating');
         }
@@ -152,8 +151,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
             var isFavorite = this.getAttribute('data-isfavorite') === 'true';
             if (likes === 'true') {
                 likes = true;
-            }
-            else if (likes === 'false') {
+            } else if (likes === 'false') {
                 likes = false;
             } else {
                 likes = null;

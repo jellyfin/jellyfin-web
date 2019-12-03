@@ -25,10 +25,10 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
 
         subtitleSyncTextField.addEventListener("keypress", function(event) {
 
-            if(event.key === "Enter"){
+            if (event.key === "Enter") {
                 // if input key is enter search for float pattern
                 var inputOffset = /[-+]?\d+\.?\d*/g.exec(this.textContent);
-                if(inputOffset) {
+                if (inputOffset) {
                     inputOffset = inputOffset[0];
 
                     // replace current text by considered offset
@@ -48,7 +48,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
             } else {
                 // keep focus to prevent fade with bottom layout
                 this.hasFocus = true;
-                if(event.key.match(/[+-\d.s]/) === null) {
+                if (event.key.match(/[+-\d.s]/) === null) {
                     event.preventDefault();
                 }
             }
@@ -92,14 +92,13 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         instance.element = parent;
     }
 
-
     function getOffsetFromPercentage(value) {
         // convert percent to fraction
         var offset = (value - 50) / 50;
         // multiply by offset min/max range value (-x to +x) :
         offset *= 30;
         return offset.toFixed(1);
-    };
+    }
 
     function getPercentageFromOffset(value) {
         // divide by offset min/max range value (-x to +x) :
@@ -108,16 +107,16 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         percentValue *= 50;
         percentValue += 50;
         return Math.min(100, Math.max(0, percentValue.toFixed()));
-    };
+    }
 
     function SubtitleSync(currentPlayer) {
         player = currentPlayer;
         init(this);
     }
 
-    SubtitleSync.prototype.destroy = function(){
+    SubtitleSync.prototype.destroy = function() {
         SubtitleSync.prototype.toggle("forceToHide");
-        if(player){
+        if (player) {
             playbackManager.disableShowingSubtitleOffset(player);
             playbackManager.setSubtitleOffset(0, player);
         }
@@ -130,27 +129,30 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
 
     SubtitleSync.prototype.toggle = function(action) {
 
-        if(player && playbackManager.supportSubtitleOffset(player)){
+        if (player && playbackManager.supportSubtitleOffset(player)) {
 
-            switch(action) {
+            switch (action) {
                 case undefined:
                     // if showing subtitle sync is enabled
-                    if(playbackManager.isShowingSubtitleOffsetEnabled(player) && 
+                    if (playbackManager.isShowingSubtitleOffsetEnabled(player) &&
                         // if there is an external subtitle stream enabled
-                        playbackManager.canHandleOffsetOnCurrentSubtitle(player)){
-                            // if no subtitle offset is defined
-                            if(!playbackManager.getPlayerSubtitleOffset(player)) {
-                                // set default offset to '0' = 50%
-                                subtitleSyncSlider.value = "50";
-                                subtitleSyncTextField.textContent = "0s";
-                                playbackManager.setSubtitleOffset(0, player);
-                            }
-                            // show subtitle sync
-                            subtitleSyncContainer.classList.remove("hide");
-                            break; // stop here
+                        playbackManager.canHandleOffsetOnCurrentSubtitle(player)) {
+                        // if no subtitle offset is defined
+                        if (!playbackManager.getPlayerSubtitleOffset(player)) {
+                            // set default offset to '0' = 50%
+                            subtitleSyncSlider.value = "50";
+                            subtitleSyncTextField.textContent = "0s";
+                            playbackManager.setSubtitleOffset(0, player);
+                        }
+                        // show subtitle sync
+                        subtitleSyncContainer.classList.remove("hide");
+                        break; // stop here
                     } // else continue and hide
                 case "hide":
-                    if(subtitleSyncTextField.hasFocus){break;} // else continue and hide
+                    // only break if element has focus
+                    if (subtitleSyncTextField.hasFocus) {
+                        break;
+                    }
                 case "forceToHide":
                     subtitleSyncContainer.classList.add("hide");
                     break;
