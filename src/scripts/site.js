@@ -724,9 +724,9 @@ var AppInfo = {};
         define("programStyles", ["css!" + componentsPath + "/guide/programs"], returnFirstDependency);
         define("listViewStyle", ["css!" + componentsPath + "/listview/listview"], returnFirstDependency);
         define("formDialogStyle", ["css!" + componentsPath + "/formdialog"], returnFirstDependency);
-        define("clearButtonStyle", ["css!" + componentsPath + "/clearbutton"], returnFirstDependency);
+        define("clearButtonStyle", ["css!css/clearbutton"], returnFirstDependency);
         define("cardStyle", ["css!" + componentsPath + "/cardbuilder/card"], returnFirstDependency);
-        define("flexStyles", ["css!" + componentsPath + "/flexstyles"], returnFirstDependency);
+        define("flexStyles", ["css!css/flexstyles"], returnFirstDependency);
 
         // define legacy features
         // TODO delete the rest of these

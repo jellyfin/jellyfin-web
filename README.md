@@ -44,7 +44,7 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 
 ### Dependencies
 
-- Yarn 
+- Yarn
 
 ### Getting Started
 
@@ -58,8 +58,7 @@ Jellyfin Web is the frontend used for most of the clients available for end user
    yarn install
    ```
 
-3. Run webpack dev server 
+3. Run the web client with webpack for local development.
    ```sh
    yarn serve
    ```
-
