@@ -1455,5 +1455,6 @@
     "LabelBaseUrl": "基础 URL:",
     "LabelBaseUrlHelp": "您可以在此处添加自定义子目录，以便从更唯一的 URL 访问服务器。",
     "MoreMediaInfo": "媒体信息",
-    "MusicLibraryHelp": "重播 {0}音乐命名指南{1}。"
+    "MusicLibraryHelp": "重播 {0}音乐命名指南{1}。",
+    "HeaderFavoritePeople": "最喜欢的人物"
 }
