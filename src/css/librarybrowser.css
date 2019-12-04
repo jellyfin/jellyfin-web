@@ -1016,14 +1016,6 @@
     }
 }
 
-.layout-tv .itemsViewSettingsContainer {
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-    padding: 1.5em .75em 1em 0;
-    font-size: 92%
-}
-
 .itemsViewSettingsContainer>.button-flat {
     margin: 0
 }
