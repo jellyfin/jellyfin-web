@@ -188,7 +188,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var currentAssRenderer;
         var customTrackIndex = -1;
 
-        var showTrackOffset = false;
+        var showTrackOffset;
         var currentTrackOffset;
 
         var videoSubtitlesElem;
@@ -559,12 +559,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         };
 
         self.resetSubtitleOffset = function() {
-            if (currentTrackOffset) {
-                currentTrackOffset = 0;
-            }
-            if (showTrackOffset) {
-                showTrackOffset = false;
-            }
+            currentTrackOffset = 0;
+            showTrackOffset = false;
         }
 
         self.enableShowingSubtitleOffset = function() {
