@@ -51,7 +51,7 @@
     "BoxRear": "Dos de boîtier",
     "Browse": "Parcourir",
     "BrowsePluginCatalogMessage": "Explorer notre catalogue des plugins pour voir les plugins disponibles.",
-    "BurnSubtitlesHelp": "Détermine si le serveur doit incruster les sous-titres lors de la conversion vidéo en fonction du format de sous-titre. Éviter l'incrustation des sous-titres améliorera les performances du serveur. Sélectionnez Auto pour incruster les formats basés sur l'image (VOBSUB, PGS, SUB/IDX etc) ainsi que certains sous-titres ASS/SSA.",
+    "BurnSubtitlesHelp": "Détermine si le serveur doit incruster les sous-titres lors de la conversion vidéo en fonction du format des sous-titres. Éviter l'incrustation des sous-titres améliorera les performances du serveur. Sélectionnez Auto pour incruster les formats basés sur l'image (VOBSUB, PGS, SUB/IDX etc) et certains sous-titres ASS/SSA.",
     "ButtonAdd": "Ajouter",
     "ButtonAddMediaLibrary": "Ajouter une médiathèque",
     "ButtonAddScheduledTaskTrigger": "Ajouter un déclencheur",
@@ -507,7 +507,7 @@
     "LabelAllowedRemoteAddresses": "Filtre d'adresse IP distante :",
     "LabelAllowedRemoteAddressesMode": "Type de filtre des adresses IP distantes :",
     "LabelAppName": "Nom de l'application",
-    "LabelAppNameExample": "Exemple: Sickbeard, NzbDrone",
+    "LabelAppNameExample": "Exemple: Sickbeard, Sonarr",
     "LabelArtists": "Artistes :",
     "LabelArtistsHelp": "Séparer les différents éléments par ;",
     "LabelAudioLanguagePreference": "Langue audio préférée :",
@@ -882,7 +882,7 @@
     "MessageDeleteTaskTrigger": "Voulez-vous vraiment supprimer ce déclencheur de tâche ?",
     "MessageDirectoryPickerBSDInstruction": "Sur BSD, vous devrez peut-être configurer le stockage de votre jail FreeNAS pour autoriser Jellyfin à y accéder.",
     "MessageDirectoryPickerInstruction": "Les chemins réseaux peuvent être saisis manuellement dans le cas où l'utilisation du bouton Réseau ne parvient pas à localiser vos appareils. Par exemple, {0} ou {1}.",
-    "MessageDirectoryPickerLinuxInstruction": "Pour Linux sur Arch Linux, CentOS, Debian, Fedora, OpenSuse ou Ubuntu, vous devez au moins autoriser l'accès en lecture à vos répertoires de stockage pour l'utilisateur de service .",
+    "MessageDirectoryPickerLinuxInstruction": "Pour Linux sur Arch Linux, CentOS, Debian, Fedora, openSUSE ou Ubuntu, vous devez au moins autoriser l'accès en lecture à vos répertoires de stockage pour l'utilisateur de service .",
     "MessageDownloadQueued": "Téléchargement mis en file d'attente.",
     "MessageEnablingOptionLongerScans": "Activer cette option peut accroître la durée d'actualisation de la médiathèque.",
     "MessageFileReadError": "Une erreur est survenue lors de la lecture du fichier. Veuillez réessayer.",
@@ -1072,7 +1072,7 @@
     "OptionThursday": "Jeudi",
     "OptionTrackName": "Titre",
     "OptionTuesday": "Mardi",
-    "OptionTvdbRating": "Note d'évaluation TVDb",
+    "OptionTvdbRating": "Note d'évaluation TVDB",
     "OptionUnairedEpisode": "Épisodes non diffusés",
     "OptionUnplayed": "Non lu",
     "OptionWakeFromSleep": "Sortie de veille",
@@ -1451,5 +1451,6 @@
     "FetchingData": "Récupération de données additionnelles",
     "CopyStreamURLSuccess": "URL copié avec succès.",
     "CopyStreamURL": "Copier l'URL du flux",
-    "LabelBaseUrlHelp": "Vous pouvez ajouter un sous-répertoire personnalisé pour accéder au serveur à partir d'une URL unique."
+    "LabelBaseUrlHelp": "Vous pouvez ajouter un sous-répertoire personnalisé pour accéder au serveur à partir d'une URL unique.",
+    "HeaderFavoritePeople": "Personnes favorites"
 }
