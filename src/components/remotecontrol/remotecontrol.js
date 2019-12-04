@@ -203,17 +203,34 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             updateAudioTracksDisplay(player, context);
             updateSubtitleTracksDisplay(player, context);
 
-            if (-1 != supportedCommands.indexOf("DisplayMessage")) {
+            if (-1 != supportedCommands.indexOf("DisplayMessage") && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".sendMessageSection").classList.remove("hide");
             } else {
                 context.querySelector(".sendMessageSection").classList.add("hide");
             }
 
-            if (-1 != supportedCommands.indexOf("SendString")) {
+            if (-1 != supportedCommands.indexOf("SendString") && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".sendTextSection").classList.remove("hide");
             } else {
                 context.querySelector(".sendTextSection").classList.add("hide");
             }
+
+            if (!currentPlayer.isLocalPlayer) {
+                context.querySelector(".navigationSection").classList.remove("hide");
+            } else {
+                context.querySelector(".navigationSection").classList.add("hide");
+            }
+
+            buttonVisible(context.querySelector(".btnArrowUp"), -1 != supportedCommands.indexOf("MoveUp"));
+            buttonVisible(context.querySelector(".btnArrowLeft"), -1 != supportedCommands.indexOf("MoveDown"));
+            buttonVisible(context.querySelector(".btnArrowRight"), -1 != supportedCommands.indexOf("MoveRight"));
+            buttonVisible(context.querySelector(".btnArrowDown"), -1 != supportedCommands.indexOf("MoveLeft"));
+            buttonVisible(context.querySelector(".btnOk"), -1 != supportedCommands.indexOf("Select"));
+            buttonVisible(context.querySelector(".btnBack"), -1 != supportedCommands.indexOf("Back"));
+            buttonVisible(context.querySelector(".btnContextMenu"), -1 != supportedCommands.indexOf("ToggleContextMenu"));
+            buttonVisible(context.querySelector(".btnShowSearch"), -1 != supportedCommands.indexOf("GoToSearch"));
+            buttonVisible(context.querySelector(".bthShowSettings"), -1 != supportedCommands.indexOf("GoToSettings"));
+            buttonVisible(context.querySelector(".btnGoHome"), -1 != supportedCommands.indexOf("GoHome"));
 
             buttonVisible(context.querySelector(".btnStop"), null != item);
             buttonVisible(context.querySelector(".btnNextTrack"), null != item);

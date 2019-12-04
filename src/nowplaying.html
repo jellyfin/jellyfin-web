@@ -74,38 +74,35 @@
                 </div>
             </div>
         </div>
-
-        <div class="hide">
+        <div class="navigationSection">
+            <br />
             <div>
-                <button is="paper-icon-button-light" class="btnArrowUp btnCommand autoSize" title="${ButtonArrowUp}" data-command="MoveUp">
+                <button is="paper-icon-button-light" class="btnArrowUp btnCommand autoSize raised" title="${ButtonArrowUp}" data-command="MoveUp">
                     <i class="md-icon">keyboard_arrow_up</i>
                 </button>
             </div>
+            <br />
             <div>
-                <button is="paper-icon-button-light" class="btnArrowLeft btnCommand autoSize" title="${ButtonArrowLeft}" data-command="MoveLeft">
+                <button is="paper-icon-button-light" class="btnArrowLeft btnCommand autoSize raised" title="${ButtonArrowLeft}" data-command="MoveLeft">
                     <i class="md-icon">keyboard_arrow_left</i>
                 </button>
-
-                <button is="paper-icon-button-light" class="btnOk btnCommand autoSize" title="${ButtonOk}" data-command="Select">
-                    <i class="md-icon">check</i>
+                <button is="paper-icon-button-light" class="btnOk btnCommand autoSize raised" title="${ButtonOk}" data-command="Select">
+                    <i class="md-icon">keyboard_return</i>
                 </button>
-
-                <button is="paper-icon-button-light" class="btnArrowRight btnCommand autoSize" title="${ButtonArrowRight}" data-command="MoveRight">
+                <button is="paper-icon-button-light" class="btnArrowRight btnCommand autoSize raised" title="${ButtonArrowRight}" data-command="MoveRight">
                     <i class="md-icon">keyboard_arrow_right</i>
                 </button>
             </div>
-            <div>
-                <button is="paper-icon-button-light" class="btnArrowDown btnCommand autoSize" title="${ButtonArrowDown}" data-command="MoveDown">
-                    <i class="md-icon">keyboard_arrow_down</i>
-                </button>
-            </div>
+            <br />
             <div>
                 <button is="paper-icon-button-light" class="btnBack btnCommand autoSize" title="${ButtonBack}" data-command="Back">
                     <i class="md-icon">arrow_back</i>
                 </button>
-
-                <button is="paper-icon-button-light" class="btnInfo btnCommand autoSize" title="${ButtonInfo}" data-command="ToggleContextMenu">
-                    <i class="md-icon">info</i>
+                <button is="paper-icon-button-light" class="btnArrowDown btnCommand autoSize raised" title="${ButtonArrowDown}" data-command="MoveDown">
+                    <i class="md-icon">keyboard_arrow_down</i>
+                </button>
+                <button is="paper-icon-button-light" class="btnContextMenu btnCommand autoSize" title="${ButtonInfo}" data-command="ToggleContextMenu">
+                    <i class="md-icon">menu</i>
                 </button>
             </div>
             <br />
@@ -113,21 +110,18 @@
                 <button is="paper-icon-button-light" class="btnGoHome btnCommand autoSize" title="${ButtonHome}" data-command="GoHome">
                     <i class="md-icon">home</i>
                 </button>
-
                 <button is="paper-icon-button-light" class="btnShowSearch btnCommand autoSize" title="${ButtonSearch}" data-command="GoToSearch">
                     <i class="md-icon">search</i>
                 </button>
-            </div>
-            <div>
                 <button is="paper-icon-button-light" class="bthShowSettings btnCommand autoSize" title="${ButtonSettings}" data-command="GoToSettings">
                     <i class="md-icon">settings</i>
                 </button>
             </div>
         </div>
-        <div class="hide">
+        <div>
             <div class="sendMessageSection">
-                <br /><h2>${HeaderSendMessage}</h2>
-                <div style="text-align: left;">
+                <div is="emby-collapse" title="${HeaderSendMessage}">
+                <div class="collapseContent" style="text-align: left;">
                     <form class="sendMessageForm">
                         <div class="inputContainer">
                             <input is="emby-input" class="sendMessageElement" type="text" id="txtMessageTitle" label="${LabelMessageTitle}" required />
@@ -141,10 +135,11 @@
                         </p>
                     </form>
                 </div>
+                </div>
             </div>
             <div class="sendTextSection">
-                <br /><h2>${HeaderTypeText}</h2>
-                <div style="text-align: left;">
+                <div is="emby-collapse" title="${HeaderTypeText}">
+                <div  class="collapseContent" style="text-align: left;">
                     <form class="typeTextForm">
                         <div class="inputContainer">
                             <input is="emby-input" class="typeTextElement" type="text" id="txtTypeText" label="${LabelTypeText}" required />
@@ -153,6 +148,7 @@
                             <button is="emby-button" class="typeTextElement button-submit block raised" type="submit" raised>${ButtonSend}</button>
                         </p>
                     </form>
+                </div>
                 </div>
             </div>
         </div>
