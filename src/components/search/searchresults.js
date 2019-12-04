@@ -581,8 +581,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             allowBottomPadding: !enableScrollX()
 
         }, cardOptions || {}));
-
-        section.querySelector('.emby-scroller').scrollToBeginning(true);
     }
 
     function enableScrollX() {
