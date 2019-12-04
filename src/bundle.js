@@ -79,7 +79,7 @@ _define("sortable", function() {
 });
 
 // webcomponents
-var webcomponents = require("webcomponents.js-2");
+var webcomponents = require("webcomponents.js/webcomponents-lite");
 _define("webcomponents", function() {
     return webcomponents
 });
