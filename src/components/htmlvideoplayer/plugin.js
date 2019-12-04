@@ -188,7 +188,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var currentAssRenderer;
         var customTrackIndex = -1;
 
-        var showTrackOffset = false;
+        var showTrackOffset;
         var currentTrackOffset;
 
         var videoSubtitlesElem;
@@ -279,6 +279,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             self._timeUpdated = false;
 
             self._currentTime = null;
+
+            self.resetSubtitleOffset();
 
             return createMediaElement(options).then(function (elem) {
 
@@ -559,6 +561,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             setCurrentTrackElement(index);
         };
+
+        self.resetSubtitleOffset = function() {
+            currentTrackOffset = 0;
+            showTrackOffset = false;
+        }
 
         self.enableShowingSubtitleOffset = function() {
             showTrackOffset = true;
