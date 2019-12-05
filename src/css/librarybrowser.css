@@ -1013,14 +1013,6 @@
     }
 }
 
-.layout-tv .itemsViewSettingsContainer {
-    -webkit-box-pack: end;
-    -webkit-justify-content: flex-end;
-    justify-content: flex-end;
-    padding: 1.5em .75em 1em 0;
-    font-size: 92%
-}
-
 .itemsViewSettingsContainer>.button-flat {
     margin: 0
 }
