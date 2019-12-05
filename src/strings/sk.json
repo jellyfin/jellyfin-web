@@ -196,7 +196,7 @@
     "HeaderConnectToServer": "Propojiť sa k serveru",
     "HeaderConnectionFailure": "Chyba pripojenia",
     "HeaderContinueListening": "Pokračovať v počúvaní",
-    "HeaderContinueWatching": "Pokračujte v pozeraní",
+    "HeaderContinueWatching": "Pokračovať v pozeraní",
     "HeaderCustomDlnaProfiles": "Vlastné profily",
     "HeaderDateIssued": "Dátum vydania",
     "HeaderDeleteDevice": "Zmazať zariadenie",
@@ -1061,5 +1061,6 @@
     "DropShadow": "Vrhať tieň",
     "Auto": "Auto",
     "AllowMediaConversionHelp": "Povoliť alebo zakázať prístup k funkcii konverzie médií.",
-    "AddToPlaylist": "Pridať do playlistu"
+    "AddToPlaylist": "Pridať do playlistu",
+    "HeaderAlbumArtists": "Albumy umelcov"
 }
