@@ -1158,6 +1158,7 @@
     "OptionProfileVideoAudio": "Video Audio",
     "OptionProtocolHls": "HTTP Live Streaming",
     "OptionProtocolHttp": "HTTP",
+    "OptionRandom": "Random",
     "OptionRegex": "Regex",
     "OptionReleaseDate": "Release Date",
     "OptionReportByteRangeSeekingWhenTranscoding": "Report that the server supports byte seeking when transcoding",
