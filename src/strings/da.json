@@ -1534,5 +1534,6 @@
     "HeaderHome": "Hjem",
     "LabelServerName": "Server navn:",
     "LabelUserLoginAttemptsBeforeLockout": "Fejlede loginforsøg før bruger lukkes ude:",
-    "HeaderRestartingServer": "Genstarter Server"
+    "HeaderRestartingServer": "Genstarter Server",
+    "ButtonAddImage": "Tilføj billede"
 }
