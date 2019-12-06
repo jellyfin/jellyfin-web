@@ -1173,7 +1173,7 @@
     "SendMessage": "Envoyer un message",
     "Series": "Séries",
     "SeriesCancelled": "Série annulée.",
-    "SeriesDisplayOrderHelp": "Ranger les épisodes par date de diffusion, par ordre de DVD ou par numéro absolu.",
+    "SeriesDisplayOrderHelp": "Trier les épisodes par date de diffusion, par ordre de publicationdes DVDs ou par numérotation absolue.",
     "SeriesRecordingScheduled": "Enregistrement de la série planifié.",
     "SeriesSettings": "Paramètres de la série",
     "SeriesYearToPresent": "{0} - Présent",
