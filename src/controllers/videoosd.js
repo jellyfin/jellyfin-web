@@ -402,6 +402,8 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
         function onHideAnimationComplete(e) {
             var elem = e.target;
+            if (elem != osdBottomElement)
+                return;
             elem.classList.add("hide");
             dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                 once: true
