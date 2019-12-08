@@ -576,3 +576,7 @@ a[data-role=button] {
 .metadataSidebarIcon {
     color: #dbe6ff
 }
+
+.detailPagePrimaryContainer {
+    background-color: rgba(0, 0, 0, 0.4)
+}

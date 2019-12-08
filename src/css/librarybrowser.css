@@ -421,9 +421,15 @@
     left: .8em
 }
 
+.noBackdrop {
+    display:none;
+}
+
 .itemBackdrop {
     -webkit-background-size: cover;
     background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
     height: 50vh;
     position: relative
 }
@@ -448,12 +454,31 @@
     bottom: .75em
 }
 
+.detailPagePrimaryContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.detailPageSeconderyContainer {
+    display:grid;
+    grid-template-columns: 100%;
+    padding-left:2%;
+    padding-right:2%;
+}
+
 .detailImageContainer {
-    margin-right: 2em;
+    padding-left:2%;
     width: 280px;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
-    margin-left: .6em
+    position: sticky;
+    top:15%;
+    float: left;
 }
 
 .detailPagePrimaryContent {
@@ -504,7 +529,7 @@
 }
 
 .thumbDetailImageContainer {
-    width: 400px
+    width: 280px;
 }
 
 @media all and (max-width:62.5em) {
@@ -513,9 +538,6 @@
     }
 
     .detailImageContainer {
-        position: absolute;
-        top: -90px;
-        left: 5%;
         width: auto
     }
 
@@ -526,19 +548,6 @@
 
     .btnPlaySimple {
         display: none !important
-    }
-}
-
-@media all and (min-width:62.5em) {
-    .itemBackdrop {
-        display: none
-    }
-
-    .detailPagePrimaryContainer {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: flex;
-        margin-bottom: 3em
     }
 }
 
@@ -575,11 +584,17 @@
     }
 
     .itemDetailPage {
-        padding-top: 0 !important
+        padding-top: 2em !important
     }
 
     .detailimg-hidemobile {
         display: none
+    }
+
+    .detailPagePrimaryContainer {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 }
 
@@ -723,7 +738,7 @@
 }
 
 @media all and (min-width:62.5em) {
-    .detailButton-mobile {
+    .detailFloatingButton {
         display: none !important
     }
 
@@ -775,13 +790,11 @@
 .detailPageContent {
     border-spacing: 0;
     border-collapse: collapse;
-    padding-top: 3em
 }
 
 @media all and (max-width:62.5em) {
     .detailPageContent-nodetailimg {
         padding-top: 0;
-        margin-top: -3em
     }
 }
 
@@ -1014,14 +1027,6 @@
     .listTextButton-autohide {
         display: none !important
     }
-}
-
-.layout-tv .itemsViewSettingsContainer {
-    -webkit-box-pack: end;
-    -webkit-justify-content: flex-end;
-    justify-content: flex-end;
-    padding: 1.5em .75em 1em 0;
-    font-size: 92%
 }
 
 .itemsViewSettingsContainer>.button-flat {

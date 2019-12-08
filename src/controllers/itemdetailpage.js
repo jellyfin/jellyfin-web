@@ -801,10 +801,8 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
             });
         }
 
-        html += '<div style="position:relative;">';
-
         if (editable) {
-            html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;padding:2px;margin:0;' href='#'>";
+            html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' href='#'>";
         }
 
         if (detectRatio && item.PrimaryImageAspectRatio) {
@@ -828,7 +826,6 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
             html += progressHtml;
         }
 
-        html += "</div>";
         html += "</div>";
         elem.innerHTML = html;
 
@@ -1531,12 +1528,12 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
             if (!(currentStartDate && currentStartDate.toDateString() === itemStartDate.toDateString())) {
                 if (currentItems.length) {
                     html += '<div class="verticalSection verticalDetailSection">';
-                    html += '<h2 class="sectionTitle padded-left">' + datetime.toLocaleDateString(currentStartDate, {
+                    html += '<h2 class="sectionTitle">' + datetime.toLocaleDateString(currentStartDate, {
                         weekday: "long",
                         month: "long",
                         day: "numeric"
                     }) + "</h2>";
-                    html += '<div is="emby-itemscontainer" class="vertical-list padded-left padded-right">' + listView.getListViewHtml({
+                    html += '<div is="emby-itemscontainer" class="vertical-list">' + listView.getListViewHtml({
                         items: currentItems,
                         enableUserDataButtons: false,
                         showParentTitle: true,
@@ -1556,12 +1553,12 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
 
         if (currentItems.length) {
             html += '<div class="verticalSection verticalDetailSection">';
-            html += '<h2 class="sectionTitle padded-left">' + datetime.toLocaleDateString(currentStartDate, {
+            html += '<h2 class="sectionTitle">' + datetime.toLocaleDateString(currentStartDate, {
                 weekday: "long",
                 month: "long",
                 day: "numeric"
             }) + "</h2>";
-            html += '<div is="emby-itemscontainer" class="vertical-list padded-left padded-right">' + listView.getListViewHtml({
+            html += '<div is="emby-itemscontainer" class="vertical-list">' + listView.getListViewHtml({
                 items: currentItems,
                 enableUserDataButtons: false,
                 showParentTitle: true,
@@ -1728,13 +1725,13 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
     function renderCollectionItemType(page, parentItem, type, items) {
         var html = "";
         html += '<div class="verticalSection">';
-        html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
+        html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards">';
         html += "<span>" + type.name + "</span>";
         html += "</h2>";
         html += '<button class="btnAddToCollection sectionTitleButton" type="button" is="paper-icon-button-light" style="margin-left:1em;"><i class="md-icon" icon="add">add</i></button>';
         html += "</div>";
-        html += '<div is="emby-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right">';
+        html += '<div is="emby-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap">';
         var shape = "MusicAlbum" == type.type ? getSquareShape(false) : getPortraitShape(false);
         html += cardBuilder.getCardsHtml({
             items: items,
