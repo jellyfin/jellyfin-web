@@ -407,13 +407,6 @@ html {
     color: #fff
 }
 
-.itemBackdropFader {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(#115E9E));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0), #115E9E);
-    background: -o-linear-gradient(rgba(0, 0, 0, 0), #115E9E);
-    background: linear-gradient(rgba(0, 0, 0, 0), #115E9E)
-}
-
 .infoBanner {
     color: #000;
     background: #fff3a5;

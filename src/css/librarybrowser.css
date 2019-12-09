@@ -428,8 +428,8 @@
 .itemBackdrop {
     -webkit-background-size: cover;
     background-size: cover;
-    background-position: center center;
     background-repeat: no-repeat;
+    background-position: center;
     height: 50vh;
     position: relative
 }
@@ -439,14 +439,6 @@
     bottom: 0;
     left: 0;
     right: 0
-}
-
-.itemBackdropFader {
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 15vh
 }
 
 .desktopMiscInfoContainer {

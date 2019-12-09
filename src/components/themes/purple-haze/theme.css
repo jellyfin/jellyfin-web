@@ -501,13 +501,6 @@ a[data-role=button] {
     color: #fff
 }
 
-.itemBackdropFader {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(#181818));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0), #181818);
-    background: -o-linear-gradient(rgba(0, 0, 0, 0), #181818);
-    background: linear-gradient(rgba(0, 0, 0, 0), #181818)
-}
-
 .infoBanner {
     color: #0e0f2d;
     background: #dbe6ff;
