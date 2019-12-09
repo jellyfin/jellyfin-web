@@ -717,10 +717,10 @@
 
 .detailImageProgressContainer {
     position: absolute;
-    width: 240px;
+    width: 300px;
     bottom: 12px;
     text-align: center;
-    padding-left: 20px;
+    padding-left: 25px;
 }
 
 .detailButton-mobile-text {
