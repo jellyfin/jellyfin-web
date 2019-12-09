@@ -472,7 +472,6 @@
 }
 
 .detailImageContainer {
-    width: 280px;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
     position: sticky;
@@ -528,7 +527,11 @@
 }
 
 .thumbDetailImageContainer {
-    width: 280px;
+    width: 350px;
+}
+
+.portraitDetailImageContainer {
+    width: 350px;
 }
 
 @media all and (max-width:62.5em) {
