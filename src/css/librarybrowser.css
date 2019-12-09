@@ -472,7 +472,6 @@
 }
 
 .detailImageContainer {
-    padding-left:2%;
     width: 280px;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
@@ -715,10 +714,10 @@
 
 .detailImageProgressContainer {
     position: absolute;
-    bottom: 4px;
-    right: 1px;
-    left: 1px;
-    text-align: center
+    width: 240px;
+    bottom: 12px;
+    text-align: center;
+    padding-left: 20px;
 }
 
 .detailButton-mobile-text {
