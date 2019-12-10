@@ -241,6 +241,9 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                     }, {
                         name: Globalize.translate("OptionReleaseDate"),
                         id: "ProductionYear,PremiereDate,SortName"
+                    }, {
+                        name: Globalize.translate("OptionRandom"),
+                        id: "Random,SortName"
                     }],
                     callback: function () {
                         getQuery().StartIndex = 0;
