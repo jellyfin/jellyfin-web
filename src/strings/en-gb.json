@@ -1458,5 +1458,6 @@
     "HeaderHome": "Home",
     "HeaderFavoritePeople": "Favourite People",
     "FetchingData": "Fetching additional data",
-    "ButtonAddImage": "Add Image"
+    "ButtonAddImage": "Add Image",
+    "OptionRandom": "Random"
 }
