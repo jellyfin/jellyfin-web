@@ -92,8 +92,11 @@
                     </div>
                 </button>
 
-                <button is="emby-button" type="button" class="fab btnSplitVersions hide  detailButton">
-                    <i class="md-icon">call_split</i>
+                <button is="emby-button" type="button" class="button-flat btnSplitVersions hide  detailButton">
+                    <div class="detailButton-mobile-content">
+                        <i class="md-icon detailButton-mobile-icon">call_split</i>
+                        <div class="detailButton-mobile-text">${ButtonSplit}</div>
+                    </div>
                 </button>
 
                 <button is="emby-button" type="button" class="button-flat btnMoreCommands hide detailButton-mobile">
@@ -108,29 +111,13 @@
         <div class="detailPageSeconderyContainer">
 
             <div class="detailPageContent">
-
                 <div class="detailPagePrimaryContent padded-left padded-right">
                     <div class="detailSection" style="margin-bottom: 0;">
-
-                        <div class="itemMiscInfo nativeName hide">
-
-                        </div>
-
-                        <div class="itemMiscInfo itemMiscInfo-primary" style="margin: .7em 0;font-size:92%;">
-
-                        </div>
-
-                        <div class="itemMiscInfo itemMiscInfo-secondary" style="margin: .7em 0;font-size:92%;">
-
-                        </div>
-
-                        <div class="genres hide" style="margin: .7em 0;font-size:92%;">
-
-                        </div>
-
-                        <div class="directors hide" style="margin: .7em 0;font-size:92%;">
-
-                        </div>
+                        <div class="itemMiscInfo nativeName hide"></div>
+                        <div class="itemMiscInfo itemMiscInfo-primary" style="margin: .7em 0;font-size:92%;"></div>
+                        <div class="itemMiscInfo itemMiscInfo-secondary" style="margin: .7em 0;font-size:92%;"></div>
+                        <div class="genres hide" style="margin: .7em 0;font-size:92%;"></div>
+                        <div class="directors hide" style="margin: .7em 0;font-size:92%;"></div>
 
                         <form class="trackSelections flex align-items-center flex-wrap-wrap hide focuscontainer-x" style="margin: .5em 0;font-size:92%; padding: 0;">
                             <div class="selectContainer selectContainer-inline selectSourceContainer hide trackSelectionFieldContainer flex-shrink-zero" style="margin-right:1.5em;">
@@ -147,9 +134,7 @@
                             </div>
                         </form>
 
-                        <div class="recordingFields hide" style="margin: .5em 0 1.5em;">
-                        </div>
-
+                        <div class="recordingFields hide" style="margin: .5em 0 1.5em;"></div>
                         <div class="detailSectionContent">
                             <div class="itemLastPlayed hide"></div>
 
@@ -161,32 +146,29 @@
                             <p id="itemDeathDate"></p>
                             <p id="seriesAirTime"></p>
 
-                            <div class="itemTags hide" style="margin: .7em 0;font-size:92%;">
-                            </div>
-
-                            <div class="itemExternalLinks hide" style="margin: .7em 0;font-size:92%;">
-                            </div>
-
-                            <div class="seriesRecordingEditor">
-                            </div>
+                            <div class="itemTags hide" style="margin: .7em 0;font-size:92%;"></div>
+                            <div class="itemExternalLinks hide" style="margin: .7em 0;font-size:92%;"></div>
+                            <div class="seriesRecordingEditor"></div>
                         </div>
                     </div>
                 </div>
+
                 <div class="seriesTimerScheduleSection verticalSection detailVerticalSection hide" style="margin-top:-3em;">
-                    <h2 class="sectionTitle padded-left">
-                        ${HeaderSchedule}
-                    </h2>
-                    <div class="seriesTimerSchedule padded-left padded-right">
-                    </div>
+                    <h2 class="sectionTitle padded-left">${HeaderSchedule}</h2>
+                    <div class="seriesTimerSchedule padded-left padded-right"></div>
                 </div>
+
                 <div class="collectionItems"></div>
+
                 <div class="nextUpSection verticalSection detailVerticalSection hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-left">${HeaderNextUp}</h2>
                     <div is="emby-itemscontainer" class="nextUpItems vertical-wrap padded-left padded-right"></div>
                 </div>
+
                 <div class="programGuideSection hide verticalSection detailVerticalSection">
                     <div class="programGuide"></div>
                 </div>
+
                 <div id="childrenCollapsible" class="hide verticalSection detailVerticalSection">
                     <h2 class="childrenSectionHeader sectionTitle sectionTitle-cards padded-left">
                         <span id="childrenTitle"></span>
@@ -195,31 +177,33 @@
                         <div is="emby-itemscontainer" class="childrenItemsContainer itemsContainer padded-left padded-right" style="text-align: left;"></div>
                     </div>
                 </div>
+
                 <div id="additionalPartsCollapsible" class="verticalSection detailVerticalSection hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-left">${HeaderAdditionalParts}</h2>
-                    <div id="additionalPartsContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap">
-                    </div>
+                    <div id="additionalPartsContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
                 </div>
+
                 <div class="verticalSection itemVerticalSection moreFromSeasonSection hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-left padded-right"></h2>
                     <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">
                         <div is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer"></div>
                     </div>
                 </div>
+
                 <div class="verticalSection itemVerticalSection moreFromArtistSection hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-left padded-right"></h2>
                     <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">
                         <div is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer"></div>
                     </div>
                 </div>
+
                 <div id="castCollapsible" class="verticalSection detailVerticalSection hide">
                     <h2 id="peopleHeader" class="sectionTitle sectionTitle-cards padded-left padded-right">${HeaderCastCrew}</h2>
                     <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">
-                        <div id="castContent" is="emby-itemscontainer"
-                            class="scrollSlider focuscontainer-x itemsContainer">
-                        </div>
+                        <div id="castContent" is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer"></div>
                     </div>
                 </div>
+
                 <div id="seriesScheduleSection" class="verticalSection detailVerticalSection hide">
                     <h2 class="sectionTitle padded-left padded-right">${HeaderUpcomingOnTV}</h2>
                     <div id="seriesScheduleList" is="emby-itemscontainer" class="itemsContainer vertical-list"></div>
@@ -229,6 +213,7 @@
                     <h2 class="sectionTitle sectionTitle-cards padded-left">${HeaderSpecialFeatures}</h2>
                     <div id="specialsContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
                 </div>
+
                 <div id="musicVideosCollapsible" class="verticalSection detailVerticalSection hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-left">${HeaderMusicVideos}</h2>
                     <div id="musicVideosContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
@@ -244,8 +229,7 @@
                 <div id="similarCollapsible" class="verticalSection itemVerticalSection verticalSection-extrabottompadding hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-left padded-right">${HeaderMoreLikeThis}</h2>
                     <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">
-                        <div is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer similarContent">
-                        </div>
+                        <div is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer similarContent"></div>
                     </div>
                 </div>
             </div>
