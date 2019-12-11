@@ -892,12 +892,15 @@
     vertical-align: middle;
 }
 
+/* these next two rules are for the scroller element headers */
 .sectionTitleContainer-cards {
-    margin-bottom: 0;
+    margin: 0;
+    padding-top: 1.25em;
 }
 
-.sectionTitle-cards {
-    margin-bottom: 0;
+div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
+    margin: 0;
+    padding-top: 1.25em;
 }
 
 .sectionTitleButton {
