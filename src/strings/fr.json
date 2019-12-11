@@ -1452,5 +1452,6 @@
     "CopyStreamURLSuccess": "URL copié avec succès.",
     "CopyStreamURL": "Copier l'URL du flux",
     "LabelBaseUrlHelp": "Vous pouvez ajouter un sous-répertoire personnalisé pour accéder au serveur à partir d'une URL unique.",
-    "HeaderFavoritePeople": "Personnes favorites"
+    "HeaderFavoritePeople": "Personnes favorites",
+    "OptionRandom": "Aléatoire"
 }
