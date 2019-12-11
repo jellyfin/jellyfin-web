@@ -2,7 +2,7 @@ define(["browser"], function (browser) {
     "use strict";
 
     function getDeviceIcon(device) {
-        var baseUrl = "img/devices/";
+        var baseUrl = "assets/img/devices/";
         switch (device) {
             case "Opera":
             case "Opera TV":

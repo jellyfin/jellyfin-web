@@ -1,4 +1,4 @@
-define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "mediaInfo", "focusManager", "imageLoader", "scrollHelper", "events", "connectionManager", "browser", "globalize", "apphost", "layoutManager", "userSettings", "scrollStyles", "emby-slider", "paper-icon-button-light", "css!css/videoosd"], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager, userSettings) {
+define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "mediaInfo", "focusManager", "imageLoader", "scrollHelper", "events", "connectionManager", "browser", "globalize", "apphost", "layoutManager", "userSettings", "scrollStyles", "emby-slider", "paper-icon-button-light", "css!assets/css/videoosd"], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager, userSettings) {
     "use strict";
 
     function seriesImageUrl(item, options) {

@@ -453,8 +453,8 @@ var AppInfo = {};
     }
 
     function init() {
-        define("livetvcss", ["css!css/livetv.css"], returnFirstDependency);
-        define("detailtablecss", ["css!css/detailtable.css"], returnFirstDependency);
+        define("livetvcss", ["css!assets/css/livetv.css"], returnFirstDependency);
+        define("detailtablecss", ["css!assets/css/detailtable.css"], returnFirstDependency);
 
         var promises = [];
         if (!window.fetch) {
@@ -517,7 +517,7 @@ var AppInfo = {};
             require(["systemFontsCss"]);
         }
 
-        require(["apphost", "css!css/librarybrowser"], function (appHost) {
+        require(["apphost", "css!assets/css/librarybrowser"], function (appHost) {
             loadPlugins(appHost, browser).then(function () {
                 onAppReady(browser);
             });
@@ -573,7 +573,7 @@ var AppInfo = {};
 
             console.log("onAppReady - loading dependencies");
             if (browser.iOS) {
-                require(['css!css/ios.css']);
+                require(['css!assets/css/ios.css']);
             }
 
             window.Emby.Page = appRouter;
@@ -712,21 +712,21 @@ var AppInfo = {};
             window.jQuery = jQuery;
         });
 
-        require(["css!css/site"]);
+        require(["css!assets/css/site"]);
 
         // define styles
         // TODO determine which of these files can be moved to the components themselves
-        define("material-icons", ["css!css/material-icons/style"], returnFirstDependency);
-        define("systemFontsCss", ["css!css/fonts"], returnFirstDependency);
-        define("systemFontsSizedCss", ["css!css/fonts.sized"], returnFirstDependency);
-        define("scrollStyles", ["css!css/scrollstyles"], returnFirstDependency);
-        define("dashboardcss", ["css!css/dashboard"], returnFirstDependency);
+        define("material-icons", ["css!assets/css/material-icons/style"], returnFirstDependency);
+        define("systemFontsCss", ["css!assets/css/fonts"], returnFirstDependency);
+        define("systemFontsSizedCss", ["css!assets/css/fonts.sized"], returnFirstDependency);
+        define("scrollStyles", ["css!assets/css/scrollstyles"], returnFirstDependency);
+        define("dashboardcss", ["css!assets/css/dashboard"], returnFirstDependency);
         define("programStyles", ["css!" + componentsPath + "/guide/programs"], returnFirstDependency);
         define("listViewStyle", ["css!" + componentsPath + "/listview/listview"], returnFirstDependency);
         define("formDialogStyle", ["css!" + componentsPath + "/formdialog"], returnFirstDependency);
-        define("clearButtonStyle", ["css!css/clearbutton"], returnFirstDependency);
+        define("clearButtonStyle", ["css!assets/css/clearbutton"], returnFirstDependency);
         define("cardStyle", ["css!" + componentsPath + "/cardbuilder/card"], returnFirstDependency);
-        define("flexStyles", ["css!css/flexstyles"], returnFirstDependency);
+        define("flexStyles", ["css!assets/css/flexstyles"], returnFirstDependency);
 
         // define legacy features
         // TODO delete the rest of these
