@@ -1458,5 +1458,6 @@
     "MusicLibraryHelp": "Revisar la {0}guía de nombres de música{1}.",
     "FetchingData": "Obteniendo datos adicionales",
     "ButtonAddImage": "Añadir imagen",
-    "HeaderFavoritePeople": "Personas favoritas"
+    "HeaderFavoritePeople": "Personas favoritas",
+    "OptionRandom": "Aleatorio"
 }
