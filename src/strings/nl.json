@@ -1329,5 +1329,7 @@
     "LabelServerName": "Server naam:",
     "LabelSkin": "Skin:",
     "ButtonAddImage": "Voeg afbeelding toe",
-    "LabelSize": "Grootte:"
+    "LabelSize": "Grootte:",
+    "CopyStreamURLSuccess": "",
+    "CopyStreamURL": ""
 }
