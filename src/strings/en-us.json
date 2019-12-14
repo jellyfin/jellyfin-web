@@ -1448,7 +1448,7 @@
     "XmlTvKidsCategoriesHelp": "Programs with these categories will be displayed as programs for children. Separate multiple with '|'.",
     "XmlTvMovieCategoriesHelp": "Programs with these categories will be displayed as movies. Separate multiple with '|'.",
     "XmlTvNewsCategoriesHelp": "Programs with these categories will be displayed as news programs. Separate multiple with '|'.",
-    "XmlTvPathHelp": "A path to a XML TV file. Jellyfin will read this file and periodically check it for updates. You are responsible for creating and updating the file.",
+    "XmlTvPathHelp": "A path to a XMLTV file. Jellyfin will read this file and periodically check it for updates. You are responsible for creating and updating the file.",
     "XmlTvSportsCategoriesHelp": "Programs with these categories will be displayed as sports programs. Separate multiple with '|'.",
     "Yes": "Yes",
     "Yesterday": "Yesterday"
