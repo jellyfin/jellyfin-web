@@ -449,11 +449,9 @@
 }
 
 .detailImageContainer {
-    margin-right: 2em;
     width: 280px;
-    -webkit-flex-shrink: 0;
+    margin-right: 2em;
     flex-shrink: 0;
-    margin-left: .6em
 }
 
 .detailPagePrimaryContent {
