@@ -233,7 +233,7 @@
     "ErrorAddingListingsToSchedulesDirect": "There was an error adding the lineup to your Schedules Direct account. Schedules Direct only allows a limited number of lineups per account. You may need to log into the Schedules Direct website and remove others listings from your account before proceeding.",
     "ErrorAddingMediaPathToVirtualFolder": "There was an error adding the media path. Please ensure the path is valid and the Jellyfin Server process has access to that location.",
     "ErrorAddingTunerDevice": "There was an error adding the tuner device. Please ensure it is accessible and try again.",
-    "ErrorAddingXmlTvFile": "There was an error accessing the XmlTV file. Please ensure the file exists and try again.",
+    "ErrorAddingXmlTvFile": "There was an error accessing the XMLTV file. Please ensure the file exists and try again.",
     "ErrorDeletingItem": "There was an error deleting the item from Jellyfin Server. Please check that Jellyfin Server has write access to the media folder and try again.",
     "ErrorGettingTvLineups": "There was an error downloading TV lineups. Please ensure your information is correct and try again.",
     "ErrorMessageStartHourGreaterThanEnd": "End time must be greater than the start time.",
