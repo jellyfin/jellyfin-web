@@ -29,40 +29,40 @@ define([
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: "selectserver"
+        controller: "auth/selectserver"
     });
     defineRoute({
         path: "/addserver.html",
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: "addserver"
+        controller: "auth/addserver"
     });
     defineRoute({
         path: "/login.html",
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: "loginpage"
+        controller: "auth/login"
     });
     defineRoute({
         path: "/forgotpassword.html",
         anonymous: true,
         startup: true,
-        controller: "forgotpassword"
+        controller: "auth/forgotpassword"
     });
     defineRoute({
         path: "/forgotpasswordpin.html",
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: "forgotpasswordpin"
+        controller: "auth/forgotpasswordpin"
     });
 
     // playback
     defineRoute({
         path: "/nowplaying.html",
-        controller: "nowplayingpage",
+        controller: "playback/nowplaying",
         autoFocus: false,
         transition: "fade",
         fullscreen: true,
@@ -72,7 +72,7 @@ define([
     defineRoute({
         path: "/videoosd.html",
         transition: "fade",
-        controller: "videoosd",
+        controller: "playback/videoosd",
         autoFocus: false,
         type: "video-osd",
         supportsThemeMedia: true,
@@ -401,13 +401,13 @@ define([
         path: "/wizardremoteaccess.html",
         autoFocus: false,
         anonymous: true,
-        controller: "wizardremoteaccess"
+        controller: "wizard/access"
     });
     defineRoute({
         path: "/wizardfinish.html",
         autoFocus: false,
         anonymous: true,
-        controller: "wizardfinishpage"
+        controller: "wizard/finish"
     });
     defineRoute({
         path: "/wizardlibrary.html",
@@ -419,17 +419,17 @@ define([
         path: "/wizardsettings.html",
         autoFocus: false,
         anonymous: true,
-        controller: "wizardsettings"
+        controller: "wizard/settings"
     });
     defineRoute({
         path: "/wizardstart.html",
         autoFocus: false,
         anonymous: true,
-        controller: "wizardstart"
+        controller: "wizard/start"
     });
     defineRoute({
         path: "/wizarduser.html",
-        controller: "wizarduserpage",
+        controller: "wizard/user",
         autoFocus: false,
         anonymous: true
     });
