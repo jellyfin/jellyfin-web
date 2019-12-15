@@ -1,10 +1,7 @@
 <div id="addPluginPage" data-role="page" class="page type-interior pluginConfigurationPage" data-backbutton="true">
-
     <div>
         <div class="content-primary">
-
             <div class="readOnlyContent">
-
                 <div class="verticalSection">
                     <div class="sectionTitleContainer flex align-items-center">
                         <h1 class="sectionTitle pluginName"></h1>
@@ -13,9 +10,7 @@
 
                     <p id="tagline" style="font-style: italic;"></p>
                     <p id="pPreviewImage"></p>
-
                     <p id="overview"></p>
-
                 </div>
 
                 <div class="verticalSection">
@@ -27,12 +22,12 @@
                             <select id="selectVersion" name="selectVersion" is="emby-select" label="${LabelSelectVersionToInstall}"></select>
                         </div>
 
-                        <p id="btnInstallDiv" class="hide">
+                        <div id="btnInstallDiv" class="hide">
                             <button is="emby-button" type="submit" id="btnInstall" class="raised button-submit block">
                                 <span>${Install}</span>
                             </button>
                             <div class="fieldDescription">${ServerRestartNeededAfterPluginInstall}</div>
-                        </p>
+                        </div>
                         <p id="nonServerMsg"></p>
                     </form>
                 </div>
