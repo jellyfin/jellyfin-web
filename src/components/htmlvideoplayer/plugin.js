@@ -603,7 +603,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     offsetValue = updateCurrentTrackOffset(offsetValue);
                     setVttSubtitleOffset(trackElement, offsetValue);
                 } else {
-                    console.log("No available track, cannot apply offset : ", offsetValue);
+                    console.log("No available track, cannot apply offset: ", offsetValue);
                 }
             }
         };
