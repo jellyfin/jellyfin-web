@@ -526,6 +526,10 @@
     width: 350px;
 }
 
+.squareDetailImageContainer {
+    width: 400px;
+}
+
 @media all and (max-width:62.5em) {
     .detailPageContent {
         position: relative
