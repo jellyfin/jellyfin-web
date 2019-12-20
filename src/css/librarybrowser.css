@@ -457,6 +457,7 @@
 }
 
 .detailPageSeconderyContainer {
+    margin: 1.25em 0;
     display:grid;
     grid-template-columns: 100%;
     padding-left:2%;
@@ -464,8 +465,8 @@
 }
 
 .detailImageContainer {
-    -webkit-flex-shrink: 0;
-    flex-shrink: 0;
+    margin: 1.25em 0;
+    width: 350px;
     position: sticky;
     top:15%;
     float: left;
@@ -513,21 +514,9 @@
 }
 
 .itemDetailImage {
-    width: 100%;
+    width: 350px;
     -webkit-box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
     box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
-}
-
-.thumbDetailImageContainer {
-    width: 350px;
-}
-
-.portraitDetailImageContainer {
-    width: 350px;
-}
-
-.squareDetailImageContainer {
-    width: 400px;
 }
 
 @media all and (max-width:62.5em) {
@@ -536,12 +525,11 @@
     }
 
     .detailImageContainer {
-        width: auto
+        width: 100px !important
     }
 
     .itemDetailImage {
-        height: 120px;
-        width: auto !important
+        width: 100px !important
     }
 
     .btnPlaySimple {
@@ -712,11 +700,8 @@
 }
 
 .detailImageProgressContainer {
-    position: absolute;
-    width: 300px;
-    bottom: 12px;
-    text-align: center;
-    padding-left: 25px;
+    margin-left: 6px;
+    width: 350px;
 }
 
 .detailButton-mobile-text {

@@ -802,7 +802,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
         }
 
         if (editable) {
-            html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;margin:0;' href='#'>";
+            html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;margin-top:.7em;padding:0' href='#'>";
         }
 
         if (detectRatio && item.PrimaryImageAspectRatio) {
