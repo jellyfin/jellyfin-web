@@ -480,11 +480,11 @@
 }
 
 .detailLogo {
-    width: 21.3em;
-    height: 5em;
+    width: 25em;
+    height: 9.375em;
     position: absolute;
-    top: 13.5%;
-    right: 19.5%;
+    top: 14.5%;
+    right: 10.5%;
     -webkit-background-size: contain;
     background-size: contain
 }
