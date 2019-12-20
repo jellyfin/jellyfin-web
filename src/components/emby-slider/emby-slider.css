@@ -84,7 +84,10 @@ _:-ms-input-placeholder {
 }
 
 .mdl-slider:hover::-webkit-slider-thumb {
-    transform: scale(1.6);
+    transform: scale(0);
+    transition: 0.4s;
+    width: 0;
+    height: 0;
 }
 
 .mdl-slider.show-focus:focus::-webkit-slider-thumb {
