@@ -34,7 +34,7 @@
 }
 
 .emby-button.show-focus:focus {
-    transform: scale(1.4);
+    transform: scale(1.2);
     z-index: 1;
 }
 
@@ -126,7 +126,7 @@
 }
 
 .paper-icon-button-light.show-focus:focus {
-    transform: scale(1.6);
+    transform: scale(1.3);
     z-index: 1;
 }
 
