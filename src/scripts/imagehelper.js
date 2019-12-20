@@ -3,7 +3,7 @@ define(["browser"], function (browser) {
 
     function getDeviceIcon(device) {
         var baseUrl = "img/devices/";
-        switch (device) {
+        switch (device.Name) {
             case "Opera":
             case "Opera TV":
                 return baseUrl + "opera.svg";
@@ -24,6 +24,10 @@ define(["browser"], function (browser) {
             case "Web Browser":
                 return baseUrl + "html5.svg";
             default:
+                switch(device.AppName) {
+                    case "Kodi":
+                        return baseUrl + "kodi.svg";
+                }
                 return baseUrl + "other.svg";
         }
     }
