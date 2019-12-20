@@ -1319,5 +1319,7 @@
     "HeaderStopRecording": "Stoppa inspelning",
     "HeaderImageOptions": "Bildinställningar",
     "Absolute": "Absolut",
-    "HeaderFavoritePeople": "Favoritpersoner"
+    "HeaderFavoritePeople": "Favoritpersoner",
+    "HeaderRestartingServer": "Startar om server",
+    "HeaderStatus": "Status"
 }
