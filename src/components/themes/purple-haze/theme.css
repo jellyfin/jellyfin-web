@@ -573,3 +573,29 @@ a[data-role=button] {
 .detailPagePrimaryContainer {
     background-color: rgba(0, 0, 0, 0.4)
 }
+
+.personCard .portraitCard {
+    width: 50%;
+}
+
+.personCard .cardScalable {
+    border-radius: 50%;
+    border: 2px solid #AA5CC3;
+}
+
+.personCard .cardPadder-portrait {
+    padding-bottom: 100%;
+    contain: strict;
+}
+
+.personCard .coveredImage  {
+    clip-path: circle(50% at 50% 50%);
+}
+
+.personCard .cardOverlayContainer  {
+    clip-path: circle(50% at 50% 50%);
+}
+
+.personCard .cardOverlayButton-br {
+    right: 20%;
+}
