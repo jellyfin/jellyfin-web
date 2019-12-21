@@ -471,7 +471,7 @@
     "Hide": "Ocultar",
     "HideWatchedContentFromLatestMedia": "Ocultar conteúdo assistido das mídias recentes",
     "Home": "Início",
-    "HttpsRequiresCert": "Para ativar conexões seguras, você precisa fornecer um certificado SSL confiável, como o Lets Encrypt. Por favor, forneça um certificado ou desative as conexões seguras.",
+    "HttpsRequiresCert": "Para ativar conexões seguras, você precisa fornecer um certificado SSL confiável, como o Let's Encrypt. Por favor, forneça um certificado ou desative as conexões seguras.",
     "Identify": "Identificar",
     "Images": "Imagens",
     "ImportFavoriteChannelsHelp": "Se ativado, apenas canais que estão marcados como favoritos no sintonizador serão importados.",
@@ -1451,5 +1451,6 @@
     "FetchingData": "Buscando dados adicionais",
     "MusicLibraryHelp": "Verifique o {0}guia de nomes de músicas{1}.",
     "ButtonAddImage": "Adicionar Imagem",
-    "HeaderFavoritePeople": "Pessoas Favoritas"
+    "HeaderFavoritePeople": "Pessoas Favoritas",
+    "OptionRandom": "Aleatório"
 }
