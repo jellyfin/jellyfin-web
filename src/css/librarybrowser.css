@@ -459,10 +459,14 @@
 
 .infoWrapper {
     margin: 1.25em 0 0;
-    text-overflow: ellipsis;
+    flex: 1 0 0;
+}
+
+.infoText {
     white-space: nowrap;
     overflow: hidden;
-    flex: 1 0 0;
+    text-overflow: ellipsis;
+    text-align: left;
 }
 
 .layout-tv .detailPagePrimaryContainer {
@@ -613,8 +617,6 @@
     }
 
     .infoWrapper {
-        text-overflow: initial;
-        white-space: normal;
         flex: initial;
     }
 }

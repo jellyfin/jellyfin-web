@@ -419,13 +419,13 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
         var offset = parentNameLast ? ".25em" : ".5em";
 
         if (html && !parentNameLast) {
-            html += '<h3 class="itemName" style="margin: .25em 0 .5em;">' + name + '</h3>';
+            html += '<h3 class="itemName infoText cardText-first" style="margin: .25em 0 .5em;">' + name + '</h3>';
         } else {
-            html = '<h1 class="itemName" style="margin: .1em 0 ' + offset + ';">' + name + "</h1>" + html;
+            html = '<h1 class="itemName infoText cardText-first" style="margin: .1em 0 ' + offset + ';">' + name + "</h1>" + html;
         }
 
         if (item.OriginalTitle && item.OriginalTitle != item.Name) {
-            html += '<h4 class="itemName" style="margin: -' + offset + ' 0 0">' + item.OriginalTitle + '</h4>';
+            html += '<h4 class="itemName infoText cardText-first" style="margin: -' + offset + ' 0 0">' + item.OriginalTitle + '</h4>';
         }
 
         container.innerHTML = html;
