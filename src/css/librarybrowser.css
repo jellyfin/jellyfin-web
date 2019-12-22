@@ -233,6 +233,7 @@
 }
 
 @media all and (min-width:40em) {
+
     .dashboardDocument .adminDrawerLogo,
     .dashboardDocument .mainDrawerButton {
         display: none !important
@@ -422,7 +423,7 @@
 }
 
 .noBackdrop {
-    display:none;
+    display: none;
 }
 
 .itemBackdrop {
@@ -448,12 +449,20 @@
 
 .detailPagePrimaryContainer {
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
     align-items: center;
+    flex-flow: row wrap;
+    align-content: center;
     position: sticky;
     top: 0;
     z-index: 2;
+}
+
+.infoWrapper {
+    margin: 1.25em 0 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 1 0 0;
 }
 
 .layout-tv .detailPagePrimaryContainer {
@@ -462,10 +471,10 @@
 
 .detailPageSeconderyContainer {
     margin: 1.25em 0;
-    display:grid;
+    display: grid;
     grid-template-columns: 100%;
-    padding-left:2%;
-    padding-right:2%;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
 .layout-tv .detailPageSeconderyWrapper {
@@ -479,10 +488,8 @@
 }
 
 .detailImageContainer {
-    margin: 1.25em 0;
-    width: 350px;
     position: sticky;
-    top:15%;
+    top: 15%;
     float: left;
 }
 
@@ -601,8 +608,14 @@
 
     .detailPagePrimaryContainer {
         display: flex;
+        align-items: center;
         justify-content: center;
-        flex-wrap: wrap;
+    }
+
+    .infoWrapper {
+        text-overflow: initial;
+        white-space: normal;
+        flex: initial;
     }
 }
 
@@ -621,7 +634,7 @@
 .detailButton-mobile,
 .mainDetailButtons {
     display: -webkit-box;
-    display: -webkit-flex
+    display: -webkit-flex;
 }
 
 .itemName {
@@ -904,7 +917,7 @@
     margin: 1.25em 0;
 }
 
-.sectionTitleContainer > .sectionTitle {
+.sectionTitleContainer>.sectionTitle {
     margin: 0;
     display: inline-block;
     vertical-align: middle;
@@ -924,7 +937,7 @@
     flex-shrink: 0
 }
 
-.sectionTitleButton + .sectionTitleButton {
+.sectionTitleButton+.sectionTitleButton {
     margin-left: .5em !important
 }
 
