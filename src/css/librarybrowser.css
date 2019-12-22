@@ -456,6 +456,10 @@
     z-index: 2;
 }
 
+.layout-tv .detailPagePrimaryContainer {
+    position: relative;
+}
+
 .detailPageSeconderyContainer {
     margin: 1.25em 0;
     display:grid;
@@ -464,12 +468,30 @@
     padding-right:2%;
 }
 
+.layout-tv .detailPageSeconderyWrapper {
+    display: flex;
+}
+
+.layout-tv .detailPageSeconderyContainer {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+}
+
 .detailImageContainer {
     margin: 1.25em 0;
     width: 350px;
     position: sticky;
     top:15%;
     float: left;
+}
+
+.layout-tv .detailImageContainer {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 25%;
+    float: right;
 }
 
 .detailPagePrimaryContent {
