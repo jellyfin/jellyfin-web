@@ -447,6 +447,10 @@
     bottom: .75em
 }
 
+.layout-tv .detailPagePrimaryContainer {
+    position: relative;
+}
+
 .detailPagePrimaryContainer {
     display: flex;
     align-items: center;
@@ -459,6 +463,7 @@
 
 .infoWrapper {
     margin: 1.25em 0 0;
+    padding-left: 3%;
     flex: 1 0 0;
 }
 
@@ -469,40 +474,23 @@
     text-align: left;
 }
 
-.layout-tv .detailPagePrimaryContainer {
-    position: relative;
-}
-
 .detailPageSeconderyContainer {
     margin: 1.25em 0;
-    display: grid;
-    grid-template-columns: 100%;
+    display: flex;
+    flex-direction: column;
     padding-left: 2%;
     padding-right: 2%;
 }
 
-.layout-tv .detailPageSeconderyWrapper {
-    display: flex;
-}
-
-.layout-tv .detailPageSeconderyContainer {
-    display: flex;
-    flex-direction: column;
-    width: 75%;
+.layout-tv .detailImageContainer {
+    position: relative;
 }
 
 .detailImageContainer {
+    margin: 1.25em 0;
     position: sticky;
     top: 15%;
     float: left;
-}
-
-.layout-tv .detailImageContainer {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    width: 25%;
-    float: right;
 }
 
 .detailPagePrimaryContent {
@@ -662,7 +650,8 @@
     align-items: center;
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
-    margin: 1em 0
+    margin: 1em 0;
+    padding-right: 3%;
 }
 
 .recordingFields button {
