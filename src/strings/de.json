@@ -885,7 +885,7 @@
     "MetadataSettingChangeHelp": "Das Verändern der Metadata-Einstellungen hat nur Einfluss auf neu hinzugefügte Inhalte. Um eine Aktualisierung bereits hinzugefügter Inhalte durchzuführen, öffnen Sie bitte die Detail Ansicht und klicken die Aktualisieren Schaltfläche. Die Aktualisierung mehrerer Inhalte kann im Metadata Manager durchgeführt werden.",
     "MinutesAfter": "Minuten nach",
     "MinutesBefore": "Minuten vor",
-    "Mobile": "Mobil",
+    "Mobile": "Smartphone",
     "Monday": "Montag",
     "MoreFromValue": "Mehr von {0}",
     "MoreUsersCanBeAddedLater": "Weitere Benutzer können später über das Dashboard hinzugefügt werden.",
@@ -1261,7 +1261,7 @@
     "Watched": "Gesehen",
     "Wednesday": "Mittwoch",
     "WelcomeToProject": "Willkommen bei Jellyfin!",
-    "WizardCompleted": "Das ist alles was wir bis jetzt brauchen. Jellyfin hat nun angefangen Informationen über Ihre Medienbibliothek zu sammeln. Schauen dir doch ein paar unserer Apps an und klicke dann auf <b>Fertig</b> um das <b>Server Dashboard</b> anzuzeigen.",
+    "WizardCompleted": "Das ist jetzt erst mal alles. Jellyfin sammelt nun Informationen über Ihre Medienbibliothek. Schau dir doch ein paar unserer Apps an und klicke dann auf <b>Fertig</b> um das <b>Dashboard</b> anzuzeigen.",
     "Writer": "Drehbuchautor",
     "XmlDocumentAttributeListHelp": "Diese Attribute werden für das Stammelement jeder XML-Antwort angewendet.",
     "XmlTvKidsCategoriesHelp": "Programme mit diesen Kategorien werden als Kinderprogramme angezeigt. Separiere mehrere mit '|'.",
@@ -1472,5 +1472,6 @@
     "MusicVideo": "Musikvideo",
     "HeaderFavoritePeople": "Lieblingskünstler",
     "MusicLibraryHelp": "Überprüfe den {0}Musikbenennungsguide{1}.",
-    "OptionRandom": "Zufällig"
+    "OptionRandom": "Zufällig",
+    "TabNetworking": "Netzwerk"
 }
