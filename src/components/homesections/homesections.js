@@ -329,7 +329,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
             html += cardBuilder.getCardsHtml({
                 items: userViews,
-                shape: getThumbShape(),
+                shape: getSquareShape(),
                 showTitle: true,
                 centerText: true,
                 overlayText: false,
