@@ -1313,5 +1313,13 @@
     "FormatValue": "Format: {0}",
     "CopyStreamURLSuccess": "URL har kopierats.",
     "CopyStreamURL": "Kopiera Stream URL",
-    "FetchingData": "Hämtar ytterligare data"
+    "FetchingData": "Hämtar ytterligare data",
+    "HeaderFetcherSettings": "Hämtarinställningar",
+    "ButtonAddImage": "Lägg till bild",
+    "HeaderStopRecording": "Stoppa inspelning",
+    "HeaderImageOptions": "Bildinställningar",
+    "Absolute": "Absolut",
+    "HeaderFavoritePeople": "Favoritpersoner",
+    "HeaderRestartingServer": "Startar om server",
+    "HeaderStatus": "Status"
 }

@@ -917,7 +917,7 @@
     "PleaseEnterNameOrId": "Indtast venligst et navn eller eksternt Id.",
     "PleaseRestartServerName": "Genstart venligst Jellyfin Server - {0}.",
     "PleaseSelectTwoItems": "Vælg venligst mindst to elementer.",
-    "PluginInstalledMessage": "Plugin blev insttalleret med success. Jellyfin serveren skal genstartes for at aktivere det.",
+    "PluginInstalledMessage": "Plugin blev installeret med success. Jellyfin serveren skal genstartes for at aktivere det.",
     "PreferEmbeddedTitlesOverFileNames": "Foretræk indlejrede titler over filnavne",
     "PreferEmbeddedTitlesOverFileNamesHelp": "Dette bestemmer standard visnings titel når ingen internet metadata eller lokal metadata er tilgængelig.",
     "PreferredNotRequired": "Foretrukket, men ikke påkrævet",
