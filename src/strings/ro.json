@@ -27,7 +27,7 @@
     "DefaultMetadataLangaugeDescription": "Acestea sunt setările implicite și pot fi personalizate pentru fiecare bibliotecă în parte.",
     "DeleteMedia": "Ștergere fișiere media",
     "DeviceAccessHelp": "Aceasta se aplică numai pentru dispozitive care pot fi identificate în mod unic și nu va împiedica accesul din navigatorul de internet. Filtrând accesul dispozitivelor utilizatorului va împiedica utilizarea noilor dispozitive până când acestea nu vor fi aprobate aici.",
-    "Ended": "S-a sfarsit",
+    "Ended": "S-a sfârșit",
     "ExtractChapterImagesHelp": "Extragerea de imagini de capitol va permite aplicațiilor Jellyfin sa afișeze grafic un meniu de selecție a scenelor. Procesul poate fi lent, intensiv pentru procesor și poate necesita câțiva gigaocteți de spațiu de stocare. Acesta rulează atunci când fișierele media sunt detectate ca noi, și de asemenea ca o sarcină programată de noapte. Programare este configurabilă în zona de administrare a sarcinilor programate. Nu este recomandat ca această sarcină să ruleze în timpul perioadelor de utilizare intensă de către utilizatori.",
     "FolderTypeBooks": "Cărți",
     "FolderTypeMovies": "Filme",
@@ -388,5 +388,15 @@
     "Disconnect": "Deconectare",
     "Dislike": "Neplăcut",
     "Display": "Afișare",
-    "DisplayInMyMedia": "Afișeză pe ecranul de start"
+    "DisplayInMyMedia": "Afișeză pe ecranul de start",
+    "EnableCinemaMode": "Mod cinema",
+    "DoNotRecord": "Nu înregistra",
+    "DownloadsValue": "{0} descărcări",
+    "Edit": "Editare",
+    "EditImages": "Editare imagini",
+    "EditMetadata": "Editare metadate",
+    "EnableExternalVideoPlayers": "Playere video externe",
+    "EnablePhotos": "Afișare imagini",
+    "EndsAtValue": "Se termină la {0}",
+    "Episodes": "Episoade"
 }
