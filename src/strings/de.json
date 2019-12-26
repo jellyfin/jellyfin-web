@@ -22,7 +22,7 @@
     "AllLanguages": "Alle Sprachen",
     "AllLibraries": "Alle Bibliotheken",
     "AllowDeletionFromAll": "Erlaube Medienlöschung in allen Bibliotheken",
-    "AllowHWTranscodingHelp": "Erlaube dem Tuner die Transkodierung in Echtzeit. Das hilft eventuell die Transkodierung auf dem Jellyfin Servers zu reduzieren. (Spart Hardwareressourcen)",
+    "AllowHWTranscodingHelp": "Dem Tuner erlauben, Streams in Echtzeit zu transkodieren. Das hilft eventuell, die Transkodierung durch den Jellyfin Server zu reduzieren.",
     "AllowMediaConversion": "Erlaube Medienkonvertierung",
     "AllowMediaConversionHelp": "Erlaube oder unterbinde Zugriff auf die Medienkonvertierung.",
     "AllowOnTheFlySubtitleExtraction": "Erlaube Untertitelextraktion \"on-the-fly\"",
