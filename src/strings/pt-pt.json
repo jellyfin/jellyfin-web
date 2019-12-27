@@ -752,7 +752,7 @@
     "WizardCompleted": "É tudo, de momento. O Jellyfin iniciou a recolha de informações da sua biblioteca multimédia. Conheça algumas das nossas aplicações e, de seguida, clique <b>Terminar</b> para ver o <b>Painel Principal</b>.",
     "Writer": "Escritor",
     "XmlDocumentAttributeListHelp": "Estes atributos são aplicados ao elemento principal de cada resposta XML.",
-    "AccessRestrictedTryAgainLater": "Acesso restrito. Por favor, tente mais tarde.",
+    "AccessRestrictedTryAgainLater": "Acesso atualmente restrito. Por favor, tente mais tarde.",
     "AddItemToCollectionHelp": "Adicione itens às coleções pesquisando-os e utilizando o respetivo menu de toque ou clique direito para os adicionar a uma coleção.",
     "AddToCollection": "Adicionar à coleção",
     "AddToPlayQueue": "Adicionar à fila de reprodução",
