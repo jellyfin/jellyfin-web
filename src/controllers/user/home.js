@@ -1,4 +1,4 @@
-define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loading", "userSettings", "listViewStyle"], function (HomescreenSettings, userSettingsBuilder, dom, globalize, loading, currentUserSettings) {
+define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loading", "userSettings", "autoFocuser", "listViewStyle"], function (HomescreenSettings, userSettingsBuilder, dom, globalize, loading, currentUserSettings, autoFocuser) {
     "use strict";
 
     return function (view, params) {
@@ -24,7 +24,8 @@ define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loadin
                     element: view.querySelector(".homeScreenSettingsContainer"),
                     userSettings: userSettings,
                     enableSaveButton: false,
-                    enableSaveConfirmation: false
+                    enableSaveConfirmation: false,
+                    autoFocus: autoFocuser.isEnabled()
                 });
             }
         });

@@ -160,6 +160,10 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
                 isLoading = false;
+
+                require(["autoFocuser"], function (autoFocuser) {
+                    autoFocuser.autoFocus(tabContent);
+                });
             });
         }
 
@@ -237,6 +241,9 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                     }, {
                         name: Globalize.translate("OptionReleaseDate"),
                         id: "ProductionYear,PremiereDate,SortName"
+                    }, {
+                        name: Globalize.translate("OptionRandom"),
+                        id: "Random,SortName"
                     }],
                     callback: function () {
                         getQuery().StartIndex = 0;

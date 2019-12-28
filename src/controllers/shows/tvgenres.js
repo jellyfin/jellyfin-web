@@ -141,7 +141,7 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += item.Name;
                     html += "</h2>";
-                    html += '<i class="md-icon hide">&#xE5CC;</i>';
+                    html += '<i class="md-icon hide">chevron_right</i>';
                     html += "</a>";
                     html += "</div>";
                     if (enableScrollX()) {

@@ -51,7 +51,8 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
             dlg.querySelector('.dialogContentInner').classList.add('hide');
         }
 
-        var i, length;
+        var i;
+        var length;
         var html = '';
         var hasDescriptions = false;
 

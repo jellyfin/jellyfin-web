@@ -12,7 +12,6 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
     }
 
     function getCrossOriginValue(mediaSource) {
-
         if (mediaSource.IsRemote) {
             return null;
         }
@@ -97,7 +96,8 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         return true;
     }
 
-    var recoverDecodingErrorDate, recoverSwapAudioCodecDate;
+    var recoverDecodingErrorDate;
+    var recoverSwapAudioCodecDate;
     function handleHlsJsMediaError(instance, reject) {
 
         var hlsPlayer = instance._hlsPlayer;
@@ -144,7 +144,8 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         events.trigger(instance, 'error', [
             {
                 type: type
-            }]);
+            }
+        ]);
     }
 
     function isValidDuration(duration) {
@@ -156,7 +157,6 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
     }
 
     function setCurrentTimeIfNeeded(element, seconds) {
-
         if (Math.abs(element.currentTime || 0, seconds) <= 1) {
             element.currentTime = seconds;
         }
@@ -354,9 +354,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                             } else {
                                 onErrorInternal(instance, 'network');
                             }
-                        }
-
-                        else {
+                        } else {
                             console.log("fatal network error encountered, try to recover");
                             hls.startLoad();
                         }

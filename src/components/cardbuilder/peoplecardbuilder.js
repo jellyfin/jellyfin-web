@@ -10,7 +10,7 @@ define(['cardBuilder'], function (cardBuilder) {
             cardFooterAside: 'none',
             showPersonRoleOrType: true,
             cardCssClass: 'personCard',
-            defaultCardImageIcon: '&#xE7FD;'
+            defaultCardImageIcon: 'person'
         });
         cardBuilder.buildCards(items, options);
     }

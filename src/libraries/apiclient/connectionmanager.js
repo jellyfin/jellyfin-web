@@ -410,9 +410,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             var credentials = credentialProvider.credentials();
             options = options || {};
 
-            if (false !== options.enableAutoLogin) {
-                afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, true, options, resolve);
-            }
+            afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, true, options, resolve);
         }
 
         function afterConnectValidated(server, credentials, systemInfo, connectionMode, serverUrl, verifyLocalAuthentication, options, resolve) {
@@ -659,6 +657,11 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                     return result;
                 });
             }
+
+            return Promise.resolve({
+                Servers: servers,
+                State: "ServerSelection"
+            });
         };
 
         self.connectToServer = function (server, options) {

@@ -115,7 +115,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         var readOnlyAttribute = options.pathReadOnly ? " readonly" : "";
         html += '<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ' + readOnlyAttribute + ' label="' + Globalize.translate(labelKey) + '"/>';
         html += "</div>";
-        if (!readOnlyAttribute)  {
+        if (!readOnlyAttribute) {
             html += '<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="' + Globalize.translate("ButtonRefresh") + '"><i class="md-icon">search</i></button>';
         }
         html += "</div>";
@@ -188,9 +188,9 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                 var path = lnkPath.getAttribute("data-path");
                 if (lnkPath.classList.contains("lnkFile")) {
                     content.querySelector("#txtDirectoryPickerPath").value = path;
-                 } else {
+                } else {
                     refreshDirectoryBrowser(content, path, fileOptions, true)
-                 };
+                }
             }
         });
 
@@ -223,9 +223,9 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
 
     function getDefaultPath(options) {
         if (options.path) {
-            Promise.resolve(options.path);
+            return Promise.resolve(options.path);
         } else {
-            ApiClient.getJSON(ApiClient.getUrl("Environment/DefaultDirectoryBrowser")).then(
+            return ApiClient.getJSON(ApiClient.getUrl("Environment/DefaultDirectoryBrowser")).then(
                 function(result) {
                     return result.Path || "";
                 }, function() {
@@ -254,10 +254,10 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                     var systemInfo = responses[0];
                     var initialPath = responses[1];
                     var dlg = dialogHelper.createDialog({
-                            size: "medium-tall",
-                            removeOnClose: true,
-                            scrollY: false
-                        });
+                        size: "medium-tall",
+                        removeOnClose: true,
+                        scrollY: false
+                    });
                     dlg.classList.add("ui-body-a");
                     dlg.classList.add("background-theme-a");
                     dlg.classList.add("directoryPicker");
@@ -265,7 +265,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
 
                     var html = "";
                     html += '<div class="formDialogHeader">';
-                    html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
+                    html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><i class="md-icon">arrow_back</i></button>';
                     html += '<h3 class="formDialogHeaderTitle">';
                     html += options.header || Globalize.translate("HeaderSelectPath");
                     html += "</h3>";

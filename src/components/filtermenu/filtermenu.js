@@ -94,7 +94,8 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         context.querySelector('form').addEventListener('submit', onSubmit);
 
         var elems = context.querySelectorAll('.simpleFilter');
-        var i, length;
+        var i;
+        var length;
 
         for (i = 0, length = elems.length; i < length; i++) {
 
@@ -137,7 +138,8 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
     function saveValues(context, settings, settingsKey) {
 
         var elems = context.querySelectorAll('.simpleFilter');
-        var i, length;
+        var i;
+        var length;
         for (i = 0, length = elems.length; i < length; i++) {
 
             if (elems[i].tagName === 'INPUT') {
@@ -277,7 +279,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
                 var html = '';
 
                 html += '<div class="formDialogHeader">';
-                html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
+                html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><i class="md-icon">arrow_back</i></button>';
                 html += '<h3 class="formDialogHeaderTitle">${Filters}</h3>';
 
                 html += '</div>';

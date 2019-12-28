@@ -1,4 +1,4 @@
-define(["subtitleSettings", "userSettingsBuilder", "userSettings"], function (SubtitleSettings, userSettingsBuilder, currentUserSettings) {
+define(["subtitleSettings", "userSettingsBuilder", "userSettings", "autoFocuser"], function (SubtitleSettings, userSettingsBuilder, currentUserSettings, autoFocuser) {
     "use strict";
 
     return function (view, params) {
@@ -24,7 +24,8 @@ define(["subtitleSettings", "userSettingsBuilder", "userSettings"], function (Su
                     element: view.querySelector(".settingsContainer"),
                     userSettings: userSettings,
                     enableSaveButton: false,
-                    enableSaveConfirmation: false
+                    enableSaveConfirmation: false,
+                    autoFocus: autoFocuser.isEnabled()
                 });
             }
         });

@@ -26,24 +26,12 @@ button {
     font-weight: inherit !important;
 }
 
-.card-nofocustransform {
+.card:not(.show-animation) {
     contain: layout style paint;
 }
 
 .itemsContainer {
     display: flex;
-    margin-left: -0.6em;
-    margin-right: -0.6em;
-}
-
-/* TODO replace this with a proper fix */
-/* doesnt work on mobile devices */
-/* negative margin fixes annoying misalignment with cards and title */
-@media all and (max-width:50em) {
-    .itemsContainer {
-        margin-left: 0;
-        margin-right: 0;
-    }
 }
 
 .vertical-list {
@@ -98,20 +86,21 @@ button {
     contain: layout style;
 }
 
-.cardBox-withfocuscontent-large {
+.card.show-focus:not(.show-animation) .cardBox {
     margin: .4em;
 }
 
-.card-focuscontent-large {
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
     border: .5em solid transparent;
 }
 
-.cardBox-focustransform {
+.card.show-animation .cardBox {
     will-change: transform;
     transition: transform 200ms ease-out;
 }
 
-.card:focus > .cardBox-focustransform {
+.card.show-animation:focus > .cardBox {
     transform: scale(1.18, 1.18);
 }
 
@@ -156,7 +145,7 @@ button {
 }
 
 .cardImageContainer {
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
     display: -webkit-flex;
@@ -363,9 +352,6 @@ button {
     vertical-align: middle;
     font-family: inherit;
     font-size: inherit;
-    /*display: flex;
-    align-items: center;
-    justify-content: center;*/
 }
 
 .textActionButton:hover {

@@ -57,7 +57,9 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
                         month: "short",
                         day: "numeric"
                     });
-                } catch (err) {}
+                } catch (err) {
+                    console.log('error parsing timestamp for upcoming tv shows');
+                }
             }
 
             if (dateText != currentGroupName) {

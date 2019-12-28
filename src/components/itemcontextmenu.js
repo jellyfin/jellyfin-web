@@ -3,10 +3,11 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
 
     function getCommands(options) {
         var item = options.item;
+        var user = options.user;
+
         var canPlay = playbackManager.canPlay(item);
         var restrictOptions = (browser.operaTv || browser.web0s) && !user.Policy.IsAdministrator;
 
-        var user = options.user;
         var commands = [];
 
         if (canPlay && item.MediaType !== "Photo") {
@@ -51,8 +52,6 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
             //    });
             //}
         }
-
-
 
         if (item.IsFolder || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
             if (item.CollectionType !== "livetv") {

@@ -1,6 +1,8 @@
 define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'paper-icon-button-light', 'emby-button', 'formDialogStyle', 'cardStyle'], function (loading, appHost, dialogHelper, connectionManager, imageLoader, browser, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
+    var enableFocusTransform = !browser.slow && !browser.edge;
+
     var currentItemId;
     var currentItemType;
     var currentResolve;
@@ -114,7 +116,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         if (showControls) {
             html += '<div data-role="controlgroup" data-type="horizontal" style="display:inline-block;">';
 
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Previous') + '" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><i class="md-icon">&#xE5C4;</i></button>';
+            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Previous') + '" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><i class="md-icon">arrow_back</i></button>';
             html += '<button is="paper-icon-button-light" title="' + globalize.translate('Next') + '" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? 'disabled' : '') + '><i class="md-icon">arrow_forward</i></button>';
             html += '</div>';
         }
@@ -164,6 +166,8 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         var tagName = layoutManager.tv ? 'button' : 'div';
         var enableFooterButtons = !layoutManager.tv;
 
+        // TODO move card creation code to Card component
+
         var html = '';
 
         var cssClass = "card scalableCard imageEditorCard";
@@ -172,22 +176,17 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         var shape = 'backdrop';
         if (imageType === "Backdrop" || imageType === "Art" || imageType === "Thumb" || imageType === "Logo") {
             shape = 'backdrop';
-        }
-        else if (imageType === "Banner") {
+        } else if (imageType === "Banner") {
             shape = 'banner';
-        }
-        else if (imageType === "Disc") {
+        } else if (imageType === "Disc") {
             shape = 'square';
-        }
-        else {
+        } else {
 
             if (currentItemType === "Episode") {
                 shape = 'backdrop';
-            }
-            else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
+            } else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
                 shape = 'square';
-            }
-            else {
+            } else {
                 shape = 'portrait';
             }
         }
@@ -196,12 +195,12 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         if (tagName === 'button') {
             cssClass += ' btnImageCard';
 
-            if (layoutManager.tv && !browser.slow) {
-                cardBoxCssClass += ' cardBox-focustransform';
-            }
-
             if (layoutManager.tv) {
-                cardBoxCssClass += ' card-focuscontent cardBox-withfocuscontent';
+                cssClass += ' show-focus';
+
+                if (enableFocusTransform) {
+                    cssClass += ' show-animation';
+                }
             }
 
             html += '<button type="button" class="' + cssClass + '"';
@@ -220,8 +219,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
 
         if (layoutManager.tv || !appHost.supports('externallinks')) {
             html += '<div class="cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center bottom;"></div>';
-        }
-        else {
+        } else {
             html += '<a is="emby-linkbutton" target="_blank" href="' + getDisplayUrl(image.Url, apiClient) + '" class="button-link cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center bottom;"></a>';
         }
 
@@ -279,7 +277,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         if (enableFooterButtons) {
             html += '<div class="cardText cardTextCentered">';
 
-            html += '<button is="paper-icon-button-light" class="btnDownloadRemoteImage autoSize" raised" title="' + globalize.translate('Download') + '"><i class="md-icon">&#xE2C0;</i></button>';
+            html += '<button is="paper-icon-button-light" class="btnDownloadRemoteImage autoSize" raised" title="' + globalize.translate('Download') + '"><i class="md-icon">cloud_download</i></button>';
             html += '</div>';
         }
 

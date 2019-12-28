@@ -420,7 +420,7 @@
     "Help": "Ayuda",
     "Hide": "Ocultar",
     "HideWatchedContentFromLatestMedia": "Esconder medios vistos de los medios más recientes",
-    "HttpsRequiresCert": "Para requerir HTTPS para las conexiones externas, deberás proporcionar un certificado SSL de confianza, como los de Lets Encrypt.",
+    "HttpsRequiresCert": "Para habilitar las conexiones seguras, deberás proporcionar un certificado SSL de confianza, como los de Let's Encrypt. Por favor, proporciona un certificado o deshabilita las conexiones seguras.",
     "Identify": "Identificar",
     "Images": "Imágenes",
     "ImportFavoriteChannelsHelp": "Si está activado, sólo los canales guardados como favoritos en el sintonizador se importarán.",
@@ -455,7 +455,7 @@
     "LabelAllowedRemoteAddresses": "Filtro de dirección IP remota:",
     "LabelAllowedRemoteAddressesMode": "Modo de filtro de dirección IP remota:",
     "LabelAppName": "Nombre de la aplicación",
-    "LabelAppNameExample": "Ejemplo: Sickbeard, NzbDrone",
+    "LabelAppNameExample": "Ejemplo: Sickbeard, Sonarr",
     "LabelArtists": "Artistas:",
     "LabelArtistsHelp": "Separar múltiples artistas usando ;",
     "LabelAudioLanguagePreference": "Idioma de audio preferido:",
@@ -806,7 +806,7 @@
     "MessageDeleteTaskTrigger": "¿Está seguro que desea eliminar esta tarea de activación?",
     "MessageDirectoryPickerBSDInstruction": "Para BSD, necesitarás configurar el almacenamiento del \"FreeNAS Jail\" para poder permitir a Jellyfin acceder a él.",
     "MessageDirectoryPickerInstruction": "Rutas de red pueden ser introducidas manualmente en el caso de que el botón de la red no pueda localizar sus dispositivos. Por ejemplo, {0} o {1}.",
-    "MessageDirectoryPickerLinuxInstruction": "Para Linux sobre Arch Linux, CentOS, Debian, Fedora, OpenSuse, or Ubuntu, debe conceder al usuario del servicio permiso de lectura en las rutas de almacenamiento.",
+    "MessageDirectoryPickerLinuxInstruction": "Para Linux sobre Arch Linux, CentOS, Debian, Fedora, openSUSE o Ubuntu, debe conceder al usuario del servicio permiso de lectura en las rutas de almacenamiento.",
     "MessageDownloadQueued": "Descarga en cola.",
     "MessageEnablingOptionLongerScans": "Activar esta opción implicará escaneos de la biblioteca más largos.",
     "MessageFileReadError": "Ha habido un error leyendo el fichero. Por favor, inténtalo más tarde.",
@@ -989,7 +989,7 @@
     "OptionThursday": "Jueves",
     "OptionTrackName": "Nombre de pista",
     "OptionTuesday": "Martes",
-    "OptionTvdbRating": "Valoración tvdb",
+    "OptionTvdbRating": "Puntuación TVDB",
     "OptionUnairedEpisode": "Episodios no emitidos",
     "OptionUnplayed": "No reproducido",
     "OptionWakeFromSleep": "Despertar",
@@ -1457,5 +1457,6 @@
     "CopyStreamURLSuccess": "URL copiada correctamente.",
     "MusicLibraryHelp": "Revisar la {0}guía de nombres de música{1}.",
     "FetchingData": "Obteniendo datos adicionales",
-    "ButtonAddImage": "Añadir imagen"
+    "ButtonAddImage": "Añadir imagen",
+    "HeaderFavoritePeople": "Personas favoritas"
 }

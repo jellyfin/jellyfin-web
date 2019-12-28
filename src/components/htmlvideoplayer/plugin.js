@@ -197,7 +197,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var currentAssRenderer;
         var customTrackIndex = -1;
 
-        var showTrackOffset = false;
+        var showTrackOffset;
         var currentTrackOffset;
 
         var videoSubtitlesElem;
@@ -289,6 +289,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             self._currentTime = null;
 
+            self.resetSubtitleOffset();
+
             return createMediaElement(options).then(function (elem) {
 
                 return updateVideoUrl(options, options.mediaSource).then(function () {
@@ -307,10 +309,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         type: 'flv',
                         url: url
                     },
-                        {
-                            seekType: 'range',
-                            lazyLoad: false
-                        });
+                    {
+                        seekType: 'range',
+                        lazyLoad: false
+                    });
 
                     flvPlayer.attachMediaElement(elem);
                     flvPlayer.load();
@@ -429,7 +431,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function onMediaManagerLoadMedia(event) {
 
             if (self._castPlayer) {
-                self._castPlayer.unload();    // Must unload before starting again.
+                self._castPlayer.unload(); // Must unload before starting again.
             }
             self._castPlayer = null;
 
@@ -541,12 +543,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             } else*/ if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
 
                 return setCurrentSrcChromecast(self, elem, options, val);
-            }
-
-            else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
-                
+            } else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
                 return setSrcWithHlsJs(self, elem, options, val);
-
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
 
                 return setSrcWithFlvJs(self, elem, options, val);
@@ -569,6 +567,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             setCurrentTrackElement(index);
         };
 
+        self.resetSubtitleOffset = function() {
+            currentTrackOffset = 0;
+            showTrackOffset = false;
+        }
+
         self.enableShowingSubtitleOffset = function() {
             showTrackOffset = true;
         }
@@ -586,7 +589,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var offsetValue = parseFloat(offset);
 
             // if .ass currently rendering
-            if (currentAssRenderer){
+            if (currentAssRenderer) {
                 updateCurrentTrackOffset(offsetValue);
             } else {
                 var videoElement = self._mediaElement;
@@ -595,22 +598,22 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 Array.from(videoElement.textTracks)
                     .filter(function(trackElement) {
                     // get showing .vtt textTacks
-                    return trackElement.mode === 'showing';
-                })
-                .forEach(function(trackElement) {
+                        return trackElement.mode === 'showing';
+                    })
+                    .forEach(function(trackElement) {
 
-                    var track = customTrackIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
-                        return t.Index === customTrackIndex;
-                    })[0];
+                        var track = customTrackIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
+                            return t.Index === customTrackIndex;
+                        })[0];
 
-                    if (track) {
-                        offsetValue = updateCurrentTrackOffset(offsetValue);
-                        setVttSubtitleOffset(trackElement, offsetValue);
-                    } else {
-                        console.log("No available track, cannot apply offset : " + offsetValue);
-                    }
+                        if (track) {
+                            offsetValue = updateCurrentTrackOffset(offsetValue);
+                            setVttSubtitleOffset(trackElement, offsetValue);
+                        } else {
+                            console.log("No available track, cannot apply offset : " + offsetValue);
+                        }
 
-                });
+                    });
             }
         };
 
@@ -618,7 +621,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             var relativeOffset = offsetValue;
             var newTrackOffset = offsetValue;
-            if(currentTrackOffset){
+            if (currentTrackOffset) {
                 relativeOffset -= currentTrackOffset;
             }
             currentTrackOffset = newTrackOffset;
@@ -628,12 +631,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function setVttSubtitleOffset(currentTrack, offsetValue) {
 
-            if(currentTrack.cues) {
+            if (currentTrack.cues) {
                 Array.from(currentTrack.cues)
-                .forEach(function(cue) {
-                    cue.startTime -= offsetValue;
-                    cue.endTime -= offsetValue;
-                });
+                    .forEach(function(cue) {
+                        cue.startTime -= offsetValue;
+                        cue.endTime -= offsetValue;
+                    });
             }
 
         }
@@ -658,7 +661,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var profiles = deviceProfile.DirectPlayProfiles || [];
 
             return profiles.filter(function (p) {
-
 
                 if (p.Type === 'Video') {
 
@@ -692,7 +694,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             var audioIndex = -1;
-            var i, length, stream;
+            var i;
+            var length;
+            var stream;
 
             for (i = 0, length = streams.length; i < length; i++) {
                 stream = streams[i];
@@ -1060,8 +1064,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (browser.ps4) {
                 // Text outlines are not rendering very well
                 rendererSettings.enableSvg = false;
-            }
-            else if (browser.edge || browser.msie) {
+            } else if (browser.edge || browser.msie) {
                 // svg not rendering at all
                 rendererSettings.enableSvg = false;
             }
@@ -1272,7 +1275,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function updateSubtitleText(timeMs) {
 
             // handle offset for ass tracks
-            if(currentTrackOffset) {
+            if (currentTrackOffset) {
                 timeMs += (currentTrackOffset * 1000);
             }
 
@@ -1521,6 +1524,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         list.push('SetBrightness');
+        list.push("SetAspectRatio")
 
         return list;
     }
@@ -1601,8 +1605,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             this.isPip = isEnabled;
             if (isEnabled) {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay);
-            }
-            else {
+            } else {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
         } else {
@@ -1749,7 +1752,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.setAspectRatio = function (val) {
-
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            if ("auto" === val) {
+                mediaElement.style.removeProperty("object-fit")
+            } else {
+                mediaElement.style["object-fit"] = val
+            }
+        }
+        this._currentAspectRatio = val
     };
 
     HtmlVideoPlayer.prototype.getAspectRatio = function () {
@@ -1757,7 +1768,16 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.getSupportedAspectRatios = function () {
-        return [];
+        return [{
+            name: "Auto",
+            id: "auto"
+        }, {
+            name: "Cover",
+            id: "cover"
+        }, {
+            name: "Fill",
+            id: "fill"
+        }]
     };
 
     HtmlVideoPlayer.prototype.togglePictureInPicture = function () {

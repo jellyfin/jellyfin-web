@@ -166,8 +166,7 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
                         loading.show();
 
                         cancelTimer(apiClient, timerId, true).then(resolve, reject);
-                    }
-                    else if (result === 'cancelseriestimer') {
+                    } else if (result === 'cancelseriestimer') {
 
                         loading.show();
 

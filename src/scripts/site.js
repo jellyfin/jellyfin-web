@@ -308,7 +308,7 @@ var AppInfo = {};
     }
 
     function getBowerPath() {
-        return "bower_components";
+        return "libraries";
     }
 
     function getComponentsPath() {
@@ -387,7 +387,7 @@ var AppInfo = {};
                 return self.ResizeObserver;
             });
         } else {
-            define("ResizeObserver", [getBowerPath() + "/resize-observer-polyfill/ResizeObserver"], returnFirstDependency);
+            define("ResizeObserver", ["resize-observer-polyfill"], returnFirstDependency);
         }
     }
 
@@ -410,9 +410,9 @@ var AppInfo = {};
         if ("registerElement" in document) {
             define("registerElement", []);
         } else if (browser.msie) {
-            define("registerElement", [bowerPath + "/webcomponentsjs/webcomponents-lite.min.js"], returnFirstDependency);
+            define("registerElement", ["webcomponents"], returnFirstDependency);
         } else {
-            define("registerElement", [bowerPath + "/document-register-element/build/document-register-element"], returnFirstDependency);
+            define("registerElement", ["document-register-element"], returnFirstDependency);
         }
 
         define("imageFetcher", [componentsPath + "/images/imageFetcher"], returnFirstDependency);
@@ -476,6 +476,10 @@ var AppInfo = {};
                 });
                 require(["keyboardnavigation"], function(keyboardnavigation) {
                     keyboardnavigation.enable();
+                });
+                require(["focusPreventScroll"]);
+                require(["autoFocuser"], function(autoFocuser) {
+                    autoFocuser.enable();
                 });
             });
         });
@@ -632,7 +636,7 @@ var AppInfo = {};
         }
 
         if (!window.Promise || browser.web0s) {
-            require([getBowerPath() + "/native-promise-only/lib/npo.src"], init);
+            require(["native-promise-only"], init);
         } else {
             init();
         }
@@ -681,15 +685,20 @@ var AppInfo = {};
             },
             bundles: {
                 bundle: [
+                    "document-register-element",
+                    "fetch",
                     "flvjs",
                     "jstree",
                     "jQuery",
                     "hlsjs",
                     "howler",
+                    "native-promise-only",
+                    "resize-observer-polyfill",
                     "shaka",
                     "swiper",
                     "sortable",
-                    "libjass"
+                    "libjass",
+                    "webcomponents"
                 ]
             },
             urlArgs: urlArgs,
@@ -715,9 +724,9 @@ var AppInfo = {};
         define("programStyles", ["css!" + componentsPath + "/guide/programs"], returnFirstDependency);
         define("listViewStyle", ["css!" + componentsPath + "/listview/listview"], returnFirstDependency);
         define("formDialogStyle", ["css!" + componentsPath + "/formdialog"], returnFirstDependency);
-        define("clearButtonStyle", ["css!" + componentsPath + "/clearbutton"], returnFirstDependency);
+        define("clearButtonStyle", ["css!css/clearbutton"], returnFirstDependency);
         define("cardStyle", ["css!" + componentsPath + "/cardbuilder/card"], returnFirstDependency);
-        define("flexStyles", ["css!" + componentsPath + "/flexstyles"], returnFirstDependency);
+        define("flexStyles", ["css!css/flexstyles"], returnFirstDependency);
 
         // define legacy features
         // TODO delete the rest of these
@@ -741,9 +750,10 @@ var AppInfo = {};
         define("itemrepository", [bowerPath + "/apiclient/sync/itemrepository"], returnFirstDependency);
         define("useractionrepository", [bowerPath + "/apiclient/sync/useractionrepository"], returnFirstDependency);
 
-        // also pull out these libs
-        define("page", [bowerPath + "/page"], returnFirstDependency);
-        define("fetch", [bowerPath + "/fetch/fetch"], returnFirstDependency);
+        // TODO remove these libraries
+        // all three have been modified so we need to fix that first
+        define("page", [bowerPath + "/pagejs/page"], returnFirstDependency);
+        define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
         });
@@ -833,6 +843,7 @@ var AppInfo = {};
         });
         define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
         define("objectassign", [componentsPath + "/polyfills/objectassign"], returnFirstDependency);
+        define("focusPreventScroll", [componentsPath + "/polyfills/focusPreventScroll"], returnFirstDependency);
         define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
         define("emby-playstatebutton", [componentsPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
         define("emby-ratingbutton", [componentsPath + "/userdatabuttons/emby-ratingbutton"], returnFirstDependency);
@@ -843,7 +854,6 @@ var AppInfo = {};
         define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
         define("idb", [componentsPath + "/idb"], returnFirstDependency);
         define("sanitizefilename", [componentsPath + "/sanitizefilename"], returnFirstDependency);
-        define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
         define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);
         define("touchHelper", [componentsPath + "/touchhelper"], returnFirstDependency);
@@ -858,6 +868,8 @@ var AppInfo = {};
         define("serverNotifications", [componentsPath + "/serverNotifications/serverNotifications"], returnFirstDependency);
         define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
         define("keyboardnavigation", [componentsPath + "/keyboardnavigation"], returnFirstDependency);
+        define("scrollManager", [componentsPath + "/scrollManager"], returnFirstDependency);
+        define("autoFocuser", [componentsPath + "/autoFocuser"], returnFirstDependency);
         define("connectionManager", [], function () {
             return ConnectionManager;
         });

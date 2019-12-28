@@ -1,4 +1,4 @@
-define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./style'], function (browser, connectionManager, playbackManager, dom) {
+define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdrop'], function (browser, connectionManager, playbackManager, dom) {
     'use strict';
 
     function enableAnimation(elem) {

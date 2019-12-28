@@ -46,6 +46,10 @@ define(["loading", "libraryBrowser", "cardBuilder", "apphost"], function (loadin
                 context: "tvshows"
             });
             loading.hide();
+
+            require(["autoFocuser"], function (autoFocuser) {
+                autoFocuser.autoFocus(context);
+            });
         });
     }
 

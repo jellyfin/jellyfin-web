@@ -47,7 +47,7 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
             html += '<div class="cardImage coveredImage" style="background-image:url(\'' + plugin.ImageUrl + "');\">";
             html += "</div>";
         } else {
-            html += '<i class="cardImageIcon md-icon">&#xE2C7;</i>';
+            html += '<i class="cardImageIcon md-icon">folder</i>';
         }
 
         html += configPageUrl ? "</a>" : "</div>";
@@ -116,14 +116,14 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
             menuItems.push({
                 name: globalize.translate("ButtonSettings"),
                 id: "open",
-                ironIcon: "mode-edit"
+                icon: "mode_edit"
             });
         }
 
         menuItems.push({
             name: globalize.translate("ButtonUninstall"),
             id: "delete",
-            ironIcon: "delete"
+            icon: "delete"
         });
 
         require(["actionsheet"], function (actionsheet) {

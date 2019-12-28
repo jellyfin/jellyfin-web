@@ -135,7 +135,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
                 var userData = fullItem.UserData || {};
                 var likes = null == userData.Likes ? "" : userData.Likes;
-                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="md-icon">&#xE87D;</i></button>';
+                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="md-icon">favorite</i></button>';
             });
         } else {
             backdrop.clear();
@@ -179,15 +179,15 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             if (player) {
                 switch (playbackManager.getRepeatMode(player)) {
                     case "RepeatNone":
-                    playbackManager.setRepeatMode("RepeatAll", player);
-                    break;
+                        playbackManager.setRepeatMode("RepeatAll", player);
+                        break;
 
                     case "RepeatAll":
-                    playbackManager.setRepeatMode("RepeatOne", player);
-                    break;
+                        playbackManager.setRepeatMode("RepeatOne", player);
+                        break;
 
                     case "RepeatOne":
-                    playbackManager.setRepeatMode("RepeatNone", player);
+                        playbackManager.setRepeatMode("RepeatNone", player);
                 }
             }
         }
@@ -203,17 +203,34 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             updateAudioTracksDisplay(player, context);
             updateSubtitleTracksDisplay(player, context);
 
-            if (-1 != supportedCommands.indexOf("DisplayMessage")) {
+            if (-1 != supportedCommands.indexOf("DisplayMessage") && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".sendMessageSection").classList.remove("hide");
             } else {
                 context.querySelector(".sendMessageSection").classList.add("hide");
             }
 
-            if (-1 != supportedCommands.indexOf("SendString")) {
+            if (-1 != supportedCommands.indexOf("SendString") && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".sendTextSection").classList.remove("hide");
             } else {
                 context.querySelector(".sendTextSection").classList.add("hide");
             }
+
+            if (!currentPlayer.isLocalPlayer) {
+                context.querySelector(".navigationSection").classList.remove("hide");
+            } else {
+                context.querySelector(".navigationSection").classList.add("hide");
+            }
+
+            buttonVisible(context.querySelector(".btnArrowUp"), -1 != supportedCommands.indexOf("MoveUp"));
+            buttonVisible(context.querySelector(".btnArrowLeft"), -1 != supportedCommands.indexOf("MoveDown"));
+            buttonVisible(context.querySelector(".btnArrowRight"), -1 != supportedCommands.indexOf("MoveRight"));
+            buttonVisible(context.querySelector(".btnArrowDown"), -1 != supportedCommands.indexOf("MoveLeft"));
+            buttonVisible(context.querySelector(".btnOk"), -1 != supportedCommands.indexOf("Select"));
+            buttonVisible(context.querySelector(".btnBack"), -1 != supportedCommands.indexOf("Back"));
+            buttonVisible(context.querySelector(".btnContextMenu"), -1 != supportedCommands.indexOf("ToggleContextMenu"));
+            buttonVisible(context.querySelector(".btnShowSearch"), -1 != supportedCommands.indexOf("GoToSearch"));
+            buttonVisible(context.querySelector(".bthShowSettings"), -1 != supportedCommands.indexOf("GoToSettings"));
+            buttonVisible(context.querySelector(".btnGoHome"), -1 != supportedCommands.indexOf("GoHome"));
 
             buttonVisible(context.querySelector(".btnStop"), null != item);
             buttonVisible(context.querySelector(".btnNextTrack"), null != item);
@@ -291,10 +308,10 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
 
             if (isMuted) {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute"));
-                view.querySelector(".buttonMute i").innerHTML = "&#xE04F;";
+                view.querySelector(".buttonMute i").innerHTML = "volume_off";
             } else {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute"));
-                view.querySelector(".buttonMute i").innerHTML = "&#xE050;";
+                view.querySelector(".buttonMute i").innerHTML = "volume_up";
             }
 
             if (progressElement) {
@@ -361,7 +378,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                     action: "setplaylistindex",
                     enableUserDataButtons: false,
                     rightButtons: [{
-                        icon: "&#xE15D;",
+                        icon: "remove_circle_outline",
                         title: globalize.translate("ButtonRemove"),
                         id: "remove"
                     }],

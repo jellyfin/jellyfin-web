@@ -57,8 +57,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 name: globalize.translate('Collections'),
                 value: 'collections'
             });
-        }
-        else if (type === 'tvshows') {
+        } else if (type === 'tvshows') {
 
             list.push({
                 name: globalize.translate('Shows'),
@@ -78,8 +77,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 name: globalize.translate('Favorites'),
                 value: 'favorites'
             });
-        }
-        else if (type === 'music') {
+        } else if (type === 'music') {
 
             list.push({
                 name: globalize.translate('Suggestions'),
@@ -111,8 +109,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 name: globalize.translate('Genres'),
                 value: 'genres'
             });
-        }
-        else if (type === 'livetv') {
+        } else if (type === 'livetv') {
 
             list.push({
                 name: globalize.translate('Suggestions'),
@@ -152,7 +149,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
             currentHtml += '<div class="listItem viewItem" data-viewid="' + view.Id + '">';
 
-            currentHtml += '<i class="md-icon listItemIcon">&#xE2C8;</i>';
+            currentHtml += '<i class="md-icon listItemIcon">folder_open</i>';
 
             currentHtml += '<div class="listItemBody">';
 
@@ -162,8 +159,8 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
             currentHtml += '</div>';
 
-            currentHtml += '<button type="button" is="paper-icon-button-light" class="btnViewItemUp btnViewItemMove autoSize" title="' + globalize.translate('Up') + '"><i class="md-icon">&#xE316;</i></button>';
-            currentHtml += '<button type="button" is="paper-icon-button-light" class="btnViewItemDown btnViewItemMove autoSize" title="' + globalize.translate('Down') + '"><i class="md-icon">&#xE313;</i></button>';
+            currentHtml += '<button type="button" is="paper-icon-button-light" class="btnViewItemUp btnViewItemMove autoSize" title="' + globalize.translate('Up') + '"><i class="md-icon">keyboard_arrow_up</i></button>';
+            currentHtml += '<button type="button" is="paper-icon-button-light" class="btnViewItemDown btnViewItemMove autoSize" title="' + globalize.translate('Down') + '"><i class="md-icon">keyboard_arrow_down</i></button>';
 
             currentHtml += '</div>';
 
@@ -255,7 +252,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
             html = prefix + html;
             html += '</div>';
         }
-
 
         return html;
     }
@@ -384,7 +380,8 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
         var viewItems = context.querySelectorAll('.viewItem');
         var orderedViews = [];
-        var i, length;
+        var i;
+        var length;
         for (i = 0, length = viewItems.length; i < length; i++) {
             orderedViews.push(viewItems[i].getAttribute('data-viewid'));
         }

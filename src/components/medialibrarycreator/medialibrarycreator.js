@@ -151,13 +151,13 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
                 var xhr = new XMLHttpRequest;
                 xhr.open("GET", "components/medialibrarycreator/medialibrarycreator.template.html", true);
                 xhr.onload = function(e) {
-                    var template = this.response,
-                        dlg = dialogHelper.createDialog({
-                            size: "medium-tall",
-                            modal: false,
-                            removeOnClose: true,
-                            scrollY: false
-                        });
+                    var template = this.response;
+                    var dlg = dialogHelper.createDialog({
+                        size: "medium-tall",
+                        modal: false,
+                        removeOnClose: true,
+                        scrollY: false
+                    });
                     dlg.classList.add("ui-body-a");
                     dlg.classList.add("background-theme-a");
                     dlg.classList.add("dlg-librarycreator");

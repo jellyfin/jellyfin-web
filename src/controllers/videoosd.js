@@ -402,6 +402,8 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
         function onHideAnimationComplete(e) {
             var elem = e.target;
+            if (elem != osdBottomElement)
+                return;
             elem.classList.add("hide");
             dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                 once: true
@@ -467,34 +469,34 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             switch (e.detail.command) {
                 case "left":
-                if ("osd" === currentVisibleMenu) {
-                    showOsd();
-                } else {
-                    if (!currentVisibleMenu) {
-                        e.preventDefault();
-                        playbackManager.rewind(player);
+                    if ("osd" === currentVisibleMenu) {
+                        showOsd();
+                    } else {
+                        if (!currentVisibleMenu) {
+                            e.preventDefault();
+                            playbackManager.rewind(player);
+                        }
                     }
-                }
 
-                break;
+                    break;
 
                 case "right":
-                if ("osd" === currentVisibleMenu) {
-                    showOsd();
-                } else if (!currentVisibleMenu) {
-                    e.preventDefault();
-                    playbackManager.fastForward(player);
-                }
+                    if ("osd" === currentVisibleMenu) {
+                        showOsd();
+                    } else if (!currentVisibleMenu) {
+                        e.preventDefault();
+                        playbackManager.fastForward(player);
+                    }
 
-                break;
+                    break;
 
                 case "pageup":
-                playbackManager.nextChapter(player);
-                break;
+                    playbackManager.nextChapter(player);
+                    break;
 
                 case "pagedown":
-                playbackManager.previousChapter(player);
-                break;
+                    playbackManager.previousChapter(player);
+                    break;
 
                 case "up":
                 case "down":
@@ -508,16 +510,16 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 case "rewind":
                 case "next":
                 case "previous":
-                showOsd();
-                break;
+                    showOsd();
+                    break;
 
                 case "record":
-                onRecordingCommand();
-                showOsd();
-                break;
+                    onRecordingCommand();
+                    showOsd();
+                    break;
 
                 case "togglestats":
-                toggleStats();
+                    toggleStats();
             }
         }
 
@@ -532,10 +534,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         function updateFullscreenIcon() {
             if (playbackManager.isFullscreen(currentPlayer)) {
                 view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("ExitFullscreen"));
-                view.querySelector(".btnFullscreen i").innerHTML = "&#xE5D1;";
+                view.querySelector(".btnFullscreen i").innerHTML = "fullscreen_exit";
             } else {
                 view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("Fullscreen") + " (f)");
-                view.querySelector(".btnFullscreen i").innerHTML = "&#xE5D0;";
+                view.querySelector(".btnFullscreen i").innerHTML = "fullscreen";
             }
         }
 
@@ -734,10 +736,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         function updatePlayPauseState(isPaused) {
             var button = view.querySelector(".btnPause i");
             if (isPaused) {
-                button.innerHTML = "&#xE037;";
+                button.innerHTML = "play_arrow";
                 button.setAttribute("title", globalize.translate("ButtonPlay") + " (k)");
             } else {
-                button.innerHTML = "&#xE034;";
+                button.innerHTML = "pause";
                 button.setAttribute("title", globalize.translate("ButtonPause") + " (k)");
             }
         }
@@ -769,6 +771,11 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             var isProgressClear = state.MediaSource && null == state.MediaSource.RunTimeTicks;
             nowPlayingPositionSlider.setIsClear(isProgressClear);
+
+            if (nowPlayingItem.RunTimeTicks) {
+                nowPlayingPositionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / nowPlayingItem.RunTimeTicks,
+                    userSettings.skipForwardLength() * 1000000 / nowPlayingItem.RunTimeTicks);
+            }
 
             if (-1 === supportedCommands.indexOf("ToggleFullscreen") || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {
                 view.querySelector(".btnFullscreen").classList.add("hide");
@@ -847,7 +854,6 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             var volumeSlider = view.querySelector('.osdVolumeSliderContainer');
             var progressElement = volumeSlider.querySelector('.mdl-slider-background-lower');
 
-
             if (-1 === supportedCommands.indexOf("Mute")) {
                 showMuteButton = false;
             }
@@ -863,10 +869,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             if (isMuted) {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute") + " (m)");
-                view.querySelector(".buttonMute i").innerHTML = "&#xE04F;";
+                view.querySelector(".buttonMute i").innerHTML = "volume_off";
             } else {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute") + " (m)");
-                view.querySelector(".buttonMute i").innerHTML = "&#xE050;";
+                view.querySelector(".buttonMute i").innerHTML = "volume_up";
             }
 
             if (progressElement) {
@@ -1057,7 +1063,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 var player = currentPlayer;
                 if (subtitleSyncOverlay) {
                     subtitleSyncOverlay.toggle(action);
-                } else if(player){
+                } else if (player) {
                     subtitleSyncOverlay = new SubtitleSync(player);
                 }
             });
@@ -1070,62 +1076,73 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
+        /**
+         * Keys used for keyboard navigation.
+         */
+        var NavigationKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+
         function onWindowKeyDown(e) {
             if (!currentVisibleMenu && 32 === e.keyCode) {
                 playbackManager.playPause(currentPlayer);
-                return void showOsd();
+                showOsd();
+                return;
+            }
+
+            if (layoutManager.tv && NavigationKeys.indexOf(e.key) != -1) {
+                showOsd();
+                return;
             }
 
             switch (e.key) {
                 case "k":
                     playbackManager.playPause(currentPlayer);
                     showOsd();
-                break;
+                    break;
 
                 case "l":
                 case "ArrowRight":
                 case "Right":
                     playbackManager.fastForward(currentPlayer);
                     showOsd();
-                break;
+                    break;
 
                 case "j":
                 case "ArrowLeft":
                 case "Left":
                     playbackManager.rewind(currentPlayer);
                     showOsd();
-                break;
+                    break;
 
                 case "f":
-                if (!e.ctrlKey && !e.metaKey) {
-                    playbackManager.toggleFullscreen(currentPlayer);
-                    showOsd();
-                }
-                break;
+                    if (!e.ctrlKey && !e.metaKey) {
+                        playbackManager.toggleFullscreen(currentPlayer);
+                        showOsd();
+                    }
+                    break;
 
                 case "m":
-                playbackManager.toggleMute(currentPlayer);
-                showOsd();
-                break;
+                    playbackManager.toggleMute(currentPlayer);
+                    showOsd();
+                    break;
 
                 case "NavigationLeft":
                 case "GamepadDPadLeft":
                 case "GamepadLeftThumbstickLeft":
                 // Ignores gamepad events that are always triggered, even when not focused.
-                if (document.hasFocus()) {
-                    playbackManager.rewind(currentPlayer);
-                    showOsd();
-                }
-                break;
+                    if (document.hasFocus()) {
+                        playbackManager.rewind(currentPlayer);
+                        showOsd();
+                    }
+                    break;
 
                 case "NavigationRight":
                 case "GamepadDPadRight":
                 case "GamepadLeftThumbstickRight":
                 // Ignores gamepad events that are always triggered, even when not focused.
-                if (document.hasFocus()) {
-                    playbackManager.fastForward(currentPlayer);
-                    showOsd();
-                }
+                    if (document.hasFocus()) {
+                        playbackManager.fastForward(currentPlayer);
+                        showOsd();
+                    }
             }
         }
 
@@ -1237,6 +1254,12 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         var transitionEndEventName = dom.whichTransitionEvent();
         var headerElement = document.querySelector(".skinHeader");
         var osdBottomElement = document.querySelector(".videoOsdBottom-maincontrols");
+
+        if (layoutManager.tv) {
+            nowPlayingPositionSlider.classList.add("focusable");
+            nowPlayingPositionSlider.enableKeyboardDragging();
+        }
+
         view.addEventListener("viewbeforeshow", function (e) {
             headerElement.classList.add("osdHeader");
             Emby.Page.setTransparency("full");
@@ -1253,7 +1276,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 dom.addEventListener(window, "keydown", onWindowKeyDown, {
                     passive: true
                 });
-            } catch(e) {
+            } catch (e) {
                 require(['appRouter'], function(appRouter) {
                     appRouter.showDirect('/');
                 });
@@ -1312,24 +1335,24 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             switch (pointerType) {
                 case "touch":
-                if (now - lastPointerDown > 300) {
-                    lastPointerDown = now;
-                    toggleOsd();
-                }
+                    if (now - lastPointerDown > 300) {
+                        lastPointerDown = now;
+                        toggleOsd();
+                    }
 
-                break;
+                    break;
 
                 case "mouse":
-                if (!e.button) {
-                    playbackManager.playPause(currentPlayer);
-                    showOsd();
-                }
+                    if (!e.button) {
+                        playbackManager.playPause(currentPlayer);
+                        showOsd();
+                    }
 
-                break;
+                    break;
 
                 default:
-                playbackManager.playPause(currentPlayer);
-                showOsd();
+                    playbackManager.playPause(currentPlayer);
+                    showOsd();
             }
         }, {
             passive: true
@@ -1339,14 +1362,16 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             dom.addEventListener(view, "dblclick", onDoubleClick, {});
         } else {
             var options = { passive: true };
-            dom.addEventListener(view, "dblclick", function () { playbackManager.toggleFullscreen(currentPlayer); }, options);
+            dom.addEventListener(view, "dblclick", function () {
+                playbackManager.toggleFullscreen(currentPlayer);
+            }, options);
         }
 
         view.querySelector(".buttonMute").addEventListener("click", function () {
             playbackManager.toggleMute(currentPlayer);
         });
         nowPlayingVolumeSlider.addEventListener("change", function () {
-            if(volumeSliderTimer){
+            if (volumeSliderTimer) {
                 // interupt and remove existing timer
                 clearTimeout(volumeSliderTimer);
                 volumeSliderTimer = null;
@@ -1354,10 +1379,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             playbackManager.setVolume(this.value, currentPlayer);
         });
         nowPlayingVolumeSlider.addEventListener("mousemove", function () {
-            if(!volumeSliderTimer){
+            if (!volumeSliderTimer) {
                 var that = this;
                 // register new timer
-                volumeSliderTimer = setTimeout(function(){
+                volumeSliderTimer = setTimeout(function() {
                     playbackManager.setVolume(that.value, currentPlayer);
                     // delete timer after completion
                     volumeSliderTimer = null;
@@ -1365,10 +1390,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         });
         nowPlayingVolumeSlider.addEventListener("touchmove", function () {
-            if(!volumeSliderTimer){
+            if (!volumeSliderTimer) {
                 var that = this;
                 // register new timer
-                volumeSliderTimer = setTimeout(function(){
+                volumeSliderTimer = setTimeout(function() {
                     playbackManager.setVolume(that.value, currentPlayer);
                     // delete timer after completion
                     volumeSliderTimer = null;
