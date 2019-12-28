@@ -1104,6 +1104,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (supportsCanvas() && supportsWebWorkers()) {
                 renderWithSubtitlesOctopus(videoElement, track, item);
             } else {
+                console.log('rendering subtitles with libjass');
                 renderWithLibjass(videoElement, track, item);
             }
         }
