@@ -1062,5 +1062,8 @@
     "Auto": "Auto",
     "AllowMediaConversionHelp": "Povoliť alebo zakázať prístup k funkcii konverzie médií.",
     "AddToPlaylist": "Pridať do playlistu",
-    "HeaderAlbumArtists": "Albumy umelcov"
+    "HeaderAlbumArtists": "Albumy umelcov",
+    "AddToPlayQueue": "Pridať do rady prehrávania",
+    "AdditionalNotificationServices": "Prehľadávať katalóg doplnkov pre inštaláciu dodatočných služieb oznámení.",
+    "AllowHWTranscodingHelp": "Povoliť tuneru transkódovať stream za behu. Toto može zníziť transkódovanie požadované serverom."
 }
