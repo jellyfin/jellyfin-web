@@ -882,7 +882,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
 
-                if (options.showYear || options.showSeriesYear) {
+                if (options.showYear || options.showSeriesYear || item.Type === 'Movie') {
 
                     if (item.Type === 'Series') {
                         if (item.Status === "Continuing") {
