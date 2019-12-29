@@ -653,5 +653,7 @@
     "HeaderMyDevice": "Mano įrenginys",
     "HeaderMovies": "Filmai",
     "HeaderMyMediaSmall": "Mediateka",
-    "HeaderNewDevices": "Naujas įrenginys"
+    "HeaderNewDevices": "Naujas įrenginys",
+    "AddToPlayQueue": "Pridėti prie grojaraščio",
+    "AllowRemoteAccessHelp": "Jei nepažymėta, visi nuotoliniai prisijungimai bus užblokuoti"
 }
