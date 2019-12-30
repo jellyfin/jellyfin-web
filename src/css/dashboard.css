@@ -1,5 +1,6 @@
 .dashboardColumn,
 .dashboardSections {
+    flex-direction: column;
 }
 
 .dashboardFooter {
@@ -390,6 +391,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 a[data-role=button] {
+    background-clip: padding-box;
     cursor: pointer !important;
     font-family: inherit !important;
     font-weight: 500 !important;

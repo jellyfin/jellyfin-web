@@ -86,7 +86,7 @@ html {
     background: #00a4dc;
     color: #fff
 }
-
+border-radius: 2px;
 .button-submit:focus {
     background: #0cb0e8;
     color: #fff
@@ -445,6 +445,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -453,6 +454,7 @@ html {
 
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
+    border-radius: 2px;
     background: center no-repeat rgba(255, 255, 255, .7)
 }
 

@@ -545,6 +545,7 @@ a[data-role=button] {
 }
 
 ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -553,6 +554,7 @@ a[data-role=button] {
 
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
+    border-radius: 2px;
     background: center no-repeat #888
 }
 

@@ -92,10 +92,12 @@
 
 .headerLeft,
 .skinHeader {
+    display: flex;
 }
 
 .detailButton-mobile,
 .skinHeader {
+    flex-direction: column;
 }
 
 .pageTitleWithLogo {
@@ -119,6 +121,7 @@
 
 .headerLeft,
 .headerRight {
+    justify-content: center;
 }
 
 .hiddenViewMenuBar .skinHeader {
@@ -542,6 +545,7 @@
 
 .detailButton-mobile,
 .mainDetailButtons {
+    display: flex;
 }
 
 .itemName {

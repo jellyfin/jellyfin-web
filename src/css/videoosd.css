@@ -110,6 +110,8 @@
 
 .osdMediaInfo,
 .volumeButtons {
+    display: flex;
+    align-items: center;
 }
 
 .volumeButtons {
@@ -169,9 +171,9 @@
     margin-left: auto;
 }
 
-@-moz-keyframes spin { 100% { } }
-@-webkit-keyframes spin { 100% { } }
-@keyframes spin { 100% { transform:rotate(360deg); } }
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 .osdMediaStatus .animate {
     animation:spin 4s linear infinite;
 }

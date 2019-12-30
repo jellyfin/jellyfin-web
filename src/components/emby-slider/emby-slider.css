@@ -1,4 +1,5 @@
 _:-ms-input-placeholder {
+    -ms-appearance: none;
     height: 2.223em;
     margin: 0;
 }
@@ -59,6 +60,7 @@ _:-ms-input-placeholder {
     }
 
     .mdl-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
         width: 1.2em;
         height: 1.2em;
         box-sizing: border-box;
@@ -85,6 +87,7 @@ _:-ms-input-placeholder {
 }
 
 .mdl-slider::-moz-range-thumb {
+    -moz-appearance: none;
     width: 0.9em;
     height: 0.9em;
     box-sizing: border-box;
@@ -96,6 +99,7 @@ _:-ms-input-placeholder {
 }
 
 .mdl-slider::-ms-thumb {
+    -webkit-appearance: none;
     width: 1.8em;
     height: 1.8em;
     box-sizing: border-box;

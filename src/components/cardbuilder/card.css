@@ -4,6 +4,7 @@ button::-moz-focus-inner {
 }
 
 button {
+    -webkit-border-fit: border !important;
 }
 
 .card {
