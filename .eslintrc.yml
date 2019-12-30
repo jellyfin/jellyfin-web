@@ -34,3 +34,4 @@ settings:
     - Object.assign
     - document.registerElement
     - ResizeObserver
+    - fetch
