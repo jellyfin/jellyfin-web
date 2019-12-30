@@ -1451,5 +1451,6 @@
     "MusicLibraryHelp": "Просмотрите {0}руководство по именованию музыки{1}.",
     "FetchingData": "Выборка дополнительных данных",
     "ButtonAddImage": "Добавить рисунок",
-    "HeaderFavoritePeople": "Избранные люди"
+    "HeaderFavoritePeople": "Избранные люди",
+    "OptionRandom": "Случайный"
 }
