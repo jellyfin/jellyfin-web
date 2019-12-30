@@ -133,10 +133,11 @@
 }
 
 .headerLeft {
-    display: flex;
+    display: flex;justify-content: left;
     align-items: center;
     flex-grow: 1;
-    overflow: hidden
+    overflow: hidden;
+    justify-content: left;
 }
 
 .sectionTabs {
@@ -530,7 +531,7 @@
         display: none
     }
 }
-
+justify-content: left;
 @media all and (min-width:31.25em) {
     .mobileDetails {
         display: none
