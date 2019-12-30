@@ -580,9 +580,10 @@ a[data-role=button] {
 
 .personCard .cardScalable {
     border-radius: 50%;
-    border: 2px solid #AA5CC3;
+    border: 1px solid rgb(255, 255, 255);
 }
 
+.personCard .cardPadder-overflowPortrait,
 .personCard .cardPadder-portrait {
     padding-bottom: 100%;
     contain: strict;
