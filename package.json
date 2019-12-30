@@ -38,6 +38,17 @@
     "webcomponents.js": "^0.7.24",
     "whatwg-fetch": "^1.1.1"
   },
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "not dead",
+    "Chrome 38",
+    "Chrome 47",
+    "Chrome 53",
+    "Chrome 56",
+    "Chrome 63",
+    "Firefox ESR"
+  ],
   "scripts": {
     "serve": "webpack-dev-server --config webpack.dev.js --open",
     "build": "webpack --config webpack.prod.js",
