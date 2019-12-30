@@ -13,7 +13,10 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.css$/i,
-                use: ["style-loader", "css-loader", "postcss-loader"]
+                use: [
+                    "style-loader",
+                    { loader: 'css-loader', options: { importLoaders: 1 } },
+                    "postcss-loader"]
             },
             {
                 test: /\.(png|jpg|gif)$/i,
