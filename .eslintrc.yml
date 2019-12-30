@@ -33,3 +33,4 @@ settings:
     - Promise
     - Object.assign
     - document.registerElement
+    - ResizeObserver
