@@ -31,3 +31,5 @@ rules:
 settings:
   polyfills:
     - Promise
+    - Object.assign
+    - document.registerElement
