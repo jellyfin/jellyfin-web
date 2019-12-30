@@ -1,8 +1,5 @@
 .chapterThumbTextContainer,
 .videoOsdBottom {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none
 }
 
 .osdPoster img,
@@ -14,13 +11,10 @@
 }
 
 .osdHeader {
-    -webkit-transition: opacity .3s ease-out;
-    -o-transition: opacity .3s ease-out;
     transition: opacity .3s ease-out;
     position: relative;
     z-index: 1;
     background: rgba(0, 0, 0, 0.7) !important;
-    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     color: #eee !important;
 }
@@ -34,17 +28,13 @@
 }
 
 .chapterThumbContainer {
-    -webkit-box-shadow: 0 0 1.9vh #000;
     box-shadow: 0 0 1.9vh #000;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1;
     position: relative
 }
 
 .chapterThumb {
     background-position: center center;
-    -webkit-background-size: contain;
     background-size: contain;
     background-repeat: no-repeat;
     border: 0;
@@ -90,20 +80,12 @@
     position: fixed;
     background-color: rgba(0, 0, 0, 0.7);
     padding: 1%;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
     flex-direction: row;
     will-change: opacity;
-    -webkit-transition: opacity 0.3s ease-out;
-    -o-transition: opacity 0.3s ease-out;
     transition: opacity 0.3s ease-out;
     color: #fff;
-    user-select: none;
-    -webkit-touch-callout: none
+    user-select: none
 }
 
 .videoOsdBottom-hidden {
@@ -111,49 +93,33 @@
 }
 
 .osdControls {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1
 }
 
 .videoOsdBottom .buttons {
     padding: .25em 0 0;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center
 }
 
 .osdVolumeSliderContainer {
     width: 9em;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1
 }
 
 .osdMediaInfo,
 .volumeButtons {
-    display: -webkit-box;
-    display: -webkit-flex;
-    -webkit-box-align: center
 }
 
 .volumeButtons {
     margin: 0 .5em 0 auto;
     display: flex;
-    -webkit-align-items: center;
     align-items: center
 }
 
 .osdTimeText {
     margin-left: 1em;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none
 }
 
@@ -167,15 +133,10 @@
     position: absolute;
     height: auto;
     width: 100%;
-    -webkit-box-shadow: 0 0 1.9vh #000;
     box-shadow: 0 0 1.9vh #000;
     border: .08em solid #222;
     user-drag: none;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-drag: none;
-    -webkit-user-select: none;
-    -ms-user-select: none
+    user-select: none
 }
 
 .osdTitle,
@@ -185,7 +146,6 @@
 
 .osdMediaInfo {
     display: flex;
-    -webkit-align-items: center;
     align-items: center
 }
 
@@ -194,23 +154,14 @@
 }
 
 .osdTextContainer {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     margin-bottom: .7em;
     padding-left: .5em
 }
 
 .osdMainTextContainer {
-    -webkit-box-align: baseline;
-    -webkit-align-items: baseline;
     align-items: baseline
 }
 
@@ -218,12 +169,10 @@
     margin-left: auto;
 }
 
-@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+@-moz-keyframes spin { 100% { } }
+@-webkit-keyframes spin { 100% { } }
+@keyframes spin { 100% { transform:rotate(360deg); } }
 .osdMediaStatus .animate {
-    -webkit-animation:spin 4s linear infinite;
-    -moz-animation:spin 4s linear infinite;
     animation:spin 4s linear infinite;
 }
 

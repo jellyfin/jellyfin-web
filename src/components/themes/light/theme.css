@@ -23,17 +23,14 @@ html {
     background-color: #303030;
     color: #ccc;
     color: rgba(255, 255, 255, .87);
-    -webkit-box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
     box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
 }
 
 .osdHeader {
-    -webkit-box-shadow: none !important;
     box-shadow: none !important
 }
 
 .skinHeader.semiTransparent {
-    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, 0.4);
 }
@@ -192,7 +189,6 @@ html {
 @supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
     .appfooter-blurred {
         background: rgba(24, 24, 24, .7);
-        -webkit-backdrop-filter: blur(20px);
         backdrop-filter: blur(20px)
     }
 }
@@ -257,7 +253,6 @@ html {
     color: inherit;
     background: #fff;
     border: .07em solid rgba(0, 0, 0, .158);
-    -webkit-border-radius: .15em;
     border-radius: .15em
 }
 
@@ -415,7 +410,6 @@ html {
     color: #000;
     background: #fff3a5;
     padding: 1em;
-    -webkit-border-radius: .25em;
     border-radius: .25em
 }
 

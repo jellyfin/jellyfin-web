@@ -9,9 +9,6 @@
     font-family: inherit;
     color: inherit;
     outline-width: 0;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
     z-index: 0;
@@ -25,7 +22,6 @@
     position: relative;
     font-weight: 600;
     /* Disable webkit tap highlighting */
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
     text-decoration: none;
     /* Not crazy about this but it normalizes heights between anchors and buttons */
     line-height: 1.35;
@@ -99,9 +95,6 @@
     font-size: inherit;
     font-family: inherit;
     color: inherit;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
     z-index: 0;
@@ -119,7 +112,6 @@
     overflow: hidden;
     border-radius: 50%;
     /* Disable webkit tap highlighting */
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
     justify-content: center;
     transform-origin: center;
     transition: 0.2s;

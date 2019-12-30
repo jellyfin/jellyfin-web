@@ -40,8 +40,6 @@
     margin-right: 1%;
     top: 2.5em;
     height: 1.4em;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1;
     border-radius: .3em;
     z-index: 1; 
