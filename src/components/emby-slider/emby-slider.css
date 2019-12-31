@@ -91,14 +91,13 @@ _:-ms-input-placeholder {
   height: 0.9em;
   box-sizing: border-box;
   border-radius: 50%;
-  background-image: none;
   background: #00a4dc;
+  background-image: none;
   border: none;
   transform: scale(1.4, 1.4);
 }
 
 .mdl-slider::-ms-thumb {
-<<<<<<< HEAD
     appearance: none;
     width: 1.8em;
     height: 1.8em;
@@ -108,17 +107,6 @@ _:-ms-input-placeholder {
     border: none;
     transform: scale(.9, .9);
     transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-=======
-  -webkit-appearance: none;
-  width: 1.8em;
-  height: 1.8em;
-  box-sizing: border-box;
-  border-radius: 50%;
-  background: #00a4dc;
-  border: none;
-  transform: scale(0.9, 0.9);
-  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
->>>>>>> Automatic CSS fix by stylelint
 }
 
 .mdl-slider-hoverthumb::-ms-thumb {

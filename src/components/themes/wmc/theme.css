@@ -252,6 +252,11 @@ color: rgba(255, 255, 255, .78)
   border-color: #fff;
 }
 
+.emby-checkbox:checked + span + .checkboxOutline,
+.itemProgressBarForeground {
+  background-color: #00a4dc;
+}
+
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
   border-color: #00a4dc;
 }
@@ -264,11 +269,6 @@ color: rgba(255, 255, 255, .78)
 .emby-select-tv-withcolor:focus {
   background-color: #00a4dc;
   color: #fff;
-}
-
-.emby-checkbox:checked + span + .checkboxOutline,
-.itemProgressBarForeground {
-  background-color: #00a4dc;
 }
 
 .itemProgressBarForeground-recording {
@@ -413,17 +413,17 @@ color: rgba(255, 255, 255, .78)
   border-color: #fff !important;
 }
 
-.layout-desktop ::-webkit-scrollbar {
-  width: 1em;
-  height: 1em;
-}
-
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
 }
 
 ::-webkit-scrollbar-track-piece {
   background-color: #081b3b;
+}
+
+.layout-desktop ::-webkit-scrollbar {
+  width: 1em;
+  height: 1em;
 }
 
 ::-webkit-scrollbar-thumb:horizontal,

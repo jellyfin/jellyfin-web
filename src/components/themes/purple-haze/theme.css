@@ -109,6 +109,20 @@ a[data-role=button] {
   color: rgb(225, 229, 242);
 }
 
+#btnResetPassword,
+.btnForgotPassword,
+.btnCancel,
+.button-cancel {
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.alphaPickerButton {
+  color: #999;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: transparent;
+}
+
 #btnResetPassword:hover,
 #btnRestart:hover,
 #btnDeleteImage:hover,
@@ -137,14 +151,6 @@ a[data-role=button] {
 
 .button-delete {
   background: rgb(247, 0, 0);
-  color: rgba(255, 255, 255, 0.87);
-}
-
-#btnResetPassword,
-.btnForgotPassword,
-.btnCancel,
-.button-cancel {
-  background: rgba(0, 0, 0, 0.5);
   color: rgba(255, 255, 255, 0.87);
 }
 
@@ -282,12 +288,6 @@ a[data-role=button] {
   color: #48c3c8;
 }
 
-.alphaPickerButton {
-  color: #999;
-  color: rgba(255, 255, 255, 0.5);
-  background-color: transparent;
-}
-
 .alphaPickerButton-selected {
   color: #0ce8d6;
 }
@@ -371,12 +371,12 @@ a[data-role=button] {
   color: rgb(12, 232, 214);
 }
 
-.emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
-  border: 2px solid #ff77f1;
-}
-
 .emby-checkbox:focus + span + .checkboxOutline {
   border-color: #ff77f1;
+}
+
+.emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
+  border: 2px solid #ff77f1;
 }
 
 .itemProgressBarForeground {
@@ -531,17 +531,17 @@ a[data-role=button] {
   scrollbar-color: #888 rgba(59, 59, 59, 0.5);
 }
 
-.layout-desktop ::-webkit-scrollbar {
-  width: 0.4em;
-  height: 1em;
-}
-
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
 }
 
 ::-webkit-scrollbar-track-piece {
   background-color: rgba(59, 59, 59, 0.5);
+}
+
+.layout-desktop ::-webkit-scrollbar {
+  width: 0.4em;
+  height: 1em;
 }
 
 ::-webkit-scrollbar-thumb:horizontal,

@@ -51,8 +51,10 @@
 }
 
 .guide-channelTimeslotHeader {
+  border: 0 !important;
   flex-shrink: 0;
   justify-content: center;
+  border-right-color: transparent;
 }
 
 .timeslotHeaders {
@@ -73,6 +75,11 @@
   position: relative;
   contain: strict;
   box-sizing: border-box;
+  height: 4.42em;
+  display: flex;
+  flex-direction: column;
+  border-style: solid;
+  border-width: 1px 0 1px 0;
 }
 
 .timeslotHeadersInner {
@@ -151,10 +158,6 @@
   background: transparent;
 }
 
-.guide-channelTimeslotHeader {
-  border: 0 !important;
-}
-
 /* Important - have to put the fixed width on channelsContainer, not the individual channelHeaderCell
    This was causing channelsContainer to extend beyond the fixed width on ps4, tizen, lg and opera tv.
 */
@@ -213,13 +216,9 @@
   }
 }
 
-.channelPrograms {
-  height: 4.42em;
-  contain: strict;
-  display: flex;
-  flex-direction: column;
-  border-style: solid;
-  border-width: 1px 0 1px 0;
+.programCell,
+.guide-channelHeaderCell {
+  outline: none !important;
 }
 
 .channelPrograms + .channelPrograms,
@@ -230,10 +229,6 @@
 .channelPrograms-tv,
 .guide-channelHeaderCell-tv {
   height: 3em;
-}
-
-.guide-channelTimeslotHeader {
-  border-right-color: transparent;
 }
 
 .guide-channelTimeslotHeader,
@@ -384,11 +379,6 @@
 .channelsContainer,
 .programGrid {
   contain: layout style paint;
-}
-
-.programCell,
-.guide-channelHeaderCell {
-  outline: none !important;
 }
 
 .timerIcon,

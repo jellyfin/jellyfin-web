@@ -4,7 +4,7 @@
   display: inline-block;
   box-sizing: border-box;
   margin: 0;
-  padding-left: 0;
+  padding-left: 24px;
 }
 
 .radio-label-block {
@@ -12,10 +12,6 @@
   align-items: center;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-}
-
-.mdl-radio {
-  padding-left: 24px;
 }
 
 .mdl-radio__button {

@@ -199,10 +199,6 @@
   border-color: inherit;
 }
 
-.mdl-spinner__circle-clipper .mdl-spinner__circle {
-  width: 200%;
-}
-
 .mdl-spinner__circle {
   box-sizing: border-box;
   height: 100%;
@@ -217,6 +213,10 @@
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+.mdl-spinner__circle-clipper .mdl-spinner__circle {
+  width: 200%;
 }
 
 .mdl-spinner__circleLeft {

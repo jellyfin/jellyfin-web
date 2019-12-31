@@ -1,5 +1,9 @@
 .lazy-image-fadein {
-  animation: lazy-image-fadein 330ms ease-in normal both;
+  opacity: 0;
+  animation-duration: .8s;
+  animation-name: popInAnimation;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0,0,.5,1);
 }
 
 .lazy-image-fadein-fast {
@@ -14,14 +18,6 @@
   to {
     opacity: 1;
   }
-}
-
-.lazy-image-fadein {
-  opacity: 0;
-  animation-duration: .8s;
-  animation-name: popInAnimation;
-  animation-fill-mode: forwards;
-  animation-timing-function: cubic-bezier(0,0,.5,1);
 }
 
 @keyframes popInAnimation {

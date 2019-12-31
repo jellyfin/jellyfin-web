@@ -87,10 +87,6 @@
   justify-content: center;
 }
 
-.layout-tv .listItemBody {
-  padding: 0.35em 0.75em;
-}
-
 .listItemBody-noleftpadding {
   padding-left: 0 !important;
 }
@@ -200,6 +196,17 @@
   right: 0;
 }
 
+.listItem,
+.listItemBody,
+.listItemMediaInfo {
+  display: flex;
+  contain: layout style;
+}
+
+.layout-tv .listItemBody {
+  padding: 0.35em 0.75em;
+}
+
 .listItem:focus {
   border-radius: 0.2em;
 }
@@ -241,13 +248,6 @@
   position: absolute;
   display: flex;
   align-items: center;
-}
-
-.listItem,
-.listItemBody,
-.listItemMediaInfo {
-  display: flex;
-  contain: layout style;
 }
 
 .listItem-bottomoverview {

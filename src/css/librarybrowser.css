@@ -77,17 +77,33 @@
   display: none;
 }
 
+.headerLeft,
+.headerRight {
+  -webkit-box-align: center;
+}
+
+.headerRight {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
 .noHeaderRight .headerRight,
 .noHomeButtonHeader .headerHomeButton {
   display: none !important;
 }
 
 .pageTitle {
-    display: inline-flex;
-    margin: .3em 0 0 .5em;
-    height: 1.7em;
-    align-items: center;
-    flex-shrink: 1
+  display: inline-flex;
+  margin: .3em 0 0 .5em;
+  height: 1.7em;
+  align-items: center;
+  flex-shrink: 1
 }
 
 .headerLeft,
@@ -313,6 +329,11 @@
   margin: 0 0 0.25em;
 }
 
+.listTopPaging,
+.viewControls {
+  display: inline-block;
+}
+
 .viewControls + .listTopPaging {
   margin-left: 0.5em !important;
 }
@@ -501,6 +522,11 @@
   margin-bottom: 0.5em;
 }
 
+.btnSyncComplete i {
+  -webkit-border-radius: 100em;
+  border-radius: 100em;
+}
+
 .emby-button.detailFloatingButton {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.5) !important;
@@ -661,11 +687,6 @@
     font-size: 108%;
     margin: 1.25em 0;
   }
-}
-
-.listTopPaging,
-.viewControls {
-  display: inline-block;
 }
 
 @media all and (max-width: 50em) {

@@ -1,10 +1,10 @@
+button {
+  -webkit-border-fit: border !important;
+}
+
 button::-moz-focus-inner {
   padding: 0;
   border: 0;
-}
-
-button {
-  -webkit-border-fit: border !important;
 }
 
 .card {
@@ -29,8 +29,8 @@ button {
   font-size: inherit !important;
   font-family: inherit !important;
   text-transform: none;
-  background-color: transparent !important;
   background: none !important;
+  background-color: transparent !important;
   margin: 0;
   padding: 0;
   display: block;
@@ -125,6 +125,11 @@ button {
 >>>>>>> Automatic CSS fix by stylelint
 }
 
+.card.show-animation .cardBox {
+  will-change: transform;
+  transition: transform 200ms ease-out;
+}
+
 .card.show-focus:not(.show-animation) .cardBox {
   margin: 0.4em;
 }
@@ -132,11 +137,6 @@ button {
 .card.show-focus:not(.show-animation) .cardBox.visualCardBox,
 .card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
   border: 0.5em solid transparent;
-}
-
-.card.show-animation .cardBox {
-  will-change: transform;
-  transition: transform 200ms ease-out;
 }
 
 .card.show-animation:focus > .cardBox {
@@ -286,10 +286,6 @@ button {
   box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
-.cardImageContainer {
-  display: flex;
-}
-
 .cardImage {
   position: absolute;
   top: 0;
@@ -382,6 +378,19 @@ button {
   padding-top: 0.24em;
 }
 
+.textActionButton {
+  border: 0 !important;
+  background: transparent;
+  padding: 0 !important;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  outline: none !important;
+  color: inherit;
+  vertical-align: middle;
+  font-family: inherit;
+  font-size: inherit;
+}
+
 .cardText > .textActionButton {
   width: 100%;
   overflow: hidden;
@@ -421,6 +430,7 @@ button {
   text-align: center;
 }
 
+<<<<<<< HEAD
 .textActionButton {
 <<<<<<< HEAD
     border: 0 !important;
@@ -448,6 +458,8 @@ button {
 >>>>>>> Automatic CSS fix by stylelint
 }
 
+=======
+>>>>>>> Manually fix remaining errors
 .textActionButton:hover {
   text-decoration: underline;
 }
