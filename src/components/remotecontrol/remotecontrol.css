@@ -1,168 +1,167 @@
 .nowPlayingInfoContainer {
-    display: flex;
-    flex-direction: row
+  display: flex;
+  flex-direction: row
 }
 
 .navigationSection {
-    text-align: center
+  text-align: center;
 }
 
 .nowPlayingPageTitle {
-    margin: 0 0 .5em .5em
+  margin: 0 0 0.5em 0.5em;
 }
 
 .nowPlayingPositionSliderContainer {
-    margin: .7em 0 .7em 1em
+  margin: 0.7em 0 0.7em 1em;
 }
 
 .nowPlayingInfoButtons {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap
 }
 
 .nowPlayingInfoControls,
 .nowPlayingTime {
-    display: flex;
+  display: flex;
 }
 
 .nowPlayingPageImageContainer {
-    width: 20%;
-    margin-right: .25em;
-    position: relative;
-    flex-shrink: 0
+  width: 20%;
+  margin-right: .25em;
+  position: relative;
+  flex-shrink: 0
 }
 
-@media all and (min-width:50em) {
-    .nowPlayingPageImageContainer {
-        width: 16%
-    }
+@media all and (min-width: 50em) {
+  .nowPlayingPageImageContainer {
+    width: 16%;
+  }
 }
 
 .nowPlayingInfoControls {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center
 }
 
 .nowPlayingPageImage {
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    box-shadow: 0 0 1.9vh #000;
-    border: .1em solid #222;
-    user-drag: none;
-    user-select: none;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-shadow: 0 0 1.9vh #000;
+  border: .1em solid #222;
+  user-drag: none;
+  user-select: none;
 }
 
 @media all and (orientation:portrait) and (max-width:50em) {
-    .nowPlayingInfoContainer {
-        flex-direction: column !important;
-        align-items: center
-    }
+  .nowPlayingInfoContainer {
+    flex-direction: column !important;
+    align-items: center
+  }
 
-    .nowPlayingPageTitle {
-        text-align: center;
-        margin: .5em 0 .75em
-    }
+  .nowPlayingPageTitle {
+    text-align: center;
+    margin: .5em 0 .75em
+  }
 
-    .nowPlayingPositionSliderContainer {
-        margin: .7em 1em
-    }
+  .nowPlayingPositionSliderContainer {
+    margin: .7em 1em
+  }
 
-    .nowPlayingInfoButtons {
-        justify-content: center
-    }
+  .nowPlayingInfoButtons {
+    justify-content: center
+  }
 
-    .nowPlayingPageImageContainer {
-        width: auto;
-        margin-right: 0
-    }
+  .nowPlayingPageImageContainer {
+    width: auto;
+    margin-right: 0
+  }
 
-    .nowPlayingInfoControls {
-        margin-top: 1em;
-        max-width: 100%
-    }
+  .nowPlayingInfoControls {
+    margin-top: 1em;
+    max-width: 100%
+  }
 
-    .nowPlayingPageImage {
-        width: auto;
-        height: 36vh
-    }
+  .nowPlayingPageImage {
+    width: auto;
+    height: 36vh
+  }
 }
 
 @media all and (orientation:portrait) and (max-width:40em) {
-    .nowPlayingPageImage {
-        height: 30vh
-    }
+  .nowPlayingPageImage {
+    height: 30vh
+  }
 }
 
 .nowPlayingTime {
     display: flex;
     align-items: center;
-    margin: 0 1em
-}
+  }
 
 .nowPlayingSecondaryButtons {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 @media all and (min-width:50em) {
-    .nowPlayingSecondaryButtons {
-        flex-grow: 1;
-        justify-content: flex-end
-    }
+  .nowPlayingSecondaryButtons {
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
 }
 
-@media all and (min-width:80em) {
-    .nowPlayingPageImageContainer {
-        margin-right: .75em
-    }
+@media all and (min-width: 80em) {
+  .nowPlayingPageImageContainer {
+    margin-right: 0.75em;
+  }
 }
 
 .nowPlayingNavButtonContainer {
-    width: 30em
+  width: 30em;
 }
 
 .smallBackdropPosterItem .cardOverlayInner>div {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden
 }
 
 .playlistIndexIndicatorImage {
-    background-size: initial !important;
-    background-image: url(../../img/equalizer.gif) !important;
+  background-size: initial !important;
+  background-image: url(../../img/equalizer.gif) !important;
 }
 
 .hideVideoButtons .videoButton {
-    display: none
+  display: none;
 }
 
 .nowPlayingVolumeSliderContainer {
-    width: 9em
+  width: 9em;
 }
 
-@media all and (max-width:50em) {
-    .nowPlayingInfoButtons .nowPlayingPageUserDataButtons {
-        display: none !important
-    }
+@media all and (max-width: 50em) {
+  .nowPlayingInfoButtons .nowPlayingPageUserDataButtons {
+    display: none !important;
+  }
 }
 
-@media all and (max-width:47em) {
-    .nowPlayingInfoButtons .repeatToggleButton {
-        display: none !important
-    }
+@media all and (max-width: 47em) {
+  .nowPlayingInfoButtons .repeatToggleButton {
+    display: none !important;
+  }
 }
 
-@media all and (max-width:34em) {
-    .nowPlayingInfoButtons .btnNowPlayingFastForward,
-    .nowPlayingInfoButtons .btnNowPlayingRewind,
-    .nowPlayingInfoButtons .playlist .listItemMediaInfo {
-        display: none !important
-    }
+@media all and (max-width: 34em) {
+  .nowPlayingInfoButtons .btnNowPlayingFastForward,
+  .nowPlayingInfoButtons .btnNowPlayingRewind,
+  .nowPlayingInfoButtons .playlist .listItemMediaInfo {
+    display: none !important;
+  }
 }

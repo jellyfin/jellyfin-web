@@ -1,13 +1,13 @@
 .appfooter {
-    position: fixed;
-    left: 0;
-    right: 0;
-    z-index: 1;
-    bottom: 0;
-    transition: transform 180ms linear;
-    contain: layout style;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  bottom: 0;
+  transition: transform 180ms linear;
+  contain: layout style;
 }
 
-    .appfooter.headroom--unpinned {
-        transform: translateY(100%)!important;
-    }
+.appfooter.headroom--unpinned {
+  transform: translateY(100%) !important;
+}

@@ -1,85 +1,85 @@
 .mediaInfoItem {
-    margin: 0 1em 0 0;
-    padding: 0;
+  margin: 0 1em 0 0;
+  padding: 0;
 }
 
 .mediaInfoText {
-    padding: .22em .5em;
-    border-radius: .25em;
-    font-size: 92%;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    margin: 0 .5em 0 0;
+  padding: 0.22em 0.5em;
+  border-radius: 0.25em;
+  font-size: 92%;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  margin: 0 0.5em 0 0;
 }
 
 .mediaInfoText-upper {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 
 .mediaInfoIconItem {
-    width: auto;
-    height: auto;
-    font-size: 1.6em;
-    margin-right: .6em;
+  width: auto;
+  height: auto;
+  font-size: 1.6em;
+  margin-right: 0.6em;
 }
 
 .mediaInfoItem:last-child {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .starRatingContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    padding-top: 0;
-    padding-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .starIcon {
-    width: auto !important;
-    height: auto !important;
-    font-size: 1.4em;
+  width: auto !important;
+  height: auto !important;
+  font-size: 1.4em;
 }
 
 .mediaInfoCriticRating {
-    padding-left: 1.5em;
-    background-position: left center;
-    background-repeat: no-repeat;
-    background-size: auto 1.2em;
-    min-height: 1.2em;
-    display: flex;
-    align-items: center;
+  padding-left: 1.5em;
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: auto 1.2em;
+  min-height: 1.2em;
+  display: flex;
+  align-items: center;
 }
 
 .mediaInfoCriticRatingFresh {
-    background-image: url(fresh.png);
+  background-image: url(fresh.png);
 }
 
 .mediaInfoCriticRatingRotten {
-    background-image: url(rotten.png);
+  background-image: url(rotten.png);
 }
 
 .mediaInfoProgramAttribute {
-    text-transform: uppercase;
-    padding: .16em .6em;
-    border-radius: .15em;
-    font-size: 80%;
+  text-transform: uppercase;
+  padding: 0.16em 0.6em;
+  border-radius: 0.15em;
+  font-size: 80%;
 }
 
 .closedCaptionMediaInfoText {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .mediaInfoOfficialRating {
-    border: .09em solid currentColor;
-    padding: 0 .6em;
-    height: 1.3em;
-    line-height: 1.8em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: .1em;
-    font-size: 96%;
+  border: 0.09em solid currentColor;
+  padding: 0 0.6em;
+  height: 1.3em;
+  line-height: 1.8em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.1em;
+  font-size: 96%;
 }

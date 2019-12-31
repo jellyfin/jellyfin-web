@@ -1,11 +1,12 @@
 .imageEditor-dropZone {
-    border: .2em dashed currentcolor;
-    border-radius: .25em;
-    /* padding: 1.6em; */
-    text-align: center;
-    position: relative;
-    height: 12em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  border: 0.2em dashed currentcolor;
+  border-radius: 0.25em;
+
+  /* padding: 1.6em; */
+  text-align: center;
+  position: relative;
+  height: 12em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

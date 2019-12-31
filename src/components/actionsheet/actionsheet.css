@@ -1,115 +1,115 @@
 .actionSheet {
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    border: none;
-    max-height: 84%;
-    border-radius: .1em !important;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  max-height: 84%;
+  border-radius: 0.1em !important;
 }
 
 .actionsheet-not-fullscreen {
-    max-width: 90%;
-    max-height: 90%;
+  max-width: 90%;
+  max-height: 90%;
 }
 
 .actionsheet-fullscreen {
-    max-height: none;
-    border-radius: 0 !important;
+  max-height: none;
+  border-radius: 0 !important;
 }
 
 .actionSheetContent-centered {
-    text-align: center;
-    align-items: center;
+  text-align: center;
+  align-items: center;
 }
 
 .actionSheetContent {
-    margin: 0 !important;
-    padding: .4em 0 !important;
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-    flex-grow: 1;
-    overflow: hidden;
+  margin: 0 !important;
+  padding: 0.4em 0 !important;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  overflow: hidden;
 }
 
 .actionSheetMenuItem {
-    font-weight: inherit;
-    box-shadow: none;
-    flex-shrink: 0;
-    border-radius: 0;
-    margin: 0;
+  font-weight: inherit;
+  box-shadow: none;
+  flex-shrink: 0;
+  border-radius: 0;
+  margin: 0;
 }
 
 .actionSheetMenuItem:focus {
-    transform: none !important;
+  transform: none !important;
 }
 
 .actionsheetListItemBody {
-    padding: .4em 1em .4em .6em !important;
+  padding: 0.4em 1em 0.4em 0.6em !important;
 }
 
 .actionSheetItemText {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: middle;
-    flex-grow: 1;
-    display: flex;
-    justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .actionSheetItemAsideText {
-    opacity: .7;
-    font-size: 90%;
-    display: flex;
-    justify-content: flex-end;
-    flex-shrink: 0;
-    margin-left: 5em;
-    margin-right: .5em;
+  opacity: 0.7;
+  font-size: 90%;
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  margin-left: 5em;
+  margin-right: 0.5em;
 }
 
 .actionSheetScroller {
-    /* Override default style being applied by polymer */
-    margin-bottom: 0 !important;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  /* Override default style being applied by polymer */
+  margin-bottom: 0 !important;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .actionSheetScroller-tv {
-    max-height: 64%;
-    max-width: 60%;
-    width: auto;
+  max-height: 64%;
+  max-width: 60%;
+  width: auto;
 }
 
 .actionsheetDivider {
-    height: .07em;
-    margin: .25em 0;
-    flex-shrink: 0;
+  height: 0.07em;
+  margin: 0.25em 0;
+  flex-shrink: 0;
 }
 
 .actionSheetTitle {
-    margin: .6em 0 .7em !important;
-    padding: 0 .9em;
-    flex-grow: 0;
+  margin: 0.6em 0 0.7em !important;
+  padding: 0 0.9em;
+  flex-grow: 0;
 }
 
 .actionSheetText {
-    padding: 0 1em;
-    flex-grow: 0;
+  padding: 0 1em;
+  flex-grow: 0;
 }
 
 .actionsheetMenuItemIcon {
-    margin: 0 .85em 0 .45em !important;
-    padding: 0 !important;
+  margin: 0 0.85em 0 0.45em !important;
+  padding: 0 !important;
 }
 
 .actionsheet-xlargeFont {
-    font-size: 112% !important;
+  font-size: 112% !important;
 }
 
 .btnCloseActionSheet {
-    position: fixed;
-    top: .75em;
-    left: .5em;
+  position: fixed;
+  top: 0.75em;
+  left: 0.5em;
 }

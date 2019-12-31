@@ -1,69 +1,68 @@
 .upNextDialog {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    padding: 1%;
-    display: flex;
-    flex-direction: column;
-    will-change: transform, opacity;
-    transition: opacity 300ms ease-out;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    user-select: none;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  will-change: transform, opacity;
+  transition: opacity 300ms ease-out;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  user-select: none;
 }
 
 .upNextDialog-hidden {
-    opacity: 0;
+  opacity: 0;
 }
 
 .upNextDialog-countdownText {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .upNextDialog-poster {
-    max-width: 40%;
-    max-height: 15%;
-    position: relative;
-    margin-right: 1em;
-    flex-shrink: 0;
-    margin-bottom: .5em;
+  max-width: 40%;
+  max-height: 15%;
+  position: relative;
+  margin-right: 1em;
+  flex-shrink: 0;
+  margin-bottom: 0.5em;
 }
 
 .upNextDialog-button {
-    background: #404040;
-    color: #fff;
+  background: #404040;
+  color: #fff;
 }
 
 @media all and (orientation: landscape) {
+  .upNextDialog {
+    flex-direction: row;
+  }
 
-    .upNextDialog {
-        flex-direction: row;
-    }
-
-    .upNextDialog-poster {
-        max-width: initial;
-        max-height: initial;
-        width: 10%;
-        margin-bottom: 0;
-    }
+  .upNextDialog-poster {
+    max-width: initial;
+    max-height: initial;
+    width: 10%;
+    margin-bottom: 0;
+  }
 }
 
 @media all and (max-width: 50em) {
-    .upNextDialog-overview {
-        display: none !important;
-    }
+  .upNextDialog-overview {
+    display: none !important;
+  }
 }
 
 .upNextDialog-poster-img {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: auto;
-    width: 100%;
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    border: 0;
-    user-drag: none;
-    user-select: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  width: 100%;
+  box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+  border: 0;
+  user-drag: none;
+  user-select: none;
 }

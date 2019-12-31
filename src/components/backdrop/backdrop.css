@@ -1,29 +1,29 @@
 .backdropContainer {
-    contain: layout style size;
+  contain: layout style size;
 }
 
 .backdropImage {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    contain: layout style;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  contain: layout style;
 }
 
 .backdropImageFadeIn {
-    animation: backdrop-fadein 800ms ease-in normal both;
+  animation: backdrop-fadein 800ms ease-in normal both;
 }
 
 @keyframes backdrop-fadein {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
