@@ -93,7 +93,7 @@
     display: -webkit-inline-box;
     display: -webkit-inline-flex;
     display: inline-flex;
-    margin: 0 0 0 .5em;
+    margin: .3em 0 0 .5em;
     height: 1.7em;
     -webkit-box-align: center;
     -webkit-align-items: center;
