@@ -62,3 +62,7 @@ jobs:
     - script: |
         yarn run lint
       displayName: 'Run ESLint'
+
+    - script: |
+        yarn run stylelint
+      displayName: 'Run stylelint'
