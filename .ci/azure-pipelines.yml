@@ -66,3 +66,4 @@ jobs:
     - script: |
         yarn run stylelint
       displayName: 'Run stylelint'
+      condition: always()
