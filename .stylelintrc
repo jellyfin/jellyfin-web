@@ -6,6 +6,12 @@
   "rules": {
     "plugin/no-unsupported-browser-features": [true, {
       "severity": "warning"
+    }],
+    "selector-pseudo-element-no-unknown": [true, {
+      "ignorePseudoElements": ["cue"]
+    }],
+    "property-no-unknown": [true, {
+      "ignoreProperties": ["user-drag"]
     }]
   }
 }
