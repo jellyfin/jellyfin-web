@@ -1356,7 +1356,7 @@
     "XmlTvKidsCategoriesHelp": "Programy z tymi kategoriami, będą wyświetlane jako dziecięce. Oddziel je używając '|'.",
     "XmlTvMovieCategoriesHelp": "Programy z tymi kategoriami, będą wyświetlane jako filmy. Oddziel je używając '|'.",
     "XmlTvNewsCategoriesHelp": "Programy z tymi kategoriami, będą wyświetlane jako programy informacyjne. Oddziel je używając '|'.",
-    "XmlTvPathHelp": "Folder pliku xml tv. Jellyfin będzie wczytywać ten plik i okresowo sprawdzać aktualizacje. Jesteś odpowiedzialny za utworzenie i aktualizowanie tego pliku.",
+    "XmlTvPathHelp": "Folder pliku XMLTV. Jellyfin będzie wczytywać ten plik i okresowo sprawdzać aktualizacje. Jesteś odpowiedzialny za utworzenie i aktualizowanie tego pliku.",
     "XmlTvSportsCategoriesHelp": "Programy z tymi kategoriami, będą wyświetlane jako sportowe. Oddziel je używając '|'.",
     "Yes": "Tak",
     "Yesterday": "Wczoraj",
