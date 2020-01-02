@@ -893,7 +893,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                             if (item.EndDate && item.ProductionYear) {
                                 var endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
-                                lines.push(item.ProductionYear + (endYear === item.ProductionYear) ? '' : (' - ' + endYear));
+                                lines.push(item.ProductionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
                             } else {
                                 lines.push(item.ProductionYear || '');
                             }
