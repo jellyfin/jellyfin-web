@@ -3,6 +3,8 @@ env:
   browser: true
   amd: true
 
+parser: "babel-eslint"
+
 rules:
   block-spacing: ["error"]
   brace-style: ["error"]

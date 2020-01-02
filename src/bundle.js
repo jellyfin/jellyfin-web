@@ -1,3 +1,7 @@
+// Babel polyfills
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 /**
  * require.js module definitions bundled by webpack
  */
