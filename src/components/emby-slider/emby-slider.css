@@ -16,7 +16,6 @@ _:-ms-input-placeholder {
     z-index: 1;
     cursor: pointer;
     margin: 0;
-    /* Disable webkit tap highlighting */
     display: block;
 }
 
@@ -60,7 +59,7 @@ _:-ms-input-placeholder {
     }
 
     .mdl-slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
+        appearance: none;
         width: 1.2em;
         height: 1.2em;
         box-sizing: border-box;
@@ -99,7 +98,7 @@ _:-ms-input-placeholder {
 }
 
 .mdl-slider::-ms-thumb {
-    -webkit-appearance: none;
+    appearance: none;
     width: 1.8em;
     height: 1.8em;
     box-sizing: border-box;

@@ -23,13 +23,10 @@ html {
 .formDialogHeader:not(.formDialogHeader-clear),
 .skinHeader-withBackground {
     background-color: #0C2450;
-    background: -webkit-gradient(linear, left top, left bottom, from(#0C2450), to(#081B3B));
-    background: -webkit-linear-gradient(top, #0C2450, #081B3B);
-    background: -o-linear-gradient(top, #0C2450, #081B3B);
     background: linear-gradient(to bottom, #0C2450, #081B3B)
 }
 
-@supports (backdrop-filter:blur(1.5em)) or (-webkit-backdrop-filter:blur(1.5em)) {
+@supports (backdrop-filter:blur(1.5em)) {
     .skinHeader-blurred {
         background: rgba(20, 20, 20, .7);
         backdrop-filter: blur(1.5em)
@@ -39,9 +36,6 @@ html {
 .skinHeader.semiTransparent {
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .6)), to(rgba(0, 0, 0, 0)));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
-    background: -o-linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0))
 }
 
@@ -52,9 +46,6 @@ html {
 .backgroundContainer,
 .dialog {
     background-color: #0F3562;
-    background: -webkit-gradient(linear, left top, left bottom, from(#0F3562), color-stop(#1162A4), to(#03215F));
-    background: -webkit-linear-gradient(top, #0F3562, #1162A4, #03215F);
-    background: -o-linear-gradient(top, #0F3562, #1162A4, #03215F);
     background: linear-gradient(to bottom, #0F3562, #1162A4, #03215F)
 }
 
@@ -176,14 +167,11 @@ html {
 .appfooter,
 .formDialogFooter:not(.formDialogFooter-clear) {
     background: #0C2450;
-    background: -webkit-gradient(linear, left bottom, left top, from(#0C2450), to(#081B3B));
-    background: -webkit-linear-gradient(bottom, #0C2450, #081B3B);
-    background: -o-linear-gradient(bottom, #0C2450, #081B3B);
     background: linear-gradient(to top, #0C2450, #081B3B);
     color: rgba(255, 255, 255, .78)
 }
 
-@supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
+@supports (backdrop-filter:blur(10px)) {
     .appfooter-blurred {
         background: rgba(24, 24, 24, .7);
         backdrop-filter: blur(20px)
@@ -404,9 +392,6 @@ html {
 }
 
 .itemBackdropFader {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(#115E9E));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0), #115E9E);
-    background: -o-linear-gradient(rgba(0, 0, 0, 0), #115E9E);
     background: linear-gradient(rgba(0, 0, 0, 0), #115E9E)
 }
 

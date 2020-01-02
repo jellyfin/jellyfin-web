@@ -161,7 +161,7 @@ html {
     color: rgba(255, 255, 255, .78)
 }
 
-@supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
+@supports (backdrop-filter:blur(10px)) {
     .appfooter-blurred {
         background: rgba(24, 24, 24, .7);
         backdrop-filter: blur(20px)
@@ -383,9 +383,6 @@ html {
 }
 
 .itemBackdropFader {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(#101010));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0), #101010);
-    background: -o-linear-gradient(rgba(0, 0, 0, 0), #101010);
     background: linear-gradient(rgba(0, 0, 0, 0), #101010)
 }
 
@@ -424,6 +421,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
 }
 
 ::-webkit-scrollbar-track-piece {

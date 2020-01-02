@@ -10,12 +10,6 @@
     animation: mdl-spinner__container-rotate 1568.23529412ms linear infinite;
 }
 
-@-webkit-keyframes mdl-spinner__container-rotate {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
 @keyframes mdl-spinner__container-rotate {
     to {
         transform: rotate(360deg);
@@ -61,40 +55,6 @@
     animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-4-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
 }
 
-@-webkit-keyframes mdl-spinner__fill-unfill-rotate {
-    12.5% {
-        transform: rotate(135deg);
-    }
-
-    25% {
-        transform: rotate(270deg);
-    }
-
-    37.5% {
-        transform: rotate(405deg);
-    }
-
-    50% {
-        transform: rotate(540deg);
-    }
-
-    62.5% {
-        transform: rotate(675deg);
-    }
-
-    75% {
-        transform: rotate(810deg);
-    }
-
-    87.5% {
-        transform: rotate(945deg);
-    }
-
-    to {
-        transform: rotate(1080deg);
-    }
-}
-
 @keyframes mdl-spinner__fill-unfill-rotate {
     12.5% {
         transform: rotate(135deg);
@@ -138,32 +98,6 @@
 * - https://github.com/Polymer/paper-spinner/issues/9
 * - https://code.google.com/p/chromium/issues/detail?id=436255
 */
-@-webkit-keyframes mdl-spinner__layer-1-fade-in-out {
-    from {
-        opacity: 0.99;
-    }
-
-    25% {
-        opacity: 0.99;
-    }
-
-    26% {
-        opacity: 0;
-    }
-
-    89% {
-        opacity: 0;
-    }
-
-    90% {
-        opacity: 0.99;
-    }
-
-    100% {
-        opacity: 0.99;
-    }
-}
-
 @keyframes mdl-spinner__layer-1-fade-in-out {
     from {
         opacity: 0.99;
@@ -190,28 +124,6 @@
     }
 }
 
-@-webkit-keyframes mdl-spinner__layer-2-fade-in-out {
-    from {
-        opacity: 0;
-    }
-
-    15% {
-        opacity: 0;
-    }
-
-    25% {
-        opacity: 0.99;
-    }
-
-    50% {
-        opacity: 0.99;
-    }
-
-    51% {
-        opacity: 0;
-    }
-}
-
 @keyframes mdl-spinner__layer-2-fade-in-out {
     from {
         opacity: 0;
@@ -234,28 +146,6 @@
     }
 }
 
-@-webkit-keyframes mdl-spinner__layer-3-fade-in-out {
-    from {
-        opacity: 0;
-    }
-
-    40% {
-        opacity: 0;
-    }
-
-    50% {
-        opacity: 0.99;
-    }
-
-    75% {
-        opacity: 0.99;
-    }
-
-    76% {
-        opacity: 0;
-    }
-}
-
 @keyframes mdl-spinner__layer-3-fade-in-out {
     from {
         opacity: 0;
@@ -274,28 +164,6 @@
     }
 
     76% {
-        opacity: 0;
-    }
-}
-
-@-webkit-keyframes mdl-spinner__layer-4-fade-in-out {
-    from {
-        opacity: 0;
-    }
-
-    65% {
-        opacity: 0;
-    }
-
-    75% {
-        opacity: 0.99;
-    }
-
-    90% {
-        opacity: 0.99;
-    }
-
-    100% {
         opacity: 0;
     }
 }
@@ -370,20 +238,6 @@
     animation: mdl-spinner__right-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
 }
 
-@-webkit-keyframes mdl-spinner__left-spin {
-    from {
-        transform: rotate(130deg);
-    }
-
-    50% {
-        transform: rotate(-5deg);
-    }
-
-    to {
-        transform: rotate(130deg);
-    }
-}
-
 @keyframes mdl-spinner__left-spin {
     from {
         transform: rotate(130deg);
@@ -395,20 +249,6 @@
 
     to {
         transform: rotate(130deg);
-    }
-}
-
-@-webkit-keyframes mdl-spinner__right-spin {
-    from {
-        transform: rotate(-130deg);
-    }
-
-    50% {
-        transform: rotate(5deg);
-    }
-
-    to {
-        transform: rotate(-130deg);
     }
 }
 

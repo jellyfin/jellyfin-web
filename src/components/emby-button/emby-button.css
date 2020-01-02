@@ -21,7 +21,6 @@
     outline: none !important;
     position: relative;
     font-weight: 600;
-    /* Disable webkit tap highlighting */
     text-decoration: none;
     /* Not crazy about this but it normalizes heights between anchors and buttons */
     line-height: 1.35;
@@ -111,7 +110,6 @@
     position: relative;
     overflow: hidden;
     border-radius: 50%;
-    /* Disable webkit tap highlighting */
     justify-content: center;
     transform-origin: center;
     transition: 0.2s;

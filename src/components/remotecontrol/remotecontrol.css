@@ -23,6 +23,7 @@
 
 .nowPlayingInfoControls,
 .nowPlayingTime {
+    display: flex;
 }
 
 .nowPlayingPageImageContainer {
@@ -53,7 +54,7 @@
     box-shadow: 0 0 1.9vh #000;
     border: .1em solid #222;
     user-drag: none;
-    user-select: none
+    user-select: none;
 }
 
 @media all and (orientation:portrait) and (max-width:50em) {

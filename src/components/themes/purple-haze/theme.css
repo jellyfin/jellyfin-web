@@ -17,18 +17,12 @@ html {
 
 .skinHeader-withBackground {
     background: #000420;
-    background: -moz-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
-    background: -webkit-linear-gradient(left, #000420 0%,#06256f 18%,#2b052b 38%,#2b052b 68%,#06256f 81%,#000420 100%);
     background: linear-gradient(to right, #000420 0%,#06256f 18%,#2b052b 38%,#2b052b 68%,#06256f 81%,#000420 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000420', endColorstr='#000420',GradientType=1 );
 }
 
 .skinHeader.semiTransparent {
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .6)), to(rgba(0, 0, 0, 0)));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
-    background: -o-linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0))
 }
 
@@ -267,7 +261,7 @@ a[data-role=button] {
     color: rgba(255, 255, 255, .78)
 }
 
-@supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
+@supports (backdrop-filter:blur(10px)) {
     .appfooter-blurred {
         background: rgba(24, 24, 24, .7);
         backdrop-filter: blur(20px)
@@ -498,9 +492,6 @@ a[data-role=button] {
 }
 
 .itemBackdropFader {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(#181818));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0), #181818);
-    background: -o-linear-gradient(rgba(0, 0, 0, 0), #181818);
     background: linear-gradient(rgba(0, 0, 0, 0), #181818)
 }
 

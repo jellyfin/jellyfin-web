@@ -403,16 +403,6 @@ a[data-role=button] {
     background: #292929 !important;
 }
 
-@-webkit-keyframes rotating {
-    from {
-        transform: rotate(0)
-    }
-
-    to {
-        transform: rotate(360deg)
-    }
-}
-
 @keyframes rotating {
     from {
         transform: rotate(0)
