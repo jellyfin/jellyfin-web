@@ -570,10 +570,6 @@ a[data-role=button] {
     color: #dbe6ff
 }
 
-.detailPagePrimaryContainer {
-    background-color: rgba(0, 0, 0, 0.4)
-}
-
 .personCard .overflowPortraitCard {
     width: 40vw;
 }
