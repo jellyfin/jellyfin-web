@@ -447,6 +447,7 @@
     bottom: .75em
 }
 
+.layout-mobile .detailPagePrimaryContainer,
 .layout-tv .detailPagePrimaryContainer {
     position: relative;
 }
@@ -482,6 +483,7 @@
     padding-right: 2%;
 }
 
+.layout-mobile .detailImageContainer,
 .layout-tv .detailImageContainer {
     position: relative;
 }
