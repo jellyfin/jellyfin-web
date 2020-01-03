@@ -491,6 +491,7 @@
     position: sticky;
     top: 15%;
     float: left;
+    width: 22.786458333333332vw;
 }
 
 .detailPagePrimaryContent {
@@ -535,22 +536,15 @@
 }
 
 .itemDetailImage {
-    width: 350px;
     -webkit-box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
-    box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
+    box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
+    width: 100% !important;
+
 }
 
 @media all and (max-width:62.5em) {
     .detailPageContent {
         position: relative
-    }
-
-    .detailImageContainer {
-        width: 100px !important
-    }
-
-    .itemDetailImage {
-        width: 100px !important
     }
 
     .btnPlaySimple {

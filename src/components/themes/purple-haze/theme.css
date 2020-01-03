@@ -574,8 +574,8 @@ a[data-role=button] {
     background-color: rgba(0, 0, 0, 0.4)
 }
 
-.personCard .portraitCard {
-    width: 50%;
+.personCard .overflowPortraitCard {
+    width: 40vw;
 }
 
 .personCard .cardScalable {

@@ -895,7 +895,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
 
             var html = cardBuilder.getCardsHtml({
                 items: result.Items,
-                shape: getThumbShape(false),
+                shape: "overflowBackdrop",
                 showTitle: true,
                 displayAsSpecial: "Season" == item.Type && item.IndexNumber,
                 overlayText: false,
@@ -1400,7 +1400,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
                 scrollX = enableScrollX();
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
-                    shape: getPortraitShape(),
+                    shape: "overflowPortrait",
                     showTitle: true,
                     centerText: true,
                     lazy: true,
@@ -1419,7 +1419,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
                 if ("Episode" === item.Type) {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: getThumbShape(scrollX),
+                        shape: "overflowBackdrop",
                         showTitle: true,
                         displayAsSpecial: "Season" == item.Type && item.IndexNumber,
                         playFromHere: true,
@@ -1857,7 +1857,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
                 coverImage: true,
                 serverId: item.ServerId,
                 width: 160,
-                shape: getPortraitShape()
+                shape: "overflowPortrait"
             });
         });
     }
