@@ -1522,7 +1522,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 list.push('PictureInPicture');
             }
         }
-        
+
         if (browser.safari || browser.iOS || browser.iPad) {
             list.push('AirPlay')
         }
@@ -1643,33 +1643,30 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var video = this._mediaElement;
             if (video) {
                 return video.webkitShowPlaybackTargetPicker();
-                
+
             }
         }
 
         return false;
     };
 
-HtmlVideoPlayer.prototype.setAirPlayEnabled = function (isEnabled) {
+    HtmlVideoPlayer.prototype.setAirPlayEnabled = function (isEnabled) {
 
-    var video = this._mediaElement;
+        var video = this._mediaElement;
 
-    if (document.AirPlayEnabled) {
-        if (video) {
-            if (isEnabled) {
-                video.requestAirPlay().catch(onAirPlayError);
-            } else {
-                document.exitAirPLay().catch(onAirPlayError);
+        if (document.AirPlayEnabled) {
+            if (video) {
+                if (isEnabled) {
+                    video.requestAirPlay().catch(onAirPlayError);
+                } else {
+                    document.exitAirPLay().catch(onAirPlayError);
+                }
             }
+        } else {
+            video.webkitShowPlaybackTargetPicker();
+
         }
-    } else {
-             video.webkitShowPlaybackTargetPicker();
-
-    }
-};
-
- 
-    
+    };
 
     HtmlVideoPlayer.prototype.setBrightness = function (val) {
 
