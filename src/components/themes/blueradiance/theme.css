@@ -446,6 +446,7 @@ html {
 
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
+    border-radius: 2px;
     background: center no-repeat #888
 }
 

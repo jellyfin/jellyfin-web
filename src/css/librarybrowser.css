@@ -133,7 +133,7 @@
 }
 
 .headerLeft {
-    display: flex;justify-content: left;
+    display: flex;
     align-items: center;
     flex-grow: 1;
     overflow: hidden;
@@ -531,7 +531,7 @@
         display: none
     }
 }
-justify-content: left;
+
 @media all and (min-width:31.25em) {
     .mobileDetails {
         display: none
