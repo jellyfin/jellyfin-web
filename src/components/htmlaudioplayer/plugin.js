@@ -1,5 +1,5 @@
 define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelper'], function (events, browser, require, appHost, appSettings, htmlMediaHelper) {
-    "use strict";
+    'use strict';
 
     function getDefaultProfile() {
 
@@ -320,31 +320,31 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             var type;
 
             switch (errorCode) {
-                case 1:
-                    // MEDIA_ERR_ABORTED
-                    // This will trigger when changing media while something is playing
+            case 1:
+                // MEDIA_ERR_ABORTED
+                // This will trigger when changing media while something is playing
+                return;
+            case 2:
+                // MEDIA_ERR_NETWORK
+                type = 'network';
+                break;
+            case 3:
+                // MEDIA_ERR_DECODE
+                if (self._hlsPlayer) {
+                    htmlMediaHelper.handleHlsJsMediaError(self);
                     return;
-                case 2:
-                    // MEDIA_ERR_NETWORK
-                    type = 'network';
-                    break;
-                case 3:
-                    // MEDIA_ERR_DECODE
-                    if (self._hlsPlayer) {
-                        htmlMediaHelper.handleHlsJsMediaError(self);
-                        return;
-                    } else {
-                        type = 'mediadecodeerror';
-                    }
-                    break;
-                case 4:
-                    // MEDIA_ERR_SRC_NOT_SUPPORTED
-                    type = 'medianotsupported';
-                    break;
-                default:
-                    // seeing cases where Edge is firing error events with no error code
-                    // example is start playing something, then immediately change src to something else
-                    return;
+                } else {
+                    type = 'mediadecodeerror';
+                }
+                break;
+            case 4:
+                // MEDIA_ERR_SRC_NOT_SUPPORTED
+                type = 'medianotsupported';
+                break;
+            default:
+                // seeing cases where Edge is firing error events with no error code
+                // example is start playing something, then immediately change src to something else
+                return;
             }
 
             htmlMediaHelper.onErrorInternal(self, type);

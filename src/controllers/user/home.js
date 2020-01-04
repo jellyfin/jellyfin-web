@@ -1,10 +1,10 @@
-define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loading", "userSettings", "autoFocuser", "listViewStyle"], function (HomescreenSettings, userSettingsBuilder, dom, globalize, loading, currentUserSettings, autoFocuser) {
-    "use strict";
+define(['homescreenSettings', 'userSettingsBuilder', 'dom', 'globalize', 'loading', 'userSettings', 'autoFocuser', 'listViewStyle'], function (HomescreenSettings, userSettingsBuilder, dom, globalize, loading, currentUserSettings, autoFocuser) {
+    'use strict';
 
     return function (view, params) {
         function onBeforeUnload(e) {
             if (hasChanges) {
-                e.returnValue = "You currently have unsaved changes. Are you sure you wish to leave?";
+                e.returnValue = 'You currently have unsaved changes. Are you sure you wish to leave?';
             }
         }
 
@@ -12,8 +12,8 @@ define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loadin
         var hasChanges;
         var userId = params.userId || ApiClient.getCurrentUserId();
         var userSettings = userId === ApiClient.getCurrentUserId() ? currentUserSettings : new userSettingsBuilder();
-        view.addEventListener("viewshow", function () {
-            window.addEventListener("beforeunload", onBeforeUnload);
+        view.addEventListener('viewshow', function () {
+            window.addEventListener('beforeunload', onBeforeUnload);
 
             if (homescreenSettingsInstance) {
                 homescreenSettingsInstance.loadData();
@@ -21,7 +21,7 @@ define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loadin
                 homescreenSettingsInstance = new HomescreenSettings({
                     serverId: ApiClient.serverId(),
                     userId: userId,
-                    element: view.querySelector(".homeScreenSettingsContainer"),
+                    element: view.querySelector('.homeScreenSettingsContainer'),
                     userSettings: userSettings,
                     enableSaveButton: false,
                     enableSaveConfirmation: false,
@@ -29,17 +29,17 @@ define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loadin
                 });
             }
         });
-        view.addEventListener("change", function () {
+        view.addEventListener('change', function () {
             hasChanges = true;
         });
-        view.addEventListener("viewbeforehide", function () {
+        view.addEventListener('viewbeforehide', function () {
             hasChanges = false;
 
             if (homescreenSettingsInstance) {
                 homescreenSettingsInstance.submit();
             }
         });
-        view.addEventListener("viewdestroy", function () {
+        view.addEventListener('viewdestroy', function () {
             if (homescreenSettingsInstance) {
                 homescreenSettingsInstance.destroy();
                 homescreenSettingsInstance = null;

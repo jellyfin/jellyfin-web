@@ -1,5 +1,5 @@
-define(["events", "playbackManager", "pluginManager", "inputManager", "connectionManager", "userSettings"], function (events, playbackManager, pluginManager, inputManager, connectionManager, userSettings) {
-    "use strict";
+define(['events', 'playbackManager', 'pluginManager', 'inputManager', 'connectionManager', 'userSettings'], function (events, playbackManager, pluginManager, inputManager, connectionManager, userSettings) {
+    'use strict';
 
     function getMinIdleTime() {
         // Returns the minimum amount of idle time required before the screen saver can be displayed
@@ -13,9 +13,9 @@ define(["events", "playbackManager", "pluginManager", "inputManager", "connectio
         return new Date().getTime() - lastFunctionalEvent;
     }
 
-    events.on(playbackManager, "playbackstop", function (e, stopInfo) {
+    events.on(playbackManager, 'playbackstop', function (e, stopInfo) {
         var state = stopInfo.state;
-        if (state.NowPlayingItem && state.NowPlayingItem.MediaType == "Video") {
+        if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
             lastFunctionalEvent = new Date().getTime();
         }
     });
@@ -24,12 +24,12 @@ define(["events", "playbackManager", "pluginManager", "inputManager", "connectio
 
         var option;
         try {
-            option = userSettings.get("screensaver", false);
+            option = userSettings.get('screensaver', false);
         } catch (err) {
-            option = isLoggedIn ? "backdropscreensaver" : "logoscreensaver";
+            option = isLoggedIn ? 'backdropscreensaver' : 'logoscreensaver';
         }
 
-        var plugins = pluginManager.ofType("screensaver");
+        var plugins = pluginManager.ofType('screensaver');
 
         for (var i = 0, length = plugins.length; i < length; i++) {
             var plugin = plugins[i];
@@ -50,35 +50,35 @@ define(["events", "playbackManager", "pluginManager", "inputManager", "connectio
         function showScreenSaver(screensaver) {
 
             if (activeScreenSaver) {
-                throw new Error("An existing screensaver is already active.");
+                throw new Error('An existing screensaver is already active.');
             }
 
-            console.log("Showing screensaver " + screensaver.name);
+            console.log('Showing screensaver ' + screensaver.name);
 
             screensaver.show();
             activeScreenSaver = screensaver;
 
             if (screensaver.hideOnClick !== false) {
-                window.addEventListener("click", hide, true);
+                window.addEventListener('click', hide, true);
             }
             if (screensaver.hideOnMouse !== false) {
-                window.addEventListener("mousemove", hide, true);
+                window.addEventListener('mousemove', hide, true);
             }
             if (screensaver.hideOnKey !== false) {
-                window.addEventListener("keydown", hide, true);
+                window.addEventListener('keydown', hide, true);
             }
         }
 
         function hide() {
             if (activeScreenSaver) {
-                console.log("Hiding screensaver");
+                console.log('Hiding screensaver');
                 activeScreenSaver.hide();
                 activeScreenSaver = null;
             }
 
-            window.removeEventListener("click", hide, true);
-            window.removeEventListener("mousemove", hide, true);
-            window.removeEventListener("keydown", hide, true);
+            window.removeEventListener('click', hide, true);
+            window.removeEventListener('mousemove', hide, true);
+            window.removeEventListener('keydown', hide, true);
         }
 
         self.isShowing = function () {

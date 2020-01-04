@@ -1,5 +1,5 @@
 define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loading', 'connectionManager', 'homeSections', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-checkbox'], function (require, appHost, layoutManager, focusManager, globalize, loading, connectionManager, homeSections, dom, events) {
-    "use strict";
+    'use strict';
 
     var numConfigurableSections = 7;
 
@@ -276,7 +276,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         updateHomeSectionValues(context, userSettings);
 
         var promise1 = apiClient.getUserViews({ IncludeHidden: true }, user.Id);
-        var promise2 = apiClient.getJSON(apiClient.getUrl("Users/" + user.Id + "/GroupingOptions"));
+        var promise2 = apiClient.getJSON(apiClient.getUrl('Users/' + user.Id + '/GroupingOptions'));
 
         Promise.all([promise1, promise2]).then(function (responses) {
 
@@ -363,17 +363,17 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
         user.Configuration.HidePlayedInLatest = context.querySelector('.chkHidePlayedFromLatest').checked;
 
-        user.Configuration.LatestItemsExcludes = getCheckboxItems(".chkIncludeInLatest", context, false).map(function (i) {
+        user.Configuration.LatestItemsExcludes = getCheckboxItems('.chkIncludeInLatest', context, false).map(function (i) {
 
             return i.getAttribute('data-folderid');
         });
 
-        user.Configuration.MyMediaExcludes = getCheckboxItems(".chkIncludeInMyMedia", context, false).map(function (i) {
+        user.Configuration.MyMediaExcludes = getCheckboxItems('.chkIncludeInMyMedia', context, false).map(function (i) {
 
             return i.getAttribute('data-folderid');
         });
 
-        user.Configuration.GroupedFolders = getCheckboxItems(".chkGroupFolder", context, true).map(function (i) {
+        user.Configuration.GroupedFolders = getCheckboxItems('.chkGroupFolder', context, true).map(function (i) {
 
             return i.getAttribute('data-folderid');
         });

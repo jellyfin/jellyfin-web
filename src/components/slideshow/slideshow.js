@@ -4,7 +4,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
     function getImageUrl(item, options, apiClient) {
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (typeof (item) === 'string') {
             return apiClient.getScaledImageUrl(item, options);
@@ -30,7 +30,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
     function getBackdropImageUrl(item, options, apiClient) {
 
         options = options || {};
-        options.type = options.type || "Backdrop";
+        options.type = options.type || 'Backdrop';
 
         // If not resizing, get the original image
         if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
@@ -61,7 +61,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             if (item.MediaType === 'Photo' && original) {
                 return apiClient.getItemDownloadUrl(item.Id);
             }
-            imageOptions.type = "Primary";
+            imageOptions.type = 'Primary';
             return getImageUrl(item, imageOptions, apiClient);
         }
     }
@@ -337,7 +337,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
             if (btnSlideshowPause) {
-                btnSlideshowPause.innerHTML = "pause";
+                btnSlideshowPause.innerHTML = 'pause';
             }
 
             swiperInstance.startAutoplay();
@@ -347,7 +347,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
             if (btnSlideshowPause) {
-                btnSlideshowPause.innerHTML = "play_arrow";
+                btnSlideshowPause.innerHTML = 'play_arrow';
             }
 
             swiperInstance.stopAutoplay();
@@ -355,7 +355,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         function playPause() {
 
-            var paused = dlg.querySelector('.btnSlideshowPause i').innerHTML !== "pause";
+            var paused = dlg.querySelector('.btnSlideshowPause i').innerHTML !== 'pause';
             if (paused) {
                 play();
             } else {
@@ -520,32 +520,32 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             switch (e.detail.command) {
 
-                case 'left':
-                    if (!isOsdOpen()) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        previousImage();
-                    }
-                    break;
-                case 'right':
-                    if (!isOsdOpen()) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        nextImage();
-                    }
-                    break;
-                case 'up':
-                case 'down':
-                case 'select':
-                case 'menu':
-                case 'info':
-                case 'play':
-                case 'playpause':
-                case 'pause':
-                    showOsd();
-                    break;
-                default:
-                    break;
+            case 'left':
+                if (!isOsdOpen()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    previousImage();
+                }
+                break;
+            case 'right':
+                if (!isOsdOpen()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    nextImage();
+                }
+                break;
+            case 'up':
+            case 'down':
+            case 'select':
+            case 'menu':
+            case 'info':
+            case 'play':
+            case 'playpause':
+            case 'pause':
+                showOsd();
+                break;
+            default:
+                break;
             }
         }
 

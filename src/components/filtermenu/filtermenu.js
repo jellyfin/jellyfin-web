@@ -226,16 +226,16 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
     function onInputCommand(e) {
         switch (e.detail.command) {
 
-            case 'left':
-                moveCheckboxFocus(e.target, -1);
-                e.preventDefault();
-                break;
-            case 'right':
-                moveCheckboxFocus(e.target, 1);
-                e.preventDefault();
-                break;
-            default:
-                break;
+        case 'left':
+            moveCheckboxFocus(e.target, -1);
+            e.preventDefault();
+            break;
+        case 'right':
+            moveCheckboxFocus(e.target, 1);
+            e.preventDefault();
+            break;
+        default:
+            break;
         }
     }
 

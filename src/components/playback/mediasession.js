@@ -1,5 +1,5 @@
 define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], function (playbackManager, nowPlayingHelper, events, connectionManager) {
-    "use strict";
+    'use strict';
 
     // no support for mediaSession
     if (!navigator.mediaSession && !window.NativeShell) {
@@ -18,7 +18,7 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         }
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (options.type === 'Primary') {
 
@@ -52,7 +52,7 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     function imageUrl(item, options) {
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
 

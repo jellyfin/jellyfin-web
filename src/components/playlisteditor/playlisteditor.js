@@ -38,7 +38,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
 
         loading.show();
 
-        var url = apiClient.getUrl("Playlists", {
+        var url = apiClient.getUrl('Playlists', {
 
             Name: dlg.querySelector('#txtNewPlaylistName').value,
             Ids: dlg.querySelector('.fldSelectedItemIds').value || '',
@@ -47,9 +47,9 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         });
 
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             url: url,
-            dataType: "json"
+            dataType: 'json'
 
         }).then(function (result) {
 
@@ -84,14 +84,14 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
 
         loading.show();
 
-        var url = apiClient.getUrl("Playlists/" + id + "/Items", {
+        var url = apiClient.getUrl('Playlists/' + id + '/Items', {
 
             Ids: itemIds,
             userId: apiClient.getCurrentUserId()
         });
 
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             url: url
 
         }).then(function () {
@@ -118,7 +118,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         var options = {
 
             Recursive: true,
-            IncludeItemTypes: "Playlist",
+            IncludeItemTypes: 'Playlist',
             SortBy: 'SortName',
             EnableTotalRecordCount: false
         };

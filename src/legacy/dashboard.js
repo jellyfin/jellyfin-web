@@ -1,6 +1,6 @@
 Dashboard.confirm = function(message, title, callback) {
-    "use strict";
-    require(["confirm"], function(confirm) {
+    'use strict';
+    require(['confirm'], function(confirm) {
         confirm(message, title).then(function() {
             callback(!0)
         }, function() {
@@ -8,13 +8,13 @@ Dashboard.confirm = function(message, title, callback) {
         })
     })
 }, Dashboard.showLoadingMsg = function() {
-    "use strict";
-    require(["loading"], function(loading) {
+    'use strict';
+    require(['loading'], function(loading) {
         loading.show()
     })
 }, Dashboard.hideLoadingMsg = function() {
-    "use strict";
-    require(["loading"], function(loading) {
+    'use strict';
+    require(['loading'], function(loading) {
         loading.hide()
     })
 };

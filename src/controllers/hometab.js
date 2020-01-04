@@ -1,12 +1,12 @@
-define(["userSettings", "loading", "connectionManager", "apphost", "layoutManager", "focusManager", "homeSections", "emby-itemscontainer"], function (userSettings, loading, connectionManager, appHost, layoutManager, focusManager, homeSections) {
-    "use strict";
+define(['userSettings', 'loading', 'connectionManager', 'apphost', 'layoutManager', 'focusManager', 'homeSections', 'emby-itemscontainer'], function (userSettings, loading, connectionManager, appHost, layoutManager, focusManager, homeSections) {
+    'use strict';
 
     function HomeTab(view, params) {
         this.view = view;
         this.params = params;
         this.apiClient = connectionManager.currentApiClient();
-        this.sectionsContainer = view.querySelector(".sections");
-        view.querySelector(".sections").addEventListener("settingschange", onHomeScreenSettingsChanged.bind(this));
+        this.sectionsContainer = view.querySelector('.sections');
+        view.querySelector('.sections').addEventListener('settingschange', onHomeScreenSettingsChanged.bind(this));
     }
 
     function onHomeScreenSettingsChanged() {
@@ -36,7 +36,7 @@ define(["userSettings", "loading", "connectionManager", "apphost", "layoutManage
         this.destroyHomeSections();
         this.sectionsRendered = true;
         return apiClient.getCurrentUser().then(function (user) {
-            return homeSections.loadSections(view.querySelector(".sections"), apiClient, user, userSettings).then(function () {
+            return homeSections.loadSections(view.querySelector('.sections'), apiClient, user, userSettings).then(function () {
                 if (options.autoFocus) {
                     focusManager.autoFocus(view);
                 }

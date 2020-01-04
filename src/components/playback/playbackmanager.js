@@ -110,8 +110,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         } else {
 
             query.Limit = query.Limit || 300;
-            query.Fields = "Chapters";
-            query.ExcludeLocationTypes = "Virtual";
+            query.Fields = 'Chapters';
+            query.ExcludeLocationTypes = 'Virtual';
             query.EnableTotalRecordCount = false;
             query.CollapseBoxSetItems = false;
 
@@ -146,7 +146,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     function backdropImageUrl(apiClient, item, options) {
 
         options = options || {};
-        options.type = options.type || "Backdrop";
+        options.type = options.type || 'Backdrop';
 
         // If not resizing, get the original image
         if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
@@ -203,15 +203,15 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     }
 
     function getParam(name, url) {
-        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-        var regexS = "[\\?&]" + name + "=([^&#]*)";
-        var regex = new RegExp(regexS, "i");
+        name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
+        var regexS = '[\\?&]' + name + '=([^&#]*)';
+        var regex = new RegExp(regexS, 'i');
 
         var results = regex.exec(url);
         if (results == null) {
-            return "";
+            return '';
         } else {
-            return decodeURIComponent(results[1].replace(/\+/g, " "));
+            return decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
     }
 
@@ -598,8 +598,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             url: apiClient.getUrl('LiveStreams/Open', query),
             type: 'POST',
             data: JSON.stringify(postData),
-            contentType: "application/json",
-            dataType: "json"
+            contentType: 'application/json',
+            dataType: 'json'
 
         });
     }
@@ -1111,17 +1111,17 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             var itemType = item.Type;
 
-            if (itemType === "PhotoAlbum" || itemType === "MusicGenre" || itemType === "Season" || itemType === "Series" || itemType === "BoxSet" || itemType === "MusicAlbum" || itemType === "MusicArtist" || itemType === "Playlist") {
+            if (itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
                 return true;
             }
 
-            if (item.LocationType === "Virtual") {
-                if (itemType !== "Program") {
+            if (item.LocationType === 'Virtual') {
+                if (itemType !== 'Program') {
                     return false;
                 }
             }
 
-            if (itemType === "Program") {
+            if (itemType === 'Program') {
 
                 if (!item.EndDate || !item.StartDate) {
                     return false;
@@ -1856,36 +1856,36 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             var queryOptions = options.queryOptions || {};
 
-            if (firstItem.Type === "Program") {
+            if (firstItem.Type === 'Program') {
 
                 promise = getItemsForPlayback(serverId, {
                     Ids: firstItem.ChannelId
                 });
-            } else if (firstItem.Type === "Playlist") {
+            } else if (firstItem.Type === 'Playlist') {
 
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.Id,
                     SortBy: options.shuffle ? 'Random' : null
                 });
-            } else if (firstItem.Type === "MusicArtist") {
+            } else if (firstItem.Type === 'MusicArtist') {
 
                 promise = getItemsForPlayback(serverId, {
                     ArtistIds: firstItem.Id,
-                    Filters: "IsNotFolder",
+                    Filters: 'IsNotFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: "Audio"
+                    MediaTypes: 'Audio'
                 });
 
-            } else if (firstItem.MediaType === "Photo") {
+            } else if (firstItem.MediaType === 'Photo') {
 
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.ParentId,
-                    Filters: "IsNotFolder",
+                    Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: "Photo,Video",
+                    MediaTypes: 'Photo,Video',
                     Limit: 500
 
                 }).then(function (result) {
@@ -1906,40 +1906,40 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     return Promise.resolve(result);
 
                 });
-            } else if (firstItem.Type === "PhotoAlbum") {
+            } else if (firstItem.Type === 'PhotoAlbum') {
 
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.Id,
-                    Filters: "IsNotFolder",
+                    Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: "Photo,Video",
+                    MediaTypes: 'Photo,Video',
                     Limit: 1000
 
                 });
-            } else if (firstItem.Type === "MusicGenre") {
+            } else if (firstItem.Type === 'MusicGenre') {
 
                 promise = getItemsForPlayback(serverId, {
                     GenreIds: firstItem.Id,
-                    Filters: "IsNotFolder",
+                    Filters: 'IsNotFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: "Audio"
+                    MediaTypes: 'Audio'
                 });
             } else if (firstItem.IsFolder) {
 
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
 
                     ParentId: firstItem.Id,
-                    Filters: "IsNotFolder",
+                    Filters: 'IsNotFolder',
                     Recursive: true,
                     // These are pre-sorted
                     SortBy: options.shuffle ? 'Random' : (['BoxSet'].indexOf(firstItem.Type) === -1 ? 'SortName' : null),
-                    MediaTypes: "Audio,Video"
+                    MediaTypes: 'Audio,Video'
 
                 }, queryOptions));
-            } else if (firstItem.Type === "Episode" && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
+            } else if (firstItem.Type === 'Episode' && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
 
                 promise = new Promise(function (resolve, reject) {
                     var apiClient = connectionManager.getApiClient(firstItem.ServerId);
@@ -1955,7 +1955,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                             IsVirtualUnaired: false,
                             IsMissing: false,
                             UserId: apiClient.getCurrentUserId(),
-                            Fields: "Chapters"
+                            Fields: 'Chapters'
 
                         }).then(function (episodesResult) {
 
@@ -2192,7 +2192,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return Promise.reject();
             }
 
-            if (firstItem.MediaType === "Photo") {
+            if (firstItem.MediaType === 'Photo') {
 
                 return playPhotos(items, options, user);
             }
@@ -3827,23 +3827,23 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         if (player.isLocalPlayer) {
             var list = [
-                "GoHome",
-                "GoToSettings",
-                "VolumeUp",
-                "VolumeDown",
-                "Mute",
-                "Unmute",
-                "ToggleMute",
-                "SetVolume",
-                "SetAudioStreamIndex",
-                "SetSubtitleStreamIndex",
-                "SetMaxStreamingBitrate",
-                "DisplayContent",
-                "GoToSearch",
-                "DisplayMessage",
-                "SetRepeatMode",
-                "PlayMediaSource",
-                "PlayTrailers"
+                'GoHome',
+                'GoToSettings',
+                'VolumeUp',
+                'VolumeDown',
+                'Mute',
+                'Unmute',
+                'ToggleMute',
+                'SetVolume',
+                'SetAudioStreamIndex',
+                'SetSubtitleStreamIndex',
+                'SetMaxStreamingBitrate',
+                'DisplayContent',
+                'GoToSearch',
+                'DisplayMessage',
+                'SetRepeatMode',
+                'PlayMediaSource',
+                'PlayTrailers'
             ];
 
             if (apphost.supports('fullscreenchange')) {
@@ -3955,51 +3955,51 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     PlaybackManager.prototype.sendCommand = function (cmd, player) {
         console.log('MediaController received command: ' + cmd.Name);
         switch (cmd.Name) {
-            case 'SetRepeatMode':
-                this.setRepeatMode(cmd.Arguments.RepeatMode, player);
-                break;
-            case 'VolumeUp':
-                this.volumeUp(player);
-                break;
-            case 'VolumeDown':
-                this.volumeDown(player);
-                break;
-            case 'Mute':
-                this.setMute(true, player);
-                break;
-            case 'Unmute':
-                this.setMute(false, player);
-                break;
-            case 'ToggleMute':
-                this.toggleMute(player);
-                break;
-            case 'SetVolume':
-                this.setVolume(cmd.Arguments.Volume, player);
-                break;
-            case 'SetAspectRatio':
-                this.setAspectRatio(cmd.Arguments.AspectRatio, player);
-                break;
-            case 'SetBrightness':
-                this.setBrightness(cmd.Arguments.Brightness, player);
-                break;
-            case 'SetAudioStreamIndex':
-                this.setAudioStreamIndex(parseInt(cmd.Arguments.Index), player);
-                break;
-            case 'SetSubtitleStreamIndex':
-                this.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index), player);
-                break;
-            case 'SetMaxStreamingBitrate':
-                // todo
-                //this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
-                break;
-            case 'ToggleFullscreen':
-                this.toggleFullscreen(player);
-                break;
-            default:
-                if (player.sendCommand) {
-                    player.sendCommand(cmd);
-                }
-                break;
+        case 'SetRepeatMode':
+            this.setRepeatMode(cmd.Arguments.RepeatMode, player);
+            break;
+        case 'VolumeUp':
+            this.volumeUp(player);
+            break;
+        case 'VolumeDown':
+            this.volumeDown(player);
+            break;
+        case 'Mute':
+            this.setMute(true, player);
+            break;
+        case 'Unmute':
+            this.setMute(false, player);
+            break;
+        case 'ToggleMute':
+            this.toggleMute(player);
+            break;
+        case 'SetVolume':
+            this.setVolume(cmd.Arguments.Volume, player);
+            break;
+        case 'SetAspectRatio':
+            this.setAspectRatio(cmd.Arguments.AspectRatio, player);
+            break;
+        case 'SetBrightness':
+            this.setBrightness(cmd.Arguments.Brightness, player);
+            break;
+        case 'SetAudioStreamIndex':
+            this.setAudioStreamIndex(parseInt(cmd.Arguments.Index), player);
+            break;
+        case 'SetSubtitleStreamIndex':
+            this.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index), player);
+            break;
+        case 'SetMaxStreamingBitrate':
+            // todo
+            //this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
+            break;
+        case 'ToggleFullscreen':
+            this.toggleFullscreen(player);
+            break;
+        default:
+            if (player.sendCommand) {
+                player.sendCommand(cmd);
+            }
+            break;
         }
     };
 

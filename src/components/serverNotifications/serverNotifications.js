@@ -40,106 +40,106 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
     function processGeneralCommand(cmd, apiClient) {
         console.log('Received command: ' + cmd.Name);
         switch (cmd.Name) {
-            case 'Select':
-                inputManager.trigger('select');
-                return;
-            case 'Back':
-                inputManager.trigger('back');
-                return;
-            case 'MoveUp':
-                inputManager.trigger('up');
-                return;
-            case 'MoveDown':
-                inputManager.trigger('down');
-                return;
-            case 'MoveLeft':
-                inputManager.trigger('left');
-                return;
-            case 'MoveRight':
-                inputManager.trigger('right');
-                return;
-            case 'PageUp':
-                inputManager.trigger('pageup');
-                return;
-            case 'PageDown':
-                inputManager.trigger('pagedown');
-                return;
-            case 'PlayTrailers':
-                playTrailers(apiClient, cmd.Arguments.ItemId);
-                break;
-            case 'SetRepeatMode':
-                playbackManager.setRepeatMode(cmd.Arguments.RepeatMode);
-                break;
-            case 'VolumeUp':
-                inputManager.trigger('volumeup');
-                return;
-            case 'VolumeDown':
-                inputManager.trigger('volumedown');
-                return;
-            case 'ChannelUp':
-                inputManager.trigger('channelup');
-                return;
-            case 'ChannelDown':
-                inputManager.trigger('channeldown');
-                return;
-            case 'Mute':
-                inputManager.trigger('mute');
-                return;
-            case 'Unmute':
-                inputManager.trigger('unmute');
-                return;
-            case 'ToggleMute':
-                inputManager.trigger('togglemute');
-                return;
-            case 'SetVolume':
-                notifyApp();
-                playbackManager.setVolume(cmd.Arguments.Volume);
-                break;
-            case 'SetAudioStreamIndex':
-                notifyApp();
-                playbackManager.setAudioStreamIndex(parseInt(cmd.Arguments.Index));
-                break;
-            case 'SetSubtitleStreamIndex':
-                notifyApp();
-                playbackManager.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index));
-                break;
-            case 'ToggleFullscreen':
-                inputManager.trigger('togglefullscreen');
-                return;
-            case 'GoHome':
-                inputManager.trigger('home');
-                return;
-            case 'GoToSettings':
-                inputManager.trigger('settings');
-                return;
-            case 'DisplayContent':
-                displayContent(cmd, apiClient);
-                break;
-            case 'GoToSearch':
-                inputManager.trigger('search');
-                return;
-            case 'DisplayMessage':
-                displayMessage(cmd);
-                break;
-            case 'ToggleOsd':
-                // todo
-                break;
-            case 'ToggleContextMenu':
-                // todo
-                break;
-            case 'TakeScreenShot':
-                // todo
-                break;
-            case 'SendKey':
-                // todo
-                break;
-            case 'SendString':
-                // todo
-                focusManager.sendText(cmd.Arguments.String);
-                break;
-            default:
-                console.log('processGeneralCommand does not recognize: ' + cmd.Name);
-                break;
+        case 'Select':
+            inputManager.trigger('select');
+            return;
+        case 'Back':
+            inputManager.trigger('back');
+            return;
+        case 'MoveUp':
+            inputManager.trigger('up');
+            return;
+        case 'MoveDown':
+            inputManager.trigger('down');
+            return;
+        case 'MoveLeft':
+            inputManager.trigger('left');
+            return;
+        case 'MoveRight':
+            inputManager.trigger('right');
+            return;
+        case 'PageUp':
+            inputManager.trigger('pageup');
+            return;
+        case 'PageDown':
+            inputManager.trigger('pagedown');
+            return;
+        case 'PlayTrailers':
+            playTrailers(apiClient, cmd.Arguments.ItemId);
+            break;
+        case 'SetRepeatMode':
+            playbackManager.setRepeatMode(cmd.Arguments.RepeatMode);
+            break;
+        case 'VolumeUp':
+            inputManager.trigger('volumeup');
+            return;
+        case 'VolumeDown':
+            inputManager.trigger('volumedown');
+            return;
+        case 'ChannelUp':
+            inputManager.trigger('channelup');
+            return;
+        case 'ChannelDown':
+            inputManager.trigger('channeldown');
+            return;
+        case 'Mute':
+            inputManager.trigger('mute');
+            return;
+        case 'Unmute':
+            inputManager.trigger('unmute');
+            return;
+        case 'ToggleMute':
+            inputManager.trigger('togglemute');
+            return;
+        case 'SetVolume':
+            notifyApp();
+            playbackManager.setVolume(cmd.Arguments.Volume);
+            break;
+        case 'SetAudioStreamIndex':
+            notifyApp();
+            playbackManager.setAudioStreamIndex(parseInt(cmd.Arguments.Index));
+            break;
+        case 'SetSubtitleStreamIndex':
+            notifyApp();
+            playbackManager.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index));
+            break;
+        case 'ToggleFullscreen':
+            inputManager.trigger('togglefullscreen');
+            return;
+        case 'GoHome':
+            inputManager.trigger('home');
+            return;
+        case 'GoToSettings':
+            inputManager.trigger('settings');
+            return;
+        case 'DisplayContent':
+            displayContent(cmd, apiClient);
+            break;
+        case 'GoToSearch':
+            inputManager.trigger('search');
+            return;
+        case 'DisplayMessage':
+            displayMessage(cmd);
+            break;
+        case 'ToggleOsd':
+            // todo
+            break;
+        case 'ToggleContextMenu':
+            // todo
+            break;
+        case 'TakeScreenShot':
+            // todo
+            break;
+        case 'SendKey':
+            // todo
+            break;
+        case 'SendString':
+            // todo
+            focusManager.sendText(cmd.Arguments.String);
+            break;
+        default:
+            console.log('processGeneralCommand does not recognize: ' + cmd.Name);
+            break;
         }
 
         notifyApp();
@@ -149,14 +149,14 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
 
         var apiClient = this;
 
-        if (msg.MessageType === "Play") {
+        if (msg.MessageType === 'Play') {
 
             notifyApp();
             var serverId = apiClient.serverInfo().Id;
 
-            if (msg.Data.PlayCommand === "PlayNext") {
+            if (msg.Data.PlayCommand === 'PlayNext') {
                 playbackManager.queueNext({ ids: msg.Data.ItemIds, serverId: serverId });
-            } else if (msg.Data.PlayCommand === "PlayLast") {
+            } else if (msg.Data.PlayCommand === 'PlayLast') {
                 playbackManager.queue({ ids: msg.Data.ItemIds, serverId: serverId });
             } else {
                 playbackManager.play({
@@ -170,7 +170,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                 });
             }
 
-        } else if (msg.MessageType === "Playstate") {
+        } else if (msg.MessageType === 'Playstate') {
 
             if (msg.Data.Command === 'Stop') {
                 inputManager.trigger('stop');
@@ -189,10 +189,10 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
             } else {
                 notifyApp();
             }
-        } else if (msg.MessageType === "GeneralCommand") {
+        } else if (msg.MessageType === 'GeneralCommand') {
             var cmd = msg.Data;
             processGeneralCommand(cmd, apiClient);
-        } else if (msg.MessageType === "UserDataChanged") {
+        } else if (msg.MessageType === 'UserDataChanged') {
 
             if (msg.Data.UserId === apiClient.getCurrentUserId()) {
 
@@ -209,13 +209,13 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
 
     function bindEvents(apiClient) {
 
-        events.off(apiClient, "message", onMessageReceived);
-        events.on(apiClient, "message", onMessageReceived);
+        events.off(apiClient, 'message', onMessageReceived);
+        events.on(apiClient, 'message', onMessageReceived);
     }
 
     function enableNativeGamepadKeyMapping() {
-        if (window.navigator && "string" == typeof window.navigator.gamepadInputEmulation) {
-            window.navigator.gamepadInputEmulation = "keyboard";
+        if (window.navigator && 'string' == typeof window.navigator.gamepadInputEmulation) {
+            window.navigator.gamepadInputEmulation = 'keyboard';
             return true;
         }
 
@@ -223,7 +223,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
     }
 
     function isGamepadSupported() {
-        return "ongamepadconnected" in window || navigator.getGamepads || navigator.webkitGetGamepads;
+        return 'ongamepadconnected' in window || navigator.getGamepads || navigator.webkitGetGamepads;
     }
 
     connectionManager.getApiClients().forEach(bindEvents);
@@ -234,10 +234,10 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
     });
 
     if (!enableNativeGamepadKeyMapping() && isGamepadSupported()) {
-        require(["components/serverNotifications/gamepadtokey"]);
+        require(['components/serverNotifications/gamepadtokey']);
     }
 
-    require(["components/serverNotifications/mouseManager"]);
+    require(['components/serverNotifications/mouseManager']);
 
     return serverNotifications;
 });

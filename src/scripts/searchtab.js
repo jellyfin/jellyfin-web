@@ -1,18 +1,18 @@
-define(["searchFields", "searchResults", "events"], function (SearchFields, SearchResults, events) {
-    "use strict";
+define(['searchFields', 'searchResults', 'events'], function (SearchFields, SearchResults, events) {
+    'use strict';
 
     function init(instance, tabContent, options) {
         tabContent.innerHTML = '<div class="padded-left padded-right searchFields"></div><div class="searchResults padded-top" style="padding-top:1.5em;"></div>';
         instance.searchFields = new SearchFields({
-            element: tabContent.querySelector(".searchFields")
+            element: tabContent.querySelector('.searchFields')
         });
         instance.searchResults = new SearchResults({
-            element: tabContent.querySelector(".searchResults"),
+            element: tabContent.querySelector('.searchResults'),
             serverId: ApiClient.serverId(),
             parentId: options.parentId,
             collectionType: options.collectionType
         });
-        events.on(instance.searchFields, "search", function (e, value) {
+        events.on(instance.searchFields, 'search', function (e, value) {
             instance.searchResults.search(value);
         });
     }

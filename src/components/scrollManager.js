@@ -1,5 +1,5 @@
-define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManager) {
-    "use strict";
+define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManager) {
+    'use strict';
 
     /**
      * Scroll time in ms.
@@ -19,20 +19,20 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
      * @return {number} minimum vertical scroll
      */
     function minimumScrollY() {
-        var topMenu = document.querySelector(".headerTop");
+        var topMenu = document.querySelector('.headerTop');
         if (topMenu) {
             return topMenu.clientHeight;
         }
         return 0;
     }
 
-    var supportsSmoothScroll = "scrollBehavior" in document.documentElement.style;
+    var supportsSmoothScroll = 'scrollBehavior' in document.documentElement.style;
 
     var supportsScrollToOptions = false;
     try {
-        var elem = document.createElement("div");
+        var elem = document.createElement('div');
 
-        var opts = Object.defineProperty({}, "behavior", {
+        var opts = Object.defineProperty({}, 'behavior', {
             get: function () {
                 supportsScrollToOptions = true;
             }
@@ -40,7 +40,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
 
         elem.scrollTo(opts);
     } catch (e) {
-        console.log("error checking ScrollToOptions support");
+        console.log('error checking ScrollToOptions support');
     }
 
     /**
@@ -161,8 +161,8 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
             var parent = element.parentElement;
 
             while (parent) {
-                if ((!vertical && parent.scrollWidth > parent.clientWidth && parent.classList.contains("scrollX")) ||
-                    (vertical && parent.scrollHeight > parent.clientHeight && parent.classList.contains("scrollY"))) {
+                if ((!vertical && parent.scrollWidth > parent.clientWidth && parent.classList.contains('scrollX')) ||
+                    (vertical && parent.scrollHeight > parent.clientHeight && parent.classList.contains('scrollY'))) {
                     return parent;
                 }
 
@@ -253,7 +253,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
      * @param {ScrollToOptions} options scroll options
      */
     function scrollToHelper(scroller, options) {
-        if ("scrollTo" in scroller) {
+        if ('scrollTo' in scroller) {
             if (!supportsScrollToOptions) {
                 var scrollX = (options.left !== undefined ? options.left : scroller.scrollLeft);
                 var scrollY = (options.top !== undefined ? options.top : scroller.scrollTop);
@@ -261,7 +261,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
             } else {
                 scroller.scrollTo(options);
             }
-        } else if ("scrollLeft" in scroller) {
+        } else if ('scrollLeft' in scroller) {
             if (options.left !== undefined) {
                 scroller.scrollLeft = options.left;
             }
@@ -281,7 +281,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
      * @param {boolean} smooth smooth scrolling
      */
     function builtinScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
-        var scrollBehavior = smooth ? "smooth" : "instant";
+        var scrollBehavior = smooth ? 'smooth' : 'instant';
 
         if (xScroller !== yScroller) {
             scrollToHelper(xScroller, {left: scrollX, behavior: scrollBehavior});
@@ -447,7 +447,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         var offsetParent = element.offsetParent;
 
         // In Firefox offsetParent.offsetParent is BODY
-        var isFixed = offsetParent && (!offsetParent.offsetParent || window.getComputedStyle(offsetParent).position === "fixed");
+        var isFixed = offsetParent && (!offsetParent.offsetParent || window.getComputedStyle(offsetParent).position === 'fixed');
 
         // Scroll fixed elements to nearest edge (or do not scroll at all)
         if (isFixed) {
@@ -484,7 +484,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
     }
 
     if (isEnabled()) {
-        dom.addEventListener(window, "focusin", function(e) {
+        dom.addEventListener(window, 'focusin', function(e) {
             setTimeout(function() {
                 scrollToElement(e.target, useSmoothScroll());
             }, 0);

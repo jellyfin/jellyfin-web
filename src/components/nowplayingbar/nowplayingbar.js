@@ -163,15 +163,15 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             if (currentPlayer) {
 
                 switch (playbackManager.getRepeatMode(currentPlayer)) {
-                    case 'RepeatAll':
-                        playbackManager.setRepeatMode('RepeatOne', currentPlayer);
-                        break;
-                    case 'RepeatOne':
-                        playbackManager.setRepeatMode('RepeatNone', currentPlayer);
-                        break;
-                    default:
-                        playbackManager.setRepeatMode('RepeatAll', currentPlayer);
-                        break;
+                case 'RepeatAll':
+                    playbackManager.setRepeatMode('RepeatOne', currentPlayer);
+                    break;
+                case 'RepeatOne':
+                    playbackManager.setRepeatMode('RepeatNone', currentPlayer);
+                    break;
+                default:
+                    playbackManager.setRepeatMode('RepeatAll', currentPlayer);
+                    break;
                 }
             }
         });
@@ -343,13 +343,13 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     function updateRepeatModeDisplay(repeatMode) {
 
         if (repeatMode === 'RepeatAll') {
-            toggleRepeatButtonIcon.innerHTML = "repeat";
+            toggleRepeatButtonIcon.innerHTML = 'repeat';
             toggleRepeatButton.classList.add('repeatButton-active');
         } else if (repeatMode === 'RepeatOne') {
-            toggleRepeatButtonIcon.innerHTML = "repeat_one";
+            toggleRepeatButtonIcon.innerHTML = 'repeat_one';
             toggleRepeatButton.classList.add('repeatButton-active');
         } else {
-            toggleRepeatButtonIcon.innerHTML = "repeat";
+            toggleRepeatButtonIcon.innerHTML = 'repeat';
             toggleRepeatButton.classList.remove('repeatButton-active');
         }
     }
@@ -380,7 +380,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             var timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
 
             if (runtimeTicks) {
-                timeText += " / " + datetime.getDisplayRunningTime(runtimeTicks);
+                timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
             }
 
             currentTimeElement.innerHTML = timeText;
@@ -463,7 +463,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (options.type === 'Primary') {
 
@@ -501,7 +501,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
 

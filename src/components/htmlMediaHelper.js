@@ -2,12 +2,12 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
     'use strict';
 
     function getSavedVolume() {
-        return appSettings.get("volume") || 1;
+        return appSettings.get('volume') || 1;
     }
 
     function saveVolume(value) {
         if (value) {
-            appSettings.set("volume", value);
+            appSettings.set('volume', value);
         }
     }
 
@@ -310,9 +310,38 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
             console.log('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
 
             switch (data.type) {
+            case Hls.ErrorTypes.NETWORK_ERROR:
+                // try to recover network error
+                if (data.response && data.response.code && data.response.code >= 400) {
+
+                    console.log('hls.js response error code: ' + data.response.code);
+
+                    // Trigger failure differently depending on whether this is prior to start of playback, or after
+                    hls.destroy();
+
+                    if (reject) {
+                        reject('servererror');
+                        reject = null;
+                    } else {
+                        onErrorInternal(instance, 'servererror');
+                    }
+
+                    return;
+
+                }
+
+                break;
+            default:
+                break;
+            }
+
+            if (data.fatal) {
+                switch (data.type) {
                 case Hls.ErrorTypes.NETWORK_ERROR:
-                    // try to recover network error
-                    if (data.response && data.response.code && data.response.code >= 400) {
+
+                    if (data.response && data.response.code === 0) {
+
+                        // This could be a CORS error related to access control response headers
 
                         console.log('hls.js response error code: ' + data.response.code);
 
@@ -320,66 +349,37 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                         hls.destroy();
 
                         if (reject) {
-                            reject('servererror');
+                            reject('network');
                             reject = null;
                         } else {
-                            onErrorInternal(instance, 'servererror');
+                            onErrorInternal(instance, 'network');
                         }
-
-                        return;
-
+                    } else {
+                        console.log('fatal network error encountered, try to recover');
+                        hls.startLoad();
                     }
 
                     break;
-                default:
+                case Hls.ErrorTypes.MEDIA_ERROR:
+                    console.log('fatal media error encountered, try to recover');
+                    var currentReject = reject;
+                    reject = null;
+                    handleHlsJsMediaError(instance, currentReject);
                     break;
-            }
+                default:
 
-            if (data.fatal) {
-                switch (data.type) {
-                    case Hls.ErrorTypes.NETWORK_ERROR:
+                    console.log('Cannot recover from hls error - destroy and trigger error');
+                    // cannot recover
+                    // Trigger failure differently depending on whether this is prior to start of playback, or after
+                    hls.destroy();
 
-                        if (data.response && data.response.code === 0) {
-
-                            // This could be a CORS error related to access control response headers
-
-                            console.log('hls.js response error code: ' + data.response.code);
-
-                            // Trigger failure differently depending on whether this is prior to start of playback, or after
-                            hls.destroy();
-
-                            if (reject) {
-                                reject('network');
-                                reject = null;
-                            } else {
-                                onErrorInternal(instance, 'network');
-                            }
-                        } else {
-                            console.log("fatal network error encountered, try to recover");
-                            hls.startLoad();
-                        }
-
-                        break;
-                    case Hls.ErrorTypes.MEDIA_ERROR:
-                        console.log("fatal media error encountered, try to recover");
-                        var currentReject = reject;
+                    if (reject) {
+                        reject();
                         reject = null;
-                        handleHlsJsMediaError(instance, currentReject);
-                        break;
-                    default:
-
-                        console.log('Cannot recover from hls error - destroy and trigger error');
-                        // cannot recover
-                        // Trigger failure differently depending on whether this is prior to start of playback, or after
-                        hls.destroy();
-
-                        if (reject) {
-                            reject();
-                            reject = null;
-                        } else {
-                            onErrorInternal(instance, 'mediadecodeerror');
-                        }
-                        break;
+                    } else {
+                        onErrorInternal(instance, 'mediadecodeerror');
+                    }
+                    break;
                 }
             }
         });
@@ -391,7 +391,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
         elem.src = '';
         elem.innerHTML = '';
-        elem.removeAttribute("src");
+        elem.removeAttribute('src');
 
         destroyHlsPlayer(instance);
         destroyFlvPlayer(instance);

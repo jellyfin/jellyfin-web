@@ -11,18 +11,18 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         loading.hide();
 
         switch (evt.target.error.code) {
-            case evt.target.error.NOT_FOUND_ERR:
-                require(['toast'], function (toast) {
-                    toast(globalize.translate('MessageFileReadError'));
-                });
-                break;
-            case evt.target.error.ABORT_ERR:
-                break; // noop
-            default:
-                require(['toast'], function (toast) {
-                    toast(globalize.translate('MessageFileReadError'));
-                });
-                break;
+        case evt.target.error.NOT_FOUND_ERR:
+            require(['toast'], function (toast) {
+                toast(globalize.translate('MessageFileReadError'));
+            });
+            break;
+        case evt.target.error.ABORT_ERR:
+            break; // noop
+        default:
+            require(['toast'], function (toast) {
+                toast(globalize.translate('MessageFileReadError'));
+            });
+            break;
         }
     }
 
@@ -74,7 +74,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
             return false;
         }
 
-        if (file.type !== "image/png" && file.type !== "image/x-png" && file.type !== "image/jpeg") {
+        if (file.type !== 'image/png' && file.type !== 'image/x-png' && file.type !== 'image/jpeg') {
             require(['toast'], function (toast) {
                 toast(globalize.translate('MessageImageFileTypeAllowed'));
             });
@@ -87,9 +87,9 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         var dlg = dom.parentWithClass(this, 'dialog');
 
         var imageType = dlg.querySelector('#selectImageType').value;
-        if (imageType === "None") {
-            require(["toast"], function(toast) {
-                toast(globalize.translate("MessageImageTypeNotSelected"));
+        if (imageType === 'None') {
+            require(['toast'], function(toast) {
+                toast(globalize.translate('MessageImageTypeNotSelected'));
             });
             e.preventDefault();
             return false;
@@ -112,11 +112,11 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
         page.querySelector('form').addEventListener('submit', onSubmit);
 
-        page.querySelector('#uploadImage').addEventListener("change", function () {
+        page.querySelector('#uploadImage').addEventListener('change', function () {
             setFiles(page, this.files);
         });
 
-        page.querySelector('.btnBrowse').addEventListener("click", function () {
+        page.querySelector('.btnBrowse').addEventListener('click', function () {
             page.querySelector('#uploadImage').click();
         });
     }

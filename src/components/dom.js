@@ -67,7 +67,7 @@ define([], function () {
                 supportsCaptureOption = true;
             }
         });
-        window.addEventListener("test", null, opts);
+        window.addEventListener('test', null, opts);
     } catch (e) {
         console.log('error checking capture support');
     }
@@ -103,7 +103,7 @@ define([], function () {
 
             if (!windowSizeEventsBound) {
                 windowSizeEventsBound = true;
-                addEventListenerWithOptions(window, "orientationchange", clearWindowSize, { passive: true });
+                addEventListenerWithOptions(window, 'orientationchange', clearWindowSize, { passive: true });
                 addEventListenerWithOptions(window, 'resize', clearWindowSize, { passive: true });
             }
         }
@@ -119,12 +119,12 @@ define([], function () {
         }
 
         var t;
-        var el = document.createElement("div");
+        var el = document.createElement('div');
         var animations = {
-            "animation": "animationend",
-            "OAnimation": "oAnimationEnd",
-            "MozAnimation": "animationend",
-            "WebkitAnimation": "webkitAnimationEnd"
+            'animation': 'animationend',
+            'OAnimation': 'oAnimationEnd',
+            'MozAnimation': 'animationend',
+            'WebkitAnimation': 'webkitAnimationEnd'
         };
         for (t in animations) {
             if (el.style[t] !== undefined) {
@@ -149,12 +149,12 @@ define([], function () {
         }
 
         var t;
-        var el = document.createElement("div");
+        var el = document.createElement('div');
         var transitions = {
-            "transition": "transitionend",
-            "OTransition": "oTransitionEnd",
-            "MozTransition": "transitionend",
-            "WebkitTransition": "webkitTransitionEnd"
+            'transition': 'transitionend',
+            'OTransition': 'oTransitionEnd',
+            'MozTransition': 'transitionend',
+            'WebkitTransition': 'webkitTransitionEnd'
         };
         for (t in transitions) {
             if (el.style[t] !== undefined) {

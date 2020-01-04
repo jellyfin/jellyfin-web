@@ -1,5 +1,5 @@
 define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', 'htmlMediaHelper', 'itemHelper', 'fullscreenManager'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper, fullscreenManager) {
-    "use strict";
+    'use strict';
 
     var mediaManager;
 
@@ -206,7 +206,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function incrementFetchQueue() {
             if (self._fetchQueue <= 0) {
                 self.isFetching = true;
-                events.trigger(self, "beginFetch");
+                events.trigger(self, 'beginFetch');
             }
 
             self._fetchQueue++;
@@ -217,7 +217,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             if (self._fetchQueue <= 0) {
                 self.isFetching = false;
-                events.trigger(self, "endFetch");
+                events.trigger(self, 'endFetch');
             }
         }
 
@@ -459,7 +459,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             console.log('contentType: ' + contentType);
 
             host.onError = function (errorCode) {
-                console.log("Fatal Error - " + errorCode);
+                console.log('Fatal Error - ' + errorCode);
             };
 
             mediaElement.autoplay = false;
@@ -601,7 +601,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                             offsetValue = updateCurrentTrackOffset(offsetValue);
                             setVttSubtitleOffset(trackElement, offsetValue);
                         } else {
-                            console.log("No available track, cannot apply offset : " + offsetValue);
+                            console.log('No available track, cannot apply offset : ' + offsetValue);
                         }
 
                     });
@@ -900,31 +900,31 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var type;
 
             switch (errorCode) {
-                case 1:
-                    // MEDIA_ERR_ABORTED
-                    // This will trigger when changing media while something is playing
+            case 1:
+                // MEDIA_ERR_ABORTED
+                // This will trigger when changing media while something is playing
+                return;
+            case 2:
+                // MEDIA_ERR_NETWORK
+                type = 'network';
+                break;
+            case 3:
+                // MEDIA_ERR_DECODE
+                if (self._hlsPlayer) {
+                    htmlMediaHelper.handleHlsJsMediaError(self);
                     return;
-                case 2:
-                    // MEDIA_ERR_NETWORK
-                    type = 'network';
-                    break;
-                case 3:
-                    // MEDIA_ERR_DECODE
-                    if (self._hlsPlayer) {
-                        htmlMediaHelper.handleHlsJsMediaError(self);
-                        return;
-                    } else {
-                        type = 'mediadecodeerror';
-                    }
-                    break;
-                case 4:
-                    // MEDIA_ERR_SRC_NOT_SUPPORTED
-                    type = 'medianotsupported';
-                    break;
-                default:
-                    // seeing cases where Edge is firing error events with no error code
-                    // example is start playing something, then immediately change src to something else
-                    return;
+                } else {
+                    type = 'mediadecodeerror';
+                }
+                break;
+            case 4:
+                // MEDIA_ERR_SRC_NOT_SUPPORTED
+                type = 'medianotsupported';
+                break;
+            default:
+                // seeing cases where Edge is firing error events with no error code
+                // example is start playing something, then immediately change src to something else
+                return;
             }
 
             htmlMediaHelper.onErrorInternal(self, type);
@@ -1053,7 +1053,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                     currentAssRenderer = renderer;
 
-                    renderer.addEventListener("ready", function () {
+                    renderer.addEventListener('ready', function () {
                         try {
                             renderer.resize(videoElement.offsetWidth, videoElement.offsetHeight, 0, 0);
 
@@ -1468,12 +1468,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var list = [];
 
         var video = document.createElement('video');
-        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function" || document.pictureInPictureEnabled) {
+        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' || document.pictureInPictureEnabled) {
             list.push('PictureInPicture');
         } else if (browser.ipad) {
             // Unfortunately this creates a false positive on devices where its' not actually supported
             if (navigator.userAgent.toLowerCase().indexOf('os 9') === -1) {
-                if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
+                if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
                     list.push('PictureInPicture');
                 }
             }
@@ -1484,7 +1484,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         list.push('SetBrightness');
-        list.push("SetAspectRatio")
+        list.push('SetAspectRatio')
 
         return list;
     }
@@ -1569,8 +1569,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
         } else {
-            if (video && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
-                video.webkitSetPresentationMode(isEnabled ? "picture-in-picture" : "inline");
+            if (video && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
+                video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
             }
         }
     };
@@ -1584,7 +1584,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         } else {
             var video = this._mediaElement;
             if (video) {
-                return video.webkitPresentationMode === "picture-in-picture";
+                return video.webkitPresentationMode === 'picture-in-picture';
             }
         }
 
@@ -1714,10 +1714,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     HtmlVideoPlayer.prototype.setAspectRatio = function (val) {
         var mediaElement = this._mediaElement;
         if (mediaElement) {
-            if ("auto" === val) {
-                mediaElement.style.removeProperty("object-fit")
+            if ('auto' === val) {
+                mediaElement.style.removeProperty('object-fit')
             } else {
-                mediaElement.style["object-fit"] = val
+                mediaElement.style['object-fit'] = val
             }
         }
         this._currentAspectRatio = val
@@ -1729,14 +1729,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
     HtmlVideoPlayer.prototype.getSupportedAspectRatios = function () {
         return [{
-            name: "Auto",
-            id: "auto"
+            name: 'Auto',
+            id: 'auto'
         }, {
-            name: "Cover",
-            id: "cover"
+            name: 'Cover',
+            id: 'cover'
         }, {
-            name: "Fill",
-            id: "fill"
+            name: 'Fill',
+            id: 'fill'
         }]
     };
 

@@ -1,5 +1,5 @@
 define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', 'focusManager', 'datetime', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-button'], function (require, browser, layoutManager, appSettings, pluginManager, appHost, focusManager, datetime, globalize, loading, connectionManager, skinManager, dom, events) {
-    "use strict";
+    'use strict';
 
     function fillThemes(select, isDashboard) {
         select.innerHTML = skinManager.getThemes().map(function (t) {

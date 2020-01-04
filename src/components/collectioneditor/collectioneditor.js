@@ -37,7 +37,7 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
 
     function createCollection(apiClient, dlg) {
 
-        var url = apiClient.getUrl("Collections", {
+        var url = apiClient.getUrl('Collections', {
 
             Name: dlg.querySelector('#txtNewCollectionName').value,
             IsLocked: !dlg.querySelector('#chkEnableInternetMetadata').checked,
@@ -45,9 +45,9 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         });
 
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             url: url,
-            dataType: "json"
+            dataType: 'json'
 
         }).then(function (result) {
 
@@ -69,13 +69,13 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
 
     function addToCollection(apiClient, dlg, id) {
 
-        var url = apiClient.getUrl("Collections/" + id + "/Items", {
+        var url = apiClient.getUrl('Collections/' + id + '/Items', {
 
             Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
         });
 
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             url: url
 
         }).then(function () {
@@ -106,8 +106,8 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         var options = {
 
             Recursive: true,
-            IncludeItemTypes: "BoxSet",
-            SortBy: "SortName",
+            IncludeItemTypes: 'BoxSet',
+            SortBy: 'SortName',
             EnableTotalRecordCount: false
         };
 

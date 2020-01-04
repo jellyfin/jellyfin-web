@@ -29,37 +29,37 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function handleConnectionResult(result, loading) {
         switch (result.State) {
-            case 'SignedIn':
-                loading.hide();
-                skinManager.loadUserSkin();
-                break;
-            case 'ServerSignIn':
-                result.ApiClient.getPublicUsers().then(function (users) {
-                    if (users.length) {
-                        appRouter.showLocalLogin(result.Servers[0].Id);
-                    } else {
-                        appRouter.showLocalLogin(result.Servers[0].Id, true);
-                    }
+        case 'SignedIn':
+            loading.hide();
+            skinManager.loadUserSkin();
+            break;
+        case 'ServerSignIn':
+            result.ApiClient.getPublicUsers().then(function (users) {
+                if (users.length) {
+                    appRouter.showLocalLogin(result.Servers[0].Id);
+                } else {
+                    appRouter.showLocalLogin(result.Servers[0].Id, true);
+                }
+            });
+            break;
+        case 'ServerSelection':
+            appRouter.showSelectServer();
+            break;
+        case 'ConnectSignIn':
+            appRouter.showWelcome();
+            break;
+        case 'ServerUpdateNeeded':
+            require(['alert'], function (alert) {
+                alert({
+                    text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
+                    html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
+                }).then(function () {
+                    appRouter.showSelectServer();
                 });
-                break;
-            case 'ServerSelection':
-                appRouter.showSelectServer();
-                break;
-            case 'ConnectSignIn':
-                appRouter.showWelcome();
-                break;
-            case 'ServerUpdateNeeded':
-                require(['alert'], function (alert) {
-                    alert({
-                        text: globalize.translate('ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
-                        html: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
-                    }).then(function () {
-                        appRouter.showSelectServer();
-                    });
-                });
-                break;
-            default:
-                break;
+            });
+            break;
+        default:
+            break;
         }
     }
 
@@ -198,7 +198,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         var apiClient = this;
 
         if (data.status === 401) {
-            if (data.errorCode === "ParentalControl") {
+            if (data.errorCode === 'ParentalControl') {
 
                 var isCurrentAllowed = currentRouteInfo ? (currentRouteInfo.route.anonymous || currentRouteInfo.route.startup) : true;
 
@@ -529,15 +529,15 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function param(name, url) {
-        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-        var regexS = "[\\?&]" + name + "=([^&#]*)";
-        var regex = new RegExp(regexS, "i");
+        name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
+        var regexS = '[\\?&]' + name + '=([^&#]*)';
+        var regex = new RegExp(regexS, 'i');
 
         var results = regex.exec(url || getWindowLocationSearch());
         if (results == null) {
-            return "";
+            return '';
         } else {
-            return decodeURIComponent(results[1].replace(/\+/g, " "));
+            return decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
     }
 

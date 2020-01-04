@@ -251,18 +251,18 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
      */
     function onKeyDown(e) {
         switch (e.key) {
-            case 'ArrowLeft':
-            case 'Left':
-                stepKeyboard(this, -this.keyboardStepDown || -1);
-                e.preventDefault();
-                e.stopPropagation();
-                break;
-            case 'ArrowRight':
-            case 'Right':
-                stepKeyboard(this, this.keyboardStepUp || 1);
-                e.preventDefault();
-                e.stopPropagation();
-                break;
+        case 'ArrowLeft':
+        case 'Left':
+            stepKeyboard(this, -this.keyboardStepDown || -1);
+            e.preventDefault();
+            e.stopPropagation();
+            break;
+        case 'ArrowRight':
+        case 'Right':
+            stepKeyboard(this, this.keyboardStepUp || 1);
+            e.preventDefault();
+            e.stopPropagation();
+            break;
         }
     }
 

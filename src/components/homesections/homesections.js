@@ -3,22 +3,22 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
     function getDefaultSection(index) {
         switch (index) {
-            case 0:
-                return 'smalllibrarytiles';
-            case 1:
-                return 'resume';
-            case 2:
-                return 'resumeaudio';
-            case 3:
-                return 'livetv';
-            case 4:
-                return 'nextup';
-            case 5:
-                return 'latestmedia';
-            case 6:
-                return 'none';
-            default:
-                return '';
+        case 0:
+            return 'smalllibrarytiles';
+        case 1:
+            return 'resume';
+        case 2:
+            return 'resumeaudio';
+        case 3:
+            return 'livetv';
+        case 4:
+            return 'nextup';
+        case 5:
+            return 'latestmedia';
+        case 6:
+            return 'none';
+        default:
+            return '';
         }
     }
 
@@ -150,7 +150,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
     }
 
     function getLibraryButtonsHtml(items) {
-        var html = "";
+        var html = '';
 
         html += '<div class="verticalSection verticalSection-extrabottompadding">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
@@ -207,9 +207,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
             var options = {
                 Limit: limit,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
                 ImageTypeLimit: 1,
-                EnableImageTypes: "Primary,Backdrop,Thumb",
+                EnableImageTypes: 'Primary,Backdrop,Thumb',
                 ParentId: parentId
             };
 
@@ -364,9 +364,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             var options = {
                 Limit: limit,
                 Recursive: true,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
                 ImageTypeLimit: 1,
-                EnableImageTypes: "Primary,Backdrop,Thumb",
+                EnableImageTypes: 'Primary,Backdrop,Thumb',
                 EnableTotalRecordCount: false,
                 MediaTypes: 'Video'
             };
@@ -437,9 +437,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             var options = {
                 Limit: limit,
                 Recursive: true,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
                 ImageTypeLimit: 1,
-                EnableImageTypes: "Primary,Backdrop,Thumb",
+                EnableImageTypes: 'Primary,Backdrop,Thumb',
                 EnableTotalRecordCount: false,
                 MediaTypes: 'Audio'
             };
@@ -502,9 +502,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 IsAiring: true,
                 limit: 24,
                 ImageTypeLimit: 1,
-                EnableImageTypes: "Primary,Thumb,Backdrop",
+                EnableImageTypes: 'Primary,Thumb,Backdrop',
                 EnableTotalRecordCount: false,
-                Fields: "ChannelInfo,PrimaryImageAspectRatio"
+                Fields: 'ChannelInfo,PrimaryImageAspectRatio'
             });
         };
     }
@@ -543,9 +543,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             IsAiring: true,
             limit: 1,
             ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Thumb,Backdrop",
+            EnableImageTypes: 'Primary,Thumb,Backdrop',
             EnableTotalRecordCount: false,
-            Fields: "ChannelInfo,PrimaryImageAspectRatio"
+            Fields: 'ChannelInfo,PrimaryImageAspectRatio'
         }).then(function (result) {
             var html = '';
             if (result.Items.length) {
@@ -645,10 +645,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             var apiClient = connectionManager.getApiClient(serverId);
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
-                Fields: "PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo",
+                Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo',
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
-                EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
+                EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                 EnableTotalRecordCount: false
             });
         };
@@ -717,7 +717,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             return apiClient.getLiveTvRecordings({
                 userId: apiClient.getCurrentUserId(),
                 Limit: enableScrollX() ? 12 : 5,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
                 EnableTotalRecordCount: false,
                 IsLibraryItem: activeRecordingsOnly ? null : false,
                 IsInProgress: activeRecordingsOnly ? true : null

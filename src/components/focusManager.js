@@ -117,7 +117,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
             return false;
         }
 
-        if (elem.getAttribute('tabindex') === "-1") {
+        if (elem.getAttribute('tabindex') === '-1') {
             return false;
         }
 
@@ -314,44 +314,44 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
 
             switch (direction) {
 
-                case 0:
-                    // left
-                    if (elementRect.left >= rect.left) {
-                        continue;
-                    }
-                    if (elementRect.right === rect.right) {
-                        continue;
-                    }
-                    break;
-                case 1:
-                    // right
-                    if (elementRect.right <= rect.right) {
-                        continue;
-                    }
-                    if (elementRect.left === rect.left) {
-                        continue;
-                    }
-                    break;
-                case 2:
-                    // up
-                    if (elementRect.top >= rect.top) {
-                        continue;
-                    }
-                    if (elementRect.bottom >= rect.bottom) {
-                        continue;
-                    }
-                    break;
-                case 3:
-                    // down
-                    if (elementRect.bottom <= rect.bottom) {
-                        continue;
-                    }
-                    if (elementRect.top <= rect.top) {
-                        continue;
-                    }
-                    break;
-                default:
-                    break;
+            case 0:
+                // left
+                if (elementRect.left >= rect.left) {
+                    continue;
+                }
+                if (elementRect.right === rect.right) {
+                    continue;
+                }
+                break;
+            case 1:
+                // right
+                if (elementRect.right <= rect.right) {
+                    continue;
+                }
+                if (elementRect.left === rect.left) {
+                    continue;
+                }
+                break;
+            case 2:
+                // up
+                if (elementRect.top >= rect.top) {
+                    continue;
+                }
+                if (elementRect.bottom >= rect.bottom) {
+                    continue;
+                }
+                break;
+            case 3:
+                // down
+                if (elementRect.bottom <= rect.bottom) {
+                    continue;
+                }
+                if (elementRect.top <= rect.top) {
+                    continue;
+                }
+                break;
+            default:
+                break;
             }
 
             var x = elementRect.left;
@@ -370,28 +370,28 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
 
             switch (direction) {
 
-                case 0:
-                    // left
-                    distX = Math.abs(point1x - Math.min(point1x, x2));
-                    distY = intersectY ? 0 : Math.abs(sourceMidY - midY);
-                    break;
-                case 1:
-                    // right
-                    distX = Math.abs(point2x - Math.max(point2x, x));
-                    distY = intersectY ? 0 : Math.abs(sourceMidY - midY);
-                    break;
-                case 2:
-                    // up
-                    distY = Math.abs(point1y - Math.min(point1y, y2));
-                    distX = intersectX ? 0 : Math.abs(sourceMidX - midX);
-                    break;
-                case 3:
-                    // down
-                    distY = Math.abs(point2y - Math.max(point2y, y));
-                    distX = intersectX ? 0 : Math.abs(sourceMidX - midX);
-                    break;
-                default:
-                    break;
+            case 0:
+                // left
+                distX = Math.abs(point1x - Math.min(point1x, x2));
+                distY = intersectY ? 0 : Math.abs(sourceMidY - midY);
+                break;
+            case 1:
+                // right
+                distX = Math.abs(point2x - Math.max(point2x, x));
+                distY = intersectY ? 0 : Math.abs(sourceMidY - midY);
+                break;
+            case 2:
+                // up
+                distY = Math.abs(point1y - Math.min(point1y, y2));
+                distX = intersectX ? 0 : Math.abs(sourceMidX - midX);
+                break;
+            case 3:
+                // down
+                distY = Math.abs(point2y - Math.max(point2y, y));
+                distX = intersectX ? 0 : Math.abs(sourceMidX - midX);
+                break;
+            default:
+                break;
             }
 
             var dist = Math.sqrt(distX * distX + distY * distY);

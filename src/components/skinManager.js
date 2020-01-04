@@ -24,28 +24,28 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
     function getThemes() {
         return [{
-            name: "Apple TV",
-            id: "appletv"
+            name: 'Apple TV',
+            id: 'appletv'
         }, {
-            name: "Blue Radiance",
-            id: "blueradiance"
+            name: 'Blue Radiance',
+            id: 'blueradiance'
         }, {
-            name: "Dark",
-            id: "dark",
+            name: 'Dark',
+            id: 'dark',
             isDefault: true,
             isDefaultServerDashboard: true
         }, {
-            name: "Emby",
-            id: "emby"
+            name: 'Emby',
+            id: 'emby'
         }, {
-            name: "Light",
-            id: "light"
+            name: 'Light',
+            id: 'light'
         }, {
-            name: "Purple Haze",
-            id: "purple-haze"
+            name: 'Purple Haze',
+            id: 'purple-haze'
         }, {
-            name: "Windows Media Center",
-            id: "wmc"
+            name: 'Windows Media Center',
+            id: 'wmc'
         }];
     }
 
@@ -94,7 +94,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
     function onThemeLoaded() {
         document.documentElement.classList.remove('preload');
         try {
-            var color = getComputedStyle(document.querySelector('.skinHeader')).getPropertyValue("background-color");
+            var color = getComputedStyle(document.querySelector('.skinHeader')).getPropertyValue('background-color');
             if (color) {
                 appHost.setThemeColor(color);
             }

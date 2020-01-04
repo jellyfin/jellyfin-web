@@ -46,7 +46,7 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
 
     function triggerBeforeTabChange(tabs, index, previousIndex) {
 
-        tabs.dispatchEvent(new CustomEvent("beforetabchange", {
+        tabs.dispatchEvent(new CustomEvent('beforetabchange', {
             detail: {
                 selectedTabIndex: index,
                 previousIndex: previousIndex
@@ -94,7 +94,7 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
 
                 tabs.selectedTabIndex = index;
 
-                tabs.dispatchEvent(new CustomEvent("tabchange", {
+                tabs.dispatchEvent(new CustomEvent('tabchange', {
                     detail: {
                         selectedTabIndex: index,
                         previousIndex: previousIndex
@@ -198,7 +198,7 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
 
         if (!this.readyFired) {
             this.readyFired = true;
-            this.dispatchEvent(new CustomEvent("ready", {}));
+            this.dispatchEvent(new CustomEvent('ready', {}));
         }
     };
 
@@ -238,7 +238,7 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
 
             triggerBeforeTabChange(tabs, selected, current);
 
-            tabs.dispatchEvent(new CustomEvent("tabchange", {
+            tabs.dispatchEvent(new CustomEvent('tabchange', {
                 detail: {
                     selectedTabIndex: selected
                 }
@@ -315,7 +315,7 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
 
         var tabs = this;
 
-        tabs.dispatchEvent(new CustomEvent("tabchange", {
+        tabs.dispatchEvent(new CustomEvent('tabchange', {
             detail: {
                 selectedTabIndex: tabs.selectedIndex()
             }

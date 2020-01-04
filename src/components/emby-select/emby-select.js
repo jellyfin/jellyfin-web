@@ -27,8 +27,8 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
     }
 
     function triggerChange(select) {
-        var evt = document.createEvent("HTMLEvents");
-        evt.initEvent("change", false, true);
+        var evt = document.createEvent('HTMLEvents');
+        evt.initEvent('change', false, true);
         select.dispatchEvent(evt);
     }
 
@@ -88,22 +88,22 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
 
         switch (e.keyCode) {
 
-            case 13:
-                if (!enableNativeMenu()) {
-                    e.preventDefault();
-                    showActionSheet(this);
-                }
-                return;
-            case 37:
-            case 38:
-            case 39:
-            case 40:
-                if (layoutManager.tv) {
-                    e.preventDefault();
-                }
-                return;
-            default:
-                break;
+        case 13:
+            if (!enableNativeMenu()) {
+                e.preventDefault();
+                showActionSheet(this);
+            }
+            return;
+        case 37:
+        case 38:
+        case 39:
+        case 40:
+            if (layoutManager.tv) {
+                e.preventDefault();
+            }
+            return;
+        default:
+            break;
         }
     }
 

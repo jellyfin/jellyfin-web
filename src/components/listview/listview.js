@@ -73,7 +73,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
         var options = {
             width: width,
-            type: "Primary"
+            type: 'Primary'
         };
 
         if (item.ImageTags && item.ImageTags.Primary) {
@@ -106,7 +106,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
         var options = {
             width: width,
-            type: "Primary"
+            type: 'Primary'
         };
 
         if (item.ChannelId && item.ChannelPrimaryImageTag) {
@@ -219,7 +219,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
             }
 
-            var cssClass = "listItem";
+            var cssClass = 'listItem';
 
             if (options.border || (options.highlight !== false && !layoutManager.tv)) {
                 cssClass += ' listItem-border';
@@ -236,7 +236,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             var downloadWidth = 80;
 
             if (isLargeStyle) {
-                cssClass += " listItem-largeImage";
+                cssClass += ' listItem-largeImage';
                 downloadWidth = 500;
             }
 
@@ -356,7 +356,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             });
 
             if (options.showIndexNumber && item.IndexNumber != null) {
-                displayName = item.IndexNumber + ". " + displayName;
+                displayName = item.IndexNumber + '. ' + displayName;
             }
 
             if (options.showParentTitle && options.parentTitleWithTitle) {

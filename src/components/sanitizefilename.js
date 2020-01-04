@@ -18,8 +18,8 @@ define([], function () {
     }
 
     function getByteLength(string) {
-        if (typeof string !== "string") {
-            throw new Error("Input must be string");
+        if (typeof string !== 'string') {
+            throw new Error('Input must be string');
         }
 
         var charLength = string.length;
@@ -51,8 +51,8 @@ define([], function () {
     }
 
     function truncate(string, byteLength) {
-        if (typeof string !== "string") {
-            throw new Error("Input must be string");
+        if (typeof string !== 'string') {
+            throw new Error('Input must be string');
         }
 
         var charLength = string.length;

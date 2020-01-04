@@ -16,209 +16,209 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         function getPostersPerRow(shape, screenWidth, isOrientationLandscape) {
             switch (shape) {
-                case 'portrait':
-                    if (layoutManager.tv) {
-                        return 100 / 16.66666667;
-                    }
-                    if (screenWidth >= 2200) {
-                        return 100 / 10;
-                    }
-                    if (screenWidth >= 1920) {
-                        return 100 / 11.1111111111;
-                    }
-                    if (screenWidth >= 1600) {
-                        return 100 / 12.5;
-                    }
-                    if (screenWidth >= 1400) {
-                        return 100 / 14.28571428571;
-                    }
-                    if (screenWidth >= 1200) {
-                        return 100 / 16.66666667;
-                    }
-                    if (screenWidth >= 800) {
-                        return 5;
-                    }
-                    if (screenWidth >= 700) {
-                        return 4;
-                    }
-                    if (screenWidth >= 500) {
-                        return 100 / 33.33333333;
-                    }
-                    return 100 / 33.33333333;
-                case 'square':
-                    if (layoutManager.tv) {
-                        return 100 / 16.66666667;
-                    }
-                    if (screenWidth >= 2200) {
-                        return 100 / 10;
-                    }
-                    if (screenWidth >= 1920) {
-                        return 100 / 11.1111111111;
-                    }
-                    if (screenWidth >= 1600) {
-                        return 100 / 12.5;
-                    }
-                    if (screenWidth >= 1400) {
-                        return 100 / 14.28571428571;
-                    }
-                    if (screenWidth >= 1200) {
-                        return 100 / 16.66666667;
-                    }
-                    if (screenWidth >= 800) {
-                        return 5;
-                    }
-                    if (screenWidth >= 700) {
-                        return 4;
-                    }
-                    if (screenWidth >= 500) {
-                        return 100 / 33.33333333;
-                    }
-                    return 2;
-                case 'banner':
-                    if (screenWidth >= 2200) {
-                        return 100 / 25;
-                    }
-                    if (screenWidth >= 1200) {
-                        return 100 / 33.33333333;
-                    }
-                    if (screenWidth >= 800) {
-                        return 2;
-                    }
-                    return 1;
-                case 'backdrop':
-                    if (layoutManager.tv) {
-                        return 100 / 25;
-                    }
-                    if (screenWidth >= 2500) {
-                        return 6;
-                    }
-                    if (screenWidth >= 1600) {
-                        return 5;
-                    }
-                    if (screenWidth >= 1200) {
-                        return 4;
-                    }
-                    if (screenWidth >= 770) {
-                        return 3;
-                    }
-                    if (screenWidth >= 420) {
-                        return 2;
-                    }
-                    return 1;
-                case 'smallBackdrop':
-                    if (screenWidth >= 1600) {
-                        return 100 / 12.5;
-                    }
-                    if (screenWidth >= 1400) {
-                        return 100 / 14.2857142857;
-                    }
-                    if (screenWidth >= 1200) {
-                        return 100 / 16.666666666666666666;
-                    }
-                    if (screenWidth >= 1000) {
-                        return 5;
-                    }
-                    if (screenWidth >= 800) {
-                        return 4;
-                    }
-                    if (screenWidth >= 500) {
-                        return 100 / 33.33333333;
-                    }
-                    return 2;
-                case 'overflowSmallBackdrop':
-                    if (layoutManager.tv) {
-                        return 100 / 18.9;
-                    }
-                    if (isOrientationLandscape) {
-                        if (screenWidth >= 800) {
-                            return 100 / 15.5;
-                        }
-                        return 100 / 23.3;
-                    } else {
-                        if (screenWidth >= 540) {
-                            return 100 / 30;
-                        }
-                        return 100 / 72;
-                    }
-                    break;
-                case 'overflowPortrait':
-
-                    if (layoutManager.tv) {
-                        return 100 / 15.5;
-                    }
-                    if (isOrientationLandscape) {
-                        if (screenWidth >= 1700) {
-                            return 100 / 11.6;
-                        }
-                        return 100 / 15.5;
-                    } else {
-                        if (screenWidth >= 1400) {
-                            return 100 / 15;
-                        }
-                        if (screenWidth >= 1200) {
-                            return 100 / 18;
-                        }
-                        if (screenWidth >= 760) {
-                            return 100 / 23;
-                        }
-                        if (screenWidth >= 400) {
-                            return 100 / 31.5;
-                        }
-                        return 100 / 42;
-                    }
-                    break;
-                case 'overflowSquare':
-                    if (layoutManager.tv) {
-                        return 100 / 15.5;
-                    }
-                    if (isOrientationLandscape) {
-                        if (screenWidth >= 1700) {
-                            return 100 / 11.6;
-                        }
-                        return 100 / 15.5;
-                    } else {
-                        if (screenWidth >= 1400) {
-                            return 100 / 15;
-                        }
-                        if (screenWidth >= 1200) {
-                            return 100 / 18;
-                        }
-                        if (screenWidth >= 760) {
-                            return 100 / 23;
-                        }
-                        if (screenWidth >= 540) {
-                            return 100 / 31.5;
-                        }
-                        return 100 / 42;
-                    }
-                    break;
-                case 'overflowBackdrop':
-                    if (layoutManager.tv) {
-                        return 100 / 23.3;
-                    }
-                    if (isOrientationLandscape) {
-                        if (screenWidth >= 1700) {
-                            return 100 / 18.5;
-                        }
-                        return 100 / 23.3;
-                    } else {
-                        if (screenWidth >= 1800) {
-                            return 100 / 23.5;
-                        }
-                        if (screenWidth >= 1400) {
-                            return 100 / 30;
-                        }
-                        if (screenWidth >= 760) {
-                            return 100 / 40;
-                        }
-                        if (screenWidth >= 640) {
-                            return 100 / 56;
-                        }
-                        return 100 / 72;
-                    }
-                    break;
-                default:
+            case 'portrait':
+                if (layoutManager.tv) {
+                    return 100 / 16.66666667;
+                }
+                if (screenWidth >= 2200) {
+                    return 100 / 10;
+                }
+                if (screenWidth >= 1920) {
+                    return 100 / 11.1111111111;
+                }
+                if (screenWidth >= 1600) {
+                    return 100 / 12.5;
+                }
+                if (screenWidth >= 1400) {
+                    return 100 / 14.28571428571;
+                }
+                if (screenWidth >= 1200) {
+                    return 100 / 16.66666667;
+                }
+                if (screenWidth >= 800) {
+                    return 5;
+                }
+                if (screenWidth >= 700) {
                     return 4;
+                }
+                if (screenWidth >= 500) {
+                    return 100 / 33.33333333;
+                }
+                return 100 / 33.33333333;
+            case 'square':
+                if (layoutManager.tv) {
+                    return 100 / 16.66666667;
+                }
+                if (screenWidth >= 2200) {
+                    return 100 / 10;
+                }
+                if (screenWidth >= 1920) {
+                    return 100 / 11.1111111111;
+                }
+                if (screenWidth >= 1600) {
+                    return 100 / 12.5;
+                }
+                if (screenWidth >= 1400) {
+                    return 100 / 14.28571428571;
+                }
+                if (screenWidth >= 1200) {
+                    return 100 / 16.66666667;
+                }
+                if (screenWidth >= 800) {
+                    return 5;
+                }
+                if (screenWidth >= 700) {
+                    return 4;
+                }
+                if (screenWidth >= 500) {
+                    return 100 / 33.33333333;
+                }
+                return 2;
+            case 'banner':
+                if (screenWidth >= 2200) {
+                    return 100 / 25;
+                }
+                if (screenWidth >= 1200) {
+                    return 100 / 33.33333333;
+                }
+                if (screenWidth >= 800) {
+                    return 2;
+                }
+                return 1;
+            case 'backdrop':
+                if (layoutManager.tv) {
+                    return 100 / 25;
+                }
+                if (screenWidth >= 2500) {
+                    return 6;
+                }
+                if (screenWidth >= 1600) {
+                    return 5;
+                }
+                if (screenWidth >= 1200) {
+                    return 4;
+                }
+                if (screenWidth >= 770) {
+                    return 3;
+                }
+                if (screenWidth >= 420) {
+                    return 2;
+                }
+                return 1;
+            case 'smallBackdrop':
+                if (screenWidth >= 1600) {
+                    return 100 / 12.5;
+                }
+                if (screenWidth >= 1400) {
+                    return 100 / 14.2857142857;
+                }
+                if (screenWidth >= 1200) {
+                    return 100 / 16.666666666666666666;
+                }
+                if (screenWidth >= 1000) {
+                    return 5;
+                }
+                if (screenWidth >= 800) {
+                    return 4;
+                }
+                if (screenWidth >= 500) {
+                    return 100 / 33.33333333;
+                }
+                return 2;
+            case 'overflowSmallBackdrop':
+                if (layoutManager.tv) {
+                    return 100 / 18.9;
+                }
+                if (isOrientationLandscape) {
+                    if (screenWidth >= 800) {
+                        return 100 / 15.5;
+                    }
+                    return 100 / 23.3;
+                } else {
+                    if (screenWidth >= 540) {
+                        return 100 / 30;
+                    }
+                    return 100 / 72;
+                }
+                break;
+            case 'overflowPortrait':
+
+                if (layoutManager.tv) {
+                    return 100 / 15.5;
+                }
+                if (isOrientationLandscape) {
+                    if (screenWidth >= 1700) {
+                        return 100 / 11.6;
+                    }
+                    return 100 / 15.5;
+                } else {
+                    if (screenWidth >= 1400) {
+                        return 100 / 15;
+                    }
+                    if (screenWidth >= 1200) {
+                        return 100 / 18;
+                    }
+                    if (screenWidth >= 760) {
+                        return 100 / 23;
+                    }
+                    if (screenWidth >= 400) {
+                        return 100 / 31.5;
+                    }
+                    return 100 / 42;
+                }
+                break;
+            case 'overflowSquare':
+                if (layoutManager.tv) {
+                    return 100 / 15.5;
+                }
+                if (isOrientationLandscape) {
+                    if (screenWidth >= 1700) {
+                        return 100 / 11.6;
+                    }
+                    return 100 / 15.5;
+                } else {
+                    if (screenWidth >= 1400) {
+                        return 100 / 15;
+                    }
+                    if (screenWidth >= 1200) {
+                        return 100 / 18;
+                    }
+                    if (screenWidth >= 760) {
+                        return 100 / 23;
+                    }
+                    if (screenWidth >= 540) {
+                        return 100 / 31.5;
+                    }
+                    return 100 / 42;
+                }
+                break;
+            case 'overflowBackdrop':
+                if (layoutManager.tv) {
+                    return 100 / 23.3;
+                }
+                if (isOrientationLandscape) {
+                    if (screenWidth >= 1700) {
+                        return 100 / 18.5;
+                    }
+                    return 100 / 23.3;
+                } else {
+                    if (screenWidth >= 1800) {
+                        return 100 / 23.5;
+                    }
+                    if (screenWidth >= 1400) {
+                        return 100 / 30;
+                    }
+                    if (screenWidth >= 760) {
+                        return 100 / 40;
+                    }
+                    if (screenWidth >= 640) {
+                        return 100 / 56;
+                    }
+                    return 100 / 72;
+                }
+                break;
+            default:
+                return 4;
             }
         }
 
@@ -244,7 +244,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         function setCardData(items, options) {
 
-            options.shape = options.shape || "auto";
+            options.shape = options.shape || 'auto';
 
             var primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items);
 
@@ -466,56 +466,56 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     tag: item.ImageTags.Thumb
                 });
 
             } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Banner",
+                    type: 'Banner',
                     tag: item.ImageTags.Banner
                 });
 
             } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Disc",
+                    type: 'Disc',
                     tag: item.ImageTags.Disc
                 });
 
             } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Logo",
+                    type: 'Logo',
                     tag: item.ImageTags.Logo
                 });
 
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
-                    type: "Logo",
+                    type: 'Logo',
                     tag: item.ParentLogoImageTag
                 });
 
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     tag: item.SeriesThumbImageTag
                 });
 
             } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     tag: item.ParentThumbImageTag
                 });
 
             } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
                     tag: item.BackdropImageTags[0]
                 });
 
@@ -524,7 +524,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
                     tag: item.ParentBackdropImageTags[0]
                 });
 
@@ -533,7 +533,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Primary",
+                    type: 'Primary',
                     tag: item.ImageTags.Primary
                 });
 
@@ -553,7 +553,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.PrimaryImageItemId || item.Id || item.ItemId, {
-                    type: "Primary",
+                    type: 'Primary',
                     tag: item.PrimaryImageTag
                 });
 
@@ -570,13 +570,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             } else if (item.ParentPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
-                    type: "Primary",
+                    type: 'Primary',
                     tag: item.ParentPrimaryImageTag
                 });
             } else if (item.SeriesPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: "Primary",
+                    type: 'Primary',
                     tag: item.SeriesPrimaryImageTag
                 });
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
@@ -584,7 +584,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 width = primaryImageAspectRatio ? Math.round(height * primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.AlbumId, {
-                    type: "Primary",
+                    type: 'Primary',
                     tag: item.AlbumPrimaryImageTag
                 });
 
@@ -597,42 +597,42 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     tag: item.ImageTags.Thumb
                 });
 
             } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
                     tag: item.BackdropImageTags[0]
                 });
 
             } else if (item.ImageTags && item.ImageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     tag: item.ImageTags.Thumb
                 });
 
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     tag: item.SeriesThumbImageTag
                 });
 
             } else if (item.ParentThumbItemId && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     tag: item.ParentThumbImageTag
                 });
 
             } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
                     tag: item.ParentBackdropImageTags[0]
                 });
 
@@ -693,7 +693,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (text) {
                     html += "<div class='" + currentCssClass + "'>";
                     html += text;
-                    html += "</div>";
+                    html += '</div>';
                     valid++;
 
                     if (maxLines && valid >= maxLines) {
@@ -738,7 +738,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         airTimeText += ' - ' + datetime.getDisplayTime(date);
                     }
                 } catch (e) {
-                    console.log("Error parsing date: " + item.StartDate);
+                    console.log('Error parsing date: ' + item.StartDate);
                 }
             }
 
@@ -762,7 +762,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            var cssClass = options.centerText ? "cardText cardTextCentered" : "cardText";
+            var cssClass = options.centerText ? 'cardText cardTextCentered' : 'cardText';
             var serverId = item.ServerId || options.serverId;
 
             var lines = [];
@@ -796,7 +796,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             }
 
                         } else {
-                            var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || "";
+                            var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
 
                             if (parentTitle || showTitle) {
                                 lines.push(parentTitle);
@@ -835,7 +835,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         item.AlbumArtists[0].IsFolder = true;
                         lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
                     } else {
-                        lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || ""));
+                        lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || ''));
                     }
                 }
 
@@ -885,7 +885,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (options.showYear || options.showSeriesYear) {
 
                     if (item.Type === 'Series') {
-                        if (item.Status === "Continuing") {
+                        if (item.Status === 'Continuing') {
 
                             lines.push(globalize.translate('SeriesYearToPresent', item.ProductionYear || ''));
 
@@ -1001,7 +1001,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     html = '<div class="' + footerClass + '">' + html;
 
                     //cardFooter
-                    html += "</div>";
+                    html += '</div>';
                 }
             }
 
@@ -1077,7 +1077,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     counts.push(childText);
                 }
 
-            } else if (item.Type === 'MusicGenre' || options.context === "MusicArtist") {
+            } else if (item.Type === 'MusicGenre' || options.context === 'MusicArtist') {
 
                 if (item.AlbumCount) {
 
@@ -1202,7 +1202,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (options.cardClass) {
-                className += " " + options.cardClass;
+                className += ' ' + options.cardClass;
             }
 
             if (layoutManager.desktop) {
@@ -1254,13 +1254,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (options.showChannelLogo && item.ChannelPrimaryImageTag) {
                 logoUrl = apiClient.getScaledImageUrl(item.ChannelId, {
-                    type: "Primary",
+                    type: 'Primary',
                     height: logoHeight,
                     tag: item.ChannelPrimaryImageTag
                 });
             } else if (options.showLogo && item.ParentLogoImageTag) {
                 logoUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
-                    type: "Logo",
+                    type: 'Logo',
                     height: logoHeight,
                     tag: item.ParentLogoImageTag
                 });
@@ -1420,7 +1420,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var actionAttribute;
 
             if (tagName === 'button') {
-                className += " itemAction";
+                className += ' itemAction';
                 actionAttribute = ' data-action="' + action + '"';
             } else {
                 actionAttribute = '';

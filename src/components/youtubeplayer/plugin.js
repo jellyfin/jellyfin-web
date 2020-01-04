@@ -1,5 +1,5 @@
 define(['require', 'events', 'browser', 'appRouter', 'loading'], function (require, events, browser, appRouter, loading) {
-    "use strict";
+    'use strict';
 
     function zoomIn(elem, iterations) {
         var keyframes = [
@@ -181,7 +181,7 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
 
                 if (!window.YT) {
                     var tag = document.createElement('script');
-                    tag.src = "https://www.youtube.com/iframe_api";
+                    tag.src = 'https://www.youtube.com/iframe_api';
                     var firstScriptTag = document.getElementsByTagName('script')[0];
                     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
                 } else {

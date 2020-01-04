@@ -79,7 +79,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         instance.isUpdating = true;
 
         var apiClient = getCurrentApiClient(instance);
-        apiClient.sendMessage("SessionsStop");
+        apiClient.sendMessage('SessionsStop');
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
             instance.pollInterval = null;
@@ -158,7 +158,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         instance.isUpdating = true;
 
         var apiClient = getCurrentApiClient(instance);
-        apiClient.sendMessage("SessionsStart", "100,800");
+        apiClient.sendMessage('SessionsStart', '100,800');
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
             instance.pollInterval = null;

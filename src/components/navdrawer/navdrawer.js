@@ -1,12 +1,12 @@
-define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, dom) {
-    "use strict";
+define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function(browser, dom) {
+    'use strict';
     return function(options) {
         function getTouches(e) {
             return e.changedTouches || e.targetTouches || e.touches;
         }
 
         function onMenuTouchStart(e) {
-            options.target.classList.remove("transition");
+            options.target.classList.remove('transition');
             var touches = getTouches(e);
             var touch = touches[0] || {};
 
@@ -28,12 +28,12 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
             var endY = touch.clientY || 0;
             var deltaX = endX - (menuTouchStartX || 0);
             var deltaY = endY - (menuTouchStartY || 0);
-            setVelocity(deltaX), isOpen && 1 !== dragMode && deltaX > 0 && (dragMode = 2), 0 === dragMode && (!isOpen || Math.abs(deltaX) >= 10) && Math.abs(deltaY) < 5 ? (dragMode = 1, scrollContainer.addEventListener("scroll", disableEvent), self.showMask()) : 0 === dragMode && Math.abs(deltaY) >= 5 && (dragMode = 2), 1 === dragMode && (newPos = currentPos + deltaX, self.changeMenuPos())
+            setVelocity(deltaX), isOpen && 1 !== dragMode && deltaX > 0 && (dragMode = 2), 0 === dragMode && (!isOpen || Math.abs(deltaX) >= 10) && Math.abs(deltaY) < 5 ? (dragMode = 1, scrollContainer.addEventListener('scroll', disableEvent), self.showMask()) : 0 === dragMode && Math.abs(deltaY) >= 5 && (dragMode = 2), 1 === dragMode && (newPos = currentPos + deltaX, self.changeMenuPos())
         }
 
         function onMenuTouchEnd(e) {
-            options.target.classList.add("transition");
-            scrollContainer.removeEventListener("scroll", disableEvent);
+            options.target.classList.add('transition');
+            scrollContainer.removeEventListener('scroll', disableEvent);
             dragMode = 0;
 
             var touches = getTouches(e);
@@ -53,9 +53,9 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
             } else {
                 if (((getTouches(e)[0] || {}).clientX || 0) <= options.handleSize) {
                     isPeeking = true;
-                    if (e.type === "touchstart") {
-                        dom.removeEventListener(edgeContainer, "touchmove", onEdgeTouchMove, {});
-                        dom.addEventListener(edgeContainer, "touchmove", onEdgeTouchMove, {});
+                    if (e.type === 'touchstart') {
+                        dom.removeEventListener(edgeContainer, 'touchmove', onEdgeTouchMove, {});
+                        dom.addEventListener(edgeContainer, 'touchmove', onEdgeTouchMove, {});
                     }
                     onMenuTouchStart(e);
                 }
@@ -70,7 +70,7 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
         }
 
         function onEdgeTouchEnd(e) {
-            isPeeking && (isPeeking = !1, dom.removeEventListener(edgeContainer, "touchmove", onEdgeTouchMove, {}), onMenuTouchEnd(e))
+            isPeeking && (isPeeking = !1, dom.removeEventListener(edgeContainer, 'touchmove', onEdgeTouchMove, {}), onMenuTouchEnd(e))
         }
 
         function disableEvent(e) {
@@ -109,7 +109,7 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
 
         function onMaskTransitionEnd() {
             var classList = mask.classList;
-            classList.contains("backdrop") || classList.add("hide")
+            classList.contains('backdrop') || classList.add('hide')
         }
         var self;
         var defaults;
@@ -119,10 +119,10 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
         var startPoint = 0;
         var countStart = 0;
         var velocity = 0;
-        options.target.classList.add("transition");
+        options.target.classList.add('transition');
         var dragMode = 0;
-        var scrollContainer = options.target.querySelector(".mainDrawer-scrollContainer");
-        scrollContainer.classList.add("scrollY");
+        var scrollContainer = options.target.querySelector('.mainDrawer-scrollContainer');
+        scrollContainer.classList.add('scrollY');
         var TouchMenuLA = function() {
             self = this, defaults = {
                 width: 260,
@@ -132,72 +132,72 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, 
             }, this.isVisible = !1, this.initialize()
         };
         TouchMenuLA.prototype.initElements = function() {
-            options.target.classList.add("touch-menu-la"), options.target.style.width = options.width + "px", options.target.style.left = -options.width + "px", options.disableMask || (mask = document.createElement("div"), mask.className = "tmla-mask hide", document.body.appendChild(mask), dom.addEventListener(mask, dom.whichTransitionEvent(), onMaskTransitionEnd, {
+            options.target.classList.add('touch-menu-la'), options.target.style.width = options.width + 'px', options.target.style.left = -options.width + 'px', options.disableMask || (mask = document.createElement('div'), mask.className = 'tmla-mask hide', document.body.appendChild(mask), dom.addEventListener(mask, dom.whichTransitionEvent(), onMaskTransitionEnd, {
                 passive: !0
             }))
         };
         var menuTouchStartX;
         var menuTouchStartY;
         var menuTouchStartTime;
-        var edgeContainer = document.querySelector(".mainDrawerHandle");
+        var edgeContainer = document.querySelector('.mainDrawerHandle');
         var isPeeking = false;
         TouchMenuLA.prototype.animateToPosition = function(pos) {
             requestAnimationFrame(function() {
-                options.target.style.transform = pos ? "translateX(" + pos + "px)" : "none"
+                options.target.style.transform = pos ? 'translateX(' + pos + 'px)' : 'none'
             })
         }, TouchMenuLA.prototype.changeMenuPos = function() {
             newPos <= options.width && this.animateToPosition(newPos)
         }, TouchMenuLA.prototype.clickMaskClose = function() {
-            mask.addEventListener("click", function() {
+            mask.addEventListener('click', function() {
                 self.close()
             })
         }, TouchMenuLA.prototype.checkMenuState = function(deltaX, deltaY) {
             velocity >= 0.4 ? deltaX >= 0 || Math.abs(deltaY || 0) >= 70 ? self.open() : self.close() : newPos >= 100 ? self.open() : newPos && self.close()
         }, TouchMenuLA.prototype.open = function() {
-            this.animateToPosition(options.width), currentPos = options.width, this.isVisible = !0, options.target.classList.add("drawer-open"), self.showMask(), self.invoke(options.onChange)
+            this.animateToPosition(options.width), currentPos = options.width, this.isVisible = !0, options.target.classList.add('drawer-open'), self.showMask(), self.invoke(options.onChange)
         }, TouchMenuLA.prototype.close = function() {
-            this.animateToPosition(0), currentPos = 0, self.isVisible = !1, options.target.classList.remove("drawer-open"), self.hideMask(), self.invoke(options.onChange)
+            this.animateToPosition(0), currentPos = 0, self.isVisible = !1, options.target.classList.remove('drawer-open'), self.hideMask(), self.invoke(options.onChange)
         }, TouchMenuLA.prototype.toggle = function() {
             self.isVisible ? self.close() : self.open()
         };
         var backgroundTouchStartX;
         var backgroundTouchStartTime;
         TouchMenuLA.prototype.showMask = function() {
-            mask.classList.remove("hide"), mask.offsetWidth, mask.classList.add("backdrop")
+            mask.classList.remove('hide'), mask.offsetWidth, mask.classList.add('backdrop')
         }, TouchMenuLA.prototype.hideMask = function() {
-            mask.classList.remove("backdrop")
+            mask.classList.remove('backdrop')
         }, TouchMenuLA.prototype.invoke = function(fn) {
             fn && fn.apply(self)
         };
         var _edgeSwipeEnabled;
         return TouchMenuLA.prototype.setEdgeSwipeEnabled = function(enabled) {
-            options.disableEdgeSwipe || browser.touch && (enabled ? _edgeSwipeEnabled || (_edgeSwipeEnabled = !0, dom.addEventListener(edgeContainer, "touchstart", onEdgeTouchStart, {
+            options.disableEdgeSwipe || browser.touch && (enabled ? _edgeSwipeEnabled || (_edgeSwipeEnabled = !0, dom.addEventListener(edgeContainer, 'touchstart', onEdgeTouchStart, {
                 passive: !0
-            }), dom.addEventListener(edgeContainer, "touchend", onEdgeTouchEnd, {
+            }), dom.addEventListener(edgeContainer, 'touchend', onEdgeTouchEnd, {
                 passive: !0
-            }), dom.addEventListener(edgeContainer, "touchcancel", onEdgeTouchEnd, {
+            }), dom.addEventListener(edgeContainer, 'touchcancel', onEdgeTouchEnd, {
                 passive: !0
-            })) : _edgeSwipeEnabled && (_edgeSwipeEnabled = !1, dom.removeEventListener(edgeContainer, "touchstart", onEdgeTouchStart, {
+            })) : _edgeSwipeEnabled && (_edgeSwipeEnabled = !1, dom.removeEventListener(edgeContainer, 'touchstart', onEdgeTouchStart, {
                 passive: !0
-            }), dom.removeEventListener(edgeContainer, "touchend", onEdgeTouchEnd, {
+            }), dom.removeEventListener(edgeContainer, 'touchend', onEdgeTouchEnd, {
                 passive: !0
-            }), dom.removeEventListener(edgeContainer, "touchcancel", onEdgeTouchEnd, {
+            }), dom.removeEventListener(edgeContainer, 'touchcancel', onEdgeTouchEnd, {
                 passive: !0
             })))
         }, TouchMenuLA.prototype.initialize = function() {
-            options = Object.assign(defaults, options || {}), browser.edge && (options.disableEdgeSwipe = !0), self.initElements(), browser.touch && (dom.addEventListener(options.target, "touchstart", onMenuTouchStart, {
+            options = Object.assign(defaults, options || {}), browser.edge && (options.disableEdgeSwipe = !0), self.initElements(), browser.touch && (dom.addEventListener(options.target, 'touchstart', onMenuTouchStart, {
                 passive: !0
-            }), dom.addEventListener(options.target, "touchmove", onMenuTouchMove, {
+            }), dom.addEventListener(options.target, 'touchmove', onMenuTouchMove, {
                 passive: !0
-            }), dom.addEventListener(options.target, "touchend", onMenuTouchEnd, {
+            }), dom.addEventListener(options.target, 'touchend', onMenuTouchEnd, {
                 passive: !0
-            }), dom.addEventListener(options.target, "touchcancel", onMenuTouchEnd, {
+            }), dom.addEventListener(options.target, 'touchcancel', onMenuTouchEnd, {
                 passive: !0
-            }), dom.addEventListener(mask, "touchstart", onBackgroundTouchStart, {
+            }), dom.addEventListener(mask, 'touchstart', onBackgroundTouchStart, {
                 passive: !0
-            }), dom.addEventListener(mask, "touchmove", onBackgroundTouchMove, {}), dom.addEventListener(mask, "touchend", onBackgroundTouchEnd, {
+            }), dom.addEventListener(mask, 'touchmove', onBackgroundTouchMove, {}), dom.addEventListener(mask, 'touchend', onBackgroundTouchEnd, {
                 passive: !0
-            }), dom.addEventListener(mask, "touchcancel", onBackgroundTouchEnd, {
+            }), dom.addEventListener(mask, 'touchcancel', onBackgroundTouchEnd, {
                 passive: !0
             })), self.clickMaskClose()
         }, new TouchMenuLA

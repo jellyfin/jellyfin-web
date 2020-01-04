@@ -1,5 +1,5 @@
-define(["focusManager", "layoutManager"], function (focusManager, layoutManager) {
-    "use strict";
+define(['focusManager', 'layoutManager'], function (focusManager, layoutManager) {
+    'use strict';
 
     /**
      * Previously selected element.
@@ -21,11 +21,11 @@ define(["focusManager", "layoutManager"], function (focusManager, layoutManager)
             return;
         }
 
-        window.addEventListener("focusin", function (e) {
+        window.addEventListener('focusin', function (e) {
             activeElement = e.target;
         });
 
-        console.log("AutoFocuser enabled");
+        console.log('AutoFocuser enabled');
     }
 
     /**
@@ -49,21 +49,21 @@ define(["focusManager", "layoutManager"], function (focusManager, layoutManager)
 
         if (activeElement) {
             // These elements are recreated
-            if (activeElement.classList.contains("btnPreviousPage")) {
-                candidates.push(container.querySelector(".btnPreviousPage"));
-                candidates.push(container.querySelector(".btnNextPage"));
-            } else if (activeElement.classList.contains("btnNextPage")) {
-                candidates.push(container.querySelector(".btnNextPage"));
-                candidates.push(container.querySelector(".btnPreviousPage"));
-            } else if (activeElement.classList.contains("btnSelectView")) {
-                candidates.push(container.querySelector(".btnSelectView"));
+            if (activeElement.classList.contains('btnPreviousPage')) {
+                candidates.push(container.querySelector('.btnPreviousPage'));
+                candidates.push(container.querySelector('.btnNextPage'));
+            } else if (activeElement.classList.contains('btnNextPage')) {
+                candidates.push(container.querySelector('.btnNextPage'));
+                candidates.push(container.querySelector('.btnPreviousPage'));
+            } else if (activeElement.classList.contains('btnSelectView')) {
+                candidates.push(container.querySelector('.btnSelectView'));
             }
 
             candidates.push(activeElement);
         }
 
-        candidates = candidates.concat(arrayFrom(container.querySelectorAll(".btnResume")));
-        candidates = candidates.concat(arrayFrom(container.querySelectorAll(".btnPlay")));
+        candidates = candidates.concat(arrayFrom(container.querySelectorAll('.btnResume')));
+        candidates = candidates.concat(arrayFrom(container.querySelectorAll('.btnPlay')));
 
         var focusedElement;
 
@@ -79,7 +79,7 @@ define(["focusManager", "layoutManager"], function (focusManager, layoutManager)
 
         if (!focusedElement) {
             // FIXME: Multiple itemsContainers
-            var itemsContainer = container.querySelector(".itemsContainer");
+            var itemsContainer = container.querySelector('.itemsContainer');
 
             if (itemsContainer) {
                 focusedElement = focusManager.autoFocus(itemsContainer);

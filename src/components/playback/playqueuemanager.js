@@ -6,7 +6,7 @@ define([], function () {
 
         if (!item.PlaylistItemId) {
 
-            item.PlaylistItemId = "playlistItem" + currentId;
+            item.PlaylistItemId = 'playlistItem' + currentId;
             currentId++;
         }
     }
@@ -199,18 +199,18 @@ define([], function () {
 
         switch (this.getRepeatMode()) {
 
-            case 'RepeatOne':
-                newIndex = this.getCurrentPlaylistIndex();
-                break;
-            case 'RepeatAll':
-                newIndex = this.getCurrentPlaylistIndex() + 1;
-                if (newIndex >= playlistLength) {
-                    newIndex = 0;
-                }
-                break;
-            default:
-                newIndex = this.getCurrentPlaylistIndex() + 1;
-                break;
+        case 'RepeatOne':
+            newIndex = this.getCurrentPlaylistIndex();
+            break;
+        case 'RepeatAll':
+            newIndex = this.getCurrentPlaylistIndex() + 1;
+            if (newIndex >= playlistLength) {
+                newIndex = 0;
+            }
+            break;
+        default:
+            newIndex = this.getCurrentPlaylistIndex() + 1;
+            break;
         }
 
         if (newIndex < 0 || newIndex >= playlistLength) {

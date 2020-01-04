@@ -82,7 +82,7 @@ define(['events', 'dom', 'apphost', 'browser'], function (events, dom, appHost, 
     function isTargetValid(target) {
         return !dom.parentWithTag(target, ['BUTTON', 'INPUT', 'TEXTAREA']);
     }
-    if (appHost.supports("fullscreenchange") && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf("electron"))) {
+    if (appHost.supports('fullscreenchange') && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf('electron'))) {
 
         dom.addEventListener(window, 'dblclick', function (e) {
 

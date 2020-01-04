@@ -62,18 +62,18 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
 
         switch (deviceType) {
 
-            case 'smartphone':
-                return 'smartphone';
-            case 'tablet':
-                return 'tablet';
-            case 'tv':
-                return 'tv';
-            case 'cast':
-                return 'cast';
-            case 'desktop':
-                return 'computer';
-            default:
-                return 'tv';
+        case 'smartphone':
+            return 'smartphone';
+        case 'tablet':
+            return 'tablet';
+        case 'tv':
+            return 'tv';
+        case 'cast':
+            return 'cast';
+        case 'desktop':
+            return 'computer';
+        default:
+            return 'tv';
         }
     }
 
@@ -99,7 +99,7 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
                 var name = t.name;
 
                 if (t.appName && t.appName !== t.name) {
-                    name += " - " + t.appName;
+                    name += ' - ' + t.appName;
                 }
 
                 return {
@@ -178,15 +178,15 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
                 }).then(function (id) {
                     switch (id) {
 
-                        case 'yes':
-                            playbackManager.getCurrentPlayer().endSession();
-                            playbackManager.setDefaultPlayerActive();
-                            break;
-                        case 'no':
-                            playbackManager.setDefaultPlayerActive();
-                            break;
-                        default:
-                            break;
+                    case 'yes':
+                        playbackManager.getCurrentPlayer().endSession();
+                        playbackManager.setDefaultPlayerActive();
+                        break;
+                    case 'no':
+                        playbackManager.setDefaultPlayerActive();
+                        break;
+                    default:
+                        break;
                     }
                 });
 

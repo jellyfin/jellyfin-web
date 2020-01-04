@@ -4,7 +4,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
     function showQualityMenu(player, btn) {
 
         var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
-            return stream.Type === "Video";
+            return stream.Type === 'Video';
         })[0];
         var videoWidth = videoStream ? videoStream.Width : null;
 
@@ -87,7 +87,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         var currentMaxBitrate = playbackManager.getMaxStreamingBitrate(player);
 
         var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
-            return stream.Type === "Video";
+            return stream.Type === 'Video';
         })[0];
 
         var videoWidth = videoStream ? videoStream.Width : null;
@@ -237,24 +237,24 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
 
     function handleSelectedOption(id, options, player) {
         switch (id) {
-            case 'quality':
-                return showQualityMenu(player, options.positionTo);
-            case 'aspectratio':
-                return showAspectRatioMenu(player, options.positionTo);
-            case 'repeatmode':
-                return showRepeatModeMenu(player, options.positionTo);
-            case 'stats':
-                if (options.onOption) {
-                    options.onOption('stats');
-                }
-                return Promise.resolve();
-            case 'suboffset':
-                if (options.onOption) {
-                    options.onOption('suboffset');
-                }
-                return Promise.resolve();
-            default:
-                break;
+        case 'quality':
+            return showQualityMenu(player, options.positionTo);
+        case 'aspectratio':
+            return showAspectRatioMenu(player, options.positionTo);
+        case 'repeatmode':
+            return showRepeatModeMenu(player, options.positionTo);
+        case 'stats':
+            if (options.onOption) {
+                options.onOption('stats');
+            }
+            return Promise.resolve();
+        case 'suboffset':
+            if (options.onOption) {
+                options.onOption('suboffset');
+            }
+            return Promise.resolve();
+        default:
+            break;
         }
 
         return Promise.reject();

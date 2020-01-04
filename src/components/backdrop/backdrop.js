@@ -180,7 +180,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         if (item.BackdropImageTags && item.BackdropImageTags.length > 0) {
             return item.BackdropImageTags.map(function (imgTag, index) {
                 return apiClient.getScaledImageUrl(item.BackdropItemId || item.Id, Object.assign(imageOptions, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
                     tag: imgTag,
                     index: index
                 }));
@@ -190,7 +190,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
             return item.ParentBackdropImageTags.map(function (imgTag, index) {
                 return apiClient.getScaledImageUrl(item.ParentBackdropItemId, Object.assign(imageOptions, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
                     tag: imgTag,
                     index: index
                 }));

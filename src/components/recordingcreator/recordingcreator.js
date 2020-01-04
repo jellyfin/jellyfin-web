@@ -36,14 +36,14 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
         if (imageTags.Primary) {
 
             return apiClient.getScaledImageUrl(item.Id, {
-                type: "Primary",
+                type: 'Primary',
                 maxHeight: imageHeight,
                 tag: item.ImageTags.Primary
             });
         } else if (imageTags.Thumb) {
 
             return apiClient.getScaledImageUrl(item.Id, {
-                type: "Thumb",
+                type: 'Thumb',
                 maxHeight: imageHeight,
                 tag: item.ImageTags.Thumb
             });

@@ -10,7 +10,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         }
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (options.type === 'Primary') {
 
@@ -44,7 +44,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     function imageUrl(item, options) {
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
 

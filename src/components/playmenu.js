@@ -42,29 +42,29 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
         }).then(function (id) {
             switch (id) {
 
-                case 'play':
-                    playbackManager.play({
-                        ids: [playableItemId],
-                        serverId: serverId
-                    });
-                    break;
-                case 'resume':
-                    playbackManager.play({
-                        ids: [playableItemId],
-                        startPositionTicks: resumePositionTicks,
-                        serverId: serverId
-                    });
-                    break;
-                case 'queue':
-                    playbackManager.queue({
-                        items: [item]
-                    });
-                    break;
-                case 'shuffle':
-                    playbackManager.shuffle(item);
-                    break;
-                default:
-                    break;
+            case 'play':
+                playbackManager.play({
+                    ids: [playableItemId],
+                    serverId: serverId
+                });
+                break;
+            case 'resume':
+                playbackManager.play({
+                    ids: [playableItemId],
+                    startPositionTicks: resumePositionTicks,
+                    serverId: serverId
+                });
+                break;
+            case 'queue':
+                playbackManager.queue({
+                    items: [item]
+                });
+                break;
+            case 'shuffle':
+                playbackManager.shuffle(item);
+                break;
+            default:
+                break;
             }
         });
     }

@@ -228,7 +228,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             channelQuery.Limit = channelLimit;
             channelQuery.AddCurrentProgram = false;
             channelQuery.EnableUserData = false;
-            channelQuery.EnableImageTypes = "Primary";
+            channelQuery.EnableImageTypes = 'Primary';
 
             var categories = self.categoryOptions.categories || [];
             var displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
@@ -262,8 +262,8 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             }
 
             if (userSettings.get('livetv-channelorder') === 'DatePlayed') {
-                channelQuery.SortBy = "DatePlayed";
-                channelQuery.SortOrder = "Descending";
+                channelQuery.SortBy = 'DatePlayed';
+                channelQuery.SortOrder = 'Descending';
             } else {
                 channelQuery.SortBy = null;
                 channelQuery.SortOrder = null;
@@ -330,7 +330,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     ImageTypeLimit: 1,
                     EnableImages: false,
                     //EnableImageTypes: layoutManager.tv ? "Primary,Backdrop" : "Primary",
-                    SortBy: "StartDate",
+                    SortBy: 'StartDate',
                     EnableTotalRecordCount: false,
                     EnableUserData: false
                 };
@@ -503,7 +503,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 var endPercent = (renderEndMs - renderStartMs) / msPerDay;
                 endPercent *= 100;
 
-                var cssClass = "programCell itemAction";
+                var cssClass = 'programCell itemAction';
                 var accentCssClass = null;
                 var displayInnerContent = true;
 
@@ -526,11 +526,11 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 }
 
                 if (displayInnerContent && enableColorCodedBackgrounds && accentCssClass) {
-                    cssClass += " programCell-" + accentCssClass;
+                    cssClass += ' programCell-' + accentCssClass;
                 }
 
                 if (now >= startDateLocalMs && now < endDateLocalMs) {
-                    cssClass += " programCell-active";
+                    cssClass += ' programCell-active';
                 }
 
                 var timerAttributes = '';
@@ -546,7 +546,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 html += '<button' + isAttribute + ' data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-startdate="' + program.StartDate + '" data-enddate="' + program.EndDate + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
 
                 if (displayInnerContent) {
-                    var guideProgramNameClass = "guideProgramName";
+                    var guideProgramNameClass = 'guideProgramName';
 
                     html += '<div class="' + guideProgramNameClass + '">';
 
@@ -631,7 +631,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     var url = apiClient.getScaledImageUrl(channel.Id, {
                         maxHeight: 220,
                         tag: channel.ImageTags.Primary,
-                        type: "Primary"
+                        type: 'Primary'
                     });
 
                     html += '<div class="guideChannelImage lazy" data-src="' + url + '"></div>';
@@ -956,82 +956,82 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
             switch (e.detail.command) {
 
-                case 'up':
-                    if (programCell) {
-                        container = programGrid;
-                        channelPrograms = dom.parentWithClass(programCell, 'channelPrograms');
+            case 'up':
+                if (programCell) {
+                    container = programGrid;
+                    channelPrograms = dom.parentWithClass(programCell, 'channelPrograms');
 
-                        newRow = channelPrograms.previousSibling;
-                        if (newRow) {
-                            focusableElements = getChannelProgramsFocusableElements(newRow);
-                            if (focusableElements.length) {
-                                container = newRow;
-                            } else {
-                                focusableElements = null;
-                            }
+                    newRow = channelPrograms.previousSibling;
+                    if (newRow) {
+                        focusableElements = getChannelProgramsFocusableElements(newRow);
+                        if (focusableElements.length) {
+                            container = newRow;
                         } else {
-                            container = null;
+                            focusableElements = null;
                         }
                     } else {
                         container = null;
                     }
-                    lastFocusDirection = e.detail.command;
+                } else {
+                    container = null;
+                }
+                lastFocusDirection = e.detail.command;
 
-                    focusManager.moveUp(target, {
-                        container: container,
-                        focusableElements: focusableElements
-                    });
-                    break;
-                case 'down':
-                    if (programCell) {
-                        container = programGrid;
-                        channelPrograms = dom.parentWithClass(programCell, 'channelPrograms');
+                focusManager.moveUp(target, {
+                    container: container,
+                    focusableElements: focusableElements
+                });
+                break;
+            case 'down':
+                if (programCell) {
+                    container = programGrid;
+                    channelPrograms = dom.parentWithClass(programCell, 'channelPrograms');
 
-                        newRow = channelPrograms.nextSibling;
-                        if (newRow) {
-                            focusableElements = getChannelProgramsFocusableElements(newRow);
-                            if (focusableElements.length) {
-                                container = newRow;
-                            } else {
-                                focusableElements = null;
-                            }
+                    newRow = channelPrograms.nextSibling;
+                    if (newRow) {
+                        focusableElements = getChannelProgramsFocusableElements(newRow);
+                        if (focusableElements.length) {
+                            container = newRow;
                         } else {
-                            container = null;
+                            focusableElements = null;
                         }
                     } else {
                         container = null;
                     }
-                    lastFocusDirection = e.detail.command;
+                } else {
+                    container = null;
+                }
+                lastFocusDirection = e.detail.command;
 
-                    focusManager.moveDown(target, {
-                        container: container,
-                        focusableElements: focusableElements
-                    });
-                    break;
-                case 'left':
-                    container = programCell ? dom.parentWithClass(programCell, 'channelPrograms') : null;
-                    // allow left outside the channelProgramsContainer when the first child is currently focused
-                    if (container && !programCell.previousSibling) {
-                        container = null;
-                    }
-                    lastFocusDirection = e.detail.command;
+                focusManager.moveDown(target, {
+                    container: container,
+                    focusableElements: focusableElements
+                });
+                break;
+            case 'left':
+                container = programCell ? dom.parentWithClass(programCell, 'channelPrograms') : null;
+                // allow left outside the channelProgramsContainer when the first child is currently focused
+                if (container && !programCell.previousSibling) {
+                    container = null;
+                }
+                lastFocusDirection = e.detail.command;
 
-                    focusManager.moveLeft(target, {
-                        container: container
-                    });
-                    scrollX = true;
-                    break;
-                case 'right':
-                    container = programCell ? dom.parentWithClass(programCell, 'channelPrograms') : null;
-                    lastFocusDirection = e.detail.command;
+                focusManager.moveLeft(target, {
+                    container: container
+                });
+                scrollX = true;
+                break;
+            case 'right':
+                container = programCell ? dom.parentWithClass(programCell, 'channelPrograms') : null;
+                lastFocusDirection = e.detail.command;
 
-                    focusManager.moveRight(target, {
-                        container: container
-                    });
-                    scrollX = true;
-                    break;
-                default:
-                    return;
+                focusManager.moveRight(target, {
+                    container: container
+                });
+                scrollX = true;
+                break;
+            default:
+                return;
             }
 
             e.preventDefault();

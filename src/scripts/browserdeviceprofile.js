@@ -205,65 +205,65 @@ define(['browser'], function (browser) {
 
         switch (container) {
 
-            case 'asf':
-                supported = browser.tizen || browser.orsay || browser.edgeUwp;
-                videoAudioCodecs = [];
-                break;
-            case 'avi':
-                supported = browser.tizen || browser.orsay || browser.edgeUwp;
-                break;
-            case 'mpg':
-            case 'mpeg':
-                supported = browser.edgeUwp || browser.tizen || browser.orsay;
-                break;
-            case 'flv':
-                supported = browser.tizen || browser.orsay;
-                //if (!supported && window.MediaSource != null && window.MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E,mp4a.40.2"')) {
-                //    return getFlvMseDirectPlayProfile();
-                //}
-                break;
-            case '3gp':
-            case 'mts':
-            case 'trp':
-            case 'vob':
-            case 'vro':
-                supported = browser.tizen || browser.orsay;
-                break;
-            case 'mov':
-                supported = browser.tizen || browser.orsay || browser.chrome || browser.edgeUwp;
-                videoCodecs.push('h264');
-                break;
-            case 'm2ts':
-                supported = browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
-                videoCodecs.push('h264');
-                if (supportsVc1()) {
-                    videoCodecs.push('vc1');
-                }
-                if (supportsMpeg2Video()) {
-                    videoCodecs.push('mpeg2video');
-                }
-                break;
-            case 'wmv':
-                supported = browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
-                videoAudioCodecs = [];
-                break;
-            case 'ts':
-                supported = testCanPlayTs();
-                videoCodecs.push('h264');
-                if (canPlayH265(videoTestElement, options)) {
-                    videoCodecs.push('h265');
-                    videoCodecs.push('hevc');
-                }
-                if (supportsVc1()) {
-                    videoCodecs.push('vc1');
-                }
-                if (supportsMpeg2Video()) {
-                    videoCodecs.push('mpeg2video');
-                }
-                profileContainer = 'ts,mpegts';
-                break;
-            default:
-                break;
+        case 'asf':
+            supported = browser.tizen || browser.orsay || browser.edgeUwp;
+            videoAudioCodecs = [];
+            break;
+        case 'avi':
+            supported = browser.tizen || browser.orsay || browser.edgeUwp;
+            break;
+        case 'mpg':
+        case 'mpeg':
+            supported = browser.edgeUwp || browser.tizen || browser.orsay;
+            break;
+        case 'flv':
+            supported = browser.tizen || browser.orsay;
+            //if (!supported && window.MediaSource != null && window.MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E,mp4a.40.2"')) {
+            //    return getFlvMseDirectPlayProfile();
+            //}
+            break;
+        case '3gp':
+        case 'mts':
+        case 'trp':
+        case 'vob':
+        case 'vro':
+            supported = browser.tizen || browser.orsay;
+            break;
+        case 'mov':
+            supported = browser.tizen || browser.orsay || browser.chrome || browser.edgeUwp;
+            videoCodecs.push('h264');
+            break;
+        case 'm2ts':
+            supported = browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
+            videoCodecs.push('h264');
+            if (supportsVc1()) {
+                videoCodecs.push('vc1');
+            }
+            if (supportsMpeg2Video()) {
+                videoCodecs.push('mpeg2video');
+            }
+            break;
+        case 'wmv':
+            supported = browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
+            videoAudioCodecs = [];
+            break;
+        case 'ts':
+            supported = testCanPlayTs();
+            videoCodecs.push('h264');
+            if (canPlayH265(videoTestElement, options)) {
+                videoCodecs.push('h265');
+                videoCodecs.push('hevc');
+            }
+            if (supportsVc1()) {
+                videoCodecs.push('vc1');
+            }
+            if (supportsMpeg2Video()) {
+                videoCodecs.push('mpeg2video');
+            }
+            profileContainer = 'ts,mpegts';
+            break;
+        default:
+            break;
         }
 
         if (!supported) {
@@ -307,9 +307,9 @@ define(['browser'], function (browser) {
             try {
                 var isTizenUhd = webapis.productinfo.isUdPanelSupported();
                 isTizenFhd = !isTizenUhd;
-                console.log("isTizenFhd = " + isTizenFhd);
+                console.log('isTizenFhd = ' + isTizenFhd);
             } catch (error) {
-                console.log("isUdPanelSupported() error code = " + error.code);
+                console.log('isUdPanelSupported() error code = ' + error.code);
             }
         }
 

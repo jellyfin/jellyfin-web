@@ -20,7 +20,7 @@
 // #      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // #      THE SOFTWARE.
 require(['apphost'], function (appHost) {
-    "use strict";
+    'use strict';
 
     var _GAMEPAD_A_BUTTON_INDEX = 0;
     var _GAMEPAD_B_BUTTON_INDEX = 1;
@@ -28,16 +28,16 @@ require(['apphost'], function (appHost) {
     var _GAMEPAD_DPAD_DOWN_BUTTON_INDEX = 13;
     var _GAMEPAD_DPAD_LEFT_BUTTON_INDEX = 14;
     var _GAMEPAD_DPAD_RIGHT_BUTTON_INDEX = 15;
-    var _GAMEPAD_A_KEY = "GamepadA";
-    var _GAMEPAD_B_KEY = "GamepadB";
-    var _GAMEPAD_DPAD_UP_KEY = "GamepadDPadUp";
-    var _GAMEPAD_DPAD_DOWN_KEY = "GamepadDPadDown";
-    var _GAMEPAD_DPAD_LEFT_KEY = "GamepadDPadLeft";
-    var _GAMEPAD_DPAD_RIGHT_KEY = "GamepadDPadRight";
-    var _GAMEPAD_LEFT_THUMBSTICK_UP_KEY = "GamepadLeftThumbStickUp";
-    var _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY = "GamepadLeftThumbStickDown";
-    var _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY = "GamepadLeftThumbStickLeft";
-    var _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY = "GamepadLeftThumbStickRight";
+    var _GAMEPAD_A_KEY = 'GamepadA';
+    var _GAMEPAD_B_KEY = 'GamepadB';
+    var _GAMEPAD_DPAD_UP_KEY = 'GamepadDPadUp';
+    var _GAMEPAD_DPAD_DOWN_KEY = 'GamepadDPadDown';
+    var _GAMEPAD_DPAD_LEFT_KEY = 'GamepadDPadLeft';
+    var _GAMEPAD_DPAD_RIGHT_KEY = 'GamepadDPadRight';
+    var _GAMEPAD_LEFT_THUMBSTICK_UP_KEY = 'GamepadLeftThumbStickUp';
+    var _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY = 'GamepadLeftThumbStickDown';
+    var _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY = 'GamepadLeftThumbStickLeft';
+    var _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY = 'GamepadLeftThumbStickRight';
     var _GAMEPAD_A_KEYCODE = 0;
     var _GAMEPAD_B_KEYCODE = 27;
     var _GAMEPAD_DPAD_UP_KEYCODE = 38;
@@ -234,7 +234,7 @@ require(['apphost'], function (appHost) {
             }
 
             if (fire && keyCode) {
-                raiseEvent("keydown", key, keyCode);
+                raiseEvent('keydown', key, keyCode);
             }
 
         } else if (newPressedState === false && oldPressedState === true) {
@@ -243,7 +243,7 @@ require(['apphost'], function (appHost) {
 
             // button up
             if (keyCode) {
-                raiseEvent("keyup", key, keyCode);
+                raiseEvent('keyup', key, keyCode);
             }
             if (clickonKeyUp) {
                 clickElement(document.activeElement || window);
@@ -291,63 +291,63 @@ require(['apphost'], function (appHost) {
 
                         if (buttons[j].pressed) {
                             switch (j) {
-                                case _GAMEPAD_DPAD_UP_BUTTON_INDEX:
-                                    _ButtonPressedState.setdPadUp(true);
-                                    break;
-                                case _GAMEPAD_DPAD_DOWN_BUTTON_INDEX:
-                                    _ButtonPressedState.setdPadDown(true);
-                                    break;
-                                case _GAMEPAD_DPAD_LEFT_BUTTON_INDEX:
-                                    _ButtonPressedState.setdPadLeft(true);
-                                    break;
-                                case _GAMEPAD_DPAD_RIGHT_BUTTON_INDEX:
-                                    _ButtonPressedState.setdPadRight(true);
-                                    break;
-                                case _GAMEPAD_A_BUTTON_INDEX:
-                                    _ButtonPressedState.setgamepadA(true);
-                                    break;
-                                case _GAMEPAD_B_BUTTON_INDEX:
-                                    _ButtonPressedState.setgamepadB(true);
-                                    break;
-                                default:
-                                    // No-op
-                                    break;
+                            case _GAMEPAD_DPAD_UP_BUTTON_INDEX:
+                                _ButtonPressedState.setdPadUp(true);
+                                break;
+                            case _GAMEPAD_DPAD_DOWN_BUTTON_INDEX:
+                                _ButtonPressedState.setdPadDown(true);
+                                break;
+                            case _GAMEPAD_DPAD_LEFT_BUTTON_INDEX:
+                                _ButtonPressedState.setdPadLeft(true);
+                                break;
+                            case _GAMEPAD_DPAD_RIGHT_BUTTON_INDEX:
+                                _ButtonPressedState.setdPadRight(true);
+                                break;
+                            case _GAMEPAD_A_BUTTON_INDEX:
+                                _ButtonPressedState.setgamepadA(true);
+                                break;
+                            case _GAMEPAD_B_BUTTON_INDEX:
+                                _ButtonPressedState.setgamepadB(true);
+                                break;
+                            default:
+                                // No-op
+                                break;
                             }
                         } else {
                             switch (j) {
-                                case _GAMEPAD_DPAD_UP_BUTTON_INDEX:
-                                    if (_ButtonPressedState.getdPadUp()) {
-                                        _ButtonPressedState.setdPadUp(false);
-                                    }
-                                    break;
-                                case _GAMEPAD_DPAD_DOWN_BUTTON_INDEX:
-                                    if (_ButtonPressedState.getdPadDown()) {
-                                        _ButtonPressedState.setdPadDown(false);
-                                    }
-                                    break;
-                                case _GAMEPAD_DPAD_LEFT_BUTTON_INDEX:
-                                    if (_ButtonPressedState.getdPadLeft()) {
-                                        _ButtonPressedState.setdPadLeft(false);
-                                    }
-                                    break;
-                                case _GAMEPAD_DPAD_RIGHT_BUTTON_INDEX:
-                                    if (_ButtonPressedState.getdPadRight()) {
-                                        _ButtonPressedState.setdPadRight(false);
-                                    }
-                                    break;
-                                case _GAMEPAD_A_BUTTON_INDEX:
-                                    if (_ButtonPressedState.getgamepadA()) {
-                                        _ButtonPressedState.setgamepadA(false);
-                                    }
-                                    break;
-                                case _GAMEPAD_B_BUTTON_INDEX:
-                                    if (_ButtonPressedState.getgamepadB()) {
-                                        _ButtonPressedState.setgamepadB(false);
-                                    }
-                                    break;
-                                default:
-                                    // No-op
-                                    break;
+                            case _GAMEPAD_DPAD_UP_BUTTON_INDEX:
+                                if (_ButtonPressedState.getdPadUp()) {
+                                    _ButtonPressedState.setdPadUp(false);
+                                }
+                                break;
+                            case _GAMEPAD_DPAD_DOWN_BUTTON_INDEX:
+                                if (_ButtonPressedState.getdPadDown()) {
+                                    _ButtonPressedState.setdPadDown(false);
+                                }
+                                break;
+                            case _GAMEPAD_DPAD_LEFT_BUTTON_INDEX:
+                                if (_ButtonPressedState.getdPadLeft()) {
+                                    _ButtonPressedState.setdPadLeft(false);
+                                }
+                                break;
+                            case _GAMEPAD_DPAD_RIGHT_BUTTON_INDEX:
+                                if (_ButtonPressedState.getdPadRight()) {
+                                    _ButtonPressedState.setdPadRight(false);
+                                }
+                                break;
+                            case _GAMEPAD_A_BUTTON_INDEX:
+                                if (_ButtonPressedState.getgamepadA()) {
+                                    _ButtonPressedState.setgamepadA(false);
+                                }
+                                break;
+                            case _GAMEPAD_B_BUTTON_INDEX:
+                                if (_ButtonPressedState.getgamepadB()) {
+                                    _ButtonPressedState.setgamepadB(false);
+                                }
+                                break;
+                            default:
+                                // No-op
+                                break;
                             }
                         }
                     }
@@ -362,11 +362,11 @@ require(['apphost'], function (appHost) {
 
     // The gamepadInputEmulation is a string property that exists in JavaScript UWAs and in WebViews in UWAs.
     // It won't exist in Win8.1 style apps or browsers.
-    if (window.navigator && typeof window.navigator.gamepadInputEmulation === "string") {
+    if (window.navigator && typeof window.navigator.gamepadInputEmulation === 'string') {
         // We want the gamepad to provide gamepad VK keyboard events rather than moving a
         // mouse like cursor. Set to "keyboard", the gamepad will provide such keyboard events
         // and provide input to the DOM navigator.getGamepads API.
-        window.navigator.gamepadInputEmulation = "gamepad";
+        window.navigator.gamepadInputEmulation = 'gamepad';
     }
 
 });
