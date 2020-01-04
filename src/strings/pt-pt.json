@@ -1178,5 +1178,11 @@
     "MediaInfoProfile": "Perfil",
     "MediaInfoPixelFormat": "Formato de Píxeis",
     "MediaInfoPath": "Caminho",
-    "MediaInfoLevel": "Nível"
+    "MediaInfoLevel": "Nível",
+    "Banner": "Insígnia",
+    "Desktop": "Desktop",
+    "DetectingDevices": "Procurando dispositivos",
+    "CopyStreamURL": "Copiar URL da corrente",
+    "Disc": "Disco",
+    "EnableBackdrops": "Pano de fundo"
 }
