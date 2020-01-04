@@ -3,21 +3,23 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
 
     var serverNotifications = {};
 
-    function notifyApp() {
-
+    /**
+     *
+     */
+    function notifyApp () {
         inputManager.notify();
     }
 
-    function displayMessage(cmd) {
-
+    /**
+     * @param cmd
+     */
+    function displayMessage (cmd) {
         var args = cmd.Arguments;
 
         if (args.TimeoutMs) {
-
             require(['toast'], function (toast) {
                 toast({ title: args.Header, text: args.Text });
             });
-
         } else {
             require(['alert'], function (alert) {
                 alert({ title: args.Header, text: args.Text });
@@ -25,19 +27,31 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
         }
     }
 
-    function displayContent(cmd, apiClient) {
+    /**
+     * @param cmd
+     * @param apiClient
+     */
+    function displayContent (cmd, apiClient) {
         if (!playbackManager.isPlayingLocally(['Video', 'Book'])) {
             appRouter.showItem(cmd.Arguments.ItemId, apiClient.serverId());
         }
     }
 
-    function playTrailers(apiClient, itemId) {
+    /**
+     * @param apiClient
+     * @param itemId
+     */
+    function playTrailers (apiClient, itemId) {
         apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
             playbackManager.playTrailers(item);
         });
     }
 
-    function processGeneralCommand(cmd, apiClient) {
+    /**
+     * @param cmd
+     * @param apiClient
+     */
+    function processGeneralCommand (cmd, apiClient) {
         console.log('Received command: ' + cmd.Name);
         switch (cmd.Name) {
         case 'Select':
@@ -145,12 +159,14 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
         notifyApp();
     }
 
-    function onMessageReceived(e, msg) {
-
+    /**
+     * @param e
+     * @param msg
+     */
+    function onMessageReceived (e, msg) {
         var apiClient = this;
 
         if (msg.MessageType === 'Play') {
-
             notifyApp();
             var serverId = apiClient.serverInfo().Id;
 
@@ -169,9 +185,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                     serverId: serverId
                 });
             }
-
         } else if (msg.MessageType === 'Playstate') {
-
             if (msg.Data.Command === 'Stop') {
                 inputManager.trigger('stop');
             } else if (msg.Data.Command === 'Pause') {
@@ -193,28 +207,29 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
             var cmd = msg.Data;
             processGeneralCommand(cmd, apiClient);
         } else if (msg.MessageType === 'UserDataChanged') {
-
             if (msg.Data.UserId === apiClient.getCurrentUserId()) {
-
                 for (var i = 0, length = msg.Data.UserDataList.length; i < length; i++) {
                     events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
                 }
             }
         } else {
-
             events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
         }
-
     }
 
-    function bindEvents(apiClient) {
-
+    /**
+     * @param apiClient
+     */
+    function bindEvents (apiClient) {
         events.off(apiClient, 'message', onMessageReceived);
         events.on(apiClient, 'message', onMessageReceived);
     }
 
-    function enableNativeGamepadKeyMapping() {
-        if (window.navigator && 'string' == typeof window.navigator.gamepadInputEmulation) {
+    /**
+     *
+     */
+    function enableNativeGamepadKeyMapping () {
+        if (window.navigator && typeof window.navigator.gamepadInputEmulation === 'string') {
             window.navigator.gamepadInputEmulation = 'keyboard';
             return true;
         }
@@ -222,14 +237,16 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
         return false;
     }
 
-    function isGamepadSupported() {
+    /**
+     *
+     */
+    function isGamepadSupported () {
         return 'ongamepadconnected' in window || navigator.getGamepads || navigator.webkitGetGamepads;
     }
 
     connectionManager.getApiClients().forEach(bindEvents);
 
     events.on(connectionManager, 'apiclientcreated', function (e, newApiClient) {
-
         bindEvents(newApiClient);
     });
 

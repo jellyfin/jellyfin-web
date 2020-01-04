@@ -1,7 +1,11 @@
 define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globalize', 'loading', 'connectionManager', 'playMethodHelper', 'cardBuilder', 'imageLoader', 'components/activitylog', 'scripts/imagehelper', 'indicators', 'humanedate', 'listViewStyle', 'emby-button', 'flexStyles', 'emby-button', 'emby-itemscontainer'], function (datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper, indicators) {
     'use strict';
 
-    function showPlaybackInfo(btn, session) {
+    /**
+     * @param btn
+     * @param session
+     */
+    function showPlaybackInfo (btn, session) {
         require(['alert'], function (alert) {
             var title;
             var text = [];
@@ -32,7 +36,11 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         });
     }
 
-    function showSendMessageForm(btn, session) {
+    /**
+     * @param btn
+     * @param session
+     */
+    function showSendMessageForm (btn, session) {
         require(['prompt'], function (prompt) {
             prompt({
                 title: globalize.translate('HeaderSendMessage'),
@@ -49,7 +57,11 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         });
     }
 
-    function showOptionsMenu(btn, session) {
+    /**
+     * @param btn
+     * @param session
+     */
+    function showOptionsMenu (btn, session) {
         require(['actionsheet'], function (actionsheet) {
             var menuItems = [];
 
@@ -83,7 +95,10 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         });
     }
 
-    function onActiveDevicesClick(evt) {
+    /**
+     * @param evt
+     */
+    function onActiveDevicesClick (evt) {
         var btn = dom.parentWithClass(evt.target, 'sessionCardButton');
 
         if (btn) {
@@ -112,7 +127,10 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         }
     }
 
-    function filterSessions(sessions) {
+    /**
+     * @param sessions
+     */
+    function filterSessions (sessions) {
         var list = [];
         var minActiveDate = new Date().getTime() - 9e5;
 
@@ -131,7 +149,11 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         return list;
     }
 
-    function refreshActiveRecordings(view, apiClient) {
+    /**
+     * @param view
+     * @param apiClient
+     */
+    function refreshActiveRecordings (view, apiClient) {
         apiClient.getLiveTvRecordings({
             UserId: Dashboard.getCurrentUserId(),
             IsInProgress: true,
@@ -143,7 +165,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
 
             if (!result.Items.length) {
                 view.querySelector('.activeRecordingsSection').classList.add('hide');
-                return void(itemsContainer.innerHTML = '');
+                return void (itemsContainer.innerHTML = '');
             }
 
             view.querySelector('.activeRecordingsSection').classList.remove('hide');
@@ -166,7 +188,11 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         });
     }
 
-    function reloadSystemInfo(view, apiClient) {
+    /**
+     * @param view
+     * @param apiClient
+     */
+    function reloadSystemInfo (view, apiClient) {
         apiClient.getSystemInfo().then(function (systemInfo) {
             view.querySelector('#serverName').innerHTML = globalize.translate('DashboardServerName', systemInfo.ServerName);
             var localizedVersion = globalize.translate('DashboardVersionNumber', systemInfo.Version);
@@ -193,13 +219,23 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         });
     }
 
-    function renderInfo(view, sessions, forceUpdate) {
+    /**
+     * @param view
+     * @param sessions
+     * @param forceUpdate
+     */
+    function renderInfo (view, sessions, forceUpdate) {
         sessions = filterSessions(sessions);
         renderActiveConnections(view, sessions);
         loading.hide();
     }
 
-    function pollForInfo(view, apiClient, forceUpdate) {
+    /**
+     * @param view
+     * @param apiClient
+     * @param forceUpdate
+     */
+    function pollForInfo (view, apiClient, forceUpdate) {
         apiClient.getSessions({
             ActiveWithinSeconds: 960
         }).then(function (sessions) {
@@ -210,7 +246,11 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         });
     }
 
-    function renderActiveConnections(view, sessions) {
+    /**
+     * @param view
+     * @param sessions
+     */
+    function renderActiveConnections (view, sessions) {
         var html = '';
         DashboardPage.sessionsList = sessions;
         var parentElement = view.querySelector('.activeDevices');
@@ -307,7 +347,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><i class="md-icon">stop</i></button>';
                 btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('ViewPlaybackInfo') + '"><i class="md-icon">info</i></button>';
-                btnCssClass = session.ServerId && -1 !== session.SupportedCommands.indexOf('DisplayMessage') && session.DeviceId !== connectionManager.deviceId() ? '' : ' hide';
+                btnCssClass = session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== connectionManager.deviceId() ? '' : ' hide';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate('SendMessage') + '"><i class="md-icon">message</i></button>';
                 html += '</div>';
                 html += '<div class="sessionNowPlayingStreamInfo" style="padding:.5em 0 1em;">';
@@ -334,10 +374,14 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         }
     }
 
-    function renderRunningTasks(view, tasks) {
+    /**
+     * @param view
+     * @param tasks
+     */
+    function renderRunningTasks (view, tasks) {
         var html = '';
         tasks = tasks.filter(function (task) {
-            if ('Idle' != task.State) {
+            if (task.State != 'Idle') {
                 return !task.IsHidden;
             }
 
@@ -541,7 +585,7 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
                 row.classList.remove('playingSession');
             }
 
-            if (session.ServerId && -1 !== session.SupportedCommands.indexOf('DisplayMessage') && session.DeviceId !== connectionManager.deviceId()) {
+            if (session.ServerId && session.SupportedCommands.indexOf('DisplayMessage') !== -1 && session.DeviceId !== connectionManager.deviceId()) {
                 row.querySelector('.btnSessionSendMessage').classList.remove('hide');
             } else {
                 row.querySelector('.btnSessionSendMessage').classList.add('hide');
@@ -733,45 +777,75 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
         }
     };
     return function (view, params) {
-        function onRestartRequired(evt, apiClient) {
+        /**
+         * @param evt
+         * @param apiClient
+         */
+        function onRestartRequired (evt, apiClient) {
             if (apiClient.serverId() === serverId) {
                 renderHasPendingRestart(view, apiClient, true);
             }
         }
 
-        function onServerShuttingDown(evt, apiClient) {
+        /**
+         * @param evt
+         * @param apiClient
+         */
+        function onServerShuttingDown (evt, apiClient) {
             if (apiClient.serverId() === serverId) {
                 renderHasPendingRestart(view, apiClient, true);
             }
         }
 
-        function onServerRestarting(evt, apiClient) {
+        /**
+         * @param evt
+         * @param apiClient
+         */
+        function onServerRestarting (evt, apiClient) {
             if (apiClient.serverId() === serverId) {
                 renderHasPendingRestart(view, apiClient, true);
             }
         }
 
-        function onPackageInstalling(evt, apiClient) {
+        /**
+         * @param evt
+         * @param apiClient
+         */
+        function onPackageInstalling (evt, apiClient) {
             if (apiClient.serverId() === serverId) {
                 pollForInfo(view, apiClient, true);
                 reloadSystemInfo(view, apiClient);
             }
         }
 
-        function onPackageInstallationCompleted(evt, apiClient) {
+        /**
+         * @param evt
+         * @param apiClient
+         */
+        function onPackageInstallationCompleted (evt, apiClient) {
             if (apiClient.serverId() === serverId) {
                 pollForInfo(view, apiClient, true);
                 reloadSystemInfo(view, apiClient);
             }
         }
 
-        function onSessionsUpdate(evt, apiClient, info) {
+        /**
+         * @param evt
+         * @param apiClient
+         * @param info
+         */
+        function onSessionsUpdate (evt, apiClient, info) {
             if (apiClient.serverId() === serverId) {
                 renderInfo(view, info);
             }
         }
 
-        function onScheduledTasksUpdate(evt, apiClient, info) {
+        /**
+         * @param evt
+         * @param apiClient
+         * @param info
+         */
+        function onScheduledTasksUpdate (evt, apiClient, info) {
             if (apiClient.serverId() === serverId) {
                 renderRunningTasks(view, info);
             }

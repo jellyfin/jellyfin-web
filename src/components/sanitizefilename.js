@@ -9,15 +9,24 @@ define([], function () {
     var windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
     var windowsTrailingRe = /[\. ]+$/;
 
-    function isHighSurrogate(codePoint) {
+    /**
+     * @param codePoint
+     */
+    function isHighSurrogate (codePoint) {
         return codePoint >= 0xd800 && codePoint <= 0xdbff;
     }
 
-    function isLowSurrogate(codePoint) {
+    /**
+     * @param codePoint
+     */
+    function isLowSurrogate (codePoint) {
         return codePoint >= 0xdc00 && codePoint <= 0xdfff;
     }
 
-    function getByteLength(string) {
+    /**
+     * @param string
+     */
+    function getByteLength (string) {
         if (typeof string !== 'string') {
             throw new Error('Input must be string');
         }
@@ -50,7 +59,11 @@ define([], function () {
         return byteLength;
     }
 
-    function truncate(string, byteLength) {
+    /**
+     * @param string
+     * @param byteLength
+     */
+    function truncate (string, byteLength) {
         if (typeof string !== 'string') {
             throw new Error('Input must be string');
         }

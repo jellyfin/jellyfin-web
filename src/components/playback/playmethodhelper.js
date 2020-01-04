@@ -1,8 +1,10 @@
 define([], function () {
     'use strict';
 
-    function getDisplayPlayMethod(session) {
-
+    /**
+     * @param session
+     */
+    function getDisplayPlayMethod (session) {
         if (!session.NowPlayingItem) {
             return null;
         }

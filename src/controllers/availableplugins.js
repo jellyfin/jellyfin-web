@@ -1,7 +1,10 @@
 define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby-checkbox', 'emby-select'], function (loading, libraryMenu, globalize) {
     'use strict';
 
-    function reloadList(page) {
+    /**
+     * @param page
+     */
+    function reloadList (page) {
         loading.show();
         var promise1 = ApiClient.getAvailablePlugins();
         var promise2 = ApiClient.getInstalledPlugins();
@@ -15,22 +18,28 @@ define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby
         });
     }
 
-    function getHeaderText(category) {
+    /**
+     * @param category
+     */
+    function getHeaderText (category) {
         category = category.replace(' ', '');
-        if ('Channel' === category) {
+        if (category === 'Channel') {
             category = 'Channels';
-        } else if ('Theme' === category) {
+        } else if (category === 'Theme') {
             category = 'Themes';
-        } else if ('LiveTV' === category) {
+        } else if (category === 'LiveTV') {
             category = 'HeaderLiveTV';
-        } else if ('ScreenSaver' === category) {
+        } else if (category === 'ScreenSaver') {
             category = 'HeaderScreenSavers';
         }
 
         return globalize.translate(category);
     }
 
-    function populateList(options) {
+    /**
+     * @param options
+     */
+    function populateList (options) {
         var availablePlugins = options.availablePlugins;
         var installedPlugins = options.installedPlugins;
 
@@ -84,7 +93,12 @@ define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby
         loading.hide();
     }
 
-    function getPluginHtml(plugin, options, installedPlugins) {
+    /**
+     * @param plugin
+     * @param options
+     * @param installedPlugins
+     */
+    function getPluginHtml (plugin, options, installedPlugins) {
         var html = '';
         var href = plugin.externalUrl ? plugin.externalUrl : 'addplugin.html?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
 
@@ -123,7 +137,10 @@ define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby
         return html += '</div>';
     }
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             href: 'installedplugins.html',
             name: globalize.translate('TabMyPlugins')

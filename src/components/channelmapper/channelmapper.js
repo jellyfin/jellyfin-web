@@ -2,7 +2,11 @@ define(['dialogHelper', 'loading', 'connectionManager', 'globalize', 'actionshee
     'use strict';
 
     return function (options) {
-        function parentWithClass(elem, className) {
+        /**
+         * @param elem
+         * @param className
+         */
+        function parentWithClass (elem, className) {
             while (!elem.classList || !elem.classList.contains(className)) {
                 elem = elem.parentNode;
                 if (!elem) {
@@ -13,7 +17,12 @@ define(['dialogHelper', 'loading', 'connectionManager', 'globalize', 'actionshee
             return elem;
         }
 
-        function mapChannel(button, channelId, providerChannelId) {
+        /**
+         * @param button
+         * @param channelId
+         * @param providerChannelId
+         */
+        function mapChannel (button, channelId, providerChannelId) {
             loading.show();
             var providerId = options.providerId;
             connectionManager.getApiClient(options.serverId).ajax({
@@ -33,7 +42,10 @@ define(['dialogHelper', 'loading', 'connectionManager', 'globalize', 'actionshee
             });
         }
 
-        function onChannelsElementClick(e) {
+        /**
+         * @param e
+         */
+        function onChannelsElementClick (e) {
             var btnMap = parentWithClass(e.target, 'btnMap');
 
             if (btnMap) {
@@ -57,18 +69,30 @@ define(['dialogHelper', 'loading', 'connectionManager', 'globalize', 'actionshee
             }
         }
 
-        function getChannelMappingOptions(serverId, providerId) {
+        /**
+         * @param serverId
+         * @param providerId
+         */
+        function getChannelMappingOptions (serverId, providerId) {
             var apiClient = connectionManager.getApiClient(serverId);
             return apiClient.getJSON(apiClient.getUrl('LiveTv/ChannelMappingOptions', {
                 providerId: providerId
             }));
         }
 
-        function getMappingSecondaryName(mapping, providerName) {
+        /**
+         * @param mapping
+         * @param providerName
+         */
+        function getMappingSecondaryName (mapping, providerName) {
             return (mapping.ProviderChannelName || '') + ' - ' + providerName;
         }
 
-        function getTunerChannelHtml(channel, providerName) {
+        /**
+         * @param channel
+         * @param providerName
+         */
+        function getTunerChannelHtml (channel, providerName) {
             var html = '';
             html += '<div class="listItem">';
             html += '<i class="md-icon listItemIcon">dvr</i>';
@@ -88,7 +112,10 @@ define(['dialogHelper', 'loading', 'connectionManager', 'globalize', 'actionshee
             return html += '</div>';
         }
 
-        function getEditorHtml() {
+        /**
+         *
+         */
+        function getEditorHtml () {
             var html = '';
             html += '<div class="formDialogContent">';
             html += '<div class="dialogContentInner dialog-content-centered">';
@@ -101,7 +128,11 @@ define(['dialogHelper', 'loading', 'connectionManager', 'globalize', 'actionshee
             return html += '</div>';
         }
 
-        function initEditor(dlg, options) {
+        /**
+         * @param dlg
+         * @param options
+         */
+        function initEditor (dlg, options) {
             getChannelMappingOptions(options.serverId, options.providerId).then(function (result) {
                 currentMappingOptions = result;
                 var channelsElement = dlg.querySelector('.channels');

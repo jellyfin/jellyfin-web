@@ -9,14 +9,14 @@ define(['focusManager', 'layoutManager'], function (focusManager, layoutManager)
     /**
      * Returns true if AutoFocuser is enabled.
      */
-    function isEnabled() {
+    function isEnabled () {
         return layoutManager.tv;
     }
 
     /**
      * Start AutoFocuser
      */
-    function enable() {
+    function enable () {
         if (!isEnabled()) {
             return;
         }
@@ -30,6 +30,8 @@ define(['focusManager', 'layoutManager'], function (focusManager, layoutManager)
 
     /**
      * Create an array from some source.
+     *
+     * @param src
      */
     var arrayFrom = Array.prototype.from || function (src) {
         return Array.prototype.slice.call(src);
@@ -37,8 +39,10 @@ define(['focusManager', 'layoutManager'], function (focusManager, layoutManager)
 
     /**
      * Set focus on a suitable element, taking into account the previously selected.
+     *
+     * @param container
      */
-    function autoFocus(container) {
+    function autoFocus (container) {
         if (!isEnabled()) {
             return;
         }

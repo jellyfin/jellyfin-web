@@ -1,20 +1,26 @@
 define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 'inputManager', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'userSettings', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (require, dom, focusManager, dialogHelper, loading, appHost, inputManager, layoutManager, connectionManager, appRouter, globalize, userSettings) {
     'use strict';
 
-    function onSubmit(e) {
-
+    /**
+     * @param e
+     */
+    function onSubmit (e) {
         e.preventDefault();
         return false;
     }
 
-    function renderOptions(context, selector, cssClass, items, isCheckedFn) {
-
+    /**
+     * @param context
+     * @param selector
+     * @param cssClass
+     * @param items
+     * @param isCheckedFn
+     */
+    function renderOptions (context, selector, cssClass, items, isCheckedFn) {
         var elem = context.querySelector(selector);
 
         if (items.length) {
-
             elem.classList.remove('hide');
-
         } else {
             elem.classList.add('hide');
         }
@@ -22,7 +28,6 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         var html = '';
 
         html += items.map(function (filter) {
-
             var itemHtml = '';
 
             var checkedHtml = isCheckedFn(filter) ? ' checked' : '';
@@ -32,45 +37,50 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
             itemHtml += '</label>';
 
             return itemHtml;
-
         }).join('');
 
         elem.querySelector('.filterOptions').innerHTML = html;
     }
 
-    function renderDynamicFilters(context, result, options) {
-
+    /**
+     * @param context
+     * @param result
+     * @param options
+     */
+    function renderDynamicFilters (context, result, options) {
         // If there's a huge number of these they will be really show to render
-        //if (result.Tags) {
+        // if (result.Tags) {
         //    result.Tags.length = Math.min(result.Tags.length, 50);
-        //}
+        // }
 
         renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
-
             // Switching from | to ,
             var delimeter = (options.settings.GenreIds || '').indexOf('|') === -1 ? ',' : '|';
             return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
         });
 
-        //renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', result.OfficialRatings, function (i) {
+        // renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', result.OfficialRatings, function (i) {
         //    var delimeter = '|';
         //    return (delimeter + (query.OfficialRatings || '') + delimeter).indexOf(delimeter + i + delimeter) != -1;
-        //});
+        // });
 
-        //renderOptions(context, '.tagFilters', 'chkTagFilter', result.Tags, function (i) {
+        // renderOptions(context, '.tagFilters', 'chkTagFilter', result.Tags, function (i) {
         //    var delimeter = '|';
         //    return (delimeter + (query.Tags || '') + delimeter).indexOf(delimeter + i + delimeter) != -1;
-        //});
+        // });
 
-        //renderOptions(context, '.yearFilters', 'chkYearFilter', result.Years, function (i) {
+        // renderOptions(context, '.yearFilters', 'chkYearFilter', result.Years, function (i) {
 
         //    var delimeter = ',';
         //    return (delimeter + (query.Years || '') + delimeter).indexOf(delimeter + i + delimeter) != -1;
-        //});
+        // });
     }
 
-    function loadDynamicFilters(context, options) {
-
+    /**
+     * @param context
+     * @param options
+     */
+    function loadDynamicFilters (context, options) {
         var apiClient = connectionManager.getApiClient(options.serverId);
 
         var filterMenuOptions = Object.assign(options.filterMenuOptions, {
@@ -81,7 +91,6 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         });
 
         apiClient.getFilters(filterMenuOptions).then(function (result) {
-
             renderDynamicFilters(context, result, options);
         }, function () {
 
@@ -89,8 +98,11 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         });
     }
 
-    function initEditor(context, settings) {
-
+    /**
+     * @param context
+     * @param settings
+     */
+    function initEditor (context, settings) {
         context.querySelector('form').addEventListener('submit', onSubmit);
 
         var elems = context.querySelectorAll('.simpleFilter');
@@ -98,7 +110,6 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         var length;
 
         for (i = 0, length = elems.length; i < length; i++) {
-
             if (elems[i].tagName === 'INPUT') {
                 elems[i].checked = settings[elems[i].getAttribute('data-settingname')] || false;
             } else {
@@ -110,7 +121,6 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         elems = context.querySelectorAll('.chkVideoTypeFilter');
 
         for (i = 0, length = elems.length; i < length; i++) {
-
             elems[i].checked = videoTypes.indexOf(elems[i].getAttribute('data-filter')) !== -1;
         }
 
@@ -118,7 +128,6 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         elems = context.querySelectorAll('.chkSeriesStatus');
 
         for (i = 0, length = elems.length; i < length; i++) {
-
             elems[i].checked = seriesStatuses.indexOf(elems[i].getAttribute('data-filter')) !== -1;
         }
 
@@ -135,13 +144,16 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         }
     }
 
-    function saveValues(context, settings, settingsKey) {
-
+    /**
+     * @param context
+     * @param settings
+     * @param settingsKey
+     */
+    function saveValues (context, settings, settingsKey) {
         var elems = context.querySelectorAll('.simpleFilter');
         var i;
         var length;
         for (i = 0, length = elems.length; i < length; i++) {
-
             if (elems[i].tagName === 'INPUT') {
                 setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
             } else {
@@ -154,7 +166,6 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         elems = context.querySelectorAll('.chkVideoTypeFilter');
 
         for (i = 0, length = elems.length; i < length; i++) {
-
             if (elems[i].checked) {
                 videoTypes.push(elems[i].getAttribute('data-filter'));
             }
@@ -166,7 +177,6 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         elems = context.querySelectorAll('.chkSeriesStatus');
 
         for (i = 0, length = elems.length; i < length; i++) {
-
             if (elems[i].checked) {
                 seriesStatuses.push(elems[i].getAttribute('data-filter'));
             }
@@ -177,7 +187,6 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         elems = context.querySelectorAll('.chkGenreFilter');
 
         for (i = 0, length = elems.length; i < length; i++) {
-
             if (elems[i].checked) {
                 genres.push(elems[i].getAttribute('data-filter'));
             }
@@ -185,22 +194,34 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
     }
 
-    function setBasicFilter(context, key, elem) {
-
+    /**
+     * @param context
+     * @param key
+     * @param elem
+     */
+    function setBasicFilter (context, key, elem) {
         var value = elem.checked;
-        value = value ? value : null;
+        value = value || null;
         userSettings.setFilter(key, value);
     }
 
-    function centerFocus(elem, horiz, on) {
+    /**
+     * @param elem
+     * @param horiz
+     * @param on
+     */
+    function centerFocus (elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function moveCheckboxFocus(elem, offset) {
-
+    /**
+     * @param elem
+     * @param offset
+     */
+    function moveCheckboxFocus (elem, offset) {
         var parent = dom.parentWithClass(elem, 'checkboxList-verticalwrap');
         var elems = focusManager.getFocusableElements(parent);
 
@@ -223,9 +244,11 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         }
     }
 
-    function onInputCommand(e) {
+    /**
+     * @param e
+     */
+    function onInputCommand (e) {
         switch (e.detail.command) {
-
         case 'left':
             moveCheckboxFocus(e.target, -1);
             e.preventDefault();
@@ -239,12 +262,18 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
         }
     }
 
-    function FilterMenu() {
+    /**
+     *
+     */
+    function FilterMenu () {
 
     }
 
-    function bindCheckboxInput(context, on) {
-
+    /**
+     * @param context
+     * @param on
+     */
+    function bindCheckboxInput (context, on) {
         var elems = context.querySelectorAll('.checkboxList-verticalwrap');
         for (var i = 0, length = elems.length; i < length; i++) {
             if (on) {
@@ -256,11 +285,8 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
     }
 
     FilterMenu.prototype.show = function (options) {
-
         return new Promise(function (resolve, reject) {
-
             require(['text!./filtermenu.template.html'], function (template) {
-
                 var dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
@@ -303,7 +329,6 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
                 bindCheckboxInput(dlg, true);
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                     dialogHelper.close(dlg);
                 });
 
@@ -314,17 +339,14 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
                 var submitted;
 
                 dlg.querySelector('form').addEventListener('change', function () {
-
                     submitted = true;
-                    //if (options.onChange) {
+                    // if (options.onChange) {
                     //    saveValues(dlg, options.settings, options.settingsKey);
                     //    options.onChange();
-                    //}
-
+                    // }
                 }, true);
 
                 dialogHelper.open(dlg).then(function () {
-
                     bindCheckboxInput(dlg, false);
 
                     if (layoutManager.tv) {
@@ -332,11 +354,10 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
                     }
 
                     if (submitted) {
-
-                        //if (!options.onChange) {
+                        // if (!options.onChange) {
                         saveValues(dlg, options.settings, options.settingsKey);
                         resolve();
-                        //}
+                        // }
                         return;
                     }
 

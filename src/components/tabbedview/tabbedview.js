@@ -1,8 +1,10 @@
 define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (backdrop, mainTabsManager, layoutManager) {
     'use strict';
 
-    function onViewDestroy(e) {
-
+    /**
+     * @param e
+     */
+    function onViewDestroy (e) {
         var tabControllers = this.tabControllers;
 
         if (tabControllers) {
@@ -21,12 +23,18 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
         this.initialTabIndex = null;
     }
 
-    function onBeforeTabChange() {
+    /**
+     *
+     */
+    function onBeforeTabChange () {
 
     }
 
-    function TabbedView(view, params) {
-
+    /**
+     * @param view
+     * @param params
+     */
+    function TabbedView (view, params) {
         this.tabControllers = [];
         this.view = view;
         this.params = params;
@@ -36,16 +44,20 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
         var currentTabIndex = parseInt(params.tab || this.getDefaultTabIndex(params.parentId));
         this.initialTabIndex = currentTabIndex;
 
-        function validateTabLoad(index) {
-
+        /**
+         * @param index
+         */
+        function validateTabLoad (index) {
             return self.validateTabLoad ? self.validateTabLoad(index) : Promise.resolve();
         }
 
-        function loadTab(index, previousIndex) {
-
+        /**
+         * @param index
+         * @param previousIndex
+         */
+        function loadTab (index, previousIndex) {
             validateTabLoad(index).then(function () {
                 self.getTabController(index).then(function (controller) {
-
                     var refresh = !controller.refreshed;
 
                     controller.onResume({
@@ -61,11 +73,17 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
             });
         }
 
-        function getTabContainers() {
+        /**
+         *
+         */
+        function getTabContainers () {
             return view.querySelectorAll('.tabContent');
         }
 
-        function onTabChange(e) {
+        /**
+         * @param e
+         */
+        function onTabChange (e) {
             var newIndex = parseInt(e.detail.selectedTabIndex);
             var previousIndex = e.detail.previousIndex;
 
@@ -80,12 +98,10 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
         view.addEventListener('viewbeforehide', this.onPause.bind(this));
 
         view.addEventListener('viewbeforeshow', function (e) {
-
             mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, onBeforeTabChange, onTabChange, false);
         });
 
         view.addEventListener('viewshow', function (e) {
-
             self.onResume(e.detail);
         });
 
@@ -93,7 +109,6 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
     }
 
     TabbedView.prototype.onResume = function (options) {
-
         this.setTitle();
         backdrop.clear();
 
@@ -107,7 +122,6 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
     };
 
     TabbedView.prototype.onPause = function () {
-
         var currentTabController = this.currentTabController;
 
         if (currentTabController && currentTabController.onPause) {

@@ -7,22 +7,30 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
     var headerTabsContainer;
     var tabsElem;
 
-    function enableTabsInFooter() {
+    /**
+     *
+     */
+    function enableTabsInFooter () {
         return false;
     }
 
-    function getTabsContainerElem() {
+    /**
+     *
+     */
+    function getTabsContainerElem () {
     }
 
-    function ensureElements(enableInFooter) {
-
+    /**
+     * @param enableInFooter
+     */
+    function ensureElements (enableInFooter) {
         if (enableInFooter) {
             if (!footerTabsContainer) {
                 footerTabsContainer = document.createElement('div');
                 footerTabsContainer.classList.add('footerTabs');
                 footerTabsContainer.classList.add('sectionTabs');
                 footerTabsContainer.classList.add('hide');
-                //appFooter.add(footerTabsContainer);
+                // appFooter.add(footerTabsContainer);
             }
         }
 
@@ -31,15 +39,22 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
         }
     }
 
-    function onViewTabsReady() {
+    /**
+     *
+     */
+    function onViewTabsReady () {
         this.selectedIndex(this.readySelectedIndex);
         this.readySelectedIndex = null;
     }
 
-    function allowSwipe(target) {
-
-        function allowSwipeOn(elem) {
-
+    /**
+     * @param target
+     */
+    function allowSwipe (target) {
+        /**
+         * @param elem
+         */
+        function allowSwipeOn (elem) {
             if (dom.parentWithTag(elem, 'input')) {
                 return false;
             }
@@ -63,8 +78,12 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
         return true;
     }
 
-    function configureSwipeTabs(view, tabsElem, getTabContainersFn) {
-
+    /**
+     * @param view
+     * @param tabsElem
+     * @param getTabContainersFn
+     */
+    function configureSwipeTabs (view, tabsElem, getTabContainersFn) {
         if (!browser.touch) {
             return;
         }
@@ -84,7 +103,6 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
         };
 
         require(['touchHelper'], function (TouchHelper) {
-
             var touchHelper = new TouchHelper(view.parentNode.parentNode);
 
             events.on(touchHelper, 'swipeleft', onSwipeLeft);
@@ -96,13 +114,20 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
         });
     }
 
-    function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBeforeTabChange, onTabChange, setSelectedIndex) {
-
+    /**
+     * @param view
+     * @param selectedIndex
+     * @param getTabsFn
+     * @param getTabContainersFn
+     * @param onBeforeTabChange
+     * @param onTabChange
+     * @param setSelectedIndex
+     */
+    function setTabs (view, selectedIndex, getTabsFn, getTabContainersFn, onBeforeTabChange, onTabChange, setSelectedIndex) {
         var enableInFooter = enableTabsInFooter();
 
         if (!view) {
             if (tabOwnerView) {
-
                 if (!headerTabsContainer) {
                     headerTabsContainer = queryScope.querySelector('.headerTabs');
                 }
@@ -136,12 +161,10 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
         }
 
         if (tabOwnerView !== view) {
-
             var index = 0;
 
             var indexAttribute = selectedIndex == null ? '' : (' data-index="' + selectedIndex + '"');
             var tabsHtml = '<div is="emby-tabs"' + indexAttribute + ' class="tabs-viewmenubar"><div class="emby-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map(function (t) {
-
                 var tabClass = 'emby-tab-button';
 
                 if (t.enabled === false) {
@@ -162,7 +185,6 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
 
                 index++;
                 return tabHtml;
-
             }).join('') + '</div></div>';
 
             tabsContainerElem.innerHTML = tabsHtml;
@@ -175,10 +197,8 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
             configureSwipeTabs(view, tabsElem, getTabContainersFn);
 
             tabsElem.addEventListener('beforetabchange', function (e) {
-
                 var tabContainers = getTabContainersFn();
                 if (e.detail.previousIndex != null) {
-
                     var previousPanel = tabContainers[e.detail.previousIndex];
                     if (previousPanel) {
                         previousPanel.classList.remove('is-active');
@@ -187,11 +207,11 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
 
                 var newPanel = tabContainers[e.detail.selectedTabIndex];
 
-                //if (e.detail.previousIndex != null && e.detail.previousIndex != e.detail.selectedTabIndex) {
+                // if (e.detail.previousIndex != null && e.detail.previousIndex != e.detail.selectedTabIndex) {
                 //    if (newPanel.animate && (animateTabs || []).indexOf(e.detail.selectedTabIndex) != -1) {
                 //        fadeInRight(newPanel);
                 //    }
-                //}
+                // }
 
                 if (newPanel) {
                     newPanel.classList.add('is-active');
@@ -209,15 +229,14 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
                 if (tabsElem.selectedIndex) {
                     tabsElem.selectedIndex(selectedIndex);
                 } else {
-
                     tabsElem.readySelectedIndex = selectedIndex;
                     tabsElem.addEventListener('ready', onViewTabsReady);
                 }
             }
 
-            //if (enableSwipe !== false) {
+            // if (enableSwipe !== false) {
             //    libraryBrowser.configureSwipeTabs(ownerpage, tabs);
-            //}
+            // }
 
             return {
                 tabsContainer: tabsContainerElem,
@@ -240,8 +259,10 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
         };
     }
 
-    function selectedTabIndex(index) {
-
+    /**
+     * @param index
+     */
+    function selectedTabIndex (index) {
         var tabsContainerElem = headerTabsContainer;
 
         if (!tabsElem) {
@@ -255,7 +276,10 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
         }
     }
 
-    function getTabsElement() {
+    /**
+     *
+     */
+    function getTabsElement () {
         return document.querySelector('.tabs-viewmenubar');
     }
 

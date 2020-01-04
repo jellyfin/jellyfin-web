@@ -2,7 +2,11 @@ define(['focusManager', 'searchFields', 'searchResults', 'events'], function (fo
     'use strict';
 
     return function (view, params) {
-        function onSearch(e, value) {
+        /**
+         * @param e
+         * @param value
+         */
+        function onSearch (e, value) {
             self.searchResults.search(value);
         }
 

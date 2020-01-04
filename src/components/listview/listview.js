@@ -1,10 +1,12 @@
 define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'apphost', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, appHost) {
     'use strict';
 
-    function getIndex(item, options) {
-
+    /**
+     * @param item
+     * @param options
+     */
+    function getIndex (item, options) {
         if (options.index === 'disc') {
-
             return item.ParentIndexNumber == null ? '' : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
         }
 
@@ -13,7 +15,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         var name;
 
         if (sortBy.indexOf('sortname') === 0) {
-
             if (item.Type === 'Episode') {
                 return '';
             }
@@ -29,11 +30,9 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             return name.toUpperCase();
         }
         if (sortBy.indexOf('officialrating') === 0) {
-
             return item.OfficialRating || globalize.translate('Unrated');
         }
         if (sortBy.indexOf('communityrating') === 0) {
-
             if (item.CommunityRating == null) {
                 return globalize.translate('Unrated');
             }
@@ -41,7 +40,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             return Math.floor(item.CommunityRating);
         }
         if (sortBy.indexOf('criticrating') === 0) {
-
             if (item.CriticRating == null) {
                 return globalize.translate('Unrated');
             }
@@ -49,7 +47,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             return Math.floor(item.CriticRating);
         }
         if (sortBy.indexOf('albumartist') === 0) {
-
             // SortName
             if (!item.AlbumArtist) {
                 return '';
@@ -67,8 +64,11 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         return '';
     }
 
-    function getImageUrl(item, width) {
-
+    /**
+     * @param item
+     * @param width
+     */
+    function getImageUrl (item, width) {
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
         var options = {
@@ -77,22 +77,17 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         };
 
         if (item.ImageTags && item.ImageTags.Primary) {
-
             options.tag = item.ImageTags.Primary;
             return apiClient.getScaledImageUrl(item.Id, options);
         }
 
         if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
             options.tag = item.AlbumPrimaryImageTag;
             return apiClient.getScaledImageUrl(item.AlbumId, options);
         } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
-
             options.tag = item.SeriesPrimaryImageTag;
             return apiClient.getScaledImageUrl(item.SeriesId, options);
-
         } else if (item.ParentPrimaryImageTag) {
-
             options.tag = item.ParentPrimaryImageTag;
             return apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, options);
         }
@@ -100,8 +95,11 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         return null;
     }
 
-    function getChannelImageUrl(item, width) {
-
+    /**
+     * @param item
+     * @param width
+     */
+    function getChannelImageUrl (item, width) {
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
         var options = {
@@ -110,7 +108,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         };
 
         if (item.ChannelId && item.ChannelPrimaryImageTag) {
-
             options.tag = item.ChannelPrimaryImageTag;
             return apiClient.getScaledImageUrl(item.ChannelId, options);
         }
@@ -118,14 +115,16 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         return null;
     }
 
-    function getTextLinesHtml(textlines, isLargeStyle) {
-
+    /**
+     * @param textlines
+     * @param isLargeStyle
+     */
+    function getTextLinesHtml (textlines, isLargeStyle) {
         var html = '';
 
         var largeTitleTagName = layoutManager.tv ? 'h2' : 'div';
 
         for (var i = 0, length = textlines.length; i < length; i++) {
-
             var text = textlines[i];
 
             if (!text) {
@@ -152,12 +151,13 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         return html;
     }
 
-    function getRightButtonsHtml(options) {
-
+    /**
+     * @param options
+     */
+    function getRightButtonsHtml (options) {
         var html = '';
 
         for (var i = 0, length = options.rightButtons.length; i < length; i++) {
-
             var button = options.rightButtons[i];
 
             html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="custom" data-customaction="' + button.id + '" title="' + button.title + '"><i class="md-icon">' + button.icon + '</i></button>';
@@ -166,12 +166,17 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         return html;
     }
 
-    function getId(item) {
+    /**
+     * @param item
+     */
+    function getId (item) {
         return item.Id;
     }
 
-    function getListViewHtml(options) {
-
+    /**
+     * @param options
+     */
+    function getListViewHtml (options) {
         var items = options.items;
 
         var groupTitle = '';
@@ -180,7 +185,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         var isLargeStyle = options.imageSize === 'large';
         var enableOverview = options.enableOverview;
 
-        var clickEntireItem = layoutManager.tv ? true : false;
+        var clickEntireItem = !!layoutManager.tv;
         var outerTagName = clickEntireItem ? 'button' : 'div';
         var enableSideMediaInfo = options.enableSideMediaInfo != null ? options.enableSideMediaInfo : true;
 
@@ -190,17 +195,14 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         var containerAlbumArtistIds = (options.containerAlbumArtists || []).map(getId);
 
         for (var i = 0, length = items.length; i < length; i++) {
-
             var item = items[i];
 
             var html = '';
 
             if (options.showIndex) {
-
                 var itemGroupTitle = getIndex(item, options);
 
                 if (itemGroupTitle !== groupTitle) {
-
                     if (html) {
                         html += '</div>';
                     }
@@ -250,19 +252,17 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             var channelIdData = item.ChannelId ? (' data-channelid="' + item.ChannelId + '"') : '';
 
             if (enableContentWrapper) {
-
                 cssClass += ' listItem-withContentWrapper';
             }
 
             html += '<' + outerTagName + ' class="' + cssClass + '"' + playlistItemId + ' data-action="' + action + '" data-isfolder="' + item.IsFolder + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + '>';
 
             if (enableContentWrapper) {
-
                 html += '<div class="listItem-content">';
             }
 
             if (!clickEntireItem && options.dragHandle) {
-                //html += '<button is="paper-icon-button-light" class="listViewDragHandle listItemButton"><i class="md-icon">drag_handle</i></button>';
+                // html += '<button is="paper-icon-button-light" class="listViewDragHandle listItemButton"><i class="md-icon">drag_handle</i></button>';
                 // Firefox and Edge are not allowing the button to be draggable
                 html += '<i class="listViewDragHandle md-icon listItemIcon listItemIcon-transparent">drag_handle</i>';
             }
@@ -312,7 +312,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
 
             if (options.showIndexNumberLeft) {
-
                 html += '<div class="listItem-indexnumberleft">';
                 html += (item.IndexNumber || '&nbsp;');
                 html += '</div>';
@@ -360,9 +359,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
 
             if (options.showParentTitle && options.parentTitleWithTitle) {
-
                 if (displayName) {
-
                     if (parentTitle) {
                         parentTitle += ' - ';
                     }
@@ -380,18 +377,15 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             if (item.IsFolder) {
                 if (options.artist !== false) {
-
                     if (item.AlbumArtist && item.Type === 'MusicAlbum') {
                         textlines.push(item.AlbumArtist);
                     }
                 }
             } else {
-
                 var showArtist = options.artist === true;
                 var artistItems = item.ArtistItems;
 
                 if (!showArtist && options.artist !== false) {
-
                     if (!artistItems || !artistItems.length) {
                         showArtist = true;
                     } else if (artistItems.length > 1 || containerAlbumArtistIds.indexOf(artistItems[0].Id) === -1) {
@@ -400,7 +394,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
 
                 if (showArtist) {
-
                     if (artistItems && item.Type !== 'MusicAlbum') {
                         textlines.push(artistItems.map(function (a) {
                             return a.Name;
@@ -410,7 +403,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
 
             if (item.Type === 'TvChannel') {
-
                 if (item.CurrentProgram) {
                     textlines.push(itemHelper.getDisplayName(item.CurrentProgram));
                 }
@@ -433,7 +425,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             if (options.mediaInfo !== false) {
                 if (!enableSideMediaInfo) {
-
                     var mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';
 
                     html += '<div class="' + mediaInfoClass + '">' + mediaInfo.getPrimaryMediaInfoHtml(item, {
@@ -472,7 +463,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
 
             if (!clickEntireItem) {
-
                 if (options.addToListButton) {
                     html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><i class="md-icon">playlist_add</i></button>';
                 }
@@ -490,7 +480,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
 
                 if (options.enableUserDataButtons !== false) {
-
                     html += '<span class="listViewUserDataButtons flex align-items-center">';
 
                     var userData = item.UserData || {};

@@ -1,7 +1,12 @@
 define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings', 'connectionManager', 'loading', 'focusManager', 'dom', 'apphost', 'emby-select', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'emby-button', 'flexStyles'], function (dialogHelper, require, layoutManager, globalize, userSettings, connectionManager, loading, focusManager, dom, appHost) {
     'use strict';
 
-    function setMediaInfo(user, page, item) {
+    /**
+     * @param user
+     * @param page
+     * @param item
+     */
+    function setMediaInfo (user, page, item) {
         var html = item.MediaSources.map(function (version) {
             return getMediaSourceHtml(user, item, version);
         }).join('<div style="border-top:1px solid #444;margin: 1em 0;"></div>');
@@ -12,7 +17,12 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         mediaInfoContent.innerHTML = html;
     }
 
-    function getMediaSourceHtml(user, item, version) {
+    /**
+     * @param user
+     * @param item
+     * @param version
+     */
+    function getMediaSourceHtml (user, item, version) {
         var html = '';
         if (version.Name) {
             html += '<div><h2 class="mediaInfoStreamType">' + version.Name + '</h2></div>';
@@ -115,11 +125,20 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         return html;
     }
 
-    function createAttribute(label, value) {
+    /**
+     * @param label
+     * @param value
+     */
+    function createAttribute (label, value) {
         return '<span class="mediaInfoLabel">' + label + '</span><span class="mediaInfoAttribute">' + value + '</span>'
     }
 
-    function showMediaInfoMore(itemId, serverId, template) {
+    /**
+     * @param itemId
+     * @param serverId
+     * @param template
+     */
+    function showMediaInfoMore (itemId, serverId, template) {
         var apiClient = connectionManager.getApiClient(serverId);
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
             var dialogOptions = {
@@ -149,7 +168,11 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         });
     }
 
-    function showMediaInfo(itemId, serverId) {
+    /**
+     * @param itemId
+     * @param serverId
+     */
+    function showMediaInfo (itemId, serverId) {
         loading.show();
         return new Promise(function (resolve, reject) {
             require(['text!./itemMediaInfo.template.html'], function (template) {

@@ -1,7 +1,12 @@
 define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'paper-icon-button-light', 'emby-button', 'css!./recordingfields', 'flexStyles'], function (globalize, connectionManager, serverNotifications, require, loading, appHost, dom, recordingHelper, events) {
     'use strict';
 
-    function loadData(parent, program, apiClient) {
+    /**
+     * @param parent
+     * @param program
+     * @param apiClient
+     */
+    function loadData (parent, program, apiClient) {
         if (program.IsSeries) {
             parent.querySelector('.recordSeriesContainer').classList.remove('hide');
         } else {
@@ -33,8 +38,10 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         }
     }
 
-    function fetchData(instance) {
-
+    /**
+     * @param instance
+     */
+    function fetchData (instance) {
         var options = instance.options;
         var apiClient = connectionManager.getApiClient(options.serverId);
 
@@ -47,7 +54,12 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         });
     }
 
-    function onTimerChangedExternally(e, apiClient, data) {
+    /**
+     * @param e
+     * @param apiClient
+     * @param data
+     */
+    function onTimerChangedExternally (e, apiClient, data) {
         var options = this.options;
         var refresh = false;
 
@@ -67,7 +79,12 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         }
     }
 
-    function onSeriesTimerChangedExternally(e, apiClient, data) {
+    /**
+     * @param e
+     * @param apiClient
+     * @param data
+     */
+    function onSeriesTimerChangedExternally (e, apiClient, data) {
         var options = this.options;
         var refresh = false;
 
@@ -87,7 +104,10 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         }
     }
 
-    function RecordingEditor(options) {
+    /**
+     * @param options
+     */
+    function RecordingEditor (options) {
         this.options = options;
         this.embed();
 
@@ -104,7 +124,10 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         events.on(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
     }
 
-    function onManageRecordingClick(e) {
+    /**
+     * @param e
+     */
+    function onManageRecordingClick (e) {
         var options = this.options;
         if (!this.TimerId || this.Status === 'Cancelled') {
             return;
@@ -120,8 +143,10 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         });
     }
 
-    function onManageSeriesRecordingClick(e) {
-
+    /**
+     * @param e
+     */
+    function onManageSeriesRecordingClick (e) {
         var options = this.options;
 
         if (!this.SeriesTimerId) {
@@ -131,7 +156,6 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         var self = this;
 
         require(['seriesRecordingEditor'], function (seriesRecordingEditor) {
-
             seriesRecordingEditor.show(self.SeriesTimerId, options.serverId, {
 
                 enableCancel: false
@@ -142,8 +166,10 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         });
     }
 
-    function onRecordChange(e) {
-
+    /**
+     * @param e
+     */
+    function onRecordChange (e) {
         this.changed = true;
 
         var self = this;
@@ -176,14 +202,19 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         }
     }
 
-    function sendToast(msg) {
+    /**
+     * @param msg
+     */
+    function sendToast (msg) {
         require(['toast'], function (toast) {
             toast(msg);
         });
     }
 
-    function onRecordSeriesChange(e) {
-
+    /**
+     * @param e
+     */
+    function onRecordSeriesChange (e) {
         this.changed = true;
 
         var self = this;
@@ -196,9 +227,9 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         if (isChecked) {
             options.parent.querySelector('.recordSeriesContainer').classList.remove('hide');
             if (!this.SeriesTimerId) {
-                var promise = this.TimerId ?
-                    recordingHelper.changeRecordingToSeries(apiClient, this.TimerId, options.programId) :
-                    recordingHelper.createRecording(apiClient, options.programId, true);
+                var promise = this.TimerId
+                    ? recordingHelper.changeRecordingToSeries(apiClient, this.TimerId, options.programId)
+                    : recordingHelper.createRecording(apiClient, options.programId, true);
                 promise.then(function () {
                     fetchData(self);
                 });

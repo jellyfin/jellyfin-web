@@ -1,26 +1,38 @@
-define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function(browser, dom) {
+define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function (browser, dom) {
     'use strict';
-    return function(options) {
-        function getTouches(e) {
+    return function (options) {
+        /**
+         * @param e
+         */
+        function getTouches (e) {
             return e.changedTouches || e.targetTouches || e.touches;
         }
 
-        function onMenuTouchStart(e) {
+        /**
+         * @param e
+         */
+        function onMenuTouchStart (e) {
             options.target.classList.remove('transition');
             var touches = getTouches(e);
             var touch = touches[0] || {};
 
             menuTouchStartX = touch.clientX;
             menuTouchStartY = touch.clientY;
-            menuTouchStartTime = (new Date).getTime();
+            menuTouchStartTime = (new Date()).getTime();
         }
 
-        function setVelocity(deltaX) {
-            var time = (new Date).getTime() - (menuTouchStartTime || 0);
+        /**
+         * @param deltaX
+         */
+        function setVelocity (deltaX) {
+            var time = (new Date()).getTime() - (menuTouchStartTime || 0);
             velocity = Math.abs(deltaX) / time;
         }
 
-        function onMenuTouchMove(e) {
+        /**
+         * @param e
+         */
+        function onMenuTouchMove (e) {
             var isOpen = self.visible;
             var touches = getTouches(e);
             var touch = touches[0] || {};
@@ -28,10 +40,13 @@ define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function(browser, 
             var endY = touch.clientY || 0;
             var deltaX = endX - (menuTouchStartX || 0);
             var deltaY = endY - (menuTouchStartY || 0);
-            setVelocity(deltaX), isOpen && 1 !== dragMode && deltaX > 0 && (dragMode = 2), 0 === dragMode && (!isOpen || Math.abs(deltaX) >= 10) && Math.abs(deltaY) < 5 ? (dragMode = 1, scrollContainer.addEventListener('scroll', disableEvent), self.showMask()) : 0 === dragMode && Math.abs(deltaY) >= 5 && (dragMode = 2), 1 === dragMode && (newPos = currentPos + deltaX, self.changeMenuPos())
+            setVelocity(deltaX), isOpen && dragMode !== 1 && deltaX > 0 && (dragMode = 2), dragMode === 0 && (!isOpen || Math.abs(deltaX) >= 10) && Math.abs(deltaY) < 5 ? (dragMode = 1, scrollContainer.addEventListener('scroll', disableEvent), self.showMask()) : dragMode === 0 && Math.abs(deltaY) >= 5 && (dragMode = 2), dragMode === 1 && (newPos = currentPos + deltaX, self.changeMenuPos())
         }
 
-        function onMenuTouchEnd(e) {
+        /**
+         * @param e
+         */
+        function onMenuTouchEnd (e) {
             options.target.classList.add('transition');
             scrollContainer.removeEventListener('scroll', disableEvent);
             dragMode = 0;
@@ -47,7 +62,10 @@ define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function(browser, 
             self.checkMenuState(deltaX, deltaY);
         }
 
-        function onEdgeTouchStart(e) {
+        /**
+         * @param e
+         */
+        function onEdgeTouchStart (e) {
             if (isPeeking) {
                 onMenuTouchMove(e);
             } else {
@@ -62,44 +80,62 @@ define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function(browser, 
             }
         }
 
-        function onEdgeTouchMove(e) {
+        /**
+         * @param e
+         */
+        function onEdgeTouchMove (e) {
             e.preventDefault();
             e.stopPropagation();
 
             onEdgeTouchStart(e);
         }
 
-        function onEdgeTouchEnd(e) {
+        /**
+         * @param e
+         */
+        function onEdgeTouchEnd (e) {
             isPeeking && (isPeeking = !1, dom.removeEventListener(edgeContainer, 'touchmove', onEdgeTouchMove, {}), onMenuTouchEnd(e))
         }
 
-        function disableEvent(e) {
+        /**
+         * @param e
+         */
+        function disableEvent (e) {
             e.preventDefault(), e.stopPropagation()
         }
 
-        function onBackgroundTouchStart(e) {
+        /**
+         * @param e
+         */
+        function onBackgroundTouchStart (e) {
             var touches = getTouches(e);
             var touch = touches[0] || {};
-            backgroundTouchStartX = touch.clientX, backgroundTouchStartTime = (new Date).getTime()
+            backgroundTouchStartX = touch.clientX, backgroundTouchStartTime = (new Date()).getTime()
         }
 
-        function onBackgroundTouchMove(e) {
+        /**
+         * @param e
+         */
+        function onBackgroundTouchMove (e) {
             var touches = getTouches(e);
             var touch = touches[0] || {};
             var endX = touch.clientX || 0;
             if (endX <= options.width && self.isVisible) {
                 countStart++;
                 var deltaX = endX - (backgroundTouchStartX || 0);
-                if (1 === countStart && (startPoint = deltaX), deltaX < 0 && 2 !== dragMode) {
+                if (countStart === 1 && (startPoint = deltaX), deltaX < 0 && dragMode !== 2) {
                     dragMode = 1, newPos = deltaX - startPoint + options.width, self.changeMenuPos();
-                    var time = (new Date).getTime() - (backgroundTouchStartTime || 0);
+                    var time = (new Date()).getTime() - (backgroundTouchStartTime || 0);
                     velocity = Math.abs(deltaX) / time
                 }
             }
             e.preventDefault(), e.stopPropagation()
         }
 
-        function onBackgroundTouchEnd(e) {
+        /**
+         * @param e
+         */
+        function onBackgroundTouchEnd (e) {
             var touches = getTouches(e);
             var touch = touches[0] || {};
             var endX = touch.clientX || 0;
@@ -107,7 +143,10 @@ define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function(browser, 
             self.checkMenuState(deltaX), countStart = 0
         }
 
-        function onMaskTransitionEnd() {
+        /**
+         *
+         */
+        function onMaskTransitionEnd () {
             var classList = mask.classList;
             classList.contains('backdrop') || classList.add('hide')
         }
@@ -123,7 +162,7 @@ define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function(browser, 
         var dragMode = 0;
         var scrollContainer = options.target.querySelector('.mainDrawer-scrollContainer');
         scrollContainer.classList.add('scrollY');
-        var TouchMenuLA = function() {
+        var TouchMenuLA = function () {
             self = this, defaults = {
                 width: 260,
                 handleSize: 10,
@@ -131,7 +170,7 @@ define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function(browser, 
                 maxMaskOpacity: 0.5
             }, this.isVisible = !1, this.initialize()
         };
-        TouchMenuLA.prototype.initElements = function() {
+        TouchMenuLA.prototype.initElements = function () {
             options.target.classList.add('touch-menu-la'), options.target.style.width = options.width + 'px', options.target.style.left = -options.width + 'px', options.disableMask || (mask = document.createElement('div'), mask.className = 'tmla-mask hide', document.body.appendChild(mask), dom.addEventListener(mask, dom.whichTransitionEvent(), onMaskTransitionEnd, {
                 passive: !0
             }))
@@ -141,36 +180,36 @@ define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function(browser, 
         var menuTouchStartTime;
         var edgeContainer = document.querySelector('.mainDrawerHandle');
         var isPeeking = false;
-        TouchMenuLA.prototype.animateToPosition = function(pos) {
-            requestAnimationFrame(function() {
+        TouchMenuLA.prototype.animateToPosition = function (pos) {
+            requestAnimationFrame(function () {
                 options.target.style.transform = pos ? 'translateX(' + pos + 'px)' : 'none'
             })
-        }, TouchMenuLA.prototype.changeMenuPos = function() {
+        }, TouchMenuLA.prototype.changeMenuPos = function () {
             newPos <= options.width && this.animateToPosition(newPos)
-        }, TouchMenuLA.prototype.clickMaskClose = function() {
-            mask.addEventListener('click', function() {
+        }, TouchMenuLA.prototype.clickMaskClose = function () {
+            mask.addEventListener('click', function () {
                 self.close()
             })
-        }, TouchMenuLA.prototype.checkMenuState = function(deltaX, deltaY) {
+        }, TouchMenuLA.prototype.checkMenuState = function (deltaX, deltaY) {
             velocity >= 0.4 ? deltaX >= 0 || Math.abs(deltaY || 0) >= 70 ? self.open() : self.close() : newPos >= 100 ? self.open() : newPos && self.close()
-        }, TouchMenuLA.prototype.open = function() {
+        }, TouchMenuLA.prototype.open = function () {
             this.animateToPosition(options.width), currentPos = options.width, this.isVisible = !0, options.target.classList.add('drawer-open'), self.showMask(), self.invoke(options.onChange)
-        }, TouchMenuLA.prototype.close = function() {
+        }, TouchMenuLA.prototype.close = function () {
             this.animateToPosition(0), currentPos = 0, self.isVisible = !1, options.target.classList.remove('drawer-open'), self.hideMask(), self.invoke(options.onChange)
-        }, TouchMenuLA.prototype.toggle = function() {
+        }, TouchMenuLA.prototype.toggle = function () {
             self.isVisible ? self.close() : self.open()
         };
         var backgroundTouchStartX;
         var backgroundTouchStartTime;
-        TouchMenuLA.prototype.showMask = function() {
+        TouchMenuLA.prototype.showMask = function () {
             mask.classList.remove('hide'), mask.offsetWidth, mask.classList.add('backdrop')
-        }, TouchMenuLA.prototype.hideMask = function() {
+        }, TouchMenuLA.prototype.hideMask = function () {
             mask.classList.remove('backdrop')
-        }, TouchMenuLA.prototype.invoke = function(fn) {
+        }, TouchMenuLA.prototype.invoke = function (fn) {
             fn && fn.apply(self)
         };
         var _edgeSwipeEnabled;
-        return TouchMenuLA.prototype.setEdgeSwipeEnabled = function(enabled) {
+        return TouchMenuLA.prototype.setEdgeSwipeEnabled = function (enabled) {
             options.disableEdgeSwipe || browser.touch && (enabled ? _edgeSwipeEnabled || (_edgeSwipeEnabled = !0, dom.addEventListener(edgeContainer, 'touchstart', onEdgeTouchStart, {
                 passive: !0
             }), dom.addEventListener(edgeContainer, 'touchend', onEdgeTouchEnd, {
@@ -184,7 +223,7 @@ define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function(browser, 
             }), dom.removeEventListener(edgeContainer, 'touchcancel', onEdgeTouchEnd, {
                 passive: !0
             })))
-        }, TouchMenuLA.prototype.initialize = function() {
+        }, TouchMenuLA.prototype.initialize = function () {
             options = Object.assign(defaults, options || {}), browser.edge && (options.disableEdgeSwipe = !0), self.initElements(), browser.touch && (dom.addEventListener(options.target, 'touchstart', onMenuTouchStart, {
                 passive: !0
             }), dom.addEventListener(options.target, 'touchmove', onMenuTouchMove, {
@@ -200,6 +239,6 @@ define(['browser', 'dom', 'css!./navdrawer', 'scrollStyles'], function(browser, 
             }), dom.addEventListener(mask, 'touchcancel', onBackgroundTouchEnd, {
                 passive: !0
             })), self.clickMaskClose()
-        }, new TouchMenuLA
+        }, new TouchMenuLA()
     }
 });

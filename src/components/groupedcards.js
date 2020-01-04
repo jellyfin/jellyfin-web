@@ -1,7 +1,11 @@
 define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, connectionManager) {
     'use strict';
 
-    function onGroupedCardClick(e, card) {
+    /**
+     * @param e
+     * @param card
+     */
+    function onGroupedCardClick (e, card) {
         var itemId = card.getAttribute('data-id');
         var serverId = card.getAttribute('data-serverid');
         var apiClient = connectionManager.getApiClient(serverId);
@@ -18,7 +22,7 @@ define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, conn
 
         if (!actionableParent || actionableParent.classList.contains('cardContent')) {
             apiClient.getJSON(apiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-                if (1 === items.length) {
+                if (items.length === 1) {
                     return void appRouter.showItem(items[0]);
                 }
 
@@ -31,7 +35,10 @@ define(['dom', 'appRouter', 'connectionManager'], function (dom, appRouter, conn
         }
     }
 
-    function onItemsContainerClick(e) {
+    /**
+     * @param e
+     */
+    function onItemsContainerClick (e) {
         var groupedCard = dom.parentWithClass(e.target, 'groupedCard');
 
         if (groupedCard) {

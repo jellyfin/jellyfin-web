@@ -1,4 +1,7 @@
-function getWindowLocationSearch(win) {
+/**
+ * @param win
+ */
+function getWindowLocationSearch (win) {
     'use strict';
 
     var search = (win || window).location.search;
@@ -6,7 +9,7 @@ function getWindowLocationSearch(win) {
     if (!search) {
         var index = window.location.href.indexOf('?');
 
-        if (-1 != index) {
+        if (index != -1) {
             search = window.location.href.substring(index);
         }
     }
@@ -14,7 +17,11 @@ function getWindowLocationSearch(win) {
     return search || '';
 }
 
-function getParameterByName(name, url) {
+/**
+ * @param name
+ * @param url
+ */
+function getParameterByName (name, url) {
     'use strict';
 
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -22,14 +29,19 @@ function getParameterByName(name, url) {
     var regex = new RegExp(regexS, 'i');
     var results = regex.exec(url || getWindowLocationSearch());
 
-    if (null == results) {
+    if (results == null) {
         return '';
     }
 
     return decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
-function pageClassOn(eventName, className, fn) {
+/**
+ * @param eventName
+ * @param className
+ * @param fn
+ */
+function pageClassOn (eventName, className, fn) {
     'use strict';
 
     document.addEventListener(eventName, function (event) {
@@ -41,7 +53,12 @@ function pageClassOn(eventName, className, fn) {
     });
 }
 
-function pageIdOn(eventName, id, fn) {
+/**
+ * @param eventName
+ * @param id
+ * @param fn
+ */
+function pageIdOn (eventName, id, fn) {
     'use strict';
 
     document.addEventListener(eventName, function (event) {
@@ -58,7 +75,7 @@ var Dashboard = {
         return window.ApiClient.getCurrentUser(false);
     },
 
-    //TODO: investigate url prefix support for serverAddress function
+    // TODO: investigate url prefix support for serverAddress function
     serverAddress: function () {
         if (AppInfo.isNativeApp) {
             var apiClient = window.ApiClient;
@@ -73,7 +90,7 @@ var Dashboard = {
         var urlLower = window.location.href.toLowerCase();
         var index = urlLower.lastIndexOf('/web');
 
-        if (-1 != index) {
+        if (index != -1) {
             return urlLower.substring(0, index);
         }
 
@@ -178,7 +195,7 @@ var Dashboard = {
         });
     },
     alert: function (options) {
-        if ('string' == typeof options) {
+        if (typeof options === 'string') {
             return void require(['toast'], function (toast) {
                 toast({
                     text: options
@@ -216,7 +233,7 @@ var Dashboard = {
         var capabilities = {
             PlayableMediaTypes: ['Audio', 'Video'],
             SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
-            SupportsPersistentIdentifier: 'cordova' === self.appMode || 'android' === self.appMode,
+            SupportsPersistentIdentifier: self.appMode === 'cordova' || self.appMode === 'android',
             SupportsMediaControl: true
         };
         appHost.getPushTokenInfo();
@@ -226,17 +243,25 @@ var Dashboard = {
 
 var AppInfo = {};
 
-!function () {
+!(function () {
     'use strict';
 
-    function defineConnectionManager(connectionManager) {
+    /**
+     * @param connectionManager
+     */
+    function defineConnectionManager (connectionManager) {
         window.ConnectionManager = connectionManager;
         define('connectionManager', [], function () {
             return connectionManager;
         });
     }
 
-    function bindConnectionManagerEvents(connectionManager, events, userSettings) {
+    /**
+     * @param connectionManager
+     * @param events
+     * @param userSettings
+     */
+    function bindConnectionManagerEvents (connectionManager, events, userSettings) {
         window.Events = events;
 
         connectionManager.currentApiClient = function () {
@@ -262,7 +287,10 @@ var AppInfo = {};
         });
     }
 
-    function createConnectionManager() {
+    /**
+     *
+     */
+    function createConnectionManager () {
         return require(['connectionManagerFactory', 'apphost', 'credentialprovider', 'events', 'userSettings'], function (ConnectionManager, apphost, credentialProvider, events, userSettings) {
             var credentialProviderInstance = new credentialProvider();
             var promises = [apphost.getSyncProfile(), apphost.init()];
@@ -303,19 +331,31 @@ var AppInfo = {};
         });
     }
 
-    function returnFirstDependency(obj) {
+    /**
+     * @param obj
+     */
+    function returnFirstDependency (obj) {
         return obj;
     }
 
-    function getBowerPath() {
+    /**
+     *
+     */
+    function getBowerPath () {
         return 'libraries';
     }
 
-    function getComponentsPath() {
+    /**
+     *
+     */
+    function getComponentsPath () {
         return 'components';
     }
 
-    function getPlaybackManager(playbackManager) {
+    /**
+     * @param playbackManager
+     */
+    function getPlaybackManager (playbackManager) {
         window.addEventListener('beforeunload', function () {
             try {
                 playbackManager.onAppClose();
@@ -326,7 +366,11 @@ var AppInfo = {};
         return playbackManager;
     }
 
-    function getLayoutManager(layoutManager, appHost) {
+    /**
+     * @param layoutManager
+     * @param appHost
+     */
+    function getLayoutManager (layoutManager, appHost) {
         if (appHost.getDefaultLayout) {
             layoutManager.defaultLayout = appHost.getDefaultLayout();
         }
@@ -335,12 +379,18 @@ var AppInfo = {};
         return layoutManager;
     }
 
-    function createWindowHeadroom(Headroom) {
+    /**
+     * @param Headroom
+     */
+    function createWindowHeadroom (Headroom) {
         var headroom = new Headroom([], {});
         return headroom;
     }
 
-    function getCastSenderApiLoader() {
+    /**
+     *
+     */
+    function getCastSenderApiLoader () {
         var ccLoaded = false;
         return {
             load: function () {
@@ -364,7 +414,10 @@ var AppInfo = {};
         };
     }
 
-    function getDummyCastSenderApiLoader() {
+    /**
+     *
+     */
+    function getDummyCastSenderApiLoader () {
         return {
             load: function () {
                 window.chrome = window.chrome || {};
@@ -373,15 +426,25 @@ var AppInfo = {};
         };
     }
 
-    function createSharedAppFooter(appFooter) {
+    /**
+     * @param appFooter
+     */
+    function createSharedAppFooter (appFooter) {
         return new appFooter({});
     }
 
-    function onRequireJsError(requireType, requireModules) {
+    /**
+     * @param requireType
+     * @param requireModules
+     */
+    function onRequireJsError (requireType, requireModules) {
         console.log('RequireJS error: ' + (requireType || 'unknown') + '. Failed modules: ' + (requireModules || []).join(','));
     }
 
-    function defineResizeObserver() {
+    /**
+     *
+     */
+    function defineResizeObserver () {
         if (self.ResizeObserver) {
             define('ResizeObserver', [], function () {
                 return self.ResizeObserver;
@@ -391,7 +454,10 @@ var AppInfo = {};
         }
     }
 
-    function initRequireWithBrowser(browser) {
+    /**
+     * @param browser
+     */
+    function initRequireWithBrowser (browser) {
         var bowerPath = getBowerPath();
         var componentsPath = getComponentsPath();
 
@@ -441,7 +507,7 @@ var AppInfo = {};
         define('fileDownloader', [componentsPath + '/filedownloader'], returnFirstDependency);
         define('localassetmanager', [bowerPath + '/apiclient/localassetmanager'], returnFirstDependency);
 
-        if ('cordova' === self.appMode || 'android' === self.appMode) {
+        if (self.appMode === 'cordova' || self.appMode === 'android') {
             define('castSenderApiLoader', [], getDummyCastSenderApiLoader);
         } else {
             define('castSenderApiLoader', [], getCastSenderApiLoader);
@@ -452,7 +518,10 @@ var AppInfo = {};
         define('localsync', [bowerPath + '/apiclient/sync/localsync'], returnFirstDependency);
     }
 
-    function init() {
+    /**
+     *
+     */
+    function init () {
         define('livetvcss', ['css!css/livetv.css'], returnFirstDependency);
         define('detailtablecss', ['css!css/detailtable.css'], returnFirstDependency);
 
@@ -460,7 +529,7 @@ var AppInfo = {};
         if (!window.fetch) {
             promises.push(require(['fetch']));
         }
-        if ('function' != typeof Object.assign) {
+        if (typeof Object.assign !== 'function') {
             promises.push(require(['objectassign']));
         }
 
@@ -474,18 +543,21 @@ var AppInfo = {};
                         onGlobalizeInit(browser);
                     });
                 });
-                require(['keyboardnavigation'], function(keyboardnavigation) {
+                require(['keyboardnavigation'], function (keyboardnavigation) {
                     keyboardnavigation.enable();
                 });
                 require(['focusPreventScroll']);
-                require(['autoFocuser'], function(autoFocuser) {
+                require(['autoFocuser'], function (autoFocuser) {
                     autoFocuser.enable();
                 });
             });
         });
     }
 
-    function loadCoreDictionary(globalize) {
+    /**
+     * @param globalize
+     */
+    function loadCoreDictionary (globalize) {
         var languages = ['ar', 'be-by', 'bg-bg', 'ca', 'cs', 'da', 'de', 'el', 'en-gb', 'en-us', 'es', 'es-ar', 'es-mx', 'fa', 'fi', 'fr', 'fr-ca', 'gsw', 'he', 'hi-in', 'hr', 'hu', 'id', 'it', 'kk', 'ko', 'lt-lt', 'ms', 'nb', 'nl', 'pl', 'pt-br', 'pt-pt', 'ro', 'ru', 'sk', 'sl-si', 'sv', 'tr', 'uk', 'vi', 'zh-cn', 'zh-hk', 'zh-tw'];
         var translations = languages.map(function (language) {
             return {
@@ -500,9 +572,12 @@ var AppInfo = {};
         });
     }
 
-    function onGlobalizeInit(browser) {
-        if ('android' === self.appMode) {
-            if (-1 !== self.location.href.toString().toLowerCase().indexOf('start=backgroundsync')) {
+    /**
+     * @param browser
+     */
+    function onGlobalizeInit (browser) {
+        if (self.appMode === 'android') {
+            if (self.location.href.toString().toLowerCase().indexOf('start=backgroundsync') !== -1) {
                 return onAppReady(browser);
             }
         }
@@ -524,7 +599,12 @@ var AppInfo = {};
         });
     }
 
-    function loadPlugins(appHost, browser, shell) {
+    /**
+     * @param appHost
+     * @param browser
+     * @param shell
+     */
+    function loadPlugins (appHost, browser, shell) {
         console.log('Loading installed plugins');
         var list = [
             'components/playback/playaccessvalidation',
@@ -558,7 +638,10 @@ var AppInfo = {};
         });
     }
 
-    function loadPlugin(url) {
+    /**
+     * @param url
+     */
+    function loadPlugin (url) {
         return new Promise(function (resolve, reject) {
             require(['pluginManager'], function (pluginManager) {
                 pluginManager.loadPlugin(url).then(resolve, reject);
@@ -566,7 +649,10 @@ var AppInfo = {};
         });
     }
 
-    function onAppReady(browser) {
+    /**
+     * @param browser
+     */
+    function onAppReady (browser) {
         console.log('Begin onAppReady');
 
         // ensure that appHost is loaded in this point
@@ -622,8 +708,11 @@ var AppInfo = {};
         });
     }
 
-    function registerServiceWorker() {
-        if (navigator.serviceWorker && 'cordova' !== self.appMode && 'android' !== self.appMode) {
+    /**
+     *
+     */
+    function registerServiceWorker () {
+        if (navigator.serviceWorker && self.appMode !== 'cordova' && self.appMode !== 'android') {
             try {
                 navigator.serviceWorker.register('serviceworker.js');
             } catch (err) {
@@ -632,7 +721,10 @@ var AppInfo = {};
         }
     }
 
-    function onWebComponentsReady(browser) {
+    /**
+     * @param browser
+     */
+    function onWebComponentsReady (browser) {
         initRequireWithBrowser(browser);
 
         if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
@@ -712,7 +804,7 @@ var AppInfo = {};
         });
 
         // Expose jQuery globally
-        require(['jQuery'], function(jQuery) {
+        require(['jQuery'], function (jQuery) {
             window.$ = jQuery;
             window.jQuery = jQuery;
         });
@@ -884,8 +976,13 @@ var AppInfo = {};
             };
         });
         define('appRouter', [componentsPath + '/appRouter', 'itemHelper'], function (appRouter, itemHelper) {
-            function showItem(item, serverId, options) {
-                if ('string' == typeof item) {
+            /**
+             * @param item
+             * @param serverId
+             * @param options
+             */
+            function showItem (item, serverId, options) {
+                if (typeof item === 'string') {
                     require(['connectionManager'], function (connectionManager) {
                         var apiClient = connectionManager.currentApiClient();
                         apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
@@ -893,7 +990,7 @@ var AppInfo = {};
                         });
                     });
                 } else {
-                    if (2 == arguments.length) {
+                    if (arguments.length == 2) {
                         options = arguments[1];
                     }
 
@@ -979,27 +1076,27 @@ var AppInfo = {};
                 var itemType = item.Type || (options ? options.itemType : null);
                 var serverId = item.ServerId || options.serverId;
 
-                if ('settings' === item) {
+                if (item === 'settings') {
                     return 'mypreferencesmenu.html';
                 }
 
-                if ('wizard' === item) {
+                if (item === 'wizard') {
                     return 'wizardstart.html';
                 }
 
-                if ('manageserver' === item) {
+                if (item === 'manageserver') {
                     return 'dashboard.html';
                 }
 
-                if ('recordedtv' === item) {
+                if (item === 'recordedtv') {
                     return 'livetv.html?tab=3&serverId=' + options.serverId;
                 }
 
-                if ('nextup' === item) {
+                if (item === 'nextup') {
                     return 'list.html?type=nextup&serverId=' + options.serverId;
                 }
 
-                if ('list' === item) {
+                if (item === 'list') {
                     var url = 'list.html?serverId=' + options.serverId + '&type=' + options.itemTypes;
 
                     if (options.isFavorite) {
@@ -1009,61 +1106,61 @@ var AppInfo = {};
                     return url;
                 }
 
-                if ('livetv' === item) {
-                    if ('programs' === options.section) {
+                if (item === 'livetv') {
+                    if (options.section === 'programs') {
                         return 'livetv.html?tab=0&serverId=' + options.serverId;
                     }
-                    if ('guide' === options.section) {
+                    if (options.section === 'guide') {
                         return 'livetv.html?tab=1&serverId=' + options.serverId;
                     }
 
-                    if ('movies' === options.section) {
+                    if (options.section === 'movies') {
                         return 'list.html?type=Programs&IsMovie=true&serverId=' + options.serverId;
                     }
 
-                    if ('shows' === options.section) {
+                    if (options.section === 'shows') {
                         return 'list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
                     }
 
-                    if ('sports' === options.section) {
+                    if (options.section === 'sports') {
                         return 'list.html?type=Programs&IsSports=true&serverId=' + options.serverId;
                     }
 
-                    if ('kids' === options.section) {
+                    if (options.section === 'kids') {
                         return 'list.html?type=Programs&IsKids=true&serverId=' + options.serverId;
                     }
 
-                    if ('news' === options.section) {
+                    if (options.section === 'news') {
                         return 'list.html?type=Programs&IsNews=true&serverId=' + options.serverId;
                     }
 
-                    if ('onnow' === options.section) {
+                    if (options.section === 'onnow') {
                         return 'list.html?type=Programs&IsAiring=true&serverId=' + options.serverId;
                     }
 
-                    if ('dvrschedule' === options.section) {
+                    if (options.section === 'dvrschedule') {
                         return 'livetv.html?tab=4&serverId=' + options.serverId;
                     }
 
-                    if ('seriesrecording' === options.section) {
+                    if (options.section === 'seriesrecording') {
                         return 'livetv.html?tab=5&serverId=' + options.serverId;
                     }
 
                     return 'livetv.html?serverId=' + options.serverId;
                 }
 
-                if ('SeriesTimer' == itemType) {
+                if (itemType == 'SeriesTimer') {
                     return 'itemdetails.html?seriesTimerId=' + id + '&serverId=' + serverId;
                 }
 
-                if ('livetv' == item.CollectionType) {
+                if (item.CollectionType == 'livetv') {
                     return 'livetv.html';
                 }
 
-                if ('Genre' === item.Type) {
+                if (item.Type === 'Genre') {
                     url = 'list.html?genreId=' + item.Id + '&serverId=' + serverId;
 
-                    if ('livetv' === context) {
+                    if (context === 'livetv') {
                         url += '&type=Programs';
                     }
 
@@ -1074,7 +1171,7 @@ var AppInfo = {};
                     return url;
                 }
 
-                if ('MusicGenre' === item.Type) {
+                if (item.Type === 'MusicGenre') {
                     url = 'list.html?musicGenreId=' + item.Id + '&serverId=' + serverId;
 
                     if (options.parentId) {
@@ -1084,7 +1181,7 @@ var AppInfo = {};
                     return url;
                 }
 
-                if ('Studio' === item.Type) {
+                if (item.Type === 'Studio') {
                     url = 'list.html?studioId=' + item.Id + '&serverId=' + serverId;
 
                     if (options.parentId) {
@@ -1094,28 +1191,28 @@ var AppInfo = {};
                     return url;
                 }
 
-                if ('folders' !== context && !itemHelper.isLocalItem(item)) {
-                    if ('movies' == item.CollectionType) {
+                if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
+                    if (item.CollectionType == 'movies') {
                         url = 'movies.html?topParentId=' + item.Id;
 
-                        if (options && 'latest' === options.section) {
+                        if (options && options.section === 'latest') {
                             url += '&tab=1';
                         }
 
                         return url;
                     }
 
-                    if ('tvshows' == item.CollectionType) {
+                    if (item.CollectionType == 'tvshows') {
                         url = 'tv.html?topParentId=' + item.Id;
 
-                        if (options && 'latest' === options.section) {
+                        if (options && options.section === 'latest') {
                             url += '&tab=2';
                         }
 
                         return url;
                     }
 
-                    if ('music' == item.CollectionType) {
+                    if (item.CollectionType == 'music') {
                         return 'music.html?topParentId=' + item.Id;
                     }
                 }
@@ -1128,7 +1225,7 @@ var AppInfo = {};
 
                 var contextSuffix = context ? '&context=' + context : '';
 
-                if ('Series' == itemType || 'Season' == itemType || 'Episode' == itemType) {
+                if (itemType == 'Series' || itemType == 'Season' || itemType == 'Episode') {
                     return 'itemdetails.html?id=' + id + contextSuffix + '&serverId=' + serverId;
                 }
 
@@ -1149,7 +1246,7 @@ var AppInfo = {};
     })();
 
     return require(['browser'], onWebComponentsReady);
-}();
+}());
 
 pageClassOn('viewshow', 'standalonePage', function () {
     document.querySelector('.skinHeader').classList.add('noHeaderRight');

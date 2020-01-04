@@ -1,22 +1,25 @@
 define([], function () {
     'use strict';
 
-    function processForgotPasswordResult(result) {
-        if ('ContactAdmin' == result.Action) {
+    /**
+     * @param result
+     */
+    function processForgotPasswordResult (result) {
+        if (result.Action == 'ContactAdmin') {
             return void Dashboard.alert({
                 message: Globalize.translate('MessageContactAdminToResetPassword'),
                 title: Globalize.translate('HeaderForgotPassword')
             });
         }
 
-        if ('InNetworkRequired' == result.Action) {
+        if (result.Action == 'InNetworkRequired') {
             return void Dashboard.alert({
                 message: Globalize.translate('MessageForgotPasswordInNetworkRequired'),
                 title: Globalize.translate('HeaderForgotPassword')
             });
         }
 
-        if ('PinCode' == result.Action) {
+        if (result.Action == 'PinCode') {
             var msg = Globalize.translate('MessageForgotPasswordFileCreated');
             msg += '<br/>';
             msg += '<br/>';
@@ -35,7 +38,10 @@ define([], function () {
     }
 
     return function (view, params) {
-        function onSubmit(e) {
+        /**
+         * @param e
+         */
+        function onSubmit (e) {
             ApiClient.ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('Users/ForgotPassword'),

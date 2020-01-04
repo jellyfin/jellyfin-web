@@ -3,7 +3,11 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
 
     var enableFocusTransform = !browser.slow && !browser.edge;
 
-    function renderSelectServerItems(view, servers) {
+    /**
+     * @param view
+     * @param servers
+     */
+    function renderSelectServerItems (view, servers) {
         var items = servers.map(function (server) {
             return {
                 name: server.Name,
@@ -65,7 +69,11 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
         loading.hide();
     }
 
-    function updatePageStyle(view, params) {
+    /**
+     * @param view
+     * @param params
+     */
+    function updatePageStyle (view, params) {
         if (params.showuser == '1') {
             view.classList.add('libraryPage');
             view.classList.remove('standalonePage');
@@ -77,29 +85,44 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
         }
     }
 
-    function showGeneralError() {
+    /**
+     *
+     */
+    function showGeneralError () {
         loading.hide();
         alertText(globalize.translate('DefaultErrorMessage'));
     }
 
-    function alertText(text) {
+    /**
+     * @param text
+     */
+    function alertText (text) {
         alertTextWithOptions({
             text: text
         });
     }
 
-    function alertTextWithOptions(options) {
+    /**
+     * @param options
+     */
+    function alertTextWithOptions (options) {
         require(['alert'], function (alert) {
             alert(options);
         });
     }
 
-    function showServerConnectionFailure() {
+    /**
+     *
+     */
+    function showServerConnectionFailure () {
         alertText(globalize.translate('MessageUnableToConnectToServer'), globalize.translate('HeaderConnectionFailure'));
     }
 
     return function (view, params) {
-        function connectToServer(server) {
+        /**
+         * @param server
+         */
+        function connectToServer (server) {
             loading.show();
             connectionManager.connectToServer(server, {
                 enableAutoLogin: appSettings.enableAutoLogin()
@@ -131,7 +154,10 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
             });
         }
 
-        function deleteServer(server) {
+        /**
+         * @param server
+         */
+        function deleteServer (server) {
             loading.show();
             connectionManager.deleteServer(server.Id).then(function () {
                 loading.hide();
@@ -139,7 +165,10 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
             });
         }
 
-        function onServerClick(server) {
+        /**
+         * @param server
+         */
+        function onServerClick (server) {
             var menuItems = [];
             menuItems.push({
                 name: globalize.translate('Connect'),
@@ -164,7 +193,10 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
             });
         }
 
-        function onServersRetrieved(result) {
+        /**
+         * @param result
+         */
+        function onServersRetrieved (result) {
             servers = result;
             renderSelectServerItems(view, result);
 
@@ -173,7 +205,10 @@ define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focu
             }
         }
 
-        function loadServers() {
+        /**
+         *
+         */
+        function loadServers () {
             loading.show();
             connectionManager.getAvailableServers().then(onServersRetrieved);
         }

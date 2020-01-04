@@ -1,14 +1,22 @@
 define(['jQuery', 'loading', 'emby-button', 'emby-select'], function ($, loading) {
     'use strict';
 
-    function loadPage(page, config, languageOptions) {
+    /**
+     * @param page
+     * @param config
+     * @param languageOptions
+     */
+    function loadPage (page, config, languageOptions) {
         $('#selectLocalizationLanguage', page).html(languageOptions.map(function (l) {
             return '<option value="' + l.Value + '">' + l.Name + '</option>';
         })).val(config.UICulture);
         loading.hide();
     }
 
-    function save(page) {
+    /**
+     * @param page
+     */
+    function save (page) {
         loading.show();
         var apiClient = ApiClient;
         apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
@@ -23,7 +31,10 @@ define(['jQuery', 'loading', 'emby-button', 'emby-select'], function ($, loading
         });
     }
 
-    function onSubmit() {
+    /**
+     *
+     */
+    function onSubmit () {
         save($(this).parents('.page'));
         return false;
     }

@@ -1,7 +1,11 @@
 define(['loading', 'libraryMenu', 'emby-button'], function (loading, libraryMenu) {
     'use strict';
 
-    function loadUser(page, params) {
+    /**
+     * @param page
+     * @param params
+     */
+    function loadUser (page, params) {
         var userid = params.userId;
         ApiClient.getUser(userid).then(function (user) {
             Dashboard.getCurrentUser().then(function (loggedInUser) {
@@ -10,7 +14,7 @@ define(['loading', 'libraryMenu', 'emby-button'], function (loading, libraryMenu
                 var showPasswordSection = true;
                 var showLocalAccessSection = false;
 
-                if ('Guest' == user.ConnectLinkType) {
+                if (user.ConnectLinkType == 'Guest') {
                     page.querySelector('.localAccessSection').classList.add('hide');
                     showPasswordSection = false;
                 } else if (user.HasConfiguredPassword) {
@@ -59,7 +63,10 @@ define(['loading', 'libraryMenu', 'emby-button'], function (loading, libraryMenu
     }
 
     return function (view, params) {
-        function saveEasyPassword() {
+        /**
+         *
+         */
+        function saveEasyPassword () {
             var userId = params.userId;
             var easyPassword = view.querySelector('#txtEasyPassword').value;
 
@@ -72,7 +79,10 @@ define(['loading', 'libraryMenu', 'emby-button'], function (loading, libraryMenu
             }
         }
 
-        function onEasyPasswordSaved(userId) {
+        /**
+         * @param userId
+         */
+        function onEasyPasswordSaved (userId) {
             ApiClient.getUser(userId).then(function (user) {
                 user.Configuration.EnableLocalPassword = view.querySelector('.chkEnableLocalEasyPassword').checked;
                 ApiClient.updateUserConfiguration(user.Id, user.Configuration).then(function () {
@@ -87,7 +97,10 @@ define(['loading', 'libraryMenu', 'emby-button'], function (loading, libraryMenu
             });
         }
 
-        function savePassword() {
+        /**
+         *
+         */
+        function savePassword () {
             var userId = params.userId;
             var currentPassword = view.querySelector('#txtCurrentPassword').value;
             var newPassword = view.querySelector('#txtNewPassword').value;
@@ -115,7 +128,10 @@ define(['loading', 'libraryMenu', 'emby-button'], function (loading, libraryMenu
             });
         }
 
-        function onSubmit(e) {
+        /**
+         * @param e
+         */
+        function onSubmit (e) {
             var form = this;
 
             if (form.querySelector('#txtNewPassword').value != form.querySelector('#txtNewPasswordConfirm').value) {
@@ -131,14 +147,20 @@ define(['loading', 'libraryMenu', 'emby-button'], function (loading, libraryMenu
             return false;
         }
 
-        function onLocalAccessSubmit(e) {
+        /**
+         * @param e
+         */
+        function onLocalAccessSubmit (e) {
             loading.show();
             saveEasyPassword();
             e.preventDefault();
             return false;
         }
 
-        function resetPassword() {
+        /**
+         *
+         */
+        function resetPassword () {
             var msg = Globalize.translate('PasswordResetConfirmation');
 
             require(['confirm'], function (confirm) {
@@ -157,7 +179,10 @@ define(['loading', 'libraryMenu', 'emby-button'], function (loading, libraryMenu
             });
         }
 
-        function resetEasyPassword() {
+        /**
+         *
+         */
+        function resetEasyPassword () {
             var msg = Globalize.translate('PinCodeResetConfirmation');
 
             require(['confirm'], function (confirm) {

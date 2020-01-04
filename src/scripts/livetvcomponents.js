@@ -1,15 +1,25 @@
 define(['layoutManager', 'datetime', 'cardBuilder', 'apphost'], function (layoutManager, datetime, cardBuilder, appHost) {
     'use strict';
 
-    function enableScrollX() {
+    /**
+     *
+     */
+    function enableScrollX () {
         return !layoutManager.desktop;
     }
 
-    function getBackdropShape() {
+    /**
+     *
+     */
+    function getBackdropShape () {
         return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
     }
 
-    function getTimersHtml(timers, options) {
+    /**
+     * @param timers
+     * @param options
+     */
+    function getTimersHtml (timers, options) {
         options = options || {};
         var i;
         var length;

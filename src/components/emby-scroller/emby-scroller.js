@@ -7,7 +7,11 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         this.classList.add('emby-scroller');
     };
 
-    function initCenterFocus(elem, scrollerInstance) {
+    /**
+     * @param elem
+     * @param scrollerInstance
+     */
+    function initCenterFocus (elem, scrollerInstance) {
         dom.addEventListener(elem, 'focus', function (e) {
             var focused = focusManager.focusableParent(e.target);
             if (focused) {
@@ -79,7 +83,10 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         }
     };
 
-    function onInputCommand(e) {
+    /**
+     * @param e
+     */
+    function onInputCommand (e) {
         var cmd = e.detail.command;
         if (cmd === 'end') {
             focusManager.focusLast(this, '.' + this.getAttribute('data-navcommands'));
@@ -96,7 +103,10 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         }
     }
 
-    function initHeadroom(elem) {
+    /**
+     * @param elem
+     */
+    function initHeadroom (elem) {
         require(['headroom'], function (Headroom) {
             var headroom = new Headroom([], {
                 scroller: elem
@@ -164,7 +174,10 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         }
     };
 
-    function loadScrollButtons(scroller) {
+    /**
+     * @param scroller
+     */
+    function loadScrollButtons (scroller) {
         require(['emby-scrollbuttons'], function () {
             scroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
         });

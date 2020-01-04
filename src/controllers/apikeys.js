@@ -1,7 +1,11 @@
 define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button'], function (datetime, loading, libraryMenu, dom, globalize) {
     'use strict';
 
-    function revoke(page, key) {
+    /**
+     * @param page
+     * @param key
+     */
+    function revoke (page, key) {
         require(['confirm'], function (confirm) {
             confirm(globalize.translate('MessageConfirmRevokeApiKey'), globalize.translate('HeaderConfirmRevokeApiKey')).then(function () {
                 loading.show();
@@ -15,7 +19,11 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
         });
     }
 
-    function renderKeys(page, keys) {
+    /**
+     * @param page
+     * @param keys
+     */
+    function renderKeys (page, keys) {
         var rows = keys.map(function (item) {
             var html = '';
             html += '<tr class="detailTableBodyRow detailTableBodyRow-shaded">';
@@ -38,14 +46,20 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
         loading.hide();
     }
 
-    function loadData(page) {
+    /**
+     * @param page
+     */
+    function loadData (page) {
         loading.show();
         ApiClient.getJSON(ApiClient.getUrl('Auth/Keys')).then(function (result) {
             renderKeys(page, result.Items);
         });
     }
 
-    function showNewKeyPrompt(page) {
+    /**
+     * @param page
+     */
+    function showNewKeyPrompt (page) {
         require(['prompt'], function (prompt) {
             prompt({
                 title: globalize.translate('HeaderNewApiKey'),

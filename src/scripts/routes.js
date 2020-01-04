@@ -13,8 +13,10 @@ define([
     'listViewStyle',
     'dashboardcss',
     'detailtablecss'], function () {
-
-    function defineRoute(newRoute) {
+    /**
+     * @param newRoute
+     */
+    function defineRoute (newRoute) {
         var path = newRoute.path;
         console.log('Defining route: ' + path);
         newRoute.dictionary = 'core';

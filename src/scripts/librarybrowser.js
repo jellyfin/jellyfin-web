@@ -114,7 +114,10 @@ define(['userSettings'], function (userSettings) {
         },
         showSortMenu: function (options) {
             require(['dialogHelper', 'emby-radio'], function (dialogHelper) {
-                function onSortByChange() {
+                /**
+                 *
+                 */
+                function onSortByChange () {
                     var newValue = this.value;
 
                     if (this.checked) {
@@ -128,7 +131,10 @@ define(['userSettings'], function (userSettings) {
                     }
                 }
 
-                function onSortOrderChange() {
+                /**
+                 *
+                 */
+                function onSortOrderChange () {
                     var newValue = this.value;
 
                     if (this.checked) {
@@ -172,9 +178,9 @@ define(['userSettings'], function (userSettings) {
                 html += Globalize.translate('HeaderSortOrder');
                 html += '</h2>';
                 html += '<div>';
-                isChecked = 'Ascending' == options.query.SortOrder ? ' checked' : '';
+                isChecked = options.query.SortOrder == 'Ascending' ? ' checked' : '';
                 html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Ascending" class="menuSortOrder" ' + isChecked + ' /><span>' + Globalize.translate('OptionAscending') + '</span></label>';
-                isChecked = 'Descending' == options.query.SortOrder ? ' checked' : '';
+                isChecked = options.query.SortOrder == 'Descending' ? ' checked' : '';
                 html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' + isChecked + ' /><span>' + Globalize.translate('OptionDescending') + '</span></label>';
                 html += '</div>';
                 html += '</div>';

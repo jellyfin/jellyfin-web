@@ -5,11 +5,12 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
     var selectedElements = [];
     var currentSelectionCommandsPanel;
 
-    function hideSelections() {
-
+    /**
+     *
+     */
+    function hideSelections () {
         var selectionCommandsPanel = currentSelectionCommandsPanel;
         if (selectionCommandsPanel) {
-
             selectionCommandsPanel.parentNode.removeChild(selectionCommandsPanel);
             currentSelectionCommandsPanel = null;
 
@@ -17,7 +18,6 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             selectedElements = [];
             var elems = document.querySelectorAll('.itemSelectionPanel');
             for (var i = 0, length = elems.length; i < length; i++) {
-
                 var parent = elems[i].parentNode;
                 parent.removeChild(elems[i]);
                 parent.classList.remove('withMultiSelect');
@@ -25,14 +25,16 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         }
     }
 
-    function onItemSelectionPanelClick(e, itemSelectionPanel) {
-
+    /**
+     * @param e
+     * @param itemSelectionPanel
+     */
+    function onItemSelectionPanelClick (e, itemSelectionPanel) {
         // toggle the checkbox, if it wasn't clicked on
         if (!dom.parentWithClass(e.target, 'chkItemSelect')) {
             var chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
 
             if (chkItemSelect) {
-
                 if (chkItemSelect.classList.contains('checkedInitial')) {
                     chkItemSelect.classList.remove('checkedInitial');
                 } else {
@@ -48,12 +50,14 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         return false;
     }
 
-    function updateItemSelection(chkItemSelect, selected) {
-
+    /**
+     * @param chkItemSelect
+     * @param selected
+     */
+    function updateItemSelection (chkItemSelect, selected) {
         var id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
 
         if (selected) {
-
             var current = selectedItems.filter(function (i) {
                 return i === id;
             });
@@ -62,7 +66,6 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                 selectedItems.push(id);
                 selectedElements.push(chkItemSelect);
             }
-
         } else {
             selectedItems = selectedItems.filter(function (i) {
                 return i !== id;
@@ -82,16 +85,21 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         }
     }
 
-    function onSelectionChange(e) {
+    /**
+     * @param e
+     */
+    function onSelectionChange (e) {
         updateItemSelection(this, this.checked);
     }
 
-    function showSelection(item, isChecked) {
-
+    /**
+     * @param item
+     * @param isChecked
+     */
+    function showSelection (item, isChecked) {
         var itemSelectionPanel = item.querySelector('.itemSelectionPanel');
 
         if (!itemSelectionPanel) {
-
             itemSelectionPanel = document.createElement('div');
             itemSelectionPanel.classList.add('itemSelectionPanel');
 
@@ -112,12 +120,13 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         }
     }
 
-    function showSelectionCommands() {
-
+    /**
+     *
+     */
+    function showSelectionCommands () {
         var selectionCommandsPanel = currentSelectionCommandsPanel;
 
         if (!selectionCommandsPanel) {
-
             selectionCommandsPanel = document.createElement('div');
             selectionCommandsPanel.classList.add('selectionCommandsPanel');
 
@@ -142,20 +151,23 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         }
     }
 
-    function alertText(options) {
-
+    /**
+     * @param options
+     */
+    function alertText (options) {
         return new Promise(function (resolve, reject) {
-
             require(['alert'], function (alert) {
                 alert(options).then(resolve, resolve);
             });
         });
     }
 
-    function deleteItems(apiClient, itemIds) {
-
+    /**
+     * @param apiClient
+     * @param itemIds
+     */
+    function deleteItems (apiClient, itemIds) {
         return new Promise(function (resolve, reject) {
-
             var msg = globalize.translate('ConfirmDeleteItem');
             var title = globalize.translate('HeaderDeleteItem');
 
@@ -165,28 +177,26 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             }
 
             require(['confirm'], function (confirm) {
-
                 confirm(msg, title).then(function () {
                     var promises = itemIds.map(function (itemId) {
                         apiClient.deleteItem(itemId);
                     });
 
                     Promise.all(promises).then(resolve, function () {
-
                         alertText(globalize.translate('ErrorDeletingItem')).then(reject, reject);
                     });
                 }, reject);
-
             });
         });
     }
 
-    function showMenuForSelectedItems(e) {
-
+    /**
+     * @param e
+     */
+    function showMenuForSelectedItems (e) {
         var apiClient = connectionManager.currentApiClient();
 
         apiClient.getCurrentUser().then(function (user) {
-
             var menuItems = [];
 
             menuItems.push({
@@ -310,17 +320,17 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                         }
                     }
                 });
-
             });
         });
     }
 
-    function dispatchNeedsRefresh() {
-
+    /**
+     *
+     */
+    function dispatchNeedsRefresh () {
         var elems = [];
 
         [].forEach.call(selectedElements, function (i) {
-
             var container = dom.parentWithAttribute(i, 'is', 'emby-itemscontainer');
 
             if (container && elems.indexOf(container) === -1) {
@@ -333,10 +343,12 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         }
     }
 
-    function combineVersions(apiClient, selection) {
-
+    /**
+     * @param apiClient
+     * @param selection
+     */
+    function combineVersions (apiClient, selection) {
         if (selection.length < 2) {
-
             require(['alert'], function (alert) {
                 alert({
                     text: globalize.translate('PleaseSelectTwoItems')
@@ -353,15 +365,16 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
 
         }).then(function () {
-
             loading.hide();
             hideSelections();
             dispatchNeedsRefresh();
         });
     }
 
-    function showSelections(initialCard) {
-
+    /**
+     * @param initialCard
+     */
+    function showSelections (initialCard) {
         require(['emby-checkbox'], function () {
             var cards = document.querySelectorAll('.card');
             for (var i = 0, length = cards.length; i < length; i++) {
@@ -373,12 +386,13 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         });
     }
 
-    function onContainerClick(e) {
-
+    /**
+     * @param e
+     */
+    function onContainerClick (e) {
         var target = e.target;
 
         if (selectedItems.length) {
-
             var card = dom.parentWithClass(target, 'card');
             if (card) {
                 var itemSelectionPanel = card.querySelector('.itemSelectionPanel');
@@ -396,17 +410,17 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
     document.addEventListener('viewbeforehide', hideSelections);
 
     return function (options) {
-
         var self = this;
 
         var container = options.container;
 
-        function onTapHold(e) {
-
+        /**
+         * @param e
+         */
+        function onTapHold (e) {
             var card = dom.parentWithClass(e.target, 'card');
 
             if (card) {
-
                 showSelections(card);
             }
 
@@ -418,8 +432,10 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             return false;
         }
 
-        function getTouches(e) {
-
+        /**
+         * @param e
+         */
+        function getTouches (e) {
             return e.changedTouches || e.targetTouches || e.touches;
         }
 
@@ -427,8 +443,10 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         var touchStartTimeout;
         var touchStartX;
         var touchStartY;
-        function onTouchStart(e) {
-
+        /**
+         * @param e
+         */
+        function onTouchStart (e) {
             var touch = getTouches(e)[0];
             touchTarget = null;
             touchStartX = 0;
@@ -443,7 +461,6 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                     var card = dom.parentWithClass(element, 'card');
 
                     if (card) {
-
                         if (touchStartTimeout) {
                             clearTimeout(touchStartTimeout);
                             touchStartTimeout = null;
@@ -456,8 +473,10 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             }
         }
 
-        function onTouchMove(e) {
-
+        /**
+         * @param e
+         */
+        function onTouchMove (e) {
             if (touchTarget) {
                 var touch = getTouches(e)[0];
                 var deltaX;
@@ -478,13 +497,17 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             }
         }
 
-        function onTouchEnd(e) {
-
+        /**
+         * @param e
+         */
+        function onTouchEnd (e) {
             onMouseOut(e);
         }
 
-        function onMouseDown(e) {
-
+        /**
+         * @param e
+         */
+        function onMouseDown (e) {
             if (touchStartTimeout) {
                 clearTimeout(touchStartTimeout);
                 touchStartTimeout = null;
@@ -494,8 +517,10 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
         }
 
-        function onMouseOut(e) {
-
+        /**
+         * @param e
+         */
+        function onMouseOut (e) {
             if (touchStartTimeout) {
                 clearTimeout(touchStartTimeout);
                 touchStartTimeout = null;
@@ -503,8 +528,10 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             touchTarget = null;
         }
 
-        function onTouchStartTimerFired() {
-
+        /**
+         *
+         */
+        function onTouchStartTimerFired () {
             if (!touchTarget) {
                 return;
             }
@@ -513,13 +540,14 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
             touchTarget = null;
 
             if (card) {
-
                 showSelections(card);
             }
         }
 
-        function initTapHold(element) {
-
+        /**
+         * @param element
+         */
+        function initTapHold (element) {
             // mobile safari doesn't allow contextmenu override
             if (browser.touch && !browser.safari) {
                 element.addEventListener('contextmenu', onTapHold);
@@ -557,7 +585,6 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
         self.onContainerClick = onContainerClick;
 
         self.destroy = function () {
-
             container.removeEventListener('click', onContainerClick);
             container.removeEventListener('contextmenu', onTapHold);
 
@@ -573,9 +600,9 @@ define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'glo
                 passive: true
             });
             // this fires in safari due to magnifying class
-            //dom.removeEventListener(element, "touchcancel", onTouchEnd, {
+            // dom.removeEventListener(element, "touchcancel", onTouchEnd, {
             //    passive: true
-            //});
+            // });
             dom.removeEventListener(element, 'mousedown', onMouseDown, {
                 passive: true
             });

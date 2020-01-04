@@ -1,7 +1,12 @@
 define(['searchFields', 'searchResults', 'events'], function (SearchFields, SearchResults, events) {
     'use strict';
 
-    function init(instance, tabContent, options) {
+    /**
+     * @param instance
+     * @param tabContent
+     * @param options
+     */
+    function init (instance, tabContent, options) {
         tabContent.innerHTML = '<div class="padded-left padded-right searchFields"></div><div class="searchResults padded-top" style="padding-top:1.5em;"></div>';
         instance.searchFields = new SearchFields({
             element: tabContent.querySelector('.searchFields')
@@ -17,7 +22,12 @@ define(['searchFields', 'searchResults', 'events'], function (SearchFields, Sear
         });
     }
 
-    function SearchTab(view, tabContent, options) {
+    /**
+     * @param view
+     * @param tabContent
+     * @param options
+     */
+    function SearchTab (view, tabContent, options) {
         var self = this;
         options = options || {};
         init(this, tabContent, options);

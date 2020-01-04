@@ -1,15 +1,22 @@
 define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby-button'], function (connectionManager, serverNotifications, events, globalize, EmbyButtonPrototype) {
     'use strict';
 
-    function addNotificationEvent(instance, name, handler) {
-
+    /**
+     * @param instance
+     * @param name
+     * @param handler
+     */
+    function addNotificationEvent (instance, name, handler) {
         var localHandler = handler.bind(instance);
         events.on(serverNotifications, name, localHandler);
         instance[name] = localHandler;
     }
 
-    function removeNotificationEvent(instance, name) {
-
+    /**
+     * @param instance
+     * @param name
+     */
+    function removeNotificationEvent (instance, name) {
         var handler = instance[name];
         if (handler) {
             events.off(serverNotifications, name, handler);
@@ -17,13 +24,21 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         }
     }
 
-    function showPicker(button, apiClient, itemId, likes, isFavorite) {
-
+    /**
+     * @param button
+     * @param apiClient
+     * @param itemId
+     * @param likes
+     * @param isFavorite
+     */
+    function showPicker (button, apiClient, itemId, likes, isFavorite) {
         return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), itemId, !isFavorite);
     }
 
-    function onClick(e) {
-
+    /**
+     * @param e
+     */
+    function onClick (e) {
         var button = this;
         var id = button.getAttribute('data-id');
         var serverId = button.getAttribute('data-serverid');
@@ -40,58 +55,58 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         }
 
         showPicker(button, apiClient, id, likes, isFavorite).then(function (userData) {
-
             setState(button, userData.Likes, userData.IsFavorite);
         });
     }
 
-    function onUserDataChanged(e, apiClient, userData) {
-
+    /**
+     * @param e
+     * @param apiClient
+     * @param userData
+     */
+    function onUserDataChanged (e, apiClient, userData) {
         var button = this;
 
         if (userData.ItemId === button.getAttribute('data-id')) {
-
             setState(button, userData.Likes, userData.IsFavorite);
         }
     }
 
-    function setState(button, likes, isFavorite, updateAttribute) {
-
+    /**
+     * @param button
+     * @param likes
+     * @param isFavorite
+     * @param updateAttribute
+     */
+    function setState (button, likes, isFavorite, updateAttribute) {
         var icon = button.querySelector('i');
 
         if (isFavorite) {
-
             if (icon) {
                 icon.innerHTML = 'favorite';
                 icon.classList.add('ratingbutton-icon-withrating');
             }
 
             button.classList.add('ratingbutton-withrating');
-
         } else if (likes) {
-
             if (icon) {
                 icon.innerHTML = 'favorite';
                 icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = 'thumb_up';
+                // icon.innerHTML = 'thumb_up';
             }
             button.classList.remove('ratingbutton-withrating');
-
         } else if (likes === false) {
-
             if (icon) {
                 icon.innerHTML = 'favorite';
                 icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = 'thumb_down';
+                // icon.innerHTML = 'thumb_down';
             }
             button.classList.remove('ratingbutton-withrating');
-
         } else {
-
             if (icon) {
                 icon.innerHTML = 'favorite';
                 icon.classList.remove('ratingbutton-icon-withrating');
-                //icon.innerHTML = 'thumbs_up_down';
+                // icon.innerHTML = 'thumbs_up_down';
             }
             button.classList.remove('ratingbutton-withrating');
         }
@@ -103,7 +118,10 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         }
     }
 
-    function setTitle(button) {
+    /**
+     * @param button
+     */
+    function setTitle (button) {
         button.title = globalize.translate('Favorite');
 
         var text = button.querySelector('.button-text');
@@ -112,14 +130,18 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         }
     }
 
-    function clearEvents(button) {
-
+    /**
+     * @param button
+     */
+    function clearEvents (button) {
         button.removeEventListener('click', onClick);
         removeNotificationEvent(button, 'UserDataChanged');
     }
 
-    function bindEvents(button) {
-
+    /**
+     * @param button
+     */
+    function bindEvents (button) {
         clearEvents(button);
 
         button.addEventListener('click', onClick);
@@ -129,7 +151,6 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     var EmbyRatingButtonPrototype = Object.create(EmbyButtonPrototype);
 
     EmbyRatingButtonPrototype.createdCallback = function () {
-
         // base method
         if (EmbyButtonPrototype.createdCallback) {
             EmbyButtonPrototype.createdCallback.call(this);
@@ -137,7 +158,6 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     };
 
     EmbyRatingButtonPrototype.attachedCallback = function () {
-
         // base method
         if (EmbyButtonPrototype.attachedCallback) {
             EmbyButtonPrototype.attachedCallback.call(this);
@@ -146,7 +166,6 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         var itemId = this.getAttribute('data-id');
         var serverId = this.getAttribute('data-serverid');
         if (itemId && serverId) {
-
             var likes = this.getAttribute('data-likes');
             var isFavorite = this.getAttribute('data-isfavorite') === 'true';
             if (likes === 'true') {
@@ -165,7 +184,6 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     };
 
     EmbyRatingButtonPrototype.detachedCallback = function () {
-
         // base method
         if (EmbyButtonPrototype.detachedCallback) {
             EmbyButtonPrototype.detachedCallback.call(this);
@@ -175,18 +193,14 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     };
 
     EmbyRatingButtonPrototype.setItem = function (item) {
-
         if (item) {
-
             this.setAttribute('data-id', item.Id);
             this.setAttribute('data-serverid', item.ServerId);
 
             var userData = item.UserData || {};
             setState(this, userData.Likes, userData.IsFavorite);
             bindEvents(this);
-
         } else {
-
             this.removeAttribute('data-id');
             this.removeAttribute('data-serverid');
             this.removeAttribute('data-likes');

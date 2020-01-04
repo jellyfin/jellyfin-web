@@ -1,7 +1,10 @@
 define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-button'], function ($, globalize, loading, libraryMenu) {
     'use strict';
 
-    function loadProfiles(page) {
+    /**
+     * @param page
+     */
+    function loadProfiles (page) {
         loading.show();
         ApiClient.getJSON(ApiClient.getUrl('Dlna/ProfileInfos')).then(function (result) {
             renderUserProfiles(page, result);
@@ -10,19 +13,32 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
         });
     }
 
-    function renderUserProfiles(page, profiles) {
+    /**
+     * @param page
+     * @param profiles
+     */
+    function renderUserProfiles (page, profiles) {
         renderProfiles(page, page.querySelector('.customProfiles'), profiles.filter(function (p) {
-            return 'User' == p.Type;
+            return p.Type == 'User';
         }));
     }
 
-    function renderSystemProfiles(page, profiles) {
+    /**
+     * @param page
+     * @param profiles
+     */
+    function renderSystemProfiles (page, profiles) {
         renderProfiles(page, page.querySelector('.systemProfiles'), profiles.filter(function (p) {
-            return 'System' == p.Type;
+            return p.Type == 'System';
         }));
     }
 
-    function renderProfiles(page, element, profiles) {
+    /**
+     * @param page
+     * @param element
+     * @param profiles
+     */
+    function renderProfiles (page, element, profiles) {
         var html = '';
 
         if (profiles.length) {
@@ -39,7 +55,7 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
             html += '</a>';
             html += '</div>';
 
-            if ('User' == profile.Type) {
+            if (profile.Type == 'User') {
                 html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate('ButtonDelete') + '"><i class="md-icon">delete</i></button>';
             }
 
@@ -57,7 +73,11 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
         });
     }
 
-    function deleteProfile(page, id) {
+    /**
+     * @param page
+     * @param id
+     */
+    function deleteProfile (page, id) {
         require(['confirm'], function (confirm) {
             confirm(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
                 loading.show();
@@ -72,7 +92,10 @@ define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-
         });
     }
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             href: 'dlnasettings.html',
             name: globalize.translate('TabSettings')

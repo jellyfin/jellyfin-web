@@ -1,13 +1,17 @@
 define(['events', 'globalize', 'dom', 'datetime', 'userSettings', 'serverNotifications', 'connectionManager', 'emby-button', 'listViewStyle'], function (events, globalize, dom, datetime, userSettings, serverNotifications, connectionManager) {
     'use strict';
 
-    function getEntryHtml(entry, apiClient) {
+    /**
+     * @param entry
+     * @param apiClient
+     */
+    function getEntryHtml (entry, apiClient) {
         var html = '';
         html += '<div class="listItem listItem-border">';
         var color = '#00a4dc';
         var icon = 'notifications';
 
-        if ('Error' == entry.Severity || 'Fatal' == entry.Severity || 'Warn' == entry.Severity) {
+        if (entry.Severity == 'Error' || entry.Severity == 'Fatal' || entry.Severity == 'Warn') {
             color = '#cc0000';
             icon = 'notification_important';
         }
@@ -41,20 +45,34 @@ define(['events', 'globalize', 'dom', 'datetime', 'userSettings', 'serverNotific
         return html += '</div>';
     }
 
-    function renderList(elem, apiClient, result, startIndex, limit) {
+    /**
+     * @param elem
+     * @param apiClient
+     * @param result
+     * @param startIndex
+     * @param limit
+     */
+    function renderList (elem, apiClient, result, startIndex, limit) {
         elem.innerHTML = result.Items.map(function (i) {
             return getEntryHtml(i, apiClient);
         }).join('');
     }
 
-    function reloadData(instance, elem, apiClient, startIndex, limit) {
-        if (null == startIndex) {
+    /**
+     * @param instance
+     * @param elem
+     * @param apiClient
+     * @param startIndex
+     * @param limit
+     */
+    function reloadData (instance, elem, apiClient, startIndex, limit) {
+        if (startIndex == null) {
             startIndex = parseInt(elem.getAttribute('data-activitystartindex') || '0');
         }
 
         limit = limit || parseInt(elem.getAttribute('data-activitylimit') || '7');
         var minDate = new Date();
-        var hasUserId = 'false' !== elem.getAttribute('data-useractivity');
+        var hasUserId = elem.getAttribute('data-useractivity') !== 'false';
 
         if (hasUserId) {
             minDate.setTime(minDate.getTime() - 24 * 60 * 60 * 1000); // one day back
@@ -87,7 +105,12 @@ define(['events', 'globalize', 'dom', 'datetime', 'userSettings', 'serverNotific
         });
     }
 
-    function onActivityLogUpdate(e, apiClient, data) {
+    /**
+     * @param e
+     * @param apiClient
+     * @param data
+     */
+    function onActivityLogUpdate (e, apiClient, data) {
         var options = this.options;
 
         if (options && options.serverId === apiClient.serverId()) {
@@ -95,7 +118,10 @@ define(['events', 'globalize', 'dom', 'datetime', 'userSettings', 'serverNotific
         }
     }
 
-    function onListClick(e) {
+    /**
+     * @param e
+     */
+    function onListClick (e) {
         var btnEntryInfo = dom.parentWithClass(e.target, 'btnEntryInfo');
 
         if (btnEntryInfo) {
@@ -114,7 +140,10 @@ define(['events', 'globalize', 'dom', 'datetime', 'userSettings', 'serverNotific
         }
     }
 
-    function showItemOverview(item) {
+    /**
+     * @param item
+     */
+    function showItemOverview (item) {
         require(['alert'], function (alert) {
             alert({
                 text: item.Overview
@@ -122,7 +151,10 @@ define(['events', 'globalize', 'dom', 'datetime', 'userSettings', 'serverNotific
         });
     }
 
-    function ActivityLog(options) {
+    /**
+     * @param options
+     */
+    function ActivityLog (options) {
         this.options = options;
         var element = options.element;
         element.classList.add('activityLogListWidget');

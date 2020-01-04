@@ -11,8 +11,11 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     var currentPlayer;
     var lastUpdateTime = 0;
 
-    function seriesImageUrl(item, options) {
-
+    /**
+     * @param item
+     * @param options
+     */
+    function seriesImageUrl (item, options) {
         if (item.Type !== 'Episode') {
             return null;
         }
@@ -21,9 +24,7 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         options.type = options.type || 'Primary';
 
         if (options.type === 'Primary') {
-
             if (item.SeriesPrimaryImageTag) {
-
                 options.tag = item.SeriesPrimaryImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
@@ -31,15 +32,12 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         }
 
         if (options.type === 'Thumb') {
-
             if (item.SeriesThumbImageTag) {
-
                 options.tag = item.SeriesThumbImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
             if (item.ParentThumbImageTag) {
-
                 options.tag = item.ParentThumbImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
@@ -49,19 +47,20 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         return null;
     }
 
-    function imageUrl(item, options) {
-
+    /**
+     * @param item
+     * @param options
+     */
+    function imageUrl (item, options) {
         options = options || {};
         options.type = options.type || 'Primary';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
-
             options.tag = item.ImageTags[options.type];
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
         }
 
         if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
             options.tag = item.AlbumPrimaryImageTag;
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
@@ -69,7 +68,12 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         return null;
     }
 
-    function pushImageUrl(item, imageOptions, list) {
+    /**
+     * @param item
+     * @param imageOptions
+     * @param list
+     */
+    function pushImageUrl (item, imageOptions, list) {
         var url = seriesImageUrl(item, imageOptions) || imageUrl(item, imageOptions);
 
         if (url) {
@@ -82,22 +86,28 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         }
     }
 
-    function getImageUrls(item) {
-
+    /**
+     * @param item
+     */
+    function getImageUrls (item) {
         var list = [];
 
-        pushImageUrl(item, {height: 96}, list);
-        pushImageUrl(item, {height: 128}, list);
-        pushImageUrl(item, {height: 192}, list);
-        pushImageUrl(item, {height: 256}, list);
-        pushImageUrl(item, {height: 384}, list);
-        pushImageUrl(item, {height: 512}, list);
+        pushImageUrl(item, { height: 96 }, list);
+        pushImageUrl(item, { height: 128 }, list);
+        pushImageUrl(item, { height: 192 }, list);
+        pushImageUrl(item, { height: 256 }, list);
+        pushImageUrl(item, { height: 384 }, list);
+        pushImageUrl(item, { height: 512 }, list);
 
         return list;
     }
 
-    function updatePlayerState(player, state, eventName) {
-
+    /**
+     * @param player
+     * @param state
+     * @param eventName
+     */
+    function updatePlayerState (player, state, eventName) {
         var item = state.NowPlayingItem;
 
         if (!item) {
@@ -173,7 +183,7 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
             });
         } else {
             var imageUrl = [];
-            pushImageUrl(item, {maxHeight: 400}, imageUrl);
+            pushImageUrl(item, { maxHeight: 400 }, imageUrl);
 
             if (imageUrl.length) {
                 imageUrl = imageUrl[0].src;
@@ -197,38 +207,50 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         }
     }
 
-    function onGeneralEvent(e) {
-
+    /**
+     * @param e
+     */
+    function onGeneralEvent (e) {
         var player = this;
         var state = playbackManager.getPlayerState(player);
 
         updatePlayerState(player, state, e.type);
     }
 
-    function onStateChanged(e, state) {
-
+    /**
+     * @param e
+     * @param state
+     */
+    function onStateChanged (e, state) {
         var player = this;
         updatePlayerState(player, state, 'statechange');
     }
 
-    function onPlaybackStart(e, state) {
-
+    /**
+     * @param e
+     * @param state
+     */
+    function onPlaybackStart (e, state) {
         var player = this;
 
         updatePlayerState(player, state, e.type);
     }
 
-    function onPlaybackStopped(e, state) {
-
+    /**
+     * @param e
+     * @param state
+     */
+    function onPlaybackStopped (e, state) {
         var player = this;
 
         hideMediaControls();
     }
 
-    function releaseCurrentPlayer() {
-
+    /**
+     *
+     */
+    function releaseCurrentPlayer () {
         if (currentPlayer) {
-
             events.off(currentPlayer, 'playbackstart', onPlaybackStart);
             events.off(currentPlayer, 'playbackstop', onPlaybackStopped);
             events.off(currentPlayer, 'unpause', onGeneralEvent);
@@ -242,7 +264,10 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         }
     }
 
-    function hideMediaControls() {
+    /**
+     *
+     */
+    function hideMediaControls () {
         lastUpdateTime = 0;
 
         if (navigator.mediaSession) {
@@ -252,8 +277,10 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         }
     }
 
-    function bindToPlayer(player) {
-
+    /**
+     * @param player
+     */
+    function bindToPlayer (player) {
         releaseCurrentPlayer();
 
         if (!player) {
@@ -273,11 +300,13 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         events.on(currentPlayer, 'timeupdate', onGeneralEvent);
     }
 
-    function execute(name) {
+    /**
+     * @param name
+     */
+    function execute (name) {
         playbackManager[name](currentPlayer);
     }
     if (navigator.mediaSession) {
-
         navigator.mediaSession.setActionHandler('previoustrack', function () {
             execute('previousTrack');
         });
@@ -304,7 +333,6 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     }
 
     events.on(playbackManager, 'playerchange', function () {
-
         bindToPlayer(playbackManager.getCurrentPlayer());
     });
 

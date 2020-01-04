@@ -2,7 +2,10 @@ define(['loading', 'listView', 'cardBuilder', 'libraryMenu', 'libraryBrowser', '
     'use strict';
 
     return function (view, params) {
-        function getPageData(context) {
+        /**
+         * @param context
+         */
+        function getPageData (context) {
             var key = getSavedQueryKey(context);
             var pageData = data[key];
 
@@ -26,11 +29,17 @@ define(['loading', 'listView', 'cardBuilder', 'libraryMenu', 'libraryBrowser', '
             return pageData;
         }
 
-        function getQuery(context) {
+        /**
+         * @param context
+         */
+        function getQuery (context) {
             return getPageData(context).query;
         }
 
-        function getSavedQueryKey(context) {
+        /**
+         * @param context
+         */
+        function getSavedQueryKey (context) {
             if (!context.savedQueryKey) {
                 context.savedQueryKey = libraryBrowser.getSavedQueryKey();
             }
@@ -38,19 +47,28 @@ define(['loading', 'listView', 'cardBuilder', 'libraryMenu', 'libraryBrowser', '
             return context.savedQueryKey;
         }
 
-        function showLoadingMessage() {
+        /**
+         *
+         */
+        function showLoadingMessage () {
             loading.show();
         }
 
-        function hideLoadingMessage() {
+        /**
+         *
+         */
+        function hideLoadingMessage () {
             loading.hide();
         }
 
-        function onViewStyleChange() {
+        /**
+         *
+         */
+        function onViewStyleChange () {
             var viewStyle = getPageData(view).view;
             var itemsContainer = view.querySelector('.itemsContainer');
 
-            if ('List' == viewStyle) {
+            if (viewStyle == 'List') {
                 itemsContainer.classList.add('vertical-list');
                 itemsContainer.classList.remove('vertical-wrap');
             } else {
@@ -61,7 +79,10 @@ define(['loading', 'listView', 'cardBuilder', 'libraryMenu', 'libraryBrowser', '
             itemsContainer.innerHTML = '';
         }
 
-        function reloadItems() {
+        /**
+         *
+         */
+        function reloadItems () {
             showLoadingMessage();
             var query = getQuery(view);
             var promise1 = ApiClient.getItems(Dashboard.getCurrentUserId(), query);

@@ -1,7 +1,10 @@
 define(['datetime'], function (datetime) {
     'use strict';
 
-    function humaneDate(date_str) {
+    /**
+     * @param date_str
+     */
+    function humaneDate (date_str) {
         var format;
         var time_formats = [
             [90, 'a minute'],
@@ -27,7 +30,7 @@ define(['datetime'], function (datetime) {
         }
         for (; format = time_formats[i++];) {
             if (seconds < format[0]) {
-                if (2 == format.length) {
+                if (format.length == 2) {
                     return format[1] + ' ago';
                 }
 
@@ -42,7 +45,11 @@ define(['datetime'], function (datetime) {
         return date_str;
     }
 
-    function humaneElapsed(firstDateStr, secondDateStr) {
+    /**
+     * @param firstDateStr
+     * @param secondDateStr
+     */
+    function humaneElapsed (firstDateStr, secondDateStr) {
         // TODO replace this whole script with a library or something
         var dateOne = new Date(firstDateStr);
         var dateTwo = new Date(secondDateStr);
@@ -52,15 +59,15 @@ define(['datetime'], function (datetime) {
         var minutes = Math.floor(delta % 31536e3 % 86400 % 3600 / 60);
         var seconds = Math.round(delta % 31536e3 % 86400 % 3600 % 60);
         var elapsed = '';
-        elapsed += 1 == days ? days + ' day ' : '';
+        elapsed += days == 1 ? days + ' day ' : '';
         elapsed += days > 1 ? days + ' days ' : '';
-        elapsed += 1 == hours ? hours + ' hour ' : '';
+        elapsed += hours == 1 ? hours + ' hour ' : '';
         elapsed += hours > 1 ? hours + ' hours ' : '';
-        elapsed += 1 == minutes ? minutes + ' minute ' : '';
+        elapsed += minutes == 1 ? minutes + ' minute ' : '';
         elapsed += minutes > 1 ? minutes + ' minutes ' : '';
         elapsed += elapsed.length > 0 ? 'and ' : '';
-        elapsed += 1 == seconds ? seconds + ' second' : '';
-        elapsed += 0 == seconds || seconds > 1 ? seconds + ' seconds' : '';
+        elapsed += seconds == 1 ? seconds + ' second' : '';
+        elapsed += seconds == 0 || seconds > 1 ? seconds + ' seconds' : '';
         return elapsed;
     }
 

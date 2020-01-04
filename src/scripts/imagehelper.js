@@ -1,7 +1,10 @@
 define(['browser'], function (browser) {
     'use strict';
 
-    function getDeviceIcon(device) {
+    /**
+     * @param device
+     */
+    function getDeviceIcon (device) {
         var baseUrl = 'img/devices/';
         switch (device) {
         case 'Opera':
@@ -28,7 +31,10 @@ define(['browser'], function (browser) {
         }
     }
 
-    function getLibraryIcon(library) {
+    /**
+     * @param library
+     */
+    function getLibraryIcon (library) {
         switch (library) {
         case 'movies':
             return 'video_library';

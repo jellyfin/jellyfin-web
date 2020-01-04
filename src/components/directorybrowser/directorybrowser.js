@@ -1,20 +1,32 @@
-define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-icon-button-light', 'css!./directorybrowser', 'formDialogStyle', 'emby-button'], function(loading, dialogHelper, dom) {
+define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-icon-button-light', 'css!./directorybrowser', 'formDialogStyle', 'emby-button'], function (loading, dialogHelper, dom) {
     'use strict';
 
-    function getSystemInfo() {
+    /**
+     *
+     */
+    function getSystemInfo () {
         return systemInfo ? Promise.resolve(systemInfo) : ApiClient.getPublicSystemInfo().then(
-            function(info) {
+            function (info) {
                 systemInfo = info;
                 return info;
             }
         )
     }
 
-    function onDialogClosed() {
+    /**
+     *
+     */
+    function onDialogClosed () {
         loading.hide()
     }
 
-    function refreshDirectoryBrowser(page, path, fileOptions, updatePathOnError) {
+    /**
+     * @param page
+     * @param path
+     * @param fileOptions
+     * @param updatePathOnError
+     */
+    function refreshDirectoryBrowser (page, path, fileOptions, updatePathOnError) {
         if (path && typeof path !== 'string') {
             throw new Error('invalid path');
         }
@@ -23,7 +35,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
 
         var promises = [];
 
-        if ('Network' === path) {
+        if (path === 'Network') {
             promises.push(ApiClient.getNetworkDevices())
         } else {
             if (path) {
@@ -35,7 +47,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         }
 
         Promise.all(promises).then(
-            function(responses) {
+            function (responses) {
                 var folders = responses[0];
                 var parentPath = responses[1] || '';
                 var html = '';
@@ -48,7 +60,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                 }
                 for (var i = 0, length = folders.length; i < length; i++) {
                     var folder = folders[i];
-                    var cssClass = 'File' === folder.Type ? 'lnkPath lnkFile' : 'lnkPath lnkDirectory';
+                    var cssClass = folder.Type === 'File' ? 'lnkPath lnkFile' : 'lnkPath lnkDirectory';
                     html += getItem(cssClass, folder.Type, folder.Path, folder.Name);
                 }
 
@@ -58,7 +70,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
 
                 page.querySelector('.results').innerHTML = html;
                 loading.hide();
-            }, function() {
+            }, function () {
                 if (updatePathOnError) {
                     page.querySelector('#txtDirectoryPickerPath').value = '';
                     page.querySelector('.results').innerHTML = '';
@@ -68,7 +80,13 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         );
     }
 
-    function getItem(cssClass, type, path, name) {
+    /**
+     * @param cssClass
+     * @param type
+     * @param path
+     * @param name
+     */
+    function getItem (cssClass, type, path, name) {
         var html = '';
         html += '<div class="listItem listItem-border ' + cssClass + '" data-type="' + type + '" data-path="' + path + '">';
         html += '<div class="listItemBody" style="padding-left:0;padding-top:.5em;padding-bottom:.5em;">';
@@ -81,7 +99,11 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         return html;
     }
 
-    function getEditorHtml(options, systemInfo) {
+    /**
+     * @param options
+     * @param systemInfo
+     */
+    function getEditorHtml (options, systemInfo) {
         var html = '';
         html += '<div class="formDialogContent scrollY">';
         html += '<div class="dialogContentInner dialog-content-centered" style="padding-top:2em;">';
@@ -90,12 +112,12 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
             html += '<div class="infoBanner" style="margin-bottom:1.5em;">';
             html += instruction;
             html += Globalize.translate('MessageDirectoryPickerInstruction').replace('{0}', '<b>\\\\server</b>').replace('{1}', '<b>\\\\192.168.1.101</b>');
-            if ('bsd' === systemInfo.OperatingSystem.toLowerCase()) {
+            if (systemInfo.OperatingSystem.toLowerCase() === 'bsd') {
                 html += '<br/>';
                 html += '<br/>';
                 html += Globalize.translate('MessageDirectoryPickerBSDInstruction');
                 html += '<br/>';
-            } else if ('linux' === systemInfo.OperatingSystem.toLowerCase()) {
+            } else if (systemInfo.OperatingSystem.toLowerCase() === 'linux') {
                 html += '<br/>';
                 html += '<br/>';
                 html += Globalize.translate('MessageDirectoryPickerLinuxInstruction');
@@ -141,19 +163,30 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         return html;
     }
 
-    function alertText(text) {
+    /**
+     * @param text
+     */
+    function alertText (text) {
         alertTextWithOptions({
             text: text
         })
     }
 
-    function alertTextWithOptions(options) {
-        require(['alert'], function(alert) {
+    /**
+     * @param options
+     */
+    function alertTextWithOptions (options) {
+        require(['alert'], function (alert) {
             alert(options)
         })
     }
 
-    function validatePath(path, validateWriteable, apiClient) {
+    /**
+     * @param path
+     * @param validateWriteable
+     * @param apiClient
+     */
+    function validatePath (path, validateWriteable, apiClient) {
         return apiClient.ajax({
             type: 'POST',
             url: apiClient.getUrl('Environment/ValidatePath'),
@@ -161,7 +194,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                 ValidateWriteable: validateWriteable,
                 Path: path
             }
-        }).catch(function(response) {
+        }).catch(function (response) {
             if (response) {
                 // TODO All alerts (across the project), should use Globalize.translate()
                 if (response.status === 404) {
@@ -181,8 +214,13 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         });
     }
 
-    function initEditor(content, options, fileOptions) {
-        content.addEventListener('click', function(e) {
+    /**
+     * @param content
+     * @param options
+     * @param fileOptions
+     */
+    function initEditor (content, options, fileOptions) {
+        content.addEventListener('click', function (e) {
             var lnkPath = dom.parentWithClass(e.target, 'lnkPath');
             if (lnkPath) {
                 var path = lnkPath.getAttribute('data-path');
@@ -194,21 +232,21 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
             }
         });
 
-        content.addEventListener('click', function(e) {
+        content.addEventListener('click', function (e) {
             if (dom.parentWithClass(e.target, 'btnRefreshDirectories')) {
                 var path = content.querySelector('#txtDirectoryPickerPath').value;
                 refreshDirectoryBrowser(content, path, fileOptions);
             }
         });
 
-        content.addEventListener('change', function(e) {
+        content.addEventListener('change', function (e) {
             var txtDirectoryPickerPath = dom.parentWithTag(e.target, 'INPUT');
-            if (txtDirectoryPickerPath && 'txtDirectoryPickerPath' === txtDirectoryPickerPath.id) {
+            if (txtDirectoryPickerPath && txtDirectoryPickerPath.id === 'txtDirectoryPickerPath') {
                 refreshDirectoryBrowser(content, txtDirectoryPickerPath.value, fileOptions);
             }
         });
 
-        content.querySelector('form').addEventListener('submit', function(e) {
+        content.querySelector('form').addEventListener('submit', function (e) {
             if (options.callback) {
                 var networkSharePath = this.querySelector('#txtNetworkPath');
                 networkSharePath = networkSharePath ? networkSharePath.value : null;
@@ -221,24 +259,30 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         });
     }
 
-    function getDefaultPath(options) {
+    /**
+     * @param options
+     */
+    function getDefaultPath (options) {
         if (options.path) {
             return Promise.resolve(options.path);
         } else {
             return ApiClient.getJSON(ApiClient.getUrl('Environment/DefaultDirectoryBrowser')).then(
-                function(result) {
+                function (result) {
                     return result.Path || '';
-                }, function() {
+                }, function () {
                     return '';
                 }
             );
         }
     }
 
-    function directoryBrowser() {
+    /**
+     *
+     */
+    function directoryBrowser () {
         var currentDialog;
         var self = this;
-        self.show = function(options) {
+        self.show = function (options) {
             options = options || {};
             var fileOptions = {
                 includeDirectories: true
@@ -250,7 +294,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                 fileOptions.includeFiles = options.includeFiles;
             }
             Promise.all([getSystemInfo(), getDefaultPath(options)]).then(
-                function(responses) {
+                function (responses) {
                     var systemInfo = responses[0];
                     var initialPath = responses[1];
                     var dlg = dialogHelper.createDialog({
@@ -275,7 +319,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                     initEditor(dlg, options, fileOptions);
                     dlg.addEventListener('close', onDialogClosed);
                     dialogHelper.open(dlg);
-                    dlg.querySelector('.btnCloseDialog').addEventListener('click', function() {
+                    dlg.querySelector('.btnCloseDialog').addEventListener('click', function () {
                         dialogHelper.close(dlg)
                     });
                     currentDialog = dlg;
@@ -290,7 +334,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                 }
             );
         };
-        self.close = function() {
+        self.close = function () {
             if (currentDialog) {
                 dialogHelper.close(currentDialog);
             }

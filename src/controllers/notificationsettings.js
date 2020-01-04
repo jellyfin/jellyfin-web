@@ -1,13 +1,16 @@
-define(['loading', 'libraryMenu', 'globalize', 'listViewStyle', 'emby-button'], function(loading, libraryMenu, globalize) {
+define(['loading', 'libraryMenu', 'globalize', 'listViewStyle', 'emby-button'], function (loading, libraryMenu, globalize) {
     'use strict';
 
-    function reload(page) {
+    /**
+     * @param page
+     */
+    function reload (page) {
         loading.show();
-        ApiClient.getJSON(ApiClient.getUrl('Notifications/Types')).then(function(list) {
+        ApiClient.getJSON(ApiClient.getUrl('Notifications/Types')).then(function (list) {
             var html = '';
             var lastCategory = '';
             var showHelp = true;
-            html += list.map(function(notification) {
+            html += list.map(function (notification) {
                 var itemHtml = '';
                 if (notification.Category !== lastCategory) {
                     lastCategory = notification.Category;
@@ -52,8 +55,8 @@ define(['loading', 'libraryMenu', 'globalize', 'listViewStyle', 'emby-button'], 
         })
     }
 
-    return function(view, params) {
-        view.addEventListener('viewshow', function() {
+    return function (view, params) {
+        view.addEventListener('viewshow', function () {
             reload(view);
         });
     }

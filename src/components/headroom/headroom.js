@@ -5,7 +5,6 @@
  */
 
 define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, layoutManager, browser) {
-
     'use strict';
 
     /* exported features */
@@ -14,10 +13,11 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
     /**
      * Handles debouncing of events via requestAnimationFrame
+     *
      * @see http://www.html5rocks.com/en/tutorials/speed/animations/
      * @param {Function} callback The callback to handle whichever event
      */
-    function Debouncer(callback) {
+    function Debouncer (callback) {
         this.callback = callback;
         this.ticking = false;
     }
@@ -26,6 +26,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         /**
          * dispatches the event to the supplied callback
+         *
          * @private
          */
         update: function () {
@@ -46,19 +47,24 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         }
     };
 
-    function onHeadroomClearedExternally() {
+    /**
+     *
+     */
+    function onHeadroomClearedExternally () {
         this.state = null;
     }
 
     /**
-   * UI enhancement for fixed headers.
-   * Hides header when scrolling down
-   * Shows header when scrolling up
-   * @constructor
-   * @param {DOMElement} elem the header element
-   * @param {Object} options options for the widget
-   */
-    function Headroom(elems, options) {
+     * UI enhancement for fixed headers.
+     * Hides header when scrolling down
+     * Shows header when scrolling up
+     *
+     * @class
+     * @param {DOMElement} elem the header element
+     * @param elems
+     * @param {object} options options for the widget
+     */
+    function Headroom (elems, options) {
         options = Object.assign(Headroom.options, options || {});
 
         this.lastKnownScrollY = 0;
@@ -85,7 +91,6 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         };
 
         this.add = function (elem) {
-
             if (browser.supportsCssAnimation()) {
                 elem.classList.add(this.initialClass);
                 elem.addEventListener('clearheadroom', onHeadroomClearedExternally.bind(this));
@@ -94,7 +99,6 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         };
 
         this.remove = function (elem) {
-
             elem.classList.remove(this.unPinnedClass);
             elem.classList.remove(this.initialClass);
             elem.classList.remove(this.pinnedClass);
@@ -117,11 +121,9 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          * Unattaches events and removes any classes that were added
          */
         this.destroy = function () {
-
             this.initialised = false;
 
             for (var i = 0, length = this.elems.length; i < length; i++) {
-
                 var classList = this.elems[i].classList;
 
                 classList.remove(this.unPinnedClass);
@@ -139,6 +141,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         /**
          * Attaches the scroll event
+         *
          * @private
          */
         this.attachEvent = function () {
@@ -161,7 +164,6 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          * Unpins the header if it's currently pinned
          */
         this.clear = function () {
-
             if (this.state === 'clear') {
                 return;
             }
@@ -175,7 +177,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 var classList = this.elems[i].classList;
 
                 classList.remove(unpinnedClass);
-                //classList.remove(pinnedClass);
+                // classList.remove(pinnedClass);
             }
         };
 
@@ -183,7 +185,6 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          * Unpins the header if it's currently pinned
          */
         this.pin = function () {
-
             if (this.state === 'pin') {
                 return;
             }
@@ -205,7 +206,6 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          * Unpins the header if it's currently pinned
          */
         this.unpin = function () {
-
             if (this.state === 'unpin') {
                 return;
             }
@@ -219,17 +219,17 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 var classList = this.elems[i].classList;
 
                 classList.add(unpinnedClass);
-                //classList.remove(pinnedClass);
+                // classList.remove(pinnedClass);
             }
         };
 
         /**
          * Gets the Y scroll position
+         *
          * @see https://developer.mozilla.org/en-US/docs/Web/API/Window.scrollY
-         * @return {Number} pixels the page has scrolled along the Y-axis
+         * @returns {number} pixels the page has scrolled along the Y-axis
          */
         this.getScrollY = function () {
-
             var scroller = this.scroller;
 
             if (scroller.getScrollPosition) {
@@ -251,8 +251,9 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         /**
          * determine if it is appropriate to unpin
+         *
          * @param  {int} currentScrollY the current y scroll position
-         * @return {bool} true if should unpin, false otherwise
+         * @returns {bool} true if should unpin, false otherwise
          */
         this.shouldUnpin = function (currentScrollY) {
             var scrollingDown = currentScrollY > this.lastKnownScrollY;
@@ -263,8 +264,9 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         /**
          * determine if it is appropriate to pin
+         *
          * @param  {int} currentScrollY the current y scroll position
-         * @return {bool} true if should pin, false otherwise
+         * @returns {bool} true if should pin, false otherwise
          */
         this.shouldPin = function (currentScrollY) {
             var scrollingUp = currentScrollY < this.lastKnownScrollY;
@@ -277,7 +279,6 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          * Handles updating the state of the widget
          */
         this.update = function () {
-
             if (this.paused) {
                 return;
             }
@@ -293,7 +294,6 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             } else if (this.shouldUnpin(currentScrollY)) {
                 this.unpin();
             } else if (this.shouldPin(currentScrollY)) {
-
                 var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= 14;
 
                 if (currentScrollY && isTv) {
@@ -302,7 +302,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                     this.clear();
                 }
             } else if (isTv) {
-                //this.clear();
+                // this.clear();
             }
 
             this.lastKnownScrollY = currentScrollY;
@@ -318,8 +318,10 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         }
     }
 
-    function onScroll() {
-
+    /**
+     *
+     */
+    function onScroll () {
         if (this.paused) {
             return;
         }
@@ -329,7 +331,8 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
     /**
      * Default options
-     * @type {Object}
+     *
+     * @type {object}
      */
     Headroom.options = {
         offset: 0,

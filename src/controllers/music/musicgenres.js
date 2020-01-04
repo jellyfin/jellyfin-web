@@ -2,7 +2,10 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
     'use strict';
 
     return function (view, params, tabContent) {
-        function getPageData() {
+        /**
+         *
+         */
+        function getPageData () {
             var key = getSavedQueryKey();
             var pageData = data[key];
 
@@ -24,21 +27,34 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
             return pageData;
         }
 
-        function getQuery() {
+        /**
+         *
+         */
+        function getQuery () {
             return getPageData().query;
         }
 
-        function getSavedQueryKey() {
+        /**
+         *
+         */
+        function getSavedQueryKey () {
             return libraryBrowser.getSavedQueryKey('genres');
         }
 
-        function getPromise() {
+        /**
+         *
+         */
+        function getPromise () {
             loading.show();
             var query = getQuery();
             return ApiClient.getGenres(ApiClient.getCurrentUserId(), query);
         }
 
-        function reloadItems(context, promise) {
+        /**
+         * @param context
+         * @param promise
+         */
+        function reloadItems (context, promise) {
             var query = getQuery();
             promise.then(function (result) {
                 var html = '';
@@ -94,7 +110,10 @@ define(['libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'loading'], f
             });
         }
 
-        function fullyReload() {
+        /**
+         *
+         */
+        function fullyReload () {
             self.preRender();
             self.renderTab();
         }

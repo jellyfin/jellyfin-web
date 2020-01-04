@@ -1,7 +1,10 @@
 define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'dom', 'userSettings', 'cardBuilder', 'playbackManager', 'mainTabsManager', 'scrollStyles', 'emby-itemscontainer', 'emby-button'], function (events, inputManager, libraryMenu, layoutManager, loading, dom, userSettings, cardBuilder, playbackManager, mainTabsManager) {
     'use strict';
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             name: Globalize.translate('TabShows')
         }, {
@@ -22,7 +25,10 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         }];
     }
 
-    function getDefaultTabIndex(folderId) {
+    /**
+     * @param folderId
+     */
+    function getDefaultTabIndex (folderId) {
         switch (userSettings.get('landing-' + folderId)) {
         case 'suggestions':
             return 1;
@@ -41,7 +47,11 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
         }
     }
 
-    function setScrollClasses(elem, scrollX) {
+    /**
+     * @param elem
+     * @param scrollX
+     */
+    function setScrollClasses (elem, scrollX) {
         if (scrollX) {
             elem.classList.add('hiddenScrollX');
 
@@ -60,13 +70,19 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
     }
 
     return function (view, params) {
-        function reload() {
+        /**
+         *
+         */
+        function reload () {
             loading.show();
             loadResume();
             loadNextUp();
         }
 
-        function loadNextUp() {
+        /**
+         *
+         */
+        function loadNextUp () {
             var query = {
                 Limit: 24,
                 Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo',
@@ -104,15 +120,24 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             });
         }
 
-        function enableScrollX() {
+        /**
+         *
+         */
+        function enableScrollX () {
             return !layoutManager.desktop;
         }
 
-        function getThumbShape() {
+        /**
+         *
+         */
+        function getThumbShape () {
             return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
         }
 
-        function loadResume() {
+        /**
+         *
+         */
+        function loadResume () {
             var parentId = libraryMenu.getTopParentId();
             var screenWidth = dom.getWindowSize().innerWidth;
             var limit = screenWidth >= 1600 ? 5 : 6;
@@ -155,24 +180,41 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             });
         }
 
-        function onBeforeTabChange(e) {
+        /**
+         * @param e
+         */
+        function onBeforeTabChange (e) {
             preLoadTab(view, parseInt(e.detail.selectedTabIndex));
         }
 
-        function onTabChange(e) {
+        /**
+         * @param e
+         */
+        function onTabChange (e) {
             var newIndex = parseInt(e.detail.selectedTabIndex);
             loadTab(view, newIndex);
         }
 
-        function getTabContainers() {
+        /**
+         *
+         */
+        function getTabContainers () {
             return view.querySelectorAll('.pageTabContent');
         }
 
-        function initTabs() {
+        /**
+         *
+         */
+        function initTabs () {
             mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
         }
 
-        function getTabController(page, index, callback) {
+        /**
+         * @param page
+         * @param index
+         * @param callback
+         */
+        function getTabController (page, index, callback) {
             var depends = [];
 
             switch (index) {
@@ -242,7 +284,11 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             });
         }
 
-        function preLoadTab(page, index) {
+        /**
+         * @param page
+         * @param index
+         */
+        function preLoadTab (page, index) {
             getTabController(page, index, function (controller) {
                 if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
                     controller.preRender();
@@ -250,7 +296,11 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             });
         }
 
-        function loadTab(page, index) {
+        /**
+         * @param page
+         * @param index
+         */
+        function loadTab (page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
                 initialTabIndex = null;
@@ -262,14 +312,22 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             });
         }
 
-        function onPlaybackStop(e, state) {
+        /**
+         * @param e
+         * @param state
+         */
+        function onPlaybackStop (e, state) {
             if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
                 renderedTabs = [];
                 mainTabsManager.getTabsElement().triggerTabChange();
             }
         }
 
-        function onWebSocketMessage(e, data) {
+        /**
+         * @param e
+         * @param data
+         */
+        function onWebSocketMessage (e, data) {
             var msg = data;
 
             if (msg.MessageType === 'UserDataChanged' && msg.Data.UserId == ApiClient.getCurrentUserId()) {
@@ -277,7 +335,10 @@ define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'do
             }
         }
 
-        function onInputCommand(e) {
+        /**
+         * @param e
+         */
+        function onInputCommand (e) {
             switch (e.detail.command) {
             case 'search':
                 e.preventDefault();

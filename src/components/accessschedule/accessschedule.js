@@ -1,7 +1,10 @@
 define(['dialogHelper', 'datetime', 'emby-select', 'paper-icon-button-light', 'formDialogStyle'], function (dialogHelper, datetime) {
     'use strict';
 
-    function getDisplayTime(hours) {
+    /**
+     * @param hours
+     */
+    function getDisplayTime (hours) {
         var minutes = 0;
         var pct = hours % 1;
 
@@ -12,7 +15,10 @@ define(['dialogHelper', 'datetime', 'emby-select', 'paper-icon-button-light', 'f
         return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
     }
 
-    function populateHours(context) {
+    /**
+     * @param context
+     */
+    function populateHours (context) {
         var html = '';
 
         for (var i = 0; i < 24; i++) {
@@ -24,13 +30,21 @@ define(['dialogHelper', 'datetime', 'emby-select', 'paper-icon-button-light', 'f
         context.querySelector('#selectEnd').innerHTML = html;
     }
 
-    function loadSchedule(context, schedule) {
+    /**
+     * @param context
+     * @param schedule
+     */
+    function loadSchedule (context, schedule) {
         context.querySelector('#selectDay').value = schedule.DayOfWeek || 'Sunday';
         context.querySelector('#selectStart').value = schedule.StartHour || 0;
         context.querySelector('#selectEnd').value = schedule.EndHour || 0;
     }
 
-    function submitSchedule(context, options) {
+    /**
+     * @param context
+     * @param options
+     */
+    function submitSchedule (context, options) {
         var updatedSchedule = {
             DayOfWeek: context.querySelector('#selectDay').value,
             StartHour: context.querySelector('#selectStart').value,

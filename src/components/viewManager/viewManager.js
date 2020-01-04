@@ -5,10 +5,8 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
     var dispatchPageEvents;
 
     viewContainer.setOnBeforeChange(function (newView, isRestored, options) {
-
         var lastView = currentView;
         if (lastView) {
-
             var beforeHideResult = dispatchViewEvent(lastView, null, 'viewbeforehide', true);
 
             if (!beforeHideResult) {
@@ -22,7 +20,6 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
             newView.initComplete = true;
 
             if (typeof options.controllerFactory === 'function') {
-
                 // Use controller method
                 var controller = new options.controllerFactory(newView, eventDetail.detail.params);
             }
@@ -35,8 +32,12 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
         dispatchViewEvent(newView, eventDetail, 'viewbeforeshow');
     });
 
-    function onViewChange(view, options, isRestore) {
-
+    /**
+     * @param view
+     * @param options
+     * @param isRestore
+     */
+    function onViewChange (view, options, isRestore) {
         var lastView = currentView;
         if (lastView) {
             dispatchViewEvent(lastView, null, 'viewhide');
@@ -65,7 +66,10 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
         }
     }
 
-    function getProperties(view) {
+    /**
+     * @param view
+     */
+    function getProperties (view) {
         var props = view.getAttribute('data-properties');
 
         if (props) {
@@ -75,8 +79,13 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
         return [];
     }
 
-    function dispatchViewEvent(view, eventInfo, eventName, isCancellable) {
-
+    /**
+     * @param view
+     * @param eventInfo
+     * @param eventName
+     * @param isCancellable
+     */
+    function dispatchViewEvent (view, eventInfo, eventName, isCancellable) {
         if (!eventInfo) {
             eventInfo = {
                 detail: {
@@ -100,8 +109,12 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
         return eventResult;
     }
 
-    function getViewEventDetail(view, options, isRestore) {
-
+    /**
+     * @param view
+     * @param options
+     * @param isRestore
+     */
+    function getViewEventDetail (view, options, isRestore) {
         var url = options.url;
         var index = url.indexOf('?');
         var params = index === -1 ? {} : queryString.parse(url.substring(index + 1));
@@ -122,18 +135,23 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
         };
     }
 
-    function resetCachedViews() {
+    /**
+     *
+     */
+    function resetCachedViews () {
         // Reset all cached views whenever the skin changes
         viewContainer.reset();
     }
 
     document.addEventListener('skinunload', resetCachedViews);
 
-    function ViewManager() {
+    /**
+     *
+     */
+    function ViewManager () {
     }
 
     ViewManager.prototype.loadView = function (options) {
-
         var lastView = currentView;
 
         // Record the element that has focus
@@ -146,13 +164,11 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
         }
 
         viewContainer.loadView(options).then(function (view) {
-
             onViewChange(view, options);
         });
     };
 
     ViewManager.prototype.tryRestoreView = function (options, onViewChanging) {
-
         if (options.cancel) {
             return Promise.reject({ cancelled: true });
         }
@@ -163,10 +179,8 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
         }
 
         return viewContainer.tryRestoreView(options).then(function (view) {
-
             onViewChanging();
             onViewChange(view, options, true);
-
         });
     };
 

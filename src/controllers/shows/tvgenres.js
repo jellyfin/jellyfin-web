@@ -2,7 +2,10 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
     'use strict';
 
     return function (view, params, tabContent) {
-        function getPageData() {
+        /**
+         *
+         */
+        function getPageData () {
             var key = getSavedQueryKey();
             var pageData = data[key];
 
@@ -24,42 +27,63 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
             return pageData;
         }
 
-        function getQuery() {
+        /**
+         *
+         */
+        function getQuery () {
             return getPageData().query;
         }
 
-        function getSavedQueryKey() {
+        /**
+         *
+         */
+        function getSavedQueryKey () {
             return libraryBrowser.getSavedQueryKey('seriesgenres');
         }
 
-        function getPromise() {
+        /**
+         *
+         */
+        function getPromise () {
             loading.show();
             var query = getQuery();
             return ApiClient.getGenres(ApiClient.getCurrentUserId(), query);
         }
 
-        function enableScrollX() {
+        /**
+         *
+         */
+        function enableScrollX () {
             return !layoutManager.desktop;
         }
 
-        function getThumbShape() {
+        /**
+         *
+         */
+        function getThumbShape () {
             return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
         }
 
-        function getPortraitShape() {
+        /**
+         *
+         */
+        function getPortraitShape () {
             return enableScrollX() ? 'overflowPortrait' : 'portrait';
         }
 
-        function fillItemsContainer(elem) {
+        /**
+         * @param elem
+         */
+        function fillItemsContainer (elem) {
             var id = elem.getAttribute('data-id');
             var viewStyle = self.getCurrentViewStyle();
-            var limit = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 5 : 9;
+            var limit = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 5 : 9;
 
             if (enableScrollX()) {
                 limit = 10;
             }
 
-            var enableImageTypes = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 'Primary,Backdrop,Thumb' : 'Primary';
+            var enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
             var query = {
                 SortBy: 'SortName',
                 SortOrder: 'Ascending',
@@ -123,7 +147,11 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
             });
         }
 
-        function reloadItems(context, promise) {
+        /**
+         * @param context
+         * @param promise
+         */
+        function reloadItems (context, promise) {
             var query = getQuery();
             promise.then(function (result) {
                 var elem = context.querySelector('#items');
@@ -164,7 +192,10 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
             });
         }
 
-        function fullyReload() {
+        /**
+         *
+         */
+        function fullyReload () {
             self.preRender();
             self.renderTab();
         }

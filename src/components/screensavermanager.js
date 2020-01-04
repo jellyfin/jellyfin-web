@@ -1,15 +1,21 @@
 define(['events', 'playbackManager', 'pluginManager', 'inputManager', 'connectionManager', 'userSettings'], function (events, playbackManager, pluginManager, inputManager, connectionManager, userSettings) {
     'use strict';
 
-    function getMinIdleTime() {
+    /**
+     *
+     */
+    function getMinIdleTime () {
         // Returns the minimum amount of idle time required before the screen saver can be displayed
-        //time units used Millisecond
+        // time units used Millisecond
         return 180000;
     }
 
     var lastFunctionalEvent = 0;
 
-    function getFunctionalEventIdleTime() {
+    /**
+     *
+     */
+    function getFunctionalEventIdleTime () {
         return new Date().getTime() - lastFunctionalEvent;
     }
 
@@ -20,8 +26,10 @@ define(['events', 'playbackManager', 'pluginManager', 'inputManager', 'connectio
         }
     });
 
-    function getScreensaverPlugin(isLoggedIn) {
-
+    /**
+     * @param isLoggedIn
+     */
+    function getScreensaverPlugin (isLoggedIn) {
         var option;
         try {
             option = userSettings.get('screensaver', false);
@@ -42,13 +50,17 @@ define(['events', 'playbackManager', 'pluginManager', 'inputManager', 'connectio
         return null;
     }
 
-    function ScreenSaverManager() {
-
+    /**
+     *
+     */
+    function ScreenSaverManager () {
         var self = this;
         var activeScreenSaver;
 
-        function showScreenSaver(screensaver) {
-
+        /**
+         * @param screensaver
+         */
+        function showScreenSaver (screensaver) {
             if (activeScreenSaver) {
                 throw new Error('An existing screensaver is already active.');
             }
@@ -69,7 +81,10 @@ define(['events', 'playbackManager', 'pluginManager', 'inputManager', 'connectio
             }
         }
 
-        function hide() {
+        /**
+         *
+         */
+        function hide () {
             if (activeScreenSaver) {
                 console.log('Hiding screensaver');
                 activeScreenSaver.hide();
@@ -104,8 +119,10 @@ define(['events', 'playbackManager', 'pluginManager', 'inputManager', 'connectio
             hide();
         };
 
-        function onInterval() {
-
+        /**
+         *
+         */
+        function onInterval () {
             if (self.isShowing()) {
                 return;
             }

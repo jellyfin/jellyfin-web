@@ -5,7 +5,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         var devicePixelRatio = window.devicePixelRatio || 1;
         var enableFocusTransform = !browser.slow && !browser.edge;
 
-        function getCardsHtml(items, options) {
+        /**
+         * @param items
+         * @param options
+         */
+        function getCardsHtml (items, options) {
             if (arguments.length === 1) {
                 options = arguments[0];
                 items = options.items;
@@ -14,7 +18,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return buildCardsHtmlInternal(items, options);
         }
 
-        function getPostersPerRow(shape, screenWidth, isOrientationLandscape) {
+        /**
+         * @param shape
+         * @param screenWidth
+         * @param isOrientationLandscape
+         */
+        function getPostersPerRow (shape, screenWidth, isOrientationLandscape) {
             switch (shape) {
             case 'portrait':
                 if (layoutManager.tv) {
@@ -222,7 +231,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function isResizable(windowWidth) {
+        /**
+         * @param windowWidth
+         */
+        function isResizable (windowWidth) {
             var screen = window.screen;
             if (screen) {
                 var screenWidth = screen.availWidth;
@@ -235,26 +247,32 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return false;
         }
 
-        function getImageWidth(shape, screenWidth, isOrientationLandscape) {
+        /**
+         * @param shape
+         * @param screenWidth
+         * @param isOrientationLandscape
+         */
+        function getImageWidth (shape, screenWidth, isOrientationLandscape) {
             var imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
             var shapeWidth = screenWidth / imagesPerRow;
 
             return Math.round(shapeWidth);
         }
 
-        function setCardData(items, options) {
-
+        /**
+         * @param items
+         * @param options
+         */
+        function setCardData (items, options) {
             options.shape = options.shape || 'auto';
 
             var primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items);
 
             if (options.shape === 'auto' || options.shape === 'autohome' || options.shape === 'autooverflow' || options.shape === 'autoVertical') {
-
                 var requestedShape = options.shape;
                 options.shape = null;
 
                 if (primaryImageAspectRatio) {
-
                     if (primaryImageAspectRatio >= 3) {
                         options.shape = 'banner';
                         options.coverImage = true;
@@ -300,8 +318,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function buildCardsHtmlInternal(items, options) {
-
+        /**
+         * @param items
+         * @param options
+         */
+        function buildCardsHtmlInternal (items, options) {
             var isVertical;
 
             if (options.shape === 'autoVertical') {
@@ -325,7 +346,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var length;
 
             for (i = 0, length = items.length; i < length; i++) {
-
                 var item = items[i];
                 var serverId = item.ServerId || options.serverId;
 
@@ -352,7 +372,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
 
                     if (newIndexValue !== currentIndexValue) {
-
                         if (hasOpenRow) {
                             html += '</div>';
                             hasOpenRow = false;
@@ -360,7 +379,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
 
                         if (hasOpenSection) {
-
                             html += '</div>';
 
                             if (isVertical) {
@@ -384,7 +402,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (options.rows && itemsInRow === 0) {
-
                     if (hasOpenRow) {
                         html += '</div>';
                         hasOpenRow = false;
@@ -419,7 +436,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var cardFooterHtml = '';
             for (i = 0, length = (options.lines || 0); i < length; i++) {
-
                 if (i === 0) {
                     cardFooterHtml += '<div class="cardText cardTextCentered cardText-first">&nbsp;</div>';
                 } else {
@@ -430,8 +446,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getDesiredAspect(shape) {
-
+        /**
+         * @param shape
+         */
+        function getDesiredAspect (shape) {
             if (shape) {
                 shape = shape.toLowerCase();
                 if (shape.indexOf('portrait') !== -1) {
@@ -450,8 +468,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return null;
         }
 
-        function getCardImageUrl(item, apiClient, options, shape) {
-
+        /**
+         * @param item
+         * @param apiClient
+         * @param options
+         * @param shape
+         */
+        function getCardImageUrl (item, apiClient, options, shape) {
             var imageItem = item.ProgramInfo || item;
             item = imageItem;
 
@@ -464,72 +487,53 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var uiAspect = null;
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: 'Thumb',
                     tag: item.ImageTags.Thumb
                 });
-
             } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: 'Banner',
                     tag: item.ImageTags.Banner
                 });
-
             } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: 'Disc',
                     tag: item.ImageTags.Disc
                 });
-
             } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: 'Logo',
                     tag: item.ImageTags.Logo
                 });
-
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
                     type: 'Logo',
                     tag: item.ParentLogoImageTag
                 });
-
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
                     type: 'Thumb',
                     tag: item.SeriesThumbImageTag
                 });
-
             } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
-
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
                     type: 'Thumb',
                     tag: item.ParentThumbImageTag
                 });
-
             } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: 'Backdrop',
                     tag: item.BackdropImageTags[0]
                 });
 
                 forceName = true;
-
             } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
-
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                     type: 'Backdrop',
                     tag: item.ParentBackdropImageTags[0]
                 });
-
             } else if (item.ImageTags && item.ImageTags.Primary) {
-
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -547,9 +551,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
                     }
                 }
-
             } else if (item.PrimaryImageTag) {
-
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.PrimaryImageItemId || item.Id || item.ItemId, {
@@ -568,19 +570,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
             } else if (item.ParentPrimaryImageTag) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
                     type: 'Primary',
                     tag: item.ParentPrimaryImageTag
                 });
             } else if (item.SeriesPrimaryImageTag) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
                     type: 'Primary',
                     tag: item.SeriesPrimaryImageTag
                 });
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
                 width = primaryImageAspectRatio ? Math.round(height * primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.AlbumId, {
@@ -595,47 +594,35 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
             } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: 'Thumb',
                     tag: item.ImageTags.Thumb
                 });
-
             } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: 'Backdrop',
                     tag: item.BackdropImageTags[0]
                 });
-
             } else if (item.ImageTags && item.ImageTags.Thumb) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: 'Thumb',
                     tag: item.ImageTags.Thumb
                 });
-
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
                     type: 'Thumb',
                     tag: item.SeriesThumbImageTag
                 });
-
             } else if (item.ParentThumbItemId && options.inheritThumb !== false) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
                     type: 'Thumb',
                     tag: item.ParentThumbImageTag
                 });
-
             } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
-
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                     type: 'Backdrop',
                     tag: item.ParentBackdropImageTags[0]
                 });
-
             }
 
             return {
@@ -645,13 +632,19 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             };
         }
 
-        function getRandomInt(min, max) {
+        /**
+         * @param min
+         * @param max
+         */
+        function getRandomInt (min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
         var numRandomColors = 5;
-        function getDefaultColorIndex(str) {
-
+        /**
+         * @param str
+         */
+        function getDefaultColorIndex (str) {
             if (str) {
                 var charIndex = Math.floor(str.length / 2);
                 var character = String(str.substr(charIndex, 1).charCodeAt());
@@ -667,8 +660,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout, addRightMargin, maxLines) {
-
+        /**
+         * @param lines
+         * @param cssClass
+         * @param forceLines
+         * @param isOuterFooter
+         * @param cardLayout
+         * @param addRightMargin
+         * @param maxLines
+         */
+        function getCardTextLines (lines, cssClass, forceLines, isOuterFooter, cardLayout, addRightMargin, maxLines) {
             var html = '';
 
             var valid = 0;
@@ -676,7 +677,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var length;
 
             for (i = 0, length = lines.length; i < length; i++) {
-
                 var currentCssClass = cssClass;
                 var text = lines[i];
 
@@ -703,7 +703,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (forceLines) {
-
                 length = maxLines || Math.min(lines.length, maxLines || lines.length);
 
                 while (valid < length) {
@@ -715,15 +714,21 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function isUsingLiveTvNaming(item) {
+        /**
+         * @param item
+         */
+        function isUsingLiveTvNaming (item) {
             return item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording';
         }
 
-        function getAirTimeText(item, showAirDateTime, showAirEndTime) {
-
+        /**
+         * @param item
+         * @param showAirDateTime
+         * @param showAirEndTime
+         */
+        function getAirTimeText (item, showAirDateTime, showAirEndTime) {
             var airTimeText = '';
             if (item.StartDate) {
-
                 try {
                     var date = datetime.parseISO8601Date(item.StartDate);
 
@@ -745,8 +750,20 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return airTimeText;
         }
 
-        function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, logoUrl, isOuterFooter) {
-
+        /**
+         * @param item
+         * @param apiClient
+         * @param options
+         * @param showTitle
+         * @param forceName
+         * @param overlayText
+         * @param imgUrl
+         * @param footerClass
+         * @param progressHtml
+         * @param logoUrl
+         * @param isOuterFooter
+         */
+        function getCardFooterText (item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, logoUrl, isOuterFooter) {
             var html = '';
 
             if (logoUrl) {
@@ -756,7 +773,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var showOtherText = isOuterFooter ? !overlayText : overlayText;
 
             if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
-
                 if (options.cardFooterAside !== 'none') {
                     html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">more_horiz</i></button>';
                 }
@@ -771,9 +787,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (showOtherText) {
                 if ((options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
-
                     if (isOuterFooter && item.Type === 'Episode' && item.SeriesName) {
-
                         if (item.SeriesId) {
                             lines.push(getTextActionButton({
                                 Id: item.SeriesId,
@@ -786,15 +800,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             lines.push(item.SeriesName);
                         }
                     } else {
-
                         if (isUsingLiveTvNaming(item)) {
-
                             lines.push(item.Name);
 
                             if (!item.EpisodeTitle) {
                                 titleAdded = true;
                             }
-
                         } else {
                             var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
 
@@ -812,7 +823,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (showMediaTitle) {
-
                 var name = options.showTitle === 'auto' && !item.IsFolder && item.MediaType === 'Photo' ? '' : itemHelper.getDisplayName(item, {
                     includeParentInfo: options.includeParentInfoInTitle
                 });
@@ -829,7 +839,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (showOtherText) {
                 if (options.showParentTitle && parentTitleUnderneath) {
-
                     if (isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
                         item.AlbumArtists[0].Type = 'MusicArtist';
                         item.AlbumArtists[0].IsFolder = true;
@@ -840,7 +849,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (options.showItemCounts) {
-
                     var itemCountHtml = getItemCountsHtml(options, item);
 
                     lines.push(itemCountHtml);
@@ -854,28 +862,23 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (options.showSongCount) {
-
                     var songLine = '';
 
                     if (item.SongCount) {
-                        songLine = item.SongCount === 1 ?
-                            globalize.translate('ValueOneSong') :
-                            globalize.translate('ValueSongCount', item.SongCount);
+                        songLine = item.SongCount === 1
+                            ? globalize.translate('ValueOneSong')
+                            : globalize.translate('ValueSongCount', item.SongCount);
                     }
 
                     lines.push(songLine);
                 }
 
                 if (options.showPremiereDate) {
-
                     if (item.PremiereDate) {
                         try {
-
                             lines.push(getPremiereDateText(item));
-
                         } catch (err) {
                             lines.push('');
-
                         }
                     } else {
                         lines.push('');
@@ -883,14 +886,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (options.showYear || options.showSeriesYear) {
-
                     if (item.Type === 'Series') {
                         if (item.Status === 'Continuing') {
-
                             lines.push(globalize.translate('SeriesYearToPresent', item.ProductionYear || ''));
-
                         } else {
-
                             if (item.EndDate && item.ProductionYear) {
                                 var endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
                                 lines.push(item.ProductionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
@@ -904,9 +903,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (options.showRuntime) {
-
                     if (item.RunTimeTicks) {
-
                         lines.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
                     } else {
                         lines.push('');
@@ -914,14 +911,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (options.showAirTime) {
-
                     lines.push(getAirTimeText(item, options.showAirDateTime, options.showAirEndTime) || '');
                 }
 
                 if (options.showChannelName) {
-
                     if (item.ChannelId) {
-
                         lines.push(getTextActionButton({
 
                             Id: item.ChannelId,
@@ -938,7 +932,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (options.showCurrentProgram && item.Type === 'TvChannel') {
-
                     if (item.CurrentProgram) {
                         lines.push(item.CurrentProgram.Name);
                     } else {
@@ -947,7 +940,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (options.showCurrentProgramTime && item.Type === 'TvChannel') {
-
                     if (item.CurrentProgram) {
                         lines.push(getAirTimeText(item.CurrentProgram, false, true) || '');
                     } else {
@@ -957,7 +949,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (options.showSeriesTimerTime) {
                     if (item.RecordAnyTime) {
-
                         lines.push(globalize.translate('Anytime'));
                     } else {
                         lines.push(datetime.getDisplayTime(item.StartDate));
@@ -996,11 +987,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (html) {
-
                 if (!isOuterFooter || logoUrl || options.cardLayout) {
                     html = '<div class="' + footerClass + '">' + html;
 
-                    //cardFooter
+                    // cardFooter
                     html += '</div>';
                 }
             }
@@ -1008,8 +998,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getTextActionButton(item, text, serverId) {
-
+        /**
+         * @param item
+         * @param text
+         * @param serverId
+         */
+        function getTextActionButton (item, text, serverId) {
             if (!text) {
                 text = itemHelper.getDisplayName(item);
             }
@@ -1025,90 +1019,78 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getItemCountsHtml(options, item) {
-
+        /**
+         * @param options
+         * @param item
+         */
+        function getItemCountsHtml (options, item) {
             var counts = [];
 
             var childText;
 
             if (item.Type === 'Playlist') {
-
                 childText = '';
 
                 if (item.RunTimeTicks) {
-
                     var minutes = item.RunTimeTicks / 600000000;
 
                     minutes = minutes || 1;
 
                     childText += globalize.translate('ValueMinutes', Math.round(minutes));
-
                 } else {
                     childText += globalize.translate('ValueMinutes', 0);
                 }
 
                 counts.push(childText);
-
             } else if (item.Type === 'Genre' || item.Type === 'Studio') {
-
                 if (item.MovieCount) {
-
-                    childText = item.MovieCount === 1 ?
-                        globalize.translate('ValueOneMovie') :
-                        globalize.translate('ValueMovieCount', item.MovieCount);
+                    childText = item.MovieCount === 1
+                        ? globalize.translate('ValueOneMovie')
+                        : globalize.translate('ValueMovieCount', item.MovieCount);
 
                     counts.push(childText);
                 }
 
                 if (item.SeriesCount) {
-
-                    childText = item.SeriesCount === 1 ?
-                        globalize.translate('ValueOneSeries') :
-                        globalize.translate('ValueSeriesCount', item.SeriesCount);
+                    childText = item.SeriesCount === 1
+                        ? globalize.translate('ValueOneSeries')
+                        : globalize.translate('ValueSeriesCount', item.SeriesCount);
 
                     counts.push(childText);
                 }
                 if (item.EpisodeCount) {
-
-                    childText = item.EpisodeCount === 1 ?
-                        globalize.translate('ValueOneEpisode') :
-                        globalize.translate('ValueEpisodeCount', item.EpisodeCount);
+                    childText = item.EpisodeCount === 1
+                        ? globalize.translate('ValueOneEpisode')
+                        : globalize.translate('ValueEpisodeCount', item.EpisodeCount);
 
                     counts.push(childText);
                 }
-
             } else if (item.Type === 'MusicGenre' || options.context === 'MusicArtist') {
-
                 if (item.AlbumCount) {
-
-                    childText = item.AlbumCount === 1 ?
-                        globalize.translate('ValueOneAlbum') :
-                        globalize.translate('ValueAlbumCount', item.AlbumCount);
+                    childText = item.AlbumCount === 1
+                        ? globalize.translate('ValueOneAlbum')
+                        : globalize.translate('ValueAlbumCount', item.AlbumCount);
 
                     counts.push(childText);
                 }
                 if (item.SongCount) {
-
-                    childText = item.SongCount === 1 ?
-                        globalize.translate('ValueOneSong') :
-                        globalize.translate('ValueSongCount', item.SongCount);
+                    childText = item.SongCount === 1
+                        ? globalize.translate('ValueOneSong')
+                        : globalize.translate('ValueSongCount', item.SongCount);
 
                     counts.push(childText);
                 }
                 if (item.MusicVideoCount) {
-
-                    childText = item.MusicVideoCount === 1 ?
-                        globalize.translate('ValueOneMusicVideo') :
-                        globalize.translate('ValueMusicVideoCount', item.MusicVideoCount);
+                    childText = item.MusicVideoCount === 1
+                        ? globalize.translate('ValueOneMusicVideo')
+                        : globalize.translate('ValueMusicVideoCount', item.MusicVideoCount);
 
                     counts.push(childText);
                 }
-
             } else if (item.Type === 'Series') {
-
-                childText = item.RecursiveItemCount === 1 ?
-                    globalize.translate('ValueOneEpisode') :
-                    globalize.translate('ValueEpisodeCount', item.RecursiveItemCount);
+                childText = item.RecursiveItemCount === 1
+                    ? globalize.translate('ValueOneEpisode')
+                    : globalize.translate('ValueEpisodeCount', item.RecursiveItemCount);
 
                 counts.push(childText);
             }
@@ -1116,8 +1098,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return counts.join(', ');
         }
 
-        function getProgramIndicators(item) {
-
+        /**
+         * @param item
+         */
+        function getProgramIndicators (item) {
             item = item.ProgramInfo || item;
 
             var html = '';
@@ -1131,9 +1115,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             } else if (item.IsSeries && !item.IsRepeat) {
                 html += '<div class="newTvProgram programAttributeIndicator">' + globalize.translate('AttributeNew') + '</div>';
             }
-            //else if (item.IsRepeat) {
+            // else if (item.IsRepeat) {
             //    html += '<div class="repeatTvProgram programAttributeIndicator">' + globalize.translate('Repeat') + '</div>';
-            //}
+            // }
 
             if (html) {
                 html = '<div class="cardProgramAttributeIndicators">' + html;
@@ -1144,20 +1128,30 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         }
 
         var refreshIndicatorLoaded;
-        function requireRefreshIndicator() {
-
+        /**
+         *
+         */
+        function requireRefreshIndicator () {
             if (!refreshIndicatorLoaded) {
                 refreshIndicatorLoaded = true;
                 require(['emby-itemrefreshindicator']);
             }
         }
 
-        function getDefaultBackgroundClass(str) {
+        /**
+         * @param str
+         */
+        function getDefaultBackgroundClass (str) {
             return 'defaultCardBackground defaultCardBackground' + getDefaultColorIndex(str);
         }
 
-        function buildCard(index, item, apiClient, options) {
-
+        /**
+         * @param index
+         * @param item
+         * @param apiClient
+         * @param options
+         */
+        function buildCard (index, item, apiClient, options) {
             var action = options.action || 'link';
 
             if (action === 'play' && item.IsFolder) {
@@ -1170,13 +1164,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var shape = options.shape;
 
             if (shape === 'mixed') {
-
                 shape = null;
 
                 var primaryImageAspectRatio = item.PrimaryImageAspectRatio;
 
                 if (primaryImageAspectRatio) {
-
                     if (primaryImageAspectRatio >= 1.33) {
                         shape = 'mixedBackdrop';
                     } else if (primaryImageAspectRatio > 0.71) {
@@ -1267,7 +1259,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (overlayText) {
-
                 logoUrl = null;
 
                 footerCssClass = progressHtml ? 'innerCardFooter fullInnerCardFooter' : 'innerCardFooter';
@@ -1344,7 +1335,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (layoutManager.tv) {
-
                 // Don't use the IMG tag with safari because it puts a white border around it
                 cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
 
@@ -1374,7 +1364,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             indicatorsHtml += indicators.getTypeIndicator(item);
 
             if (options.showGroupCount) {
-
                 indicatorsHtml += indicators.getChildCountIndicatorHtml(item, {
                     minCount: 1
                 });
@@ -1392,9 +1381,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerOpen += '<div class="cardIndicators">' + indicatorsHtml + '</div>';
             }
 
-            //if (item.Type === 'Program' || item.Type === 'Timer') {
+            // if (item.Type === 'Program' || item.Type === 'Timer') {
             //    cardImageContainerOpen += getProgramIndicators(item);
-            //}
+            // }
 
             if (!imgUrl) {
                 cardImageContainerOpen += getCardDefaultText(item, options);
@@ -1448,8 +1437,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
-        function getHoverMenuHtml(item, action) {
-
+        /**
+         * @param item
+         * @param action
+         */
+        function getHoverMenuHtml (item, action) {
             var html = '';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
@@ -1470,7 +1462,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (itemHelper.canRate(item)) {
-
                 var likes = userData.Likes == null ? '' : userData.Likes;
 
                 require(['emby-ratingbutton']);
@@ -1485,7 +1476,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getCardDefaultText(item, options) {
+        /**
+         * @param item
+         * @param options
+         */
+        function getCardDefaultText (item, options) {
             if (item.CollectionType) {
                 return '<i class="cardImageIcon md-icon">' + imageHelper.getLibraryIcon(item.CollectionType) + '</i>'
             }
@@ -1503,8 +1498,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return '<div class="cardText cardDefaultText">' + defaultName + '</div>';
         }
 
-        function buildCards(items, options) {
-
+        /**
+         * @param items
+         * @param options
+         */
+        function buildCards (items, options) {
             // Abort if the container has been disposed
             if (!document.body.contains(options.itemsContainer)) {
                 return;
@@ -1522,7 +1520,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var html = buildCardsHtmlInternal(items, options);
 
             if (html) {
-
                 if (options.itemsContainer.cardBuilderHtml !== html) {
                     options.itemsContainer.innerHTML = html;
 
@@ -1535,7 +1532,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imageLoader.lazyChildren(options.itemsContainer);
             } else {
-
                 options.itemsContainer.innerHTML = html;
                 options.itemsContainer.cardBuilderHtml = null;
             }
@@ -1545,8 +1541,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function ensureIndicators(card, indicatorsElem) {
-
+        /**
+         * @param card
+         * @param indicatorsElem
+         */
+        function ensureIndicators (card, indicatorsElem) {
             if (indicatorsElem) {
                 return indicatorsElem;
             }
@@ -1554,7 +1553,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             indicatorsElem = card.querySelector('.cardIndicators');
 
             if (!indicatorsElem) {
-
                 var cardImageContainer = card.querySelector('.cardImageContainer');
                 indicatorsElem = document.createElement('div');
                 indicatorsElem.classList.add('cardIndicators');
@@ -1564,8 +1562,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return indicatorsElem;
         }
 
-        function updateUserData(card, userData) {
-
+        /**
+         * @param card
+         * @param userData
+         */
+        function updateUserData (card, userData) {
             var type = card.getAttribute('data-type');
             var enableCountIndicator = type === 'Series' || type === 'BoxSet' || type === 'Season';
             var indicatorsElem = null;
@@ -1574,11 +1575,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var itemProgressBar = null;
 
             if (userData.Played) {
-
                 playedIndicator = card.querySelector('.playedIndicator');
 
                 if (!playedIndicator) {
-
                     playedIndicator = document.createElement('div');
                     playedIndicator.classList.add('playedIndicator');
                     playedIndicator.classList.add('indicator');
@@ -1587,10 +1586,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
                 playedIndicator.innerHTML = '<i class="md-icon indicatorIcon">check</i>';
             } else {
-
                 playedIndicator = card.querySelector('.playedIndicator');
                 if (playedIndicator) {
-
                     playedIndicator.parentNode.removeChild(playedIndicator);
                 }
             }
@@ -1598,7 +1595,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 countIndicator = card.querySelector('.countIndicator');
 
                 if (!countIndicator) {
-
                     countIndicator = document.createElement('div');
                     countIndicator.classList.add('countIndicator');
                     indicatorsElem = ensureIndicators(card, indicatorsElem);
@@ -1606,10 +1602,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
                 countIndicator.innerHTML = userData.UnplayedItemCount;
             } else if (enableCountIndicator) {
-
                 countIndicator = card.querySelector('.countIndicator');
                 if (countIndicator) {
-
                     countIndicator.parentNode.removeChild(countIndicator);
                 }
             }
@@ -1621,7 +1615,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             });
 
             if (progressHtml) {
-
                 itemProgressBar = card.querySelector('.itemProgressBar');
 
                 if (!itemProgressBar) {
@@ -1640,7 +1633,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 itemProgressBar.innerHTML = progressHtml;
             } else {
-
                 itemProgressBar = card.querySelector('.itemProgressBar');
                 if (itemProgressBar) {
                     itemProgressBar.parentNode.removeChild(itemProgressBar);
@@ -1648,8 +1640,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function onUserDataChanged(userData, scope) {
-
+        /**
+         * @param userData
+         * @param scope
+         */
+        function onUserDataChanged (userData, scope) {
             var cards = (scope || document.body).querySelectorAll('.card-withuserdata[data-id="' + userData.ItemId + '"]');
 
             for (var i = 0, length = cards.length; i < length; i++) {
@@ -1657,8 +1652,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function onTimerCreated(programId, newTimerId, itemsContainer) {
-
+        /**
+         * @param programId
+         * @param newTimerId
+         * @param itemsContainer
+         */
+        function onTimerCreated (programId, newTimerId, itemsContainer) {
             var cells = itemsContainer.querySelectorAll('.card[data-id="' + programId + '"]');
 
             for (var i = 0, length = cells.length; i < length; i++) {
@@ -1672,8 +1671,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function onTimerCancelled(id, itemsContainer) {
-
+        /**
+         * @param id
+         * @param itemsContainer
+         */
+        function onTimerCancelled (id, itemsContainer) {
             var cells = itemsContainer.querySelectorAll('.card[data-timerid="' + id + '"]');
 
             for (var i = 0, length = cells.length; i < length; i++) {
@@ -1686,8 +1688,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function onSeriesTimerCancelled(id, itemsContainer) {
-
+        /**
+         * @param id
+         * @param itemsContainer
+         */
+        function onSeriesTimerCancelled (id, itemsContainer) {
             var cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + id + '"]');
 
             for (var i = 0, length = cells.length; i < length; i++) {

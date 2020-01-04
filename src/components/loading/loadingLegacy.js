@@ -8,7 +8,6 @@ define(['require', 'css!./loadingLegacy'], function (require) {
             var elem = loadingElem;
 
             if (!elem) {
-
                 elem = document.createElement('img');
                 elem.src = require.toUrl('.').split('?')[0] + '/loader2.gif';
 
@@ -25,7 +24,6 @@ define(['require', 'css!./loadingLegacy'], function (require) {
             var elem = loadingElem;
 
             if (elem) {
-
                 elem.classList.add('hide');
             }
         }

@@ -1,7 +1,12 @@
 define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
     'use strict';
 
-    function getNode(item, folderState, selected) {
+    /**
+     * @param item
+     * @param folderState
+     * @param selected
+     */
+    function getNode (item, folderState, selected) {
         var htmlName = getNodeInnerHtml(item);
         var node = {
             id: item.Id,
@@ -33,7 +38,10 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         return node;
     }
 
-    function getNodeInnerHtml(item) {
+    /**
+     * @param item
+     */
+    function getNodeInnerHtml (item) {
         var name = item.Name;
         if (item.Number) {
             name = item.Number + ' - ' + name;
@@ -63,7 +71,12 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         return htmlName;
     }
 
-    function loadChildrenOfRootNode(page, scope, callback) {
+    /**
+     * @param page
+     * @param scope
+     * @param callback
+     */
+    function loadChildrenOfRootNode (page, scope, callback) {
         ApiClient.getLiveTvChannels({
             limit: 0
         }).then(function (result) {
@@ -102,7 +115,12 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         });
     }
 
-    function loadLiveTvChannels(service, openItems, callback) {
+    /**
+     * @param service
+     * @param openItems
+     * @param callback
+     */
+    function loadLiveTvChannels (service, openItems, callback) {
         ApiClient.getLiveTvChannels({
             ServiceName: service,
             AddCurrentProgram: false
@@ -115,7 +133,13 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         });
     }
 
-    function loadMediaFolders(page, scope, openItems, callback) {
+    /**
+     * @param page
+     * @param scope
+     * @param openItems
+     * @param callback
+     */
+    function loadMediaFolders (page, scope, openItems, callback) {
         ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders')).then(function (result) {
             var nodes = result.Items.map(function (n) {
                 var state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
@@ -130,7 +154,16 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         });
     }
 
-    function loadNode(page, scope, node, openItems, selectedId, currentUser, callback) {
+    /**
+     * @param page
+     * @param scope
+     * @param node
+     * @param openItems
+     * @param selectedId
+     * @param currentUser
+     * @param callback
+     */
+    function loadNode (page, scope, node, openItems, selectedId, currentUser, callback) {
         var id = node.id;
         if (id == '#') {
             loadChildrenOfRootNode(page, scope, callback);
@@ -171,20 +204,33 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         });
     }
 
-    function scrollToNode(id) {
+    /**
+     * @param id
+     */
+    function scrollToNode (id) {
         var elem = $('#' + id)[0];
         if (elem) {
             elem.scrollIntoView();
         }
     }
 
-    function initializeTree(page, currentUser, openItems, selectedId) {
+    /**
+     * @param page
+     * @param currentUser
+     * @param openItems
+     * @param selectedId
+     */
+    function initializeTree (page, currentUser, openItems, selectedId) {
         require(['jstree'], function () {
             initializeTreeInternal(page, currentUser, openItems, selectedId);
         });
     }
 
-    function onNodeSelect(event, data) {
+    /**
+     * @param event
+     * @param data
+     */
+    function onNodeSelect (event, data) {
         var node = data.node;
         var eventData = {
             id: node.id,
@@ -206,7 +252,11 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         }
     }
 
-    function onNodeOpen(event, data) {
+    /**
+     * @param event
+     * @param data
+     */
+    function onNodeOpen (event, data) {
         var page = $(this).parents('.page')[0];
         var node = data.node;
         if (node.children && node.children) {
@@ -218,7 +268,11 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         }
     }
 
-    function onNodeLoad(event, data) {
+    /**
+     * @param event
+     * @param data
+     */
+    function onNodeLoad (event, data) {
         var page = $(this).parents('.page')[0];
         var node = data.node;
         if (node.children && node.children) {
@@ -230,12 +284,18 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         }
     }
 
-    function initializeTreeInternal(page, currentUser, openItems, selectedId) {
+    /**
+     * @param page
+     * @param currentUser
+     * @param openItems
+     * @param selectedId
+     */
+    function initializeTreeInternal (page, currentUser, openItems, selectedId) {
         nodesToLoad = [];
         selectedNodeId = null;
         $.jstree.destroy();
         $('.libraryTree', page).jstree({
-            'plugins': ['wholerow'],
+            plugins: ['wholerow'],
             core: {
                 check_callback: true,
                 data: function (node, callback) {
@@ -248,7 +308,11 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         }).off('select_node.jstree', onNodeSelect).on('select_node.jstree', onNodeSelect).off('open_node.jstree', onNodeOpen).on('open_node.jstree', onNodeOpen).off('load_node.jstree', onNodeLoad).on('load_node.jstree', onNodeLoad);
     }
 
-    function loadNodesToLoad(page, node) {
+    /**
+     * @param page
+     * @param node
+     */
+    function loadNodesToLoad (page, node) {
         var children = node.children;
         for (var i = 0, length = children.length; i < length; i++) {
             var child = children[i];
@@ -261,7 +325,10 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         }
     }
 
-    function loadNodeCallback(node) {
+    /**
+     * @param node
+     */
+    function loadNodeCallback (node) {
         if (selectedNodeId && node.children && node.children.indexOf(selectedNodeId) != -1) {
             setTimeout(function () {
                 scrollToNode(selectedNodeId);
@@ -269,7 +336,11 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         }
     }
 
-    function updateEditorNode(page, item) {
+    /**
+     * @param page
+     * @param item
+     */
+    function updateEditorNode (page, item) {
         var elem = $('#' + item.Id + '>a', page)[0];
         if (elem == null) {
             return;
@@ -283,11 +354,17 @@ define(['datetime', 'jQuery', 'material-icons'], function (datetime, $) {
         }
     }
 
-    function setCurrentItemId(id) {
+    /**
+     * @param id
+     */
+    function setCurrentItemId (id) {
         itemId = id;
     }
 
-    function getCurrentItemId() {
+    /**
+     *
+     */
+    function getCurrentItemId () {
         if (itemId) {
             return itemId;
         }

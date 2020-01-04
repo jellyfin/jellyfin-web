@@ -1,11 +1,18 @@
 define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'humanedate', 'emby-button', 'emby-itemscontainer', 'cardStyle'], function (loading, dom, libraryMenu, globalize, imageHelper) {
     'use strict';
 
-    function canDelete(deviceId) {
+    /**
+     * @param deviceId
+     */
+    function canDelete (deviceId) {
         return deviceId !== ApiClient.deviceId();
     }
 
-    function deleteDevice(page, id) {
+    /**
+     * @param page
+     * @param id
+     */
+    function deleteDevice (page, id) {
         var msg = globalize.translate('DeleteDeviceConfirmation');
 
         require(['confirm'], function (confirm) {
@@ -28,7 +35,12 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'hu
         });
     }
 
-    function showDeviceMenu(view, btn, deviceId) {
+    /**
+     * @param view
+     * @param btn
+     * @param deviceId
+     */
+    function showDeviceMenu (view, btn, deviceId) {
         var menuItems = [];
 
         if (canEdit) {
@@ -65,7 +77,11 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'hu
         });
     }
 
-    function load(page, devices) {
+    /**
+     * @param page
+     * @param devices
+     */
+    function load (page, devices) {
         var html = '';
         html += devices.map(function (device) {
             var deviceHtml = '';
@@ -116,7 +132,10 @@ define(['loading', 'dom', 'libraryMenu', 'globalize', 'scripts/imagehelper', 'hu
         page.querySelector('.devicesList').innerHTML = html;
     }
 
-    function loadData(page) {
+    /**
+     * @param page
+     */
+    function loadData (page) {
         loading.show();
         ApiClient.getJSON(ApiClient.getUrl('Devices')).then(function (result) {
             load(page, result.Items);

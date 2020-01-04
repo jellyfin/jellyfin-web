@@ -2,17 +2,21 @@ define([], function () {
     'use strict';
 
     var currentId = 0;
-    function addUniquePlaylistItemId(item) {
-
+    /**
+     * @param item
+     */
+    function addUniquePlaylistItemId (item) {
         if (!item.PlaylistItemId) {
-
             item.PlaylistItemId = 'playlistItem' + currentId;
             currentId++;
         }
     }
 
-    function findPlaylistIndex(playlistItemId, list) {
-
+    /**
+     * @param playlistItemId
+     * @param list
+     */
+    function findPlaylistIndex (playlistItemId, list) {
         for (var i = 0, length = list.length; i < length; i++) {
             if (list[i].PlaylistItemId === playlistItemId) {
                 return i;
@@ -22,8 +26,10 @@ define([], function () {
         return -1;
     }
 
-    function PlayQueueManager() {
-
+    /**
+     *
+     */
+    function PlayQueueManager () {
         this._playlist = [];
         this._repeatMode = 'RepeatNone';
     }
@@ -33,11 +39,9 @@ define([], function () {
     };
 
     PlayQueueManager.prototype.setPlaylist = function (items) {
-
         items = items.slice(0);
 
         for (var i = 0, length = items.length; i < length; i++) {
-
             addUniquePlaylistItemId(items[i]);
         }
 
@@ -47,16 +51,19 @@ define([], function () {
     };
 
     PlayQueueManager.prototype.queue = function (items) {
-
         for (var i = 0, length = items.length; i < length; i++) {
-
             addUniquePlaylistItemId(items[i]);
 
             this._playlist.push(items[i]);
         }
     };
 
-    function arrayInsertAt(destArray, pos, arrayToInsert) {
+    /**
+     * @param destArray
+     * @param pos
+     * @param arrayToInsert
+     */
+    function arrayInsertAt (destArray, pos, arrayToInsert) {
         var args = [];
         args.push(pos); // where to insert
         args.push(0); // nothing to remove
@@ -69,7 +76,6 @@ define([], function () {
         var length;
 
         for (i = 0, length = items.length; i < length; i++) {
-
             addUniquePlaylistItemId(items[i]);
         }
 
@@ -85,12 +91,10 @@ define([], function () {
     };
 
     PlayQueueManager.prototype.getCurrentPlaylistIndex = function () {
-
         return findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
     };
 
     PlayQueueManager.prototype.getCurrentItem = function () {
-
         var index = findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
 
         return index === -1 ? null : this._playlist[index];
@@ -101,12 +105,10 @@ define([], function () {
     };
 
     PlayQueueManager.prototype.setPlaylistState = function (playlistItemId, playlistIndex) {
-
         this._currentPlaylistItemId = playlistItemId;
     };
 
     PlayQueueManager.prototype.setPlaylistIndex = function (playlistIndex) {
-
         if (playlistIndex < 0) {
             this.setPlaylistState(null);
         } else {
@@ -115,7 +117,6 @@ define([], function () {
     };
 
     PlayQueueManager.prototype.removeFromPlaylist = function (playlistItemIds) {
-
         var playlist = this.getPlaylist();
 
         if (playlist.length <= playlistItemIds.length) {
@@ -137,12 +138,16 @@ define([], function () {
         };
     };
 
-    function moveInArray(array, from, to) {
+    /**
+     * @param array
+     * @param from
+     * @param to
+     */
+    function moveInArray (array, from, to) {
         array.splice(to, 0, array.splice(from, 1)[0]);
     }
 
     PlayQueueManager.prototype.movePlaylistItem = function (playlistItemId, newIndex) {
-
         var playlist = this.getPlaylist();
 
         var oldIndex;
@@ -175,30 +180,25 @@ define([], function () {
     };
 
     PlayQueueManager.prototype.reset = function () {
-
         this._playlist = [];
         this._currentPlaylistItemId = null;
         this._repeatMode = 'RepeatNone';
     };
 
     PlayQueueManager.prototype.setRepeatMode = function (value) {
-
         this._repeatMode = value;
     };
 
     PlayQueueManager.prototype.getRepeatMode = function () {
-
         return this._repeatMode;
     };
 
     PlayQueueManager.prototype.getNextItemInfo = function () {
-
         var newIndex;
         var playlist = this.getPlaylist();
         var playlistLength = playlist.length;
 
         switch (this.getRepeatMode()) {
-
         case 'RepeatOne':
             newIndex = this.getCurrentPlaylistIndex();
             break;

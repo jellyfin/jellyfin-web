@@ -2,7 +2,10 @@ define(['displaySettings', 'userSettingsBuilder', 'userSettings', 'autoFocuser']
     'use strict';
 
     return function (view, params) {
-        function onBeforeUnload(e) {
+        /**
+         * @param e
+         */
+        function onBeforeUnload (e) {
             if (hasChanges) {
                 e.returnValue = 'You currently have unsaved changes. Are you sure you wish to leave?';
             }

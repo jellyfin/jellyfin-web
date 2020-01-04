@@ -1,8 +1,10 @@
 define(['browser', 'css!./appfooter'], function (browser) {
     'use strict';
 
-    function render(options) {
-
+    /**
+     * @param options
+     */
+    function render (options) {
         var elem = document.createElement('div');
 
         elem.classList.add('appfooter');
@@ -14,8 +16,10 @@ define(['browser', 'css!./appfooter'], function (browser) {
         return elem;
     }
 
-    function appFooter(options) {
-
+    /**
+     * @param options
+     */
+    function appFooter (options) {
         var self = this;
 
         self.element = render(options);

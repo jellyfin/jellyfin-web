@@ -1,12 +1,13 @@
 define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'paper-icon-button-light', 'emby-button', 'css!./recordingfields'], function (globalize, connectionManager, require, loading, appHost, dom, recordingHelper, events) {
     'use strict';
 
-    function onRecordingButtonClick(e) {
-
+    /**
+     * @param e
+     */
+    function onRecordingButtonClick (e) {
         var item = this.item;
 
         if (item) {
-
             var serverId = item.ServerId;
             var programId = item.Id;
             var timerId = item.TimerId;
@@ -21,7 +22,10 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
         }
     }
 
-    function RecordingButton(options) {
+    /**
+     * @param options
+     */
+    function RecordingButton (options) {
         this.options = options;
 
         if (options.item) {
@@ -40,24 +44,23 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
         });
     }
 
-    function getIndicatorIcon(item) {
-
+    /**
+     * @param item
+     */
+    function getIndicatorIcon (item) {
         var status;
 
         if (item.Type === 'SeriesTimer') {
             return 'fiber_smart_record';
         } else if (item.TimerId || item.SeriesTimerId) {
-
             status = item.Status || 'Cancelled';
         } else if (item.Type === 'Timer') {
-
             status = item.Status;
         } else {
             return 'fiber_manual_record';
         }
 
         if (item.SeriesTimerId) {
-
             if (status !== 'Cancelled') {
                 return 'fiber_smart_record';
             }
@@ -67,7 +70,6 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
     }
 
     RecordingButton.prototype.refresh = function (serverId, itemId) {
-
         var apiClient = connectionManager.getApiClient(serverId);
         var self = this;
         apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
@@ -76,7 +78,6 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
     };
 
     RecordingButton.prototype.refreshItem = function (item) {
-
         var options = this.options;
         var button = options.button;
         this.item = item;
@@ -90,7 +91,6 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
     };
 
     RecordingButton.prototype.destroy = function () {
-
         var options = this.options;
 
         if (options) {

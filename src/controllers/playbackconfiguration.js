@@ -1,14 +1,21 @@
 define(['jQuery', 'loading', 'libraryMenu'], function ($, loading, libraryMenu) {
     'use strict';
 
-    function loadPage(page, config) {
+    /**
+     * @param page
+     * @param config
+     */
+    function loadPage (page, config) {
         $('#txtMinResumePct', page).val(config.MinResumePct);
         $('#txtMaxResumePct', page).val(config.MaxResumePct);
         $('#txtMinResumeDuration', page).val(config.MinResumeDurationSeconds);
         loading.hide();
     }
 
-    function onSubmit() {
+    /**
+     *
+     */
+    function onSubmit () {
         loading.show();
         var form = this;
         ApiClient.getServerConfiguration().then(function (config) {
@@ -22,7 +29,10 @@ define(['jQuery', 'loading', 'libraryMenu'], function ($, loading, libraryMenu) 
         return false;
     }
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             href: 'encodingsettings.html',
             name: Globalize.translate('Transcoding')

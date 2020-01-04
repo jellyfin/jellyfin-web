@@ -7,7 +7,6 @@ define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'registerElement'
     var supportsFloatingLabel = false;
 
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-
         var descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
 
         // descriptor returning null in webos
@@ -84,22 +83,22 @@ define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'registerElement'
 
         if (browser.orsay) {
             if (this === document.activeElement) {
-                //Make sure the IME pops up if this is the first/default element on the page
+                // Make sure the IME pops up if this is the first/default element on the page
                 if (document.attachIME) {
                     document.attachIME(this);
                 }
             }
         }
-
     };
 
-    function onChange() {
-
+    /**
+     *
+     */
+    function onChange () {
         var label = this.labelElement;
         if (this.value) {
             label.classList.remove('inputLabel-float');
         } else {
-
             var instanceSupportsFloat = supportsFloatingLabel && this.type !== 'date' && this.type !== 'time';
 
             if (instanceSupportsFloat) {
@@ -109,7 +108,6 @@ define(['layoutManager', 'browser', 'dom', 'css!./emby-input', 'registerElement'
     }
 
     EmbyInputPrototype.attachedCallback = function () {
-
         this.labelElement.htmlFor = this.id;
 
         onChange.call(this);

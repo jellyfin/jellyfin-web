@@ -1,7 +1,11 @@
-(function() {
+(function () {
     'use strict';
 
-    function injectScriptElement(src, onload) {
+    /**
+     * @param src
+     * @param onload
+     */
+    function injectScriptElement (src, onload) {
         if (!src) {
             return;
         }
@@ -21,7 +25,7 @@
 
     injectScriptElement(
         self.Promise ? './libraries/alameda.js' : './libraries/require.js',
-        function() {
+        function () {
             // onload of require library
             injectScriptElement('./scripts/site.js');
         }

@@ -1,7 +1,10 @@
 define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], function (datetime, itemHelper) {
     'use strict';
 
-    function enableProgressIndicator(item) {
+    /**
+     * @param item
+     */
+    function enableProgressIndicator (item) {
         if (item.MediaType === 'Video') {
             if (item.Type !== 'TvChannel') {
                 return true;
@@ -15,7 +18,11 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return false;
     }
 
-    function getProgressHtml(pct, options) {
+    /**
+     * @param pct
+     * @param options
+     */
+    function getProgressHtml (pct, options) {
         var containerClass = 'itemProgressBar';
         if (options) {
             if (options.containerClass) {
@@ -26,7 +33,14 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '<div class="' + containerClass + '"><div class="itemProgressBarForeground" style="width:' + pct + '%;"></div></div>';
     }
 
-    function getAutoTimeProgressHtml(pct, options, isRecording, start, end) {
+    /**
+     * @param pct
+     * @param options
+     * @param isRecording
+     * @param start
+     * @param end
+     */
+    function getAutoTimeProgressHtml (pct, options, isRecording, start, end) {
         var containerClass = 'itemProgressBar';
         if (options) {
             if (options.containerClass) {
@@ -42,7 +56,11 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '<div is="emby-progressbar" data-automode="time" data-starttime="' + start + '" data-endtime="' + end + '" class="' + containerClass + '"><div class="' + foregroundClass + '" style="width:' + pct + '%;"></div></div>';
     }
 
-    function getProgressBarHtml(item, options) {
+    /**
+     * @param item
+     * @param options
+     */
+    function getProgressBarHtml (item, options) {
         var pct;
         if (enableProgressIndicator(item) && item.Type !== 'Recording') {
             var userData = options ? (options.userData || item.UserData) : item.UserData;
@@ -78,11 +96,17 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '';
     }
 
-    function enablePlayedIndicator(item) {
+    /**
+     * @param item
+     */
+    function enablePlayedIndicator (item) {
         return itemHelper.canMarkPlayed(item);
     }
 
-    function getPlayedIndicator(item) {
+    /**
+     * @param item
+     */
+    function getPlayedIndicator (item) {
         if (enablePlayedIndicator(item)) {
             var userData = item.UserData || {};
             if (userData.UnplayedItemCount) {
@@ -97,11 +121,18 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '';
     }
 
-    function getCountIndicatorHtml(count) {
+    /**
+     * @param count
+     */
+    function getCountIndicatorHtml (count) {
         return '<div class="countIndicator indicator">' + count + '</div>';
     }
 
-    function getChildCountIndicatorHtml(item, options) {
+    /**
+     * @param item
+     * @param options
+     */
+    function getChildCountIndicatorHtml (item, options) {
         var minCount = 0;
         if (options) {
             minCount = options.minCount || minCount;
@@ -114,8 +145,10 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '';
     }
 
-    function getTimerIndicator(item) {
-
+    /**
+     * @param item
+     */
+    function getTimerIndicator (item) {
         var status;
 
         if (item.Type === 'SeriesTimer') {
@@ -139,7 +172,10 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '<i class="md-icon timerIndicator indicatorIcon">fiber_manual_record</i>';
     }
 
-    function getSyncIndicator(item) {
+    /**
+     * @param item
+     */
+    function getSyncIndicator (item) {
         if (item.SyncPercent === 100) {
             return '<div class="syncIndicator indicator fullSyncIndicator"><i class="md-icon indicatorIcon">file_download</i></div>';
         } else if (item.SyncPercent != null) {
@@ -149,7 +185,10 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '';
     }
 
-    function getTypeIndicator(item) {
+    /**
+     * @param item
+     */
+    function getTypeIndicator (item) {
         if (item.Type === 'Video') {
             return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">videocam</i></div>';
         }
@@ -163,7 +202,10 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '';
     }
 
-    function getMissingIndicator(item) {
+    /**
+     * @param item
+     */
+    function getMissingIndicator (item) {
         if (item.Type === 'Episode' && item.LocationType === 'Virtual') {
             if (item.PremiereDate) {
                 try {
@@ -183,7 +225,10 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
     var ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
 
-    function onAutoTimeProgress() {
+    /**
+     *
+     */
+    function onAutoTimeProgress () {
         var start = parseInt(this.getAttribute('data-starttime'));
         var end = parseInt(this.getAttribute('data-endtime'));
 

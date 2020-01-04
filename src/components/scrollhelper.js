@@ -1,8 +1,10 @@
 define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
     'use strict';
 
-    function getBoundingClientRect(elem) {
-
+    /**
+     * @param elem
+     */
+    function getBoundingClientRect (elem) {
         // Support: BlackBerry 5, iOS 3 (original iPhone)
         // If we don't have gBCR, just use 0,0 rather than error
         if (elem.getBoundingClientRect) {
@@ -12,8 +14,12 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
         }
     }
 
-    function getPosition(scrollContainer, item, horizontal) {
-
+    /**
+     * @param scrollContainer
+     * @param item
+     * @param horizontal
+     */
+    function getPosition (scrollContainer, item, horizontal) {
         var slideeOffset = getBoundingClientRect(scrollContainer);
         var itemOffset = getBoundingClientRect(item);
 
@@ -42,7 +48,13 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
         };
     }
 
-    function toCenter(container, elem, horizontal, skipWhenVisible) {
+    /**
+     * @param container
+     * @param elem
+     * @param horizontal
+     * @param skipWhenVisible
+     */
+    function toCenter (container, elem, horizontal, skipWhenVisible) {
         var pos = getPosition(container, elem, horizontal);
 
         if (skipWhenVisible && pos.isVisible) {
@@ -64,7 +76,13 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
         }
     }
 
-    function toStart(container, elem, horizontal, skipWhenVisible) {
+    /**
+     * @param container
+     * @param elem
+     * @param horizontal
+     * @param skipWhenVisible
+     */
+    function toStart (container, elem, horizontal, skipWhenVisible) {
         var pos = getPosition(container, elem, horizontal);
 
         if (skipWhenVisible && pos.isVisible) {
@@ -86,7 +104,12 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
         }
     }
 
-    function centerOnFocus(e, scrollSlider, horizontal) {
+    /**
+     * @param e
+     * @param scrollSlider
+     * @param horizontal
+     */
+    function centerOnFocus (e, scrollSlider, horizontal) {
         var focused = focusManager.focusableParent(e.target);
 
         if (focused) {
@@ -94,10 +117,16 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
         }
     }
 
-    function centerOnFocusHorizontal(e) {
+    /**
+     * @param e
+     */
+    function centerOnFocusHorizontal (e) {
         centerOnFocus(e, this, true);
     }
-    function centerOnFocusVertical(e) {
+    /**
+     * @param e
+     */
+    function centerOnFocusVertical (e) {
         centerOnFocus(e, this, false);
     }
 

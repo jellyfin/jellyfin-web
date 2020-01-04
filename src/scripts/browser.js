@@ -1,8 +1,10 @@
 define([], function () {
     'use strict';
 
-    function isTv() {
-
+    /**
+     *
+     */
+    function isTv () {
         // This is going to be really difficult to get right
         var userAgent = navigator.userAgent.toLowerCase();
 
@@ -29,7 +31,10 @@ define([], function () {
         return false;
     }
 
-    function isMobile(userAgent) {
+    /**
+     * @param userAgent
+     */
+    function isMobile (userAgent) {
         var terms = [
             'mobi',
             'ipad',
@@ -53,8 +58,11 @@ define([], function () {
         return false;
     }
 
-    function isStyleSupported(prop, value) {
-
+    /**
+     * @param prop
+     * @param value
+     */
+    function isStyleSupported (prop, value) {
         if (typeof window === 'undefined') {
             return false;
         }
@@ -92,8 +100,10 @@ define([], function () {
         }
     }
 
-    function hasKeyboard(browser) {
-
+    /**
+     * @param browser
+     */
+    function hasKeyboard (browser) {
         if (browser.touch) {
             return true;
         }
@@ -120,7 +130,10 @@ define([], function () {
         return false;
     }
 
-    function iOSversion() {
+    /**
+     *
+     */
+    function iOSversion () {
         // MacIntel: Apple iPad Pro 11 iOS 13.1
         if (/iP(hone|od|ad)|MacIntel/.test(navigator.platform)) {
             // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
@@ -131,8 +144,10 @@ define([], function () {
 
     var _supportsCssAnimation;
     var _supportsCssAnimationWithPrefix;
-    function supportsCssAnimation(allowPrefix) {
-
+    /**
+     * @param allowPrefix
+     */
+    function supportsCssAnimation (allowPrefix) {
         if (allowPrefix) {
             if (_supportsCssAnimationWithPrefix === true || _supportsCssAnimationWithPrefix === false) {
                 return _supportsCssAnimationWithPrefix;
@@ -202,7 +217,6 @@ define([], function () {
             platform_match = [''];
         } else {
             if (ua.indexOf('windows phone') !== -1 || ua.indexOf('iemobile') !== -1) {
-
                 // http://www.neowin.net/news/ie11-fakes-user-agent-to-fool-gmail-in-windows-phone-81-gdr1-update
                 browser = 'msie';
             } else if (ua.indexOf('like gecko') !== -1 && ua.indexOf('webkit') === -1 && ua.indexOf('opera') === -1 && ua.indexOf('chrome') === -1 && ua.indexOf('safari') === -1) {

@@ -1,7 +1,11 @@
 define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryBrowser', 'emby-itemscontainer', 'emby-button'], function (connectionManager, listView, cardBuilder, imageLoader, libraryBrowser) {
     'use strict';
 
-    function renderItems(page, item) {
+    /**
+     * @param page
+     * @param item
+     */
+    function renderItems (page, item) {
         var sections = [];
 
         if (item.ArtistCount) {
@@ -11,7 +15,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
             });
         }
 
-        if (item.ProgramCount && 'Person' == item.Type) {
+        if (item.ProgramCount && item.Type == 'Person') {
             sections.push({
                 name: Globalize.translate('HeaderUpcomingOnTV'),
                 type: 'Program'
@@ -65,7 +69,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
             var html = '';
             var sectionClass = 'verticalSection';
 
-            if ('Audio' === section.type) {
+            if (section.type === 'Audio') {
                 sectionClass += ' verticalSection-extrabottompadding';
             }
 
@@ -87,7 +91,13 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
         }
     }
 
-    function renderSection(page, item, element, type) {
+    /**
+     * @param page
+     * @param item
+     * @param element
+     * @param type
+     */
+    function renderSection (page, item, element, type) {
         switch (type) {
         case 'Program':
             loadItems(element, item, type, {
@@ -256,7 +266,14 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
         }
     }
 
-    function loadItems(element, item, type, query, listOptions) {
+    /**
+     * @param element
+     * @param item
+     * @param type
+     * @param query
+     * @param listOptions
+     */
+    function loadItems (element, item, type, query, listOptions) {
         query = getQuery(query, item);
         getItemsFunction(query, item)(query.StartIndex, query.Limit, query.Fields).then(function (result) {
             var html = '';
@@ -272,7 +289,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
             listOptions.items = result.Items;
             var itemsContainer = element.querySelector('.itemsContainer');
 
-            if ('Audio' == type) {
+            if (type == 'Audio') {
                 html = listView.getListViewHtml(listOptions);
                 itemsContainer.classList.remove('vertical-wrap');
                 itemsContainer.classList.add('vertical-list');
@@ -287,31 +304,39 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
         });
     }
 
-    function getMoreItemsHref(item, type) {
-        if ('Genre' == item.Type) {
+    /**
+     * @param item
+     * @param type
+     */
+    function getMoreItemsHref (item, type) {
+        if (item.Type == 'Genre') {
             return 'list.html?type=' + type + '&genreId=' + item.Id + '&serverId=' + item.ServerId;
         }
 
-        if ('MusicGenre' == item.Type) {
+        if (item.Type == 'MusicGenre') {
             return 'list.html?type=' + type + '&musicGenreId=' + item.Id + '&serverId=' + item.ServerId;
         }
 
-        if ('Studio' == item.Type) {
+        if (item.Type == 'Studio') {
             return 'list.html?type=' + type + '&studioId=' + item.Id + '&serverId=' + item.ServerId;
         }
 
-        if ('MusicArtist' == item.Type) {
+        if (item.Type == 'MusicArtist') {
             return 'list.html?type=' + type + '&artistId=' + item.Id + '&serverId=' + item.ServerId;
         }
 
-        if ('Person' == item.Type) {
+        if (item.Type == 'Person') {
             return 'list.html?type=' + type + '&personId=' + item.Id + '&serverId=' + item.ServerId;
         }
 
         return 'list.html?type=' + type + '&parentId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
-    function addCurrentItemToQuery(query, item) {
+    /**
+     * @param query
+     * @param item
+     */
+    function addCurrentItemToQuery (query, item) {
         if (item.Type == 'Person') {
             query.PersonIds = item.Id;
         } else if (item.Type == 'Genre') {
@@ -327,7 +352,11 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
         }
     }
 
-    function getQuery(options, item) {
+    /**
+     * @param options
+     * @param item
+     */
+    function getQuery (options, item) {
         var query = {
             SortOrder: 'Ascending',
             IncludeItemTypes: '',
@@ -342,7 +371,11 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
         return query;
     }
 
-    function getItemsFunction(options, item) {
+    /**
+     * @param options
+     * @param item
+     */
+    function getItemsFunction (options, item) {
         var query = getQuery(options, item);
         return function (index, limit, fields) {
             query.StartIndex = index;
@@ -354,7 +387,7 @@ define(['connectionManager', 'listView', 'cardBuilder', 'imageLoader', 'libraryB
 
             var apiClient = connectionManager.getApiClient(item.ServerId);
 
-            if ('MusicArtist' === query.IncludeItemTypes) {
+            if (query.IncludeItemTypes === 'MusicArtist') {
                 query.IncludeItemTypes = null;
                 return apiClient.getAlbumArtists(apiClient.getCurrentUserId(), query);
             }

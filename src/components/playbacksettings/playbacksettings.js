@@ -1,8 +1,10 @@
 define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', 'globalize', 'loading', 'connectionManager', 'dom', 'events', 'emby-select', 'emby-checkbox'], function (require, browser, appSettings, appHost, focusManager, qualityoptions, globalize, loading, connectionManager, dom, events) {
     'use strict';
 
-    function fillSkipLengths(select) {
-
+    /**
+     * @param select
+     */
+    function fillSkipLengths (select) {
         var options = [5, 10, 15, 20, 25, 30];
 
         select.innerHTML = options.map(function (option) {
@@ -15,14 +17,16 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         }).join('');
     }
 
-    function populateLanguages(select, languages) {
-
+    /**
+     * @param select
+     * @param languages
+     */
+    function populateLanguages (select, languages) {
         var html = '';
 
         html += "<option value=''>" + globalize.translate('AnyLanguage') + '</option>';
 
         for (var i = 0, length = languages.length; i < length; i++) {
-
             var culture = languages[i];
 
             html += "<option value='" + culture.ThreeLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
@@ -31,8 +35,12 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         select.innerHTML = html;
     }
 
-    function setMaxBitrateIntoField(select, isInNetwork, mediatype) {
-
+    /**
+     * @param select
+     * @param isInNetwork
+     * @param mediatype
+     */
+    function setMaxBitrateIntoField (select, isInNetwork, mediatype) {
         var options = mediatype === 'Audio' ? qualityoptions.getAudioQualityOptions({
 
             currentMaxBitrate: appSettings.maxStreamingBitrate(isInNetwork, mediatype),
@@ -48,7 +56,6 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         });
 
         select.innerHTML = options.map(function (i) {
-
             // render empty string instead of 0 for the auto option
             return '<option value="' + (i.bitrate || '') + '">' + i.name + '</option>';
         }).join('');
@@ -60,8 +67,10 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         }
     }
 
-    function fillChromecastQuality(select) {
-
+    /**
+     * @param select
+     */
+    function fillChromecastQuality (select) {
         var options = qualityoptions.getVideoQualityOptions({
 
             currentMaxBitrate: appSettings.maxChromecastBitrate(),
@@ -70,7 +79,6 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         });
 
         select.innerHTML = options.map(function (i) {
-
             // render empty string instead of 0 for the auto option
             return '<option value="' + (i.bitrate || '') + '">' + i.name + '</option>';
         }).join('');
@@ -78,8 +86,13 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         select.value = appSettings.maxChromecastBitrate() || '';
     }
 
-    function setMaxBitrateFromField(select, isInNetwork, mediatype, value) {
-
+    /**
+     * @param select
+     * @param isInNetwork
+     * @param mediatype
+     * @param value
+     */
+    function setMaxBitrateFromField (select, isInNetwork, mediatype, value) {
         if (select.value) {
             appSettings.maxStreamingBitrate(isInNetwork, mediatype, select.value);
             appSettings.enableAutomaticBitrateDetection(isInNetwork, mediatype, false);
@@ -88,8 +101,12 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         }
     }
 
-    function showHideQualityFields(context, user, apiClient) {
-
+    /**
+     * @param context
+     * @param user
+     * @param apiClient
+     */
+    function showHideQualityFields (context, user, apiClient) {
         if (user.Policy.EnableVideoPlaybackTranscoding) {
             context.querySelector('.videoQualitySection').classList.remove('hide');
         } else {
@@ -97,7 +114,6 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         }
 
         if (appHost.supports('multiserver')) {
-
             context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
             context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
 
@@ -111,15 +127,12 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         }
 
         apiClient.getEndpointInfo().then(function (endpointInfo) {
-
             if (endpointInfo.IsInNetwork) {
-
                 context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
 
                 context.querySelector('.fldVideoInternetQuality').classList.add('hide');
                 context.querySelector('.musicQualitySection').classList.add('hide');
             } else {
-
                 context.querySelector('.fldVideoInNetworkQuality').classList.add('hide');
 
                 context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
@@ -133,8 +146,12 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         });
     }
 
-    function showOrHideEpisodesField(context, user, apiClient) {
-
+    /**
+     * @param context
+     * @param user
+     * @param apiClient
+     */
+    function showOrHideEpisodesField (context, user, apiClient) {
         if (browser.tizen || browser.web0s) {
             context.querySelector('.fldEpisodeAutoPlay').classList.add('hide');
             return;
@@ -143,15 +160,19 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         context.querySelector('.fldEpisodeAutoPlay').classList.remove('hide');
     }
 
-    function loadForm(context, user, userSettings, apiClient) {
-
+    /**
+     * @param context
+     * @param user
+     * @param userSettings
+     * @param apiClient
+     */
+    function loadForm (context, user, userSettings, apiClient) {
         var loggedInUserId = apiClient.getCurrentUserId();
         var userId = user.Id;
 
         showHideQualityFields(context, user, apiClient);
 
         apiClient.getCultures().then(function (allCultures) {
-
             populateLanguages(context.querySelector('#selectAudioLanguage'), allCultures);
 
             context.querySelector('#selectAudioLanguage', context).value = user.Configuration.AudioLanguagePreference || '';
@@ -160,7 +181,6 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         // hide cinema mode options if disabled at server level
         apiClient.getNamedConfiguration('cinemamode').then(function (cinemaConfig) {
-
             if (cinemaConfig.EnableIntrosForMovies || cinemaConfig.EnableIntrosForEpisodes) {
                 context.querySelector('.cinemaModeOptions').classList.remove('hide');
             } else {
@@ -217,8 +237,13 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         loading.hide();
     }
 
-    function saveUser(context, user, userSettingsInstance, apiClient) {
-
+    /**
+     * @param context
+     * @param user
+     * @param userSettingsInstance
+     * @param apiClient
+     */
+    function saveUser (context, user, userSettingsInstance, apiClient) {
         appSettings.enableSystemExternalPlayers(context.querySelector('.chkExternalVideoPlayer').checked);
 
         appSettings.maxChromecastBitrate(context.querySelector('.selectChromecastVideoQuality').value);
@@ -240,14 +265,19 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         return apiClient.updateUserConfiguration(user.Id, user.Configuration);
     }
 
-    function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
-
+    /**
+     * @param instance
+     * @param context
+     * @param userId
+     * @param userSettings
+     * @param apiClient
+     * @param enableSaveConfirmation
+     */
+    function save (instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
         loading.show();
 
         apiClient.getUser(userId).then(function (user) {
-
             saveUser(context, user, userSettings, apiClient).then(function () {
-
                 loading.hide();
                 if (enableSaveConfirmation) {
                     require(['toast'], function (toast) {
@@ -256,22 +286,22 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
                 }
 
                 events.trigger(instance, 'saved');
-
             }, function () {
                 loading.hide();
             });
         });
     }
 
-    function onSubmit(e) {
-
+    /**
+     * @param e
+     */
+    function onSubmit (e) {
         var self = this;
         var apiClient = connectionManager.getApiClient(self.options.serverId);
         var userId = self.options.userId;
         var userSettings = self.options.userSettings;
 
         userSettings.setUserInfo(userId, apiClient).then(function () {
-
             var enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
@@ -283,10 +313,12 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         return false;
     }
 
-    function embed(options, self) {
-
+    /**
+     * @param options
+     * @param self
+     */
+    function embed (options, self) {
         require(['text!./playbacksettings.template.html'], function (template) {
-
             options.element.innerHTML = globalize.translateDocument(template, 'core');
 
             options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
@@ -303,15 +335,16 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         });
     }
 
-    function PlaybackSettings(options) {
-
+    /**
+     * @param options
+     */
+    function PlaybackSettings (options) {
         this.options = options;
 
         embed(options, this);
     }
 
     PlaybackSettings.prototype.loadData = function () {
-
         var self = this;
         var context = self.options.element;
 
@@ -322,9 +355,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         var userSettings = self.options.userSettings;
 
         apiClient.getUser(userId).then(function (user) {
-
             userSettings.setUserInfo(userId, apiClient).then(function () {
-
                 self.dataLoaded = true;
 
                 loadForm(context, user, userSettings, apiClient);
@@ -337,7 +368,6 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
     };
 
     PlaybackSettings.prototype.destroy = function () {
-
         this.options = null;
     };
 

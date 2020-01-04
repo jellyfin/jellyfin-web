@@ -11,7 +11,7 @@ define(['userSettings', 'skinManager', 'connectionManager', 'events'], function 
             var theme;
             var context;
 
-            if ('a' === viewType) {
+            if (viewType === 'a') {
                 theme = userSettings.dashboardTheme();
                 context = 'serverdashboard';
             } else {

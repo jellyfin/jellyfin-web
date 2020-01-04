@@ -1,12 +1,12 @@
-define(['apphost', 'connectionManager', 'listViewStyle', 'emby-button'], function(appHost, connectionManager) {
+define(['apphost', 'connectionManager', 'listViewStyle', 'emby-button'], function (appHost, connectionManager) {
     'use strict';
 
-    return function(view, params) {
-        view.querySelector('.btnLogout').addEventListener('click', function() {
+    return function (view, params) {
+        view.querySelector('.btnLogout').addEventListener('click', function () {
             Dashboard.logout();
         });
 
-        view.addEventListener('viewshow', function() {
+        view.addEventListener('viewshow', function () {
             // this page can also be used by admins to change user preferences from the user edit page
             var userId = params.userId || Dashboard.getCurrentUserId();
             var page = this;
@@ -29,7 +29,7 @@ define(['apphost', 'connectionManager', 'listViewStyle', 'emby-button'], functio
                 page.querySelector('.adminSection').classList.add('hide');
             }
 
-            ApiClient.getUser(userId).then(function(user) {
+            ApiClient.getUser(userId).then(function (user) {
                 page.querySelector('.headerUsername').innerHTML = user.Name;
                 if (!user.Policy.IsAdministrator) {
                     page.querySelector('.adminSection').classList.add('hide');

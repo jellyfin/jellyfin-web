@@ -3,14 +3,22 @@
 
     var connectionManager;
 
-    function getApiClient(serverId) {
+    /**
+     * @param serverId
+     */
+    function getApiClient (serverId) {
         if (connectionManager) {
             return Promise.resolve(connectionManager.getApiClient(serverId));
         }
         return Promise.reject();
     }
 
-    function executeAction(action, data, serverId) {
+    /**
+     * @param action
+     * @param data
+     * @param serverId
+     */
+    function executeAction (action, data, serverId) {
         return getApiClient(serverId).then(function (apiClient) {
             switch (action) {
             case 'cancel-install':

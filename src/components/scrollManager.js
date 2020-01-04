@@ -16,9 +16,9 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * Returns minimum vertical scroll.
      * Scroll less than that value will be zeroed.
      *
-     * @return {number} minimum vertical scroll
+     * @returns {number} minimum vertical scroll
      */
-    function minimumScrollY() {
+    function minimumScrollY () {
         var topMenu = document.querySelector('.headerTop');
         if (topMenu) {
             return topMenu.clientHeight;
@@ -49,9 +49,9 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * @param {number} value clamped value
      * @param {number} min begining of range
      * @param {number} max ending of range
-     * @return {number} clamped value
+     * @returns {number} clamped value
      */
-    function clamp(value, min, max) {
+    function clamp (value, min, max) {
         return value <= min ? min : value >= max ? max : value;
     }
 
@@ -63,9 +63,9 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * @param {number} end1 ending of range 1
      * @param {number} begin2 begining of range 2
      * @param {number} end2 ending of range 2
-     * @return {number} delta: <0 move range1 to the left, >0 - to the right
+     * @returns {number} delta: <0 move range1 to the left, >0 - to the right
      */
-    function fitRange(begin1, end1, begin2, end2) {
+    function fitRange (begin1, end1, begin2, end2) {
         var delta1 = begin1 - begin2;
         var delta2 = end2 - end1;
         if (delta1 < 0 && delta1 < delta2) {
@@ -80,10 +80,10 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * Ease value.
      *
      * @param {number} t value in range [0, 1]
-     * @return {number} eased value in range [0, 1]
+     * @returns {number} eased value in range [0, 1]
      */
-    function ease(t) {
-        return t*(2 - t); // easeOutQuad === ease-out
+    function ease (t) {
+        return t * (2 - t); // easeOutQuad === ease-out
     }
 
     /**
@@ -99,41 +99,41 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      *
      * Tizen 5 Browser/Native: scrolls documentElement (and window); has a document.scrollingElement
      */
-    function DocumentScroller() {
+    function DocumentScroller () {
     }
 
     DocumentScroller.prototype = {
-        get scrollLeft() {
+        get scrollLeft () {
             return window.pageXOffset;
         },
-        set scrollLeft(val) {
+        set scrollLeft (val) {
             window.scroll(val, window.pageYOffset);
         },
 
-        get scrollTop() {
+        get scrollTop () {
             return window.pageYOffset;
         },
-        set scrollTop(val) {
+        set scrollTop (val) {
             window.scroll(window.pageXOffset, val);
         },
 
-        get scrollWidth() {
+        get scrollWidth () {
             return Math.max(document.documentElement.scrollWidth, document.body.scrollWidth);
         },
 
-        get scrollHeight() {
+        get scrollHeight () {
             return Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
         },
 
-        get clientWidth() {
+        get clientWidth () {
             return Math.min(document.documentElement.clientWidth, document.body.clientWidth);
         },
 
-        get clientHeight() {
+        get clientHeight () {
             return Math.min(document.documentElement.clientHeight, document.body.clientHeight);
         },
 
-        getBoundingClientRect: function() {
+        getBoundingClientRect: function () {
             // Make valid viewport coordinates: documentElement.getBoundingClientRect returns rect of entire document relative to viewport
             return {
                 left: 0,
@@ -143,7 +143,7 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
             };
         },
 
-        scrollTo: function() {
+        scrollTo: function () {
             window.scrollTo.apply(window, arguments);
         }
     };
@@ -156,7 +156,7 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * @param {HTMLElement} element element for which parent is being searched
      * @param {boolean} vertical search for vertical scrollable parent
      */
-    function getScrollableParent(element, vertical) {
+    function getScrollableParent (element, vertical) {
         if (element) {
             var parent = element.parentElement;
 
@@ -174,7 +174,7 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
     }
 
     /**
-     * @typedef {Object} ScrollerData
+     * @typedef {object} ScrollerData
      * @property {number} scrollPos current scroll position
      * @property {number} scrollSize scroll size
      * @property {number} clientSize client size
@@ -185,9 +185,9 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      *
      * @param {HTMLElement} scroller scroller
      * @param {boolean} vertical vertical scroll data
-     * @return {ScrollerData} scroll data
+     * @returns {ScrollerData} scroll data
      */
-    function getScrollerData(scroller, vertical) {
+    function getScrollerData (scroller, vertical) {
         var data = {};
 
         if (!vertical) {
@@ -209,9 +209,9 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * @param {HTMLElement} scroller scroller
      * @param {HTMLElement} element child of scroller
      * @param {boolean} vertical vertical scroll
-     * @return {number} child position
+     * @returns {number} child position
      */
-    function getScrollerChildPos(scroller, element, vertical) {
+    function getScrollerChildPos (scroller, element, vertical) {
         var elementRect = element.getBoundingClientRect();
         var scrollerRect = scroller.getBoundingClientRect();
 
@@ -229,9 +229,9 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * @param {number} elementPos child element position
      * @param {number} elementSize child element size
      * @param {boolean} centered scroll to center
-     * @return {number} scroll position
+     * @returns {number} scroll position
      */
-    function calcScroll(scrollerData, elementPos, elementSize, centered) {
+    function calcScroll (scrollerData, elementPos, elementSize, centered) {
         var maxScroll = scrollerData.scrollSize - scrollerData.clientSize;
 
         var scroll;
@@ -252,7 +252,7 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * @param {HTMLElement} scroller scroller
      * @param {ScrollToOptions} options scroll options
      */
-    function scrollToHelper(scroller, options) {
+    function scrollToHelper (scroller, options) {
         if ('scrollTo' in scroller) {
             if (!supportsScrollToOptions) {
                 var scrollX = (options.left !== undefined ? options.left : scroller.scrollLeft);
@@ -280,14 +280,14 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * @param {number} scrollY vertical coordinate
      * @param {boolean} smooth smooth scrolling
      */
-    function builtinScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
+    function builtinScroll (xScroller, scrollX, yScroller, scrollY, smooth) {
         var scrollBehavior = smooth ? 'smooth' : 'instant';
 
         if (xScroller !== yScroller) {
-            scrollToHelper(xScroller, {left: scrollX, behavior: scrollBehavior});
-            scrollToHelper(yScroller, {top: scrollY, behavior: scrollBehavior});
+            scrollToHelper(xScroller, { left: scrollX, behavior: scrollBehavior });
+            scrollToHelper(yScroller, { top: scrollY, behavior: scrollBehavior });
         } else {
-            scrollToHelper(xScroller, {left: scrollX, top: scrollY, behavior: scrollBehavior});
+            scrollToHelper(xScroller, { left: scrollX, top: scrollY, behavior: scrollBehavior });
         }
     }
 
@@ -296,7 +296,7 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
     /**
      * Resets scroll timer to stop scrolling.
      */
-    function resetScrollTimer() {
+    function resetScrollTimer () {
         cancelAnimationFrame(scrollTimer);
         scrollTimer = undefined;
     }
@@ -309,8 +309,7 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * @param {HTMLElement} yScroller vertical scroller
      * @param {number} scrollY vertical coordinate
      */
-    function animateScroll(xScroller, scrollX, yScroller, scrollY) {
-
+    function animateScroll (xScroller, scrollX, yScroller, scrollY) {
         var ox = xScroller.scrollLeft;
         var oy = yScroller.scrollTop;
         var dx = scrollX - ox;
@@ -322,8 +321,10 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
 
         var start;
 
-        function scrollAnim(currentTimestamp) {
-
+        /**
+         * @param currentTimestamp
+         */
+        function scrollAnim (currentTimestamp) {
             start = start || currentTimestamp;
 
             var k = Math.min(1, (currentTimestamp - start) / ScrollTime);
@@ -336,8 +337,8 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
 
             k = ease(k);
 
-            var x = ox + dx*k;
-            var y = oy + dy*k;
+            var x = ox + dx * k;
+            var y = oy + dy * k;
 
             builtinScroll(xScroller, x, yScroller, y, false);
 
@@ -356,8 +357,7 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * @param {number} scrollY vertical coordinate
      * @param {boolean} smooth smooth scrolling
      */
-    function doScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
-
+    function doScroll (xScroller, scrollX, yScroller, scrollY, smooth) {
         resetScrollTimer();
 
         if (smooth && useAnimatedScroll()) {
@@ -370,8 +370,7 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
     /**
      * Returns true if smooth scroll must be used.
      */
-    function useSmoothScroll() {
-
+    function useSmoothScroll () {
         if (browser.tizen) {
             return true;
         }
@@ -382,7 +381,7 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
     /**
      * Returns true if animated implementation of smooth scroll must be used.
      */
-    function useAnimatedScroll() {
+    function useAnimatedScroll () {
         // Add block to force using (or not) of animated implementation
 
         return !supportsSmoothScroll;
@@ -391,8 +390,7 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
     /**
      * Returns true if scroll manager is enabled.
      */
-    var isEnabled = function() {
-
+    var isEnabled = function () {
         if (!layoutManager.tv) {
             return false;
         }
@@ -415,8 +413,7 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * @param {number} scrollY vertical coordinate
      * @param {boolean} [smooth=false] smooth scrolling
      */
-    var scrollTo = function(scrollX, scrollY, smooth) {
-
+    var scrollTo = function (scrollX, scrollY, smooth) {
         smooth = !!smooth;
 
         // Scroller is document itself by default
@@ -437,8 +434,7 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
      * @param {HTMLElement} element target element of scroll task
      * @param {boolean} [smooth=false] smooth scrolling
      */
-    var scrollToElement = function(element, smooth) {
-
+    var scrollToElement = function (element, smooth) {
         smooth = !!smooth;
 
         var scrollCenterX = true;
@@ -484,11 +480,11 @@ define(['dom', 'browser', 'layoutManager'], function (dom, browser, layoutManage
     }
 
     if (isEnabled()) {
-        dom.addEventListener(window, 'focusin', function(e) {
-            setTimeout(function() {
+        dom.addEventListener(window, 'focusin', function (e) {
+            setTimeout(function () {
                 scrollToElement(e.target, useSmoothScroll());
             }, 0);
-        }, {capture: true});
+        }, { capture: true });
     }
 
     return {

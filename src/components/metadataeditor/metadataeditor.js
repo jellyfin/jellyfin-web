@@ -5,21 +5,31 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     var metadataEditorInfo;
     var currentItem;
 
-    function isDialog() {
+    /**
+     *
+     */
+    function isDialog () {
         return currentContext.classList.contains('dialog');
     }
 
-    function closeDialog(isSubmitted) {
-
+    /**
+     * @param isSubmitted
+     */
+    function closeDialog (isSubmitted) {
         if (isDialog()) {
             dialogHelper.close(currentContext);
         }
     }
 
-    function submitUpdatedItem(form, item) {
-
-        function afterContentTypeUpdated() {
-
+    /**
+     * @param form
+     * @param item
+     */
+    function submitUpdatedItem (form, item) {
+        /**
+         *
+         */
+        function afterContentTypeUpdated () {
             require(['toast'], function (toast) {
                 toast(globalize.translate('MessageItemSaved'));
             });
@@ -31,11 +41,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         var apiClient = getApiClient();
 
         apiClient.updateItem(item).then(function () {
-
             var newContentType = form.querySelector('#selectContentType').value || '';
 
             if ((metadataEditorInfo.ContentType || '') !== newContentType) {
-
                 apiClient.ajax({
 
                     url: apiClient.getUrl('Items/' + item.Id + '/ContentType', {
@@ -47,51 +55,54 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
                 }).then(function () {
                     afterContentTypeUpdated();
                 });
-
             } else {
                 afterContentTypeUpdated();
             }
-
         });
     }
 
-    function getSelectedAirDays(form) {
+    /**
+     * @param form
+     */
+    function getSelectedAirDays (form) {
         var checkedItems = form.querySelectorAll('.chkAirDay:checked') || [];
         return Array.prototype.map.call(checkedItems, function (c) {
             return c.getAttribute('data-day');
         });
     }
 
-    function getAlbumArtists(form) {
-
+    /**
+     * @param form
+     */
+    function getAlbumArtists (form) {
         return form.querySelector('#txtAlbumArtist').value.trim().split(';').filter(function (s) {
-
             return s.length > 0;
-
         }).map(function (a) {
-
             return {
                 Name: a
             };
         });
     }
 
-    function getArtists(form) {
-
+    /**
+     * @param form
+     */
+    function getArtists (form) {
         return form.querySelector('#txtArtist').value.trim().split(';').filter(function (s) {
-
             return s.length > 0;
-
         }).map(function (a) {
-
             return {
                 Name: a
             };
         });
     }
 
-    function getDateValue(form, element, property) {
-
+    /**
+     * @param form
+     * @param element
+     * @param property
+     */
+    function getDateValue (form, element, property) {
         var val = form.querySelector(element).value;
 
         if (!val) {
@@ -99,14 +110,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
 
         if (currentItem[property]) {
-
             var date = datetime.parseISO8601Date(currentItem[property], true);
 
             var parts = date.toISOString().split('T');
 
             // If the date is the same, preserve the time
             if (parts[0].indexOf(val) === 0) {
-
                 var iso = parts[1];
 
                 val += 'T' + iso;
@@ -116,8 +125,10 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         return val;
     }
 
-    function onSubmit(e) {
-
+    /**
+     * @param e
+     */
+    function onSubmit (e) {
         loading.show();
 
         var form = this;
@@ -178,14 +189,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         item.PreferredMetadataCountryCode = form.querySelector('#selectCountry').value;
 
         if (currentItem.Type === 'Person') {
-
             var placeOfBirth = form.querySelector('#txtPlaceOfBirth').value;
 
             item.ProductionLocations = placeOfBirth ? [placeOfBirth] : [];
         }
 
         if (currentItem.Type === 'Series') {
-
             // 600000000
             var seriesRuntime = form.querySelector('#txtSeriesRuntime').value;
             item.RunTimeTicks = seriesRuntime ? (seriesRuntime * 600000000) : null;
@@ -203,15 +212,21 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         return false;
     }
 
-    function getListValues(list) {
+    /**
+     * @param list
+     */
+    function getListValues (list) {
         return Array.prototype.map.call(list.querySelectorAll('.textValue'), function (el) {
             return el.textContent;
         });
     }
 
-    function addElementToList(source, sortCallback) {
+    /**
+     * @param source
+     * @param sortCallback
+     */
+    function addElementToList (source, sortCallback) {
         require(['prompt'], function (prompt) {
-
             prompt({
                 label: 'Value:'
             }).then(function (text) {
@@ -223,17 +238,22 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
     }
 
-    function removeElementFromList(source) {
+    /**
+     * @param source
+     */
+    function removeElementFromList (source) {
         var el = dom.parentWithClass(source, 'listItem');
         el.parentNode.removeChild(el);
     }
 
-    function editPerson(context, person, index) {
-
+    /**
+     * @param context
+     * @param person
+     * @param index
+     */
+    function editPerson (context, person, index) {
         require(['personEditor'], function (personEditor) {
-
             personEditor.show(person).then(function (updatedPerson) {
-
                 var isNew = index === -1;
 
                 if (isNew) {
@@ -245,10 +265,13 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
     }
 
-    function showMoreMenu(context, button, user) {
-
+    /**
+     * @param context
+     * @param button
+     * @param user
+     */
+    function showMoreMenu (context, button, user) {
         require(['itemContextMenu'], function (itemContextMenu) {
-
             var item = currentItem;
 
             itemContextMenu.show({
@@ -265,10 +288,8 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
                 user: user
 
             }).then(function (result) {
-
                 if (result.deleted) {
                     afterDeleted(context, item);
-
                 } else if (result.updated) {
                     reload(context, item.Id, item.ServerId);
                 }
@@ -276,8 +297,11 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
     }
 
-    function afterDeleted(context, item) {
-
+    /**
+     * @param context
+     * @param item
+     */
+    function afterDeleted (context, item) {
         var parentId = item.ParentId || item.SeasonId || item.SeriesId;
 
         if (parentId) {
@@ -289,8 +313,10 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
     }
 
-    function onEditorClick(e) {
-
+    /**
+     * @param e
+     */
+    function onEditorClick (e) {
         var btnRemoveFromEditorList = dom.parentWithClass(e.target, 'btnRemoveFromEditorList');
         if (btnRemoveFromEditorList) {
             removeElementFromList(btnRemoveFromEditorList);
@@ -303,12 +329,18 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
     }
 
-    function getApiClient() {
+    /**
+     *
+     */
+    function getApiClient () {
         return connectionManager.getApiClient(currentItem.ServerId);
     }
 
-    function init(context, apiClient) {
-
+    /**
+     * @param context
+     * @param apiClient
+     */
+    function init (context, apiClient) {
         context.querySelector('.externalIds').addEventListener('click', function (e) {
             var btnOpenExternalId = dom.parentWithClass(e.target, 'btnOpenExternalId');
             if (btnOpenExternalId) {
@@ -323,25 +355,20 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
 
         context.querySelector('.btnCancel').addEventListener('click', function () {
-
             closeDialog(false);
         });
 
         context.querySelector('.btnMore').addEventListener('click', function (e) {
-
             getApiClient().getCurrentUser().then(function (user) {
                 showMoreMenu(context, e.target, user);
             });
-
         });
 
         context.querySelector('.btnHeaderSave').addEventListener('click', function (e) {
-
             context.querySelector('.btnSave').click();
         });
 
         context.querySelector('#chkLockData').addEventListener('click', function (e) {
-
             if (!e.target.checked) {
                 showElement('.providerSettingsContainer');
             } else {
@@ -357,12 +384,10 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         form.addEventListener('submit', onSubmit);
 
         context.querySelector('#btnAddPerson').addEventListener('click', function (event, data) {
-
             editPerson(context, {}, -1);
         });
 
         context.querySelector('#peopleList').addEventListener('click', function (e) {
-
             var index;
             var btnDeletePerson = dom.parentWithClass(e.target, 'btnDeletePerson');
             if (btnDeletePerson) {
@@ -379,8 +404,11 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
     }
 
-    function getItem(itemId, serverId) {
-
+    /**
+     * @param itemId
+     * @param serverId
+     */
+    function getItem (itemId, serverId) {
         var apiClient = connectionManager.getApiClient(serverId);
 
         if (itemId) {
@@ -390,8 +418,11 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         return apiClient.getRootFolder(apiClient.getCurrentUserId());
     }
 
-    function getEditorConfig(itemId, serverId) {
-
+    /**
+     * @param itemId
+     * @param serverId
+     */
+    function getEditorConfig (itemId, serverId) {
         var apiClient = connectionManager.getApiClient(serverId);
 
         if (itemId) {
@@ -401,14 +432,16 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         return Promise.resolve({});
     }
 
-    function populateCountries(select, allCountries) {
-
+    /**
+     * @param select
+     * @param allCountries
+     */
+    function populateCountries (select, allCountries) {
         var html = '';
 
         html += "<option value=''></option>";
 
         for (var i = 0, length = allCountries.length; i < length; i++) {
-
             var culture = allCountries[i];
 
             html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + '</option>';
@@ -417,14 +450,16 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         select.innerHTML = html;
     }
 
-    function populateLanguages(select, languages) {
-
+    /**
+     * @param select
+     * @param languages
+     */
+    function populateLanguages (select, languages) {
         var html = '';
 
         html += "<option value=''></option>";
 
         for (var i = 0, length = languages.length; i < length; i++) {
-
             var culture = languages[i];
 
             html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
@@ -433,8 +468,11 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         select.innerHTML = html;
     }
 
-    function renderContentTypeOptions(context, metadataInfo) {
-
+    /**
+     * @param context
+     * @param metadataInfo
+     */
+    function renderContentTypeOptions (context, metadataInfo) {
         if (!metadataInfo.ContentTypeOptions.length) {
             hideElement('#fldContentType', context);
         } else {
@@ -442,9 +480,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
 
         var html = metadataInfo.ContentTypeOptions.map(function (i) {
-
             return '<option value="' + i.Value + '">' + i.Name + '</option>';
-
         }).join('');
 
         var selectEl = context.querySelector('#selectContentType');
@@ -452,14 +488,17 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         selectEl.value = metadataInfo.ContentType || '';
     }
 
-    function loadExternalIds(context, item, externalIds) {
-
+    /**
+     * @param context
+     * @param item
+     * @param externalIds
+     */
+    function loadExternalIds (context, item, externalIds) {
         var html = '';
 
         var providerIds = item.ProviderIds || {};
 
         for (var i = 0, length = externalIds.length; i < length; i++) {
-
             var idInfo = externalIds[i];
 
             var id = 'txt1' + idInfo.Key;
@@ -497,10 +536,14 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     // Function to hide the element by selector or raw element
     // Selector can be an element or a selector string
     // Context is optional and restricts the querySelector to the context
-    function hideElement(selector, context, multiple) {
+    /**
+     * @param selector
+     * @param context
+     * @param multiple
+     */
+    function hideElement (selector, context, multiple) {
         context = context || document;
         if (typeof selector === 'string') {
-
             var elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
 
             Array.prototype.forEach.call(elements, function (el) {
@@ -516,10 +559,14 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     // Function to show the element by selector or raw element
     // Selector can be an element or a selector string
     // Context is optional and restricts the querySelector to the context
-    function showElement(selector, context, multiple) {
+    /**
+     * @param selector
+     * @param context
+     * @param multiple
+     */
+    function showElement (selector, context, multiple) {
         context = context || document;
         if (typeof selector === 'string') {
-
             var elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
 
             Array.prototype.forEach.call(elements, function (el) {
@@ -532,7 +579,11 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
     }
 
-    function setFieldVisibilities(context, item) {
+    /**
+     * @param context
+     * @param item
+     */
+    function setFieldVisibilities (context, item) {
         if (item.Path && item.EnableMediaSourceDisplay !== false) {
             showElement('#fldPath', context);
         } else {
@@ -656,7 +707,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
 
         if (item.Type === 'Person') {
-            //todo
+            // todo
             context.querySelector('#txtProductionYear').label(globalize.translate('LabelBirthYear'));
             context.querySelector('#txtPremiereDate').label(globalize.translate('LabelBirthDate'));
             context.querySelector('#txtEndDate').label(globalize.translate('LabelDeathDate'));
@@ -720,8 +771,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
     }
 
-    function fillItemInfo(context, item, parentalRatingOptions) {
-
+    /**
+     * @param context
+     * @param item
+     * @param parentalRatingOptions
+     */
+    function fillItemInfo (context, item, parentalRatingOptions) {
         var select = context.querySelector('#selectOfficialRating');
 
         populateRatings(parentalRatingOptions, select, item.OfficialRating);
@@ -847,7 +902,6 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         context.querySelector('#selectCountry').value = item.PreferredMetadataCountryCode || '';
 
         if (item.RunTimeTicks) {
-
             var minutes = item.RunTimeTicks / 600000000;
 
             context.querySelector('#txtSeriesRuntime').value = Math.round(minutes);
@@ -856,8 +910,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
     }
 
-    function populateRatings(allParentalRatings, select, currentValue) {
-
+    /**
+     * @param allParentalRatings
+     * @param select
+     * @param currentValue
+     */
+    function populateRatings (allParentalRatings, select, currentValue) {
         var html = '';
 
         html += "<option value=''></option>";
@@ -870,7 +928,6 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         var currentValueFound = false;
 
         for (i = 0, length = allParentalRatings.length; i < length; i++) {
-
             rating = allParentalRatings[i];
 
             ratings.push({ Name: rating.Name, Value: rating.Name });
@@ -885,7 +942,6 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
 
         for (i = 0, length = ratings.length; i < length; i++) {
-
             rating = ratings[i];
 
             html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
@@ -894,7 +950,10 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         select.innerHTML = html;
     }
 
-    function populateStatus(select) {
+    /**
+     * @param select
+     */
+    function populateStatus (select) {
         var html = '';
 
         html += "<option value=''></option>";
@@ -903,8 +962,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         select.innerHTML = html;
     }
 
-    function populateListView(list, items, sortCallback) {
-
+    /**
+     * @param list
+     * @param items
+     * @param sortCallback
+     */
+    function populateListView (list, items, sortCallback) {
         items = items || [];
         if (typeof (sortCallback) === 'undefined') {
             items.sort(function (a, b) {
@@ -935,15 +998,17 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         list.innerHTML = html;
     }
 
-    function populatePeople(context, people) {
-
+    /**
+     * @param context
+     * @param people
+     */
+    function populatePeople (context, people) {
         var lastType = '';
         var html = '';
 
         var elem = context.querySelector('#peopleList');
 
         for (var i = 0, length = people.length; i < length; i++) {
-
             var person = people[i];
 
             html += '<div class="listItem">';
@@ -972,11 +1037,13 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         elem.innerHTML = html;
     }
 
-    function getLockedFieldsHtml(fields, currentFields) {
-
+    /**
+     * @param fields
+     * @param currentFields
+     */
+    function getLockedFieldsHtml (fields, currentFields) {
         var html = '';
         for (var i = 0; i < fields.length; i++) {
-
             var field = fields[i];
             var name = field.name;
             var value = field.value || field.name;
@@ -989,7 +1056,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         return html;
     }
 
-    function fillMetadataSettings(context, item, lockedFields) {
+    /**
+     * @param context
+     * @param item
+     * @param lockedFields
+     */
+    function fillMetadataSettings (context, item, lockedFields) {
         var container = context.querySelector('.providerSettingsContainer');
         lockedFields = lockedFields || [];
 
@@ -1022,12 +1094,15 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         container.innerHTML = html;
     }
 
-    function reload(context, itemId, serverId) {
-
+    /**
+     * @param context
+     * @param itemId
+     * @param serverId
+     */
+    function reload (context, itemId, serverId) {
         loading.show();
 
         Promise.all([getItem(itemId, serverId), getEditorConfig(itemId, serverId)]).then(function (responses) {
-
             var item = responses[0];
             metadataEditorInfo = responses[1];
 
@@ -1056,18 +1131,28 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
     }
 
-    function centerFocus(elem, horiz, on) {
+    /**
+     * @param elem
+     * @param horiz
+     * @param on
+     */
+    function centerFocus (elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function show(itemId, serverId, resolve, reject) {
+    /**
+     * @param itemId
+     * @param serverId
+     * @param resolve
+     * @param reject
+     */
+    function show (itemId, serverId, resolve, reject) {
         loading.show();
 
         require(['text!./metadataeditor.template.html'], function (template) {
-
             var dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -1120,11 +1205,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         embed: function (elem, itemId, serverId) {
             return new Promise(function (resolve, reject) {
-
                 loading.show();
 
                 require(['text!./metadataeditor.template.html'], function (template) {
-
                     elem.innerHTML = globalize.translateDocument(template, 'core');
 
                     elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');

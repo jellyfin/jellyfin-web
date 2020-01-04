@@ -1,8 +1,11 @@
 define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles'], function (dialogHelper, dom, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
-    function showDialog(options, template) {
-
+    /**
+     * @param options
+     * @param template
+     */
+    function showDialog (options, template) {
         var dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -34,9 +37,9 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 
-        //dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
+        // dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
         //    dialogHelper.close(dlg);
-        //});
+        // });
 
         if (options.title) {
             dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.title || '';
@@ -57,7 +60,6 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
         var hasDescriptions = false;
 
         for (i = 0, length = options.buttons.length; i < length; i++) {
-
             var item = options.buttons[i];
             var autoFocus = i === 0 ? ' autofocus' : '';
 
@@ -89,7 +91,10 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
         }
 
         var dialogResult;
-        function onButtonClick() {
+        /**
+         *
+         */
+        function onButtonClick () {
             dialogResult = this.getAttribute('data-id');
             dialogHelper.close(dlg);
         }
@@ -100,7 +105,6 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
         }
 
         return dialogHelper.open(dlg).then(function () {
-
             if (enableTvLayout) {
                 scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
             }
@@ -114,7 +118,6 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
     }
 
     return function (text, title) {
-
         var options;
         if (typeof text === 'string') {
             options = {

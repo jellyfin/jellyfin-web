@@ -1,11 +1,19 @@
 define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'scripts/livetvcomponents', 'emby-button', 'emby-itemscontainer'], function (layoutManager, cardBuilder, appHost, imageLoader, loading) {
     'use strict';
 
-    function enableScrollX() {
+    /**
+     *
+     */
+    function enableScrollX () {
         return !layoutManager.desktop;
     }
 
-    function renderRecordings(elem, recordings, cardOptions) {
+    /**
+     * @param elem
+     * @param recordings
+     * @param cardOptions
+     */
+    function renderRecordings (elem, recordings, cardOptions) {
         if (recordings.length) {
             elem.classList.remove('hide');
         } else {
@@ -47,11 +55,18 @@ define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'sc
         imageLoader.lazyChildren(recordingItems);
     }
 
-    function getBackdropShape() {
+    /**
+     *
+     */
+    function getBackdropShape () {
         return enableScrollX() ? 'overflowBackdrop' : 'backdrop'
     }
 
-    function renderActiveRecordings(context, promise) {
+    /**
+     * @param context
+     * @param promise
+     */
+    function renderActiveRecordings (context, promise) {
         promise.then(function (result) {
             renderRecordings(context.querySelector('#activeRecordings'), result.Items, {
                 shape: enableScrollX() ? 'autooverflow' : 'auto',
@@ -69,7 +84,12 @@ define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'sc
         });
     }
 
-    function renderTimers(context, timers, options) {
+    /**
+     * @param context
+     * @param timers
+     * @param options
+     */
+    function renderTimers (context, timers, options) {
         LiveTvHelpers.getTimersHtml(timers, options).then(function (html) {
             var elem = context;
 
@@ -84,7 +104,11 @@ define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'sc
         });
     }
 
-    function renderUpcomingRecordings(context, promise) {
+    /**
+     * @param context
+     * @param promise
+     */
+    function renderUpcomingRecordings (context, promise) {
         promise.then(function (result) {
             renderTimers(context.querySelector('#upcomingRecordings'), result.Items);
             loading.hide();

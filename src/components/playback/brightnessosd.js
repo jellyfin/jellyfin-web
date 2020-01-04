@@ -8,7 +8,10 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
 
     var enableAnimation;
 
-    function getOsdElementHtml() {
+    /**
+     *
+     */
+    function getOsdElementHtml () {
         var html = '';
 
         html += '<i class="md-icon iconOsdIcon">brightness_high</i>';
@@ -18,11 +21,12 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
         return html;
     }
 
-    function ensureOsdElement() {
-
+    /**
+     *
+     */
+    function ensureOsdElement () {
         var elem = osdElement;
         if (!elem) {
-
             enableAnimation = browser.supportsCssAnimation();
 
             elem = document.createElement('div');
@@ -40,13 +44,18 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
         }
     }
 
-    function onHideComplete() {
+    /**
+     *
+     */
+    function onHideComplete () {
         this.classList.add('hide');
     }
 
     var hideTimeout;
-    function showOsd() {
-
+    /**
+     *
+     */
+    function showOsd () {
         clearHideTimeout();
 
         var elem = osdElement;
@@ -67,20 +76,24 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
         });
     }
 
-    function clearHideTimeout() {
+    /**
+     *
+     */
+    function clearHideTimeout () {
         if (hideTimeout) {
             clearTimeout(hideTimeout);
             hideTimeout = null;
         }
     }
 
-    function hideOsd() {
-
+    /**
+     *
+     */
+    function hideOsd () {
         clearHideTimeout();
 
         var elem = osdElement;
         if (elem) {
-
             if (enableAnimation) {
                 // trigger reflow
                 void elem.offsetWidth;
@@ -98,8 +111,10 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
         }
     }
 
-    function updateElementsFromPlayer(brightness) {
-
+    /**
+     * @param brightness
+     */
+    function updateElementsFromPlayer (brightness) {
         if (iconElement) {
             if (brightness >= 80) {
                 iconElement.innerHTML = 'brightness_high';
@@ -114,8 +129,10 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
         }
     }
 
-    function releaseCurrentPlayer() {
-
+    /**
+     *
+     */
+    function releaseCurrentPlayer () {
         var player = currentPlayer;
 
         if (player) {
@@ -125,8 +142,10 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
         }
     }
 
-    function onBrightnessChanged(e) {
-
+    /**
+     * @param e
+     */
+    function onBrightnessChanged (e) {
         var player = this;
 
         ensureOsdElement();
@@ -136,8 +155,10 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
         showOsd();
     }
 
-    function bindToPlayer(player) {
-
+    /**
+     * @param player
+     */
+    function bindToPlayer (player) {
         if (player === currentPlayer) {
             return;
         }
@@ -160,5 +181,4 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
     });
 
     bindToPlayer(playbackManager.getCurrentPlayer());
-
 });

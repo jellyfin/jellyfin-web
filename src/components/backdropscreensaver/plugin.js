@@ -1,7 +1,5 @@
 define(['connectionManager'], function (connectionManager) {
-
     return function () {
-
         var self = this;
 
         self.name = 'Backdrop ScreenSaver';
@@ -12,7 +10,6 @@ define(['connectionManager'], function (connectionManager) {
         var currentSlideshow;
 
         self.show = function () {
-
             var query = {
                 ImageTypes: 'Backdrop',
                 EnableImageTypes: 'Backdrop',
@@ -27,11 +24,8 @@ define(['connectionManager'], function (connectionManager) {
 
             var apiClient = connectionManager.currentApiClient();
             apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
-
                 if (result.Items.length) {
-
                     require(['slideshow'], function (slideshow) {
-
                         var newSlideShow = new slideshow({
                             showTitle: true,
                             cover: true,
@@ -46,7 +40,6 @@ define(['connectionManager'], function (connectionManager) {
         };
 
         self.hide = function () {
-
             if (currentSlideshow) {
                 currentSlideshow.hide();
                 currentSlideshow = null;

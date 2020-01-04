@@ -3,8 +3,11 @@ define(['browser', 'css!./emby-collapse', 'registerElement', 'emby-button'], fun
 
     var EmbyButtonPrototype = Object.create(HTMLDivElement.prototype);
 
-    function slideDownToShow(button, elem) {
-
+    /**
+     * @param button
+     * @param elem
+     */
+    function slideDownToShow (button, elem) {
         elem.classList.remove('hide');
         elem.classList.add('expanded');
         elem.style.height = 'auto';
@@ -25,12 +28,15 @@ define(['browser', 'css!./emby-collapse', 'registerElement', 'emby-button'], fun
         }, 300);
 
         var icon = button.querySelector('i');
-        //icon.innerHTML = 'expand_less';
+        // icon.innerHTML = 'expand_less';
         icon.classList.add('emby-collapse-expandIconExpanded');
     }
 
-    function slideUpToHide(button, elem) {
-
+    /**
+     * @param button
+     * @param elem
+     */
+    function slideUpToHide (button, elem) {
         elem.style.height = elem.offsetHeight + 'px';
         // trigger reflow
         var newHeight = elem.offsetHeight;
@@ -47,12 +53,14 @@ define(['browser', 'css!./emby-collapse', 'registerElement', 'emby-button'], fun
         }, 300);
 
         var icon = button.querySelector('i');
-        //icon.innerHTML = 'expand_more';
+        // icon.innerHTML = 'expand_more';
         icon.classList.remove('emby-collapse-expandIconExpanded');
     }
 
-    function onButtonClick(e) {
-
+    /**
+     * @param e
+     */
+    function onButtonClick (e) {
         var button = this;
         var collapseContent = button.parentNode.querySelector('.collapseContent');
 
@@ -66,7 +74,6 @@ define(['browser', 'css!./emby-collapse', 'registerElement', 'emby-button'], fun
     }
 
     EmbyButtonPrototype.attachedCallback = function () {
-
         if (this.classList.contains('emby-collapse')) {
             return;
         }

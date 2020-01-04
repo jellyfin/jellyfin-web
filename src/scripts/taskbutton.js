@@ -2,13 +2,19 @@ define(['events', 'userSettings', 'serverNotifications', 'connectionManager', 'e
     'use strict';
 
     return function (options) {
-        function pollTasks() {
+        /**
+         *
+         */
+        function pollTasks () {
             connectionManager.getApiClient(serverId).getScheduledTasks({
                 IsEnabled: true
             }).then(updateTasks);
         }
 
-        function updateTasks(tasks) {
+        /**
+         * @param tasks
+         */
+        function updateTasks (tasks) {
             var task = tasks.filter(function (t) {
                 return t.Key == options.taskKey;
             })[0];
@@ -59,15 +65,26 @@ define(['events', 'userSettings', 'serverNotifications', 'connectionManager', 'e
             }
         }
 
-        function onScheduledTaskMessageConfirmed(id) {
+        /**
+         * @param id
+         */
+        function onScheduledTaskMessageConfirmed (id) {
             connectionManager.getApiClient(serverId).startScheduledTask(id).then(pollTasks);
         }
 
-        function onButtonClick() {
+        /**
+         *
+         */
+        function onButtonClick () {
             onScheduledTaskMessageConfirmed(this.getAttribute('data-taskid'));
         }
 
-        function onScheduledTasksUpdate(e, apiClient, info) {
+        /**
+         * @param e
+         * @param apiClient
+         * @param info
+         */
+        function onScheduledTasksUpdate (e, apiClient, info) {
             if (apiClient.serverId() === serverId) {
                 updateTasks(info);
             }
@@ -77,13 +94,19 @@ define(['events', 'userSettings', 'serverNotifications', 'connectionManager', 'e
         var button = options.button;
         var serverId = ApiClient.serverId();
 
-        function onPollIntervalFired() {
+        /**
+         *
+         */
+        function onPollIntervalFired () {
             if (!connectionManager.getApiClient(serverId).isMessageChannelOpen()) {
                 pollTasks();
             }
         }
 
-        function startInterval() {
+        /**
+         *
+         */
+        function startInterval () {
             var apiClient = connectionManager.getApiClient(serverId);
 
             if (pollInterval) {
@@ -93,7 +116,10 @@ define(['events', 'userSettings', 'serverNotifications', 'connectionManager', 'e
             pollInterval = setInterval(onPollIntervalFired, 5000);
         }
 
-        function stopInterval() {
+        /**
+         *
+         */
+        function stopInterval () {
             connectionManager.getApiClient(serverId).sendMessage('ScheduledTasksInfoStop');
 
             if (pollInterval) {

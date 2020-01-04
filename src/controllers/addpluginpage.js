@@ -1,7 +1,11 @@
 define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'emby-button'], function ($, loading, libraryMenu, globalize, connectionManager) {
     'use strict';
 
-    function populateHistory(packageInfo, page) {
+    /**
+     * @param packageInfo
+     * @param page
+     */
+    function populateHistory (packageInfo, page) {
         var html = '';
         var length = Math.min(packageInfo.versions.length, 10);
 
@@ -14,7 +18,12 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
         $('#revisionHistory', page).html(html);
     }
 
-    function populateVersions(packageInfo, page, installedPlugin) {
+    /**
+     * @param packageInfo
+     * @param page
+     * @param installedPlugin
+     */
+    function populateVersions (packageInfo, page, installedPlugin) {
         var html = '';
 
         for (var i = 0; i < packageInfo.versions.length; i++) {
@@ -29,10 +38,10 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
         }
 
         var packageVersion = packageInfo.versions.filter(function (current) {
-            return 'Release' == current.classification;
+            return current.classification == 'Release';
         })[0];
         packageVersion = packageVersion || packageInfo.versions.filter(function (current) {
-            return 'Beta' == current.classification;
+            return current.classification == 'Beta';
         })[0];
 
         if (packageVersion) {
@@ -41,7 +50,12 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
         }
     }
 
-    function renderPackage(pkg, installedPlugins, page) {
+    /**
+     * @param pkg
+     * @param installedPlugins
+     * @param page
+     */
+    function renderPackage (pkg, installedPlugins, page) {
         var installedPlugin = installedPlugins.filter(function (ip) {
             return ip.Name == pkg.name;
         })[0];
@@ -49,7 +63,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
         populateHistory(pkg, page);
         $('.pluginName', page).html(pkg.name);
 
-        if ('Server' == pkg.targetSystem) {
+        if (pkg.targetSystem == 'Server') {
             $('#btnInstallDiv', page).removeClass('hide');
             $('#nonServerMsg', page).hide();
             $('#pSelectVersion', page).removeClass('hide');
@@ -93,13 +107,23 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
         loading.hide();
     }
 
-    function alertText(options) {
+    /**
+     * @param options
+     */
+    function alertText (options) {
         require(['alert'], function (alert) {
             alert(options);
         });
     }
 
-    function performInstallation(page, packageName, guid, updateClass, version) {
+    /**
+     * @param page
+     * @param packageName
+     * @param guid
+     * @param updateClass
+     * @param version
+     */
+    function performInstallation (page, packageName, guid, updateClass, version) {
         var developer = $('#developer', page).html().toLowerCase();
 
         var alertCallback = function () {

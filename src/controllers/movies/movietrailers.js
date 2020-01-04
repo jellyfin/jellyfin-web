@@ -2,7 +2,10 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
     'use strict';
 
     return function (view, params, tabContent) {
-        function getPageData(context) {
+        /**
+         * @param context
+         */
+        function getPageData (context) {
             var key = getSavedQueryKey(context);
             var pageData = data[key];
 
@@ -27,11 +30,17 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
             return pageData;
         }
 
-        function getQuery(context) {
+        /**
+         * @param context
+         */
+        function getQuery (context) {
             return getPageData(context).query;
         }
 
-        function getSavedQueryKey(context) {
+        /**
+         * @param context
+         */
+        function getSavedQueryKey (context) {
             if (!context.savedQueryKey) {
                 context.savedQueryKey = libraryBrowser.getSavedQueryKey('trailers');
             }
@@ -39,12 +48,18 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
             return context.savedQueryKey;
         }
 
-        function reloadItems() {
+        /**
+         *
+         */
+        function reloadItems () {
             loading.show();
             isLoading = true;
             var query = getQuery(tabContent);
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
-                function onNextPageClick() {
+                /**
+                 *
+                 */
+                function onNextPageClick () {
                     if (isLoading) {
                         return;
                     }
@@ -53,7 +68,10 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                     reloadItems();
                 }
 
-                function onPreviousPageClick() {
+                /**
+                 *
+                 */
+                function onPreviousPageClick () {
                     if (isLoading) {
                         return;
                     }
@@ -162,7 +180,10 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
             });
         }
 
-        function updateFilterControls(tabContent) {
+        /**
+         * @param tabContent
+         */
+        function updateFilterControls (tabContent) {
             var query = getQuery(tabContent);
             self.alphaPicker.value(query.NameStartsWithOrGreater);
         }
@@ -191,7 +212,10 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
             return getPageData(tabContent).view;
         };
 
-        function initPage(tabContent) {
+        /**
+         * @param tabContent
+         */
+        function initPage (tabContent) {
             var alphaPickerElement = tabContent.querySelector('.alphaPicker');
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                 var newValue = e.detail.value;

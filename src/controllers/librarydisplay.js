@@ -1,7 +1,10 @@
-define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', 'emby-button'], function(globalize, loading, libraryMenu) {
+define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', 'emby-button'], function (globalize, loading, libraryMenu) {
     'use strict';
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             href: 'library.html',
             name: Globalize.translate('HeaderLibraries')
@@ -17,28 +20,35 @@ define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', '
         }]
     }
 
-    return function(view, params) {
-        function loadData() {
-            ApiClient.getServerConfiguration().then(function(config) {
+    return function (view, params) {
+        /**
+         *
+         */
+        function loadData () {
+            ApiClient.getServerConfiguration().then(function (config) {
                 view.querySelector('.chkFolderView').checked = config.EnableFolderView;
                 view.querySelector('.chkGroupMoviesIntoCollections').checked = config.EnableGroupingIntoCollections;
                 view.querySelector('.chkDisplaySpecialsWithinSeasons').checked = config.DisplaySpecialsWithinSeasons;
                 view.querySelector('.chkExternalContentInSuggestions').checked = config.EnableExternalContentInSuggestions;
                 view.querySelector('#chkSaveMetadataHidden').checked = config.SaveMetadataHidden;
             });
-            ApiClient.getNamedConfiguration('metadata').then(function(metadata) {
+            ApiClient.getNamedConfiguration('metadata').then(function (metadata) {
                 loadMetadataConfig(this, metadata)
             });
         }
 
-        function loadMetadataConfig(page, config) {
+        /**
+         * @param page
+         * @param config
+         */
+        function loadMetadataConfig (page, config) {
             $('#selectDateAdded', page).val(config.UseFileCreationTimeForDateAdded ? '1' : '0');
         }
 
-        view.querySelector('form').addEventListener('submit', function(e) {
+        view.querySelector('form').addEventListener('submit', function (e) {
             loading.show();
             var form = this;
-            ApiClient.getServerConfiguration().then(function(config) {
+            ApiClient.getServerConfiguration().then(function (config) {
                 config.EnableFolderView = form.querySelector('.chkFolderView').checked;
                 config.EnableGroupingIntoCollections = form.querySelector('.chkGroupMoviesIntoCollections').checked;
                 config.DisplaySpecialsWithinSeasons = form.querySelector('.chkDisplaySpecialsWithinSeasons').checked;
@@ -46,8 +56,8 @@ define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', '
                 config.SaveMetadataHidden = form.querySelector('#chkSaveMetadataHidden').checked;
                 ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
             });
-            ApiClient.getNamedConfiguration('metadata').then(function(config) {
-                config.UseFileCreationTimeForDateAdded = '1' === $('#selectDateAdded', form).val();
+            ApiClient.getNamedConfiguration('metadata').then(function (config) {
+                config.UseFileCreationTimeForDateAdded = $('#selectDateAdded', form).val() === '1';
                 ApiClient.updateNamedConfiguration('metadata', config);
             });
 
@@ -56,11 +66,11 @@ define(['globalize', 'loading', 'libraryMenu', 'emby-checkbox', 'emby-button', '
             return false;
         });
 
-        view.addEventListener('viewshow', function() {
+        view.addEventListener('viewshow', function () {
             libraryMenu.setTabs('librarysetup', 1, getTabs);
             loadData();
-            ApiClient.getSystemInfo().then(function(info) {
-                if ('Windows' === info.OperatingSystem) {
+            ApiClient.getSystemInfo().then(function (info) {
+                if (info.OperatingSystem === 'Windows') {
                     view.querySelector('.fldSaveMetadataHidden').classList.remove('hide');
                 } else {
                     view.querySelector('.fldSaveMetadataHidden').classList.add('hide');

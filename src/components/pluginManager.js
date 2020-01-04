@@ -4,7 +4,11 @@ define(['events'], function (events) {
     // TODO: replace with each plugin version
     var cacheParam = new Date().getTime();
 
-    function loadStrings(plugin, globalize) {
+    /**
+     * @param plugin
+     * @param globalize
+     */
+    function loadStrings (plugin, globalize) {
         var strings = plugin.getTranslations ? plugin.getTranslations() : [];
         return globalize.loadStrings({
             name: plugin.id || plugin.packageName,
@@ -12,28 +16,31 @@ define(['events'], function (events) {
         });
     }
 
-    function definePluginRoute(pluginManager, route, plugin) {
-
+    /**
+     * @param pluginManager
+     * @param route
+     * @param plugin
+     */
+    function definePluginRoute (pluginManager, route, plugin) {
         route.contentPath = pluginManager.mapPath(plugin, route.path);
         route.path = pluginManager.mapRoute(plugin, route);
 
         Emby.App.defineRoute(route, plugin.id);
     }
 
-    function PluginManager() {
-
+    /**
+     *
+     */
+    function PluginManager () {
         this.pluginsList = [];
     }
 
     PluginManager.prototype.loadPlugin = function (url) {
-
         console.log('Loading plugin: ' + url);
         var instance = this;
 
         return new Promise(function (resolve, reject) {
-
             require([url, 'globalize', 'appRouter'], function (pluginFactory, globalize, appRouter) {
-
                 var plugin = new pluginFactory();
 
                 // See if it's already installed
@@ -51,7 +58,6 @@ define(['events'], function (events) {
                 var urlLower = url.toLowerCase();
                 if (urlLower.indexOf('http:') === -1 && urlLower.indexOf('https:') === -1 && urlLower.indexOf('file:') === -1) {
                     if (url.indexOf(appRouter.baseUrl()) !== 0) {
-
                         url = appRouter.baseUrl() + '/' + url;
                     }
                 }
@@ -76,11 +82,9 @@ define(['events'], function (events) {
                 }
 
                 if (plugin.type === 'skin') {
-
                     // translations won't be loaded for skins until needed
                     resolve(plugin);
                 } else {
-
                     loadStrings(plugin, globalize).then(function () {
                         resolve(plugin);
                     }, reject);
@@ -94,13 +98,11 @@ define(['events'], function (events) {
     // name
     // type (skin, screensaver, etc)
     PluginManager.prototype.register = function (obj) {
-
         this.pluginsList.push(obj);
         events.trigger(this, 'registered', [obj]);
     };
 
     PluginManager.prototype.ofType = function (type) {
-
         return this.pluginsList.filter(function (o) {
             return o.type === type;
         });
@@ -111,7 +113,6 @@ define(['events'], function (events) {
     };
 
     PluginManager.prototype.mapRoute = function (plugin, route) {
-
         if (typeof plugin === 'string') {
             plugin = this.pluginsList.filter(function (p) {
                 return (p.id || p.packageName) === plugin;
@@ -128,7 +129,6 @@ define(['events'], function (events) {
     };
 
     PluginManager.prototype.mapPath = function (plugin, path, addCacheParam) {
-
         if (typeof plugin === 'string') {
             plugin = this.pluginsList.filter(function (p) {
                 return (p.id || p.packageName) === plugin;

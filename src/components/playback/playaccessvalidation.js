@@ -1,13 +1,19 @@
 define(['connectionManager', 'globalize'], function (connectionManager, globalize) {
     'use strict';
 
-    function getRequirePromise(deps) {
+    /**
+     * @param deps
+     */
+    function getRequirePromise (deps) {
         return new Promise(function (resolve, reject) {
             require(deps, resolve);
         });
     }
 
-    function showErrorMessage() {
+    /**
+     *
+     */
+    function showErrorMessage () {
         return getRequirePromise(['alert']).then(function (alert) {
             return alert(globalize.translate('MessagePlayAccessRestricted')).then(function () {
                 return Promise.reject();
@@ -15,7 +21,10 @@ define(['connectionManager', 'globalize'], function (connectionManager, globaliz
         });
     }
 
-    function PlayAccessValidation() {
+    /**
+     *
+     */
+    function PlayAccessValidation () {
         this.name = 'Playback validation';
         this.type = 'preplayintercept';
         this.id = 'playaccessvalidation';

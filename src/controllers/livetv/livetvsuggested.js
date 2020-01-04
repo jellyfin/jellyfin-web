@@ -1,25 +1,37 @@
 define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize', 'libraryBrowser', 'mainTabsManager', 'cardBuilder', 'apphost', 'imageLoader', 'scrollStyles', 'emby-itemscontainer', 'emby-tabs', 'emby-button'], function (layoutManager, userSettings, inputManager, loading, globalize, libraryBrowser, mainTabsManager, cardBuilder, appHost, imageLoader) {
     'use strict';
 
-    function enableScrollX() {
+    /**
+     *
+     */
+    function enableScrollX () {
         return !layoutManager.desktop;
     }
 
-    function getBackdropShape() {
+    /**
+     *
+     */
+    function getBackdropShape () {
         if (enableScrollX()) {
             return 'overflowBackdrop';
         }
         return 'backdrop';
     }
 
-    function getPortraitShape() {
+    /**
+     *
+     */
+    function getPortraitShape () {
         if (enableScrollX()) {
             return 'overflowPortrait';
         }
         return 'portrait';
     }
 
-    function getLimit() {
+    /**
+     *
+     */
+    function getLimit () {
         if (enableScrollX()) {
             return 12;
         }
@@ -27,7 +39,10 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
         return 9;
     }
 
-    function loadRecommendedPrograms(page) {
+    /**
+     * @param page
+     */
+    function loadRecommendedPrograms (page) {
         loading.show();
         var limit = getLimit();
 
@@ -56,7 +71,11 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
         });
     }
 
-    function reload(page, enableFullRender) {
+    /**
+     * @param page
+     * @param enableFullRender
+     */
+    function reload (page, enableFullRender) {
         if (enableFullRender) {
             loadRecommendedPrograms(page);
             ApiClient.getLiveTvPrograms({
@@ -129,7 +148,14 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
         }
     }
 
-    function renderItems(page, items, sectionClass, overlayButton, cardOptions) {
+    /**
+     * @param page
+     * @param items
+     * @param sectionClass
+     * @param overlayButton
+     * @param cardOptions
+     */
+    function renderItems (page, items, sectionClass, overlayButton, cardOptions) {
         var html = cardBuilder.getCardsHtml(Object.assign({
             items: items,
             preferThumb: 'auto',
@@ -142,9 +168,9 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             coverImage: true,
             overlayText: false,
             lazy: true,
-            overlayPlayButton: 'play' === overlayButton,
-            overlayMoreButton: 'more' === overlayButton,
-            overlayInfoButton: 'info' === overlayButton,
+            overlayPlayButton: overlayButton === 'play',
+            overlayMoreButton: overlayButton === 'more',
+            overlayInfoButton: overlayButton === 'info',
             allowBottomPadding: !enableScrollX(),
             showAirTime: true,
             showAirDateTime: true
@@ -154,7 +180,10 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
         imageLoader.lazyChildren(elem);
     }
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             name: globalize.translate('Programs')
         }, {
@@ -173,7 +202,11 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
         }];
     }
 
-    function setScrollClasses(elem, scrollX) {
+    /**
+     * @param elem
+     * @param scrollX
+     */
+    function setScrollClasses (elem, scrollX) {
         if (scrollX) {
             elem.classList.add('hiddenScrollX');
 
@@ -191,7 +224,10 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
         }
     }
 
-    function getDefaultTabIndex(folderId) {
+    /**
+     * @param folderId
+     */
+    function getDefaultTabIndex (folderId) {
         if (userSettings.get('landing-' + folderId) === 'guide') {
             return 1;
         }
@@ -200,15 +236,24 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
     }
 
     return function (view, params) {
-        function enableFullRender() {
+        /**
+         *
+         */
+        function enableFullRender () {
             return new Date().getTime() - lastFullRender > 3e5;
         }
 
-        function onBeforeTabChange(evt) {
+        /**
+         * @param evt
+         */
+        function onBeforeTabChange (evt) {
             preLoadTab(view, parseInt(evt.detail.selectedTabIndex));
         }
 
-        function onTabChange(evt) {
+        /**
+         * @param evt
+         */
+        function onTabChange (evt) {
             var previousTabController = tabControllers[parseInt(evt.detail.previousIndex)];
 
             if (previousTabController && previousTabController.onHide) {
@@ -218,15 +263,26 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             loadTab(view, parseInt(evt.detail.selectedTabIndex));
         }
 
-        function getTabContainers() {
+        /**
+         *
+         */
+        function getTabContainers () {
             return view.querySelectorAll('.pageTabContent');
         }
 
-        function initTabs() {
+        /**
+         *
+         */
+        function initTabs () {
             mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
         }
 
-        function getTabController(page, index, callback) {
+        /**
+         * @param page
+         * @param index
+         * @param callback
+         */
+        function getTabController (page, index, callback) {
             var depends = [];
 
             // TODO int is a little hard to read
@@ -261,7 +317,7 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             require(depends, function (controllerFactory) {
                 var tabContent;
 
-                if (0 == index) {
+                if (index == 0) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }
@@ -271,9 +327,9 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
 
-                    if (0 === index) {
+                    if (index === 0) {
                         controller = self;
-                    } else if (6 === index) {
+                    } else if (index === 6) {
                         controller = new controllerFactory(view, tabContent, {
                             collectionType: 'livetv'
                         });
@@ -292,7 +348,11 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             });
         }
 
-        function preLoadTab(page, index) {
+        /**
+         * @param page
+         * @param index
+         */
+        function preLoadTab (page, index) {
             getTabController(page, index, function (controller) {
                 if (renderedTabs.indexOf(index) === -1 && controller.preRender) {
                     controller.preRender();
@@ -300,13 +360,17 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             });
         }
 
-        function loadTab(page, index) {
+        /**
+         * @param page
+         * @param index
+         */
+        function loadTab (page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
                 initialTabIndex = null;
 
-                if (-1 == renderedTabs.indexOf(index)) {
-                    if (1 === index) {
+                if (renderedTabs.indexOf(index) == -1) {
+                    if (index === 1) {
                         renderedTabs.push(index);
                     }
 
@@ -319,7 +383,10 @@ define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize',
             });
         }
 
-        function onInputCommand(evt) {
+        /**
+         * @param evt
+         */
+        function onInputCommand (evt) {
             if (evt.detail.command === 'search') {
                 evt.preventDefault();
                 Dashboard.navigate('search.html?collectionType=livetv');

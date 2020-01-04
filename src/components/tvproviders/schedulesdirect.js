@@ -2,7 +2,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'listViewStyle', 'emby-input', 'em
     'use strict';
 
     return function (page, providerId, options) {
-        function reload() {
+        /**
+         *
+         */
+        function reload () {
             loading.show();
             ApiClient.getNamedConfiguration('livetv').then(function (config) {
                 var info = config.ListingProviders.filter(function (i) {
@@ -33,7 +36,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'listViewStyle', 'emby-input', 'em
             });
         }
 
-        function setCountry(info) {
+        /**
+         * @param info
+         */
+        function setCountry (info) {
             ApiClient.getJSON(ApiClient.getUrl('LiveTv/ListingProviders/SchedulesDirect/Countries')).then(function (result) {
                 var i;
                 var length;
@@ -42,7 +48,7 @@ define(['jQuery', 'loading', 'emby-checkbox', 'listViewStyle', 'emby-input', 'em
                 for (var region in result) {
                     var countries = result[region];
 
-                    if (countries.length && 'ZZZ' !== region) {
+                    if (countries.length && region !== 'ZZZ') {
                         for (i = 0, length = countries.length; i < length; i++) {
                             countryList.push({
                                 name: countries[i].fullName,
@@ -75,7 +81,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'listViewStyle', 'emby-input', 'em
             loading.hide();
         }
 
-        function sha256(str) {
+        /**
+         * @param str
+         */
+        function sha256 (str) {
             if (!self.TextEncoder) {
                 return Promise.resolve('');
             }
@@ -86,7 +95,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'listViewStyle', 'emby-input', 'em
             });
         }
 
-        function hex(buffer) {
+        /**
+         * @param buffer
+         */
+        function hex (buffer) {
             var hexCodes = [];
             var view = new DataView(buffer);
 
@@ -100,7 +112,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'listViewStyle', 'emby-input', 'em
             return hexCodes.join('');
         }
 
-        function submitLoginForm() {
+        /**
+         *
+         */
+        function submitLoginForm () {
             loading.show();
             sha256(page.querySelector('.txtPass').value).then(function (passwordHash) {
                 var info = {
@@ -136,7 +151,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'listViewStyle', 'emby-input', 'em
             });
         }
 
-        function submitListingsForm() {
+        /**
+         *
+         */
+        function submitListingsForm () {
             var selectedListingsId = $('#selectListing', page).val();
 
             if (!selectedListingsId) {
@@ -184,7 +202,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'listViewStyle', 'emby-input', 'em
             });
         }
 
-        function refreshListings(value) {
+        /**
+         * @param value
+         */
+        function refreshListings (value) {
             if (!value) {
                 return void $('#selectListing', page).html('');
             }
@@ -217,7 +238,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'listViewStyle', 'emby-input', 'em
             });
         }
 
-        function getTunerName(providerId) {
+        /**
+         * @param providerId
+         */
+        function getTunerName (providerId) {
             switch (providerId = providerId.toLowerCase()) {
             case 'm3u':
                 return 'M3U Playlist';
@@ -230,14 +254,19 @@ define(['jQuery', 'loading', 'emby-checkbox', 'listViewStyle', 'emby-input', 'em
             }
         }
 
-        function refreshTunerDevices(page, providerInfo, devices) {
+        /**
+         * @param page
+         * @param providerInfo
+         * @param devices
+         */
+        function refreshTunerDevices (page, providerInfo, devices) {
             var html = '';
 
             for (var i = 0, length = devices.length; i < length; i++) {
                 var device = devices[i];
                 html += '<div class="listItem">';
                 var enabledTuners = providerInfo.EnabledTuners || [];
-                var isChecked = providerInfo.EnableAllTuners || -1 !== enabledTuners.indexOf(device.Id);
+                var isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
                 var checkedAttribute = isChecked ? ' checked' : '';
                 html += '<label class="checkboxContainer listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" data-id="' + device.Id + '" class="chkTuner" ' + checkedAttribute + '/><span></span></label>';
                 html += '<div class="listItemBody two-line">';

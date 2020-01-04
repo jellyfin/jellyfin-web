@@ -1,7 +1,10 @@
 define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSettings, browser, events, htmlMediaHelper) {
     'use strict';
 
-    function getBaseProfileOptions(item) {
+    /**
+     * @param item
+     */
+    function getBaseProfileOptions (item) {
         var disableHlsVideoAudioCodecs = [];
 
         if (item && htmlMediaHelper.enableHlsJsPlayer(item.RunTimeTicks, item.MediaType)) {
@@ -20,7 +23,10 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         };
     }
 
-    function getDeviceProfileForWindowsUwp(item) {
+    /**
+     * @param item
+     */
+    function getDeviceProfileForWindowsUwp (item) {
         return new Promise(function (resolve, reject) {
             require(['browserdeviceprofile', 'environments/windows-uwp/mediacaps'], function (profileBuilder, uwpMediaCaps) {
                 var profileOptions = getBaseProfileOptions(item);
@@ -32,7 +38,11 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         });
     }
 
-    function getDeviceProfile(item, options) {
+    /**
+     * @param item
+     * @param options
+     */
+    function getDeviceProfile (item, options) {
         options = options || {};
 
         if (self.Windows) {
@@ -48,7 +58,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
                 } else {
                     profile = profileBuilder(getBaseProfileOptions(item));
 
-                    if (item && !options.isRetry && 'allcomplexformats' !== appSettings.get('subtitleburnin')) {
+                    if (item && !options.isRetry && appSettings.get('subtitleburnin') !== 'allcomplexformats') {
                         if (!browser.orsay && !browser.tizen) {
                             profile.SubtitleProfiles.push({
                                 Format: 'ass',
@@ -67,17 +77,28 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         });
     }
 
-    function escapeRegExp(str) {
+    /**
+     * @param str
+     */
+    function escapeRegExp (str) {
         return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
     }
 
-    function replaceAll(originalString, strReplace, strWith) {
+    /**
+     * @param originalString
+     * @param strReplace
+     * @param strWith
+     */
+    function replaceAll (originalString, strReplace, strWith) {
         var strReplace2 = escapeRegExp(strReplace);
         var reg = new RegExp(strReplace2, 'ig');
         return originalString.replace(reg, strWith);
     }
 
-    function generateDeviceId() {
+    /**
+     *
+     */
+    function generateDeviceId () {
         var keys = [];
 
         if (keys.push(navigator.userAgent), keys.push(new Date().getTime()), self.btoa) {
@@ -88,7 +109,10 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         return Promise.resolve(new Date().getTime());
     }
 
-    function getDeviceId() {
+    /**
+     *
+     */
+    function getDeviceId () {
         var key = '_deviceId2';
         var deviceId = appSettings.get(key);
 
@@ -102,7 +126,10 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         });
     }
 
-    function getDeviceName() {
+    /**
+     *
+     */
+    function getDeviceName () {
         var deviceName;
         deviceName = browser.tizen ? 'Samsung Smart TV' : browser.web0s ? 'LG Smart TV' : browser.operaTv ? 'Opera TV' : browser.xboxOne ? 'Xbox One' : browser.ps4 ? 'Sony PS4' : browser.chrome ? 'Chrome' : browser.edge ? 'Edge' : browser.firefox ? 'Firefox' : browser.msie ? 'Internet Explorer' : browser.opera ? 'Opera' : 'Web Browser';
 
@@ -121,7 +148,10 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         return deviceName;
     }
 
-    function supportsVoiceInput() {
+    /**
+     *
+     */
+    function supportsVoiceInput () {
         if (!browser.tv) {
             return window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.oSpeechRecognition || window.msSpeechRecognition;
         }
@@ -129,7 +159,10 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         return false;
     }
 
-    function supportsFullscreen() {
+    /**
+     *
+     */
+    function supportsFullscreen () {
         if (browser.tv) {
             return false;
         }
@@ -138,7 +171,10 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         return (element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen) || document.createElement('video').webkitEnterFullscreen;
     }
 
-    function getSyncProfile() {
+    /**
+     *
+     */
+    function getSyncProfile () {
         return new Promise(function (resolve) {
             require(['browserdeviceprofile', 'appSettings'], function (profileBuilder, appSettings) {
                 var profile;
@@ -155,11 +191,17 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         });
     }
 
-    function getDefaultLayout() {
+    /**
+     *
+     */
+    function getDefaultLayout () {
         return 'desktop';
     }
 
-    function supportsHtmlMediaAutoplay() {
+    /**
+     *
+     */
+    function supportsHtmlMediaAutoplay () {
         if (browser.edgeUwp || browser.tizen || browser.web0s || browser.orsay || browser.operaTv || browser.ps4 || browser.xboxOne) {
             return true;
         }
@@ -169,10 +211,13 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         }
 
         var savedResult = appSettings.get(htmlMediaAutoplayAppStorageKey);
-        return 'true' === savedResult || 'false' !== savedResult && null;
+        return savedResult === 'true' || savedResult !== 'false' && null;
     }
 
-    function cueSupported() {
+    /**
+     *
+     */
+    function cueSupported () {
         try {
             var video = document.createElement('video');
             var style = document.createElement('style');
@@ -189,7 +234,10 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         }
     }
 
-    function onAppVisible() {
+    /**
+     *
+     */
+    function onAppVisible () {
         if (isHidden) {
             isHidden = false;
             console.log('triggering app resume event');
@@ -197,7 +245,10 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         }
     }
 
-    function onAppHidden() {
+    /**
+     *
+     */
+    function onAppHidden () {
         if (!isHidden) {
             isHidden = true;
             console.log('app is hidden');
@@ -206,7 +257,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
 
     var htmlMediaAutoplayAppStorageKey = 'supportshtmlmediaautoplay0';
 
-    var supportedFeatures = function () {
+    var supportedFeatures = (function () {
         var features = [];
 
         if (navigator.share) {
@@ -277,7 +328,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         features.push('displaymode');
         features.push('targetblank');
         // allows users to connect to more than one server
-        //features.push("multiserver");
+        // features.push("multiserver");
         features.push('screensaver');
 
         if (!browser.orsay && !browser.tizen && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || cueSupported())) {
@@ -297,7 +348,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
         }
 
         return features;
-    }();
+    }());
 
     if (supportedFeatures.indexOf('htmlvideoautoplay') === -1 && supportsHtmlMediaAutoplay() !== false) {
         require(['autoPlayDetect'], function (autoPlayDetect) {
@@ -343,7 +394,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper'], function (appSet
                 return window.NativeShell.AppHost.supports(command);
             }
 
-            return -1 !== supportedFeatures.indexOf(command.toLowerCase());
+            return supportedFeatures.indexOf(command.toLowerCase()) !== -1;
         },
         preferVisualCards: browser.android || browser.chrome,
         moreIcon: browser.android ? 'dots-vert' : 'dots-horiz',

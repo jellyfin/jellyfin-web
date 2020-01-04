@@ -1,7 +1,10 @@
 define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, browser, globalize, imageHelper) {
     'use strict';
 
-    function getCurrentApiClient() {
+    /**
+     *
+     */
+    function getCurrentApiClient () {
         if (currentUser && currentUser.localUser) {
             return connectionManager.getApiClient(currentUser.localUser.ServerId);
         }
@@ -9,17 +12,26 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         return connectionManager.currentApiClient();
     }
 
-    function lazyLoadViewMenuBarImages() {
+    /**
+     *
+     */
+    function lazyLoadViewMenuBarImages () {
         require(['imageLoader'], function (imageLoader) {
             imageLoader.lazyChildren(skinHeader);
         });
     }
 
-    function onBackClick() {
+    /**
+     *
+     */
+    function onBackClick () {
         appRouter.back();
     }
 
-    function updateUserInHeader(user) {
+    /**
+     * @param user
+     */
+    function updateUserInHeader (user) {
         var hasImage;
 
         if (user && user.name) {
@@ -60,7 +72,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         requiresUserRefresh = false;
     }
 
-    function updateHeaderUserButton(src) {
+    /**
+     * @param src
+     */
+    function updateHeaderUserButton (src) {
         if (src) {
             headerUserButton.classList.add('headerUserButtonRound');
             headerUserButton.innerHTML = '<div class="headerButton headerButtonRight paper-icon-button-light headerUserButtonRound" style="background-image:url(\'' + src + "');\"></div>";
@@ -70,19 +85,31 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function showSearch() {
+    /**
+     *
+     */
+    function showSearch () {
         inputManager.trigger('search');
     }
 
-    function onHeaderUserButtonClick(e) {
+    /**
+     * @param e
+     */
+    function onHeaderUserButtonClick (e) {
         Dashboard.navigate('mypreferencesmenu.html');
     }
 
-    function onHeaderHomeButtonClick() {
+    /**
+     *
+     */
+    function onHeaderHomeButtonClick () {
         Dashboard.navigate('home.html');
     }
 
-    function bindMenuEvents() {
+    /**
+     *
+     */
+    function bindMenuEvents () {
         mainDrawerButton = document.querySelector('.mainDrawerButton');
 
         if (mainDrawerButton) {
@@ -106,7 +133,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         initHeadRoom(skinHeader);
     }
 
-    function onCastButtonClicked() {
+    /**
+     *
+     */
+    function onCastButtonClicked () {
         var btn = this;
 
         require(['playerSelectionMenu'], function (playerSelectionMenu) {
@@ -114,13 +144,20 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         });
     }
 
-    function getItemHref(item, context) {
+    /**
+     * @param item
+     * @param context
+     */
+    function getItemHref (item, context) {
         return appRouter.getRouteUrl(item, {
             context: context
         });
     }
 
-    function toggleMainDrawer() {
+    /**
+     *
+     */
+    function toggleMainDrawer () {
         if (navDrawerInstance.isVisible) {
             closeMainDrawer();
         } else {
@@ -128,22 +165,34 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function openMainDrawer() {
+    /**
+     *
+     */
+    function openMainDrawer () {
         navDrawerInstance.open();
         lastOpenTime = new Date().getTime();
     }
 
-    function onMainDrawerOpened() {
+    /**
+     *
+     */
+    function onMainDrawerOpened () {
         if (layoutManager.mobile) {
             document.body.classList.add('bodyWithPopupOpen');
         }
     }
 
-    function closeMainDrawer() {
+    /**
+     *
+     */
+    function closeMainDrawer () {
         navDrawerInstance.close();
     }
 
-    function onMainDrawerSelect(e) {
+    /**
+     * @param e
+     */
+    function onMainDrawerSelect (e) {
         if (navDrawerInstance.isVisible) {
             onMainDrawerOpened();
         } else {
@@ -151,7 +200,11 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function refreshLibraryInfoInDrawer(user, drawer) {
+    /**
+     * @param user
+     * @param drawer
+     */
+    function refreshLibraryInfoInDrawer (user, drawer) {
         var html = '';
         html += '<div style="height:.5em;"></div>';
         html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><i class="md-icon navMenuOptionIcon">home</i><span class="navMenuOptionText">' + globalize.translate('ButtonHome') + '</span></a>';
@@ -194,7 +247,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function refreshDashboardInfoInDrawer(apiClient) {
+    /**
+     * @param apiClient
+     */
+    function refreshDashboardInfoInDrawer (apiClient) {
         currentDrawerType = 'admin';
         loadNavDrawer();
 
@@ -205,11 +261,17 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function isUrlInCurrentView(url) {
-        return -1 !== window.location.href.toString().toLowerCase().indexOf(url.toLowerCase());
+    /**
+     * @param url
+     */
+    function isUrlInCurrentView (url) {
+        return window.location.href.toString().toLowerCase().indexOf(url.toLowerCase()) !== -1;
     }
 
-    function updateDashboardMenuSelectedItem() {
+    /**
+     *
+     */
+    function updateDashboardMenuSelectedItem () {
         var links = navDrawerScrollContainer.querySelectorAll('.navMenuOption');
         var currentViewId = viewManager.currentView().id;
 
@@ -220,7 +282,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
             if (pageIds) {
                 pageIds = pageIds.split('|');
-                selected = -1 != pageIds.indexOf(currentViewId);
+                selected = pageIds.indexOf(currentViewId) != -1;
             }
 
             var pageUrls = link.getAttribute('data-pageurls');
@@ -242,7 +304,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function createToolsMenuList(pluginItems) {
+    /**
+     * @param pluginItems
+     */
+    function createToolsMenuList (pluginItems) {
         var links = [{
             name: globalize.translate('TabServer')
         }, {
@@ -354,7 +419,12 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         return links;
     }
 
-    function addPluginPagesToMainMenu(links, pluginItems, section) {
+    /**
+     * @param links
+     * @param pluginItems
+     * @param section
+     */
+    function addPluginPagesToMainMenu (links, pluginItems, section) {
         for (var i = 0, length = pluginItems.length; i < length; i++) {
             var pluginItem = pluginItems[i];
 
@@ -369,13 +439,19 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function getToolsMenuLinks(apiClient) {
+    /**
+     * @param apiClient
+     */
+    function getToolsMenuLinks (apiClient) {
         return apiClient.getJSON(apiClient.getUrl('web/configurationpages') + '?pageType=PluginConfiguration&EnableInMainMenu=true').then(createToolsMenuList, function (err) {
             return createToolsMenuList([]);
         });
     }
 
-    function getToolsLinkHtml(item) {
+    /**
+     * @param item
+     */
+    function getToolsLinkHtml (item) {
         var menuHtml = '';
         var pageIds = item.pageIds ? item.pageIds.join('|') : '';
         pageIds = pageIds ? ' data-pageids="' + pageIds + '"' : '';
@@ -393,7 +469,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         return menuHtml + '</a>';
     }
 
-    function getToolsMenuHtml(apiClient) {
+    /**
+     * @param apiClient
+     */
+    function getToolsMenuHtml (apiClient) {
         return getToolsMenuLinks(apiClient).then(function (items) {
             var item;
             var menuHtml = '';
@@ -415,7 +494,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         });
     }
 
-    function createDashboardMenu(apiClient) {
+    /**
+     * @param apiClient
+     */
+    function createDashboardMenu (apiClient) {
         return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
             var html = '';
             html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="home.html">';
@@ -427,13 +509,20 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         });
     }
 
-    function onSidebarLinkClick() {
+    /**
+     *
+     */
+    function onSidebarLinkClick () {
         var section = this.getElementsByClassName('sectionName')[0];
         var text = section ? section.innerHTML : this.innerHTML;
         LibraryMenu.setTitle(text);
     }
 
-    function getUserViews(apiClient, userId) {
+    /**
+     * @param apiClient
+     * @param userId
+     */
+    function getUserViews (apiClient, userId) {
         return apiClient.getUserViews({}, userId).then(function (result) {
             var items = result.Items;
             var list = [];
@@ -442,7 +531,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
                 var view = items[i];
                 list.push(view);
 
-                if ('livetv' == view.CollectionType) {
+                if (view.CollectionType == 'livetv') {
                     view.ImageTags = {};
                     view.icon = 'live_tv';
                     var guideView = Object.assign({}, view);
@@ -458,7 +547,11 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         });
     }
 
-    function showBySelector(selector, show) {
+    /**
+     * @param selector
+     * @param show
+     */
+    function showBySelector (selector, show) {
         var elem = document.querySelector(selector);
 
         if (elem) {
@@ -470,7 +563,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function updateLibraryMenu(user) {
+    /**
+     * @param user
+     */
+    function updateLibraryMenu (user) {
         // FIXME: Potential equivalent might be
         // showBySelector(".lnkSyncToOtherDevices", !!user.Policy.EnableContentDownloading);
         if (!user) {
@@ -525,21 +621,33 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function getTopParentId() {
+    /**
+     *
+     */
+    function getTopParentId () {
         return getParameterByName('topParentId') || null;
     }
 
-    function onMainDrawerClick(e) {
+    /**
+     * @param e
+     */
+    function onMainDrawerClick (e) {
         if (dom.parentWithTag(e.target, 'A')) {
             setTimeout(closeMainDrawer, 30);
         }
     }
 
-    function onLogoutClick() {
+    /**
+     *
+     */
+    function onLogoutClick () {
         Dashboard.logout();
     }
 
-    function updateCastIcon() {
+    /**
+     *
+     */
+    function updateCastIcon () {
         var context = document;
         var info = playbackManager.getPlayerInfo();
         var icon = headerCastButton.querySelector('i');
@@ -555,7 +663,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function updateLibraryNavLinks(page) {
+    /**
+     * @param page
+     */
+    function updateLibraryNavLinks (page) {
         var i;
         var length;
         var isLiveTvPage = page.classList.contains('liveTvPage');
@@ -569,15 +680,15 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             var lnkMediaFolder = elems[i];
             var itemId = lnkMediaFolder.getAttribute('data-itemid');
 
-            if (isChannelsPage && 'channels' === itemId) {
+            if (isChannelsPage && itemId === 'channels') {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
-            } else if (isLiveTvPage && 'livetv' === itemId) {
+            } else if (isLiveTvPage && itemId === 'livetv') {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
-            } else if (isEditorPage && 'editor' === itemId) {
+            } else if (isEditorPage && itemId === 'editor') {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
-            } else if (isMySyncPage && 'manageoffline' === itemId && -1 != window.location.href.toString().indexOf('mode=download')) {
+            } else if (isMySyncPage && itemId === 'manageoffline' && window.location.href.toString().indexOf('mode=download') != -1) {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
-            } else if (isMySyncPage && 'syncotherdevices' === itemId && -1 == window.location.href.toString().indexOf('mode=download')) {
+            } else if (isMySyncPage && itemId === 'syncotherdevices' && window.location.href.toString().indexOf('mode=download') == -1) {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
             } else if (id && itemId == id) {
                 lnkMediaFolder.classList.add('navMenuOption-selected');
@@ -587,7 +698,11 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function updateMenuForPageType(isDashboardPage, isLibraryPage) {
+    /**
+     * @param isDashboardPage
+     * @param isLibraryPage
+     */
+    function updateMenuForPageType (isDashboardPage, isLibraryPage) {
         var newPageType = isDashboardPage ? 2 : isLibraryPage ? 1 : 3;
 
         if (currentPageType !== newPageType) {
@@ -635,7 +750,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function updateTitle(page) {
+    /**
+     * @param page
+     */
+    function updateTitle (page) {
         var title = page.getAttribute('data-title');
 
         if (title) {
@@ -645,13 +763,16 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function updateBackButton(page) {
+    /**
+     * @param page
+     */
+    function updateBackButton (page) {
         if (!headerBackButton) {
             headerBackButton = document.querySelector('.headerBackButton');
         }
 
         if (headerBackButton) {
-            if ('false' !== page.getAttribute('data-backbutton') && appRouter.canGoBack()) {
+            if (page.getAttribute('data-backbutton') !== 'false' && appRouter.canGoBack()) {
                 headerBackButton.classList.remove('hide');
             } else {
                 headerBackButton.classList.add('hide');
@@ -659,14 +780,20 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function initHeadRoom(elem) {
+    /**
+     * @param elem
+     */
+    function initHeadRoom (elem) {
         require(['headroom'], function (Headroom) {
             var headroom = new Headroom([], {});
             headroom.add(elem);
         });
     }
 
-    function refreshLibraryDrawer(user) {
+    /**
+     * @param user
+     */
+    function refreshLibraryDrawer (user) {
         loadNavDrawer();
         currentDrawerType = 'library';
 
@@ -680,7 +807,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function getNavDrawerOptions() {
+    /**
+     *
+     */
+    function getNavDrawerOptions () {
         var drawerWidth = screen.availWidth - 50;
         drawerWidth = Math.max(drawerWidth, 240);
         drawerWidth = Math.min(drawerWidth, 320);
@@ -691,7 +821,10 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         };
     }
 
-    function loadNavDrawer() {
+    /**
+     *
+     */
+    function loadNavDrawer () {
         if (navDrawerInstance) {
             return Promise.resolve(navDrawerInstance);
         }
@@ -759,11 +892,11 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             document.title = 'Jellyfin';
         },
         setTitle: function (title) {
-            if (null == title) {
+            if (title == null) {
                 return void LibraryMenu.setDefaultTitle();
             }
 
-            if ('-' === title) {
+            if (title === '-') {
                 title = '';
             }
 
@@ -817,7 +950,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
                 }
             }
 
-            if ('library' !== currentDrawerType) {
+            if (currentDrawerType !== 'library') {
                 refreshLibraryDrawer();
             }
         }

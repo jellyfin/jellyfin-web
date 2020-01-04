@@ -2,7 +2,6 @@ define(['dialog', 'globalize'], function (dialog, globalize) {
     'use strict';
 
     return function (text, title) {
-
         var options;
         if (typeof text === 'string') {
             options = {

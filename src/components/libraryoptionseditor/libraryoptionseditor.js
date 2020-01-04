@@ -1,14 +1,21 @@
-define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], function(globalize, dom) {
+define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], function (globalize, dom) {
     'use strict';
 
-    function populateLanguages(parent) {
-        return ApiClient.getCultures().then(function(languages) {
+    /**
+     * @param parent
+     */
+    function populateLanguages (parent) {
+        return ApiClient.getCultures().then(function (languages) {
             populateLanguagesIntoSelect(parent.querySelector('#selectLanguage'), languages);
             populateLanguagesIntoList(parent.querySelector('.subtitleDownloadLanguages'), languages);
         });
     }
 
-    function populateLanguagesIntoSelect(select, languages) {
+    /**
+     * @param select
+     * @param languages
+     */
+    function populateLanguagesIntoSelect (select, languages) {
         var html = '';
         html += "<option value=''></option>";
         for (var i = 0; i < languages.length; i++) {
@@ -18,7 +25,11 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         select.innerHTML = html;
     }
 
-    function populateLanguagesIntoList(element, languages) {
+    /**
+     * @param element
+     * @param languages
+     */
+    function populateLanguagesIntoList (element, languages) {
         var html = '';
         for (var i = 0; i < languages.length; i++) {
             var culture = languages[i];
@@ -27,8 +38,11 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         element.innerHTML = html;
     }
 
-    function populateCountries(select) {
-        return ApiClient.getCountries().then(function(allCountries) {
+    /**
+     * @param select
+     */
+    function populateCountries (select) {
+        return ApiClient.getCountries().then(function (allCountries) {
             var html = '';
             html += "<option value=''></option>";
             for (var i = 0; i < allCountries.length; i++) {
@@ -39,16 +53,23 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         })
     }
 
-    function populateRefreshInterval(select) {
+    /**
+     * @param select
+     */
+    function populateRefreshInterval (select) {
         var html = '';
         html += "<option value='0'>" + globalize.translate('Never') + '</option>';
-        html += [30, 60, 90].map(function(val) {
+        html += [30, 60, 90].map(function (val) {
             return "<option value='" + val + "'>" + globalize.translate('EveryNDays', val) + '</option>';
         }).join('');
         select.innerHTML = html;
     }
 
-    function renderMetadataReaders(page, plugins) {
+    /**
+     * @param page
+     * @param plugins
+     */
+    function renderMetadataReaders (page, plugins) {
         var html = '';
         var elem = page.querySelector('.metadataReaders');
 
@@ -82,7 +103,11 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         return true;
     }
 
-    function renderMetadataSavers(page, metadataSavers) {
+    /**
+     * @param page
+     * @param metadataSavers
+     */
+    function renderMetadataSavers (page, metadataSavers) {
         var html = '';
         var elem = page.querySelector('.metadataSavers');
         if (!metadataSavers.length) return elem.innerHTML = '', elem.classList.add('hide'), false;
@@ -99,7 +124,11 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         return true;
     }
 
-    function getMetadataFetchersForTypeHtml(availableTypeOptions, libraryOptionsForType) {
+    /**
+     * @param availableTypeOptions
+     * @param libraryOptionsForType
+     */
+    function getMetadataFetchersForTypeHtml (availableTypeOptions, libraryOptionsForType) {
         var html = '';
         var plugins = availableTypeOptions.MetadataFetchers;
 
@@ -112,7 +141,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
             html += '<div class="listItem metadataFetcherItem sortableOption" data-pluginname="' + plugin.Name + '">';
-            var isChecked = libraryOptionsForType.MetadataFetchers ? -1 !== libraryOptionsForType.MetadataFetchers.indexOf(plugin.Name) : plugin.DefaultEnabled;
+            var isChecked = libraryOptionsForType.MetadataFetchers ? libraryOptionsForType.MetadataFetchers.indexOf(plugin.Name) !== -1 : plugin.DefaultEnabled;
             var checkedHtml = isChecked ? ' checked="checked"' : '';
             html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkMetadataFetcher" data-pluginname="' + plugin.Name + '" ' + checkedHtml + '><span></span></label>';
             html += '<div class="listItemBody">';
@@ -128,7 +157,11 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         return html;
     }
 
-    function getTypeOptions(allOptions, type) {
+    /**
+     * @param allOptions
+     * @param type
+     */
+    function getTypeOptions (allOptions, type) {
         var allTypeOptions = allOptions.TypeOptions || [];
         for (var i = 0; i < allTypeOptions.length; i++) {
             var typeOptions = allTypeOptions[i];
@@ -137,7 +170,12 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         return null;
     }
 
-    function renderMetadataFetchers(page, availableOptions, libraryOptions) {
+    /**
+     * @param page
+     * @param availableOptions
+     * @param libraryOptions
+     */
+    function renderMetadataFetchers (page, availableOptions, libraryOptions) {
         var html = '';
         var elem = page.querySelector('.metadataFetchers');
         for (var i = 0; i < availableOptions.TypeOptions.length; i++) {
@@ -159,7 +197,12 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         return true;
     }
 
-    function renderSubtitleFetchers(page, availableOptions, libraryOptions) {
+    /**
+     * @param page
+     * @param availableOptions
+     * @param libraryOptions
+     */
+    function renderSubtitleFetchers (page, availableOptions, libraryOptions) {
         var html = '';
         var elem = page.querySelector('.subtitleFetchers');
 
@@ -172,7 +215,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
             html += '<div class="listItem subtitleFetcherItem sortableOption" data-pluginname="' + plugin.Name + '">';
-            var isChecked = libraryOptions.DisabledSubtitleFetchers ? -1 === libraryOptions.DisabledSubtitleFetchers.indexOf(plugin.Name) : plugin.DefaultEnabled;
+            var isChecked = libraryOptions.DisabledSubtitleFetchers ? libraryOptions.DisabledSubtitleFetchers.indexOf(plugin.Name) === -1 : plugin.DefaultEnabled;
             var checkedHtml = isChecked ? ' checked="checked"' : '';
             html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkSubtitleFetcher" data-pluginname="' + plugin.Name + '" ' + checkedHtml + '><span></span></label>';
             html += '<div class="listItemBody">';
@@ -192,7 +235,11 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         elem.innerHTML = html;
     }
 
-    function getImageFetchersForTypeHtml(availableTypeOptions, libraryOptionsForType) {
+    /**
+     * @param availableTypeOptions
+     * @param libraryOptionsForType
+     */
+    function getImageFetchersForTypeHtml (availableTypeOptions, libraryOptionsForType) {
         var html = '';
         var plugins = availableTypeOptions.ImageFetchers;
 
@@ -203,7 +250,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         html += '<div class="flex align-items-center" style="margin:1.5em 0 .5em;">';
         html += '<h3 class="checkboxListLabel" style="margin:0;">' + globalize.translate('HeaderTypeImageFetchers', availableTypeOptions.Type) + '</h3>';
         var supportedImageTypes = availableTypeOptions.SupportedImageTypes || [];
-        if (supportedImageTypes.length > 1 || 1 === supportedImageTypes.length && 'Primary' !== supportedImageTypes[0]) {
+        if (supportedImageTypes.length > 1 || supportedImageTypes.length === 1 && supportedImageTypes[0] !== 'Primary') {
             html += '<button is="emby-button" class="raised btnImageOptionsForType" type="button" style="margin-left:1.5em;font-size:90%;"><span>' + globalize.translate('HeaderFetcherSettings') + '</span></button>';
         }
         html += '</div>';
@@ -211,7 +258,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
             html += '<div class="listItem imageFetcherItem sortableOption" data-pluginname="' + plugin.Name + '">';
-            var isChecked = libraryOptionsForType.ImageFetchers ? -1 !== libraryOptionsForType.ImageFetchers.indexOf(plugin.Name) : plugin.DefaultEnabled;
+            var isChecked = libraryOptionsForType.ImageFetchers ? libraryOptionsForType.ImageFetchers.indexOf(plugin.Name) !== -1 : plugin.DefaultEnabled;
             var checkedHtml = isChecked ? ' checked="checked"' : '';
             html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkImageFetcher" data-pluginname="' + plugin.Name + '" ' + checkedHtml + '><span></span></label>';
             html += '<div class="listItemBody">';
@@ -232,7 +279,12 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         return html;
     }
 
-    function renderImageFetchers(page, availableOptions, libraryOptions) {
+    /**
+     * @param page
+     * @param availableOptions
+     * @param libraryOptions
+     */
+    function renderImageFetchers (page, availableOptions, libraryOptions) {
         var html = '';
         var elem = page.querySelector('.imageFetchers');
         for (var i = 0; i < availableOptions.TypeOptions.length; i++) {
@@ -252,12 +304,17 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         return true;
     }
 
-    function populateMetadataSettings(parent, contentType, isNewLibrary) {
+    /**
+     * @param parent
+     * @param contentType
+     * @param isNewLibrary
+     */
+    function populateMetadataSettings (parent, contentType, isNewLibrary) {
         var isNewLibrary = parent.classList.contains('newlibrary');
         return ApiClient.getJSON(ApiClient.getUrl('Libraries/AvailableOptions', {
             LibraryContentType: contentType,
             IsNewLibrary: isNewLibrary
-        })).then(function(availableOptions) {
+        })).then(function (availableOptions) {
             currentAvailableOptions = availableOptions;
             parent.availableOptions = availableOptions;
             renderMetadataSavers(parent, availableOptions.MetadataSavers);
@@ -266,12 +323,15 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
             renderSubtitleFetchers(parent, availableOptions, {});
             renderImageFetchers(parent, availableOptions, {});
             availableOptions.SubtitleFetchers.length ? parent.querySelector('.subtitleDownloadSettings').classList.remove('hide') : parent.querySelector('.subtitleDownloadSettings').classList.add('hide')
-        }).catch(function() {
+        }).catch(function () {
             return Promise.resolve();
         })
     }
 
-    function adjustSortableListElement(elem) {
+    /**
+     * @param elem
+     */
+    function adjustSortableListElement (elem) {
         var btnSortable = elem.querySelector('.btnSortable');
         if (elem.previousSibling) {
             btnSortable.classList.add('btnSortableMoveUp');
@@ -284,18 +344,24 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         }
     }
 
-    function showImageOptionsForType(type) {
-        require(['imageoptionseditor'], function(ImageOptionsEditor) {
+    /**
+     * @param type
+     */
+    function showImageOptionsForType (type) {
+        require(['imageoptionseditor'], function (ImageOptionsEditor) {
             var typeOptions = getTypeOptions(currentLibraryOptions, type);
             typeOptions || (typeOptions = {
                 Type: type
             }, currentLibraryOptions.TypeOptions.push(typeOptions));
             var availableOptions = getTypeOptions(currentAvailableOptions || {}, type);
-            (new ImageOptionsEditor).show(type, typeOptions, availableOptions)
+            (new ImageOptionsEditor()).show(type, typeOptions, availableOptions)
         })
     }
 
-    function onImageFetchersContainerClick(e) {
+    /**
+     * @param e
+     */
+    function onImageFetchersContainerClick (e) {
         var btnImageOptionsForType = dom.parentWithClass(e.target, 'btnImageOptionsForType');
         if (btnImageOptionsForType) {
             return void showImageOptionsForType(dom.parentWithClass(btnImageOptionsForType, 'imageFetcher').getAttribute('data-type'));
@@ -303,7 +369,10 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         onSortableContainerClick.call(this, e);
     }
 
-    function onSortableContainerClick(e) {
+    /**
+     * @param e
+     */
+    function onSortableContainerClick (e) {
         var btnSortable = dom.parentWithClass(e.target, 'btnSortable');
         if (btnSortable) {
             var li = dom.parentWithClass(btnSortable, 'sortableOption');
@@ -319,30 +388,38 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         }
     }
 
-    function bindEvents(parent) {
+    /**
+     * @param parent
+     */
+    function bindEvents (parent) {
         parent.querySelector('.metadataReaders').addEventListener('click', onSortableContainerClick);
         parent.querySelector('.subtitleFetchers').addEventListener('click', onSortableContainerClick);
         parent.querySelector('.metadataFetchers').addEventListener('click', onSortableContainerClick);
         parent.querySelector('.imageFetchers').addEventListener('click', onImageFetchersContainerClick);
     }
 
-    function embed(parent, contentType, libraryOptions) {
+    /**
+     * @param parent
+     * @param contentType
+     * @param libraryOptions
+     */
+    function embed (parent, contentType, libraryOptions) {
         currentLibraryOptions = {
             TypeOptions: []
         };
         currentAvailableOptions = null;
-        var isNewLibrary = null === libraryOptions;
+        var isNewLibrary = libraryOptions === null;
         isNewLibrary && parent.classList.add('newlibrary');
-        return new Promise(function(resolve, reject) {
-            var xhr = new XMLHttpRequest;
+        return new Promise(function (resolve, reject) {
+            var xhr = new XMLHttpRequest();
             xhr.open('GET', 'components/libraryoptionseditor/libraryoptionseditor.template.html', true);
-            xhr.onload = function(e) {
+            xhr.onload = function (e) {
                 var template = this.response;
                 parent.innerHTML = globalize.translateDocument(template);
                 populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
                 var promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];
-                Promise.all(promises).then(function() {
-                    return setContentType(parent, contentType).then(function() {
+                Promise.all(promises).then(function () {
+                    return setContentType(parent, contentType).then(function () {
                         libraryOptions && setLibraryOptions(parent, libraryOptions);
                         bindEvents(parent);
                         resolve();
@@ -353,14 +430,22 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         });
     }
 
-    function setAdvancedVisible(parent, visible) {
+    /**
+     * @param parent
+     * @param visible
+     */
+    function setAdvancedVisible (parent, visible) {
         var elems = parent.querySelectorAll('.advanced');
         for (var i = 0; i < elems.length; i++) {
             visible ? elems[i].classList.remove('advancedHide') : elems[i].classList.add('advancedHide');
         }
     }
 
-    function setContentType(parent, contentType) {
+    /**
+     * @param parent
+     * @param contentType
+     */
+    function setContentType (parent, contentType) {
         if (contentType === 'homevideos' || contentType === 'photos') {
             parent.querySelector('.chkEnablePhotosContainer').classList.remove('hide');
         } else {
@@ -394,19 +479,27 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         return populateMetadataSettings(parent, contentType);
     }
 
-    function setSubtitleFetchersIntoOptions(parent, options) {
-        options.DisabledSubtitleFetchers = Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkSubtitleFetcher'), function(elem) {
+    /**
+     * @param parent
+     * @param options
+     */
+    function setSubtitleFetchersIntoOptions (parent, options) {
+        options.DisabledSubtitleFetchers = Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkSubtitleFetcher'), function (elem) {
             return !elem.checked
-        }), function(elem) {
+        }), function (elem) {
             return elem.getAttribute('data-pluginname')
         });
 
-        options.SubtitleFetcherOrder = Array.prototype.map.call(parent.querySelectorAll('.subtitleFetcherItem'), function(elem) {
+        options.SubtitleFetcherOrder = Array.prototype.map.call(parent.querySelectorAll('.subtitleFetcherItem'), function (elem) {
             return elem.getAttribute('data-pluginname')
         });
     }
 
-    function setMetadataFetchersIntoOptions(parent, options) {
+    /**
+     * @param parent
+     * @param options
+     */
+    function setMetadataFetchersIntoOptions (parent, options) {
         var sections = parent.querySelectorAll('.metadataFetcher');
         for (var i = 0; i < sections.length; i++) {
             var section = sections[i];
@@ -418,19 +511,23 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
                 };
                 options.TypeOptions.push(typeOptions);
             }
-            typeOptions.MetadataFetchers = Array.prototype.map.call(Array.prototype.filter.call(section.querySelectorAll('.chkMetadataFetcher'), function(elem) {
+            typeOptions.MetadataFetchers = Array.prototype.map.call(Array.prototype.filter.call(section.querySelectorAll('.chkMetadataFetcher'), function (elem) {
                 return elem.checked;
-            }), function(elem) {
+            }), function (elem) {
                 return elem.getAttribute('data-pluginname');
             });
 
-            typeOptions.MetadataFetcherOrder = Array.prototype.map.call(section.querySelectorAll('.metadataFetcherItem'), function(elem) {
+            typeOptions.MetadataFetcherOrder = Array.prototype.map.call(section.querySelectorAll('.metadataFetcherItem'), function (elem) {
                 return elem.getAttribute('data-pluginname');
             });
         }
     }
 
-    function setImageFetchersIntoOptions(parent, options) {
+    /**
+     * @param parent
+     * @param options
+     */
+    function setImageFetchersIntoOptions (parent, options) {
         var sections = parent.querySelectorAll('.imageFetcher');
         for (var i = 0; i < sections.length; i++) {
             var section = sections[i];
@@ -443,19 +540,23 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
                 options.TypeOptions.push(typeOptions);
             }
 
-            typeOptions.ImageFetchers = Array.prototype.map.call(Array.prototype.filter.call(section.querySelectorAll('.chkImageFetcher'), function(elem) {
+            typeOptions.ImageFetchers = Array.prototype.map.call(Array.prototype.filter.call(section.querySelectorAll('.chkImageFetcher'), function (elem) {
                 return elem.checked
-            }), function(elem) {
+            }), function (elem) {
                 return elem.getAttribute('data-pluginname')
             });
 
-            typeOptions.ImageFetcherOrder = Array.prototype.map.call(section.querySelectorAll('.imageFetcherItem'), function(elem) {
+            typeOptions.ImageFetcherOrder = Array.prototype.map.call(section.querySelectorAll('.imageFetcherItem'), function (elem) {
                 return elem.getAttribute('data-pluginname')
             });
         }
     }
 
-    function setImageOptionsIntoOptions(parent, options) {
+    /**
+     * @param parent
+     * @param options
+     */
+    function setImageOptionsIntoOptions (parent, options) {
         var originalTypeOptions = (currentLibraryOptions || {}).TypeOptions || [];
         for (var i = 0; i < originalTypeOptions.length; i++) {
             var originalTypeOption = originalTypeOptions[i];
@@ -471,7 +572,10 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         }
     }
 
-    function getLibraryOptions(parent) {
+    /**
+     * @param parent
+     */
+    function getLibraryOptions (parent) {
         var options = {
             EnableArchiveMediaFiles: false,
             EnablePhotos: parent.querySelector('.chkEnablePhotos').checked,
@@ -492,20 +596,20 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
             SkipSubtitlesIfAudioTrackMatches: parent.querySelector('#chkSkipIfAudioTrackPresent').checked,
             SaveSubtitlesWithMedia: parent.querySelector('#chkSaveSubtitlesLocally').checked,
             RequirePerfectSubtitleMatch: parent.querySelector('#chkRequirePerfectMatch').checked,
-            MetadataSavers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMetadataSaver'), function(elem) {
+            MetadataSavers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMetadataSaver'), function (elem) {
                 return elem.checked
-            }), function(elem) {
+            }), function (elem) {
                 return elem.getAttribute('data-pluginname')
             }),
             TypeOptions: []
         };
 
-        options.LocalMetadataReaderOrder = Array.prototype.map.call(parent.querySelectorAll('.localReaderOption'), function(elem) {
+        options.LocalMetadataReaderOrder = Array.prototype.map.call(parent.querySelectorAll('.localReaderOption'), function (elem) {
             return elem.getAttribute('data-pluginname')
         });
-        options.SubtitleDownloadLanguages = Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkSubtitleLanguage'), function(elem) {
+        options.SubtitleDownloadLanguages = Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkSubtitleLanguage'), function (elem) {
             return elem.checked
-        }), function(elem) {
+        }), function (elem) {
             return elem.getAttribute('data-lang')
         });
         setSubtitleFetchersIntoOptions(parent, options);
@@ -516,15 +620,23 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         return options;
     }
 
-    function getOrderedPlugins(plugins, configuredOrder) {
+    /**
+     * @param plugins
+     * @param configuredOrder
+     */
+    function getOrderedPlugins (plugins, configuredOrder) {
         plugins = plugins.slice(0);
-        plugins.sort(function(a, b) {
+        plugins.sort(function (a, b) {
             return a = configuredOrder.indexOf(a.Name), b = configuredOrder.indexOf(b.Name), a < b ? -1 : a > b ? 1 : 0
         });
         return plugins;
     }
 
-    function setLibraryOptions(parent, options) {
+    /**
+     * @param parent
+     * @param options
+     */
+    function setLibraryOptions (parent, options) {
         currentLibraryOptions = options;
         currentAvailableOptions = parent.availableOptions;
         parent.querySelector('#selectLanguage').value = options.PreferredMetadataLanguage || '';
@@ -544,11 +656,11 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         parent.querySelector('#chkSaveSubtitlesLocally').checked = options.SaveSubtitlesWithMedia;
         parent.querySelector('#chkSkipIfAudioTrackPresent').checked = options.SkipSubtitlesIfAudioTrackMatches;
         parent.querySelector('#chkRequirePerfectMatch').checked = options.RequirePerfectSubtitleMatch;
-        Array.prototype.forEach.call(parent.querySelectorAll('.chkMetadataSaver'), function(elem) {
-            elem.checked = options.MetadataSavers ? -1 !== options.MetadataSavers.indexOf(elem.getAttribute('data-pluginname')) : 'true' === elem.getAttribute('data-defaultenabled')
+        Array.prototype.forEach.call(parent.querySelectorAll('.chkMetadataSaver'), function (elem) {
+            elem.checked = options.MetadataSavers ? options.MetadataSavers.indexOf(elem.getAttribute('data-pluginname')) !== -1 : elem.getAttribute('data-defaultenabled') === 'true'
         });
-        Array.prototype.forEach.call(parent.querySelectorAll('.chkSubtitleLanguage'), function(elem) {
-            elem.checked = !!options.SubtitleDownloadLanguages && -1 !== options.SubtitleDownloadLanguages.indexOf(elem.getAttribute('data-lang'))
+        Array.prototype.forEach.call(parent.querySelectorAll('.chkSubtitleLanguage'), function (elem) {
+            elem.checked = !!options.SubtitleDownloadLanguages && options.SubtitleDownloadLanguages.indexOf(elem.getAttribute('data-lang')) !== -1
         });
         renderMetadataReaders(parent, getOrderedPlugins(parent.availableOptions.MetadataReaders, options.LocalMetadataReaderOrder || []));
         renderMetadataFetchers(parent, parent.availableOptions, options);

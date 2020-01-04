@@ -11,12 +11,17 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
     var hasChanges = false;
     var currentSearchResult;
 
-    function getApiClient() {
+    /**
+     *
+     */
+    function getApiClient () {
         return connectionManager.getApiClient(currentServerId);
     }
 
-    function searchForIdentificationResults(page) {
-
+    /**
+     * @param page
+     */
+    function searchForIdentificationResults (page) {
         var lookupInfo = {
             ProviderIds: {}
         };
@@ -26,11 +31,9 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         var identifyField = page.querySelectorAll('.identifyField');
         var value;
         for (i = 0, length = identifyField.length; i < length; i++) {
-
             value = identifyField[i].value;
 
             if (value) {
-
                 if (identifyField[i].type === 'number') {
                     value = parseInt(value);
                 }
@@ -43,7 +46,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
 
         var txtLookupId = page.querySelectorAll('.txtLookupId');
         for (i = 0, length = txtLookupId.length; i < length; i++) {
-
             value = txtLookupId[i].value;
 
             if (value) {
@@ -81,14 +83,16 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             dataType: 'json'
 
         }).then(function (results) {
-
             loading.hide();
             showIdentificationSearchResults(page, results);
         });
     }
 
-    function showIdentificationSearchResults(page, results) {
-
+    /**
+     * @param page
+     * @param results
+     */
+    function showIdentificationSearchResults (page, results) {
         var identificationSearchResults = page.querySelector('.identificationSearchResults');
 
         page.querySelector('.popupIdentifyForm').classList.add('hide');
@@ -100,7 +104,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         var i;
         var length;
         for (i = 0, length = results.length; i < length; i++) {
-
             var result = results[i];
             html += getSearchResultHtml(result, i);
         }
@@ -108,23 +111,23 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         var elem = page.querySelector('.identificationSearchResultList');
         elem.innerHTML = html;
 
-        function onSearchImageClick() {
+        /**
+         *
+         */
+        function onSearchImageClick () {
             var index = parseInt(this.getAttribute('data-index'));
 
             var currentResult = results[index];
 
             if (currentItem != null) {
-
                 showIdentifyOptions(page, currentResult);
             } else {
-
                 finishFindNewDialog(page, currentResult);
             }
         }
 
         var searchImages = elem.querySelectorAll('.card');
         for (i = 0, length = searchImages.length; i < length; i++) {
-
             searchImages[i].addEventListener('click', onSearchImageClick);
         }
 
@@ -133,7 +136,11 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         }
     }
 
-    function finishFindNewDialog(dlg, identifyResult) {
+    /**
+     * @param dlg
+     * @param identifyResult
+     */
+    function finishFindNewDialog (dlg, identifyResult) {
         currentSearchResult = identifyResult;
         hasChanges = true;
         loading.hide();
@@ -141,8 +148,11 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         dialogHelper.close(dlg);
     }
 
-    function showIdentifyOptions(page, identifyResult) {
-
+    /**
+     * @param page
+     * @param identifyResult
+     */
+    function showIdentifyOptions (page, identifyResult) {
         var identifyOptionsForm = page.querySelector('.identifyOptionsForm');
 
         page.querySelector('.popupIdentifyForm').classList.add('hide');
@@ -173,8 +183,11 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         focusManager.focus(identifyOptionsForm.querySelector('.btnSubmit'));
     }
 
-    function getSearchResultHtml(result, index) {
-
+    /**
+     * @param result
+     * @param index
+     */
+    function getSearchResultHtml (result, index) {
         // TODO move card creation code to Card component
 
         var html = '';
@@ -215,7 +228,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
 
             html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + displayUrl + '\');"></div>';
         } else {
-
             html += '<div class="cardImageContainer coveredImage defaultCardBackground defaultCardBackground1"><div class="cardText cardCenteredText">' + result.Name + '</div></div>';
         }
         html += '</div>';
@@ -236,7 +248,6 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         }
 
         for (var i = 0; i < numLines; i++) {
-
             if (i === 0) {
                 html += '<div class="cardText cardText-first cardTextCentered">';
             } else {
@@ -251,14 +262,20 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         return html;
     }
 
-    function getSearchImageDisplayUrl(url, provider) {
+    /**
+     * @param url
+     * @param provider
+     */
+    function getSearchImageDisplayUrl (url, provider) {
         var apiClient = getApiClient();
 
         return apiClient.getUrl('Items/RemoteSearch/Image', { imageUrl: url, ProviderName: provider });
     }
 
-    function submitIdentficationResult(page) {
-
+    /**
+     * @param page
+     */
+    function submitIdentficationResult (page) {
         loading.show();
 
         var options = {
@@ -274,32 +291,30 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             contentType: 'application/json'
 
         }).then(function () {
-
             hasChanges = true;
             loading.hide();
 
             dialogHelper.close(page);
-
         }, function () {
-
             loading.hide();
 
             dialogHelper.close(page);
         });
     }
 
-    function showIdentificationForm(page, item) {
-
+    /**
+     * @param page
+     * @param item
+     */
+    function showIdentificationForm (page, item) {
         var apiClient = getApiClient();
 
         apiClient.getJSON(apiClient.getUrl('Items/' + item.Id + '/ExternalIdInfos')).then(function (idList) {
-
             var html = '';
 
             var providerIds = item.ProviderIds || {};
 
             for (var i = 0, length = idList.length; i < length; i++) {
-
                 var idInfo = idList[i];
 
                 var id = 'txtLookup' + idInfo.Key;
@@ -318,11 +333,9 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             page.querySelector('#txtLookupName').value = '';
 
             if (item.Type === 'Person' || item.Type === 'BoxSet') {
-
                 page.querySelector('.fldLookupYear').classList.add('hide');
                 page.querySelector('#txtLookupYear').value = '';
             } else {
-
                 page.querySelector('.fldLookupYear').classList.remove('hide');
                 page.querySelector('#txtLookupYear').value = '';
             }
@@ -333,16 +346,16 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         });
     }
 
-    function showEditor(itemId) {
-
+    /**
+     * @param itemId
+     */
+    function showEditor (itemId) {
         loading.show();
 
         require(['text!./itemidentifier.template.html'], function (template) {
-
             var apiClient = getApiClient();
 
             apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-
                 currentItem = item;
                 currentItemType = currentItem.Type;
 
@@ -384,21 +397,18 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
                 dialogHelper.open(dlg);
 
                 dlg.querySelector('.popupIdentifyForm').addEventListener('submit', function (e) {
-
                     e.preventDefault();
                     searchForIdentificationResults(dlg);
                     return false;
                 });
 
                 dlg.querySelector('.identifyOptionsForm').addEventListener('submit', function (e) {
-
                     e.preventDefault();
                     submitIdentficationResult(dlg);
                     return false;
                 });
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
-
                     dialogHelper.close(dlg);
                 });
 
@@ -410,8 +420,10 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         });
     }
 
-    function onDialogClosed() {
-
+    /**
+     *
+     */
+    function onDialogClosed () {
         loading.hide();
         if (hasChanges) {
             currentResolve();
@@ -420,13 +432,17 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         }
     }
 
-    function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
-
+    /**
+     * @param itemName
+     * @param itemYear
+     * @param itemType
+     * @param resolveFunc
+     */
+    function showEditorFindNew (itemName, itemYear, itemType, resolveFunc) {
         currentItem = null;
         currentItemType = itemType;
 
         require(['text!./itemidentifier.template.html'], function (template) {
-
             var dialogOptions = {
                 size: 'fullscreen-border',
                 removeOnClose: true,
@@ -454,19 +470,16 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
             dialogHelper.open(dlg);
 
             dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
-
                 dialogHelper.close(dlg);
             });
 
             dlg.querySelector('.popupIdentifyForm').addEventListener('submit', function (e) {
-
                 e.preventDefault();
                 searchForIdentificationResults(dlg);
                 return false;
             });
 
             dlg.addEventListener('close', function () {
-
                 loading.hide();
                 var foundItem = hasChanges ? currentSearchResult : null;
 
@@ -479,17 +492,19 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         });
     }
 
-    function showIdentificationFormFindNew(dlg, itemName, itemYear, itemType) {
-
+    /**
+     * @param dlg
+     * @param itemName
+     * @param itemYear
+     * @param itemType
+     */
+    function showIdentificationFormFindNew (dlg, itemName, itemYear, itemType) {
         dlg.querySelector('#txtLookupName').value = itemName;
 
         if (itemType === 'Person' || itemType === 'BoxSet') {
-
             dlg.querySelector('.fldLookupYear').classList.add('hide');
             dlg.querySelector('#txtLookupYear').value = '';
-
         } else {
-
             dlg.querySelector('.fldLookupYear').classList.remove('hide');
             dlg.querySelector('#txtLookupYear').value = itemYear;
         }
@@ -499,9 +514,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
 
     return {
         show: function (itemId, serverId) {
-
             return new Promise(function (resolve, reject) {
-
                 currentResolve = resolve;
                 currentReject = reject;
                 currentServerId = serverId;
@@ -512,9 +525,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         },
 
         showFindNew: function (itemName, itemYear, itemType, serverId) {
-
             return new Promise(function (resolve, reject) {
-
                 currentServerId = serverId;
 
                 hasChanges = false;

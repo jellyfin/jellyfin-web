@@ -4,14 +4,16 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
     var currentOwnerId;
     var currentThemeIds = [];
 
-    function playThemeMedia(items, ownerId) {
-
+    /**
+     * @param items
+     * @param ownerId
+     */
+    function playThemeMedia (items, ownerId) {
         var currentThemeItems = items.filter(function (i) {
             return enabled(i.MediaType);
         });
 
         if (currentThemeItems.length) {
-
             // Stop if a theme song from another ownerId
             // Leave it alone if anything else (e.g user playing a movie)
             if (!currentOwnerId && playbackManager.isPlaying()) {
@@ -29,13 +31,15 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
             }).then(function () {
                 currentOwnerId = ownerId;
             });
-
         } else {
             stopIfPlaying();
         }
     }
 
-    function stopIfPlaying() {
+    /**
+     *
+     */
+    function stopIfPlaying () {
         if (currentOwnerId) {
             playbackManager.stop();
         }
@@ -43,8 +47,10 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
         currentOwnerId = null;
     }
 
-    function enabled(mediaType) {
-
+    /**
+     * @param mediaType
+     */
+    function enabled (mediaType) {
         if (mediaType === 'Video') {
             return userSettings.enableThemeVideos();
         }
@@ -54,8 +60,10 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
 
     var excludeTypes = ['CollectionFolder', 'UserView', 'Program', 'SeriesTimer', 'Person', 'TvChannel', 'Channel'];
 
-    function loadThemeMedia(item) {
-
+    /**
+     * @param item
+     */
+    function loadThemeMedia (item) {
         if (item.CollectionType) {
             stopIfPlaying();
             return;
@@ -68,11 +76,9 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
 
         var apiClient = connectionManager.getApiClient(item.ServerId);
         apiClient.getThemeMedia(apiClient.getCurrentUserId(), item.Id, true).then(function (themeMediaResult) {
-
             var ownerId = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.OwnerId : themeMediaResult.ThemeSongsResult.OwnerId;
 
             if (ownerId !== currentOwnerId) {
-
                 var items = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.Items : themeMediaResult.ThemeSongsResult.Items;
 
                 playThemeMedia(items, ownerId);
@@ -81,7 +87,6 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
     }
 
     document.addEventListener('viewshow', function (e) {
-
         var state = e.detail.state || {};
         var item = state.item;
 
@@ -97,15 +102,13 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
         } else {
             playThemeMedia([], null);
         }
-
     }, true);
 
-    //Events.on(playbackManager, 'playbackstart', function (e, player) {
+    // Events.on(playbackManager, 'playbackstart', function (e, player) {
     //    var item = playbackManager.currentItem(player);
     //    // User played something manually
     //    if (currentThemeIds.indexOf(item.Id) == -1) {
     //        currentOwnerId = null;
     //    }
-    //});
-
+    // });
 });

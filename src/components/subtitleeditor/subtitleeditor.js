@@ -4,8 +4,11 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
     var currentItem;
     var hasChanges;
 
-    function showLocalSubtitles(context, index) {
-
+    /**
+     * @param context
+     * @param index
+     */
+    function showLocalSubtitles (context, index) {
         loading.show();
 
         var subtitleContent = context.querySelector('.subtitleContent');
@@ -20,29 +23,33 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             url: url
 
         }).then(function (result) {
-
             subtitleContent.innerHTML = result;
 
             loading.hide();
         });
     }
 
-    function showRemoteSubtitles(context, id) {
-
+    /**
+     * @param context
+     * @param id
+     */
+    function showRemoteSubtitles (context, id) {
         loading.show();
 
         var url = 'Providers/Subtitles/Subtitles/' + id;
 
         ApiClient.get(ApiClient.getUrl(url)).then(function (result) {
-
             // show result
 
             loading.hide();
         });
     }
 
-    function downloadRemoteSubtitles(context, id) {
-
+    /**
+     * @param context
+     * @param id
+     */
+    function downloadRemoteSubtitles (context, id) {
         var url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
 
         var apiClient = connectionManager.getApiClient(currentItem.ServerId);
@@ -52,7 +59,6 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             url: apiClient.getUrl(url)
 
         }).then(function () {
-
             hasChanges = true;
 
             require(['toast'], function (toast) {
@@ -63,12 +69,14 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         });
     }
 
-    function deleteLocalSubtitle(context, index) {
-
+    /**
+     * @param context
+     * @param index
+     */
+    function deleteLocalSubtitle (context, index) {
         var msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
 
         require(['confirm'], function (confirm) {
-
             confirm({
 
                 title: globalize.translate('ConfirmDeletion'),
@@ -77,7 +85,6 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
                 primary: 'delete'
 
             }).then(function () {
-
                 loading.show();
 
                 var itemId = currentItem.Id;
@@ -91,34 +98,32 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
                     url: apiClient.getUrl(url)
 
                 }).then(function () {
-
                     hasChanges = true;
                     reload(context, apiClient, itemId);
-
                 });
             });
         });
     }
 
-    function fillSubtitleList(context, item) {
-
+    /**
+     * @param context
+     * @param item
+     */
+    function fillSubtitleList (context, item) {
         var streams = item.MediaStreams || [];
 
         var subs = streams.filter(function (s) {
-
             return s.Type === 'Subtitle';
         });
 
         var html = '';
 
         if (subs.length) {
-
             html += '<h2>' + globalize.translate('MySubtitles') + '</h2>';
 
             html += '<div>';
 
             html += subs.map(function (s) {
-
                 var itemHtml = '';
 
                 var tagName = layoutManager.tv ? 'button' : 'div';
@@ -156,7 +161,6 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
                 itemHtml += '</' + tagName + '>';
 
                 return itemHtml;
-
             }).join('');
 
             html += '</div>';
@@ -171,21 +175,24 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         }
         elem.innerHTML = html;
 
-        //('.btnViewSubtitles', elem).on('click', function () {
+        // ('.btnViewSubtitles', elem).on('click', function () {
 
         //    var index = this.getAttribute('data-index');
 
         //    showLocalSubtitles(context, index);
 
-        //});
+        // });
     }
 
-    function fillLanguages(context, apiClient, languages) {
-
+    /**
+     * @param context
+     * @param apiClient
+     * @param languages
+     */
+    function fillLanguages (context, apiClient, languages) {
         var selectLanguage = context.querySelector('#selectLanguage');
 
         selectLanguage.innerHTML = languages.map(function (l) {
-
             return '<option value="' + l.ThreeLetterISOLanguageName + '">' + l.DisplayName + '</option>';
         });
 
@@ -193,9 +200,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         if (lastLanguage) {
             selectLanguage.value = lastLanguage;
         } else {
-
             apiClient.getCurrentUser().then(function (user) {
-
                 var lang = user.Configuration.SubtitleLanguagePreference;
 
                 if (lang) {
@@ -205,13 +210,15 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         }
     }
 
-    function renderSearchResults(context, results) {
-
+    /**
+     * @param context
+     * @param results
+     */
+    function renderSearchResults (context, results) {
         var lastProvider = '';
         var html = '';
 
         if (!results.length) {
-
             context.querySelector('.noSearchResults').classList.remove('hide');
             context.querySelector('.subtitleResults').innerHTML = '';
             loading.hide();
@@ -221,13 +228,11 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         context.querySelector('.noSearchResults').classList.add('hide');
 
         for (var i = 0, length = results.length; i < length; i++) {
-
             var result = results[i];
 
             var provider = result.ProviderName;
 
             if (provider !== lastProvider) {
-
                 if (i > 0) {
                     html += '</div>';
                 }
@@ -254,7 +259,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
             html += '<div class="listItemBody ' + bodyClass + '">';
 
-            //html += '<a class="btnViewSubtitle" href="#" data-subid="' + result.Id + '">';
+            // html += '<a class="btnViewSubtitle" href="#" data-subid="' + result.Id + '">';
 
             html += '<div>' + (result.Name) + '</div>';
             html += '<div class="secondary listItemBodyText">';
@@ -276,7 +281,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
                 html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('PerfectMatch') + '</div></div>';
             }
 
-            //html += '</a>';
+            // html += '</a>';
 
             html += '</div>';
 
@@ -294,17 +299,20 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         var elem = context.querySelector('.subtitleResults');
         elem.innerHTML = html;
 
-        //('.btnViewSubtitle', elem).on('click', function () {
+        // ('.btnViewSubtitle', elem).on('click', function () {
 
         //    var id = this.getAttribute('data-subid');
         //    showRemoteSubtitles(context, id);
-        //});
+        // });
 
         loading.hide();
     }
 
-    function searchForSubtitles(context, language) {
-
+    /**
+     * @param context
+     * @param language
+     */
+    function searchForSubtitles (context, language) {
         userSettings.set('subtitleeditor-language', language);
 
         loading.show();
@@ -313,17 +321,22 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         var url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
 
         apiClient.getJSON(url).then(function (results) {
-
             renderSearchResults(context, results);
         });
     }
 
-    function reload(context, apiClient, itemId) {
-
+    /**
+     * @param context
+     * @param apiClient
+     * @param itemId
+     */
+    function reload (context, apiClient, itemId) {
         context.querySelector('.noSearchResults').classList.add('hide');
 
-        function onGetItem(item) {
-
+        /**
+         * @param item
+         */
+        function onGetItem (item) {
             currentItem = item;
 
             fillSubtitleList(context, item);
@@ -351,7 +364,10 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         }
     }
 
-    function onSearchSubmit(e) {
+    /**
+     * @param e
+     */
+    function onSearchSubmit (e) {
         var form = this;
 
         var lang = form.querySelector('#selectLanguage', form).value;
@@ -362,8 +378,10 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         return false;
     }
 
-    function onSubtitleListClick(e) {
-
+    /**
+     * @param e
+     */
+    function onSubtitleListClick (e) {
         var btnDelete = dom.parentWithClass(e.target, 'btnDelete');
         if (btnDelete) {
             var index = btnDelete.getAttribute('data-index');
@@ -372,8 +390,10 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         }
     }
 
-    function onSubtitleResultsClick(e) {
-
+    /**
+     * @param e
+     */
+    function onSubtitleResultsClick (e) {
         var btnOptions = dom.parentWithClass(e.target, 'btnOptions');
         var subtitleId;
         var context;
@@ -392,8 +412,12 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         }
     }
 
-    function showDownloadOptions(button, context, subtitleId) {
-
+    /**
+     * @param button
+     * @param context
+     * @param subtitleId
+     */
+    function showDownloadOptions (button, context, subtitleId) {
         var items = [];
 
         items.push({
@@ -402,15 +426,12 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         });
 
         require(['actionsheet'], function (actionsheet) {
-
             actionsheet.show({
                 items: items,
                 positionTo: button
 
             }).then(function (id) {
-
                 switch (id) {
-
                 case 'download':
                     downloadRemoteSubtitles(context, subtitleId);
                     break;
@@ -418,24 +439,31 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
                     break;
                 }
             });
-
         });
     }
 
-    function centerFocus(elem, horiz, on) {
+    /**
+     * @param elem
+     * @param horiz
+     * @param on
+     */
+    function centerFocus (elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function showEditorInternal(itemId, serverId, template) {
-
+    /**
+     * @param itemId
+     * @param serverId
+     * @param template
+     */
+    function showEditorInternal (itemId, serverId, template) {
         hasChanges = false;
 
         var apiClient = connectionManager.getApiClient(serverId);
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-
             var dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -473,19 +501,15 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             dlg.querySelector('.subtitleResults').addEventListener('click', onSubtitleResultsClick);
 
             apiClient.getCultures().then(function (languages) {
-
                 fillLanguages(editorContent, apiClient, languages);
             });
 
             dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                 dialogHelper.close(dlg);
             });
 
             return new Promise(function (resolve, reject) {
-
                 dlg.addEventListener('close', function () {
-
                     if (layoutManager.tv) {
                         centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                     }
@@ -504,18 +528,18 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         });
     }
 
-    function showEditor(itemId, serverId) {
-
+    /**
+     * @param itemId
+     * @param serverId
+     */
+    function showEditor (itemId, serverId) {
         loading.show();
 
         return new Promise(function (resolve, reject) {
-
             require(['text!./subtitleeditor.template.html'], function (template) {
-
                 showEditorInternal(itemId, serverId, template).then(resolve, reject);
             });
         });
-
     }
 
     return {

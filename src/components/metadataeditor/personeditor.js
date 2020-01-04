@@ -1,18 +1,24 @@
 define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-button-light', 'emby-input', 'emby-select', 'css!./../formdialog'], function (dialogHelper, layoutManager, globalize, require) {
     'use strict';
 
-    function centerFocus(elem, horiz, on) {
+    /**
+     * @param elem
+     * @param horiz
+     * @param on
+     */
+    function centerFocus (elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function show(person) {
+    /**
+     * @param person
+     */
+    function show (person) {
         return new Promise(function (resolve, reject) {
-
             require(['text!./personeditor.template.html'], function (template) {
-
                 var dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
@@ -46,7 +52,6 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
                 dialogHelper.open(dlg);
 
                 dlg.addEventListener('close', function () {
-
                     if (layoutManager.tv) {
                         centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                     }
@@ -59,7 +64,6 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
                 });
 
                 dlg.querySelector('.selectPersonType').addEventListener('change', function (e) {
-
                     if (this.value === 'Actor') {
                         dlg.querySelector('.fldRole').classList.remove('hide');
                     } else {
@@ -68,12 +72,10 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
                 });
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
-
                     dialogHelper.close(dlg);
                 });
 
                 dlg.querySelector('form').addEventListener('submit', function (e) {
-
                     submitted = true;
 
                     person.Name = dlg.querySelector('.txtPersonName', dlg).value;

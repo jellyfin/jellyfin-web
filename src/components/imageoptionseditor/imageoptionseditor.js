@@ -1,25 +1,43 @@
 define(['globalize', 'dom', 'dialogHelper', 'emby-checkbox', 'emby-select', 'emby-input'], function (globalize, dom, dialogHelper) {
     'use strict';
 
-    function getDefaultImageConfig(itemType, type) {
+    /**
+     * @param itemType
+     * @param type
+     */
+    function getDefaultImageConfig (itemType, type) {
         return {
             Type: type,
             MinWidth: 0,
-            Limit: 'Primary' === type ? 1 : 0
+            Limit: type === 'Primary' ? 1 : 0
         };
     }
 
-    function findImageOptions(imageOptions, type) {
+    /**
+     * @param imageOptions
+     * @param type
+     */
+    function findImageOptions (imageOptions, type) {
         return imageOptions.filter(function (i) {
             return i.Type == type;
         })[0];
     }
 
-    function getImageConfig(options, availableOptions, imageType, itemType) {
+    /**
+     * @param options
+     * @param availableOptions
+     * @param imageType
+     * @param itemType
+     */
+    function getImageConfig (options, availableOptions, imageType, itemType) {
         return findImageOptions(options.ImageOptions || [], imageType) || findImageOptions(availableOptions.DefaultImageOptions || [], imageType) || getDefaultImageConfig(itemType, imageType);
     }
 
-    function setVisibilityOfBackdrops(elem, visible) {
+    /**
+     * @param elem
+     * @param visible
+     */
+    function setVisibilityOfBackdrops (elem, visible) {
         if (visible) {
             elem.classList.remove('hide');
             elem.querySelector('input').setAttribute('required', 'required');
@@ -30,15 +48,21 @@ define(['globalize', 'dom', 'dialogHelper', 'emby-checkbox', 'emby-select', 'emb
         }
     }
 
-    function loadValues(context, itemType, options, availableOptions) {
+    /**
+     * @param context
+     * @param itemType
+     * @param options
+     * @param availableOptions
+     */
+    function loadValues (context, itemType, options, availableOptions) {
         var supportedImageTypes = availableOptions.SupportedImageTypes || [];
-        setVisibilityOfBackdrops(context.querySelector('.backdropFields'), -1 != supportedImageTypes.indexOf('Backdrop'));
-        setVisibilityOfBackdrops(context.querySelector('.screenshotFields'), -1 != supportedImageTypes.indexOf('Screenshot'));
+        setVisibilityOfBackdrops(context.querySelector('.backdropFields'), supportedImageTypes.indexOf('Backdrop') != -1);
+        setVisibilityOfBackdrops(context.querySelector('.screenshotFields'), supportedImageTypes.indexOf('Screenshot') != -1);
         Array.prototype.forEach.call(context.querySelectorAll('.imageType'), function (i) {
             var imageType = i.getAttribute('data-imagetype');
             var container = dom.parentWithTag(i, 'LABEL');
 
-            if (-1 == supportedImageTypes.indexOf(imageType)) {
+            if (supportedImageTypes.indexOf(imageType) == -1) {
                 container.classList.add('hide');
             } else {
                 container.classList.remove('hide');
@@ -58,7 +82,11 @@ define(['globalize', 'dom', 'dialogHelper', 'emby-checkbox', 'emby-select', 'emb
         context.querySelector('#txtMinScreenshotDownloadWidth').value = screenshotConfig.MinWidth;
     }
 
-    function saveValues(context, options) {
+    /**
+     * @param context
+     * @param options
+     */
+    function saveValues (context, options) {
         options.ImageOptions = Array.prototype.map.call(context.querySelectorAll('.imageType:not(.hide)'), function (c) {
             return {
                 Type: c.getAttribute('data-imagetype'),
@@ -78,7 +106,10 @@ define(['globalize', 'dom', 'dialogHelper', 'emby-checkbox', 'emby-select', 'emb
         });
     }
 
-    function editor() {
+    /**
+     *
+     */
+    function editor () {
         this.show = function (itemType, options, availableOptions) {
             return new Promise(function (resolve, reject) {
                 var xhr = new XMLHttpRequest();

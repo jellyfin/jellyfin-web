@@ -1,8 +1,10 @@
 define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby-button', 'emby-select'], function ($, loading, datetime, dom, globalize) {
     'use strict';
 
-    function fillTimeOfDay(select) {
-
+    /**
+     * @param select
+     */
+    function fillTimeOfDay (select) {
         var options = [];
 
         for (var i = 0; i < 86400000; i += 900000) {
@@ -76,20 +78,19 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
             context.querySelector('.taskTriggers').innerHTML = html;
         },
         getTriggerFriendlyName: function (trigger) {
-            if ('DailyTrigger' == trigger.Type) {
+            if (trigger.Type == 'DailyTrigger') {
                 return 'Daily at ' + ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks);
             }
 
-            if ('WeeklyTrigger' == trigger.Type) {
+            if (trigger.Type == 'WeeklyTrigger') {
                 return trigger.DayOfWeek + 's at ' + ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks);
             }
 
-            if ('SystemEventTrigger' == trigger.Type && 'WakeFromSleep' == trigger.SystemEvent) {
+            if (trigger.Type == 'SystemEventTrigger' && trigger.SystemEvent == 'WakeFromSleep') {
                 return 'On wake from sleep';
             }
 
             if (trigger.Type == 'IntervalTrigger') {
-
                 var hours = trigger.IntervalTicks / 36e9;
 
                 if (hours == 0.25) {
@@ -201,7 +202,10 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
         }
     };
     return function (view, params) {
-        function onSubmit(e) {
+        /**
+         * @param e
+         */
+        function onSubmit (e) {
             loading.show();
             var id = getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {

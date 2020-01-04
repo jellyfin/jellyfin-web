@@ -2,7 +2,10 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
     'use strict';
 
     return function (view, params, tabContent, options) {
-        function onViewStyleChange() {
+        /**
+         *
+         */
+        function onViewStyleChange () {
             if (self.getCurrentViewStyle() == 'List') {
                 itemsContainer.classList.add('vertical-list');
                 itemsContainer.classList.remove('vertical-wrap');
@@ -14,20 +17,32 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
             itemsContainer.innerHTML = '';
         }
 
-        function updateFilterControls() {
+        /**
+         *
+         */
+        function updateFilterControls () {
             if (self.alphaPicker) {
                 self.alphaPicker.value(query.NameStartsWithOrGreater);
             }
         }
 
-        function fetchData() {
+        /**
+         *
+         */
+        function fetchData () {
             isLoading = true;
             loading.show();
             return ApiClient.getItems(ApiClient.getCurrentUserId(), query);
         }
 
-        function afterRefresh(result) {
-            function onNextPageClick() {
+        /**
+         * @param result
+         */
+        function afterRefresh (result) {
+            /**
+             *
+             */
+            function onNextPageClick () {
                 if (isLoading) {
                     return;
                 }
@@ -36,7 +51,10 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
                 itemsContainer.refreshItems();
             }
 
-            function onPreviousPageClick() {
+            /**
+             *
+             */
+            function onPreviousPageClick () {
                 if (isLoading) {
                     return;
                 }
@@ -83,7 +101,10 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
             });
         }
 
-        function getItemsHtml(items) {
+        /**
+         * @param items
+         */
+        function getItemsHtml (items) {
             var html;
             var viewStyle = self.getCurrentViewStyle();
 
@@ -151,7 +172,10 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
             return html;
         }
 
-        function initPage(tabContent) {
+        /**
+         * @param tabContent
+         */
+        function initPage (tabContent) {
             itemsContainer.fetchData = fetchData;
             itemsContainer.getItemsHtml = getItemsHtml;
             itemsContainer.afterRefresh = afterRefresh;

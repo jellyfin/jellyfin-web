@@ -1,7 +1,11 @@
-define(['appSettings', 'loading', 'browser', 'emby-button'], function(appSettings, loading, browser) {
+define(['appSettings', 'loading', 'browser', 'emby-button'], function (appSettings, loading, browser) {
     'use strict';
 
-    function handleConnectionResult(page, result) {
+    /**
+     * @param page
+     * @param result
+     */
+    function handleConnectionResult (page, result) {
         loading.hide();
         switch (result.State) {
         case 'SignedIn':
@@ -28,21 +32,24 @@ define(['appSettings', 'loading', 'browser', 'emby-button'], function(appSetting
         }
     }
 
-    function submitServer(page) {
+    /**
+     * @param page
+     */
+    function submitServer (page) {
         loading.show();
         var host = page.querySelector('#txtServerHost').value;
         ConnectionManager.connectToAddress(host, {
             enableAutoLogin: appSettings.enableAutoLogin()
-        }).then(function(result) {
+        }).then(function (result) {
             handleConnectionResult(page, result);
-        }, function() {
+        }, function () {
             handleConnectionResult(page, {
                 State: 'Unavailable'
             });
         });
     }
 
-    return function(view, params) {
+    return function (view, params) {
         view.querySelector('.addServerForm').addEventListener('submit', onServerSubmit);
         view.querySelector('.btnCancel').addEventListener('click', goBack);
 
@@ -50,14 +57,20 @@ define(['appSettings', 'loading', 'browser', 'emby-button'], function(appSetting
             autoFocuser.autoFocus(view);
         });
 
-        function onServerSubmit(e) {
+        /**
+         * @param e
+         */
+        function onServerSubmit (e) {
             submitServer(view);
             e.preventDefault();
             return false;
         }
 
-        function goBack() {
-            require(['appRouter'], function(appRouter) {
+        /**
+         *
+         */
+        function goBack () {
+            require(['appRouter'], function (appRouter) {
                 appRouter.back();
             });
         }

@@ -6,7 +6,7 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
         try {
             var focusElem = document.createElement('div');
 
-            focusElem.addEventListener('focus', function(event) {
+            focusElem.addEventListener('focus', function (event) {
                 event.preventDefault();
                 event.stopPropagation();
             }, true);
@@ -25,7 +25,7 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
         if (!supportsPreventScrollOption) {
             HTMLElement.prototype.nativeFocus = HTMLElement.prototype.focus;
 
-            HTMLElement.prototype.focus = function(options) {
+            HTMLElement.prototype.focus = function (options) {
                 var scrollX = window.scrollX;
                 var scrollY = window.scrollY;
 

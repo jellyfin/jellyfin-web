@@ -3,32 +3,52 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
 
     var lastInputTime = new Date().getTime();
 
-    function notify() {
+    /**
+     *
+     */
+    function notify () {
         lastInputTime = new Date().getTime();
         handleCommand('unknown');
     }
 
-    function notifyMouseMove() {
+    /**
+     *
+     */
+    function notifyMouseMove () {
         lastInputTime = new Date().getTime();
     }
 
-    function idleTime() {
+    /**
+     *
+     */
+    function idleTime () {
         return new Date().getTime() - lastInputTime;
     }
 
-    function select(sourceElement) {
+    /**
+     * @param sourceElement
+     */
+    function select (sourceElement) {
         sourceElement.click();
     }
 
     var eventListenerCount = 0;
-    function on(scope, fn) {
+    /**
+     * @param scope
+     * @param fn
+     */
+    function on (scope, fn) {
         if (eventListenerCount) {
             eventListenerCount++;
         }
         dom.addEventListener(scope, 'command', fn, {});
     }
 
-    function off(scope, fn) {
+    /**
+     * @param scope
+     * @param fn
+     */
+    function off (scope, fn) {
         if (eventListenerCount) {
             eventListenerCount--;
         }
@@ -37,8 +57,10 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
 
     var commandTimes = {};
 
-    function checkCommandTime(command) {
-
+    /**
+     * @param command
+     */
+    function checkCommandTime (command) {
         var last = commandTimes[command] || 0;
         var now = new Date().getTime();
 
@@ -50,8 +72,11 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
         return true;
     }
 
-    function handleCommand(name, options) {
-
+    /**
+     * @param name
+     * @param options
+     */
+    function handleCommand (name, options) {
         lastInputTime = new Date().getTime();
 
         var sourceElement = (options ? options.sourceElement : null);

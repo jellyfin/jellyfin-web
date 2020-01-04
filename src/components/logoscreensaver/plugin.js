@@ -1,7 +1,5 @@
 define(['pluginManager'], function (pluginManager) {
-
     return function () {
-
         var self = this;
 
         self.name = 'Logo ScreenSaver';
@@ -11,8 +9,10 @@ define(['pluginManager'], function (pluginManager) {
 
         var interval;
 
-        function animate() {
-
+        /**
+         *
+         */
+        function animate () {
             var animations = [
 
                 bounceInLeft,
@@ -33,11 +33,19 @@ define(['pluginManager'], function (pluginManager) {
             }
         }
 
-        function getRandomInt(min, max) {
+        /**
+         * @param min
+         * @param max
+         */
+        function getRandomInt (min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        function bounceInLeft(elem, iterations) {
+        /**
+         * @param elem
+         * @param iterations
+         */
+        function bounceInLeft (elem, iterations) {
             var keyframes = [
                 { transform: 'translate3d(-3000px, 0, 0)', opacity: '0', offset: 0 },
                 { transform: 'translate3d(25px, 0, 0)', opacity: '1', offset: 0.6 },
@@ -48,7 +56,11 @@ define(['pluginManager'], function (pluginManager) {
             return elem.animate(keyframes, timing);
         }
 
-        function bounceInRight(elem, iterations) {
+        /**
+         * @param elem
+         * @param iterations
+         */
+        function bounceInRight (elem, iterations) {
             var keyframes = [
                 { transform: 'translate3d(3000px, 0, 0)', opacity: '0', offset: 0 },
                 { transform: 'translate3d(-25px, 0, 0)', opacity: '1', offset: 0.6 },
@@ -59,7 +71,11 @@ define(['pluginManager'], function (pluginManager) {
             return elem.animate(keyframes, timing);
         }
 
-        function shake(elem, iterations) {
+        /**
+         * @param elem
+         * @param iterations
+         */
+        function shake (elem, iterations) {
             var keyframes = [
                 { transform: 'translate3d(0, 0, 0)', offset: 0 },
                 { transform: 'translate3d(-10px, 0, 0)', offset: 0.1 },
@@ -76,7 +92,11 @@ define(['pluginManager'], function (pluginManager) {
             return elem.animate(keyframes, timing);
         }
 
-        function swing(elem, iterations) {
+        /**
+         * @param elem
+         * @param iterations
+         */
+        function swing (elem, iterations) {
             var keyframes = [
                 { transform: 'translate(0%)', offset: 0 },
                 { transform: 'rotate3d(0, 0, 1, 15deg)', offset: 0.2 },
@@ -88,7 +108,11 @@ define(['pluginManager'], function (pluginManager) {
             return elem.animate(keyframes, timing);
         }
 
-        function tada(elem, iterations) {
+        /**
+         * @param elem
+         * @param iterations
+         */
+        function tada (elem, iterations) {
             var keyframes = [
                 { transform: 'scale3d(1, 1, 1)', offset: 0 },
                 { transform: 'scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg)', offset: 0.1 },
@@ -105,7 +129,11 @@ define(['pluginManager'], function (pluginManager) {
             return elem.animate(keyframes, timing);
         }
 
-        function wobble(elem, iterations) {
+        /**
+         * @param elem
+         * @param iterations
+         */
+        function wobble (elem, iterations) {
             var keyframes = [
                 { transform: 'translate(0%)', offset: 0 },
                 { transform: 'translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg)', offset: 0.15 },
@@ -117,7 +145,11 @@ define(['pluginManager'], function (pluginManager) {
             return elem.animate(keyframes, timing);
         }
 
-        function rotateIn(elem, iterations) {
+        /**
+         * @param elem
+         * @param iterations
+         */
+        function rotateIn (elem, iterations) {
             var transformOrigin = elem.style['transform-origin'];
             var keyframes = [{ transform: 'rotate3d(0, 0, 1, -200deg)', opacity: '0', transformOrigin: 'center', offset: 0 },
                 { transform: 'none', opacity: '1', transformOrigin: 'center', offset: 1 }];
@@ -125,16 +157,23 @@ define(['pluginManager'], function (pluginManager) {
             return elem.animate(keyframes, timing);
         }
 
-        function rotateOut(elem, iterations) {
+        /**
+         * @param elem
+         * @param iterations
+         */
+        function rotateOut (elem, iterations) {
             var transformOrigin = elem.style['transform-origin'];
             var keyframes = [{ transform: 'none', opacity: '1', transformOrigin: 'center', offset: 0 },
                 { transform: 'rotate3d(0, 0, 1, 200deg)', opacity: '0', transformOrigin: 'center', offset: 1 }];
             var timing = { duration: 900, iterations: iterations };
             return elem.animate(keyframes, timing);
-
         }
 
-        function fadeOut(elem, iterations) {
+        /**
+         * @param elem
+         * @param iterations
+         */
+        function fadeOut (elem, iterations) {
             var keyframes = [
                 { opacity: '1', offset: 0 },
                 { opacity: '0', offset: 1 }];
@@ -142,7 +181,10 @@ define(['pluginManager'], function (pluginManager) {
             return elem.animate(keyframes, timing);
         }
 
-        function stopInterval() {
+        /**
+         *
+         */
+        function stopInterval () {
             if (interval) {
                 clearInterval(interval);
                 interval = null;
@@ -150,9 +192,7 @@ define(['pluginManager'], function (pluginManager) {
         }
 
         self.show = function () {
-
             require(['css!' + pluginManager.mapPath(self, 'style.css')], function () {
-
                 var elem = document.querySelector('.logoScreenSaver');
 
                 if (!elem) {
@@ -169,13 +209,11 @@ define(['pluginManager'], function (pluginManager) {
         };
 
         self.hide = function () {
-
             stopInterval();
 
             var elem = document.querySelector('.logoScreenSaver');
 
             if (elem) {
-
                 var onAnimationFinish = function () {
                     elem.parentNode.removeChild(elem);
                 };

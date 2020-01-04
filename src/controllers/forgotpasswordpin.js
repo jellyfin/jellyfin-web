@@ -1,7 +1,10 @@
 define([], function () {
     'use strict';
 
-    function processForgotPasswordResult(result) {
+    /**
+     * @param result
+     */
+    function processForgotPasswordResult (result) {
         if (result.Success) {
             var msg = Globalize.translate('MessagePasswordResetForUsers');
             msg += '<br/>';
@@ -23,7 +26,10 @@ define([], function () {
     }
 
     return function (view, params) {
-        function onSubmit(e) {
+        /**
+         * @param e
+         */
+        function onSubmit (e) {
             ApiClient.ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('Users/ForgotPassword/Pin'),

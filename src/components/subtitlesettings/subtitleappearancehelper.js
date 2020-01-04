@@ -1,13 +1,15 @@
 define([], function () {
     'use strict';
 
-    function getTextStyles(settings, isCue) {
-
+    /**
+     * @param settings
+     * @param isCue
+     */
+    function getTextStyles (settings, isCue) {
         var list = [];
 
         if (isCue) {
             switch (settings.textSize || '') {
-
             case 'smaller':
                 list.push({ name: 'font-size', value: '.5em' });
                 break;
@@ -29,7 +31,6 @@ define([], function () {
             }
         } else {
             switch (settings.textSize || '') {
-
             case 'smaller':
                 list.push({ name: 'font-size', value: '.8em' });
                 break;
@@ -53,7 +54,6 @@ define([], function () {
         }
 
         switch (settings.dropShadow || '') {
-
         case 'raised':
             list.push({ name: 'text-shadow', value: '-1px -1px white, 0px -1px white, -1px 0px white, 1px 1px black, 0px 1px black, 1px 0px black' });
             break;
@@ -83,7 +83,6 @@ define([], function () {
         }
 
         switch (settings.font || '') {
-
         case 'typewriter':
             list.push({ name: 'font-family', value: '"Courier New",monospace' });
             list.push({ name: 'font-variant', value: 'none' });
@@ -117,31 +116,41 @@ define([], function () {
         return list;
     }
 
-    function getWindowStyles(settings) {
-
+    /**
+     * @param settings
+     */
+    function getWindowStyles (settings) {
         return [];
     }
 
-    function getStyles(settings, isCue) {
-
+    /**
+     * @param settings
+     * @param isCue
+     */
+    function getStyles (settings, isCue) {
         return {
             text: getTextStyles(settings, isCue),
             window: getWindowStyles(settings)
         };
     }
 
-    function applyStyleList(styles, elem) {
-
+    /**
+     * @param styles
+     * @param elem
+     */
+    function applyStyleList (styles, elem) {
         for (var i = 0, length = styles.length; i < length; i++) {
-
             var style = styles[i];
 
             elem.style[style.name] = style.value;
         }
     }
 
-    function applyStyles(elements, appearanceSettings) {
-
+    /**
+     * @param elements
+     * @param appearanceSettings
+     */
+    function applyStyles (elements, appearanceSettings) {
         var styles = getStyles(appearanceSettings);
 
         if (elements.text) {

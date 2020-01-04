@@ -1,19 +1,33 @@
 define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu', 'mainTabsManager', 'cardBuilder', 'dom', 'imageLoader', 'playbackManager', 'emby-itemscontainer', 'emby-tabs', 'emby-button'], function (events, layoutManager, inputManager, userSettings, libraryMenu, mainTabsManager, cardBuilder, dom, imageLoader, playbackManager) {
     'use strict';
 
-    function enableScrollX() {
+    /**
+     *
+     */
+    function enableScrollX () {
         return !layoutManager.desktop;
     }
 
-    function getPortraitShape() {
+    /**
+     *
+     */
+    function getPortraitShape () {
         return enableScrollX() ? 'overflowPortrait' : 'portrait';
     }
 
-    function getThumbShape() {
+    /**
+     *
+     */
+    function getThumbShape () {
         return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
     }
 
-    function loadLatest(page, userId, parentId) {
+    /**
+     * @param page
+     * @param userId
+     * @param parentId
+     */
+    function loadLatest (page, userId, parentId) {
         var options = {
             IncludeItemTypes: 'Movie',
             Limit: 18,
@@ -42,7 +56,12 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         });
     }
 
-    function loadResume(page, userId, parentId) {
+    /**
+     * @param page
+     * @param userId
+     * @param parentId
+     */
+    function loadResume (page, userId, parentId) {
         var screenWidth = dom.getWindowSize().innerWidth;
         var options = {
             SortBy: 'DatePlayed',
@@ -85,7 +104,10 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         });
     }
 
-    function getRecommendationHtml(recommendation) {
+    /**
+     * @param recommendation
+     */
+    function getRecommendationHtml (recommendation) {
         var html = '';
         var title = '';
 
@@ -131,7 +153,12 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         return html;
     }
 
-    function loadSuggestions(page, userId, parentId) {
+    /**
+     * @param page
+     * @param userId
+     * @param parentId
+     */
+    function loadSuggestions (page, userId, parentId) {
         var screenWidth = dom.getWindowSize().innerWidth;
         var url = ApiClient.getUrl('Movies/Recommendations', {
             userId: userId,
@@ -159,13 +186,20 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         });
     }
 
-    function autoFocus(page) {
+    /**
+     * @param page
+     */
+    function autoFocus (page) {
         require(['autoFocuser'], function (autoFocuser) {
             autoFocuser.autoFocus(page);
         });
     }
 
-    function setScrollClasses(elem, scrollX) {
+    /**
+     * @param elem
+     * @param scrollX
+     */
+    function setScrollClasses (elem, scrollX) {
         if (scrollX) {
             elem.classList.add('hiddenScrollX');
 
@@ -183,7 +217,11 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         }
     }
 
-    function initSuggestedTab(page, tabContent) {
+    /**
+     * @param page
+     * @param tabContent
+     */
+    function initSuggestedTab (page, tabContent) {
         var containers = tabContent.querySelectorAll('.itemsContainer');
 
         for (var i = 0, length = containers.length; i < length; i++) {
@@ -191,7 +229,12 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         }
     }
 
-    function loadSuggestionsTab(view, params, tabContent) {
+    /**
+     * @param view
+     * @param params
+     * @param tabContent
+     */
+    function loadSuggestionsTab (view, params, tabContent) {
         var parentId = params.topParentId;
         var userId = ApiClient.getCurrentUserId();
         console.log('loadSuggestionsTab');
@@ -200,7 +243,10 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         loadSuggestions(tabContent, userId, parentId);
     }
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             name: Globalize.translate('Movies')
         }, {
@@ -219,7 +265,10 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
         }];
     }
 
-    function getDefaultTabIndex(folderId) {
+    /**
+     * @param folderId
+     */
+    function getDefaultTabIndex (folderId) {
         switch (userSettings.get('landing-' + folderId)) {
         case 'suggestions':
             return 1;
@@ -239,24 +288,41 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
     }
 
     return function (view, params) {
-        function onBeforeTabChange(e) {
+        /**
+         * @param e
+         */
+        function onBeforeTabChange (e) {
             preLoadTab(view, parseInt(e.detail.selectedTabIndex));
         }
 
-        function onTabChange(e) {
+        /**
+         * @param e
+         */
+        function onTabChange (e) {
             var newIndex = parseInt(e.detail.selectedTabIndex);
             loadTab(view, newIndex);
         }
 
-        function getTabContainers() {
+        /**
+         *
+         */
+        function getTabContainers () {
             return view.querySelectorAll('.pageTabContent');
         }
 
-        function initTabs() {
+        /**
+         *
+         */
+        function initTabs () {
             mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
         }
 
-        function getTabController(page, index, callback) {
+        /**
+         * @param page
+         * @param index
+         * @param callback
+         */
+        function getTabController (page, index, callback) {
             var depends = [];
 
             switch (index) {
@@ -326,7 +392,11 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
             });
         }
 
-        function preLoadTab(page, index) {
+        /**
+         * @param page
+         * @param index
+         */
+        function preLoadTab (page, index) {
             getTabController(page, index, function (controller) {
                 if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
                     controller.preRender();
@@ -334,7 +404,11 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
             });
         }
 
-        function loadTab(page, index) {
+        /**
+         * @param page
+         * @param index
+         */
+        function loadTab (page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
                 initialTabIndex = null;
@@ -346,14 +420,21 @@ define(['events', 'layoutManager', 'inputManager', 'userSettings', 'libraryMenu'
             });
         }
 
-        function onPlaybackStop(e, state) {
+        /**
+         * @param e
+         * @param state
+         */
+        function onPlaybackStop (e, state) {
             if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
                 renderedTabs = [];
                 mainTabsManager.getTabsElement().triggerTabChange();
             }
         }
 
-        function onInputCommand(e) {
+        /**
+         * @param e
+         */
+        function onInputCommand (e) {
             switch (e.detail.command) {
             case 'search':
                 e.preventDefault();

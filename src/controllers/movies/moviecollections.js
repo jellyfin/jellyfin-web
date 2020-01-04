@@ -2,7 +2,10 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
     'use strict';
 
     return function (view, params, tabContent) {
-        function getPageData(context) {
+        /**
+         * @param context
+         */
+        function getPageData (context) {
             var key = getSavedQueryKey(context);
             var pageData = data[key];
 
@@ -28,11 +31,17 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             return pageData;
         }
 
-        function getQuery(context) {
+        /**
+         * @param context
+         */
+        function getQuery (context) {
             return getPageData(context).query;
         }
 
-        function getSavedQueryKey(context) {
+        /**
+         * @param context
+         */
+        function getSavedQueryKey (context) {
             if (!context.savedQueryKey) {
                 context.savedQueryKey = libraryBrowser.getSavedQueryKey('moviecollections');
             }
@@ -40,11 +49,14 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             return context.savedQueryKey;
         }
 
-        function onViewStyleChange() {
+        /**
+         *
+         */
+        function onViewStyleChange () {
             var viewStyle = self.getCurrentViewStyle();
             var itemsContainer = tabContent.querySelector('.itemsContainer');
 
-            if ('List' == viewStyle) {
+            if (viewStyle == 'List') {
                 itemsContainer.classList.add('vertical-list');
                 itemsContainer.classList.remove('vertical-wrap');
             } else {
@@ -55,12 +67,18 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             itemsContainer.innerHTML = '';
         }
 
-        function reloadItems(page) {
+        /**
+         * @param page
+         */
+        function reloadItems (page) {
             loading.show();
             isLoading = true;
             var query = getQuery(page);
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
-                function onNextPageClick() {
+                /**
+                 *
+                 */
+                function onNextPageClick () {
                     if (isLoading) {
                         return;
                     }
@@ -69,7 +87,10 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                     reloadItems(tabContent);
                 }
 
-                function onPreviousPageClick() {
+                /**
+                 *
+                 */
+                function onPreviousPageClick () {
                     if (isLoading) {
                         return;
                     }
@@ -188,7 +209,10 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             return getPageData(tabContent).view;
         };
 
-        function initPage(tabContent) {
+        /**
+         * @param tabContent
+         */
+        function initPage (tabContent) {
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{

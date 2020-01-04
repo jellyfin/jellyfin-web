@@ -1,11 +1,18 @@
 define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button', 'emby-checkbox', 'emby-select'], function (globalize, loading, libraryMenu, dom) {
     'use strict';
 
-    function isM3uVariant(type) {
+    /**
+     * @param type
+     */
+    function isM3uVariant (type) {
         return ['nextpvr'].indexOf(type || '') !== -1;
     }
 
-    function fillTypes(view, currentId) {
+    /**
+     * @param view
+     * @param currentId
+     */
+    function fillTypes (view, currentId) {
         return ApiClient.getJSON(ApiClient.getUrl('LiveTv/TunerHosts/Types')).then(function (types) {
             var selectType = view.querySelector('.selectType');
             var html = '';
@@ -16,13 +23,17 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
             html += globalize.translate('TabOther');
             html += '</option>';
             selectType.innerHTML = html;
-            selectType.disabled = null != currentId;
+            selectType.disabled = currentId != null;
             selectType.value = '';
             onTypeChange.call(selectType);
         });
     }
 
-    function reload(view, providerId) {
+    /**
+     * @param view
+     * @param providerId
+     */
+    function reload (view, providerId) {
         view.querySelector('.txtDevicePath').value = '';
         view.querySelector('.chkFavorite').checked = false;
         view.querySelector('.txtDevicePath').value = '';
@@ -37,7 +48,11 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
         }
     }
 
-    function fillTunerHostInfo(view, info) {
+    /**
+     * @param view
+     * @param info
+     */
+    function fillTunerHostInfo (view, info) {
         var selectType = view.querySelector('.selectType');
         var type = info.Type || '';
 
@@ -57,7 +72,10 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
         view.querySelector('.txtTunerCount').value = info.TunerCount || '0';
     }
 
-    function submitForm(page) {
+    /**
+     * @param page
+     */
+    function submitForm (page) {
         loading.show();
         var info = {
             Type: page.querySelector('.selectType').value,
@@ -99,13 +117,19 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
         });
     }
 
-    function getRequirePromise(deps) {
+    /**
+     * @param deps
+     */
+    function getRequirePromise (deps) {
         return new Promise(function (resolve, reject) {
             require(deps, resolve);
         });
     }
 
-    function getDetectedDevice() {
+    /**
+     *
+     */
+    function getDetectedDevice () {
         return getRequirePromise(['tunerPicker']).then(function (tunerPicker) {
             return new tunerPicker().show({
                 serverId: ApiClient.serverId()
@@ -113,18 +137,21 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
         });
     }
 
-    function onTypeChange() {
+    /**
+     *
+     */
+    function onTypeChange () {
         var value = this.value;
         var view = dom.parentWithClass(this, 'page');
-        var mayIncludeUnsupportedDrmChannels = 'hdhomerun' === value;
-        var supportsTranscoding = 'hdhomerun' === value;
-        var supportsFavorites = 'hdhomerun' === value;
-        var supportsTunerIpAddress = 'hdhomerun' === value;
-        var supportsTunerFileOrUrl = 'm3u' === value;
-        var supportsStreamLooping = 'm3u' === value;
-        var supportsTunerCount = 'm3u' === value;
-        var supportsUserAgent = 'm3u' === value;
-        var suppportsSubmit = 'other' !== value;
+        var mayIncludeUnsupportedDrmChannels = value === 'hdhomerun';
+        var supportsTranscoding = value === 'hdhomerun';
+        var supportsFavorites = value === 'hdhomerun';
+        var supportsTunerIpAddress = value === 'hdhomerun';
+        var supportsTunerFileOrUrl = value === 'm3u';
+        var supportsStreamLooping = value === 'm3u';
+        var supportsTunerCount = value === 'm3u';
+        var supportsUserAgent = value === 'm3u';
+        var suppportsSubmit = value !== 'other';
         var supportsSelectablePath = supportsTunerFileOrUrl;
         var txtDevicePath = view.querySelector('.txtDevicePath');
 

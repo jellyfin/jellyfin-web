@@ -1,7 +1,10 @@
 define(['dom', 'emby-button'], function (dom) {
     'use strict';
 
-    function onSubmit(e) {
+    /**
+     * @param e
+     */
+    function onSubmit (e) {
         if (dom.parentWithClass(this, 'page').querySelector('.chkAccept').checked) {
             Dashboard.navigate('wizardfinish.html');
         } else {

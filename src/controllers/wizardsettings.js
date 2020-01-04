@@ -1,7 +1,10 @@
 define(['loading', 'emby-checkbox', 'emby-button', 'emby-select'], function (loading) {
     'use strict';
 
-    function save(page) {
+    /**
+     * @param page
+     */
+    function save (page) {
         loading.show();
         var apiClient = ApiClient;
         apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
@@ -18,7 +21,11 @@ define(['loading', 'emby-checkbox', 'emby-button', 'emby-select'], function (loa
         });
     }
 
-    function populateLanguages(select, languages) {
+    /**
+     * @param select
+     * @param languages
+     */
+    function populateLanguages (select, languages) {
         var html = '';
         html += "<option value=''></option>";
 
@@ -30,7 +37,11 @@ define(['loading', 'emby-checkbox', 'emby-button', 'emby-select'], function (loa
         select.innerHTML = html;
     }
 
-    function populateCountries(select, allCountries) {
+    /**
+     * @param select
+     * @param allCountries
+     */
+    function populateCountries (select, allCountries) {
         var html = '';
         html += "<option value=''></option>";
 
@@ -42,7 +53,13 @@ define(['loading', 'emby-checkbox', 'emby-button', 'emby-select'], function (loa
         select.innerHTML = html;
     }
 
-    function reloadData(page, config, cultures, countries) {
+    /**
+     * @param page
+     * @param config
+     * @param cultures
+     * @param countries
+     */
+    function reloadData (page, config, cultures, countries) {
         populateLanguages(page.querySelector('#selectLanguage'), cultures);
         populateCountries(page.querySelector('#selectCountry'), countries);
         page.querySelector('#selectLanguage').value = config.PreferredMetadataLanguage;
@@ -50,7 +67,10 @@ define(['loading', 'emby-checkbox', 'emby-button', 'emby-select'], function (loa
         loading.hide();
     }
 
-    function reload(page) {
+    /**
+     * @param page
+     */
+    function reload (page) {
         loading.show();
         var apiClient = ApiClient;
         var promise1 = apiClient.getJSON(apiClient.getUrl('Startup/Configuration'));
@@ -61,11 +81,17 @@ define(['loading', 'emby-checkbox', 'emby-button', 'emby-select'], function (loa
         });
     }
 
-    function navigateToNextPage() {
+    /**
+     *
+     */
+    function navigateToNextPage () {
         Dashboard.navigate('wizardremoteaccess.html');
     }
 
-    function onSubmit(e) {
+    /**
+     * @param e
+     */
+    function onSubmit (e) {
         save(this);
         e.preventDefault();
         return false;

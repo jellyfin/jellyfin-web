@@ -1,28 +1,36 @@
 define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'userSettings', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (require, dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize, userSettings) {
     'use strict';
 
-    function onSubmit(e) {
-
+    /**
+     * @param e
+     */
+    function onSubmit (e) {
         e.preventDefault();
         return false;
     }
 
-    function initEditor(context, settings) {
-
+    /**
+     * @param context
+     * @param settings
+     */
+    function initEditor (context, settings) {
         context.querySelector('form').addEventListener('submit', onSubmit);
 
         var elems = context.querySelectorAll('.viewSetting-checkboxContainer');
 
         for (var i = 0, length = elems.length; i < length; i++) {
-
             elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
         }
 
         context.querySelector('.selectImageType').value = settings.imageType || 'primary';
     }
 
-    function saveValues(context, settings, settingsKey) {
-
+    /**
+     * @param context
+     * @param settings
+     * @param settingsKey
+     */
+    function saveValues (context, settings, settingsKey) {
         var elems = context.querySelectorAll('.viewSetting-checkboxContainer');
         for (var i = 0, length = elems.length; i < length; i++) {
             userSettings.set(settingsKey + '-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input').checked);
@@ -31,15 +39,24 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
         userSettings.set(settingsKey + '-imageType', context.querySelector('.selectImageType').value);
     }
 
-    function centerFocus(elem, horiz, on) {
+    /**
+     * @param elem
+     * @param horiz
+     * @param on
+     */
+    function centerFocus (elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function showIfAllowed(context, selector, visible) {
-
+    /**
+     * @param context
+     * @param selector
+     * @param visible
+     */
+    function showIfAllowed (context, selector, visible) {
         var elem = context.querySelector(selector);
 
         if (visible && !elem.classList.contains('hiddenFromViewSettings')) {
@@ -49,16 +66,16 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
         }
     }
 
-    function ViewSettings() {
+    /**
+     *
+     */
+    function ViewSettings () {
 
     }
 
     ViewSettings.prototype.show = function (options) {
-
         return new Promise(function (resolve, reject) {
-
             require(['text!./viewsettings.template.html'], function (template) {
-
                 var dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
@@ -100,13 +117,11 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
                 initEditor(dlg, options.settings);
 
                 dlg.querySelector('.selectImageType').addEventListener('change', function () {
-
                     showIfAllowed(dlg, '.chkTitleContainer', this.value !== 'list');
                     showIfAllowed(dlg, '.chkYearContainer', this.value !== 'list');
                 });
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                     dialogHelper.close(dlg);
                 });
 
@@ -119,13 +134,10 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
                 dlg.querySelector('.selectImageType').dispatchEvent(new CustomEvent('change', {}));
 
                 dlg.querySelector('form').addEventListener('change', function () {
-
                     submitted = true;
-
                 }, true);
 
                 dialogHelper.open(dlg).then(function () {
-
                     if (layoutManager.tv) {
                         centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                     }

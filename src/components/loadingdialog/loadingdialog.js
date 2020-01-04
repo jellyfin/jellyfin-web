@@ -1,8 +1,12 @@
 define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles'], function (loading, events, dialogHelper, dom, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
-    function showDialog(instance, options, template) {
-
+    /**
+     * @param instance
+     * @param options
+     * @param template
+     */
+    function showDialog (instance, options, template) {
         var dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -37,9 +41,9 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 
-        //dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
+        // dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
         //    dialogHelper.close(dlg);
-        //});
+        // });
 
         dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.title;
 
@@ -48,7 +52,6 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
         instance.dlg = dlg;
 
         return dialogHelper.open(dlg).then(function () {
-
             if (enableTvLayout) {
                 scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
             }
@@ -57,13 +60,14 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
         });
     }
 
-    function LoadingDialog(options) {
-
+    /**
+     * @param options
+     */
+    function LoadingDialog (options) {
         this.options = options;
     }
 
     LoadingDialog.prototype.show = function () {
-
         var instance = this;
         loading.show();
 
@@ -84,7 +88,6 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
     };
 
     LoadingDialog.prototype.hide = function () {
-
         if (this.dlg) {
             dialogHelper.close(this.dlg);
             this.dlg = null;
@@ -92,7 +95,6 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
     };
 
     LoadingDialog.prototype.destroy = function () {
-
         this.dlg = null;
         this.options = null;
     };

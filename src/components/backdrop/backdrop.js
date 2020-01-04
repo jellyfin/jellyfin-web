@@ -1,7 +1,10 @@
 define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdrop'], function (browser, connectionManager, playbackManager, dom) {
     'use strict';
 
-    function enableAnimation(elem) {
+    /**
+     * @param elem
+     */
+    function enableAnimation (elem) {
         if (browser.slow) {
             return false;
         }
@@ -9,7 +12,10 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         return true;
     }
 
-    function enableRotation() {
+    /**
+     *
+     */
+    function enableRotation () {
         if (browser.tv) {
             return false;
         }
@@ -22,7 +28,10 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         return true;
     }
 
-    function Backdrop() {
+    /**
+     *
+     */
+    function Backdrop () {
     }
 
     Backdrop.prototype.load = function (url, parent, existingBackdropImage) {
@@ -87,7 +96,10 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
     };
 
     var backdropContainer;
-    function getBackdropContainer() {
+    /**
+     *
+     */
+    function getBackdropContainer () {
         if (!backdropContainer) {
             backdropContainer = document.querySelector('.backdropContainer');
         }
@@ -101,7 +113,10 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         return backdropContainer;
     }
 
-    function clearBackdrop(clearAll) {
+    /**
+     * @param clearAll
+     */
+    function clearBackdrop (clearAll) {
         clearRotation();
 
         if (currentLoadingBackdrop) {
@@ -120,14 +135,20 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
     }
 
     var backgroundContainer;
-    function getBackgroundContainer() {
+    /**
+     *
+     */
+    function getBackgroundContainer () {
         if (!backgroundContainer) {
             backgroundContainer = document.querySelector('.backgroundContainer');
         }
         return backgroundContainer;
     }
 
-    function setBackgroundContainerBackgroundEnabled() {
+    /**
+     *
+     */
+    function setBackgroundContainerBackgroundEnabled () {
         if (hasInternalBackdrop || hasExternalBackdrop) {
             getBackgroundContainer().classList.add('withBackdrop');
         } else {
@@ -136,23 +157,36 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
     }
 
     var hasInternalBackdrop;
-    function internalBackdrop(enabled) {
+    /**
+     * @param enabled
+     */
+    function internalBackdrop (enabled) {
         hasInternalBackdrop = enabled;
         setBackgroundContainerBackgroundEnabled();
     }
 
     var hasExternalBackdrop;
-    function externalBackdrop(enabled) {
+    /**
+     * @param enabled
+     */
+    function externalBackdrop (enabled) {
         hasExternalBackdrop = enabled;
         setBackgroundContainerBackgroundEnabled();
     }
 
-    function getRandom(min, max) {
+    /**
+     * @param min
+     * @param max
+     */
+    function getRandom (min, max) {
         return Math.floor(Math.random() * (max - min) + min);
     }
 
     var currentLoadingBackdrop;
-    function setBackdropImage(url) {
+    /**
+     * @param url
+     */
+    function setBackdropImage (url) {
         if (currentLoadingBackdrop) {
             currentLoadingBackdrop.destroy();
             currentLoadingBackdrop = null;
@@ -173,7 +207,11 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         currentLoadingBackdrop = instance;
     }
 
-    function getItemImageUrls(item, imageOptions) {
+    /**
+     * @param item
+     * @param imageOptions
+     */
+    function getItemImageUrls (item, imageOptions) {
         imageOptions = imageOptions || {};
 
         var apiClient = connectionManager.getApiClient(item.ServerId);
@@ -200,7 +238,11 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         return [];
     }
 
-    function getImageUrls(items, imageOptions) {
+    /**
+     * @param items
+     * @param imageOptions
+     */
+    function getImageUrls (items, imageOptions) {
         var list = [];
         var onImg = function (img) {
             list.push(img);
@@ -214,7 +256,11 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         return list;
     }
 
-    function arraysEqual(a, b) {
+    /**
+     * @param a
+     * @param b
+     */
+    function arraysEqual (a, b) {
         if (a === b) {
             return true;
         }
@@ -239,7 +285,12 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
     var rotationInterval;
     var currentRotatingImages = [];
     var currentRotationIndex = -1;
-    function setBackdrops(items, imageOptions, enableImageRotation) {
+    /**
+     * @param items
+     * @param imageOptions
+     * @param enableImageRotation
+     */
+    function setBackdrops (items, imageOptions, enableImageRotation) {
         var images = getImageUrls(items, imageOptions);
 
         if (images.length) {
@@ -249,7 +300,11 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         }
     }
 
-    function startRotation(images, enableImageRotation) {
+    /**
+     * @param images
+     * @param enableImageRotation
+     */
+    function startRotation (images, enableImageRotation) {
         if (arraysEqual(images, currentRotatingImages)) {
             return;
         }
@@ -266,7 +321,10 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         onRotationInterval();
     }
 
-    function onRotationInterval() {
+    /**
+     *
+     */
+    function onRotationInterval () {
         if (playbackManager.isPlayingLocally(['Video'])) {
             return;
         }
@@ -280,7 +338,10 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         setBackdropImage(currentRotatingImages[newIndex]);
     }
 
-    function clearRotation() {
+    /**
+     *
+     */
+    function clearRotation () {
         var interval = rotationInterval;
         if (interval) {
             clearInterval(interval);
@@ -291,7 +352,11 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         currentRotationIndex = -1;
     }
 
-    function setBackdrop(url, imageOptions) {
+    /**
+     * @param url
+     * @param imageOptions
+     */
+    function setBackdrop (url, imageOptions) {
         if (url && typeof url !== 'string') {
             url = getImageUrls([url], imageOptions)[0];
         }

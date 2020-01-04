@@ -2,7 +2,10 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'em
     'use strict';
 
     return function (view, params, tabContent) {
-        function getPageData() {
+        /**
+         *
+         */
+        function getPageData () {
             if (!pageData) {
                 pageData = {
                     query: {
@@ -16,11 +19,17 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'em
             return pageData;
         }
 
-        function getQuery() {
+        /**
+         *
+         */
+        function getQuery () {
             return getPageData().query;
         }
 
-        function getChannelsHtml(channels) {
+        /**
+         * @param channels
+         */
+        function getChannelsHtml (channels) {
             return cardBuilder.getCardsHtml({
                 items: channels,
                 shape: 'square',
@@ -33,8 +42,15 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'em
             });
         }
 
-        function renderChannels(context, result) {
-            function onNextPageClick() {
+        /**
+         * @param context
+         * @param result
+         */
+        function renderChannels (context, result) {
+            /**
+             *
+             */
+            function onNextPageClick () {
                 if (isLoading) {
                     return;
                 }
@@ -43,7 +59,10 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'em
                 reloadItems(context);
             }
 
-            function onPreviousPageClick() {
+            /**
+             *
+             */
+            function onPreviousPageClick () {
                 if (isLoading) {
                     return;
                 }
@@ -78,7 +97,10 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'em
             }
         }
 
-        function showFilterMenu(context) {
+        /**
+         * @param context
+         */
+        function showFilterMenu (context) {
             require(['components/filterdialog/filterdialog'], function (filterDialogFactory) {
                 var filterDialog = new filterDialogFactory({
                     query: getQuery(),
@@ -92,7 +114,11 @@ define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'em
             });
         }
 
-        function reloadItems(context, save) {
+        /**
+         * @param context
+         * @param save
+         */
+        function reloadItems (context, save) {
             loading.show();
             isLoading = true;
             var query = getQuery();

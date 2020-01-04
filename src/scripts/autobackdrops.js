@@ -1,11 +1,20 @@
 define(['backdrop', 'userSettings', 'libraryMenu'], function (backdrop, userSettings, libraryMenu) {
     'use strict';
 
-    function enabled() {
+    /**
+     *
+     */
+    function enabled () {
         return userSettings.enableBackdrops();
     }
 
-    function getBackdropItemIds(apiClient, userId, types, parentId) {
+    /**
+     * @param apiClient
+     * @param userId
+     * @param types
+     * @param parentId
+     */
+    function getBackdropItemIds (apiClient, userId, types, parentId) {
         var key = 'backdrops2_' + userId + (types || '') + (parentId || '');
         var data = cache[key];
 
@@ -37,7 +46,11 @@ define(['backdrop', 'userSettings', 'libraryMenu'], function (backdrop, userSett
         });
     }
 
-    function showBackdrop(type, parentId) {
+    /**
+     * @param type
+     * @param parentId
+     */
+    function showBackdrop (type, parentId) {
         var apiClient = window.ApiClient;
 
         if (apiClient) {

@@ -1,7 +1,11 @@
 define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'emby-input'], function (layoutManager, browser) {
     'use strict';
 
-    function autoGrow(textarea, maxLines) {
+    /**
+     * @param textarea
+     * @param maxLines
+     */
+    function autoGrow (textarea, maxLines) {
         var self = this;
 
         if (maxLines === undefined) {
@@ -10,6 +14,7 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
 
         /**
          * Calculates the vertical padding of the element
+         *
          * @param textarea
          * @returns {number}
          */
@@ -25,7 +30,10 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
         };
 
         var offset;
-        function reset() {
+        /**
+         *
+         */
+        function reset () {
             textarea.rows = 1;
             offset = self.getOffset(textarea);
             self.rows = textarea.rows || 1;
@@ -33,7 +41,10 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
             self.maxAllowedHeight = (self.lineHeight * maxLines) - offset;
         }
 
-        function autogrowFn() {
+        /**
+         *
+         */
+        function autogrowFn () {
             if (!self.lineHeight || self.lineHeight <= 0) {
                 reset();
             }
@@ -52,7 +63,7 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
             } else {
                 textarea.style.overflowY = 'hidden';
                 textarea.style.height = 'auto';
-                newHeight = textarea.scrollHeight/* - offset*/;
+                newHeight = textarea.scrollHeight/* - offset */;
                 hasGrown = true;
             }
             textarea.style.height = newHeight + 'px';
@@ -71,7 +82,6 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
     var elementId = 0;
 
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-
         var descriptor = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
 
         // descriptor returning null in webos
@@ -91,7 +101,6 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
     }
 
     EmbyTextAreaPrototype.createdCallback = function () {
-
         if (!this.id) {
             this.id = 'embytextarea' + elementId;
             elementId++;
@@ -99,7 +108,6 @@ define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'e
     };
 
     EmbyTextAreaPrototype.attachedCallback = function () {
-
         if (this.classList.contains('emby-textarea')) {
             return;
         }

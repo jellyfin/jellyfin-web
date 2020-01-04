@@ -1,7 +1,11 @@
 define(['jQuery', 'loading', 'fnchecked', 'emby-button'], function ($, loading) {
     'use strict';
 
-    function loadPage(page, config) {
+    /**
+     * @param page
+     * @param config
+     */
+    function loadPage (page, config) {
         $('.liveTvSettingsForm', page).show();
         $('.noLiveTvServices', page).hide();
         $('#selectGuideDays', page).val(config.GuideDays || '');
@@ -15,7 +19,10 @@ define(['jQuery', 'loading', 'fnchecked', 'emby-button'], function ($, loading) 
         loading.hide();
     }
 
-    function onSubmit() {
+    /**
+     *
+     */
+    function onSubmit () {
         loading.show();
         var form = this;
         ApiClient.getNamedConfiguration('livetv').then(function (config) {
@@ -40,7 +47,10 @@ define(['jQuery', 'loading', 'fnchecked', 'emby-button'], function ($, loading) 
         return false;
     }
 
-    function showSaveMessage(recordingPathChanged) {
+    /**
+     * @param recordingPathChanged
+     */
+    function showSaveMessage (recordingPathChanged) {
         var msg = '';
 
         if (recordingPathChanged) {

@@ -1,10 +1,14 @@
 define(['jQuery', 'loading', 'libraryMenu'], function ($, loading, libraryMenu) {
     'use strict';
 
-    function loadUser(page, user) {
+    /**
+     * @param page
+     * @param user
+     */
+    function loadUser (page, user) {
         libraryMenu.setTitle(user.Name);
 
-        if ('Guest' == user.ConnectLinkType) {
+        if (user.ConnectLinkType == 'Guest') {
             $('.connectMessage', page).show();
         } else {
             $('.connectMessage', page).hide();
@@ -13,7 +17,10 @@ define(['jQuery', 'loading', 'libraryMenu'], function ($, loading, libraryMenu) 
         loading.hide();
     }
 
-    function loadData(page) {
+    /**
+     * @param page
+     */
+    function loadData (page) {
         loading.show();
         var userId = getParameterByName('userId');
         ApiClient.getUser(userId).then(function (user) {

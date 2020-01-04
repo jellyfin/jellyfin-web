@@ -3,7 +3,6 @@ define(['multi-download'], function (multiDownload) {
 
     return {
         download: function (items) {
-
             if (window.NativeShell) {
                 items.map(function (item) {
                     window.NativeShell.downloadFile(item.url);

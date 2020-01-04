@@ -3,7 +3,10 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
 
     var enableFocusTransform = !browser.slow && !browser.edge;
 
-    function getEditorHtml() {
+    /**
+     *
+     */
+    function getEditorHtml () {
         var html = '';
         html += '<div class="formDialogContent scrollY">';
         html += '<div class="dialogContentInner dialog-content-centered">';
@@ -18,7 +21,10 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
         return html += '</div>';
     }
 
-    function getDeviceHtml(device) {
+    /**
+     * @param device
+     */
+    function getDeviceHtml (device) {
         var padderClass;
         var html = '';
         var cssClass = 'card scalableCard';
@@ -55,7 +61,10 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
         return html += '</button>';
     }
 
-    function getTunerName(providerId) {
+    /**
+     * @param providerId
+     */
+    function getTunerName (providerId) {
         switch (providerId = providerId.toLowerCase()) {
         case 'm3u':
             return 'M3U';
@@ -74,7 +83,11 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
         }
     }
 
-    function renderDevices(view, devices) {
+    /**
+     * @param view
+     * @param devices
+     */
+    function renderDevices (view, devices) {
         var i;
         var length;
         var html = '';
@@ -98,7 +111,11 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
         }
     }
 
-    function discoverDevices(view, apiClient) {
+    /**
+     * @param view
+     * @param apiClient
+     */
+    function discoverDevices (view, apiClient) {
         loading.show();
         view.querySelector('.loadingContent').classList.remove('hide');
         return ApiClient.getJSON(ApiClient.getUrl('LiveTv/Tuners/Discvover', {
@@ -111,7 +128,10 @@ define(['dialogHelper', 'dom', 'layoutManager', 'connectionManager', 'globalize'
         });
     }
 
-    function tunerPicker() {
+    /**
+     *
+     */
+    function tunerPicker () {
         this.show = function (options) {
             var dialogOptions = {
                 removeOnClose: true,

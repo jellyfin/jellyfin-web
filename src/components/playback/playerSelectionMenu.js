@@ -1,8 +1,11 @@
 define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRouter', 'globalize', 'apphost'], function (appSettings, events, browser, loading, playbackManager, appRouter, globalize, appHost) {
     'use strict';
 
-    function mirrorItem(info, player) {
-
+    /**
+     * @param info
+     * @param player
+     */
+    function mirrorItem (info, player) {
         var item = info.item;
 
         playbackManager.displayContent({
@@ -14,10 +17,11 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         }, player);
     }
 
-    function mirrorIfEnabled(info) {
-
+    /**
+     * @param info
+     */
+    function mirrorIfEnabled (info) {
         if (info && playbackManager.enableDisplayMirroring()) {
-
             var getPlayerInfo = playbackManager.getPlayerInfo();
 
             if (getPlayerInfo) {
@@ -28,22 +32,28 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         }
     }
 
-    function emptyCallback() {
+    /**
+     *
+     */
+    function emptyCallback () {
         // avoid console logs about uncaught promises
     }
 
-    function getTargetSecondaryText(target) {
-
+    /**
+     * @param target
+     */
+    function getTargetSecondaryText (target) {
         if (target.user) {
-
             return target.user.Name;
         }
 
         return null;
     }
 
-    function getIcon(target) {
-
+    /**
+     * @param target
+     */
+    function getIcon (target) {
         var deviceType = target.deviceType;
 
         if (!deviceType && target.isLocalPlayer) {
@@ -61,7 +71,6 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         }
 
         switch (deviceType) {
-
         case 'smartphone':
             return 'smartphone';
         case 'tablet':
@@ -77,8 +86,10 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         }
     }
 
-    function showPlayerSelection(button) {
-
+    /**
+     * @param button
+     */
+    function showPlayerSelection (button) {
         var currentPlayerInfo = playbackManager.getPlayerInfo();
 
         if (currentPlayerInfo) {
@@ -93,9 +104,7 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         loading.show();
 
         playbackManager.getTargets().then(function (targets) {
-
             var menuItems = targets.map(function (t) {
-
                 var name = t.name;
 
                 if (t.appName && t.appName !== t.name) {
@@ -109,11 +118,9 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
                     secondaryText: getTargetSecondaryText(t),
                     icon: getIcon(t)
                 };
-
             });
 
             require(['actionsheet'], function (actionsheet) {
-
                 loading.hide();
 
                 var menuOptions = {
@@ -132,7 +139,6 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
                 }
 
                 actionsheet.show(menuOptions).then(function (id) {
-
                     var target = targets.filter(function (t) {
                         return t.id === id;
                     })[0];
@@ -140,25 +146,26 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
                     playbackManager.trySetActivePlayer(target.playerName, target);
 
                     mirrorIfEnabled();
-
                 }, emptyCallback);
             });
         });
     }
 
-    function showActivePlayerMenu(playerInfo) {
-
+    /**
+     * @param playerInfo
+     */
+    function showActivePlayerMenu (playerInfo) {
         require(['dialogHelper', 'dialog', 'emby-checkbox', 'emby-button'], function (dialogHelper) {
             showActivePlayerMenuInternal(dialogHelper, playerInfo);
         });
     }
 
-    function disconnectFromPlayer(currentDeviceName) {
-
+    /**
+     * @param currentDeviceName
+     */
+    function disconnectFromPlayer (currentDeviceName) {
         if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
-
             require(['dialog'], function (dialog) {
-
                 var menuItems = [];
 
                 menuItems.push({
@@ -172,12 +179,11 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
 
                 dialog({
                     buttons: menuItems,
-                    //positionTo: positionTo,
+                    // positionTo: positionTo,
                     text: globalize.translate('ConfirmEndPlayerSession', currentDeviceName)
 
                 }).then(function (id) {
                     switch (id) {
-
                     case 'yes':
                         playbackManager.getCurrentPlayer().endSession();
                         playbackManager.setDefaultPlayerActive();
@@ -189,17 +195,17 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
                         break;
                     }
                 });
-
             });
-
         } else {
-
             playbackManager.setDefaultPlayerActive();
         }
     }
 
-    function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
-
+    /**
+     * @param dialogHelper
+     * @param playerInfo
+     */
+    function showActivePlayerMenuInternal (dialogHelper, playerInfo) {
         var html = '';
 
         var dialogOptions = {
@@ -225,7 +231,6 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         html += '<div>';
 
         if (playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
-
             html += '<label class="checkboxContainer">';
             var checkedHtml = playbackManager.enableDisplayMirroring() ? ' checked' : '';
             html += '<input type="checkbox" is="emby-checkbox" class="chkMirror"' + checkedHtml + '/>';
@@ -279,12 +284,14 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         }, emptyCallback);
     }
 
-    function onMirrorChange() {
+    /**
+     *
+     */
+    function onMirrorChange () {
         playbackManager.enableDisplayMirroring(this.checked);
     }
 
     document.addEventListener('viewshow', function (e) {
-
         var state = e.detail.state || {};
         var item = state.item;
 
@@ -292,7 +299,6 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
             mirrorIfEnabled({
                 item: item
             });
-            return;
         }
     });
 

@@ -1,7 +1,11 @@
 define(['loading', 'scripts/editorsidebar'], function (loading) {
     'use strict';
 
-    function reload(context, itemId) {
+    /**
+     * @param context
+     * @param itemId
+     */
+    function reload (context, itemId) {
         loading.show();
 
         if (itemId) {

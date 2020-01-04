@@ -1,7 +1,10 @@
 define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', 'cardBuilder', 'dom', 'apphost', 'imageLoader', 'libraryMenu', 'playbackManager', 'mainTabsManager', 'scrollStyles', 'emby-itemscontainer', 'emby-tabs', 'emby-button', 'flexStyles'], function (browser, layoutManager, userSettings, inputManager, loading, cardBuilder, dom, appHost, imageLoader, libraryMenu, playbackManager, mainTabsManager) {
     'use strict';
 
-    function itemsPerRow() {
+    /**
+     *
+     */
+    function itemsPerRow () {
         var screenWidth = dom.getWindowSize().innerWidth;
 
         if (screenWidth >= 1920) {
@@ -19,15 +22,25 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         return 8;
     }
 
-    function enableScrollX() {
+    /**
+     *
+     */
+    function enableScrollX () {
         return !layoutManager.desktop;
     }
 
-    function getSquareShape() {
+    /**
+     *
+     */
+    function getSquareShape () {
         return enableScrollX() ? 'overflowSquare' : 'square';
     }
 
-    function loadLatest(page, parentId) {
+    /**
+     * @param page
+     * @param parentId
+     */
+    function loadLatest (page, parentId) {
         loading.show();
         var userId = ApiClient.getCurrentUserId();
         var options = {
@@ -66,7 +79,11 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         });
     }
 
-    function loadRecentlyPlayed(page, parentId) {
+    /**
+     * @param page
+     * @param parentId
+     */
+    function loadRecentlyPlayed (page, parentId) {
         var options = {
             SortBy: 'DatePlayed',
             SortOrder: 'Descending',
@@ -110,7 +127,11 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         });
     }
 
-    function loadFrequentlyPlayed(page, parentId) {
+    /**
+     * @param page
+     * @param parentId
+     */
+    function loadFrequentlyPlayed (page, parentId) {
         var options = {
             SortBy: 'PlayCount',
             SortOrder: 'Descending',
@@ -154,7 +175,12 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         });
     }
 
-    function loadSuggestionsTab(page, tabContent, parentId) {
+    /**
+     * @param page
+     * @param tabContent
+     * @param parentId
+     */
+    function loadSuggestionsTab (page, tabContent, parentId) {
         console.log('loadSuggestionsTab');
         loadLatest(tabContent, parentId);
         loadRecentlyPlayed(tabContent, parentId);
@@ -165,7 +191,10 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         });
     }
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             name: Globalize.translate('TabSuggestions')
         }, {
@@ -186,7 +215,10 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
         }];
     }
 
-    function getDefaultTabIndex(folderId) {
+    /**
+     * @param folderId
+     */
+    function getDefaultTabIndex (folderId) {
         switch (userSettings.get('landing-' + folderId)) {
         case 'albums':
             return 1;
@@ -212,17 +244,27 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
     }
 
     return function (view, params) {
-        function reload() {
+        /**
+         *
+         */
+        function reload () {
             loading.show();
             var tabContent = view.querySelector(".pageTabContent[data-index='0']");
             loadSuggestionsTab(view, tabContent, params.topParentId);
         }
 
-        function enableScrollX() {
+        /**
+         *
+         */
+        function enableScrollX () {
             return browser.mobile;
         }
 
-        function setScrollClasses(elem, scrollX) {
+        /**
+         * @param elem
+         * @param scrollX
+         */
+        function setScrollClasses (elem, scrollX) {
             if (scrollX) {
                 elem.classList.add('hiddenScrollX');
 
@@ -240,23 +282,40 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             }
         }
 
-        function onBeforeTabChange(e) {
+        /**
+         * @param e
+         */
+        function onBeforeTabChange (e) {
             preLoadTab(view, parseInt(e.detail.selectedTabIndex));
         }
 
-        function onTabChange(e) {
+        /**
+         * @param e
+         */
+        function onTabChange (e) {
             loadTab(view, parseInt(e.detail.selectedTabIndex));
         }
 
-        function getTabContainers() {
+        /**
+         *
+         */
+        function getTabContainers () {
             return view.querySelectorAll('.pageTabContent');
         }
 
-        function initTabs() {
+        /**
+         *
+         */
+        function initTabs () {
             mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
         }
 
-        function getTabController(page, index, callback) {
+        /**
+         * @param page
+         * @param index
+         * @param callback
+         */
+        function getTabController (page, index, callback) {
             var depends = [];
 
             switch (index) {
@@ -291,7 +350,7 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             require(depends, function (controllerFactory) {
                 var tabContent;
 
-                if (0 == index) {
+                if (index == 0) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }
@@ -328,7 +387,11 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             });
         }
 
-        function preLoadTab(page, index) {
+        /**
+         * @param page
+         * @param index
+         */
+        function preLoadTab (page, index) {
             getTabController(page, index, function (controller) {
                 if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
                     controller.preRender();
@@ -336,7 +399,11 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             });
         }
 
-        function loadTab(page, index) {
+        /**
+         * @param page
+         * @param index
+         */
+        function loadTab (page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
                 initialTabIndex = null;
@@ -348,7 +415,10 @@ define(['browser', 'layoutManager', 'userSettings', 'inputManager', 'loading', '
             });
         }
 
-        function onInputCommand(e) {
+        /**
+         * @param e
+         */
+        function onInputCommand (e) {
             switch (e.detail.command) {
             case 'search':
                 e.preventDefault();

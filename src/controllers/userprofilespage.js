@@ -1,7 +1,11 @@
 define(['loading', 'dom', 'globalize', 'humanedate', 'paper-icon-button-light', 'cardStyle', 'emby-button', 'indicators', 'flexStyles'], function (loading, dom, globalize) {
     'use strict';
 
-    function deleteUser(page, id) {
+    /**
+     * @param page
+     * @param id
+     */
+    function deleteUser (page, id) {
         var msg = globalize.translate('DeleteUserConfirmation');
 
         require(['confirm'], function (confirm) {
@@ -19,7 +23,10 @@ define(['loading', 'dom', 'globalize', 'humanedate', 'paper-icon-button-light', 
         });
     }
 
-    function showUserMenu(elem) {
+    /**
+     * @param elem
+     */
+    function showUserMenu (elem) {
         var card = dom.parentWithClass(elem, 'card');
         var page = dom.parentWithClass(card, 'page');
         var userId = card.getAttribute('data-userid');
@@ -71,7 +78,11 @@ define(['loading', 'dom', 'globalize', 'humanedate', 'paper-icon-button-light', 
         });
     }
 
-    function getUserHtml(user, addConnectIndicator) {
+    /**
+     * @param user
+     * @param addConnectIndicator
+     */
+    function getUserHtml (user, addConnectIndicator) {
         var html = '';
         var cssClass = 'card squareCard scalableCard squareCard-scalable';
 
@@ -119,14 +130,17 @@ define(['loading', 'dom', 'globalize', 'humanedate', 'paper-icon-button-light', 
         html += '</div>';
         html += '<div class="cardText cardText-secondary">';
         var lastSeen = getLastSeenText(user.LastActivityDate);
-        html += '' != lastSeen ? lastSeen : '&nbsp;';
+        html += lastSeen != '' ? lastSeen : '&nbsp;';
         html += '</div>';
         html += '</div>';
         html += '</div>';
         return html + '</div>';
     }
 
-    function getLastSeenText(lastActivityDate) {
+    /**
+     * @param lastActivityDate
+     */
+    function getLastSeenText (lastActivityDate) {
         if (lastActivityDate) {
             return 'Last seen ' + humaneDate(lastActivityDate);
         }
@@ -134,17 +148,28 @@ define(['loading', 'dom', 'globalize', 'humanedate', 'paper-icon-button-light', 
         return '';
     }
 
-    function getUserSectionHtml(users, addConnectIndicator) {
+    /**
+     * @param users
+     * @param addConnectIndicator
+     */
+    function getUserSectionHtml (users, addConnectIndicator) {
         return users.map(function (u__q) {
             return getUserHtml(u__q, addConnectIndicator);
         }).join('');
     }
 
-    function renderUsers(page, users) {
+    /**
+     * @param page
+     * @param users
+     */
+    function renderUsers (page, users) {
         page.querySelector('.localUsers').innerHTML = getUserSectionHtml(users, true);
     }
 
-    function showPendingUserMenu(elem) {
+    /**
+     * @param elem
+     */
+    function showPendingUserMenu (elem) {
         var menuItems = [];
         menuItems.push({
             name: globalize.translate('ButtonCancel'),
@@ -169,7 +194,10 @@ define(['loading', 'dom', 'globalize', 'humanedate', 'paper-icon-button-light', 
         });
     }
 
-    function getPendingUserHtml(user) {
+    /**
+     * @param user
+     */
+    function getPendingUserHtml (user) {
         var html = '';
         html += "<div data-id='" + user.Id + "' class='card squareCard scalableCard squareCard-scalable'>";
         html += '<div class="cardBox cardBox-bottompadded visualCardBox">';
@@ -198,7 +226,11 @@ define(['loading', 'dom', 'globalize', 'humanedate', 'paper-icon-button-light', 
         return html + '</div>';
     }
 
-    function renderPendingGuests(page, users) {
+    /**
+     * @param page
+     * @param users
+     */
+    function renderPendingGuests (page, users) {
         if (users.length) {
             page.querySelector('.sectionPendingGuests').classList.remove('hide');
         } else {
@@ -209,7 +241,11 @@ define(['loading', 'dom', 'globalize', 'humanedate', 'paper-icon-button-light', 
     }
 
     // TODO cvium: maybe reuse for invitation system
-    function cancelAuthorization(page, id) {
+    /**
+     * @param page
+     * @param id
+     */
+    function cancelAuthorization (page, id) {
         loading.show();
         ApiClient.ajax({
             type: 'DELETE',
@@ -221,7 +257,10 @@ define(['loading', 'dom', 'globalize', 'humanedate', 'paper-icon-button-light', 
         });
     }
 
-    function loadData(page) {
+    /**
+     * @param page
+     */
+    function loadData (page) {
         loading.show();
         ApiClient.getUsers().then(function (users) {
             renderUsers(page, users);
@@ -234,7 +273,10 @@ define(['loading', 'dom', 'globalize', 'humanedate', 'paper-icon-button-light', 
         // });
     }
 
-    function showInvitePopup(page) {
+    /**
+     * @param page
+     */
+    function showInvitePopup (page) {
         require(['components/guestinviter/guestinviter'], function (guestinviter) {
             guestinviter.show().then(function () {
                 loadData(page);
@@ -244,7 +286,7 @@ define(['loading', 'dom', 'globalize', 'humanedate', 'paper-icon-button-light', 
 
     pageIdOn('pageinit', 'userProfilesPage', function () {
         var page = this;
-        page.querySelector('.btnAddUser').addEventListener('click', function() {
+        page.querySelector('.btnAddUser').addEventListener('click', function () {
             Dashboard.navigate('usernew.html');
         });
         page.querySelector('.localUsers').addEventListener('click', function (e__e) {

@@ -1,7 +1,10 @@
 define(['loading', 'libraryBrowser', 'cardBuilder', 'apphost'], function (loading, libraryBrowser, cardBuilder, appHost) {
     'use strict';
 
-    function getQuery(params) {
+    /**
+     * @param params
+     */
+    function getQuery (params) {
         var key = getSavedQueryKey();
         var pageData = data[key];
 
@@ -22,17 +25,29 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'apphost'], function (loadin
         return pageData.query;
     }
 
-    function getSavedQueryKey() {
+    /**
+     *
+     */
+    function getSavedQueryKey () {
         return libraryBrowser.getSavedQueryKey('studios');
     }
 
-    function getPromise(context, params) {
+    /**
+     * @param context
+     * @param params
+     */
+    function getPromise (context, params) {
         var query = getQuery(params);
         loading.show();
         return ApiClient.getStudios(ApiClient.getCurrentUserId(), query);
     }
 
-    function reloadItems(context, params, promise) {
+    /**
+     * @param context
+     * @param params
+     * @param promise
+     */
+    function reloadItems (context, params, promise) {
         promise.then(function (result) {
             var elem = context.querySelector('#items');
             cardBuilder.buildCards(result.Items, {

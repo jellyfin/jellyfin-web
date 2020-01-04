@@ -1,7 +1,11 @@
 define(['loading', 'components/groupedcards', 'cardBuilder', 'apphost', 'imageLoader'], function (loading, groupedcards, cardBuilder, appHost, imageLoader) {
     'use strict';
 
-    function getLatestPromise(context, params) {
+    /**
+     * @param context
+     * @param params
+     */
+    function getLatestPromise (context, params) {
         loading.show();
         var userId = ApiClient.getCurrentUserId();
         var parentId = params.topParentId;
@@ -16,7 +20,12 @@ define(['loading', 'components/groupedcards', 'cardBuilder', 'apphost', 'imageLo
         return ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options));
     }
 
-    function loadLatest(context, params, promise) {
+    /**
+     * @param context
+     * @param params
+     * @param promise
+     */
+    function loadLatest (context, params, promise) {
         promise.then(function (items) {
             var html = '';
             appHost.supports('imageanalysis');

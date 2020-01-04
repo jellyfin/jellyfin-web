@@ -1,7 +1,10 @@
 define(['loading'], function (loading) {
     'use strict';
 
-    function onFinish() {
+    /**
+     *
+     */
+    function onFinish () {
         loading.show();
         ApiClient.ajax({
             url: ApiClient.getUrl('Startup/Complete'),

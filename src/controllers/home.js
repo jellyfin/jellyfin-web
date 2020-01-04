@@ -1,7 +1,10 @@
 define(['tabbedView', 'globalize', 'require', 'emby-tabs', 'emby-button', 'emby-scroller'], function (TabbedView, globalize, require) {
     'use strict';
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             name: globalize.translate('Home')
         }, {
@@ -9,18 +12,27 @@ define(['tabbedView', 'globalize', 'require', 'emby-tabs', 'emby-button', 'emby-
         }];
     }
 
-    function getDefaultTabIndex() {
+    /**
+     *
+     */
+    function getDefaultTabIndex () {
         return 0;
     }
 
-    function getRequirePromise(deps) {
+    /**
+     * @param deps
+     */
+    function getRequirePromise (deps) {
         return new Promise(function (resolve, reject) {
             require(deps, resolve);
         });
     }
 
-    function getTabController(index) {
-        if (null == index) {
+    /**
+     * @param index
+     */
+    function getTabController (index) {
+        if (index == null) {
             throw new Error('index cannot be null');
         }
 
@@ -48,7 +60,11 @@ define(['tabbedView', 'globalize', 'require', 'emby-tabs', 'emby-button', 'emby-
         });
     }
 
-    function HomeView(view, params) {
+    /**
+     * @param view
+     * @param params
+     */
+    function HomeView (view, params) {
         TabbedView.call(this, view, params);
     }
 

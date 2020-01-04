@@ -1,7 +1,14 @@
 define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', 'require', 'emby-checkbox', 'emby-collapse', 'css!./style'], function (dialogHelper, globalize, connectionManager, events, browser, require) {
     'use strict';
 
-    function renderOptions(context, selector, cssClass, items, isCheckedFn) {
+    /**
+     * @param context
+     * @param selector
+     * @param cssClass
+     * @param items
+     * @param isCheckedFn
+     */
+    function renderOptions (context, selector, cssClass, items, isCheckedFn) {
         var elem = context.querySelector(selector);
         if (items.length) {
             elem.classList.remove('hide');
@@ -23,7 +30,12 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
         elem.querySelector('.filterOptions').innerHTML = html;
     }
 
-    function renderFilters(context, result, query) {
+    /**
+     * @param context
+     * @param result
+     * @param query
+     */
+    function renderFilters (context, result, query) {
         if (result.Tags) {
             result.Tags.length = Math.min(result.Tags.length, 50);
         }
@@ -45,7 +57,13 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
         });
     }
 
-    function loadDynamicFilters(context, apiClient, userId, itemQuery) {
+    /**
+     * @param context
+     * @param apiClient
+     * @param userId
+     * @param itemQuery
+     */
+    function loadDynamicFilters (context, apiClient, userId, itemQuery) {
         return apiClient.getJSON(apiClient.getUrl('Items/Filters', {
             UserId: userId,
             ParentId: itemQuery.ParentId,
@@ -55,7 +73,11 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
         });
     }
 
-    function updateFilterControls(context, options) {
+    /**
+     * @param context
+     * @param options
+     */
+    function updateFilterControls (context, options) {
         var elems;
         var i;
         var length;
@@ -102,11 +124,18 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
         }
     }
 
-    function triggerChange(instance) {
+    /**
+     * @param instance
+     */
+    function triggerChange (instance) {
         events.trigger(instance, 'filterchange');
     }
 
-    function parentWithClass(elem, className) {
+    /**
+     * @param elem
+     * @param className
+     */
+    function parentWithClass (elem, className) {
         while (!elem.classList || !elem.classList.contains(className)) {
             elem = elem.parentNode;
             if (!elem) {
@@ -116,7 +145,11 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
         return elem;
     }
 
-    function setVisibility(context, options) {
+    /**
+     * @param context
+     * @param options
+     */
+    function setVisibility (context, options) {
         if (options.mode == 'livetvchannels' || options.mode == 'albums' || options.mode == 'artists' || options.mode == 'albumartists' || options.mode == 'songs') {
             hideByClass(context, 'videoStandard');
         }
@@ -145,7 +178,11 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
         }
     }
 
-    function showByClass(context, className) {
+    /**
+     * @param context
+     * @param className
+     */
+    function showByClass (context, className) {
         var elems = context.querySelectorAll('.' + className);
 
         for (var i = 0, length = elems.length; i < length; i++) {
@@ -153,7 +190,11 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
         }
     }
 
-    function hideByClass(context, className) {
+    /**
+     * @param context
+     * @param className
+     */
+    function hideByClass (context, className) {
         var elems = context.querySelectorAll('.' + className);
 
         for (var i = 0, length = elems.length; i < length; i++) {
@@ -161,19 +202,28 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
         }
     }
 
-    function enableDynamicFilters(mode) {
+    /**
+     * @param mode
+     */
+    function enableDynamicFilters (mode) {
         return mode == 'movies' || mode == 'series' || mode == 'albums' || mode == 'albumartists' || mode == 'artists' || mode == 'songs' || mode == 'episodes';
     }
 
     return function (options) {
-        function onFavoriteChange() {
+        /**
+         *
+         */
+        function onFavoriteChange () {
             var query = options.query;
             query.StartIndex = 0;
             query.IsFavorite = !!this.checked || null;
             triggerChange(self);
         }
 
-        function onStandardFilterChange() {
+        /**
+         *
+         */
+        function onStandardFilterChange () {
             var query = options.query;
             var filterName = this.getAttribute('data-filter');
             var filters = query.Filters || '';
@@ -188,7 +238,10 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
             triggerChange(self);
         }
 
-        function onVideoTypeFilterChange() {
+        /**
+         *
+         */
+        function onVideoTypeFilterChange () {
             var query = options.query;
             var filterName = this.getAttribute('data-filter');
             var filters = query.VideoTypes || '';
@@ -203,7 +256,10 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
             triggerChange(self);
         }
 
-        function onStatusChange() {
+        /**
+         *
+         */
+        function onStatusChange () {
             var query = options.query;
             var filterName = this.getAttribute('data-filter');
             var filters = query.SeriesStatus || '';
@@ -218,7 +274,10 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
             triggerChange(self);
         }
 
-        function bindEvents(context) {
+        /**
+         * @param context
+         */
+        function bindEvents (context) {
             var elems;
             var i;
             var length;
@@ -295,7 +354,7 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
             });
             context.querySelector('#chkMissingEpisode').addEventListener('change', function () {
                 query.StartIndex = 0;
-                query.IsMissing = this.checked ? true : false;
+                query.IsMissing = !!this.checked;
                 triggerChange(self);
             });
             context.querySelector('#chkSpecialEpisode').addEventListener('change', function () {
@@ -374,7 +433,6 @@ define(['dialogHelper', 'globalize', 'connectionManager', 'events', 'browser', '
                     query.StartIndex = 0;
                     query.OfficialRatings = filters;
                     triggerChange(self);
-                    return;
                 }
             });
         }

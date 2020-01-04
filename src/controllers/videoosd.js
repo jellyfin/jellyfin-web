@@ -1,19 +1,23 @@
 define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'events', 'connectionManager', 'browser', 'globalize', 'apphost', 'layoutManager', 'userSettings', 'scrollStyles', 'emby-slider', 'paper-icon-button-light', 'css!css/videoosd'], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager, userSettings) {
     'use strict';
 
-    function seriesImageUrl(item, options) {
-        if ('Episode' !== item.Type) {
+    /**
+     * @param item
+     * @param options
+     */
+    function seriesImageUrl (item, options) {
+        if (item.Type !== 'Episode') {
             return null;
         }
 
         options = options || {};
         options.type = options.type || 'Primary';
-        if ('Primary' === options.type && item.SeriesPrimaryImageTag) {
+        if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
             options.tag = item.SeriesPrimaryImageTag;
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
 
-        if ('Thumb' === options.type) {
+        if (options.type === 'Thumb') {
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
@@ -28,7 +32,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         return null;
     }
 
-    function imageUrl(item, options) {
+    /**
+     * @param item
+     * @param options
+     */
+    function imageUrl (item, options) {
         options = options || {};
         options.type = options.type || 'Primary';
 
@@ -37,7 +45,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
-        if ('Primary' === options.type && item.AlbumId && item.AlbumPrimaryImageTag) {
+        if (options.type === 'Primary' && item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
@@ -45,7 +53,12 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
         return null;
     }
 
-    function logoImageUrl(item, apiClient, options) {
+    /**
+     * @param item
+     * @param apiClient
+     * @param options
+     */
+    function logoImageUrl (item, apiClient, options) {
         options = options || {};
         options.type = 'Logo';
 
@@ -63,7 +76,12 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
     }
 
     return function (view, params) {
-        function onVerticalSwipe(e, elem, data) {
+        /**
+         * @param e
+         * @param elem
+         * @param data
+         */
+        function onVerticalSwipe (e, elem, data) {
             var player = currentPlayer;
 
             if (player) {
@@ -78,7 +96,12 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function doBrightnessTouch(deltaY, player, viewHeight) {
+        /**
+         * @param deltaY
+         * @param player
+         * @param viewHeight
+         */
+        function doBrightnessTouch (deltaY, player, viewHeight) {
             var delta = -deltaY / viewHeight * 100;
             var newValue = playbackManager.getBrightness(player) + delta;
             newValue = Math.min(newValue, 100);
@@ -86,7 +109,12 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             playbackManager.setBrightness(newValue, player);
         }
 
-        function doVolumeTouch(deltaY, player, viewHeight) {
+        /**
+         * @param deltaY
+         * @param player
+         * @param viewHeight
+         */
+        function doVolumeTouch (deltaY, player, viewHeight) {
             var delta = -deltaY / viewHeight * 100;
             var newValue = playbackManager.getVolume(player) + delta;
             newValue = Math.min(newValue, 100);
@@ -94,10 +122,13 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             playbackManager.setVolume(newValue, player);
         }
 
-        function onDoubleClick(e) {
+        /**
+         * @param e
+         */
+        function onDoubleClick (e) {
             var clientX = e.clientX;
 
-            if (null != clientX) {
+            if (clientX != null) {
                 if (clientX < dom.getWindowSize().innerWidth / 2) {
                     playbackManager.rewind(currentPlayer);
                 } else {
@@ -109,8 +140,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function getDisplayItem(item) {
-            if ('TvChannel' === item.Type) {
+        /**
+         * @param item
+         */
+        function getDisplayItem (item) {
+            if (item.Type === 'TvChannel') {
                 var apiClient = connectionManager.getApiClient(item.ServerId);
                 return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem) {
                     return {
@@ -125,8 +159,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             });
         }
 
-        function updateRecordingButton(item) {
-            if (!item || 'Program' !== item.Type) {
+        /**
+         * @param item
+         */
+        function updateRecordingButton (item) {
+            if (!item || item.Type !== 'Program') {
                 if (recordingButtonManager) {
                     recordingButtonManager.destroy();
                     recordingButtonManager = null;
@@ -152,7 +189,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             });
         }
 
-        function updateDisplayItem(itemInfo) {
+        /**
+         * @param itemInfo
+         */
+        function updateDisplayItem (itemInfo) {
             var item = itemInfo.originalItem;
             currentItem = item;
             var displayItem = itemInfo.displayItem || item;
@@ -169,8 +209,8 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             var osdTitle = view.querySelector('.osdTitle');
             titleElement = osdTitle;
             var displayName = itemHelper.getDisplayName(displayItem, {
-                includeParentInfo: 'Program' !== displayItem.Type,
-                includeIndexNumber: 'Program' !== displayItem.Type
+                includeParentInfo: displayItem.Type !== 'Program',
+                includeIndexNumber: displayItem.Type !== 'Program'
             });
 
             if (!displayName) {
@@ -191,8 +231,8 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 tomatoes: false,
                 endsAt: false,
                 episodeTitle: false,
-                originalAirDate: 'Program' !== displayItem.Type,
-                episodeTitleIndexNumber: 'Program' !== displayItem.Type,
+                originalAirDate: displayItem.Type !== 'Program',
+                episodeTitleIndexNumber: displayItem.Type !== 'Program',
                 programIndicator: false
             });
             var osdMediaInfo = view.querySelector('.osdMediaInfo');
@@ -240,7 +280,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function getDisplayTimeWithoutAmPm(date, showSeconds) {
+        /**
+         * @param date
+         * @param showSeconds
+         */
+        function getDisplayTimeWithoutAmPm (date, showSeconds) {
             if (showSeconds) {
                 return datetime.toLocaleTimeString(date, {
                     hour: 'numeric',
@@ -252,7 +296,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             return datetime.getDisplayTime(date).toLowerCase().replace('am', '').replace('pm', '').trim();
         }
 
-        function setDisplayTime(elem, date) {
+        /**
+         * @param elem
+         * @param date
+         */
+        function setDisplayTime (elem, date) {
             var html;
 
             if (date) {
@@ -263,11 +311,18 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             elem.innerHTML = html || '';
         }
 
-        function shouldEnableProgressByTimeOfDay(item) {
-            return !('TvChannel' !== item.Type || !item.CurrentProgram);
+        /**
+         * @param item
+         */
+        function shouldEnableProgressByTimeOfDay (item) {
+            return !(item.Type !== 'TvChannel' || !item.CurrentProgram);
         }
 
-        function updateNowPlayingInfo(player, state) {
+        /**
+         * @param player
+         * @param state
+         */
+        function updateNowPlayingInfo (player, state) {
             var item = state.NowPlayingItem;
 
             currentItem = item;
@@ -308,7 +363,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function setTitle(item, parentName) {
+        /**
+         * @param item
+         * @param parentName
+         */
+        function setTitle (item, parentName) {
             var url = logoImageUrl(item, connectionManager.getApiClient(item.ServerId), {});
 
             if (url) {
@@ -329,7 +388,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function setPoster(item, secondaryItem) {
+        /**
+         * @param item
+         * @param secondaryItem
+         */
+        function setPoster (item, secondaryItem) {
             var osdPoster = view.querySelector('.osdPoster');
 
             if (item) {
@@ -355,62 +418,91 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             osdPoster.innerHTML = '';
         }
 
-        function showOsd() {
+        /**
+         *
+         */
+        function showOsd () {
             slideDownToShow(headerElement);
             showMainOsdControls();
             startOsdHideTimer();
         }
 
-        function hideOsd() {
+        /**
+         *
+         */
+        function hideOsd () {
             slideUpToHide(headerElement);
             hideMainOsdControls();
         }
 
-        function toggleOsd() {
-            if ('osd' === currentVisibleMenu) {
+        /**
+         *
+         */
+        function toggleOsd () {
+            if (currentVisibleMenu === 'osd') {
                 hideOsd();
             } else if (!currentVisibleMenu) {
                 showOsd();
             }
         }
 
-        function startOsdHideTimer() {
+        /**
+         *
+         */
+        function startOsdHideTimer () {
             stopOsdHideTimer();
             osdHideTimeout = setTimeout(hideOsd, 5e3);
         }
 
-        function stopOsdHideTimer() {
+        /**
+         *
+         */
+        function stopOsdHideTimer () {
             if (osdHideTimeout) {
                 clearTimeout(osdHideTimeout);
                 osdHideTimeout = null;
             }
         }
 
-        function slideDownToShow(elem) {
+        /**
+         * @param elem
+         */
+        function slideDownToShow (elem) {
             elem.classList.remove('osdHeader-hidden');
         }
 
-        function slideUpToHide(elem) {
+        /**
+         * @param elem
+         */
+        function slideUpToHide (elem) {
             elem.classList.add('osdHeader-hidden');
         }
 
-        function clearHideAnimationEventListeners(elem) {
+        /**
+         * @param elem
+         */
+        function clearHideAnimationEventListeners (elem) {
             dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                 once: true
             });
         }
 
-        function onHideAnimationComplete(e) {
+        /**
+         * @param e
+         */
+        function onHideAnimationComplete (e) {
             var elem = e.target;
-            if (elem != osdBottomElement)
-                return;
+            if (elem != osdBottomElement) { return; }
             elem.classList.add('hide');
             dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                 once: true
             });
         }
 
-        function showMainOsdControls() {
+        /**
+         *
+         */
+        function showMainOsdControls () {
             if (!currentVisibleMenu) {
                 var elem = osdBottomElement;
                 currentVisibleMenu = 'osd';
@@ -427,8 +519,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function hideMainOsdControls() {
-            if ('osd' === currentVisibleMenu) {
+        /**
+         *
+         */
+        function hideMainOsdControls () {
+            if (currentVisibleMenu === 'osd') {
                 var elem = osdBottomElement;
                 clearHideAnimationEventListeners(elem);
                 elem.classList.add('videoOsdBottom-hidden');
@@ -440,8 +535,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function onPointerMove(e) {
-            if ('mouse' === (e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse'))) {
+        /**
+         * @param e
+         */
+        function onPointerMove (e) {
+            if ((e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse')) === 'mouse') {
                 var eventX = e.screenX || 0;
                 var eventY = e.screenY || 0;
                 var obj = lastPointerMoveData;
@@ -464,12 +562,15 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function onInputCommand(e) {
+        /**
+         * @param e
+         */
+        function onInputCommand (e) {
             var player = currentPlayer;
 
             switch (e.detail.command) {
             case 'left':
-                if ('osd' === currentVisibleMenu) {
+                if (currentVisibleMenu === 'osd') {
                     showOsd();
                 } else {
                     if (!currentVisibleMenu) {
@@ -481,7 +582,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                 break;
 
             case 'right':
-                if ('osd' === currentVisibleMenu) {
+                if (currentVisibleMenu === 'osd') {
                     showOsd();
                 } else if (!currentVisibleMenu) {
                     e.preventDefault();
@@ -523,7 +624,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function onRecordingCommand() {
+        /**
+         *
+         */
+        function onRecordingCommand () {
             var btnRecord = view.querySelector('.btnRecord');
 
             if (!btnRecord.classList.contains('hide')) {
@@ -531,7 +635,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function updateFullscreenIcon() {
+        /**
+         *
+         */
+        function updateFullscreenIcon () {
             if (playbackManager.isFullscreen(currentPlayer)) {
                 view.querySelector('.btnFullscreen').setAttribute('title', globalize.translate('ExitFullscreen'));
                 view.querySelector('.btnFullscreen i').innerHTML = 'fullscreen_exit';
@@ -541,11 +648,18 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function onPlayerChange() {
+        /**
+         *
+         */
+        function onPlayerChange () {
             bindToPlayer(playbackManager.getCurrentPlayer());
         }
 
-        function onStateChanged(event, state) {
+        /**
+         * @param event
+         * @param state
+         */
+        function onStateChanged (event, state) {
             var player = this;
 
             if (state.NowPlayingItem) {
@@ -556,27 +670,40 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function onPlayPauseStateChanged(e) {
+        /**
+         * @param e
+         */
+        function onPlayPauseStateChanged (e) {
             if (isEnabled) {
                 updatePlayPauseState(this.paused());
             }
         }
 
-        function onVolumeChanged(e) {
+        /**
+         * @param e
+         */
+        function onVolumeChanged (e) {
             if (isEnabled) {
                 var player = this;
                 updatePlayerVolumeState(player, player.isMuted(), player.getVolume());
             }
         }
 
-        function onPlaybackStart(e, state) {
+        /**
+         * @param e
+         * @param state
+         */
+        function onPlaybackStart (e, state) {
             console.log('nowplaying event: ' + e.type);
             var player = this;
             onStateChanged.call(player, e, state);
             resetUpNextDialog();
         }
 
-        function resetUpNextDialog() {
+        /**
+         *
+         */
+        function resetUpNextDialog () {
             comingUpNextDisplayed = false;
             var dlg = currentUpNextDialog;
 
@@ -586,18 +713,25 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function onPlaybackStopped(e, state) {
+        /**
+         * @param e
+         * @param state
+         */
+        function onPlaybackStopped (e, state) {
             currentRuntimeTicks = null;
             resetUpNextDialog();
             console.log('nowplaying event: ' + e.type);
 
-            if ('Video' !== state.NextMediaType) {
+            if (state.NextMediaType !== 'Video') {
                 view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
                 Emby.Page.back();
             }
         }
 
-        function onMediaStreamsChanged(e) {
+        /**
+         * @param e
+         */
+        function onMediaStreamsChanged (e) {
             var player = this;
             var state = playbackManager.getPlayerState(player);
             onStateChanged.call(player, {
@@ -605,15 +739,24 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }, state);
         }
 
-        function onBeginFetch() {
+        /**
+         *
+         */
+        function onBeginFetch () {
             document.querySelector('.osdMediaStatus').classList.remove('hide');
         }
 
-        function onEndFetch() {
+        /**
+         *
+         */
+        function onEndFetch () {
             document.querySelector('.osdMediaStatus').classList.add('hide');
         }
 
-        function bindToPlayer(player) {
+        /**
+         * @param player
+         */
+        function bindToPlayer (player) {
             if (player !== currentPlayer) {
                 releaseCurrentPlayer();
                 currentPlayer = player;
@@ -640,7 +783,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function releaseCurrentPlayer() {
+        /**
+         *
+         */
+        function releaseCurrentPlayer () {
             destroyStats();
             destroySubtitleSync();
             resetUpNextDialog();
@@ -659,7 +805,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function onTimeUpdate(e) {
+        /**
+         * @param e
+         */
+        function onTimeUpdate (e) {
             if (isEnabled) {
                 var now = new Date().getTime();
 
@@ -676,8 +825,14 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function showComingUpNextIfNeeded(player, currentItem, currentTimeTicks, runtimeTicks) {
-            if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && 'Episode' === currentItem.Type && userSettings.enableNextVideoInfoOverlay()) {
+        /**
+         * @param player
+         * @param currentItem
+         * @param currentTimeTicks
+         * @param runtimeTicks
+         */
+        function showComingUpNextIfNeeded (player, currentItem, currentTimeTicks, runtimeTicks) {
+            if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && currentItem.Type === 'Episode' && userSettings.enableNextVideoInfoOverlay()) {
                 var showAtSecondsLeft = runtimeTicks >= 3e10 ? 40 : runtimeTicks >= 24e9 ? 35 : 30;
                 var showAtTicks = runtimeTicks - 1e3 * showAtSecondsLeft * 1e4;
                 var timeRemainingTicks = runtimeTicks - currentTimeTicks;
@@ -688,13 +843,19 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function onUpNextHidden() {
-            if ('upnext' === currentVisibleMenu) {
+        /**
+         *
+         */
+        function onUpNextHidden () {
+            if (currentVisibleMenu === 'upnext') {
                 currentVisibleMenu = null;
             }
         }
 
-        function showComingUpNext(player) {
+        /**
+         * @param player
+         */
+        function showComingUpNext (player) {
             require(['upNextDialog'], function (UpNextDialog) {
                 if (!(currentVisibleMenu || currentUpNextDialog)) {
                     currentVisibleMenu = 'upnext';
@@ -711,8 +872,12 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             });
         }
 
-        function refreshProgramInfoIfNeeded(player, item) {
-            if ('TvChannel' === item.Type) {
+        /**
+         * @param player
+         * @param item
+         */
+        function refreshProgramInfoIfNeeded (player, item) {
+            if (item.Type === 'TvChannel') {
                 var program = item.CurrentProgram;
 
                 if (program && program.EndDate) {
@@ -733,7 +898,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function updatePlayPauseState(isPaused) {
+        /**
+         * @param isPaused
+         */
+        function updatePlayPauseState (isPaused) {
             var button = view.querySelector('.btnPause i');
             if (isPaused) {
                 button.innerHTML = 'play_arrow';
@@ -744,12 +912,17 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function updatePlayerStateInternal(event, player, state) {
+        /**
+         * @param event
+         * @param player
+         * @param state
+         */
+        function updatePlayerStateInternal (event, player, state) {
             var playState = state.PlayState || {};
             updatePlayPauseState(playState.IsPaused);
             var supportedCommands = playbackManager.getSupportedCommands(player);
             currentPlayerSupportedCommands = supportedCommands;
-            supportsBrightnessChange = -1 !== supportedCommands.indexOf('SetBrightness');
+            supportsBrightnessChange = supportedCommands.indexOf('SetBrightness') !== -1;
             updatePlayerVolumeState(player, playState.IsMuted, playState.VolumeLevel);
 
             if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
@@ -763,13 +936,13 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.BufferedRanges || []);
             updateNowPlayingInfo(player, state);
 
-            if (state.MediaSource && state.MediaSource.SupportsTranscoding && -1 !== supportedCommands.indexOf('SetMaxStreamingBitrate')) {
+            if (state.MediaSource && state.MediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
                 view.querySelector('.btnVideoOsdSettings').classList.remove('hide');
             } else {
                 view.querySelector('.btnVideoOsdSettings').classList.add('hide');
             }
 
-            var isProgressClear = state.MediaSource && null == state.MediaSource.RunTimeTicks;
+            var isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
             nowPlayingPositionSlider.setIsClear(isProgressClear);
 
             if (nowPlayingItem.RunTimeTicks) {
@@ -777,13 +950,13 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                     userSettings.skipForwardLength() * 1000000 / nowPlayingItem.RunTimeTicks);
             }
 
-            if (-1 === supportedCommands.indexOf('ToggleFullscreen') || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {
+            if (supportedCommands.indexOf('ToggleFullscreen') === -1 || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {
                 view.querySelector('.btnFullscreen').classList.add('hide');
             } else {
                 view.querySelector('.btnFullscreen').classList.remove('hide');
             }
 
-            if (-1 === supportedCommands.indexOf('PictureInPicture')) {
+            if (supportedCommands.indexOf('PictureInPicture') === -1) {
                 view.querySelector('.btnPip').classList.add('hide');
             } else {
                 view.querySelector('.btnPip').classList.remove('hide');
@@ -792,11 +965,22 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             updateFullscreenIcon();
         }
 
-        function getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, currentTimeMs) {
+        /**
+         * @param programStartDateMs
+         * @param programRuntimeMs
+         * @param currentTimeMs
+         */
+        function getDisplayPercentByTimeOfDay (programStartDateMs, programRuntimeMs, currentTimeMs) {
             return (currentTimeMs - programStartDateMs) / programRuntimeMs * 100;
         }
 
-        function updateTimeDisplay(positionTicks, runtimeTicks, playbackStartTimeTicks, bufferedRanges) {
+        /**
+         * @param positionTicks
+         * @param runtimeTicks
+         * @param playbackStartTimeTicks
+         * @param bufferedRanges
+         */
+        function updateTimeDisplay (positionTicks, runtimeTicks, playbackStartTimeTicks, bufferedRanges) {
             if (enableProgressByTimeOfDay) {
                 if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
                     if (programStartDateMs && programEndDateMs) {
@@ -831,7 +1015,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                         nowPlayingPositionSlider.value = 0;
                     }
 
-                    if (runtimeTicks && null != positionTicks && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && 'Recording' !== currentItem.Type) {
+                    if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording') {
                         endsAtText.innerHTML = '&nbsp;&nbsp;-&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, true);
                     } else {
                         endsAtText.innerHTML = '';
@@ -847,18 +1031,23 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function updatePlayerVolumeState(player, isMuted, volumeLevel) {
+        /**
+         * @param player
+         * @param isMuted
+         * @param volumeLevel
+         */
+        function updatePlayerVolumeState (player, isMuted, volumeLevel) {
             var supportedCommands = currentPlayerSupportedCommands;
             var showMuteButton = true;
             var showVolumeSlider = true;
             var volumeSlider = view.querySelector('.osdVolumeSliderContainer');
             var progressElement = volumeSlider.querySelector('.mdl-slider-background-lower');
 
-            if (-1 === supportedCommands.indexOf('Mute')) {
+            if (supportedCommands.indexOf('Mute') === -1) {
                 showMuteButton = false;
             }
 
-            if (-1 === supportedCommands.indexOf('SetVolume')) {
+            if (supportedCommands.indexOf('SetVolume') === -1) {
                 showVolumeSlider = false;
             }
 
@@ -898,7 +1087,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function updatePlaylist(player) {
+        /**
+         * @param player
+         */
+        function updatePlaylist (player) {
             var btnPreviousTrack = view.querySelector('.btnPreviousTrack');
             var btnNextTrack = view.querySelector('.btnNextTrack');
             btnPreviousTrack.classList.remove('hide');
@@ -907,8 +1099,13 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             btnPreviousTrack.disabled = false;
         }
 
-        function updateTimeText(elem, ticks, divider) {
-            if (null == ticks) {
+        /**
+         * @param elem
+         * @param ticks
+         * @param divider
+         */
+        function updateTimeText (elem, ticks, divider) {
+            if (ticks == null) {
                 elem.innerHTML = '';
                 return;
             }
@@ -922,14 +1119,16 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             elem.innerHTML = html;
         }
 
-        function onSettingsButtonClick(e) {
+        /**
+         * @param e
+         */
+        function onSettingsButtonClick (e) {
             var btn = this;
 
             require(['playerSettingsMenu'], function (playerSettingsMenu) {
                 var player = currentPlayer;
 
                 if (player) {
-
                     // show subtitle offset feature only if player and media support it
                     var showSubOffset = playbackManager.supportSubtitleOffset(player) &&
                         playbackManager.canHandleOffsetOnCurrentSubtitle(player);
@@ -946,10 +1145,13 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             });
         }
 
-        function onSettingsOption(selectedOption) {
-            if ('stats' === selectedOption) {
+        /**
+         * @param selectedOption
+         */
+        function onSettingsOption (selectedOption) {
+            if (selectedOption === 'stats') {
                 toggleStats();
-            } else if ('suboffset' === selectedOption) {
+            } else if (selectedOption === 'suboffset') {
                 var player = currentPlayer;
                 if (player) {
                     playbackManager.enableShowingSubtitleOffset(player);
@@ -958,7 +1160,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function toggleStats() {
+        /**
+         *
+         */
+        function toggleStats () {
             require(['playerStats'], function (PlayerStats) {
                 var player = currentPlayer;
 
@@ -974,14 +1179,20 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             });
         }
 
-        function destroyStats() {
+        /**
+         *
+         */
+        function destroyStats () {
             if (statsOverlay) {
                 statsOverlay.destroy();
                 statsOverlay = null;
             }
         }
 
-        function showAudioTrackSelection() {
+        /**
+         *
+         */
+        function showAudioTrackSelection () {
             var player = currentPlayer;
             var audioTracks = playbackManager.audioTracks(player);
             var currentIndex = playbackManager.getAudioStreamIndex(player);
@@ -1014,12 +1225,15 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             });
         }
 
-        function showSubtitleTrackSelection() {
+        /**
+         *
+         */
+        function showSubtitleTrackSelection () {
             var player = currentPlayer;
             var streams = playbackManager.subtitleTracks(player);
             var currentIndex = playbackManager.getSubtitleStreamIndex(player);
 
-            if (null == currentIndex) {
+            if (currentIndex == null) {
                 currentIndex = -1;
             }
 
@@ -1058,7 +1272,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             });
         }
 
-        function toggleSubtitleSync(action) {
+        /**
+         * @param action
+         */
+        function toggleSubtitleSync (action) {
             require(['subtitleSync'], function (SubtitleSync) {
                 var player = currentPlayer;
                 if (subtitleSyncOverlay) {
@@ -1069,7 +1286,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             });
         }
 
-        function destroySubtitleSync() {
+        /**
+         *
+         */
+        function destroySubtitleSync () {
             if (subtitleSyncOverlay) {
                 subtitleSyncOverlay.destroy();
                 subtitleSyncOverlay = null;
@@ -1081,8 +1301,11 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
          */
         var NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
-        function onWindowKeyDown(e) {
-            if (!currentVisibleMenu && 32 === e.keyCode) {
+        /**
+         * @param e
+         */
+        function onWindowKeyDown (e) {
+            if (!currentVisibleMenu && e.keyCode === 32) {
                 playbackManager.playPause(currentPlayer);
                 showOsd();
                 return;
@@ -1146,7 +1369,14 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function getImgUrl(item, chapter, index, maxWidth, apiClient) {
+        /**
+         * @param item
+         * @param chapter
+         * @param index
+         * @param maxWidth
+         * @param apiClient
+         */
+        function getImgUrl (item, chapter, index, maxWidth, apiClient) {
             if (chapter.ImageTag) {
                 return apiClient.getScaledImageUrl(item.Id, {
                     maxWidth: maxWidth,
@@ -1159,7 +1389,13 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             return null;
         }
 
-        function getChapterBubbleHtml(apiClient, item, chapters, positionTicks) {
+        /**
+         * @param apiClient
+         * @param item
+         * @param chapters
+         * @param positionTicks
+         */
+        function getChapterBubbleHtml (apiClient, item, chapters, positionTicks) {
             var chapter;
             var index = -1;
 
@@ -1195,7 +1431,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             return null;
         }
 
-        function onViewHideStopPlayback() {
+        /**
+         *
+         */
+        function onViewHideStopPlayback () {
             if (playbackManager.isPlayingVideo()) {
                 require(['shell'], function (shell) {
                     shell.disableFullscreen();
@@ -1208,7 +1447,10 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function enableStopOnBack(enabled) {
+        /**
+         * @param enabled
+         */
+        function enableStopOnBack (enabled) {
             view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
 
             if (enabled && playbackManager.isPlayingVideo(currentPlayer)) {
@@ -1277,7 +1519,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                     passive: true
                 });
             } catch (e) {
-                require(['appRouter'], function(appRouter) {
+                require(['appRouter'], function (appRouter) {
                     appRouter.showDirect('/');
                 });
             }
@@ -1382,7 +1624,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             if (!volumeSliderTimer) {
                 var that = this;
                 // register new timer
-                volumeSliderTimer = setTimeout(function() {
+                volumeSliderTimer = setTimeout(function () {
                     playbackManager.setVolume(that.value, currentPlayer);
                     // delete timer after completion
                     volumeSliderTimer = null;
@@ -1393,7 +1635,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             if (!volumeSliderTimer) {
                 var that = this;
                 // register new timer
-                volumeSliderTimer = setTimeout(function() {
+                volumeSliderTimer = setTimeout(function () {
                     playbackManager.setVolume(that.value, currentPlayer);
                     // delete timer after completion
                     volumeSliderTimer = null;

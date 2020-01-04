@@ -2,7 +2,10 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'emby-
     'use strict';
 
     return function (view, params, tabContent) {
-        function getPageData(context) {
+        /**
+         * @param context
+         */
+        function getPageData (context) {
             var key = getSavedQueryKey(context);
             var pageData = data[key];
 
@@ -27,11 +30,17 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'emby-
             return pageData;
         }
 
-        function getQuery(context) {
+        /**
+         * @param context
+         */
+        function getQuery (context) {
             return getPageData(context).query;
         }
 
-        function getSavedQueryKey(context) {
+        /**
+         * @param context
+         */
+        function getSavedQueryKey (context) {
             if (!context.savedQueryKey) {
                 context.savedQueryKey = libraryBrowser.getSavedQueryKey('songs');
             }
@@ -39,12 +48,18 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'emby-
             return context.savedQueryKey;
         }
 
-        function reloadItems(page) {
+        /**
+         * @param page
+         */
+        function reloadItems (page) {
             loading.show();
             isLoading = true;
             var query = getQuery(page);
             ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
-                function onNextPageClick() {
+                /**
+                 *
+                 */
+                function onNextPageClick () {
                     if (isLoading) {
                         return;
                     }
@@ -53,7 +68,10 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'emby-
                     reloadItems(tabContent);
                 }
 
-                function onPreviousPageClick() {
+                /**
+                 *
+                 */
+                function onPreviousPageClick () {
                     if (isLoading) {
                         return;
                     }
@@ -134,7 +152,10 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'emby-
             return getPageData(tabContent).view;
         };
 
-        function initPage(tabContent) {
+        /**
+         * @param tabContent
+         */
+        function initPage (tabContent) {
             tabContent.querySelector('.btnFilter').addEventListener('click', function () {
                 self.showFilterMenu();
             });

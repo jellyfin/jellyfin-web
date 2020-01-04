@@ -2,7 +2,10 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
     'use strict';
 
     return function (view, params, tabContent) {
-        function playAll() {
+        /**
+         *
+         */
+        function playAll () {
             ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
                 playbackManager.play({
                     items: [item]
@@ -10,14 +13,20 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
             });
         }
 
-        function shuffle() {
+        /**
+         *
+         */
+        function shuffle () {
             ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
                 getQuery();
                 playbackManager.shuffle(item, null);
             });
         }
 
-        function getPageData() {
+        /**
+         *
+         */
+        function getPageData () {
             var key = getSavedQueryKey();
 
             if (!pageData) {
@@ -42,11 +51,17 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
             return pageData;
         }
 
-        function getQuery() {
+        /**
+         *
+         */
+        function getQuery () {
             return getPageData().query;
         }
 
-        function getSavedQueryKey() {
+        /**
+         *
+         */
+        function getSavedQueryKey () {
             if (!savedQueryKey) {
                 savedQueryKey = libraryBrowser.getSavedQueryKey('musicalbums');
             }
@@ -54,11 +69,14 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
             return savedQueryKey;
         }
 
-        function onViewStyleChange() {
+        /**
+         *
+         */
+        function onViewStyleChange () {
             var viewStyle = self.getCurrentViewStyle();
             var itemsContainer = tabContent.querySelector('.itemsContainer');
 
-            if ('List' == viewStyle) {
+            if (viewStyle == 'List') {
                 itemsContainer.classList.add('vertical-list');
                 itemsContainer.classList.remove('vertical-wrap');
             } else {
@@ -69,12 +87,18 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
             itemsContainer.innerHTML = '';
         }
 
-        function reloadItems(page) {
+        /**
+         * @param page
+         */
+        function reloadItems (page) {
             loading.show();
             isLoading = true;
             var query = getQuery();
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
-                function onNextPageClick() {
+                /**
+                 *
+                 */
+                function onNextPageClick () {
                     if (isLoading) {
                         return;
                     }
@@ -83,7 +107,10 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
                     reloadItems(tabContent);
                 }
 
-                function onPreviousPageClick() {
+                /**
+                 *
+                 */
+                function onPreviousPageClick () {
                     if (isLoading) {
                         return;
                     }
@@ -167,7 +194,10 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
             });
         }
 
-        function updateFilterControls(tabContent) {
+        /**
+         * @param tabContent
+         */
+        function updateFilterControls (tabContent) {
             var query = getQuery();
             self.alphaPicker.value(query.NameStartsWithOrGreater);
         }
@@ -197,7 +227,10 @@ define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser
             return getPageData().view;
         };
 
-        function initPage(tabContent) {
+        /**
+         * @param tabContent
+         */
+        function initPage (tabContent) {
             var alphaPickerElement = tabContent.querySelector('.alphaPicker');
 
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {

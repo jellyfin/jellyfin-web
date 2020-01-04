@@ -1,7 +1,15 @@
 define(['jQuery', 'emby-checkbox', 'fnchecked'], function ($) {
     'use strict';
 
-    function fillItems(elem, items, cssClass, idPrefix, currentList, isEnabledList) {
+    /**
+     * @param elem
+     * @param items
+     * @param cssClass
+     * @param idPrefix
+     * @param currentList
+     * @param isEnabledList
+     */
+    function fillItems (elem, items, cssClass, idPrefix, currentList, isEnabledList) {
         var html = '<div class="checkboxList paperList" style="padding: .5em 1em;">';
         html += items.map(function (u) {
             var isChecked = isEnabledList ? currentList.indexOf(u.Id) != -1 : currentList.indexOf(u.Id) == -1;
@@ -12,7 +20,10 @@ define(['jQuery', 'emby-checkbox', 'fnchecked'], function ($) {
         elem.html(html).trigger('create');
     }
 
-    function reload(page) {
+    /**
+     * @param page
+     */
+    function reload (page) {
         var type = getParameterByName('type');
         var promise1 = ApiClient.getUsers();
         var promise2 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
@@ -55,7 +66,10 @@ define(['jQuery', 'emby-checkbox', 'fnchecked'], function ($) {
         });
     }
 
-    function save(page) {
+    /**
+     * @param page
+     */
+    function save (page) {
         var type = getParameterByName('type');
         var promise1 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
         var promise2 = ApiClient.getJSON(ApiClient.getUrl('Notifications/Types'));
@@ -100,7 +114,10 @@ define(['jQuery', 'emby-checkbox', 'fnchecked'], function ($) {
         });
     }
 
-    function onSubmit() {
+    /**
+     *
+     */
+    function onSubmit () {
         save($(this).parents('.page'));
         return false;
     }
@@ -109,7 +126,7 @@ define(['jQuery', 'emby-checkbox', 'fnchecked'], function ($) {
     $(document).on('pageinit', '#notificationSettingPage', function () {
         var page = this;
         $('#selectUsers', page).on('change', function () {
-            if ('Custom' == this.value) {
+            if (this.value == 'Custom') {
                 $('.selectCustomUsers', page).show();
             } else {
                 $('.selectCustomUsers', page).hide();

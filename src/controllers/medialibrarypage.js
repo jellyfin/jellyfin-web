@@ -1,7 +1,10 @@
 define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'globalize', 'dom', 'indicators', 'scripts/imagehelper', 'cardStyle', 'emby-itemrefreshindicator'], function ($, appHost, taskButton, loading, libraryMenu, globalize, dom, indicators, imageHelper) {
     'use strict';
 
-    function addVirtualFolder(page) {
+    /**
+     * @param page
+     */
+    function addVirtualFolder (page) {
         require(['medialibrarycreator'], function (medialibrarycreator) {
             new medialibrarycreator().show({
                 collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
@@ -16,7 +19,11 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         });
     }
 
-    function editVirtualFolder(page, virtualFolder) {
+    /**
+     * @param page
+     * @param virtualFolder
+     */
+    function editVirtualFolder (page, virtualFolder) {
         require(['medialibraryeditor'], function (medialibraryeditor) {
             new medialibraryeditor().show({
                 refresh: shouldRefreshLibraryAfterChanges(page),
@@ -29,7 +36,11 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         });
     }
 
-    function deleteVirtualFolder(page, virtualFolder) {
+    /**
+     * @param page
+     * @param virtualFolder
+     */
+    function deleteVirtualFolder (page, virtualFolder) {
         var msg = globalize.translate('MessageAreYouSureYouWishToRemoveMediaFolder');
 
         if (virtualFolder.Locations.length) {
@@ -54,7 +65,11 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         });
     }
 
-    function refreshVirtualFolder(page, virtualFolder) {
+    /**
+     * @param page
+     * @param virtualFolder
+     */
+    function refreshVirtualFolder (page, virtualFolder) {
         require(['refreshDialog'], function (refreshDialog) {
             new refreshDialog({
                 itemIds: [virtualFolder.ItemId],
@@ -64,7 +79,11 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         });
     }
 
-    function renameVirtualFolder(page, virtualFolder) {
+    /**
+     * @param page
+     * @param virtualFolder
+     */
+    function renameVirtualFolder (page, virtualFolder) {
         require(['prompt'], function (prompt) {
             prompt({
                 label: globalize.translate('LabelNewName'),
@@ -80,7 +99,12 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         });
     }
 
-    function showCardMenu(page, elem, virtualFolders) {
+    /**
+     * @param page
+     * @param elem
+     * @param virtualFolders
+     */
+    function showCardMenu (page, elem, virtualFolders) {
         var card = dom.parentWithClass(elem, 'card');
         var index = parseInt(card.getAttribute('data-index'));
         var virtualFolder = virtualFolders[index];
@@ -141,18 +165,28 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         });
     }
 
-    function reloadLibrary(page) {
+    /**
+     * @param page
+     */
+    function reloadLibrary (page) {
         loading.show();
         ApiClient.getVirtualFolders().then(function (result) {
             reloadVirtualFolders(page, result);
         });
     }
 
-    function shouldRefreshLibraryAfterChanges(page) {
-        return 'mediaLibraryPage' === page.id;
+    /**
+     * @param page
+     */
+    function shouldRefreshLibraryAfterChanges (page) {
+        return page.id === 'mediaLibraryPage';
     }
 
-    function reloadVirtualFolders(page, virtualFolders) {
+    /**
+     * @param page
+     * @param virtualFolders
+     */
+    function reloadVirtualFolders (page, virtualFolders) {
         var html = '';
         virtualFolders.push({
             Name: globalize.translate('ButtonAddMediaLibrary'),
@@ -191,7 +225,11 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         loading.hide();
     }
 
-    function editImages(page, virtualFolder) {
+    /**
+     * @param page
+     * @param virtualFolder
+     */
+    function editImages (page, virtualFolder) {
         require(['imageEditor'], function (imageEditor) {
             imageEditor.show({
                 itemId: virtualFolder.ItemId,
@@ -202,11 +240,18 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         });
     }
 
-    function getLink(text, url) {
+    /**
+     * @param text
+     * @param url
+     */
+    function getLink (text, url) {
         return globalize.translate(text, '<a is="emby-linkbutton" class="button-link" href="' + url + '" target="_blank" data-autohide="true">', '</a>');
     }
 
-    function getCollectionTypeOptions() {
+    /**
+     *
+     */
+    function getCollectionTypeOptions () {
         return [{
             name: '',
             value: ''
@@ -239,7 +284,12 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         }];
     }
 
-    function getVirtualFolderHtml(page, virtualFolder, index) {
+    /**
+     * @param page
+     * @param virtualFolder
+     * @param index
+     */
+    function getVirtualFolderHtml (page, virtualFolder, index) {
         var html = '';
         var style = '';
 
@@ -273,7 +323,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
 
         if (hasCardImageContainer) {
             html += '<div class="cardIndicators backdropCardIndicators">';
-            html += '<div is="emby-itemrefreshindicator"' + (virtualFolder.RefreshProgress || virtualFolder.RefreshStatus && 'Idle' !== virtualFolder.RefreshStatus ? '' : ' class="hide"') + ' data-progress="' + (virtualFolder.RefreshProgress || 0) + '" data-status="' + virtualFolder.RefreshStatus + '"></div>';
+            html += '<div is="emby-itemrefreshindicator"' + (virtualFolder.RefreshProgress || virtualFolder.RefreshStatus && virtualFolder.RefreshStatus !== 'Idle' ? '' : ' class="hide"') + ' data-progress="' + (virtualFolder.RefreshProgress || 0) + '" data-status="' + virtualFolder.RefreshStatus + '"></div>';
             html += '</div>';
             html += '</div>';
         }
@@ -344,7 +394,10 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
         return html;
     }
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             href: 'library.html',
             name: globalize.translate('HeaderLibraries')

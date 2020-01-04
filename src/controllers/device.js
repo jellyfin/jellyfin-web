@@ -1,12 +1,20 @@
 define(['loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button'], function (loading, libraryMenu, dom) {
     'use strict';
 
-    function load(page, device, deviceOptions) {
+    /**
+     * @param page
+     * @param device
+     * @param deviceOptions
+     */
+    function load (page, device, deviceOptions) {
         page.querySelector('#txtCustomName', page).value = deviceOptions.CustomName || '';
         page.querySelector('.reportedName', page).innerHTML = device.Name || '';
     }
 
-    function loadData() {
+    /**
+     *
+     */
+    function loadData () {
         var page = this;
         loading.show();
         var id = getParameterByName('id');
@@ -22,7 +30,10 @@ define(['loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button'], function 
         });
     }
 
-    function save(page) {
+    /**
+     * @param page
+     */
+    function save (page) {
         var id = getParameterByName('id');
         ApiClient.ajax({
             url: ApiClient.getUrl('Devices/Options', {
@@ -36,7 +47,10 @@ define(['loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button'], function 
         }).then(Dashboard.processServerConfigurationUpdateResult);
     }
 
-    function onSubmit(e) {
+    /**
+     * @param e
+     */
+    function onSubmit (e) {
         var form = this;
         save(dom.parentWithClass(form, 'page'));
         e.preventDefault();

@@ -1,17 +1,24 @@
-define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'humanedate', 'listViewStyle', 'emby-button'], function($, loading, events, globalize, serverNotifications) {
+define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'humanedate', 'listViewStyle', 'emby-button'], function ($, loading, events, globalize, serverNotifications) {
     'use strict';
 
-    function reloadList(page) {
+    /**
+     * @param page
+     */
+    function reloadList (page) {
         ApiClient.getScheduledTasks({
             isHidden: false
-        }).then(function(tasks) {
+        }).then(function (tasks) {
             populateList(page, tasks);
             loading.hide();
         })
     }
 
-    function populateList(page, tasks) {
-        tasks = tasks.sort(function(a, b) {
+    /**
+     * @param page
+     * @param tasks
+     */
+    function populateList (page, tasks) {
+        tasks = tasks.sort(function (a, b) {
             a = a.Category + ' ' + a.Name;
             b = b.Category + ' ' + b.Name;
             return a == b ? 0 : a < b ? -1 : 1;
@@ -62,7 +69,10 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'huma
         page.querySelector('.divScheduledTasks').innerHTML = html;
     }
 
-    function getTaskProgressHtml(task) {
+    /**
+     * @param task
+     */
+    function getTaskProgressHtml (task) {
         var html = '';
         if (task.State === 'Idle') {
             if (task.LastExecutionResult) {
@@ -90,7 +100,11 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'huma
         return html;
     }
 
-    function updateTaskButton(elem, state) {
+    /**
+     * @param elem
+     * @param state
+     */
+    function updateTaskButton (elem, state) {
         if (state === 'Running') {
             elem.classList.remove('btnStartTask');
             elem.classList.add('btnStopTask');
@@ -105,8 +119,11 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'huma
         $(elem).parents('.listItem')[0].setAttribute('data-status', state);
     }
 
-    return function(view, params) {
-        function updateTasks(tasks) {
+    return function (view, params) {
+        /**
+         * @param tasks
+         */
+        function updateTasks (tasks) {
             for (var i = 0; i < tasks.length; i++) {
                 var task = tasks[i];
                 view.querySelector('#taskProgress' + task.Id).innerHTML = getTaskProgressHtml(task);
@@ -114,25 +131,39 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'huma
             }
         }
 
-        function onPollIntervalFired() {
+        /**
+         *
+         */
+        function onPollIntervalFired () {
             if (!ApiClient.isMessageChannelOpen()) {
                 reloadList(view);
             }
         }
 
-        function onScheduledTasksUpdate(e, apiClient, info) {
+        /**
+         * @param e
+         * @param apiClient
+         * @param info
+         */
+        function onScheduledTasksUpdate (e, apiClient, info) {
             if (apiClient.serverId() === serverId) {
                 updateTasks(info);
             }
         }
 
-        function startInterval() {
+        /**
+         *
+         */
+        function startInterval () {
             ApiClient.sendMessage('ScheduledTasksInfoStart', '1000,1000');
             pollInterval && clearInterval(pollInterval);
             pollInterval = setInterval(onPollIntervalFired, 1e4);
         }
 
-        function stopInterval() {
+        /**
+         *
+         */
+        function stopInterval () {
             ApiClient.sendMessage('ScheduledTasksInfoStop');
             pollInterval && clearInterval(pollInterval);
         }
@@ -140,30 +171,30 @@ define(['jQuery', 'loading', 'events', 'globalize', 'serverNotifications', 'huma
         var pollInterval;
         var serverId = ApiClient.serverId();
 
-        $('.divScheduledTasks', view).on('click', '.btnStartTask', function() {
+        $('.divScheduledTasks', view).on('click', '.btnStartTask', function () {
             var button = this;
             var id = button.getAttribute('data-taskid');
-            ApiClient.startScheduledTask(id).then(function() {
+            ApiClient.startScheduledTask(id).then(function () {
                 updateTaskButton(button, 'Running');
                 reloadList(view);
             })
         });
 
-        $('.divScheduledTasks', view).on('click', '.btnStopTask', function() {
+        $('.divScheduledTasks', view).on('click', '.btnStopTask', function () {
             var button = this;
             var id = button.getAttribute('data-taskid');
-            ApiClient.stopScheduledTask(id).then(function() {
+            ApiClient.stopScheduledTask(id).then(function () {
                 updateTaskButton(button, '');
                 reloadList(view);
             })
         });
 
-        view.addEventListener('viewbeforehide', function() {
+        view.addEventListener('viewbeforehide', function () {
             events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
             stopInterval();
         });
 
-        view.addEventListener('viewshow', function() {
+        view.addEventListener('viewshow', function () {
             loading.show();
             startInterval();
             reloadList(view);

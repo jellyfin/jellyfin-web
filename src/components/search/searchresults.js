@@ -1,8 +1,12 @@
 define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 'cardBuilder', 'appRouter', 'emby-scroller', 'emby-itemscontainer', 'emby-button'], function (layoutManager, globalize, require, events, connectionManager, cardBuilder, appRouter) {
     'use strict';
 
-    function loadSuggestions(instance, context, apiClient) {
-
+    /**
+     * @param instance
+     * @param context
+     * @param apiClient
+     */
+    function loadSuggestions (instance, context, apiClient) {
         var options = {
 
             SortBy: 'IsFavoriteOrLiked,Random',
@@ -16,20 +20,17 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         };
 
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
-
             if (instance.mode !== 'suggestions') {
                 result.Items = [];
             }
 
             var html = result.Items.map(function (i) {
-
                 var href = appRouter.getRouteUrl(i);
 
                 var itemHtml = '<div><a is="emby-linkbutton" class="button-link" style="display:inline-block;padding:.5em 1em;" href="' + href + '">';
                 itemHtml += i.Name;
                 itemHtml += '</a></div>';
                 return itemHtml;
-
             }).join('');
 
             var searchSuggestions = context.querySelector('.searchSuggestions');
@@ -41,8 +42,12 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         });
     }
 
-    function getSearchHints(instance, apiClient, query) {
-
+    /**
+     * @param instance
+     * @param apiClient
+     * @param query
+     */
+    function getSearchHints (instance, apiClient, query) {
         if (!query.searchTerm) {
             return Promise.resolve({
                 SearchHints: []
@@ -121,7 +126,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
 
         // Convert the search hint query to a regular item query
         if (apiClient.isMinServerVersion('3.4.1.31')) {
-
             query.Fields = 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount';
             query.Recursive = true;
             query.EnableTotalRecordCount = false;
@@ -132,7 +136,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             if (!query.IncludeMedia) {
                 if (query.IncludePeople) {
                     methodName = 'getPeople';
-
                 } else if (query.IncludeArtists) {
                     methodName = 'getArtists';
                 }
@@ -146,8 +149,13 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         return apiClient.getSearchHints(query);
     }
 
-    function search(instance, apiClient, context, value) {
-
+    /**
+     * @param instance
+     * @param apiClient
+     * @param context
+     * @param value
+     */
+    function search (instance, apiClient, context, value) {
         if (value || layoutManager.tv) {
             instance.mode = 'search';
             context.querySelector('.searchSuggestions').classList.add('hide');
@@ -157,7 +165,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         }
 
         if (instance.options.collectionType === 'livetv') {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -186,7 +193,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 showChannelName: true
             });
         } else {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -223,7 +229,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         });
 
         if (instance.options.collectionType === 'livetv') {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -252,9 +257,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 showAirDateTime: true,
                 showChannelName: true
             });
-
         } else {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -551,19 +554,30 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         });
     }
 
-    function searchType(instance, apiClient, query, context, section, cardOptions) {
-
+    /**
+     * @param instance
+     * @param apiClient
+     * @param query
+     * @param context
+     * @param section
+     * @param cardOptions
+     */
+    function searchType (instance, apiClient, query, context, section, cardOptions) {
         query.Limit = enableScrollX() ? 24 : 16;
         query.ParentId = instance.options.parentId;
 
         getSearchHints(instance, apiClient, query).then(function (result) {
-
             populateResults(result, context, section, cardOptions);
         });
     }
 
-    function populateResults(result, context, section, cardOptions) {
-
+    /**
+     * @param result
+     * @param context
+     * @param section
+     * @param cardOptions
+     */
+    function populateResults (result, context, section, cardOptions) {
         section = context.querySelector(section);
 
         var items = result.Items || result.SearchHints;
@@ -583,19 +597,30 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         }, cardOptions || {}));
     }
 
-    function enableScrollX() {
+    /**
+     *
+     */
+    function enableScrollX () {
         return true;
     }
 
-    function replaceAll(originalString, strReplace, strWith) {
+    /**
+     * @param originalString
+     * @param strReplace
+     * @param strWith
+     */
+    function replaceAll (originalString, strReplace, strWith) {
         var reg = new RegExp(strReplace, 'ig');
         return originalString.replace(reg, strWith);
     }
 
-    function embed(elem, instance, options) {
-
+    /**
+     * @param elem
+     * @param instance
+     * @param options
+     */
+    function embed (elem, instance, options) {
         require(['text!./searchresults.template.html'], function (template) {
-
             if (!enableScrollX()) {
                 template = replaceAll(template, 'data-horizontal="true"', 'data-horizontal="false"');
                 template = replaceAll(template, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');
@@ -610,27 +635,26 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         });
     }
 
-    function SearchResults(options) {
-
+    /**
+     * @param options
+     */
+    function SearchResults (options) {
         this.options = options;
         embed(options.element, this, options);
     }
 
     SearchResults.prototype.search = function (value) {
-
         var apiClient = connectionManager.getApiClient(this.options.serverId);
 
         search(this, apiClient, this.options.element, value);
     };
 
     SearchResults.prototype.destroy = function () {
-
         var options = this.options;
         if (options) {
             options.element.classList.remove('searchFields');
         }
         this.options = null;
-
     };
 
     return SearchResults;

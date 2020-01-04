@@ -1,23 +1,38 @@
 define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'apphost', 'layoutManager', 'focusManager', 'emby-itemscontainer', 'emby-scroller'], function (appRouter, cardBuilder, dom, globalize, connectionManager, appHost, layoutManager, focusManager) {
     'use strict';
 
-    function enableScrollX() {
+    /**
+     *
+     */
+    function enableScrollX () {
         return true;
     }
 
-    function getThumbShape() {
+    /**
+     *
+     */
+    function getThumbShape () {
         return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
     }
 
-    function getPosterShape() {
+    /**
+     *
+     */
+    function getPosterShape () {
         return enableScrollX() ? 'overflowPortrait' : 'portrait';
     }
 
-    function getSquareShape() {
+    /**
+     *
+     */
+    function getSquareShape () {
         return enableScrollX() ? 'overflowSquare' : 'square';
     }
 
-    function getSections() {
+    /**
+     *
+     */
+    function getSections () {
         return [{
             name: 'HeaderFavoriteMovies',
             types: 'Movie',
@@ -131,7 +146,10 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
         }];
     }
 
-    function getFetchDataFn(section) {
+    /**
+     * @param section
+     */
+    function getFetchDataFn (section) {
         return function () {
             var apiClient = this.apiClient;
             var options = {
@@ -147,11 +165,11 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
             options.Limit = 20;
             var userId = apiClient.getCurrentUserId();
 
-            if ('MusicArtist' === section.types) {
+            if (section.types === 'MusicArtist') {
                 return apiClient.getArtists(userId, options);
             }
 
-            if ('Person' === section.types) {
+            if (section.types === 'Person') {
                 return apiClient.getPeople(userId, options);
             }
 
@@ -160,7 +178,11 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
         };
     }
 
-    function getRouteUrl(section, serverId) {
+    /**
+     * @param section
+     * @param serverId
+     */
+    function getRouteUrl (section, serverId) {
         return appRouter.getRouteUrl('list', {
             serverId: serverId,
             itemTypes: section.types,
@@ -168,7 +190,10 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
         });
     }
 
-    function getItemsHtmlFn(section) {
+    /**
+     * @param section
+     */
+    function getItemsHtmlFn (section) {
         return function (items) {
             var supportsImageAnalysis = appHost.supports('imageanalysis');
             var cardLayout = (appHost.preferVisualCards || supportsImageAnalysis) && section.autoCardLayout && section.showTitle;
@@ -199,7 +224,7 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
                 preferThumb: section.preferThumb,
                 shape: section.shape,
                 centerText: section.centerText && !cardLayout,
-                overlayText: false !== section.overlayText,
+                overlayText: section.overlayText !== false,
                 showTitle: section.showTitle,
                 showYear: section.showYear,
                 showParentTitle: section.showParentTitle,
@@ -216,7 +241,11 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
         };
     }
 
-    function FavoritesTab(view, params) {
+    /**
+     * @param view
+     * @param params
+     */
+    function FavoritesTab (view, params) {
         this.view = view;
         this.params = params;
         this.apiClient = connectionManager.currentApiClient();
@@ -224,7 +253,12 @@ define(['appRouter', 'cardBuilder', 'dom', 'globalize', 'connectionManager', 'ap
         createSections(this, this.sectionsContainer, this.apiClient);
     }
 
-    function createSections(instance, elem, apiClient) {
+    /**
+     * @param instance
+     * @param elem
+     * @param apiClient
+     */
+    function createSections (instance, elem, apiClient) {
         var i;
         var length;
         var sections = getSections();

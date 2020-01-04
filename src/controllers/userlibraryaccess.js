@@ -1,20 +1,28 @@
 define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, libraryMenu) {
     'use strict';
 
-    function triggerChange(select) {
+    /**
+     * @param select
+     */
+    function triggerChange (select) {
         var evt = document.createEvent('HTMLEvents');
         evt.initEvent('change', false, true);
         select.dispatchEvent(evt);
     }
 
-    function loadMediaFolders(page, user, mediaFolders) {
+    /**
+     * @param page
+     * @param user
+     * @param mediaFolders
+     */
+    function loadMediaFolders (page, user, mediaFolders) {
         var html = '';
         html += '<h3 class="checkboxListLabel">' + Globalize.translate('HeaderLibraries') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
         for (var i = 0, length = mediaFolders.length; i < length; i++) {
             var folder = mediaFolders[i];
-            var isChecked = user.Policy.EnableAllFolders || -1 != user.Policy.EnabledFolders.indexOf(folder.Id);
+            var isChecked = user.Policy.EnableAllFolders || user.Policy.EnabledFolders.indexOf(folder.Id) != -1;
             var checkedAttribute = isChecked ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
         }
@@ -26,14 +34,19 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         triggerChange(chkEnableAllFolders);
     }
 
-    function loadChannels(page, user, channels) {
+    /**
+     * @param page
+     * @param user
+     * @param channels
+     */
+    function loadChannels (page, user, channels) {
         var html = '';
         html += '<h3 class="checkboxListLabel">' + Globalize.translate('HeaderChannels') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
         for (var i = 0, length = channels.length; i < length; i++) {
             var folder = channels[i];
-            var isChecked = user.Policy.EnableAllChannels || -1 != user.Policy.EnabledChannels.indexOf(folder.Id);
+            var isChecked = user.Policy.EnableAllChannels || user.Policy.EnabledChannels.indexOf(folder.Id) != -1;
             var checkedAttribute = isChecked ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkChannel" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
         }
@@ -50,14 +63,19 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         $('#chkEnableAllChannels', page).checked(user.Policy.EnableAllChannels).trigger('change');
     }
 
-    function loadDevices(page, user, devices) {
+    /**
+     * @param page
+     * @param user
+     * @param devices
+     */
+    function loadDevices (page, user, devices) {
         var html = '';
         html += '<h3 class="checkboxListLabel">' + Globalize.translate('HeaderDevices') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
         for (var i = 0, length = devices.length; i < length; i++) {
             var device = devices[i];
-            var checkedAttribute = user.Policy.EnableAllDevices || -1 != user.Policy.EnabledDevices.indexOf(device.Id) ? ' checked="checked"' : '';
+            var checkedAttribute = user.Policy.EnableAllDevices || user.Policy.EnabledDevices.indexOf(device.Id) != -1 ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkDevice" data-id="' + device.Id + '" ' + checkedAttribute + '><span>' + device.Name + ' - ' + device.AppName + '</span></label>';
         }
 
@@ -72,7 +90,15 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         }
     }
 
-    function loadUser(page, user, loggedInUser, mediaFolders, channels, devices) {
+    /**
+     * @param page
+     * @param user
+     * @param loggedInUser
+     * @param mediaFolders
+     * @param channels
+     * @param devices
+     */
+    function loadUser (page, user, loggedInUser, mediaFolders, channels, devices) {
         page.querySelector('.username').innerHTML = user.Name;
         libraryMenu.setTitle(user.Name);
         loadChannels(page, user, channels);
@@ -81,7 +107,10 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         loading.hide();
     }
 
-    function onSaveComplete(page) {
+    /**
+     * @param page
+     */
+    function onSaveComplete (page) {
         loading.hide();
 
         require(['toast'], function (toast) {
@@ -89,7 +118,11 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         });
     }
 
-    function saveUser(user, page) {
+    /**
+     * @param user
+     * @param page
+     */
+    function saveUser (user, page) {
         user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).checked();
         user.Policy.EnabledFolders = user.Policy.EnableAllFolders ? [] : $('.chkFolder', page).get().filter(function (c) {
             return c.checked;
@@ -115,7 +148,10 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         });
     }
 
-    function onSubmit() {
+    /**
+     *
+     */
+    function onSubmit () {
         var page = $(this).parents('.page');
         loading.show();
         var userId = getParameterByName('userId');

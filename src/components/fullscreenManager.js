@@ -1,12 +1,14 @@
 define(['events', 'dom', 'apphost', 'browser'], function (events, dom, appHost, browser) {
     'use strict';
 
-    function fullscreenManager() {
+    /**
+     *
+     */
+    function fullscreenManager () {
 
     }
 
     fullscreenManager.prototype.requestFullscreen = function (element) {
-
         element = element || document.documentElement;
 
         if (element.requestFullscreen) {
@@ -33,7 +35,6 @@ define(['events', 'dom', 'apphost', 'browser'], function (events, dom, appHost, 
     };
 
     fullscreenManager.prototype.exitFullscreen = function () {
-
         if (!this.isFullScreen()) {
             return;
         }
@@ -63,7 +64,10 @@ define(['events', 'dom', 'apphost', 'browser'], function (events, dom, appHost, 
 
     var manager = new fullscreenManager();
 
-    function onFullScreenChange() {
+    /**
+     *
+     */
+    function onFullScreenChange () {
         events.trigger(manager, 'fullscreenchange');
     }
 
@@ -79,13 +83,14 @@ define(['events', 'dom', 'apphost', 'browser'], function (events, dom, appHost, 
         passive: true
     });
 
-    function isTargetValid(target) {
+    /**
+     * @param target
+     */
+    function isTargetValid (target) {
         return !dom.parentWithTag(target, ['BUTTON', 'INPUT', 'TEXTAREA']);
     }
-    if (appHost.supports('fullscreenchange') && (browser.edgeUwp || -1 !== navigator.userAgent.toLowerCase().indexOf('electron'))) {
-
+    if (appHost.supports('fullscreenchange') && (browser.edgeUwp || navigator.userAgent.toLowerCase().indexOf('electron') !== -1)) {
         dom.addEventListener(window, 'dblclick', function (e) {
-
             if (isTargetValid(e.target)) {
                 if (manager.isFullScreen()) {
                     manager.exitFullscreen();
@@ -93,7 +98,6 @@ define(['events', 'dom', 'apphost', 'browser'], function (events, dom, appHost, 
                     manager.requestFullscreen();
                 }
             }
-
         }, {
             passive: true
         });

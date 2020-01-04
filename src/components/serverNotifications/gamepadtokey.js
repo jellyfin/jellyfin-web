@@ -164,25 +164,33 @@ require(['apphost'], function (appHost) {
 
     var times = {};
 
-    function throttle(key) {
+    /**
+     * @param key
+     */
+    function throttle (key) {
         var time = times[key] || 0;
         var now = new Date().getTime();
 
         if ((now - time) >= 200) {
-            //times[key] = now;
+            // times[key] = now;
             return true;
         }
 
         return false;
     }
 
-    function resetThrottle(key) {
+    /**
+     * @param key
+     */
+    function resetThrottle (key) {
         times[key] = new Date().getTime();
     }
 
     var isElectron = navigator.userAgent.toLowerCase().indexOf('electron') !== -1;
-    function allowInput() {
-
+    /**
+     *
+     */
+    function allowInput () {
         // This would be nice but always seems to return true with electron
         if (!isElectron && document.hidden) {
             return false;
@@ -195,8 +203,12 @@ require(['apphost'], function (appHost) {
         return true;
     }
 
-    function raiseEvent(name, key, keyCode) {
-
+    /**
+     * @param name
+     * @param key
+     * @param keyCode
+     */
+    function raiseEvent (name, key, keyCode) {
         if (!allowInput()) {
             return;
         }
@@ -208,8 +220,10 @@ require(['apphost'], function (appHost) {
         (document.activeElement || document.body).dispatchEvent(event);
     }
 
-    function clickElement(elem) {
-
+    /**
+     * @param elem
+     */
+    function clickElement (elem) {
         if (!allowInput()) {
             return;
         }
@@ -217,11 +231,17 @@ require(['apphost'], function (appHost) {
         elem.click();
     }
 
-    function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRepeatKeyDown, clickonKeyUp) {
-
+    /**
+     * @param oldPressedState
+     * @param newPressedState
+     * @param key
+     * @param keyCode
+     * @param enableRepeatKeyDown
+     * @param clickonKeyUp
+     */
+    function raiseKeyEvent (oldPressedState, newPressedState, key, keyCode, enableRepeatKeyDown, clickonKeyUp) {
         // No-op if oldPressedState === newPressedState
         if (newPressedState === true) {
-
             // button down
             var fire = false;
 
@@ -236,9 +256,7 @@ require(['apphost'], function (appHost) {
             if (fire && keyCode) {
                 raiseEvent('keydown', key, keyCode);
             }
-
         } else if (newPressedState === false && oldPressedState === true) {
-
             resetThrottle(key);
 
             // button up
@@ -251,7 +269,10 @@ require(['apphost'], function (appHost) {
         }
     }
 
-    function runInputLoop() {
+    /**
+     *
+     */
+    function runInputLoop () {
         // Get the latest gamepad state.
         var gamepads;
         if (navigator.getGamepads) {
@@ -288,7 +309,6 @@ require(['apphost'], function (appHost) {
                 var buttons = gamepad.buttons;
                 for (j = 0, len = buttons.length; j < len; j++) {
                     if (ProcessedButtons.indexOf(j) !== -1) {
-
                         if (buttons[j].pressed) {
                             switch (j) {
                             case _GAMEPAD_DPAD_UP_BUTTON_INDEX:
@@ -368,5 +388,4 @@ require(['apphost'], function (appHost) {
         // and provide input to the DOM navigator.getGamepads API.
         window.navigator.gamepadInputEmulation = 'gamepad';
     }
-
 });

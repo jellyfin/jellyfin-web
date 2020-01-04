@@ -3,8 +3,10 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
 
     var EmbySelectPrototype = Object.create(HTMLSelectElement.prototype);
 
-    function enableNativeMenu() {
-
+    /**
+     *
+     */
+    function enableNativeMenu () {
         if (browser.edgeUwp || browser.xboxOne) {
             return true;
         }
@@ -26,19 +28,27 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
         return true;
     }
 
-    function triggerChange(select) {
+    /**
+     * @param select
+     */
+    function triggerChange (select) {
         var evt = document.createEvent('HTMLEvents');
         evt.initEvent('change', false, true);
         select.dispatchEvent(evt);
     }
 
-    function setValue(select, value) {
-
+    /**
+     * @param select
+     * @param value
+     */
+    function setValue (select, value) {
         select.value = value;
     }
 
-    function showActionSheet(select) {
-
+    /**
+     * @param select
+     */
+    function showActionSheet (select) {
         var labelElem = getLabel(select);
         var title = labelElem ? (labelElem.textContent || labelElem.innerText) : null;
 
@@ -53,7 +63,10 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
         });
     }
 
-    function getLabel(select) {
+    /**
+     * @param select
+     */
+    function getLabel (select) {
         var elem = select.previousSibling;
         while (elem && elem.tagName !== 'LABEL') {
             elem = elem.previousSibling;
@@ -61,22 +74,30 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
         return elem;
     }
 
-    function onFocus(e) {
+    /**
+     * @param e
+     */
+    function onFocus (e) {
         var label = getLabel(this);
         if (label) {
             label.classList.add('selectLabelFocused');
         }
     }
 
-    function onBlur(e) {
+    /**
+     * @param e
+     */
+    function onBlur (e) {
         var label = getLabel(this);
         if (label) {
             label.classList.remove('selectLabelFocused');
         }
     }
 
-    function onMouseDown(e) {
-
+    /**
+     * @param e
+     */
+    function onMouseDown (e) {
         // e.button=0 for primary (left) mouse button click
         if (!e.button && !enableNativeMenu()) {
             e.preventDefault();
@@ -84,10 +105,11 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
         }
     }
 
-    function onKeyDown(e) {
-
+    /**
+     * @param e
+     */
+    function onKeyDown (e) {
         switch (e.keyCode) {
-
         case 13:
             if (!enableNativeMenu()) {
                 e.preventDefault();
@@ -101,7 +123,7 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
             if (layoutManager.tv) {
                 e.preventDefault();
             }
-            return;
+
         default:
             break;
         }
@@ -110,7 +132,6 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
     var inputId = 0;
 
     EmbySelectPrototype.createdCallback = function () {
-
         if (!this.id) {
             this.id = 'embyselect' + inputId;
             inputId++;
@@ -130,7 +151,6 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
     };
 
     EmbySelectPrototype.attachedCallback = function () {
-
         if (this.classList.contains('emby-select')) {
             return;
         }
@@ -149,7 +169,6 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
     };
 
     EmbySelectPrototype.setLabel = function (text) {
-
         var label = this.parentNode.querySelector('label');
 
         label.innerHTML = text;

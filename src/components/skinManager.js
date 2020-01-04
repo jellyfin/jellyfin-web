@@ -4,7 +4,10 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
     var themeStyleElement;
     var currentThemeId;
 
-    function unloadTheme() {
+    /**
+     *
+     */
+    function unloadTheme () {
         var elem = themeStyleElement;
         if (elem) {
             elem.parentNode.removeChild(elem);
@@ -13,7 +16,10 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         }
     }
 
-    function loadUserSkin(options) {
+    /**
+     * @param options
+     */
+    function loadUserSkin (options) {
         options = options || {};
         if (options.start) {
             Emby.Page.invokeShortcut(options.start);
@@ -22,7 +28,10 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         }
     }
 
-    function getThemes() {
+    /**
+     *
+     */
+    function getThemes () {
         return [{
             name: 'Apple TV',
             id: 'appletv'
@@ -54,13 +63,16 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         loadUserSkin: loadUserSkin
     };
 
-    function getThemeStylesheetInfo(id, isDefaultProperty) {
+    /**
+     * @param id
+     * @param isDefaultProperty
+     */
+    function getThemeStylesheetInfo (id, isDefaultProperty) {
         var themes = skinManager.getThemes();
         var defaultTheme;
         var selectedTheme;
 
         for (var i = 0, length = themes.length; i < length; i++) {
-
             var theme = themes[i];
             if (theme[isDefaultProperty]) {
                 defaultTheme = theme;
@@ -81,7 +93,10 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
     var lastSound = 0;
     var currentSound;
 
-    function loadThemeResources(id) {
+    /**
+     * @param id
+     */
+    function loadThemeResources (id) {
         lastSound = 0;
         if (currentSound) {
             currentSound.stop();
@@ -91,7 +106,10 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         backdrop.clear();
     }
 
-    function onThemeLoaded() {
+    /**
+     *
+     */
+    function onThemeLoaded () {
         document.documentElement.classList.remove('preload');
         try {
             var color = getComputedStyle(document.querySelector('.skinHeader')).getPropertyValue('background-color');
@@ -138,7 +156,10 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         });
     };
 
-    function onViewBeforeShow(e) {
+    /**
+     * @param e
+     */
+    function onViewBeforeShow (e) {
         if (e.detail && e.detail.type === 'video-osd') {
             return;
         }
@@ -162,7 +183,11 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
     document.addEventListener('viewshow', onViewBeforeShow);
 
-    function playSound(path, volume) {
+    /**
+     * @param path
+     * @param volume
+     */
+    function playSound (path, volume) {
         lastSound = new Date().getTime();
         require(['howler'], function (howler) {
             try {

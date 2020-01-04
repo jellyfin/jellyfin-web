@@ -1,7 +1,12 @@
 define(['jQuery', 'loading', 'libraryMenu'], function ($, loading, libraryMenu) {
     'use strict';
 
-    function loadPage(page, config, users) {
+    /**
+     * @param page
+     * @param config
+     * @param users
+     */
+    function loadPage (page, config, users) {
         var html = '<option value="" selected="selected">' + Globalize.translate('OptionNone') + '</option>';
         html += users.map(function (user) {
             return '<option value="' + user.Id + '">' + user.Name + '</option>';
@@ -14,7 +19,10 @@ define(['jQuery', 'loading', 'libraryMenu'], function ($, loading, libraryMenu) 
         loading.hide();
     }
 
-    function onSubmit() {
+    /**
+     *
+     */
+    function onSubmit () {
         loading.show();
         var form = this;
         ApiClient.getNamedConfiguration(metadataKey).then(function (config) {
@@ -31,7 +39,10 @@ define(['jQuery', 'loading', 'libraryMenu'], function ($, loading, libraryMenu) 
         return false;
     }
 
-    function showConfirmMessage(config) {
+    /**
+     * @param config
+     */
+    function showConfirmMessage (config) {
         var msg = [];
         msg.push(Globalize.translate('MetadataSettingChangeHelp'));
 
@@ -42,7 +53,10 @@ define(['jQuery', 'loading', 'libraryMenu'], function ($, loading, libraryMenu) 
         });
     }
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             href: 'library.html',
             name: Globalize.translate('HeaderLibraries')

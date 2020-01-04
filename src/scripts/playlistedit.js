@@ -1,7 +1,10 @@
 define(['listView'], function (listView) {
     'use strict';
 
-    function getFetchPlaylistItemsFn(itemId) {
+    /**
+     * @param itemId
+     */
+    function getFetchPlaylistItemsFn (itemId) {
         return function () {
             var query = {
                 Fields: 'PrimaryImageAspectRatio,UserData',
@@ -12,7 +15,10 @@ define(['listView'], function (listView) {
         };
     }
 
-    function getItemsHtmlFn(itemId) {
+    /**
+     * @param itemId
+     */
+    function getItemsHtmlFn (itemId) {
         return function (items) {
             return listView.getListViewHtml({
                 items: items,
@@ -27,7 +33,11 @@ define(['listView'], function (listView) {
         };
     }
 
-    function init(page, item) {
+    /**
+     * @param page
+     * @param item
+     */
+    function init (page, item) {
         var elem = page.querySelector('#childrenContent .itemsContainer');
         elem.classList.add('vertical-list');
         elem.classList.remove('vertical-wrap');

@@ -1,7 +1,11 @@
 define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-icon-button-light'], function ($, datetime, loading, libraryMenu) {
     'use strict';
 
-    function populateRatings(allParentalRatings, page) {
+    /**
+     * @param allParentalRatings
+     * @param page
+     */
+    function populateRatings (allParentalRatings, page) {
         var html = '';
         html += "<option value=''></option>";
         var i;
@@ -33,7 +37,11 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-
         $('#selectMaxParentalRating', page).html(html);
     }
 
-    function loadUnratedItems(page, user) {
+    /**
+     * @param page
+     * @param user
+     */
+    function loadUnratedItems (page, user) {
         var items = [{
             name: Globalize.translate('OptionBlockBooks'),
             value: 'Book'
@@ -62,7 +70,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-
 
         for (var i = 0, length = items.length; i < length; i++) {
             var item = items[i];
-            var checkedAttribute = -1 != user.Policy.BlockUnratedItems.indexOf(item.value) ? ' checked="checked"' : '';
+            var checkedAttribute = user.Policy.BlockUnratedItems.indexOf(item.value) != -1 ? ' checked="checked"' : '';
             html += '<label><input type="checkbox" is="emby-checkbox" class="chkUnratedItem" data-itemtype="' + item.value + '" type="checkbox"' + checkedAttribute + '><span>' + item.name + '</span></label>';
         }
 
@@ -70,7 +78,12 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-
         $('.blockUnratedItems', page).html(html).trigger('create');
     }
 
-    function loadUser(page, user, allParentalRatings) {
+    /**
+     * @param page
+     * @param user
+     * @param allParentalRatings
+     */
+    function loadUser (page, user, allParentalRatings) {
         page.querySelector('.username').innerHTML = user.Name;
         libraryMenu.setTitle(user.Name);
         loadUnratedItems(page, user);
@@ -100,7 +113,11 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-
         loading.hide();
     }
 
-    function loadBlockedTags(page, tags) {
+    /**
+     * @param page
+     * @param tags
+     */
+    function loadBlockedTags (page, tags) {
         var html = tags.map(function (h) {
             var li = '<div class="listItem">';
             li += '<div class="listItemBody">';
@@ -126,12 +143,21 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-
         });
     }
 
-    function deleteAccessSchedule(page, schedules, index) {
+    /**
+     * @param page
+     * @param schedules
+     * @param index
+     */
+    function deleteAccessSchedule (page, schedules, index) {
         schedules.splice(index, 1);
         renderAccessSchedule(page, schedules);
     }
 
-    function renderAccessSchedule(page, schedules) {
+    /**
+     * @param page
+     * @param schedules
+     */
+    function renderAccessSchedule (page, schedules) {
         var html = '';
         var index = 0;
         html += schedules.map(function (a) {
@@ -155,7 +181,10 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-
         });
     }
 
-    function onSaveComplete(page) {
+    /**
+     * @param page
+     */
+    function onSaveComplete (page) {
         loading.hide();
 
         require(['toast'], function (toast) {
@@ -163,7 +192,11 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-
         });
     }
 
-    function saveUser(user, page) {
+    /**
+     * @param user
+     * @param page
+     */
+    function saveUser (user, page) {
         user.Policy.MaxParentalRating = $('#selectMaxParentalRating', page).val() || null;
         user.Policy.BlockUnratedItems = $('.chkUnratedItem', page).get().filter(function (i) {
             return i.checked;
@@ -177,7 +210,10 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-
         });
     }
 
-    function getDisplayTime(hours) {
+    /**
+     * @param hours
+     */
+    function getDisplayTime (hours) {
         var minutes = 0;
         var pct = hours % 1;
 
@@ -188,7 +224,12 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-
         return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
     }
 
-    function showSchedulePopup(page, schedule, index) {
+    /**
+     * @param page
+     * @param schedule
+     * @param index
+     */
+    function showSchedulePopup (page, schedule, index) {
         schedule = schedule || {};
 
         require(['components/accessschedule/accessschedule'], function (accessschedule) {
@@ -197,7 +238,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-
             }).then(function (updatedSchedule) {
                 var schedules = getSchedulesFromPage(page);
 
-                if (-1 == index) {
+                if (index == -1) {
                     index = schedules.length;
                 }
 
@@ -207,7 +248,10 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-
         });
     }
 
-    function getSchedulesFromPage(page) {
+    /**
+     * @param page
+     */
+    function getSchedulesFromPage (page) {
         return $('.liSchedule', page).map(function () {
             return {
                 DayOfWeek: this.getAttribute('data-day'),
@@ -217,20 +261,26 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'listViewStyle', 'paper-
         }).get();
     }
 
-    function getBlockedTagsFromPage(page) {
+    /**
+     * @param page
+     */
+    function getBlockedTagsFromPage (page) {
         return $('.blockedTag', page).map(function () {
             return this.getAttribute('data-tag');
         }).get();
     }
 
-    function showBlockedTagPopup(page) {
+    /**
+     * @param page
+     */
+    function showBlockedTagPopup (page) {
         require(['prompt'], function (prompt) {
             prompt({
                 label: Globalize.translate('LabelTag')
             }).then(function (value) {
                 var tags = getBlockedTagsFromPage(page);
 
-                if (-1 == tags.indexOf(value)) {
+                if (tags.indexOf(value) == -1) {
                     tags.push(value);
                     loadBlockedTags(page, tags);
                 }

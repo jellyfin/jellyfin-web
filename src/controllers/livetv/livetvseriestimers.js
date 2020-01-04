@@ -1,7 +1,11 @@
 define(['datetime', 'cardBuilder', 'imageLoader', 'apphost', 'loading', 'paper-icon-button-light', 'emby-button'], function (datetime, cardBuilder, imageLoader, appHost, loading) {
     'use strict';
 
-    function renderTimers(context, timers) {
+    /**
+     * @param context
+     * @param timers
+     */
+    function renderTimers (context, timers) {
         var html = '';
         appHost.supports('imageanalysis');
         html += cardBuilder.getCardsHtml({
@@ -25,7 +29,11 @@ define(['datetime', 'cardBuilder', 'imageLoader', 'apphost', 'loading', 'paper-i
         loading.hide();
     }
 
-    function reload(context, promise) {
+    /**
+     * @param context
+     * @param promise
+     */
+    function reload (context, promise) {
         loading.show();
         promise.then(function (result) {
             renderTimers(context, result.Items);

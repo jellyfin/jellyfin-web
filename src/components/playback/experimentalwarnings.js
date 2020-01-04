@@ -1,16 +1,20 @@
 define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (connectionManager, globalize, userSettings, appHost) {
     'use strict';
 
-    function getRequirePromise(deps) {
-
+    /**
+     * @param deps
+     */
+    function getRequirePromise (deps) {
         return new Promise(function (resolve, reject) {
-
             require(deps, resolve);
         });
     }
 
     // https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php
-    function getWeek(date) {
+    /**
+     * @param date
+     */
+    function getWeek (date) {
         var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
         var dayNum = d.getUTCDay() || 7;
         d.setUTCDate(d.getUTCDate() + 4 - dayNum);
@@ -18,8 +22,12 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
         return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
     }
 
-    function showMessage(text, userSettingsKey, appHostFeature) {
-
+    /**
+     * @param text
+     * @param userSettingsKey
+     * @param appHostFeature
+     */
+    function showMessage (text, userSettingsKey, appHostFeature) {
         if (appHost.supports(appHostFeature)) {
             return Promise.resolve();
         }
@@ -33,46 +41,51 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
         }
 
         return new Promise(function (resolve, reject) {
-
             userSettings.set(userSettingsKey, '1', false);
 
             require(['alert'], function (alert) {
-
                 return alert(text).then(resolve, resolve);
             });
         });
     }
 
-    function showBlurayMessage() {
-
+    /**
+     *
+     */
+    function showBlurayMessage () {
         var message =
             'Playback of Bluray folders in this app is experimental. Some titles may not work at all. For a better experience, consider converting to mkv video files, or use an Jellyfin app with native Bluray folder support.';
         return showMessage(message, 'blurayexpirementalinfo', 'nativeblurayplayback');
     }
 
-    function showDvdMessage() {
-
+    /**
+     *
+     */
+    function showDvdMessage () {
         var message =
             'Playback of Dvd folders in this app is experimental. Some titles may not work at all. For a better experience, consider converting to mkv video files, or use an Jellyfin app with native Dvd folder support.';
         return showMessage(message, 'dvdexpirementalinfo', 'nativedvdplayback');
     }
 
-    function showIsoMessage() {
-
+    /**
+     *
+     */
+    function showIsoMessage () {
         var message =
             'Playback of ISO files in this app is experimental. Some titles may not work at all. For a better experience, consider converting to mkv video files, or use an Jellyfin app with native ISO support.';
         return showMessage(message, 'isoexpirementalinfo', 'nativeisoplayback');
     }
 
-    function ExpirementalPlaybackWarnings() {
-
+    /**
+     *
+     */
+    function ExpirementalPlaybackWarnings () {
         this.name = 'Experimental playback warnings';
         this.type = 'preplayintercept';
         this.id = 'expirementalplaybackwarnings';
     }
 
     ExpirementalPlaybackWarnings.prototype.intercept = function (options) {
-
         var item = options.item;
         if (!item) {
             return Promise.resolve();

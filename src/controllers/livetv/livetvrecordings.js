@@ -1,7 +1,13 @@
 define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'scripts/livetvcomponents', 'listViewStyle', 'emby-itemscontainer'], function (layoutManager, loading, cardBuilder, appHost, imageLoader) {
     'use strict';
 
-    function renderRecordings(elem, recordings, cardOptions, scrollX) {
+    /**
+     * @param elem
+     * @param recordings
+     * @param cardOptions
+     * @param scrollX
+     */
+    function renderRecordings (elem, recordings, cardOptions, scrollX) {
         if (recordings.length) {
             elem.classList.remove('hide');
         } else {
@@ -37,7 +43,11 @@ define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'sc
         imageLoader.lazyChildren(recordingItems);
     }
 
-    function renderLatestRecordings(context, promise) {
+    /**
+     * @param context
+     * @param promise
+     */
+    function renderLatestRecordings (context, promise) {
         promise.then(function (result) {
             renderRecordings(context.querySelector('#latestRecordings'), result.Items, {
                 showYear: true,
@@ -47,7 +57,11 @@ define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'sc
         });
     }
 
-    function renderRecordingFolders(context, promise) {
+    /**
+     * @param context
+     * @param promise
+     */
+    function renderRecordingFolders (context, promise) {
         promise.then(function (result) {
             renderRecordings(context.querySelector('#recordingFolders'), result.Items, {
                 showYear: false,
@@ -56,7 +70,10 @@ define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'sc
         });
     }
 
-    function onMoreClick(e) {
+    /**
+     * @param e
+     */
+    function onMoreClick (e) {
         var type = this.getAttribute('data-type');
         var serverId = ApiClient.serverId();
 
@@ -67,7 +84,10 @@ define(['layoutManager', 'loading', 'cardBuilder', 'apphost', 'imageLoader', 'sc
     }
 
     return function (view, params, tabContent) {
-        function enableFullRender() {
+        /**
+         *
+         */
+        function enableFullRender () {
             return new Date().getTime() - lastFullRender > 300000;
         }
 

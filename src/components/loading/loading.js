@@ -18,7 +18,6 @@ define(['components/loading/loadingLegacy', 'browser', 'css!./loading'], functio
             var elem = loadingElem;
 
             if (!elem) {
-
                 elem = document.createElement('div');
                 loadingElem = elem;
 
@@ -60,7 +59,6 @@ define(['components/loading/loadingLegacy', 'browser', 'css!./loading'], functio
             var elem = loadingElem;
 
             if (elem) {
-
                 elem.classList.remove('mdlSpinnerActive');
 
                 elem.classList.remove('mdl-spinner__layer-1-active');

@@ -1,23 +1,29 @@
-define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layoutManager', 'browser', 'cardStyle', 'emby-checkbox'], function(appHost, appSettings, dom, connectionManager, loading, layoutManager, browser) {
+define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layoutManager', 'browser', 'cardStyle', 'emby-checkbox'], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, browser) {
     'use strict';
 
     var enableFocusTransform = !browser.slow && !browser.edge;
 
-    function authenticateUserByName(page, apiClient, username, password) {
+    /**
+     * @param page
+     * @param apiClient
+     * @param username
+     * @param password
+     */
+    function authenticateUserByName (page, apiClient, username, password) {
         loading.show();
-        apiClient.authenticateUserByName(username, password).then(function(result) {
+        apiClient.authenticateUserByName(username, password).then(function (result) {
             var user = result.User;
             var serverId = getParameterByName('serverid');
             var newUrl = user.Policy.IsAdministrator && !serverId ? 'dashboard.html' : 'home.html';
             loading.hide();
             Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
             Dashboard.navigate(newUrl);
-        }, function(response) {
+        }, function (response) {
             page.querySelector('#txtManualName').value = '';
             page.querySelector('#txtManualPassword').value = '';
             loading.hide();
             if (response.status === 401) {
-                require(['toast'], function(toast) {
+                require(['toast'], function (toast) {
                     toast(Globalize.translate('MessageInvalidUser'));
                 });
             } else {
@@ -29,7 +35,12 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
         });
     }
 
-    function showManualForm(context, showCancel, focusPassword) {
+    /**
+     * @param context
+     * @param showCancel
+     * @param focusPassword
+     */
+    function showManualForm (context, showCancel, focusPassword) {
         context.querySelector('.chkRememberLogin').checked = appSettings.enableAutoLogin();
         context.querySelector('.manualLoginForm').classList.remove('hide');
         context.querySelector('.visualLoginForm').classList.add('hide');
@@ -40,12 +51,18 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
 
     var metroColors = ['#6FBD45', '#4BB3DD', '#4164A5', '#E12026', '#800080', '#E1B222', '#008040', '#0094FF', '#FF00C7', '#FF870F', '#7F0037'];
 
-    function getRandomMetroColor() {
+    /**
+     *
+     */
+    function getRandomMetroColor () {
         var index = Math.floor(Math.random() * (metroColors.length - 1));
         return metroColors[index];
     }
 
-    function getMetroColor(str) {
+    /**
+     * @param str
+     */
+    function getMetroColor (str) {
         if (str) {
             var character = String(str.substr(0, 1).charCodeAt());
             var sum = 0;
@@ -58,7 +75,12 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
         return getRandomMetroColor();
     }
 
-    function loadUserList(context, apiClient, users) {
+    /**
+     * @param context
+     * @param apiClient
+     * @param users
+     */
+    function loadUserList (context, apiClient, users) {
         var html = '';
         for (var i = 0; i < users.length; i++) {
             var user = users[i];
@@ -106,13 +128,19 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
         context.querySelector('#divUsers').innerHTML = html;
     }
 
-    return function(view, params) {
-        function getApiClient() {
+    return function (view, params) {
+        /**
+         *
+         */
+        function getApiClient () {
             var serverId = params.serverid;
             return serverId ? connectionManager.getOrCreateApiClient(serverId) : ApiClient;
         }
 
-        function showVisualForm() {
+        /**
+         *
+         */
+        function showVisualForm () {
             view.querySelector('.visualLoginForm').classList.remove('hide');
             view.querySelector('.manualLoginForm').classList.add('hide');
             view.querySelector('.btnManual').classList.remove('hide');
@@ -122,7 +150,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
             });
         }
 
-        view.querySelector('#divUsers').addEventListener('click', function(e) {
+        view.querySelector('#divUsers').addEventListener('click', function (e) {
             var card = dom.parentWithClass(e.target, 'card');
             var cardContent = card ? card.querySelector('.cardContent') : null;
             if (cardContent) {
@@ -143,7 +171,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
             }
         });
 
-        view.querySelector('.manualLoginForm').addEventListener('submit', function(e) {
+        view.querySelector('.manualLoginForm').addEventListener('submit', function (e) {
             appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
             var apiClient = getApiClient();
             authenticateUserByName(view, apiClient, view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
@@ -151,24 +179,24 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
             return false;
         });
 
-        view.querySelector('.btnForgotPassword').addEventListener('click', function() {
+        view.querySelector('.btnForgotPassword').addEventListener('click', function () {
             Dashboard.navigate('forgotpassword.html');
         });
 
         view.querySelector('.btnCancel').addEventListener('click', showVisualForm);
 
-        view.querySelector('.btnManual').addEventListener('click', function() {
+        view.querySelector('.btnManual').addEventListener('click', function () {
             view.querySelector('#txtManualName').value = '';
             showManualForm(view, true);
         });
 
-        view.addEventListener('viewshow', function(e) {
+        view.addEventListener('viewshow', function (e) {
             loading.show();
             if (!appHost.supports('multiserver')) {
                 view.querySelector('.btnSelectServer').classList.add('hide');
             }
             var apiClient = getApiClient();
-            apiClient.getPublicUsers().then(function(users) {
+            apiClient.getPublicUsers().then(function (users) {
                 if (users.length) {
                     showVisualForm();
                     loadUserList(view, apiClient, users);
@@ -176,11 +204,11 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
                     view.querySelector('#txtManualName').value = '';
                     showManualForm(view, false, false);
                 }
-            }).catch().then(function() {
+            }).catch().then(function () {
                 loading.hide();
             });
 
-            apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function(options) {
+            apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
                 view.querySelector('.disclaimer').textContent = options.LoginDisclaimer || '';
             });
         });

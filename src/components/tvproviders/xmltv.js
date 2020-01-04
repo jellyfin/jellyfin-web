@@ -2,7 +2,11 @@ define(['jQuery', 'loading', 'emby-checkbox', 'emby-input', 'listViewStyle', 'pa
     'use strict';
 
     return function (page, providerId, options) {
-        function getListingProvider(config, id) {
+        /**
+         * @param config
+         * @param id
+         */
+        function getListingProvider (config, id) {
             if (config && id) {
                 var result = config.ListingProviders.filter(function (provider) {
                     return provider.Id === id;
@@ -18,7 +22,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'emby-input', 'listViewStyle', 'pa
             return ApiClient.getJSON(ApiClient.getUrl('LiveTv/ListingProviders/Default'));
         }
 
-        function reload() {
+        /**
+         *
+         */
+        function reload () {
             loading.show();
             ApiClient.getNamedConfiguration('livetv').then(function (config) {
                 getListingProvider(config, providerId).then(function (info) {
@@ -43,7 +50,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'emby-input', 'listViewStyle', 'pa
             });
         }
 
-        function getCategories(txtInput) {
+        /**
+         * @param txtInput
+         */
+        function getCategories (txtInput) {
             var value = txtInput.value;
 
             if (value) {
@@ -53,7 +63,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'emby-input', 'listViewStyle', 'pa
             return [];
         }
 
-        function submitListingsForm() {
+        /**
+         *
+         */
+        function submitListingsForm () {
             loading.show();
             var id = providerId;
             ApiClient.getNamedConfiguration('livetv').then(function (config) {
@@ -84,7 +97,7 @@ define(['jQuery', 'loading', 'emby-checkbox', 'emby-input', 'listViewStyle', 'pa
                 }).then(function (result) {
                     loading.hide();
 
-                    if (false !== options.showConfirmation) {
+                    if (options.showConfirmation !== false) {
                         Dashboard.processServerConfigurationUpdateResult();
                     }
 
@@ -98,7 +111,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'emby-input', 'listViewStyle', 'pa
             });
         }
 
-        function getTunerName(providerId) {
+        /**
+         * @param providerId
+         */
+        function getTunerName (providerId) {
             switch (providerId = providerId.toLowerCase()) {
             case 'm3u':
                 return 'M3U Playlist';
@@ -111,14 +127,19 @@ define(['jQuery', 'loading', 'emby-checkbox', 'emby-input', 'listViewStyle', 'pa
             }
         }
 
-        function refreshTunerDevices(page, providerInfo, devices) {
+        /**
+         * @param page
+         * @param providerInfo
+         * @param devices
+         */
+        function refreshTunerDevices (page, providerInfo, devices) {
             var html = '';
 
             for (var i = 0, length = devices.length; i < length; i++) {
                 var device = devices[i];
                 html += '<div class="listItem">';
                 var enabledTuners = providerInfo.EnabledTuners || [];
-                var isChecked = providerInfo.EnableAllTuners || -1 !== enabledTuners.indexOf(device.Id);
+                var isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
                 var checkedAttribute = isChecked ? ' checked' : '';
                 html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkTuner" data-id="' + device.Id + '" ' + checkedAttribute + '><span></span></label>';
                 html += '<div class="listItemBody two-line">';
@@ -135,7 +156,10 @@ define(['jQuery', 'loading', 'emby-checkbox', 'emby-input', 'listViewStyle', 'pa
             page.querySelector('.tunerList').innerHTML = html;
         }
 
-        function onSelectPathClick(e) {
+        /**
+         * @param e
+         */
+        function onSelectPathClick (e) {
             var page = $(e.target).parents('.xmltvForm')[0];
 
             require(['directorybrowser'], function (directoryBrowser) {
@@ -163,13 +187,13 @@ define(['jQuery', 'loading', 'emby-checkbox', 'emby-input', 'listViewStyle', 'pa
         self.init = function () {
             options = options || {};
 
-            if (false !== options.showCancelButton) {
+            if (options.showCancelButton !== false) {
                 page.querySelector('.btnCancel').classList.remove('hide');
             } else {
                 page.querySelector('.btnCancel').classList.add('hide');
             }
 
-            if (false !== options.showSubmitButton) {
+            if (options.showSubmitButton !== false) {
                 page.querySelector('.btnSubmitListings').classList.remove('hide');
             } else {
                 page.querySelector('.btnSubmitListings').classList.add('hide');

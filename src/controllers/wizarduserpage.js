@@ -1,21 +1,33 @@
 define(['loading', 'globalize', 'dashboardcss', 'emby-input', 'emby-button', 'emby-button'], function (loading, globalize) {
     'use strict';
 
-    function getApiClient() {
+    /**
+     *
+     */
+    function getApiClient () {
         return ApiClient;
     }
 
-    function nextWizardPage() {
+    /**
+     *
+     */
+    function nextWizardPage () {
         Dashboard.navigate('wizardlibrary.html');
     }
 
-    function onUpdateUserComplete(result) {
+    /**
+     * @param result
+     */
+    function onUpdateUserComplete (result) {
         console.log(result);
         loading.hide();
         nextWizardPage();
     }
 
-    function submit(form) {
+    /**
+     * @param form
+     */
+    function submit (form) {
         loading.show();
         var apiClient = getApiClient();
         apiClient.ajax({
@@ -28,7 +40,10 @@ define(['loading', 'globalize', 'dashboardcss', 'emby-input', 'emby-button', 'em
         }).then(onUpdateUserComplete);
     }
 
-    function onSubmit(e) {
+    /**
+     * @param e
+     */
+    function onSubmit (e) {
         var form = this;
 
         if (form.querySelector('#txtManualPassword').value != form.querySelector('#txtPasswordConfirm').value) {
@@ -43,7 +58,10 @@ define(['loading', 'globalize', 'dashboardcss', 'emby-input', 'emby-button', 'em
         return false;
     }
 
-    function onViewShow() {
+    /**
+     *
+     */
+    function onViewShow () {
         loading.show();
         var page = this;
         var apiClient = getApiClient();

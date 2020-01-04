@@ -1,7 +1,12 @@
 define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, libraryMenu) {
     'use strict';
 
-    function loadDeleteFolders(page, user, mediaFolders) {
+    /**
+     * @param page
+     * @param user
+     * @param mediaFolders
+     */
+    function loadDeleteFolders (page, user, mediaFolders) {
         ApiClient.getJSON(ApiClient.getUrl('Channels', {
             SupportsMediaDeletion: true
         })).then(function (channelsResult) {
@@ -14,14 +19,14 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
 
             for (i = 0, length = mediaFolders.length; i < length; i++) {
                 folder = mediaFolders[i];
-                isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
+                isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
             }
 
             for (i = 0, length = channelsResult.Items.length; i < length; i++) {
                 folder = channelsResult.Items[i];
-                isChecked = user.Policy.EnableContentDeletion || -1 != user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id);
+                isChecked = user.Policy.EnableContentDeletion || user.Policy.EnableContentDeletionFromFolders.indexOf(folder.Id) != -1;
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" ' + checkedAttribute + '><span>' + folder.Name + '</span></label>';
             }
@@ -31,7 +36,12 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         });
     }
 
-    function loadAuthProviders(page, user, providers) {
+    /**
+     * @param page
+     * @param user
+     * @param providers
+     */
+    function loadAuthProviders (page, user, providers) {
         if (providers.length > 1) {
             page.querySelector('.fldSelectLoginProvider').classList.remove('hide');
         } else {
@@ -45,7 +55,12 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         });
     }
 
-    function loadPasswordResetProviders(page, user, providers) {
+    /**
+     * @param page
+     * @param user
+     * @param providers
+     */
+    function loadPasswordResetProviders (page, user, providers) {
         if (providers.length > 1) {
             page.querySelector('.fldSelectPasswordResetProvider').classList.remove('hide');
         } else {
@@ -59,7 +74,11 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         });
     }
 
-    function loadUser(page, user) {
+    /**
+     * @param page
+     * @param user
+     */
+    function loadUser (page, user) {
         currentUser = user;
         ApiClient.getJSON(ApiClient.getUrl('Auth/Providers')).then(function (providers) {
             loadAuthProviders(page, user, providers);
@@ -97,7 +116,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         $('#chkEnableAudioPlaybackTranscoding', page).checked(user.Policy.EnableAudioPlaybackTranscoding);
         $('#chkEnableVideoPlaybackTranscoding', page).checked(user.Policy.EnableVideoPlaybackTranscoding);
         $('#chkEnableVideoPlaybackRemuxing', page).checked(user.Policy.EnablePlaybackRemuxing);
-        $('#chkRemoteAccess', page).checked(null == user.Policy.EnableRemoteAccess || user.Policy.EnableRemoteAccess);
+        $('#chkRemoteAccess', page).checked(user.Policy.EnableRemoteAccess == null || user.Policy.EnableRemoteAccess);
         $('#chkEnableSyncTranscoding', page).checked(user.Policy.EnableSyncTranscoding);
         $('#chkEnableConversion', page).checked(user.Policy.EnableMediaConversion || false);
         $('#chkEnableSharing', page).checked(user.Policy.EnablePublicSharing);
@@ -106,7 +125,11 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         loading.hide();
     }
 
-    function onSaveComplete(page, user) {
+    /**
+     * @param page
+     * @param user
+     */
+    function onSaveComplete (page, user) {
         Dashboard.navigate('userprofiles.html');
         loading.hide();
 
@@ -115,7 +138,11 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         });
     }
 
-    function saveUser(user, page) {
+    /**
+     * @param user
+     * @param page
+     */
+    function saveUser (user, page) {
         user.Name = $('#txtUserName', page).val();
         user.Policy.IsAdministrator = $('#chkIsAdmin', page).checked();
         user.Policy.IsHidden = $('#chkIsHidden', page).checked();
@@ -150,7 +177,10 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         });
     }
 
-    function onSubmit() {
+    /**
+     *
+     */
+    function onSubmit () {
         var page = $(this).parents('.page')[0];
         loading.show();
         getUser().then(function (result) {
@@ -159,12 +189,18 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         return false;
     }
 
-    function getUser() {
+    /**
+     *
+     */
+    function getUser () {
         var userId = getParameterByName('userId');
         return ApiClient.getUser(userId);
     }
 
-    function loadData(page) {
+    /**
+     * @param page
+     */
+    function loadData (page) {
         loading.show();
         getUser().then(function (user) {
             loadUser(page, user);

@@ -1,13 +1,13 @@
-define(['datetime', 'loading', 'apphost', 'listViewStyle', 'emby-button', 'flexStyles'], function(datetime, loading, appHost) {
+define(['datetime', 'loading', 'apphost', 'listViewStyle', 'emby-button', 'flexStyles'], function (datetime, loading, appHost) {
     'use strict';
-    return function(view, params) {
-        view.addEventListener('viewbeforeshow', function() {
+    return function (view, params) {
+        view.addEventListener('viewbeforeshow', function () {
             loading.show();
             var apiClient = ApiClient;
-            apiClient.getJSON(apiClient.getUrl('System/Logs')).then(function(logs) {
+            apiClient.getJSON(apiClient.getUrl('System/Logs')).then(function (logs) {
                 var html = '';
                 html += '<div class="paperList">';
-                html += logs.map(function(log) {
+                html += logs.map(function (log) {
                     var logUrl = apiClient.getUrl('System/Logs/Log', {
                         name: log.Name
                     });

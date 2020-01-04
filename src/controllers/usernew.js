@@ -1,7 +1,11 @@
 define(['jQuery', 'loading', 'fnchecked', 'emby-checkbox'], function ($, loading) {
     'use strict';
 
-    function loadMediaFolders(page, mediaFolders) {
+    /**
+     * @param page
+     * @param mediaFolders
+     */
+    function loadMediaFolders (page, mediaFolders) {
         var html = '';
         html += '<h3 class="checkboxListLabel">' + Globalize.translate('HeaderLibraries') + '</h3>';
         html += '<div class="checkboxList paperList" style="padding:.5em 1em;">';
@@ -16,7 +20,11 @@ define(['jQuery', 'loading', 'fnchecked', 'emby-checkbox'], function ($, loading
         $('#chkEnableAllFolders', page).checked(true).trigger('change');
     }
 
-    function loadChannels(page, channels) {
+    /**
+     * @param page
+     * @param channels
+     */
+    function loadChannels (page, channels) {
         var html = '';
         html += '<h3 class="checkboxListLabel">' + Globalize.translate('HeaderChannels') + '</h3>';
         html += '<div class="checkboxList paperList" style="padding:.5em 1em;">';
@@ -38,7 +46,10 @@ define(['jQuery', 'loading', 'fnchecked', 'emby-checkbox'], function ($, loading
         $('#chkEnableAllChannels', page).checked(true).trigger('change');
     }
 
-    function loadUser(page) {
+    /**
+     * @param page
+     */
+    function loadUser (page) {
         $('#txtUsername', page).val('');
         $('#txtPassword', page).val('');
         loading.show();
@@ -53,7 +64,10 @@ define(['jQuery', 'loading', 'fnchecked', 'emby-checkbox'], function ($, loading
         });
     }
 
-    function saveUser(page) {
+    /**
+     * @param page
+     */
+    function saveUser (page) {
         var user = {};
         user.Name = $('#txtUsername', page).val();
         user.Password = $('#txtPassword', page).val();
@@ -92,14 +106,20 @@ define(['jQuery', 'loading', 'fnchecked', 'emby-checkbox'], function ($, loading
         });
     }
 
-    function onSubmit() {
+    /**
+     *
+     */
+    function onSubmit () {
         var page = $(this).parents('.page')[0];
         loading.show();
         saveUser(page);
         return false;
     }
 
-    function loadData(page) {
+    /**
+     * @param page
+     */
+    function loadData (page) {
         loadUser(page);
     }
 

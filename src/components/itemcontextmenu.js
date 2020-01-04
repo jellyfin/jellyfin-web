@@ -1,7 +1,10 @@
 define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 'playbackManager', 'loading', 'appSettings', 'browser', 'actionsheet'], function (appHost, globalize, connectionManager, itemHelper, appRouter, playbackManager, loading, appSettings, browser, actionsheet) {
     'use strict';
 
-    function getCommands(options) {
+    /**
+     * @param options
+     */
+    function getCommands (options) {
         var item = options.item;
         var user = options.user;
 
@@ -45,12 +48,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 });
             }
 
-            //if (options.queueAllFromHere) {
+            // if (options.queueAllFromHere) {
             //    commands.push({
             //        name: globalize.translate("QueueAllFromHere"),
             //        id: "queueallfromhere"
             //    });
-            //}
+            // }
         }
 
         if (item.IsFolder || item.Type === 'MusicArtist' || item.Type === 'MusicGenre') {
@@ -124,7 +127,6 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         }
 
         if (item.CanDelete && options.deleteItem !== false) {
-
             if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
                 commands.push({
                     name: globalize.translate('Delete'),
@@ -300,7 +302,13 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         return commands;
     }
 
-    function getResolveFunction(resolve, id, changed, deleted) {
+    /**
+     * @param resolve
+     * @param id
+     * @param changed
+     * @param deleted
+     */
+    function getResolveFunction (resolve, id, changed, deleted) {
         return function () {
             resolve({
                 command: id,
@@ -310,7 +318,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         };
     }
 
-    function executeCommand(item, id, options) {
+    /**
+     * @param item
+     * @param id
+     * @param options
+     */
+    function executeCommand (item, id, options) {
         var itemId = item.Id;
         var serverId = item.ServerId;
         var apiClient = connectionManager.getApiClient(serverId);
@@ -485,7 +498,13 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         });
     }
 
-    function deleteTimer(apiClient, item, resolve, command) {
+    /**
+     * @param apiClient
+     * @param item
+     * @param resolve
+     * @param command
+     */
+    function deleteTimer (apiClient, item, resolve, command) {
         require(['recordingHelper'], function (recordingHelper) {
             var timerId = item.TimerId || item.Id;
             recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
@@ -494,7 +513,13 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         });
     }
 
-    function deleteSeriesTimer(apiClient, item, resolve, command) {
+    /**
+     * @param apiClient
+     * @param item
+     * @param resolve
+     * @param command
+     */
+    function deleteSeriesTimer (apiClient, item, resolve, command) {
         require(['recordingHelper'], function (recordingHelper) {
             recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
                 getResolveFunction(resolve, command, true)();
@@ -502,7 +527,13 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         });
     }
 
-    function play(item, resume, queue, queueNext) {
+    /**
+     * @param item
+     * @param resume
+     * @param queue
+     * @param queueNext
+     */
+    function play (item, resume, queue, queueNext) {
         var method = queue ? (queueNext ? 'queueNext' : 'queue') : 'play';
 
         var startPosition = 0;
@@ -524,7 +555,11 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         }
     }
 
-    function editItem(apiClient, item) {
+    /**
+     * @param apiClient
+     * @param item
+     */
+    function editItem (apiClient, item) {
         return new Promise(function (resolve, reject) {
             var serverId = apiClient.serverInfo().Id;
 
@@ -544,7 +579,11 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         });
     }
 
-    function deleteItem(apiClient, item) {
+    /**
+     * @param apiClient
+     * @param item
+     */
+    function deleteItem (apiClient, item) {
         return new Promise(function (resolve, reject) {
             require(['deleteHelper'], function (deleteHelper) {
                 deleteHelper.deleteItem({
@@ -557,7 +596,11 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         });
     }
 
-    function refresh(apiClient, item) {
+    /**
+     * @param apiClient
+     * @param item
+     */
+    function refresh (apiClient, item) {
         require(['refreshDialog'], function (refreshDialog) {
             new refreshDialog({
                 itemIds: [item.Id],
@@ -567,7 +610,10 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         });
     }
 
-    function show(options) {
+    /**
+     * @param options
+     */
+    function show (options) {
         var commands = getCommands(options);
         if (!commands.length) {
             return Promise.reject();

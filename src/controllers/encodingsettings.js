@@ -1,9 +1,14 @@
 define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, loading, globalize, dom, libraryMenu) {
     'use strict';
 
-    function loadPage(page, config, systemInfo) {
+    /**
+     * @param page
+     * @param config
+     * @param systemInfo
+     */
+    function loadPage (page, config, systemInfo) {
         Array.prototype.forEach.call(page.querySelectorAll('.chkDecodeCodec'), function (c) {
-            c.checked = -1 !== (config.HardwareDecodingCodecs || []).indexOf(c.getAttribute('data-codec'));
+            c.checked = (config.HardwareDecodingCodecs || []).indexOf(c.getAttribute('data-codec')) !== -1;
         });
         page.querySelector('#chkHardwareEncoding').checked = config.EnableHardwareEncoding;
         $('#selectVideoDecoder', page).val(config.HardwareAccelerationType);
@@ -21,7 +26,10 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
         loading.hide();
     }
 
-    function onSaveEncodingPathFailure(response) {
+    /**
+     * @param response
+     */
+    function onSaveEncodingPathFailure (response) {
         loading.hide();
         var msg = '';
         msg = globalize.translate('FFmpegSavePathNotFound');
@@ -31,7 +39,10 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
         });
     }
 
-    function updateEncoder(form) {
+    /**
+     * @param form
+     */
+    function updateEncoder (form) {
         return ApiClient.getSystemInfo().then(function (systemInfo) {
             return ApiClient.ajax({
                 url: ApiClient.getUrl('System/MediaEncoder/Path'),
@@ -44,7 +55,10 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
         });
     }
 
-    function onSubmit() {
+    /**
+     *
+     */
+    function onSubmit () {
         var form = this;
 
         var onDecoderConfirmed = function () {
@@ -84,11 +98,15 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
         return false;
     }
 
-    function setDecodingCodecsVisible(context, value) {
+    /**
+     * @param context
+     * @param value
+     */
+    function setDecodingCodecsVisible (context, value) {
         value = value || '';
         var any;
         Array.prototype.forEach.call(context.querySelectorAll('.chkDecodeCodec'), function (c) {
-            if (-1 === c.getAttribute('data-types').split(',').indexOf(value)) {
+            if (c.getAttribute('data-types').split(',').indexOf(value) === -1) {
                 dom.parentWithTag(c, 'LABEL').classList.add('hide');
             } else {
                 dom.parentWithTag(c, 'LABEL').classList.remove('hide');
@@ -103,7 +121,10 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
         }
     }
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             href: 'encodingsettings.html',
             name: Globalize.translate('Transcoding')
@@ -119,7 +140,7 @@ define(['jQuery', 'loading', 'globalize', 'dom', 'libraryMenu'], function ($, lo
     $(document).on('pageinit', '#encodingSettingsPage', function () {
         var page = this;
         page.querySelector('#selectVideoDecoder').addEventListener('change', function () {
-            if ('vaapi' == this.value) {
+            if (this.value == 'vaapi') {
                 page.querySelector('.fldVaapiDevice').classList.remove('hide');
                 page.querySelector('#txtVaapiDevice').setAttribute('required', 'required');
             } else {

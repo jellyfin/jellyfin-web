@@ -1,8 +1,11 @@
 define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, connectionManager, appRouter, globalize) {
     'use strict';
 
-    function parentWithClass(elem, className) {
-
+    /**
+     * @param elem
+     * @param className
+     */
+    function parentWithClass (elem, className) {
         while (!elem.classList || !elem.classList.contains(className)) {
             elem = elem.parentNode;
 
@@ -14,8 +17,10 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         return elem;
     }
 
-    function getEditorHtml() {
-
+    /**
+     *
+     */
+    function getEditorHtml () {
         var html = '';
 
         html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
@@ -53,15 +58,22 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         return html;
     }
 
-    function centerFocus(elem, horiz, on) {
+    /**
+     * @param elem
+     * @param horiz
+     * @param on
+     */
+    function centerFocus (elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function onSubmit(e) {
-
+    /**
+     * @param e
+     */
+    function onSubmit (e) {
         loading.show();
 
         var instance = this;
@@ -98,12 +110,14 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         return false;
     }
 
-    function RefreshDialog(options) {
+    /**
+     * @param options
+     */
+    function RefreshDialog (options) {
         this.options = options;
     }
 
     RefreshDialog.prototype.show = function () {
-
         var dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -137,7 +151,6 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         dlg.querySelector('form').addEventListener('submit', onSubmit.bind(this));
 
         dlg.querySelector('#selectMetadataRefreshMode').addEventListener('change', function () {
-
             if (this.value === 'scan') {
                 dlg.querySelector('.fldReplaceExistingImages').classList.add('hide');
             } else {
@@ -152,7 +165,6 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         dlg.querySelector('#selectMetadataRefreshMode').dispatchEvent(new CustomEvent('change'));
 
         dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
             dialogHelper.close(dlg);
         });
 
@@ -161,7 +173,6 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         }
 
         return new Promise(function (resolve, reject) {
-
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }

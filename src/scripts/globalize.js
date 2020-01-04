@@ -6,15 +6,24 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     var currentCulture;
     var currentDateTimeCulture;
 
-    function getCurrentLocale() {
+    /**
+     *
+     */
+    function getCurrentLocale () {
         return currentCulture;
     }
 
-    function getCurrentDateTimeLocale() {
+    /**
+     *
+     */
+    function getCurrentDateTimeLocale () {
         return currentDateTimeCulture;
     }
 
-    function getDefaultLanguage() {
+    /**
+     *
+     */
+    function getDefaultLanguage () {
         var culture = document.documentElement.getAttribute('data-culture');
         if (culture) {
             return culture;
@@ -33,7 +42,10 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         return fallbackCulture;
     }
 
-    function updateCurrentCulture() {
+    /**
+     *
+     */
+    function updateCurrentCulture () {
         var culture;
         try {
             culture = userSettings.language();
@@ -59,7 +71,10 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         ensureTranslations(currentCulture);
     }
 
-    function ensureTranslations(culture) {
+    /**
+     * @param culture
+     */
+    function ensureTranslations (culture) {
         for (var i in allTranslations) {
             ensureTranslation(allTranslations[i], culture);
         }
@@ -70,7 +85,11 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         }
     }
 
-    function ensureTranslation(translationInfo, culture) {
+    /**
+     * @param translationInfo
+     * @param culture
+     */
+    function ensureTranslation (translationInfo, culture) {
         if (translationInfo.dictionaries[culture]) {
             return Promise.resolve();
         }
@@ -80,7 +99,10 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         });
     }
 
-    function normalizeLocaleName(culture) {
+    /**
+     * @param culture
+     */
+    function normalizeLocaleName (culture) {
         // TODO remove normalizations
         culture = culture.replace('_', '-');
 
@@ -105,7 +127,11 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         return lower;
     }
 
-    function getDictionary(module, locale) {
+    /**
+     * @param module
+     * @param locale
+     */
+    function getDictionary (module, locale) {
         if (!module) {
             module = defaultModule();
         }
@@ -118,14 +144,20 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         return translations.dictionaries[locale];
     }
 
-    function register(options) {
+    /**
+     * @param options
+     */
+    function register (options) {
         allTranslations[options.name] = {
             translations: options.strings || options.translations,
             dictionaries: {}
         };
     }
 
-    function loadStrings(options) {
+    /**
+     * @param options
+     */
+    function loadStrings (options) {
         var locale = getCurrentLocale();
         var promises = [];
         var optionsName;
@@ -141,7 +173,11 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     }
 
     var cacheParam = new Date().getTime();
-    function loadTranslation(translations, lang) {
+    /**
+     * @param translations
+     * @param lang
+     */
+    function loadTranslation (translations, lang) {
         lang = normalizeLocaleName(lang);
         var filtered = translations.filter(function (t) {
             return normalizeLocaleName(t.lang) === lang;
@@ -182,7 +218,10 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         });
     }
 
-    function translateKey(key) {
+    /**
+     * @param key
+     */
+    function translateKey (key) {
         var parts = key.split('#');
         var module;
 
@@ -194,7 +233,11 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         return translateKeyFromModule(key, module);
     }
 
-    function translateKeyFromModule(key, module) {
+    /**
+     * @param key
+     * @param module
+     */
+    function translateKeyFromModule (key, module) {
         var dictionary = getDictionary(module, getCurrentLocale());
         if (!dictionary || !dictionary[key]) {
             dictionary = getDictionary(module, fallbackCulture);
@@ -205,11 +248,19 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         return dictionary[key] || key;
     }
 
-    function replaceAll(str, find, replace) {
+    /**
+     * @param str
+     * @param find
+     * @param replace
+     */
+    function replaceAll (str, find, replace) {
         return str.split(find).join(replace);
     }
 
-    function translate(key) {
+    /**
+     * @param key
+     */
+    function translate (key) {
         var val = translateKey(key);
         for (var i = 1; i < arguments.length; i++) {
             val = replaceAll(val, '{' + (i - 1) + '}', arguments[i]);
@@ -217,7 +268,11 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         return val;
     }
 
-    function translateHtml(html, module) {
+    /**
+     * @param html
+     * @param module
+     */
+    function translateHtml (html, module) {
         if (!module) {
             module = defaultModule();
         }
@@ -244,7 +299,10 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     }
 
     var _defaultModule;
-    function defaultModule(val) {
+    /**
+     * @param val
+     */
+    function defaultModule (val) {
         if (val) {
             _defaultModule = val;
         }

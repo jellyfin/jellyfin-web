@@ -1,7 +1,12 @@
 define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, libraryMenu) {
     'use strict';
 
-    function loadPage(page, config, users) {
+    /**
+     * @param page
+     * @param config
+     * @param users
+     */
+    function loadPage (page, config, users) {
         page.querySelector('#chkEnablePlayTo').checked = config.EnablePlayTo;
         page.querySelector('#chkEnableDlnaDebugLogging').checked = config.EnableDebugLog;
         $('#txtClientDiscoveryInterval', page).val(config.ClientDiscoveryIntervalSeconds);
@@ -15,7 +20,10 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         loading.hide();
     }
 
-    function onSubmit() {
+    /**
+     *
+     */
+    function onSubmit () {
         loading.show();
         var form = this;
         ApiClient.getNamedConfiguration('dlna').then(function (config) {
@@ -31,7 +39,10 @@ define(['jQuery', 'loading', 'libraryMenu', 'fnchecked'], function ($, loading, 
         return false;
     }
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             href: 'dlnasettings.html',
             name: Globalize.translate('TabSettings')

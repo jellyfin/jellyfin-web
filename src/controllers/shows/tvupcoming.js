@@ -1,7 +1,11 @@
 define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'scrollStyles', 'emby-itemscontainer'], function (layoutManager, loading, datetime, libraryBrowser, cardBuilder, appHost, imageLoader) {
     'use strict';
 
-    function getUpcomingPromise(context, params) {
+    /**
+     * @param context
+     * @param params
+     */
+    function getUpcomingPromise (context, params) {
         loading.show();
         var query = {
             Limit: 48,
@@ -15,7 +19,12 @@ define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder',
         return ApiClient.getJSON(ApiClient.getUrl('Shows/Upcoming', query));
     }
 
-    function loadUpcoming(context, params, promise) {
+    /**
+     * @param context
+     * @param params
+     * @param promise
+     */
+    function loadUpcoming (context, params, promise) {
         promise.then(function (result) {
             var items = result.Items;
 
@@ -30,15 +39,25 @@ define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder',
         });
     }
 
-    function enableScrollX() {
+    /**
+     *
+     */
+    function enableScrollX () {
         return !layoutManager.desktop;
     }
 
-    function getThumbShape() {
+    /**
+     *
+     */
+    function getThumbShape () {
         return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
     }
 
-    function renderUpcoming(elem, items) {
+    /**
+     * @param elem
+     * @param items
+     */
+    function renderUpcoming (elem, items) {
         var i;
         var length;
         var groups = [];

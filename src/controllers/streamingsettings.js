@@ -1,12 +1,19 @@
 define(['jQuery', 'libraryMenu', 'loading'], function ($, libraryMenu, loading) {
     'use strict';
 
-    function loadPage(page, config) {
+    /**
+     * @param page
+     * @param config
+     */
+    function loadPage (page, config) {
         $('#txtRemoteClientBitrateLimit', page).val(config.RemoteClientBitrateLimit / 1e6 || '');
         loading.hide();
     }
 
-    function onSubmit() {
+    /**
+     *
+     */
+    function onSubmit () {
         loading.show();
         var form = this;
         ApiClient.getServerConfiguration().then(function (config) {
@@ -16,7 +23,10 @@ define(['jQuery', 'libraryMenu', 'loading'], function ($, libraryMenu, loading) 
         return false;
     }
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             href: 'encodingsettings.html',
             name: Globalize.translate('Transcoding')

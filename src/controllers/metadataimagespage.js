@@ -1,8 +1,11 @@
-define(['jQuery', 'dom', 'loading', 'libraryMenu', 'listViewStyle'], function($, dom, loading, libraryMenu) {
+define(['jQuery', 'dom', 'loading', 'libraryMenu', 'listViewStyle'], function ($, dom, loading, libraryMenu) {
     'use strict';
 
-    function populateLanguages(select) {
-        return ApiClient.getCultures().then(function(languages) {
+    /**
+     * @param select
+     */
+    function populateLanguages (select) {
+        return ApiClient.getCultures().then(function (languages) {
             var html = '';
             html += "<option value=''></option>";
             for (var i = 0, length = languages.length; i < length; i++) {
@@ -13,8 +16,11 @@ define(['jQuery', 'dom', 'loading', 'libraryMenu', 'listViewStyle'], function($,
         })
     }
 
-    function populateCountries(select) {
-        return ApiClient.getCountries().then(function(allCountries) {
+    /**
+     * @param select
+     */
+    function populateCountries (select) {
+        return ApiClient.getCountries().then(function (allCountries) {
             var html = '';
             html += "<option value=''></option>";
             for (var i = 0, length = allCountries.length; i < length; i++) {
@@ -25,22 +31,31 @@ define(['jQuery', 'dom', 'loading', 'libraryMenu', 'listViewStyle'], function($,
         })
     }
 
-    function loadPage(page) {
+    /**
+     * @param page
+     */
+    function loadPage (page) {
         var promises = [ApiClient.getServerConfiguration(), populateLanguages(page.querySelector('#selectLanguage')), populateCountries(page.querySelector('#selectCountry'))];
-        Promise.all(promises).then(function(responses) {
+        Promise.all(promises).then(function (responses) {
             var config = responses[0];
             page.querySelector('#selectLanguage').value = config.PreferredMetadataLanguage || '', page.querySelector('#selectCountry').value = config.MetadataCountryCode || '', loading.hide()
         })
     }
 
-    function onSubmit() {
+    /**
+     *
+     */
+    function onSubmit () {
         var form = this;
-        return loading.show(), ApiClient.getServerConfiguration().then(function(config) {
+        return loading.show(), ApiClient.getServerConfiguration().then(function (config) {
             config.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value, config.MetadataCountryCode = form.querySelector('#selectCountry').value, ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult)
         }), !1
     }
 
-    function getTabs() {
+    /**
+     *
+     */
+    function getTabs () {
         return [{
             href: 'library.html',
             name: Globalize.translate('HeaderLibraries')
@@ -56,9 +71,9 @@ define(['jQuery', 'dom', 'loading', 'libraryMenu', 'listViewStyle'], function($,
         }]
     }
 
-    $(document).on('pageinit', '#metadataImagesConfigurationPage', function() {
+    $(document).on('pageinit', '#metadataImagesConfigurationPage', function () {
         $('.metadataImagesConfigurationForm').off('submit', onSubmit).on('submit', onSubmit)
-    }).on('pageshow', '#metadataImagesConfigurationPage', function() {
+    }).on('pageshow', '#metadataImagesConfigurationPage', function () {
         libraryMenu.setTabs('metadata', 2, getTabs), loading.show(), loadPage(this)
     })
 });

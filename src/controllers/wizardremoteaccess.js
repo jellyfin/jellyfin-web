@@ -1,7 +1,10 @@
 define(['loading', 'emby-checkbox', 'emby-button', 'emby-select'], function (loading) {
     'use strict';
 
-    function save(page) {
+    /**
+     * @param page
+     */
+    function save (page) {
         loading.show();
         var apiClient = ApiClient;
         var config = {};
@@ -17,11 +20,17 @@ define(['loading', 'emby-checkbox', 'emby-button', 'emby-select'], function (loa
         });
     }
 
-    function navigateToNextPage() {
+    /**
+     *
+     */
+    function navigateToNextPage () {
         Dashboard.navigate('wizardfinish.html');
     }
 
-    function onSubmit(e) {
+    /**
+     * @param e
+     */
+    function onSubmit (e) {
         save(this);
         e.preventDefault();
         return false;

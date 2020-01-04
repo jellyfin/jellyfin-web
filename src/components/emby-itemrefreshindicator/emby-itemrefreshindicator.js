@@ -1,15 +1,22 @@
 define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'registerElement'], function (EmbyProgressRing, dom, serverNotifications, events) {
     'use strict';
 
-    function addNotificationEvent(instance, name, handler) {
-
+    /**
+     * @param instance
+     * @param name
+     * @param handler
+     */
+    function addNotificationEvent (instance, name, handler) {
         var localHandler = handler.bind(instance);
         events.on(serverNotifications, name, localHandler);
         instance[name] = localHandler;
     }
 
-    function removeNotificationEvent(instance, name) {
-
+    /**
+     * @param instance
+     * @param name
+     */
+    function removeNotificationEvent (instance, name) {
         var handler = instance[name];
         if (handler) {
             events.off(serverNotifications, name, handler);
@@ -17,8 +24,12 @@ define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'registerEl
         }
     }
 
-    function onRefreshProgress(e, apiClient, info) {
-
+    /**
+     * @param e
+     * @param apiClient
+     * @param info
+     */
+    function onRefreshProgress (e, apiClient, info) {
         var indicator = this;
 
         if (!indicator.itemId) {
@@ -26,7 +37,6 @@ define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'registerEl
         }
 
         if (info.ItemId === indicator.itemId) {
-
             var progress = parseFloat(info.Progress);
 
             if (progress && progress < 100) {
@@ -42,7 +52,6 @@ define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'registerEl
     var EmbyItemRefreshIndicatorPrototype = Object.create(EmbyProgressRing);
 
     EmbyItemRefreshIndicatorPrototype.createdCallback = function () {
-
         // base method
         if (EmbyProgressRing.createdCallback) {
             EmbyProgressRing.createdCallback.call(this);
@@ -52,7 +61,6 @@ define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'registerEl
     };
 
     EmbyItemRefreshIndicatorPrototype.attachedCallback = function () {
-
         // base method
         if (EmbyProgressRing.attachedCallback) {
             EmbyProgressRing.attachedCallback.call(this);
@@ -60,7 +68,6 @@ define(['emby-progressring', 'dom', 'serverNotifications', 'events', 'registerEl
     };
 
     EmbyItemRefreshIndicatorPrototype.detachedCallback = function () {
-
         // base method
         if (EmbyProgressRing.detachedCallback) {
             EmbyProgressRing.detachedCallback.call(this);

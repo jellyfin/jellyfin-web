@@ -1,7 +1,10 @@
 define(['controllers/userpasswordpage', 'loading', 'libraryMenu', 'apphost', 'emby-button'], function (UserPasswordPage, loading, libraryMenu, appHost) {
     'use strict';
 
-    function reloadUser(page) {
+    /**
+     * @param page
+     */
+    function reloadUser (page) {
         var userId = getParameterByName('userId');
         loading.show();
         ApiClient.getUser(userId).then(function (user) {
@@ -32,7 +35,10 @@ define(['controllers/userpasswordpage', 'loading', 'libraryMenu', 'apphost', 'em
         });
     }
 
-    function onFileReaderError(evt) {
+    /**
+     * @param evt
+     */
+    function onFileReaderError (evt) {
         loading.hide();
         switch (evt.target.error.code) {
         case evt.target.error.NOT_FOUND_ERR:
@@ -51,14 +57,21 @@ define(['controllers/userpasswordpage', 'loading', 'libraryMenu', 'apphost', 'em
         }
     }
 
-    function onFileReaderAbort(evt) {
+    /**
+     * @param evt
+     */
+    function onFileReaderAbort (evt) {
         loading.hide();
         require(['toast'], function (toast) {
             toast(Globalize.translate('FileReadCancelled'));
         });
     }
 
-    function setFiles(page, files) {
+    /**
+     * @param page
+     * @param files
+     */
+    function setFiles (page, files) {
         var userImage = page.querySelector('#image');
         var file = files[0];
 

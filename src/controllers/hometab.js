@@ -1,7 +1,11 @@
 define(['userSettings', 'loading', 'connectionManager', 'apphost', 'layoutManager', 'focusManager', 'homeSections', 'emby-itemscontainer'], function (userSettings, loading, connectionManager, appHost, layoutManager, focusManager, homeSections) {
     'use strict';
 
-    function HomeTab(view, params) {
+    /**
+     * @param view
+     * @param params
+     */
+    function HomeTab (view, params) {
         this.view = view;
         this.params = params;
         this.apiClient = connectionManager.currentApiClient();
@@ -9,7 +13,10 @@ define(['userSettings', 'loading', 'connectionManager', 'apphost', 'layoutManage
         view.querySelector('.sections').addEventListener('settingschange', onHomeScreenSettingsChanged.bind(this));
     }
 
-    function onHomeScreenSettingsChanged() {
+    /**
+     *
+     */
+    function onHomeScreenSettingsChanged () {
         this.sectionsRendered = false;
 
         if (!this.paused) {

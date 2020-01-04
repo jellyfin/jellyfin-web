@@ -7,8 +7,10 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
     var subtitleSyncCloseButton;
     var subtitleSyncContainer;
 
-    function init(instance) {
-
+    /**
+     * @param instance
+     */
+    function init (instance) {
         var parent = document.createElement('div');
         parent.innerHTML = template;
 
@@ -19,12 +21,11 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
 
         subtitleSyncContainer.classList.add('hide');
 
-        subtitleSyncTextField.updateOffset = function(offset) {
+        subtitleSyncTextField.updateOffset = function (offset) {
             this.textContent = offset + 's';
         }
 
-        subtitleSyncTextField.addEventListener('keypress', function(event) {
-
+        subtitleSyncTextField.addEventListener('keypress', function (event) {
             if (event.key === 'Enter') {
                 // if input key is enter search for float pattern
                 var inputOffset = /[-+]?\d+\.?\d*/g.exec(this.textContent);
@@ -54,7 +55,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
             }
         });
 
-        subtitleSyncSlider.updateOffset = function(percent) {
+        subtitleSyncSlider.updateOffset = function (percent) {
             // default value is 0s = 50%
             this.value = percent === undefined ? 50 : percent;
         }
@@ -82,7 +83,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
             '</h1>';
         };
 
-        subtitleSyncCloseButton.addEventListener('click', function() {
+        subtitleSyncCloseButton.addEventListener('click', function () {
             playbackManager.disableShowingSubtitleOffset(player);
             SubtitleSync.prototype.toggle('forceToHide');
         });
@@ -92,7 +93,10 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         instance.element = parent;
     }
 
-    function getOffsetFromPercentage(value) {
+    /**
+     * @param value
+     */
+    function getOffsetFromPercentage (value) {
         // convert percent to fraction
         var offset = (value - 50) / 50;
         // multiply by offset min/max range value (-x to +x) :
@@ -100,7 +104,10 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         return offset.toFixed(1);
     }
 
-    function getPercentageFromOffset(value) {
+    /**
+     * @param value
+     */
+    function getPercentageFromOffset (value) {
         // divide by offset min/max range value (-x to +x) :
         var percentValue = value / 30;
         // convert fraction to percent
@@ -109,12 +116,15 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         return Math.min(100, Math.max(0, percentValue.toFixed()));
     }
 
-    function SubtitleSync(currentPlayer) {
+    /**
+     * @param currentPlayer
+     */
+    function SubtitleSync (currentPlayer) {
         player = currentPlayer;
         init(this);
     }
 
-    SubtitleSync.prototype.destroy = function() {
+    SubtitleSync.prototype.destroy = function () {
         SubtitleSync.prototype.toggle('forceToHide');
         if (player) {
             playbackManager.disableShowingSubtitleOffset(player);
@@ -127,10 +137,8 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         }
     }
 
-    SubtitleSync.prototype.toggle = function(action) {
-
+    SubtitleSync.prototype.toggle = function (action) {
         if (player && playbackManager.supportSubtitleOffset(player)) {
-
             switch (action) {
             case undefined:
                 // if showing subtitle sync is enabled
@@ -157,7 +165,6 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
                 subtitleSyncContainer.classList.add('hide');
                 break;
             }
-
         }
     }
 

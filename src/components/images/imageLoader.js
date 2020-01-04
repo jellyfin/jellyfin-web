@@ -10,8 +10,12 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
     // seeing slow performance with firefox
     var enableFade = false;
 
-    function fillImage(elem, source, enableEffects) {
-
+    /**
+     * @param elem
+     * @param source
+     * @param enableEffects
+     */
+    function fillImage (elem, source, enableEffects) {
         if (!elem) {
             throw new Error('elem cannot be null');
         }
@@ -27,9 +31,13 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
         fillImageElement(elem, source, enableEffects);
     }
 
-    function fillImageElement(elem, source, enableEffects) {
+    /**
+     * @param elem
+     * @param source
+     * @param enableEffects
+     */
+    function fillImageElement (elem, source, enableEffects) {
         imageFetcher.loadImage(elem, source).then(function () {
-
             if (enableFade && enableEffects !== false) {
                 fadeIn(elem);
             }
@@ -38,24 +46,29 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
         });
     }
 
-    function fadeIn(elem) {
-
+    /**
+     * @param elem
+     */
+    function fadeIn (elem) {
         var cssClass = 'lazy-image-fadein';
 
         elem.classList.add(cssClass);
     }
 
-    function lazyChildren(elem) {
-
+    /**
+     * @param elem
+     */
+    function lazyChildren (elem) {
         lazyLoader.lazyChildren(elem, fillImage);
     }
 
-    function getPrimaryImageAspectRatio(items) {
-
+    /**
+     * @param items
+     */
+    function getPrimaryImageAspectRatio (items) {
         var values = [];
 
         for (var i = 0, length = items.length; i < length; i++) {
-
             var ratio = items[i].PrimaryImageAspectRatio || 0;
 
             if (!ratio) {
@@ -110,8 +123,10 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
         return result;
     }
 
-    function fillImages(elems) {
-
+    /**
+     * @param elems
+     */
+    function fillImages (elems) {
         for (var i = 0, length = elems.length; i < length; i++) {
             var elem = elems[0];
             fillImage(elem);

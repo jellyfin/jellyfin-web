@@ -1,13 +1,15 @@
 define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectionManager', 'require', 'loading', 'scrollHelper', 'emby-checkbox', 'emby-radio', 'css!./../formdialog', 'material-icons'], function (dialogHelper, globalize, userSettings, layoutManager, connectionManager, require, loading, scrollHelper) {
     'use strict';
 
-    function saveCategories(context, options) {
-
+    /**
+     * @param context
+     * @param options
+     */
+    function saveCategories (context, options) {
         var categories = [];
 
         var chkCategorys = context.querySelectorAll('.chkCategory');
         for (var i = 0, length = chkCategorys.length; i < length; i++) {
-
             var type = chkCategorys[i].getAttribute('data-type');
 
             if (chkCategorys[i].checked) {
@@ -24,27 +26,30 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
         options.categories = categories;
     }
 
-    function loadCategories(context, options) {
-
+    /**
+     * @param context
+     * @param options
+     */
+    function loadCategories (context, options) {
         var selectedCategories = options.categories || [];
 
         var chkCategorys = context.querySelectorAll('.chkCategory');
         for (var i = 0, length = chkCategorys.length; i < length; i++) {
-
             var type = chkCategorys[i].getAttribute('data-type');
 
             chkCategorys[i].checked = !selectedCategories.length || selectedCategories.indexOf(type) !== -1;
         }
     }
 
-    function save(context) {
-
+    /**
+     * @param context
+     */
+    function save (context) {
         var i;
         var length;
 
         var chkIndicators = context.querySelectorAll('.chkIndicator');
         for (i = 0, length = chkIndicators.length; i < length; i++) {
-
             var type = chkIndicators[i].getAttribute('data-type');
             userSettings.set('guide-indicator-' + type, chkIndicators[i].checked);
         }
@@ -61,14 +66,15 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
         }
     }
 
-    function load(context) {
-
+    /**
+     * @param context
+     */
+    function load (context) {
         var i;
         var length;
 
         var chkIndicators = context.querySelectorAll('.chkIndicator');
         for (i = 0, length = chkIndicators.length; i < length; i++) {
-
             var type = chkIndicators[i].getAttribute('data-type');
 
             if (chkIndicators[i].getAttribute('data-default') === 'true') {
@@ -89,7 +95,10 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
         }
     }
 
-    function onSortByChange() {
+    /**
+     *
+     */
+    function onSortByChange () {
         var newValue = this.value;
         if (this.checked) {
             var changed = options.query.SortBy !== newValue;
@@ -103,14 +112,14 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
         }
     }
 
-    function showEditor(options) {
-
+    /**
+     * @param options
+     */
+    function showEditor (options) {
         return new Promise(function (resolve, reject) {
-
             var settingsChanged = false;
 
             require(['text!./guide-settings.template.html'], function (template) {
-
                 var dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
@@ -133,12 +142,10 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
                 dlg.innerHTML = html;
 
                 dlg.addEventListener('change', function () {
-
                     settingsChanged = true;
                 });
 
                 dlg.addEventListener('close', function () {
-
                     if (layoutManager.tv) {
                         scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
                     }

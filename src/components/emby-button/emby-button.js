@@ -4,7 +4,10 @@ define(['browser', 'dom', 'layoutManager', 'shell', 'appRouter', 'apphost', 'css
     var EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
     var EmbyLinkButtonPrototype = Object.create(HTMLAnchorElement.prototype);
 
-    function onAnchorClick(e) {
+    /**
+     * @param e
+     */
+    function onAnchorClick (e) {
         var href = this.getAttribute('href') || '';
         if (href !== '#') {
             if (this.getAttribute('target')) {

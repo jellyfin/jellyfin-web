@@ -1,11 +1,19 @@
 define(['events', 'loading'], function (events, loading) {
     'use strict';
 
-    function onListingsSubmitted() {
+    /**
+     *
+     */
+    function onListingsSubmitted () {
         Dashboard.navigate('livetvstatus.html');
     }
 
-    function init(page, type, providerId) {
+    /**
+     * @param page
+     * @param type
+     * @param providerId
+     */
+    function init (page, type, providerId) {
         var url = 'components/tvproviders/' + type + '.js';
 
         require([url], function (factory) {
@@ -15,7 +23,12 @@ define(['events', 'loading'], function (events, loading) {
         });
     }
 
-    function loadTemplate(page, type, providerId) {
+    /**
+     * @param page
+     * @param type
+     * @param providerId
+     */
+    function loadTemplate (page, type, providerId) {
         require(['text!./components/tvproviders/' + type + '.template.html'], function (html) {
             page.querySelector('.providerTemplate').innerHTML = Globalize.translateDocument(html);
             init(page, type, providerId);
