@@ -1,37 +1,35 @@
-extends: "plugin:compat/recommended"
+extends: 
+  - "standard"
+  - "plugin:requirejs/recommended"
+  - "plugin:jsdoc/recommended"
+  - "plugin:compat/recommended"
+
+parserOptions:
+  ecmaVersion: 5
 
 env:
   es6: true
   browser: true
   amd: true
+  jquery: true
+
+plugins:
+  - requirejs
+  - deprecate
+  - jsdoc
 
 rules:
-  block-spacing: ["error"]
-  brace-style: ["error"]
-  comma-dangle: ["error", "never"]
-  comma-spacing: ["error"]
-  eol-last: ["off"]
-  indent: ["error", 4, { "SwitchCase": 1 }]
-  keyword-spacing: ["error"]
-  line-comment-position: ["off"]
-  max-statements-per-line: ["error"]
-  no-empty: ["error"]
-  no-extra-semi: ["error"]
-  no-floating-decimal: ["error"]
-  no-multi-spaces: ["error"]
-  no-multiple-empty-lines: ["error", { "max": 1 }]
-  no-trailing-spaces: ["error"]
-  no-void: ["off"]
-  one-var: ["error", "never"]
-  padding-line-between-statements: ["off"]
-  semi: ["off"]
-  space-before-blocks: ["error"]
-  yoda: ["off"]
+  "compat/compat": "warn"
+  "indent": ["error", 4]
+  "deprecate/function": "warn"
+  "deprecate/member-expression": "warn"
+  "deprecate/import": "warn"
 
 settings:
   polyfills:
     - Promise
-    - Object.assign
     - document.registerElement
     - ResizeObserver
     - fetch
+    # core-js
+    - Object.assign # es.object.assign
