@@ -215,7 +215,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 context.querySelector(".sendTextSection").classList.add("hide");
             }
 
-            if (!currentPlayer.isLocalPlayer) {
+            if (-1 != supportedCommands.indexOf("MoveUp" || "MoveDown" || "MoveRight" || "MoveRight" || "MoveLeft" || "Select" || "Back" || "ToggleContextMenu" || "GoToSearch" || "GoToSettings" || "GoHome") && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".navigationSection").classList.remove("hide");
             } else {
                 context.querySelector(".navigationSection").classList.add("hide");
