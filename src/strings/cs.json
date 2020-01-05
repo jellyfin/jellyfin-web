@@ -191,7 +191,7 @@
     "ErrorAddingListingsToSchedulesDirect": "Došlo k chybě při přidání sestavy do účtu vašeho Direct plánovače. Direct plánovač umožňuje pouze omezený počet sestav na účet. Možná se budete muset přihlásit do webových stránek Direct plánovače a před pokračováním odstranit ostatní výpisy ze svého účtu.",
     "ErrorAddingMediaPathToVirtualFolder": "Nastala chyba při přidávání cesty k médiím. Zkontrolujte zda zadaná složka je validní a Jellyfin Server má k této složce přístup.",
     "ErrorAddingTunerDevice": "Došlo k chybě při přidání zařízení tuneru. Prosím, ujistěte se, že je přístupný a zkuste to znovu.",
-    "ErrorAddingXmlTvFile": "Nastala chyba při přístupu k XmlTV souboru. Ujistěte se, že soubor existuje, a zkuste znovu spustit.",
+    "ErrorAddingXmlTvFile": "Nastala chyba při přístupu k XMLTV souboru. Ujistěte se, že soubor existuje a zkuste jej znovu otevřít.",
     "ErrorDeletingItem": "Nastala chyba při mazání položky z Jellyfin Serveru. Zkontrolujte prosím, že Jellyfin Server má oprávnění k zápisu do složky médií a zkuste to prosím znovu.",
     "ErrorGettingTvLineups": "Došlo k chybě při stahování TV sestav. Ujistěte se prosím, že zadané informace jsou správné a zkuste to znovu.",
     "ErrorMessageStartHourGreaterThanEnd": "Čas ukončení musí být větší než čas startu.",
@@ -588,7 +588,7 @@
     "LabelLoginDisclaimer": "Zřeknutí se následujících práv při přihlášení:",
     "LabelLoginDisclaimerHelp": "Zpráva, která se zobrazí v dolní části přihlašovací stránky.",
     "LabelLogs": "Záznamy:",
-    "LabelManufacturer": "Výrobce",
+    "LabelManufacturer": "Výrobce:",
     "LabelManufacturerUrl": "Web výrobce",
     "LabelMatchType": "Typ spárování:",
     "LabelMaxBackdropsPerItem": "Maximální počet obrázků pro pozadí na položku:",
@@ -625,7 +625,7 @@
     "LabelMoviePrefixHelp": "Pokud je v názvech filmů použita předpona, zadejte ji sem, aby ji server mohl správně zpracovat.",
     "LabelMovieRecordingPath": "Složka pro nahrávání filmů (volitelné):",
     "LabelMusicStreamingTranscodingBitrate": "Datový tok pro překódování hudby:",
-    "LabelMusicStreamingTranscodingBitrateHelp": "Zadejte maximální datový tok pro streamování hudby",
+    "LabelMusicStreamingTranscodingBitrateHelp": "Zadejte maximální datový tok pro streamování hudby.",
     "LabelName": "Jméno:",
     "LabelNewName": "Nový název:",
     "LabelNewPassword": "Nové heslo:",
@@ -1215,7 +1215,7 @@
     "XmlTvKidsCategoriesHelp": "Programy s těmito kategoriemi budou zobrazeny jako programy pro děti. Více kategorií oddělte \"|\".",
     "XmlTvMovieCategoriesHelp": "Programy s těmito kategoriemi budou zobrazeny jako filmy. Více kategorií oddělte \"|\".",
     "XmlTvNewsCategoriesHelp": "Programy s těmito kategoriemi budou zobrazeny jako zpravodajské pořady. Více kategorií oddělte \"|\".",
-    "XmlTvPathHelp": "Cesta k souboru XML TV. Jellyfin tento soubor načte a pravidelně jej kontroluje, zda neobsahuje aktualizace. Jste zodpovědní za vytvoření a aktualizaci souboru.",
+    "XmlTvPathHelp": "Cesta k souboru XMLTV. Jellyfin tento soubor načte a pravidelně jej kontroluje, zda neobsahuje aktualizace. Jste zodpovědní za vytvoření a aktualizaci souboru.",
     "XmlTvSportsCategoriesHelp": "Programy s těmito kategoriemi budou zobrazeny jako sportovní pořady. Více kategorií oddělte \"|\".",
     "Yes": "Ano",
     "Yesterday": "Včera",
@@ -1555,5 +1555,6 @@
     "CopyStreamURLSuccess": "Úspěšně zkopírovaná URL.",
     "CopyStreamURL": "Kopírovat URL adresu streamu",
     "ButtonAddImage": "Přidat obrázek",
-    "HeaderFavoritePeople": "Oblíbení lidé"
+    "HeaderFavoritePeople": "Oblíbení lidé",
+    "OptionRandom": "Náhodně"
 }
