@@ -1,18 +1,14 @@
 define(['globalize', 'loading', 'connectionManager'], function (globalize, loading, connectionManager) {
     'use strict';
 
-    function changeRecordingToSeries(apiClient, timerId, programId, confirmTimerCancellation) {
-
+    function changeRecordingToSeries (apiClient, timerId, programId, confirmTimerCancellation) {
         loading.show();
 
         return apiClient.getItem(apiClient.getCurrentUserId(), programId).then(function (item) {
-
             if (item.IsSeries) {
                 // create series
                 return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then(function (timerDefaults) {
-
                     return apiClient.createLiveTvSeriesTimer(timerDefaults).then(function () {
-
                         loading.hide();
                         sendToast(globalize.translate('SeriesRecordingScheduled'));
                     });
@@ -28,12 +24,9 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
         });
     }
 
-    function cancelTimerWithConfirmation(timerId, serverId) {
-
+    function cancelTimerWithConfirmation (timerId, serverId) {
         return new Promise(function (resolve, reject) {
-
             require(['confirm'], function (confirm) {
-
                 confirm({
 
                     text: globalize.translate('MessageConfirmRecordingCancellation'),
@@ -42,23 +35,18 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
                     cancelText: globalize.translate('HeaderKeepRecording')
 
                 }).then(function () {
-
                     loading.show();
 
                     var apiClient = connectionManager.getApiClient(serverId);
                     cancelTimer(apiClient, timerId, true).then(resolve, reject);
-
                 }, reject);
             });
         });
     }
 
-    function cancelSeriesTimerWithConfirmation(timerId, serverId) {
-
+    function cancelSeriesTimerWithConfirmation (timerId, serverId) {
         return new Promise(function (resolve, reject) {
-
             require(['confirm'], function (confirm) {
-
                 confirm({
 
                     text: globalize.translate('MessageConfirmRecordingCancellation'),
@@ -67,12 +55,10 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
                     cancelText: globalize.translate('HeaderKeepSeries')
 
                 }).then(function () {
-
                     loading.show();
 
                     var apiClient = connectionManager.getApiClient(serverId);
                     apiClient.cancelLiveTvSeriesTimer(timerId).then(function () {
-
                         require(['toast'], function (toast) {
                             toast(globalize.translate('SeriesCancelled'));
                         });
@@ -80,16 +66,14 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
                         loading.hide();
                         resolve();
                     }, reject);
-
                 }, reject);
             });
         });
     }
 
-    function cancelTimer(apiClient, timerId, hideLoading) {
+    function cancelTimer (apiClient, timerId, hideLoading) {
         loading.show();
         return apiClient.cancelLiveTvTimer(timerId).then(function () {
-
             if (hideLoading !== false) {
                 loading.hide();
                 sendToast(globalize.translate('RecordingCancelled'));
@@ -97,34 +81,29 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
         });
     }
 
-    function createRecording(apiClient, programId, isSeries) {
-
+    function createRecording (apiClient, programId, isSeries) {
         loading.show();
         return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then(function (item) {
-
-            var promise = isSeries ?
-                apiClient.createLiveTvSeriesTimer(item) :
-                apiClient.createLiveTvTimer(item);
+            var promise = isSeries
+                ? apiClient.createLiveTvSeriesTimer(item)
+                : apiClient.createLiveTvTimer(item);
 
             return promise.then(function () {
-
                 loading.hide();
                 sendToast(globalize.translate('RecordingScheduled'));
             });
         });
     }
 
-    function sendToast(msg) {
+    function sendToast (msg) {
         require(['toast'], function (toast) {
             toast(msg);
         });
     }
 
-    function showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, seriesTimerId) {
+    function showMultiCancellationPrompt (serverId, programId, timerId, timerStatus, seriesTimerId) {
         return new Promise(function (resolve, reject) {
-
             require(['dialog'], function (dialog) {
-
                 var items = [];
 
                 items.push({
@@ -159,7 +138,6 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
                     buttons: items
 
                 }).then(function (result) {
-
                     var apiClient = connectionManager.getApiClient(serverId);
 
                     if (result === 'canceltimer') {
@@ -167,11 +145,9 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
 
                         cancelTimer(apiClient, timerId, true).then(resolve, reject);
                     } else if (result === 'cancelseriestimer') {
-
                         loading.show();
 
                         apiClient.cancelLiveTvSeriesTimer(seriesTimerId).then(function () {
-
                             require(['toast'], function (toast) {
                                 toast(globalize.translate('SeriesCancelled'));
                             });
@@ -182,13 +158,12 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
                     } else {
                         resolve();
                     }
-
                 }, reject);
             });
         });
     }
 
-    function toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerId) {
+    function toggleRecording (serverId, programId, timerId, timerStatus, seriesTimerId) {
         var apiClient = connectionManager.getApiClient(serverId);
         var hasTimer = timerId && timerStatus !== 'Cancelled';
         if (seriesTimerId && hasTimer) {
@@ -202,7 +177,7 @@ define(['globalize', 'loading', 'connectionManager'], function (globalize, loadi
             // schedule recording
             return createRecording(apiClient, programId);
         } else {
-            return Promise.reject();
+            return Promise.reject(Error('cannot toggle recording'));
         }
     }
 

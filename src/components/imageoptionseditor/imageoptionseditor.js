@@ -1,47 +1,47 @@
-define(["globalize", "dom", "dialogHelper", "emby-checkbox", "emby-select", "emby-input"], function (globalize, dom, dialogHelper) {
-    "use strict";
+define(['globalize', 'dom', 'dialogHelper', 'emby-checkbox', 'emby-select', 'emby-input'], function (globalize, dom, dialogHelper) {
+    'use strict';
 
-    function getDefaultImageConfig(itemType, type) {
+    function getDefaultImageConfig (itemType, type) {
         return {
             Type: type,
             MinWidth: 0,
-            Limit: "Primary" === type ? 1 : 0
+            Limit: type === 'Primary' ? 1 : 0
         };
     }
 
-    function findImageOptions(imageOptions, type) {
+    function findImageOptions (imageOptions, type) {
         return imageOptions.filter(function (i) {
-            return i.Type == type;
+            return i.Type === type;
         })[0];
     }
 
-    function getImageConfig(options, availableOptions, imageType, itemType) {
+    function getImageConfig (options, availableOptions, imageType, itemType) {
         return findImageOptions(options.ImageOptions || [], imageType) || findImageOptions(availableOptions.DefaultImageOptions || [], imageType) || getDefaultImageConfig(itemType, imageType);
     }
 
-    function setVisibilityOfBackdrops(elem, visible) {
+    function setVisibilityOfBackdrops (elem, visible) {
         if (visible) {
-            elem.classList.remove("hide");
-            elem.querySelector("input").setAttribute("required", "required");
+            elem.classList.remove('hide');
+            elem.querySelector('input').setAttribute('required', 'required');
         } else {
-            elem.classList.add("hide");
-            elem.querySelector("input").setAttribute("required", "");
-            elem.querySelector("input").removeAttribute("required");
+            elem.classList.add('hide');
+            elem.querySelector('input').setAttribute('required', '');
+            elem.querySelector('input').removeAttribute('required');
         }
     }
 
-    function loadValues(context, itemType, options, availableOptions) {
+    function loadValues (context, itemType, options, availableOptions) {
         var supportedImageTypes = availableOptions.SupportedImageTypes || [];
-        setVisibilityOfBackdrops(context.querySelector(".backdropFields"), -1 != supportedImageTypes.indexOf("Backdrop"));
-        setVisibilityOfBackdrops(context.querySelector(".screenshotFields"), -1 != supportedImageTypes.indexOf("Screenshot"));
-        Array.prototype.forEach.call(context.querySelectorAll(".imageType"), function (i) {
-            var imageType = i.getAttribute("data-imagetype");
-            var container = dom.parentWithTag(i, "LABEL");
+        setVisibilityOfBackdrops(context.querySelector('.backdropFields'), supportedImageTypes.indexOf('Backdrop') !== -1);
+        setVisibilityOfBackdrops(context.querySelector('.screenshotFields'), supportedImageTypes.indexOf('Screenshot') !== -1);
+        Array.prototype.forEach.call(context.querySelectorAll('.imageType'), function (i) {
+            var imageType = i.getAttribute('data-imagetype');
+            var container = dom.parentWithTag(i, 'LABEL');
 
-            if (-1 == supportedImageTypes.indexOf(imageType)) {
-                container.classList.add("hide");
+            if (supportedImageTypes.indexOf(imageType) === -1) {
+                container.classList.add('hide');
             } else {
-                container.classList.remove("hide");
+                container.classList.remove('hide');
             }
 
             if (getImageConfig(options, availableOptions, imageType, itemType).Limit) {
@@ -50,55 +50,55 @@ define(["globalize", "dom", "dialogHelper", "emby-checkbox", "emby-select", "emb
                 i.checked = false;
             }
         });
-        var backdropConfig = getImageConfig(options, availableOptions, "Backdrop", itemType);
-        context.querySelector("#txtMaxBackdrops").value = backdropConfig.Limit;
-        context.querySelector("#txtMinBackdropDownloadWidth").value = backdropConfig.MinWidth;
-        var screenshotConfig = getImageConfig(options, availableOptions, "Screenshot", itemType);
-        context.querySelector("#txtMaxScreenshots").value = screenshotConfig.Limit;
-        context.querySelector("#txtMinScreenshotDownloadWidth").value = screenshotConfig.MinWidth;
+        var backdropConfig = getImageConfig(options, availableOptions, 'Backdrop', itemType);
+        context.querySelector('#txtMaxBackdrops').value = backdropConfig.Limit;
+        context.querySelector('#txtMinBackdropDownloadWidth').value = backdropConfig.MinWidth;
+        var screenshotConfig = getImageConfig(options, availableOptions, 'Screenshot', itemType);
+        context.querySelector('#txtMaxScreenshots').value = screenshotConfig.Limit;
+        context.querySelector('#txtMinScreenshotDownloadWidth').value = screenshotConfig.MinWidth;
     }
 
-    function saveValues(context, options) {
-        options.ImageOptions = Array.prototype.map.call(context.querySelectorAll(".imageType:not(.hide)"), function (c) {
+    function saveValues (context, options) {
+        options.ImageOptions = Array.prototype.map.call(context.querySelectorAll('.imageType:not(.hide)'), function (c) {
             return {
-                Type: c.getAttribute("data-imagetype"),
+                Type: c.getAttribute('data-imagetype'),
                 Limit: c.checked ? 1 : 0,
                 MinWidth: 0
             };
         });
         options.ImageOptions.push({
-            Type: "Backdrop",
-            Limit: context.querySelector("#txtMaxBackdrops").value,
-            MinWidth: context.querySelector("#txtMinBackdropDownloadWidth").value
+            Type: 'Backdrop',
+            Limit: context.querySelector('#txtMaxBackdrops').value,
+            MinWidth: context.querySelector('#txtMinBackdropDownloadWidth').value
         });
         options.ImageOptions.push({
-            Type: "Screenshot",
-            Limit: context.querySelector("#txtMaxScreenshots").value,
-            MinWidth: context.querySelector("#txtMinScreenshotDownloadWidth").value
+            Type: 'Screenshot',
+            Limit: context.querySelector('#txtMaxScreenshots').value,
+            MinWidth: context.querySelector('#txtMinScreenshotDownloadWidth').value
         });
     }
 
-    function editor() {
+    function editor () {
         this.show = function (itemType, options, availableOptions) {
             return new Promise(function (resolve, reject) {
                 var xhr = new XMLHttpRequest();
-                xhr.open("GET", "components/imageoptionseditor/imageoptionseditor.template.html", true);
+                xhr.open('GET', 'components/imageoptionseditor/imageoptionseditor.template.html', true);
 
                 xhr.onload = function (e) {
                     var template = this.response;
                     var dlg = dialogHelper.createDialog({
-                        size: "medium-tall",
+                        size: 'medium-tall',
                         removeOnClose: true,
                         scrollY: false
                     });
-                    dlg.classList.add("formDialog");
+                    dlg.classList.add('formDialog');
                     dlg.innerHTML = globalize.translateDocument(template);
-                    dlg.addEventListener("close", function () {
+                    dlg.addEventListener('close', function () {
                         saveValues(dlg, options);
                     });
                     loadValues(dlg, itemType, options, availableOptions);
                     dialogHelper.open(dlg).then(resolve, resolve);
-                    dlg.querySelector(".btnCancel").addEventListener("click", function () {
+                    dlg.querySelector('.btnCancel').addEventListener('click', function () {
                         dialogHelper.close(dlg);
                     });
                 };

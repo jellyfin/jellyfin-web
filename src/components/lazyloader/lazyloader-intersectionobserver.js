@@ -1,8 +1,7 @@
 define(['require', 'browser'], function (require, browser) {
     'use strict';
 
-    function LazyLoader(options) {
-
+    function LazyLoader (options) {
         this.options = options;
     }
 
@@ -11,13 +10,12 @@ define(['require', 'browser'], function (require, browser) {
     }
 
     LazyLoader.prototype.createObserver = function () {
-
         var observerOptions = {};
         var options = this.options;
         var loadedCount = 0;
         var callback = options.callback;
 
-        observerOptions.rootMargin = "50%";
+        observerOptions.rootMargin = '50%';
 
         var observerId = 'obs' + new Date().getTime();
 
@@ -27,7 +25,6 @@ define(['require', 'browser'], function (require, browser) {
                 var entry = entries[j];
 
                 if (entry.intersectionRatio > 0) {
-
                     // Stop watching and load the image
                     var target = entry.target;
 
@@ -52,7 +49,6 @@ define(['require', 'browser'], function (require, browser) {
     };
 
     LazyLoader.prototype.addElements = function (elements) {
-
         var observer = this.observer;
 
         if (!observer) {
@@ -68,7 +64,6 @@ define(['require', 'browser'], function (require, browser) {
     };
 
     LazyLoader.prototype.destroyObserver = function (elements) {
-
         var observer = this.observer;
 
         if (observer) {
@@ -78,13 +73,11 @@ define(['require', 'browser'], function (require, browser) {
     };
 
     LazyLoader.prototype.destroy = function (elements) {
-
         this.destroyObserver();
         this.options = null;
     };
 
-    function unveilElements(elements, root, callback) {
-
+    function unveilElements (elements, root, callback) {
         if (!elements.length) {
             return;
         }
@@ -95,7 +88,6 @@ define(['require', 'browser'], function (require, browser) {
     }
 
     LazyLoader.lazyChildren = function (elem, callback) {
-
         unveilElements(elem.getElementsByClassName('lazy'), elem, callback);
     };
 

@@ -1,10 +1,10 @@
-define(['inputManager', 'focusManager'], function(inputManager, focusManager) {
+define(['inputManager', 'focusManager'], function (inputManager, focusManager) {
     'use strict';
 
-    console.log("keyboardnavigation");
+    console.log('keyboardnavigation');
 
-    function enable() {
-        document.addEventListener('keydown', function(e) {
+    function enable () {
+        document.addEventListener('keydown', function (e) {
             var capture = true;
 
             switch (e.keyCode) {
@@ -24,11 +24,10 @@ define(['inputManager', 'focusManager'], function(inputManager, focusManager) {
                     capture = false;
             }
             if (capture) {
-                console.log("Disabling default event handling");
+                console.log('Disabling default event handling');
                 e.preventDefault();
             }
         });
-
     }
     return {
         enable: enable

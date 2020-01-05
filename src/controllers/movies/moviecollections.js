@@ -1,25 +1,25 @@
-define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardBuilder", "apphost", "emby-itemscontainer"], function (loading, events, libraryBrowser, imageLoader, listView, cardBuilder, appHost) {
-    "use strict";
+define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'apphost', 'emby-itemscontainer'], function (loading, events, libraryBrowser, imageLoader, listView, cardBuilder, appHost) {
+    'use strict';
 
     return function (view, params, tabContent) {
-        function getPageData(context) {
+        function getPageData (context) {
             var key = getSavedQueryKey(context);
             var pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
                     query: {
-                        SortBy: "SortName",
-                        SortOrder: "Ascending",
-                        IncludeItemTypes: "BoxSet",
+                        SortBy: 'SortName',
+                        SortOrder: 'Ascending',
+                        IncludeItemTypes: 'BoxSet',
                         Recursive: true,
-                        Fields: "PrimaryImageAspectRatio,SortName",
+                        Fields: 'PrimaryImageAspectRatio,SortName',
                         ImageTypeLimit: 1,
-                        EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
+                        EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                         StartIndex: 0,
                         Limit: pageSize
                     },
-                    view: libraryBrowser.getSavedView(key) || "Poster"
+                    view: libraryBrowser.getSavedView(key) || 'Poster'
                 };
                 pageData.query.ParentId = params.topParentId;
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
@@ -28,39 +28,39 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
             return pageData;
         }
 
-        function getQuery(context) {
+        function getQuery (context) {
             return getPageData(context).query;
         }
 
-        function getSavedQueryKey(context) {
+        function getSavedQueryKey (context) {
             if (!context.savedQueryKey) {
-                context.savedQueryKey = libraryBrowser.getSavedQueryKey("moviecollections");
+                context.savedQueryKey = libraryBrowser.getSavedQueryKey('moviecollections');
             }
 
             return context.savedQueryKey;
         }
 
-        function onViewStyleChange() {
+        function onViewStyleChange () {
             var viewStyle = self.getCurrentViewStyle();
-            var itemsContainer = tabContent.querySelector(".itemsContainer");
+            var itemsContainer = tabContent.querySelector('.itemsContainer');
 
-            if ("List" == viewStyle) {
-                itemsContainer.classList.add("vertical-list");
-                itemsContainer.classList.remove("vertical-wrap");
+            if (viewStyle === 'List') {
+                itemsContainer.classList.add('vertical-list');
+                itemsContainer.classList.remove('vertical-wrap');
             } else {
-                itemsContainer.classList.remove("vertical-list");
-                itemsContainer.classList.add("vertical-wrap");
+                itemsContainer.classList.remove('vertical-list');
+                itemsContainer.classList.add('vertical-wrap');
             }
 
-            itemsContainer.innerHTML = "";
+            itemsContainer.innerHTML = '';
         }
 
-        function reloadItems(page) {
+        function reloadItems (page) {
             loading.show();
             isLoading = true;
             var query = getQuery(page);
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
-                function onNextPageClick() {
+                function onNextPageClick () {
                     if (isLoading) {
                         return;
                     }
@@ -69,7 +69,7 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                     reloadItems(tabContent);
                 }
 
-                function onPreviousPageClick() {
+                function onPreviousPageClick () {
                     if (isLoading) {
                         return;
                     }
@@ -91,45 +91,45 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                     filterButton: false
                 });
                 var viewStyle = self.getCurrentViewStyle();
-                if (viewStyle == "Thumb") {
+                if (viewStyle === 'Thumb') {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: "backdrop",
+                        shape: 'backdrop',
                         preferThumb: true,
-                        context: "movies",
+                        context: 'movies',
                         overlayPlayButton: true,
                         centerText: true,
                         showTitle: true
                     });
-                } else if (viewStyle == "ThumbCard") {
+                } else if (viewStyle === 'ThumbCard') {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: "backdrop",
+                        shape: 'backdrop',
                         preferThumb: true,
-                        context: "movies",
+                        context: 'movies',
                         lazy: true,
                         cardLayout: true,
                         showTitle: true
                     });
-                } else if (viewStyle == "Banner") {
+                } else if (viewStyle === 'Banner') {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: "banner",
+                        shape: 'banner',
                         preferBanner: true,
-                        context: "movies",
+                        context: 'movies',
                         lazy: true
                     });
-                } else if (viewStyle == "List") {
+                } else if (viewStyle === 'List') {
                     html = listView.getListViewHtml({
                         items: result.Items,
-                        context: "movies",
+                        context: 'movies',
                         sortBy: query.SortBy
                     });
-                } else if (viewStyle == "PosterCard") {
+                } else if (viewStyle === 'PosterCard') {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: "auto",
-                        context: "movies",
+                        shape: 'auto',
+                        context: 'movies',
                         showTitle: true,
                         centerText: false,
                         cardLayout: true
@@ -137,8 +137,8 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                 } else {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: "auto",
-                        context: "movies",
+                        shape: 'auto',
+                        context: 'movies',
                         centerText: true,
                         overlayPlayButton: true,
                         showTitle: true
@@ -146,34 +146,34 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                 }
                 var i;
                 var length;
-                var elems = tabContent.querySelectorAll(".paging");
+                var elems = tabContent.querySelectorAll('.paging');
 
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
                 }
 
-                elems = tabContent.querySelectorAll(".btnNextPage");
+                elems = tabContent.querySelectorAll('.btnNextPage');
                 for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener("click", onNextPageClick);
+                    elems[i].addEventListener('click', onNextPageClick);
                 }
 
-                elems = tabContent.querySelectorAll(".btnPreviousPage");
+                elems = tabContent.querySelectorAll('.btnPreviousPage');
                 for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener("click", onPreviousPageClick);
+                    elems[i].addEventListener('click', onPreviousPageClick);
                 }
 
                 if (!result.Items.length) {
-                    html = '<p style="text-align:center;">' + Globalize.translate("MessageNoCollectionsAvailable") + "</p>";
+                    html = '<p style="text-align:center;">' + Globalize.translate('MessageNoCollectionsAvailable') + '</p>';
                 }
 
-                var itemsContainer = tabContent.querySelector(".itemsContainer");
+                var itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(page), query);
                 loading.hide();
                 isLoading = false;
 
-                require(["autoFocuser"], function (autoFocuser) {
+                require(['autoFocuser'], function (autoFocuser) {
                     autoFocuser.autoFocus(page);
                 });
             });
@@ -188,24 +188,24 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
             return getPageData(tabContent).view;
         };
 
-        function initPage(tabContent) {
-            tabContent.querySelector(".btnSort").addEventListener("click", function (e) {
+        function initPage (tabContent) {
+            tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: Globalize.translate("OptionNameSort"),
-                        id: "SortName"
+                        name: Globalize.translate('OptionNameSort'),
+                        id: 'SortName'
                     }, {
-                        name: Globalize.translate("OptionImdbRating"),
-                        id: "CommunityRating,SortName"
+                        name: Globalize.translate('OptionImdbRating'),
+                        id: 'CommunityRating,SortName'
                     }, {
-                        name: Globalize.translate("OptionDateAdded"),
-                        id: "DateCreated,SortName"
+                        name: Globalize.translate('OptionDateAdded'),
+                        id: 'DateCreated,SortName'
                     }, {
-                        name: Globalize.translate("OptionParentalRating"),
-                        id: "OfficialRating,SortName"
+                        name: Globalize.translate('OptionParentalRating'),
+                        id: 'OfficialRating,SortName'
                     }, {
-                        name: Globalize.translate("OptionReleaseDate"),
-                        id: "PremiereDate,SortName"
+                        name: Globalize.translate('OptionReleaseDate'),
+                        id: 'PremiereDate,SortName'
                     }],
                     callback: function () {
                         getQuery(tabContent).StartIndex = 0;
@@ -215,11 +215,11 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                     button: e.target
                 });
             });
-            var btnSelectView = tabContent.querySelector(".btnSelectView");
-            btnSelectView.addEventListener("click", function (e) {
-                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), "List,Poster,PosterCard,Thumb,ThumbCard".split(","));
+            var btnSelectView = tabContent.querySelector('.btnSelectView');
+            btnSelectView.addEventListener('click', function (e) {
+                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
-            btnSelectView.addEventListener("layoutchange", function (e) {
+            btnSelectView.addEventListener('layoutchange', function (e) {
                 var viewStyle = e.detail.viewStyle;
                 getPageData(tabContent).view = viewStyle;
                 libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
@@ -227,10 +227,10 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                 onViewStyleChange();
                 reloadItems(tabContent);
             });
-            tabContent.querySelector(".btnNewCollection").addEventListener("click", function () {
-                require(["collectionEditor"], function (collectionEditor) {
+            tabContent.querySelector('.btnNewCollection').addEventListener('click', function () {
+                require(['collectionEditor'], function (CollectionEditor) {
                     var serverId = ApiClient.serverInfo().Id;
-                    new collectionEditor().show({
+                    new CollectionEditor().show({
                         items: [],
                         serverId: serverId
                     });

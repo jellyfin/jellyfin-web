@@ -1,7 +1,7 @@
 define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'require'], function (serverNotifications, playbackManager, events, globalize, require) {
     'use strict';
 
-    function onOneDocumentClick() {
+    function onOneDocumentClick () {
         document.removeEventListener('click', onOneDocumentClick);
         document.removeEventListener('keydown', onOneDocumentClick);
 
@@ -15,7 +15,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
 
     var serviceWorkerRegistration;
 
-    function closeAfter(notification, timeoutMs) {
+    function closeAfter (notification, timeoutMs) {
         setTimeout(function () {
             if (notification.close) {
                 notification.close();
@@ -25,7 +25,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         }, timeoutMs);
     }
 
-    function resetRegistration() {
+    function resetRegistration () {
         var serviceWorker = navigator.serviceWorker;
         if (serviceWorker) {
             serviceWorker.ready.then(function (registration) {
@@ -36,12 +36,11 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
 
     resetRegistration();
 
-    function showPersistentNotification(title, options, timeoutMs) {
+    function showPersistentNotification (title, options, timeoutMs) {
         serviceWorkerRegistration.showNotification(title, options);
     }
 
-    function showNonPersistentNotification(title, options, timeoutMs) {
-
+    function showNonPersistentNotification (title, options, timeoutMs) {
         try {
             var notif = new Notification(title, options);
 
@@ -62,8 +61,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         }
     }
 
-    function showNotification(options, timeoutMs, apiClient) {
-
+    function showNotification (options, timeoutMs, apiClient) {
         var title = options.title;
 
         options.data = options.data || {};
@@ -81,8 +79,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         showNonPersistentNotification(title, options, timeoutMs);
     }
 
-    function showNewItemNotification(item, apiClient) {
-
+    function showNewItemNotification (item, apiClient) {
         if (playbackManager.isPlayingLocally(['Video'])) {
             return;
         }
@@ -94,33 +91,31 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         }
 
         var notification = {
-            title: "New " + item.Type,
+            title: 'New ' + item.Type,
             body: body,
             vibrate: true,
-            tag: "newItem" + item.Id,
+            tag: 'newItem' + item.Id,
             data: {
-                //options: {
+                // options: {
                 //    url: LibraryBrowser.getHref(item)
-                //}
+                // }
             }
         };
 
         var imageTags = item.ImageTags || {};
 
         if (imageTags.Primary) {
-
             notification.icon = apiClient.getScaledImageUrl(item.Id, {
                 width: 80,
                 tag: imageTags.Primary,
-                type: "Primary"
+                type: 'Primary'
             });
         }
 
         showNotification(notification, 15000, apiClient);
     }
 
-    function onLibraryChanged(data, apiClient) {
-
+    function onLibraryChanged (data, apiClient) {
         var newItems = data.ItemsAdded;
 
         if (!newItems.length) {
@@ -136,39 +131,35 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
 
             Recursive: true,
             Limit: 3,
-            Filters: "IsNotFolder",
-            SortBy: "DateCreated",
-            SortOrder: "Descending",
+            Filters: 'IsNotFolder',
+            SortBy: 'DateCreated',
+            SortOrder: 'Descending',
             Ids: newItems.join(','),
-            MediaTypes: "Audio,Video",
+            MediaTypes: 'Audio,Video',
             EnableTotalRecordCount: false
 
         }).then(function (result) {
-
             var items = result.Items;
 
-            for (var i = 0, length = items.length ; i < length; i++) {
-
+            for (var i = 0, length = items.length; i < length; i++) {
                 showNewItemNotification(items[i], apiClient);
             }
         });
     }
 
-    function getIconUrl(name) {
+    function getIconUrl (name) {
         name = name || 'notificationicon.png';
         return require.toUrl('.').split('?')[0] + '/' + name;
     }
 
-    function showPackageInstallNotification(apiClient, installation, status) {
-
+    function showPackageInstallNotification (apiClient, installation, status) {
         apiClient.getCurrentUser().then(function (user) {
-
             if (!user.Policy.IsAdministrator) {
                 return;
             }
 
             var notification = {
-                tag: "install" + installation.Id,
+                tag: 'install' + installation.Id,
                 data: {}
             };
 
@@ -196,7 +187,6 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             }
 
             if (status === 'progress') {
-
                 var percentComplete = Math.round(installation.PercentComplete || 0);
 
                 notification.body = percentComplete + '% complete.';
@@ -213,25 +203,25 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     });
 
     events.on(serverNotifications, 'PackageInstallationCompleted', function (e, apiClient, data) {
-        showPackageInstallNotification(apiClient, data, "completed");
+        showPackageInstallNotification(apiClient, data, 'completed');
     });
 
     events.on(serverNotifications, 'PackageInstallationFailed', function (e, apiClient, data) {
-        showPackageInstallNotification(apiClient, data, "failed");
+        showPackageInstallNotification(apiClient, data, 'failed');
     });
 
     events.on(serverNotifications, 'PackageInstallationCancelled', function (e, apiClient, data) {
-        showPackageInstallNotification(apiClient, data, "cancelled");
+        showPackageInstallNotification(apiClient, data, 'cancelled');
     });
 
     events.on(serverNotifications, 'PackageInstalling', function (e, apiClient, data) {
-        showPackageInstallNotification(apiClient, data, "progress");
+        showPackageInstallNotification(apiClient, data, 'progress');
     });
 
     events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, data) {
         var serverId = apiClient.serverInfo().Id;
         var notification = {
-            tag: "restart" + serverId,
+            tag: 'restart' + serverId,
             title: globalize.translate('ServerNameIsShuttingDown', apiClient.serverInfo().Name)
         };
         showNotification(notification, 0, apiClient);
@@ -240,17 +230,16 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     events.on(serverNotifications, 'ServerRestarting', function (e, apiClient, data) {
         var serverId = apiClient.serverInfo().Id;
         var notification = {
-            tag: "restart" + serverId,
+            tag: 'restart' + serverId,
             title: globalize.translate('ServerNameIsRestarting', apiClient.serverInfo().Name)
         };
         showNotification(notification, 0, apiClient);
     });
 
     events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
-
         var serverId = apiClient.serverInfo().Id;
         var notification = {
-            tag: "restart" + serverId,
+            tag: 'restart' + serverId,
             title: globalize.translate('PleaseRestartServerName', apiClient.serverInfo().Name)
         };
 

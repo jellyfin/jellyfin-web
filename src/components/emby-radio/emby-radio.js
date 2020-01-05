@@ -3,8 +3,7 @@ define(['css!./emby-radio', 'registerElement'], function () {
 
     var EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
 
-    function onKeyDown(e) {
-
+    function onKeyDown (e) {
         // Don't submit form on enter
         if (e.keyCode === 13) {
             e.preventDefault();
@@ -16,7 +15,6 @@ define(['css!./emby-radio', 'registerElement'], function () {
     }
 
     EmbyRadioPrototype.attachedCallback = function () {
-
         if (this.getAttribute('data-radio') === 'true') {
             return;
         }
@@ -26,7 +24,7 @@ define(['css!./emby-radio', 'registerElement'], function () {
         this.classList.add('mdl-radio__button');
 
         var labelElement = this.parentNode;
-        //labelElement.classList.add('"mdl-radio mdl-js-radio mdl-js-ripple-effect');
+        // labelElement.classList.add('"mdl-radio mdl-js-radio mdl-js-ripple-effect');
         labelElement.classList.add('mdl-radio');
         labelElement.classList.add('mdl-js-radio');
         labelElement.classList.add('mdl-js-ripple-effect');

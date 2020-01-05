@@ -1,5 +1,5 @@
-define(["tvguide"], function (tvguide) {
-    "use strict";
+define(['tvguide'], function (TvGuide) {
+    'use strict';
 
     return function (view, params, tabContent) {
         var guideInstance;
@@ -7,7 +7,7 @@ define(["tvguide"], function (tvguide) {
 
         self.renderTab = function () {
             if (!guideInstance) {
-                guideInstance = new tvguide({
+                guideInstance = new TvGuide({
                     element: tabContent,
                     serverId: ApiClient.serverId()
                 });

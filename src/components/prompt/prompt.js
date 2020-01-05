@@ -1,7 +1,7 @@
 define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle'], function (dialogHelper, layoutManager, scrollHelper, globalize, dom, require) {
     'use strict';
 
-    function setInputProperties(dlg, options) {
+    function setInputProperties (dlg, options) {
         var txtInput = dlg.querySelector('#txtInput');
 
         if (txtInput.label) {
@@ -12,8 +12,7 @@ define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 're
         txtInput.value = options.value || '';
     }
 
-    function showDialog(options, template) {
-
+    function showDialog (options, template) {
         var dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -53,7 +52,6 @@ define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 're
         var submitValue;
 
         dlg.querySelector('form').addEventListener('submit', function (e) {
-
             submitValue = dlg.querySelector('#txtInput').value;
             e.preventDefault();
             e.stopPropagation();
@@ -71,7 +69,6 @@ define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 're
         dlg.style.minWidth = (Math.min(400, dom.getWindowSize().innerWidth - 50)) + 'px';
 
         return dialogHelper.open(dlg).then(function () {
-
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
             }
@@ -81,16 +78,14 @@ define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 're
             if (value) {
                 return value;
             } else {
-                return Promise.reject();
+                return Promise.reject(Error('value not submitted'));
             }
         });
     }
 
     return function (options) {
-
         return new Promise(function (resolve, reject) {
             require(['text!./prompt.template.html'], function (template) {
-
                 if (typeof options === 'string') {
                     options = {
                         title: '',

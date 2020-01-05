@@ -3,8 +3,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
 
     var enableFocusTransform = !browser.slow && !browser.edge;
 
-    function buildChapterCardsHtml(item, chapters, options) {
-
+    function buildChapterCardsHtml (item, chapters, options) {
         // TODO move card creation code to Card component
 
         var className = 'card itemAction chapterCard';
@@ -25,7 +24,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         var shape = (options.backdropShape || 'backdrop');
 
         if (videoStream.Width && videoStream.Height) {
-
             if ((videoStream.Width / videoStream.Height) <= 1.2) {
                 shape = (options.squareShape || 'square');
             }
@@ -43,7 +41,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
         for (var i = 0, length = chapters.length; i < length; i++) {
-
             if (options.rows && itemsInRow === 0) {
                 html += '<div class="cardColumn">';
             }
@@ -62,15 +59,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         return html;
     }
 
-    function getImgUrl(item, chapter, index, maxWidth, apiClient) {
-
+    function getImgUrl (item, chapter, index, maxWidth, apiClient) {
         if (chapter.ImageTag) {
-
             return apiClient.getScaledImageUrl(item.Id, {
 
                 maxWidth: maxWidth,
                 tag: chapter.ImageTag,
-                type: "Chapter",
+                type: 'Chapter',
                 index: index
             });
         }
@@ -78,8 +73,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         return null;
     }
 
-    function buildChapterCard(item, apiClient, chapter, index, options, className, shape) {
-
+    function buildChapterCard (item, apiClient, chapter, index, options, className, shape) {
         var imgUrl = getImgUrl(item, chapter, index, options.width || 400, apiClient);
 
         var cardImageContainerClass = 'cardContent cardContent-shadow cardImageContainer chapterCardImageContainer';
@@ -105,8 +99,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         return html;
     }
 
-    function buildChapterCards(item, chapters, options) {
-
+    function buildChapterCards (item, chapters, options) {
         if (options.parentContainer) {
             // Abort if the container has been disposed
             if (!document.body.contains(options.parentContainer)) {
@@ -131,5 +124,4 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
     return {
         buildChapterCards: buildChapterCards
     };
-
 });

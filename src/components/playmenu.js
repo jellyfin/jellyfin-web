@@ -1,8 +1,7 @@
 define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'], function (actionsheet, datetime, playbackManager, globalize, appSettings) {
     'use strict';
 
-    function show(options) {
-
+    function show (options) {
         var item = options.item;
 
         var itemType = item.Type;
@@ -41,7 +40,6 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
 
         }).then(function (id) {
             switch (id) {
-
                 case 'play':
                     playbackManager.play({
                         ids: [playableItemId],

@@ -3,14 +3,15 @@
 
     var connectionManager;
 
-    function getApiClient(serverId) {
+    function getApiClient (serverId) {
         if (connectionManager) {
             return Promise.resolve(connectionManager.getApiClient(serverId));
+        } else {
+            return Promise.reject(Error('cannot get api client'));
         }
-        return Promise.reject();
     }
 
-    function executeAction(action, data, serverId) {
+    function executeAction (action, data, serverId) {
         return getApiClient(serverId).then(function (apiClient) {
             switch (action) {
                 case 'cancel-install':
@@ -19,7 +20,7 @@
                 case 'restart':
                     return apiClient.restartServer();
                 default:
-                    clients.openWindow("/");
+                    clients.openWindow('/');
                     return Promise.resolve();
             }
         });
@@ -34,7 +35,7 @@
         var action = event.action;
 
         if (!action) {
-            clients.openWindow("/");
+            clients.openWindow('/');
             event.waitUntil(Promise.resolve());
             return;
         }

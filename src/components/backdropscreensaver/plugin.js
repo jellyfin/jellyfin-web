@@ -1,25 +1,22 @@
-define(["connectionManager"], function (connectionManager) {
-
+define(['connectionManager'], function (connectionManager) {
     return function () {
-
         var self = this;
 
-        self.name = "Backdrop ScreenSaver";
-        self.type = "screensaver";
-        self.id = "backdropscreensaver";
+        self.name = 'Backdrop ScreenSaver';
+        self.type = 'screensaver';
+        self.id = 'backdropscreensaver';
         self.supportsAnonymous = false;
 
         var currentSlideshow;
 
         self.show = function () {
-
             var query = {
-                ImageTypes: "Backdrop",
-                EnableImageTypes: "Backdrop",
-                IncludeItemTypes: "Movie,Series,MusicArtist",
-                SortBy: "Random",
+                ImageTypes: 'Backdrop',
+                EnableImageTypes: 'Backdrop',
+                IncludeItemTypes: 'Movie,Series,MusicArtist',
+                SortBy: 'Random',
                 Recursive: true,
-                Fields: "Taglines",
+                Fields: 'Taglines',
                 ImageTypeLimit: 1,
                 StartIndex: 0,
                 Limit: 200
@@ -27,12 +24,9 @@ define(["connectionManager"], function (connectionManager) {
 
             var apiClient = connectionManager.currentApiClient();
             apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
-
                 if (result.Items.length) {
-
-                    require(["slideshow"], function (slideshow) {
-
-                        var newSlideShow = new slideshow({
+                    require(['slideshow'], function (Slideshow) {
+                        var newSlideShow = new Slideshow({
                             showTitle: true,
                             cover: true,
                             items: result.Items
@@ -46,7 +40,6 @@ define(["connectionManager"], function (connectionManager) {
         };
 
         self.hide = function () {
-
             if (currentSlideshow) {
                 currentSlideshow.hide();
                 currentSlideshow = null;

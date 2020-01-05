@@ -1,18 +1,18 @@
-define(["loading", "libraryBrowser", "cardBuilder", "apphost"], function (loading, libraryBrowser, cardBuilder, appHost) {
-    "use strict";
+define(['loading', 'libraryBrowser', 'cardBuilder', 'apphost'], function (loading, libraryBrowser, cardBuilder, appHost) {
+    'use strict';
 
-    function getQuery(params) {
+    function getQuery (params) {
         var key = getSavedQueryKey();
         var pageData = data[key];
 
         if (!pageData) {
             pageData = data[key] = {
                 query: {
-                    SortBy: "SortName",
-                    SortOrder: "Ascending",
-                    IncludeItemTypes: "Series",
+                    SortBy: 'SortName',
+                    SortOrder: 'Ascending',
+                    IncludeItemTypes: 'Series',
                     Recursive: true,
-                    Fields: "DateCreated,PrimaryImageAspectRatio",
+                    Fields: 'DateCreated,PrimaryImageAspectRatio',
                     StartIndex: 0
                 }
             };
@@ -22,32 +22,32 @@ define(["loading", "libraryBrowser", "cardBuilder", "apphost"], function (loadin
         return pageData.query;
     }
 
-    function getSavedQueryKey() {
-        return libraryBrowser.getSavedQueryKey("studios");
+    function getSavedQueryKey () {
+        return libraryBrowser.getSavedQueryKey('studios');
     }
 
-    function getPromise(context, params) {
+    function getPromise (context, params) {
         var query = getQuery(params);
         loading.show();
         return ApiClient.getStudios(ApiClient.getCurrentUserId(), query);
     }
 
-    function reloadItems(context, params, promise) {
+    function reloadItems (context, params, promise) {
         promise.then(function (result) {
-            var elem = context.querySelector("#items");
+            var elem = context.querySelector('#items');
             cardBuilder.buildCards(result.Items, {
                 itemsContainer: elem,
-                shape: "backdrop",
+                shape: 'backdrop',
                 preferThumb: true,
                 showTitle: true,
                 scalable: true,
                 centerText: true,
                 overlayMoreButton: true,
-                context: "tvshows"
+                context: 'tvshows'
             });
             loading.hide();
 
-            require(["autoFocuser"], function (autoFocuser) {
+            require(['autoFocuser'], function (autoFocuser) {
                 autoFocuser.autoFocus(context);
             });
         });

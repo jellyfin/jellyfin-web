@@ -1,21 +1,21 @@
 define(['connectionManager', 'globalize'], function (connectionManager, globalize) {
-    "use strict";
+    'use strict';
 
-    function getRequirePromise(deps) {
+    function getRequirePromise (deps) {
         return new Promise(function (resolve, reject) {
             require(deps, resolve);
         });
     }
 
-    function showErrorMessage() {
+    function showErrorMessage () {
         return getRequirePromise(['alert']).then(function (alert) {
             return alert(globalize.translate('MessagePlayAccessRestricted')).then(function () {
-                return Promise.reject();
+                return Promise.reject(Error('play access restricted'));
             });
         });
     }
 
-    function PlayAccessValidation() {
+    function PlayAccessValidation () {
         this.name = 'Playback validation';
         this.type = 'preplayintercept';
         this.id = 'playaccessvalidation';
@@ -39,7 +39,7 @@ define(['connectionManager', 'globalize'], function (connectionManager, globaliz
 
             // reject but don't show an error message
             if (!options.fullscreen) {
-                return Promise.reject();
+                return Promise.reject(Error('no fullscreen'));
             }
 
             return showErrorMessage();

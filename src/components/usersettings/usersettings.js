@@ -1,5 +1,5 @@
-define(['userSettingsBuilder'], function (userSettingsBuilder) {
+define(['userSettingsBuilder'], function (UserSettingsBuilder) {
     'use strict';
 
-    return new userSettingsBuilder();
+    return new UserSettingsBuilder();
 });

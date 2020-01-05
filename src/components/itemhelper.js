@@ -1,10 +1,9 @@
 define(['apphost', 'globalize'], function (appHost, globalize) {
     'use strict';
 
-    function getDisplayName(item, options) {
-
+    function getDisplayName (item, options) {
         if (!item) {
-            throw new Error("null item passed into getDisplayName");
+            throw new Error('null item passed into getDisplayName');
         }
 
         options = options || {};
@@ -15,31 +14,29 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         var name = ((item.Type === 'Program' || item.Type === 'Recording') && (item.IsSeries || item.EpisodeTitle) ? item.EpisodeTitle : item.Name) || '';
 
-        if (item.Type === "TvChannel") {
+        if (item.Type === 'TvChannel') {
             if (item.ChannelNumber) {
                 return item.ChannelNumber + ' ' + name;
             }
             return name;
         }
-        if (item.Type === "Episode" && item.ParentIndexNumber === 0) {
+        if (item.Type === 'Episode' && item.ParentIndexNumber === 0) {
             name = globalize.translate('ValueSpecialEpisodeName', name);
-        } else if ((item.Type === "Episode" || item.Type === 'Program') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
-
+        } else if ((item.Type === 'Episode' || item.Type === 'Program') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
             var displayIndexNumber = item.IndexNumber;
 
             var number = displayIndexNumber;
-            var nameSeparator = " - ";
+            var nameSeparator = ' - ';
 
             if (options.includeParentInfo !== false) {
-                number = "S" + item.ParentIndexNumber + ":E" + number;
+                number = 'S' + item.ParentIndexNumber + ':E' + number;
             } else {
-                nameSeparator = ". ";
+                nameSeparator = '. ';
             }
 
             if (item.IndexNumberEnd) {
-
                 displayIndexNumber = item.IndexNumberEnd;
-                number += "-" + displayIndexNumber;
+                number += '-' + displayIndexNumber;
             }
 
             if (number) {
@@ -50,8 +47,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         return name;
     }
 
-    function supportsAddingToCollection(item) {
-
+    function supportsAddingToCollection (item) {
         var invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer'];
 
         if (item.Type === 'Recording') {
@@ -63,8 +59,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         return !item.CollectionType && invalidTypes.indexOf(item.Type) === -1 && item.MediaType !== 'Photo' && !isLocalItem(item);
     }
 
-    function supportsAddingToPlaylist(item) {
-
+    function supportsAddingToPlaylist (item) {
         if (item.Type === 'Program') {
             return false;
         }
@@ -94,14 +89,13 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
 
-        return item.MediaType || item.IsFolder || item.Type === "Genre" || item.Type === "MusicGenre" || item.Type === "MusicArtist";
+        return item.MediaType || item.IsFolder || item.Type === 'Genre' || item.Type === 'MusicGenre' || item.Type === 'MusicArtist';
     }
 
-    function canEdit(user, item) {
-
+    function canEdit (user, item) {
         var itemType = item.Type;
 
-        if (itemType === "UserRootFolder" || itemType === "UserView") {
+        if (itemType === 'UserRootFolder' || itemType === 'UserView') {
             return false;
         }
 
@@ -130,8 +124,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         return user.Policy.IsAdministrator;
     }
 
-    function isLocalItem(item) {
-
+    function isLocalItem (item) {
         if (item && item.Id && item.Id.indexOf('local') === 0) {
             return true;
         }
@@ -146,21 +139,18 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         isLocalItem: isLocalItem,
 
         canIdentify: function (user, item) {
-
             var itemType = item.Type;
 
-            if (itemType === "Movie" ||
-                itemType === "Trailer" ||
-                itemType === "Series" ||
-                itemType === "BoxSet" ||
-                itemType === "Person" ||
-                itemType === "Book" ||
-                itemType === "MusicAlbum" ||
-                itemType === "MusicArtist" ||
-                itemType === "MusicVideo") {
-
+            if (itemType === 'Movie' ||
+                itemType === 'Trailer' ||
+                itemType === 'Series' ||
+                itemType === 'BoxSet' ||
+                itemType === 'Person' ||
+                itemType === 'Book' ||
+                itemType === 'MusicAlbum' ||
+                itemType === 'MusicArtist' ||
+                itemType === 'MusicVideo') {
                 if (user.Policy.IsAdministrator) {
-
                     if (!isLocalItem(item)) {
                         return true;
                     }
@@ -173,7 +163,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         canEdit: canEdit,
 
         canEditImages: function (user, item) {
-
             var itemType = item.Type;
 
             if (item.MediaType === 'Photo') {
@@ -182,7 +171,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
             if (itemType === 'UserView') {
                 if (user.Policy.IsAdministrator) {
-
                     return true;
                 }
 
@@ -199,7 +187,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         },
 
         canSync: function (user, item) {
-
             if (user && !user.Policy.EnableContentDownloading) {
                 return false;
             }
@@ -212,7 +199,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         },
 
         canShare: function (item, user) {
-
             if (item.Type === 'Program') {
                 return false;
             }
@@ -241,7 +227,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         },
 
         canMarkPlayed: function (item) {
-
             if (item.Type === 'Program') {
                 return false;
             }
@@ -259,11 +244,11 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 }
             }
 
-            if (item.Type === "Series" ||
-                item.Type === "Season" ||
-                item.Type === "BoxSet" ||
-                item.MediaType === "Book" ||
-                item.MediaType === "Recording") {
+            if (item.Type === 'Series' ||
+                item.Type === 'Season' ||
+                item.Type === 'BoxSet' ||
+                item.MediaType === 'Book' ||
+                item.MediaType === 'Recording') {
                 return true;
             }
 
@@ -271,14 +256,13 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         },
 
         canRate: function (item) {
-
-            if (item.Type === 'Program'
-                || item.Type === 'Timer'
-                || item.Type === 'SeriesTimer'
-                || item.Type === 'CollectionFolder'
-                || item.Type === 'UserView'
-                || item.Type === 'Channel'
-                || !item.UserData) {
+            if (item.Type === 'Program' ||
+                item.Type === 'Timer' ||
+                item.Type === 'SeriesTimer' ||
+                item.Type === 'CollectionFolder' ||
+                item.Type === 'UserView' ||
+                item.Type === 'Channel' ||
+                !item.UserData) {
                 return false;
             }
 
@@ -286,7 +270,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         },
 
         canConvert: function (item, user) {
-
             if (!user.Policy.EnableMediaConversion) {
                 return false;
             }
@@ -322,16 +305,13 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         },
 
         canRefreshMetadata: function (item, user) {
-
             if (user.Policy.IsAdministrator) {
-
                 var collectionType = item.CollectionType;
                 if (collectionType === 'livetv') {
                     return false;
                 }
 
                 if (item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program' && item.Type !== 'TvChannel' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
-
                     if (!isLocalItem(item)) {
                         return true;
                     }
@@ -342,7 +322,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         },
 
         supportsMediaSourceSelection: function (item) {
-
             if (item.MediaType !== 'Video') {
                 return false;
             }

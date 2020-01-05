@@ -3,7 +3,7 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
 
     var EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);
 
-    function onKeyDown(e) {
+    function onKeyDown (e) {
         // Don't submit form on enter
         if (e.keyCode === 13) {
             e.preventDefault();
@@ -18,9 +18,9 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
         }
     }
 
-    var enableRefreshHack = browser.tizen || browser.orsay || browser.operaTv || browser.web0s ? true : false;
+    var enableRefreshHack = !!(browser.tizen || browser.orsay || browser.operaTv || browser.web0s);
 
-    function forceRefresh(loading) {
+    function forceRefresh (loading) {
         var elem = this.parentNode;
 
         elem.style.webkitAnimationName = 'repaintChrome';

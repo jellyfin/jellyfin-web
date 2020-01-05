@@ -13,12 +13,11 @@ define(function () {
 
     var importedCss = [];
 
-    function isLoaded(url) {
+    function isLoaded (url) {
         return importedCss.indexOf(url) !== -1;
     }
 
-    function removeFromLoadHistory(url) {
-
+    function removeFromLoadHistory (url) {
         url = url.toLowerCase();
 
         importedCss = importedCss.filter(function (c) {
@@ -27,7 +26,6 @@ define(function () {
     }
 
     requireCss.load = function (cssId, req, load, config) {
-
         // Somehow if the url starts with /css, require will get all screwed up since this extension is also called css
         var srch = 'components/require/requirecss';
         var index = cssId.indexOf(srch);
@@ -65,7 +63,6 @@ define(function () {
 
     window.requireCss = {
         removeStylesheet: function (stylesheet) {
-
             stylesheet.parentNode.removeChild(stylesheet);
             removeFromLoadHistory(stylesheet.href);
         }

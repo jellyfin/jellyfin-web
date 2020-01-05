@@ -1,13 +1,11 @@
 define([], function () {
     'use strict';
 
-    function replaceAll(str, find, replace) {
-
+    function replaceAll (str, find, replace) {
         return str.split(find).join(replace);
     }
 
     return function (options) {
-
         if (typeof options === 'string') {
             options = {
                 label: '',

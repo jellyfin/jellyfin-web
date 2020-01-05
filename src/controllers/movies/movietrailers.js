@@ -1,25 +1,25 @@
-define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "apphost", "emby-itemscontainer"], function (layoutManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, appHost) {
-    "use strict";
+define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'apphost', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, AlphaPicker, listView, cardBuilder, appHost) {
+    'use strict';
 
     return function (view, params, tabContent) {
-        function getPageData(context) {
+        function getPageData (context) {
             var key = getSavedQueryKey(context);
             var pageData = data[key];
 
             if (!pageData) {
                 pageData = data[key] = {
                     query: {
-                        SortBy: "SortName",
-                        SortOrder: "Ascending",
-                        IncludeItemTypes: "Trailer",
+                        SortBy: 'SortName',
+                        SortOrder: 'Ascending',
+                        IncludeItemTypes: 'Trailer',
                         Recursive: true,
-                        Fields: "PrimaryImageAspectRatio,SortName,BasicSyncInfo",
+                        Fields: 'PrimaryImageAspectRatio,SortName,BasicSyncInfo',
                         ImageTypeLimit: 1,
-                        EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
+                        EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                         StartIndex: 0,
                         Limit: pageSize
                     },
-                    view: libraryBrowser.getSavedView(key) || "Poster"
+                    view: libraryBrowser.getSavedView(key) || 'Poster'
                 };
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
@@ -27,24 +27,24 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
             return pageData;
         }
 
-        function getQuery(context) {
+        function getQuery (context) {
             return getPageData(context).query;
         }
 
-        function getSavedQueryKey(context) {
+        function getSavedQueryKey (context) {
             if (!context.savedQueryKey) {
-                context.savedQueryKey = libraryBrowser.getSavedQueryKey("trailers");
+                context.savedQueryKey = libraryBrowser.getSavedQueryKey('trailers');
             }
 
             return context.savedQueryKey;
         }
 
-        function reloadItems() {
+        function reloadItems () {
             loading.show();
             isLoading = true;
             var query = getQuery(tabContent);
             ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
-                function onNextPageClick() {
+                function onNextPageClick () {
                     if (isLoading) {
                         return;
                     }
@@ -53,7 +53,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                     reloadItems();
                 }
 
-                function onPreviousPageClick() {
+                function onPreviousPageClick () {
                     if (isLoading) {
                         return;
                     }
@@ -77,43 +77,43 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                 var html;
                 var viewStyle = self.getCurrentViewStyle();
 
-                if (viewStyle == "Thumb") {
+                if (viewStyle === 'Thumb') {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: "backdrop",
+                        shape: 'backdrop',
                         preferThumb: true,
-                        context: "movies",
+                        context: 'movies',
                         overlayPlayButton: true
                     });
-                } else if (viewStyle == "ThumbCard") {
+                } else if (viewStyle === 'ThumbCard') {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: "backdrop",
+                        shape: 'backdrop',
                         preferThumb: true,
-                        context: "movies",
+                        context: 'movies',
                         cardLayout: true,
                         showTitle: true,
                         showYear: true,
                         centerText: true
                     });
-                } else if (viewStyle == "Banner") {
+                } else if (viewStyle === 'Banner') {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: "banner",
+                        shape: 'banner',
                         preferBanner: true,
-                        context: "movies"
+                        context: 'movies'
                     });
-                } else if (viewStyle == "List") {
+                } else if (viewStyle === 'List') {
                     html = listView.getListViewHtml({
                         items: result.Items,
-                        context: "movies",
+                        context: 'movies',
                         sortBy: query.SortBy
                     });
-                } else if (viewStyle == "PosterCard") {
+                } else if (viewStyle === 'PosterCard') {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: "portrait",
-                        context: "movies",
+                        shape: 'portrait',
+                        context: 'movies',
                         showTitle: true,
                         showYear: true,
                         cardLayout: true,
@@ -122,8 +122,8 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                 } else {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: "portrait",
-                        context: "movies",
+                        shape: 'portrait',
+                        context: 'movies',
                         centerText: true,
                         overlayPlayButton: true,
                         showTitle: true,
@@ -133,27 +133,27 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
 
                 var i;
                 var length;
-                var elems = tabContent.querySelectorAll(".paging");
+                var elems = tabContent.querySelectorAll('.paging');
 
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
                 }
 
-                elems = tabContent.querySelectorAll(".btnNextPage");
+                elems = tabContent.querySelectorAll('.btnNextPage');
                 for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener("click", onNextPageClick);
+                    elems[i].addEventListener('click', onNextPageClick);
                 }
 
-                elems = tabContent.querySelectorAll(".btnPreviousPage");
+                elems = tabContent.querySelectorAll('.btnPreviousPage');
                 for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener("click", onPreviousPageClick);
+                    elems[i].addEventListener('click', onPreviousPageClick);
                 }
 
                 if (!result.Items.length) {
-                    html = '<p style="text-align:center;">' + Globalize.translate("MessageNoTrailersFound") + "</p>";
+                    html = '<p style="text-align:center;">' + Globalize.translate('MessageNoTrailersFound') + '</p>';
                 }
 
-                var itemsContainer = tabContent.querySelector(".itemsContainer");
+                var itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(tabContent), query);
@@ -162,7 +162,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
             });
         }
 
-        function updateFilterControls(tabContent) {
+        function updateFilterControls (tabContent) {
             var query = getQuery(tabContent);
             self.alphaPicker.value(query.NameStartsWithOrGreater);
         }
@@ -173,13 +173,13 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
         var isLoading = false;
 
         self.showFilterMenu = function () {
-            require(["components/filterdialog/filterdialog"], function (filterDialogFactory) {
-                var filterDialog = new filterDialogFactory({
+            require(['components/filterdialog/filterdialog'], function (FilterDialogFactory) {
+                var filterDialog = new FilterDialogFactory({
                     query: getQuery(tabContent),
-                    mode: "movies",
+                    mode: 'movies',
                     serverId: ApiClient.serverId()
                 });
-                events.on(filterDialog, "filterchange", function () {
+                events.on(filterDialog, 'filterchange', function () {
                     getQuery(tabContent).StartIndex = 0;
                     reloadItems();
                 });
@@ -191,53 +191,53 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
             return getPageData(tabContent).view;
         };
 
-        function initPage(tabContent) {
-            var alphaPickerElement = tabContent.querySelector(".alphaPicker");
-            alphaPickerElement.addEventListener("alphavaluechanged", function (e) {
+        function initPage (tabContent) {
+            var alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                 var newValue = e.detail.value;
                 var query = getQuery(tabContent);
                 query.NameStartsWithOrGreater = newValue;
                 query.StartIndex = 0;
                 reloadItems();
             });
-            self.alphaPicker = new alphaPicker({
+            self.alphaPicker = new AlphaPicker({
                 element: alphaPickerElement,
-                valueChangeEvent: "click"
+                valueChangeEvent: 'click'
             });
 
             if (layoutManager.desktop || layoutManager.mobile) {
-                tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-right");
-                var itemsContainer = tabContent.querySelector(".itemsContainer");
-                itemsContainer.classList.remove("padded-left-withalphapicker");
-                itemsContainer.classList.add("padded-right-withalphapicker");
+                tabContent.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
+                var itemsContainer = tabContent.querySelector('.itemsContainer');
+                itemsContainer.classList.remove('padded-left-withalphapicker');
+                itemsContainer.classList.add('padded-right-withalphapicker');
             }
 
-            tabContent.querySelector(".btnFilter").addEventListener("click", function () {
+            tabContent.querySelector('.btnFilter').addEventListener('click', function () {
                 self.showFilterMenu();
             });
-            tabContent.querySelector(".btnSort").addEventListener("click", function (e) {
+            tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: Globalize.translate("OptionNameSort"),
-                        id: "SortName"
+                        name: Globalize.translate('OptionNameSort'),
+                        id: 'SortName'
                     }, {
-                        name: Globalize.translate("OptionImdbRating"),
-                        id: "CommunityRating,SortName"
+                        name: Globalize.translate('OptionImdbRating'),
+                        id: 'CommunityRating,SortName'
                     }, {
-                        name: Globalize.translate("OptionDateAdded"),
-                        id: "DateCreated,SortName"
+                        name: Globalize.translate('OptionDateAdded'),
+                        id: 'DateCreated,SortName'
                     }, {
-                        name: Globalize.translate("OptionDatePlayed"),
-                        id: "DatePlayed,SortName"
+                        name: Globalize.translate('OptionDatePlayed'),
+                        id: 'DatePlayed,SortName'
                     }, {
-                        name: Globalize.translate("OptionParentalRating"),
-                        id: "OfficialRating,SortName"
+                        name: Globalize.translate('OptionParentalRating'),
+                        id: 'OfficialRating,SortName'
                     }, {
-                        name: Globalize.translate("OptionPlayCount"),
-                        id: "PlayCount,SortName"
+                        name: Globalize.translate('OptionPlayCount'),
+                        id: 'PlayCount,SortName'
                     }, {
-                        name: Globalize.translate("OptionReleaseDate"),
-                        id: "PremiereDate,SortName"
+                        name: Globalize.translate('OptionReleaseDate'),
+                        id: 'PremiereDate,SortName'
                     }],
                     callback: function () {
                         getQuery(tabContent).StartIndex = 0;

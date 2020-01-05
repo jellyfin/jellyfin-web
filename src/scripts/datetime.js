@@ -1,8 +1,7 @@
 define(['globalize'], function (globalize) {
     'use strict';
 
-    function parseISO8601Date(s, toLocal) {
-
+    function parseISO8601Date (s, toLocal) {
         // parenthese matches:
         // year month day    hours minutes seconds
         // dotmilliseconds
@@ -19,8 +18,7 @@ define(['globalize'], function (globalize) {
         //     "00", "00", ".000", "Z", undefined, undefined, undefined]
 
         if (!d) {
-
-            throw "Couldn't parse ISO 8601 date string '" + s + "'";
+            throw Error("Couldn't parse ISO 8601 date string '" + s + "'");
         }
 
         // parse strings, leading zeros into proper ints
@@ -41,12 +39,12 @@ define(['globalize'], function (globalize) {
         }
 
         // if there's a timezone, calculate it
-        if (d[8] !== "Z" && d[10]) {
+        if (d[8] !== 'Z' && d[10]) {
             var offset = d[10] * 60 * 60 * 1000;
             if (d[11]) {
                 offset += d[11] * 60 * 1000;
             }
-            if (d[9] === "-") {
+            if (d[9] === '-') {
                 ms -= offset;
             } else {
                 ms += offset;
@@ -58,7 +56,7 @@ define(['globalize'], function (globalize) {
         return new Date(ms);
     }
 
-    function getDisplayRunningTime(ticks) {
+    function getDisplayRunningTime (ticks) {
         var ticksPerHour = 36000000000;
         var ticksPerMinute = 600000000;
         var ticksPerSecond = 10000000;
@@ -95,17 +93,16 @@ define(['globalize'], function (globalize) {
         return parts.join(':');
     }
 
-    var toLocaleTimeStringSupportsLocales = function () {
+    var toLocaleTimeStringSupportsLocales = (function () {
         try {
             new Date().toLocaleTimeString('i');
         } catch (e) {
             return e.name === 'RangeError';
         }
         return false;
-    }();
+    }());
 
-    function getOptionList(options) {
-
+    function getOptionList (options) {
         var list = [];
 
         for (var i in options) {
@@ -118,8 +115,7 @@ define(['globalize'], function (globalize) {
         return list;
     }
 
-    function toLocaleString(date, options) {
-
+    function toLocaleString (date, options) {
         if (!date) {
             throw new Error('date cannot be null');
         }
@@ -127,7 +123,6 @@ define(['globalize'], function (globalize) {
         options = options || {};
 
         if (toLocaleTimeStringSupportsLocales) {
-
             var currentLocale = globalize.getCurrentDateTimeLocale();
 
             if (currentLocale) {
@@ -138,8 +133,7 @@ define(['globalize'], function (globalize) {
         return date.toLocaleString();
     }
 
-    function toLocaleDateString(date, options) {
-
+    function toLocaleDateString (date, options) {
         if (!date) {
             throw new Error('date cannot be null');
         }
@@ -147,7 +141,6 @@ define(['globalize'], function (globalize) {
         options = options || {};
 
         if (toLocaleTimeStringSupportsLocales) {
-
             var currentLocale = globalize.getCurrentDateTimeLocale();
 
             if (currentLocale) {
@@ -159,21 +152,20 @@ define(['globalize'], function (globalize) {
         var optionList = getOptionList(options);
         if (optionList.length === 1 && optionList[0].name === 'weekday') {
             var weekday = [];
-            weekday[0] = "Sun";
-            weekday[1] = "Mon";
-            weekday[2] = "Tue";
-            weekday[3] = "Wed";
-            weekday[4] = "Thu";
-            weekday[5] = "Fri";
-            weekday[6] = "Sat";
+            weekday[0] = 'Sun';
+            weekday[1] = 'Mon';
+            weekday[2] = 'Tue';
+            weekday[3] = 'Wed';
+            weekday[4] = 'Thu';
+            weekday[5] = 'Fri';
+            weekday[6] = 'Sat';
             return weekday[date.getDay()];
         }
 
         return date.toLocaleDateString();
     }
 
-    function toLocaleTimeString(date, options) {
-
+    function toLocaleTimeString (date, options) {
         if (!date) {
             throw new Error('date cannot be null');
         }
@@ -181,7 +173,6 @@ define(['globalize'], function (globalize) {
         options = options || {};
 
         if (toLocaleTimeStringSupportsLocales) {
-
             var currentLocale = globalize.getCurrentDateTimeLocale();
 
             if (currentLocale) {
@@ -192,17 +183,14 @@ define(['globalize'], function (globalize) {
         return date.toLocaleTimeString();
     }
 
-    function getDisplayTime(date) {
-
+    function getDisplayTime (date) {
         if (!date) {
             throw new Error('date cannot be null');
         }
 
         if ((typeof date).toString().toLowerCase() === 'string') {
             try {
-
                 date = parseISO8601Date(date, true);
-
             } catch (err) {
                 return date;
             }
@@ -222,7 +210,6 @@ define(['globalize'], function (globalize) {
         var timeLower = time.toLowerCase();
 
         if (timeLower.indexOf('am') !== -1 || timeLower.indexOf('pm') !== -1) {
-
             time = timeLower;
             var hour = date.getHours() % 12;
             var suffix = date.getHours() > 11 ? 'pm' : 'am';
@@ -238,12 +225,10 @@ define(['globalize'], function (globalize) {
             minutes = ':' + minutes;
             time = hour + minutes + suffix;
         } else {
-
             var timeParts = time.split(':');
 
             // Trim off seconds
             if (timeParts.length > 2) {
-
                 // setting to 2 also handles '21:00:28 GMT+9:30'
                 timeParts.length = 2;
                 time = timeParts.join(':');
@@ -253,8 +238,7 @@ define(['globalize'], function (globalize) {
         return time;
     }
 
-    function isRelativeDay(date, offsetInDays) {
-
+    function isRelativeDay (date, offsetInDays) {
         if (!date) {
             throw new Error('date cannot be null');
         }

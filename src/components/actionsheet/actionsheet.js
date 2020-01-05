@@ -1,8 +1,7 @@
 define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'scrollStyles', 'listViewStyle'], function (dialogHelper, layoutManager, globalize, browser, dom) {
     'use strict';
 
-    function getOffsets(elems) {
-
+    function getOffsets (elems) {
         var doc = document;
         var results = [];
 
@@ -14,7 +13,6 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         var elem;
 
         for (var i = 0, length = elems.length; i < length; i++) {
-
             elem = elems[i];
             // Support: BlackBerry 5, iOS 3 (original iPhone)
             // If we don't have gBCR, just use 0,0 rather than error
@@ -35,8 +33,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         return results;
     }
 
-    function getPosition(options, dlg) {
-
+    function getPosition (options, dlg) {
         var windowSize = dom.getWindowSize();
         var windowHeight = windowSize.innerHeight;
         var windowWidth = windowSize.innerWidth;
@@ -77,15 +74,14 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         return pos;
     }
 
-    function centerFocus(elem, horiz, on) {
+    function centerFocus (elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function show(options) {
-
+    function show (options) {
         // items
         // positionTo
         // showCancel
@@ -105,7 +101,6 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
             backButton = true;
             dialogOptions.autoFocus = true;
         } else {
-
             dialogOptions.modal = false;
             dialogOptions.entryAnimation = options.entryAnimation;
             dialogOptions.exitAnimation = options.exitAnimation;
@@ -136,7 +131,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         // Admittedly a hack but right now the scrollbar is being factored into the width which is causing truncation
         if (options.items.length > 20) {
             var minWidth = dom.getWindowSize().innerWidth >= 300 ? 240 : 200;
-            style += "min-width:" + minWidth + "px;";
+            style += 'min-width:' + minWidth + 'px;';
         }
 
         var i;
@@ -146,7 +141,6 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         var icons = [];
         var itemIcon;
         for (i = 0, length = options.items.length; i < length; i++) {
-
             option = options.items[i];
 
             itemIcon = option.icon || (option.selected ? 'check' : null);
@@ -162,7 +156,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         }
 
         // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
-        var center = options.title && (!renderIcon /*|| itemsWithIcons.length != options.items.length*/);
+        var center = options.title && (!renderIcon /* || itemsWithIcons.length != options.items.length */);
 
         if (center || layoutManager.tv) {
             html += '<div class="actionSheetContent actionSheetContent-centered">';
@@ -171,7 +165,6 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         }
 
         if (options.title) {
-
             html += '<h1 class="actionSheetTitle">';
             html += options.title;
             html += '</h1>';
@@ -207,11 +200,9 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         }
 
         for (i = 0, length = options.items.length; i < length; i++) {
-
             option = options.items[i];
 
             if (option.divider) {
-
                 html += '<div class="actionsheetDivider"></div>';
                 continue;
             }
@@ -225,7 +216,6 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
             itemIcon = icons[i];
 
             if (itemIcon) {
-
                 html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon">' + itemIcon + '</i>';
             } else if (renderIcon && !center) {
                 html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon" style="visibility:hidden;">check</i>';
@@ -275,7 +265,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         }
 
         // Seeing an issue in some non-chrome browsers where this is requiring a double click
-        //var eventName = browser.firefox ? 'mousedown' : 'click';
+        // var eventName = browser.firefox ? 'mousedown' : 'click';
         var selectedId;
 
         var timeout;
@@ -286,26 +276,20 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         }
 
         return new Promise(function (resolve, reject) {
-
             var isResolved;
 
             dlg.addEventListener('click', function (e) {
-
                 var actionSheetMenuItem = dom.parentWithClass(e.target, 'actionSheetMenuItem');
 
                 if (actionSheetMenuItem) {
                     selectedId = actionSheetMenuItem.getAttribute('data-id');
 
                     if (options.resolveOnClick) {
-
                         if (options.resolveOnClick.indexOf) {
-
                             if (options.resolveOnClick.indexOf(selectedId) !== -1) {
-
                                 resolve(selectedId);
                                 isResolved = true;
                             }
-
                         } else {
                             resolve(selectedId);
                             isResolved = true;
@@ -314,11 +298,9 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
 
                     dialogHelper.close(dlg);
                 }
-
             });
 
             dlg.addEventListener('close', function () {
-
                 if (layoutManager.tv) {
                     centerFocus(dlg.querySelector('.actionSheetScroller'), false, false);
                 }
@@ -336,7 +318,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
 
                         resolve(selectedId);
                     } else {
-                        reject();
+                        reject(Error('selected id is null'));
                     }
                 }
             });

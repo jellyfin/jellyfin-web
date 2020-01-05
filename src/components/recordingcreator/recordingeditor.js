@@ -7,19 +7,15 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
     var currentServerId;
     var currentResolve;
 
-    function deleteTimer(apiClient, timerId) {
-
+    function deleteTimer (apiClient, timerId) {
         return new Promise(function (resolve, reject) {
-
             require(['recordingHelper'], function (recordingHelper) {
-
                 recordingHelper.cancelTimerWithConfirmation(timerId, apiClient.serverId()).then(resolve, reject);
             });
         });
     }
 
-    function renderTimer(context, item, apiClient) {
-
+    function renderTimer (context, item, apiClient) {
         var program = item.ProgramInfo || {};
 
         context.querySelector('#txtPrePaddingMinutes').value = item.PrePaddingSeconds / 60;
@@ -28,15 +24,13 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
         loading.hide();
     }
 
-    function closeDialog(isDeleted) {
-
+    function closeDialog (isDeleted) {
         recordingDeleted = isDeleted;
 
         dialogHelper.close(currentDialog);
     }
 
-    function onSubmit(e) {
-
+    function onSubmit (e) {
         var form = this;
 
         var apiClient = connectionManager.getApiClient(currentServerId);
@@ -53,15 +47,12 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
         return false;
     }
 
-    function init(context) {
-
+    function init (context) {
         context.querySelector('.btnCancel').addEventListener('click', function () {
-
             closeDialog(false);
         });
 
         context.querySelector('.btnCancelRecording').addEventListener('click', function () {
-
             var apiClient = connectionManager.getApiClient(currentServerId);
             deleteTimer(apiClient, currentItemId).then(function () {
                 closeDialog(true);
@@ -71,23 +62,19 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
         context.querySelector('form').addEventListener('submit', onSubmit);
     }
 
-    function reload(context, id) {
-
+    function reload (context, id) {
         loading.show();
         currentItemId = id;
 
         var apiClient = connectionManager.getApiClient(currentServerId);
         apiClient.getLiveTvTimer(id).then(function (result) {
-
             renderTimer(context, result, apiClient);
             loading.hide();
         });
     }
 
-    function showEditor(itemId, serverId, options) {
-
+    function showEditor (itemId, serverId, options) {
         return new Promise(function (resolve, reject) {
-
             recordingDeleted = false;
             currentServerId = serverId;
             loading.show();
@@ -127,14 +114,12 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
                 currentDialog = dlg;
 
                 dlg.addEventListener('closing', function () {
-
                     if (!recordingDeleted) {
                         dlg.querySelector('.btnSubmit').click();
                     }
                 });
 
                 dlg.addEventListener('close', function () {
-
                     if (recordingDeleted) {
                         resolve({
                             updated: true,

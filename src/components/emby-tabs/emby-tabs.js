@@ -1,36 +1,33 @@
-define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'registerElement', 'css!./emby-tabs', 'scrollStyles'], function (dom, scroller, browser, layoutManager, focusManager) {
+define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'registerElement', 'css!./emby-tabs', 'scrollStyles'], function (dom, Scroller, browser, layoutManager, focusManager) {
     'use strict';
 
     var EmbyTabs = Object.create(HTMLDivElement.prototype);
     var buttonClass = 'emby-tab-button';
     var activeButtonClass = buttonClass + '-active';
 
-    function setActiveTabButton(tabs, newButton, oldButton, animate) {
-
+    function setActiveTabButton (tabs, newButton, oldButton, animate) {
         newButton.classList.add(activeButtonClass);
     }
 
-    function getTabPanel(tabs, index) {
-
+    function getTabPanel (tabs, index) {
         return null;
     }
 
-    function removeActivePanelClass(tabs, index) {
+    function removeActivePanelClass (tabs, index) {
         var tabPanel = getTabPanel(tabs, index);
         if (tabPanel) {
             tabPanel.classList.remove('is-active');
         }
     }
 
-    function addActivePanelClass(tabs, index) {
+    function addActivePanelClass (tabs, index) {
         var tabPanel = getTabPanel(tabs, index);
         if (tabPanel) {
             tabPanel.classList.add('is-active');
         }
     }
 
-    function fadeInRight(elem) {
-
+    function fadeInRight (elem) {
         var pct = browser.mobile ? '4%' : '0.5%';
 
         var keyframes = [
@@ -44,9 +41,8 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
         });
     }
 
-    function triggerBeforeTabChange(tabs, index, previousIndex) {
-
-        tabs.dispatchEvent(new CustomEvent("beforetabchange", {
+    function triggerBeforeTabChange (tabs, index, previousIndex) {
+        tabs.dispatchEvent(new CustomEvent('beforetabchange', {
             detail: {
                 selectedTabIndex: index,
                 previousIndex: previousIndex
@@ -68,15 +64,13 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
         }
     }
 
-    function onClick(e) {
-
+    function onClick (e) {
         var tabs = this;
 
         var current = tabs.querySelector('.' + activeButtonClass);
         var tabButton = dom.parentWithClass(e.target, buttonClass);
 
         if (tabButton && tabButton !== current) {
-
             if (current) {
                 current.classList.remove(activeButtonClass);
             }
@@ -91,10 +85,9 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
 
             // If toCenter is called syncronously within the click event, it sometimes ends up canceling it
             setTimeout(function () {
-
                 tabs.selectedTabIndex = index;
 
-                tabs.dispatchEvent(new CustomEvent("tabchange", {
+                tabs.dispatchEvent(new CustomEvent('tabchange', {
                     detail: {
                         selectedTabIndex: index,
                         previousIndex: previousIndex
@@ -105,19 +98,17 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
             if (tabs.scroller) {
                 tabs.scroller.toCenter(tabButton, false);
             }
-
         }
     }
 
-    function initScroller(tabs) {
-
+    function initScroller (tabs) {
         if (tabs.scroller) {
             return;
         }
 
         var contentScrollSlider = tabs.querySelector('.emby-tabs-slider');
         if (contentScrollSlider) {
-            tabs.scroller = new scroller(tabs, {
+            tabs.scroller = new Scroller(tabs, {
                 horizontal: 1,
                 itemNav: 0,
                 mouseDragging: 1,
@@ -146,7 +137,6 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
     }
 
     EmbyTabs.createdCallback = function () {
-
         if (this.classList.contains('emby-tabs')) {
             return;
         }
@@ -159,7 +149,6 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
     };
 
     EmbyTabs.focus = function () {
-
         var selected = this.querySelector('.' + activeButtonClass);
 
         if (selected) {
@@ -170,21 +159,18 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
     };
 
     EmbyTabs.refresh = function () {
-
         if (this.scroller) {
             this.scroller.reload();
         }
     };
 
     EmbyTabs.attachedCallback = function () {
-
         initScroller(this);
 
         var current = this.querySelector('.' + activeButtonClass);
         var currentIndex = current ? parseInt(current.getAttribute('data-index')) : parseInt(this.getAttribute('data-index') || '0');
 
         if (currentIndex !== -1) {
-
             this.selectedTabIndex = currentIndex;
 
             var tabButtons = this.querySelectorAll('.' + buttonClass);
@@ -198,12 +184,11 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
 
         if (!this.readyFired) {
             this.readyFired = true;
-            this.dispatchEvent(new CustomEvent("ready", {}));
+            this.dispatchEvent(new CustomEvent('ready', {}));
         }
     };
 
     EmbyTabs.detachedCallback = function () {
-
         if (this.scroller) {
             this.scroller.destroy();
             this.scroller = null;
@@ -214,17 +199,14 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
         });
     };
 
-    function getSelectedTabButton(elem) {
-
+    function getSelectedTabButton (elem) {
         return elem.querySelector('.' + activeButtonClass);
     }
 
     EmbyTabs.selectedIndex = function (selected, triggerEvent) {
-
         var tabs = this;
 
         if (selected == null) {
-
             return tabs.selectedTabIndex || 0;
         }
 
@@ -235,10 +217,9 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
         var tabButtons = tabs.querySelectorAll('.' + buttonClass);
 
         if (current === selected || triggerEvent === false) {
-
             triggerBeforeTabChange(tabs, selected, current);
 
-            tabs.dispatchEvent(new CustomEvent("tabchange", {
+            tabs.dispatchEvent(new CustomEvent('tabchange', {
                 detail: {
                     selectedTabIndex: selected
                 }
@@ -250,23 +231,19 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
             if (current !== selected && currentTabButton) {
                 currentTabButton.classList.remove(activeButtonClass);
             }
-
         } else {
-
             onClick.call(tabs, {
                 target: tabButtons[selected]
             });
-            //tabButtons[selected].click();
+            // tabButtons[selected].click();
         }
     };
 
-    function getSibling(elem, method) {
-
+    function getSibling (elem, method) {
         var sibling = elem[method];
 
         while (sibling) {
             if (sibling.classList.contains(buttonClass)) {
-
                 if (!sibling.classList.contains('hide')) {
                     return sibling;
                 }
@@ -279,7 +256,6 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
     }
 
     EmbyTabs.selectNext = function () {
-
         var current = getSelectedTabButton(this);
 
         var sibling = getSibling(current, 'nextSibling');
@@ -292,7 +268,6 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
     };
 
     EmbyTabs.selectPrevious = function () {
-
         var current = getSelectedTabButton(this);
 
         var sibling = getSibling(current, 'previousSibling');
@@ -305,17 +280,15 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
     };
 
     EmbyTabs.triggerBeforeTabChange = function (selected) {
-
         var tabs = this;
 
         triggerBeforeTabChange(tabs, tabs.selectedIndex());
     };
 
     EmbyTabs.triggerTabChange = function (selected) {
-
         var tabs = this;
 
-        tabs.dispatchEvent(new CustomEvent("tabchange", {
+        tabs.dispatchEvent(new CustomEvent('tabchange', {
             detail: {
                 selectedTabIndex: tabs.selectedIndex()
             }
@@ -323,7 +296,6 @@ define(['dom', 'scroller', 'browser', 'layoutManager', 'focusManager', 'register
     };
 
     EmbyTabs.setTabEnabled = function (index, enabled) {
-
         var tabs = this;
         var btn = this.querySelector('.emby-tab-button[data-index="' + index + '"]');
 

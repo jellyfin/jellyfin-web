@@ -2,7 +2,6 @@ define(['dialog', 'globalize'], function (dialog, globalize) {
     'use strict';
 
     return function (text, title) {
-
         var options;
         if (typeof text === 'string') {
             options = {
@@ -32,9 +31,9 @@ define(['dialog', 'globalize'], function (dialog, globalize) {
         return dialog(options).then(function (result) {
             if (result === 'ok') {
                 return Promise.resolve();
+            } else {
+                return Promise.reject(Error('result is not ok'));
             }
-
-            return Promise.reject();
         });
     };
 });

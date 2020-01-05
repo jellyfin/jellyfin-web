@@ -3,7 +3,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
 
     var ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
 
-    function onClick(e) {
+    function onClick (e) {
         var itemsContainer = this;
         var target = e.target;
         var multiSelect = itemsContainer.multiSelect;
@@ -17,13 +17,13 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         itemShortcuts.onClick.call(itemsContainer, e);
     }
 
-    function disableEvent(e) {
+    function disableEvent (e) {
         e.preventDefault();
         e.stopPropagation();
         return false;
     }
 
-    function onContextMenu(e) {
+    function onContextMenu (e) {
         var itemsContainer = this;
         var target = e.target;
         var card = dom.parentWithAttribute(target, 'data-id');
@@ -40,7 +40,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         }
     }
 
-    function getShortcutOptions() {
+    function getShortcutOptions () {
         return {
             click: false
         };
@@ -70,7 +70,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         });
     };
 
-    function onDrop(evt, itemsContainer) {
+    function onDrop (evt, itemsContainer) {
         var el = evt.item;
 
         var newIndex = evt.newIndex;
@@ -124,7 +124,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         var self = this;
         require(['sortable'], function (Sortable) {
             self.sortable = new Sortable(self, {
-                draggable: ".listItem",
+                draggable: '.listItem',
                 handle: '.listViewDragHandle',
 
                 // dragging ended
@@ -135,8 +135,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         });
     };
 
-    function onUserDataChanged(e, apiClient, userData) {
-
+    function onUserDataChanged (e, apiClient, userData) {
         var itemsContainer = this;
 
         require(['cardBuilder'], function (cardBuilder) {
@@ -153,7 +152,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         }
     }
 
-    function getEventsToMonitor(itemsContainer) {
+    function getEventsToMonitor (itemsContainer) {
         var monitor = itemsContainer.getAttribute('data-monitor');
         if (monitor) {
             return monitor.split(',');
@@ -162,8 +161,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         return [];
     }
 
-    function onTimerCreated(e, apiClient, data) {
-
+    function onTimerCreated (e, apiClient, data) {
         var itemsContainer = this;
 
         if (getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
@@ -180,15 +178,14 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         });
     }
 
-    function onSeriesTimerCreated(e, apiClient, data) {
+    function onSeriesTimerCreated (e, apiClient, data) {
         var itemsContainer = this;
         if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1) {
             itemsContainer.notifyRefreshNeeded();
-            return;
         }
     }
 
-    function onTimerCancelled(e, apiClient, data) {
+    function onTimerCancelled (e, apiClient, data) {
         var itemsContainer = this;
         if (getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
             itemsContainer.notifyRefreshNeeded();
@@ -200,7 +197,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         });
     }
 
-    function onSeriesTimerCancelled(e, apiClient, data) {
+    function onSeriesTimerCancelled (e, apiClient, data) {
         var itemsContainer = this;
         if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1) {
             itemsContainer.notifyRefreshNeeded();
@@ -212,7 +209,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         });
     }
 
-    function onLibraryChanged(e, apiClient, data) {
+    function onLibraryChanged (e, apiClient, data) {
         var itemsContainer = this;
 
         var eventsToMonitor = getEventsToMonitor(itemsContainer);
@@ -241,7 +238,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         itemsContainer.notifyRefreshNeeded();
     }
 
-    function onPlaybackStopped(e, stopInfo) {
+    function onPlaybackStopped (e, stopInfo) {
         var itemsContainer = this;
         var state = stopInfo.state;
 
@@ -249,24 +246,22 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Video') {
             if (eventsToMonitor.indexOf('videoplayback') !== -1) {
                 itemsContainer.notifyRefreshNeeded(true);
-                return;
             }
         } else if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Audio') {
             if (eventsToMonitor.indexOf('audioplayback') !== -1) {
                 itemsContainer.notifyRefreshNeeded(true);
-                return;
             }
         }
     }
 
-    function addNotificationEvent(instance, name, handler, owner) {
+    function addNotificationEvent (instance, name, handler, owner) {
         var localHandler = handler.bind(instance);
         owner = owner || serverNotifications;
         events.on(owner, name, localHandler);
         instance['event_' + name] = localHandler;
     }
 
-    function removeNotificationEvent(instance, name, owner) {
+    function removeNotificationEvent (instance, name, owner) {
         var handler = instance['event_' + name];
         if (handler) {
             owner = owner || serverNotifications;
@@ -349,7 +344,6 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
 
         var refreshIntervalEndTime = this.refreshIntervalEndTime;
         if (refreshIntervalEndTime) {
-
             var remainingMs = refreshIntervalEndTime - new Date().getTime();
             if (remainingMs > 0 && !this.needsRefresh) {
                 resetRefreshInterval(this, remainingMs);
@@ -399,7 +393,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         }
     };
 
-    function clearRefreshInterval(itemsContainer, isPausing) {
+    function clearRefreshInterval (itemsContainer, isPausing) {
         if (itemsContainer.refreshInterval) {
             clearInterval(itemsContainer.refreshInterval);
             itemsContainer.refreshInterval = null;
@@ -410,7 +404,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         }
     }
 
-    function resetRefreshInterval(itemsContainer, intervalMs) {
+    function resetRefreshInterval (itemsContainer, intervalMs) {
         clearRefreshInterval(itemsContainer);
 
         if (!intervalMs) {
@@ -423,7 +417,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         }
     }
 
-    function onDataFetched(result) {
+    function onDataFetched (result) {
         var items = result.Items || result;
 
         var parentContainer = this.parentContainer;
@@ -459,7 +453,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         }
     }
 
-    function setFocus(itemsContainer, focusId) {
+    function setFocus (itemsContainer, focusId) {
         if (focusId) {
             var newElement = itemsContainer.querySelector('[data-id="' + focusId + '"]');
             if (newElement) {

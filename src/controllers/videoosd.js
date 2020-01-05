@@ -1,19 +1,19 @@
-define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "mediaInfo", "focusManager", "imageLoader", "scrollHelper", "events", "connectionManager", "browser", "globalize", "apphost", "layoutManager", "userSettings", "scrollStyles", "emby-slider", "paper-icon-button-light", "css!css/videoosd"], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager, userSettings) {
-    "use strict";
+define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'events', 'connectionManager', 'browser', 'globalize', 'apphost', 'layoutManager', 'userSettings', 'scrollStyles', 'emby-slider', 'paper-icon-button-light', 'css!css/videoosd'], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager, userSettings) {
+    'use strict';
 
-    function seriesImageUrl(item, options) {
-        if ("Episode" !== item.Type) {
+    function seriesImageUrl (item, options) {
+        if (item.Type !== 'Episode') {
             return null;
         }
 
         options = options || {};
-        options.type = options.type || "Primary";
-        if ("Primary" === options.type && item.SeriesPrimaryImageTag) {
+        options.type = options.type || 'Primary';
+        if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
             options.tag = item.SeriesPrimaryImageTag;
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
         }
 
-        if ("Thumb" === options.type) {
+        if (options.type === 'Thumb') {
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
@@ -28,16 +28,16 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         return null;
     }
 
-    function imageUrl(item, options) {
+    function imageUrl (item, options) {
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
             options.tag = item.ImageTags[options.type];
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
-        if ("Primary" === options.type && item.AlbumId && item.AlbumPrimaryImageTag) {
+        if (options.type === 'Primary' && item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
@@ -45,9 +45,9 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         return null;
     }
 
-    function logoImageUrl(item, apiClient, options) {
+    function logoImageUrl (item, apiClient, options) {
         options = options || {};
-        options.type = "Logo";
+        options.type = 'Logo';
 
         if (item.ImageTags && item.ImageTags.Logo) {
             options.tag = item.ImageTags.Logo;
@@ -63,7 +63,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
     }
 
     return function (view, params) {
-        function onVerticalSwipe(e, elem, data) {
+        function onVerticalSwipe (e, elem, data) {
             var player = currentPlayer;
 
             if (player) {
@@ -71,14 +71,15 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 var windowSize = dom.getWindowSize();
 
                 if (supportsBrightnessChange && data.clientX < windowSize.innerWidth / 2) {
-                    return void doBrightnessTouch(deltaY, player, windowSize.innerHeight);
+                    doBrightnessTouch(deltaY, player, windowSize.innerHeight);
+                    return
                 }
 
                 doVolumeTouch(deltaY, player, windowSize.innerHeight);
             }
         }
 
-        function doBrightnessTouch(deltaY, player, viewHeight) {
+        function doBrightnessTouch (deltaY, player, viewHeight) {
             var delta = -deltaY / viewHeight * 100;
             var newValue = playbackManager.getBrightness(player) + delta;
             newValue = Math.min(newValue, 100);
@@ -86,7 +87,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             playbackManager.setBrightness(newValue, player);
         }
 
-        function doVolumeTouch(deltaY, player, viewHeight) {
+        function doVolumeTouch (deltaY, player, viewHeight) {
             var delta = -deltaY / viewHeight * 100;
             var newValue = playbackManager.getVolume(player) + delta;
             newValue = Math.min(newValue, 100);
@@ -94,10 +95,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             playbackManager.setVolume(newValue, player);
         }
 
-        function onDoubleClick(e) {
+        function onDoubleClick (e) {
             var clientX = e.clientX;
 
-            if (null != clientX) {
+            if (clientX != null) {
                 if (clientX < dom.getWindowSize().innerWidth / 2) {
                     playbackManager.rewind(currentPlayer);
                 } else {
@@ -109,8 +110,8 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
-        function getDisplayItem(item) {
-            if ("TvChannel" === item.Type) {
+        function getDisplayItem (item) {
+            if (item.Type === 'TvChannel') {
                 var apiClient = connectionManager.getApiClient(item.ServerId);
                 return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (refreshedItem) {
                     return {
@@ -125,34 +126,37 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             });
         }
 
-        function updateRecordingButton(item) {
-            if (!item || "Program" !== item.Type) {
+        function updateRecordingButton (item) {
+            if (!item || item.Type !== 'Program') {
                 if (recordingButtonManager) {
                     recordingButtonManager.destroy();
                     recordingButtonManager = null;
                 }
 
-                return void view.querySelector(".btnRecord").classList.add("hide");
+                view.querySelector('.btnRecord').classList.add('hide');
+
+                return
             }
 
             connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                 if (user.Policy.EnableLiveTvManagement) {
-                    require(["recordingButton"], function (RecordingButton) {
+                    require(['recordingButton'], function (RecordingButton) {
                         if (recordingButtonManager) {
-                            return void recordingButtonManager.refreshItem(item);
+                            recordingButtonManager.refreshItem(item);
+                            return
                         }
 
                         recordingButtonManager = new RecordingButton({
                             item: item,
-                            button: view.querySelector(".btnRecord")
+                            button: view.querySelector('.btnRecord')
                         });
-                        view.querySelector(".btnRecord").classList.remove("hide");
+                        view.querySelector('.btnRecord').classList.remove('hide');
                     });
                 }
             });
         }
 
-        function updateDisplayItem(itemInfo) {
+        function updateDisplayItem (itemInfo) {
             var item = itemInfo.originalItem;
             currentItem = item;
             var displayItem = itemInfo.displayItem || item;
@@ -166,11 +170,11 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             setTitle(displayItem, parentName);
             var titleElement;
-            var osdTitle = view.querySelector(".osdTitle");
+            var osdTitle = view.querySelector('.osdTitle');
             titleElement = osdTitle;
             var displayName = itemHelper.getDisplayName(displayItem, {
-                includeParentInfo: "Program" !== displayItem.Type,
-                includeIndexNumber: "Program" !== displayItem.Type
+                includeParentInfo: displayItem.Type !== 'Program',
+                includeIndexNumber: displayItem.Type !== 'Program'
             });
 
             if (!displayName) {
@@ -180,9 +184,9 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             titleElement.innerHTML = displayName;
 
             if (displayName) {
-                titleElement.classList.remove("hide");
+                titleElement.classList.remove('hide');
             } else {
-                titleElement.classList.add("hide");
+                titleElement.classList.add('hide');
             }
 
             var mediaInfoHtml = mediaInfo.getPrimaryMediaInfoHtml(displayItem, {
@@ -191,20 +195,20 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 tomatoes: false,
                 endsAt: false,
                 episodeTitle: false,
-                originalAirDate: "Program" !== displayItem.Type,
-                episodeTitleIndexNumber: "Program" !== displayItem.Type,
+                originalAirDate: displayItem.Type !== 'Program',
+                episodeTitleIndexNumber: displayItem.Type !== 'Program',
                 programIndicator: false
             });
-            var osdMediaInfo = view.querySelector(".osdMediaInfo");
+            var osdMediaInfo = view.querySelector('.osdMediaInfo');
             osdMediaInfo.innerHTML = mediaInfoHtml;
 
             if (mediaInfoHtml) {
-                osdMediaInfo.classList.remove("hide");
+                osdMediaInfo.classList.remove('hide');
             } else {
-                osdMediaInfo.classList.add("hide");
+                osdMediaInfo.classList.add('hide');
             }
 
-            var secondaryMediaInfo = view.querySelector(".osdSecondaryMediaInfo");
+            var secondaryMediaInfo = view.querySelector('.osdSecondaryMediaInfo');
             var secondaryMediaInfoHtml = mediaInfo.getSecondaryMediaInfoHtml(displayItem, {
                 startDate: false,
                 programTime: false
@@ -212,47 +216,47 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             secondaryMediaInfo.innerHTML = secondaryMediaInfoHtml;
 
             if (secondaryMediaInfoHtml) {
-                secondaryMediaInfo.classList.remove("hide");
+                secondaryMediaInfo.classList.remove('hide');
             } else {
-                secondaryMediaInfo.classList.add("hide");
+                secondaryMediaInfo.classList.add('hide');
             }
 
             if (displayName) {
-                view.querySelector(".osdMainTextContainer").classList.remove("hide");
+                view.querySelector('.osdMainTextContainer').classList.remove('hide');
             } else {
-                view.querySelector(".osdMainTextContainer").classList.add("hide");
+                view.querySelector('.osdMainTextContainer').classList.add('hide');
             }
 
             if (enableProgressByTimeOfDay) {
                 setDisplayTime(startTimeText, displayItem.StartDate);
                 setDisplayTime(endTimeText, displayItem.EndDate);
-                startTimeText.classList.remove("hide");
-                endTimeText.classList.remove("hide");
+                startTimeText.classList.remove('hide');
+                endTimeText.classList.remove('hide');
                 programStartDateMs = displayItem.StartDate ? datetime.parseISO8601Date(displayItem.StartDate).getTime() : 0;
                 programEndDateMs = displayItem.EndDate ? datetime.parseISO8601Date(displayItem.EndDate).getTime() : 0;
             } else {
-                startTimeText.classList.add("hide");
-                endTimeText.classList.add("hide");
-                startTimeText.innerHTML = "";
-                endTimeText.innerHTML = "";
+                startTimeText.classList.add('hide');
+                endTimeText.classList.add('hide');
+                startTimeText.innerHTML = '';
+                endTimeText.innerHTML = '';
                 programStartDateMs = 0;
                 programEndDateMs = 0;
             }
         }
 
-        function getDisplayTimeWithoutAmPm(date, showSeconds) {
+        function getDisplayTimeWithoutAmPm (date, showSeconds) {
             if (showSeconds) {
                 return datetime.toLocaleTimeString(date, {
-                    hour: "numeric",
-                    minute: "2-digit",
-                    second: "2-digit"
-                }).toLowerCase().replace("am", "").replace("pm", "").trim();
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    second: '2-digit'
+                }).toLowerCase().replace('am', '').replace('pm', '').trim();
             }
 
-            return datetime.getDisplayTime(date).toLowerCase().replace("am", "").replace("pm", "").trim();
+            return datetime.getDisplayTime(date).toLowerCase().replace('am', '').replace('pm', '').trim();
         }
 
-        function setDisplayTime(elem, date) {
+        function setDisplayTime (elem, date) {
             var html;
 
             if (date) {
@@ -260,29 +264,29 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 html = getDisplayTimeWithoutAmPm(date);
             }
 
-            elem.innerHTML = html || "";
+            elem.innerHTML = html || '';
         }
 
-        function shouldEnableProgressByTimeOfDay(item) {
-            return !("TvChannel" !== item.Type || !item.CurrentProgram);
+        function shouldEnableProgressByTimeOfDay (item) {
+            return !(item.Type !== 'TvChannel' || !item.CurrentProgram);
         }
 
-        function updateNowPlayingInfo(player, state) {
+        function updateNowPlayingInfo (player, state) {
             var item = state.NowPlayingItem;
 
             currentItem = item;
             if (!item) {
                 setPoster(null);
                 updateRecordingButton(null);
-                Emby.Page.setTitle("");
+                Emby.Page.setTitle('');
                 nowPlayingVolumeSlider.disabled = true;
                 nowPlayingPositionSlider.disabled = true;
                 btnFastForward.disabled = true;
                 btnRewind.disabled = true;
-                view.querySelector(".btnSubtitles").classList.add("hide");
-                view.querySelector(".btnAudio").classList.add("hide");
-                view.querySelector(".osdTitle").innerHTML = "";
-                view.querySelector(".osdMediaInfo").innerHTML = "";
+                view.querySelector('.btnSubtitles').classList.add('hide');
+                view.querySelector('.btnAudio').classList.add('hide');
+                view.querySelector('.osdTitle').innerHTML = '';
+                view.querySelector('.osdMediaInfo').innerHTML = '';
                 return;
             }
 
@@ -294,32 +298,32 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             btnRewind.disabled = false;
 
             if (playbackManager.subtitleTracks(player).length) {
-                view.querySelector(".btnSubtitles").classList.remove("hide");
+                view.querySelector('.btnSubtitles').classList.remove('hide');
                 toggleSubtitleSync();
             } else {
-                view.querySelector(".btnSubtitles").classList.add("hide");
-                toggleSubtitleSync("forceToHide");
+                view.querySelector('.btnSubtitles').classList.add('hide');
+                toggleSubtitleSync('forceToHide');
             }
 
             if (playbackManager.audioTracks(player).length > 1) {
-                view.querySelector(".btnAudio").classList.remove("hide");
+                view.querySelector('.btnAudio').classList.remove('hide');
             } else {
-                view.querySelector(".btnAudio").classList.add("hide");
+                view.querySelector('.btnAudio').classList.add('hide');
             }
         }
 
-        function setTitle(item, parentName) {
+        function setTitle (item, parentName) {
             var url = logoImageUrl(item, connectionManager.getApiClient(item.ServerId), {});
 
             if (url) {
-                Emby.Page.setTitle("");
-                var pageTitle = document.querySelector(".pageTitle");
+                Emby.Page.setTitle('');
+                var pageTitle = document.querySelector('.pageTitle');
                 pageTitle.style.backgroundImage = "url('" + url + "')";
-                pageTitle.classList.add("pageTitleWithLogo");
-                pageTitle.classList.remove("pageTitleWithDefaultLogo");
-                pageTitle.innerHTML = "";
+                pageTitle.classList.add('pageTitleWithLogo');
+                pageTitle.classList.remove('pageTitleWithDefaultLogo');
+                pageTitle.innerHTML = '';
             } else {
-                Emby.Page.setTitle(parentName || "");
+                Emby.Page.setTitle(parentName || '');
             }
 
             var documentTitle = parentName || (item ? item.Name : null);
@@ -329,119 +333,121 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
-        function setPoster(item, secondaryItem) {
-            var osdPoster = view.querySelector(".osdPoster");
+        function setPoster (item, secondaryItem) {
+            var osdPoster = view.querySelector('.osdPoster');
 
             if (item) {
                 var imgUrl = seriesImageUrl(item, {
-                    type: "Primary"
+                    type: 'Primary'
                 }) || seriesImageUrl(item, {
-                    type: "Thumb"
+                    type: 'Thumb'
                 }) || imageUrl(item, {
-                    type: "Primary"
+                    type: 'Primary'
                 });
 
                 if (!imgUrl && secondaryItem && (imgUrl = seriesImageUrl(secondaryItem, {
-                    type: "Primary"
+                    type: 'Primary'
                 }) || seriesImageUrl(secondaryItem, {
-                    type: "Thumb"
+                    type: 'Thumb'
                 }) || imageUrl(secondaryItem, {
-                    type: "Primary"
+                    type: 'Primary'
                 })), imgUrl) {
-                    return void (osdPoster.innerHTML = '<img src="' + imgUrl + '" />');
+                    osdPoster.innerHTML = '<img src="' + imgUrl + '" />';
+                    return;
                 }
             }
 
-            osdPoster.innerHTML = "";
+            osdPoster.innerHTML = '';
         }
 
-        function showOsd() {
+        function showOsd () {
             slideDownToShow(headerElement);
             showMainOsdControls();
             startOsdHideTimer();
         }
 
-        function hideOsd() {
+        function hideOsd () {
             slideUpToHide(headerElement);
             hideMainOsdControls();
         }
 
-        function toggleOsd() {
-            if ("osd" === currentVisibleMenu) {
+        function toggleOsd () {
+            if (currentVisibleMenu === 'osd') {
                 hideOsd();
             } else if (!currentVisibleMenu) {
                 showOsd();
             }
         }
 
-        function startOsdHideTimer() {
+        function startOsdHideTimer () {
             stopOsdHideTimer();
             osdHideTimeout = setTimeout(hideOsd, 5e3);
         }
 
-        function stopOsdHideTimer() {
+        function stopOsdHideTimer () {
             if (osdHideTimeout) {
                 clearTimeout(osdHideTimeout);
                 osdHideTimeout = null;
             }
         }
 
-        function slideDownToShow(elem) {
-            elem.classList.remove("osdHeader-hidden");
+        function slideDownToShow (elem) {
+            elem.classList.remove('osdHeader-hidden');
         }
 
-        function slideUpToHide(elem) {
-            elem.classList.add("osdHeader-hidden");
+        function slideUpToHide (elem) {
+            elem.classList.add('osdHeader-hidden');
         }
 
-        function clearHideAnimationEventListeners(elem) {
+        function clearHideAnimationEventListeners (elem) {
             dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                 once: true
             });
         }
 
-        function onHideAnimationComplete(e) {
+        function onHideAnimationComplete (e) {
             var elem = e.target;
-            if (elem != osdBottomElement)
+            if (elem !== osdBottomElement) {
                 return;
-            elem.classList.add("hide");
+            }
+            elem.classList.add('hide');
             dom.removeEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                 once: true
             });
         }
 
-        function showMainOsdControls() {
+        function showMainOsdControls () {
             if (!currentVisibleMenu) {
                 var elem = osdBottomElement;
-                currentVisibleMenu = "osd";
+                currentVisibleMenu = 'osd';
                 clearHideAnimationEventListeners(elem);
-                elem.classList.remove("hide");
-                elem.classList.remove("videoOsdBottom-hidden");
+                elem.classList.remove('hide');
+                elem.classList.remove('videoOsdBottom-hidden');
 
                 if (!layoutManager.mobile) {
                     setTimeout(function () {
-                        focusManager.focus(elem.querySelector(".btnPause"));
+                        focusManager.focus(elem.querySelector('.btnPause'));
                     }, 50);
                 }
                 toggleSubtitleSync();
             }
         }
 
-        function hideMainOsdControls() {
-            if ("osd" === currentVisibleMenu) {
+        function hideMainOsdControls () {
+            if (currentVisibleMenu === 'osd') {
                 var elem = osdBottomElement;
                 clearHideAnimationEventListeners(elem);
-                elem.classList.add("videoOsdBottom-hidden");
+                elem.classList.add('videoOsdBottom-hidden');
                 dom.addEventListener(elem, transitionEndEventName, onHideAnimationComplete, {
                     once: true
                 });
                 currentVisibleMenu = null;
-                toggleSubtitleSync("hide");
+                toggleSubtitleSync('hide');
             }
         }
 
-        function onPointerMove(e) {
-            if ("mouse" === (e.pointerType || (layoutManager.mobile ? "touch" : "mouse"))) {
+        function onPointerMove (e) {
+            if ((e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse')) === 'mouse') {
                 var eventX = e.screenX || 0;
                 var eventY = e.screenY || 0;
                 var obj = lastPointerMoveData;
@@ -464,12 +470,12 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
-        function onInputCommand(e) {
+        function onInputCommand (e) {
             var player = currentPlayer;
 
             switch (e.detail.command) {
-                case "left":
-                    if ("osd" === currentVisibleMenu) {
+                case 'left':
+                    if (currentVisibleMenu === 'osd') {
                         showOsd();
                     } else {
                         if (!currentVisibleMenu) {
@@ -480,8 +486,8 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
                     break;
 
-                case "right":
-                    if ("osd" === currentVisibleMenu) {
+                case 'right':
+                    if (currentVisibleMenu === 'osd') {
                         showOsd();
                     } else if (!currentVisibleMenu) {
                         e.preventDefault();
@@ -490,62 +496,62 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
                     break;
 
-                case "pageup":
+                case 'pageup':
                     playbackManager.nextChapter(player);
                     break;
 
-                case "pagedown":
+                case 'pagedown':
                     playbackManager.previousChapter(player);
                     break;
 
-                case "up":
-                case "down":
-                case "select":
-                case "menu":
-                case "info":
-                case "play":
-                case "playpause":
-                case "pause":
-                case "fastforward":
-                case "rewind":
-                case "next":
-                case "previous":
+                case 'up':
+                case 'down':
+                case 'select':
+                case 'menu':
+                case 'info':
+                case 'play':
+                case 'playpause':
+                case 'pause':
+                case 'fastforward':
+                case 'rewind':
+                case 'next':
+                case 'previous':
                     showOsd();
                     break;
 
-                case "record":
+                case 'record':
                     onRecordingCommand();
                     showOsd();
                     break;
 
-                case "togglestats":
+                case 'togglestats':
                     toggleStats();
             }
         }
 
-        function onRecordingCommand() {
-            var btnRecord = view.querySelector(".btnRecord");
+        function onRecordingCommand () {
+            var btnRecord = view.querySelector('.btnRecord');
 
-            if (!btnRecord.classList.contains("hide")) {
+            if (!btnRecord.classList.contains('hide')) {
                 btnRecord.click();
             }
         }
 
-        function updateFullscreenIcon() {
+        function updateFullscreenIcon () {
             if (playbackManager.isFullscreen(currentPlayer)) {
-                view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("ExitFullscreen"));
-                view.querySelector(".btnFullscreen i").innerHTML = "fullscreen_exit";
+                view.querySelector('.btnFullscreen').setAttribute('title', globalize.translate('ExitFullscreen'));
+                view.querySelector('.btnFullscreen i').innerHTML = 'fullscreen_exit';
             } else {
-                view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("Fullscreen") + " (f)");
-                view.querySelector(".btnFullscreen i").innerHTML = "fullscreen";
+                view.querySelector('.btnFullscreen').setAttribute('title', globalize.translate('Fullscreen') + ' (f)');
+                view.querySelector('.btnFullscreen i').innerHTML = 'fullscreen';
             }
         }
 
-        function onPlayerChange() {
+        function onPlayerChange () {
             bindToPlayer(playbackManager.getCurrentPlayer());
         }
 
-        function onStateChanged(event, state) {
+        function onStateChanged (event, state) {
             var player = this;
 
             if (state.NowPlayingItem) {
@@ -556,27 +562,27 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
-        function onPlayPauseStateChanged(e) {
+        function onPlayPauseStateChanged (e) {
             if (isEnabled) {
                 updatePlayPauseState(this.paused());
             }
         }
 
-        function onVolumeChanged(e) {
+        function onVolumeChanged (e) {
             if (isEnabled) {
                 var player = this;
                 updatePlayerVolumeState(player, player.isMuted(), player.getVolume());
             }
         }
 
-        function onPlaybackStart(e, state) {
-            console.log("nowplaying event: " + e.type);
+        function onPlaybackStart (e, state) {
+            console.log('nowplaying event: ' + e.type);
             var player = this;
             onStateChanged.call(player, e, state);
             resetUpNextDialog();
         }
 
-        function resetUpNextDialog() {
+        function resetUpNextDialog () {
             comingUpNextDisplayed = false;
             var dlg = currentUpNextDialog;
 
@@ -586,34 +592,34 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
-        function onPlaybackStopped(e, state) {
+        function onPlaybackStopped (e, state) {
             currentRuntimeTicks = null;
             resetUpNextDialog();
-            console.log("nowplaying event: " + e.type);
+            console.log('nowplaying event: ' + e.type);
 
-            if ("Video" !== state.NextMediaType) {
-                view.removeEventListener("viewbeforehide", onViewHideStopPlayback);
+            if (state.NextMediaType !== 'Video') {
+                view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
                 Emby.Page.back();
             }
         }
 
-        function onMediaStreamsChanged(e) {
+        function onMediaStreamsChanged (e) {
             var player = this;
             var state = playbackManager.getPlayerState(player);
             onStateChanged.call(player, {
-                type: "init"
+                type: 'init'
             }, state);
         }
 
-        function onBeginFetch() {
-            document.querySelector(".osdMediaStatus").classList.remove("hide");
+        function onBeginFetch () {
+            document.querySelector('.osdMediaStatus').classList.remove('hide');
         }
 
-        function onEndFetch() {
-            document.querySelector(".osdMediaStatus").classList.add("hide");
+        function onEndFetch () {
+            document.querySelector('.osdMediaStatus').classList.add('hide');
         }
 
-        function bindToPlayer(player) {
+        function bindToPlayer (player) {
             if (player !== currentPlayer) {
                 releaseCurrentPlayer();
                 currentPlayer = player;
@@ -621,18 +627,18 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
             var state = playbackManager.getPlayerState(player);
             onStateChanged.call(player, {
-                type: "init"
+                type: 'init'
             }, state);
-            events.on(player, "playbackstart", onPlaybackStart);
-            events.on(player, "playbackstop", onPlaybackStopped);
-            events.on(player, "volumechange", onVolumeChanged);
-            events.on(player, "pause", onPlayPauseStateChanged);
-            events.on(player, "unpause", onPlayPauseStateChanged);
-            events.on(player, "timeupdate", onTimeUpdate);
-            events.on(player, "fullscreenchange", updateFullscreenIcon);
-            events.on(player, "mediastreamschange", onMediaStreamsChanged);
-            events.on(player, "beginFetch", onBeginFetch);
-            events.on(player, "endFetch", onEndFetch);
+            events.on(player, 'playbackstart', onPlaybackStart);
+            events.on(player, 'playbackstop', onPlaybackStopped);
+            events.on(player, 'volumechange', onVolumeChanged);
+            events.on(player, 'pause', onPlayPauseStateChanged);
+            events.on(player, 'unpause', onPlayPauseStateChanged);
+            events.on(player, 'timeupdate', onTimeUpdate);
+            events.on(player, 'fullscreenchange', updateFullscreenIcon);
+            events.on(player, 'mediastreamschange', onMediaStreamsChanged);
+            events.on(player, 'beginFetch', onBeginFetch);
+            events.on(player, 'endFetch', onEndFetch);
             resetUpNextDialog();
 
             if (player.isFetching) {
@@ -640,26 +646,26 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
-        function releaseCurrentPlayer() {
+        function releaseCurrentPlayer () {
             destroyStats();
             destroySubtitleSync();
             resetUpNextDialog();
             var player = currentPlayer;
 
             if (player) {
-                events.off(player, "playbackstart", onPlaybackStart);
-                events.off(player, "playbackstop", onPlaybackStopped);
-                events.off(player, "volumechange", onVolumeChanged);
-                events.off(player, "pause", onPlayPauseStateChanged);
-                events.off(player, "unpause", onPlayPauseStateChanged);
-                events.off(player, "timeupdate", onTimeUpdate);
-                events.off(player, "fullscreenchange", updateFullscreenIcon);
-                events.off(player, "mediastreamschange", onMediaStreamsChanged);
+                events.off(player, 'playbackstart', onPlaybackStart);
+                events.off(player, 'playbackstop', onPlaybackStopped);
+                events.off(player, 'volumechange', onVolumeChanged);
+                events.off(player, 'pause', onPlayPauseStateChanged);
+                events.off(player, 'unpause', onPlayPauseStateChanged);
+                events.off(player, 'timeupdate', onTimeUpdate);
+                events.off(player, 'fullscreenchange', updateFullscreenIcon);
+                events.off(player, 'mediastreamschange', onMediaStreamsChanged);
                 currentPlayer = null;
             }
         }
 
-        function onTimeUpdate(e) {
+        function onTimeUpdate (e) {
             if (isEnabled) {
                 var now = new Date().getTime();
 
@@ -676,8 +682,8 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
-        function showComingUpNextIfNeeded(player, currentItem, currentTimeTicks, runtimeTicks) {
-            if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && "Episode" === currentItem.Type && userSettings.enableNextVideoInfoOverlay()) {
+        function showComingUpNextIfNeeded (player, currentItem, currentTimeTicks, runtimeTicks) {
+            if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && currentItem.Type === 'Episode' && userSettings.enableNextVideoInfoOverlay()) {
                 var showAtSecondsLeft = runtimeTicks >= 3e10 ? 40 : runtimeTicks >= 24e9 ? 35 : 30;
                 var showAtTicks = runtimeTicks - 1e3 * showAtSecondsLeft * 1e4;
                 var timeRemainingTicks = runtimeTicks - currentTimeTicks;
@@ -688,31 +694,31 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
-        function onUpNextHidden() {
-            if ("upnext" === currentVisibleMenu) {
+        function onUpNextHidden () {
+            if (currentVisibleMenu === 'upnext') {
                 currentVisibleMenu = null;
             }
         }
 
-        function showComingUpNext(player) {
-            require(["upNextDialog"], function (UpNextDialog) {
+        function showComingUpNext (player) {
+            require(['upNextDialog'], function (UpNextDialog) {
                 if (!(currentVisibleMenu || currentUpNextDialog)) {
-                    currentVisibleMenu = "upnext";
+                    currentVisibleMenu = 'upnext';
                     comingUpNextDisplayed = true;
                     playbackManager.nextItem(player).then(function (nextItem) {
                         currentUpNextDialog = new UpNextDialog({
-                            parent: view.querySelector(".upNextContainer"),
+                            parent: view.querySelector('.upNextContainer'),
                             player: player,
                             nextItem: nextItem
                         });
-                        events.on(currentUpNextDialog, "hide", onUpNextHidden);
+                        events.on(currentUpNextDialog, 'hide', onUpNextHidden);
                     }, onUpNextHidden);
                 }
             });
         }
 
-        function refreshProgramInfoIfNeeded(player, item) {
-            if ("TvChannel" === item.Type) {
+        function refreshProgramInfoIfNeeded (player, item) {
+            if (item.Type === 'TvChannel') {
                 var program = item.CurrentProgram;
 
                 if (program && program.EndDate) {
@@ -720,36 +726,36 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                         var endDate = datetime.parseISO8601Date(program.EndDate);
 
                         if (new Date().getTime() >= endDate.getTime()) {
-                            console.log("program info needs to be refreshed");
+                            console.log('program info needs to be refreshed');
                             var state = playbackManager.getPlayerState(player);
                             onStateChanged.call(player, {
-                                type: "init"
+                                type: 'init'
                             }, state);
                         }
                     } catch (e) {
-                        console.log("Error parsing date: " + program.EndDate);
+                        console.log('Error parsing date: ' + program.EndDate);
                     }
                 }
             }
         }
 
-        function updatePlayPauseState(isPaused) {
-            var button = view.querySelector(".btnPause i");
+        function updatePlayPauseState (isPaused) {
+            var button = view.querySelector('.btnPause i');
             if (isPaused) {
-                button.innerHTML = "play_arrow";
-                button.setAttribute("title", globalize.translate("ButtonPlay") + " (k)");
+                button.innerHTML = 'play_arrow';
+                button.setAttribute('title', globalize.translate('ButtonPlay') + ' (k)');
             } else {
-                button.innerHTML = "pause";
-                button.setAttribute("title", globalize.translate("ButtonPause") + " (k)");
+                button.innerHTML = 'pause';
+                button.setAttribute('title', globalize.translate('ButtonPause') + ' (k)');
             }
         }
 
-        function updatePlayerStateInternal(event, player, state) {
+        function updatePlayerStateInternal (event, player, state) {
             var playState = state.PlayState || {};
             updatePlayPauseState(playState.IsPaused);
             var supportedCommands = playbackManager.getSupportedCommands(player);
             currentPlayerSupportedCommands = supportedCommands;
-            supportsBrightnessChange = -1 !== supportedCommands.indexOf("SetBrightness");
+            supportsBrightnessChange = supportedCommands.indexOf('SetBrightness') !== -1;
             updatePlayerVolumeState(player, playState.IsMuted, playState.VolumeLevel);
 
             if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
@@ -763,13 +769,13 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.PlaybackStartTimeTicks, playState.BufferedRanges || []);
             updateNowPlayingInfo(player, state);
 
-            if (state.MediaSource && state.MediaSource.SupportsTranscoding && -1 !== supportedCommands.indexOf("SetMaxStreamingBitrate")) {
-                view.querySelector(".btnVideoOsdSettings").classList.remove("hide");
+            if (state.MediaSource && state.MediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
+                view.querySelector('.btnVideoOsdSettings').classList.remove('hide');
             } else {
-                view.querySelector(".btnVideoOsdSettings").classList.add("hide");
+                view.querySelector('.btnVideoOsdSettings').classList.add('hide');
             }
 
-            var isProgressClear = state.MediaSource && null == state.MediaSource.RunTimeTicks;
+            var isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
             nowPlayingPositionSlider.setIsClear(isProgressClear);
 
             if (nowPlayingItem.RunTimeTicks) {
@@ -777,26 +783,26 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                     userSettings.skipForwardLength() * 1000000 / nowPlayingItem.RunTimeTicks);
             }
 
-            if (-1 === supportedCommands.indexOf("ToggleFullscreen") || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {
-                view.querySelector(".btnFullscreen").classList.add("hide");
+            if (supportedCommands.indexOf('ToggleFullscreen') === -1 || player.isLocalPlayer && layoutManager.tv && playbackManager.isFullscreen(player)) {
+                view.querySelector('.btnFullscreen').classList.add('hide');
             } else {
-                view.querySelector(".btnFullscreen").classList.remove("hide");
+                view.querySelector('.btnFullscreen').classList.remove('hide');
             }
 
-            if (-1 === supportedCommands.indexOf("PictureInPicture")) {
-                view.querySelector(".btnPip").classList.add("hide");
+            if (supportedCommands.indexOf('PictureInPicture') === -1) {
+                view.querySelector('.btnPip').classList.add('hide');
             } else {
-                view.querySelector(".btnPip").classList.remove("hide");
+                view.querySelector('.btnPip').classList.remove('hide');
             }
 
             updateFullscreenIcon();
         }
 
-        function getDisplayPercentByTimeOfDay(programStartDateMs, programRuntimeMs, currentTimeMs) {
+        function getDisplayPercentByTimeOfDay (programStartDateMs, programRuntimeMs, currentTimeMs) {
             return (currentTimeMs - programStartDateMs) / programRuntimeMs * 100;
         }
 
-        function updateTimeDisplay(positionTicks, runtimeTicks, playbackStartTimeTicks, bufferedRanges) {
+        function updateTimeDisplay (positionTicks, runtimeTicks, playbackStartTimeTicks, bufferedRanges) {
             if (enableProgressByTimeOfDay) {
                 if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
                     if (programStartDateMs && programEndDateMs) {
@@ -819,8 +825,8 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                     }
                 }
 
-                nowPlayingPositionText.innerHTML = "";
-                nowPlayingDurationText.innerHTML = "";
+                nowPlayingPositionText.innerHTML = '';
+                nowPlayingDurationText.innerHTML = '';
             } else {
                 if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
                     if (runtimeTicks) {
@@ -831,10 +837,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                         nowPlayingPositionSlider.value = 0;
                     }
 
-                    if (runtimeTicks && null != positionTicks && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && "Recording" !== currentItem.Type) {
-                        endsAtText.innerHTML = "&nbsp;&nbsp;-&nbsp;&nbsp;" + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, true);
+                    if (runtimeTicks && positionTicks != null && currentRuntimeTicks && !enableProgressByTimeOfDay && currentItem.RunTimeTicks && currentItem.Type !== 'Recording') {
+                        endsAtText.innerHTML = '&nbsp;&nbsp;-&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(runtimeTicks, positionTicks, true);
                     } else {
-                        endsAtText.innerHTML = "";
+                        endsAtText.innerHTML = '';
                     }
                 }
 
@@ -847,32 +853,32 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
-        function updatePlayerVolumeState(player, isMuted, volumeLevel) {
+        function updatePlayerVolumeState (player, isMuted, volumeLevel) {
             var supportedCommands = currentPlayerSupportedCommands;
             var showMuteButton = true;
             var showVolumeSlider = true;
             var volumeSlider = view.querySelector('.osdVolumeSliderContainer');
             var progressElement = volumeSlider.querySelector('.mdl-slider-background-lower');
 
-            if (-1 === supportedCommands.indexOf("Mute")) {
+            if (supportedCommands.indexOf('Mute') === -1) {
                 showMuteButton = false;
             }
 
-            if (-1 === supportedCommands.indexOf("SetVolume")) {
+            if (supportedCommands.indexOf('SetVolume') === -1) {
                 showVolumeSlider = false;
             }
 
-            if (player.isLocalPlayer && appHost.supports("physicalvolumecontrol")) {
+            if (player.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
                 showMuteButton = false;
                 showVolumeSlider = false;
             }
 
             if (isMuted) {
-                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute") + " (m)");
-                view.querySelector(".buttonMute i").innerHTML = "volume_off";
+                view.querySelector('.buttonMute').setAttribute('title', globalize.translate('Unmute') + ' (m)');
+                view.querySelector('.buttonMute i').innerHTML = 'volume_off';
             } else {
-                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute") + " (m)");
-                view.querySelector(".buttonMute i").innerHTML = "volume_up";
+                view.querySelector('.buttonMute').setAttribute('title', globalize.translate('Mute') + ' (m)');
+                view.querySelector('.buttonMute i').innerHTML = 'volume_up';
             }
 
             if (progressElement) {
@@ -880,16 +886,16 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
 
             if (showMuteButton) {
-                view.querySelector(".buttonMute").classList.remove("hide");
+                view.querySelector('.buttonMute').classList.remove('hide');
             } else {
-                view.querySelector(".buttonMute").classList.add("hide");
+                view.querySelector('.buttonMute').classList.add('hide');
             }
 
             if (nowPlayingVolumeSlider) {
                 if (showVolumeSlider) {
-                    nowPlayingVolumeSliderContainer.classList.remove("hide");
+                    nowPlayingVolumeSliderContainer.classList.remove('hide');
                 } else {
-                    nowPlayingVolumeSliderContainer.classList.add("hide");
+                    nowPlayingVolumeSliderContainer.classList.add('hide');
                 }
 
                 if (!nowPlayingVolumeSlider.dragging) {
@@ -898,44 +904,43 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
-        function updatePlaylist(player) {
-            var btnPreviousTrack = view.querySelector(".btnPreviousTrack");
-            var btnNextTrack = view.querySelector(".btnNextTrack");
-            btnPreviousTrack.classList.remove("hide");
-            btnNextTrack.classList.remove("hide");
+        function updatePlaylist (player) {
+            var btnPreviousTrack = view.querySelector('.btnPreviousTrack');
+            var btnNextTrack = view.querySelector('.btnNextTrack');
+            btnPreviousTrack.classList.remove('hide');
+            btnNextTrack.classList.remove('hide');
             btnNextTrack.disabled = false;
             btnPreviousTrack.disabled = false;
         }
 
-        function updateTimeText(elem, ticks, divider) {
-            if (null == ticks) {
-                elem.innerHTML = "";
+        function updateTimeText (elem, ticks, divider) {
+            if (ticks == null) {
+                elem.innerHTML = '';
                 return;
             }
 
             var html = datetime.getDisplayRunningTime(ticks);
 
             if (divider) {
-                html = "&nbsp;/&nbsp;" + html;
+                html = '&nbsp;/&nbsp;' + html;
             }
 
             elem.innerHTML = html;
         }
 
-        function onSettingsButtonClick(e) {
+        function onSettingsButtonClick (e) {
             var btn = this;
 
-            require(["playerSettingsMenu"], function (playerSettingsMenu) {
+            require(['playerSettingsMenu'], function (playerSettingsMenu) {
                 var player = currentPlayer;
 
                 if (player) {
-
                     // show subtitle offset feature only if player and media support it
                     var showSubOffset = playbackManager.supportSubtitleOffset(player) &&
                         playbackManager.canHandleOffsetOnCurrentSubtitle(player);
 
                     playerSettingsMenu.show({
-                        mediaType: "Video",
+                        mediaType: 'Video',
                         player: player,
                         positionTo: btn,
                         stats: true,
@@ -946,10 +951,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             });
         }
 
-        function onSettingsOption(selectedOption) {
-            if ("stats" === selectedOption) {
+        function onSettingsOption (selectedOption) {
+            if (selectedOption === 'stats') {
                 toggleStats();
-            } else if ("suboffset" === selectedOption) {
+            } else if (selectedOption === 'suboffset') {
                 var player = currentPlayer;
                 if (player) {
                     playbackManager.enableShowingSubtitleOffset(player);
@@ -958,8 +963,8 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
-        function toggleStats() {
-            require(["playerStats"], function (PlayerStats) {
+        function toggleStats () {
+            require(['playerStats'], function (PlayerStats) {
                 var player = currentPlayer;
 
                 if (player) {
@@ -974,14 +979,14 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             });
         }
 
-        function destroyStats() {
+        function destroyStats () {
             if (statsOverlay) {
                 statsOverlay.destroy();
                 statsOverlay = null;
             }
         }
 
-        function showAudioTrackSelection() {
+        function showAudioTrackSelection () {
             var player = currentPlayer;
             var audioTracks = playbackManager.audioTracks(player);
             var currentIndex = playbackManager.getAudioStreamIndex(player);
@@ -999,10 +1004,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             });
             var positionTo = this;
 
-            require(["actionsheet"], function (actionsheet) {
+            require(['actionsheet'], function (actionsheet) {
                 actionsheet.show({
                     items: menuItems,
-                    title: globalize.translate("Audio"),
+                    title: globalize.translate('Audio'),
                     positionTo: positionTo
                 }).then(function (id) {
                     var index = parseInt(id);
@@ -1014,18 +1019,18 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             });
         }
 
-        function showSubtitleTrackSelection() {
+        function showSubtitleTrackSelection () {
             var player = currentPlayer;
             var streams = playbackManager.subtitleTracks(player);
             var currentIndex = playbackManager.getSubtitleStreamIndex(player);
 
-            if (null == currentIndex) {
+            if (currentIndex == null) {
                 currentIndex = -1;
             }
 
             streams.unshift({
                 Index: -1,
-                DisplayTitle: globalize.translate("Off")
+                DisplayTitle: globalize.translate('Off')
             });
             var menuItems = streams.map(function (stream) {
                 var opt = {
@@ -1041,9 +1046,9 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             });
             var positionTo = this;
 
-            require(["actionsheet"], function (actionsheet) {
+            require(['actionsheet'], function (actionsheet) {
                 actionsheet.show({
-                    title: globalize.translate("Subtitles"),
+                    title: globalize.translate('Subtitles'),
                     items: menuItems,
                     positionTo: positionTo
                 }).then(function (id) {
@@ -1058,8 +1063,8 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             });
         }
 
-        function toggleSubtitleSync(action) {
-            require(["subtitleSync"], function (SubtitleSync) {
+        function toggleSubtitleSync (action) {
+            require(['subtitleSync'], function (SubtitleSync) {
                 var player = currentPlayer;
                 if (subtitleSyncOverlay) {
                     subtitleSyncOverlay.toggle(action);
@@ -1069,7 +1074,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             });
         }
 
-        function destroySubtitleSync() {
+        function destroySubtitleSync () {
             if (subtitleSyncOverlay) {
                 subtitleSyncOverlay.destroy();
                 subtitleSyncOverlay = null;
@@ -1079,55 +1084,55 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         /**
          * Keys used for keyboard navigation.
          */
-        var NavigationKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+        var NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
-        function onWindowKeyDown(e) {
-            if (!currentVisibleMenu && 32 === e.keyCode) {
+        function onWindowKeyDown (e) {
+            if (!currentVisibleMenu && e.keyCode === 32) {
                 playbackManager.playPause(currentPlayer);
                 showOsd();
                 return;
             }
 
-            if (layoutManager.tv && NavigationKeys.indexOf(e.key) != -1) {
+            if (layoutManager.tv && NavigationKeys.indexOf(e.key) !== -1) {
                 showOsd();
                 return;
             }
 
             switch (e.key) {
-                case "k":
+                case 'k':
                     playbackManager.playPause(currentPlayer);
                     showOsd();
                     break;
 
-                case "l":
-                case "ArrowRight":
-                case "Right":
+                case 'l':
+                case 'ArrowRight':
+                case 'Right':
                     playbackManager.fastForward(currentPlayer);
                     showOsd();
                     break;
 
-                case "j":
-                case "ArrowLeft":
-                case "Left":
+                case 'j':
+                case 'ArrowLeft':
+                case 'Left':
                     playbackManager.rewind(currentPlayer);
                     showOsd();
                     break;
 
-                case "f":
+                case 'f':
                     if (!e.ctrlKey && !e.metaKey) {
                         playbackManager.toggleFullscreen(currentPlayer);
                         showOsd();
                     }
                     break;
 
-                case "m":
+                case 'm':
                     playbackManager.toggleMute(currentPlayer);
                     showOsd();
                     break;
 
-                case "NavigationLeft":
-                case "GamepadDPadLeft":
-                case "GamepadLeftThumbstickLeft":
+                case 'NavigationLeft':
+                case 'GamepadDPadLeft':
+                case 'GamepadLeftThumbstickLeft':
                 // Ignores gamepad events that are always triggered, even when not focused.
                     if (document.hasFocus()) {
                         playbackManager.rewind(currentPlayer);
@@ -1135,9 +1140,9 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                     }
                     break;
 
-                case "NavigationRight":
-                case "GamepadDPadRight":
-                case "GamepadLeftThumbstickRight":
+                case 'NavigationRight':
+                case 'GamepadDPadRight':
+                case 'GamepadLeftThumbstickRight':
                 // Ignores gamepad events that are always triggered, even when not focused.
                     if (document.hasFocus()) {
                         playbackManager.fastForward(currentPlayer);
@@ -1146,12 +1151,12 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         }
 
-        function getImgUrl(item, chapter, index, maxWidth, apiClient) {
+        function getImgUrl (item, chapter, index, maxWidth, apiClient) {
             if (chapter.ImageTag) {
                 return apiClient.getScaledImageUrl(item.Id, {
                     maxWidth: maxWidth,
                     tag: chapter.ImageTag,
-                    type: "Chapter",
+                    type: 'Chapter',
                     index: index
                 });
             }
@@ -1159,7 +1164,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             return null;
         }
 
-        function getChapterBubbleHtml(apiClient, item, chapters, positionTicks) {
+        function getChapterBubbleHtml (apiClient, item, chapters, positionTicks) {
             var chapter;
             var index = -1;
 
@@ -1184,35 +1189,35 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 html += '<div class="chapterThumbTextContainer">';
                 html += '<div class="chapterThumbText chapterThumbText-dim">';
                 html += chapter.Name;
-                html += "</div>";
+                html += '</div>';
                 html += '<h2 class="chapterThumbText">';
                 html += datetime.getDisplayRunningTime(positionTicks);
-                html += "</h2>";
-                html += "</div>";
-                return html + "</div>";
+                html += '</h2>';
+                html += '</div>';
+                return html + '</div>';
             }
 
             return null;
         }
 
-        function onViewHideStopPlayback() {
+        function onViewHideStopPlayback () {
             if (playbackManager.isPlayingVideo()) {
                 require(['shell'], function (shell) {
                     shell.disableFullscreen();
                 });
 
                 var player = currentPlayer;
-                view.removeEventListener("viewbeforehide", onViewHideStopPlayback);
+                view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
                 releaseCurrentPlayer();
                 playbackManager.stop(player);
             }
         }
 
-        function enableStopOnBack(enabled) {
-            view.removeEventListener("viewbeforehide", onViewHideStopPlayback);
+        function enableStopOnBack (enabled) {
+            view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
 
             if (enabled && playbackManager.isPlayingVideo(currentPlayer)) {
-                view.addEventListener("viewbeforehide", onViewHideStopPlayback);
+                view.addEventListener('viewbeforehide', onViewHideStopPlayback);
             }
         }
 
@@ -1241,76 +1246,76 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         var playbackStartTimeTicks = 0;
         var subtitleSyncOverlay;
         var volumeSliderTimer;
-        var nowPlayingVolumeSlider = view.querySelector(".osdVolumeSlider");
-        var nowPlayingVolumeSliderContainer = view.querySelector(".osdVolumeSliderContainer");
-        var nowPlayingPositionSlider = view.querySelector(".osdPositionSlider");
-        var nowPlayingPositionText = view.querySelector(".osdPositionText");
-        var nowPlayingDurationText = view.querySelector(".osdDurationText");
-        var startTimeText = view.querySelector(".startTimeText");
-        var endTimeText = view.querySelector(".endTimeText");
-        var endsAtText = view.querySelector(".endsAtText");
-        var btnRewind = view.querySelector(".btnRewind");
-        var btnFastForward = view.querySelector(".btnFastForward");
+        var nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
+        var nowPlayingVolumeSliderContainer = view.querySelector('.osdVolumeSliderContainer');
+        var nowPlayingPositionSlider = view.querySelector('.osdPositionSlider');
+        var nowPlayingPositionText = view.querySelector('.osdPositionText');
+        var nowPlayingDurationText = view.querySelector('.osdDurationText');
+        var startTimeText = view.querySelector('.startTimeText');
+        var endTimeText = view.querySelector('.endTimeText');
+        var endsAtText = view.querySelector('.endsAtText');
+        var btnRewind = view.querySelector('.btnRewind');
+        var btnFastForward = view.querySelector('.btnFastForward');
         var transitionEndEventName = dom.whichTransitionEvent();
-        var headerElement = document.querySelector(".skinHeader");
-        var osdBottomElement = document.querySelector(".videoOsdBottom-maincontrols");
+        var headerElement = document.querySelector('.skinHeader');
+        var osdBottomElement = document.querySelector('.videoOsdBottom-maincontrols');
 
         if (layoutManager.tv) {
-            nowPlayingPositionSlider.classList.add("focusable");
+            nowPlayingPositionSlider.classList.add('focusable');
             nowPlayingPositionSlider.enableKeyboardDragging();
         }
 
-        view.addEventListener("viewbeforeshow", function (e) {
-            headerElement.classList.add("osdHeader");
-            Emby.Page.setTransparency("full");
+        view.addEventListener('viewbeforeshow', function (e) {
+            headerElement.classList.add('osdHeader');
+            Emby.Page.setTransparency('full');
         });
-        view.addEventListener("viewshow", function (e) {
+        view.addEventListener('viewshow', function (e) {
             try {
-                events.on(playbackManager, "playerchange", onPlayerChange);
+                events.on(playbackManager, 'playerchange', onPlayerChange);
                 bindToPlayer(playbackManager.getCurrentPlayer());
-                dom.addEventListener(document, window.PointerEvent ? "pointermove" : "mousemove", onPointerMove, {
+                dom.addEventListener(document, window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove, {
                     passive: true
                 });
                 showOsd();
                 inputManager.on(window, onInputCommand);
-                dom.addEventListener(window, "keydown", onWindowKeyDown, {
+                dom.addEventListener(window, 'keydown', onWindowKeyDown, {
                     passive: true
                 });
             } catch (e) {
-                require(['appRouter'], function(appRouter) {
+                require(['appRouter'], function (appRouter) {
                     appRouter.showDirect('/');
                 });
             }
         });
-        view.addEventListener("viewbeforehide", function () {
+        view.addEventListener('viewbeforehide', function () {
             if (statsOverlay) {
                 statsOverlay.enabled(false);
             }
 
-            dom.removeEventListener(window, "keydown", onWindowKeyDown, {
+            dom.removeEventListener(window, 'keydown', onWindowKeyDown, {
                 passive: true
             });
             stopOsdHideTimer();
-            headerElement.classList.remove("osdHeader");
-            headerElement.classList.remove("osdHeader-hidden");
-            dom.removeEventListener(document, window.PointerEvent ? "pointermove" : "mousemove", onPointerMove, {
+            headerElement.classList.remove('osdHeader');
+            headerElement.classList.remove('osdHeader-hidden');
+            dom.removeEventListener(document, window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove, {
                 passive: true
             });
             inputManager.off(window, onInputCommand);
-            events.off(playbackManager, "playerchange", onPlayerChange);
+            events.off(playbackManager, 'playerchange', onPlayerChange);
             releaseCurrentPlayer();
         });
-        view.querySelector(".btnFullscreen").addEventListener("click", function () {
+        view.querySelector('.btnFullscreen').addEventListener('click', function () {
             playbackManager.toggleFullscreen(currentPlayer);
         });
-        view.querySelector(".btnPip").addEventListener("click", function () {
+        view.querySelector('.btnPip').addEventListener('click', function () {
             playbackManager.togglePictureInPicture(currentPlayer);
         });
-        view.querySelector(".btnVideoOsdSettings").addEventListener("click", onSettingsButtonClick);
-        view.addEventListener("viewhide", function () {
-            headerElement.classList.remove("hide");
+        view.querySelector('.btnVideoOsdSettings').addEventListener('click', onSettingsButtonClick);
+        view.addEventListener('viewhide', function () {
+            headerElement.classList.remove('hide');
         });
-        view.addEventListener("viewdestroy", function () {
+        view.addEventListener('viewdestroy', function () {
             if (self.touchHelper) {
                 self.touchHelper.destroy();
                 self.touchHelper = null;
@@ -1325,16 +1330,17 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             destroySubtitleSync();
         });
         var lastPointerDown = 0;
-        dom.addEventListener(view, window.PointerEvent ? "pointerdown" : "click", function (e) {
-            if (dom.parentWithClass(e.target, ["videoOsdBottom", "upNextContainer"])) {
-                return void showOsd();
+        dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', function (e) {
+            if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer'])) {
+                showOsd();
+                return;
             }
 
-            var pointerType = e.pointerType || (layoutManager.mobile ? "touch" : "mouse");
+            var pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
             var now = new Date().getTime();
 
             switch (pointerType) {
-                case "touch":
+                case 'touch':
                     if (now - lastPointerDown > 300) {
                         lastPointerDown = now;
                         toggleOsd();
@@ -1342,7 +1348,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
                     break;
 
-                case "mouse":
+                case 'mouse':
                     if (!e.button) {
                         playbackManager.playPause(currentPlayer);
                         showOsd();
@@ -1359,18 +1365,18 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         });
 
         if (browser.touch) {
-            dom.addEventListener(view, "dblclick", onDoubleClick, {});
+            dom.addEventListener(view, 'dblclick', onDoubleClick, {});
         } else {
             var options = { passive: true };
-            dom.addEventListener(view, "dblclick", function () {
+            dom.addEventListener(view, 'dblclick', function () {
                 playbackManager.toggleFullscreen(currentPlayer);
             }, options);
         }
 
-        view.querySelector(".buttonMute").addEventListener("click", function () {
+        view.querySelector('.buttonMute').addEventListener('click', function () {
             playbackManager.toggleMute(currentPlayer);
         });
-        nowPlayingVolumeSlider.addEventListener("change", function () {
+        nowPlayingVolumeSlider.addEventListener('change', function () {
             if (volumeSliderTimer) {
                 // interupt and remove existing timer
                 clearTimeout(volumeSliderTimer);
@@ -1378,22 +1384,22 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
             playbackManager.setVolume(this.value, currentPlayer);
         });
-        nowPlayingVolumeSlider.addEventListener("mousemove", function () {
+        nowPlayingVolumeSlider.addEventListener('mousemove', function () {
             if (!volumeSliderTimer) {
                 var that = this;
                 // register new timer
-                volumeSliderTimer = setTimeout(function() {
+                volumeSliderTimer = setTimeout(function () {
                     playbackManager.setVolume(that.value, currentPlayer);
                     // delete timer after completion
                     volumeSliderTimer = null;
                 }, 700);
             }
         });
-        nowPlayingVolumeSlider.addEventListener("touchmove", function () {
+        nowPlayingVolumeSlider.addEventListener('touchmove', function () {
             if (!volumeSliderTimer) {
                 var that = this;
                 // register new timer
-                volumeSliderTimer = setTimeout(function() {
+                volumeSliderTimer = setTimeout(function () {
                     playbackManager.setVolume(that.value, currentPlayer);
                     // delete timer after completion
                     volumeSliderTimer = null;
@@ -1401,7 +1407,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
         });
 
-        nowPlayingPositionSlider.addEventListener("change", function () {
+        nowPlayingPositionSlider.addEventListener('change', function () {
             var player = currentPlayer;
 
             if (player) {
@@ -1426,14 +1432,14 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                     ms /= 100;
                     ms *= value;
                     ms += programStartDateMs;
-                    return '<h1 class="sliderBubbleText">' + getDisplayTimeWithoutAmPm(new Date(parseInt(ms)), true) + "</h1>";
+                    return '<h1 class="sliderBubbleText">' + getDisplayTimeWithoutAmPm(new Date(parseInt(ms)), true) + '</h1>';
                 }
 
-                return "--:--";
+                return '--:--';
             }
 
             if (!currentRuntimeTicks) {
-                return "--:--";
+                return '--:--';
             }
 
             var ticks = currentRuntimeTicks;
@@ -1449,38 +1455,38 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 }
             }
 
-            return '<h1 class="sliderBubbleText">' + datetime.getDisplayRunningTime(ticks) + "</h1>";
+            return '<h1 class="sliderBubbleText">' + datetime.getDisplayRunningTime(ticks) + '</h1>';
         };
 
-        view.querySelector(".btnPreviousTrack").addEventListener("click", function () {
+        view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
             playbackManager.previousTrack(currentPlayer);
         });
-        view.querySelector(".btnPause").addEventListener("click", function () {
+        view.querySelector('.btnPause').addEventListener('click', function () {
             playbackManager.playPause(currentPlayer);
         });
-        view.querySelector(".btnNextTrack").addEventListener("click", function () {
+        view.querySelector('.btnNextTrack').addEventListener('click', function () {
             playbackManager.nextTrack(currentPlayer);
         });
-        btnRewind.addEventListener("click", function () {
+        btnRewind.addEventListener('click', function () {
             playbackManager.rewind(currentPlayer);
         });
-        btnFastForward.addEventListener("click", function () {
+        btnFastForward.addEventListener('click', function () {
             playbackManager.fastForward(currentPlayer);
         });
-        view.querySelector(".btnAudio").addEventListener("click", showAudioTrackSelection);
-        view.querySelector(".btnSubtitles").addEventListener("click", showSubtitleTrackSelection);
+        view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
+        view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
 
         if (browser.touch) {
             (function () {
-                require(["touchHelper"], function (TouchHelper) {
+                require(['touchHelper'], function (TouchHelper) {
                     self.touchHelper = new TouchHelper(view, {
                         swipeYThreshold: 30,
                         triggerOnMove: true,
                         preventDefaultOnMove: true,
-                        ignoreTagNames: ["BUTTON", "INPUT", "TEXTAREA"]
+                        ignoreTagNames: ['BUTTON', 'INPUT', 'TEXTAREA']
                     });
-                    events.on(self.touchHelper, "swipeup", onVerticalSwipe);
-                    events.on(self.touchHelper, "swipedown", onVerticalSwipe);
+                    events.on(self.touchHelper, 'swipeup', onVerticalSwipe);
+                    events.on(self.touchHelper, 'swipedown', onVerticalSwipe);
                 });
             })();
         }

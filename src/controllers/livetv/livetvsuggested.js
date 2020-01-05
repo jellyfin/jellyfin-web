@@ -1,25 +1,25 @@
-define(["layoutManager", "userSettings", "inputManager", "loading", "globalize", "libraryBrowser", "mainTabsManager", "cardBuilder", "apphost", "imageLoader", "scrollStyles", "emby-itemscontainer", "emby-tabs", "emby-button"], function (layoutManager, userSettings, inputManager, loading, globalize, libraryBrowser, mainTabsManager, cardBuilder, appHost, imageLoader) {
-    "use strict";
+define(['layoutManager', 'userSettings', 'inputManager', 'loading', 'globalize', 'libraryBrowser', 'mainTabsManager', 'cardBuilder', 'apphost', 'imageLoader', 'scrollStyles', 'emby-itemscontainer', 'emby-tabs', 'emby-button'], function (layoutManager, userSettings, inputManager, loading, globalize, libraryBrowser, mainTabsManager, cardBuilder, appHost, imageLoader) {
+    'use strict';
 
-    function enableScrollX() {
+    function enableScrollX () {
         return !layoutManager.desktop;
     }
 
-    function getBackdropShape() {
+    function getBackdropShape () {
         if (enableScrollX()) {
-            return "overflowBackdrop";
+            return 'overflowBackdrop';
         }
-        return "backdrop";
+        return 'backdrop';
     }
 
-    function getPortraitShape() {
+    function getPortraitShape () {
         if (enableScrollX()) {
-            return "overflowPortrait";
+            return 'overflowPortrait';
         }
-        return "portrait";
+        return 'portrait';
     }
 
-    function getLimit() {
+    function getLimit () {
         if (enableScrollX()) {
             return 12;
         }
@@ -27,7 +27,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         return 9;
     }
 
-    function loadRecommendedPrograms(page) {
+    function loadRecommendedPrograms (page) {
         loading.show();
         var limit = getLimit();
 
@@ -40,23 +40,23 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
             IsAiring: true,
             limit: limit,
             ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Thumb,Backdrop",
+            EnableImageTypes: 'Primary,Thumb,Backdrop',
             EnableTotalRecordCount: false,
-            Fields: "ChannelInfo,PrimaryImageAspectRatio"
+            Fields: 'ChannelInfo,PrimaryImageAspectRatio'
         }).then(function (result) {
-            renderItems(page, result.Items, "activeProgramItems", "play", {
+            renderItems(page, result.Items, 'activeProgramItems', 'play', {
                 showAirDateTime: false,
                 showAirEndTime: true
             });
             loading.hide();
 
-            require(["autoFocuser"], function (autoFocuser) {
+            require(['autoFocuser'], function (autoFocuser) {
                 autoFocuser.autoFocus(page);
             });
         });
     }
 
-    function reload(page, enableFullRender) {
+    function reload (page, enableFullRender) {
         if (enableFullRender) {
             loadRecommendedPrograms(page);
             ApiClient.getLiveTvPrograms({
@@ -69,10 +69,10 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                 IsNews: false,
                 IsSeries: true,
                 EnableTotalRecordCount: false,
-                Fields: "ChannelInfo,PrimaryImageAspectRatio",
-                EnableImageTypes: "Primary,Thumb"
+                Fields: 'ChannelInfo,PrimaryImageAspectRatio',
+                EnableImageTypes: 'Primary,Thumb'
             }).then(function (result) {
-                renderItems(page, result.Items, "upcomingEpisodeItems");
+                renderItems(page, result.Items, 'upcomingEpisodeItems');
             });
             ApiClient.getLiveTvPrograms({
                 userId: Dashboard.getCurrentUserId(),
@@ -80,10 +80,10 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                 limit: getLimit(),
                 IsMovie: true,
                 EnableTotalRecordCount: false,
-                Fields: "ChannelInfo",
-                EnableImageTypes: "Primary,Thumb"
+                Fields: 'ChannelInfo',
+                EnableImageTypes: 'Primary,Thumb'
             }).then(function (result) {
-                renderItems(page, result.Items, "upcomingTvMovieItems", null, {
+                renderItems(page, result.Items, 'upcomingTvMovieItems', null, {
                     shape: getPortraitShape(),
                     preferThumb: null,
                     showParentTitle: false
@@ -95,10 +95,10 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                 limit: getLimit(),
                 IsSports: true,
                 EnableTotalRecordCount: false,
-                Fields: "ChannelInfo,PrimaryImageAspectRatio",
-                EnableImageTypes: "Primary,Thumb"
+                Fields: 'ChannelInfo,PrimaryImageAspectRatio',
+                EnableImageTypes: 'Primary,Thumb'
             }).then(function (result) {
-                renderItems(page, result.Items, "upcomingSportsItems");
+                renderItems(page, result.Items, 'upcomingSportsItems');
             });
             ApiClient.getLiveTvPrograms({
                 userId: Dashboard.getCurrentUserId(),
@@ -106,10 +106,10 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                 limit: getLimit(),
                 IsKids: true,
                 EnableTotalRecordCount: false,
-                Fields: "ChannelInfo,PrimaryImageAspectRatio",
-                EnableImageTypes: "Primary,Thumb"
+                Fields: 'ChannelInfo,PrimaryImageAspectRatio',
+                EnableImageTypes: 'Primary,Thumb'
             }).then(function (result) {
-                renderItems(page, result.Items, "upcomingKidsItems");
+                renderItems(page, result.Items, 'upcomingKidsItems');
             });
             ApiClient.getLiveTvPrograms({
                 userId: Dashboard.getCurrentUserId(),
@@ -117,10 +117,10 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                 limit: getLimit(),
                 IsNews: true,
                 EnableTotalRecordCount: false,
-                Fields: "ChannelInfo,PrimaryImageAspectRatio",
-                EnableImageTypes: "Primary,Thumb"
+                Fields: 'ChannelInfo,PrimaryImageAspectRatio',
+                EnableImageTypes: 'Primary,Thumb'
             }).then(function (result) {
-                renderItems(page, result.Items, "upcomingNewsItems", null, {
+                renderItems(page, result.Items, 'upcomingNewsItems', null, {
                     showParentTitleOrTitle: true,
                     showTitle: false,
                     showParentTitle: false
@@ -129,12 +129,12 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         }
     }
 
-    function renderItems(page, items, sectionClass, overlayButton, cardOptions) {
+    function renderItems (page, items, sectionClass, overlayButton, cardOptions) {
         var html = cardBuilder.getCardsHtml(Object.assign({
             items: items,
-            preferThumb: "auto",
+            preferThumb: 'auto',
             inheritThumb: false,
-            shape: enableScrollX() ? "autooverflow" : "auto",
+            shape: enableScrollX() ? 'autooverflow' : 'auto',
             defaultShape: getBackdropShape(),
             showParentTitle: true,
             showTitle: true,
@@ -142,57 +142,57 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
             coverImage: true,
             overlayText: false,
             lazy: true,
-            overlayPlayButton: "play" === overlayButton,
-            overlayMoreButton: "more" === overlayButton,
-            overlayInfoButton: "info" === overlayButton,
+            overlayPlayButton: overlayButton === 'play',
+            overlayMoreButton: overlayButton === 'more',
+            overlayInfoButton: overlayButton === 'info',
             allowBottomPadding: !enableScrollX(),
             showAirTime: true,
             showAirDateTime: true
         }, cardOptions || {}));
-        var elem = page.querySelector("." + sectionClass);
+        var elem = page.querySelector('.' + sectionClass);
         elem.innerHTML = html;
         imageLoader.lazyChildren(elem);
     }
 
-    function getTabs() {
+    function getTabs () {
         return [{
-            name: globalize.translate("Programs")
+            name: globalize.translate('Programs')
         }, {
-            name: globalize.translate("TabGuide")
+            name: globalize.translate('TabGuide')
         }, {
-            name: globalize.translate("TabChannels")
+            name: globalize.translate('TabChannels')
         }, {
-            name: globalize.translate("TabRecordings")
+            name: globalize.translate('TabRecordings')
         }, {
-            name: globalize.translate("HeaderSchedule")
+            name: globalize.translate('HeaderSchedule')
         }, {
-            name: globalize.translate("TabSeries")
+            name: globalize.translate('TabSeries')
         }, {
-            name: globalize.translate("ButtonSearch"),
-            cssClass: "searchTabButton"
+            name: globalize.translate('ButtonSearch'),
+            cssClass: 'searchTabButton'
         }];
     }
 
-    function setScrollClasses(elem, scrollX) {
+    function setScrollClasses (elem, scrollX) {
         if (scrollX) {
-            elem.classList.add("hiddenScrollX");
+            elem.classList.add('hiddenScrollX');
 
             if (layoutManager.tv) {
-                elem.classList.add("smoothScrollX");
+                elem.classList.add('smoothScrollX');
             }
 
-            elem.classList.add("scrollX");
-            elem.classList.remove("vertical-wrap");
+            elem.classList.add('scrollX');
+            elem.classList.remove('vertical-wrap');
         } else {
-            elem.classList.remove("hiddenScrollX");
-            elem.classList.remove("smoothScrollX");
-            elem.classList.remove("scrollX");
-            elem.classList.add("vertical-wrap");
+            elem.classList.remove('hiddenScrollX');
+            elem.classList.remove('smoothScrollX');
+            elem.classList.remove('scrollX');
+            elem.classList.add('vertical-wrap');
         }
     }
 
-    function getDefaultTabIndex(folderId) {
-        if (userSettings.get("landing-" + folderId) === "guide") {
+    function getDefaultTabIndex (folderId) {
+        if (userSettings.get('landing-' + folderId) === 'guide') {
             return 1;
         }
 
@@ -200,15 +200,15 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
     }
 
     return function (view, params) {
-        function enableFullRender() {
+        function enableFullRender () {
             return new Date().getTime() - lastFullRender > 3e5;
         }
 
-        function onBeforeTabChange(evt) {
+        function onBeforeTabChange (evt) {
             preLoadTab(view, parseInt(evt.detail.selectedTabIndex));
         }
 
-        function onTabChange(evt) {
+        function onTabChange (evt) {
             var previousTabController = tabControllers[parseInt(evt.detail.previousIndex)];
 
             if (previousTabController && previousTabController.onHide) {
@@ -218,15 +218,15 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
             loadTab(view, parseInt(evt.detail.selectedTabIndex));
         }
 
-        function getTabContainers() {
-            return view.querySelectorAll(".pageTabContent");
+        function getTabContainers () {
+            return view.querySelectorAll('.pageTabContent');
         }
 
-        function initTabs() {
+        function initTabs () {
             mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
         }
 
-        function getTabController(page, index, callback) {
+        function getTabController (page, index, callback) {
             var depends = [];
 
             // TODO int is a little hard to read
@@ -235,33 +235,33 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                     break;
 
                 case 1:
-                    depends.push("controllers/livetv/livetvguide");
+                    depends.push('controllers/livetv/livetvguide');
                     break;
 
                 case 2:
-                    depends.push("controllers/livetv/livetvchannels");
+                    depends.push('controllers/livetv/livetvchannels');
                     break;
 
                 case 3:
-                    depends.push("controllers/livetv/livetvrecordings");
+                    depends.push('controllers/livetv/livetvrecordings');
                     break;
 
                 case 4:
-                    depends.push("controllers/livetv/livetvschedule");
+                    depends.push('controllers/livetv/livetvschedule');
                     break;
 
                 case 5:
-                    depends.push("controllers/livetv/livetvseriestimers");
+                    depends.push('controllers/livetv/livetvseriestimers');
                     break;
 
                 case 6:
-                    depends.push("scripts/searchtab");
+                    depends.push('scripts/searchtab');
             }
 
-            require(depends, function (controllerFactory) {
+            require(depends, function (ControllerFactory) {
                 var tabContent;
 
-                if (0 == index) {
+                if (index === 0) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
                     self.tabContent = tabContent;
                 }
@@ -271,14 +271,14 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                 if (!controller) {
                     tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
 
-                    if (0 === index) {
+                    if (index === 0) {
                         controller = self;
-                    } else if (6 === index) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: "livetv"
+                    } else if (index === 6) {
+                        controller = new ControllerFactory(view, tabContent, {
+                            collectionType: 'livetv'
                         });
                     } else {
-                        controller = new controllerFactory(view, params, tabContent);
+                        controller = new ControllerFactory(view, params, tabContent);
                     }
 
                     tabControllers[index] = controller;
@@ -292,7 +292,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
             });
         }
 
-        function preLoadTab(page, index) {
+        function preLoadTab (page, index) {
             getTabController(page, index, function (controller) {
                 if (renderedTabs.indexOf(index) === -1 && controller.preRender) {
                     controller.preRender();
@@ -300,13 +300,13 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
             });
         }
 
-        function loadTab(page, index) {
+        function loadTab (page, index) {
             currentTabIndex = index;
             getTabController(page, index, function (controller) {
                 initialTabIndex = null;
 
-                if (-1 == renderedTabs.indexOf(index)) {
-                    if (1 === index) {
+                if (renderedTabs.indexOf(index) === -1) {
+                    if (index === 1) {
                         renderedTabs.push(index);
                     }
 
@@ -319,29 +319,29 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
             });
         }
 
-        function onInputCommand(evt) {
-            if (evt.detail.command === "search") {
+        function onInputCommand (evt) {
+            if (evt.detail.command === 'search') {
                 evt.preventDefault();
-                Dashboard.navigate("search.html?collectionType=livetv");
+                Dashboard.navigate('search.html?collectionType=livetv');
             }
         }
 
         var isViewRestored;
         var self = this;
-        var currentTabIndex = parseInt(params.tab || getDefaultTabIndex("livetv"));
+        var currentTabIndex = parseInt(params.tab || getDefaultTabIndex('livetv'));
         var initialTabIndex = currentTabIndex;
         var lastFullRender = 0;
-        [].forEach.call(view.querySelectorAll(".sectionTitleTextButton-programs"), function (link) {
+        [].forEach.call(view.querySelectorAll('.sectionTitleTextButton-programs'), function (link) {
             var href = link.href;
 
             if (href) {
-                link.href = href + "&serverId=" + ApiClient.serverId();
+                link.href = href + '&serverId=' + ApiClient.serverId();
             }
         });
 
         self.initTab = function () {
             var tabContent = view.querySelector(".pageTabContent[data-index='0']");
-            var containers = tabContent.querySelectorAll(".itemsContainer");
+            var containers = tabContent.querySelectorAll('.itemsContainer');
 
             for (var i = 0, length = containers.length; i < length; i++) {
                 setScrollClasses(containers[i], enableScrollX());
@@ -362,11 +362,11 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         var currentTabController;
         var tabControllers = [];
         var renderedTabs = [];
-        view.addEventListener("viewbeforeshow", function (evt) {
+        view.addEventListener('viewbeforeshow', function (evt) {
             isViewRestored = evt.detail.isRestored;
             initTabs();
         });
-        view.addEventListener("viewshow", function (evt) {
+        view.addEventListener('viewshow', function (evt) {
             isViewRestored = evt.detail.isRestored;
 
             if (!isViewRestored) {
@@ -375,14 +375,14 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
 
             inputManager.on(window, onInputCommand);
         });
-        view.addEventListener("viewbeforehide", function (e) {
+        view.addEventListener('viewbeforehide', function (e) {
             if (currentTabController && currentTabController.onHide) {
                 currentTabController.onHide();
             }
 
             inputManager.off(window, onInputCommand);
         });
-        view.addEventListener("viewdestroy", function (evt) {
+        view.addEventListener('viewdestroy', function (evt) {
             tabControllers.forEach(function (tabController) {
                 if (tabController.destroy) {
                     tabController.destroy();

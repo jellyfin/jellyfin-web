@@ -8,50 +8,45 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
         fn();
     };
 
-    function resetThresholds() {
-
+    function resetThresholds () {
         var threshold = 0.3;
 
         thresholdX = screen.availWidth * threshold;
         thresholdY = screen.availHeight * threshold;
     }
 
-    function resetThresholdsOnTimer() {
-
+    function resetThresholdsOnTimer () {
         setTimeout(resetThresholds, 500);
     }
 
     if (browser.iOS) {
-        dom.addEventListener(window, "orientationchange", resetThresholdsOnTimer, { passive: true });
+        dom.addEventListener(window, 'orientationchange', resetThresholdsOnTimer, { passive: true });
         dom.addEventListener(window, 'resize', resetThresholdsOnTimer, { passive: true });
     } else {
-        dom.addEventListener(window, "orientationchange", resetThresholds, { passive: true });
+        dom.addEventListener(window, 'orientationchange', resetThresholds, { passive: true });
         dom.addEventListener(window, 'resize', resetThresholds, { passive: true });
     }
     resetThresholds();
 
-    function isVisible(elem) {
+    function isVisible (elem) {
         return visibleinviewport(elem, true, thresholdX, thresholdY);
     }
 
     var wheelEvent = (document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel');
     var self = {};
 
-    function cancelAll(tokens) {
+    function cancelAll (tokens) {
         for (var i = 0, length = tokens.length; i < length; i++) {
-
             tokens[i] = true;
         }
     }
 
-    function unveilElementsInternal(instance, callback) {
-
+    function unveilElementsInternal (instance, callback) {
         var unveiledElements = [];
         var cancellationTokens = [];
         var loadedCount = 0;
 
-        function unveilInternal(tokenIndex) {
-
+        function unveilInternal (tokenIndex) {
             var anyFound = false;
             var out = false;
 
@@ -59,7 +54,6 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
             // TODO: This out construct assumes left to right, top to bottom
 
             for (var i = 0, length = elements.length; i < length; i++) {
-
                 if (cancellationTokens[tokenIndex]) {
                     return;
                 }
@@ -73,7 +67,6 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
                     callback(elem);
                     loadedCount++;
                 } else {
-
                     if (anyFound) {
                         out = true;
                     }
@@ -100,8 +93,7 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
             }
         }
 
-        function unveil() {
-
+        function unveil () {
             cancelAll(cancellationTokens);
 
             var index = cancellationTokens.length;
@@ -132,19 +124,16 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
         unveil();
     }
 
-    function LazyLoader(options) {
-
+    function LazyLoader (options) {
         this.options = options;
     }
 
     LazyLoader.prototype.createObserver = function () {
-
         unveilElementsInternal(this, this.options.callback);
         this.observer = 1;
     };
 
     LazyLoader.prototype.addElements = function (elements) {
-
         this.elements = this.elements || [];
 
         for (var i = 0, length = elements.length; i < length; i++) {
@@ -156,7 +145,6 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
         if (!observer) {
             this.createObserver();
         }
-
     };
 
     LazyLoader.prototype.destroyObserver = function (elements) {
@@ -164,13 +152,11 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
     };
 
     LazyLoader.prototype.destroy = function (elements) {
-
         this.destroyObserver();
         this.options = null;
     };
 
-    function unveilElements(elements, root, callback) {
-
+    function unveilElements (elements, root, callback) {
         if (!elements.length) {
             return;
         }
@@ -181,7 +167,6 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
     }
 
     LazyLoader.lazyChildren = function (elem, callback) {
-
         unveilElements(elem.getElementsByClassName('lazy'), elem, callback);
     };
 

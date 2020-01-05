@@ -1,8 +1,7 @@
 define([], function () {
     'use strict';
 
-    function parentWithAttribute(elem, name, value) {
-
+    function parentWithAttribute (elem, name, value) {
         while ((value ? elem.getAttribute(name) !== value : !elem.getAttribute(name))) {
             elem = elem.parentNode;
 
@@ -14,8 +13,7 @@ define([], function () {
         return elem;
     }
 
-    function parentWithTag(elem, tagNames) {
-
+    function parentWithTag (elem, tagNames) {
         // accept both string and array passed in
         if (!Array.isArray(tagNames)) {
             tagNames = [tagNames];
@@ -32,8 +30,7 @@ define([], function () {
         return elem;
     }
 
-    function containsAnyClass(classList, classNames) {
-
+    function containsAnyClass (classList, classNames) {
         for (var i = 0, length = classNames.length; i < length; i++) {
             if (classList.contains(classNames[i])) {
                 return true;
@@ -42,8 +39,7 @@ define([], function () {
         return false;
     }
 
-    function parentWithClass(elem, classNames) {
-
+    function parentWithClass (elem, classNames) {
         // accept both string and array passed in
         if (!Array.isArray(classNames)) {
             classNames = [classNames];
@@ -67,12 +63,12 @@ define([], function () {
                 supportsCaptureOption = true;
             }
         });
-        window.addEventListener("test", null, opts);
+        window.addEventListener('test', null, opts);
     } catch (e) {
         console.log('error checking capture support');
     }
 
-    function addEventListenerWithOptions(target, type, handler, options) {
+    function addEventListenerWithOptions (target, type, handler, options) {
         var optionsOrCapture = options;
         if (!supportsCaptureOption) {
             optionsOrCapture = options.capture;
@@ -80,7 +76,7 @@ define([], function () {
         target.addEventListener(type, handler, optionsOrCapture);
     }
 
-    function removeEventListenerWithOptions(target, type, handler, options) {
+    function removeEventListenerWithOptions (target, type, handler, options) {
         var optionsOrCapture = options;
         if (!supportsCaptureOption) {
             optionsOrCapture = options.capture;
@@ -90,11 +86,11 @@ define([], function () {
 
     var windowSize;
     var windowSizeEventsBound;
-    function clearWindowSize() {
+    function clearWindowSize () {
         windowSize = null;
     }
 
-    function getWindowSize() {
+    function getWindowSize () {
         if (!windowSize) {
             windowSize = {
                 innerHeight: window.innerHeight,
@@ -103,7 +99,7 @@ define([], function () {
 
             if (!windowSizeEventsBound) {
                 windowSizeEventsBound = true;
-                addEventListenerWithOptions(window, "orientationchange", clearWindowSize, { passive: true });
+                addEventListenerWithOptions(window, 'orientationchange', clearWindowSize, { passive: true });
                 addEventListenerWithOptions(window, 'resize', clearWindowSize, { passive: true });
             }
         }
@@ -112,19 +108,18 @@ define([], function () {
     }
 
     var _animationEvent;
-    function whichAnimationEvent() {
-
+    function whichAnimationEvent () {
         if (_animationEvent) {
             return _animationEvent;
         }
 
         var t;
-        var el = document.createElement("div");
+        var el = document.createElement('div');
         var animations = {
-            "animation": "animationend",
-            "OAnimation": "oAnimationEnd",
-            "MozAnimation": "animationend",
-            "WebkitAnimation": "webkitAnimationEnd"
+            animation: 'animationend',
+            OAnimation: 'oAnimationEnd',
+            MozAnimation: 'animationend',
+            WebkitAnimation: 'webkitAnimationEnd'
         };
         for (t in animations) {
             if (el.style[t] !== undefined) {
@@ -137,24 +132,23 @@ define([], function () {
         return _animationEvent;
     }
 
-    function whichAnimationCancelEvent() {
-
+    function whichAnimationCancelEvent () {
         return whichAnimationEvent().replace('animationend', 'animationcancel').replace('AnimationEnd', 'AnimationCancel');
     }
 
     var _transitionEvent;
-    function whichTransitionEvent() {
+    function whichTransitionEvent () {
         if (_transitionEvent) {
             return _transitionEvent;
         }
 
         var t;
-        var el = document.createElement("div");
+        var el = document.createElement('div');
         var transitions = {
-            "transition": "transitionend",
-            "OTransition": "oTransitionEnd",
-            "MozTransition": "transitionend",
-            "WebkitTransition": "webkitTransitionEnd"
+            transition: 'transitionend',
+            OTransition: 'oTransitionEnd',
+            MozTransition: 'transitionend',
+            WebkitTransition: 'webkitTransitionEnd'
         };
         for (t in transitions) {
             if (el.style[t] !== undefined) {

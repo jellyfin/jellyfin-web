@@ -1,10 +1,10 @@
 define(['browser'], function (browser) {
     'use strict';
 
-    function fallback(urls) {
+    function fallback (urls) {
         var i = 0;
 
-        (function createIframe() {
+        (function createIframe () {
             var frame = document.createElement('iframe');
             frame.style.display = 'none';
             frame.src = urls[i++];
@@ -28,14 +28,14 @@ define(['browser'], function (browser) {
         })();
     }
 
-    function sameDomain(url) {
+    function sameDomain (url) {
         var a = document.createElement('a');
         a.href = url;
 
         return location.hostname === a.hostname && location.protocol === a.protocol;
     }
 
-    function download(url) {
+    function download (url) {
         var a = document.createElement('a');
         a.download = '';
         a.href = url;

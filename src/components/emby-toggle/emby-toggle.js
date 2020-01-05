@@ -3,8 +3,7 @@ define(['css!./emby-toggle', 'registerElement'], function () {
 
     var EmbyTogglePrototype = Object.create(HTMLInputElement.prototype);
 
-    function onKeyDown(e) {
-
+    function onKeyDown (e) {
         // Don't submit form on enter
         if (e.keyCode === 13) {
             e.preventDefault();
@@ -20,7 +19,6 @@ define(['css!./emby-toggle', 'registerElement'], function () {
     }
 
     EmbyTogglePrototype.attachedCallback = function () {
-
         if (this.getAttribute('data-embytoggle') === 'true') {
             return;
         }

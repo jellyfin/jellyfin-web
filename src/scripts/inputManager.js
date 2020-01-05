@@ -3,32 +3,32 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
 
     var lastInputTime = new Date().getTime();
 
-    function notify() {
+    function notify () {
         lastInputTime = new Date().getTime();
         handleCommand('unknown');
     }
 
-    function notifyMouseMove() {
+    function notifyMouseMove () {
         lastInputTime = new Date().getTime();
     }
 
-    function idleTime() {
+    function idleTime () {
         return new Date().getTime() - lastInputTime;
     }
 
-    function select(sourceElement) {
+    function select (sourceElement) {
         sourceElement.click();
     }
 
     var eventListenerCount = 0;
-    function on(scope, fn) {
+    function on (scope, fn) {
         if (eventListenerCount) {
             eventListenerCount++;
         }
         dom.addEventListener(scope, 'command', fn, {});
     }
 
-    function off(scope, fn) {
+    function off (scope, fn) {
         if (eventListenerCount) {
             eventListenerCount--;
         }
@@ -37,8 +37,7 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
 
     var commandTimes = {};
 
-    function checkCommandTime(command) {
-
+    function checkCommandTime (command) {
         var last = commandTimes[command] || 0;
         var now = new Date().getTime();
 
@@ -50,8 +49,7 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
         return true;
     }
 
-    function handleCommand(name, options) {
-
+    function handleCommand (name, options) {
         lastInputTime = new Date().getTime();
 
         var sourceElement = (options ? options.sourceElement : null);
@@ -63,7 +61,7 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
         sourceElement = sourceElement || document.activeElement || window;
 
         if (eventListenerCount) {
-            var customEvent = new CustomEvent("command", {
+            var customEvent = new CustomEvent('command', {
                 detail: {
                     command: name
                 },

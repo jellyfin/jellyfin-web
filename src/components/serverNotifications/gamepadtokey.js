@@ -20,7 +20,7 @@
 // #      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // #      THE SOFTWARE.
 require(['apphost'], function (appHost) {
-    "use strict";
+    'use strict';
 
     var _GAMEPAD_A_BUTTON_INDEX = 0;
     var _GAMEPAD_B_BUTTON_INDEX = 1;
@@ -28,16 +28,16 @@ require(['apphost'], function (appHost) {
     var _GAMEPAD_DPAD_DOWN_BUTTON_INDEX = 13;
     var _GAMEPAD_DPAD_LEFT_BUTTON_INDEX = 14;
     var _GAMEPAD_DPAD_RIGHT_BUTTON_INDEX = 15;
-    var _GAMEPAD_A_KEY = "GamepadA";
-    var _GAMEPAD_B_KEY = "GamepadB";
-    var _GAMEPAD_DPAD_UP_KEY = "GamepadDPadUp";
-    var _GAMEPAD_DPAD_DOWN_KEY = "GamepadDPadDown";
-    var _GAMEPAD_DPAD_LEFT_KEY = "GamepadDPadLeft";
-    var _GAMEPAD_DPAD_RIGHT_KEY = "GamepadDPadRight";
-    var _GAMEPAD_LEFT_THUMBSTICK_UP_KEY = "GamepadLeftThumbStickUp";
-    var _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY = "GamepadLeftThumbStickDown";
-    var _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY = "GamepadLeftThumbStickLeft";
-    var _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY = "GamepadLeftThumbStickRight";
+    var _GAMEPAD_A_KEY = 'GamepadA';
+    var _GAMEPAD_B_KEY = 'GamepadB';
+    var _GAMEPAD_DPAD_UP_KEY = 'GamepadDPadUp';
+    var _GAMEPAD_DPAD_DOWN_KEY = 'GamepadDPadDown';
+    var _GAMEPAD_DPAD_LEFT_KEY = 'GamepadDPadLeft';
+    var _GAMEPAD_DPAD_RIGHT_KEY = 'GamepadDPadRight';
+    var _GAMEPAD_LEFT_THUMBSTICK_UP_KEY = 'GamepadLeftThumbStickUp';
+    var _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY = 'GamepadLeftThumbStickDown';
+    var _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY = 'GamepadLeftThumbStickLeft';
+    var _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY = 'GamepadLeftThumbStickRight';
     var _GAMEPAD_A_KEYCODE = 0;
     var _GAMEPAD_B_KEYCODE = 27;
     var _GAMEPAD_DPAD_UP_KEYCODE = 38;
@@ -164,25 +164,24 @@ require(['apphost'], function (appHost) {
 
     var times = {};
 
-    function throttle(key) {
+    function throttle (key) {
         var time = times[key] || 0;
         var now = new Date().getTime();
 
         if ((now - time) >= 200) {
-            //times[key] = now;
+            // times[key] = now;
             return true;
         }
 
         return false;
     }
 
-    function resetThrottle(key) {
+    function resetThrottle (key) {
         times[key] = new Date().getTime();
     }
 
     var isElectron = navigator.userAgent.toLowerCase().indexOf('electron') !== -1;
-    function allowInput() {
-
+    function allowInput () {
         // This would be nice but always seems to return true with electron
         if (!isElectron && document.hidden) {
             return false;
@@ -195,8 +194,7 @@ require(['apphost'], function (appHost) {
         return true;
     }
 
-    function raiseEvent(name, key, keyCode) {
-
+    function raiseEvent (name, key, keyCode) {
         if (!allowInput()) {
             return;
         }
@@ -208,8 +206,7 @@ require(['apphost'], function (appHost) {
         (document.activeElement || document.body).dispatchEvent(event);
     }
 
-    function clickElement(elem) {
-
+    function clickElement (elem) {
         if (!allowInput()) {
             return;
         }
@@ -217,11 +214,9 @@ require(['apphost'], function (appHost) {
         elem.click();
     }
 
-    function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRepeatKeyDown, clickonKeyUp) {
-
+    function raiseKeyEvent (oldPressedState, newPressedState, key, keyCode, enableRepeatKeyDown, clickonKeyUp) {
         // No-op if oldPressedState === newPressedState
         if (newPressedState === true) {
-
             // button down
             var fire = false;
 
@@ -234,16 +229,14 @@ require(['apphost'], function (appHost) {
             }
 
             if (fire && keyCode) {
-                raiseEvent("keydown", key, keyCode);
+                raiseEvent('keydown', key, keyCode);
             }
-
         } else if (newPressedState === false && oldPressedState === true) {
-
             resetThrottle(key);
 
             // button up
             if (keyCode) {
-                raiseEvent("keyup", key, keyCode);
+                raiseEvent('keyup', key, keyCode);
             }
             if (clickonKeyUp) {
                 clickElement(document.activeElement || window);
@@ -251,7 +244,7 @@ require(['apphost'], function (appHost) {
         }
     }
 
-    function runInputLoop() {
+    function runInputLoop () {
         // Get the latest gamepad state.
         var gamepads;
         if (navigator.getGamepads) {
@@ -288,7 +281,6 @@ require(['apphost'], function (appHost) {
                 var buttons = gamepad.buttons;
                 for (j = 0, len = buttons.length; j < len; j++) {
                     if (ProcessedButtons.indexOf(j) !== -1) {
-
                         if (buttons[j].pressed) {
                             switch (j) {
                                 case _GAMEPAD_DPAD_UP_BUTTON_INDEX:
@@ -362,11 +354,10 @@ require(['apphost'], function (appHost) {
 
     // The gamepadInputEmulation is a string property that exists in JavaScript UWAs and in WebViews in UWAs.
     // It won't exist in Win8.1 style apps or browsers.
-    if (window.navigator && typeof window.navigator.gamepadInputEmulation === "string") {
+    if (window.navigator && typeof window.navigator.gamepadInputEmulation === 'string') {
         // We want the gamepad to provide gamepad VK keyboard events rather than moving a
         // mouse like cursor. Set to "keyboard", the gamepad will provide such keyboard events
         // and provide input to the DOM navigator.getGamepads API.
-        window.navigator.gamepadInputEmulation = "gamepad";
+        window.navigator.gamepadInputEmulation = 'gamepad';
     }
-
 });

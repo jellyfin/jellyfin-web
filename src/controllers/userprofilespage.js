@@ -1,15 +1,15 @@
-define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", "cardStyle", "emby-button", "indicators", "flexStyles"], function (loading, dom, globalize) {
-    "use strict";
+define(['loading', 'dom', 'globalize', 'humanedate', 'paper-icon-button-light', 'cardStyle', 'emby-button', 'indicators', 'flexStyles'], function (loading, dom, globalize) {
+    'use strict';
 
-    function deleteUser(page, id) {
-        var msg = globalize.translate("DeleteUserConfirmation");
+    function deleteUser (page, id) {
+        var msg = globalize.translate('DeleteUserConfirmation');
 
-        require(["confirm"], function (confirm) {
+        require(['confirm'], function (confirm) {
             confirm({
-                title: globalize.translate("DeleteUser"),
+                title: globalize.translate('DeleteUser'),
                 text: msg,
-                confirmText: globalize.translate("ButtonDelete"),
-                primary: "delete"
+                confirmText: globalize.translate('ButtonDelete'),
+                primary: 'delete'
             }).then(function () {
                 loading.show();
                 ApiClient.deleteUser(id).then(function () {
@@ -19,51 +19,51 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
         });
     }
 
-    function showUserMenu(elem) {
-        var card = dom.parentWithClass(elem, "card");
-        var page = dom.parentWithClass(card, "page");
-        var userId = card.getAttribute("data-userid");
+    function showUserMenu (elem) {
+        var card = dom.parentWithClass(elem, 'card');
+        var page = dom.parentWithClass(card, 'page');
+        var userId = card.getAttribute('data-userid');
         var menuItems = [];
         menuItems.push({
-            name: globalize.translate("ButtonOpen"),
-            id: "open",
-            icon: "mode_edit"
+            name: globalize.translate('ButtonOpen'),
+            id: 'open',
+            icon: 'mode_edit'
         });
         menuItems.push({
-            name: globalize.translate("ButtonLibraryAccess"),
-            id: "access",
-            icon: "lock"
+            name: globalize.translate('ButtonLibraryAccess'),
+            id: 'access',
+            icon: 'lock'
         });
         menuItems.push({
-            name: globalize.translate("ButtonParentalControl"),
-            id: "parentalcontrol",
-            icon: "person"
+            name: globalize.translate('ButtonParentalControl'),
+            id: 'parentalcontrol',
+            icon: 'person'
         });
         menuItems.push({
-            name: globalize.translate("ButtonDelete"),
-            id: "delete",
-            icon: "delete"
+            name: globalize.translate('ButtonDelete'),
+            id: 'delete',
+            icon: 'delete'
         });
 
-        require(["actionsheet"], function (actionsheet) {
+        require(['actionsheet'], function (actionsheet) {
             actionsheet.show({
                 items: menuItems,
                 positionTo: card,
                 callback: function (id) {
                     switch (id) {
-                        case "open":
-                            Dashboard.navigate("useredit.html?userId=" + userId);
+                        case 'open':
+                            Dashboard.navigate('useredit.html?userId=' + userId);
                             break;
 
-                        case "access":
-                            Dashboard.navigate("userlibraryaccess.html?userId=" + userId);
+                        case 'access':
+                            Dashboard.navigate('userlibraryaccess.html?userId=' + userId);
                             break;
 
-                        case "parentalcontrol":
-                            Dashboard.navigate("userparentalcontrol.html?userId=" + userId);
+                        case 'parentalcontrol':
+                            Dashboard.navigate('userparentalcontrol.html?userId=' + userId);
                             break;
 
-                        case "delete":
+                        case 'delete':
                             deleteUser(page, userId);
                     }
                 }
@@ -71,12 +71,12 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
         });
     }
 
-    function getUserHtml(user, addConnectIndicator) {
-        var html = "";
-        var cssClass = "card squareCard scalableCard squareCard-scalable";
+    function getUserHtml (user, addConnectIndicator) {
+        var html = '';
+        var cssClass = 'card squareCard scalableCard squareCard-scalable';
 
         if (user.Policy.IsDisabled) {
-            cssClass += " grayscale";
+            cssClass += ' grayscale';
         }
 
         html += "<div data-userid='" + user.Id + "' class='" + cssClass + "'>";
@@ -90,14 +90,14 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
             imgUrl = ApiClient.getUserImageUrl(user.Id, {
                 width: 300,
                 tag: user.PrimaryImageTag,
-                type: "Primary"
+                type: 'Primary'
             });
         }
 
-        var imageClass = "cardImage";
+        var imageClass = 'cardImage';
 
         if (user.Policy.IsDisabled) {
-            imageClass += " disabledUser";
+            imageClass += ' disabledUser';
         }
 
         if (imgUrl) {
@@ -107,61 +107,61 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
             html += '<i class="md-icon cardImageIcon">person</i>';
         }
 
-        html += "</div>";
-        html += "</a>";
-        html += "</div>";
+        html += '</div>';
+        html += '</a>';
+        html += '</div>';
         html += '<div class="cardFooter visualCardBox-cardFooter">';
         html += '<div class="cardText flex align-items-center">';
         html += '<div class="flex-grow" style="overflow:hidden;text-overflow:ellipsis;">';
         html += user.Name;
-        html += "</div>";
+        html += '</div>';
         html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu flex-shrink-zero"><i class="md-icon">more_horiz</i></button>';
-        html += "</div>";
+        html += '</div>';
         html += '<div class="cardText cardText-secondary">';
         var lastSeen = getLastSeenText(user.LastActivityDate);
-        html += "" != lastSeen ? lastSeen : "&nbsp;";
-        html += "</div>";
-        html += "</div>";
-        html += "</div>";
-        return html + "</div>";
+        html += lastSeen !== '' ? lastSeen : '&nbsp;';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        return html + '</div>';
     }
 
-    function getLastSeenText(lastActivityDate) {
+    function getLastSeenText (lastActivityDate) {
         if (lastActivityDate) {
-            return "Last seen " + humaneDate(lastActivityDate);
+            return 'Last seen ' + humaneDate(lastActivityDate);
         }
 
-        return "";
+        return '';
     }
 
-    function getUserSectionHtml(users, addConnectIndicator) {
-        return users.map(function (u__q) {
+    function getUserSectionHtml (users, addConnectIndicator) {
+        return users.map(function (u__q) { // eslint-disable-line camelcase
             return getUserHtml(u__q, addConnectIndicator);
-        }).join("");
+        }).join('');
     }
 
-    function renderUsers(page, users) {
-        page.querySelector(".localUsers").innerHTML = getUserSectionHtml(users, true);
+    function renderUsers (page, users) {
+        page.querySelector('.localUsers').innerHTML = getUserSectionHtml(users, true);
     }
 
-    function showPendingUserMenu(elem) {
+    function showPendingUserMenu (elem) {
         var menuItems = [];
         menuItems.push({
-            name: globalize.translate("ButtonCancel"),
-            id: "delete",
-            icon: "delete"
+            name: globalize.translate('ButtonCancel'),
+            id: 'delete',
+            icon: 'delete'
         });
 
-        require(["actionsheet"], function (actionsheet) {
-            var card = dom.parentWithClass(elem, "card");
-            var page = dom.parentWithClass(card, "page");
-            var id = card.getAttribute("data-id");
+        require(['actionsheet'], function (actionsheet) {
+            var card = dom.parentWithClass(elem, 'card');
+            var page = dom.parentWithClass(card, 'page');
+            var id = card.getAttribute('data-id');
             actionsheet.show({
                 items: menuItems,
                 positionTo: card,
                 callback: function (menuItemId) {
                     switch (menuItemId) {
-                        case "delete":
+                        case 'delete':
                             cancelAuthorization(page, id);
                     }
                 }
@@ -169,8 +169,8 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
         });
     }
 
-    function getPendingUserHtml(user) {
-        var html = "";
+    function getPendingUserHtml (user) {
+        var html = '';
         html += "<div data-id='" + user.Id + "' class='card squareCard scalableCard squareCard-scalable'>";
         html += '<div class="cardBox cardBox-bottompadded visualCardBox">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
@@ -179,41 +179,41 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
 
         if (user.ImageUrl) {
             html += '<div class="cardImage" style="background-image:url(\'' + user.ImageUrl + "');\">";
-            html += "</div>";
+            html += '</div>';
         } else {
             html += '<i class="cardImageIcon md-icon">person</i>';
         }
 
-        html += "</a>";
-        html += "</div>";
+        html += '</a>';
+        html += '</div>';
         html += '<div class="cardFooter visualCardBox-cardFooter">';
         html += '<div class="cardText" style="text-align:right; float:right;padding:0;">';
         html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu"><i class="md-icon">more_horiz</i></button>';
-        html += "</div>";
+        html += '</div>';
         html += '<div class="cardText" style="padding-top:10px;padding-bottom:10px;">';
         html += user.UserName;
-        html += "</div>";
-        html += "</div>";
-        html += "</div>";
-        return html + "</div>";
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        return html + '</div>';
     }
 
-    function renderPendingGuests(page, users) {
+    function renderPendingGuests (page, users) {
         if (users.length) {
-            page.querySelector(".sectionPendingGuests").classList.remove("hide");
+            page.querySelector('.sectionPendingGuests').classList.remove('hide');
         } else {
-            page.querySelector(".sectionPendingGuests").classList.add("hide");
+            page.querySelector('.sectionPendingGuests').classList.add('hide');
         }
 
-        page.querySelector(".pending").innerHTML = users.map(getPendingUserHtml).join("");
+        page.querySelector('.pending').innerHTML = users.map(getPendingUserHtml).join('');
     }
 
     // TODO cvium: maybe reuse for invitation system
-    function cancelAuthorization(page, id) {
+    function cancelAuthorization (page, id) {
         loading.show();
         ApiClient.ajax({
-            type: "DELETE",
-            url: ApiClient.getUrl("Connect/Pending", {
+            type: 'DELETE',
+            url: ApiClient.getUrl('Connect/Pending', {
                 Id: id
             })
         }).then(function () {
@@ -221,7 +221,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
         });
     }
 
-    function loadData(page) {
+    function loadData (page) {
         loading.show();
         ApiClient.getUsers().then(function (users) {
             renderUsers(page, users);
@@ -234,35 +234,35 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
         // });
     }
 
-    function showInvitePopup(page) {
-        require(["components/guestinviter/guestinviter"], function (guestinviter) {
+    function showInvitePopup (page) {
+        require(['components/guestinviter/guestinviter'], function (guestinviter) {
             guestinviter.show().then(function () {
                 loadData(page);
             });
         });
     }
 
-    pageIdOn("pageinit", "userProfilesPage", function () {
+    pageIdOn('pageinit', 'userProfilesPage', function () {
         var page = this;
-        page.querySelector(".btnAddUser").addEventListener("click", function() {
-            Dashboard.navigate("usernew.html");
+        page.querySelector('.btnAddUser').addEventListener('click', function () {
+            Dashboard.navigate('usernew.html');
         });
-        page.querySelector(".localUsers").addEventListener("click", function (e__e) {
-            var btnUserMenu = dom.parentWithClass(e__e.target, "btnUserMenu");
+        page.querySelector('.localUsers').addEventListener('click', function (e__e) { // eslint-disable-line camelcase
+            var btnUserMenu = dom.parentWithClass(e__e.target, 'btnUserMenu');
 
             if (btnUserMenu) {
                 showUserMenu(btnUserMenu);
             }
         });
-        page.querySelector(".pending").addEventListener("click", function (e__r) {
-            var btnUserMenu = dom.parentWithClass(e__r.target, "btnUserMenu");
+        page.querySelector('.pending').addEventListener('click', function (e__r) { // eslint-disable-line camelcase
+            var btnUserMenu = dom.parentWithClass(e__r.target, 'btnUserMenu');
 
             if (btnUserMenu) {
                 showPendingUserMenu(btnUserMenu);
             }
         });
     });
-    pageIdOn("pagebeforeshow", "userProfilesPage", function () {
+    pageIdOn('pagebeforeshow', 'userProfilesPage', function () {
         loadData(this);
     });
 });

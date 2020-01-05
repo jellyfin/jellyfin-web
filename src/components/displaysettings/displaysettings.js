@@ -1,7 +1,7 @@
 define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', 'focusManager', 'datetime', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-button'], function (require, browser, layoutManager, appSettings, pluginManager, appHost, focusManager, datetime, globalize, loading, connectionManager, skinManager, dom, events) {
-    "use strict";
+    'use strict';
 
-    function fillThemes(select, isDashboard) {
+    function fillThemes (select, isDashboard) {
         select.innerHTML = skinManager.getThemes().map(function (t) {
             var value = t.id;
             if (t.isDefault && !isDashboard) {
@@ -14,7 +14,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         }).join('');
     }
 
-    function loadScreensavers(context, userSettings) {
+    function loadScreensavers (context, userSettings) {
         var selectScreensaver = context.querySelector('.selectScreensaver');
         var options = pluginManager.ofType('screensaver').map(function (plugin) {
             return {
@@ -39,8 +39,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         }
     }
 
-    function loadSoundEffects(context, userSettings) {
-
+    function loadSoundEffects (context, userSettings) {
         var selectSoundEffects = context.querySelector('.selectSoundEffects');
         var options = pluginManager.ofType('soundeffects').map(function (plugin) {
             return {
@@ -65,8 +64,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         }
     }
 
-    function loadSkins(context, userSettings) {
-
+    function loadSkins (context, userSettings) {
         var selectSkin = context.querySelector('.selectSkin');
 
         var options = pluginManager.ofType('skin').map(function (plugin) {
@@ -92,8 +90,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         }
     }
 
-    function showOrHideMissingEpisodesField(context, user, apiClient) {
-
+    function showOrHideMissingEpisodesField (context, user, apiClient) {
         if (browser.tizen || browser.web0s) {
             context.querySelector('.fldDisplayMissingEpisodes').classList.add('hide');
             return;
@@ -102,8 +99,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         context.querySelector('.fldDisplayMissingEpisodes').classList.remove('hide');
     }
 
-    function loadForm(context, user, userSettings, apiClient) {
-
+    function loadForm (context, user, userSettings, apiClient) {
         var loggedInUserId = apiClient.getCurrentUserId();
         var userId = user.Id;
 
@@ -195,8 +191,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         loading.hide();
     }
 
-    function saveUser(context, user, userSettingsInstance, apiClient) {
-
+    function saveUser (context, user, userSettingsInstance, apiClient) {
         appSettings.runAtStartup(context.querySelector('.chkRunAtStartup').checked);
 
         user.Configuration.DisplayMissingEpisodes = context.querySelector('.chkDisplayMissingEpisodes').checked;
@@ -226,7 +221,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         return apiClient.updateUserConfiguration(user.Id, user.Configuration);
     }
 
-    function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
+    function save (instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
         loading.show();
 
         apiClient.getUser(userId).then(function (user) {
@@ -244,7 +239,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         });
     }
 
-    function onSubmit(e) {
+    function onSubmit (e) {
         var self = this;
         var apiClient = connectionManager.getApiClient(self.options.serverId);
         var userId = self.options.userId;
@@ -262,7 +257,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         return false;
     }
 
-    function embed(options, self) {
+    function embed (options, self) {
         require(['text!./displaysettings.template.html'], function (template) {
             options.element.innerHTML = globalize.translateDocument(template, 'core');
             options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
@@ -273,7 +268,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         });
     }
 
-    function DisplaySettings(options) {
+    function DisplaySettings (options) {
         this.options = options;
         embed(options, this);
     }

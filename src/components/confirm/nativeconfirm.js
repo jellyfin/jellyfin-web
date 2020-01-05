@@ -1,13 +1,11 @@
 define([], function () {
     'use strict';
 
-    function replaceAll(str, find, replace) {
-
+    function replaceAll (str, find, replace) {
         return str.split(find).join(replace);
     }
 
     return function (options) {
-
         if (typeof options === 'string') {
             options = {
                 title: '',
@@ -21,7 +19,7 @@ define([], function () {
         if (result) {
             return Promise.resolve();
         } else {
-            return Promise.reject();
+            return Promise.reject(Error('result is not ok'));
         }
     };
 });

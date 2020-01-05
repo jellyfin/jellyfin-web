@@ -1,8 +1,7 @@
 define(['events', 'playbackManager'], function (events, playbackManager) {
     'use strict';
 
-    function transferPlayback(oldPlayer, newPlayer) {
-
+    function transferPlayback (oldPlayer, newPlayer) {
         var state = playbackManager.getPlayerState(oldPlayer);
 
         var item = state.NowPlayingItem;
@@ -15,7 +14,6 @@ define(['events', 'playbackManager'], function (events, playbackManager) {
         var resumePositionTicks = playState.PositionTicks || 0;
 
         playbackManager.stop(oldPlayer).then(function () {
-
             playbackManager.play({
                 ids: [item.Id],
                 serverId: item.ServerId,
@@ -26,7 +24,6 @@ define(['events', 'playbackManager'], function (events, playbackManager) {
     }
 
     events.on(playbackManager, 'playerchange', function (e, newPlayer, newTarget, oldPlayer) {
-
         if (!oldPlayer || !newPlayer) {
             return;
         }
@@ -43,5 +40,4 @@ define(['events', 'playbackManager'], function (events, playbackManager) {
 
         transferPlayback(oldPlayer, newPlayer);
     });
-
 });

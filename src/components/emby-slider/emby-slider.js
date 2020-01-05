@@ -9,7 +9,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
     var enableWidthWithTransform;
 
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
-
         var descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
         // descriptor returning null in webos
         if (descriptor && descriptor.configurable) {
@@ -17,10 +16,9 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
         }
     }
 
-    function updateValues() {
-
+    function updateValues () {
         // Do not update values when dragging with keyboard to keep current progress for reference
-        if (!!this.keyboardDragging) {
+        if (this.keyboardDragging) {
             return;
         }
 
@@ -29,7 +27,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
 
         // put this on a callback. Doing it within the event sometimes causes the slider to get hung up and not respond
         requestAnimationFrame(function () {
-
             var backgroundLower = range.backgroundLower;
 
             if (backgroundLower) {
@@ -45,10 +42,8 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
         });
     }
 
-    function updateBubble(range, value, bubble, bubbleText) {
-
+    function updateBubble (range, value, bubble, bubbleText) {
         requestAnimationFrame(function () {
-
             bubble.style.left = value + '%';
 
             if (range.getBubbleHtml) {
@@ -67,13 +62,12 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
     }
 
     EmbySliderPrototype.attachedCallback = function () {
-
         if (this.getAttribute('data-embyslider') === 'true') {
             return;
         }
 
         if (enableWidthWithTransform == null) {
-            //enableWidthWithTransform = browser.supportsCssAnimation();
+            // enableWidthWithTransform = browser.supportsCssAnimation();
         }
 
         this.setAttribute('data-embyslider', 'true');
@@ -144,13 +138,11 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
 
             sliderBubble.classList.add('hide');
             hasHideClass = true;
-
         }, {
             passive: true
         });
 
         dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
-
             if (!this.dragging) {
                 var rect = this.getBoundingClientRect();
                 var clientX = e.clientX;
@@ -163,7 +155,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
                     hasHideClass = false;
                 }
             }
-
         }, {
             passive: true
         });
@@ -176,7 +167,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
         });
 
         if (!supportsNativeProgressStyle) {
-
             if (supportsValueSetOverride) {
                 this.addEventListener('valueset', updateValues);
             } else {
@@ -201,7 +191,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
      *
      * @param {Object} elem slider itself
      */
-    function startKeyboardDragging(elem) {
+    function startKeyboardDragging (elem) {
         elem.keyboardDragging = true;
 
         clearTimeout(keyboardDraggingTimer);
@@ -215,7 +205,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
      *
      * @param {Object} elem slider itself
      */
-    function finishKeyboardDragging(elem) {
+    function finishKeyboardDragging (elem) {
         clearTimeout(keyboardDraggingTimer);
         keyboardDraggingTimer = undefined;
 
@@ -234,7 +224,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
      * @param {Object} elem slider itself
      * @param {number} delta step amount
      */
-    function stepKeyboard(elem, delta) {
+    function stepKeyboard (elem, delta) {
         startKeyboardDragging(elem);
 
         elem.value = Math.max(elem.min, Math.min(elem.max, parseFloat(elem.value) + delta));
@@ -249,7 +239,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
     /**
      * Handle KeyDown event
      */
-    function onKeyDown(e) {
+    function onKeyDown (e) {
         switch (e.key) {
             case 'ArrowLeft':
             case 'Left':
@@ -287,8 +277,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
         this.keyboardStepUp = stepUp || stepDown || 1;
     }
 
-    function setRange(elem, startPercent, endPercent) {
-
+    function setRange (elem, startPercent, endPercent) {
         var style = elem.style;
         style.left = Math.max(startPercent, 0) + '%';
 
@@ -296,14 +285,12 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
         style.width = Math.max(Math.min(widthPercent, 100), 0) + '%';
     }
 
-    function mapRangesFromRuntimeToPercent(ranges, runtime) {
-
+    function mapRangesFromRuntimeToPercent (ranges, runtime) {
         if (!runtime) {
             return [];
         }
 
         return ranges.map(function (r) {
-
             return {
                 start: (r.start / runtime) * 100,
                 end: (r.end / runtime) * 100
@@ -312,7 +299,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
     }
 
     EmbySliderPrototype.setBufferedRanges = function (ranges, runtime, position) {
-
         var elem = this.backgroundUpper;
         if (!elem) {
             return;
@@ -325,7 +311,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
         }
 
         for (var i = 0, length = ranges.length; i < length; i++) {
-
             var range = ranges[i];
 
             if (position != null) {
@@ -342,7 +327,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
     };
 
     EmbySliderPrototype.setIsClear = function (isClear) {
-
         var backgroundLower = this.backgroundLower;
         if (backgroundLower) {
             if (isClear) {
@@ -353,7 +337,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
         }
     };
 
-    function startInterval(range) {
+    function startInterval (range) {
         var interval = range.interval;
         if (interval) {
             clearInterval(interval);
@@ -362,7 +346,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
     }
 
     EmbySliderPrototype.detachedCallback = function () {
-
         var interval = this.interval;
         if (interval) {
             clearInterval(interval);

@@ -3,19 +3,16 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
 
     var transitionEndEventName = dom.whichTransitionEvent();
 
-    function seriesImageUrl(item, options) {
-
+    function seriesImageUrl (item, options) {
         if (item.Type !== 'Episode') {
             return null;
         }
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (options.type === 'Primary') {
-
             if (item.SeriesPrimaryImageTag) {
-
                 options.tag = item.SeriesPrimaryImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
@@ -23,15 +20,12 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         }
 
         if (options.type === 'Thumb') {
-
             if (item.SeriesThumbImageTag) {
-
                 options.tag = item.SeriesThumbImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
             if (item.ParentThumbImageTag) {
-
                 options.tag = item.ParentThumbImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
@@ -41,20 +35,17 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         return null;
     }
 
-    function imageUrl(item, options) {
-
+    function imageUrl (item, options) {
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
-
             options.tag = item.ImageTags[options.type];
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (options.type === 'Primary') {
             if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
                 options.tag = item.AlbumPrimaryImageTag;
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
             }
@@ -63,10 +54,8 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         return null;
     }
 
-    function setPoster(osdPoster, item, secondaryItem) {
-
+    function setPoster (osdPoster, item, secondaryItem) {
         if (item) {
-
             var imgUrl = seriesImageUrl(item, { type: 'Primary' }) ||
                 seriesImageUrl(item, { type: 'Thumb' }) ||
                 imageUrl(item, { type: 'Primary' });
@@ -86,8 +75,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         osdPoster.innerHTML = '';
     }
 
-    function getHtml() {
-
+    function getHtml () {
         var html = '';
 
         html += '<div class="upNextDialog-poster">';
@@ -123,8 +111,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         return html;
     }
 
-    function setNextVideoText() {
-
+    function setNextVideoText () {
         var instance = this;
 
         var elem = instance.options.parent;
@@ -135,15 +122,14 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
 
         var timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('HeaderSecondsValue', secondsRemaining) + '</span>';
 
-        var nextVideoText = instance.itemType === 'Episode' ?
-            globalize.translate('HeaderNextEpisodePlayingInValue', timeText) :
-            globalize.translate('HeaderNextVideoPlayingInValue', timeText);
+        var nextVideoText = instance.itemType === 'Episode'
+            ? globalize.translate('HeaderNextEpisodePlayingInValue', timeText)
+            : globalize.translate('HeaderNextVideoPlayingInValue', timeText);
 
         elem.querySelector('.upNextDialog-nextVideoText').innerHTML = nextVideoText;
     }
 
-    function fillItem(item) {
-
+    function fillItem (item) {
         var instance = this;
 
         var elem = instance.options.parent;
@@ -167,19 +153,17 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         instance.show();
     }
 
-    function clearCountdownTextTimeout(instance) {
+    function clearCountdownTextTimeout (instance) {
         if (instance._countdownTextTimeout) {
             clearInterval(instance._countdownTextTimeout);
             instance._countdownTextTimeout = null;
         }
     }
 
-    function onStartNowClick() {
-
+    function onStartNowClick () {
         var options = this.options;
 
         if (options) {
-
             var player = options.player;
 
             this.hide();
@@ -188,8 +172,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         }
     }
 
-    function init(instance, options) {
-
+    function init (instance, options) {
         options.parent.innerHTML = getHtml();
 
         options.parent.classList.add('hide');
@@ -202,8 +185,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         options.parent.querySelector('.btnStartNow').addEventListener('click', onStartNowClick.bind(instance));
     }
 
-    function clearHideAnimationEventListeners(instance, elem) {
-
+    function clearHideAnimationEventListeners (instance, elem) {
         var fn = instance._onHideAnimationComplete;
 
         if (fn) {
@@ -213,8 +195,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         }
     }
 
-    function onHideAnimationComplete(e) {
-
+    function onHideAnimationComplete (e) {
         var instance = this;
         var elem = e.target;
 
@@ -224,8 +205,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         events.trigger(instance, 'hide');
     }
 
-    function hideComingUpNext() {
-
+    function hideComingUpNext () {
         var instance = this;
         clearCountdownTextTimeout(this);
 
@@ -246,7 +226,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         }
 
         // trigger a reflow to force it to animate again
-        void elem.offsetWidth;
+        elem.offsetWidth;
 
         elem.classList.add('upNextDialog-hidden');
 
@@ -258,11 +238,9 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         });
     }
 
-    function getTimeRemainingMs(instance) {
-
+    function getTimeRemainingMs (instance) {
         var options = instance.options;
         if (options) {
-
             var runtimeTicks = playbackManager.duration(options.player);
 
             if (runtimeTicks) {
@@ -275,8 +253,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         return 0;
     }
 
-    function startComingUpNextHideTimer(instance) {
-
+    function startComingUpNextHideTimer (instance) {
         var timeRemainingMs = getTimeRemainingMs(instance);
 
         if (timeRemainingMs <= 0) {
@@ -289,15 +266,13 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         instance._countdownTextTimeout = setInterval(setNextVideoText.bind(instance), 400);
     }
 
-    function UpNextDialog(options) {
-
+    function UpNextDialog (options) {
         this.options = options;
 
         init(this, options);
     }
 
     UpNextDialog.prototype.show = function () {
-
         var elem = this.options.parent;
 
         clearHideAnimationEventListeners(this, elem);
@@ -305,7 +280,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
         elem.classList.remove('hide');
 
         // trigger a reflow to force it to animate again
-        void elem.offsetWidth;
+        elem.offsetWidth;
 
         elem.classList.remove('upNextDialog-hidden');
 
@@ -319,12 +294,10 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
     };
 
     UpNextDialog.prototype.hide = function () {
-
         hideComingUpNext.call(this);
     };
 
     UpNextDialog.prototype.destroy = function () {
-
         hideComingUpNext.call(this);
 
         this.options = null;

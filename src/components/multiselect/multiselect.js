@@ -1,40 +1,35 @@
-define(["browser", "appStorage", "apphost", "loading", "connectionManager", "globalize", "appRouter", "dom", "css!./multiselect"], function (browser, appStorage, appHost, loading, connectionManager, globalize, appRouter, dom) {
-    "use strict";
+define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'globalize', 'appRouter', 'dom', 'css!./multiselect'], function (browser, appStorage, appHost, loading, connectionManager, globalize, appRouter, dom) {
+    'use strict';
 
     var selectedItems = [];
     var selectedElements = [];
     var currentSelectionCommandsPanel;
 
-    function hideSelections() {
-
+    function hideSelections () {
         var selectionCommandsPanel = currentSelectionCommandsPanel;
         if (selectionCommandsPanel) {
-
             selectionCommandsPanel.parentNode.removeChild(selectionCommandsPanel);
             currentSelectionCommandsPanel = null;
 
             selectedItems = [];
             selectedElements = [];
-            var elems = document.querySelectorAll(".itemSelectionPanel");
+            var elems = document.querySelectorAll('.itemSelectionPanel');
             for (var i = 0, length = elems.length; i < length; i++) {
-
                 var parent = elems[i].parentNode;
                 parent.removeChild(elems[i]);
-                parent.classList.remove("withMultiSelect");
+                parent.classList.remove('withMultiSelect');
             }
         }
     }
 
-    function onItemSelectionPanelClick(e, itemSelectionPanel) {
-
+    function onItemSelectionPanelClick (e, itemSelectionPanel) {
         // toggle the checkbox, if it wasn't clicked on
-        if (!dom.parentWithClass(e.target, "chkItemSelect")) {
-            var chkItemSelect = itemSelectionPanel.querySelector(".chkItemSelect");
+        if (!dom.parentWithClass(e.target, 'chkItemSelect')) {
+            var chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
 
             if (chkItemSelect) {
-
-                if (chkItemSelect.classList.contains("checkedInitial")) {
-                    chkItemSelect.classList.remove("checkedInitial");
+                if (chkItemSelect.classList.contains('checkedInitial')) {
+                    chkItemSelect.classList.remove('checkedInitial');
                 } else {
                     var newValue = !chkItemSelect.checked;
                     chkItemSelect.checked = newValue;
@@ -48,12 +43,10 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
         return false;
     }
 
-    function updateItemSelection(chkItemSelect, selected) {
-
-        var id = dom.parentWithAttribute(chkItemSelect, "data-id").getAttribute("data-id");
+    function updateItemSelection (chkItemSelect, selected) {
+        var id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
 
         if (selected) {
-
             var current = selectedItems.filter(function (i) {
                 return i === id;
             });
@@ -62,7 +55,6 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
                 selectedItems.push(id);
                 selectedElements.push(chkItemSelect);
             }
-
         } else {
             selectedItems = selectedItems.filter(function (i) {
                 return i !== id;
@@ -73,7 +65,7 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
         }
 
         if (selectedItems.length) {
-            var itemSelectionCount = document.querySelector(".itemSelectionCount");
+            var itemSelectionCount = document.querySelector('.itemSelectionCount');
             if (itemSelectionCount) {
                 itemSelectionCount.innerHTML = selectedItems.length;
             }
@@ -82,166 +74,153 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
         }
     }
 
-    function onSelectionChange(e) {
+    function onSelectionChange (e) {
         updateItemSelection(this, this.checked);
     }
 
-    function showSelection(item, isChecked) {
-
-        var itemSelectionPanel = item.querySelector(".itemSelectionPanel");
+    function showSelection (item, isChecked) {
+        var itemSelectionPanel = item.querySelector('.itemSelectionPanel');
 
         if (!itemSelectionPanel) {
+            itemSelectionPanel = document.createElement('div');
+            itemSelectionPanel.classList.add('itemSelectionPanel');
 
-            itemSelectionPanel = document.createElement("div");
-            itemSelectionPanel.classList.add("itemSelectionPanel");
-
-            var parent = item.querySelector(".cardBox") || item.querySelector(".cardContent");
-            parent.classList.add("withMultiSelect");
+            var parent = item.querySelector('.cardBox') || item.querySelector('.cardContent');
+            parent.classList.add('withMultiSelect');
             parent.appendChild(itemSelectionPanel);
 
-            var cssClass = "chkItemSelect";
+            var cssClass = 'chkItemSelect';
             if (isChecked && !browser.firefox) {
                 // In firefox, the initial tap hold doesnt' get treated as a click
                 // In other browsers it does, so we need to make sure that initial click is ignored
-                cssClass += " checkedInitial";
+                cssClass += ' checkedInitial';
             }
-            var checkedAttribute = isChecked ? " checked" : "";
+            var checkedAttribute = isChecked ? ' checked' : '';
             itemSelectionPanel.innerHTML = '<label class="checkboxContainer"><input type="checkbox" is="emby-checkbox" data-outlineclass="multiSelectCheckboxOutline" class="' + cssClass + '"' + checkedAttribute + '/><span></span></label>';
-            var chkItemSelect = itemSelectionPanel.querySelector(".chkItemSelect");
-            chkItemSelect.addEventListener("change", onSelectionChange);
+            var chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
+            chkItemSelect.addEventListener('change', onSelectionChange);
         }
     }
 
-    function showSelectionCommands() {
-
+    function showSelectionCommands () {
         var selectionCommandsPanel = currentSelectionCommandsPanel;
 
         if (!selectionCommandsPanel) {
-
-            selectionCommandsPanel = document.createElement("div");
-            selectionCommandsPanel.classList.add("selectionCommandsPanel");
+            selectionCommandsPanel = document.createElement('div');
+            selectionCommandsPanel.classList.add('selectionCommandsPanel');
 
             document.body.appendChild(selectionCommandsPanel);
             currentSelectionCommandsPanel = selectionCommandsPanel;
 
-            var html = "";
+            var html = '';
 
             html += '<button is="paper-icon-button-light" class="btnCloseSelectionPanel autoSize"><i class="md-icon">close</i></button>';
             html += '<h1 class="itemSelectionCount"></h1>';
 
-            var moreIcon = "more_horiz";
+            var moreIcon = 'more_horiz';
             html += '<button is="paper-icon-button-light" class="btnSelectionPanelOptions autoSize" style="margin-left:auto;"><i class="md-icon">' + moreIcon + '</i></button>';
 
             selectionCommandsPanel.innerHTML = html;
 
-            selectionCommandsPanel.querySelector(".btnCloseSelectionPanel").addEventListener("click", hideSelections);
+            selectionCommandsPanel.querySelector('.btnCloseSelectionPanel').addEventListener('click', hideSelections);
 
-            var btnSelectionPanelOptions = selectionCommandsPanel.querySelector(".btnSelectionPanelOptions");
+            var btnSelectionPanelOptions = selectionCommandsPanel.querySelector('.btnSelectionPanelOptions');
 
-            dom.addEventListener(btnSelectionPanelOptions, "click", showMenuForSelectedItems, { passive: true });
+            dom.addEventListener(btnSelectionPanelOptions, 'click', showMenuForSelectedItems, { passive: true });
         }
     }
 
-    function alertText(options) {
-
+    function alertText (options) {
         return new Promise(function (resolve, reject) {
-
-            require(["alert"], function (alert) {
+            require(['alert'], function (alert) {
                 alert(options).then(resolve, resolve);
             });
         });
     }
 
-    function deleteItems(apiClient, itemIds) {
-
+    function deleteItems (apiClient, itemIds) {
         return new Promise(function (resolve, reject) {
-
-            var msg = globalize.translate("ConfirmDeleteItem");
-            var title = globalize.translate("HeaderDeleteItem");
+            var msg = globalize.translate('ConfirmDeleteItem');
+            var title = globalize.translate('HeaderDeleteItem');
 
             if (itemIds.length > 1) {
-                msg = globalize.translate("ConfirmDeleteItems");
-                title = globalize.translate("HeaderDeleteItems");
+                msg = globalize.translate('ConfirmDeleteItems');
+                title = globalize.translate('HeaderDeleteItems');
             }
 
-            require(["confirm"], function (confirm) {
-
+            require(['confirm'], function (confirm) {
                 confirm(msg, title).then(function () {
                     var promises = itemIds.map(function (itemId) {
                         apiClient.deleteItem(itemId);
                     });
 
                     Promise.all(promises).then(resolve, function () {
-
-                        alertText(globalize.translate("ErrorDeletingItem")).then(reject, reject);
+                        alertText(globalize.translate('ErrorDeletingItem')).then(reject, reject);
                     });
                 }, reject);
-
             });
         });
     }
 
-    function showMenuForSelectedItems(e) {
-
+    function showMenuForSelectedItems (e) {
         var apiClient = connectionManager.currentApiClient();
 
         apiClient.getCurrentUser().then(function (user) {
-
             var menuItems = [];
 
             menuItems.push({
-                name: globalize.translate("AddToCollection"),
-                id: "addtocollection",
-                icon: "add"
+                name: globalize.translate('AddToCollection'),
+                id: 'addtocollection',
+                icon: 'add'
             });
 
             menuItems.push({
-                name: globalize.translate("AddToPlaylist"),
-                id: "playlist",
-                icon: "playlist_add"
+                name: globalize.translate('AddToPlaylist'),
+                id: 'playlist',
+                icon: 'playlist_add'
             });
 
             // TODO: Be more dynamic based on what is selected
             if (user.Policy.EnableContentDeletion) {
                 menuItems.push({
-                    name: globalize.translate("Delete"),
-                    id: "delete",
-                    icon: "delete"
+                    name: globalize.translate('Delete'),
+                    id: 'delete',
+                    icon: 'delete'
                 });
             }
 
-            if (user.Policy.EnableContentDownloading && appHost.supports("filedownload")) {
+            if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
                 menuItems.push({
-                    name: Globalize.translate("ButtonDownload"),
-                    id: "download",
-                    icon: "file_download"
+                    name: Globalize.translate('ButtonDownload'),
+                    id: 'download',
+                    icon: 'file_download'
                 });
             }
 
             if (user.Policy.IsAdministrator) {
                 menuItems.push({
-                    name: globalize.translate("GroupVersions"),
-                    id: "groupvideos",
-                    icon: "call_merge"
+                    name: globalize.translate('GroupVersions'),
+                    id: 'groupvideos',
+                    icon: 'call_merge'
                 });
             }
 
             menuItems.push({
-                name: globalize.translate("MarkPlayed"),
-                id: "markplayed",
-                icon: "check_box"
+                name: globalize.translate('MarkPlayed'),
+                id: 'markplayed',
+                icon: 'check_box'
             });
 
             menuItems.push({
-                name: globalize.translate("MarkUnplayed"),
-                id: "markunplayed",
-                icon: "check_box_outline_blank"
+                name: globalize.translate('MarkUnplayed'),
+                id: 'markunplayed',
+                icon: 'check_box_outline_blank'
             });
 
             menuItems.push({
-                name: globalize.translate("RefreshMetadata"),
-                id: "refresh",
-                icon: "refresh"
+                name: globalize.translate('RefreshMetadata'),
+                id: 'refresh',
+                icon: 'refresh'
             });
 
             require(['actionsheet'], function (actionsheet) {
@@ -253,9 +232,9 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
                         var serverId = apiClient.serverInfo().Id;
 
                         switch (id) {
-                            case "addtocollection":
-                                require(["collectionEditor"], function (collectionEditor) {
-                                    new collectionEditor().show({
+                            case 'addtocollection':
+                                require(['collectionEditor'], function (CollectionEditor) {
+                                    new CollectionEditor().show({
                                         items: items,
                                         serverId: serverId
                                     });
@@ -263,9 +242,9 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
-                            case "playlist":
-                                require(["playlistEditor"], function (playlistEditor) {
-                                    new playlistEditor().show({
+                            case 'playlist':
+                                require(['playlistEditor'], function (PlaylistEditor) {
+                                    new PlaylistEditor().show({
                                         items: items,
                                         serverId: serverId
                                     });
@@ -273,31 +252,31 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
-                            case "delete":
+                            case 'delete':
                                 deleteItems(apiClient, items).then(dispatchNeedsRefresh);
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
-                            case "groupvideos":
+                            case 'groupvideos':
                                 combineVersions(apiClient, items);
                                 break;
-                            case "markplayed":
+                            case 'markplayed':
                                 items.forEach(function (itemId) {
                                     apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
-                            case "markunplayed":
+                            case 'markunplayed':
                                 items.forEach(function (itemId) {
                                     apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
-                            case "refresh":
-                                require(["refreshDialog"], function (refreshDialog) {
-                                    new refreshDialog({
+                            case 'refresh':
+                                require(['refreshDialog'], function (RefreshDialog) {
+                                    new RefreshDialog({
                                         itemIds: items,
                                         serverId: serverId
                                     }).show();
@@ -310,18 +289,15 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
                         }
                     }
                 });
-
             });
         });
     }
 
-    function dispatchNeedsRefresh() {
-
+    function dispatchNeedsRefresh () {
         var elems = [];
 
         [].forEach.call(selectedElements, function (i) {
-
-            var container = dom.parentWithAttribute(i, "is", "emby-itemscontainer");
+            var container = dom.parentWithAttribute(i, 'is', 'emby-itemscontainer');
 
             if (container && elems.indexOf(container) === -1) {
                 elems.push(container);
@@ -333,13 +309,11 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
         }
     }
 
-    function combineVersions(apiClient, selection) {
-
+    function combineVersions (apiClient, selection) {
         if (selection.length < 2) {
-
-            require(["alert"], function (alert) {
+            require(['alert'], function (alert) {
                 alert({
-                    text: globalize.translate("PleaseSelectTwoItems")
+                    text: globalize.translate('PleaseSelectTwoItems')
                 });
             });
             return;
@@ -349,21 +323,19 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
 
         apiClient.ajax({
 
-            type: "POST",
-            url: apiClient.getUrl("Videos/MergeVersions", { Ids: selection.join(",") })
+            type: 'POST',
+            url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
 
         }).then(function () {
-
             loading.hide();
             hideSelections();
             dispatchNeedsRefresh();
         });
     }
 
-    function showSelections(initialCard) {
-
-        require(["emby-checkbox"], function () {
-            var cards = document.querySelectorAll(".card");
+    function showSelections (initialCard) {
+        require(['emby-checkbox'], function () {
+            var cards = document.querySelectorAll('.card');
             for (var i = 0, length = cards.length; i < length; i++) {
                 showSelection(cards[i], initialCard === cards[i]);
             }
@@ -373,15 +345,13 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
         });
     }
 
-    function onContainerClick(e) {
-
+    function onContainerClick (e) {
         var target = e.target;
 
         if (selectedItems.length) {
-
-            var card = dom.parentWithClass(target, "card");
+            var card = dom.parentWithClass(target, 'card');
             if (card) {
-                var itemSelectionPanel = card.querySelector(".itemSelectionPanel");
+                var itemSelectionPanel = card.querySelector('.itemSelectionPanel');
                 if (itemSelectionPanel) {
                     return onItemSelectionPanelClick(e, itemSelectionPanel);
                 }
@@ -393,20 +363,17 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
         }
     }
 
-    document.addEventListener("viewbeforehide", hideSelections);
+    document.addEventListener('viewbeforehide', hideSelections);
 
     return function (options) {
-
         var self = this;
 
         var container = options.container;
 
-        function onTapHold(e) {
-
-            var card = dom.parentWithClass(e.target, "card");
+        function onTapHold (e) {
+            var card = dom.parentWithClass(e.target, 'card');
 
             if (card) {
-
                 showSelections(card);
             }
 
@@ -418,8 +385,7 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
             return false;
         }
 
-        function getTouches(e) {
-
+        function getTouches (e) {
             return e.changedTouches || e.targetTouches || e.touches;
         }
 
@@ -427,8 +393,7 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
         var touchStartTimeout;
         var touchStartX;
         var touchStartY;
-        function onTouchStart(e) {
-
+        function onTouchStart (e) {
             var touch = getTouches(e)[0];
             touchTarget = null;
             touchStartX = 0;
@@ -440,10 +405,9 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
                 var element = touch.target;
 
                 if (element) {
-                    var card = dom.parentWithClass(element, "card");
+                    var card = dom.parentWithClass(element, 'card');
 
                     if (card) {
-
                         if (touchStartTimeout) {
                             clearTimeout(touchStartTimeout);
                             touchStartTimeout = null;
@@ -456,8 +420,7 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
             }
         }
 
-        function onTouchMove(e) {
-
+        function onTouchMove (e) {
             if (touchTarget) {
                 var touch = getTouches(e)[0];
                 var deltaX;
@@ -478,13 +441,11 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
             }
         }
 
-        function onTouchEnd(e) {
-
+        function onTouchEnd (e) {
             onMouseOut(e);
         }
 
-        function onMouseDown(e) {
-
+        function onMouseDown (e) {
             if (touchStartTimeout) {
                 clearTimeout(touchStartTimeout);
                 touchStartTimeout = null;
@@ -494,8 +455,7 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
             touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
         }
 
-        function onMouseOut(e) {
-
+        function onMouseOut (e) {
             if (touchStartTimeout) {
                 clearTimeout(touchStartTimeout);
                 touchStartTimeout = null;
@@ -503,46 +463,43 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
             touchTarget = null;
         }
 
-        function onTouchStartTimerFired() {
-
+        function onTouchStartTimerFired () {
             if (!touchTarget) {
                 return;
             }
 
-            var card = dom.parentWithClass(touchTarget, "card");
+            var card = dom.parentWithClass(touchTarget, 'card');
             touchTarget = null;
 
             if (card) {
-
                 showSelections(card);
             }
         }
 
-        function initTapHold(element) {
-
+        function initTapHold (element) {
             // mobile safari doesn't allow contextmenu override
             if (browser.touch && !browser.safari) {
-                element.addEventListener("contextmenu", onTapHold);
+                element.addEventListener('contextmenu', onTapHold);
             } else {
-                dom.addEventListener(element, "touchstart", onTouchStart, {
+                dom.addEventListener(element, 'touchstart', onTouchStart, {
                     passive: true
                 });
-                dom.addEventListener(element, "touchmove", onTouchMove, {
+                dom.addEventListener(element, 'touchmove', onTouchMove, {
                     passive: true
                 });
-                dom.addEventListener(element, "touchend", onTouchEnd, {
+                dom.addEventListener(element, 'touchend', onTouchEnd, {
                     passive: true
                 });
-                dom.addEventListener(element, "touchcancel", onTouchEnd, {
+                dom.addEventListener(element, 'touchcancel', onTouchEnd, {
                     passive: true
                 });
-                dom.addEventListener(element, "mousedown", onMouseDown, {
+                dom.addEventListener(element, 'mousedown', onMouseDown, {
                     passive: true
                 });
-                dom.addEventListener(element, "mouseleave", onMouseOut, {
+                dom.addEventListener(element, 'mouseleave', onMouseOut, {
                     passive: true
                 });
-                dom.addEventListener(element, "mouseup", onMouseOut, {
+                dom.addEventListener(element, 'mouseup', onMouseOut, {
                     passive: true
                 });
             }
@@ -551,38 +508,37 @@ define(["browser", "appStorage", "apphost", "loading", "connectionManager", "glo
         initTapHold(container);
 
         if (options.bindOnClick !== false) {
-            container.addEventListener("click", onContainerClick);
+            container.addEventListener('click', onContainerClick);
         }
 
         self.onContainerClick = onContainerClick;
 
         self.destroy = function () {
-
-            container.removeEventListener("click", onContainerClick);
-            container.removeEventListener("contextmenu", onTapHold);
+            container.removeEventListener('click', onContainerClick);
+            container.removeEventListener('contextmenu', onTapHold);
 
             var element = container;
 
-            dom.removeEventListener(element, "touchstart", onTouchStart, {
+            dom.removeEventListener(element, 'touchstart', onTouchStart, {
                 passive: true
             });
-            dom.removeEventListener(element, "touchmove", onTouchMove, {
+            dom.removeEventListener(element, 'touchmove', onTouchMove, {
                 passive: true
             });
-            dom.removeEventListener(element, "touchend", onTouchEnd, {
+            dom.removeEventListener(element, 'touchend', onTouchEnd, {
                 passive: true
             });
             // this fires in safari due to magnifying class
-            //dom.removeEventListener(element, "touchcancel", onTouchEnd, {
+            // dom.removeEventListener(element, "touchcancel", onTouchEnd, {
             //    passive: true
-            //});
-            dom.removeEventListener(element, "mousedown", onMouseDown, {
+            // });
+            dom.removeEventListener(element, 'mousedown', onMouseDown, {
                 passive: true
             });
-            dom.removeEventListener(element, "mouseleave", onMouseOut, {
+            dom.removeEventListener(element, 'mouseleave', onMouseOut, {
                 passive: true
             });
-            dom.removeEventListener(element, "mouseup", onMouseOut, {
+            dom.removeEventListener(element, 'mouseup', onMouseOut, {
                 passive: true
             });
         };

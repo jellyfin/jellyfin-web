@@ -16,8 +16,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
     var browsableImageType = 'Primary';
     var selectedProvider;
 
-    function getBaseRemoteOptions() {
-
+    function getBaseRemoteOptions () {
         var options = {};
 
         options.itemId = currentItemId;
@@ -25,8 +24,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         return options;
     }
 
-    function reloadBrowsableImages(page, apiClient) {
-
+    function reloadBrowsableImages (page, apiClient) {
         loading.show();
 
         var options = getBaseRemoteOptions();
@@ -43,7 +41,6 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         }
 
         apiClient.getAvailableRemoteImages(options).then(function (result) {
-
             renderRemoteImages(page, apiClient, result, browsableImageType, options.startIndex, options.limit);
 
             page.querySelector('#selectBrowsableImageType').value = browsableImageType;
@@ -58,17 +55,14 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
 
             loading.hide();
         });
-
     }
 
-    function renderRemoteImages(page, apiClient, imagesResult, imageType, startIndex, limit) {
-
+    function renderRemoteImages (page, apiClient, imagesResult, imageType, startIndex, limit) {
         page.querySelector('.availableImagesPaging').innerHTML = getPagingHtml(startIndex, limit, imagesResult.TotalRecordCount);
 
         var html = '';
 
         for (var i = 0, length = imagesResult.Images.length; i < length; i++) {
-
             html += getRemoteImageHtml(imagesResult.Images[i], imageType, apiClient);
         }
 
@@ -92,11 +86,9 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
                 reloadBrowsableImages(page, apiClient);
             });
         }
-
     }
 
-    function getPagingHtml(startIndex, limit, totalRecordCount) {
-
+    function getPagingHtml (startIndex, limit, totalRecordCount) {
         var html = '';
 
         var recordsEnd = Math.min(startIndex + limit, totalRecordCount);
@@ -126,8 +118,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         return html;
     }
 
-    function parentWithClass(elem, className) {
-
+    function parentWithClass (elem, className) {
         while (!elem.classList || !elem.classList.contains(className)) {
             elem = elem.parentNode;
 
@@ -139,8 +130,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         return elem;
     }
 
-    function downloadRemoteImage(page, apiClient, url, type, provider) {
-
+    function downloadRemoteImage (page, apiClient, url, type, provider) {
         var options = getBaseRemoteOptions();
 
         options.Type = type;
@@ -150,19 +140,17 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         loading.show();
 
         apiClient.downloadRemoteImage(options).then(function () {
-
             hasChanges = true;
             var dlg = parentWithClass(page, 'dialog');
             dialogHelper.close(dlg);
         });
     }
 
-    function getDisplayUrl(url, apiClient) {
-        return apiClient.getUrl("Images/Remote", { imageUrl: url });
+    function getDisplayUrl (url, apiClient) {
+        return apiClient.getUrl('Images/Remote', { imageUrl: url });
     }
 
-    function getRemoteImageHtml(image, imageType, apiClient) {
-
+    function getRemoteImageHtml (image, imageType, apiClient) {
         var tagName = layoutManager.tv ? 'button' : 'div';
         var enableFooterButtons = !layoutManager.tv;
 
@@ -170,21 +158,20 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
 
         var html = '';
 
-        var cssClass = "card scalableCard imageEditorCard";
+        var cssClass = 'card scalableCard imageEditorCard';
         var cardBoxCssClass = 'cardBox visualCardBox';
 
         var shape = 'backdrop';
-        if (imageType === "Backdrop" || imageType === "Art" || imageType === "Thumb" || imageType === "Logo") {
+        if (imageType === 'Backdrop' || imageType === 'Art' || imageType === 'Thumb' || imageType === 'Logo') {
             shape = 'backdrop';
-        } else if (imageType === "Banner") {
+        } else if (imageType === 'Banner') {
             shape = 'banner';
-        } else if (imageType === "Disc") {
+        } else if (imageType === 'Disc') {
             shape = 'square';
         } else {
-
-            if (currentItemType === "Episode") {
+            if (currentItemType === 'Episode') {
                 shape = 'backdrop';
-            } else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
+            } else if (currentItemType === 'MusicAlbum' || currentItemType === 'MusicArtist') {
                 shape = 'square';
             } else {
                 shape = 'portrait';
@@ -232,19 +219,16 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         html += '<div class="cardText cardTextCentered">' + image.ProviderName + '</div>';
 
         if (image.Width || image.Height || image.Language) {
-
             html += '<div class="cardText cardText-secondary cardTextCentered">';
 
             if (image.Width && image.Height) {
                 html += image.Width + ' x ' + image.Height;
 
                 if (image.Language) {
-
                     html += ' • ' + image.Language;
                 }
             } else {
                 if (image.Language) {
-
                     html += image.Language;
                 }
             }
@@ -253,21 +237,19 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         }
 
         if (image.CommunityRating != null) {
-
             html += '<div class="cardText cardText-secondary cardTextCentered">';
 
-            if (image.RatingType === "Likes") {
-                html += image.CommunityRating + (image.CommunityRating === 1 ? " like" : " likes");
+            if (image.RatingType === 'Likes') {
+                html += image.CommunityRating + (image.CommunityRating === 1 ? ' like' : ' likes');
             } else {
-
                 if (image.CommunityRating) {
                     html += image.CommunityRating.toFixed(1);
 
                     if (image.VoteCount) {
-                        html += ' • ' + image.VoteCount + (image.VoteCount === 1 ? " vote" : " votes");
+                        html += ' • ' + image.VoteCount + (image.VoteCount === 1 ? ' vote' : ' votes');
                     }
                 } else {
-                    html += "Unrated";
+                    html += 'Unrated';
                 }
             }
 
@@ -285,15 +267,14 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         // end footer
 
         html += '</div>';
-        //html += '</div>';
+        // html += '</div>';
 
         html += '</' + tagName + '>';
 
         return html;
     }
 
-    function initEditor(page, apiClient) {
-
+    function initEditor (page, apiClient) {
         page.querySelector('#selectBrowsableImageType').addEventListener('change', function () {
             browsableImageType = this.value;
             browsableImageStartIndex = 0;
@@ -303,7 +284,6 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         });
 
         page.querySelector('#selectImageProvider').addEventListener('change', function () {
-
             browsableImageStartIndex = 0;
             selectedProvider = this.value;
 
@@ -311,14 +291,12 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         });
 
         page.querySelector('#chkAllLanguages').addEventListener('change', function () {
-
             browsableImageStartIndex = 0;
 
             reloadBrowsableImages(page, apiClient);
         });
 
         page.addEventListener('click', function (e) {
-
             var btnDownloadRemoteImage = parentWithClass(e.target, 'btnDownloadRemoteImage');
             if (btnDownloadRemoteImage) {
                 var card = parentWithClass(btnDownloadRemoteImage, 'card');
@@ -333,12 +311,10 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         });
     }
 
-    function showEditor(itemId, serverId, itemType) {
-
+    function showEditor (itemId, serverId, itemType) {
         loading.show();
 
         require(['text!./imagedownloader.template.html'], function (template) {
-
             var apiClient = connectionManager.getApiClient(serverId);
 
             currentItemId = itemId;
@@ -371,7 +347,6 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
             initEditor(editorContent, apiClient);
 
             dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                 dialogHelper.close(dlg);
             });
 
@@ -379,8 +354,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         });
     }
 
-    function onDialogClosed() {
-
+    function onDialogClosed () {
         var dlg = this;
 
         if (layoutManager.tv) {
@@ -397,9 +371,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
 
     return {
         show: function (itemId, serverId, itemType, imageType) {
-
             return new Promise(function (resolve, reject) {
-
                 currentResolve = resolve;
                 currentReject = reject;
                 hasChanges = false;

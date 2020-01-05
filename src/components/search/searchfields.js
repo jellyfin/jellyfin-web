@@ -1,8 +1,7 @@
 define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPicker', 'emby-input', 'flexStyles', 'material-icons', 'css!./searchfields'], function (layoutManager, globalize, require, events, browser, AlphaPicker) {
     'use strict';
 
-    function onSearchTimeout() {
-
+    function onSearchTimeout () {
         var instance = this;
         var value = instance.nextSearchValue;
 
@@ -10,8 +9,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPick
         events.trigger(instance, 'search', [value]);
     }
 
-    function triggerSearch(instance, value) {
-
+    function triggerSearch (instance, value) {
         if (instance.searchTimeout) {
             clearTimeout(instance.searchTimeout);
         }
@@ -20,18 +18,15 @@ define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPick
         instance.searchTimeout = setTimeout(onSearchTimeout.bind(instance), 400);
     }
 
-    function onAlphaValueClicked(e) {
-
+    function onAlphaValueClicked (e) {
         var value = e.detail.value;
         var searchFieldsInstance = this;
 
         var txtSearch = searchFieldsInstance.options.element.querySelector('.searchfields-txtSearch');
 
         if (value === 'backspace') {
-
             var val = txtSearch.value;
             txtSearch.value = val.length ? val.substring(0, val.length - 1) : '';
-
         } else {
             txtSearch.value += value;
         }
@@ -41,8 +36,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPick
         }));
     }
 
-    function initAlphaPicker(alphaPickerElement, instance) {
-
+    function initAlphaPicker (alphaPickerElement, instance) {
         instance.alphaPicker = new AlphaPicker({
             element: alphaPickerElement,
             mode: 'keyboard'
@@ -51,17 +45,14 @@ define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPick
         alphaPickerElement.addEventListener('alphavalueclicked', onAlphaValueClicked.bind(instance));
     }
 
-    function onSearchInput(e) {
-
+    function onSearchInput (e) {
         var value = e.target.value;
         var searchFieldsInstance = this;
         triggerSearch(searchFieldsInstance, value);
     }
 
-    function embed(elem, instance, options) {
-
+    function embed (elem, instance, options) {
         require(['text!./searchfields.template.html'], function (template) {
-
             var html = globalize.translateDocument(template, 'core');
 
             if (browser.tizen || browser.orsay) {
@@ -87,19 +78,16 @@ define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPick
         });
     }
 
-    function SearchFields(options) {
-
+    function SearchFields (options) {
         this.options = options;
         embed(options.element, this, options);
     }
 
     SearchFields.prototype.focus = function () {
-
         this.options.element.querySelector('.searchfields-txtSearch').focus();
     };
 
     SearchFields.prototype.destroy = function () {
-
         var options = this.options;
         if (options) {
             options.element.classList.remove('searchFields');

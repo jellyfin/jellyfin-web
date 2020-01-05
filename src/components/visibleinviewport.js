@@ -11,8 +11,7 @@ define(['dom'], function (dom) {
    *       the user visible viewport of a web browser.
    *       only accounts for vertical position, not horizontal.
    */
-    function visibleInViewport(elem, partial, thresholdX, thresholdY) {
-
+    function visibleInViewport (elem, partial, thresholdX, thresholdY) {
         thresholdX = thresholdX || 0;
         thresholdY = thresholdY || 0;
 

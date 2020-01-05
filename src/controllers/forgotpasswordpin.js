@@ -1,41 +1,42 @@
 define([], function () {
-    "use strict";
+    'use strict';
 
-    function processForgotPasswordResult(result) {
+    function processForgotPasswordResult (result) {
         if (result.Success) {
-            var msg = Globalize.translate("MessagePasswordResetForUsers");
-            msg += "<br/>";
-            msg += "<br/>";
-            msg += result.UsersReset.join("<br/>");
-            return void Dashboard.alert({
+            var msg = Globalize.translate('MessagePasswordResetForUsers');
+            msg += '<br/>';
+            msg += '<br/>';
+            msg += result.UsersReset.join('<br/>');
+            Dashboard.alert({
                 message: msg,
-                title: Globalize.translate("HeaderPasswordReset"),
+                title: Globalize.translate('HeaderPasswordReset'),
                 callback: function () {
-                    window.location.href = "index.html";
+                    window.location.href = 'index.html';
                 }
-            });
+            })
+            return;
         }
 
         Dashboard.alert({
-            message: Globalize.translate("MessageInvalidForgotPasswordPin"),
-            title: Globalize.translate("HeaderPasswordReset")
+            message: Globalize.translate('MessageInvalidForgotPasswordPin'),
+            title: Globalize.translate('HeaderPasswordReset')
         });
     }
 
     return function (view, params) {
-        function onSubmit(e) {
+        function onSubmit (e) {
             ApiClient.ajax({
-                type: "POST",
-                url: ApiClient.getUrl("Users/ForgotPassword/Pin"),
-                dataType: "json",
+                type: 'POST',
+                url: ApiClient.getUrl('Users/ForgotPassword/Pin'),
+                dataType: 'json',
                 data: {
-                    Pin: view.querySelector("#txtPin").value
+                    Pin: view.querySelector('#txtPin').value
                 }
             }).then(processForgotPasswordResult);
             e.preventDefault();
             return false;
         }
 
-        view.querySelector("form").addEventListener("submit", onSubmit);
+        view.querySelector('form').addEventListener('submit', onSubmit);
     };
 });

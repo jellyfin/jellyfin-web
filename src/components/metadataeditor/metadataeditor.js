@@ -5,21 +5,18 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     var metadataEditorInfo;
     var currentItem;
 
-    function isDialog() {
+    function isDialog () {
         return currentContext.classList.contains('dialog');
     }
 
-    function closeDialog(isSubmitted) {
-
+    function closeDialog (isSubmitted) {
         if (isDialog()) {
             dialogHelper.close(currentContext);
         }
     }
 
-    function submitUpdatedItem(form, item) {
-
-        function afterContentTypeUpdated() {
-
+    function submitUpdatedItem (form, item) {
+        function afterContentTypeUpdated () {
             require(['toast'], function (toast) {
                 toast(globalize.translate('MessageItemSaved'));
             });
@@ -31,11 +28,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         var apiClient = getApiClient();
 
         apiClient.updateItem(item).then(function () {
-
             var newContentType = form.querySelector('#selectContentType').value || '';
 
             if ((metadataEditorInfo.ContentType || '') !== newContentType) {
-
                 apiClient.ajax({
 
                     url: apiClient.getUrl('Items/' + item.Id + '/ContentType', {
@@ -47,51 +42,40 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
                 }).then(function () {
                     afterContentTypeUpdated();
                 });
-
             } else {
                 afterContentTypeUpdated();
             }
-
         });
     }
 
-    function getSelectedAirDays(form) {
+    function getSelectedAirDays (form) {
         var checkedItems = form.querySelectorAll('.chkAirDay:checked') || [];
         return Array.prototype.map.call(checkedItems, function (c) {
             return c.getAttribute('data-day');
         });
     }
 
-    function getAlbumArtists(form) {
-
+    function getAlbumArtists (form) {
         return form.querySelector('#txtAlbumArtist').value.trim().split(';').filter(function (s) {
-
             return s.length > 0;
-
         }).map(function (a) {
-
             return {
                 Name: a
             };
         });
     }
 
-    function getArtists(form) {
-
+    function getArtists (form) {
         return form.querySelector('#txtArtist').value.trim().split(';').filter(function (s) {
-
             return s.length > 0;
-
         }).map(function (a) {
-
             return {
                 Name: a
             };
         });
     }
 
-    function getDateValue(form, element, property) {
-
+    function getDateValue (form, element, property) {
         var val = form.querySelector(element).value;
 
         if (!val) {
@@ -99,14 +83,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
 
         if (currentItem[property]) {
-
             var date = datetime.parseISO8601Date(currentItem[property], true);
 
             var parts = date.toISOString().split('T');
 
             // If the date is the same, preserve the time
             if (parts[0].indexOf(val) === 0) {
-
                 var iso = parts[1];
 
                 val += 'T' + iso;
@@ -116,8 +98,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         return val;
     }
 
-    function onSubmit(e) {
-
+    function onSubmit (e) {
         loading.show();
 
         var form = this;
@@ -142,9 +123,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             Status: form.querySelector('#selectStatus').value,
             AirDays: getSelectedAirDays(form),
             AirTime: form.querySelector('#txtAirTime').value,
-            Genres: getListValues(form.querySelector("#listGenres")),
-            Tags: getListValues(form.querySelector("#listTags")),
-            Studios: getListValues(form.querySelector("#listStudios")).map(function (element) {
+            Genres: getListValues(form.querySelector('#listGenres')),
+            Tags: getListValues(form.querySelector('#listTags')),
+            Studios: getListValues(form.querySelector('#listStudios')).map(function (element) {
                 return { Name: element };
             }),
 
@@ -158,7 +139,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             OfficialRating: form.querySelector('#selectOfficialRating').value,
             CustomRating: form.querySelector('#selectCustomRating').value,
             People: currentItem.People,
-            LockData: form.querySelector("#chkLockData").checked,
+            LockData: form.querySelector('#chkLockData').checked,
             LockedFields: Array.prototype.filter.call(form.querySelectorAll('.selectLockedField'), function (c) {
                 return !c.checked;
             }).map(function (c) {
@@ -177,15 +158,13 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         item.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value;
         item.PreferredMetadataCountryCode = form.querySelector('#selectCountry').value;
 
-        if (currentItem.Type === "Person") {
-
+        if (currentItem.Type === 'Person') {
             var placeOfBirth = form.querySelector('#txtPlaceOfBirth').value;
 
             item.ProductionLocations = placeOfBirth ? [placeOfBirth] : [];
         }
 
-        if (currentItem.Type === "Series") {
-
+        if (currentItem.Type === 'Series') {
             // 600000000
             var seriesRuntime = form.querySelector('#txtSeriesRuntime').value;
             item.RunTimeTicks = seriesRuntime ? (seriesRuntime * 600000000) : null;
@@ -203,15 +182,14 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         return false;
     }
 
-    function getListValues(list) {
+    function getListValues (list) {
         return Array.prototype.map.call(list.querySelectorAll('.textValue'), function (el) {
             return el.textContent;
         });
     }
 
-    function addElementToList(source, sortCallback) {
+    function addElementToList (source, sortCallback) {
         require(['prompt'], function (prompt) {
-
             prompt({
                 label: 'Value:'
             }).then(function (text) {
@@ -223,17 +201,14 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
     }
 
-    function removeElementFromList(source) {
+    function removeElementFromList (source) {
         var el = dom.parentWithClass(source, 'listItem');
         el.parentNode.removeChild(el);
     }
 
-    function editPerson(context, person, index) {
-
+    function editPerson (context, person, index) {
         require(['personEditor'], function (personEditor) {
-
             personEditor.show(person).then(function (updatedPerson) {
-
                 var isNew = index === -1;
 
                 if (isNew) {
@@ -245,10 +220,8 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
     }
 
-    function showMoreMenu(context, button, user) {
-
+    function showMoreMenu (context, button, user) {
         require(['itemContextMenu'], function (itemContextMenu) {
-
             var item = currentItem;
 
             itemContextMenu.show({
@@ -265,10 +238,8 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
                 user: user
 
             }).then(function (result) {
-
                 if (result.deleted) {
                     afterDeleted(context, item);
-
                 } else if (result.updated) {
                     reload(context, item.Id, item.ServerId);
                 }
@@ -276,8 +247,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
     }
 
-    function afterDeleted(context, item) {
-
+    function afterDeleted (context, item) {
         var parentId = item.ParentId || item.SeasonId || item.SeriesId;
 
         if (parentId) {
@@ -289,8 +259,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
     }
 
-    function onEditorClick(e) {
-
+    function onEditorClick (e) {
         var btnRemoveFromEditorList = dom.parentWithClass(e.target, 'btnRemoveFromEditorList');
         if (btnRemoveFromEditorList) {
             removeElementFromList(btnRemoveFromEditorList);
@@ -303,12 +272,11 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
     }
 
-    function getApiClient() {
+    function getApiClient () {
         return connectionManager.getApiClient(currentItem.ServerId);
     }
 
-    function init(context, apiClient) {
-
+    function init (context, apiClient) {
         context.querySelector('.externalIds').addEventListener('click', function (e) {
             var btnOpenExternalId = dom.parentWithClass(e.target, 'btnOpenExternalId');
             if (btnOpenExternalId) {
@@ -323,25 +291,20 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
 
         context.querySelector('.btnCancel').addEventListener('click', function () {
-
             closeDialog(false);
         });
 
         context.querySelector('.btnMore').addEventListener('click', function (e) {
-
             getApiClient().getCurrentUser().then(function (user) {
                 showMoreMenu(context, e.target, user);
             });
-
         });
 
         context.querySelector('.btnHeaderSave').addEventListener('click', function (e) {
-
             context.querySelector('.btnSave').click();
         });
 
         context.querySelector('#chkLockData').addEventListener('click', function (e) {
-
             if (!e.target.checked) {
                 showElement('.providerSettingsContainer');
             } else {
@@ -356,13 +319,11 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         form.removeEventListener('submit', onSubmit);
         form.addEventListener('submit', onSubmit);
 
-        context.querySelector("#btnAddPerson").addEventListener('click', function (event, data) {
-
+        context.querySelector('#btnAddPerson').addEventListener('click', function (event, data) {
             editPerson(context, {}, -1);
         });
 
         context.querySelector('#peopleList').addEventListener('click', function (e) {
-
             var index;
             var btnDeletePerson = dom.parentWithClass(e.target, 'btnDeletePerson');
             if (btnDeletePerson) {
@@ -379,8 +340,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
     }
 
-    function getItem(itemId, serverId) {
-
+    function getItem (itemId, serverId) {
         var apiClient = connectionManager.getApiClient(serverId);
 
         if (itemId) {
@@ -390,8 +350,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         return apiClient.getRootFolder(apiClient.getCurrentUserId());
     }
 
-    function getEditorConfig(itemId, serverId) {
-
+    function getEditorConfig (itemId, serverId) {
         var apiClient = connectionManager.getApiClient(serverId);
 
         if (itemId) {
@@ -401,40 +360,35 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         return Promise.resolve({});
     }
 
-    function populateCountries(select, allCountries) {
-
-        var html = "";
+    function populateCountries (select, allCountries) {
+        var html = '';
 
         html += "<option value=''></option>";
 
         for (var i = 0, length = allCountries.length; i < length; i++) {
-
             var culture = allCountries[i];
 
-            html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + "</option>";
+            html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + '</option>';
         }
 
         select.innerHTML = html;
     }
 
-    function populateLanguages(select, languages) {
-
-        var html = "";
+    function populateLanguages (select, languages) {
+        var html = '';
 
         html += "<option value=''></option>";
 
         for (var i = 0, length = languages.length; i < length; i++) {
-
             var culture = languages[i];
 
-            html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + "</option>";
+            html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
         }
 
         select.innerHTML = html;
     }
 
-    function renderContentTypeOptions(context, metadataInfo) {
-
+    function renderContentTypeOptions (context, metadataInfo) {
         if (!metadataInfo.ContentTypeOptions.length) {
             hideElement('#fldContentType', context);
         } else {
@@ -442,9 +396,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
 
         var html = metadataInfo.ContentTypeOptions.map(function (i) {
-
             return '<option value="' + i.Value + '">' + i.Name + '</option>';
-
         }).join('');
 
         var selectEl = context.querySelector('#selectContentType');
@@ -452,17 +404,15 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         selectEl.value = metadataInfo.ContentType || '';
     }
 
-    function loadExternalIds(context, item, externalIds) {
-
+    function loadExternalIds (context, item, externalIds) {
         var html = '';
 
         var providerIds = item.ProviderIds || {};
 
         for (var i = 0, length = externalIds.length; i < length; i++) {
-
             var idInfo = externalIds[i];
 
-            var id = "txt1" + idInfo.Key;
+            var id = 'txt1' + idInfo.Key;
             var formatString = idInfo.UrlFormatString || '';
 
             var labelText = globalize.translate('LabelDynamicExternalId').replace('{0}', idInfo.Name);
@@ -497,10 +447,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     // Function to hide the element by selector or raw element
     // Selector can be an element or a selector string
     // Context is optional and restricts the querySelector to the context
-    function hideElement(selector, context, multiple) {
+    function hideElement (selector, context, multiple) {
         context = context || document;
         if (typeof selector === 'string') {
-
             var elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
 
             Array.prototype.forEach.call(elements, function (el) {
@@ -516,10 +465,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     // Function to show the element by selector or raw element
     // Selector can be an element or a selector string
     // Context is optional and restricts the querySelector to the context
-    function showElement(selector, context, multiple) {
+    function showElement (selector, context, multiple) {
         context = context || document;
         if (typeof selector === 'string') {
-
             var elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
 
             Array.prototype.forEach.call(elements, function (el) {
@@ -532,44 +480,44 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
     }
 
-    function setFieldVisibilities(context, item) {
+    function setFieldVisibilities (context, item) {
         if (item.Path && item.EnableMediaSourceDisplay !== false) {
             showElement('#fldPath', context);
         } else {
             hideElement('#fldPath', context);
         }
 
-        if (item.Type === "Series" || item.Type === "Movie" || item.Type === "Trailer") {
+        if (item.Type === 'Series' || item.Type === 'Movie' || item.Type === 'Trailer') {
             showElement('#fldOriginalName', context);
         } else {
             hideElement('#fldOriginalName', context);
         }
 
-        if (item.Type === "Series") {
+        if (item.Type === 'Series') {
             showElement('#fldSeriesRuntime', context);
         } else {
             hideElement('#fldSeriesRuntime', context);
         }
 
-        if (item.Type === "Series" || item.Type === "Person") {
+        if (item.Type === 'Series' || item.Type === 'Person') {
             showElement('#fldEndDate', context);
         } else {
             hideElement('#fldEndDate', context);
         }
 
-        if (item.Type === "MusicAlbum") {
+        if (item.Type === 'MusicAlbum') {
             showElement('#albumAssociationMessage', context);
         } else {
             hideElement('#albumAssociationMessage', context);
         }
 
-        if (item.Type === "Movie" || item.Type === "Trailer") {
+        if (item.Type === 'Movie' || item.Type === 'Trailer') {
             showElement('#fldCriticRating', context);
         } else {
             hideElement('#fldCriticRating', context);
         }
 
-        if (item.Type === "Series") {
+        if (item.Type === 'Series') {
             showElement('#fldStatus', context);
             showElement('#fldAirDays', context);
             showElement('#fldAirTime', context);
@@ -579,19 +527,19 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             hideElement('#fldAirTime', context);
         }
 
-        if (item.MediaType === "Video" && item.Type !== "TvChannel") {
+        if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
             showElement('#fld3dFormat', context);
         } else {
             hideElement('#fld3dFormat', context);
         }
 
-        if (item.Type === "Audio") {
+        if (item.Type === 'Audio') {
             showElement('#fldAlbumArtist', context);
         } else {
             hideElement('#fldAlbumArtist', context);
         }
 
-        if (item.Type === "Audio" || item.Type === "MusicVideo") {
+        if (item.Type === 'Audio' || item.Type === 'MusicVideo') {
             showElement('#fldArtist', context);
             showElement('#fldAlbum', context);
         } else {
@@ -599,29 +547,29 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             hideElement('#fldAlbum', context);
         }
 
-        if (item.Type === "Episode" && item.ParentIndexNumber === 0) {
+        if (item.Type === 'Episode' && item.ParentIndexNumber === 0) {
             showElement('#collapsibleSpecialEpisodeInfo', context);
         } else {
             hideElement('#collapsibleSpecialEpisodeInfo', context);
         }
 
-        if (item.Type === "Person" ||
-            item.Type === "Genre" ||
-            item.Type === "Studio" ||
-            item.Type === "MusicGenre" ||
-            item.Type === "TvChannel" ||
-            item.Type === "Book") {
+        if (item.Type === 'Person' ||
+            item.Type === 'Genre' ||
+            item.Type === 'Studio' ||
+            item.Type === 'MusicGenre' ||
+            item.Type === 'TvChannel' ||
+            item.Type === 'Book') {
             hideElement('#peopleCollapsible', context);
         } else {
             showElement('#peopleCollapsible', context);
         }
 
-        if (item.Type === "Person" || item.Type === "Genre" || item.Type === "Studio" || item.Type === "MusicGenre" || item.Type === "TvChannel") {
+        if (item.Type === 'Person' || item.Type === 'Genre' || item.Type === 'Studio' || item.Type === 'MusicGenre' || item.Type === 'TvChannel') {
             hideElement('#fldCommunityRating', context);
             hideElement('#genresCollapsible', context);
             hideElement('#studiosCollapsible', context);
 
-            if (item.Type === "TvChannel") {
+            if (item.Type === 'TvChannel') {
                 showElement('#fldOfficialRating', context);
             } else {
                 hideElement('#fldOfficialRating', context);
@@ -637,7 +585,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         showElement('#tagsCollapsible', context);
 
-        if (item.Type === "TvChannel") {
+        if (item.Type === 'TvChannel') {
             hideElement('#metadataSettingsCollapsible', context);
             hideElement('#fldPremiereDate', context);
             hideElement('#fldDateAdded', context);
@@ -649,39 +597,39 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             showElement('#fldYear', context);
         }
 
-        if (item.Type === "TvChannel") {
+        if (item.Type === 'TvChannel') {
             hideElement('.overviewContainer', context);
         } else {
             showElement('.overviewContainer', context);
         }
 
-        if (item.Type === "Person") {
-            //todo
+        if (item.Type === 'Person') {
+            // todo
             context.querySelector('#txtProductionYear').label(globalize.translate('LabelBirthYear'));
-            context.querySelector("#txtPremiereDate").label(globalize.translate('LabelBirthDate'));
-            context.querySelector("#txtEndDate").label(globalize.translate('LabelDeathDate'));
+            context.querySelector('#txtPremiereDate').label(globalize.translate('LabelBirthDate'));
+            context.querySelector('#txtEndDate').label(globalize.translate('LabelDeathDate'));
             showElement('#fldPlaceOfBirth');
         } else {
             context.querySelector('#txtProductionYear').label(globalize.translate('LabelYear'));
-            context.querySelector("#txtPremiereDate").label(globalize.translate('LabelReleaseDate'));
-            context.querySelector("#txtEndDate").label(globalize.translate('LabelEndDate'));
+            context.querySelector('#txtPremiereDate').label(globalize.translate('LabelReleaseDate'));
+            context.querySelector('#txtEndDate').label(globalize.translate('LabelEndDate'));
             hideElement('#fldPlaceOfBirth');
         }
 
-        if (item.MediaType === "Video" && item.Type !== "TvChannel") {
+        if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
             showElement('#fldOriginalAspectRatio');
         } else {
             hideElement('#fldOriginalAspectRatio');
         }
 
-        if (item.Type === "Audio" || item.Type === "Episode" || item.Type === "Season") {
+        if (item.Type === 'Audio' || item.Type === 'Episode' || item.Type === 'Season') {
             showElement('#fldIndexNumber');
 
-            if (item.Type === "Episode") {
+            if (item.Type === 'Episode') {
                 context.querySelector('#txtIndexNumber').label(globalize.translate('LabelEpisodeNumber'));
-            } else if (item.Type === "Season") {
+            } else if (item.Type === 'Season') {
                 context.querySelector('#txtIndexNumber').label(globalize.translate('LabelSeasonNumber'));
-            } else if (item.Type === "Audio") {
+            } else if (item.Type === 'Audio') {
                 context.querySelector('#txtIndexNumber').label(globalize.translate('LabelTrackNumber'));
             } else {
                 context.querySelector('#txtIndexNumber').label(globalize.translate('LabelNumber'));
@@ -690,12 +638,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             hideElement('#fldIndexNumber');
         }
 
-        if (item.Type === "Audio" || item.Type === "Episode") {
+        if (item.Type === 'Audio' || item.Type === 'Episode') {
             showElement('#fldParentIndexNumber');
 
-            if (item.Type === "Episode") {
+            if (item.Type === 'Episode') {
                 context.querySelector('#txtParentIndexNumber').label(globalize.translate('LabelSeasonNumber'));
-            } else if (item.Type === "Audio") {
+            } else if (item.Type === 'Audio') {
                 context.querySelector('#txtParentIndexNumber').label(globalize.translate('LabelDiscNumber'));
             } else {
                 context.querySelector('#txtParentIndexNumber').label(globalize.translate('LabelParentNumber'));
@@ -704,12 +652,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             hideElement('#fldParentIndexNumber', context);
         }
 
-        if (item.Type === "BoxSet") {
+        if (item.Type === 'BoxSet') {
             showElement('#fldDisplayOrder', context);
             hideElement('.seriesDisplayOrderDescription', context);
 
             context.querySelector('#selectDisplayOrder').innerHTML = '<option value="SortName">' + globalize.translate('SortName') + '</option><option value="PremiereDate">' + globalize.translate('ReleaseDate') + '</option>';
-        } else if (item.Type === "Series") {
+        } else if (item.Type === 'Series') {
             showElement('#fldDisplayOrder', context);
             showElement('.seriesDisplayOrderDescription', context);
 
@@ -720,25 +668,24 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
     }
 
-    function fillItemInfo(context, item, parentalRatingOptions) {
-
+    function fillItemInfo (context, item, parentalRatingOptions) {
         var select = context.querySelector('#selectOfficialRating');
 
         populateRatings(parentalRatingOptions, select, item.OfficialRating);
 
-        select.value = item.OfficialRating || "";
+        select.value = item.OfficialRating || '';
 
         select = context.querySelector('#selectCustomRating');
 
         populateRatings(parentalRatingOptions, select, item.CustomRating);
 
-        select.value = item.CustomRating || "";
+        select.value = item.CustomRating || '';
 
         var selectStatus = context.querySelector('#selectStatus');
         populateStatus(selectStatus);
-        selectStatus.value = item.Status || "";
+        selectStatus.value = item.Status || '';
 
-        context.querySelector('#select3dFormat', context).value = item.Video3DFormat || "";
+        context.querySelector('#select3dFormat', context).value = item.Video3DFormat || '';
 
         Array.prototype.forEach.call(context.querySelectorAll('.chkAirDay', context), function (el) {
             el.checked = (item.AirDays || []).indexOf(el.getAttribute('data-day')) !== -1;
@@ -754,7 +701,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         populateListView(context.querySelector('#listTags'), item.Tags);
 
         var lockData = (item.LockData || false);
-        var chkLockData = context.querySelector("#chkLockData");
+        var chkLockData = context.querySelector('#chkLockData');
         chkLockData.checked = lockData;
         if (chkLockData.checked) {
             hideElement('.providerSettingsContainer', context);
@@ -764,23 +711,23 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         fillMetadataSettings(context, item, item.LockedFields);
 
         context.querySelector('#txtPath').value = item.Path || '';
-        context.querySelector('#txtName').value = item.Name || "";
-        context.querySelector('#txtOriginalName').value = item.OriginalTitle || "";
+        context.querySelector('#txtName').value = item.Name || '';
+        context.querySelector('#txtOriginalName').value = item.OriginalTitle || '';
         context.querySelector('#txtOverview').value = item.Overview || '';
         context.querySelector('#txtTagline').value = (item.Taglines && item.Taglines.length ? item.Taglines[0] : '');
-        context.querySelector('#txtSortName').value = item.ForcedSortName || "";
-        context.querySelector('#txtCommunityRating').value = item.CommunityRating || "";
+        context.querySelector('#txtSortName').value = item.ForcedSortName || '';
+        context.querySelector('#txtCommunityRating').value = item.CommunityRating || '';
 
-        context.querySelector('#txtCriticRating').value = item.CriticRating || "";
+        context.querySelector('#txtCriticRating').value = item.CriticRating || '';
 
         context.querySelector('#txtIndexNumber').value = item.IndexNumber == null ? '' : item.IndexNumber;
         context.querySelector('#txtParentIndexNumber').value = item.ParentIndexNumber == null ? '' : item.ParentIndexNumber;
 
-        context.querySelector('#txtAirsBeforeSeason').value = ('AirsBeforeSeasonNumber' in item) ? item.AirsBeforeSeasonNumber : "";
-        context.querySelector('#txtAirsAfterSeason').value = ('AirsAfterSeasonNumber' in item) ? item.AirsAfterSeasonNumber : "";
-        context.querySelector('#txtAirsBeforeEpisode').value = ('AirsBeforeEpisodeNumber' in item) ? item.AirsBeforeEpisodeNumber : "";
+        context.querySelector('#txtAirsBeforeSeason').value = ('AirsBeforeSeasonNumber' in item) ? item.AirsBeforeSeasonNumber : '';
+        context.querySelector('#txtAirsAfterSeason').value = ('AirsAfterSeasonNumber' in item) ? item.AirsAfterSeasonNumber : '';
+        context.querySelector('#txtAirsBeforeEpisode').value = ('AirsBeforeEpisodeNumber' in item) ? item.AirsBeforeEpisodeNumber : '';
 
-        context.querySelector('#txtAlbum').value = item.Album || "";
+        context.querySelector('#txtAlbum').value = item.Album || '';
 
         context.querySelector('#txtAlbumArtist').value = (item.AlbumArtists || []).map(function (a) {
             return a.Name;
@@ -834,31 +781,29 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             context.querySelector('#txtEndDate').value = '';
         }
 
-        context.querySelector('#txtProductionYear').value = item.ProductionYear || "";
+        context.querySelector('#txtProductionYear').value = item.ProductionYear || '';
 
         context.querySelector('#txtAirTime').value = item.AirTime || '';
 
         var placeofBirth = item.ProductionLocations && item.ProductionLocations.length ? item.ProductionLocations[0] : '';
         context.querySelector('#txtPlaceOfBirth').value = placeofBirth;
 
-        context.querySelector('#txtOriginalAspectRatio').value = item.AspectRatio || "";
+        context.querySelector('#txtOriginalAspectRatio').value = item.AspectRatio || '';
 
-        context.querySelector('#selectLanguage').value = item.PreferredMetadataLanguage || "";
-        context.querySelector('#selectCountry').value = item.PreferredMetadataCountryCode || "";
+        context.querySelector('#selectLanguage').value = item.PreferredMetadataLanguage || '';
+        context.querySelector('#selectCountry').value = item.PreferredMetadataCountryCode || '';
 
         if (item.RunTimeTicks) {
-
             var minutes = item.RunTimeTicks / 600000000;
 
             context.querySelector('#txtSeriesRuntime').value = Math.round(minutes);
         } else {
-            context.querySelector('#txtSeriesRuntime', context).value = "";
+            context.querySelector('#txtSeriesRuntime', context).value = '';
         }
     }
 
-    function populateRatings(allParentalRatings, select, currentValue) {
-
-        var html = "";
+    function populateRatings (allParentalRatings, select, currentValue) {
+        var html = '';
 
         html += "<option value=''></option>";
 
@@ -870,7 +815,6 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         var currentValueFound = false;
 
         for (i = 0, length = allParentalRatings.length; i < length; i++) {
-
             rating = allParentalRatings[i];
 
             ratings.push({ Name: rating.Name, Value: rating.Name });
@@ -885,26 +829,24 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         }
 
         for (i = 0, length = ratings.length; i < length; i++) {
-
             rating = ratings[i];
 
-            html += "<option value='" + rating.Value + "'>" + rating.Name + "</option>";
+            html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
         }
 
         select.innerHTML = html;
     }
 
-    function populateStatus(select) {
-        var html = "";
+    function populateStatus (select) {
+        var html = '';
 
         html += "<option value=''></option>";
-        html += "<option value='Continuing'>" + globalize.translate('Continuing') + "</option>";
-        html += "<option value='Ended'>" + globalize.translate('Ended') + "</option>";
+        html += "<option value='Continuing'>" + globalize.translate('Continuing') + '</option>';
+        html += "<option value='Ended'>" + globalize.translate('Ended') + '</option>';
         select.innerHTML = html;
     }
 
-    function populateListView(list, items, sortCallback) {
-
+    function populateListView (list, items, sortCallback) {
         items = items || [];
         if (typeof (sortCallback) === 'undefined') {
             items.sort(function (a, b) {
@@ -935,15 +877,13 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         list.innerHTML = html;
     }
 
-    function populatePeople(context, people) {
-
+    function populatePeople (context, people) {
         var lastType = '';
         var html = '';
 
         var elem = context.querySelector('#peopleList');
 
         for (var i = 0, length = people.length; i < length; i++) {
-
             var person = people[i];
 
             html += '<div class="listItem">';
@@ -972,11 +912,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         elem.innerHTML = html;
     }
 
-    function getLockedFieldsHtml(fields, currentFields) {
-
+    function getLockedFieldsHtml (fields, currentFields) {
         var html = '';
         for (var i = 0; i < fields.length; i++) {
-
             var field = fields[i];
             var name = field.name;
             var value = field.value || field.name;
@@ -989,45 +927,43 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         return html;
     }
 
-    function fillMetadataSettings(context, item, lockedFields) {
+    function fillMetadataSettings (context, item, lockedFields) {
         var container = context.querySelector('.providerSettingsContainer');
         lockedFields = lockedFields || [];
 
         var lockedFieldsList = [
-            { name: globalize.translate('Name'), value: "Name" },
-            { name: globalize.translate('Overview'), value: "Overview" },
-            { name: globalize.translate('Genres'), value: "Genres" },
-            { name: globalize.translate('ParentalRating'), value: "OfficialRating" },
-            { name: globalize.translate('People'), value: "Cast" }
+            { name: globalize.translate('Name'), value: 'Name' },
+            { name: globalize.translate('Overview'), value: 'Overview' },
+            { name: globalize.translate('Genres'), value: 'Genres' },
+            { name: globalize.translate('ParentalRating'), value: 'OfficialRating' },
+            { name: globalize.translate('People'), value: 'Cast' }
         ];
 
-        if (item.Type === "Person") {
-            lockedFieldsList.push({ name: globalize.translate('BirthLocation'), value: "ProductionLocations" });
+        if (item.Type === 'Person') {
+            lockedFieldsList.push({ name: globalize.translate('BirthLocation'), value: 'ProductionLocations' });
         } else {
-            lockedFieldsList.push({ name: globalize.translate('ProductionLocations'), value: "ProductionLocations" });
+            lockedFieldsList.push({ name: globalize.translate('ProductionLocations'), value: 'ProductionLocations' });
         }
 
-        if (item.Type === "Series") {
-            lockedFieldsList.push({ name: globalize.translate('Runtime'), value: "Runtime" });
+        if (item.Type === 'Series') {
+            lockedFieldsList.push({ name: globalize.translate('Runtime'), value: 'Runtime' });
         }
 
-        lockedFieldsList.push({ name: globalize.translate('Studios'), value: "Studios" });
-        lockedFieldsList.push({ name: globalize.translate('Tags'), value: "Tags" });
+        lockedFieldsList.push({ name: globalize.translate('Studios'), value: 'Studios' });
+        lockedFieldsList.push({ name: globalize.translate('Tags'), value: 'Tags' });
 
         var html = '';
 
-        html += "<h2>" + globalize.translate('HeaderEnabledFields') + "</h2>";
-        html += "<p>" + globalize.translate('HeaderEnabledFieldsHelp') + "</p>";
+        html += '<h2>' + globalize.translate('HeaderEnabledFields') + '</h2>';
+        html += '<p>' + globalize.translate('HeaderEnabledFieldsHelp') + '</p>';
         html += getLockedFieldsHtml(lockedFieldsList, lockedFields);
         container.innerHTML = html;
     }
 
-    function reload(context, itemId, serverId) {
-
+    function reload (context, itemId, serverId) {
         loading.show();
 
         Promise.all([getItem(itemId, serverId), getEditorConfig(itemId, serverId)]).then(function (responses) {
-
             var item = responses[0];
             metadataEditorInfo = responses[1];
 
@@ -1046,7 +982,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             setFieldVisibilities(context, item);
             fillItemInfo(context, item, metadataEditorInfo.ParentalRatingOptions);
 
-            if (item.MediaType === "Video" && item.Type !== "Episode" && item.Type !== "TvChannel") {
+            if (item.MediaType === 'Video' && item.Type !== 'Episode' && item.Type !== 'TvChannel') {
                 showElement('#fldTagline', context);
             } else {
                 hideElement('#fldTagline', context);
@@ -1056,18 +992,17 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
     }
 
-    function centerFocus(elem, horiz, on) {
+    function centerFocus (elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function show(itemId, serverId, resolve, reject) {
+    function show (itemId, serverId, resolve, reject) {
         loading.show();
 
         require(['text!./metadataeditor.template.html'], function (template) {
-
             var dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -1120,11 +1055,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         embed: function (elem, itemId, serverId) {
             return new Promise(function (resolve, reject) {
-
                 loading.show();
 
                 require(['text!./metadataeditor.template.html'], function (template) {
-
                     elem.innerHTML = globalize.translateDocument(template, 'core');
 
                     elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');

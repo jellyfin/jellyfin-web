@@ -1,4 +1,4 @@
-define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'browser', 'registerElement', 'css!./emby-scroller'], function (scroller, dom, layoutManager, inputManager, focusManager, browser) {
+define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'browser', 'registerElement', 'css!./emby-scroller'], function (Scroller, dom, layoutManager, inputManager, focusManager, browser) {
     'use strict';
 
     var ScrollerPrototype = Object.create(HTMLDivElement.prototype);
@@ -7,7 +7,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         this.classList.add('emby-scroller');
     };
 
-    function initCenterFocus(elem, scrollerInstance) {
+    function initCenterFocus (elem, scrollerInstance) {
         dom.addEventListener(elem, 'focus', function (e) {
             var focused = focusManager.focusableParent(e.target);
             if (focused) {
@@ -79,7 +79,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         }
     };
 
-    function onInputCommand(e) {
+    function onInputCommand (e) {
         var cmd = e.detail.command;
         if (cmd === 'end') {
             focusManager.focusLast(this, '.' + this.getAttribute('data-navcommands'));
@@ -96,7 +96,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         }
     }
 
-    function initHeadroom(elem) {
+    function initHeadroom (elem) {
         require(['headroom'], function (Headroom) {
             var headroom = new Headroom([], {
                 scroller: elem
@@ -147,7 +147,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         };
 
         // If just inserted it might not have any height yet - yes this is a hack
-        this.scroller = new scroller(scrollFrame, options);
+        this.scroller = new Scroller(scrollFrame, options);
         this.scroller.init();
         this.scroller.reload();
 
@@ -164,7 +164,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         }
     };
 
-    function loadScrollButtons(scroller) {
+    function loadScrollButtons (scroller) {
         require(['emby-scrollbuttons'], function () {
             scroller.insertAdjacentHTML('beforebegin', '<div is="emby-scrollbuttons" class="emby-scrollbuttons padded-right"></div>');
         });

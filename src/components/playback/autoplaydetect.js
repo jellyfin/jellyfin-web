@@ -1,17 +1,15 @@
 define([], function () {
     'use strict';
 
-    function supportsHtmlMediaAutoplay() {
-
+    function supportsHtmlMediaAutoplay () {
         return new Promise(function (resolve, reject) {
-
             var timeout;
             var elem = document.createElement('video');
             var elemStyle = elem.style;
-            //skip the test if video itself, or the autoplay
-            //element on it isn't supported
+            // skip the test if video itself, or the autoplay
+            // element on it isn't supported
             if (!('autoplay' in elem)) {
-                reject();
+                reject(Error('video or autoplay element unsupported'));
                 return;
             }
             elemStyle.position = 'absolute';
@@ -32,7 +30,7 @@ define([], function () {
                 if (supported) {
                     resolve();
                 } else {
-                    reject();
+                    reject(Error('html media autoplay unsupported'));
                 }
             };
 
@@ -49,8 +47,7 @@ define([], function () {
 
                 timeout = setTimeout(testAutoplay, 500);
             } catch (e) {
-                reject();
-                return;
+                reject(Error(e));
             }
         });
     }

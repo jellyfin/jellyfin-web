@@ -5,12 +5,11 @@ define(['dom', 'focusManager'], function (dom, focusManager) {
     var currentDisplayText = '';
     var currentDisplayTextContainer;
 
-    function onKeyDown(e) {
-
+    function onKeyDown (e) {
         if (e.ctrlKey) {
             return;
         }
-        if (!!e.shiftKey) {
+        if (e.shiftKey) {
             return;
         }
         if (e.altKey) {
@@ -21,7 +20,6 @@ define(['dom', 'focusManager'], function (dom, focusManager) {
         var chr = key ? alphanumeric(key) : null;
 
         if (chr) {
-
             chr = chr.toString().toUpperCase();
 
             if (chr.length === 1) {
@@ -31,12 +29,12 @@ define(['dom', 'focusManager'], function (dom, focusManager) {
         }
     }
 
-    function alphanumeric(value) {
+    function alphanumeric (value) {
         var letterNumber = /^[0-9a-zA-Z]+$/;
         return value.match(letterNumber);
     }
 
-    function ensureInputDisplayElement() {
+    function ensureInputDisplayElement () {
         if (!inputDisplayElement) {
             inputDisplayElement = document.createElement('div');
             inputDisplayElement.classList.add('alphanumeric-shortcut');
@@ -47,18 +45,18 @@ define(['dom', 'focusManager'], function (dom, focusManager) {
     }
 
     var alpanumericShortcutTimeout;
-    function clearAlphaNumericShortcutTimeout() {
+    function clearAlphaNumericShortcutTimeout () {
         if (alpanumericShortcutTimeout) {
             clearTimeout(alpanumericShortcutTimeout);
             alpanumericShortcutTimeout = null;
         }
     }
-    function resetAlphaNumericShortcutTimeout() {
+    function resetAlphaNumericShortcutTimeout () {
         clearAlphaNumericShortcutTimeout();
         alpanumericShortcutTimeout = setTimeout(onAlphanumericShortcutTimeout, 2000);
     }
 
-    function onAlphanumericKeyPress(e, chr) {
+    function onAlphanumericKeyPress (e, chr) {
         if (currentDisplayText.length >= 3) {
             return;
         }
@@ -69,7 +67,7 @@ define(['dom', 'focusManager'], function (dom, focusManager) {
         resetAlphaNumericShortcutTimeout();
     }
 
-    function onAlphanumericShortcutTimeout() {
+    function onAlphanumericShortcutTimeout () {
         var value = currentDisplayText;
         var container = currentDisplayTextContainer;
 
@@ -81,13 +79,11 @@ define(['dom', 'focusManager'], function (dom, focusManager) {
         selectByShortcutValue(container, value);
     }
 
-    function selectByShortcutValue(container, value) {
-
+    function selectByShortcutValue (container, value) {
         value = value.toUpperCase();
 
         var focusElem;
         if (value === '#') {
-
             focusElem = container.querySelector('*[data-prefix]');
         }
 
@@ -100,8 +96,7 @@ define(['dom', 'focusManager'], function (dom, focusManager) {
         }
     }
 
-    function AlphaNumericShortcuts(options) {
-
+    function AlphaNumericShortcuts (options) {
         this.options = options;
 
         var keyDownHandler = onKeyDown.bind(this);
@@ -114,7 +109,6 @@ define(['dom', 'focusManager'], function (dom, focusManager) {
     }
 
     AlphaNumericShortcuts.prototype.destroy = function () {
-
         var keyDownHandler = this.keyDownHandler;
 
         if (keyDownHandler) {

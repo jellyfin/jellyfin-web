@@ -5,7 +5,7 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
 
     EmbyScrollButtonsPrototype.createdCallback = function () {};
 
-    function getScrollButtonHtml(direction) {
+    function getScrollButtonHtml (direction) {
         var html = '';
         var icon = direction === 'left' ? 'chevron_left' : 'chevron_right';
 
@@ -16,7 +16,7 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
         return html;
     }
 
-    function getScrollPosition(parent) {
+    function getScrollPosition (parent) {
         if (parent.getScrollPosition) {
             return parent.getScrollPosition();
         }
@@ -24,7 +24,7 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
         return 0;
     }
 
-    function getScrollWidth(parent) {
+    function getScrollWidth (parent) {
         if (parent.getScrollSize) {
             return parent.getScrollSize();
         }
@@ -32,7 +32,7 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
         return 0;
     }
 
-    function updateScrollButtons(scrollButtons, scrollSize, scrollPos, scrollWidth) {
+    function updateScrollButtons (scrollButtons, scrollSize, scrollPos, scrollWidth) {
         // hack alert add twenty for rounding errors
         if (scrollWidth <= scrollSize + 20) {
             scrollButtons.scrollButtonsLeft.classList.add('hide');
@@ -53,7 +53,7 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
         }
     }
 
-    function onScroll(e) {
+    function onScroll (e) {
         var scrollButtons = this;
         var scroller = this.scroller;
 
@@ -64,7 +64,7 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
         updateScrollButtons(scrollButtons, scrollSize, scrollPos, scrollWidth);
     }
 
-    function getStyleValue(style, name) {
+    function getStyleValue (style, name) {
         var value = style.getPropertyValue(name);
         if (!value) {
             return 0;
@@ -83,7 +83,7 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
         return value;
     }
 
-    function getScrollSize(elem) {
+    function getScrollSize (elem) {
         var scrollSize = elem.offsetWidth;
         var style = window.getComputedStyle(elem, null);
 
@@ -113,7 +113,7 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
         return scrollSize;
     }
 
-    function onScrollButtonClick(e) {
+    function onScrollButtonClick (e) {
         var scroller = this.parentNode.nextSibling;
 
         var direction = this.getAttribute('data-direction');

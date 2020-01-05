@@ -6,8 +6,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
     var currentFile;
     var hasChanges = false;
 
-    function onFileReaderError(evt) {
-
+    function onFileReaderError (evt) {
         loading.hide();
 
         switch (evt.target.error.code) {
@@ -26,8 +25,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         }
     }
 
-    function setFiles(page, files) {
-
+    function setFiles (page, files) {
         var file = files[0];
 
         if (!file || !file.type.match('image.*')) {
@@ -53,7 +51,6 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         // Closure to capture the file information.
         reader.onload = (function (theFile) {
             return function (e) {
-
                 // Render thumbnail.
                 var html = ['<img style="max-width:100%;max-height:100%;" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
 
@@ -66,15 +63,14 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         reader.readAsDataURL(file);
     }
 
-    function onSubmit(e) {
-
+    function onSubmit (e) {
         var file = currentFile;
 
         if (!file) {
             return false;
         }
 
-        if (file.type !== "image/png" && file.type !== "image/x-png" && file.type !== "image/jpeg") {
+        if (file.type !== 'image/png' && file.type !== 'image/x-png' && file.type !== 'image/jpeg') {
             require(['toast'], function (toast) {
                 toast(globalize.translate('MessageImageFileTypeAllowed'));
             });
@@ -87,16 +83,15 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         var dlg = dom.parentWithClass(this, 'dialog');
 
         var imageType = dlg.querySelector('#selectImageType').value;
-        if (imageType === "None") {
-            require(["toast"], function(toast) {
-                toast(globalize.translate("MessageImageTypeNotSelected"));
+        if (imageType === 'None') {
+            require(['toast'], function (toast) {
+                toast(globalize.translate('MessageImageTypeNotSelected'));
             });
             e.preventDefault();
             return false;
         }
 
         connectionManager.getApiClient(currentServerId).uploadItemImage(currentItemId, imageType, file).then(function () {
-
             dlg.querySelector('#uploadImage').value = '';
 
             loading.hide();
@@ -108,25 +103,22 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         return false;
     }
 
-    function initEditor(page) {
-
+    function initEditor (page) {
         page.querySelector('form').addEventListener('submit', onSubmit);
 
-        page.querySelector('#uploadImage').addEventListener("change", function () {
+        page.querySelector('#uploadImage').addEventListener('change', function () {
             setFiles(page, this.files);
         });
 
-        page.querySelector('.btnBrowse').addEventListener("click", function () {
+        page.querySelector('.btnBrowse').addEventListener('click', function () {
             page.querySelector('#uploadImage').click();
         });
     }
 
-    function showEditor(options, resolve, reject) {
-
+    function showEditor (options, resolve, reject) {
         options = options || {};
 
         require(['text!./imageuploader.template.html'], function (template) {
-
             currentItemId = options.itemId;
             currentServerId = options.serverId;
 
@@ -152,7 +144,6 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
             // Has to be assigned a z-index after the call to .open()
             dlg.addEventListener('close', function () {
-
                 if (layoutManager.tv) {
                     scrollHelper.centerFocus.off(dlg, false);
                 }
@@ -168,7 +159,6 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
             dlg.querySelector('#selectImageType').value = options.imageType || 'Primary';
 
             dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                 dialogHelper.close(dlg);
             });
         });
@@ -176,9 +166,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
     return {
         show: function (options) {
-
             return new Promise(function (resolve, reject) {
-
                 hasChanges = false;
 
                 showEditor(options, resolve, reject);

@@ -23,8 +23,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     var isVisibilityAllowed = true;
 
-    function getNowPlayingBarHtml() {
-
+    function getNowPlayingBarHtml () {
         var html = '';
 
         html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
@@ -76,15 +75,13 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         return html;
     }
 
-    function onSlideDownComplete() {
-
+    function onSlideDownComplete () {
         this.classList.add('hide');
     }
 
-    function slideDown(elem) {
-
+    function slideDown (elem) {
         // trigger reflow
-        void elem.offsetWidth;
+        elem.offsetWidth;
 
         elem.classList.add('nowPlayingBar-hidden');
 
@@ -93,8 +90,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         });
     }
 
-    function slideUp(elem) {
-
+    function slideUp (elem) {
         dom.removeEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
             once: true
         });
@@ -102,17 +98,16 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         elem.classList.remove('hide');
 
         // trigger reflow
-        void elem.offsetWidth;
+        elem.offsetWidth;
 
         elem.classList.remove('nowPlayingBar-hidden');
     }
 
-    function onPlayPauseClick() {
+    function onPlayPauseClick () {
         playbackManager.playPause(currentPlayer);
     }
 
-    function bindEvents(elem) {
-
+    function bindEvents (elem) {
         currentTimeElement = elem.querySelector('.nowPlayingBarCurrentTime');
         nowPlayingImageElement = elem.querySelector('.nowPlayingImage');
         nowPlayingTextElement = elem.querySelector('.nowPlayingBarText');
@@ -120,15 +115,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         muteButton = elem.querySelector('.muteButton');
         muteButton.addEventListener('click', function () {
-
             if (currentPlayer) {
                 playbackManager.toggleMute(currentPlayer);
             }
-
         });
 
         elem.querySelector('.stopButton').addEventListener('click', function () {
-
             if (currentPlayer) {
                 playbackManager.stop(currentPlayer);
             }
@@ -142,14 +134,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         elem.querySelector('.nextTrackButton').addEventListener('click', function () {
-
             if (currentPlayer) {
                 playbackManager.nextTrack(currentPlayer);
             }
         });
 
         elem.querySelector('.previousTrackButton').addEventListener('click', function () {
-
             if (currentPlayer) {
                 playbackManager.previousTrack(currentPlayer);
             }
@@ -159,9 +149,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
         toggleRepeatButton.addEventListener('click', function () {
-
             if (currentPlayer) {
-
                 switch (playbackManager.getRepeatMode(currentPlayer)) {
                     case 'RepeatAll':
                         playbackManager.setRepeatMode('RepeatOne', currentPlayer);
@@ -187,7 +175,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             volumeSliderContainer.classList.remove('hide');
         }
 
-        function setVolume() {
+        function setVolume () {
             if (currentPlayer) {
                 currentPlayer.setVolume(this.value);
             }
@@ -198,18 +186,14 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
         positionSlider.addEventListener('change', function () {
-
             if (currentPlayer) {
-
                 var newPercent = parseFloat(this.value);
 
                 playbackManager.seekPercent(newPercent, currentPlayer);
             }
-
         });
 
         positionSlider.getBubbleText = function (value) {
-
             var state = lastPlayerState;
 
             if (!state || !state.NowPlayingItem || !currentRuntimeTicks) {
@@ -224,31 +208,26 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         };
 
         elem.addEventListener('click', function (e) {
-
             if (!dom.parentWithTag(e.target, ['BUTTON', 'INPUT', 'A'])) {
                 showRemoteControl(0);
             }
         });
     }
 
-    function showRemoteControl() {
-
+    function showRemoteControl () {
         require(['appRouter'], function (appRouter) {
             appRouter.showNowPlaying();
         });
     }
 
     var nowPlayingBarElement;
-    function getNowPlayingBar() {
-
+    function getNowPlayingBar () {
         if (nowPlayingBarElement) {
             return Promise.resolve(nowPlayingBarElement);
         }
 
         return new Promise(function (resolve, reject) {
-
             require(['appFooter-shared', 'itemShortcuts', 'css!./nowplayingbar.css', 'emby-slider'], function (appfooter, itemShortcuts) {
-
                 var parentContainer = appfooter.element;
                 nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
 
@@ -273,27 +252,24 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         });
     }
 
-    function showButton(button) {
+    function showButton (button) {
         button.classList.remove('hide');
     }
 
-    function hideButton(button) {
+    function hideButton (button) {
         button.classList.add('hide');
     }
 
-    function updatePlayPauseState(isPaused) {
+    function updatePlayPauseState (isPaused) {
         var i;
         var length;
 
         if (playPauseButtons) {
             if (isPaused) {
-
                 for (i = 0, length = playPauseButtons.length; i < length; i++) {
                     playPauseButtons[i].querySelector('i').innerHTML = 'play_arrow';
                 }
-
             } else {
-
                 for (i = 0, length = playPauseButtons.length; i < length; i++) {
                     playPauseButtons[i].querySelector('i').innerHTML = 'pause';
                 }
@@ -301,8 +277,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
     }
 
-    function updatePlayerStateInternal(event, state, player) {
-
+    function updatePlayerStateInternal (event, state, player) {
         showNowPlayingBar();
 
         lastPlayerState = state;
@@ -340,33 +315,28 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         updateNowPlayingInfo(state);
     }
 
-    function updateRepeatModeDisplay(repeatMode) {
-
+    function updateRepeatModeDisplay (repeatMode) {
         if (repeatMode === 'RepeatAll') {
-            toggleRepeatButtonIcon.innerHTML = "repeat";
+            toggleRepeatButtonIcon.innerHTML = 'repeat';
             toggleRepeatButton.classList.add('repeatButton-active');
         } else if (repeatMode === 'RepeatOne') {
-            toggleRepeatButtonIcon.innerHTML = "repeat_one";
+            toggleRepeatButtonIcon.innerHTML = 'repeat_one';
             toggleRepeatButton.classList.add('repeatButton-active');
         } else {
-            toggleRepeatButtonIcon.innerHTML = "repeat";
+            toggleRepeatButtonIcon.innerHTML = 'repeat';
             toggleRepeatButton.classList.remove('repeatButton-active');
         }
     }
 
-    function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
-
+    function updateTimeDisplay (positionTicks, runtimeTicks, bufferedRanges) {
         // See bindEvents for why this is necessary
         if (positionSlider && !positionSlider.dragging) {
             if (runtimeTicks) {
-
                 var pct = positionTicks / runtimeTicks;
                 pct *= 100;
 
                 positionSlider.value = pct;
-
             } else {
-
                 positionSlider.value = 0;
             }
         }
@@ -376,19 +346,17 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         if (currentTimeElement) {
-
             var timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
 
             if (runtimeTicks) {
-                timeText += " / " + datetime.getDisplayRunningTime(runtimeTicks);
+                timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
             }
 
             currentTimeElement.innerHTML = timeText;
         }
     }
 
-    function updatePlayerVolumeState(isMuted, volumeLevel) {
-
+    function updatePlayerVolumeState (isMuted, volumeLevel) {
         var supportedCommands = currentPlayerSupportedCommands;
 
         var showMuteButton = true;
@@ -426,7 +394,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         // See bindEvents for why this is necessary
         if (volumeSlider) {
-
             if (showVolumeSlider) {
                 volumeSliderContainer.classList.remove('hide');
             } else {
@@ -439,8 +406,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
     }
 
-    function getTextActionButton(item, text, serverId) {
-
+    function getTextActionButton (item, text, serverId) {
         if (!text) {
             text = itemHelper.getDisplayName(item);
         }
@@ -452,8 +418,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         return html;
     }
 
-    function seriesImageUrl(item, options) {
-
+    function seriesImageUrl (item, options) {
         if (!item) {
             throw new Error('item cannot be null!');
         }
@@ -463,12 +428,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (options.type === 'Primary') {
-
             if (item.SeriesPrimaryImageTag) {
-
                 options.tag = item.SeriesPrimaryImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
@@ -476,15 +439,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         if (options.type === 'Thumb') {
-
             if (item.SeriesThumbImageTag) {
-
                 options.tag = item.SeriesThumbImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
             }
             if (item.ParentThumbImageTag) {
-
                 options.tag = item.ParentThumbImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
@@ -494,23 +454,20 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         return null;
     }
 
-    function imageUrl(item, options) {
-
+    function imageUrl (item, options) {
         if (!item) {
             throw new Error('item cannot be null!');
         }
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
-
             options.tag = item.ImageTags[options.type];
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
             options.tag = item.AlbumPrimaryImageTag;
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
@@ -519,8 +476,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     var currentImgUrl;
-    function updateNowPlayingInfo(state) {
-
+    function updateNowPlayingInfo (state) {
         var nowPlayingItem = state.NowPlayingItem;
 
         var textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
@@ -529,7 +485,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
         var serverId = nowPlayingItem ? nowPlayingItem.ServerId : null;
         nowPlayingTextElement.innerHTML = textLines.map(function (nowPlayingName) {
-
             var cssClass = nowPlayingName.secondary ? ' class="nowPlayingBarSecondaryText"' : '';
 
             if (nowPlayingName.item) {
@@ -537,7 +492,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
 
             return '<div' + cssClass + '>' + nowPlayingName.text + '</div>';
-
         }).join('');
 
         var imgHeight = 70;
@@ -563,34 +517,29 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         if (nowPlayingItem.Id) {
             if (isRefreshing) {
-
                 var apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
 
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
-
                     var userData = item.UserData || {};
                     var likes = userData.Likes == null ? '' : userData.Likes;
 
                     nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon">favorite</i></button>';
                 });
-
             }
         } else {
             nowPlayingUserData.innerHTML = '';
         }
     }
 
-    function onPlaybackStart(e, state) {
-
-        //console.log('nowplaying event: ' + e.type);
+    function onPlaybackStart (e, state) {
+        // console.log('nowplaying event: ' + e.type);
 
         var player = this;
 
         onStateChanged.call(player, e, state);
     }
 
-    function onRepeatModeChange(e) {
-
+    function onRepeatModeChange (e) {
         if (!isEnabled) {
             return;
         }
@@ -600,8 +549,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         updateRepeatModeDisplay(playbackManager.getRepeatMode(player));
     }
 
-    function showNowPlayingBar() {
-
+    function showNowPlayingBar () {
         if (!isVisibilityAllowed) {
             hideNowPlayingBar();
             return;
@@ -610,8 +558,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         getNowPlayingBar().then(slideUp);
     }
 
-    function hideNowPlayingBar() {
-
+    function hideNowPlayingBar () {
         isEnabled = false;
 
         // Use a timeout to prevent the bar from hiding and showing quickly
@@ -620,14 +567,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         // Don't call getNowPlayingBar here because we don't want to end up creating it just to hide it
         var elem = document.getElementsByClassName('nowPlayingBar')[0];
         if (elem) {
-
             slideDown(elem);
         }
     }
 
-    function onPlaybackStopped(e, state) {
-
-        //console.log('nowplaying event: ' + e.type);
+    function onPlaybackStopped (e, state) {
+        // console.log('nowplaying event: ' + e.type);
         var player = this;
 
         if (player.isLocalPlayer) {
@@ -641,8 +586,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
     }
 
-    function onPlayPauseStateChanged(e) {
-
+    function onPlayPauseStateChanged (e) {
         if (!isEnabled) {
             return;
         }
@@ -651,9 +595,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         updatePlayPauseState(player.paused());
     }
 
-    function onStateChanged(event, state) {
-
-        //console.log('nowplaying event: ' + e.type);
+    function onStateChanged (event, state) {
+        // console.log('nowplaying event: ' + e.type);
         var player = this;
 
         if (!state.NowPlayingItem || layoutManager.tv) {
@@ -678,8 +621,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         });
     }
 
-    function onTimeUpdate(e) {
-
+    function onTimeUpdate (e) {
         if (!isEnabled) {
             return;
         }
@@ -687,7 +629,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         // Try to avoid hammering the document with changes
         var now = new Date().getTime();
         if ((now - lastUpdateTime) < 700) {
-
             return;
         }
         lastUpdateTime = now;
@@ -697,8 +638,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         updateTimeDisplay(playbackManager.currentTime(player), currentRuntimeTicks, playbackManager.getBufferedRanges(player));
     }
 
-    function releaseCurrentPlayer() {
-
+    function releaseCurrentPlayer () {
         var player = currentPlayer;
 
         if (player) {
@@ -716,8 +656,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
     }
 
-    function onVolumeChanged(e) {
-
+    function onVolumeChanged (e) {
         if (!isEnabled) {
             return;
         }
@@ -727,15 +666,13 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         updatePlayerVolumeState(player.isMuted(), player.getVolume());
     }
 
-    function refreshFromPlayer(player) {
-
+    function refreshFromPlayer (player) {
         var state = playbackManager.getPlayerState(player);
 
         onStateChanged.call(player, { type: 'init' }, state);
     }
 
-    function bindToPlayer(player) {
-
+    function bindToPlayer (player) {
         if (player === currentPlayer) {
             return;
         }
@@ -767,16 +704,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     bindToPlayer(playbackManager.getCurrentPlayer());
 
     document.addEventListener('viewbeforeshow', function (e) {
-
         if (!e.detail.options.enableMediaControl) {
-
             if (isVisibilityAllowed) {
                 isVisibilityAllowed = false;
                 hideNowPlayingBar();
             }
-
         } else if (!isVisibilityAllowed) {
-
             isVisibilityAllowed = true;
             if (currentPlayer) {
                 refreshFromPlayer(currentPlayer);

@@ -1,7 +1,7 @@
 define(['require', 'events', 'browser', 'appRouter', 'loading'], function (require, events, browser, appRouter, loading) {
-    "use strict";
+    'use strict';
 
-    function zoomIn(elem, iterations) {
+    function zoomIn (elem, iterations) {
         var keyframes = [
             { transform: 'scale3d(.2, .2, .2)  ', opacity: '.6', offset: 0 },
             { transform: 'none', opacity: '1', offset: 1 }
@@ -11,16 +11,12 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
         return elem.animate(keyframes, timing);
     }
 
-    function createMediaElement(instance, options) {
-
+    function createMediaElement (instance, options) {
         return new Promise(function (resolve, reject) {
-
             var dlg = document.querySelector('.youtubePlayerContainer');
 
             if (!dlg) {
-
                 require(['css!./style'], function () {
-
                     loading.show();
 
                     var dlg = document.createElement('div');
@@ -44,16 +40,14 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
                     } else {
                         resolve(videoElement);
                     }
-
                 });
-
             } else {
                 resolve(dlg.querySelector('#player'));
             }
         });
     }
 
-    function onVideoResize() {
+    function onVideoResize () {
         var instance = this;
         var player = instance.currentYoutubePlayer;
         var dlg = instance.videoDialog;
@@ -62,15 +56,14 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
         }
     }
 
-    function clearTimeUpdateInterval(instance) {
+    function clearTimeUpdateInterval (instance) {
         if (instance.timeUpdateInterval) {
             clearInterval(instance.timeUpdateInterval);
         }
         instance.timeUpdateInterval = null;
     }
 
-    function onEndedInternal(instance) {
-
+    function onEndedInternal (instance) {
         clearTimeUpdateInterval(instance);
         var resizeListener = instance.resizeListener;
         if (resizeListener) {
@@ -93,48 +86,39 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
     }
 
     // 4. The API will call this function when the video player is ready.
-    function onPlayerReady(event) {
+    function onPlayerReady (event) {
         event.target.playVideo();
     }
 
-    function onTimeUpdate(e) {
-
+    function onTimeUpdate (e) {
         events.trigger(this, 'timeupdate');
     }
 
-    function onPlaying(instance, playOptions, resolve) {
-
+    function onPlaying (instance, playOptions, resolve) {
         if (!instance.started) {
-
             instance.started = true;
             resolve();
             clearTimeUpdateInterval(instance);
             instance.timeUpdateInterval = setInterval(onTimeUpdate.bind(instance), 500);
 
             if (playOptions.fullscreen) {
-
                 appRouter.showVideoOsd().then(function () {
                     instance.videoDialog.classList.remove('onTop');
                 });
-
             } else {
                 appRouter.setTransparency('backdrop');
                 instance.videoDialog.classList.remove('onTop');
             }
 
             require(['loading'], function (loading) {
-
                 loading.hide();
             });
         }
     }
 
-    function setCurrentSrc(instance, elem, options) {
-
+    function setCurrentSrc (instance, elem, options) {
         return new Promise(function (resolve, reject) {
-
             require(['queryString'], function (queryString) {
-
                 instance._currentSrc = options.url;
                 var params = queryString.parse(options.url.split('?')[1]);
                 // 3. This function creates an <iframe> (and YouTube player)
@@ -145,8 +129,8 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
                         width: instance.videoDialog.offsetWidth,
                         videoId: params.v,
                         events: {
-                            'onReady': onPlayerReady,
-                            'onStateChange': function (event) {
+                            onReady: onPlayerReady,
+                            onStateChange: function (event) {
                                 if (event.data === YT.PlayerState.PLAYING) {
                                     onPlaying(instance, options, resolve);
                                 } else if (event.data === YT.PlayerState.ENDED) {
@@ -181,19 +165,17 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
 
                 if (!window.YT) {
                     var tag = document.createElement('script');
-                    tag.src = "https://www.youtube.com/iframe_api";
+                    tag.src = 'https://www.youtube.com/iframe_api';
                     var firstScriptTag = document.getElementsByTagName('script')[0];
                     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
                 } else {
                     window.onYouTubeIframeAPIReady();
                 }
             });
-
         });
     }
 
-    function YoutubePlayer() {
-
+    function YoutubePlayer () {
         this.name = 'Youtube Player';
         this.type = 'mediaplayer';
         this.id = 'youtubeplayer';
@@ -203,22 +185,18 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
     }
 
     YoutubePlayer.prototype.play = function (options) {
-
         this.started = false;
         var instance = this;
 
         return createMediaElement(this, options).then(function (elem) {
-
             return setCurrentSrc(instance, elem, options);
         });
     };
 
     YoutubePlayer.prototype.stop = function (destroyPlayer) {
-
         var src = this._currentSrc;
 
         if (src) {
-
             if (this.currentYoutubePlayer) {
                 this.currentYoutubePlayer.stopVideo();
             }
@@ -233,12 +211,10 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
     };
 
     YoutubePlayer.prototype.destroy = function () {
-
         appRouter.setTransparency('none');
 
         var dlg = this.videoDialog;
         if (dlg) {
-
             this.videoDialog = null;
 
             dlg.parentNode.removeChild(dlg);
@@ -246,25 +222,21 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
     };
 
     YoutubePlayer.prototype.canPlayMediaType = function (mediaType) {
-
         mediaType = (mediaType || '').toLowerCase();
 
         return mediaType === 'audio' || mediaType === 'video';
     };
 
     YoutubePlayer.prototype.canPlayItem = function (item) {
-
         // Does not play server items
         return false;
     };
 
     YoutubePlayer.prototype.canPlayUrl = function (url) {
-
         return url.toLowerCase().indexOf('youtube.com') !== -1;
     };
 
     YoutubePlayer.prototype.getDeviceProfile = function () {
-
         return Promise.resolve({});
     };
 
@@ -285,7 +257,6 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
 
     // Save this for when playback stops, because querying the time at that point might return 0
     YoutubePlayer.prototype.currentTime = function (val) {
-
         var currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -299,7 +270,6 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
     };
 
     YoutubePlayer.prototype.duration = function (val) {
-
         var currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -309,7 +279,6 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
     };
 
     YoutubePlayer.prototype.pause = function () {
-
         var currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -325,7 +294,6 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
     };
 
     YoutubePlayer.prototype.unpause = function () {
-
         var currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -341,7 +309,6 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
     };
 
     YoutubePlayer.prototype.paused = function () {
-
         var currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -360,7 +327,6 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
     };
 
     YoutubePlayer.prototype.setVolume = function (val) {
-
         var currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -371,7 +337,6 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
     };
 
     YoutubePlayer.prototype.getVolume = function () {
-
         var currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
@@ -380,7 +345,6 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
     };
 
     YoutubePlayer.prototype.setMute = function (mute) {
-
         var currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (mute) {
@@ -388,7 +352,6 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
                 currentYoutubePlayer.mute();
             }
         } else {
-
             if (currentYoutubePlayer) {
                 currentYoutubePlayer.unMute();
             }
@@ -396,7 +359,6 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
     };
 
     YoutubePlayer.prototype.isMuted = function () {
-
         var currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {

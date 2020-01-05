@@ -1,14 +1,14 @@
-define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "emby-itemscontainer"], function (cardBuilder, imageLoader, libraryBrowser, loading, events) {
-    "use strict";
+define(['cardBuilder', 'imageLoader', 'libraryBrowser', 'loading', 'events', 'emby-itemscontainer'], function (cardBuilder, imageLoader, libraryBrowser, loading, events) {
+    'use strict';
 
     return function (view, params, tabContent) {
-        function getPageData() {
+        function getPageData () {
             if (!pageData) {
                 pageData = {
                     query: {
                         StartIndex: 0,
                         Limit: 100,
-                        Fields: "PrimaryImageAspectRatio"
+                        Fields: 'PrimaryImageAspectRatio'
                     }
                 };
             }
@@ -16,14 +16,14 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
             return pageData;
         }
 
-        function getQuery() {
+        function getQuery () {
             return getPageData().query;
         }
 
-        function getChannelsHtml(channels) {
+        function getChannelsHtml (channels) {
             return cardBuilder.getCardsHtml({
                 items: channels,
-                shape: "square",
+                shape: 'square',
                 showTitle: true,
                 lazy: true,
                 cardLayout: true,
@@ -33,8 +33,8 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
             });
         }
 
-        function renderChannels(context, result) {
-            function onNextPageClick() {
+        function renderChannels (context, result) {
+            function onNextPageClick () {
                 if (isLoading) {
                     return;
                 }
@@ -43,7 +43,7 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
                 reloadItems(context);
             }
 
-            function onPreviousPageClick() {
+            function onPreviousPageClick () {
                 if (isLoading) {
                     return;
                 }
@@ -53,7 +53,7 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
             }
 
             var query = getQuery();
-            context.querySelector(".paging").innerHTML = libraryBrowser.getQueryPagingHtml({
+            context.querySelector('.paging').innerHTML = libraryBrowser.getQueryPagingHtml({
                 startIndex: query.StartIndex,
                 limit: query.Limit,
                 totalRecordCount: result.TotalRecordCount,
@@ -62,37 +62,37 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
                 filterButton: false
             });
             var html = getChannelsHtml(result.Items);
-            var elem = context.querySelector("#items");
+            var elem = context.querySelector('#items');
             elem.innerHTML = html;
             imageLoader.lazyChildren(elem);
             var i;
             var length;
             var elems;
 
-            for (elems = context.querySelectorAll(".btnNextPage"), i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener("click", onNextPageClick);
+            for (elems = context.querySelectorAll('.btnNextPage'), i = 0, length = elems.length; i < length; i++) {
+                elems[i].addEventListener('click', onNextPageClick);
             }
 
-            for (elems = context.querySelectorAll(".btnPreviousPage"), i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener("click", onPreviousPageClick);
+            for (elems = context.querySelectorAll('.btnPreviousPage'), i = 0, length = elems.length; i < length; i++) {
+                elems[i].addEventListener('click', onPreviousPageClick);
             }
         }
 
-        function showFilterMenu(context) {
-            require(["components/filterdialog/filterdialog"], function (filterDialogFactory) {
-                var filterDialog = new filterDialogFactory({
+        function showFilterMenu (context) {
+            require(['components/filterdialog/filterdialog'], function (FilterDialogFactory) {
+                var filterDialog = new FilterDialogFactory({
                     query: getQuery(),
-                    mode: "livetvchannels",
+                    mode: 'livetvchannels',
                     serverId: ApiClient.serverId()
                 });
-                events.on(filterDialog, "filterchange", function () {
+                events.on(filterDialog, 'filterchange', function () {
                     reloadItems(context);
                 });
                 filterDialog.show();
             });
         }
 
-        function reloadItems(context, save) {
+        function reloadItems (context, save) {
             loading.show();
             isLoading = true;
             var query = getQuery();
@@ -103,7 +103,7 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
                 loading.hide();
                 isLoading = false;
 
-                require(["autoFocuser"], function (autoFocuser) {
+                require(['autoFocuser'], function (autoFocuser) {
                     autoFocuser.autoFocus(view);
                 });
             });
@@ -112,7 +112,7 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
         var pageData;
         var self = this;
         var isLoading = false;
-        tabContent.querySelector(".btnFilter").addEventListener("click", function () {
+        tabContent.querySelector('.btnFilter').addEventListener('click', function () {
             showFilterMenu(tabContent);
         });
 

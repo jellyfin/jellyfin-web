@@ -1,15 +1,13 @@
 define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loading', 'connectionManager', 'homeSections', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-checkbox'], function (require, appHost, layoutManager, focusManager, globalize, loading, connectionManager, homeSections, dom, events) {
-    "use strict";
+    'use strict';
 
     var numConfigurableSections = 7;
 
-    function renderViews(page, user, result) {
-
+    function renderViews (page, user, result) {
         var folderHtml = '';
 
         folderHtml += '<div class="checkboxList">';
         folderHtml += result.map(function (i) {
-
             var currentHtml = '';
 
             var id = 'chkGroupFolder' + i.Id;
@@ -24,7 +22,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
             currentHtml += '</label>';
 
             return currentHtml;
-
         }).join('');
 
         folderHtml += '</div>';
@@ -32,12 +29,10 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         page.querySelector('.folderGroupList').innerHTML = folderHtml;
     }
 
-    function getLandingScreenOptions(type) {
-
+    function getLandingScreenOptions (type) {
         var list = [];
 
         if (type === 'movies') {
-
             list.push({
                 name: globalize.translate('Movies'),
                 value: 'movies',
@@ -58,7 +53,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 value: 'collections'
             });
         } else if (type === 'tvshows') {
-
             list.push({
                 name: globalize.translate('Shows'),
                 value: 'shows',
@@ -78,7 +72,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 value: 'favorites'
             });
         } else if (type === 'music') {
-
             list.push({
                 name: globalize.translate('Suggestions'),
                 value: 'suggestions',
@@ -110,7 +103,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 value: 'genres'
             });
         } else if (type === 'livetv') {
-
             list.push({
                 name: globalize.translate('Suggestions'),
                 value: 'suggestions',
@@ -125,10 +117,8 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         return list;
     }
 
-    function getLandingScreenOptionsHtml(type, userValue) {
-
+    function getLandingScreenOptionsHtml (type, userValue) {
         return getLandingScreenOptions(type).map(function (o) {
-
             var selected = userValue === o.value || (o.isDefault && !userValue);
             var selectedHtml = selected ? ' selected' : '';
             var optionValue = o.isDefault ? '' : o.value;
@@ -137,14 +127,12 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         }).join('');
     }
 
-    function renderViewOrder(context, user, result) {
-
+    function renderViewOrder (context, user, result) {
         var html = '';
 
         var index = 0;
 
         html += result.Items.map(function (view) {
-
             var currentHtml = '';
 
             currentHtml += '<div class="listItem viewItem" data-viewid="' + view.Id + '">';
@@ -166,16 +154,13 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
             index++;
             return currentHtml;
-
         }).join('');
 
         context.querySelector('.viewOrderList').innerHTML = html;
     }
 
-    function updateHomeSectionValues(context, userSettings) {
-
+    function updateHomeSectionValues (context, userSettings) {
         for (var i = 1; i <= 7; i++) {
-
             var select = context.querySelector('#selectHomeSection' + i);
             var defaultValue = homeSections.getDefaultSection(i - 1);
 
@@ -195,8 +180,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         context.querySelector('.selectTVHomeScreen').value = userSettings.get('tvhome') || '';
     }
 
-    function getPerLibrarySettingsHtml(item, user, userSettings, apiClient) {
-
+    function getPerLibrarySettingsHtml (item, user, userSettings, apiClient) {
         var html = '';
 
         var isChecked;
@@ -213,7 +197,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
         var excludeFromLatest = ['playlists', 'livetv', 'boxsets', 'channels'];
         if (excludeFromLatest.indexOf(item.CollectionType || '') === -1) {
-
             isChecked = user.Configuration.LatestItemsExcludes.indexOf(item.Id) === -1;
             html += '<label class="fldIncludeInLatest">';
             html += '<input type="checkbox" is="emby-checkbox" class="chkIncludeInLatest" data-folderid="' + item.Id + '"' + (isChecked ? ' checked="checked"' : '') + '/>';
@@ -222,12 +205,10 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         }
 
         if (html) {
-
             html = '<div class="checkboxListContainer">' + html + '</div>';
         }
 
         if (item.CollectionType === 'movies' || item.CollectionType === 'tvshows' || item.CollectionType === 'music' || item.CollectionType === 'livetv') {
-
             var idForLanding = item.CollectionType === 'livetv' ? item.CollectionType : item.Id;
             html += '<div class="selectContainer">';
             html += '<select is="emby-select" class="selectLanding" data-folderid="' + idForLanding + '" label="' + globalize.translate('LabelDefaultScreen') + '">';
@@ -241,7 +222,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         }
 
         if (html) {
-
             var prefix = '';
             prefix += '<div class="verticalSection">';
 
@@ -256,30 +236,26 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         return html;
     }
 
-    function renderPerLibrarySettings(context, user, userViews, userSettings, apiClient) {
-
+    function renderPerLibrarySettings (context, user, userViews, userSettings, apiClient) {
         var elem = context.querySelector('.perLibrarySettings');
         var html = '';
 
         for (var i = 0, length = userViews.length; i < length; i++) {
-
             html += getPerLibrarySettingsHtml(userViews[i], user, userSettings, apiClient);
         }
 
         elem.innerHTML = html;
     }
 
-    function loadForm(context, user, userSettings, apiClient) {
-
+    function loadForm (context, user, userSettings, apiClient) {
         context.querySelector('.chkHidePlayedFromLatest').checked = user.Configuration.HidePlayedInLatest || false;
 
         updateHomeSectionValues(context, userSettings);
 
         var promise1 = apiClient.getUserViews({ IncludeHidden: true }, user.Id);
-        var promise2 = apiClient.getJSON(apiClient.getUrl("Users/" + user.Id + "/GroupingOptions"));
+        var promise2 = apiClient.getJSON(apiClient.getUrl('Users/' + user.Id + '/GroupingOptions'));
 
         Promise.all([promise1, promise2]).then(function (responses) {
-
             renderViewOrder(context, user, responses[0]);
 
             renderPerLibrarySettings(context, user, responses[0].Items, userSettings, apiClient);
@@ -290,8 +266,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         });
     }
 
-    function getSibling(elem, type, className) {
-
+    function getSibling (elem, type, className) {
         var sibling = elem[type];
 
         while (sibling != null) {
@@ -309,8 +284,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         return sibling;
     }
 
-    function onSectionOrderListClick(e) {
-
+    function onSectionOrderListClick (e) {
         var target = dom.parentWithClass(e.target, 'btnViewItemMove');
 
         if (target) {
@@ -320,7 +294,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 var ul = dom.parentWithClass(viewItem, 'paperList');
 
                 if (target.classList.contains('btnViewItemDown')) {
-
                     var next = viewItem.nextSibling;
 
                     if (next) {
@@ -328,9 +301,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                         next.parentNode.insertBefore(viewItem, next.nextSibling);
                         focusManager.focus(e.target);
                     }
-
                 } else {
-
                     var prev = viewItem.previousSibling;
 
                     if (prev) {
@@ -343,38 +314,31 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         }
     }
 
-    function getCheckboxItems(selector, context, isChecked) {
-
+    function getCheckboxItems (selector, context, isChecked) {
         var inputs = context.querySelectorAll(selector);
         var list = [];
 
         for (var i = 0, length = inputs.length; i < length; i++) {
-
             if (inputs[i].checked === isChecked) {
                 list.push(inputs[i]);
             }
-
         }
 
         return list;
     }
 
-    function saveUser(context, user, userSettingsInstance, apiClient) {
-
+    function saveUser (context, user, userSettingsInstance, apiClient) {
         user.Configuration.HidePlayedInLatest = context.querySelector('.chkHidePlayedFromLatest').checked;
 
-        user.Configuration.LatestItemsExcludes = getCheckboxItems(".chkIncludeInLatest", context, false).map(function (i) {
-
+        user.Configuration.LatestItemsExcludes = getCheckboxItems('.chkIncludeInLatest', context, false).map(function (i) {
             return i.getAttribute('data-folderid');
         });
 
-        user.Configuration.MyMediaExcludes = getCheckboxItems(".chkIncludeInMyMedia", context, false).map(function (i) {
-
+        user.Configuration.MyMediaExcludes = getCheckboxItems('.chkIncludeInMyMedia', context, false).map(function (i) {
             return i.getAttribute('data-folderid');
         });
 
-        user.Configuration.GroupedFolders = getCheckboxItems(".chkGroupFolder", context, true).map(function (i) {
-
+        user.Configuration.GroupedFolders = getCheckboxItems('.chkGroupFolder', context, true).map(function (i) {
             return i.getAttribute('data-folderid');
         });
 
@@ -407,14 +371,11 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         return apiClient.updateUserConfiguration(user.Id, user.Configuration);
     }
 
-    function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
-
+    function save (instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
         loading.show();
 
         apiClient.getUser(userId).then(function (user) {
-
             saveUser(context, user, userSettings, apiClient).then(function () {
-
                 loading.hide();
                 if (enableSaveConfirmation) {
                     require(['toast'], function (toast) {
@@ -423,22 +384,19 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 }
 
                 events.trigger(instance, 'saved');
-
             }, function () {
                 loading.hide();
             });
         });
     }
 
-    function onSubmit(e) {
-
+    function onSubmit (e) {
         var self = this;
         var apiClient = connectionManager.getApiClient(self.options.serverId);
         var userId = self.options.userId;
         var userSettings = self.options.userSettings;
 
         userSettings.setUserInfo(userId, apiClient).then(function () {
-
             var enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
@@ -450,8 +408,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         return false;
     }
 
-    function onChange(e) {
-
+    function onChange (e) {
         var chkIncludeInMyMedia = dom.parentWithClass(e.target, 'chkIncludeInMyMedia');
         if (!chkIncludeInMyMedia) {
             return;
@@ -468,10 +425,8 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         }
     }
 
-    function embed(options, self) {
-
+    function embed (options, self) {
         require(['text!./homescreensettings.template.html'], function (template) {
-
             for (var i = 1; i <= numConfigurableSections; i++) {
                 template = template.replace('{section' + i + 'label}', globalize.translate('LabelHomeScreenSectionValue', i));
             }
@@ -496,15 +451,13 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         });
     }
 
-    function HomeScreenSettings(options) {
-
+    function HomeScreenSettings (options) {
         this.options = options;
 
         embed(options, this);
     }
 
     HomeScreenSettings.prototype.loadData = function (autoFocus) {
-
         var self = this;
         var context = self.options.element;
 
@@ -515,9 +468,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         var userSettings = self.options.userSettings;
 
         apiClient.getUser(userId).then(function (user) {
-
             userSettings.setUserInfo(userId, apiClient).then(function () {
-
                 self.dataLoaded = true;
 
                 loadForm(context, user, userSettings, apiClient);
@@ -534,7 +485,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
     };
 
     HomeScreenSettings.prototype.destroy = function () {
-
         this.options = null;
     };
 

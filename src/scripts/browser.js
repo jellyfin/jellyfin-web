@@ -1,8 +1,7 @@
 define([], function () {
     'use strict';
 
-    function isTv() {
-
+    function isTv () {
         // This is going to be really difficult to get right
         var userAgent = navigator.userAgent.toLowerCase();
 
@@ -29,7 +28,7 @@ define([], function () {
         return false;
     }
 
-    function isMobile(userAgent) {
+    function isMobile (userAgent) {
         var terms = [
             'mobi',
             'ipad',
@@ -53,8 +52,7 @@ define([], function () {
         return false;
     }
 
-    function isStyleSupported(prop, value) {
-
+    function isStyleSupported (prop, value) {
         if (typeof window === 'undefined') {
             return false;
         }
@@ -92,8 +90,7 @@ define([], function () {
         }
     }
 
-    function hasKeyboard(browser) {
-
+    function hasKeyboard (browser) {
         if (browser.touch) {
             return true;
         }
@@ -120,7 +117,7 @@ define([], function () {
         return false;
     }
 
-    function iOSversion() {
+    function iOSversion () {
         // MacIntel: Apple iPad Pro 11 iOS 13.1
         if (/iP(hone|od|ad)|MacIntel/.test(navigator.platform)) {
             // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
@@ -131,8 +128,7 @@ define([], function () {
 
     var _supportsCssAnimation;
     var _supportsCssAnimationWithPrefix;
-    function supportsCssAnimation(allowPrefix) {
-
+    function supportsCssAnimation (allowPrefix) {
         if (allowPrefix) {
             if (_supportsCssAnimationWithPrefix === true || _supportsCssAnimationWithPrefix === false) {
                 return _supportsCssAnimationWithPrefix;
@@ -178,35 +174,34 @@ define([], function () {
     var uaMatch = function (ua) {
         ua = ua.toLowerCase();
 
-        var match = /(edge)[ \/]([\w.]+)/.exec(ua) ||
-            /(opera)[ \/]([\w.]+)/.exec(ua) ||
-            /(opr)[ \/]([\w.]+)/.exec(ua) ||
-            /(chrome)[ \/]([\w.]+)/.exec(ua) ||
-            /(safari)[ \/]([\w.]+)/.exec(ua) ||
-            /(firefox)[ \/]([\w.]+)/.exec(ua) ||
+        var match = /(edge)[ /]([\w.]+)/.exec(ua) ||
+            /(opera)[ /]([\w.]+)/.exec(ua) ||
+            /(opr)[ /]([\w.]+)/.exec(ua) ||
+            /(chrome)[ /]([\w.]+)/.exec(ua) ||
+            /(safari)[ /]([\w.]+)/.exec(ua) ||
+            /(firefox)[ /]([\w.]+)/.exec(ua) ||
             /(msie) ([\w.]+)/.exec(ua) ||
-            ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
+            ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
             [];
 
-        var versionMatch = /(version)[ \/]([\w.]+)/.exec(ua);
+        var versionMatch = /(version)[ /]([\w.]+)/.exec(ua);
 
-        var platform_match = /(ipad)/.exec(ua) ||
+        var platformMatch = /(ipad)/.exec(ua) ||
             /(iphone)/.exec(ua) ||
             /(windows)/.exec(ua) ||
             /(android)/.exec(ua) ||
             [];
 
-        var browser = match[1] || "";
+        var browser = match[1] || '';
 
-        if (browser === "edge") {
-            platform_match = [""];
+        if (browser === 'edge') {
+            platformMatch = [''];
         } else {
-            if (ua.indexOf("windows phone") !== -1 || ua.indexOf("iemobile") !== -1) {
-
+            if (ua.indexOf('windows phone') !== -1 || ua.indexOf('iemobile') !== -1) {
                 // http://www.neowin.net/news/ie11-fakes-user-agent-to-fool-gmail-in-windows-phone-81-gdr1-update
-                browser = "msie";
-            } else if (ua.indexOf("like gecko") !== -1 && ua.indexOf('webkit') === -1 && ua.indexOf('opera') === -1 && ua.indexOf('chrome') === -1 && ua.indexOf('safari') === -1) {
-                browser = "msie";
+                browser = 'msie';
+            } else if (ua.indexOf('like gecko') !== -1 && ua.indexOf('webkit') === -1 && ua.indexOf('opera') === -1 && ua.indexOf('chrome') === -1 && ua.indexOf('safari') === -1) {
+                browser = 'msie';
             }
         }
 
@@ -219,7 +214,7 @@ define([], function () {
             version = versionMatch[2];
         }
 
-        version = version || match[2] || "0";
+        version = version || match[2] || '0';
 
         var versionMajor = parseInt(version.split('.')[0]);
 
@@ -230,7 +225,7 @@ define([], function () {
         return {
             browser: browser,
             version: version,
-            platform: platform_match[0] || "",
+            platform: platformMatch[0] || '',
             versionMajor: versionMajor
         };
     };
@@ -250,11 +245,11 @@ define([], function () {
         browser[matched.platform] = true;
     }
 
-    if (!browser.chrome && !browser.msie && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf("webkit") !== -1) {
+    if (!browser.chrome && !browser.msie && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf('webkit') !== -1) {
         browser.safari = true;
     }
 
-    if (userAgent.toLowerCase().indexOf("playstation 4") !== -1) {
+    if (userAgent.toLowerCase().indexOf('playstation 4') !== -1) {
         browser.ps4 = true;
         browser.tv = true;
     }

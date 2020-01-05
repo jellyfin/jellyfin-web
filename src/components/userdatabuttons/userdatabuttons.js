@@ -8,8 +8,7 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         markFavorite: markFavorite
     };
 
-    function getUserDataButtonHtml(method, itemId, serverId, buttonCssClass, iconCssClass, icon, tooltip, style) {
-
+    function getUserDataButtonHtml (method, itemId, serverId, buttonCssClass, iconCssClass, icon, tooltip, style) {
         if (style === 'fab-mini') {
             style = 'fab';
             buttonCssClass = buttonCssClass ? (buttonCssClass + ' mini') : 'mini';
@@ -33,8 +32,7 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         return '<button title="' + tooltip + '" data-itemid="' + itemId + '" data-serverid="' + serverId + '" is="' + is + '" data-method="' + method + '" class="' + className + '"><i class="' + iconCssClass + '">' + icon + '</i></button>';
     }
 
-    function onContainerClick(e) {
-
+    function onContainerClick (e) {
         var btnUserData = dom.parentWithClass(e.target, 'btnUserData');
 
         if (!btnUserData) {
@@ -45,8 +43,7 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         userDataMethods[method](btnUserData);
     }
 
-    function fill(options) {
-
+    function fill (options) {
         var html = getIconsHtml(options);
 
         if (options.fillMode === 'insertAdjacent') {
@@ -64,8 +61,7 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         });
     }
 
-    function destroy(options) {
-
+    function destroy (options) {
         options.element.innerHTML = '';
 
         dom.removeEventListener(options.element, 'click', onContainerClick, {
@@ -73,8 +69,7 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         });
     }
 
-    function getIconsHtml(options) {
-
+    function getIconsHtml (options) {
         var item = options.item;
         var includePlayed = options.includePlayed;
         var cssClass = options.cssClass;
@@ -90,10 +85,10 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
             return html;
         }
 
-        var btnCssClass = "btnUserData";
+        var btnCssClass = 'btnUserData';
 
         if (cssClass) {
-            btnCssClass += " " + cssClass;
+            btnCssClass += ' ' + cssClass;
         }
 
         var iconCssClass = options.iconCssClass;
@@ -112,25 +107,24 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
             }
         }
 
-        //var tooltipLike = globalize.translate('Like');
-        //var tooltipDislike = globalize.translate('Dislike');
+        // var tooltipLike = globalize.translate('Like');
+        // var tooltipDislike = globalize.translate('Dislike');
 
-        //if (typeof userData.Likes == "undefined") {
+        // if (typeof userData.Likes == "undefined") {
         //    html += getUserDataButtonHtml('markDislike', itemId, serverId, btnCssClass + ' btnUserData btnDislike', 'thumb-down', tooltipDislike);
         //    html += getUserDataButtonHtml('markLike', itemId, serverId, btnCssClass + ' btnUserData btnLike', 'thumb-up', tooltipLike);
-        //}
-        //else if (userData.Likes) {
+        // }
+        // else if (userData.Likes) {
         //    html += getUserDataButtonHtml('markDislike', itemId, serverId, btnCssClass + ' btnUserData btnDislike', 'thumb-down', tooltipDislike);
         //    html += getUserDataButtonHtml('markLike', itemId, serverId, btnCssClass + ' btnUserData btnLike btnUserDataOn', 'thumb-up', tooltipLike);
-        //}
-        //else {
+        // }
+        // else {
         //    html += getUserDataButtonHtml('markDislike', itemId, serverId, btnCssClass + ' btnUserData btnDislike btnUserDataOn', 'thumb-down', tooltipDislike);
         //    html += getUserDataButtonHtml('markLike', itemId, serverId, btnCssClass + ' btnUserData btnLike', 'thumb-up', tooltipLike);
-        //}
+        // }
 
         var tooltipFavorite = globalize.translate('Favorite');
         if (userData.IsFavorite) {
-
             html += getUserDataButtonHtml('markFavorite', itemId, serverId, btnCssClass + ' btnUserData btnUserDataOn', iconCssClass, 'favorite', tooltipFavorite, style);
         } else {
             html += getUserDataButtonHtml('markFavorite', itemId, serverId, btnCssClass + ' btnUserData', iconCssClass, 'favorite', tooltipFavorite, style);
@@ -139,8 +133,7 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         return html;
     }
 
-    function markFavorite(link) {
-
+    function markFavorite (link) {
         var id = link.getAttribute('data-itemid');
         var serverId = link.getAttribute('data-serverid');
 
@@ -155,19 +148,15 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         }
     }
 
-    function markLike(link) {
-
+    function markLike (link) {
         var id = link.getAttribute('data-itemid');
         var serverId = link.getAttribute('data-serverid');
 
         if (!link.classList.contains('btnUserDataOn')) {
-
             likes(id, serverId, true);
 
             link.classList.add('btnUserDataOn');
-
         } else {
-
             clearLike(id, serverId);
 
             link.classList.remove('btnUserDataOn');
@@ -176,19 +165,15 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         link.parentNode.querySelector('.btnDislike').classList.remove('btnUserDataOn');
     }
 
-    function markDislike(link) {
-
+    function markDislike (link) {
         var id = link.getAttribute('data-itemid');
         var serverId = link.getAttribute('data-serverid');
 
         if (!link.classList.contains('btnUserDataOn')) {
-
             likes(id, serverId, false);
 
             link.classList.add('btnUserDataOn');
-
         } else {
-
             clearLike(id, serverId);
 
             link.classList.remove('btnUserDataOn');
@@ -197,31 +182,27 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         link.parentNode.querySelector('.btnLike').classList.remove('btnUserDataOn');
     }
 
-    function markPlayed(link) {
-
+    function markPlayed (link) {
         var id = link.getAttribute('data-itemid');
         var serverId = link.getAttribute('data-serverid');
 
         if (!link.classList.contains('btnUserDataOn')) {
-
             played(id, serverId, true);
 
             link.classList.add('btnUserDataOn');
-
         } else {
-
             played(id, serverId, false);
 
             link.classList.remove('btnUserDataOn');
         }
     }
 
-    function likes(id, serverId, isLiked) {
+    function likes (id, serverId, isLiked) {
         var apiClient = connectionManager.getApiClient(serverId);
         return apiClient.updateUserItemRating(apiClient.getCurrentUserId(), id, isLiked);
     }
 
-    function played(id, serverId, isPlayed) {
+    function played (id, serverId, isPlayed) {
         var apiClient = connectionManager.getApiClient(serverId);
 
         var method = isPlayed ? 'markPlayed' : 'markUnplayed';
@@ -229,14 +210,13 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         return apiClient[method](apiClient.getCurrentUserId(), id, new Date());
     }
 
-    function favorite(id, serverId, isFavorite) {
+    function favorite (id, serverId, isFavorite) {
         var apiClient = connectionManager.getApiClient(serverId);
 
         return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), id, isFavorite);
     }
 
-    function clearLike(id, serverId) {
-
+    function clearLike (id, serverId) {
         var apiClient = connectionManager.getApiClient(serverId);
 
         return apiClient.clearUserItemRating(apiClient.getCurrentUserId(), id);
@@ -247,5 +227,4 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         destroy: destroy,
         getIconsHtml: getIconsHtml
     };
-
 });

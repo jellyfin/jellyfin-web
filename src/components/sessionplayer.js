@@ -1,13 +1,12 @@
 define(['playbackManager', 'events', 'serverNotifications', 'connectionManager'], function (playbackManager, events, serverNotifications, connectionManager) {
     'use strict';
 
-    function getActivePlayerId() {
+    function getActivePlayerId () {
         var info = playbackManager.getPlayerInfo();
         return info ? info.id : null;
     }
 
-    function sendPlayCommand(apiClient, options, playType) {
-
+    function sendPlayCommand (apiClient, options, playType) {
         var sessionId = getActivePlayerId();
 
         var ids = options.ids || options.items.map(function (i) {
@@ -43,15 +42,13 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         return apiClient.sendPlayCommand(sessionId, remoteOptions);
     }
 
-    function sendPlayStateCommand(apiClient, command, options) {
-
+    function sendPlayStateCommand (apiClient, command, options) {
         var sessionId = getActivePlayerId();
 
         apiClient.sendPlayStateCommand(sessionId, command, options);
     }
 
-    function getCurrentApiClient(instance) {
-
+    function getCurrentApiClient (instance) {
         var currentServerId = instance.currentServerId;
 
         if (currentServerId) {
@@ -61,8 +58,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         return connectionManager.currentApiClient();
     }
 
-    function sendCommandByName(instance, name, options) {
-
+    function sendCommandByName (instance, name, options) {
         var command = {
             Name: name
         };
@@ -74,20 +70,18 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         instance.sendCommand(command);
     }
 
-    function unsubscribeFromPlayerUpdates(instance) {
-
+    function unsubscribeFromPlayerUpdates (instance) {
         instance.isUpdating = true;
 
         var apiClient = getCurrentApiClient(instance);
-        apiClient.sendMessage("SessionsStop");
+        apiClient.sendMessage('SessionsStop');
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
             instance.pollInterval = null;
         }
     }
 
-    function processUpdatedSessions(instance, sessions, apiClient) {
-
+    function processUpdatedSessions (instance, sessions, apiClient) {
         var serverId = apiClient.serverId();
 
         sessions.map(function (s) {
@@ -103,7 +97,6 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         })[0];
 
         if (session) {
-
             normalizeImages(session, apiClient);
 
             var eventNames = getChangedEvents(instance.lastPlayerData, session);
@@ -112,17 +105,14 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
             for (var i = 0, length = eventNames.length; i < length; i++) {
                 events.trigger(instance, eventNames[i], [session]);
             }
-
         } else {
-
             instance.lastPlayerData = session;
 
             playbackManager.setDefaultPlayerActive();
         }
     }
 
-    function getChangedEvents(state1, state2) {
-
+    function getChangedEvents (state1, state2) {
         var names = [];
 
         if (!state1) {
@@ -141,24 +131,21 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         return names;
     }
 
-    function onPollIntervalFired() {
-
+    function onPollIntervalFired () {
         var instance = this;
         var apiClient = getCurrentApiClient(instance);
         if (!apiClient.isMessageChannelOpen()) {
-
             apiClient.getSessions().then(function (sessions) {
                 processUpdatedSessions(instance, sessions, apiClient);
             });
         }
     }
 
-    function subscribeToPlayerUpdates(instance) {
-
+    function subscribeToPlayerUpdates (instance) {
         instance.isUpdating = true;
 
         var apiClient = getCurrentApiClient(instance);
-        apiClient.sendMessage("SessionsStart", "100,800");
+        apiClient.sendMessage('SessionsStart', '100,800');
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
             instance.pollInterval = null;
@@ -166,10 +153,8 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         instance.pollInterval = setInterval(onPollIntervalFired.bind(instance), 5000);
     }
 
-    function normalizeImages(state, apiClient) {
-
+    function normalizeImages (state, apiClient) {
         if (state && state.NowPlayingItem) {
-
             var item = state.NowPlayingItem;
 
             if (!item.ImageTags || !item.ImageTags.Primary) {
@@ -191,8 +176,7 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         }
     }
 
-    function SessionPlayer() {
-
+    function SessionPlayer () {
         var self = this;
 
         this.name = 'Remote Control';
@@ -206,11 +190,9 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     }
 
     SessionPlayer.prototype.beginPlayerUpdates = function () {
-
         this.playerListenerCount = this.playerListenerCount || 0;
 
         if (this.playerListenerCount <= 0) {
-
             this.playerListenerCount = 0;
 
             subscribeToPlayerUpdates(this);
@@ -220,24 +202,20 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     };
 
     SessionPlayer.prototype.endPlayerUpdates = function () {
-
         this.playerListenerCount = this.playerListenerCount || 0;
         this.playerListenerCount--;
 
         if (this.playerListenerCount <= 0) {
-
             unsubscribeFromPlayerUpdates(this);
             this.playerListenerCount = 0;
         }
     };
 
     SessionPlayer.prototype.getPlayerState = function () {
-
         return this.lastPlayerData || {};
     };
 
     SessionPlayer.prototype.getTargets = function () {
-
         var apiClient = getCurrentApiClient(this);
 
         var sessionQuery = {
@@ -245,14 +223,11 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
         };
 
         if (apiClient) {
-
             var name = this.name;
 
             return apiClient.getSessions(sessionQuery).then(function (sessions) {
-
                 return sessions.filter(function (s) {
                     return s.DeviceId !== apiClient.deviceId();
-
                 }).map(function (s) {
                     return {
                         name: s.DeviceName,
@@ -273,16 +248,13 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
                         } : null
                     };
                 });
-
             });
-
         } else {
             return Promise.resolve([]);
         }
     };
 
     SessionPlayer.prototype.sendCommand = function (command) {
-
         var sessionId = getActivePlayerId();
 
         var apiClient = getCurrentApiClient(this);
@@ -290,7 +262,6 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     };
 
     SessionPlayer.prototype.play = function (options) {
-
         options = Object.assign({}, options);
 
         if (options.items) {
@@ -305,27 +276,22 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     };
 
     SessionPlayer.prototype.shuffle = function (item) {
-
         sendPlayCommand(getCurrentApiClient(this), { ids: [item.Id] }, 'PlayShuffle');
     };
 
     SessionPlayer.prototype.instantMix = function (item) {
-
         sendPlayCommand(getCurrentApiClient(this), { ids: [item.Id] }, 'PlayInstantMix');
     };
 
     SessionPlayer.prototype.queue = function (options) {
-
         sendPlayCommand(getCurrentApiClient(this), options, 'PlayNext');
     };
 
     SessionPlayer.prototype.queueNext = function (options) {
-
         sendPlayCommand(getCurrentApiClient(this), options, 'PlayLast');
     };
 
     SessionPlayer.prototype.canPlayMediaType = function (mediaType) {
-
         mediaType = (mediaType || '').toLowerCase();
         return mediaType === 'audio' || mediaType === 'video';
     };
@@ -354,7 +320,6 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     };
 
     SessionPlayer.prototype.currentTime = function (val) {
-
         if (val != null) {
             return this.seek(val);
         }
@@ -401,7 +366,6 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     };
 
     SessionPlayer.prototype.setMute = function (isMuted) {
-
         if (isMuted) {
             sendCommandByName(this, 'Mute');
         } else {
@@ -500,14 +464,12 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     };
 
     SessionPlayer.prototype.setRepeatMode = function (mode) {
-
         sendCommandByName(this, 'SetRepeatMode', {
             RepeatMode: mode
         });
     };
 
     SessionPlayer.prototype.displayContent = function (options) {
-
         sendCommandByName(this, 'DisplayContent', options);
     };
 
@@ -544,7 +506,6 @@ define(['playbackManager', 'events', 'serverNotifications', 'connectionManager']
     };
 
     SessionPlayer.prototype.tryPair = function (target) {
-
         return Promise.resolve();
     };
 

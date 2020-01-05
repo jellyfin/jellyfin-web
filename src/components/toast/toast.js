@@ -1,32 +1,27 @@
 define(['css!./toast'], function () {
     'use strict';
 
-    function remove(elem) {
-
+    function remove (elem) {
         setTimeout(function () {
             elem.parentNode.removeChild(elem);
         }, 300);
     }
 
-    function animateRemove(elem) {
-
+    function animateRemove (elem) {
         setTimeout(function () {
-
             elem.classList.remove('toastVisible');
             remove(elem);
-
         }, 3300);
     }
 
     return function (options) {
-
         if (typeof options === 'string') {
             options = {
                 text: options
             };
         }
 
-        var elem = document.createElement("div");
+        var elem = document.createElement('div');
         elem.classList.add('toast');
         elem.innerHTML = options.text;
 
@@ -36,7 +31,6 @@ define(['css!./toast'], function () {
             elem.classList.add('toastVisible');
 
             animateRemove(elem);
-
         }, 300);
     };
 });

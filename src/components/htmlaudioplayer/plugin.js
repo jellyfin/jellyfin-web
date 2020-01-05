@@ -1,20 +1,16 @@
 define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelper'], function (events, browser, require, appHost, appSettings, htmlMediaHelper) {
-    "use strict";
+    'use strict';
 
-    function getDefaultProfile() {
-
+    function getDefaultProfile () {
         return new Promise(function (resolve, reject) {
-
             require(['browserdeviceprofile'], function (profileBuilder) {
-
                 resolve(profileBuilder({}));
             });
         });
     }
 
     var fadeTimeout;
-    function fade(instance, elem, startingVolume) {
-
+    function fade (instance, elem, startingVolume) {
         instance._isFadingOut = true;
 
         // Need to record the starting volume on each pass rather than querying elem.volume
@@ -25,23 +21,20 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         elem.volume = newVolume;
 
         if (newVolume <= 0) {
-
             instance._isFadingOut = false;
             return Promise.resolve();
         }
 
         return new Promise(function (resolve, reject) {
-
             cancelFadeTimeout();
 
             fadeTimeout = setTimeout(function () {
-
                 fade(instance, elem, newVolume).then(resolve, reject);
             }, 100);
         });
     }
 
-    function cancelFadeTimeout() {
+    function cancelFadeTimeout () {
         var timeout = fadeTimeout;
         if (timeout) {
             clearTimeout(timeout);
@@ -49,8 +42,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         }
     }
 
-    function supportsFade() {
-
+    function supportsFade () {
         if (browser.tv) {
             // Not working on tizen.
             // We could possibly enable on other tv's, but all smart tv browsers tend to be pretty primitive
@@ -60,18 +52,16 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         return true;
     }
 
-    function requireHlsPlayer(callback) {
+    function requireHlsPlayer (callback) {
         require(['hlsjs'], function (hls) {
             window.Hls = hls;
             callback();
         });
     }
 
-    function enableHlsPlayer(url, item, mediaSource, mediaType) {
-
+    function enableHlsPlayer (url, item, mediaSource, mediaType) {
         if (!htmlMediaHelper.enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType)) {
-
-            return Promise.reject();
+            return Promise.reject(Error('cannot enable hls.js player'));
         }
 
         if (url.indexOf('.m3u8') !== -1) {
@@ -80,27 +70,23 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
         // issue head request to get content type
         return new Promise(function (resolve, reject) {
-
             require(['fetchHelper'], function (fetchHelper) {
                 fetchHelper.ajax({
                     url: url,
                     type: 'HEAD'
                 }).then(function (response) {
-
                     var contentType = (response.headers.get('Content-Type') || '').toLowerCase();
                     if (contentType === 'application/x-mpegurl') {
                         resolve();
                     } else {
-                        reject();
+                        reject(Error('content type is not an mpeg url'));
                     }
-
                 }, reject);
             });
         });
     }
 
-    function HtmlAudioPlayer() {
-
+    function HtmlAudioPlayer () {
         var self = this;
 
         self.name = 'Html Audio Player';
@@ -111,7 +97,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         self.priority = 1;
 
         self.play = function (options) {
-
             self._started = false;
             self._timeUpdated = false;
 
@@ -122,8 +107,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             return setCurrentSrc(elem, options);
         };
 
-        function setCurrentSrc(elem, options) {
-
+        function setCurrentSrc (elem, options) {
             elem.removeEventListener('error', onError);
 
             unBindEvents(elem);
@@ -148,14 +132,12 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             }
 
             return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
-
                 return new Promise(function (resolve, reject) {
-
                     requireHlsPlayer(function () {
                         var hls = new Hls({
                             manifestLoadingTimeOut: 20000
-                            //appendErrorMaxRetry: 6,
-                            //debug: true
+                            // appendErrorMaxRetry: 6,
+                            // debug: true
                         });
                         hls.loadSource(val);
                         hls.attachMedia(elem);
@@ -167,13 +149,10 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
                         self._currentSrc = val;
                     });
                 });
-
             }, function () {
-
                 elem.autoplay = true;
 
                 return htmlMediaHelper.applySrc(elem, val, options).then(function () {
-
                     self._currentSrc = val;
 
                     return htmlMediaHelper.playWithPromise(elem, onError);
@@ -181,7 +160,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             });
         }
 
-        function bindEvents(elem) {
+        function bindEvents (elem) {
             elem.addEventListener('timeupdate', onTimeUpdate);
             elem.addEventListener('ended', onEnded);
             elem.addEventListener('volumechange', onVolumeChange);
@@ -190,7 +169,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             elem.addEventListener('play', onPlay);
         }
 
-        function unBindEvents(elem) {
+        function unBindEvents (elem) {
             elem.removeEventListener('timeupdate', onTimeUpdate);
             elem.removeEventListener('ended', onEnded);
             elem.removeEventListener('volumechange', onVolumeChange);
@@ -200,16 +179,13 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         }
 
         self.stop = function (destroyPlayer) {
-
             cancelFadeTimeout();
 
             var elem = self._mediaElement;
             var src = self._currentSrc;
 
             if (elem && src) {
-
                 if (!destroyPlayer || !supportsFade()) {
-
                     elem.pause();
 
                     htmlMediaHelper.onEndedInternal(self, elem, onError);
@@ -223,7 +199,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
                 var originalVolume = elem.volume;
 
                 return fade(self, elem, elem.volume).then(function () {
-
                     elem.pause();
                     elem.volume = originalVolume;
 
@@ -241,8 +216,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             unBindEvents(self._mediaElement);
         };
 
-        function createMediaElement() {
-
+        function createMediaElement () {
             var elem = self._mediaElement;
 
             if (elem) {
@@ -266,13 +240,11 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             return elem;
         }
 
-        function onEnded() {
-
+        function onEnded () {
             htmlMediaHelper.onEndedInternal(self, this, onError);
         }
 
-        function onTimeUpdate() {
-
+        function onTimeUpdate () {
             // Get the player position + the transcoding offset
             var time = this.currentTime;
 
@@ -283,16 +255,14 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             }
         }
 
-        function onVolumeChange() {
-
+        function onVolumeChange () {
             if (!self._isFadingOut) {
                 htmlMediaHelper.saveVolume(this.volume);
                 events.trigger(self, 'volumechange');
             }
         }
 
-        function onPlaying(e) {
-
+        function onPlaying (e) {
             if (!self._started) {
                 self._started = true;
                 this.removeAttribute('controls');
@@ -302,17 +272,15 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             events.trigger(self, 'playing');
         }
 
-        function onPlay(e) {
-
+        function onPlay (e) {
             events.trigger(self, 'unpause');
         }
 
-        function onPause() {
+        function onPause () {
             events.trigger(self, 'pause');
         }
 
-        function onError() {
-
+        function onError () {
             var errorCode = this.error ? (this.error.code || 0) : 0;
             var errorMessage = this.error ? (this.error.message || '') : '';
             console.log('Media element error: ' + errorCode.toString() + ' ' + errorMessage);
@@ -356,12 +324,10 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.canPlayMediaType = function (mediaType) {
-
         return (mediaType || '').toLowerCase() === 'audio';
     };
 
     HtmlAudioPlayer.prototype.getDeviceProfile = function (item) {
-
         if (appHost.getDeviceProfile) {
             return appHost.getDeviceProfile(item);
         }
@@ -371,7 +337,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
     // Save this for when playback stops, because querying the time at that point might return 0
     HtmlAudioPlayer.prototype.currentTime = function (val) {
-
         var mediaElement = this._mediaElement;
         if (mediaElement) {
             if (val != null) {
@@ -389,7 +354,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.duration = function (val) {
-
         var mediaElement = this._mediaElement;
         if (mediaElement) {
             var duration = mediaElement.duration;
@@ -404,10 +368,8 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     HtmlAudioPlayer.prototype.seekable = function () {
         var mediaElement = this._mediaElement;
         if (mediaElement) {
-
             var seekable = mediaElement.seekable;
             if (seekable && seekable.length) {
-
                 var start = seekable.start(0);
                 var end = seekable.end(0);
 
@@ -428,7 +390,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     HtmlAudioPlayer.prototype.getBufferedRanges = function () {
         var mediaElement = this._mediaElement;
         if (mediaElement) {
-
             return htmlMediaHelper.getBufferedRanges(this, mediaElement);
         }
 
@@ -458,7 +419,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.paused = function () {
-
         var mediaElement = this._mediaElement;
         if (mediaElement) {
             return mediaElement.paused;
@@ -477,7 +437,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     HtmlAudioPlayer.prototype.getVolume = function () {
         var mediaElement = this._mediaElement;
         if (mediaElement) {
-
             return Math.min(Math.round(mediaElement.volume * 100), 100);
         }
     };
@@ -491,7 +450,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.setMute = function (mute) {
-
         var mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.muted = mute;

@@ -3,8 +3,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
 
     var currentServerId;
 
-    function parentWithClass(elem, className) {
-
+    function parentWithClass (elem, className) {
         while (!elem.classList || !elem.classList.contains(className)) {
             elem = elem.parentNode;
 
@@ -16,8 +15,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         return elem;
     }
 
-    function onSubmit(e) {
-
+    function onSubmit (e) {
         var panel = parentWithClass(this, 'dialog');
 
         var playlistId = panel.querySelector('#selectPlaylistToAddTo').value;
@@ -34,11 +32,10 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         return false;
     }
 
-    function createPlaylist(apiClient, dlg) {
-
+    function createPlaylist (apiClient, dlg) {
         loading.show();
 
-        var url = apiClient.getUrl("Playlists", {
+        var url = apiClient.getUrl('Playlists', {
 
             Name: dlg.querySelector('#txtNewPlaylistName').value,
             Ids: dlg.querySelector('.fldSelectedItemIds').value || '',
@@ -47,12 +44,11 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         });
 
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             url: url,
-            dataType: "json"
+            dataType: 'json'
 
         }).then(function (result) {
-
             loading.hide();
 
             var id = result.Id;
@@ -62,17 +58,14 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         });
     }
 
-    function redirectToPlaylist(apiClient, id) {
-
+    function redirectToPlaylist (apiClient, id) {
         appRouter.showItem(id, apiClient.serverId());
     }
 
-    function addToPlaylist(apiClient, dlg, id) {
-
+    function addToPlaylist (apiClient, dlg, id) {
         var itemIds = dlg.querySelector('.fldSelectedItemIds').value || '';
 
         if (id === 'queue') {
-
             playbackManager.queue({
                 serverId: apiClient.serverId(),
                 ids: itemIds.split(',')
@@ -84,18 +77,17 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
 
         loading.show();
 
-        var url = apiClient.getUrl("Playlists/" + id + "/Items", {
+        var url = apiClient.getUrl('Playlists/' + id + '/Items', {
 
             Ids: itemIds,
             userId: apiClient.getCurrentUserId()
         });
 
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             url: url
 
         }).then(function () {
-
             loading.hide();
 
             dlg.submitted = true;
@@ -103,12 +95,11 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         });
     }
 
-    function triggerChange(select) {
+    function triggerChange (select) {
         select.dispatchEvent(new CustomEvent('change', {}));
     }
 
-    function populatePlaylists(editorOptions, panel) {
-
+    function populatePlaylists (editorOptions, panel) {
         var select = panel.querySelector('#selectPlaylistToAddTo');
 
         loading.hide();
@@ -118,14 +109,13 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         var options = {
 
             Recursive: true,
-            IncludeItemTypes: "Playlist",
+            IncludeItemTypes: 'Playlist',
             SortBy: 'SortName',
             EnableTotalRecordCount: false
         };
 
         var apiClient = connectionManager.getApiClient(currentServerId);
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
-
             var html = '';
 
             if (editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) {
@@ -135,7 +125,6 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
             html += '<option value="">' + globalize.translate('OptionNew') + '</option>';
 
             html += result.Items.map(function (i) {
-
                 return '<option value="' + i.Id + '">' + i.Name + '</option>';
             });
 
@@ -158,8 +147,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         });
     }
 
-    function getEditorHtml(items) {
-
+    function getEditorHtml (items) {
         var html = '';
 
         html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
@@ -194,8 +182,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         return html;
     }
 
-    function initEditor(content, options, items) {
-
+    function initEditor (content, options, items) {
         content.querySelector('#selectPlaylistToAddTo').addEventListener('change', function () {
             if (this.value) {
                 content.querySelector('.newPlaylistInfo').classList.add('hide');
@@ -223,19 +210,18 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         }
     }
 
-    function centerFocus(elem, horiz, on) {
+    function centerFocus (elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function PlaylistEditor() {
+    function PlaylistEditor () {
 
     }
 
     PlaylistEditor.prototype.show = function (options) {
-
         var items = options.items || {};
         currentServerId = options.serverId;
 
@@ -272,7 +258,6 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         initEditor(dlg, options, items);
 
         dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
             dialogHelper.close(dlg);
         });
 
@@ -281,16 +266,15 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         }
 
         return dialogHelper.open(dlg).then(function () {
-
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }
 
             if (dlg.submitted) {
                 return Promise.resolve();
+            } else {
+                return Promise.reject(Error('cannot submit dialog'));
             }
-
-            return Promise.reject();
         });
     };
 

@@ -6,13 +6,13 @@ define([], function () {
             if (window.NativeShell && window.NativeShell.FileSystem) {
                 return window.NativeShell.FileSystem.fileExists(path);
             }
-            return Promise.reject();
+            return Promise.reject(Error('file exists'));
         },
         directoryExists: function (path) {
             if (window.NativeShell && window.NativeShell.FileSystem) {
                 return window.NativeShell.FileSystem.directoryExists(path);
             }
-            return Promise.reject();
+            return Promise.reject(Error('directory exists'));
         }
     };
 });

@@ -1,29 +1,29 @@
-define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-button"], function ($, globalize, loading, libraryMenu) {
-    "use strict";
+define(['jQuery', 'globalize', 'loading', 'libraryMenu', 'listViewStyle', 'emby-button'], function ($, globalize, loading, libraryMenu) {
+    'use strict';
 
-    function loadProfiles(page) {
+    function loadProfiles (page) {
         loading.show();
-        ApiClient.getJSON(ApiClient.getUrl("Dlna/ProfileInfos")).then(function (result) {
+        ApiClient.getJSON(ApiClient.getUrl('Dlna/ProfileInfos')).then(function (result) {
             renderUserProfiles(page, result);
             renderSystemProfiles(page, result);
             loading.hide();
         });
     }
 
-    function renderUserProfiles(page, profiles) {
-        renderProfiles(page, page.querySelector(".customProfiles"), profiles.filter(function (p) {
-            return "User" == p.Type;
+    function renderUserProfiles (page, profiles) {
+        renderProfiles(page, page.querySelector('.customProfiles'), profiles.filter(function (p) {
+            return p.Type === 'User';
         }));
     }
 
-    function renderSystemProfiles(page, profiles) {
-        renderProfiles(page, page.querySelector(".systemProfiles"), profiles.filter(function (p) {
-            return "System" == p.Type;
+    function renderSystemProfiles (page, profiles) {
+        renderProfiles(page, page.querySelector('.systemProfiles'), profiles.filter(function (p) {
+            return p.Type === 'System';
         }));
     }
 
-    function renderProfiles(page, element, profiles) {
-        var html = "";
+    function renderProfiles (page, element, profiles) {
+        var html = '';
 
         if (profiles.length) {
             html += '<div class="paperList">';
@@ -35,35 +35,35 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
             html += '<i class="listItemIcon md-icon">live_tv</i>';
             html += '<div class="listItemBody two-line">';
             html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='dlnaprofile.html?id=" + profile.Id + "'>";
-            html += "<div>" + profile.Name + "</div>";
-            html += "</a>";
-            html += "</div>";
+            html += '<div>' + profile.Name + '</div>';
+            html += '</a>';
+            html += '</div>';
 
-            if ("User" == profile.Type) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate("ButtonDelete") + '"><i class="md-icon">delete</i></button>';
+            if (profile.Type === 'User') {
+                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate('ButtonDelete') + '"><i class="md-icon">delete</i></button>';
             }
 
-            html += "</div>";
+            html += '</div>';
         }
 
         if (profiles.length) {
-            html += "</div>";
+            html += '</div>';
         }
 
         element.innerHTML = html;
-        $(".btnDeleteProfile", element).on("click", function () {
-            var id = this.getAttribute("data-profileid");
+        $('.btnDeleteProfile', element).on('click', function () {
+            var id = this.getAttribute('data-profileid');
             deleteProfile(page, id);
         });
     }
 
-    function deleteProfile(page, id) {
-        require(["confirm"], function (confirm) {
-            confirm(globalize.translate("MessageConfirmProfileDeletion"), globalize.translate("HeaderConfirmProfileDeletion")).then(function () {
+    function deleteProfile (page, id) {
+        require(['confirm'], function (confirm) {
+            confirm(globalize.translate('MessageConfirmProfileDeletion'), globalize.translate('HeaderConfirmProfileDeletion')).then(function () {
                 loading.show();
                 ApiClient.ajax({
-                    type: "DELETE",
-                    url: ApiClient.getUrl("Dlna/Profiles/" + id)
+                    type: 'DELETE',
+                    url: ApiClient.getUrl('Dlna/Profiles/' + id)
                 }).then(function () {
                     loading.hide();
                     loadProfiles(page);
@@ -72,18 +72,18 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
         });
     }
 
-    function getTabs() {
+    function getTabs () {
         return [{
-            href: "dlnasettings.html",
-            name: globalize.translate("TabSettings")
+            href: 'dlnasettings.html',
+            name: globalize.translate('TabSettings')
         }, {
-            href: "dlnaprofiles.html",
-            name: globalize.translate("TabProfiles")
+            href: 'dlnaprofiles.html',
+            name: globalize.translate('TabProfiles')
         }];
     }
 
-    $(document).on("pageshow", "#dlnaProfilesPage", function () {
-        libraryMenu.setTabs("dlna", 1, getTabs);
+    $(document).on('pageshow', '#dlnaProfilesPage', function () {
+        libraryMenu.setTabs('dlna', 1, getTabs);
         loadProfiles(this);
     });
 });

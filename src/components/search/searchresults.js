@@ -1,12 +1,11 @@
 define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 'cardBuilder', 'appRouter', 'emby-scroller', 'emby-itemscontainer', 'emby-button'], function (layoutManager, globalize, require, events, connectionManager, cardBuilder, appRouter) {
     'use strict';
 
-    function loadSuggestions(instance, context, apiClient) {
-
+    function loadSuggestions (instance, context, apiClient) {
         var options = {
 
-            SortBy: "IsFavoriteOrLiked,Random",
-            IncludeItemTypes: "Movie,Series,MusicArtist",
+            SortBy: 'IsFavoriteOrLiked,Random',
+            IncludeItemTypes: 'Movie,Series,MusicArtist',
             Limit: 20,
             Recursive: true,
             ImageTypeLimit: 0,
@@ -16,20 +15,17 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         };
 
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
-
             if (instance.mode !== 'suggestions') {
                 result.Items = [];
             }
 
             var html = result.Items.map(function (i) {
-
                 var href = appRouter.getRouteUrl(i);
 
                 var itemHtml = '<div><a is="emby-linkbutton" class="button-link" style="display:inline-block;padding:.5em 1em;" href="' + href + '">';
                 itemHtml += i.Name;
                 itemHtml += '</a></div>';
                 return itemHtml;
-
             }).join('');
 
             var searchSuggestions = context.querySelector('.searchSuggestions');
@@ -41,8 +37,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         });
     }
 
-    function getSearchHints(instance, apiClient, query) {
-
+    function getSearchHints (instance, apiClient, query) {
         if (!query.searchTerm) {
             return Promise.resolve({
                 SearchHints: []
@@ -121,7 +116,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
 
         // Convert the search hint query to a regular item query
         if (apiClient.isMinServerVersion('3.4.1.31')) {
-
             query.Fields = 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount';
             query.Recursive = true;
             query.EnableTotalRecordCount = false;
@@ -132,7 +126,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             if (!query.IncludeMedia) {
                 if (query.IncludePeople) {
                     methodName = 'getPeople';
-
                 } else if (query.IncludeArtists) {
                     methodName = 'getArtists';
                 }
@@ -146,8 +139,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         return apiClient.getSearchHints(query);
     }
 
-    function search(instance, apiClient, context, value) {
-
+    function search (instance, apiClient, context, value) {
         if (value || layoutManager.tv) {
             instance.mode = 'search';
             context.querySelector('.searchSuggestions').classList.add('hide');
@@ -157,7 +149,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         }
 
         if (instance.options.collectionType === 'livetv') {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -165,7 +156,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 IncludeGenres: false,
                 IncludeStudios: false,
                 IncludeArtists: false,
-                IncludeItemTypes: "LiveTvProgram",
+                IncludeItemTypes: 'LiveTvProgram',
                 IsMovie: true,
                 IsKids: false,
                 IsNews: false
@@ -186,7 +177,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 showChannelName: true
             });
         } else {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -194,7 +184,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 IncludeGenres: false,
                 IncludeStudios: false,
                 IncludeArtists: false,
-                IncludeItemTypes: "Movie"
+                IncludeItemTypes: 'Movie'
 
             }, context, '.movieResults', {
 
@@ -212,7 +202,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            IncludeItemTypes: "Series"
+            IncludeItemTypes: 'Series'
 
         }, context, '.seriesResults', {
 
@@ -223,7 +213,6 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         });
 
         if (instance.options.collectionType === 'livetv') {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -231,7 +220,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 IncludeGenres: false,
                 IncludeStudios: false,
                 IncludeArtists: false,
-                IncludeItemTypes: "LiveTvProgram",
+                IncludeItemTypes: 'LiveTvProgram',
                 IsSeries: true,
                 IsSports: false,
                 IsKids: false,
@@ -252,9 +241,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 showAirDateTime: true,
                 showChannelName: true
             });
-
         } else {
-
             searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
@@ -262,7 +249,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
                 IncludeGenres: false,
                 IncludeStudios: false,
                 IncludeArtists: false,
-                IncludeItemTypes: "Episode"
+                IncludeItemTypes: 'Episode'
 
             }, context, '.episodeResults', {
 
@@ -363,7 +350,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            IncludeItemTypes: "LiveTvProgram",
+            IncludeItemTypes: 'LiveTvProgram',
             IsMovie: instance.options.collectionType === 'livetv' ? false : null,
             IsSeries: instance.options.collectionType === 'livetv' ? false : null,
             IsSports: instance.options.collectionType === 'livetv' ? false : null,
@@ -394,8 +381,8 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            MediaTypes: "Video",
-            ExcludeItemTypes: "Movie,Episode"
+            MediaTypes: 'Video',
+            ExcludeItemTypes: 'Movie,Episode'
 
         }, context, '.videoResults', {
 
@@ -439,7 +426,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            IncludeItemTypes: "MusicAlbum"
+            IncludeItemTypes: 'MusicAlbum'
 
         }, context, '.albumResults', {
 
@@ -456,7 +443,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            IncludeItemTypes: "Audio"
+            IncludeItemTypes: 'Audio'
 
         }, context, '.songResults', {
 
@@ -475,7 +462,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            MediaTypes: "Photo"
+            MediaTypes: 'Photo'
 
         }, context, '.photoResults', {
 
@@ -492,7 +479,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            IncludeItemTypes: "PhotoAlbum"
+            IncludeItemTypes: 'PhotoAlbum'
 
         }, context, '.photoAlbumResults', {
 
@@ -508,7 +495,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            IncludeItemTypes: "Book"
+            IncludeItemTypes: 'Book'
 
         }, context, '.bookResults', {
 
@@ -525,7 +512,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            IncludeItemTypes: "AudioBook"
+            IncludeItemTypes: 'AudioBook'
 
         }, context, '.audioBookResults', {
 
@@ -541,7 +528,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            IncludeItemTypes: "Playlist"
+            IncludeItemTypes: 'Playlist'
 
         }, context, '.playlistResults', {
 
@@ -551,19 +538,16 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         });
     }
 
-    function searchType(instance, apiClient, query, context, section, cardOptions) {
-
+    function searchType (instance, apiClient, query, context, section, cardOptions) {
         query.Limit = enableScrollX() ? 24 : 16;
         query.ParentId = instance.options.parentId;
 
         getSearchHints(instance, apiClient, query).then(function (result) {
-
             populateResults(result, context, section, cardOptions);
         });
     }
 
-    function populateResults(result, context, section, cardOptions) {
-
+    function populateResults (result, context, section, cardOptions) {
         section = context.querySelector(section);
 
         var items = result.Items || result.SearchHints;
@@ -583,19 +567,17 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         }, cardOptions || {}));
     }
 
-    function enableScrollX() {
+    function enableScrollX () {
         return true;
     }
 
-    function replaceAll(originalString, strReplace, strWith) {
+    function replaceAll (originalString, strReplace, strWith) {
         var reg = new RegExp(strReplace, 'ig');
         return originalString.replace(reg, strWith);
     }
 
-    function embed(elem, instance, options) {
-
+    function embed (elem, instance, options) {
         require(['text!./searchresults.template.html'], function (template) {
-
             if (!enableScrollX()) {
                 template = replaceAll(template, 'data-horizontal="true"', 'data-horizontal="false"');
                 template = replaceAll(template, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');
@@ -610,27 +592,23 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
         });
     }
 
-    function SearchResults(options) {
-
+    function SearchResults (options) {
         this.options = options;
         embed(options.element, this, options);
     }
 
     SearchResults.prototype.search = function (value) {
-
         var apiClient = connectionManager.getApiClient(this.options.serverId);
 
         search(this, apiClient, this.options.element, value);
     };
 
     SearchResults.prototype.destroy = function () {
-
         var options = this.options;
         if (options) {
             options.element.classList.remove('searchFields');
         }
         this.options = null;
-
     };
 
     return SearchResults;

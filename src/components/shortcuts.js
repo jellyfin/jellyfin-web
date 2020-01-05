@@ -1,8 +1,7 @@
 define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'globalize', 'loading', 'dom', 'recordingHelper'], function (playbackManager, inputManager, connectionManager, appRouter, globalize, loading, dom, recordingHelper) {
     'use strict';
 
-    function playAllFromHere(card, serverId, queue) {
-
+    function playAllFromHere (card, serverId, queue) {
         var parent = card.parentNode;
         var className = card.classList.length ? ('.' + card.classList[0]) : '';
         var cards = parent.querySelectorAll(className + '[data-id]');
@@ -24,17 +23,14 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
 
         var itemsContainer = dom.parentWithClass(card, 'itemsContainer');
         if (itemsContainer && itemsContainer.fetchData) {
-
             var queryOptions = queue ? { StartIndex: startIndex } : {};
 
             return itemsContainer.fetchData(queryOptions).then(function (result) {
-
                 if (queue) {
                     return playbackManager.queue({
                         items: result.Items
                     });
                 } else {
-
                     return playbackManager.play({
                         items: result.Items,
                         startIndex: startIndex
@@ -53,7 +49,6 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                 serverId: serverId
             });
         } else {
-
             return playbackManager.play({
                 ids: ids,
                 serverId: serverId,
@@ -62,16 +57,13 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         }
     }
 
-    function showProgramDialog(item) {
-
+    function showProgramDialog (item) {
         require(['recordingCreator'], function (recordingCreator) {
-
             recordingCreator.show(item.Id, item.ServerId);
         });
     }
 
-    function getItem(button) {
-
+    function getItem (button) {
         button = dom.parentWithAttribute(button, 'data-id');
         var serverId = button.getAttribute('data-serverid');
         var id = button.getAttribute('data-id');
@@ -88,8 +80,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         return apiClient.getItem(apiClient.getCurrentUserId(), id);
     }
 
-    function notifyRefreshNeeded(childElement, itemsContainer) {
-
+    function notifyRefreshNeeded (childElement, itemsContainer) {
         itemsContainer = itemsContainer || dom.parentWithAttribute(childElement, 'is', 'emby-itemscontainer');
 
         if (itemsContainer) {
@@ -97,10 +88,8 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         }
     }
 
-    function showContextMenu(card, options) {
-
+    function showContextMenu (card, options) {
         getItem(card).then(function (item) {
-
             var playlistId = card.getAttribute('data-playlistid');
             var collectionId = card.getAttribute('data-collectionid');
 
@@ -110,7 +99,6 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
             }
 
             require(['itemContextMenu'], function (itemContextMenu) {
-
                 connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                     itemContextMenu.show(Object.assign({
                         item: item,
@@ -123,7 +111,6 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                         user: user
 
                     }, options || {})).then(function (result) {
-
                         var itemsContainer;
 
                         if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
@@ -137,8 +124,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         });
     }
 
-    function getItemInfoFromCard(card) {
-
+    function getItemInfoFromCard (card) {
         return {
             Type: card.getAttribute('data-type'),
             Id: card.getAttribute('data-id'),
@@ -155,12 +141,10 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         };
     }
 
-    function showPlayMenu(card, target) {
-
+    function showPlayMenu (card, target) {
         var item = getItemInfoFromCard(card);
 
         require(['playMenu'], function (playMenu) {
-
             playMenu.show({
 
                 item: item,
@@ -169,14 +153,13 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         });
     }
 
-    function sendToast(text) {
+    function sendToast (text) {
         require(['toast'], function (toast) {
             toast(text);
         });
     }
 
-    function executeAction(card, target, action) {
-
+    function executeAction (card, target, action) {
         target = target || card;
 
         var id = card.getAttribute('data-id');
@@ -198,13 +181,11 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         }
 
         if (action === 'link') {
-
             appRouter.showItem(item, {
                 context: card.getAttribute('data-context'),
                 parentId: card.getAttribute('data-parentid')
             });
         } else if (action === 'programdialog') {
-
             showProgramDialog(item);
         } else if (action === 'instantmix') {
             playbackManager.instantMix({
@@ -212,7 +193,6 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                 ServerId: serverId
             });
         } else if (action === 'play' || action === 'resume') {
-
             var startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0');
 
             playbackManager.play({
@@ -221,7 +201,6 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                 serverId: serverId
             });
         } else if (action === 'queue') {
-
             if (playbackManager.isPlaying()) {
                 playbackManager.queue({
                     ids: [playableItemId],
@@ -243,17 +222,16 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         } else if (action === 'record') {
             onRecordCommand(serverId, id, type, card.getAttribute('data-timerid'), card.getAttribute('data-seriestimerid'));
         } else if (action === 'menu') {
-
-            var options = target.getAttribute('data-playoptions') === 'false' ?
-                {
+            var options = target.getAttribute('data-playoptions') === 'false'
+                ? {
                     shuffle: false,
                     instantMix: false,
                     play: false,
                     playAllFromHere: false,
                     queue: false,
                     queueAllFromHere: false
-                } :
-                {};
+                }
+                : {};
 
             options.positionTo = target;
 
@@ -269,7 +247,6 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         } else if (action === 'addtoplaylist') {
             getItem(target).then(addToPlaylist);
         } else if (action === 'custom') {
-
             var customAction = target.getAttribute('data-customaction');
 
             card.dispatchEvent(new CustomEvent('action-' + customAction, {
@@ -282,10 +259,9 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         }
     }
 
-    function addToPlaylist(item) {
-        require(['playlistEditor'], function (playlistEditor) {
-
-            new playlistEditor().show({
+    function addToPlaylist (item) {
+        require(['playlistEditor'], function (PlaylistEditor) {
+            new PlaylistEditor().show({
                 items: [item.Id],
                 serverId: item.ServerId
 
@@ -293,8 +269,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         });
     }
 
-    function playTrailer(item) {
-
+    function playTrailer (item) {
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
         apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(function (trailers) {
@@ -302,50 +277,41 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         });
     }
 
-    function editItem(item, serverId) {
-
+    function editItem (item, serverId) {
         var apiClient = connectionManager.getApiClient(serverId);
 
         return new Promise(function (resolve, reject) {
-
             var serverId = apiClient.serverInfo().Id;
 
             if (item.Type === 'Timer') {
                 if (item.ProgramId) {
                     require(['recordingCreator'], function (recordingCreator) {
-
                         recordingCreator.show(item.ProgramId, serverId).then(resolve, reject);
                     });
                 } else {
                     require(['recordingEditor'], function (recordingEditor) {
-
                         recordingEditor.show(item.Id, serverId).then(resolve, reject);
                     });
                 }
             } else {
                 require(['metadataEditor'], function (metadataEditor) {
-
                     metadataEditor.show(item.Id, serverId).then(resolve, reject);
                 });
             }
         });
     }
 
-    function onRecordCommand(serverId, id, type, timerId, seriesTimerId) {
-
+    function onRecordCommand (serverId, id, type, timerId, seriesTimerId) {
         if (type === 'Program' || timerId || seriesTimerId) {
-
             var programId = type === 'Program' ? id : null;
             recordingHelper.toggleRecording(serverId, programId, timerId, seriesTimerId);
         }
     }
 
-    function onClick(e) {
-
+    function onClick (e) {
         var card = dom.parentWithClass(e.target, 'itemAction');
 
         if (card) {
-
             var actionElement = card;
             var action = actionElement.getAttribute('data-action');
 
@@ -366,12 +332,10 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         }
     }
 
-    function onCommand(e) {
-
+    function onCommand (e) {
         var cmd = e.detail.command;
 
         if (cmd === 'play' || cmd === 'resume' || cmd === 'record' || cmd === 'menu' || cmd === 'info') {
-
             var target = e.target;
             var card = dom.parentWithClass(target, 'itemAction') || dom.parentWithAttribute(target, 'data-id');
 
@@ -383,8 +347,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         }
     }
 
-    function on(context, options) {
-
+    function on (context, options) {
         options = options || {};
 
         if (options.click !== false) {
@@ -396,7 +359,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         }
     }
 
-    function off(context, options) {
+    function off (context, options) {
         options = options || {};
 
         context.removeEventListener('click', onClick);
@@ -406,8 +369,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         }
     }
 
-    function getShortcutAttributesHtml(item, serverId) {
-
+    function getShortcutAttributesHtml (item, serverId) {
         var html = 'data-id="' + item.Id + '" data-serverid="' + (serverId || item.ServerId) + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '"';
 
         var collectionType = item.CollectionType;
@@ -424,5 +386,4 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         onClick: onClick,
         getShortcutAttributesHtml: getShortcutAttributesHtml
     };
-
 });

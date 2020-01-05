@@ -1,7 +1,7 @@
 define(['appStorage', 'events'], function (appStorage, events) {
     'use strict';
 
-    function getKey(name, userId) {
+    function getKey (name, userId) {
         if (userId) {
             name = userId + '-' + name;
         }
@@ -9,7 +9,7 @@ define(['appStorage', 'events'], function (appStorage, events) {
         return name;
     }
 
-    function AppSettings() {
+    function AppSettings () {
 
     }
 

@@ -8,13 +8,12 @@ define([], function () {
             } else {
                 window.open(url, target || '_blank');
             }
-
         },
         canExec: false,
         exec: function (options) {
             // options.path
             // options.arguments
-            return Promise.reject();
+            return Promise.reject(Error('cannot exec'));
         },
         enableFullscreen: function () {
             if (window.NativeShell) {

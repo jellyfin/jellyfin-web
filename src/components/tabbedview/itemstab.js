@@ -1,13 +1,11 @@
 define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager', 'loading', 'globalize'], function (playbackManager, userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager, loading, globalize) {
     'use strict';
 
-    function trySelectValue(instance, scroller, view, value) {
-
+    function trySelectValue (instance, scroller, view, value) {
         var card;
 
         // If it's the symbol just pick the first card
         if (value === '#') {
-
             card = view.querySelector('.card');
 
             if (card) {
@@ -39,16 +37,14 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         }
     }
 
-    function onAlphaValueChanged() {
-
+    function onAlphaValueChanged () {
         var value = this.alphaPicker.value();
         var scroller = this.scroller;
 
         trySelectValue(this, scroller, this.itemsContainer, value);
     }
 
-    function initAlphaPicker(instance, view) {
-
+    function initAlphaPicker (instance, view) {
         instance.itemsContainer = view.querySelector('.itemsContainer');
 
         instance.alphaPicker = new AlphaPicker({
@@ -60,12 +56,10 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         instance.alphaPicker.on('alphavaluechanged', onAlphaValueChanged.bind(instance));
     }
 
-    function showFilterMenu() {
-
+    function showFilterMenu () {
         var instance = this;
 
         require(['filterMenu'], function (FilterMenu) {
-
             new FilterMenu().show({
 
                 settingsKey: instance.getSettingsKey(),
@@ -78,14 +72,12 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
                 filterMenuOptions: instance.getFilterMenuOptions()
 
             }).then(function () {
-
                 instance.itemsContainer.refreshItems();
             });
         });
     }
 
-    function updateAlphaPickerState(instance) {
-
+    function updateAlphaPickerState (instance) {
         if (!instance.alphaPicker) {
             return;
         }
@@ -103,12 +95,10 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         }
     }
 
-    function showSortMenu() {
-
+    function showSortMenu () {
         var instance = this;
 
         require(['sortMenu'], function (SortMenu) {
-
             new SortMenu().show({
 
                 settingsKey: instance.getSettingsKey(),
@@ -118,7 +108,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
                 sortOptions: instance.getSortMenuOptions()
 
             }).then(function () {
-
                 updateSortText(instance);
                 updateAlphaPickerState(instance);
 
@@ -127,12 +116,10 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         });
     }
 
-    function showViewSettingsMenu() {
-
+    function showViewSettingsMenu () {
         var instance = this;
 
         require(['viewSettings'], function (ViewSettings) {
-
             new ViewSettings().show({
 
                 settingsKey: instance.getSettingsKey(),
@@ -140,30 +127,25 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
                 visibleSettings: instance.getVisibleViewSettings()
 
             }).then(function () {
-
                 updateItemsContainerForViewType(instance);
                 instance.itemsContainer.refreshItems();
             });
         });
     }
 
-    function updateItemsContainerForViewType(instance) {
-
+    function updateItemsContainerForViewType (instance) {
         var settings = instance.getViewSettings();
 
         if (settings.imageType === 'list') {
-
             instance.itemsContainer.classList.remove('vertical-wrap');
             instance.itemsContainer.classList.add('vertical-list');
-
         } else {
             instance.itemsContainer.classList.add('vertical-wrap');
             instance.itemsContainer.classList.remove('vertical-list');
         }
     }
 
-    function updateSortText(instance) {
-
+    function updateSortText (instance) {
         var btnSortText = instance.btnSortText;
         if (!btnSortText) {
             return;
@@ -175,9 +157,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         var sortBy = values.sortBy;
 
         for (var i = 0, length = options.length; i < length; i++) {
-
             if (sortBy === options[i].value) {
-
                 btnSortText.innerHTML = globalize.translate('SortByValue', options[i].name);
                 break;
             }
@@ -191,15 +171,13 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         btnSortIcon.innerHTML = values.sortOrder === 'Descending' ? 'arrow_downward' : 'arrow_upward';
     }
 
-    function bindAll(elems, eventName, fn) {
+    function bindAll (elems, eventName, fn) {
         for (var i = 0, length = elems.length; i < length; i++) {
-
             elems[i].addEventListener(eventName, fn);
         }
     }
 
-    function play() {
-
+    function play () {
         this.fetchData().then(function (result) {
             playbackManager.play({
                 items: result.Items || result
@@ -207,8 +185,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         });
     }
 
-    function shuffle() {
-
+    function shuffle () {
         this.fetchData().then(function (result) {
             playbackManager.play({
                 items: result.Items || result
@@ -216,10 +193,8 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         });
     }
 
-    function hideOrShowAll(elems, hide) {
-
+    function hideOrShowAll (elems, hide) {
         for (var i = 0, length = elems.length; i < length; i++) {
-
             if (hide) {
                 elems[i].classList.add('hide');
             } else {
@@ -228,7 +203,7 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         }
     }
 
-    function ItemsTab(view, params) {
+    function ItemsTab (view, params) {
         this.view = view;
         this.params = params;
 
@@ -251,7 +226,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
 
         var btnViewSettings = view.querySelectorAll('.btnViewSettings');
         for (i = 0, length = btnViewSettings.length; i < length; i++) {
-
             btnViewSettings[i].addEventListener('click', showViewSettingsMenu.bind(this));
         }
 
@@ -259,7 +233,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         this.filterButtons = filterButtons;
         var hasVisibleFilters = this.getVisibleFilters().length;
         for (i = 0, length = filterButtons.length; i < length; i++) {
-
             var btnFilter = filterButtons[i];
             btnFilter.addEventListener('click', showFilterMenu.bind(this));
 
@@ -273,7 +246,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         var sortButtons = view.querySelectorAll('.btnSort');
         this.sortButtons = sortButtons;
         for (i = 0, length = sortButtons.length; i < length; i++) {
-
             var sortButton = sortButtons[i];
             sortButton.addEventListener('click', showSortMenu.bind(this));
 
@@ -292,11 +264,10 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         bindAll(view.querySelectorAll('.btnShuffle'), 'click', shuffle.bind(this));
     }
 
-    function getSettingValue(key, defaultValue) {
+    function getSettingValue (key, defaultValue) {
     }
 
     ItemsTab.prototype.getViewSettings = function () {
-
         var basekey = this.getSettingsKey();
 
         return {
@@ -307,17 +278,14 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getDefaultImageType = function () {
-
         return 'primary';
     };
 
     ItemsTab.prototype.getSettingsKey = function () {
-
         return this.params.parentId + '-1';
     };
 
     ItemsTab.prototype.onResume = function (options) {
-
         if (options && options.refresh) {
             updateSortText(this);
             updateItemsContainerForViewType(this);
@@ -346,7 +314,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         var autoFocus = options.autoFocus;
 
         this.itemsContainer.resume(options).then(function (result) {
-
             loading.hide();
 
             if (autoFocus) {
@@ -356,7 +323,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getVisibleViewSettings = function () {
-
         return [
             'showTitle',
             'showYear',
@@ -365,7 +331,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getFilters = function () {
-
         var basekey = this.getSettingsKey();
 
         return {
@@ -389,7 +354,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getSortValues = function () {
-
         var basekey = this.getSettingsKey();
 
         return {
@@ -399,7 +363,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getVisibleFilters = function () {
-
         return [
             'IsUnplayed',
             'IsPlayed',
@@ -415,12 +378,10 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getDefaultSortBy = function () {
-
         return 'SortName';
     };
 
     ItemsTab.prototype.getSortMenuOptions = function () {
-
         var sortBy = [];
 
         var option = this.getNameSortOption();
@@ -473,7 +434,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getNameSortOption = function () {
-
         return {
             name: globalize.translate('Name'),
             value: 'SortName'
@@ -481,7 +441,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getPlayCountSortOption = function () {
-
         return {
             name: globalize.translate('PlayCount'),
             value: 'PlayCount,SortName'
@@ -489,7 +448,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getDatePlayedSortOption = function () {
-
         return {
             name: globalize.translate('DatePlayed'),
             value: 'DatePlayed,SortName'
@@ -497,7 +455,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getCriticRatingSortOption = function () {
-
         return {
             name: globalize.translate('CriticRating'),
             value: 'CriticRating,SortName'
@@ -505,7 +462,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getCommunityRatingSortOption = function () {
-
         return {
             name: globalize.translate('CommunityRating'),
             value: 'CommunityRating,SortName'
@@ -513,7 +469,6 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getFilterMenuOptions = function () {
-
         var params = this.params;
 
         return {
@@ -522,12 +477,10 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     };
 
     ItemsTab.prototype.getItemTypes = function () {
-
         return [];
     };
 
     ItemsTab.prototype.setFilterStatus = function (hasFilters) {
-
         this.hasFilters = hasFilters;
 
         var filterButtons = this.filterButtons;
@@ -536,12 +489,10 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
         }
 
         for (var i = 0, length = filterButtons.length; i < length; i++) {
-
             var btnFilter = filterButtons[i];
 
             var bubble = btnFilter.querySelector('.filterButtonBubble');
             if (!bubble) {
-
                 if (!hasFilters) {
                     continue;
                 }

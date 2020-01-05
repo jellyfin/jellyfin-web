@@ -1,8 +1,7 @@
 define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
     'use strict';
 
-    function getBoundingClientRect(elem) {
-
+    function getBoundingClientRect (elem) {
         // Support: BlackBerry 5, iOS 3 (original iPhone)
         // If we don't have gBCR, just use 0,0 rather than error
         if (elem.getBoundingClientRect) {
@@ -12,8 +11,7 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
         }
     }
 
-    function getPosition(scrollContainer, item, horizontal) {
-
+    function getPosition (scrollContainer, item, horizontal) {
         var slideeOffset = getBoundingClientRect(scrollContainer);
         var itemOffset = getBoundingClientRect(item);
 
@@ -42,7 +40,7 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
         };
     }
 
-    function toCenter(container, elem, horizontal, skipWhenVisible) {
+    function toCenter (container, elem, horizontal, skipWhenVisible) {
         var pos = getPosition(container, elem, horizontal);
 
         if (skipWhenVisible && pos.isVisible) {
@@ -64,7 +62,7 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
         }
     }
 
-    function toStart(container, elem, horizontal, skipWhenVisible) {
+    function toStart (container, elem, horizontal, skipWhenVisible) {
         var pos = getPosition(container, elem, horizontal);
 
         if (skipWhenVisible && pos.isVisible) {
@@ -86,7 +84,7 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
         }
     }
 
-    function centerOnFocus(e, scrollSlider, horizontal) {
+    function centerOnFocus (e, scrollSlider, horizontal) {
         var focused = focusManager.focusableParent(e.target);
 
         if (focused) {
@@ -94,10 +92,10 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
         }
     }
 
-    function centerOnFocusHorizontal(e) {
+    function centerOnFocusHorizontal (e) {
         centerOnFocus(e, this, true);
     }
-    function centerOnFocusVertical(e) {
+    function centerOnFocusVertical (e) {
         centerOnFocus(e, this, false);
     }
 

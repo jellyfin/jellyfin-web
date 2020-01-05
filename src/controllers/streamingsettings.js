@@ -1,57 +1,57 @@
-define(["jQuery", "libraryMenu", "loading"], function ($, libraryMenu, loading) {
-    "use strict";
+define(['jQuery', 'libraryMenu', 'loading'], function ($, libraryMenu, loading) {
+    'use strict';
 
-    function loadPage(page, config) {
-        $("#txtRemoteClientBitrateLimit", page).val(config.RemoteClientBitrateLimit / 1e6 || "");
+    function loadPage (page, config) {
+        $('#txtRemoteClientBitrateLimit', page).val(config.RemoteClientBitrateLimit / 1e6 || '');
         loading.hide();
     }
 
-    function onSubmit() {
+    function onSubmit () {
         loading.show();
         var form = this;
         ApiClient.getServerConfiguration().then(function (config) {
-            config.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat($("#txtRemoteClientBitrateLimit", form).val() || "0"));
+            config.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat($('#txtRemoteClientBitrateLimit', form).val() || '0'));
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
         });
         return false;
     }
 
-    function getTabs() {
+    function getTabs () {
         return [{
-            href: "encodingsettings.html",
-            name: Globalize.translate("Transcoding")
+            href: 'encodingsettings.html',
+            name: Globalize.translate('Transcoding')
         }, {
-            href: "playbackconfiguration.html",
-            name: Globalize.translate("TabResumeSettings")
+            href: 'playbackconfiguration.html',
+            name: Globalize.translate('TabResumeSettings')
         }, {
-            href: "streamingsettings.html",
-            name: Globalize.translate("TabStreaming")
+            href: 'streamingsettings.html',
+            name: Globalize.translate('TabStreaming')
         }];
     }
 
-    $(document).on("pageinit", "#streamingSettingsPage", function () {
+    $(document).on('pageinit', '#streamingSettingsPage', function () {
         var page = this;
-        $("#btnSelectTranscodingTempPath", page).on("click.selectDirectory", function () {
-            require(["directorybrowser"], function (directoryBrowser) {
-                var picker = new directoryBrowser();
+        $('#btnSelectTranscodingTempPath', page).on('click.selectDirectory', function () {
+            require(['directorybrowser'], function (DirectoryBrowser) {
+                var picker = new DirectoryBrowser();
                 picker.show({
                     callback: function (path) {
                         if (path) {
-                            $("#txtTranscodingTempPath", page).val(path);
+                            $('#txtTranscodingTempPath', page).val(path);
                         }
 
                         picker.close();
                     },
                     validateWriteable: true,
-                    header: Globalize.translate("HeaderSelectTranscodingPath"),
-                    instruction: Globalize.translate("HeaderSelectTranscodingPathHelp")
+                    header: Globalize.translate('HeaderSelectTranscodingPath'),
+                    instruction: Globalize.translate('HeaderSelectTranscodingPathHelp')
                 });
             });
         });
-        $(".streamingSettingsForm").off("submit", onSubmit).on("submit", onSubmit);
-    }).on("pageshow", "#streamingSettingsPage", function () {
+        $('.streamingSettingsForm').off('submit', onSubmit).on('submit', onSubmit);
+    }).on('pageshow', '#streamingSettingsPage', function () {
         loading.show();
-        libraryMenu.setTabs("playback", 2, getTabs);
+        libraryMenu.setTabs('playback', 2, getTabs);
         var page = this;
         ApiClient.getServerConfiguration().then(function (config) {
             loadPage(page, config);

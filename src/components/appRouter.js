@@ -17,7 +17,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     };
 
-    function beginConnectionWizard() {
+    function beginConnectionWizard () {
         backdrop.clear();
         loading.show();
         connectionManager.connect({
@@ -27,7 +27,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         });
     }
 
-    function handleConnectionResult(result, loading) {
+    function handleConnectionResult (result, loading) {
         switch (result.State) {
             case 'SignedIn':
                 loading.hide();
@@ -63,7 +63,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     }
 
-    function loadContentUrl(ctx, next, route, request) {
+    function loadContentUrl (ctx, next, route, request) {
         var url;
         if (route.contentPath && typeof (route.contentPath) === 'function') {
             url = route.contentPath(ctx.querystring);
@@ -89,13 +89,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         });
     }
 
-    function handleRoute(ctx, next, route) {
+    function handleRoute (ctx, next, route) {
         authenticate(ctx, route, function () {
             initRoute(ctx, next, route);
         });
     }
 
-    function initRoute(ctx, next, route) {
+    function initRoute (ctx, next, route) {
         var onInitComplete = function (controllerFactory) {
             sendRouteToViewManager(ctx, next, route, controllerFactory);
         };
@@ -107,7 +107,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     }
 
-    function cancelCurrentLoadRequest() {
+    function cancelCurrentLoadRequest () {
         var currentRequest = currentViewLoadRequest;
         if (currentRequest) {
             currentRequest.cancel = true;
@@ -115,7 +115,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     var currentViewLoadRequest;
-    function sendRouteToViewManager(ctx, next, route, controllerFactory) {
+    function sendRouteToViewManager (ctx, next, route, controllerFactory) {
         if (isDummyBackToHome && route.type === 'home') {
             isDummyBackToHome = false;
             return;
@@ -151,21 +151,19 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         if (!isBackNav) {
             // Don't force a new view for home due to the back menu
-            //if (route.type !== 'home') {
+            // if (route.type !== 'home') {
             onNewViewNeeded();
             return;
-            //}
+            // }
         }
         viewManager.tryRestoreView(currentRequest, function () {
-
             // done
             currentRouteInfo = {
                 route: route,
                 path: ctx.path
             };
-
         }).catch(function (result) {
-            if (!result || !result.cancelled) {
+            if (result.message === 'cancelled') {
                 onNewViewNeeded();
             }
         });
@@ -173,7 +171,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     var msgTimeout;
     var forcedLogoutMsg;
-    function onForcedLogoutMessageTimeout() {
+    function onForcedLogoutMessageTimeout () {
         var msg = forcedLogoutMsg;
         forcedLogoutMsg = null;
 
@@ -184,7 +182,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     }
 
-    function showForcedLogoutMessage(msg) {
+    function showForcedLogoutMessage (msg) {
         forcedLogoutMsg = msg;
         if (msgTimeout) {
             clearTimeout(msgTimeout);
@@ -193,13 +191,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         msgTimeout = setTimeout(onForcedLogoutMessageTimeout, 100);
     }
 
-    function onRequestFail(e, data) {
-
+    function onRequestFail (e, data) {
         var apiClient = this;
 
         if (data.status === 401) {
-            if (data.errorCode === "ParentalControl") {
-
+            if (data.errorCode === 'ParentalControl') {
                 var isCurrentAllowed = currentRouteInfo ? (currentRouteInfo.route.anonymous || currentRouteInfo.route.startup) : true;
 
                 // Bounce to the login screen, but not if a password entry fails, obviously
@@ -207,18 +203,17 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                     showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
                     appRouter.showLocalLogin(apiClient.serverId());
                 }
-
             }
         }
     }
 
-    function onBeforeExit(e) {
+    function onBeforeExit (e) {
         if (browser.web0s) {
             page.restorePreviousState();
         }
     }
 
-    function normalizeImageOptions(options) {
+    function normalizeImageOptions (options) {
         var scaleFactor = browser.tv ? 0.8 : 1;
 
         var setQuality;
@@ -243,13 +238,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
 
         if (setQuality) {
-
             var quality = 100;
 
             var type = options.type || 'Primary';
 
             if (browser.tv || browser.slow) {
-
                 if (browser.chrome) {
                     // webp support
                     quality = type === 'Primary' ? 40 : 50;
@@ -264,11 +257,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     }
 
-    function getMaxBandwidth() {
+    function getMaxBandwidth () {
         if (navigator.connection) {
             var max = navigator.connection.downlinkMax;
             if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
-
                 max /= 8;
                 max *= 1000000;
                 max *= 0.7;
@@ -280,12 +272,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return null;
     }
 
-    function getMaxBandwidthIOS() {
+    function getMaxBandwidthIOS () {
         return 800000;
     }
 
-    function onApiClientCreated(e, newApiClient) {
-
+    function onApiClientCreated (e, newApiClient) {
         newApiClient.normalizeImageOptions = normalizeImageOptions;
 
         if (browser.iOS) {
@@ -298,19 +289,17 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         events.on(newApiClient, 'requestfail', onRequestFail);
     }
 
-    function initApiClient(apiClient) {
-
+    function initApiClient (apiClient) {
         onApiClientCreated({}, apiClient);
     }
 
-    function initApiClients() {
-
+    function initApiClients () {
         connectionManager.getApiClients().forEach(initApiClient);
 
         events.on(connectionManager, 'apiclientcreated', onApiClientCreated);
     }
 
-    function onAppResume() {
+    function onAppResume () {
         var apiClient = connectionManager.currentApiClient();
 
         if (apiClient) {
@@ -319,8 +308,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     var firstConnectionResult;
-    function start(options) {
-
+    function start (options) {
         loading.show();
 
         initApiClients();
@@ -332,7 +320,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             enableAutoLogin: appSettings.enableAutoLogin()
 
         }).then(function (result) {
-
             firstConnectionResult = result;
 
             options = options || {};
@@ -342,16 +329,15 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 hashbang: options.hashbang !== false,
                 enableHistory: enableHistory()
             });
-        }).catch().then(function() {
+        }).catch().then(function () {
             loading.hide();
         });
     }
 
-    function enableHistory() {
-
-        //if (browser.edgeUwp) {
+    function enableHistory () {
+        // if (browser.edgeUwp) {
         //    return false;
-        //}
+        // }
 
         // shows status bar on navigation
         if (browser.xboxOne) {
@@ -366,19 +352,16 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return true;
     }
 
-    function enableNativeHistory() {
+    function enableNativeHistory () {
         return page.enableNativeHistory();
     }
 
-    function authenticate(ctx, route, callback) {
-
+    function authenticate (ctx, route, callback) {
         var firstResult = firstConnectionResult;
         if (firstResult) {
-
             firstConnectionResult = null;
 
             if (firstResult.State !== 'SignedIn' && !route.anonymous) {
-
                 handleConnectionResult(firstResult, loading);
                 return;
             }
@@ -407,7 +390,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
 
         if (apiClient && apiClient.isLoggedIn()) {
-
             console.log('appRouter - user is authenticated');
 
             if (route.isDefaultRoute) {
@@ -415,11 +397,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 loadUserSkinWithOptions(ctx);
                 return;
             } else if (route.roles) {
-
                 validateRoles(apiClient, route.roles).then(function () {
-
                     callback();
-
                 }, beginConnectionWizard);
                 return;
             }
@@ -429,7 +408,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         callback();
     }
 
-    function loadUserSkinWithOptions(ctx) {
+    function loadUserSkinWithOptions (ctx) {
         require(['queryString'], function (queryString) {
             var params = queryString.parse(ctx.querystring);
             skinManager.loadUserSkin({
@@ -438,19 +417,20 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         });
     }
 
-    function validateRoles(apiClient, roles) {
+    function validateRoles (apiClient, roles) {
         return Promise.all(roles.split(',').map(function (role) {
             return validateRole(apiClient, role);
         }));
     }
 
-    function validateRole(apiClient, role) {
+    function validateRole (apiClient, role) {
         if (role === 'admin') {
             return apiClient.getCurrentUser().then(function (user) {
                 if (user.Policy.IsAdministrator) {
                     return Promise.resolve();
+                } else {
+                    return Promise.reject(Error('user policy is not administrator'));
                 }
-                return Promise.reject();
             });
         }
 
@@ -461,8 +441,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     var isHandlingBackToDefault;
     var isDummyBackToHome;
 
-    function loadContent(ctx, route, html, request) {
-
+    function loadContent (ctx, route, html, request) {
         html = globalize.translateDocument(html, route.dictionary);
         request.view = html;
 
@@ -476,7 +455,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         ctx.handled = true;
     }
 
-    function getRequestFile() {
+    function getRequestFile () {
         var path = self.location.pathname || '';
 
         var index = path.lastIndexOf('/');
@@ -493,7 +472,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return path;
     }
 
-    function endsWith(str, srch) {
+    function endsWith (str, srch) {
         return str.lastIndexOf(srch) === srch.length - 1;
     }
 
@@ -504,18 +483,17 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         baseRoute = baseRoute.substring(0, baseRoute.length - 1);
     }
 
-    function baseUrl() {
+    function baseUrl () {
         return baseRoute;
     }
 
-    function getHandler(route) {
+    function getHandler (route) {
         return function (ctx, next) {
             handleRoute(ctx, next, route);
         };
     }
 
-    function getWindowLocationSearch(win) {
-
+    function getWindowLocationSearch (win) {
         var currentPath = currentRouteInfo ? (currentRouteInfo.path || '') : '';
 
         var index = currentPath.indexOf('?');
@@ -528,24 +506,24 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return search || '';
     }
 
-    function param(name, url) {
-        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-        var regexS = "[\\?&]" + name + "=([^&#]*)";
-        var regex = new RegExp(regexS, "i");
+    function param (name, url) {
+        name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+        var regexS = '[\\?&]' + name + '=([^&#]*)';
+        var regex = new RegExp(regexS, 'i');
 
         var results = regex.exec(url || getWindowLocationSearch());
         if (results == null) {
-            return "";
+            return '';
         } else {
-            return decodeURIComponent(results[1].replace(/\+/g, " "));
+            return decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
     }
 
-    function back() {
+    function back () {
         page.back();
     }
 
-    function canGoBack() {
+    function canGoBack () {
         var curr = current();
         if (!curr) {
             return false;
@@ -557,13 +535,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return page.canGoBack();
     }
 
-    function showDirect(path) {
-        return new Promise(function(resolve, reject) {
-            resolveOnNextShow = resolve, page.show(baseUrl()+path)
+    function showDirect (path) {
+        return new Promise(function (resolve, reject) {
+            resolveOnNextShow = resolve, page.show(baseUrl() + path)
         })
     }
 
-    function show(path, options) {
+    function show (path, options) {
         if (path.indexOf('/') !== 0 && path.indexOf('://') === -1) {
             path = '/' + path;
         }
@@ -595,11 +573,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     });
 
     var currentRouteInfo;
-    function current() {
+    function current () {
         return currentRouteInfo ? currentRouteInfo.route : null;
     }
 
-    function showItem(item, serverId, options) {
+    function showItem (item, serverId, options) {
         if (typeof (item) === 'string') {
             var apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
             apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
@@ -619,18 +597,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     var allRoutes = [];
 
-    function addRoute(path, newRoute) {
+    function addRoute (path, newRoute) {
         page(path, getHandler(newRoute));
         allRoutes.push(newRoute);
     }
 
-    function getRoutes() {
+    function getRoutes () {
         return allRoutes;
     }
 
     var backdropContainer;
     var backgroundContainer;
-    function setTransparency(level) {
+    function setTransparency (level) {
         if (!backdropContainer) {
             backdropContainer = document.querySelector('.backdropContainer');
         }
@@ -656,12 +634,12 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     }
 
-    function pushState(state, title, url) {
+    function pushState (state, title, url) {
         state.navigate = false;
         page.pushState(state, title, url);
     }
 
-    function setBaseRoute() {
+    function setBaseRoute () {
         var baseRoute = self.location.pathname.replace(getRequestFile(), '');
         if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
             baseRoute = baseRoute.substring(0, baseRoute.length - 1);
@@ -673,7 +651,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     setBaseRoute();
 
-    function invokeShortcut(id) {
+    function invokeShortcut (id) {
         if (id.indexOf('library-') === 0) {
             id = id.replace('library-', '');
             id = id.split('_');

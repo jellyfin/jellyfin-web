@@ -1,13 +1,13 @@
 define(['appSettings', 'events'], function (appSettings, events) {
     'use strict';
 
-    function onSaveTimeout() {
+    function onSaveTimeout () {
         var self = this;
         self.saveTimeout = null;
         self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
     }
 
-    function saveServerPreferences(instance) {
+    function saveServerPreferences (instance) {
         if (instance.saveTimeout) {
             clearTimeout(instance.saveTimeout);
         }
@@ -15,7 +15,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
     }
 
-    function UserSettings() {
+    function UserSettings () {
     }
 
     UserSettings.prototype.setUserInfo = function (userId, apiClient) {

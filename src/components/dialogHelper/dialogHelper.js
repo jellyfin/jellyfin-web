@@ -3,8 +3,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
 
     var globalOnOpenCallback;
 
-    function enableAnimation() {
-
+    function enableAnimation () {
         // too slow
         if (browser.tv) {
             return false;
@@ -13,8 +12,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         return browser.supportsCssAnimation();
     }
 
-    function removeCenterFocus(dlg) {
-
+    function removeCenterFocus (dlg) {
         if (layoutManager.tv) {
             if (dlg.classList.contains('scrollX')) {
                 centerFocus(dlg, true, false);
@@ -24,10 +22,9 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         }
     }
 
-    function tryRemoveElement(elem) {
+    function tryRemoveElement (elem) {
         var parentNode = elem.parentNode;
         if (parentNode) {
-
             // Seeing crashes in edge webview
             try {
                 parentNode.removeChild(elem);
@@ -37,15 +34,13 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         }
     }
 
-    function DialogHashHandler(dlg, hash, resolve) {
-
+    function DialogHashHandler (dlg, hash, resolve) {
         var self = this;
         self.originalUrl = window.location.href;
         var activeElement = document.activeElement;
         var removeScrollLockOnClose = false;
 
-        function onHashChange(e) {
-
+        function onHashChange (e) {
             var isBack = self.originalUrl === window.location.href;
 
             if (isBack || !isOpened(dlg)) {
@@ -58,8 +53,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
             }
         }
 
-        function onBackCommand(e) {
-
+        function onBackCommand (e) {
             if (e.detail.command === 'back') {
                 self.closedByBack = true;
                 e.preventDefault();
@@ -68,8 +62,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
             }
         }
 
-        function onDialogClosed() {
-
+        function onDialogClosed () {
             if (!isHistoryEnabled(dlg)) {
                 inputManager.off(dlg, onBackCommand);
             }
@@ -106,7 +99,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
                 }
             }
 
-            //resolve();
+            // resolve();
             // if we just called history.back(), then use a timeout to allow the history events to fire first
             setTimeout(function () {
                 resolve({
@@ -141,7 +134,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         animateDialogOpen(dlg);
 
         if (isHistoryEnabled(dlg)) {
-            appRouter.pushState({ dialogId: hash }, "Dialog", '#' + hash);
+            appRouter.pushState({ dialogId: hash }, 'Dialog', '#' + hash);
 
             window.addEventListener('popstate', onHashChange);
         } else {
@@ -149,8 +142,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         }
     }
 
-    function addBackdropOverlay(dlg) {
-
+    function addBackdropOverlay (dlg) {
         var backdrop = document.createElement('div');
         backdrop.classList.add('dialogBackdrop');
 
@@ -159,7 +151,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         dlg.backdrop = backdrop;
 
         // trigger reflow or the backdrop will not animate
-        void backdrop.offsetWidth;
+        backdrop.offsetWidth;
         backdrop.classList.add('dialogBackdropOpened');
 
         dom.addEventListener((dlg.dialogContainer || backdrop), 'click', function (e) {
@@ -171,12 +163,11 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         });
     }
 
-    function isHistoryEnabled(dlg) {
+    function isHistoryEnabled (dlg) {
         return dlg.getAttribute('data-history') === 'true';
     }
 
-    function open(dlg) {
-
+    function open (dlg) {
         if (globalOnOpenCallback) {
             globalOnOpenCallback(dlg);
         }
@@ -193,19 +184,16 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         document.body.appendChild(dialogContainer);
 
         return new Promise(function (resolve, reject) {
-
             new DialogHashHandler(dlg, 'dlg' + new Date().getTime(), resolve);
         });
     }
 
-    function isOpened(dlg) {
-
-        //return dlg.opened;
+    function isOpened (dlg) {
+        // return dlg.opened;
         return !dlg.classList.contains('hide');
     }
 
-    function close(dlg) {
-
+    function close (dlg) {
         if (isOpened(dlg)) {
             if (isHistoryEnabled(dlg)) {
                 history.back();
@@ -215,10 +203,8 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         }
     }
 
-    function closeDialog(dlg) {
-
+    function closeDialog (dlg) {
         if (!dlg.classList.contains('hide')) {
-
             dlg.dispatchEvent(new CustomEvent('closing', {
                 bubbles: false,
                 cancelable: false
@@ -238,8 +224,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         }
     }
 
-    function animateDialogOpen(dlg) {
-
+    function animateDialogOpen (dlg) {
         var onAnimationFinish = function () {
             focusManager.pushScope(dlg);
             if (dlg.getAttribute('data-autofocus') === 'true') {
@@ -248,7 +233,6 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         };
 
         if (enableAnimation()) {
-
             var onFinish = function () {
                 dom.removeEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
                     once: true
@@ -264,14 +248,11 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         onAnimationFinish();
     }
 
-    function animateDialogClose(dlg, onAnimationFinish) {
-
+    function animateDialogClose (dlg, onAnimationFinish) {
         if (enableAnimation()) {
-
             var animated = true;
 
             switch (dlg.animationConfig.exit.name) {
-
                 case 'fadeout':
                     dlg.style.animation = 'fadeout ' + dlg.animationConfig.exit.timing.duration + 'ms ease-out normal both';
                     break;
@@ -305,8 +286,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
 
     var supportsOverscrollBehavior = 'overscroll-behavior-y' in document.body.style;
 
-    function shouldLockDocumentScroll(options) {
-
+    function shouldLockDocumentScroll (options) {
         if (supportsOverscrollBehavior && (options.size || !browser.touch)) {
             return false;
         }
@@ -326,8 +306,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         return browser.touch;
     }
 
-    function removeBackdrop(dlg) {
-
+    function removeBackdrop (dlg) {
         var backdrop = dlg.backdrop;
 
         if (!backdrop) {
@@ -341,7 +320,6 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         };
 
         if (enableAnimation()) {
-
             backdrop.classList.remove('dialogBackdropOpened');
 
             // this is not firing animatonend
@@ -352,15 +330,14 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         onAnimationFinish();
     }
 
-    function centerFocus(elem, horiz, on) {
+    function centerFocus (elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function createDialog(options) {
-
+    function createDialog (options) {
         options = options || {};
 
         // If there's no native dialog support, use a plain div
@@ -405,7 +382,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
 
         dlg.animationConfig = {
             // scale up
-            'entry': {
+            entry: {
                 name: entryAnimation,
                 timing: {
                     duration: entryAnimationDuration,
@@ -413,7 +390,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
                 }
             },
             // fade out
-            'exit': {
+            exit: {
                 name: exitAnimation,
                 timing: {
                     duration: exitAnimationDuration,
@@ -450,9 +427,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         }
 
         if (enableAnimation()) {
-
             switch (dlg.animationConfig.entry.name) {
-
                 case 'fadein':
                     dlg.style.animation = 'fadein ' + entryAnimationDuration + 'ms ease-out normal';
                     break;

@@ -1,13 +1,11 @@
 define(['dom', 'events'], function (dom, events) {
     'use strict';
 
-    function getTouches(e) {
-
+    function getTouches (e) {
         return e.changedTouches || e.targetTouches || e.touches;
     }
 
-    function TouchHelper(elem, options) {
-
+    function TouchHelper (elem, options) {
         options = options || {};
         var touchTarget;
         var touchStartX;
@@ -24,7 +22,6 @@ define(['dom', 'events'], function (dom, events) {
         var excludeTagNames = options.ignoreTagNames || [];
 
         var touchStart = function (e) {
-
             var touch = getTouches(e)[0];
             touchTarget = null;
             touchStartX = 0;
@@ -34,7 +31,6 @@ define(['dom', 'events'], function (dom, events) {
             thresholdYMet = false;
 
             if (touch) {
-
                 var currentTouchTarget = touch.target;
 
                 if (dom.parentWithTag(currentTouchTarget, excludeTagNames)) {
@@ -48,7 +44,6 @@ define(['dom', 'events'], function (dom, events) {
         };
 
         var touchEnd = function (e) {
-
             var isTouchMove = e.type === 'touchmove';
 
             if (touchTarget) {
@@ -81,7 +76,6 @@ define(['dom', 'events'], function (dom, events) {
                 } else if (deltaX < (0 - swipeXThreshold) && Math.abs(deltaY) < swipeXMaxY) {
                     events.trigger(self, 'swipeleft', [touchTarget]);
                 } else if ((deltaY < (0 - swipeYThreshold) || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
-
                     thresholdYMet = true;
 
                     events.trigger(self, 'swipeup', [touchTarget, {
@@ -140,7 +134,6 @@ define(['dom', 'events'], function (dom, events) {
     }
 
     TouchHelper.prototype.destroy = function () {
-
         var elem = this.elem;
 
         if (elem) {

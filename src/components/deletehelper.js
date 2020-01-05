@@ -1,18 +1,15 @@
 define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (connectionManager, confirm, appRouter, globalize) {
     'use strict';
 
-    function alertText(options) {
-
+    function alertText (options) {
         return new Promise(function (resolve, reject) {
-
             require(['alert'], function (alert) {
                 alert(options).then(resolve, resolve);
             });
         });
     }
 
-    function deleteItem(options) {
-
+    function deleteItem (options) {
         var item = options.item;
         var itemId = item.Id;
         var parentId = item.SeasonId || item.SeriesId || item.ParentId;
@@ -30,9 +27,7 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
             primary: 'delete'
 
         }).then(function () {
-
             return apiClient.deleteItem(itemId).then(function () {
-
                 if (options.navigate) {
                     if (parentId) {
                         appRouter.showItem(parentId, serverId);
@@ -41,7 +36,6 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
                     }
                 }
             }, function (err) {
-
                 var result = function () {
                     return Promise.reject(err);
                 };

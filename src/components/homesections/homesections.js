@@ -1,7 +1,7 @@
 define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'scripts/imagehelper', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-button', 'css!./homesections'], function (connectionManager, cardBuilder, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter, imageHelper) {
     'use strict';
 
-    function getDefaultSection(index) {
+    function getDefaultSection (index) {
         switch (index) {
             case 0:
                 return 'smalllibrarytiles';
@@ -22,7 +22,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
     }
 
-    function getAllSectionsToShow(userSettings, sectionCount) {
+    function getAllSectionsToShow (userSettings, sectionCount) {
         var sections = [];
         for (var i = 0, length = sectionCount; i < length; i++) {
             var section = userSettings.get('homesection' + i) || getDefaultSection(i);
@@ -36,7 +36,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         return sections;
     }
 
-    function loadSections(elem, apiClient, user, userSettings) {
+    function loadSections (elem, apiClient, user, userSettings) {
         return getUserViews(apiClient, user.Id).then(function (userViews) {
             var html = '';
 
@@ -63,7 +63,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         });
     }
 
-    function destroySections(elem) {
+    function destroySections (elem) {
         var elems = elem.querySelectorAll('.itemsContainer');
         for (var i = 0; i < elems.length; i++) {
             elems[i].fetchData = null;
@@ -74,14 +74,14 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         elem.innerHTML = '';
     }
 
-    function pause(elem) {
+    function pause (elem) {
         var elems = elem.querySelectorAll('.itemsContainer');
         for (var i = 0; i < elems.length; i++) {
             elems[i].pause();
         }
     }
 
-    function resume(elem, options) {
+    function resume (elem, options) {
         var elems = elem.querySelectorAll('.itemsContainer');
         var i;
         var length;
@@ -97,8 +97,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
     }
 
-    function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
-
+    function loadSection (page, apiClient, user, userSettings, userViews, allSections, index) {
         var section = allSections[index];
         var userId = user.Id;
 
@@ -127,30 +126,30 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         return Promise.resolve();
     }
 
-    function getUserViews(apiClient, userId) {
+    function getUserViews (apiClient, userId) {
         return apiClient.getUserViews({}, userId || apiClient.getCurrentUserId()).then(function (result) {
             return result.Items;
         });
     }
 
-    function enableScrollX() {
+    function enableScrollX () {
         return true;
     }
 
-    function getSquareShape() {
+    function getSquareShape () {
         return enableScrollX() ? 'overflowSquare' : 'square';
     }
 
-    function getThumbShape() {
+    function getThumbShape () {
         return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
     }
 
-    function getPortraitShape() {
+    function getPortraitShape () {
         return enableScrollX() ? 'autooverflow' : 'auto';
     }
 
-    function getLibraryButtonsHtml(items) {
-        var html = "";
+    function getLibraryButtonsHtml (items) {
+        var html = '';
 
         html += '<div class="verticalSection verticalSection-extrabottompadding">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
@@ -170,7 +169,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         return html;
     }
 
-    function loadlibraryButtons(elem, apiClient, user, userSettings, userViews) {
+    function loadlibraryButtons (elem, apiClient, user, userSettings, userViews) {
         elem.classList.remove('verticalSection');
         var html = getLibraryButtonsHtml(userViews);
 
@@ -182,11 +181,11 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
      * Returns a random integer between min (inclusive) and max (inclusive)
      * Using Math.round() will give you a non-uniform distribution!
      */
-    function getRandomInt(min, max) {
+    function getRandomInt (min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function getFetchLatestItemsFn(serverId, parentId, collectionType) {
+    function getFetchLatestItemsFn (serverId, parentId, collectionType) {
         return function () {
             var apiClient = connectionManager.getApiClient(serverId);
             var limit = 16;
@@ -207,9 +206,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
             var options = {
                 Limit: limit,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
                 ImageTypeLimit: 1,
-                EnableImageTypes: "Primary,Backdrop,Thumb",
+                EnableImageTypes: 'Primary,Backdrop,Thumb',
                 ParentId: parentId
             };
 
@@ -217,7 +216,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         };
     }
 
-    function getLatestItemsHtmlFn(itemType, viewType) {
+    function getLatestItemsHtmlFn (itemType, viewType) {
         return function (items) {
             var cardLayout = false;
             var shape;
@@ -249,7 +248,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         };
     }
 
-    function renderLatestSection(elem, apiClient, user, parent) {
+    function renderLatestSection (elem, apiClient, user, parent) {
         var html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
@@ -287,7 +286,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.parentContainer = elem;
     }
 
-    function loadRecentlyAdded(elem, apiClient, user, userViews) {
+    function loadRecentlyAdded (elem, apiClient, user, userViews) {
         elem.classList.remove('verticalSection');
         var excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels'];
 
@@ -310,13 +309,13 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         }
     }
 
-    function getRequirePromise(deps) {
+    function getRequirePromise (deps) {
         return new Promise(function (resolve, reject) {
             require(deps, resolve);
         });
     }
 
-    function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews, allSections) {
+    function loadLibraryTiles (elem, apiClient, user, userSettings, shape, userViews, allSections) {
         var html = '';
         if (userViews.length) {
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
@@ -348,7 +347,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         imageLoader.lazyChildren(elem);
     }
 
-    function getContinueWatchingFetchFn(serverId) {
+    function getContinueWatchingFetchFn (serverId) {
         return function () {
             var apiClient = connectionManager.getApiClient(serverId);
             var screenWidth = dom.getWindowSize().innerWidth;
@@ -364,9 +363,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             var options = {
                 Limit: limit,
                 Recursive: true,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
                 ImageTypeLimit: 1,
-                EnableImageTypes: "Primary,Backdrop,Thumb",
+                EnableImageTypes: 'Primary,Backdrop,Thumb',
                 EnableTotalRecordCount: false,
                 MediaTypes: 'Video'
             };
@@ -375,7 +374,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         };
     }
 
-    function getContinueWatchingItemsHtml(items) {
+    function getContinueWatchingItemsHtml (items) {
         var cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,
@@ -396,7 +395,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         });
     }
 
-    function loadResumeVideo(elem, apiClient, userId) {
+    function loadResumeVideo (elem, apiClient, userId) {
         var html = '';
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
@@ -421,7 +420,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.parentContainer = elem;
     }
 
-    function getContinueListeningFetchFn(serverId) {
+    function getContinueListeningFetchFn (serverId) {
         return function () {
             var apiClient = connectionManager.getApiClient(serverId);
             var screenWidth = dom.getWindowSize().innerWidth;
@@ -437,9 +436,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             var options = {
                 Limit: limit,
                 Recursive: true,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
                 ImageTypeLimit: 1,
-                EnableImageTypes: "Primary,Backdrop,Thumb",
+                EnableImageTypes: 'Primary,Backdrop,Thumb',
                 EnableTotalRecordCount: false,
                 MediaTypes: 'Audio'
             };
@@ -448,7 +447,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         };
     }
 
-    function getContinueListeningItemsHtml(items) {
+    function getContinueListeningItemsHtml (items) {
         var cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,
@@ -469,7 +468,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         });
     }
 
-    function loadResumeAudio(elem, apiClient, userId) {
+    function loadResumeAudio (elem, apiClient, userId) {
         var html = '';
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
@@ -494,7 +493,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.parentContainer = elem;
     }
 
-    function getOnNowFetchFn(serverId) {
+    function getOnNowFetchFn (serverId) {
         return function () {
             var apiClient = connectionManager.getApiClient(serverId);
             return apiClient.getLiveTvRecommendedPrograms({
@@ -502,14 +501,14 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 IsAiring: true,
                 limit: 24,
                 ImageTypeLimit: 1,
-                EnableImageTypes: "Primary,Thumb,Backdrop",
+                EnableImageTypes: 'Primary,Thumb,Backdrop',
                 EnableTotalRecordCount: false,
-                Fields: "ChannelInfo,PrimaryImageAspectRatio"
+                Fields: 'ChannelInfo,PrimaryImageAspectRatio'
             });
         };
     }
 
-    function getOnNowItemsHtml(items) {
+    function getOnNowItemsHtml (items) {
         var cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,
@@ -532,7 +531,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         });
     }
 
-    function loadOnNow(elem, apiClient, user) {
+    function loadOnNow (elem, apiClient, user) {
         if (!user.Policy.EnableLiveTvAccess) {
             return Promise.resolve();
         }
@@ -543,9 +542,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             IsAiring: true,
             limit: 1,
             ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Thumb,Backdrop",
+            EnableImageTypes: 'Primary,Thumb,Backdrop',
             EnableTotalRecordCount: false,
-            Fields: "ChannelInfo,PrimaryImageAspectRatio"
+            Fields: 'ChannelInfo,PrimaryImageAspectRatio'
         }).then(function (result) {
             var html = '';
             if (result.Items.length) {
@@ -610,7 +609,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                     html += '</h2>';
                     html += '<i class="md-icon">chevron_right</i>';
                     html += '</a>';
-
                 } else {
                     html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderOnNow') + '</h2>';
                 }
@@ -640,21 +638,21 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         });
     }
 
-    function getNextUpFetchFn(serverId) {
+    function getNextUpFetchFn (serverId) {
         return function () {
             var apiClient = connectionManager.getApiClient(serverId);
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
-                Fields: "PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo",
+                Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo',
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
-                EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
+                EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                 EnableTotalRecordCount: false
             });
         };
     }
 
-    function getNextUpItemsHtml(items) {
+    function getNextUpItemsHtml (items) {
         var cardLayout = false;
         return cardBuilder.getCardsHtml({
             items: items,
@@ -672,7 +670,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         });
     }
 
-    function loadNextUp(elem, apiClient, userId) {
+    function loadNextUp (elem, apiClient, userId) {
         var html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
@@ -711,13 +709,13 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         itemsContainer.parentContainer = elem;
     }
 
-    function getLatestRecordingsFetchFn(serverId, activeRecordingsOnly) {
+    function getLatestRecordingsFetchFn (serverId, activeRecordingsOnly) {
         return function () {
             var apiClient = connectionManager.getApiClient(serverId);
             return apiClient.getLiveTvRecordings({
                 userId: apiClient.getCurrentUserId(),
                 Limit: enableScrollX() ? 12 : 5,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
                 EnableTotalRecordCount: false,
                 IsLibraryItem: activeRecordingsOnly ? null : false,
                 IsInProgress: activeRecordingsOnly ? true : null
@@ -725,7 +723,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         };
     }
 
-    function getLatestRecordingItemsHtml(activeRecordingsOnly) {
+    function getLatestRecordingItemsHtml (activeRecordingsOnly) {
         return function (items) {
             var cardLayout = false;
             return cardBuilder.getCardsHtml({
@@ -751,10 +749,10 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         };
     }
 
-    function loadLatestLiveTvRecordings(elem, activeRecordingsOnly, apiClient, userId) {
-        var title = activeRecordingsOnly ?
-            globalize.translate('HeaderActiveRecordings') :
-            globalize.translate('HeaderLatestRecordings');
+    function loadLatestLiveTvRecordings (elem, activeRecordingsOnly, apiClient, userId) {
+        var title = activeRecordingsOnly
+            ? globalize.translate('HeaderActiveRecordings')
+            : globalize.translate('HeaderLatestRecordings');
 
         var html = '';
 

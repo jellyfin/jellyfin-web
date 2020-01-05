@@ -5,15 +5,14 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
     var currentDlg;
     var currentInstance;
 
-    function reloadPageWhenServerAvailable(retryCount) {
+    function reloadPageWhenServerAvailable (retryCount) {
         var apiClient = currentApiClient;
         if (!apiClient) {
             return;
         }
 
         // Don't use apiclient method because we don't want it reporting authentication under the old version
-        apiClient.getJSON(apiClient.getUrl("System/Info")).then(function (info) {
-
+        apiClient.getJSON(apiClient.getUrl('System/Info')).then(function (info) {
             // If this is back to false, the restart completed
             if (!info.IsShuttingDown) {
                 currentInstance.restarted = true;
@@ -21,13 +20,12 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
             } else {
                 retryReload(retryCount);
             }
-
         }, function () {
             retryReload(retryCount);
         });
     }
 
-    function retryReload(retryCount) {
+    function retryReload (retryCount) {
         setTimeout(function () {
             retryCount = retryCount || 0;
             retryCount++;
@@ -38,7 +36,7 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
         }, 500);
     }
 
-    function startRestart(instance, apiClient, dlg) {
+    function startRestart (instance, apiClient, dlg) {
         currentApiClient = apiClient;
         currentDlg = dlg;
         currentInstance = instance;
@@ -48,8 +46,7 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
         });
     }
 
-    function showDialog(instance, options, template) {
-
+    function showDialog (instance, options, template) {
         var dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -104,7 +101,7 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
 
         dlg.querySelector('.formDialogFooter').innerHTML = html;
 
-        function onButtonClick() {
+        function onButtonClick () {
             dialogHelper.close(dlg);
         }
 
@@ -118,7 +115,6 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
         startRestart(instance, options.apiClient, dlg);
 
         return dlgPromise.then(function () {
-
             if (enableTvLayout) {
                 scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
             }
@@ -132,7 +128,7 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
         });
     }
 
-    function ServerRestartDialog(options) {
+    function ServerRestartDialog (options) {
         this.options = options;
     }
 

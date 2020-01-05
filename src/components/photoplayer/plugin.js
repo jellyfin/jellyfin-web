@@ -1,8 +1,7 @@
 define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager) {
-    "use strict";
+    'use strict';
 
-    function PhotoPlayer() {
-
+    function PhotoPlayer () {
         var self = this;
 
         self.name = 'Photo Player';
@@ -14,14 +13,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     }
 
     PhotoPlayer.prototype.play = function (options) {
-
         return new Promise(function (resolve, reject) {
-
-            require(['slideshow'], function (slideshow) {
-
+            require(['slideshow'], function (Slideshow) {
                 var index = options.startIndex || 0;
 
-                var newSlideShow = new slideshow({
+                var newSlideShow = new Slideshow({
                     showTitle: false,
                     cover: false,
                     items: options.items,
@@ -38,7 +34,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     PhotoPlayer.prototype.canPlayMediaType = function (mediaType) {
-
         return (mediaType || '').toLowerCase() === 'photo';
     };
 

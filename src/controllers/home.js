@@ -1,46 +1,46 @@
-define(["tabbedView", "globalize", "require", "emby-tabs", "emby-button", "emby-scroller"], function (TabbedView, globalize, require) {
-    "use strict";
+define(['tabbedView', 'globalize', 'require', 'emby-tabs', 'emby-button', 'emby-scroller'], function (TabbedView, globalize, require) {
+    'use strict';
 
-    function getTabs() {
+    function getTabs () {
         return [{
-            name: globalize.translate("Home")
+            name: globalize.translate('Home')
         }, {
-            name: globalize.translate("Favorites")
+            name: globalize.translate('Favorites')
         }];
     }
 
-    function getDefaultTabIndex() {
+    function getDefaultTabIndex () {
         return 0;
     }
 
-    function getRequirePromise(deps) {
+    function getRequirePromise (deps) {
         return new Promise(function (resolve, reject) {
             require(deps, resolve);
         });
     }
 
-    function getTabController(index) {
-        if (null == index) {
-            throw new Error("index cannot be null");
+    function getTabController (index) {
+        if (index == null) {
+            throw new Error('index cannot be null');
         }
 
         var depends = [];
 
         switch (index) {
             case 0:
-                depends.push("controllers/hometab");
+                depends.push('controllers/hometab');
                 break;
 
             case 1:
-                depends.push("controllers/favorites");
+                depends.push('controllers/favorites');
         }
 
         var instance = this;
-        return getRequirePromise(depends).then(function (controllerFactory) {
+        return getRequirePromise(depends).then(function (ControllerFactory) {
             var controller = instance.tabControllers[index];
 
             if (!controller) {
-                controller = new controllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);
+                controller = new ControllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);
                 instance.tabControllers[index] = controller;
             }
 
@@ -48,7 +48,7 @@ define(["tabbedView", "globalize", "require", "emby-tabs", "emby-button", "emby-
         });
     }
 
-    function HomeView(view, params) {
+    function HomeView (view, params) {
         TabbedView.call(this, view, params);
     }
 
@@ -63,12 +63,12 @@ define(["tabbedView", "globalize", "require", "emby-tabs", "emby-button", "emby-
 
     HomeView.prototype.onPause = function () {
         TabbedView.prototype.onPause.call(this);
-        document.querySelector(".skinHeader").classList.remove("noHomeButtonHeader");
+        document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
     };
 
     HomeView.prototype.onResume = function (options) {
         TabbedView.prototype.onResume.call(this, options);
-        document.querySelector(".skinHeader").classList.add("noHomeButtonHeader");
+        document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
     };
 
     return HomeView;

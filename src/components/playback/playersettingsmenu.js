@@ -1,10 +1,9 @@
 define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings', 'qualityoptions'], function (connectionManager, actionsheet, datetime, playbackManager, globalize, appSettings, qualityoptions) {
     'use strict';
 
-    function showQualityMenu(player, btn) {
-
+    function showQualityMenu (player, btn) {
         var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
-            return stream.Type === "Video";
+            return stream.Type === 'Video';
         })[0];
         var videoWidth = videoStream ? videoStream.Width : null;
 
@@ -42,14 +41,14 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             var bitrate = parseInt(id);
             if (bitrate !== selectedId) {
                 playbackManager.setMaxStreamingBitrate({
-                    enableAutomaticBitrateDetection: bitrate ? false : true,
+                    enableAutomaticBitrateDetection: !bitrate,
                     maxBitrate: bitrate
                 }, player);
             }
         });
     }
 
-    function showRepeatModeMenu(player, btn) {
+    function showRepeatModeMenu (player, btn) {
         var menuItems = [];
         var currentValue = playbackManager.getRepeatMode(player);
 
@@ -81,13 +80,13 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         });
     }
 
-    function getQualitySecondaryText(player) {
+    function getQualitySecondaryText (player) {
         var state = playbackManager.getPlayerState(player);
         var isAutoEnabled = playbackManager.enableAutomaticBitrateDetection(player);
         var currentMaxBitrate = playbackManager.getMaxStreamingBitrate(player);
 
         var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
-            return stream.Type === "Video";
+            return stream.Type === 'Video';
         })[0];
 
         var videoWidth = videoStream ? videoStream.Width : null;
@@ -135,7 +134,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         return text;
     }
 
-    function showAspectRatioMenu(player, btn) {
+    function showAspectRatioMenu (player, btn) {
         // each has a name and id
         var currentId = playbackManager.getAspectRatio(player);
         var menuItems = playbackManager.getSupportedAspectRatios(player).map(function (i) {
@@ -153,13 +152,13 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             if (id) {
                 playbackManager.setAspectRatio(id, player);
                 return Promise.resolve();
+            } else {
+                return Promise.reject(Error('no id'));
             }
-
-            return Promise.reject();
         });
     }
 
-    function showWithUser(options, player, user) {
+    function showWithUser (options, player, user) {
         var supportedCommands = playbackManager.getSupportedCommands(player);
         var mediaType = options.mediaType;
 
@@ -221,7 +220,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         });
     }
 
-    function show(options) {
+    function show (options) {
         var player = options.player;
         var currentItem = playbackManager.currentItem(player);
 
@@ -235,7 +234,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         });
     }
 
-    function handleSelectedOption(id, options, player) {
+    function handleSelectedOption (id, options, player) {
         switch (id) {
             case 'quality':
                 return showQualityMenu(player, options.positionTo);
@@ -257,7 +256,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
                 break;
         }
 
-        return Promise.reject();
+        return Promise.reject(Error('invalid selected option'));
     }
 
     return {

@@ -1,13 +1,12 @@
 define(['globalize'], function (globalize) {
     'use strict';
 
-    function getVideoQualityOptions(options) {
-
+    function getVideoQualityOptions (options) {
         var maxStreamingBitrate = options.currentMaxBitrate;
         var videoWidth = options.videoWidth;
 
         var maxAllowedWidth = videoWidth || 4096;
-        //var maxAllowedHeight = videoHeight || 2304;
+        // var maxAllowedHeight = videoHeight || 2304;
 
         var qualityOptions = [];
 
@@ -19,7 +18,6 @@ define(['globalize'], function (globalize) {
 
         // Some 1080- videos are reported as 1912?
         if (maxAllowedWidth >= 1900) {
-
             qualityOptions.push({ name: '1080p - 60 Mbps', maxHeight: 1080, bitrate: 60000000 });
             qualityOptions.push({ name: '1080p - 50 Mbps', maxHeight: 1080, bitrate: 50000000 });
             qualityOptions.push({ name: '1080p - 40 Mbps', maxHeight: 1080, bitrate: 40000000 });
@@ -32,13 +30,11 @@ define(['globalize'], function (globalize) {
             qualityOptions.push({ name: '1080p - 6 Mbps', maxHeight: 1080, bitrate: 6000001 });
             qualityOptions.push({ name: '1080p - 5 Mbps', maxHeight: 1080, bitrate: 5000001 });
             qualityOptions.push({ name: '1080p - 4 Mbps', maxHeight: 1080, bitrate: 4000002 });
-
         } else if (maxAllowedWidth >= 1260) {
             qualityOptions.push({ name: '720p - 10 Mbps', maxHeight: 720, bitrate: 10000000 });
             qualityOptions.push({ name: '720p - 8 Mbps', maxHeight: 720, bitrate: 8000000 });
             qualityOptions.push({ name: '720p - 6 Mbps', maxHeight: 720, bitrate: 6000000 });
             qualityOptions.push({ name: '720p - 5 Mbps', maxHeight: 720, bitrate: 5000000 });
-
         } else if (maxAllowedWidth >= 620) {
             qualityOptions.push({ name: '480p - 4 Mbps', maxHeight: 480, bitrate: 4000001 });
             qualityOptions.push({ name: '480p - 3 Mbps', maxHeight: 480, bitrate: 3000001 });
@@ -77,7 +73,6 @@ define(['globalize'], function (globalize) {
         if (maxStreamingBitrate) {
             var selectedIndex = -1;
             for (var i = 0, length = qualityOptions.length; i < length; i++) {
-
                 var option = qualityOptions[i];
 
                 if (selectedIndex === -1 && option.bitrate <= maxStreamingBitrate) {
@@ -86,7 +81,6 @@ define(['globalize'], function (globalize) {
             }
 
             if (selectedIndex === -1) {
-
                 selectedIndex = qualityOptions.length - 1;
             }
 
@@ -102,8 +96,7 @@ define(['globalize'], function (globalize) {
         return qualityOptions;
     }
 
-    function getAudioQualityOptions(options) {
-
+    function getAudioQualityOptions (options) {
         var maxStreamingBitrate = options.currentMaxBitrate;
 
         var qualityOptions = [];
@@ -131,7 +124,6 @@ define(['globalize'], function (globalize) {
         if (maxStreamingBitrate) {
             var selectedIndex = -1;
             for (var i = 0, length = qualityOptions.length; i < length; i++) {
-
                 var option = qualityOptions[i];
 
                 if (selectedIndex === -1 && option.bitrate <= maxStreamingBitrate) {
@@ -140,7 +132,6 @@ define(['globalize'], function (globalize) {
             }
 
             if (selectedIndex === -1) {
-
                 selectedIndex = qualityOptions.length - 1;
             }
 

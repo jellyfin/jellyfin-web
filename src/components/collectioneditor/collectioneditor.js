@@ -3,8 +3,7 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
 
     var currentServerId;
 
-    function parentWithClass(elem, className) {
-
+    function parentWithClass (elem, className) {
         while (!elem.classList || !elem.classList.contains(className)) {
             elem = elem.parentNode;
 
@@ -16,7 +15,7 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         return elem;
     }
 
-    function onSubmit(e) {
+    function onSubmit (e) {
         loading.show();
 
         var panel = parentWithClass(this, 'dialog');
@@ -35,9 +34,8 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         return false;
     }
 
-    function createCollection(apiClient, dlg) {
-
-        var url = apiClient.getUrl("Collections", {
+    function createCollection (apiClient, dlg) {
+        var url = apiClient.getUrl('Collections', {
 
             Name: dlg.querySelector('#txtNewCollectionName').value,
             IsLocked: !dlg.querySelector('#chkEnableInternetMetadata').checked,
@@ -45,12 +43,11 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         });
 
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             url: url,
-            dataType: "json"
+            dataType: 'json'
 
         }).then(function (result) {
-
             loading.hide();
 
             var id = result.Id;
@@ -58,28 +55,24 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
             dlg.submitted = true;
             dialogHelper.close(dlg);
             redirectToCollection(apiClient, id);
-
         });
     }
 
-    function redirectToCollection(apiClient, id) {
-
+    function redirectToCollection (apiClient, id) {
         appRouter.showItem(id, apiClient.serverId());
     }
 
-    function addToCollection(apiClient, dlg, id) {
-
-        var url = apiClient.getUrl("Collections/" + id + "/Items", {
+    function addToCollection (apiClient, dlg, id) {
+        var url = apiClient.getUrl('Collections/' + id + '/Items', {
 
             Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
         });
 
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             url: url
 
         }).then(function () {
-
             loading.hide();
 
             dlg.submitted = true;
@@ -91,12 +84,11 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         });
     }
 
-    function triggerChange(select) {
+    function triggerChange (select) {
         select.dispatchEvent(new CustomEvent('change', {}));
     }
 
-    function populateCollections(panel) {
-
+    function populateCollections (panel) {
         loading.show();
 
         var select = panel.querySelector('#selectCollectionToAddTo');
@@ -106,20 +98,18 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         var options = {
 
             Recursive: true,
-            IncludeItemTypes: "BoxSet",
-            SortBy: "SortName",
+            IncludeItemTypes: 'BoxSet',
+            SortBy: 'SortName',
             EnableTotalRecordCount: false
         };
 
         var apiClient = connectionManager.getApiClient(currentServerId);
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
-
             var html = '';
 
             html += '<option value="">' + globalize.translate('OptionNew') + '</option>';
 
             html += result.Items.map(function (i) {
-
                 return '<option value="' + i.Id + '">' + i.Name + '</option>';
             });
 
@@ -131,8 +121,7 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         });
     }
 
-    function getEditorHtml() {
-
+    function getEditorHtml () {
         var html = '';
 
         html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
@@ -179,8 +168,7 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         return html;
     }
 
-    function initEditor(content, items) {
-
+    function initEditor (content, items) {
         content.querySelector('#selectCollectionToAddTo').addEventListener('change', function () {
             if (this.value) {
                 content.querySelector('.newCollectionInfo').classList.add('hide');
@@ -208,19 +196,18 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         }
     }
 
-    function centerFocus(elem, horiz, on) {
+    function centerFocus (elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
     }
 
-    function CollectionEditor() {
+    function CollectionEditor () {
 
     }
 
     CollectionEditor.prototype.show = function (options) {
-
         var items = options.items || {};
         currentServerId = options.serverId;
 
@@ -261,7 +248,6 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         initEditor(dlg, items);
 
         dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
             dialogHelper.close(dlg);
         });
 
@@ -270,16 +256,15 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         }
 
         return dialogHelper.open(dlg).then(function () {
-
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }
 
             if (dlg.submitted) {
                 return Promise.resolve();
+            } else {
+                return Promise.reject(Error('dialog not submitted'));
             }
-
-            return Promise.reject();
         });
     };
 

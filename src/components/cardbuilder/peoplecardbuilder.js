@@ -1,8 +1,7 @@
 define(['cardBuilder'], function (cardBuilder) {
     'use strict';
 
-    function buildPeopleCards(items, options) {
-
+    function buildPeopleCards (items, options) {
         options = Object.assign(options || {}, {
             cardLayout: false,
             centerText: true,
@@ -18,5 +17,4 @@ define(['cardBuilder'], function (cardBuilder) {
     return {
         buildPeopleCards: buildPeopleCards
     };
-
 });
