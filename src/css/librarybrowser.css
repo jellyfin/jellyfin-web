@@ -422,10 +422,6 @@
     left: .8em
 }
 
-.noBackdrop {
-    display: none;
-}
-
 .itemBackdrop {
     -webkit-background-size: cover;
     background-size: cover;
@@ -447,7 +443,11 @@
     bottom: .75em
 }
 
-.layout-mobile .detailPagePrimaryContainer,
+.layout-mobile .detailPagePrimaryContainer {
+    display: block;
+    position: relative;
+}
+
 .layout-tv .detailPagePrimaryContainer {
     position: relative;
 }
@@ -455,7 +455,6 @@
 .detailPagePrimaryContainer {
     display: flex;
     align-items: center;
-    flex-flow: row wrap;
     align-content: center;
     position: sticky;
     top: 0;
@@ -463,8 +462,6 @@
 }
 
 .infoWrapper {
-    margin: 1.25em 0 0;
-    padding-left: 3%;
     flex: 1 0 0;
 }
 
@@ -475,7 +472,7 @@
     text-align: left;
 }
 
-.detailPageSeconderyContainer {
+.detailPageSecondaryContainer {
     margin: 1.25em 0;
     display: flex;
     flex-direction: column;
@@ -587,21 +584,11 @@
     }
 
     .itemDetailPage {
-        padding-top: 2em !important
+        padding-top: 0em !important
     }
 
     .detailimg-hidemobile {
         display: none
-    }
-
-    .detailPagePrimaryContainer {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .infoWrapper {
-        flex: initial;
     }
 }
 
@@ -647,7 +634,6 @@
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
     margin: 1em 0;
-    padding-right: 3%;
 }
 
 .recordingFields button {
@@ -904,7 +890,7 @@
     margin: 1.25em 0;
 }
 
-.sectionTitleContainer>.sectionTitle {
+.sectionTitleContainer > .sectionTitle {
     margin: 0;
     display: inline-block;
     vertical-align: middle;
