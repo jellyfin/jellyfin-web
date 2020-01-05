@@ -13,11 +13,10 @@
     margin-right: 1.2em;
 }
 
-@media all and (max-width:50em) {
-    .emby-scroller {
-        padding-left: 3.3%;
-        padding-right: 3.3%;
-        margin-left: 0;
-        margin-right: 0;
-    }
+.layout-tv .emby-scroller,
+.layout-mobile .emby-scroller {
+    padding-left: 3.3%;
+    padding-right: 3.3%;
+    margin-left: 0;
+    margin-right: 0;
 }

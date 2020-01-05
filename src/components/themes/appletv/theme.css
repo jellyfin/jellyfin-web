@@ -29,17 +29,6 @@ html {
     background: linear-gradient(to right, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB)
 }
 
-@supports (backdrop-filter:blur(1.5em)) or (-webkit-backdrop-filter:blur(1.5em)) {
-    .skinHeader-blurred {
-        background: -webkit-gradient(linear, left top, right top, from(rgba(188, 188, 188, .7)), color-stop(rgba(167, 180, 183, .7)), color-stop(rgba(190, 181, 165, .7)), color-stop(rgba(173, 190, 194, .7)), to(rgba(185, 199, 203, .7)));
-        background: -webkit-linear-gradient(left, rgba(188, 188, 188, .7), rgba(167, 180, 183, .7), rgba(190, 181, 165, .7), rgba(173, 190, 194, .7), rgba(185, 199, 203, .7));
-        background: -o-linear-gradient(left, rgba(188, 188, 188, .7), rgba(167, 180, 183, .7), rgba(190, 181, 165, .7), rgba(173, 190, 194, .7), rgba(185, 199, 203, .7));
-        background: linear-gradient(to right, rgba(188, 188, 188, .7), rgba(167, 180, 183, .7), rgba(190, 181, 165, .7), rgba(173, 190, 194, .7), rgba(185, 199, 203, .7));
-        -webkit-backdrop-filter: blur(1.5em);
-        backdrop-filter: blur(1.5em)
-    }
-}
-
 .skinHeader.semiTransparent {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important
@@ -204,14 +193,6 @@ html {
     background: -webkit-linear-gradient(left, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);
     background: -o-linear-gradient(left, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);
     background: linear-gradient(to right, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB)
-}
-
-@supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
-    .appfooter-blurred {
-        background: rgba(24, 24, 24, .7);
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px)
-    }
 }
 
 .nowPlayingBarSecondaryText {
