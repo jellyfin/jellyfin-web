@@ -1,11 +1,12 @@
 extends: 
+  # Disable Standard config while we clean things up
   - "standard"
   - "plugin:requirejs/recommended"
   - "plugin:jsdoc/recommended"
   - "plugin:compat/recommended"
 
 parserOptions:
-  ecmaVersion: 5
+  ecmaVersion: 2015
 
 env:
   es6: true
@@ -18,12 +19,38 @@ plugins:
   - deprecate
   - jsdoc
 
+globals:
+  document: "readonly"
+  navigator: "readonly"
+  window: "readonly"
+
 rules:
-  "compat/compat": "warn"
-  "indent": ["error", 4]
-  "deprecate/function": "warn"
-  "deprecate/member-expression": "warn"
-  "deprecate/import": "warn"
+  indent: ["error", 4, {
+    "SwitchCase": 1,
+    "VariableDeclarator": 1,
+    "outerIIFEBody": 1,
+    "MemberExpression": 1,
+    "FunctionDeclaration": { "parameters": 1, "body": 1 },
+    "FunctionExpression": { "parameters": 1, "body": 1 },
+    "CallExpression": { "arguments": 1 },
+    "ArrayExpression": 1,
+    "ObjectExpression": 1,
+    "ImportDeclaration": 1,
+    "flatTernaryExpressions": false,
+    "ignoreComments": false,
+    "ignoredNodes": ["TemplateLiteral *"]
+  }]
+  no-undef: ["off"] # Temporary for cleanup
+  semi: ["off"] # Temporary for cleanup
+  compat/compat: ["warn"]
+  deprecate/function: ["warn"]
+  deprecate/member-expression: ["warn"]
+  deprecate/import: ["warn"]
+  requirejs/no-invalid-define: ["warn"]
+  requirejs/no-invalid-require: ["warn"]
+  requirejs/no-multiple-define: ["warn"]
+  requirejs/no-assign-exports: ["warn"]
+  requirejs/no-js-extension: ["warn"]
 
 settings:
   polyfills:
