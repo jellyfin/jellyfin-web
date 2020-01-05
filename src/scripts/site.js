@@ -751,7 +751,7 @@ var AppInfo = {};
         define("useractionrepository", [bowerPath + "/apiclient/sync/useractionrepository"], returnFirstDependency);
 
         // TODO remove these libraries
-        // all three have been modified so we need to fix that first
+        // all of these have been modified so we need to fix that first
         define("page", [bowerPath + "/pagejs/page"], returnFirstDependency);
         define("headroom", [componentsPath + "/headroom/headroom"], returnFirstDependency);
         define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
