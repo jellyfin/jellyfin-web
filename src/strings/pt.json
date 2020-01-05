@@ -1205,5 +1205,8 @@
     "FolderTypeMovies": "Filmes",
     "OptionIgnoreTranscodeByteRangeRequests": "Ignorar requisições de extensão do byte de transcodificação",
     "OptionEnableAccessToAllChannels": "Permitir acesso a todos os canais",
-    "OptionDownloadDiscImage": "Disco"
+    "OptionDownloadDiscImage": "Disco",
+    "FetchingData": "Buscando Dados Adicionais",
+    "EnableStreamLooping": "Habilitar loop do streaming",
+    "Down": "Baixar"
 }
