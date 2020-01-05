@@ -1,9 +1,8 @@
 extends: 
-  # Disable Standard config while we clean things up
   - "standard"
-  - "plugin:requirejs/recommended"
-  - "plugin:jsdoc/recommended"
-  - "plugin:compat/recommended"
+  # - "plugin:requirejs/recommended"
+  # - "plugin:jsdoc/recommended"
+  # - "plugin:compat/recommended"
 
 parserOptions:
   ecmaVersion: 2015
@@ -25,7 +24,7 @@ globals:
   window: "readonly"
 
 rules:
-  indent: ["error", 4, {
+  indent: ["error", 4, { # Temporary for cleanup
     "SwitchCase": 1,
     "VariableDeclarator": 1,
     "outerIIFEBody": 1,
@@ -42,15 +41,15 @@ rules:
   }]
   no-undef: ["off"] # Temporary for cleanup
   semi: ["off"] # Temporary for cleanup
-  compat/compat: ["warn"]
-  deprecate/function: ["warn"]
-  deprecate/member-expression: ["warn"]
-  deprecate/import: ["warn"]
-  requirejs/no-invalid-define: ["warn"]
-  requirejs/no-invalid-require: ["warn"]
-  requirejs/no-multiple-define: ["warn"]
-  requirejs/no-assign-exports: ["warn"]
-  requirejs/no-js-extension: ["warn"]
+  # compat/compat: ["warn"]
+  # deprecate/function: ["warn"]
+  # deprecate/member-expression: ["warn"]
+  # deprecate/import: ["warn"]
+  # requirejs/no-invalid-define: ["warn"] # Temporary for cleanup
+  # requirejs/no-invalid-require: ["warn"] # Temporary for cleanup
+  # requirejs/no-multiple-define: ["warn"] # Temporary for cleanup
+  # requirejs/no-assign-exports: ["warn"] # Temporary for cleanup
+  # requirejs/no-js-extension: ["warn"] # Temporary for cleanup
 
 settings:
   polyfills:
