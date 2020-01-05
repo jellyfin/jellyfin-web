@@ -910,7 +910,7 @@
     flex-shrink: 0
 }
 
-.sectionTitleButton+.sectionTitleButton {
+.sectionTitleButton + .sectionTitleButton {
     margin-left: .5em !important
 }
 
