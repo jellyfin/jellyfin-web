@@ -1060,7 +1060,7 @@
     "OptionReportByteRangeSeekingWhenTranscodingHelp": "Nécessaire pour certains appareils qui ne sont pas capables d'effectuer une recherche dans le temps correctement.",
     "OptionRequirePerfectSubtitleMatch": "Télécharger uniquement les sous-titres qui correspondent parfaitement à mes fichiers vidéo",
     "OptionRequirePerfectSubtitleMatchHelp": "En activant cette option, seuls les sous-titres ayant été testés et vérifiés avec votre fichier vidéo seront téléchargés. En désactivant cette option, vous aurez plus de chance que des sous-titres soient téléchargés, mais ils risquent d'être décalés ou incorrects.",
-    "OptionResElement": "Résolution d'élément",
+    "OptionResElement": "res element",
     "OptionResumable": "Reprise possible",
     "OptionRuntime": "Durée",
     "OptionSaturday": "Samedi",
