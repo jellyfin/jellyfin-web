@@ -1274,7 +1274,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
                     coverImage: "MusicAlbum" == item.Type || "MusicArtist" == item.Type,
                     overlayPlayButton: true,
                     overlayText: false,
-                    showYear: "Movie" === item.Type || "Trailer" === item.Type
+                    showYear: "Movie" === item.Type || "Trailer" === item.Type || "Series" === item.Type
                 });
                 var similarContent = similarCollapsible.querySelector(".similarContent");
                 similarContent.innerHTML = html;
@@ -1740,6 +1740,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
             items: items,
             shape: shape,
             showTitle: true,
+            showYear: "Video" === type.mediaType || "Series" === type.type,
             centerText: true,
             lazy: true,
             showDetailsMenu: true,
