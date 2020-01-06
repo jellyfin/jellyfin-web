@@ -17,19 +17,12 @@ html {
 
 .skinHeader-withBackground {
     background: #000420;
-    background: -moz-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
-    background: -webkit-linear-gradient(left, #000420 0%,#06256f 18%,#2b052b 38%,#2b052b 68%,#06256f 81%,#000420 100%);
     background: linear-gradient(to right, #000420 0%,#06256f 18%,#2b052b 38%,#2b052b 68%,#06256f 81%,#000420 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000420', endColorstr='#000420',GradientType=1 );
 }
 
 .skinHeader.semiTransparent {
-    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .6)), to(rgba(0, 0, 0, 0)));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
-    background: -o-linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0))
 }
 
@@ -44,7 +37,6 @@ html {
 
 .backgroundContainer {
     background: url(bg.jpg) center top no-repeat #030322;
-    -webkit-background-size: cover;
     background-size: cover
 }
 
@@ -269,9 +261,13 @@ a[data-role=button] {
     color: rgba(255, 255, 255, .78)
 }
 
-@supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
+@supports (backdrop-filter:blur(10px)) {
     .appfooter-blurred {
+<<<<<<< HEAD
+        background: rgba(24, 24, 24, .7);
+=======
         background: rgba(6, 37, 111, .7);
+>>>>>>> master
         backdrop-filter: blur(20px)
     }
 }
@@ -341,7 +337,6 @@ a[data-role=button] {
     color: inherit;
     background: rgba(0, 0, 0, .5);
     border: .07em solid transparent;
-    -webkit-border-radius: .15em;
     border-radius: .15em
 }
 
@@ -501,9 +496,6 @@ a[data-role=button] {
 }
 
 .itemBackdropFader {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(#181818));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0), #181818);
-    background: -o-linear-gradient(rgba(0, 0, 0, 0), #181818);
     background: linear-gradient(rgba(0, 0, 0, 0), #181818)
 }
 
@@ -511,7 +503,6 @@ a[data-role=button] {
     color: #0e0f2d;
     background: #dbe6ff;
     padding: 1em;
-    -webkit-border-radius: .25em;
     border-radius: .25em
 }
 
@@ -549,7 +540,7 @@ a[data-role=button] {
 }
 
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -558,7 +549,7 @@ a[data-role=button] {
 
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
-    -webkit-border-radius: 2px;
+    border-radius: 2px;
     background: center no-repeat #888
 }
 

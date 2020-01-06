@@ -15,7 +15,6 @@
 .headerSelectedPlayer,
 .itemMiscInfo,
 .navMenuOptionText {
-    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden
 }
@@ -48,8 +47,6 @@
     z-index: 1;
     margin: 0 !important;
     top: 6.9em !important;
-    -webkit-transition: -webkit-transform .2s ease-out;
-    -o-transition: transform .2s ease-out;
     transition: transform .2s ease-out
 }
 
@@ -58,17 +55,14 @@
 }
 
 .headerUserImage {
-    -webkit-background-size: contain;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
-    -webkit-border-radius: 100em;
     border-radius: 100em;
     display: inline-block
 }
 
 .headerUserButtonRound div {
-    -webkit-border-radius: 100em;
     border-radius: 100em;
     background-size: cover;
     background-repeat: no-repeat;
@@ -76,7 +70,6 @@
 }
 
 .headerButton {
-    -webkit-flex-shrink: 0;
     flex-shrink: 0
 }
 
@@ -90,34 +83,25 @@
 }
 
 .pageTitle {
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
     display: inline-flex;
     margin: .3em 0 0 .5em;
     height: 1.7em;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
-    -webkit-flex-shrink: 1;
     flex-shrink: 1
 }
 
 .headerLeft,
 .skinHeader {
-    display: -webkit-box;
-    display: -webkit-flex
+    display: flex;
 }
 
 .detailButton-mobile,
 .skinHeader {
-    -webkit-flex-direction: column;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal
+    flex-direction: column;
 }
 
 .pageTitleWithLogo {
     background-position: left center;
-    -webkit-background-size: contain;
     background-size: contain;
     background-repeat: no-repeat;
     width: 13.2em
@@ -137,7 +121,7 @@
 
 .headerLeft,
 .headerRight {
-    -webkit-box-align: center
+    justify-content: center;
 }
 
 .hiddenViewMenuBar .skinHeader {
@@ -150,12 +134,10 @@
 
 .headerLeft {
     display: flex;
-    -webkit-align-items: center;
     align-items: center;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1;
-    overflow: hidden
+    overflow: hidden;
+    justify-content: left;
 }
 
 .sectionTabs {
@@ -163,13 +145,8 @@
 }
 
 .headerRight {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-align-items: center;
     align-items: center;
-    -webkit-box-pack: end;
-    -webkit-justify-content: flex-end;
     justify-content: flex-end
 }
 
@@ -178,27 +155,19 @@
 }
 
 .navMenuOption {
-    display: -webkit-box !important;
-    display: -webkit-flex !important;
     display: flex !important;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
     text-decoration: none;
     color: inherit;
     padding: .9em 0 .9em 2.4em !important;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1;
     font-weight: 400 !important;
     margin: 0 !important;
-    -webkit-border-radius: 0 !important;
     border-radius: 0 !important
 }
 
 .navMenuOptionIcon {
     margin-right: 1.2em;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0
 }
 
@@ -212,8 +181,6 @@
 }
 
 .dashboardDocument .skinBody {
-    -webkit-transition: left ease-in-out .3s, padding ease-in-out .3s;
-    -o-transition: left ease-in-out .3s, padding ease-in-out .3s;
     transition: left ease-in-out .3s, padding ease-in-out .3s;
     position: absolute;
     top: 0;
@@ -242,9 +209,7 @@
         z-index: inherit !important;
         left: 0 !important;
         top: 0 !important;
-        -webkit-transform: none !important;
         transform: none !important;
-        -webkit-box-shadow: none !important;
         box-shadow: none !important;
         width: 20.205em !important;
         font-size: 94%
@@ -281,14 +246,9 @@
     }
 
     .headerTabs {
-        -webkit-align-self: center;
         align-self: center;
         width: auto;
-        -webkit-box-align: center;
-        -webkit-align-items: center;
         align-items: center;
-        -webkit-box-pack: center;
-        -webkit-justify-content: center;
         justify-content: center;
         margin-top: -3.34em;
         position: relative;
@@ -346,8 +306,6 @@
 }
 
 .flexPageTabContent.is-active {
-    display: -webkit-box !important;
-    display: -webkit-flex !important;
     display: flex !important
 }
 
@@ -363,7 +321,6 @@
     margin: 1.5em 0;
     background: #222;
     padding: .8em .8em .8em 3em;
-    -webkit-border-radius: .3em;
     border-radius: .3em;
     position: relative
 }
@@ -422,7 +379,6 @@
 }
 
 .itemBackdrop {
-    -webkit-background-size: cover;
     background-size: cover;
     height: 50vh;
     position: relative
@@ -450,14 +406,15 @@
 
 .detailImageContainer {
     width: 280px;
+<<<<<<< HEAD
+=======
     margin-right: 2em;
+>>>>>>> master
     flex-shrink: 0;
 }
 
 .detailPagePrimaryContent {
     position: relative;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1
 }
 
@@ -467,7 +424,6 @@
     position: absolute;
     top: 13.5%;
     right: 19.5%;
-    -webkit-background-size: contain;
     background-size: contain
 }
 
@@ -497,7 +453,6 @@
 
 .itemDetailImage {
     width: 100%;
-    -webkit-box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
     box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
 }
 
@@ -533,8 +488,6 @@
     }
 
     .detailPagePrimaryContainer {
-        display: -webkit-box;
-        display: -webkit-flex;
         display: flex;
         margin-bottom: 3em
     }
@@ -595,8 +548,7 @@
 
 .detailButton-mobile,
 .mainDetailButtons {
-    display: -webkit-box;
-    display: -webkit-flex
+    display: flex;
 }
 
 .itemName {
@@ -617,10 +569,7 @@
 
 .mainDetailButtons {
     display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
-    -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
     margin: 1em 0
 }
@@ -628,7 +577,6 @@
 .recordingFields button {
     margin-left: 0;
     margin-right: .5em;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0
 }
 
@@ -639,11 +587,7 @@
 .detailButton-mobile {
     display: flex;
     flex-direction: column;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
     justify-content: center;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
     margin: 0 !important;
     padding: .5em .7em !important
@@ -675,18 +619,9 @@
 }
 
 .detailButton-mobile-content {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
     flex-direction: column;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
     justify-content: center;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center
 }
 
@@ -743,21 +678,14 @@
 }
 
 .itemMiscInfo {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center
 }
 
 @media all and (max-width:31.25em) {
     .mobileDetails .itemMiscInfo {
         text-align: center;
-        -webkit-box-pack: center;
-        -webkit-justify-content: center;
         justify-content: center
     }
 
@@ -849,7 +777,6 @@
 }
 
 .btnSyncComplete i {
-    -webkit-border-radius: 100em;
     border-radius: 100em
 }
 
@@ -858,14 +785,9 @@
 }
 
 .mediaInfoIcons {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
     margin: 1em 0;
-    -webkit-flex-wrap: wrap;
     flex-wrap: wrap
 }
 
@@ -903,7 +825,6 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .sectionTitleButton {
     margin-left: 1.5em !important;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0
 }
 
@@ -913,22 +834,17 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .sectionTitleIconButton {
     margin-left: 1.5em !important;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
     font-size: 84% !important;
     padding: .5em !important
 }
 
 .horizontalItemsContainer {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex
 }
 
 .sectionTitleTextButton {
     margin: 0 !important;
-    display: -webkit-inline-box !important;
-    display: -webkit-inline-flex !important;
     display: inline-flex !important;
     color: inherit !important
 }
@@ -1000,8 +916,6 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .itemsViewSettingsContainer {
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
     justify-content: center
 }
 
