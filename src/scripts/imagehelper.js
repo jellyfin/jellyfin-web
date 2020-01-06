@@ -3,31 +3,32 @@ define(["browser"], function (browser) {
 
     function getDeviceIcon(device) {
         var baseUrl = "img/devices/";
-        switch (device.Name) {
-            case "Opera":
-            case "Opera TV":
-                return baseUrl + "opera.svg";
+        switch (device.AppName) {
             case "Samsung Smart TV":
                 return baseUrl + "samsung.svg";
             case "Xbox One":
                 return baseUrl + "xbox.svg";
             case "Sony PS4":
                 return baseUrl + "playstation.svg";
-            case "Chrome":
-                return baseUrl + "chrome.svg";
-            case "Firefox":
-                return baseUrl + "firefox.svg";
-            case "Edge":
-                return baseUrl + "edge.svg";
-            case "Internet Explorer":
-                return baseUrl + "msie.svg";
-            case "Web Browser":
-                return baseUrl + "html5.svg";
-            default:
-                switch (device.AppName) {
-                    case "Kodi":
-                        return baseUrl + "kodi.svg";
+            case "Kodi":
+                return baseUrl + "kodi.svg";
+            case "Jellyfin Web":
+                switch (device.Name) {
+                    case "Opera":
+                    case "Opera TV":
+                        return baseUrl + "opera.svg";
+                    case "Chrome":
+                        return baseUrl + "chrome.svg";
+                    case "Firefox":
+                        return baseUrl + "firefox.svg";
+                    case "Edge":
+                        return baseUrl + "edge.svg";
+                    case "Internet Explorer":
+                        return baseUrl + "msie.svg";
+                    default:
+                        return baseUrl + "html5.svg";
                 }
+            default:
                 return baseUrl + "other.svg";
         }
     }
