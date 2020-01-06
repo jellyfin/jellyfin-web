@@ -41,84 +41,87 @@ define(["browser", "dom", "layoutManager", "css!components/viewManager/viewConta
             var isPluginpage = -1 !== options.url.toLowerCase().indexOf("/configurationpage");
             var newViewInfo = normalizeNewView(options, isPluginpage);
             var newView = newViewInfo.elem;
+            var modulesToLoad = [];
 
             if (isPluginpage) {
-                require(["legacyDashboard"]);
+                modulesToLoad.push("legacyDashboard");
             }
 
             if (newViewInfo.hasjQuerySelect) {
-                require(["legacySelectMenu"]);
+                modulesToLoad.push("legacySelectMenu");
             }
 
             if (newViewInfo.hasjQueryChecked) {
-                require(["fnchecked"]);
+                modulesToLoad.push("fnchecked");
             }
 
             return new Promise(function (resolve) {
-                var currentPage = allPages[pageIndex];
+                require(modulesToLoad, function () {
+                    var currentPage = allPages[pageIndex];
 
-                if (currentPage) {
-                    triggerDestroy(currentPage);
-                }
+                    if (currentPage) {
+                        triggerDestroy(currentPage);
+                    }
 
-                var view = newView;
+                    var view = newView;
 
-                if ("string" == typeof view) {
-                    view = document.createElement("div");
-                    view.innerHTML = newView;
-                }
+                    if ("string" == typeof view) {
+                        view = document.createElement("div");
+                        view.innerHTML = newView;
+                    }
 
-                view.classList.add("mainAnimatedPage");
+                    view.classList.add("mainAnimatedPage");
 
-                if (currentPage) {
-                    if (newViewInfo.hasScript && window.$) {
-                        view = $(view).appendTo(mainAnimatedPages)[0];
-                        mainAnimatedPages.removeChild(currentPage);
+                    if (currentPage) {
+                        if (newViewInfo.hasScript && window.$) {
+                            view = $(view).appendTo(mainAnimatedPages)[0];
+                            mainAnimatedPages.removeChild(currentPage);
+                        } else {
+                            mainAnimatedPages.replaceChild(view, currentPage);
+                        }
                     } else {
-                        mainAnimatedPages.replaceChild(view, currentPage);
-                    }
-                } else {
-                    if (newViewInfo.hasScript && window.$) {
-                        view = $(view).appendTo(mainAnimatedPages)[0];
-                    } else {
-                        mainAnimatedPages.appendChild(view);
-                    }
-                }
-
-                if (options.type) {
-                    view.setAttribute("data-type", options.type);
-                }
-
-                var properties = [];
-
-                if (options.fullscreen) {
-                    properties.push("fullscreen");
-                }
-
-                if (properties.length) {
-                    view.setAttribute("data-properties", properties.join(","));
-                }
-
-                allPages[pageIndex] = view;
-                setControllerClass(view, options).then(function () {
-                    if (onBeforeChange) {
-                        onBeforeChange(view, false, options);
+                        if (newViewInfo.hasScript && window.$) {
+                            view = $(view).appendTo(mainAnimatedPages)[0];
+                        } else {
+                            mainAnimatedPages.appendChild(view);
+                        }
                     }
 
-                    beforeAnimate(allPages, pageIndex, selected);
-                    selectedPageIndex = pageIndex;
-                    currentUrls[pageIndex] = options.url;
-
-                    if (!options.cancel && previousAnimatable) {
-                        afterAnimate(allPages, pageIndex);
+                    if (options.type) {
+                        view.setAttribute("data-type", options.type);
                     }
 
-                    if (window.$) {
-                        $.mobile = $.mobile || {};
-                        $.mobile.activePage = view;
+                    var properties = [];
+
+                    if (options.fullscreen) {
+                        properties.push("fullscreen");
                     }
 
-                    resolve(view);
+                    if (properties.length) {
+                        view.setAttribute("data-properties", properties.join(","));
+                    }
+
+                    allPages[pageIndex] = view;
+                    setControllerClass(view, options).then(function () {
+                        if (onBeforeChange) {
+                            onBeforeChange(view, false, options);
+                        }
+
+                        beforeAnimate(allPages, pageIndex, selected);
+                        selectedPageIndex = pageIndex;
+                        currentUrls[pageIndex] = options.url;
+
+                        if (!options.cancel && previousAnimatable) {
+                            afterAnimate(allPages, pageIndex);
+                        }
+
+                        if (window.$) {
+                            $.mobile = $.mobile || {};
+                            $.mobile.activePage = view;
+                        }
+
+                        resolve(view);
+                    });
                 });
             });
         }
