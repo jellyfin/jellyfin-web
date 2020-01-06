@@ -29,14 +29,6 @@ html {
     background: linear-gradient(to bottom, #0C2450, #081B3B)
 }
 
-@supports (backdrop-filter:blur(1.5em)) or (-webkit-backdrop-filter:blur(1.5em)) {
-    .skinHeader-blurred {
-        background: rgba(20, 20, 20, .7);
-        -webkit-backdrop-filter: blur(1.5em);
-        backdrop-filter: blur(1.5em)
-    }
-}
-
 .skinHeader.semiTransparent {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
@@ -183,14 +175,6 @@ html {
     background: -o-linear-gradient(bottom, #0C2450, #081B3B);
     background: linear-gradient(to top, #0C2450, #081B3B);
     color: rgba(255, 255, 255, .78)
-}
-
-@supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
-    .appfooter-blurred {
-        background: rgba(24, 24, 24, .7);
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px)
-    }
 }
 
 .itemSelectionPanel {

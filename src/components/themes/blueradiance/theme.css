@@ -183,8 +183,7 @@ html {
 
 @supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
     .appfooter-blurred {
-        background: rgba(24, 24, 24, .7);
-        -webkit-backdrop-filter: blur(20px);
+        background: rgba(1, 2, 50, .7);
         backdrop-filter: blur(20px)
     }
 }
