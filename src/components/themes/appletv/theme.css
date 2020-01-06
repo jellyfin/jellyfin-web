@@ -26,6 +26,7 @@ html {
     background: linear-gradient(to right, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB)
 }
 
+<<<<<<< HEAD
 @supports (backdrop-filter:blur(1.5em)) {
     .skinHeader-blurred {
         background: linear-gradient(to right, rgba(188, 188, 188, .7), rgba(167, 180, 183, .7), rgba(190, 181, 165, .7), rgba(173, 190, 194, .7), rgba(185, 199, 203, .7));
@@ -33,6 +34,8 @@ html {
     }
 }
 
+=======
+>>>>>>> master
 .skinHeader.semiTransparent {
     backdrop-filter: none !important
 }
@@ -191,6 +194,7 @@ html {
     background: linear-gradient(to right, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB)
 }
 
+<<<<<<< HEAD
 @supports (backdrop-filter:blur(10px)) {
     .appfooter-blurred {
         background: rgba(24, 24, 24, .7);
@@ -198,6 +202,8 @@ html {
     }
 }
 
+=======
+>>>>>>> master
 .nowPlayingBarSecondaryText {
     color: #999
 }

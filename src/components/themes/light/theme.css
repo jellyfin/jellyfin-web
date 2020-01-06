@@ -186,6 +186,7 @@ html {
     color: rgba(255, 255, 255, .78)
 }
 
+<<<<<<< HEAD
 @supports (backdrop-filter:blur(10px)) {
     .appfooter-blurred {
         background: rgba(24, 24, 24, .7);
@@ -193,6 +194,8 @@ html {
     }
 }
 
+=======
+>>>>>>> master
 .nowPlayingBarSecondaryText {
     color: #999
 }

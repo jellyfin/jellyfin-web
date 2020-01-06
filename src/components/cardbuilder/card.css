@@ -243,7 +243,7 @@ button {
 }
 
 .coveredImage {
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center center;
 }
 
@@ -622,7 +622,7 @@ button {
 
 @media (min-width: 43.75em) {
     .overflowSquareCard, .overflowPortraitCard {
-        width: 23.3vw;
+        width: 23.1vw;
     }
 }
 
@@ -638,13 +638,13 @@ button {
     }
 
     .overflowSquareCard, .overflowPortraitCard {
-        width: 23.3vw;
+        width: 23.1vw;
     }
 }
 
 @media (orientation: landscape) and (min-width: 48.125em) {
     .overflowBackdropCard, .overflowSmallBackdropCard {
-        width: 23.3vw;
+        width: 23.1vw;
     }
 }
 
@@ -656,13 +656,13 @@ button {
 
 @media (min-width: 50em) {
     .overflowSquareCard, .overflowPortraitCard {
-        width: 18.4vw;
+        width: 18.5vw;
     }
 }
 
 @media (min-width: 75em) {
     .overflowBackdropCard, .overflowSmallBackdropCard {
-        width: 23.3vw;
+        width: 23.1vw;
     }
 
     .overflowSquareCard, .overflowPortraitCard {
