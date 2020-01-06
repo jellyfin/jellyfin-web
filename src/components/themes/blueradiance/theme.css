@@ -175,11 +175,7 @@ html {
 
 @supports (backdrop-filter:blur(10px)) {
     .appfooter-blurred {
-<<<<<<< HEAD
-        background: rgba(24, 24, 24, .7);
-=======
         background: rgba(1, 2, 50, .7);
->>>>>>> master
         backdrop-filter: blur(20px)
     }
 }

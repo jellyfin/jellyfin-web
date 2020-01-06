@@ -161,16 +161,6 @@ html {
     color: rgba(255, 255, 255, .78)
 }
 
-<<<<<<< HEAD
-@supports (backdrop-filter:blur(10px)) {
-    .appfooter-blurred {
-        background: rgba(24, 24, 24, .7);
-        backdrop-filter: blur(20px)
-    }
-}
-
-=======
->>>>>>> master
 .itemSelectionPanel {
     border: 1px solid #00a4dc
 }

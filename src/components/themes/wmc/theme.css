@@ -26,16 +26,6 @@ html {
     background: linear-gradient(to bottom, #0C2450, #081B3B)
 }
 
-<<<<<<< HEAD
-@supports (backdrop-filter:blur(1.5em)) {
-    .skinHeader-blurred {
-        background: rgba(20, 20, 20, .7);
-        backdrop-filter: blur(1.5em)
-    }
-}
-
-=======
->>>>>>> master
 .skinHeader.semiTransparent {
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
@@ -174,16 +164,6 @@ html {
     color: rgba(255, 255, 255, .78)
 }
 
-<<<<<<< HEAD
-@supports (backdrop-filter:blur(10px)) {
-    .appfooter-blurred {
-        background: rgba(24, 24, 24, .7);
-        backdrop-filter: blur(20px)
-    }
-}
-
-=======
->>>>>>> master
 .itemSelectionPanel {
     border: 1px solid #00a4dc
 }
