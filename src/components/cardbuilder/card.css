@@ -8,7 +8,6 @@ button::-moz-focus-inner {
 }
 
 .card {
-<<<<<<< HEAD
     border: 0;
     font-size: inherit !important;
     font-family: inherit !important;
@@ -24,24 +23,6 @@ button::-moz-focus-inner {
     contain: layout style;
     flex-shrink: 0;
     font-weight: inherit !important;
-=======
-  border: 0;
-  font-size: inherit !important;
-  font-family: inherit !important;
-  text-transform: none;
-  background: none !important;
-  background-color: transparent !important;
-  margin: 0;
-  padding: 0;
-  display: block;
-  color: inherit !important;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  outline: none !important;
-  cursor: pointer;
-  contain: layout style;
-  flex-shrink: 0;
-  font-weight: inherit !important;
->>>>>>> Automatic CSS fix by stylelint
 }
 
 .card:not(.show-animation) {
@@ -104,7 +85,6 @@ button::-moz-focus-inner {
 }
 
 .cardBox {
-<<<<<<< HEAD
     padding: 0 !important;
     margin: 0.6em;
     transition: none;
@@ -112,17 +92,6 @@ button::-moz-focus-inner {
     outline: none !important;
     contain: layout;
     contain: style;
-=======
-  padding: 0 !important;
-  margin: 0.6em;
-  transition: none;
-  border: 0 solid transparent;
-
-  /* These both are needed in case cardBox is a button */
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  outline: none !important;
-  contain: layout style;
->>>>>>> Automatic CSS fix by stylelint
 }
 
 .card.show-animation .cardBox {
@@ -184,7 +153,6 @@ button::-moz-focus-inner {
 }
 
 .cardImageContainer {
-<<<<<<< HEAD
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -197,22 +165,6 @@ button::-moz-focus-inner {
     /* This is only needed for scalable cards */
     height: 100%;
     contain: strict;
-=======
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  display: -webkit-flex;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  background-clip: content-box !important;
-  color: inherit;
-
-  /* This is only needed for scalable cards */
-  height: 100%;
-  contain: strict;
->>>>>>> Automatic CSS fix by stylelint
 }
 
 .chapterCardImageContainer {
@@ -225,7 +177,6 @@ button::-moz-focus-inner {
 }
 
 .cardContent {
-<<<<<<< HEAD
     overflow: hidden;
     position: absolute;
     top: 0;
@@ -240,26 +191,6 @@ button::-moz-focus-inner {
     height: 100%;
     outline: none !important;
     contain: strict;
-=======
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  /* Needed in case this is a button */
-  display: block;
-
-  /* Needed in case this is a button */
-  margin: 0 !important;
-
-  /* Needed in safari */
-  height: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  outline: none !important;
-  contain: strict;
->>>>>>> Automatic CSS fix by stylelint
 }
 
 .cardContent-button {
@@ -319,13 +250,8 @@ button::-moz-focus-inner {
 }
 
 .coveredImage {
-<<<<<<< HEAD
     background-size: cover;
     background-position: center center;
-=======
-  background-size: 100% 100%;
-  background-position: center center;
->>>>>>> Automatic CSS fix by stylelint
 }
 
 .coveredImage-noScale {
@@ -430,9 +356,7 @@ button::-moz-focus-inner {
   text-align: center;
 }
 
-<<<<<<< HEAD
 .textActionButton {
-<<<<<<< HEAD
     border: 0 !important;
     background: transparent;
     border: 0 !important;
@@ -443,23 +367,8 @@ button::-moz-focus-inner {
     vertical-align: middle;
     font-family: inherit;
     font-size: inherit;
-=======
-  border: 0 !important;
-  background: transparent;
-  border: 0 !important;
-  padding: 0 !important;
-  cursor: pointer;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  outline: none !important;
-  color: inherit;
-  vertical-align: middle;
-  font-family: inherit;
-  font-size: inherit;
->>>>>>> Automatic CSS fix by stylelint
 }
 
-=======
->>>>>>> Manually fix remaining errors
 .textActionButton:hover {
   text-decoration: underline;
 }
@@ -740,16 +649,9 @@ button::-moz-focus-inner {
 }
 
 @media (min-width: 43.75em) {
-<<<<<<< HEAD
     .overflowSquareCard, .overflowPortraitCard {
         width: 23.1vw;
     }
-=======
-  .overflowSquareCard,
-  .overflowPortraitCard {
-    width: 23.3vw;
-  }
->>>>>>> Automatic CSS fix by stylelint
 }
 
 @media (min-width: 48.125em) {
@@ -765,7 +667,6 @@ button::-moz-focus-inner {
     width: 30vw;
   }
 
-<<<<<<< HEAD
     .overflowSquareCard, .overflowPortraitCard {
         width: 23.1vw;
     }
@@ -775,19 +676,6 @@ button::-moz-focus-inner {
     .overflowBackdropCard, .overflowSmallBackdropCard {
         width: 23.1vw;
     }
-=======
-  .overflowSquareCard,
-  .overflowPortraitCard {
-    width: 23.3vw;
-  }
-}
-
-@media (orientation: landscape) and (min-width: 48.125em) {
-  .overflowBackdropCard,
-  .overflowSmallBackdropCard {
-    width: 23.3vw;
-  }
->>>>>>> Automatic CSS fix by stylelint
 }
 
 @media (orientation: landscape) and (min-width: 50em) {
@@ -797,7 +685,6 @@ button::-moz-focus-inner {
 }
 
 @media (min-width: 50em) {
-<<<<<<< HEAD
     .overflowSquareCard, .overflowPortraitCard {
         width: 18.5vw;
     }
@@ -807,19 +694,6 @@ button::-moz-focus-inner {
     .overflowBackdropCard, .overflowSmallBackdropCard {
         width: 23.1vw;
     }
-=======
-  .overflowSquareCard,
-  .overflowPortraitCard {
-    width: 18.4vw;
-  }
-}
-
-@media (min-width: 75em) {
-  .overflowBackdropCard,
-  .overflowSmallBackdropCard {
-    width: 23.3vw;
-  }
->>>>>>> Automatic CSS fix by stylelint
 
   .overflowSquareCard,
   .overflowPortraitCard {
@@ -933,11 +807,6 @@ button::-moz-focus-inner {
 }
 
 .cardOverlayFab-primary:hover {
-<<<<<<< HEAD
     transform: scale(1.4, 1.4);
     transition: 0.2s;
-=======
-  transform: scale(1.4, 1.4);
-  transition: 0.2s;
->>>>>>> Automatic CSS fix by stylelint
 }
