@@ -584,8 +584,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         return trackElement.mode === 'showing';
                     });
             } else {
-                // get track events
-                return currentTrackEvents;
+                return null;
             }
         }
 
@@ -600,8 +599,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 var trackElement = getTextTrack();
                 // if .vtt currently rendering
                 if (trackElement) {
-                    offsetValue = updateCurrentTrackOffset(offsetValue);
-                    setVttSubtitleOffset(trackElement, offsetValue);
+                    setTextTrackSubtitleOffset(trackElement, offsetValue);
+                } else if (currentTrackEvents) {
+                    setTrackEventsSubtitleOffset(currentTrackEvents, offsetValue);
                 } else {
                     console.log("No available track, cannot apply offset: ", offsetValue);
                 }
@@ -620,16 +620,23 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return relativeOffset;
         }
 
-        function setVttSubtitleOffset(currentTrack, offsetValue) {
+        function setTextTrackSubtitleOffset(currentTrack, offsetValue) {
 
             if (currentTrack.cues) {
+                offsetValue = updateCurrentTrackOffset(offsetValue);
                 Array.from(currentTrack.cues)
                     .forEach(function(cue) {
                         cue.startTime -= offsetValue;
                         cue.endTime -= offsetValue;
                     });
-            } else if (Array.isArray(currentTrack)) {
-                currentTrack.forEach(function(trackEvent) {
+            }
+        }
+
+        function setTrackEventsSubtitleOffset(trackEvents, offsetValue) {
+
+            if (Array.isArray(trackEvents)) {
+                offsetValue = updateCurrentTrackOffset(offsetValue);
+                trackEvents.forEach(function(trackEvent) {
                     trackEvent.StartPositionTicks -= offsetValue;
                     trackEvent.EndPositionTicks -= offsetValue;
                 });
