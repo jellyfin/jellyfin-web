@@ -15,7 +15,7 @@
 progress {
   appearance: none;
   margin: 0;
-  background: #ccc !important
+  background: #ccc !important;
 }
 
 progress[role]::after {
@@ -88,17 +88,17 @@ div[data-role=controlgroup] a[data-role=button] {
   display: inline-block !important;
   margin: 0 !important;
   box-shadow: none !important;
-  border-radius: 0
+  border-radius: 0;
 }
 
 div[data-role=controlgroup] a[data-role=button]:first-child {
   border-bottom-left-radius: 0.3125em;
-  border-top-left-radius: 0.3125em
+  border-top-left-radius: 0.3125em;
 }
 
 div[data-role=controlgroup] a[data-role=button]:last-child {
   border-bottom-right-radius: 0.3125em;
-  border-top-right-radius: 0.3125em
+  border-top-right-radius: 0.3125em;
 }
 
 div[data-role=controlgroup] a[data-role=button] + a[data-role=button] {
@@ -179,7 +179,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .dashboardSections {
   display: flex;
-  flex-direction: column
+  flex-direction: column;
 }
 
 .dashboardColumn {
@@ -207,7 +207,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .dashboardSection {
   flex-shrink: 0;
-  margin: 0 0 2em
+  margin: 0 0 2em;
 }
 
 .dashboardSection h3 {
@@ -219,10 +219,10 @@ div[data-role=controlgroup] a.ui-btn-active {
   width: 50%;
 }
 
-@media all and (min-width:70em) {
+@media all and (min-width: 70em) {
   .dashboardSections {
     flex-wrap: wrap;
-    flex-direction: row
+    flex-direction: row;
   }
 
   .dashboardColumn-2-60 {
@@ -308,17 +308,6 @@ div[data-role=controlgroup] a.ui-btn-active {
   margin: 0;
 }
 
-.sessionNowPlayingContent {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0
-}
-
 .sessionNowPlayingInnerContent {
   position: absolute;
   top: 0;
@@ -401,7 +390,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .disabledUser {
-  filter: grayscale(100%)
+  filter: grayscale(100%);
 }
 
 .disabledUserBanner {
@@ -416,39 +405,22 @@ div[data-role=controlgroup] a.ui-btn-active {
   margin-left: 5px;
 }
 
-.appLinks img {
-  height: 36px;
-}
-
-a[data-role=button] {
-  background-clip: padding-box;
-  cursor: pointer !important;
-  font-family: inherit !important;
-  font-weight: 500 !important;
-  margin: 0 .25em !important;
-  display: inline-block;
-  padding: .8em 1em;
-  text-align: center;
-  text-decoration: none !important;
-  background: #292929 !important;
-}
-
 @keyframes rotating {
   from {
-    transform: rotate(0)
+    transform: rotate(0);
   }
 
   to {
-    transform: rotate(360deg)
+    transform: rotate(360deg);
   }
 }
 
 .rotatingCircle {
-  animation: rotating 2s linear infinite
+  animation: rotating 2s linear infinite;
 }
 
 .pluginPreviewImg {
-  box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
+  box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
 .ui-bar-a {

@@ -16,7 +16,7 @@
 .itemMiscInfo,
 .navMenuOptionText {
   text-overflow: ellipsis;
-  overflow: hidden
+  overflow: hidden;
 }
 
 .libraryPage {
@@ -47,7 +47,7 @@
   z-index: 1;
   margin: 0 !important;
   top: 6.9em !important;
-  transition: transform 0.2s ease-out
+  transition: transform 0.2s ease-out;
 }
 
 .pageTabContent:not(.is-active) {
@@ -59,7 +59,7 @@
   background-repeat: no-repeat;
   background-position: center center;
   border-radius: 100em;
-  display: inline-block
+  display: inline-block;
 }
 
 .headerUserButtonRound div {
@@ -70,7 +70,7 @@
 }
 
 .headerButton {
-  flex-shrink: 0
+  flex-shrink: 0;
 }
 
 .hideMainDrawer .mainDrawerButton {
@@ -79,7 +79,7 @@
 
 .headerLeft,
 .headerRight {
-  -webkit-box-align: center;
+  align-items: center;
 }
 
 .headerRight {
@@ -100,10 +100,10 @@
 
 .pageTitle {
   display: inline-flex;
-  margin: .3em 0 0 .5em;
+  margin: 0.3em 0 0 0.5em;
   height: 1.7em;
   align-items: center;
-  flex-shrink: 1
+  flex-shrink: 1;
 }
 
 .headerLeft,
@@ -111,16 +111,11 @@
   display: flex;
 }
 
-.detailButton-mobile,
-.skinHeader {
-  flex-direction: column;
-}
-
 .pageTitleWithLogo {
   background-position: left center;
   background-size: contain;
   background-repeat: no-repeat;
-  width: 13.2em
+  width: 13.2em;
 }
 
 .skinHeader {
@@ -133,11 +128,6 @@
   display: flex;
   flex-direction: column;
   contain: layout style paint;
-}
-
-.headerLeft,
-.headerRight {
-  justify-content: center;
 }
 
 .hiddenViewMenuBar .skinHeader {
@@ -160,12 +150,6 @@
   width: 100%;
 }
 
-.headerRight {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end
-}
-
 .selectedMediaFolder {
   background-color: #f2f2f2 !important;
 }
@@ -179,12 +163,12 @@
   flex-grow: 1;
   font-weight: 400 !important;
   margin: 0 !important;
-  border-radius: 0 !important
+  border-radius: 0 !important;
 }
 
 .navMenuOptionIcon {
   margin-right: 1.2em;
-  flex-shrink: 0
+  flex-shrink: 0;
 }
 
 .navMenuOptionText {
@@ -197,12 +181,12 @@
 }
 
 .dashboardDocument .skinBody {
-  transition: left ease-in-out .3s, padding ease-in-out .3s;
+  transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  left: 0
+  left: 0;
 }
 
 .layout-desktop .searchTabButton,
@@ -212,13 +196,13 @@
 }
 
 .mainDrawer-scrollContainer {
-  padding-bottom: 10vh
+  padding-bottom: 10vh;
 }
 
-@media all and (min-width:40em) {
+@media all and (min-width: 40em) {
   .dashboardDocument .adminDrawerLogo,
   .dashboardDocument .mainDrawerButton {
-    display: none !important
+    display: none !important;
   }
 
   .dashboardDocument .mainDrawer {
@@ -228,25 +212,25 @@
     transform: none !important;
     box-shadow: none !important;
     width: 20.205em !important;
-    font-size: 94%
+    font-size: 94%;
   }
 
   .dashboardDocument .mainDrawer-scrollContainer {
-    margin-top: 5em !important
+    margin-top: 5em !important;
   }
 
   .dashboardDocument .skinBody {
-    left: 20em
+    left: 20em;
   }
 }
 
-@media all and (max-width:60em) {
+@media all and (max-width: 60em) {
   .libraryDocument .mainDrawerButton {
-    display: none
+    display: none;
   }
 }
 
-@media all and (max-width:84em) {
+@media all and (max-width: 84em) {
   .withSectionTabs .headerTop {
     padding-bottom: 0.2em;
   }
@@ -256,9 +240,9 @@
   }
 }
 
-@media all and (min-width:84em) {
+@media all and (min-width: 84em) {
   .headerTop {
-    padding: 1.489em 0
+    padding: 1.489em 0;
   }
 
   .headerTabs {
@@ -268,19 +252,19 @@
     justify-content: center;
     margin-top: -3.34em;
     position: relative;
-    top: -1.05em
+    top: -1.05em;
   }
 
   .libraryPage:not(.noSecondaryNavPage) {
-    padding-top: 4.6em !important
+    padding-top: 4.6em !important;
   }
 
   .pageWithAbsoluteTabs:not(.noSecondaryNavPage) {
-    padding-top: 6.7em !important
+    padding-top: 6.7em !important;
   }
 
   .absolutePageTabContent {
-    top: 5.7em !important
+    top: 5.7em !important;
   }
 
   .dashboardDocument .mainDrawer-scrollContainer {
@@ -322,7 +306,7 @@
 }
 
 .flexPageTabContent.is-active {
-  display: flex !important
+  display: flex !important;
 }
 
 .viewSettings {
@@ -339,11 +323,11 @@
 }
 
 .criticReview {
-    margin: 1.5em 0;
-    background: #222;
-    padding: 0.8em 0.8em 0.8em 3em;
-    border-radius: .3em;
-    position: relative
+  margin: 1.5em 0;
+  background: #222;
+  padding: 0.8em 0.8em 0.8em 3em;
+  border-radius: 0.3em;
+  position: relative;
 }
 
 .detailLogo,
@@ -402,7 +386,7 @@
 .itemBackdrop {
   background-size: cover;
   height: 50vh;
-  position: relative
+  position: relative;
 }
 
 .itemBackdropProgressBar {
@@ -433,7 +417,7 @@
 
 .detailPagePrimaryContent {
   position: relative;
-  flex-grow: 1
+  flex-grow: 1;
 }
 
 .detailLogo {
@@ -442,7 +426,7 @@
   position: absolute;
   top: 13.5%;
   right: 19.5%;
-  background-size: contain
+  background-size: contain;
 }
 
 @media all and (max-width: 87.5em) {
@@ -471,7 +455,7 @@
 
 .itemDetailImage {
   width: 100%;
-  box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
+  box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
 .thumbDetailImageContainer {
@@ -507,7 +491,7 @@
 
   .detailPagePrimaryContainer {
     display: flex;
-    margin-bottom: 3em
+    margin-bottom: 3em;
   }
 }
 
@@ -523,7 +507,6 @@
 }
 
 .btnSyncComplete i {
-  -webkit-border-radius: 100em;
   border-radius: 100em;
 }
 
@@ -594,13 +577,13 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  margin: 1em 0
+  margin: 1em 0;
 }
 
 .recordingFields button {
   margin-left: 0;
-  margin-right: .5em;
-  flex-shrink: 0
+  margin-right: 0.5em;
+  flex-shrink: 0;
 }
 
 .mainDetailButtons.hide + .recordingFields {
@@ -613,7 +596,7 @@
   justify-content: center;
   align-items: center;
   margin: 0 !important;
-  padding: 0.5em 0.7em !important
+  padding: 0.5em 0.7em !important;
 }
 
 .detailButton {
@@ -698,13 +681,13 @@
 .itemMiscInfo {
   display: flex;
   flex-wrap: wrap;
-  align-items: center
+  align-items: center;
 }
 
-@media all and (max-width:31.25em) {
+@media all and (max-width: 31.25em) {
   .mobileDetails .itemMiscInfo {
     text-align: center;
-    justify-content: center
+    justify-content: center;
   }
 
   .itemMiscInfo .endsAt {
@@ -794,10 +777,6 @@
   background: #673ab7 !important;
 }
 
-.btnSyncComplete i {
-  border-radius: 100em
-}
-
 .bulletSeparator {
   margin: 0 0.35em;
 }
@@ -806,7 +785,7 @@
   display: flex;
   align-items: center;
   margin: 1em 0;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .verticalSection-extrabottompadding {
@@ -843,7 +822,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .sectionTitleButton {
   margin-left: 1.5em !important;
-  flex-shrink: 0
+  flex-shrink: 0;
 }
 
 .sectionTitleButton + .sectionTitleButton {
@@ -854,17 +833,17 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
   margin-left: 1.5em !important;
   flex-shrink: 0;
   font-size: 84% !important;
-  padding: .5em !important
+  padding: 0.5em !important;
 }
 
 .horizontalItemsContainer {
-  display: flex
+  display: flex;
 }
 
 .sectionTitleTextButton {
   margin: 0 !important;
   display: inline-flex !important;
-  color: inherit !important
+  color: inherit !important;
 }
 
 .sectionTitleTextButton:not(.padded-left) {
@@ -934,7 +913,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .itemsViewSettingsContainer {
-  justify-content: center
+  justify-content: center;
 }
 
 @media all and (min-width: 40em) {

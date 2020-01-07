@@ -1,6 +1,6 @@
 .nowPlayingInfoContainer {
   display: flex;
-  flex-direction: row
+  flex-direction: row;
 }
 
 .navigationSection {
@@ -18,7 +18,7 @@
 .nowPlayingInfoButtons {
   display: flex;
   align-items: center;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .nowPlayingInfoControls,
@@ -28,9 +28,9 @@
 
 .nowPlayingPageImageContainer {
   width: 20%;
-  margin-right: .25em;
+  margin-right: 0.25em;
   position: relative;
-  flex-shrink: 0
+  flex-shrink: 0;
 }
 
 @media all and (min-width: 50em) {
@@ -43,7 +43,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center
+  justify-content: center;
 }
 
 .nowPlayingPageImage {
@@ -52,56 +52,56 @@
   right: 0;
   width: 100%;
   box-shadow: 0 0 1.9vh #000;
-  border: .1em solid #222;
+  border: 0.1em solid #222;
   user-drag: none;
   user-select: none;
 }
 
-@media all and (orientation:portrait) and (max-width:50em) {
+@media all and (orientation: portrait) and (max-width: 50em) {
   .nowPlayingInfoContainer {
     flex-direction: column !important;
-    align-items: center
+    align-items: center;
   }
 
   .nowPlayingPageTitle {
     text-align: center;
-    margin: .5em 0 .75em
+    margin: 0.5em 0 0.75em;
   }
 
   .nowPlayingPositionSliderContainer {
-    margin: .7em 1em
+    margin: 0.7em 1em;
   }
 
   .nowPlayingInfoButtons {
-    justify-content: center
+    justify-content: center;
   }
 
   .nowPlayingPageImageContainer {
     width: auto;
-    margin-right: 0
+    margin-right: 0;
   }
 
   .nowPlayingInfoControls {
     margin-top: 1em;
-    max-width: 100%
+    max-width: 100%;
   }
 
   .nowPlayingPageImage {
     width: auto;
-    height: 36vh
+    height: 36vh;
   }
 }
 
-@media all and (orientation:portrait) and (max-width:40em) {
+@media all and (orientation: portrait) and (max-width: 40em) {
   .nowPlayingPageImage {
-    height: 30vh
+    height: 30vh;
   }
 }
 
 .nowPlayingTime {
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
+}
 
 .nowPlayingSecondaryButtons {
   display: flex;
@@ -110,7 +110,7 @@
   justify-content: center;
 }
 
-@media all and (min-width:50em) {
+@media all and (min-width: 50em) {
   .nowPlayingSecondaryButtons {
     flex-grow: 1;
     justify-content: flex-end;
@@ -127,10 +127,10 @@
   width: 30em;
 }
 
-.smallBackdropPosterItem .cardOverlayInner>div {
+.smallBackdropPosterItem .cardOverlayInner > div {
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: hidden
+  overflow: hidden;
 }
 
 .playlistIndexIndicatorImage {

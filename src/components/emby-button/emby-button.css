@@ -8,7 +8,6 @@
   font-size: inherit;
   font-family: inherit;
   color: inherit;
-  outline-width: 0;
   user-select: none;
   cursor: pointer;
   z-index: 0;
@@ -16,10 +15,12 @@
   vertical-align: middle;
   border: 0;
   border-radius: 0.2em;
+
   /* These are getting an outline in opera tv browsers, which run chrome 30 */
   outline: none !important;
   font-weight: 600;
   text-decoration: none;
+
   /* Not crazy about this but it normalizes heights between anchors and buttons */
   line-height: 1.35;
   transform-origin: center;
@@ -86,7 +87,7 @@
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  margin: 0 .29em;
+  margin: 0 0.29em;
   background: transparent;
   text-align: center;
   font-size: inherit;
@@ -99,10 +100,10 @@
   min-height: initial;
   width: auto;
   height: auto;
-  padding: .556em;
+  padding: 0.556em;
   vertical-align: middle;
   border: 0;
-  vertical-align: middle;
+
   /* These are getting an outline in opera tv browsers, which run chrome 30 */
   outline: none !important;
   overflow: hidden;

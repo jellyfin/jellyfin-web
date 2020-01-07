@@ -17,13 +17,13 @@ html {
 
 .skinHeader-withBackground {
   background: #303030;
-  background: linear-gradient(to right, #291A31, #033664, #011432, #141A3A, #291A31)
+  background: linear-gradient(to right, #291a31, #033664, #011432, #141a3a, #291a31);
 }
 
 .skinHeader.semiTransparent {
   backdrop-filter: none !important;
-  background-color: rgba(0, 0, 0, .3);
-  background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0))
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .pageTitleWithDefaultLogo {
@@ -37,7 +37,7 @@ html {
 
 .backgroundContainer {
   background: url(bg.jpg) center top no-repeat #033361;
-  background-size: cover
+  background-size: cover;
 }
 
 .backgroundContainer.withBackdrop {
@@ -175,8 +175,8 @@ html {
 
 @supports (backdrop-filter:blur(10px)) {
   .appfooter-blurred {
-    background: rgba(1, 2, 50, .7);
-    backdrop-filter: blur(20px)
+    background: rgba(1, 2, 50, 0.7);
+    backdrop-filter: blur(20px);
   }
 }
 
@@ -240,13 +240,12 @@ html {
   color: #cb272a;
 }
 
-.emby-input,ckground: rgba(1, 2, 50, .7);
-backdrop
+.emby-input,
 .emby-textarea {
   color: inherit;
-  background: rgba(0, 0, 0, .5);
-  border: .07em solid transparent;
-  border-radius: .15em
+  background: rgba(0, 0, 0, 0.5);
+  border: 0.07em solid transparent;
+  border-radius: 0.15em;
 }
 
 .emby-input:focus,
@@ -400,14 +399,14 @@ backdrop
 }
 
 .itemBackdropFader {
-  background: linear-gradient(rgba(0, 0, 0, 0), #181818)
+  background: linear-gradient(rgba(0, 0, 0, 0), #181818);
 }
 
 .infoBanner {
   color: #ddd;
   background: #111;
   padding: 1em;
-  border-radius: .25em
+  border-radius: 0.25em;
 }
 
 .ratingbutton-icon-withrating {
@@ -433,7 +432,7 @@ backdrop
 }
 
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -448,7 +447,7 @@ backdrop
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
   border-radius: 2px;
-  background: center no-repeat #888
+  background: center no-repeat #888;
 }
 
 .timeslotHeaders-desktop::-webkit-scrollbar {

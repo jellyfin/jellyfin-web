@@ -8,7 +8,8 @@
   scroll-behavior: smooth;
 }
 
-.hiddenScrollX, .layout-tv .scrollX {
+.hiddenScrollX,
+.layout-tv .scrollX {
   scrollbar-width: none;
 }
 
@@ -33,7 +34,8 @@
   scroll-behavior: smooth;
 }
 
-.hiddenScrollY, .layout-tv .smoothScrollY {
+.hiddenScrollY,
+.layout-tv .smoothScrollY {
   scrollbar-width: none;
 }
 
@@ -41,7 +43,9 @@
   scrollbar-width: none;
 }
 
-.hiddenScrollY::-webkit-scrollbar, .layout-tv .smoothScrollY::-webkit-scrollbar, .layout-tv .scrollY::-webkit-scrollbar {
+.hiddenScrollY::-webkit-scrollbar,
+.layout-tv .smoothScrollY::-webkit-scrollbar,
+.layout-tv .scrollY::-webkit-scrollbar {
   width: 0 !important;
   display: none;
 }

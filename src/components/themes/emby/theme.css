@@ -225,8 +225,8 @@ html {
 .emby-textarea {
   color: inherit;
   background: #292929;
-  border: .07em solid #292929;
-  border-radius: .15em
+  border: 0.07em solid #292929;
+  border-radius: 0.15em;
 }
 
 .emby-input:focus,
@@ -376,14 +376,14 @@ html {
 }
 
 .itemBackdropFader {
-  background: linear-gradient(rgba(0, 0, 0, 0), #1a1a1a)
+  background: linear-gradient(rgba(0, 0, 0, 0), #1a1a1a);
 }
 
 .infoBanner {
   color: #ddd;
   background: #111;
   padding: 1em;
-  border-radius: .25em
+  border-radius: 0.25em;
 }
 
 .ratingbutton-icon-withrating {
@@ -409,7 +409,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -424,7 +424,7 @@ html {
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
   border-radius: 2px;
-  background: center no-repeat #888
+  background: center no-repeat #888;
 }
 
 .timeslotHeaders-desktop::-webkit-scrollbar {

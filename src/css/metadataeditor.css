@@ -29,14 +29,14 @@
 .jstree-wholerow-hovered {
   background: #38c !important;
   border-radius: 0 !important;
-  box-shadow: none !important
+  box-shadow: none !important;
 }
 
 .jstree-default .jstree-hovered {
   background: 0 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  color: #fff !important
+  color: #fff !important;
 }
 
 .jstree-default .jstree-wholerow-clicked {

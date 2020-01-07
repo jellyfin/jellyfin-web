@@ -20,7 +20,7 @@ html {
 
 .layout-mobile,
 .layout-tv {
-  user-select: none
+  user-select: none;
 }
 
 body {

@@ -8,21 +8,21 @@ button::-moz-focus-inner {
 }
 
 .card {
-    border: 0;
-    font-size: inherit !important;
-    font-family: inherit !important;
-    text-transform: none;
-    background-color: transparent !important;
-    background: none !important;
-    margin: 0;
-    padding: 0;
-    display: block;
-    color: inherit !important;
-    outline: none !important;
-    cursor: pointer;
-    contain: layout style;
-    flex-shrink: 0;
-    font-weight: inherit !important;
+  border: 0;
+  font-size: inherit !important;
+  font-family: inherit !important;
+  text-transform: none;
+  background: none !important;
+  background-color: transparent !important;
+  margin: 0;
+  padding: 0;
+  display: block;
+  color: inherit !important;
+  outline: none !important;
+  cursor: pointer;
+  contain: layout style;
+  flex-shrink: 0;
+  font-weight: inherit !important;
 }
 
 .card:not(.show-animation) {
@@ -85,13 +85,13 @@ button::-moz-focus-inner {
 }
 
 .cardBox {
-    padding: 0 !important;
-    margin: 0.6em;
-    transition: none;
-    border: 0 solid transparent;
-    outline: none !important;
-    contain: layout;
-    contain: style;
+  padding: 0 !important;
+  margin: 0.6em;
+  transition: none;
+  border: 0 solid transparent;
+  outline: none !important;
+  contain: layout;
+  contain: style;
 }
 
 .card.show-animation .cardBox {
@@ -153,18 +153,19 @@ button::-moz-focus-inner {
 }
 
 .cardImageContainer {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    background-clip: content-box !important;
-    color: inherit;
-    /* This is only needed for scalable cards */
-    height: 100%;
-    contain: strict;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-clip: content-box !important;
+  color: inherit;
+
+  /* This is only needed for scalable cards */
+  height: 100%;
+  contain: strict;
 }
 
 .chapterCardImageContainer {
@@ -177,20 +178,23 @@ button::-moz-focus-inner {
 }
 
 .cardContent {
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    /* Needed in case this is a button */
-    display: block;
-    /* Needed in case this is a button */
-    margin: 0 !important;
-    /* Needed in safari */
-    height: 100%;
-    outline: none !important;
-    contain: strict;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  /* Needed in case this is a button */
+  display: block;
+
+  /* Needed in case this is a button */
+  margin: 0 !important;
+
+  /* Needed in safari */
+  height: 100%;
+  outline: none !important;
+  contain: strict;
 }
 
 .cardContent-button {
@@ -250,8 +254,8 @@ button::-moz-focus-inner {
 }
 
 .coveredImage {
-    background-size: cover;
-    background-position: center center;
+  background-size: cover;
+  background-position: center center;
 }
 
 .coveredImage-noScale {
@@ -305,11 +309,10 @@ button::-moz-focus-inner {
 }
 
 .textActionButton {
-  border: 0 !important;
   background: transparent;
+  border: 0 !important;
   padding: 0 !important;
   cursor: pointer;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   outline: none !important;
   color: inherit;
   vertical-align: middle;
@@ -354,19 +357,6 @@ button::-moz-focus-inner {
 .cardDefaultText {
   white-space: normal;
   text-align: center;
-}
-
-.textActionButton {
-    border: 0 !important;
-    background: transparent;
-    border: 0 !important;
-    padding: 0 !important;
-    cursor: pointer;
-    outline: none !important;
-    color: inherit;
-    vertical-align: middle;
-    font-family: inherit;
-    font-size: inherit;
 }
 
 .textActionButton:hover {
@@ -649,9 +639,10 @@ button::-moz-focus-inner {
 }
 
 @media (min-width: 43.75em) {
-    .overflowSquareCard, .overflowPortraitCard {
-        width: 23.1vw;
-    }
+  .overflowSquareCard,
+  .overflowPortraitCard {
+    width: 23.1vw;
+  }
 }
 
 @media (min-width: 48.125em) {
@@ -667,15 +658,17 @@ button::-moz-focus-inner {
     width: 30vw;
   }
 
-    .overflowSquareCard, .overflowPortraitCard {
-        width: 23.1vw;
-    }
+  .overflowSquareCard,
+  .overflowPortraitCard {
+    width: 23.1vw;
+  }
 }
 
 @media (orientation: landscape) and (min-width: 48.125em) {
-    .overflowBackdropCard, .overflowSmallBackdropCard {
-        width: 23.1vw;
-    }
+  .overflowBackdropCard,
+  .overflowSmallBackdropCard {
+    width: 23.1vw;
+  }
 }
 
 @media (orientation: landscape) and (min-width: 50em) {
@@ -685,15 +678,17 @@ button::-moz-focus-inner {
 }
 
 @media (min-width: 50em) {
-    .overflowSquareCard, .overflowPortraitCard {
-        width: 18.5vw;
-    }
+  .overflowSquareCard,
+  .overflowPortraitCard {
+    width: 18.5vw;
+  }
 }
 
 @media (min-width: 75em) {
-    .overflowBackdropCard, .overflowSmallBackdropCard {
-        width: 23.1vw;
-    }
+  .overflowBackdropCard,
+  .overflowSmallBackdropCard {
+    width: 23.1vw;
+  }
 
   .overflowSquareCard,
   .overflowPortraitCard {
@@ -807,6 +802,6 @@ button::-moz-focus-inner {
 }
 
 .cardOverlayFab-primary:hover {
-    transform: scale(1.4, 1.4);
-    transition: 0.2s;
+  transform: scale(1.4, 1.4);
+  transition: 0.2s;
 }

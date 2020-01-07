@@ -22,12 +22,12 @@ html {
 .skinHeader-withBackground {
   background-color: #303030;
   color: #ccc;
-  color: rgba(255, 255, 255, .87);
-  box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
+  color: rgba(255, 255, 255, 0.87);
+  box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
 .osdHeader {
-  box-shadow: none !important
+  box-shadow: none !important;
 }
 
 .skinHeader.semiTransparent {
@@ -245,8 +245,8 @@ html {
 .emby-textarea {
   color: inherit;
   background: #fff;
-  border: .07em solid rgba(0, 0, 0, .158);
-  border-radius: .15em
+  border: 0.07em solid rgba(0, 0, 0, 0.158);
+  border-radius: 0.15em;
 }
 
 .emby-input:focus,
@@ -393,14 +393,14 @@ html {
 }
 
 .itemBackdropFader {
-  background: linear-gradient(rgba(0, 0, 0, 0), #f2f2f2)
+  background: linear-gradient(rgba(0, 0, 0, 0), #f2f2f2);
 }
 
 .infoBanner {
   color: #000;
   background: #fff3a5;
   padding: 1em;
-  border-radius: .25em
+  border-radius: 0.25em;
 }
 
 .ratingbutton-icon-withrating {

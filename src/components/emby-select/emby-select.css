@@ -2,13 +2,17 @@
   display: block;
   margin: 0;
   margin-bottom: 0 !important;
+
   /* Remove select styling */
+
   /* Font size must the 16px or larger to prevent iOS page zoom on focus */
   font-size: 110%;
+
   /* General select styles: change as needed */
   font-family: inherit;
   font-weight: inherit;
-  padding: .5em 1.9em .5em .5em;
+  padding: 0.5em 1.9em 0.5em 0.5em;
+
   /* Prevent padding from causing width overflow */
   box-sizing: border-box;
   outline: none !important;
@@ -74,7 +78,7 @@
 
 .emby-select-withcolor {
   appearance: none;
-  border-radius: .2em;
+  border-radius: 0.2em;
 }
 
 .selectArrowContainer {

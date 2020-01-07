@@ -22,14 +22,14 @@ html {
 
 .formDialogHeader:not(.formDialogHeader-clear),
 .skinHeader-withBackground {
-  background-color: #0C2450;
-  background: linear-gradient(to bottom, #0C2450, #081B3B)
+  background: linear-gradient(to bottom, #0c2450, #081b3b);
+  background-color: #0c2450;
 }
 
 .skinHeader.semiTransparent {
   backdrop-filter: none !important;
-  background-color: rgba(0, 0, 0, .3);
-  background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0))
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .pageTitleWithDefaultLogo {
@@ -38,8 +38,8 @@ html {
 
 .backgroundContainer,
 .dialog {
-  background-color: #0F3562;
-  background: linear-gradient(to bottom, #0F3562, #1162A4, #03215F)
+  background: linear-gradient(to bottom, #0f3562, #1162a4, #03215f);
+  background-color: #0f3562;
 }
 
 .backgroundContainer.withBackdrop {
@@ -159,9 +159,9 @@ html {
 
 .appfooter,
 .formDialogFooter:not(.formDialogFooter-clear) {
-  background: #0C2450;
-  background: linear-gradient(to top, #0C2450, #081B3B);
-  color: rgba(255, 255, 255, .78)
+  background: #0c2450;
+  background: linear-gradient(to top, #0c2450, #081b3b);
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .itemSelectionPanel {
@@ -224,9 +224,9 @@ html {
 .emby-input,
 .emby-textarea {
   color: inherit;
-  background: rgba(255, 255, 255, .2);
-  border: .07em solid rgba(255, 255, 255, .135);
-  border-radius: .15em
+  background: rgba(255, 255, 255, 0.2);
+  border: 0.07em solid rgba(255, 255, 255, 0.135);
+  border-radius: 0.15em;
 }
 
 .emby-input:focus,
@@ -238,9 +238,6 @@ html {
   color: inherit;
   background: rgba(255, 255, 255, 0.2);
   border: 0.07em solid rgba(255, 255, 255, 0.135);
-}background: #0C2450;
-background: linear-gradient(to top, #0C2450, #081B3B);
-color: rgba(255, 255, 255, .78)
 }
 
 .emby-checkbox:checked + span + .checkboxOutline,
@@ -381,14 +378,14 @@ color: rgba(255, 255, 255, .78)
 }
 
 .itemBackdropFader {
-  background: linear-gradient(rgba(0, 0, 0, 0), #115E9E)
+  background: linear-gradient(rgba(0, 0, 0, 0), #115e9e);
 }
 
 .infoBanner {
   color: #000;
   background: #fff3a5;
   padding: 1em;
-  border-radius: .25em
+  border-radius: 0.25em;
 }
 
 .ratingbutton-icon-withrating {
@@ -414,7 +411,7 @@ color: rgba(255, 255, 255, .78)
 }
 
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -429,7 +426,7 @@ color: rgba(255, 255, 255, .78)
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
   border-radius: 2px;
-  background: center no-repeat rgba(255, 255, 255, .7)
+  background: center no-repeat rgba(255, 255, 255, 0.7);
 }
 
 .metadataSidebarIcon {

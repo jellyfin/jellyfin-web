@@ -10,13 +10,15 @@
 }
 
 .homeLibraryIcon {
-  margin-left: .5em;
-  margin-right: .5em;
-  flex-shrink: 0
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  flex-shrink: 0;
 }
 
 .homeLibraryText {
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: hidden
+  overflow: hidden;
+  line-height: 1em;
+  margin-top: 0.3em;
 }

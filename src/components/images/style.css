@@ -1,9 +1,9 @@
 .lazy-image-fadein {
   opacity: 0;
-  animation-duration: .8s;
+  animation-duration: 0.8s;
   animation-name: popInAnimation;
   animation-fill-mode: forwards;
-  animation-timing-function: cubic-bezier(0,0,.5,1);
+  animation-timing-function: cubic-bezier(0, 0, 0.5, 1);
 }
 
 .lazy-image-fadein-fast {

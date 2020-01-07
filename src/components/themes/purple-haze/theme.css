@@ -17,13 +17,13 @@ html {
 
 .skinHeader-withBackground {
   background: #000420;
-  background: linear-gradient(to right, #000420 0%,#06256f 18%,#2b052b 38%,#2b052b 68%,#06256f 81%,#000420 100%);
+  background: linear-gradient(to right, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
 }
 
 .skinHeader.semiTransparent {
   backdrop-filter: none !important;
-  background-color: rgba(0, 0, 0, .3);
-  background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0))
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .pageTitleWithDefaultLogo {
@@ -37,7 +37,7 @@ html {
 
 .backgroundContainer {
   background: url(bg.jpg) center top no-repeat #030322;
-  background-size: cover
+  background-size: cover;
 }
 
 .backgroundContainer.withBackdrop {
@@ -270,8 +270,8 @@ a[data-role=button] {
 
 @supports (backdrop-filter:blur(10px)) {
   .appfooter-blurred {
-    background: rgba(6, 37, 111, .7);
-    backdrop-filter: blur(20px)
+    background: rgba(6, 37, 111, 0.7);
+    backdrop-filter: blur(20px);
   }
 }
 
@@ -332,9 +332,9 @@ a[data-role=button] {
 .emby-input,
 .emby-textarea {
   color: inherit;
-  background: rgba(0, 0, 0, .5);
-  border: .07em solid transparent;
-  border-radius: .15em
+  background: rgba(0, 0, 0, 0.5);
+  border: 0.07em solid transparent;
+  border-radius: 0.15em;
 }
 
 .emby-input:focus,
@@ -493,14 +493,14 @@ a[data-role=button] {
 }
 
 .itemBackdropFader {
-  background: linear-gradient(rgba(0, 0, 0, 0), #181818)
+  background: linear-gradient(rgba(0, 0, 0, 0), #181818);
 }
 
 .infoBanner {
   color: #0e0f2d;
   background: #dbe6ff;
   padding: 1em;
-  border-radius: .25em
+  border-radius: 0.25em;
 }
 
 .ratingbutton-icon-withrating {
@@ -532,7 +532,7 @@ a[data-role=button] {
 }
 
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -547,7 +547,7 @@ a[data-role=button] {
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
   border-radius: 2px;
-  background: center no-repeat #888
+  background: center no-repeat #888;
 }
 
 .timeslotHeaders-desktop::-webkit-scrollbar {

@@ -32,6 +32,7 @@
 
 .emby-checkbox {
   position: absolute;
+
   /* This is for focusing purposes, so the focusManager doesn't skip over it */
   width: 1px;
   height: 1px;

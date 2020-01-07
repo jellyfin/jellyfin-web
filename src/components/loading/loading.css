@@ -202,7 +202,7 @@
 .mdl-spinner__circle {
   box-sizing: border-box;
   height: 100%;
-  border-width: .21em;
+  border-width: 0.21em;
   border-style: solid;
   border-color: inherit;
   border-bottom-color: transparent !important;

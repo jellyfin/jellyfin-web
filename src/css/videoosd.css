@@ -12,7 +12,7 @@
 }
 
 .osdHeader {
-  transition: opacity .3s ease-out;
+  transition: opacity 0.3s ease-out;
   position: relative;
   z-index: 1;
   background: rgba(0, 0, 0, 0.7) !important;
@@ -31,7 +31,7 @@
 .chapterThumbContainer {
   box-shadow: 0 0 1.9vh #000;
   flex-grow: 1;
-  position: relative
+  position: relative;
 }
 
 .chapterThumb {
@@ -40,7 +40,7 @@
   background-repeat: no-repeat;
   border: 0;
   height: 20vh;
-  min-width: 20vh
+  min-width: 20vh;
 }
 
 @media all and (orientation: portrait) {
@@ -86,7 +86,7 @@
   will-change: opacity;
   transition: opacity 0.3s ease-out;
   color: #fff;
-  user-select: none
+  user-select: none;
 }
 
 .videoOsdBottom-hidden {
@@ -94,19 +94,19 @@
 }
 
 .osdControls {
-  flex-grow: 1
+  flex-grow: 1;
 }
 
 .videoOsdBottom .buttons {
-  padding: .25em 0 0;
+  padding: 0.25em 0 0;
   display: flex;
   flex-wrap: wrap;
-  align-items: center
+  align-items: center;
 }
 
 .osdVolumeSliderContainer {
   width: 9em;
-  flex-grow: 1
+  flex-grow: 1;
 }
 
 .osdMediaInfo,
@@ -116,14 +116,14 @@
 }
 
 .volumeButtons {
-  margin: 0 .5em 0 auto;
+  margin: 0 0.5em 0 auto;
   display: flex;
-  align-items: center
+  align-items: center;
 }
 
 .osdTimeText {
   margin-left: 1em;
-  user-select: none
+  user-select: none;
 }
 
 .osdPoster {
@@ -137,9 +137,9 @@
   height: auto;
   width: 100%;
   box-shadow: 0 0 1.9vh #000;
-  border: .08em solid #222;
+  border: 0.08em solid #222;
   user-drag: none;
-  user-select: none
+  user-select: none;
 }
 
 .osdTitle,
@@ -149,7 +149,7 @@
 
 .osdMediaInfo {
   display: flex;
-  align-items: center
+  align-items: center;
 }
 
 .osdSecondaryMediaInfo {
@@ -160,12 +160,12 @@
   display: flex;
   align-items: center;
   user-select: none;
-  margin-bottom: .7em;
-  padding-left: .5em
+  margin-bottom: 0.7em;
+  padding-left: 0.5em;
 }
 
 .osdMainTextContainer {
-  align-items: baseline
+  align-items: baseline;
 }
 
 .osdMediaStatus {
@@ -174,12 +174,12 @@
 
 @keyframes spin {
   100% {
-    transform:rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
 .osdMediaStatus .animate {
-    animation:spin 4s linear infinite;
+  animation: spin 4s linear infinite;
 }
 
 .pageContainer {
