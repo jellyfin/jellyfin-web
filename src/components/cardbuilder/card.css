@@ -18,7 +18,6 @@ button {
     padding: 0;
     display: block;
     color: inherit !important;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
     cursor: pointer;
     contain: layout style;
@@ -80,10 +79,9 @@ button {
     margin: 0.6em;
     transition: none;
     border: 0 solid transparent;
-    /* These both are needed in case cardBox is a button */
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
-    contain: layout style;
+    contain: layout;
+    contain: style;
 }
 
 .card.show-focus:not(.show-animation) .cardBox {
@@ -148,7 +146,6 @@ button {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    display: -webkit-flex;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -182,7 +179,6 @@ button {
     margin: 0 !important;
     /* Needed in safari */
     height: 100%;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
     contain: strict;
 }
@@ -247,7 +243,7 @@ button {
 }
 
 .coveredImage {
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center center;
 }
 
@@ -346,7 +342,6 @@ button {
     border: 0 !important;
     padding: 0 !important;
     cursor: pointer;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
     color: inherit;
     vertical-align: middle;
@@ -627,7 +622,7 @@ button {
 
 @media (min-width: 43.75em) {
     .overflowSquareCard, .overflowPortraitCard {
-        width: 23.3vw;
+        width: 23.1vw;
     }
 }
 
@@ -643,13 +638,13 @@ button {
     }
 
     .overflowSquareCard, .overflowPortraitCard {
-        width: 23.3vw;
+        width: 23.1vw;
     }
 }
 
 @media (orientation: landscape) and (min-width: 48.125em) {
     .overflowBackdropCard, .overflowSmallBackdropCard {
-        width: 23.3vw;
+        width: 23.1vw;
     }
 }
 
@@ -661,13 +656,13 @@ button {
 
 @media (min-width: 50em) {
     .overflowSquareCard, .overflowPortraitCard {
-        width: 18.4vw;
+        width: 18.5vw;
     }
 }
 
 @media (min-width: 75em) {
     .overflowBackdropCard, .overflowSmallBackdropCard {
-        width: 23.3vw;
+        width: 23.1vw;
     }
 
     .overflowSquareCard, .overflowPortraitCard {

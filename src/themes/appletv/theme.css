@@ -23,25 +23,10 @@ html {
 .skinHeader-withBackground {
     color: rgba(0, 0, 0, .7);
     background: #303030;
-    background: -webkit-gradient(linear, left top, right top, from(#BCBCBC), color-stop(#A7B4B7), color-stop(#BEB5A5), color-stop(#ADBEC2), to(#B9C7CB));
-    background: -webkit-linear-gradient(left, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);
-    background: -o-linear-gradient(left, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);
     background: linear-gradient(to right, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB)
 }
 
-@supports (backdrop-filter:blur(1.5em)) or (-webkit-backdrop-filter:blur(1.5em)) {
-    .skinHeader-blurred {
-        background: -webkit-gradient(linear, left top, right top, from(rgba(188, 188, 188, .7)), color-stop(rgba(167, 180, 183, .7)), color-stop(rgba(190, 181, 165, .7)), color-stop(rgba(173, 190, 194, .7)), to(rgba(185, 199, 203, .7)));
-        background: -webkit-linear-gradient(left, rgba(188, 188, 188, .7), rgba(167, 180, 183, .7), rgba(190, 181, 165, .7), rgba(173, 190, 194, .7), rgba(185, 199, 203, .7));
-        background: -o-linear-gradient(left, rgba(188, 188, 188, .7), rgba(167, 180, 183, .7), rgba(190, 181, 165, .7), rgba(173, 190, 194, .7), rgba(185, 199, 203, .7));
-        background: linear-gradient(to right, rgba(188, 188, 188, .7), rgba(167, 180, 183, .7), rgba(190, 181, 165, .7), rgba(173, 190, 194, .7), rgba(185, 199, 203, .7));
-        -webkit-backdrop-filter: blur(1.5em);
-        backdrop-filter: blur(1.5em)
-    }
-}
-
 .skinHeader.semiTransparent {
-    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important
 }
 
@@ -56,14 +41,10 @@ html {
 .backgroundContainer,
 .dialog {
     background: #D5E9F2;
-    -webkit-background-size: 100% 100%;
     background-size: 100% 100%
 }
 
 .backgroundContainer.withBackdrop {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(192, 212, 222, .94)), color-stop(rgba(235, 250, 254, .94)), color-stop(rgba(227, 220, 212, .94)), color-stop(rgba(206, 214, 216, .94)), to(rgba(192, 211, 218, .94)));
-    background: -webkit-linear-gradient(top, rgba(192, 212, 222, .94), rgba(235, 250, 254, .94), rgba(227, 220, 212, .94), rgba(206, 214, 216, .94), rgba(192, 211, 218, .94));
-    background: -o-linear-gradient(top, rgba(192, 212, 222, .94), rgba(235, 250, 254, .94), rgba(227, 220, 212, .94), rgba(206, 214, 216, .94), rgba(192, 211, 218, .94));
     background: linear-gradient(to bottom, rgba(192, 212, 222, .94), rgba(235, 250, 254, .94), rgba(227, 220, 212, .94), rgba(206, 214, 216, .94), rgba(192, 211, 218, .94))
 }
 
@@ -200,18 +181,7 @@ html {
 .formDialogFooter:not(.formDialogFooter-clear) {
     color: rgba(0, 0, 0, .7);
     background: #303030;
-    background: -webkit-gradient(linear, left top, right top, from(#BCBCBC), color-stop(#A7B4B7), color-stop(#BEB5A5), color-stop(#ADBEC2), to(#B9C7CB));
-    background: -webkit-linear-gradient(left, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);
-    background: -o-linear-gradient(left, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);
     background: linear-gradient(to right, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB)
-}
-
-@supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
-    .appfooter-blurred {
-        background: rgba(24, 24, 24, .7);
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px)
-    }
 }
 
 .nowPlayingBarSecondaryText {
@@ -275,7 +245,6 @@ html {
     color: inherit;
     background: rgba(255, 255, 255, .9);
     border: .07em solid rgba(0, 0, 0, .158);
-    -webkit-border-radius: .15em;
     border-radius: .15em
 }
 
@@ -424,9 +393,6 @@ html {
 }
 
 .itemBackdropFader {
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(#E4E2DC));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0), #E4E2DC);
-    background: -o-linear-gradient(rgba(0, 0, 0, 0), #E4E2DC);
     background: linear-gradient(rgba(0, 0, 0, 0), #E4E2DC)
 }
 
@@ -434,7 +400,6 @@ html {
     color: #000;
     background: #fff3a5;
     padding: 1em;
-    -webkit-border-radius: .25em;
     border-radius: .25em
 }
 

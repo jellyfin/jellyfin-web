@@ -532,7 +532,9 @@ var AppInfo = {};
             "components/htmlaudioplayer/plugin",
             "components/htmlvideoplayer/plugin",
             "components/photoplayer/plugin",
-            "components/youtubeplayer/plugin"
+            "components/youtubeplayer/plugin",
+            "components/backdropscreensaver/plugin",
+            "components/logoscreensaver/plugin"
         ];
 
         if (appHost.supports("remotecontrol")) {
@@ -593,6 +595,8 @@ var AppInfo = {};
                 if (appHost.supports("remotecontrol")) {
                     require(["playerSelectionMenu", "components/playback/remotecontrolautoplay"]);
                 }
+
+                require(["components/screensavermanager"]);
 
                 if (!appHost.supports("physicalvolumecontrol") || browser.touch) {
                     require(["components/playback/volumeosd"]);
@@ -671,7 +675,8 @@ var AppInfo = {};
             autoPlayDetect: componentsPath + "/playback/autoplaydetect",
             nowPlayingHelper: componentsPath + "/playback/nowplayinghelper",
             pluginManager: componentsPath + "/pluginManager",
-            packageManager: componentsPath + "/packagemanager"
+            packageManager: componentsPath + "/packagemanager",
+            screensaverManager: componentsPath + "/screensavermanager"
         };
 
         requirejs.onError = onRequireJsError;

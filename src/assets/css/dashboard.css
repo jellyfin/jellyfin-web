@@ -1,7 +1,6 @@
 .dashboardColumn,
 .dashboardSections {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal
+    flex-direction: column;
 }
 
 .dashboardFooter {
@@ -15,8 +14,6 @@
 
 progress {
     appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
     margin: 0;
     background: #ccc !important
 }
@@ -76,23 +73,17 @@ progress[aria-valuenow]:before {
 div[data-role=controlgroup] a[data-role=button] {
     display: inline-block !important;
     margin: 0 !important;
-    -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    -webkit-border-radius: 0;
     border-radius: 0
 }
 
 div[data-role=controlgroup] a[data-role=button]:first-child {
-    -webkit-border-bottom-left-radius: .3125em;
     border-bottom-left-radius: .3125em;
-    -webkit-border-top-left-radius: .3125em;
     border-top-left-radius: .3125em
 }
 
 div[data-role=controlgroup] a[data-role=button]:last-child {
-    -webkit-border-bottom-right-radius: .3125em;
     border-bottom-right-radius: .3125em;
-    -webkit-border-top-right-radius: .3125em;
     border-top-right-radius: .3125em
 }
 
@@ -146,23 +137,14 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .dashboardSections {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-flex-direction: column;
     flex-direction: column
 }
 
 .dashboardColumn {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-flex-direction: column;
     flex-direction: column;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
     flex-grow: 1
 }
 
@@ -171,7 +153,6 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .dashboardSection {
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
     margin: 0 0 2em
 }
@@ -187,11 +168,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 @media all and (min-width:70em) {
     .dashboardSections {
-        -webkit-flex-wrap: wrap;
         flex-wrap: wrap;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: row;
         flex-direction: row
     }
 
@@ -296,7 +273,6 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .sessionNowPlayingContent {
-    -webkit-background-size: cover;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -395,7 +371,6 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .disabledUser {
-    -webkit-filter: grayscale(100%);
     filter: grayscale(100%)
 }
 
@@ -416,9 +391,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 a[data-role=button] {
-    -webkit-font-smoothing: antialiased;
-    -webkit-user-select: none;
-    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
     cursor: pointer !important;
     font-family: inherit !important;
     font-weight: 500 !important;
@@ -430,37 +403,21 @@ a[data-role=button] {
     background: #292929 !important;
 }
 
-@-webkit-keyframes rotating {
-    from {
-        -webkit-transform: rotate(0);
-        transform: rotate(0)
-    }
-
-    to {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg)
-    }
-}
-
 @keyframes rotating {
     from {
-        -webkit-transform: rotate(0);
         transform: rotate(0)
     }
 
     to {
-        -webkit-transform: rotate(360deg);
         transform: rotate(360deg)
     }
 }
 
 .rotatingCircle {
-    -webkit-animation: rotating 2s linear infinite;
     animation: rotating 2s linear infinite
 }
 
 .pluginPreviewImg {
-    -webkit-box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
     box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
 }
 

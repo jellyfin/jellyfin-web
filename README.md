@@ -16,7 +16,7 @@
 <a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-web/?utm_source=widget">
 <img src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-web/svg-badge.svg" alt="Translation Status"/>
 </a>
-</br>
+<br/>
 <a href="https://opencollective.com/jellyfin">
 <img alt="Donate" src="https://img.shields.io/opencollective/all/jellyfin.svg?label=backers"/>
 </a>
@@ -53,7 +53,7 @@ Jellyfin Web is the frontend used for most of the clients available for end user
    git clone https://github.com/jellyfin/jellyfin-web.git
    cd jellyfin-web
    ```
-2. Install build dependencies in the project directory via npm.
+2. Install build dependencies in the project directory.
    ```sh
    yarn install
    ```

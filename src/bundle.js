@@ -17,7 +17,7 @@ _define("fetch", function() {
 });
 
 // flvjs
-var flvjs = require("flv.js");
+var flvjs = require("flv.js").default;
 _define("flvjs", function() {
     return flvjs;
 });
@@ -54,7 +54,7 @@ _define("native-promise-only", function() {
 });
 
 // resize-observer-polyfill
-var resize = require("resize-observer-polyfill");
+var resize = require("resize-observer-polyfill").default;
 _define("resize-observer-polyfill", function() {
     return resize;
 });
@@ -73,7 +73,7 @@ _define("swiper", function() {
 });
 
 // sortable
-var sortable = require("sortablejs");
+var sortable = require("sortablejs").default;
 _define("sortable", function() {
     return sortable;
 });
@@ -89,4 +89,10 @@ var libjass = require("libjass");
 require("libjass/libjass.css");
 _define("libjass", function() {
     return libjass;
+});
+
+// libass-wasm
+var libass_wasm = require("libass-wasm");
+_define("JavascriptSubtitlesOctopus", function() {
+    return libass_wasm;
 });

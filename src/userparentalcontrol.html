@@ -1,5 +1,4 @@
 <div id="userParentalControlPage" data-role="page" class="page type-interior">
-
     <div>
         <div class="content-primary">
             <div class="verticalSection">
@@ -15,17 +14,17 @@
                 <a is="emby-linkbutton" href="#" data-role="button" onclick="Dashboard.navigate('userparentalcontrol.html', true);" class="ui-btn-active">${TabParentalControl}</a>
                 <a is="emby-linkbutton" href="#" data-role="button" onclick="Dashboard.navigate('userpassword.html', true);">${TabPassword}</a>
             </div>
-            <form class="userParentalControlForm">
 
+            <form class="userParentalControlForm">
                 <div class="selectContainer">
                     <select is="emby-select" id="selectMaxParentalRating" label="${LabelMaxParentalRating}"></select>
                     <div class="fieldDescription">${MaxParentalRatingHelp}</div>
                 </div>
 
                 <div>
-                    <div class="blockUnratedItems">
-                    </div>
+                    <div class="blockUnratedItems"></div>
                 </div>
+
                 <br />
 
                 <div class="verticalSection" style="margin-bottom:2em;">
@@ -35,9 +34,7 @@
                             <i class="md-icon">add</i>
                         </button>
                     </div>
-                    <div class="blockedTags" style="margin-top:.5em;">
-
-                    </div>
+                    <div class="blockedTags" style="margin-top:.5em;"></div>
                 </div>
 
                 <div class="accessScheduleSection verticalSection" style="margin-bottom:2em;">
@@ -47,10 +44,9 @@
                             <i class="md-icon">add</i>
                         </button>
                     </div>
-                    <p>${HeaderAccessScheduleHelp}</p>
-                    <div class="accessScheduleList paperList">
 
-                    </div>
+                    <p>${HeaderAccessScheduleHelp}</p>
+                    <div class="accessScheduleList paperList"></div>
                 </div>
 
                 <div>
@@ -58,7 +54,6 @@
                         <span>${ButtonSave}</span>
                     </button>
                 </div>
-
             </form>
         </div>
     </div>
