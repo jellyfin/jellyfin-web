@@ -398,10 +398,6 @@ html {
     color: #fff
 }
 
-.itemBackdropFader {
-    background: linear-gradient(rgba(0, 0, 0, 0), #181818)
-}
-
 .infoBanner {
     color: #ddd;
     background: #111;

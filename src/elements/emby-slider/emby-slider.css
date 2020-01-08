@@ -74,11 +74,11 @@ _:-ms-input-placeholder {
 }
 
 .mdl-slider:hover::-webkit-slider-thumb {
-    transform: scale(1.6);
+    transform: scale(1.3);
 }
 
 .mdl-slider.show-focus:focus::-webkit-slider-thumb {
-    transform: scale(1.6);
+    transform: scale(1.3);
 }
 
 .slider-no-webkit-thumb::-webkit-slider-thumb {

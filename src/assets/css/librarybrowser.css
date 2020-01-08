@@ -200,6 +200,7 @@
 }
 
 @media all and (min-width:40em) {
+
     .dashboardDocument .adminDrawerLogo,
     .dashboardDocument .mainDrawerButton {
         display: none !important
@@ -380,6 +381,8 @@
 
 .itemBackdrop {
     background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     height: 50vh;
     position: relative
 }
@@ -391,23 +394,59 @@
     right: 0
 }
 
-.itemBackdropFader {
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 15vh
-}
-
 .desktopMiscInfoContainer {
     position: absolute;
     bottom: .75em
 }
 
+.layout-mobile .detailPagePrimaryContainer {
+    display: block;
+    position: relative;
+}
+
+.layout-tv .detailPagePrimaryContainer {
+    position: relative;
+}
+
+.detailPagePrimaryContainer {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.infoWrapper {
+    flex: 1 0 0;
+}
+
+.infoText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.detailPageSecondaryContainer {
+    margin: 1.25em 0;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.layout-mobile .detailImageContainer,
+.layout-tv .detailImageContainer {
+    position: relative;
+}
+
 .detailImageContainer {
-    width: 280px;
-    margin-right: 2em;
-    flex-shrink: 0;
+    margin: 1.25em 0;
+    position: sticky;
+    top: 15%;
+    float: left;
+    width: 22.786458333333332vw;
 }
 
 .detailPagePrimaryContent {
@@ -416,11 +455,11 @@
 }
 
 .detailLogo {
-    width: 21.3em;
-    height: 5em;
+    width: 25em;
+    height: 9.375em;
     position: absolute;
-    top: 13.5%;
-    right: 19.5%;
+    top: 14.5%;
+    right: 10.5%;
     background-size: contain
 }
 
@@ -449,12 +488,8 @@
 }
 
 .itemDetailImage {
-    width: 100%;
-    box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
-}
-
-.thumbDetailImageContainer {
-    width: 400px
+    width: 100% !important;
+    box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
 }
 
 @media all and (max-width:62.5em) {
@@ -462,31 +497,8 @@
         position: relative
     }
 
-    .detailImageContainer {
-        position: absolute;
-        top: -90px;
-        left: 5%;
-        width: auto
-    }
-
-    .itemDetailImage {
-        height: 120px;
-        width: auto !important
-    }
-
     .btnPlaySimple {
         display: none !important
-    }
-}
-
-@media all and (min-width:62.5em) {
-    .itemBackdrop {
-        display: none
-    }
-
-    .detailPagePrimaryContainer {
-        display: flex;
-        margin-bottom: 3em
     }
 }
 
@@ -568,7 +580,7 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    margin: 1em 0
+    margin: 1em 0;
 }
 
 .recordingFields button {
@@ -629,11 +641,8 @@
 }
 
 .detailImageProgressContainer {
-    position: absolute;
-    bottom: 4px;
-    right: 1px;
-    left: 1px;
-    text-align: center
+    margin-left: 6px;
+    width: 21.886458333333332vw;
 }
 
 .detailButton-mobile-text {
@@ -653,7 +662,7 @@
 }
 
 @media all and (min-width:62.5em) {
-    .detailButton-mobile {
+    .detailFloatingButton {
         display: none !important
     }
 
@@ -698,13 +707,11 @@
 .detailPageContent {
     border-spacing: 0;
     border-collapse: collapse;
-    padding-top: 3em
 }
 
 @media all and (max-width:62.5em) {
     .detailPageContent-nodetailimg {
         padding-top: 0;
-        margin-top: -3em
     }
 }
 

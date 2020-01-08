@@ -375,10 +375,6 @@ html {
     color: #fff
 }
 
-.itemBackdropFader {
-    background: linear-gradient(rgba(0, 0, 0, 0), #101010)
-}
-
 .infoBanner {
     color: #ddd;
     background: #111;

@@ -419,13 +419,13 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
         var offset = parentNameLast ? ".25em" : ".5em";
 
         if (html && !parentNameLast) {
-            html += '<h3 class="itemName" style="margin: .25em 0 .5em;">' + name + '</h3>';
+            html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + name + '</h3>';
         } else {
-            html = '<h1 class="itemName" style="margin: .1em 0 ' + offset + ';">' + name + "</h1>" + html;
+            html = '<h1 class="itemName infoText" style="margin: .1em 0 ' + offset + ';">' + name + "</h1>" + html;
         }
 
         if (item.OriginalTitle && item.OriginalTitle != item.Name) {
-            html += '<h4 class="itemName" style="margin: -' + offset + ' 0 0">' + item.OriginalTitle + '</h4>';
+            html += '<h4 class="itemName infoText" style="margin: -' + offset + ' 0 0">' + item.OriginalTitle + '</h4>';
         }
 
         container.innerHTML = html;
@@ -801,10 +801,8 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
             });
         }
 
-        html += '<div style="position:relative;">';
-
         if (editable) {
-            html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;padding:2px;margin:0;' href='#'>";
+            html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;margin-top:.7em;padding:0' href='#'>";
         }
 
         if (detectRatio && item.PrimaryImageAspectRatio) {
@@ -828,7 +826,6 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
             html += progressHtml;
         }
 
-        html += "</div>";
         html += "</div>";
         elem.innerHTML = html;
 
@@ -898,7 +895,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
 
             var html = cardBuilder.getCardsHtml({
                 items: result.Items,
-                shape: getThumbShape(false),
+                shape: "overflowBackdrop",
                 showTitle: true,
                 displayAsSpecial: "Season" == item.Type && item.IndexNumber,
                 overlayText: false,
@@ -1403,7 +1400,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
                 scrollX = enableScrollX();
                 html = cardBuilder.getCardsHtml({
                     items: result.Items,
-                    shape: getPortraitShape(),
+                    shape: "overflowPortrait",
                     showTitle: true,
                     centerText: true,
                     lazy: true,
@@ -1422,7 +1419,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
                 if ("Episode" === item.Type) {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: getThumbShape(scrollX),
+                        shape: "overflowBackdrop",
                         showTitle: true,
                         displayAsSpecial: "Season" == item.Type && item.IndexNumber,
                         playFromHere: true,
@@ -1861,7 +1858,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
                 coverImage: true,
                 serverId: item.ServerId,
                 width: 160,
-                shape: getPortraitShape()
+                shape: "overflowPortrait"
             });
         });
     }

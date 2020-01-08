@@ -491,10 +491,6 @@ a[data-role=button] {
     color: #fff
 }
 
-.itemBackdropFader {
-    background: linear-gradient(rgba(0, 0, 0, 0), #181818)
-}
-
 .infoBanner {
     color: #0e0f2d;
     background: #dbe6ff;
@@ -561,4 +557,31 @@ a[data-role=button] {
 
 .metadataSidebarIcon {
     color: #dbe6ff
+}
+
+.personCard .overflowPortraitCard {
+    width: 40vw;
+}
+
+.personCard .cardScalable {
+    border-radius: 50%;
+    border: 1px solid rgb(255, 255, 255);
+}
+
+.personCard .cardPadder-overflowPortrait,
+.personCard .cardPadder-portrait {
+    padding-bottom: 100%;
+    contain: strict;
+}
+
+.personCard .coveredImage  {
+    clip-path: circle(50% at 50% 50%);
+}
+
+.personCard .cardOverlayContainer  {
+    clip-path: circle(50% at 50% 50%);
+}
+
+.personCard .cardOverlayButton-br {
+    right: 20%;
 }
