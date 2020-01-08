@@ -453,8 +453,8 @@ var AppInfo = {};
     }
 
     function init() {
-        define("livetvcss", ["css!css/livetv.css"], returnFirstDependency);
-        define("detailtablecss", ["css!css/detailtable.css"], returnFirstDependency);
+        define("livetvcss", ["css!assets/css/livetv.css"], returnFirstDependency);
+        define("detailtablecss", ["css!assets/css/detailtable.css"], returnFirstDependency);
 
         var promises = [];
         if (!window.fetch) {
@@ -517,7 +517,7 @@ var AppInfo = {};
             require(["systemFontsCss"]);
         }
 
-        require(["apphost", "css!css/librarybrowser"], function (appHost) {
+        require(["apphost", "css!assets/css/librarybrowser"], function (appHost) {
             loadPlugins(appHost, browser).then(function () {
                 onAppReady(browser);
             });
@@ -575,7 +575,7 @@ var AppInfo = {};
 
             console.log("onAppReady - loading dependencies");
             if (browser.iOS) {
-                require(['css!css/ios.css']);
+                require(['css!assets/css/ios.css']);
             }
 
             window.Emby.Page = appRouter;
@@ -717,21 +717,21 @@ var AppInfo = {};
             window.jQuery = jQuery;
         });
 
-        require(["css!css/site"]);
+        require(["css!assets/css/site"]);
 
         // define styles
         // TODO determine which of these files can be moved to the components themselves
-        define("material-icons", ["css!css/material-icons/style"], returnFirstDependency);
-        define("systemFontsCss", ["css!css/fonts"], returnFirstDependency);
-        define("systemFontsSizedCss", ["css!css/fonts.sized"], returnFirstDependency);
-        define("scrollStyles", ["css!css/scrollstyles"], returnFirstDependency);
-        define("dashboardcss", ["css!css/dashboard"], returnFirstDependency);
+        define("material-icons", ["css!assets/css/material-icons/style"], returnFirstDependency);
+        define("systemFontsCss", ["css!assets/css/fonts"], returnFirstDependency);
+        define("systemFontsSizedCss", ["css!assets/css/fonts.sized"], returnFirstDependency);
+        define("scrollStyles", ["css!assets/css/scrollstyles"], returnFirstDependency);
+        define("dashboardcss", ["css!assets/css/dashboard"], returnFirstDependency);
         define("programStyles", ["css!" + componentsPath + "/guide/programs"], returnFirstDependency);
         define("listViewStyle", ["css!" + componentsPath + "/listview/listview"], returnFirstDependency);
         define("formDialogStyle", ["css!" + componentsPath + "/formdialog"], returnFirstDependency);
-        define("clearButtonStyle", ["css!css/clearbutton"], returnFirstDependency);
+        define("clearButtonStyle", ["css!assets/css/clearbutton"], returnFirstDependency);
         define("cardStyle", ["css!" + componentsPath + "/cardbuilder/card"], returnFirstDependency);
-        define("flexStyles", ["css!css/flexstyles"], returnFirstDependency);
+        define("flexStyles", ["css!assets/css/flexstyles"], returnFirstDependency);
 
         // define legacy features
         // TODO delete the rest of these
@@ -756,12 +756,27 @@ var AppInfo = {};
         define("useractionrepository", [bowerPath + "/apiclient/sync/useractionrepository"], returnFirstDependency);
 
         // TODO remove these libraries
-        // all three have been modified so we need to fix that first
+        // all of these have been modified so we need to fix that first
         define("page", [bowerPath + "/pagejs/page"], returnFirstDependency);
+        define("headroom", [componentsPath + "/headroom/headroom"], returnFirstDependency);
         define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
+        define("navdrawer", [componentsPath + "/navdrawer/navdrawer"], returnFirstDependency);
         define("queryString", [bowerPath + "/query-string/index"], function () {
             return queryString;
         });
+
+        var elementsPath = "elements"
+        define("emby-button", [elementsPath + "/emby-button/emby-button"], returnFirstDependency);
+        define("paper-icon-button-light", [elementsPath + "/emby-button/paper-icon-button-light"], returnFirstDependency);
+        define("emby-checkbox", [elementsPath + "/emby-checkbox/emby-checkbox"], returnFirstDependency);
+        define("emby-collapse", [elementsPath + "/emby-collapse/emby-collapse"], returnFirstDependency);
+        define("emby-input", [elementsPath + "/emby-input/emby-input"], returnFirstDependency);
+        define("emby-progressring", [elementsPath + "/emby-progressring/emby-progressring"], returnFirstDependency);
+        define("emby-radio", [elementsPath + "/emby-radio/emby-radio"], returnFirstDependency);
+        define("emby-select", [elementsPath + "/emby-select/emby-select"], returnFirstDependency);
+        define("emby-slider", [elementsPath + "/emby-slider/emby-slider"], returnFirstDependency);
+        define("emby-textarea", [elementsPath + "/emby-textarea/emby-textarea"], returnFirstDependency);
+        define("emby-toggle", [elementsPath + "/emby-toggle/emby-toggle"], returnFirstDependency);
 
         define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
         define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);
@@ -776,27 +791,16 @@ var AppInfo = {};
         define("playerSettingsMenu", [componentsPath + "/playback/playersettingsmenu"], returnFirstDependency);
         define("playMethodHelper", [componentsPath + "/playback/playmethodhelper"], returnFirstDependency);
         define("brightnessOsd", [componentsPath + "/playback/brightnessosd"], returnFirstDependency);
-        define("emby-collapse", [componentsPath + "/emby-collapse/emby-collapse"], returnFirstDependency);
-        define("emby-button", [componentsPath + "/emby-button/emby-button"], returnFirstDependency);
         define("emby-itemscontainer", [componentsPath + "/emby-itemscontainer/emby-itemscontainer"], returnFirstDependency);
         define("alphaNumericShortcuts", [componentsPath + "/alphanumericshortcuts/alphanumericshortcuts"], returnFirstDependency);
         define("emby-scroller", [componentsPath + "/emby-scroller/emby-scroller"], returnFirstDependency);
         define("emby-tabs", [componentsPath + "/emby-tabs/emby-tabs"], returnFirstDependency);
         define("emby-scrollbuttons", [componentsPath + "/emby-scrollbuttons/emby-scrollbuttons"], returnFirstDependency);
-        define("emby-progressring", [componentsPath + "/emby-progressring/emby-progressring"], returnFirstDependency);
         define("emby-itemrefreshindicator", [componentsPath + "/emby-itemrefreshindicator/emby-itemrefreshindicator"], returnFirstDependency);
         define("multiSelect", [componentsPath + "/multiselect/multiselect"], returnFirstDependency);
         define("alphaPicker", [componentsPath + "/alphapicker/alphapicker"], returnFirstDependency);
-        define("paper-icon-button-light", [componentsPath + "/emby-button/paper-icon-button-light"], returnFirstDependency);
         define("tabbedView", [componentsPath + "/tabbedview/tabbedview"], returnFirstDependency);
         define("itemsTab", [componentsPath + "/tabbedview/itemstab"], returnFirstDependency);
-        define("emby-input", [componentsPath + "/emby-input/emby-input"], returnFirstDependency);
-        define("emby-select", [componentsPath + "/emby-select/emby-select"], returnFirstDependency);
-        define("emby-slider", [componentsPath + "/emby-slider/emby-slider"], returnFirstDependency);
-        define("emby-checkbox", [componentsPath + "/emby-checkbox/emby-checkbox"], returnFirstDependency);
-        define("emby-toggle", [componentsPath + "/emby-toggle/emby-toggle"], returnFirstDependency);
-        define("emby-radio", [componentsPath + "/emby-radio/emby-radio"], returnFirstDependency);
-        define("emby-textarea", [componentsPath + "/emby-textarea/emby-textarea"], returnFirstDependency);
         define("collectionEditor", [componentsPath + "/collectioneditor/collectioneditor"], returnFirstDependency);
         define("serverRestartDialog", [componentsPath + "/serverRestartDialog"], returnFirstDependency);
         define("playlistEditor", [componentsPath + "/playlisteditor/playlisteditor"], returnFirstDependency);
@@ -821,7 +825,6 @@ var AppInfo = {};
         define("upNextDialog", [componentsPath + "/upnextdialog/upnextdialog"], returnFirstDependency);
         define("fullscreen-doubleclick", [componentsPath + "/fullscreen/fullscreen-dc"], returnFirstDependency);
         define("fullscreenManager", [componentsPath + "/fullscreenManager", "events"], returnFirstDependency);
-        define("headroom", [componentsPath + "/headroom/headroom"], returnFirstDependency);
         define("subtitleAppearanceHelper", [componentsPath + "/subtitlesettings/subtitleappearancehelper"], returnFirstDependency);
         define("subtitleSettings", [componentsPath + "/subtitlesettings/subtitlesettings"], returnFirstDependency);
         define("displaySettings", [componentsPath + "/displaysettings/displaysettings"], returnFirstDependency);
@@ -866,7 +869,6 @@ var AppInfo = {};
         define("userSettings", [componentsPath + "/usersettings/usersettings"], returnFirstDependency);
         define("userSettingsBuilder", [componentsPath + "/usersettings/usersettingsbuilder", "layoutManager", "browser"], returnFirstDependency);
         define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
-        define("navdrawer", [componentsPath + "/navdrawer/navdrawer"], returnFirstDependency);
         define("htmlMediaHelper", [componentsPath + "/htmlMediaHelper"], returnFirstDependency);
         define("viewContainer", [componentsPath + "/viewContainer"], returnFirstDependency);
         define("dialogHelper", [componentsPath + "/dialogHelper/dialogHelper"], returnFirstDependency);

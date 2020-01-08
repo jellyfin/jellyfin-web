@@ -299,7 +299,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
     $(document).on("itemsaved", ".metadataEditorPage", function (e, item) {
         updateEditorNode(this, item);
     }).on("pagebeforeshow", ".metadataEditorPage", function () {
-        require(["css!css/metadataeditor.css"]);
+        require(["css!assets/css/metadataeditor.css"]);
     }).on("pagebeforeshow", ".metadataEditorPage", function () {
         var page = this;
         Dashboard.getCurrentUser().then(function (user) {
