@@ -35,6 +35,7 @@
     "shaka-player": "^2.5.5",
     "sortablejs": "^1.9.0",
     "swiper": "^3.4.2",
+    "libass-wasm": "^2.1.1",
     "webcomponents.js": "^0.7.24",
     "whatwg-fetch": "^1.1.1"
   },

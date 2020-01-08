@@ -2943,6 +2943,11 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+libass-wasm@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/libass-wasm/-/libass-wasm-2.1.1.tgz#f12f4fdb9579dd422dcbc348bc3bd61097f4d07d"
+  integrity sha512-d45bHQ7tFVsLW3QstQDrDog2m+0D6Cja4GTrkGi70R9A5+aeLunPSUz3G4CVB+sKffNgiWjK4QI5NZLHQKZ9oQ==
+
 libjass@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/libjass/-/libjass-0.11.0.tgz#bff1f464a2428c3bddfb68e4503b2d52afe3d6e6"
