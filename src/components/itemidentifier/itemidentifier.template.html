@@ -2,9 +2,7 @@
     <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1">
         <i class="md-icon">arrow_back</i>
     </button>
-    <h3 class="formDialogHeaderTitle">
-        ${Identify}
-    </h3>
+    <h3 class="formDialogHeaderTitle">${Identify}</h3>
 </div>
 
 <div class="formDialogContent smoothScrollY">
@@ -17,16 +15,13 @@
                 <div class="txtPath fieldDescription"></div>
             </div>
             <div class="inputContainer">
-                <input is="emby-input" type="text" id="txtLookupName" class="identifyField" data-lookup="Name"
-                    label="${LabelName}" />
+                <input is="emby-input" type="text" id="txtLookupName" class="identifyField" data-lookup="Name" label="${LabelName}" />
             </div>
             <div class="fldLookupYear inputContainer">
-                <input is="emby-input" type="number" id="txtLookupYear" class="identifyField" data-lookup="Year"
-                    pattern="[0-9]*" min="1800" label="${LabelYear}" />
+                <input is="emby-input" type="number" id="txtLookupYear" class="identifyField" data-lookup="Year" pattern="[0-9]*" min="1800" label="${LabelYear}" />
             </div>
 
-            <div class="identifyProviderIds">
-            </div>
+            <div class="identifyProviderIds"></div>
 
             <div class="formDialogFooter">
                 <button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">
@@ -34,14 +29,13 @@
                 </button>
             </div>
         </form>
-        <div class="identificationSearchResults hide">
 
+        <div class="identificationSearchResults hide">
             <h1>${SearchResults}</h1>
             <div class="identificationSearchResultList itemsContainer vertical-wrap"></div>
         </div>
 
         <form class="identifyOptionsForm hide" style="margin:auto;">
-
             <br />
             <div class="selectedSearchResult"></div>
             <br />
@@ -51,8 +45,7 @@
             </label>
 
             <div class="formDialogFooter">
-                <button is="emby-button" type="submit"
-                    class="raised button-submit block btnSubmit formDialogFooterItem">
+                <button is="emby-button" type="submit" class="raised button-submit block btnSubmit formDialogFooterItem">
                     <span>${ButtonOk}</span>
                 </button>
             </div>

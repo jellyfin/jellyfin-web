@@ -31,5 +31,21 @@
     "ThisWizardWillGuideYou": "Panduan ini akan memandu Anda melalui proses setup. Untuk memulai, silahkan pilih bahasa yang Anda gunakan.",
     "UserProfilesIntro": "Jellyfin mendukung profil pengguna, memungkinkan setiap pengguna memiliki tampilan mereka sendiri, kondisi pemutaran dan pengawasan orang tua.",
     "WelcomeToProject": "Selamat datang di Jellyfin!",
-    "WizardCompleted": "Itu semua yang kami butuhkan saat ini. Jellyfin sudah memulai mengkoleksi informasi pustaka media. Lihatlah beberapa aplikasi kami, kemudian klik <b>Selesai</b> untuk menuju ke <b>Dashboard Server</b>"
+    "WizardCompleted": "Itu semua yang kami butuhkan saat ini. Jellyfin sudah memulai mengkoleksi informasi pustaka media. Lihatlah beberapa aplikasi kami, kemudian klik <b>Selesai</b> untuk menuju ke <b>Dashboard Server</b>",
+    "Collections": "Koleksi",
+    "Folders": "Folder",
+    "HeaderNextUp": "Selanjutnya",
+    "Albums": "Album",
+    "Books": "Buku",
+    "Favorites": "Favorit",
+    "Genres": "Genre",
+    "HeaderFavoriteSongs": "Lagu Favorit",
+    "HeaderFavoriteAlbums": "Album Favorit",
+    "HeaderFavoriteArtists": "Artis Favorit",
+    "HeaderFavoriteEpisodes": "Episode Favorit",
+    "HeaderFavoriteShows": "Tayangan Favorit",
+    "HeaderAlbumArtists": "Album Artis",
+    "HeaderContinueWatching": "Masih Melihat",
+    "Artists": "Artis",
+    "HeaderLiveTV": "TV Live"
 }

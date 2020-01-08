@@ -115,7 +115,6 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
     }
 
     function getTimerIndicator(item) {
-
         var status;
 
         if (item.Type === 'SeriesTimer') {

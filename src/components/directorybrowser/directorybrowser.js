@@ -223,9 +223,9 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
 
     function getDefaultPath(options) {
         if (options.path) {
-            Promise.resolve(options.path);
+            return Promise.resolve(options.path);
         } else {
-            ApiClient.getJSON(ApiClient.getUrl("Environment/DefaultDirectoryBrowser")).then(
+            return ApiClient.getJSON(ApiClient.getUrl("Environment/DefaultDirectoryBrowser")).then(
                 function(result) {
                     return result.Path || "";
                 }, function() {

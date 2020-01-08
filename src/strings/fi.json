@@ -111,7 +111,7 @@
     "AspectRatio": "Kuvasuhde",
     "AttributeNew": "Uusi",
     "Audio": "Ääni",
-    "AuthProviderHelp": "Valitse todentamispalvelu, jota käytetään tämän käyttäjän salasanan todentamisessa",
+    "AuthProviderHelp": "Valitse todentamispalvelu, jota käytetään tämän käyttäjän salasanan todentamisessa.",
     "Auto": "Automaattinen",
     "AutoBasedOnLanguageSetting": "Automaattinen (perustuu kieliasetukseen)",
     "Backdrop": "Tausta",
@@ -278,5 +278,6 @@
     "HeaderAlbumArtists": "Albumiartistit",
     "Genres": "Genret",
     "Folders": "Kansiot",
-    "Favorites": "Suosikit"
+    "Favorites": "Suosikit",
+    "Display": "Näytä"
 }

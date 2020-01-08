@@ -2,7 +2,6 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     'use strict';
 
     function onOneDocumentClick() {
-
         document.removeEventListener('click', onOneDocumentClick);
         document.removeEventListener('keydown', onOneDocumentClick);
 
@@ -10,15 +9,14 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             Notification.requestPermission();
         }
     }
+
     document.addEventListener('click', onOneDocumentClick);
     document.addEventListener('keydown', onOneDocumentClick);
 
     var serviceWorkerRegistration;
 
     function closeAfter(notification, timeoutMs) {
-
         setTimeout(function () {
-
             if (notification.close) {
                 notification.close();
             } else if (notification.cancel) {
@@ -28,9 +26,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     }
 
     function resetRegistration() {
-
         var serviceWorker = navigator.serviceWorker;
-
         if (serviceWorker) {
             serviceWorker.ready.then(function (registration) {
                 serviceWorkerRegistration = registration;

@@ -37,11 +37,12 @@
     box-shadow: none;
     flex-shrink: 0;
     border-radius: 0;
+    margin: 0;
 }
 
-    .actionSheetMenuItem:focus {
-        transform: none !important;
-    }
+.actionSheetMenuItem:focus {
+    transform: none !important;
+}
 
 .actionsheetListItemBody {
     padding: .4em 1em .4em .6em !important;
@@ -104,7 +105,7 @@
 }
 
 .actionsheet-xlargeFont {
-    font-size: 112%!important;
+    font-size: 112% !important;
 }
 
 .btnCloseActionSheet {

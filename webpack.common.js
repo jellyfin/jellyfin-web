@@ -5,7 +5,10 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 const Assets = [
     "alameda/alameda.js",
-    "requirejs/require.js"
+    "requirejs/require.js",
+    "libass-wasm/dist/subtitles-octopus-worker.js",
+    "libass-wasm/dist/subtitles-octopus-worker.data",
+    "libass-wasm/dist/subtitles-octopus-worker.wasm"
 ];
 
 module.exports = {
@@ -26,7 +29,7 @@ module.exports = {
             Assets.map(asset => {
                 return {
                     from: path.resolve(__dirname, `./node_modules/${asset}`),
-                    to: path.resolve(__dirname, './dist/libraries')
+                    to: path.resolve(__dirname, "./dist/libraries")
                 };
             })
         )

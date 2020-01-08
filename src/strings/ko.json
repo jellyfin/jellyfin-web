@@ -1279,5 +1279,6 @@
     "DisplayMissingEpisodesWithinSeasonsHelp": "서버 환경설정에서도 TV 라이브러리가 활성화되어있어야 합니다.",
     "ErrorAddingMediaPathToVirtualFolder": "미디어 경로를 추가하는 데에 오류가 발생했습니다. 경로를 다시 확인하거나 Jellyfin 서버가 해당 경로에 접근할 수 있는지 확인해 주세요.",
     "ErrorGettingTvLineups": "TV 구성을 다운로드 하는 중에 오류가 발생하였습니다. 정보가 맞는지 확인한 후 다시 시도해 주세요.",
-    "BoxRear": "상자 (후면)"
+    "BoxRear": "상자 (후면)",
+    "Absolute": "절대"
 }

@@ -92,7 +92,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
                 html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');\"></div>";
             } else {
                 var background = getMetroColor(user.Id);
-                imgUrl = "img/logindefault.png";
+                imgUrl = "assets/img/avatar.png";
                 html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>';
             }
             html += "</div>";

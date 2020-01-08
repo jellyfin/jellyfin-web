@@ -278,6 +278,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         features.push("targetblank");
         // allows users to connect to more than one server
         //features.push("multiserver");
+        features.push("screensaver");
 
         if (!browser.orsay && !browser.tizen && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || cueSupported())) {
             features.push("subtitleappearancesettings");

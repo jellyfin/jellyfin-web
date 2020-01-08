@@ -14,7 +14,6 @@
 
 .indicator {
     border-radius: 100em;
-    display: -webkit-flex;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,7 +42,6 @@
 
 .countIndicator {
     border-radius: 100em;
-    display: -webkit-flex;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,7 +53,6 @@
 
 .playedIndicator {
     border-radius: 100em;
-    display: -webkit-flex;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -67,7 +64,6 @@
 .videoIndicator {
     background: #444;
     border-radius: 100em;
-    display: -webkit-flex;
     display: flex;
     align-items: center;
     justify-content: center;
