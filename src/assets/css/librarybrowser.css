@@ -413,6 +413,7 @@
     align-items: center;
     align-content: center;
     position: sticky;
+    background-color: #101010;
     top: 0;
     z-index: 2;
 }
