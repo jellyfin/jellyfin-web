@@ -103,7 +103,10 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
         headerUserButton.addEventListener("click", onHeaderUserButtonClick);
         headerHomeButton.addEventListener("click", onHeaderHomeButtonClick);
-        headerCastButton.addEventListener("click", onCastButtonClicked);
+
+        if (!layoutManager.tv) {
+            headerCastButton.addEventListener("click", onCastButtonClicked);
+        }
 
         initHeadRoom(skinHeader);
     }
