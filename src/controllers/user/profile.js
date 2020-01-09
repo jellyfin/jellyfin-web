@@ -8,7 +8,7 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
             page.querySelector(".username").innerHTML = user.Name;
             libraryMenu.setTitle(user.Name);
 
-            var imageUrl = "img/logindefault.png";
+            var imageUrl = "assets/img/avatar.png";
             if (user.PrimaryImageTag) {
                 imageUrl = ApiClient.getUserImageUrl(user.Id, {
                     tag: user.PrimaryImageTag,

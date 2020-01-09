@@ -72,7 +72,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
         selectedTheme = selectedTheme || defaultTheme;
         return {
-            stylesheetPath: require.toUrl('components/themes/' + selectedTheme.id + '/theme.css'),
+            stylesheetPath: require.toUrl('themes/' + selectedTheme.id + '/theme.css'),
             themeId: selectedTheme.id
         };
     }

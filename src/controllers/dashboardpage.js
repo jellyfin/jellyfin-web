@@ -623,7 +623,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             }
         },
         getClientImage: function (connection) {
-            var iconUrl = imageHelper.getDeviceIcon(connection.DeviceName);
+            var iconUrl = imageHelper.getDeviceIcon(connection);
             return "<img src='" + iconUrl + "' />";
         },
         getNowPlayingImageUrl: function (item) {

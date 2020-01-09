@@ -74,7 +74,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "hu
             deviceHtml += '<div class="cardScalable">';
             deviceHtml += '<div class="cardPadder cardPadder-backdrop"></div>';
             deviceHtml += '<a is="emby-linkbutton" href="' + (canEdit ? "device.html?id=" + device.Id : "#") + '" class="cardContent cardImageContainer">';
-            var iconUrl = imageHelper.getDeviceIcon(device.Name);
+            var iconUrl = imageHelper.getDeviceIcon(device);
 
             if (iconUrl) {
                 deviceHtml += '<div class="cardImage" style="background-image:url(\'' + iconUrl + "');background-size: auto 64%;background-position:center center;\">";

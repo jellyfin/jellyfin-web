@@ -24,6 +24,10 @@
     z-index: 1000;
 }
 
+.videoPlayerContainer .libassjs-canvas-parent {
+    order: -1;
+}
+
 video::-webkit-media-controls {
     display: none !important;
 }
@@ -38,7 +42,6 @@ video::-webkit-media-controls {
 .htmlvideoplayer::cue {
     background-color: transparent;
     text-shadow: 0.14em 0.14em 0.14em rgba(0, 0, 0, 1);
-    -webkit-font-smoothing: antialiased;
     font-family: inherit;
 }
 

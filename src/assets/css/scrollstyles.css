@@ -1,0 +1,46 @@
+.scrollX {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.smoothScrollX {
+    scroll-behavior: smooth;
+}
+
+.hiddenScrollX, .layout-tv .scrollX {
+    scrollbar-width: none;
+}
+
+.hiddenScrollX-forced {
+    scrollbar-width: none;
+}
+
+.hiddenScrollX::-webkit-scrollbar, .layout-tv .scrollX::-webkit-scrollbar {
+    height: 0 !important;
+    display: none;
+}
+
+.scrollY {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.smoothScrollY {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.hiddenScrollY, .layout-tv .smoothScrollY {
+    scrollbar-width: none;
+}
+
+.hiddenScrollY-forced {
+    scrollbar-width: none;
+}
+
+.hiddenScrollY::-webkit-scrollbar, .layout-tv .smoothScrollY::-webkit-scrollbar, .layout-tv .scrollY::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+}
