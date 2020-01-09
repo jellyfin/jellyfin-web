@@ -38,6 +38,9 @@
     margin: 0;
     padding: 0;
     opacity: 0;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
     appearance: none;
     border: none;
 }
@@ -112,7 +115,7 @@
     margin-bottom: .25em;
 }
 
-@keyframes repaintChrome {
+@-webkit-keyframes repaintChrome {
     from {
         padding: 0;
     }
