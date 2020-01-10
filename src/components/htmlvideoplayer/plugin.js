@@ -1645,7 +1645,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.setAirPlayEnabled = function (isEnabled) {
-
         var video = this._mediaElement;
 
         if (document.AirPlayEnabled) {
