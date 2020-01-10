@@ -1452,5 +1452,6 @@
     "FetchingData": "Выборка дополнительных данных",
     "ButtonAddImage": "Добавить рисунок",
     "HeaderFavoritePeople": "Избранные люди",
-    "OptionRandom": "Случайный"
+    "OptionRandom": "Случайный",
+    "ButtonSplit": "Разделить"
 }
