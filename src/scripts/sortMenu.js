@@ -1,0 +1,1 @@
+define("sortMenu", ["components/sortmenu/sortmenu"], function (obj) { return obj; });

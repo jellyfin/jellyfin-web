@@ -1,0 +1,1 @@
+define("refreshDialog", ["components/refreshdialog/refreshdialog"], function (obj) { return obj; });

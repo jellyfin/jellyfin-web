@@ -26,7 +26,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
     var ScheduledTaskPage = {
         refreshScheduledTask: function (view) {
             loading.show();
-            var id = getParameterByName("id");
+            var id = window.getParameterByName("id");
             ApiClient.getScheduledTask(id).then(function (task) {
                 ScheduledTaskPage.loadScheduledTask(view, task);
             });
@@ -49,7 +49,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
                 var trigger = task.Triggers[i];
 
                 html += '<div class="listItem listItem-border">';
-                html += '<i class="md-icon listItemIcon">schedule</i>';
+                html += '<i class="material-icons listItemIcon">schedule</i>';
                 if (trigger.MaxRuntimeMs) {
                     html += '<div class="listItemBody two-line">';
                 } else {
@@ -68,7 +68,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
                 }
 
                 html += "</div>";
-                html += '<button class="btnDeleteTrigger" data-index="' + i + '" type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDelete") + '"><i class="md-icon">delete</i></button>';
+                html += '<button class="btnDeleteTrigger" data-index="' + i + '" type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDelete") + '"><i class="material-icons">delete</i></button>';
                 html += "</div>";
             }
 
@@ -135,7 +135,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
         },
         deleteTrigger: function (view, index) {
             loading.show();
-            var id = getParameterByName("id");
+            var id = window.getParameterByName("id");
             ApiClient.getScheduledTask(id).then(function (task) {
                 task.Triggers.remove(index);
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
@@ -203,7 +203,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
     return function (view, params) {
         function onSubmit(e) {
             loading.show();
-            var id = getParameterByName("id");
+            var id = window.getParameterByName("id");
             ApiClient.getScheduledTask(id).then(function (task) {
                 task.Triggers.push(ScheduledTaskPage.getTriggerToAdd(view));
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {

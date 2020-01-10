@@ -4,7 +4,7 @@ define(["loading", "libraryMenu", "emby-button"], function (loading, libraryMenu
     function loadUser(page, params) {
         var userid = params.userId;
         ApiClient.getUser(userid).then(function (user) {
-            Dashboard.getCurrentUser().then(function (loggedInUser) {
+            window.Emby.Dashboard.getCurrentUser().then(function (loggedInUser) {
                 libraryMenu.setTitle(user.Name);
                 page.querySelector(".username").innerHTML = user.Name;
                 var showPasswordSection = true;
@@ -108,7 +108,7 @@ define(["loading", "libraryMenu", "emby-button"], function (loading, libraryMenu
                 loadUser(view, params);
             }, function () {
                 loading.hide();
-                Dashboard.alert({
+                window.Emby.Dashboard.alert({
                     title: Globalize.translate("HeaderLoginFailure"),
                     message: Globalize.translate("MessageInvalidUser")
                 });
@@ -147,7 +147,7 @@ define(["loading", "libraryMenu", "emby-button"], function (loading, libraryMenu
                     loading.show();
                     ApiClient.resetUserPassword(userId).then(function () {
                         loading.hide();
-                        Dashboard.alert({
+                        window.Emby.Dashboard.alert({
                             message: Globalize.translate("PasswordResetComplete"),
                             title: Globalize.translate("PasswordResetHeader")
                         });
@@ -166,7 +166,7 @@ define(["loading", "libraryMenu", "emby-button"], function (loading, libraryMenu
                     loading.show();
                     ApiClient.resetEasyPassword(userId).then(function () {
                         loading.hide();
-                        Dashboard.alert({
+                        window.Emby.Dashboard.alert({
                             message: Globalize.translate("PinCodeResetComplete"),
                             title: Globalize.translate("HeaderPinCodeReset")
                         });

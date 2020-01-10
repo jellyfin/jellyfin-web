@@ -267,7 +267,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
             hasCardImageContainer = true;
         } else if (!virtualFolder.showNameWithIcon) {
             html += '<div class="cardImageContainer editLibrary" style="cursor:pointer;">';
-            html += '<i class="cardImageIcon-small md-icon">' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + "</i>";
+            html += '<i class="cardImageIcon-small material-icons">' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + "</i>";
             hasCardImageContainer = true;
         }
 
@@ -280,7 +280,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
 
         if (!imgUrl && virtualFolder.showNameWithIcon) {
             html += '<h3 class="cardImageContainer addLibrary" style="position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;flex-direction:column;">';
-            html += '<i class="cardImageIcon-small md-icon">' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + "</i>";
+            html += '<i class="cardImageIcon-small material-icons">' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + "</i>";
 
             if (virtualFolder.showNameWithIcon) {
                 html += '<div style="margin:1em 0;position:width:100%;">';
@@ -297,7 +297,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
 
         if (virtualFolder.showMenu !== false) {
             html += '<div style="text-align:right; float:right;padding-top:5px;">';
-            html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="md-icon">more_horiz</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="material-icons">more_horiz</i></button>';
             html += "</div>";
         }
 
@@ -362,11 +362,15 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
 
     window.WizardLibraryPage = {
         next: function () {
-            Dashboard.navigate("wizardsettings.html");
+            window.Emby.Dashboard.navigate("wizardsettings.html");
         }
     };
-    pageClassOn("pageshow", "mediaLibraryPage", function () {
-        reloadLibrary(this);
+    document.addEventListener("pageshow", function (event) {
+        var target = event.target;
+
+        if (target.classList.contains("mediaLibraryPage")) {
+            reloadLibrary(this).call(target, event);
+        }
     });
     pageIdOn("pageshow", "mediaLibraryPage", function () {
         libraryMenu.setTabs("librarysetup", 0, getTabs);

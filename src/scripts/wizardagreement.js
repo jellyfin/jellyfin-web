@@ -3,9 +3,9 @@ define(["dom", "emby-button"], function (dom) {
 
     function onSubmit(e) {
         if (dom.parentWithClass(this, "page").querySelector(".chkAccept").checked) {
-            Dashboard.navigate("wizardfinish.html");
+            window.Emby.Dashboard.navigate("wizardfinish.html");
         } else {
-            Dashboard.alert({
+            window.Emby.Dashboard.alert({
                 message: Globalize.translate("MessagePleaseAcceptTermsOfServiceBeforeContinuing"),
                 title: ""
             });

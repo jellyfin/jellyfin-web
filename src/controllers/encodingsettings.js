@@ -40,7 +40,7 @@ define(["jQuery", "loading", "globalize", "dom", "libraryMenu"], function ($, lo
                     Path: form.querySelector(".txtEncoderPath").value,
                     PathType: "Custom"
                 }
-            }).then(Dashboard.processServerConfigurationUpdateResult, onSaveEncodingPathFailure);
+            }).then(window.Emby.Dashboard.processServerConfigurationUpdateResult, onSaveEncodingPathFailure);
         });
     }
 

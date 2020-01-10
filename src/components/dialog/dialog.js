@@ -8,9 +8,7 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
             scrollY: false
         };
 
-        var enableTvLayout = layoutManager.tv;
-
-        if (enableTvLayout) {
+        if (layoutManager.tv) {
             dialogOptions.size = 'fullscreen';
         }
 
@@ -18,14 +16,18 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
 
         dlg.classList.add('formDialog');
 
+        console.log(dlg.innerHTML)
+
         dlg.innerHTML = globalize.translateHtml(template, 'core');
+
+        console.log(dlg.innerHTML)
 
         dlg.classList.add('align-items-center');
         dlg.classList.add('justify-content-center');
-        var formDialogContent = dlg.querySelector('.formDialogContent');
+        var formDialogContent = $('.formDialogContent').first();
         formDialogContent.classList.add('no-grow');
 
-        if (enableTvLayout) {
+        if (layoutManager.tv) {
             formDialogContent.style['max-width'] = '50%';
             formDialogContent.style['max-height'] = '60%';
             scrollHelper.centerFocus.on(formDialogContent, false);
@@ -101,7 +103,7 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
 
         return dialogHelper.open(dlg).then(function () {
 
-            if (enableTvLayout) {
+            if (layoutManager.tv) {
                 scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
             }
 

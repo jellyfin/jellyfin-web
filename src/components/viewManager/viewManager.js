@@ -76,7 +76,6 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
     }
 
     function dispatchViewEvent(view, eventInfo, eventName, isCancellable) {
-
         if (!eventInfo) {
             eventInfo = {
                 detail: {
@@ -146,7 +145,6 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
         }
 
         viewContainer.loadView(options).then(function (view) {
-
             onViewChange(view, options);
         });
     };

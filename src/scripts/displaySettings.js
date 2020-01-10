@@ -1,0 +1,1 @@
+define("displaySettings", ["components/displaysettings/displaysettings"], function (obj) { return obj; });

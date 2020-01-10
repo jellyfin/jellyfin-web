@@ -62,7 +62,7 @@ define(["layoutManager", "loading", "cardBuilder", "apphost", "imageLoader", "sc
 
         switch (type) {
             case "latest":
-                Dashboard.navigate("list.html?type=Recordings&serverId=" + serverId);
+                window.Emby.Dashboard.navigate("list.html?type=Recordings&serverId=" + serverId);
         }
     }
 
@@ -84,13 +84,13 @@ define(["layoutManager", "loading", "cardBuilder", "apphost", "imageLoader", "sc
         self.preRender = function () {
             if (enableFullRender()) {
                 latestPromise = ApiClient.getLiveTvRecordings({
-                    UserId: Dashboard.getCurrentUserId(),
+                    UserId: window.Emby.Dashboard.getCurrentUserId(),
                     Limit: 12,
                     Fields: "CanDelete,PrimaryImageAspectRatio,BasicSyncInfo",
                     EnableTotalRecordCount: false,
                     EnableImageTypes: "Primary,Thumb,Backdrop"
                 });
-                foldersPromise = ApiClient.getRecordingFolders(Dashboard.getCurrentUserId());
+                foldersPromise = ApiClient.getRecordingFolders(window.Emby.Dashboard.getCurrentUserId());
             }
         };
 

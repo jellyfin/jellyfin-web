@@ -1,0 +1,1 @@
+define("tvguide", ["components/guide/guide"], function (obj) { return obj; });

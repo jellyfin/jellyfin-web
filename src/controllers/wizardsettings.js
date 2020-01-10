@@ -62,7 +62,7 @@ define(["loading", "emby-checkbox", "emby-button", "emby-select"], function (loa
     }
 
     function navigateToNextPage() {
-        Dashboard.navigate("wizardremoteaccess.html");
+        window.Emby.Dashboard.navigate("wizardremoteaccess.html");
     }
 
     function onSubmit(e) {

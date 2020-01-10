@@ -7,7 +7,7 @@ define([], function () {
             msg += "<br/>";
             msg += "<br/>";
             msg += result.UsersReset.join("<br/>");
-            return void Dashboard.alert({
+            return void window.Emby.Dashboard.alert({
                 message: msg,
                 title: Globalize.translate("HeaderPasswordReset"),
                 callback: function () {
@@ -16,7 +16,7 @@ define([], function () {
             });
         }
 
-        Dashboard.alert({
+        window.Emby.Dashboard.alert({
             message: Globalize.translate("MessageInvalidForgotPasswordPin"),
             title: Globalize.translate("HeaderPasswordReset")
         });

@@ -33,7 +33,7 @@ define(["jQuery", "loading", "fnchecked", "emby-button"], function ($, loading) 
             config.RecordingPostProcessor = $("#txtPostProcessor", form).val();
             config.RecordingPostProcessorArguments = $("#txtPostProcessorArguments", form).val();
             ApiClient.updateNamedConfiguration("livetv", config).then(function () {
-                Dashboard.processServerConfigurationUpdateResult();
+                window.Emby.Dashboard.processServerConfigurationUpdateResult();
                 showSaveMessage(recordingPathChanged);
             });
         });

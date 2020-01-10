@@ -1,4 +1,4 @@
-define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings', 'require', 'css!./style'], function (lazyLoader, imageFetcher, layoutManager, browser, appSettings, require) {
+define(['lazyLoader', 'imageFetcher', 'layoutManager', 'appSettings', 'require', 'css!./style.css'], function (lazyLoader, imageFetcher, layoutManager, appSettings, require) {
     'use strict';
 
     var requestIdleCallback = window.requestIdleCallback || function (fn) {
@@ -46,7 +46,6 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
     }
 
     function lazyChildren(elem) {
-
         lazyLoader.lazyChildren(elem, fillImage);
     }
 

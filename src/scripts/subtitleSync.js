@@ -1,0 +1,1 @@
+define("subtitleSync", ["components/subtitlesync/subtitlesync"], function (obj) { return obj; });

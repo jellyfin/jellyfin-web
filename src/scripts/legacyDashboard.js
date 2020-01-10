@@ -1,0 +1,1 @@
+define("legacyDashboard", ["legacy/dashboard"], function (obj) { return obj; });

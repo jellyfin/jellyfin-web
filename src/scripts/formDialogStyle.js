@@ -1,0 +1,1 @@
+define("formDialogStyle", ["css!../components/formdialog.css"]);

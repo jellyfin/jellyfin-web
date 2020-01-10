@@ -55,22 +55,30 @@ define(["backdrop", "userSettings", "libraryMenu"], function (backdrop, userSett
     }
 
     var cache = {};
-    pageClassOn("pageshow", "page", function () {
-        var page = this;
+    document.addEventListener("pageshow", function (event) {
+        var target = event.target;
 
-        if (!page.classList.contains("selfBackdropPage")) {
-            if (page.classList.contains("backdropPage")) {
-                if (enabled()) {
-                    var type = page.getAttribute("data-backdroptype");
-                    var parentId = page.classList.contains("globalBackdropPage") ? "" : libraryMenu.getTopParentId();
-                    showBackdrop(type, parentId);
+        function backdropUpdate () {
+            var page = this;
+
+            if (!page.classList.contains("selfBackdropPage")) {
+                if (page.classList.contains("backdropPage")) {
+                    if (enabled()) {
+                        var type = page.getAttribute("data-backdroptype");
+                        var parentId = page.classList.contains("globalBackdropPage") ? "" : libraryMenu.getTopParentId();
+                        showBackdrop(type, parentId);
+                    } else {
+                        page.classList.remove("backdropPage");
+                        backdrop.clear();
+                    }
                 } else {
-                    page.classList.remove("backdropPage");
                     backdrop.clear();
                 }
-            } else {
-                backdrop.clear();
             }
+        }
+
+        if (target.classList.contains("page")) {
+            backdropUpdate.call(target, event);
         }
     });
 });

@@ -13,39 +13,43 @@ define(["tabbedView", "globalize", "require", "emby-tabs", "emby-button", "emby-
         return 0;
     }
 
-    function getRequirePromise(deps) {
-        return new Promise(function (resolve, reject) {
-            require(deps, resolve);
-        });
-    }
-
     function getTabController(index) {
         if (null == index) {
             throw new Error("index cannot be null");
         }
 
-        var depends = [];
+        var instance = this;
 
         switch (index) {
             case 0:
-                depends.push("controllers/hometab");
+                new Promise(function (resolve, reject) {
+                    require(["controllers/hometab"], resolve);
+                }).then(function (controllerFactory) {
+                    var controller = instance.tabControllers[index];
+
+                    if (!controller) {
+                        controller = new controllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);
+                        instance.tabControllers[index] = controller;
+                    }
+
+                    return controller;
+                });
                 break;
 
             case 1:
-                depends.push("controllers/favorites");
+                new Promise(function (resolve, reject) {
+                    require(["controllers/favorites"], resolve);
+                }).then(function (controllerFactory) {
+                    var controller = instance.tabControllers[index];
+
+                    if (!controller) {
+                        controller = new controllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);
+                        instance.tabControllers[index] = controller;
+                    }
+
+                    return controller;
+                });
         }
-
-        var instance = this;
-        return getRequirePromise(depends).then(function (controllerFactory) {
-            var controller = instance.tabControllers[index];
-
-            if (!controller) {
-                controller = new controllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);
-                instance.tabControllers[index] = controller;
-            }
-
-            return controller;
-        });
     }
 
     function HomeView(view, params) {

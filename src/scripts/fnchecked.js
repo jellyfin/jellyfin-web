@@ -1,0 +1,1 @@
+define("fnchecked", ["legacy/fnchecked"], function (obj) { return obj; });

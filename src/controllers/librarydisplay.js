@@ -44,7 +44,7 @@ define(["globalize", "loading", "libraryMenu", "emby-checkbox", "emby-button", "
                 config.DisplaySpecialsWithinSeasons = form.querySelector(".chkDisplaySpecialsWithinSeasons").checked;
                 config.EnableExternalContentInSuggestions = form.querySelector(".chkExternalContentInSuggestions").checked;
                 config.SaveMetadataHidden = form.querySelector("#chkSaveMetadataHidden").checked;
-                ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
+                ApiClient.updateServerConfiguration(config).then(window.Emby.Dashboard.processServerConfigurationUpdateResult);
             });
             ApiClient.getNamedConfiguration("metadata").then(function(config) {
                 config.UseFileCreationTimeForDateAdded = "1" === $("#selectDateAdded", form).val();

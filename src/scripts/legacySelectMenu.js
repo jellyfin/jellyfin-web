@@ -1,0 +1,1 @@
+define("legacySelectMenu", ["legacy/selectmenu"], function (obj) { return obj; });

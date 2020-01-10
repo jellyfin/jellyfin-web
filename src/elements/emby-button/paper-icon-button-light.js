@@ -1,4 +1,4 @@
-define(['layoutManager', 'css!./emby-button', 'registerElement'], function (layoutManager) {
+define(['layoutManager', 'css!./emby-button.css', 'document-register-element'], function (layoutManager) {
     'use strict';
 
     var EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);

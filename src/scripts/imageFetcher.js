@@ -1,0 +1,1 @@
+define("imageFetcher", ["components/images/imageFetcher"], function (obj) { return obj; });

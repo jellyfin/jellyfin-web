@@ -1,0 +1,1 @@
+define("recordingFields", ["components/recordingcreator/recordingfields"], function (obj) { return obj; });

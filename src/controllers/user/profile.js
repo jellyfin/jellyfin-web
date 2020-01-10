@@ -2,7 +2,7 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
     "use strict";
 
     function reloadUser(page) {
-        var userId = getParameterByName("userId");
+        var userId = window.getParameterByName("userId");
         loading.show();
         ApiClient.getUser(userId).then(function (user) {
             page.querySelector(".username").innerHTML = user.Name;
@@ -19,7 +19,7 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
             var userImage = page.querySelector("#image");
             userImage.style.backgroundImage = "url(" + imageUrl + ")";
 
-            Dashboard.getCurrentUser().then(function (loggedInUser) {
+            window.Emby.Dashboard.getCurrentUser().then(function (loggedInUser) {
                 if (user.PrimaryImageTag) {
                     page.querySelector("#btnAddImage").classList.add("hide");
                     page.querySelector("#btnDeleteImage").classList.remove("hide");
@@ -71,7 +71,7 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
         reader.onabort = onFileReaderAbort;
         reader.onload = function (evt) {
             userImage.style.backgroundImage = "url(" + evt.target.result + ")";
-            var userId = getParameterByName("userId");
+            var userId = window.getParameterByName("userId");
             ApiClient.uploadUserImage(userId, "Primary", file).then(function () {
                 loading.hide();
                 reloadUser(page);
@@ -88,7 +88,7 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
             require(["confirm"], function (confirm) {
                 confirm(Globalize.translate("DeleteImageConfirmation"), Globalize.translate("DeleteImage")).then(function () {
                     loading.show();
-                    var userId = getParameterByName("userId");
+                    var userId = window.getParameterByName("userId");
                     ApiClient.deleteUserImage(userId, "primary").then(function () {
                         loading.hide();
                         reloadUser(view);

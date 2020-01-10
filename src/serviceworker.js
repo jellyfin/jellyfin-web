@@ -1,1 +1,1 @@
-importScripts("components/serviceworker/notifications.js");
+require("components/serviceworker/notifications");

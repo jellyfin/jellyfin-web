@@ -1,14 +1,4 @@
-/**
- * require.js module definitions bundled by webpack
- */
-// Use define from require.js not webpack's define
-var _define = window.define;
 
-// document-register-element
-var docRegister = require("document-register-element");
-_define("document-register-element", function() {
-    return docRegister;
-});
 
 // fetch
 var fetch = require("whatwg-fetch");

@@ -1,4 +1,4 @@
-define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registerElement'], function (layoutManager, browser, actionsheet) {
+define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select.css', 'document-register-element'], function (layoutManager, browser, actionsheet) {
     'use strict';
 
     var EmbySelectPrototype = Object.create(HTMLSelectElement.prototype);
@@ -144,7 +144,7 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
         this.parentNode.insertBefore(label, this);
 
         if (this.classList.contains('emby-select-withcolor')) {
-            this.parentNode.insertAdjacentHTML('beforeend', '<div class="selectArrowContainer"><div style="visibility:hidden;">0</div><i class="selectArrow md-icon">keyboard_arrow_down</i></div>');
+            this.parentNode.insertAdjacentHTML('beforeend', '<div class="selectArrowContainer"><div style="visibility:hidden;">0</div><i class="selectArrow material-icons">keyboard_arrow_down</i></div>');
         }
     };
 

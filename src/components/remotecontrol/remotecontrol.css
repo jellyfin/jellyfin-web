@@ -136,7 +136,7 @@
 
 .playlistIndexIndicatorImage {
     background-size: initial !important;
-    background-image: url(assets/img/equalizer.gif) !important;
+    background-image: url(/assets/img/equalizer.gif) !important;
 }
 
 .hideVideoButtons .videoButton {

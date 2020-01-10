@@ -1,0 +1,1 @@
+define("itemIdentifier", ["components/itemidentifier/itemidentifier"], function (obj) { return obj; });

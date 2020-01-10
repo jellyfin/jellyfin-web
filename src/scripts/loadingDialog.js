@@ -1,0 +1,1 @@
+define("loadingDialog", ["components/loadingdialog/loadingdialog"], function (obj) { return obj; });

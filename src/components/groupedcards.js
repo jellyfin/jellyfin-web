@@ -23,7 +23,7 @@ define(["dom", "appRouter", "connectionManager"], function (dom, appRouter, conn
                 }
 
                 var url = "itemdetails.html?id=" + itemId + "&serverId=" + serverId;
-                Dashboard.navigate(url);
+                window.Emby.Dashboard.navigate(url);
             });
             e.stopPropagation();
             e.preventDefault();

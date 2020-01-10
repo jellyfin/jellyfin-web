@@ -56,7 +56,7 @@ define(["loading", "libraryMenu", "globalize", "emby-checkbox", "emby-select"], 
                     config.CertificatePath = form.querySelector("#txtCertificatePath").value || null;
                     config.CertificatePassword = form.querySelector("#txtCertPassword").value || null;
                     config.LocalNetworkAddresses = localAddress ? [localAddress] : [];
-                    ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult, Dashboard.processErrorResponse);
+                    ApiClient.updateServerConfiguration(config).then(window.Emby.Dashboard.processServerConfigurationUpdateResult, window.Emby.Dashboard.processErrorResponse);
                 })
             })
         }), e.preventDefault()

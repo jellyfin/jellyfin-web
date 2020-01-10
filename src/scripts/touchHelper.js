@@ -1,0 +1,1 @@
+define("touchHelper", ["components/touchhelper"], function (obj) { return obj; });

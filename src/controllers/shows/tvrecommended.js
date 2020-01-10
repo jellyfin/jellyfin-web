@@ -177,69 +177,259 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
 
             switch (index) {
                 case 0:
-                    depends.push("controllers/shows/tvshows");
+                    require(["controllers/shows/tvshows"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === 1) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 1) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "tvshows",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 1:
                     break;
 
                 case 2:
-                    depends.push("controllers/shows/tvlatest");
+                    require(["controllers/shows/tvlatest"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === 1) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 1) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "tvshows",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 3:
-                    depends.push("controllers/shows/tvupcoming");
+                    require(["controllers/shows/tvupcoming"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === 1) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 1) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "tvshows",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 4:
-                    depends.push("controllers/shows/tvgenres");
+                    require(["controllers/shows/tvgenres"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === 1) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 1) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "tvshows",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 5:
-                    depends.push("controllers/shows/tvstudios");
+                    require(["controllers/shows/tvstudios"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === 1) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 1) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "tvshows",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 6:
-                    depends.push("controllers/shows/episodes");
+                    require(["controllers/shows/episodes"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === 1) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 1) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "tvshows",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 7:
-                    depends.push("scripts/searchtab");
+                    require(["scripts/searchtab"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === 1) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 1) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "tvshows",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
             }
-
-            require(depends, function (controllerFactory) {
-                var tabContent;
-
-                if (index === 1) {
-                    tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-                    self.tabContent = tabContent;
-                }
-
-                var controller = tabControllers[index];
-
-                if (!controller) {
-                    tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-
-                    if (index === 1) {
-                        controller = self;
-                    } else if (index === 7) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: "tvshows",
-                            parentId: params.topParentId
-                        });
-                    } else {
-                        controller = new controllerFactory(view, params, tabContent);
-                    }
-
-                    tabControllers[index] = controller;
-
-                    if (controller.initTab) {
-                        controller.initTab();
-                    }
-                }
-
-                callback(controller);
-            });
         }
 
         function preLoadTab(page, index) {
@@ -281,7 +471,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
             switch (e.detail.command) {
                 case "search":
                     e.preventDefault();
-                    Dashboard.navigate("search.html?collectionType=tv&parentId=" + params.topParentId);
+                    window.Emby.Dashboard.navigate("search.html?collectionType=tv&parentId=" + params.topParentId);
             }
         }
 

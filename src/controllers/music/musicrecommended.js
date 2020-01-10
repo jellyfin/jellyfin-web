@@ -264,68 +264,251 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                     break;
 
                 case 1:
-                    depends.push("controllers/music/musicalbums");
+                    require(["controllers/music/musicalbums"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (0 == index) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 0) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "music",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            if (index == 2) {
+                                controller.mode = "albumartists";
+                            } else if (index == 3) {
+                                controller.mode = "artists";
+                            }
+
+                            tabControllers[index] = controller;
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 2:
                 case 3:
-                    depends.push("controllers/music/musicartists");
+                    require(["controllers/music/musicartists"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (0 == index) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 0) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "music",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            if (index == 2) {
+                                controller.mode = "albumartists";
+                            } else if (index == 3) {
+                                controller.mode = "artists";
+                            }
+
+                            tabControllers[index] = controller;
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 4:
-                    depends.push("controllers/music/musicplaylists");
+                    require(["controllers/music/musicplaylists"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (0 == index) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 0) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "music",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            if (index == 2) {
+                                controller.mode = "albumartists";
+                            } else if (index == 3) {
+                                controller.mode = "artists";
+                            }
+
+                            tabControllers[index] = controller;
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 5:
-                    depends.push("controllers/music/songs");
+                    require(["controllers/music/songs"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (0 == index) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 0) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "music",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            if (index == 2) {
+                                controller.mode = "albumartists";
+                            } else if (index == 3) {
+                                controller.mode = "artists";
+                            }
+
+                            tabControllers[index] = controller;
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 6:
-                    depends.push("controllers/music/musicgenres");
+                    require(["controllers/music/musicgenres"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (0 == index) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 0) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "music",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            if (index == 2) {
+                                controller.mode = "albumartists";
+                            } else if (index == 3) {
+                                controller.mode = "artists";
+                            }
+
+                            tabControllers[index] = controller;
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 7:
-                    depends.push("scripts/searchtab");
+                    require(["scripts/searchtab"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (0 == index) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === 0) {
+                                controller = self;
+                            } else if (index === 7) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "music",
+                                    parentId: params.topParentId
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            if (index == 2) {
+                                controller.mode = "albumartists";
+                            } else if (index == 3) {
+                                controller.mode = "artists";
+                            }
+
+                            tabControllers[index] = controller;
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
             }
-
-            require(depends, function (controllerFactory) {
-                var tabContent;
-
-                if (0 == index) {
-                    tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-                    self.tabContent = tabContent;
-                }
-
-                var controller = tabControllers[index];
-
-                if (!controller) {
-                    tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-
-                    if (index === 0) {
-                        controller = self;
-                    } else if (index === 7) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: "music",
-                            parentId: params.topParentId
-                        });
-                    } else {
-                        controller = new controllerFactory(view, params, tabContent);
-                    }
-
-                    if (index == 2) {
-                        controller.mode = "albumartists";
-                    } else if (index == 3) {
-                        controller.mode = "artists";
-                    }
-
-                    tabControllers[index] = controller;
-                    if (controller.initTab) {
-                        controller.initTab();
-                    }
-                }
-
-                callback(controller);
-            });
         }
 
         function preLoadTab(page, index) {
@@ -352,7 +535,7 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
             switch (e.detail.command) {
                 case "search":
                     e.preventDefault();
-                    Dashboard.navigate("search.html?collectionType=music&parentId=" + params.topParentId);
+                    window.Emby.Dashboard.navigate("search.html?collectionType=music&parentId=" + params.topParentId);
             }
         }
 

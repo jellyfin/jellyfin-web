@@ -1,0 +1,1 @@
+define("fullscreen-doubleclick", ["components/fullscreen/fullscreen-dc"], function (obj) { return obj; });

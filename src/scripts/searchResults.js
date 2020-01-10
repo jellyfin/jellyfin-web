@@ -1,0 +1,1 @@
+define("searchResults", ["components/search/searchresults"], function (obj) { return obj; });

@@ -1,4 +1,4 @@
-define(['css!./emby-radio', 'registerElement'], function () {
+define(['css!./emby-radio.css', 'document-register-element'], function () {
     'use strict';
 
     var EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);

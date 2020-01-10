@@ -1,0 +1,1 @@
+define("appSettings", ["components/appSettings"], function (obj) { return obj; });

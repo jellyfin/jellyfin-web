@@ -36,7 +36,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         }
 
         ApiClient.getLiveTvRecommendedPrograms({
-            userId: Dashboard.getCurrentUserId(),
+            userId: window.Emby.Dashboard.getCurrentUserId(),
             IsAiring: true,
             limit: limit,
             ImageTypeLimit: 1,
@@ -60,7 +60,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         if (enableFullRender) {
             loadRecommendedPrograms(page);
             ApiClient.getLiveTvPrograms({
-                userId: Dashboard.getCurrentUserId(),
+                userId: window.Emby.Dashboard.getCurrentUserId(),
                 HasAired: false,
                 limit: getLimit(),
                 IsMovie: false,
@@ -75,7 +75,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                 renderItems(page, result.Items, "upcomingEpisodeItems");
             });
             ApiClient.getLiveTvPrograms({
-                userId: Dashboard.getCurrentUserId(),
+                userId: window.Emby.Dashboard.getCurrentUserId(),
                 HasAired: false,
                 limit: getLimit(),
                 IsMovie: true,
@@ -90,7 +90,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                 });
             });
             ApiClient.getLiveTvPrograms({
-                userId: Dashboard.getCurrentUserId(),
+                userId: window.Emby.Dashboard.getCurrentUserId(),
                 HasAired: false,
                 limit: getLimit(),
                 IsSports: true,
@@ -101,7 +101,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                 renderItems(page, result.Items, "upcomingSportsItems");
             });
             ApiClient.getLiveTvPrograms({
-                userId: Dashboard.getCurrentUserId(),
+                userId: window.Emby.Dashboard.getCurrentUserId(),
                 HasAired: false,
                 limit: getLimit(),
                 IsKids: true,
@@ -112,7 +112,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                 renderItems(page, result.Items, "upcomingKidsItems");
             });
             ApiClient.getLiveTvPrograms({
-                userId: Dashboard.getCurrentUserId(),
+                userId: window.Emby.Dashboard.getCurrentUserId(),
                 HasAired: false,
                 limit: getLimit(),
                 IsNews: true,
@@ -235,61 +235,214 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
                     break;
 
                 case 1:
-                    depends.push("controllers/livetv/livetvguide");
+                    require(["controllers/livetv/livetvguide"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (0 == index) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (0 === index) {
+                                controller = self;
+                            } else if (6 === index) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "livetv"
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 2:
-                    depends.push("controllers/livetv/livetvchannels");
+                    require(["controllers/livetv/livetvchannels"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (0 == index) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (0 === index) {
+                                controller = self;
+                            } else if (6 === index) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "livetv"
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 3:
-                    depends.push("controllers/livetv/livetvrecordings");
+                    require(["controllers/livetv/livetvrecordings"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (0 == index) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (0 === index) {
+                                controller = self;
+                            } else if (6 === index) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "livetv"
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 4:
-                    depends.push("controllers/livetv/livetvschedule");
+                    require(["controllers/livetv/livetvschedule"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (0 == index) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (0 === index) {
+                                controller = self;
+                            } else if (6 === index) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "livetv"
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 5:
-                    depends.push("controllers/livetv/livetvseriestimers");
+                    require(["controllers/livetv/livetvseriestimers"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (0 == index) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (0 === index) {
+                                controller = self;
+                            } else if (6 === index) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "livetv"
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 6:
-                    depends.push("scripts/searchtab");
+                    require(["scripts/searchtab"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (0 == index) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (0 === index) {
+                                controller = self;
+                            } else if (6 === index) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "livetv"
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
             }
-
-            require(depends, function (controllerFactory) {
-                var tabContent;
-
-                if (0 == index) {
-                    tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-                    self.tabContent = tabContent;
-                }
-
-                var controller = tabControllers[index];
-
-                if (!controller) {
-                    tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-
-                    if (0 === index) {
-                        controller = self;
-                    } else if (6 === index) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: "livetv"
-                        });
-                    } else {
-                        controller = new controllerFactory(view, params, tabContent);
-                    }
-
-                    tabControllers[index] = controller;
-
-                    if (controller.initTab) {
-                        controller.initTab();
-                    }
-                }
-
-                callback(controller);
-            });
         }
 
         function preLoadTab(page, index) {
@@ -322,7 +475,7 @@ define(["layoutManager", "userSettings", "inputManager", "loading", "globalize",
         function onInputCommand(evt) {
             if (evt.detail.command === "search") {
                 evt.preventDefault();
-                Dashboard.navigate("search.html?collectionType=livetv");
+                window.Emby.Dashboard.navigate("search.html?collectionType=livetv");
             }
         }
 

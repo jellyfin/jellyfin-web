@@ -1,0 +1,1 @@
+define("itemsTab", ["components/tabbedview/itemstab"], function (obj) { return obj; });

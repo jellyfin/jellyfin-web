@@ -1,0 +1,1 @@
+define("emby-tabs", ["components/emby-tabs/emby-tabs"], function (obj) { return obj; });

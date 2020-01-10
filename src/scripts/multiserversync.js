@@ -1,0 +1,1 @@
+define("multiserversync", ["libraries/apiclient/sync/multiserversync"], function (obj) { return obj; });

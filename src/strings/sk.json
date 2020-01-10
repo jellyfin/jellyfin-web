@@ -561,7 +561,7 @@
     "Mobile": "Mobil / Tablet",
     "Monday": "Pondelok",
     "MoreFromValue": "Viac od {0}",
-    "MoreUsersCanBeAddedLater": "Ďalší užívatelia môžu byť pridaný neskôr cez Dashboard.",
+    "MoreUsersCanBeAddedLater": "Ďalší užívatelia môžu byť pridaný neskôr cez window.Emby.Dashboard.",
     "MoveLeft": "Posunúť vľavo",
     "MoveRight": "Posunúť vpravo",
     "Movies": "Filmy",

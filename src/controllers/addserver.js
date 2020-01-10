@@ -1,4 +1,4 @@
-define(["appSettings", "loading", "browser", "emby-button"], function(appSettings, loading, browser) {
+define(["connectionManager", "appSettings", "loading", "browser", "emby-button"], function(ConnectionManager, appSettings, loading, browser) {
     "use strict";
 
     function handleConnectionResult(page, result) {
@@ -6,22 +6,22 @@ define(["appSettings", "loading", "browser", "emby-button"], function(appSetting
         switch (result.State) {
             case "SignedIn":
                 var apiClient = result.ApiClient;
-                Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
-                Dashboard.navigate("home.html");
+                window.Emby.Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
+                window.Emby.Dashboard.navigate("home.html");
                 break;
             case "ServerSignIn":
-                Dashboard.navigate("login.html?serverid=" + result.Servers[0].Id, false, "none");
+                window.Emby.Dashboard.navigate("login.html?serverid=" + result.Servers[0].Id, false, "none");
                 break;
             case "ServerSelection":
-                Dashboard.navigate("selectserver.html", false, "none");
+                window.Emby.Dashboard.navigate("selectserver.html", false, "none");
                 break;
             case "ServerUpdateNeeded":
-                Dashboard.alert({
+                window.Emby.Dashboard.alert({
                     message: Globalize.translate("ServerUpdateNeeded", '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
                 });
                 break;
             case "Unavailable":
-                Dashboard.alert({
+                window.Emby.Dashboard.alert({
                     message: Globalize.translate("MessageUnableToConnectToServer"),
                     title: Globalize.translate("HeaderConnectionFailure")
                 });

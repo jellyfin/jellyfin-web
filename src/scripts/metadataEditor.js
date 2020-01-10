@@ -1,0 +1,1 @@
+define("metadataEditor", ["components/metadataeditor/metadataeditor"], function (obj) { return obj; });

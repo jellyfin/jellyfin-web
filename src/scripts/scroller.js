@@ -1,0 +1,1 @@
+define("scroller", ["components/scroller"], function (obj) { return obj; });

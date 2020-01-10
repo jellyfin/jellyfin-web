@@ -1,4 +1,4 @@
-define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'material-icons'], function (events, playbackManager, dom, browser) {
+define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd.css', 'material-icons'], function (events, playbackManager, dom, browser) {
     'use strict';
 
     var currentPlayer;
@@ -11,7 +11,7 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
     function getOsdElementHtml() {
         var html = '';
 
-        html += '<i class="md-icon iconOsdIcon">brightness_high</i>';
+        html += '<i class="material-icons iconOsdIcon">brightness_high</i>';
 
         html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner brightnessOsdProgressInner"></div></div>';
 

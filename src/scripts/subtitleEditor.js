@@ -1,0 +1,1 @@
+define("subtitleEditor", ["components/subtitleeditor/subtitleeditor"], function (obj) { return obj; });

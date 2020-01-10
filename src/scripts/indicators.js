@@ -1,0 +1,1 @@
+define("indicators", ["components/indicators/indicators"], function (obj) { return obj; });

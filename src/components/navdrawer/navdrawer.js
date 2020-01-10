@@ -1,4 +1,4 @@
-define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function(browser, dom) {
+define(["browser", "dom", "css!./navdrawer.css", "scrollStyles"], function(browser, dom) {
     "use strict";
     return function(options) {
         function getTouches(e) {

@@ -76,7 +76,7 @@ define(["globalize", "loading", "libraryMenu", "dom", "emby-input", "emby-button
             info.Type = "m3u";
         }
 
-        var id = getParameterByName("id");
+        var id = window.getParameterByName("id");
 
         if (id) {
             info.Id = id;
@@ -89,24 +89,24 @@ define(["globalize", "loading", "libraryMenu", "dom", "emby-input", "emby-button
             data: JSON.stringify(info),
             contentType: "application/json"
         }).then(function (result) {
-            Dashboard.processServerConfigurationUpdateResult();
-            Dashboard.navigate("livetvstatus.html");
+            window.Emby.Dashboard.processServerConfigurationUpdateResult();
+            window.Emby.Dashboard.navigate("livetvstatus.html");
         }, function () {
             loading.hide();
-            Dashboard.alert({
+            window.Emby.Dashboard.alert({
                 message: globalize.translate("ErrorSavingTvProvider")
             });
         });
     }
 
-    function getRequirePromise(deps) {
+    function getRequirePromise() {
         return new Promise(function (resolve, reject) {
-            require(deps, resolve);
+            require(["tunerPicker"], resolve);
         });
     }
 
     function getDetectedDevice() {
-        return getRequirePromise(["tunerPicker"]).then(function (tunerPicker) {
+        return getRequirePromise().then(function (tunerPicker) {
             return new tunerPicker().show({
                 serverId: ApiClient.serverId()
             });

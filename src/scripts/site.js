@@ -1,3 +1,13 @@
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+import runtime from 'serviceworker-webpack-plugin/lib/runtime';
+
+// If we're running in development mode, set the app as stand alone
+if (process.env.NODE_ENV === 'development') {
+    console.info("Running in development mode");
+    window.appMode = 'standalone';
+}
+
 function getWindowLocationSearch(win) {
     "use strict";
 
@@ -14,7 +24,7 @@ function getWindowLocationSearch(win) {
     return search || "";
 }
 
-function getParameterByName(name, url) {
+window.getParameterByName = function(name, url) {
     "use strict";
 
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -60,7 +70,7 @@ var Dashboard = {
 
     //TODO: investigate url prefix support for serverAddress function
     serverAddress: function () {
-        if (AppInfo.isNativeApp) {
+        if (window.AppInfo.isNativeApp) {
             var apiClient = window.ApiClient;
 
             if (apiClient) {
@@ -103,27 +113,27 @@ var Dashboard = {
         ConnectionManager.logout().then(function () {
             var loginPage;
 
-            if (AppInfo.isNativeApp) {
+            if (window.AppInfo.isNativeApp) {
                 loginPage = "selectserver.html";
                 window.ApiClient = null;
             } else {
                 loginPage = "login.html";
             }
 
-            Dashboard.navigate(loginPage);
+            window.Emby.Dashboard.navigate(loginPage);
         });
     },
     getConfigurationPageUrl: function (name) {
         return "configurationpage?name=" + encodeURIComponent(name);
     },
     getConfigurationResourceUrl: function (name) {
-        if (AppInfo.isNativeApp) {
+        if (window.AppInfo.isNativeApp) {
             return ApiClient.getUrl("web/ConfigurationPage", {
                 name: name
             });
         }
 
-        return Dashboard.getConfigurationPageUrl(name);
+        return window.Emby.Dashboard.getConfigurationPageUrl(name);
     },
     navigate: function (url, preserveQueryString) {
         if (!url) {
@@ -172,7 +182,7 @@ var Dashboard = {
             status = response.statusText;
         }
 
-        Dashboard.alert({
+        window.Emby.Dashboard.alert({
             title: status,
             message: response.headers ? response.headers.get("X-Application-Error-Code") : null
         });
@@ -202,7 +212,7 @@ var Dashboard = {
                     apiClient: apiClient
                 });
                 events.on(dialog, "restarted", function () {
-                    if (AppInfo.isNativeApp) {
+                    if (window.AppInfo.isNativeApp) {
                         apiClient.ensureWebSocket();
                     } else {
                         window.location.reload(true);
@@ -221,20 +231,35 @@ var Dashboard = {
         };
         appHost.getPushTokenInfo();
         return capabilities = Object.assign(capabilities, appHost.getPushTokenInfo());
+    },
+    confirm: function(message, title, callback) {
+        "use strict";
+        require(["confirm"], function(confirm) {
+            confirm(message, title).then(function() {
+                callback(!0)
+            }, function() {
+                callback(!1)
+            })
+        })
+    },
+    showLoadingMsg : function() {
+        "use strict";
+        require(["loading"], function(loading) {
+            loading.show()
+        })
+    },
+    hideLoadingMsg : function() {
+        "use strict";
+        require(["loading"], function(loading) {
+            loading.hide()
+        })
     }
 };
 
-var AppInfo = {};
+window.AppInfo = {};
 
-!function () {
+$(document).ready( function () {
     "use strict";
-
-    function defineConnectionManager(connectionManager) {
-        window.ConnectionManager = connectionManager;
-        define("connectionManager", [], function () {
-            return connectionManager;
-        });
-    }
 
     function bindConnectionManagerEvents(connectionManager, events, userSettings) {
         window.Events = events;
@@ -263,28 +288,25 @@ var AppInfo = {};
     }
 
     function createConnectionManager() {
-        return require(["connectionManagerFactory", "apphost", "credentialprovider", "events", "userSettings"], function (ConnectionManager, apphost, credentialProvider, events, userSettings) {
-            var credentialProviderInstance = new credentialProvider();
-            var promises = [apphost.getSyncProfile(), apphost.init()];
+        return require(["connectionManager", "apphost", "events", "userSettings"], function (connectionManager, apphost, events, userSettings) {
+            var promises = [apphost.getSyncProfile(), apphost.init()]
 
             return Promise.all(promises).then(function (responses) {
                 var deviceProfile = responses[0];
                 var capabilities = Dashboard.capabilities(apphost);
+                window.capabilities = capabilities;
 
                 capabilities.DeviceProfile = deviceProfile;
 
-                var connectionManager = new ConnectionManager(credentialProviderInstance, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities, window.devicePixelRatio);
-
-                defineConnectionManager(connectionManager);
                 bindConnectionManagerEvents(connectionManager, events, userSettings);
 
-                if (!AppInfo.isNativeApp) {
+                if (!window.AppInfo.isNativeApp) {
                     console.log("loading ApiClient singleton");
 
                     return require(["apiclient"], function (apiClientFactory) {
                         console.log("creating ApiClient singleton");
 
-                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
+                        var apiClient = new apiClientFactory(window.Emby.Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
 
                         apiClient.enableAutomaticNetworking = false;
                         apiClient.manualAddressOnly = true;
@@ -303,159 +325,11 @@ var AppInfo = {};
         });
     }
 
-    function returnFirstDependency(obj) {
-        return obj;
-    }
-
-    function getBowerPath() {
-        return "libraries";
-    }
-
-    function getComponentsPath() {
-        return "components";
-    }
-
-    function getPlaybackManager(playbackManager) {
-        window.addEventListener("beforeunload", function () {
-            try {
-                playbackManager.onAppClose();
-            } catch (err) {
-                console.log("error in onAppClose: " + err);
-            }
-        });
-        return playbackManager;
-    }
-
-    function getLayoutManager(layoutManager, appHost) {
-        if (appHost.getDefaultLayout) {
-            layoutManager.defaultLayout = appHost.getDefaultLayout();
-        }
-
-        layoutManager.init();
-        return layoutManager;
-    }
-
-    function createWindowHeadroom(Headroom) {
-        var headroom = new Headroom([], {});
-        return headroom;
-    }
-
-    function getCastSenderApiLoader() {
-        var ccLoaded = false;
-        return {
-            load: function () {
-                if (ccLoaded) {
-                    return Promise.resolve();
-                }
-
-                return new Promise(function (resolve, reject) {
-                    var fileref = document.createElement("script");
-                    fileref.setAttribute("type", "text/javascript");
-
-                    fileref.onload = function () {
-                        ccLoaded = true;
-                        resolve();
-                    };
-
-                    fileref.setAttribute("src", "https://www.gstatic.com/cv/js/sender/v1/cast_sender.js");
-                    document.querySelector("head").appendChild(fileref);
-                });
-            }
-        };
-    }
-
-    function getDummyCastSenderApiLoader() {
-        return {
-            load: function () {
-                window.chrome = window.chrome || {};
-                return Promise.resolve();
-            }
-        };
-    }
-
-    function createSharedAppFooter(appFooter) {
-        return new appFooter({});
-    }
-
-    function onRequireJsError(requireType, requireModules) {
-        console.log("RequireJS error: " + (requireType || "unknown") + ". Failed modules: " + (requireModules || []).join(","));
-    }
-
-    function defineResizeObserver() {
-        if (self.ResizeObserver) {
-            define("ResizeObserver", [], function () {
-                return self.ResizeObserver;
-            });
-        } else {
-            define("ResizeObserver", ["resize-observer-polyfill"], returnFirstDependency);
-        }
-    }
-
     function initRequireWithBrowser(browser) {
-        var bowerPath = getBowerPath();
-        var componentsPath = getComponentsPath();
-
-        define("filesystem", [componentsPath + "/filesystem"], returnFirstDependency);
-
-        if (window.IntersectionObserver && !browser.edge) {
-            define("lazyLoader", [componentsPath + "/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency);
-        } else {
-            define("lazyLoader", [componentsPath + "/lazyloader/lazyloader-scroll"], returnFirstDependency);
-        }
-
-        define("shell", [componentsPath + "/shell"], returnFirstDependency);
-
-        define("apiclient", [bowerPath + "/apiclient/apiclient"], returnFirstDependency);
-
-        if ("registerElement" in document) {
-            define("registerElement", []);
-        } else if (browser.msie) {
-            define("registerElement", ["webcomponents"], returnFirstDependency);
-        } else {
-            define("registerElement", ["document-register-element"], returnFirstDependency);
-        }
-
-        define("imageFetcher", [componentsPath + "/images/imageFetcher"], returnFirstDependency);
-
         var preferNativeAlerts = browser.tv;
-
-        define("alert", [componentsPath + "/alert"], returnFirstDependency);
-
-        defineResizeObserver();
-        define("dialog", [componentsPath + "/dialog/dialog"], returnFirstDependency);
-
-        if (preferNativeAlerts && window.confirm) {
-            define("confirm", [componentsPath + "/confirm/nativeconfirm"], returnFirstDependency);
-        } else {
-            define("confirm", [componentsPath + "/confirm/confirm"], returnFirstDependency);
-        }
-
-        if ((preferNativeAlerts || browser.xboxOne) && window.confirm) {
-            define("prompt", [componentsPath + "/prompt/nativeprompt"], returnFirstDependency);
-        } else {
-            define("prompt", [componentsPath + "/prompt/prompt"], returnFirstDependency);
-        }
-
-        define("loading", [componentsPath + "/loading/loading"], returnFirstDependency);
-        define("multi-download", [componentsPath + "/multidownload"], returnFirstDependency);
-        define("fileDownloader", [componentsPath + "/filedownloader"], returnFirstDependency);
-        define("localassetmanager", [bowerPath + "/apiclient/localassetmanager"], returnFirstDependency);
-
-        if ("cordova" === self.appMode || "android" === self.appMode) {
-            define("castSenderApiLoader", [], getDummyCastSenderApiLoader);
-        } else {
-            define("castSenderApiLoader", [], getCastSenderApiLoader);
-        }
-
-        define("transfermanager", [bowerPath + "/apiclient/sync/transfermanager"], returnFirstDependency);
-        define("filerepository", [bowerPath + "/apiclient/sync/filerepository"], returnFirstDependency);
-        define("localsync", [bowerPath + "/apiclient/sync/localsync"], returnFirstDependency);
     }
 
     function init() {
-        define("livetvcss", ["css!assets/css/livetv.css"], returnFirstDependency);
-        define("detailtablecss", ["css!assets/css/detailtable.css"], returnFirstDependency);
-
         var promises = [];
         if (!window.fetch) {
             promises.push(require(["fetch"]));
@@ -517,24 +391,24 @@ var AppInfo = {};
             require(["systemFontsCss"]);
         }
 
-        require(["apphost", "css!assets/css/librarybrowser"], function (appHost) {
-            loadPlugins(appHost, browser).then(function () {
+        require(["apphost", "css!assets/css/librarybrowser.css"], function (appHost) {
+            //loadPlugins(appHost, browser).then(function () {
                 onAppReady(browser);
-            });
+            //});
         });
     }
 
     function loadPlugins(appHost, browser, shell) {
         console.log("Loading installed plugins");
         var list = [
-            "components/playback/playaccessvalidation",
-            "components/playback/experimentalwarnings",
-            "components/htmlaudioplayer/plugin",
-            "components/htmlvideoplayer/plugin",
-            "components/photoplayer/plugin",
-            "components/youtubeplayer/plugin",
-            "components/backdropscreensaver/plugin",
-            "components/logoscreensaver/plugin"
+            "playaccessvalidation",
+            "experimentalwarnings",
+            "htmlaudioplayer",
+            "htmlvideoplayer",
+            "photoplayer",
+            "youtubeplayer",
+            "backdropscreensaver",
+            "logoscreensaver"
         ];
 
         if (appHost.supports("remotecontrol")) {
@@ -575,12 +449,13 @@ var AppInfo = {};
 
             console.log("onAppReady - loading dependencies");
             if (browser.iOS) {
-                require(['css!assets/css/ios.css']);
+                require(['css!../assets/css/ios.css']);
             }
 
+            window.Emby.Dashboard = Dashboard;
             window.Emby.Page = appRouter;
 
-            require(['emby-button', 'scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
+            require(['emby-button', 'themeloader', 'libraryMenu', 'scripts/routes'], function () {
                 Emby.Page.start({
                     click: false,
                     hashbang: true
@@ -624,8 +499,8 @@ var AppInfo = {};
 
     function registerServiceWorker() {
         if (navigator.serviceWorker && "cordova" !== self.appMode && "android" !== self.appMode) {
-            try {
-                navigator.serviceWorker.register("serviceworker.js");
+            try {;
+                runtime.register();
             } catch (err) {
                 console.log("Error registering serviceWorker: " + err);
             }
@@ -636,522 +511,33 @@ var AppInfo = {};
         initRequireWithBrowser(browser);
 
         if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
-            AppInfo.isNativeApp = true;
+            window.AppInfo.isNativeApp = true;
         }
 
         if (!window.Promise || browser.web0s) {
             require(["native-promise-only"], init);
         } else {
+            console.log("Pre-init");
             init();
         }
     }
 
     var localApiClient;
 
-    (function () {
-        var urlArgs = "v=" + (window.dashboardVersion || new Date().getDate());
-        var bowerPath = getBowerPath();
-        var componentsPath = getComponentsPath();
-        var paths = {
-            browserdeviceprofile: "scripts/browserdeviceprofile",
-            browser: "scripts/browser",
-            libraryBrowser: "scripts/librarybrowser",
-            inputManager: "scripts/inputManager",
-            datetime: "scripts/datetime",
-            globalize: "scripts/globalize",
-            libraryMenu: "scripts/librarymenu",
-            playlisteditor: componentsPath + "/playlisteditor/playlisteditor",
-            medialibrarycreator: componentsPath + "/medialibrarycreator/medialibrarycreator",
-            medialibraryeditor: componentsPath + "/medialibraryeditor/medialibraryeditor",
-            imageoptionseditor: componentsPath + "/imageoptionseditor/imageoptionseditor",
-            humanedate: componentsPath + "/humanedate",
-            apphost: componentsPath + "/apphost",
-            visibleinviewport: componentsPath + "/visibleinviewport",
-            qualityoptions: componentsPath + "/qualityoptions",
-            focusManager: componentsPath + "/focusManager",
-            itemHelper: componentsPath + "/itemhelper",
-            itemShortcuts: componentsPath + "/shortcuts",
-            playQueueManager: componentsPath + "/playback/playqueuemanager",
-            autoPlayDetect: componentsPath + "/playback/autoplaydetect",
-            nowPlayingHelper: componentsPath + "/playback/nowplayinghelper",
-            pluginManager: componentsPath + "/pluginManager",
-            packageManager: componentsPath + "/packagemanager",
-            screensaverManager: componentsPath + "/screensavermanager"
-        };
-
-        requirejs.onError = onRequireJsError;
-        requirejs.config({
-            waitSeconds: 0,
-            map: {
-                "*": {
-                    css: "components/require/requirecss",
-                    text: "components/require/requiretext"
-                }
-            },
-            bundles: {
-                bundle: [
-                    "document-register-element",
-                    "fetch",
-                    "flvjs",
-                    "jstree",
-                    "jQuery",
-                    "hlsjs",
-                    "howler",
-                    "native-promise-only",
-                    "resize-observer-polyfill",
-                    "shaka",
-                    "swiper",
-                    "sortable",
-                    "libjass",
-                    "webcomponents"
-                ]
-            },
-            urlArgs: urlArgs,
-            paths: paths,
-            onError: onRequireJsError
-        });
-
-        // Expose jQuery globally
-        require(["jQuery"], function(jQuery) {
-            window.$ = jQuery;
-            window.jQuery = jQuery;
-        });
-
-        require(["css!assets/css/site"]);
-
-        // define styles
-        // TODO determine which of these files can be moved to the components themselves
-        define("material-icons", ["css!assets/css/material-icons/style"], returnFirstDependency);
-        define("systemFontsCss", ["css!assets/css/fonts"], returnFirstDependency);
-        define("systemFontsSizedCss", ["css!assets/css/fonts.sized"], returnFirstDependency);
-        define("scrollStyles", ["css!assets/css/scrollstyles"], returnFirstDependency);
-        define("dashboardcss", ["css!assets/css/dashboard"], returnFirstDependency);
-        define("programStyles", ["css!" + componentsPath + "/guide/programs"], returnFirstDependency);
-        define("listViewStyle", ["css!" + componentsPath + "/listview/listview"], returnFirstDependency);
-        define("formDialogStyle", ["css!" + componentsPath + "/formdialog"], returnFirstDependency);
-        define("clearButtonStyle", ["css!assets/css/clearbutton"], returnFirstDependency);
-        define("cardStyle", ["css!" + componentsPath + "/cardbuilder/card"], returnFirstDependency);
-        define("flexStyles", ["css!assets/css/flexstyles"], returnFirstDependency);
-
-        // define legacy features
-        // TODO delete the rest of these
-        define("fnchecked", ["legacy/fnchecked"], returnFirstDependency);
-        define("legacyDashboard", ["legacy/dashboard"], returnFirstDependency);
-        define("legacySelectMenu", ["legacy/selectmenu"], returnFirstDependency);
-
-        // there are several objects that need to be instantiated
-        // TODO find a better way to do this
-        define("appFooter", [componentsPath + "/appfooter/appfooter"], returnFirstDependency);
-        define("appFooter-shared", ["appFooter"], createSharedAppFooter);
-
-        // TODO pull apiclient out of this repository
-        define('events', [bowerPath + "/apiclient/events"], returnFirstDependency);
-        define('credentialprovider', [bowerPath + "/apiclient/credentialprovider"], returnFirstDependency);
-        define('connectionManagerFactory', [bowerPath + "/apiclient/connectionmanager"], returnFirstDependency);
-        define('appStorage', [bowerPath + "/apiclient/appStorage"], returnFirstDependency);
-        define("serversync", [bowerPath + "/apiclient/sync/serversync"], returnFirstDependency);
-        define("multiserversync", [bowerPath + "/apiclient/sync/multiserversync"], returnFirstDependency);
-        define("mediasync", [bowerPath + "/apiclient/sync/mediasync"], returnFirstDependency);
-        define("itemrepository", [bowerPath + "/apiclient/sync/itemrepository"], returnFirstDependency);
-        define("useractionrepository", [bowerPath + "/apiclient/sync/useractionrepository"], returnFirstDependency);
-
-        // TODO remove these libraries
-        // all of these have been modified so we need to fix that first
-        define("page", [bowerPath + "/pagejs/page"], returnFirstDependency);
-        define("headroom", [componentsPath + "/headroom/headroom"], returnFirstDependency);
-        define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
-        define("navdrawer", [componentsPath + "/navdrawer/navdrawer"], returnFirstDependency);
-        define("queryString", [bowerPath + "/query-string/index"], function () {
-            return queryString;
-        });
-
-        var elementsPath = "elements"
-        define("emby-button", [elementsPath + "/emby-button/emby-button"], returnFirstDependency);
-        define("paper-icon-button-light", [elementsPath + "/emby-button/paper-icon-button-light"], returnFirstDependency);
-        define("emby-checkbox", [elementsPath + "/emby-checkbox/emby-checkbox"], returnFirstDependency);
-        define("emby-collapse", [elementsPath + "/emby-collapse/emby-collapse"], returnFirstDependency);
-        define("emby-input", [elementsPath + "/emby-input/emby-input"], returnFirstDependency);
-        define("emby-progressring", [elementsPath + "/emby-progressring/emby-progressring"], returnFirstDependency);
-        define("emby-radio", [elementsPath + "/emby-radio/emby-radio"], returnFirstDependency);
-        define("emby-select", [elementsPath + "/emby-select/emby-select"], returnFirstDependency);
-        define("emby-slider", [elementsPath + "/emby-slider/emby-slider"], returnFirstDependency);
-        define("emby-textarea", [elementsPath + "/emby-textarea/emby-textarea"], returnFirstDependency);
-        define("emby-toggle", [elementsPath + "/emby-toggle/emby-toggle"], returnFirstDependency);
-
-        define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
-        define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);
-        define("actionsheet", [componentsPath + "/actionsheet/actionsheet"], returnFirstDependency);
-        define("tunerPicker", [componentsPath + "/tunerpicker"], returnFirstDependency);
-        define("mainTabsManager", [componentsPath + "/maintabsmanager"], returnFirstDependency);
-        define("imageLoader", [componentsPath + "/images/imageLoader"], returnFirstDependency);
-        define("directorybrowser", [componentsPath + "/directorybrowser/directorybrowser"], returnFirstDependency);
-        define("metadataEditor", [componentsPath + "/metadataeditor/metadataeditor"], returnFirstDependency);
-        define("personEditor", [componentsPath + "/metadataeditor/personeditor"], returnFirstDependency);
-        define("playerSelectionMenu", [componentsPath + "/playback/playerSelectionMenu"], returnFirstDependency);
-        define("playerSettingsMenu", [componentsPath + "/playback/playersettingsmenu"], returnFirstDependency);
-        define("playMethodHelper", [componentsPath + "/playback/playmethodhelper"], returnFirstDependency);
-        define("brightnessOsd", [componentsPath + "/playback/brightnessosd"], returnFirstDependency);
-        define("emby-itemscontainer", [componentsPath + "/emby-itemscontainer/emby-itemscontainer"], returnFirstDependency);
-        define("alphaNumericShortcuts", [componentsPath + "/alphanumericshortcuts/alphanumericshortcuts"], returnFirstDependency);
-        define("emby-scroller", [componentsPath + "/emby-scroller/emby-scroller"], returnFirstDependency);
-        define("emby-tabs", [componentsPath + "/emby-tabs/emby-tabs"], returnFirstDependency);
-        define("emby-scrollbuttons", [componentsPath + "/emby-scrollbuttons/emby-scrollbuttons"], returnFirstDependency);
-        define("emby-itemrefreshindicator", [componentsPath + "/emby-itemrefreshindicator/emby-itemrefreshindicator"], returnFirstDependency);
-        define("multiSelect", [componentsPath + "/multiselect/multiselect"], returnFirstDependency);
-        define("alphaPicker", [componentsPath + "/alphapicker/alphapicker"], returnFirstDependency);
-        define("tabbedView", [componentsPath + "/tabbedview/tabbedview"], returnFirstDependency);
-        define("itemsTab", [componentsPath + "/tabbedview/itemstab"], returnFirstDependency);
-        define("collectionEditor", [componentsPath + "/collectioneditor/collectioneditor"], returnFirstDependency);
-        define("serverRestartDialog", [componentsPath + "/serverRestartDialog"], returnFirstDependency);
-        define("playlistEditor", [componentsPath + "/playlisteditor/playlisteditor"], returnFirstDependency);
-        define("recordingCreator", [componentsPath + "/recordingcreator/recordingcreator"], returnFirstDependency);
-        define("recordingEditor", [componentsPath + "/recordingcreator/recordingeditor"], returnFirstDependency);
-        define("seriesRecordingEditor", [componentsPath + "/recordingcreator/seriesrecordingeditor"], returnFirstDependency);
-        define("recordingFields", [componentsPath + "/recordingcreator/recordingfields"], returnFirstDependency);
-        define("recordingButton", [componentsPath + "/recordingcreator/recordingbutton"], returnFirstDependency);
-        define("recordingHelper", [componentsPath + "/recordingcreator/recordinghelper"], returnFirstDependency);
-        define("subtitleEditor", [componentsPath + "/subtitleeditor/subtitleeditor"], returnFirstDependency);
-        define("subtitleSync", [componentsPath + "/subtitlesync/subtitlesync"], returnFirstDependency);
-        define("itemIdentifier", [componentsPath + "/itemidentifier/itemidentifier"], returnFirstDependency);
-        define("itemMediaInfo", [componentsPath + "/itemMediaInfo/itemMediaInfo"], returnFirstDependency);
-        define("mediaInfo", [componentsPath + "/mediainfo/mediainfo"], returnFirstDependency);
-        define("itemContextMenu", [componentsPath + "/itemcontextmenu"], returnFirstDependency);
-        define("imageEditor", [componentsPath + "/imageeditor/imageeditor"], returnFirstDependency);
-        define("imageDownloader", [componentsPath + "/imagedownloader/imagedownloader"], returnFirstDependency);
-        define("dom", [componentsPath + "/dom"], returnFirstDependency);
-        define("playerStats", [componentsPath + "/playerstats/playerstats"], returnFirstDependency);
-        define("searchFields", [componentsPath + "/search/searchfields"], returnFirstDependency);
-        define("searchResults", [componentsPath + "/search/searchresults"], returnFirstDependency);
-        define("upNextDialog", [componentsPath + "/upnextdialog/upnextdialog"], returnFirstDependency);
-        define("fullscreen-doubleclick", [componentsPath + "/fullscreen/fullscreen-dc"], returnFirstDependency);
-        define("fullscreenManager", [componentsPath + "/fullscreenManager", "events"], returnFirstDependency);
-        define("subtitleAppearanceHelper", [componentsPath + "/subtitlesettings/subtitleappearancehelper"], returnFirstDependency);
-        define("subtitleSettings", [componentsPath + "/subtitlesettings/subtitlesettings"], returnFirstDependency);
-        define("displaySettings", [componentsPath + "/displaysettings/displaysettings"], returnFirstDependency);
-        define("playbackSettings", [componentsPath + "/playbacksettings/playbacksettings"], returnFirstDependency);
-        define("homescreenSettings", [componentsPath + "/homescreensettings/homescreensettings"], returnFirstDependency);
-        define("playbackManager", [componentsPath + "/playback/playbackmanager"], getPlaybackManager);
-        define("layoutManager", [componentsPath + "/layoutManager", "apphost"], getLayoutManager);
-        define("homeSections", [componentsPath + "/homesections/homesections"], returnFirstDependency);
-        define("playMenu", [componentsPath + "/playmenu"], returnFirstDependency);
-        define("refreshDialog", [componentsPath + "/refreshdialog/refreshdialog"], returnFirstDependency);
-        define("backdrop", [componentsPath + "/backdrop/backdrop"], returnFirstDependency);
-        define("fetchHelper", [componentsPath + "/fetchhelper"], returnFirstDependency);
-        define("cardBuilder", [componentsPath + "/cardbuilder/cardBuilder"], returnFirstDependency);
-        define("peoplecardbuilder", [componentsPath + "/cardbuilder/peoplecardbuilder"], returnFirstDependency);
-        define("chaptercardbuilder", [componentsPath + "/cardbuilder/chaptercardbuilder"], returnFirstDependency);
-        define("deleteHelper", [componentsPath + "/deletehelper"], returnFirstDependency);
-        define("tvguide", [componentsPath + "/guide/guide"], returnFirstDependency);
-        define("guide-settings-dialog", [componentsPath + "/guide/guide-settings"], returnFirstDependency);
-        define("loadingDialog", [componentsPath + "/loadingdialog/loadingdialog"], returnFirstDependency);
-        define("viewManager", [componentsPath + "/viewManager/viewManager"], function (viewManager) {
-            window.ViewManager = viewManager;
-            viewManager.dispatchPageEvents(true);
-            return viewManager;
-        });
-        define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
-        define("objectassign", [componentsPath + "/polyfills/objectassign"], returnFirstDependency);
-        define("focusPreventScroll", [componentsPath + "/polyfills/focusPreventScroll"], returnFirstDependency);
-        define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
-        define("emby-playstatebutton", [componentsPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
-        define("emby-ratingbutton", [componentsPath + "/userdatabuttons/emby-ratingbutton"], returnFirstDependency);
-        define("listView", [componentsPath + "/listview/listview"], returnFirstDependency);
-        define("indicators", [componentsPath + "/indicators/indicators"], returnFirstDependency);
-        define("viewSettings", [componentsPath + "/viewsettings/viewsettings"], returnFirstDependency);
-        define("filterMenu", [componentsPath + "/filtermenu/filtermenu"], returnFirstDependency);
-        define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
-        define("idb", [componentsPath + "/idb"], returnFirstDependency);
-        define("sanitizefilename", [componentsPath + "/sanitizefilename"], returnFirstDependency);
-        define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
-        define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);
-        define("touchHelper", [componentsPath + "/touchhelper"], returnFirstDependency);
-        define("appSettings", [componentsPath + "/appSettings"], returnFirstDependency);
-        define("userSettings", [componentsPath + "/usersettings/usersettings"], returnFirstDependency);
-        define("userSettingsBuilder", [componentsPath + "/usersettings/usersettingsbuilder", "layoutManager", "browser"], returnFirstDependency);
-        define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
-        define("htmlMediaHelper", [componentsPath + "/htmlMediaHelper"], returnFirstDependency);
-        define("viewContainer", [componentsPath + "/viewContainer"], returnFirstDependency);
-        define("dialogHelper", [componentsPath + "/dialogHelper/dialogHelper"], returnFirstDependency);
-        define("serverNotifications", [componentsPath + "/serverNotifications/serverNotifications"], returnFirstDependency);
-        define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
-        define("keyboardnavigation", [componentsPath + "/keyboardnavigation"], returnFirstDependency);
-        define("scrollManager", [componentsPath + "/scrollManager"], returnFirstDependency);
-        define("autoFocuser", [componentsPath + "/autoFocuser"], returnFirstDependency);
-        define("connectionManager", [], function () {
-            return ConnectionManager;
-        });
-        define("apiClientResolver", [], function () {
-            return function () {
-                return window.ApiClient;
-            };
-        });
-        define("appRouter", [componentsPath + "/appRouter", "itemHelper"], function (appRouter, itemHelper) {
-            function showItem(item, serverId, options) {
-                if ("string" == typeof item) {
-                    require(["connectionManager"], function (connectionManager) {
-                        var apiClient = connectionManager.currentApiClient();
-                        apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
-                            appRouter.showItem(item, options);
-                        });
-                    });
-                } else {
-                    if (2 == arguments.length) {
-                        options = arguments[1];
-                    }
-
-                    appRouter.show("/" + appRouter.getRouteUrl(item, options), {
-                        item: item
-                    });
-                }
-            }
-
-            appRouter.showLocalLogin = function (serverId, manualLogin) {
-                Dashboard.navigate("login.html?serverid=" + serverId);
-            };
-
-            appRouter.showVideoOsd = function () {
-                return Dashboard.navigate("videoosd.html");
-            };
-
-            appRouter.showSelectServer = function () {
-                Dashboard.navigate(AppInfo.isNativeApp ? "selectserver.html" : "login.html");
-            };
-
-            appRouter.showWelcome = function () {
-                Dashboard.navigate(AppInfo.isNativeApp ? "selectserver.html" : "login.html");
-            };
-
-            appRouter.showSettings = function () {
-                Dashboard.navigate("mypreferencesmenu.html");
-            };
-
-            appRouter.showGuide = function () {
-                Dashboard.navigate("livetv.html?tab=1");
-            };
-
-            appRouter.goHome = function () {
-                Dashboard.navigate("home.html");
-            };
-
-            appRouter.showSearch = function () {
-                Dashboard.navigate("search.html");
-            };
-
-            appRouter.showLiveTV = function () {
-                Dashboard.navigate("livetv.html");
-            };
-
-            appRouter.showRecordedTV = function () {
-                Dashboard.navigate("livetv.html?tab=3");
-            };
-
-            appRouter.showFavorites = function () {
-                Dashboard.navigate("home.html?tab=1");
-            };
-
-            appRouter.showSettings = function () {
-                Dashboard.navigate("mypreferencesmenu.html");
-            };
-
-            appRouter.showNowPlaying = function () {
-                Dashboard.navigate("nowplaying.html");
-            };
-
-            appRouter.setTitle = function (title) {
-                LibraryMenu.setTitle(title);
-            };
-
-            appRouter.getRouteUrl = function (item, options) {
-                if (!item) {
-                    throw new Error("item cannot be null");
-                }
-
-                if (item.url) {
-                    return item.url;
-                }
-
-                var context = options ? options.context : null;
-                var id = item.Id || item.ItemId;
-
-                if (!options) {
-                    options = {};
-                }
-
-                var url;
-                var itemType = item.Type || (options ? options.itemType : null);
-                var serverId = item.ServerId || options.serverId;
-
-                if ("settings" === item) {
-                    return "mypreferencesmenu.html";
-                }
-
-                if ("wizard" === item) {
-                    return "wizardstart.html";
-                }
-
-                if ("manageserver" === item) {
-                    return "dashboard.html";
-                }
-
-                if ("recordedtv" === item) {
-                    return "livetv.html?tab=3&serverId=" + options.serverId;
-                }
-
-                if ("nextup" === item) {
-                    return "list.html?type=nextup&serverId=" + options.serverId;
-                }
-
-                if ("list" === item) {
-                    var url = "list.html?serverId=" + options.serverId + "&type=" + options.itemTypes;
-
-                    if (options.isFavorite) {
-                        url += "&IsFavorite=true";
-                    }
-
-                    return url;
-                }
-
-                if ("livetv" === item) {
-                    if ("programs" === options.section) {
-                        return "livetv.html?tab=0&serverId=" + options.serverId;
-                    }
-                    if ("guide" === options.section) {
-                        return "livetv.html?tab=1&serverId=" + options.serverId;
-                    }
-
-                    if ("movies" === options.section) {
-                        return "list.html?type=Programs&IsMovie=true&serverId=" + options.serverId;
-                    }
-
-                    if ("shows" === options.section) {
-                        return "list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=" + options.serverId;
-                    }
-
-                    if ("sports" === options.section) {
-                        return "list.html?type=Programs&IsSports=true&serverId=" + options.serverId;
-                    }
-
-                    if ("kids" === options.section) {
-                        return "list.html?type=Programs&IsKids=true&serverId=" + options.serverId;
-                    }
-
-                    if ("news" === options.section) {
-                        return "list.html?type=Programs&IsNews=true&serverId=" + options.serverId;
-                    }
-
-                    if ("onnow" === options.section) {
-                        return "list.html?type=Programs&IsAiring=true&serverId=" + options.serverId;
-                    }
-
-                    if ("dvrschedule" === options.section) {
-                        return "livetv.html?tab=4&serverId=" + options.serverId;
-                    }
-
-                    if ("seriesrecording" === options.section) {
-                        return "livetv.html?tab=5&serverId=" + options.serverId;
-                    }
-
-                    return "livetv.html?serverId=" + options.serverId;
-                }
-
-                if ("SeriesTimer" == itemType) {
-                    return "itemdetails.html?seriesTimerId=" + id + "&serverId=" + serverId;
-                }
-
-                if ("livetv" == item.CollectionType) {
-                    return "livetv.html";
-                }
-
-                if ("Genre" === item.Type) {
-                    url = "list.html?genreId=" + item.Id + "&serverId=" + serverId;
-
-                    if ("livetv" === context) {
-                        url += "&type=Programs";
-                    }
-
-                    if (options.parentId) {
-                        url += "&parentId=" + options.parentId;
-                    }
-
-                    return url;
-                }
-
-                if ("MusicGenre" === item.Type) {
-                    url = "list.html?musicGenreId=" + item.Id + "&serverId=" + serverId;
-
-                    if (options.parentId) {
-                        url += "&parentId=" + options.parentId;
-                    }
-
-                    return url;
-                }
-
-                if ("Studio" === item.Type) {
-                    url = "list.html?studioId=" + item.Id + "&serverId=" + serverId;
-
-                    if (options.parentId) {
-                        url += "&parentId=" + options.parentId;
-                    }
-
-                    return url;
-                }
-
-                if ("folders" !== context && !itemHelper.isLocalItem(item)) {
-                    if ("movies" == item.CollectionType) {
-                        url = "movies.html?topParentId=" + item.Id;
-
-                        if (options && "latest" === options.section) {
-                            url += "&tab=1";
-                        }
-
-                        return url;
-                    }
-
-                    if ("tvshows" == item.CollectionType) {
-                        url = "tv.html?topParentId=" + item.Id;
-
-                        if (options && "latest" === options.section) {
-                            url += "&tab=2";
-                        }
-
-                        return url;
-                    }
-
-                    if ("music" == item.CollectionType) {
-                        return "music.html?topParentId=" + item.Id;
-                    }
-                }
-
-                var itemTypes = ["Playlist", "TvChannel", "Program", "BoxSet", "MusicAlbum", "MusicGenre", "Person", "Recording", "MusicArtist"];
-
-                if (itemTypes.indexOf(itemType) >= 0) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-                }
-
-                var contextSuffix = context ? "&context=" + context : "";
-
-                if ("Series" == itemType || "Season" == itemType || "Episode" == itemType) {
-                    return "itemdetails.html?id=" + id + contextSuffix + "&serverId=" + serverId;
-                }
-
-                if (item.IsFolder) {
-                    if (id) {
-                        return "list.html?parentId=" + id + "&serverId=" + serverId;
-                    }
-
-                    return "#";
-                }
-
-                return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-            };
-
-            appRouter.showItem = showItem;
-            return appRouter;
-        });
-    })();
-
-    return require(["browser"], onWebComponentsReady);
-}();
+    requirejs.onError = function (err) {
+        console.error(err);
+    };
+
+    // Expose jQuery globally
+    require(["jQuery"], function(jQuery) {
+        window.$ = jQuery;
+        window.jQuery = jQuery;
+    });
+
+    require(["css!assets/css/site.css"]);
+
+    require(["browser"], onWebComponentsReady);
+});
 
 pageClassOn("viewshow", "standalonePage", function () {
     document.querySelector(".skinHeader").classList.add("noHeaderRight");

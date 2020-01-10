@@ -1,4 +1,4 @@
-define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'scrollStyles', 'listViewStyle'], function (dialogHelper, layoutManager, globalize, browser, dom) {
+define(['dialogHelper', 'layoutManager', 'globalize', 'dom', 'emby-button', 'css!./actionsheet.css', 'material-icons', 'scrollStyles', 'listViewStyle'], function (dialogHelper, layoutManager, globalize, dom) {
     'use strict';
 
     function getOffsets(elems) {
@@ -158,7 +158,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         }
 
         if (layoutManager.tv) {
-            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1"><i class="md-icon">arrow_back</i></button>';
+            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1"><i class="material-icons">arrow_back</i></button>';
         }
 
         // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
@@ -226,9 +226,9 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
 
             if (itemIcon) {
 
-                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon">' + itemIcon + '</i>';
+                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">' + itemIcon + '</i>';
             } else if (renderIcon && !center) {
-                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon" style="visibility:hidden;">check</i>';
+                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons" style="visibility:hidden;">check</i>';
             }
 
             html += '<div class="listItemBody actionsheetListItemBody">';
@@ -274,8 +274,6 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
             });
         }
 
-        // Seeing an issue in some non-chrome browsers where this is requiring a double click
-        //var eventName = browser.firefox ? 'mousedown' : 'click';
         var selectedId;
 
         var timeout;

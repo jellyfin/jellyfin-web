@@ -36,7 +36,7 @@ define(["jQuery", "dom", "loading", "libraryMenu", "listViewStyle"], function($,
     function onSubmit() {
         var form = this;
         return loading.show(), ApiClient.getServerConfiguration().then(function(config) {
-            config.PreferredMetadataLanguage = form.querySelector("#selectLanguage").value, config.MetadataCountryCode = form.querySelector("#selectCountry").value, ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult)
+            config.PreferredMetadataLanguage = form.querySelector("#selectLanguage").value, config.MetadataCountryCode = form.querySelector("#selectCountry").value, ApiClient.updateServerConfiguration(config).then(window.Emby.Dashboard.processServerConfigurationUpdateResult)
         }), !1
     }
 

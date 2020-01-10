@@ -1,0 +1,1 @@
+define("tabbedView", ["components/tabbedview/tabbedview"], function (obj) { return obj; });

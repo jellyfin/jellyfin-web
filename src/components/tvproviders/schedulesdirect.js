@@ -68,7 +68,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
                 }).join("")).val(info.Country || "");
                 $(page.querySelector(".txtZipCode")).trigger("change");
             }, function () { // ApiClient.getJSON() error handler
-                Dashboard.alert({
+                window.Emby.Dashboard.alert({
                     message: Globalize.translate("ErrorGettingTvLineups")
                 });
             });
@@ -125,11 +125,11 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
                     contentType: "application/json",
                     dataType: "json"
                 }).then(function (result) {
-                    Dashboard.processServerConfigurationUpdateResult();
+                    window.Emby.Dashboard.processServerConfigurationUpdateResult();
                     providerId = result.Id;
                     reload();
                 }, function () {
-                    Dashboard.alert({ // ApiClient.ajax() error handler
+                    window.Emby.Dashboard.alert({ // ApiClient.ajax() error handler
                         message: Globalize.translate("ErrorSavingTvProvider")
                     });
                 });
@@ -140,7 +140,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
             var selectedListingsId = $("#selectListing", page).val();
 
             if (!selectedListingsId) {
-                return void Dashboard.alert({
+                return void window.Emby.Dashboard.alert({
                     message: Globalize.translate("ErrorPleaseSelectLineup")
                 });
             }
@@ -171,13 +171,13 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
                     loading.hide();
 
                     if (options.showConfirmation) {
-                        Dashboard.processServerConfigurationUpdateResult();
+                        window.Emby.Dashboard.processServerConfigurationUpdateResult();
                     }
 
                     Events.trigger(self, "submitted");
                 }, function () {
                     loading.hide();
-                    Dashboard.alert({
+                    window.Emby.Dashboard.alert({
                         message: Globalize.translate("ErrorAddingListingsToSchedulesDirect")
                     });
                 });
@@ -209,7 +209,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
 
                 loading.hide();
             }, function (result) {
-                Dashboard.alert({
+                window.Emby.Dashboard.alert({
                     message: Globalize.translate("ErrorGettingTvLineups")
                 });
                 refreshListings("");

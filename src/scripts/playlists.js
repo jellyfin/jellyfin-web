@@ -64,8 +64,8 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
         function reloadItems() {
             showLoadingMessage();
             var query = getQuery(view);
-            var promise1 = ApiClient.getItems(Dashboard.getCurrentUserId(), query);
-            var promise2 = Dashboard.getCurrentUser();
+            var promise1 = ApiClient.getItems(window.Emby.Dashboard.getCurrentUserId(), query);
+            var promise2 = window.Emby.Dashboard.getCurrentUser();
             Promise.all([promise1, promise2]).then(function (responses) {
                 var result = responses[0];
                 responses[1];

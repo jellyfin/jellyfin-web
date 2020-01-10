@@ -2,7 +2,7 @@ define(["events", "loading"], function (events, loading) {
     "use strict";
 
     function onListingsSubmitted() {
-        Dashboard.navigate("livetvstatus.html");
+        window.Emby.Dashboard.navigate("livetvstatus.html");
     }
 
     function init(page, type, providerId) {
@@ -16,7 +16,11 @@ define(["events", "loading"], function (events, loading) {
     }
 
     function loadTemplate(page, type, providerId) {
-        require(["text!./components/tvproviders/" + type + ".template.html"], function (html) {
+        require(["text!../components/tvproviders/schedulesdirect.template.html"], function (html) {
+            page.querySelector(".providerTemplate").innerHTML = Globalize.translateDocument(html);
+            init(page, type, providerId);
+        });
+        require(["text!../components/tvproviders/xmltv.template.html"], function (html) {
             page.querySelector(".providerTemplate").innerHTML = Globalize.translateDocument(html);
             init(page, type, providerId);
         });
@@ -24,7 +28,7 @@ define(["events", "loading"], function (events, loading) {
 
     pageIdOn("pageshow", "liveTvGuideProviderPage", function () {
         loading.show();
-        var providerId = getParameterByName("id");
-        loadTemplate(this, getParameterByName("type"), providerId);
+        var providerId = window.getParameterByName("id");
+        loadTemplate(this, window.getParameterByName("type"), providerId);
     });
 });

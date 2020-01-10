@@ -7,11 +7,11 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
         loading.show();
         apiClient.authenticateUserByName(username, password).then(function(result) {
             var user = result.User;
-            var serverId = getParameterByName("serverid");
+            var serverId = window.getParameterByName("serverid");
             var newUrl = user.Policy.IsAdministrator && !serverId ? "dashboard.html" : "home.html";
             loading.hide();
-            Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
-            Dashboard.navigate(newUrl);
+            window.Emby.Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
+            window.Emby.Dashboard.navigate(newUrl);
         }, function(response) {
             page.querySelector("#txtManualName").value = "";
             page.querySelector("#txtManualPassword").value = "";
@@ -21,7 +21,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
                     toast(Globalize.translate("MessageInvalidUser"));
                 });
             } else {
-                Dashboard.alert({
+                window.Emby.Dashboard.alert({
                     message: Globalize.translate("MessageUnableToConnectToServer"),
                     title: Globalize.translate("HeaderConnectionFailure")
                 });
@@ -152,7 +152,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
         });
 
         view.querySelector(".btnForgotPassword").addEventListener("click", function() {
-            Dashboard.navigate("forgotpassword.html");
+            window.Emby.Dashboard.navigate("forgotpassword.html");
         });
 
         view.querySelector(".btnCancel").addEventListener("click", showVisualForm);

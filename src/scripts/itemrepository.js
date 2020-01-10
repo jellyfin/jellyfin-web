@@ -1,0 +1,1 @@
+define("itemrepository", ["libraries/apiclient/sync/itemrepository"], function (obj) { return obj; });

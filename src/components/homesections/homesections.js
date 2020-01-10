@@ -1,4 +1,4 @@
-define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'scripts/imagehelper', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-button', 'css!./homesections'], function (connectionManager, cardBuilder, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter, imageHelper) {
+define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'scripts/imagehelper', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-button', 'css!./homesections.css'], function (connectionManager, cardBuilder, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter, imageHelper) {
     'use strict';
 
     function getDefaultSection(index) {
@@ -161,7 +161,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         for (var i = 0, length = items.length; i < length; i++) {
             var item = items[i];
             var icon = imageHelper.getLibraryIcon(item.CollectionType);
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><i class="md-icon homeLibraryIcon">' + icon + '</i><span class="homeLibraryText">' + item.Name + '</span></a>';
+            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><i class="material-icons homeLibraryIcon">' + icon + '</i><span class="homeLibraryText">' + item.Name + '</span></a>';
         }
 
         html += '</div>';
@@ -260,7 +260,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             html += '<h2 class="sectionTitle sectionTitle-cards">';
             html += globalize.translate('LatestFromLibrary', parent.Name);
             html += '</h2>';
-            html += '<i class="md-icon">chevron_right</i>';
+            html += '<i class="material-icons">chevron_right</i>';
             html += '</a>';
         } else {
             html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LatestFromLibrary', parent.Name) + '</h2>';
@@ -308,12 +308,6 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
             renderLatestSection(frag, apiClient, user, item);
         }
-    }
-
-    function getRequirePromise(deps) {
-        return new Promise(function (resolve, reject) {
-            require(deps, resolve);
-        });
     }
 
     function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews, allSections) {
@@ -608,7 +602,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += globalize.translate('HeaderOnNow');
                     html += '</h2>';
-                    html += '<i class="md-icon">chevron_right</i>';
+                    html += '<i class="material-icons">chevron_right</i>';
                     html += '</a>';
 
                 } else {
@@ -683,7 +677,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             html += '<h2 class="sectionTitle sectionTitle-cards">';
             html += globalize.translate('HeaderNextUp');
             html += '</h2>';
-            html += '<i class="md-icon">chevron_right</i>';
+            html += '<i class="material-icons">chevron_right</i>';
             html += '</a>';
         } else {
             html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderNextUp') + '</h2>';

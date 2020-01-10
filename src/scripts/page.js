@@ -1,0 +1,1 @@
+define("page", ["libraries/pagejs/page"], function (obj) { return obj; });

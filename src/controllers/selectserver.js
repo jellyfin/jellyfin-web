@@ -18,7 +18,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
             var cardImageContainer;
 
             if (item.showIcon) {
-                cardImageContainer = '<i class="cardImageIcon md-icon">' + item.icon + "</i>";
+                cardImageContainer = '<i class="cardImageIcon material-icons">' + item.icon + "</i>";
             } else {
                 cardImageContainer = '<div class="cardImage" style="' + item.cardImageStyle + '"></div>';
             }
@@ -109,13 +109,13 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
 
                 switch (result.State) {
                     case "SignedIn":
-                        Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
-                        Dashboard.navigate("home.html");
+                        window.Emby.Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
+                        window.Emby.Dashboard.navigate("home.html");
                         break;
 
                     case "ServerSignIn":
-                        Dashboard.onServerChanged(null, null, apiClient);
-                        Dashboard.navigate("login.html?serverid=" + result.Servers[0].Id);
+                        window.Emby.Dashboard.onServerChanged(null, null, apiClient);
+                        window.Emby.Dashboard.navigate("login.html?serverid=" + result.Servers[0].Id);
                         break;
 
                     case "ServerUpdateNeeded":
@@ -194,6 +194,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
             if (card) {
                 var url = card.getAttribute("data-url");
 
+                console.log("going to appRouter")
                 if (url) {
                     appRouter.show(url);
                 } else {

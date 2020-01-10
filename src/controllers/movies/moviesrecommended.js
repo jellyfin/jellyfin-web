@@ -261,69 +261,248 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
 
             switch (index) {
                 case 0:
-                    depends.push("controllers/movies/movies");
+                    "controllers/movies/movies"
+                    require([depends], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === suggestionsTabIndex) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === suggestionsTabIndex) {
+                                controller = self;
+                            } else if (index === 6) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "movies",
+                                    parentId: params.topParentId
+                                });
+                            } else if (index == 0 || index == 3) {
+                                controller = new controllerFactory(view, params, tabContent, {
+                                    mode: index ? "favorites" : "movies"
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 1:
                     break;
 
                 case 2:
-                    depends.push("controllers/movies/movietrailers");
+                    require(["controllers/movies/movietrailers"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === suggestionsTabIndex) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === suggestionsTabIndex) {
+                                controller = self;
+                            } else if (index === 6) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "movies",
+                                    parentId: params.topParentId
+                                });
+                            } else if (index == 0 || index == 3) {
+                                controller = new controllerFactory(view, params, tabContent, {
+                                    mode: index ? "favorites" : "movies"
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 3:
-                    depends.push("controllers/movies/movies");
+                    require(["controllers/movies/movies"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === suggestionsTabIndex) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === suggestionsTabIndex) {
+                                controller = self;
+                            } else if (index === 6) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "movies",
+                                    parentId: params.topParentId
+                                });
+                            } else if (index == 0 || index == 3) {
+                                controller = new controllerFactory(view, params, tabContent, {
+                                    mode: index ? "favorites" : "movies"
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 4:
-                    depends.push("controllers/movies/moviecollections");
+                    require(["controllers/movies/moviecollections"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === suggestionsTabIndex) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === suggestionsTabIndex) {
+                                controller = self;
+                            } else if (index === 6) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "movies",
+                                    parentId: params.topParentId
+                                });
+                            } else if (index == 0 || index == 3) {
+                                controller = new controllerFactory(view, params, tabContent, {
+                                    mode: index ? "favorites" : "movies"
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 5:
-                    depends.push("controllers/movies/moviegenres");
+                    require(["controllers/movies/moviegenres"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === suggestionsTabIndex) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === suggestionsTabIndex) {
+                                controller = self;
+                            } else if (index === 6) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "movies",
+                                    parentId: params.topParentId
+                                });
+                            } else if (index == 0 || index == 3) {
+                                controller = new controllerFactory(view, params, tabContent, {
+                                    mode: index ? "favorites" : "movies"
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
                     break;
 
                 case 6:
-                    depends.push("scripts/searchtab");
+                    require(["scripts/searchtab"], function (controllerFactory) {
+                        var tabContent;
+
+                        if (index === suggestionsTabIndex) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+                            self.tabContent = tabContent;
+                        }
+
+                        var controller = tabControllers[index];
+
+                        if (!controller) {
+                            tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
+
+                            if (index === suggestionsTabIndex) {
+                                controller = self;
+                            } else if (index === 6) {
+                                controller = new controllerFactory(view, tabContent, {
+                                    collectionType: "movies",
+                                    parentId: params.topParentId
+                                });
+                            } else if (index == 0 || index == 3) {
+                                controller = new controllerFactory(view, params, tabContent, {
+                                    mode: index ? "favorites" : "movies"
+                                });
+                            } else {
+                                controller = new controllerFactory(view, params, tabContent);
+                            }
+
+                            tabControllers[index] = controller;
+
+                            if (controller.initTab) {
+                                controller.initTab();
+                            }
+                        }
+
+                        callback(controller);
+                    });
             }
-
-            require(depends, function (controllerFactory) {
-                var tabContent;
-
-                if (index === suggestionsTabIndex) {
-                    tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-                    self.tabContent = tabContent;
-                }
-
-                var controller = tabControllers[index];
-
-                if (!controller) {
-                    tabContent = view.querySelector(".pageTabContent[data-index='" + index + "']");
-
-                    if (index === suggestionsTabIndex) {
-                        controller = self;
-                    } else if (index === 6) {
-                        controller = new controllerFactory(view, tabContent, {
-                            collectionType: "movies",
-                            parentId: params.topParentId
-                        });
-                    } else if (index == 0 || index == 3) {
-                        controller = new controllerFactory(view, params, tabContent, {
-                            mode: index ? "favorites" : "movies"
-                        });
-                    } else {
-                        controller = new controllerFactory(view, params, tabContent);
-                    }
-
-                    tabControllers[index] = controller;
-
-                    if (controller.initTab) {
-                        controller.initTab();
-                    }
-                }
-
-                callback(controller);
-            });
         }
 
         function preLoadTab(page, index) {
@@ -357,7 +536,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             switch (e.detail.command) {
                 case "search":
                     e.preventDefault();
-                    Dashboard.navigate("search.html?collectionType=movies&parentId=" + params.topParentId);
+                    window.Emby.Dashboard.navigate("search.html?collectionType=movies&parentId=" + params.topParentId);
             }
         }
 

@@ -1,0 +1,1 @@
+define('connectionManagerFactory', ["libraries/apiclient/connectionmanager"], function (obj) { return obj; });

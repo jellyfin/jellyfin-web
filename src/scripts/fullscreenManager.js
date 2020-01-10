@@ -1,0 +1,1 @@
+define("fullscreenManager", ["components/fullscreenManager", "events"], function (obj) { return obj; });

@@ -136,7 +136,7 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += globalize.translate(section.name);
                     html += "</h2>";
-                    html += '<i class="md-icon">chevron_right</i>';
+                    html += '<i class="material-icons">chevron_right</i>';
                     html += "</a>";
                 } else {
                     html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(section.name) + "</h2>";
@@ -183,7 +183,7 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
     function loadSections(page, userId, topParentId, types) {
         loading.show();
         var sections = getSections();
-        var sectionid = getParameterByName("sectionid");
+        var sectionid = window.getParameterByName("sectionid");
 
         if (sectionid) {
             sections = sections.filter(function (s) {

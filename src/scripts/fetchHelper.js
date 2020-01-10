@@ -1,0 +1,1 @@
+define("fetchHelper", ["components/fetchhelper"], function (obj) { return obj; });

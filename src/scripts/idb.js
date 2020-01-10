@@ -1,0 +1,1 @@
+define("idb", ["components/idb"], function (obj) { return obj; });

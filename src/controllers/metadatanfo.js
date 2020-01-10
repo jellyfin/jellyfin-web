@@ -24,7 +24,7 @@ define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) 
             config.EnablePathSubstitution = form.querySelector("#chkEnablePathSubstitution").checked;
             config.EnableExtraThumbsDuplication = form.querySelector("#chkEnableExtraThumbs").checked;
             ApiClient.updateNamedConfiguration(metadataKey, config).then(function () {
-                Dashboard.processServerConfigurationUpdateResult();
+                window.Emby.Dashboard.processServerConfigurationUpdateResult();
                 showConfirmMessage(config);
             });
         });

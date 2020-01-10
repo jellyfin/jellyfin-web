@@ -43,20 +43,20 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
         }
         var htmlName = "<div class='editorNode'>";
         if (item.IsFolder) {
-            htmlName += '<i class="md-icon metadataSidebarIcon">folder</i>';
+            htmlName += '<i class="material-icons metadataSidebarIcon">folder</i>';
         } else if (item.MediaType === "Video") {
-            htmlName += '<i class="md-icon metadataSidebarIcon">movie</i>';
+            htmlName += '<i class="material-icons metadataSidebarIcon">movie</i>';
         } else if (item.MediaType === "Audio") {
-            htmlName += '<i class="md-icon metadataSidebarIcon">audiotrack</i>';
+            htmlName += '<i class="material-icons metadataSidebarIcon">audiotrack</i>';
         } else if (item.Type === "TvChannel") {
-            htmlName += '<i class="md-icon metadataSidebarIcon">live_tv</i>';
+            htmlName += '<i class="material-icons metadataSidebarIcon">live_tv</i>';
         } else if (item.MediaType === "Photo") {
-            htmlName += '<i class="md-icon metadataSidebarIcon">photo</i>';
+            htmlName += '<i class="material-icons metadataSidebarIcon">photo</i>';
         } else if (item.MediaType === "Book") {
-            htmlName += '<i class="md-icon metadataSidebarIcon">book</i>';
+            htmlName += '<i class="material-icons metadataSidebarIcon">book</i>';
         }
         if (item.LockData) {
-            htmlName += '<i class="md-icon metadataSidebarIcon">lock</i>';
+            htmlName += '<i class="material-icons metadataSidebarIcon">lock</i>';
         }
         htmlName += name;
         htmlName += "</div>";
@@ -157,7 +157,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
         if (itemtype != "Season" && itemtype != "Series") {
             query.SortBy = "SortName";
         }
-        ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
+        ApiClient.getItems(window.Emby.Dashboard.getCurrentUserId(), query).then(function (result) {
             var nodes = result.Items.map(function (n) {
                 var state = openItems.indexOf(n.Id) == -1 ? "closed" : "open";
                 return getNode(n, state, n.Id == selectedId);
@@ -292,7 +292,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
             return itemId;
         }
         var url = window.location.hash || window.location.href;
-        return getParameterByName("id", url);
+        return window.getParameterByName("id", url);
     }
     var nodesToLoad = [];
     var selectedNodeId;
@@ -302,7 +302,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
         require(["css!assets/css/metadataeditor.css"]);
     }).on("pagebeforeshow", ".metadataEditorPage", function () {
         var page = this;
-        Dashboard.getCurrentUser().then(function (user) {
+        window.Emby.Dashboard.getCurrentUser().then(function (user) {
             var id = getCurrentItemId();
             if (id) {
                 ApiClient.getAncestorItems(id, user.Id).then(function (ancestors) {
@@ -324,9 +324,9 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
         getItemPromise: function () {
             var currentItemId = getCurrentItemId();
             if (currentItemId) {
-                return ApiClient.getItem(Dashboard.getCurrentUserId(), currentItemId);
+                return ApiClient.getItem(window.Emby.Dashboard.getCurrentUserId(), currentItemId);
             }
-            return ApiClient.getRootFolder(Dashboard.getCurrentUserId());
+            return ApiClient.getRootFolder(window.Emby.Dashboard.getCurrentUserId());
         },
         getCurrentItemId: getCurrentItemId,
         setCurrentItemId: setCurrentItemId

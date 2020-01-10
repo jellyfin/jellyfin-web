@@ -3,14 +3,14 @@ define([], function () {
 
     function processForgotPasswordResult(result) {
         if ("ContactAdmin" == result.Action) {
-            return void Dashboard.alert({
+            return void window.Emby.Dashboard.alert({
                 message: Globalize.translate("MessageContactAdminToResetPassword"),
                 title: Globalize.translate("HeaderForgotPassword")
             });
         }
 
         if ("InNetworkRequired" == result.Action) {
-            return void Dashboard.alert({
+            return void window.Emby.Dashboard.alert({
                 message: Globalize.translate("MessageForgotPasswordInNetworkRequired"),
                 title: Globalize.translate("HeaderForgotPassword")
             });
@@ -24,11 +24,11 @@ define([], function () {
             msg += "<br/>";
             msg += result.PinFile;
             msg += "<br/>";
-            return void Dashboard.alert({
+            return void window.Emby.Dashboard.alert({
                 message: msg,
                 title: Globalize.translate("HeaderForgotPassword"),
                 callback: function () {
-                    Dashboard.navigate("forgotpasswordpin.html");
+                    window.Emby.Dashboard.navigate("forgotpasswordpin.html");
                 }
             });
         }

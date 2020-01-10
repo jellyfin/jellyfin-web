@@ -107,7 +107,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
     }
 
     function onSaveComplete(page, user) {
-        Dashboard.navigate("userprofiles.html");
+        window.Emby.Dashboard.navigate("userprofiles.html");
         loading.hide();
 
         require(["toast"], function (toast) {
@@ -160,7 +160,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
     }
 
     function getUser() {
-        var userId = getParameterByName("userId");
+        var userId = window.getParameterByName("userId");
         return ApiClient.getUser(userId);
     }
 

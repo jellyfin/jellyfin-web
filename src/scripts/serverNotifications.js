@@ -1,0 +1,1 @@
+define("serverNotifications", ["components/serverNotifications/serverNotifications"], function (obj) { return obj; });

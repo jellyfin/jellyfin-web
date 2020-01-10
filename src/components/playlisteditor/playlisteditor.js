@@ -1,4 +1,4 @@
-define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 'connectionManager', 'userSettings', 'appRouter', 'globalize', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, playbackManager, connectionManager, userSettings, appRouter, globalize) {
+define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 'connectionManager', 'userSettings', 'appRouter', 'globalize', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!../formdialog.css', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, playbackManager, connectionManager, userSettings, appRouter, globalize) {
     'use strict';
 
     var currentServerId;
@@ -258,7 +258,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 
         var title = globalize.translate('HeaderAddToPlaylist');
 
         html += '<div class="formDialogHeader">';
-        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">arrow_back</i></button>';
+        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="material-icons">arrow_back</i></button>';
         html += '<h3 class="formDialogHeaderTitle">';
         html += title;
         html += '</h3>';

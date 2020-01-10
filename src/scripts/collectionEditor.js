@@ -1,0 +1,1 @@
+define("collectionEditor", ["components/collectioneditor/collectioneditor"], function (obj) { return obj; });

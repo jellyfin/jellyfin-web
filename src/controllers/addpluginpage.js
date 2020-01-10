@@ -78,7 +78,7 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
 
         if (pkg.previewImage || pkg.thumbImage) {
             var img = pkg.previewImage ? pkg.previewImage : pkg.thumbImage;
-            $("#pPreviewImage", page).show().html("<img class='pluginPreviewImg' src='" + img + "' style='max-width: 100%;' />");
+            $("#pPreviewImage", page).show().html("");
         } else {
             $("#pPreviewImage", page).hide().html("");
         }
@@ -146,7 +146,7 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
                 if (installedPlugin) {
                     if (installedPlugin.Version === version) {
                         loading.hide();
-                        Dashboard.alert({
+                        window.Emby.Dashboard.alert({
                             message: globalize.translate("MessageAlreadyInstalled"),
                             title: globalize.translate("HeaderPluginInstallation")
                         });

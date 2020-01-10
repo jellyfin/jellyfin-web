@@ -1,0 +1,1 @@
+define("objectassign", ["components/polyfills/objectassign"], function (obj) { return obj; });

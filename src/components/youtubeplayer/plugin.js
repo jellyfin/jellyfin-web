@@ -19,7 +19,7 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
 
             if (!dlg) {
 
-                require(['css!./style'], function () {
+                require(['css!./style.css'], function () {
 
                     loading.show();
 

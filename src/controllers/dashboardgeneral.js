@@ -58,8 +58,8 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                         requiresReload = true;
                     }
                     ApiClient.updateNamedConfiguration(brandingConfigKey, brandingConfig).then(function() {
-                        Dashboard.processServerConfigurationUpdateResult();
-                        if (requiresReload && !AppInfo.isNativeApp) {
+                        window.Emby.Dashboard.processServerConfigurationUpdateResult();
+                        if (requiresReload && !window.AppInfo.isNativeApp) {
                             window.location.reload(true);
                         }
                     });

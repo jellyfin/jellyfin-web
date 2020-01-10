@@ -1,0 +1,1 @@
+define("deleteHelper", ["components/deletehelper"], function (obj) { return obj; });

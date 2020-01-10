@@ -1,0 +1,1 @@
+define("flexStyles", ["css!assets/css/flexstyles.css"], function (obj) { return obj; });

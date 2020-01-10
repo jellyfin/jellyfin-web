@@ -102,7 +102,7 @@ define(["layoutManager", "cardBuilder", "apphost", "imageLoader", "loading", "sc
 
         self.preRender = function () {
             activeRecordingsPromise = ApiClient.getLiveTvRecordings({
-                UserId: Dashboard.getCurrentUserId(),
+                UserId: window.Emby.Dashboard.getCurrentUserId(),
                 IsInProgress: true,
                 Fields: "CanDelete,PrimaryImageAspectRatio,BasicSyncInfo",
                 EnableTotalRecordCount: false,

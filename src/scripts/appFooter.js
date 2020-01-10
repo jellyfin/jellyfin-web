@@ -1,0 +1,1 @@
+define("appFooter", ["components/appfooter/appfooter"], function (obj) { return obj; });

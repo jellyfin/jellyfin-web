@@ -1,4 +1,4 @@
-define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, connectionManager, appRouter, globalize) {
+define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!..//formdialog.css', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, connectionManager, appRouter, globalize) {
     'use strict';
 
     function parentWithClass(elem, className) {
@@ -123,7 +123,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         var title = globalize.translate('RefreshMetadata');
 
         html += '<div class="formDialogHeader">';
-        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">arrow_back</i></button>';
+        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="material-icons">arrow_back</i></button>';
         html += '<h3 class="formDialogHeaderTitle">';
         html += title;
         html += '</h3>';

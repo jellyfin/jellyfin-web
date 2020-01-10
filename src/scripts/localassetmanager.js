@@ -1,0 +1,1 @@
+define("localassetmanager", ["libraries/apiclient/localassetmanager"], function (obj) { return obj; });

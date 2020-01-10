@@ -1,0 +1,1 @@
+define("seriesRecordingEditor", ["components/recordingcreator/seriesrecordingeditor"], function (obj) { return obj; });

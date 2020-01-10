@@ -1,0 +1,1 @@
+define("guide-settings-dialog", ["components/guide/guide-settings"], function (obj) { return obj; });

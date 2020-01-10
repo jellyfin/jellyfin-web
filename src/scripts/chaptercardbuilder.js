@@ -1,0 +1,1 @@
+define("chaptercardbuilder", ["components/cardbuilder/chaptercardbuilder"], function (obj) { return obj; });

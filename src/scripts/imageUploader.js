@@ -1,0 +1,1 @@
+define("imageUploader", ["components/imageuploader/imageuploader"], function (obj) { return obj; });

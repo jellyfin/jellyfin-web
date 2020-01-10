@@ -7,12 +7,8 @@ define([
     "emby-itemscontainer",
     "emby-collapse",
     "emby-select",
-    "livetvcss",
     "emby-checkbox",
-    "emby-slider",
-    "listViewStyle",
-    "dashboardcss",
-    "detailtablecss"], function () {
+    "emby-slider"], function () {
 
     function defineRoute(newRoute) {
         var path = newRoute.path;

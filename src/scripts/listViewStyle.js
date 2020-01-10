@@ -1,0 +1,1 @@
+define("listViewStyle", ["css!../components/listview/listview.css"], function (obj) { return obj; });

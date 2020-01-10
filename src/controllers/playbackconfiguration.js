@@ -16,7 +16,7 @@ define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) 
             config.MaxResumePct = $('#txtMaxResumePct', form).val();
             config.MinResumeDurationSeconds = $('#txtMinResumeDuration', form).val();
 
-            ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
+            ApiClient.updateServerConfiguration(config).then(window.Emby.Dashboard.processServerConfigurationUpdateResult);
         });
 
         return false;

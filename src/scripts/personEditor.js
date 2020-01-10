@@ -1,0 +1,1 @@
+define("personEditor", ["components/metadataeditor/personeditor"], function (obj) { return obj; });

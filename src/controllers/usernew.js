@@ -81,7 +81,7 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox"], function ($, loading
             }
 
             ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-                Dashboard.navigate("useredit.html?userId=" + user.Id);
+                window.Emby.Dashboard.navigate("useredit.html?userId=" + user.Id);
             });
         }, function (response) {
             require(["toast"], function (toast) {

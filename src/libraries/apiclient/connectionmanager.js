@@ -764,6 +764,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
 
     ConnectionManager.prototype.getApiClient = function (item) {
         if (!item) {
+            console.trace()
             throw new Error("item or serverId cannot be null");
         }
 

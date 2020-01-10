@@ -13,7 +13,7 @@ define(["jQuery", "emby-checkbox", "fnchecked"], function ($) {
     }
 
     function reload(page) {
-        var type = getParameterByName("type");
+        var type = window.getParameterByName("type");
         var promise1 = ApiClient.getUsers();
         var promise2 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
         var promise3 = ApiClient.getJSON(ApiClient.getUrl("Notifications/Types"));
@@ -56,7 +56,7 @@ define(["jQuery", "emby-checkbox", "fnchecked"], function ($) {
     }
 
     function save(page) {
-        var type = getParameterByName("type");
+        var type = window.getParameterByName("type");
         var promise1 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
         var promise2 = ApiClient.getJSON(ApiClient.getUrl("Notifications/Types"));
         Promise.all([promise1, promise2]).then(function (responses) {
@@ -94,8 +94,8 @@ define(["jQuery", "emby-checkbox", "fnchecked"], function ($) {
                 return c.getAttribute("data-itemid");
             });
             ApiClient.updateNamedConfiguration(notificationsConfigurationKey, notificationOptions).then(function (r) {
-                Dashboard.processServerConfigurationUpdateResult();
-                Dashboard.navigate("notificationsettings.html");
+                window.Emby.Dashboard.processServerConfigurationUpdateResult();
+                window.Emby.Dashboard.navigate("notificationsettings.html");
             });
         });
     }

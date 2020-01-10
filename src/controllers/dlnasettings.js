@@ -26,7 +26,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
             config.BlastAliveMessages = $("#chkBlastAliveMessages", form).checked();
             config.BlastAliveMessageIntervalSeconds = $("#txtBlastInterval", form).val();
             config.DefaultUserId = $("#selectUser", form).val();
-            ApiClient.updateNamedConfiguration("dlna", config).then(Dashboard.processServerConfigurationUpdateResult);
+            ApiClient.updateNamedConfiguration("dlna", config).then(window.Emby.Dashboard.processServerConfigurationUpdateResult);
         });
         return false;
     }

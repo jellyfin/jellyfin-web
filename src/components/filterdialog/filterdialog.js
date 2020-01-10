@@ -1,4 +1,4 @@
-define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "require", "emby-checkbox", "emby-collapse", "css!./style"], function (dialogHelper, globalize, connectionManager, events, browser, require) {
+define(["dialogHelper", "globalize", "connectionManager", "events", "require", "emby-checkbox", "emby-collapse", "css!./style.css"], function (dialogHelper, globalize, connectionManager, events, require) {
     "use strict";
 
     function renderOptions(context, selector, cssClass, items, isCheckedFn) {

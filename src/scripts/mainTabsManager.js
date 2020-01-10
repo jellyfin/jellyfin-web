@@ -1,0 +1,1 @@
+define("mainTabsManager", ["components/maintabsmanager"], function (obj) { return obj; });

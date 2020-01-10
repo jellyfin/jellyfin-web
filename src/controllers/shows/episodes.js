@@ -60,7 +60,7 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
             loading.show();
             isLoading = true;
             var query = getQuery(page);
-            ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
+            ApiClient.getItems(window.Emby.Dashboard.getCurrentUserId(), query).then(function (result) {
                 function onNextPageClick() {
                     if (isLoading) {
                         return;

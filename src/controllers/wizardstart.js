@@ -18,7 +18,7 @@ define(["jQuery", "loading", "emby-button", "emby-select"], function ($, loading
                 data: config,
                 url: apiClient.getUrl("Startup/Configuration")
             }).then(function () {
-                Dashboard.navigate("wizarduser.html");
+                window.Emby.Dashboard.navigate("wizarduser.html");
             });
         });
     }

@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "emby-checkbox", "emby-input", "listViewStyle", "paper-icon-button-light"], function ($, loading) {
+define(["jQuery", "loading", "emby-checkbox", "emby-input", "paper-icon-button-light", "listViewStyle"], function ($, loading) {
     "use strict";
 
     return function (page, providerId, options) {
@@ -85,13 +85,13 @@ define(["jQuery", "loading", "emby-checkbox", "emby-input", "listViewStyle", "pa
                     loading.hide();
 
                     if (false !== options.showConfirmation) {
-                        Dashboard.processServerConfigurationUpdateResult();
+                        window.Emby.Dashboard.processServerConfigurationUpdateResult();
                     }
 
                     Events.trigger(self, "submitted");
                 }, function () {
                     loading.hide();
-                    Dashboard.alert({
+                    window.Emby.Dashboard.alert({
                         message: Globalize.translate("ErrorAddingXmlTvFile")
                     });
                 });

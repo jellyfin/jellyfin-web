@@ -1,4 +1,4 @@
-define(['css!./toast'], function () {
+define(['css!./toast.css'], function () {
     'use strict';
 
     function remove(elem) {

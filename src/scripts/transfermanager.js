@@ -1,0 +1,1 @@
+define("transfermanager", ["libraries/apiclient/sync/transfermanager"], function (obj) { return obj; });

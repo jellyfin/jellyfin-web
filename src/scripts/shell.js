@@ -1,0 +1,1 @@
+define("shell", ["components/shell"], function (obj) { return obj; });

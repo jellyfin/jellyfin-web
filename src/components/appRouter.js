@@ -84,9 +84,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             url += '?' + ctx.querystring;
         }
 
-        require(['text!' + url], function (html) {
+        $.ajax({
+            url: url
+        }).done(function (html) {
             loadContent(ctx, route, html, request);
-        });
+        })
     }
 
     function handleRoute(ctx, next, route) {
@@ -304,7 +306,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function initApiClients() {
-
         connectionManager.getApiClients().forEach(initApiClient);
 
         events.on(connectionManager, 'apiclientcreated', onApiClientCreated);

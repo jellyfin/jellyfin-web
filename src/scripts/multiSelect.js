@@ -1,0 +1,1 @@
+define("multiSelect", ["components/multiselect/multiselect"], function (obj) { return obj; });

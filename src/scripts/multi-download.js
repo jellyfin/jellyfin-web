@@ -1,0 +1,1 @@
+define("multi-download", ["components/multidownload"], function (obj) { return obj; });

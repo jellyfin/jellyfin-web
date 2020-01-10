@@ -1,0 +1,1 @@
+define("emby-ratingbutton", ["components/userdatabuttons/emby-ratingbutton"], function (obj) { return obj; });

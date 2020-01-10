@@ -6,7 +6,7 @@ define(["loading", "globalize", "dashboardcss", "emby-input", "emby-button", "em
     }
 
     function nextWizardPage() {
-        Dashboard.navigate("wizardlibrary.html");
+        window.Emby.Dashboard.navigate("wizardlibrary.html");
     }
 
     function onUpdateUserComplete(result) {

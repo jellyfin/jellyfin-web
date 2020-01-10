@@ -18,7 +18,7 @@ define(["loading", "emby-checkbox", "emby-button", "emby-select"], function (loa
     }
 
     function navigateToNextPage() {
-        Dashboard.navigate("wizardfinish.html");
+        window.Emby.Dashboard.navigate("wizardfinish.html");
     }
 
     function onSubmit(e) {

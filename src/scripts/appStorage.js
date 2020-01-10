@@ -1,0 +1,1 @@
+define('appStorage', ["libraries/apiclient/appStorage"], function (obj) { return obj; });

@@ -1,4 +1,4 @@
-define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!./playerstats'], function (events, globalize, playbackManager, connectionManager, playMethodHelper, layoutManager, serverNotifications) {
+define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!./playerstats.css'], function (events, globalize, playbackManager, connectionManager, playMethodHelper, layoutManager, serverNotifications) {
     'use strict';
 
     function init(instance) {
@@ -18,7 +18,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         if (layoutManager.tv) {
             button = '';
         } else {
-            button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><i class="md-icon">close</i></button>';
+            button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><i class="material-icons">close</i></button>';
         }
 
         var contentClass = layoutManager.tv ? 'playerStats-content playerStats-content-tv' : 'playerStats-content';

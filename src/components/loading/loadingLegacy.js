@@ -1,4 +1,4 @@
-define(['require', 'css!./loadingLegacy'], function (require) {
+define(['require', 'css!./loadingLegacy.css'], function (require) {
     'use strict';
 
     var loadingElem;

@@ -1,0 +1,1 @@
+define("dom", ["components/dom"], function (obj) { return obj; });

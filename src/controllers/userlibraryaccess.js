@@ -118,7 +118,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
     function onSubmit() {
         var page = $(this).parents(".page");
         loading.show();
-        var userId = getParameterByName("userId");
+        var userId = window.getParameterByName("userId");
         ApiClient.getUser(userId).then(function (result) {
             saveUser(result, page);
         });
@@ -153,7 +153,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
         var page = this;
         loading.show();
         var promise1;
-        var userId = getParameterByName("userId");
+        var userId = window.getParameterByName("userId");
 
         if (userId) {
             promise1 = ApiClient.getUser(userId);
@@ -165,7 +165,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
             promise1 = deferred.promise();
         }
 
-        var promise2 = Dashboard.getCurrentUser();
+        var promise2 = window.Emby.Dashboard.getCurrentUser();
         var promise4 = ApiClient.getJSON(ApiClient.getUrl("Library/MediaFolders", {
             IsHidden: false
         }));

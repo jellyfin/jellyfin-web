@@ -391,11 +391,9 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
             dlg.setAttribute('data-autofocus', 'true');
         }
 
-        var defaultEntryAnimation;
-        var defaultExitAnimation;
+        var defaultEntryAnimation = 'scaleup';
+        var defaultExitAnimation = 'scaledown';
 
-        defaultEntryAnimation = 'scaleup';
-        defaultExitAnimation = 'scaledown';
         var entryAnimation = options.entryAnimation || defaultEntryAnimation;
         var exitAnimation = options.exitAnimation || defaultExitAnimation;
 

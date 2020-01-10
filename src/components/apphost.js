@@ -20,24 +20,8 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         };
     }
 
-    function getDeviceProfileForWindowsUwp(item) {
-        return new Promise(function (resolve, reject) {
-            require(["browserdeviceprofile", "environments/windows-uwp/mediacaps"], function (profileBuilder, uwpMediaCaps) {
-                var profileOptions = getBaseProfileOptions(item);
-                profileOptions.supportsDts = uwpMediaCaps.supportsDTS();
-                profileOptions.supportsTrueHd = uwpMediaCaps.supportsDolby();
-                profileOptions.audioChannels = uwpMediaCaps.getAudioChannels();
-                resolve(profileBuilder(profileOptions));
-            });
-        });
-    }
-
     function getDeviceProfile(item, options) {
         options = options || {};
-
-        if (self.Windows) {
-            return getDeviceProfileForWindowsUwp(item);
-        }
 
         return new Promise(function (resolve) {
             require(["browserdeviceprofile"], function (profileBuilder) {

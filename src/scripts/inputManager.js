@@ -1,4 +1,4 @@
-define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playbackManager, focusManager, appRouter, dom) {
+define("inputManager", ['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playbackManager, focusManager, appRouter, dom) {
     'use strict';
 
     var lastInputTime = new Date().getTime();

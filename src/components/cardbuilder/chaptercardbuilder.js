@@ -90,7 +90,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         var cardImageContainer = imgUrl ? ('<div class="' + cardImageContainerClass + ' lazy" data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + '">');
 
         if (!imgUrl) {
-            cardImageContainer += '<i class="md-icon cardImageIcon">local_movies</i>';
+            cardImageContainer += '<i class="material-icons cardImageIcon">local_movies</i>';
         }
 
         var nameHtml = '';

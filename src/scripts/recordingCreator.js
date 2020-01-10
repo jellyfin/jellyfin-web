@@ -1,0 +1,1 @@
+define("recordingCreator", ["components/recordingcreator/recordingcreator"], function (obj) { return obj; });

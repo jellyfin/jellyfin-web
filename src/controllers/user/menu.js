@@ -3,12 +3,12 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
 
     return function(view, params) {
         view.querySelector(".btnLogout").addEventListener("click", function() {
-            Dashboard.logout();
+            window.Emby.Dashboard.logout();
         });
 
         view.addEventListener("viewshow", function() {
             // this page can also be used by admins to change user preferences from the user edit page
-            var userId = params.userId || Dashboard.getCurrentUserId();
+            var userId = params.userId || window.Emby.Dashboard.getCurrentUserId();
             var page = this;
 
             page.querySelector(".lnkMyProfile").setAttribute("href", "myprofile.html?userId=" + userId);
@@ -24,7 +24,7 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
             }
 
             // hide the actions if user preferences are being edited for a different user
-            if (params.userId && params.userId !== Dashboard.getCurrentUserId) {
+            if (params.userId && params.userId !== window.Emby.Dashboard.getCurrentUserId) {
                 page.querySelector(".userSection").classList.add("hide");
                 page.querySelector(".adminSection").classList.add("hide");
             }

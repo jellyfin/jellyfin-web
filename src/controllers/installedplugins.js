@@ -20,13 +20,13 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
     }
 
     function showNoConfigurationMessage() {
-        Dashboard.alert({
+        window.Emby.Dashboard.alert({
             message: globalize.translate("NoPluginConfigurationMessage")
         });
     }
 
     function showConnectMessage() {
-        Dashboard.alert({
+        window.Emby.Dashboard.alert({
             message: globalize.translate("MessagePluginConfigurationRequiresLocalAccess")
         });
     }
@@ -35,7 +35,7 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
         var configPage = pluginConfigurationPages.filter(function (pluginConfigurationPage) {
             return pluginConfigurationPage.PluginId == plugin.Id;
         })[0];
-        var configPageUrl = configPage ? Dashboard.getConfigurationPageUrl(configPage.Name) : null;
+        var configPageUrl = configPage ? window.Emby.Dashboard.getConfigurationPageUrl(configPage.Name) : null;
         var html = "";
         html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' class='card backdropCard'>";
         html += '<div class="cardBox visualCardBox">';
@@ -47,14 +47,14 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
             html += '<div class="cardImage coveredImage" style="background-image:url(\'' + plugin.ImageUrl + "');\">";
             html += "</div>";
         } else {
-            html += '<i class="cardImageIcon md-icon">folder</i>';
+            html += '<i class="cardImageIcon material-icons">folder</i>';
         }
 
         html += configPageUrl ? "</a>" : "</div>";
         html += "</div>";
         html += '<div class="cardFooter">';
         html += '<div style="text-align:right; float:right;padding-top:5px;">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="md-icon">more_horiz</i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="material-icons">more_horiz</i></button>';
         html += "</div>";
         html += "<div class='cardText'>";
         html += configPage ? configPage.DisplayName || plugin.Name : plugin.Name;
@@ -133,7 +133,7 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
                 callback: function (resultId) {
                     switch (resultId) {
                         case "open":
-                            Dashboard.navigate(configHref);
+                            window.Emby.Dashboard.navigate(configHref);
                             break;
 
                         case "delete":

@@ -1,4 +1,4 @@
-define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'browser', 'registerElement', 'css!./emby-scroller'], function (scroller, dom, layoutManager, inputManager, focusManager, browser) {
+define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'browser', 'document-register-element', 'css!./emby-scroller.css'], function (scroller, dom, layoutManager, inputManager, focusManager, browser) {
     'use strict';
 
     var ScrollerPrototype = Object.create(HTMLDivElement.prototype);

@@ -15,7 +15,7 @@ define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) 
 
     function loadData(page) {
         loading.show();
-        var userId = getParameterByName("userId");
+        var userId = window.getParameterByName("userId");
         ApiClient.getUser(userId).then(function (user) {
             loadUser(page, user);
         });

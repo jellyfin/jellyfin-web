@@ -1,0 +1,1 @@
+define("peoplecardbuilder", ["components/cardbuilder/peoplecardbuilder"], function (obj) { return obj; });
