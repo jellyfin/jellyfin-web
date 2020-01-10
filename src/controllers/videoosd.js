@@ -789,6 +789,12 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 view.querySelector(".btnPip").classList.remove("hide");
             }
 
+            if (-1 === supportedCommands.indexOf("AirPlay")) {
+                view.querySelector(".btnAirPlay").classList.add("hide");
+            } else {
+                view.querySelector(".btnAirPlay").classList.remove("hide");
+            }
+
             updateFullscreenIcon();
         }
 
@@ -1305,6 +1311,9 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         });
         view.querySelector(".btnPip").addEventListener("click", function () {
             playbackManager.togglePictureInPicture(currentPlayer);
+        });
+        view.querySelector(".btnAirPlay").addEventListener("click", function () {
+            playbackManager.toggleAirPlay(currentPlayer);
         });
         view.querySelector(".btnVideoOsdSettings").addEventListener("click", onSettingsButtonClick);
         view.addEventListener("viewhide", function () {

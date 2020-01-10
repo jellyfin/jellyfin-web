@@ -1523,6 +1523,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         }
 
+        if (browser.safari || browser.iOS || browser.iPad) {
+            list.push('AirPlay')
+        }
+
         list.push('SetBrightness');
         list.push("SetAspectRatio")
 
@@ -1629,6 +1633,31 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         return false;
+    };
+
+    HtmlVideoPlayer.prototype.isAirPlayEnabled = function () {
+
+        if (document.AirPlayEnabled) {
+            return document.AirplayElement ? true : false;
+        }
+
+        return false;
+    };
+
+    HtmlVideoPlayer.prototype.setAirPlayEnabled = function (isEnabled) {
+        var video = this._mediaElement;
+
+        if (document.AirPlayEnabled) {
+            if (video) {
+                if (isEnabled) {
+                    video.requestAirPlay().catch(onAirPlayError);
+                } else {
+                    document.exitAirPLay().catch(onAirPlayError);
+                }
+            }
+        } else {
+            video.webkitShowPlaybackTargetPicker();
+        }
     };
 
     HtmlVideoPlayer.prototype.setBrightness = function (val) {
@@ -1782,6 +1811,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
     HtmlVideoPlayer.prototype.togglePictureInPicture = function () {
         return this.setPictureInPictureEnabled(!this.isPictureInPictureEnabled());
+    };
+
+    HtmlVideoPlayer.prototype.toggleAirPlay = function () {
+        return this.setAirPlayEnabled(!this.isAirPlayEnabled());
     };
 
     HtmlVideoPlayer.prototype.getBufferedRanges = function () {
