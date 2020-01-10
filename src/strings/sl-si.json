@@ -936,5 +936,22 @@
     "Shuffle": "Premešaj",
     "Watched": "Ogledano",
     "OptionExternallyDownloaded": "Zunanji prenos",
-    "TagsValue": "Oznake: {0}"
+    "TagsValue": "Oznake: {0}",
+    "LabelPublicHttpPort": "Javna HTTP vrata:",
+    "LabelProtocolInfoHelp": "Vrednost, ki bo uporabljena kot odgovor na GetProtocolInfo zahteve naprave.",
+    "LabelProtocolInfo": "Informacije o protokolu:",
+    "LabelProtocol": "Protokol:",
+    "LabelProfileVideoCodecs": "Video kodeki:",
+    "LabelProfileCodecsHelp": "Ločeno z vejico. Če pustite prazno, velja za vse kodeke.",
+    "LabelPreferredDisplayLanguageHelp": "Prevajanje Jellyfin je projekt v teku.",
+    "LabelPleaseRestart": "Spremembe bodo začele veljati po ročni osvežitvi spletnega vmesnika.",
+    "LabelPlaylist": "Seznam predvajanja:",
+    "LabelPlaceOfBirth": "Kraj rojstva:",
+    "LabelPersonRoleHelp": "Primer: Voznik tovornjaka za sladoled",
+    "LabelPersonRole": "Vloga:",
+    "LabelPath": "Pot:",
+    "LabelPasswordRecoveryPinCode": "PIN:",
+    "LabelPasswordResetProvider": "Ponudnik ponastavitve gesla:",
+    "LabelPasswordConfirm": "Potrditev gesla:",
+    "LabelPassword": "Geslo:"
 }
