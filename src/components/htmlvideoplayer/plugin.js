@@ -1639,14 +1639,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         if (document.AirPlayEnabled) {
             return document.AirplayElement ? true : false;
-        } else {
-            var video = this._mediaElement;
-            if (video) {
-                return video.webkitShowPlaybackTargetPicker();
-
-            }
         }
-
+        
         return false;
     };
 
