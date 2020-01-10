@@ -6,15 +6,12 @@ define(['browser'], function (browser) {
     }
 
     function canPlayH265(videoTestElement, options) {
-
         if (browser.tizen || browser.orsay || browser.xboxOne || browser.web0s || options.supportsHevc) {
             return true;
         }
 
         var userAgent = navigator.userAgent.toLowerCase();
-
         if (browser.chromecast) {
-
             var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
             if (isChromecastUltra) {
                 return true;
@@ -31,7 +28,6 @@ define(['browser'], function (browser) {
 
     var _supportsTextTracks;
     function supportsTextTracks() {
-
         if (browser.tizen || browser.orsay) {
             return true;
         }
@@ -46,15 +42,14 @@ define(['browser'], function (browser) {
 
     var _canPlayHls;
     function canPlayHls(src) {
-
         if (_canPlayHls == null) {
             _canPlayHls = canPlayNativeHls() || canPlayHlsWithMSE();
         }
+
         return _canPlayHls;
     }
 
     function canPlayNativeHls() {
-
         if (browser.tizen || browser.orsay) {
             return true;
         }
@@ -77,8 +72,27 @@ define(['browser'], function (browser) {
         return false;
     }
 
-    function canPlayAudioFormat(format) {
+    function supportsAc3(videoTestElement) {
+        if (browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s) {
+            return true;
+        }
 
+        if (browser.osx || browser.iOS) {
+            return false;
+        }
+
+        return videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '');
+    }
+
+    function supportsEac3(videoTestElement) {
+        if (browser.tizen || browser.orsay || browser.web0s) {
+            return true;
+        }
+
+        return videoTestElement.canPlayType('audio/mp4; codecs="ec-3"').replace(/no/, '');
+    }
+
+    function canPlayAudioFormat(format) {
         var typeString;
 
         if (format === 'flac') {
@@ -97,14 +111,12 @@ define(['browser'], function (browser) {
             }
         } else if (format === 'opus') {
             typeString = 'audio/ogg; codecs="opus"';
-
             if (document.createElement('audio').canPlayType(typeString).replace(/no/, '')) {
                 return true;
             }
 
             return false;
         } else if (format === 'mp2') {
-
             // For now
             return false;
         }
@@ -113,14 +125,6 @@ define(['browser'], function (browser) {
             typeString = 'audio/webm';
         } else if (format === 'mp2') {
             typeString = 'audio/mpeg';
-        } else if (format === 'ogg' || format === 'oga') {
-
-            // chrome says probably, but seeing failures
-            if (browser.chrome) {
-                return false;
-            }
-            typeString = 'audio/' + format;
-
         } else {
             typeString = 'audio/' + format;
         }
@@ -133,7 +137,6 @@ define(['browser'], function (browser) {
     }
 
     function testCanPlayMkv(videoTestElement) {
-
         if (browser.tizen || browser.orsay || browser.web0s) {
             return true;
         }
@@ -147,7 +150,6 @@ define(['browser'], function (browser) {
 
         // Unfortunately there's no real way to detect mkv support
         if (browser.chrome) {
-
             // Not supported on opera tv
             if (browser.operaTv) {
                 return false;
@@ -162,7 +164,6 @@ define(['browser'], function (browser) {
         }
 
         if (browser.edgeUwp) {
-
             return true;
         }
 
@@ -174,17 +175,15 @@ define(['browser'], function (browser) {
     }
 
     function supportsMpeg2Video() {
-        return browser.orsay || browser.tizen || browser.edgeUwp || browser.web0s;
+        return browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
     }
 
     function supportsVc1() {
-        return browser.orsay || browser.tizen || browser.edgeUwp || browser.web0s;
+        return browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
     }
 
     function getFlvMseDirectPlayProfile() {
-
         var videoAudioCodecs = ['aac'];
-
         if (!browser.edge && !browser.msie) {
             videoAudioCodecs.push('mp3');
         }
@@ -198,13 +197,11 @@ define(['browser'], function (browser) {
     }
 
     function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
-
         var supported = false;
         var profileContainer = container;
         var videoCodecs = [];
 
         switch (container) {
-
             case 'asf':
                 supported = browser.tizen || browser.orsay || browser.edgeUwp;
                 videoAudioCodecs = [];
@@ -279,16 +276,12 @@ define(['browser'], function (browser) {
     }
 
     function getMaxBitrate() {
-
         return 120000000;
     }
 
     function getGlobalMaxVideoBitrate() {
-
         var userAgent = navigator.userAgent.toLowerCase();
-
         if (browser.chromecast) {
-
             var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
             if (isChromecastUltra) {
                 return null;
@@ -319,27 +312,9 @@ define(['browser'], function (browser) {
                     (browser.tizen && isTizenFhd ? 20000000 : null)));
     }
 
-    function supportsAc3(videoTestElement) {
-
-        if (browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s) {
-            return true;
-        }
-
-        return (videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '') && !browser.osx && !browser.iOS);
-    }
-
-    function supportsEac3(videoTestElement) {
-
-        if (browser.tizen || browser.orsay || browser.web0s) {
-            return true;
-        }
-
-        return videoTestElement.canPlayType('audio/mp4; codecs="ec-3"').replace(/no/, '');
-    }
-
     return function (options) {
-
         options = options || {};
+
         var physicalAudioChannels = options.audioChannels || (browser.tv || browser.ps4 || browser.xboxOne ? 6 : 2);
 
         var bitrateSetting = getMaxBitrate();
@@ -417,7 +392,6 @@ define(['browser'], function (browser) {
 
             // PS4 fails to load HLS with mp3 audio
             if (!browser.ps4) {
-
                 // mp3 encoder only supports 2 channels, so only make that preferred if we're only requesting 2 channels
                 // Also apply it for chromecast because it no longer supports AAC 5.1
                 if (physicalAudioChannels <= 2) {
@@ -425,14 +399,15 @@ define(['browser'], function (browser) {
                 }
             }
         }
-        if (canPlayAacVideoAudio) {
 
+        if (canPlayAacVideoAudio) {
             if (videoAudioCodecs.indexOf('aac') === -1) {
                 videoAudioCodecs.push('aac');
             }
 
             hlsVideoAudioCodecs.push('aac');
         }
+
         if (supportsMp3VideoAudio) {
             // PS4 fails to load HLS with mp3 audio
             if (!browser.ps4) {
@@ -525,6 +500,7 @@ define(['browser'], function (browser) {
         if (canPlayVp8) {
             mp4VideoCodecs.push('vp8');
         }
+
         if (canPlayVp9) {
             mp4VideoCodecs.push('vp9');
         }
@@ -563,20 +539,17 @@ define(['browser'], function (browser) {
         ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
 
             if (audioFormat === 'mp2') {
-
                 profile.DirectPlayProfiles.push({
                     Container: 'mp2,mp3',
                     Type: 'Audio',
                     AudioCodec: audioFormat
                 });
             } else if (audioFormat === 'mp3') {
-
                 profile.DirectPlayProfiles.push({
                     Container: audioFormat,
                     Type: 'Audio',
                     AudioCodec: audioFormat
                 });
-
             } else {
                 profile.DirectPlayProfiles.push({
                     Container: audioFormat === 'webma' ? 'webma,webm' : audioFormat,
@@ -586,7 +559,6 @@ define(['browser'], function (browser) {
 
             // aac also appears in the m4a container
             if (audioFormat === 'aac' || audioFormat === 'alac') {
-
                 profile.DirectPlayProfiles.push({
                     Container: 'm4a',
                     AudioCodec: audioFormat,
@@ -619,7 +591,6 @@ define(['browser'], function (browser) {
 
         if (canPlayHls() && browser.enableHlsAudio !== false) {
             profile.TranscodingProfiles.push({
-
                 // hlsjs, edge, and android all seem to require ts container
                 Container: !canPlayNativeHls() || browser.edge || browser.android ? 'ts' : 'aac',
                 Type: 'Audio',
@@ -636,7 +607,6 @@ define(['browser'], function (browser) {
         // But for static (offline sync), it will be just fine.
         // Prioritize aac higher because the encoder can accept more channels than mp3
         ['aac', 'mp3', 'opus', 'wav'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
-
             profile.TranscodingProfiles.push({
                 Container: audioFormat,
                 Type: 'Audio',
@@ -648,7 +618,6 @@ define(['browser'], function (browser) {
         });
 
         ['opus', 'mp3', 'aac', 'wav'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
-
             profile.TranscodingProfiles.push({
                 Container: audioFormat,
                 Type: 'Audio',
@@ -804,7 +773,8 @@ define(['browser'], function (browser) {
                     Condition: 'LessThanEqual',
                     Property: 'VideoLevel',
                     Value: maxH264Level.toString()
-                }]
+                }
+            ]
         });
 
         if (!browser.edgeUwp && !browser.tizen && !browser.orsay && !browser.web0s) {
@@ -888,7 +858,6 @@ define(['browser'], function (browser) {
         // External vtt or burn in
         profile.SubtitleProfiles = [];
         if (supportsTextTracks()) {
-
             profile.SubtitleProfiles.push({
                 Format: 'vtt',
                 Method: 'External'
@@ -896,7 +865,6 @@ define(['browser'], function (browser) {
         }
 
         profile.ResponseProfiles = [];
-
         profile.ResponseProfiles.push({
             Type: 'Video',
             Container: 'm4v',
