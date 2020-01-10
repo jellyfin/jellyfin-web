@@ -1640,7 +1640,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         if (document.AirPlayEnabled) {
             return document.AirplayElement ? true : false;
         }
-        
+
         return false;
     };
 
