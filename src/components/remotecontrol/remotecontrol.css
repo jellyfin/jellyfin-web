@@ -18,23 +18,23 @@
 }
 
 .btnArrowUp{
-border-radius: 40% 40% 10% 10%;
+    border-radius: 40% 40% 10% 10%;
 }
 
 .btnArrowLeft{
-border-radius: 40% 10% 10% 40%;
+    border-radius: 40% 10% 10% 40%;
 }
 
 .btnArrowRight{
-border-radius: 10% 40% 40% 10%;
+    border-radius: 10% 40% 40% 10%;
 }
 
 .btnArrowDown{
-border-radius: 10% 10% 40% 40%;
+    border-radius: 10% 10% 40% 40%;
 }
 
 .btnOk{
-border-radius: 10%;
+    border-radius: 10%;
 }
 
 .nowPlayingPageTitle {
