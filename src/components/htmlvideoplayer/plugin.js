@@ -1658,7 +1658,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         } else {
             video.webkitShowPlaybackTargetPicker();
-
         }
     };
 
