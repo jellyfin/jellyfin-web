@@ -47,7 +47,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 headerSearchButton.classList.remove("hide");
             }
 
-            headerCastButton.classList.remove("hide");
+            if (!layoutManager.tv) {
+                headerCastButton.classList.remove("hide");
+            }
         } else {
             headerHomeButton.classList.add("hide");
             headerCastButton.classList.add("hide");
@@ -101,7 +103,10 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
         headerUserButton.addEventListener("click", onHeaderUserButtonClick);
         headerHomeButton.addEventListener("click", onHeaderHomeButtonClick);
-        headerCastButton.addEventListener("click", onCastButtonClicked);
+
+        if (!layoutManager.tv) {
+            headerCastButton.addEventListener("click", onCastButtonClicked);
+        }
 
         initHeadRoom(skinHeader);
     }
