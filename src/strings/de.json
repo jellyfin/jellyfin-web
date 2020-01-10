@@ -1474,5 +1474,6 @@
     "MusicLibraryHelp": "Überprüfe den {0}Musikbenennungsguide{1}.",
     "OptionRandom": "Zufällig",
     "TabNetworking": "Netzwerk",
-    "VideoRange": "Videobereich"
+    "VideoRange": "Videobereich",
+    "ButtonSplit": "Teilen"
 }
