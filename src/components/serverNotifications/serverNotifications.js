@@ -4,20 +4,15 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
     var serverNotifications = {};
 
     function notifyApp() {
-
         inputManager.notify();
     }
 
     function displayMessage(cmd) {
-
         var args = cmd.Arguments;
-
         if (args.TimeoutMs) {
-
             require(['toast'], function (toast) {
                 toast({ title: args.Header, text: args.Text });
             });
-
         } else {
             require(['alert'], function (alert) {
                 alert({ title: args.Header, text: args.Text });
@@ -146,14 +141,10 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
     }
 
     function onMessageReceived(e, msg) {
-
         var apiClient = this;
-
         if (msg.MessageType === "Play") {
-
             notifyApp();
             var serverId = apiClient.serverInfo().Id;
-
             if (msg.Data.PlayCommand === "PlayNext") {
                 playbackManager.queueNext({ ids: msg.Data.ItemIds, serverId: serverId });
             } else if (msg.Data.PlayCommand === "PlayLast") {
@@ -169,9 +160,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                     serverId: serverId
                 });
             }
-
         } else if (msg.MessageType === "Playstate") {
-
             if (msg.Data.Command === 'Stop') {
                 inputManager.trigger('stop');
             } else if (msg.Data.Command === 'Pause') {
@@ -193,22 +182,17 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
             var cmd = msg.Data;
             processGeneralCommand(cmd, apiClient);
         } else if (msg.MessageType === "UserDataChanged") {
-
             if (msg.Data.UserId === apiClient.getCurrentUserId()) {
-
                 for (var i = 0, length = msg.Data.UserDataList.length; i < length; i++) {
                     events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
                 }
             }
         } else {
-
             events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
         }
-
     }
 
     function bindEvents(apiClient) {
-
         events.off(apiClient, "message", onMessageReceived);
         events.on(apiClient, "message", onMessageReceived);
     }
@@ -229,7 +213,6 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
     connectionManager.getApiClients().forEach(bindEvents);
 
     events.on(connectionManager, 'apiclientcreated', function (e, newApiClient) {
-
         bindEvents(newApiClient);
     });
 

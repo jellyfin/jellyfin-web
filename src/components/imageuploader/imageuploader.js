@@ -74,7 +74,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
             return false;
         }
 
-        if (file.type !== "image/png" && file.type !== "image/x-png" && file.type !== "image/jpeg") {
+        if (!file.type.startsWith("image/")) {
             require(['toast'], function (toast) {
                 toast(globalize.translate('MessageImageFileTypeAllowed'));
             });

@@ -1540,6 +1540,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             return player.togglePictureInPicture();
         };
 
+        self.toggleAirPlay = function (player) {
+            player = player || self._currentPlayer;
+            return player.toggleAirPlay();
+        };
+
         self.getSubtitleStreamIndex = function (player) {
 
             player = player || self._currentPlayer;
@@ -3853,6 +3858,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             if (player.supports) {
                 if (player.supports('PictureInPicture')) {
                     list.push('PictureInPicture');
+                }
+                if (player.supports('AirPlay')) {
+                    list.push('AirPlay');
                 }
                 if (player.supports('SetBrightness')) {
                     list.push('SetBrightness');

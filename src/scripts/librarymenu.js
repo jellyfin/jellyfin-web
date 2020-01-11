@@ -47,7 +47,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 headerSearchButton.classList.remove("hide");
             }
 
-            headerCastButton.classList.remove("hide");
+            if (!layoutManager.tv) {
+                headerCastButton.classList.remove("hide");
+            }
         } else {
             headerHomeButton.classList.add("hide");
             headerCastButton.classList.add("hide");
@@ -101,7 +103,10 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
         headerUserButton.addEventListener("click", onHeaderUserButtonClick);
         headerHomeButton.addEventListener("click", onHeaderHomeButtonClick);
-        headerCastButton.addEventListener("click", onCastButtonClicked);
+
+        if (!layoutManager.tv) {
+            headerCastButton.addEventListener("click", onCastButtonClicked);
+        }
 
         initHeadRoom(skinHeader);
     }
@@ -419,7 +424,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
             var html = "";
             html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="home.html">';
-            html += '<img src="img/logo.png" />';
+            html += '<img src="assets/img/logo.png" />';
             html += "</a>";
             html += toolsMenuHtml;
             navDrawerScrollContainer.innerHTML = html;

@@ -1,4 +1,4 @@
-define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "mediaInfo", "focusManager", "imageLoader", "scrollHelper", "events", "connectionManager", "browser", "globalize", "apphost", "layoutManager", "userSettings", "scrollStyles", "emby-slider", "paper-icon-button-light", "css!css/videoosd"], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager, userSettings) {
+define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "mediaInfo", "focusManager", "imageLoader", "scrollHelper", "events", "connectionManager", "browser", "globalize", "apphost", "layoutManager", "userSettings", "scrollStyles", "emby-slider", "paper-icon-button-light", "css!assets/css/videoosd"], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager, userSettings) {
     "use strict";
 
     function seriesImageUrl(item, options) {
@@ -789,6 +789,12 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 view.querySelector(".btnPip").classList.remove("hide");
             }
 
+            if (-1 === supportedCommands.indexOf("AirPlay")) {
+                view.querySelector(".btnAirPlay").classList.add("hide");
+            } else {
+                view.querySelector(".btnAirPlay").classList.remove("hide");
+            }
+
             updateFullscreenIcon();
         }
 
@@ -1305,6 +1311,9 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         });
         view.querySelector(".btnPip").addEventListener("click", function () {
             playbackManager.togglePictureInPicture(currentPlayer);
+        });
+        view.querySelector(".btnAirPlay").addEventListener("click", function () {
+            playbackManager.toggleAirPlay(currentPlayer);
         });
         view.querySelector(".btnVideoOsdSettings").addEventListener("click", onSettingsButtonClick);
         view.addEventListener("viewhide", function () {

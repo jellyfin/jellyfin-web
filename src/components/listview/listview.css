@@ -126,20 +126,20 @@
     align-self: center;
     justify-self: center;
     margin: auto;
-    color: rgba(255, 255, 255, .6);
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(0, 0, 0, 0.4);
     font-size: 1.6em;
-    background: transparent;
-    transition: transform 200ms ease-out;
+    transition: 200ms ease-out;
     display: flex;
 }
 
 .listItemImageButton:hover {
+    color: #00a4dc;
+    background: rgba(0, 164, 220, 0.2);
     transform: scale(1.2, 1.2);
 }
 
 .listItemImageButton-icon {
-    background: rgba(0,0,0,.4);
-    border: 0.1em solid currentColor;
     border-radius: 100em;
     display: flex;
     justify-content: center;

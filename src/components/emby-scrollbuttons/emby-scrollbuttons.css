@@ -6,6 +6,7 @@
     justify-content: center;
     min-width:104px;
     min-height:24px;
+    padding-top: 1.25em;
     z-index: 1;
     color: #ffffff;
     display: flex;
