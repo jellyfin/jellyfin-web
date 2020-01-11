@@ -1,0 +1,6 @@
+{
+    "spec_dir": "src",
+    "spec_files": [
+        "**/__tests__/**/*.[jt]s?(x)"
+    ]
+}
