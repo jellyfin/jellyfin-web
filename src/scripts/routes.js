@@ -378,7 +378,7 @@ define([
         path: "/wizardremoteaccess.html",
         autoFocus: false,
         anonymous: true,
-        controller: "wizard/access"
+        controller: "wizard/remoteaccess"
     });
     defineRoute({
         path: "/wizardfinish.html",
