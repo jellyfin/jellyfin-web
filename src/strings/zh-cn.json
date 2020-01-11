@@ -180,7 +180,7 @@
     "Download": "下载",
     "DownloadsValue": "{0} 下载",
     "DrmChannelsNotImported": "受 DMR 保护的频道将不会被导入。",
-    "DropShadow": "阴影",
+    "DropShadow": "阴影效果",
     "EasyPasswordHelp": "你的简易 PIN 码已被用于在受支持的客户端上进行离线访问，同时也可以被用于联网状态下的登录。",
     "Edit": "编辑",
     "EditImages": "修改图片",
@@ -1320,7 +1320,7 @@
     "HeaderCancelRecording": "取消录制",
     "HeaderFavoriteMovies": "最爱的电影",
     "HeaderFavoriteShows": "最爱的节目",
-    "HeaderFavoriteAlbums": "最爱的专辑",
+    "HeaderFavoriteAlbums": "收藏的专辑",
     "HeaderFavoriteSongs": "最爱的歌曲",
     "HeaderFavoriteVideos": "最爱的视频",
     "HeaderVideoType": "视频类型",
@@ -1457,5 +1457,6 @@
     "LabelBaseUrlHelp": "您可以在此处添加自定义子目录，以便从更唯一的 URL 访问服务器。",
     "MusicLibraryHelp": "重播 {0}音乐命名指南{1}。",
     "HeaderFavoritePeople": "最喜欢的人物",
-    "OptionRandom": "随机"
+    "OptionRandom": "随机",
+    "ButtonSplit": "拆分"
 }
