@@ -584,6 +584,19 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return showTrackOffset;
         }
 
+        function getTextTrack() {
+            var videoElement = self._mediaElement;
+            if (videoElement) {
+                return Array.from(videoElement.textTracks)
+                    .find(function(trackElement) {
+                        // get showing .vtt textTack
+                        return trackElement.mode === 'showing';
+                    });
+            } else {
+                return null;
+            }
+        }
+
         self.setSubtitleOffset = function(offset) {
 
             var offsetValue = parseFloat(offset);
@@ -592,28 +605,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (currentAssRenderer) {
                 updateCurrentTrackOffset(offsetValue);
             } else {
-                var videoElement = self._mediaElement;
-                var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
-
-                Array.from(videoElement.textTracks)
-                    .filter(function(trackElement) {
-                    // get showing .vtt textTacks
-                        return trackElement.mode === 'showing';
-                    })
-                    .forEach(function(trackElement) {
-
-                        var track = customTrackIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
-                            return t.Index === customTrackIndex;
-                        })[0];
-
-                        if (track) {
-                            offsetValue = updateCurrentTrackOffset(offsetValue);
-                            setVttSubtitleOffset(trackElement, offsetValue);
-                        } else {
-                            console.log("No available track, cannot apply offset : " + offsetValue);
-                        }
-
-                    });
+                var trackElement = getTextTrack();
+                // if .vtt currently rendering
+                if (trackElement) {
+                    setTextTrackSubtitleOffset(trackElement, offsetValue);
+                } else if (currentTrackEvents) {
+                    setTrackEventsSubtitleOffset(currentTrackEvents, offsetValue);
+                } else {
+                    console.log("No available track, cannot apply offset: ", offsetValue);
+                }
             }
         };
 
@@ -629,16 +629,27 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return relativeOffset;
         }
 
-        function setVttSubtitleOffset(currentTrack, offsetValue) {
+        function setTextTrackSubtitleOffset(currentTrack, offsetValue) {
 
             if (currentTrack.cues) {
+                offsetValue = updateCurrentTrackOffset(offsetValue);
                 Array.from(currentTrack.cues)
                     .forEach(function(cue) {
                         cue.startTime -= offsetValue;
                         cue.endTime -= offsetValue;
                     });
             }
+        }
 
+        function setTrackEventsSubtitleOffset(trackEvents, offsetValue) {
+
+            if (Array.isArray(trackEvents)) {
+                offsetValue = updateCurrentTrackOffset(offsetValue);
+                trackEvents.forEach(function(trackEvent) {
+                    trackEvent.StartPositionTicks -= offsetValue;
+                    trackEvent.EndPositionTicks -= offsetValue;
+                });
+            }
         }
 
         self.getSubtitleOffset = function() {
@@ -1033,6 +1044,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return;
             }
 
+            self.resetSubtitleOffset();
             var item = self._currentPlayOptions.item;
 
             destroyCustomTrack(videoElement);
