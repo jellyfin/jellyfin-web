@@ -178,7 +178,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                 commands.push({
                     name: globalize.translate("EditImages"),
                     id: "editimages",
-                    icon: "edit"
+                    icon: "image"
                 });
             }
         }
