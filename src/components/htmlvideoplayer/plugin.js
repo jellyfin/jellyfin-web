@@ -95,23 +95,19 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     }
 
     function getMediaStreamAudioTracks(mediaSource) {
-
         return mediaSource.MediaStreams.filter(function (s) {
             return s.Type === 'Audio';
         });
     }
 
     function getMediaStreamTextTracks(mediaSource) {
-
         return mediaSource.MediaStreams.filter(function (s) {
             return s.Type === 'Subtitle';
         });
     }
 
     function zoomIn(elem) {
-
         return new Promise(function (resolve, reject) {
-
             var duration = 240;
             elem.style.animation = 'htmlvideoplayer-zoomin ' + duration + 'ms ease-in normal';
             dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
@@ -1417,7 +1413,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         if (!appHost.supports('htmlvideoautoplay')) {
                             html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
                         } else {
-
                             // Chrome 35 won't play with preload none
                             html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" webkit-playsinline playsinline>';
                         }
@@ -1764,7 +1759,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.getAspectRatio = function () {
-        return this._currentAspectRatio;
+        return this._currentAspectRatio || "auto";
     };
 
     HtmlVideoPlayer.prototype.getSupportedAspectRatios = function () {
