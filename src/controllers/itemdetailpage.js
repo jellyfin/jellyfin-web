@@ -2098,7 +2098,10 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
         });
         view.addEventListener("viewshow", function (e) {
             var page = this;
-            libraryMenu.setTransparentMenu(true);
+
+            if (layoutManager.mobile) {
+                libraryMenu.setTransparentMenu(true);
+            }
 
             if (e.detail.isRestored) {
                 if (currentItem) {

@@ -671,12 +671,20 @@
 }
 
 @media all and (min-width:62.5em) {
+    .headerTop {
+        padding: 1.489em 0
+    }
+
+    .itemDetailPage  {
+        padding-top: 5em !important
+    }
+
     .detailFloatingButton {
         display: none !important
     }
 
     .personBackdropimg-hideondesktop {
-        display: none !important;
+        display: none !important
     }
 
     .mainDetailButtons {
@@ -720,12 +728,6 @@
 .detailPageWrapperContainer {
     border-spacing: 0;
     border-collapse: collapse;
-}
-
-@media all and (max-width:62.5em) {
-    .detailPageWrapperContainer-nodetailimg {
-        padding-top: 0;
-    }
 }
 
 .mediaInfoStream {
