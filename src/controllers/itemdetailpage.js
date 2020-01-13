@@ -467,7 +467,8 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
         var usePrimaryImage = item.MediaType === "Video" && item.Type !== "Movie" && item.Type !== "Trailer" ||
             item.MediaType && item.MediaType !== "Video" ||
             item.Type === "MusicAlbum" ||
-            item.Type === "MusicArtist";
+            item.Type === "MusicArtist" ||
+            item.Type === "Person";
 
         if ("Program" === item.Type && item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
