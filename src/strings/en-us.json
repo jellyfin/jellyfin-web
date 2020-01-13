@@ -878,7 +878,7 @@
     "LabelVideo": "Video:",
     "LabelVideoBitrate": "Video bitrate:",
     "LabelVideoCodec": "Video codec:",
-    "LabelWeb": "Web: ",
+    "LabelWeb": "Web:",
     "LabelXDlnaCap": "X-DLNA cap:",
     "LabelXDlnaCapHelp": "Determines the content of the X_DLNACAP element in the urn:schemas-dlna-org:device-1-0 namespace.",
     "LabelXDlnaDoc": "X-DLNA doc:",
