@@ -783,12 +783,6 @@
     }
 }
 
-@media all and (max-width:62.5em) {
-    .detailsHiddenOnMobile {
-        display: none
-    }
-}
-
 .btnSyncComplete {
     background: #673AB7 !important
 }

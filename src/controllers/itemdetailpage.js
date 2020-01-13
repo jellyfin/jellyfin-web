@@ -1060,11 +1060,6 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
         var overview = page.querySelector(".overview");
         var externalLinksElem = page.querySelector(".itemExternalLinks");
 
-        if ("Season" !== item.Type && "MusicAlbum" !== item.Type && "MusicArtist" !== item.Type) {
-            overview.classList.add("detailsHiddenOnMobile");
-            externalLinksElem.classList.add("detailsHiddenOnMobile");
-        }
-
         renderOverview([overview], item);
         var i;
         var itemMiscInfo;
