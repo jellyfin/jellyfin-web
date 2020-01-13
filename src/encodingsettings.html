@@ -22,6 +22,7 @@
                     </select>
                     <div class="fieldDescription">${LabelHardwareAccelerationTypeHelp}</div>
                 </div>
+
                 <div class="inputContainer hide fldVaapiDevice">
                     <input is="emby-input" type="text" id="txtVaapiDevice" label="${LabelVaapiDevice}" />
                     <div class="fieldDescription">${LabelVaapiDeviceHelp}</div>
@@ -142,7 +143,9 @@
                 </div>
 
                 <div>
-                    <button is="emby-button" type="submit" class="raised button-submit block"><span>${ButtonSave}</span></button>
+                    <button is="emby-button" type="submit" class="raised button-submit block">
+                        <span>${ButtonSave}</span>
+                    </button>
                 </div>
             </form>
         </div>
