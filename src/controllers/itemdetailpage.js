@@ -742,12 +742,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
             editable = false;
         }
 
-        if ("Person" !== item.Type) {
-            elem.classList.add("detailimg-hidemobile");
-            page.querySelector(".detailPageWrapperContainer").classList.add("detailPageWrapperContainer-nodetailimg");
-        } else {
-            page.querySelector(".detailPageWrapperContainer").classList.remove("detailPageWrapperContainer-nodetailimg");
-        }
+        elem.classList.add("detailimg-hidemobile");
 
         var imageTags = item.ImageTags || {};
 
