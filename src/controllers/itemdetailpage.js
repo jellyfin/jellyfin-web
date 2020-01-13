@@ -524,6 +524,7 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
 
     function reloadFromItem(instance, page, params, item, user) {
         var context = params.context;
+        page.querySelector(".detailPagePrimaryContainer").classList.add("detailSticky");
         renderName(item, page.querySelector(".nameContainer"), false, context);
         var apiClient = connectionManager.getApiClient(item.ServerId);
         renderSeriesTimerEditor(page, item, apiClient, user);
@@ -743,9 +744,9 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
 
         if ("Person" !== item.Type) {
             elem.classList.add("detailimg-hidemobile");
-            page.querySelector(".detailPageContent").classList.add("detailPageContent-nodetailimg");
+            page.querySelector(".detailPageWrapperContainer").classList.add("detailPageWrapperContainer-nodetailimg");
         } else {
-            page.querySelector(".detailPageContent").classList.remove("detailPageContent-nodetailimg");
+            page.querySelector(".detailPageWrapperContainer").classList.remove("detailPageWrapperContainer-nodetailimg");
         }
 
         var imageTags = item.ImageTags || {};

@@ -413,9 +413,12 @@
     align-items: center;
     align-content: center;
     position: sticky;
-    background-color: #101010;
     top: 0;
     z-index: 2;
+}
+
+.detailSticky {
+    background-color: #101010;
 }
 
 .infoWrapper {
@@ -431,6 +434,9 @@
 
 .detailPageSecondaryContainer {
     margin: 1.25em 0;
+}
+
+.detailPageContent {
     display: flex;
     flex-direction: column;
     padding-left: 2%;
@@ -443,7 +449,6 @@
 }
 
 .detailImageContainer {
-    margin: 1.25em 0;
     position: sticky;
     top: 15%;
     float: left;
@@ -452,7 +457,6 @@
 
 .detailPagePrimaryContent {
     position: relative;
-    flex-grow: 1
 }
 
 .detailLogo {
@@ -494,7 +498,7 @@
 }
 
 @media all and (max-width:62.5em) {
-    .detailPageContent {
+    .detailPageWrapperContainer {
         position: relative
     }
 
@@ -705,13 +709,13 @@
     margin-bottom: 3.4em !important
 }
 
-.detailPageContent {
+.detailPageWrapperContainer {
     border-spacing: 0;
     border-collapse: collapse;
 }
 
 @media all and (max-width:62.5em) {
-    .detailPageContent-nodetailimg {
+    .detailPageWrapperContainer-nodetailimg {
         padding-top: 0;
     }
 }
