@@ -1282,6 +1282,7 @@
     "SearchForMissingMetadata": "Search for missing metadata",
     "SearchForSubtitles": "Search for Subtitles",
     "SearchResults": "Search Results",
+    "SelectAdminUsername": "Please select a username for the admin account.",
     "SendMessage": "Send message",
     "Series": "Series",
     "SeriesCancelled": "Series cancelled.",
