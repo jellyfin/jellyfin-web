@@ -1,4 +1,4 @@
-define(["loading", "appRouter", "layoutManager", "userSettings", "connectionManager", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, userSettings, connectionManager, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser) {
+define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, connectionManager, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser) {
     "use strict";
 
     function getPromise(apiClient, params) {
@@ -445,17 +445,11 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
         }
     }
 
-    function enabled() {
-        return userSettings.enableBackdrops();
-    }
-
     function renderBackdrop(page, item, apiClient) {
-        if (enabled()) {
-            if (dom.getWindowSize().innerWidth >= 1000) {
-                backdrop.setBackdrops([item]);
-            } else {
-                backdrop.clear();
-            }
+        if (dom.getWindowSize().innerWidth >= 1000) {
+            backdrop.setBackdrops([item]);
+        } else {
+            backdrop.clear();
         }
     }
 
