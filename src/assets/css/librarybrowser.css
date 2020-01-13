@@ -387,6 +387,10 @@
     position: relative
 }
 
+.personBackdrop {
+    background-size: contain;
+}
+
 .itemBackdropProgressBar {
     position: absolute !important;
     bottom: 0;
@@ -669,6 +673,10 @@
 @media all and (min-width:62.5em) {
     .detailFloatingButton {
         display: none !important
+    }
+
+    .personBackdropimg-hideondesktop {
+        display: none !important;
     }
 
     .mainDetailButtons {

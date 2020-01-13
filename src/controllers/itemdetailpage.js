@@ -520,6 +520,13 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
             itemBackdropElement.style.backgroundImage = "";
         }
 
+        if ("Person" === item.Type) {
+            itemBackdropElement.classList.add("personBackdropimg-hideondesktop");
+            itemBackdropElement.classList.add("personBackdrop");
+        } else {
+            itemBackdropElement.classList.remove("personBackdrop");
+        }
+
         return hasbackdrop;
     }
 
