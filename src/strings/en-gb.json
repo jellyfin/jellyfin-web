@@ -777,7 +777,7 @@
     "LabelXDlnaDocHelp": "Determines the content of the X_DLNADOC element in the urn:schemas-dlna-org:device-1-0 namespace.",
     "LabelXDlnaDoc": "X-DLNA doc:",
     "LabelXDlnaCapHelp": "Determines the content of the X_DLNACAP element in the urn:schemas-dlna-org:device-1-0 namespace.",
-    "LabelWeb": "Web: ",
+    "LabelWeb": "Web:",
     "DashboardServerName": "Server: {0}",
     "DashboardVersionNumber": "Version: {0}",
     "LabelVersionInstalled": "{0} installed",
@@ -1459,5 +1459,7 @@
     "HeaderFavoritePeople": "Favourite People",
     "FetchingData": "Fetching additional data",
     "ButtonAddImage": "Add Image",
-    "OptionRandom": "Random"
+    "OptionRandom": "Random",
+    "SelectAdminUsername": "Please select a username for the admin account.",
+    "ButtonSplit": "Split"
 }
