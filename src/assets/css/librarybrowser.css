@@ -650,8 +650,9 @@
 }
 
 .detailImageProgressContainer {
-    margin-left: 6px;
-    width: 21.886458333333332vw;
+    position: absolute;
+    bottom: 0;
+    width: 22.786458333333332vw;
 }
 
 .detailButton-mobile-text {
