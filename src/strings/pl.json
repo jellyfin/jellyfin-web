@@ -1385,7 +1385,7 @@
     "DashboardServerName": "Serwer: {0}",
     "DashboardOperatingSystem": "System Operacyjny: {0}",
     "DashboardArchitecture": "Architektura: {0}",
-    "LabelWeb": "Sieć: ",
+    "LabelWeb": "Sieć:",
     "LabelXDlnaCap": "Limit X-DLNA:",
     "LabelXDlnaDoc": "Dokumentacja X-DLNA:",
     "LaunchWebAppOnStartup": "Uruchom aplikację w przeglądarce internetowej, gdy uruchomi się serwer Jellyfin",
