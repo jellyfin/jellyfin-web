@@ -1321,5 +1321,21 @@
     "Absolute": "Absolut",
     "HeaderFavoritePeople": "Favoritpersoner",
     "HeaderRestartingServer": "Startar om server",
-    "HeaderStatus": "Status"
+    "HeaderStatus": "Status",
+    "LabelPostProcessor": "Program för efterbehandling:",
+    "LabelPleaseRestart": "Ändringar genomförs efter att webbklienten manuellt har laddats om .",
+    "LabelPlayer": "Spelare:",
+    "LabelMetadata": "Metadata:",
+    "LabelFormat": "Format:",
+    "LabelFolder": "Mapp:",
+    "LabelBaseUrl": "Grund URL:",
+    "LabelAuthProvider": "Autentiseringsleverantör:",
+    "LabelAudioCodec": "Ljudkodek:",
+    "LabelAudioChannels": "Ljudkanaler:",
+    "LabelAllowedRemoteAddressesMode": "Fjärr-IP-adressfilterläge:",
+    "LabelAllowedRemoteAddresses": "Fjärr-IP-adressfilter:",
+    "HttpsRequiresCert": "För att aktivera säkra anslutningar måste du tillhandahålla ett pålitligt SSL-certifikat, till exempel \"Let's Encrypt\". Vänligen ange ett certifikat eller inaktivera säkra anslutningar.",
+    "HeaderTypeImageFetchers": "{0} Bildhämtare",
+    "HeaderLiveTvTunerSetup": "Ställ in Live-TV-mottagare",
+    "ButtonSplit": "Dela upp"
 }
