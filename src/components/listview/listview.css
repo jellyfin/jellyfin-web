@@ -35,6 +35,8 @@
 }
 
 .listItem-indexnumberleft {
+    min-width: 2%;
+    text-align: center;
     margin-right: 1em;
 }
 
