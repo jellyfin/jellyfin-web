@@ -12,11 +12,6 @@
     text-align: center
 }
 
-.btnArrowUp, .btnArrowLeft, .btnArrowRight, .btnArrowDown, .btnOk{
-    border: 2.7px solid rgba(255, 255, 255, .6);
-    background-color: rgba(0, 0, 0, .5);
-}
-
 .btnArrowUp{
     border-radius: 40% 40% 10% 10%;
 }
