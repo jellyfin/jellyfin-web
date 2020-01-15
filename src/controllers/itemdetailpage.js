@@ -521,7 +521,6 @@ define(["loading", "appRouter", "layoutManager", "userSettings", "connectionMana
         }
 
         if ("Person" === item.Type) {
-            itemBackdropElement.classList.add("personBackdropimg-hideondesktop");
             itemBackdropElement.classList.add("personBackdrop");
         } else {
             itemBackdropElement.classList.remove("personBackdrop");
