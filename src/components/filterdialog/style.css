@@ -28,8 +28,8 @@
 
 @media all and (min-width:400px) {
     .dynamicFilterDialog {
-        width: 300px;
-        margin-left: -150px !important;
+        width: 20.16em;
+        margin-left: -10.08em !important;
         left: 50% !important
     }
 }
