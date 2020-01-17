@@ -115,7 +115,12 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
 
         if (enableScrollX()) {
             allowBottomPadding = false;
-            html += '<div is="emby-itemscontainer" class="itemsContainer hiddenScrollX padded-left padded-right">';
+            var scrollXClass = "scrollX hiddenScrollX";
+            if (layoutManager.tv) {
+                scrollXClass += " smoothScrollX";
+            }
+
+            html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
         }
