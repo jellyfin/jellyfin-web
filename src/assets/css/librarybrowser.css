@@ -782,7 +782,9 @@
 
 @media all and (max-width:75em) {
     .listViewUserDataButtons {
-        display: none !important
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 85%;
     }
 }
 

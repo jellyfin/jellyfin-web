@@ -470,6 +470,12 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             if (!options.recordButton && (item.Type === 'Timer' || item.Type === 'Program')) {
                 html += indicators.getTimerIndicator(item).replace('indicatorIcon', 'indicatorIcon listItemAside');
             }
+            if (item.Type === 'Episode') {
+                html += '<div class="listViewUserDataButtons">';
+            } else {
+                html += '<div class="flex align-items-center">';
+            }
+
 
             if (!clickEntireItem) {
 
@@ -491,8 +497,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                 if (options.enableUserDataButtons !== false) {
 
-                    html += '<span class="listViewUserDataButtons flex align-items-center">';
-
                     var userData = item.UserData || {};
                     var likes = userData.Likes == null ? '' : userData.Likes;
 
@@ -500,13 +504,12 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                         html += '<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="md-icon">check</i></button>';
                     }
 
-                    html += '</span>';
-
                     if (itemHelper.canRate(item)) {
                         html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon">favorite</i></button>';
                     }
                 }
             }
+            html += '</div>';
 
             if (enableContentWrapper) {
                 html += '</div>';
