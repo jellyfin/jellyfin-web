@@ -1,4 +1,4 @@
-define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdrop'], function (browser, connectionManager, playbackManager, dom) {
+define(['browser', 'connectionManager', 'playbackManager', 'dom', "userSettings", 'css!./backdrop'], function (browser, connectionManager, playbackManager, dom, userSettings) {
     'use strict';
 
     function enableAnimation(elem) {
@@ -236,16 +236,22 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./backdro
         return true;
     }
 
+    function enabled() {
+        return userSettings.enableBackdrops();
+    }
+
     var rotationInterval;
     var currentRotatingImages = [];
     var currentRotationIndex = -1;
     function setBackdrops(items, imageOptions, enableImageRotation) {
-        var images = getImageUrls(items, imageOptions);
+        if (enabled()) {
+            var images = getImageUrls(items, imageOptions);
 
-        if (images.length) {
-            startRotation(images, enableImageRotation);
-        } else {
-            clearBackdrop();
+            if (images.length) {
+                startRotation(images, enableImageRotation);
+            } else {
+                clearBackdrop();
+            }
         }
     }
 
