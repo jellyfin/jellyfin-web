@@ -114,15 +114,10 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
         var allowBottomPadding = true;
 
         if (enableScrollX()) {
-            allowBottomPadding = false;
-            var scrollXClass = "scrollX hiddenScrollX";
-            if (layoutManager.tv) {
-                scrollXClass += " smoothScrollX";
-            }
-
-            html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale padded-left padded-right" data-mousewheel="false" data-centerfocus="true">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
         }
 
         html += cardBuilder.getCardsHtml(recommendation.Items, {
@@ -131,7 +126,11 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             overlayPlayButton: true,
             allowBottomPadding: allowBottomPadding
         });
-        html += "</div>";
+
+        if (enableScrollX()) {
+            html += '</div>';
+        }
+
         html += "</div>";
         return html;
     }
