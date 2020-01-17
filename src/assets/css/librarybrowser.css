@@ -408,6 +408,19 @@
     position: relative;
 }
 
+.layout-mobile .parentName,
+.layout-mobile .itemName,
+.layout-mobile .itemMiscInfo,
+.layout-mobile .mainDetailButtons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.layout-mobile .infoText {
+    white-space: normal;
+}
+
 .layout-tv .detailPagePrimaryContainer {
     position: relative;
 }
