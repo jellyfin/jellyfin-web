@@ -470,12 +470,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             if (!options.recordButton && (item.Type === 'Timer' || item.Type === 'Program')) {
                 html += indicators.getTimerIndicator(item).replace('indicatorIcon', 'indicatorIcon listItemAside');
             }
-            if (item.Type === 'Episode') {
-                html += '<div class="listViewUserDataButtons">';
-            } else {
-                html += '<div class="flex align-items-center">';
-            }
 
+            html += '<div class="listViewUserDataButtons">';
 
             if (!clickEntireItem) {
 
