@@ -149,8 +149,8 @@
 
 @media all and (max-width: 64em) {
     .listItemImage-large {
-        width: 33.75vw;
-        height: 22.5vw;
+        width: 22vw;
+        height: 16vw;
         margin-right: 0 !important;
     }
 
