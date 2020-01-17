@@ -1100,6 +1100,20 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
 
             switch (e.key) {
+                case "Enter":
+                    showOsd();
+                    break;
+
+                case "Escape":
+                case "RCUBack": // WebOS back
+                case "XF86Back": // Tizen back
+                    // Ignore key when some dialog is opened
+                    if (currentVisibleMenu === "osd" && !document.querySelector(".dialogContainer")) {
+                        hideOsd();
+                        e.stopPropagation();
+                    }
+                    break;
+
                 case "k":
                     playbackManager.playPause(currentPlayer);
                     showOsd();
@@ -1280,7 +1294,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 showOsd();
                 inputManager.on(window, onInputCommand);
                 dom.addEventListener(window, "keydown", onWindowKeyDown, {
-                    passive: true
+                    capture: true
                 });
             } catch (e) {
                 require(['appRouter'], function(appRouter) {
@@ -1294,7 +1308,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
 
             dom.removeEventListener(window, "keydown", onWindowKeyDown, {
-                passive: true
+                capture: true
             });
             stopOsdHideTimer();
             headerElement.classList.remove("osdHeader");
