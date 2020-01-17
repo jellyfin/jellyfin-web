@@ -752,6 +752,11 @@
     font-weight: 600
 }
 
+.listViewUserDataButtons {
+    display: flex;
+    align-items: center;
+}
+
 .recordingProgressBar::-moz-progress-bar {
     background-color: #c33
 }
