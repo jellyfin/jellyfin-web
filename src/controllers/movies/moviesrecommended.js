@@ -110,14 +110,15 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
         }
 
         html += '<div class="verticalSection">';
+		html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + title + "</h2>";
+		html += "</div>";
         var allowBottomPadding = true;
 
         if (enableScrollX()) {
-            allowBottomPadding = false;
-            html += '<div is="emby-itemscontainer" class="itemsContainer hiddenScrollX padded-left padded-right">';
+            html += '<div id="recentlyAddedItems" is="emby-itemscontainer" class="itemsContainer padded-left padded-right hiddenScrollX scrollX">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
         }
 
         html += cardBuilder.getCardsHtml(recommendation.Items, {
@@ -126,7 +127,9 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             overlayPlayButton: true,
             allowBottomPadding: allowBottomPadding
         });
-        html += "</div>";
+
+		html += "</div>";
+
         html += "</div>";
         return html;
     }
