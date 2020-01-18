@@ -27,6 +27,20 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
         10252: "MediaPlayPause" // MediaPlayPause (Tizen)
     };
 
+    var hasFieldKey = false;
+    try {
+        hasFieldKey = "key" in new KeyboardEvent("keydown");
+    } catch (e) {
+        console.log("error checking 'key' field");
+    }
+
+    if (!hasFieldKey) {
+        // Add [a..z]
+        for (var i = 65; i <= 90; i++) {
+            KeyNames[i] = String.fromCharCode(i).toLowerCase();
+        }
+    }
+
     /**
      * Returns key name from event.
      *
@@ -104,6 +118,7 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
     }
 
     return {
-        enable: enable
+        enable: enable,
+        getKeyName: getKeyName
     };
 });
