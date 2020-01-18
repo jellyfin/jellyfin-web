@@ -273,9 +273,12 @@ html {
 }
 
 .countIndicator,
-.fullSyncIndicator,
-.playedIndicator {
+.fullSyncIndicator {
     background: #00a4dc
+}
+
+.playedIndicator {
+    background: #5dd000
 }
 
 .fullSyncIndicator {
