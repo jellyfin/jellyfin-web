@@ -110,9 +110,9 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
         }
 
         html += '<div class="verticalSection">';
-		html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
+        html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + title + "</h2>";
-		html += "</div>";
+        html += "</div>";
         var allowBottomPadding = true;
 
         if (enableScrollX()) {
@@ -128,7 +128,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             allowBottomPadding: allowBottomPadding
         });
 
-		html += "</div>";
+        html += "</div>";
 
         html += "</div>";
         return html;
