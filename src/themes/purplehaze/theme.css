@@ -372,7 +372,7 @@ a[data-role=button] {
 
 .emby-checkbox:checked+span+.checkboxOutline {
     background-color: #030322;
-    border:2px solid rgb(72, 195, 200);
+    border: 2px solid rgb(72, 195, 200);
 }
 
 .emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-checked {
@@ -384,7 +384,7 @@ a[data-role=button] {
 }
 
 .emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
-    border:2px solid #ff77f1;
+    border: 2px solid #ff77f1;
 }
 
 .itemProgressBarForeground {
