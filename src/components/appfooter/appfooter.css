@@ -9,5 +9,5 @@
 }
 
     .appfooter.headroom--unpinned {
-        transform: translateY(100%)!important;
+        transform: translateY(100%) !important;
     }
