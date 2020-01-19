@@ -83,7 +83,8 @@ button {
     /* These both are needed in case cardBox is a button */
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
-    contain: layout style;
+    contain: layout;
+    contain: style;
 }
 
 .card.show-focus:not(.show-animation) .cardBox {

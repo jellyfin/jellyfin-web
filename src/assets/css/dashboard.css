@@ -1,5 +1,6 @@
 .dashboardColumn,
 .dashboardSections {
+    flex-direction: column;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal
 }
@@ -416,6 +417,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 a[data-role=button] {
+    background-clip: padding-box;
     -webkit-font-smoothing: antialiased;
     -webkit-user-select: none;
     -webkit-background-clip: padding-box;

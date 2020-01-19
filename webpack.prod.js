@@ -20,5 +20,5 @@ module.exports = merge(common, {
                 use: ["file-loader"]
             }
         ]
-    },
+    }
 });

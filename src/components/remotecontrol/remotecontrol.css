@@ -53,6 +53,7 @@
 
 .nowPlayingInfoControls,
 .nowPlayingTime {
+    display: flex;
     display: -webkit-box;
     display: -webkit-flex
 }

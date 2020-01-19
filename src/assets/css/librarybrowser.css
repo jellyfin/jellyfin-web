@@ -488,9 +488,11 @@
 }
 
 .detailImageContainer {
-    width: 280px;
-    margin-right: 2em;
-    flex-shrink: 0;
+    margin: 1.25em 0;
+    position: sticky;
+    top: 15%;
+    float: left;
+    width: 22.786458333333332vw;
 }
 
 .detailPagePrimaryContent {
@@ -504,8 +506,8 @@
     width: 25em;
     height: 9.375em;
     position: absolute;
-    top: 13.5%;
-    right: 19.5%;
+    top: 14.5%;
+    right: 10.5%;
     -webkit-background-size: contain;
     background-size: contain
 }
@@ -535,13 +537,9 @@
 }
 
 .itemDetailImage {
-    width: 100%;
+    width: 100% !important;
+    box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
     -webkit-box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
-    box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
-}
-
-.thumbDetailImageContainer {
-    width: 400px
 }
 
 @media all and (max-width:62.5em) {
@@ -551,19 +549,6 @@
 
     .btnPlaySimple {
         display: none !important
-    }
-}
-
-@media all and (min-width:62.5em) {
-    .itemBackdrop {
-        display: none
-    }
-
-    .detailPagePrimaryContainer {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: flex;
-        margin-bottom: 3em
     }
 }
 
@@ -621,6 +606,7 @@
 
 .detailButton-mobile,
 .mainDetailButtons {
+    display: flex;
     display: -webkit-box;
     display: -webkit-flex
 }

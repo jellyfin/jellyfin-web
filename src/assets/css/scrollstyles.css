@@ -11,8 +11,6 @@
 
 .hiddenScrollX, .layout-tv .scrollX {
     -ms-overflow-style: none;
-    /* Can't do this because it not only hides the scrollbar, but also prevents scrolling */
-    /*overflow: -moz-scrollbars-none;*/
 }
 
 .hiddenScrollX-forced {
