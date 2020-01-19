@@ -109,7 +109,7 @@
     display: -webkit-inline-box;
     display: -webkit-inline-flex;
     display: inline-flex;
-    margin: .3em 0 0 .5em;
+    margin: 0.3em 0 0 0.5em;
     height: 1.7em;
     -webkit-box-align: center;
     -webkit-align-items: center;
@@ -162,7 +162,7 @@
 }
 
 .headerTop {
-    padding: .54em 0;
+    padding: 0.54em 0;
 }
 
 .headerLeft {
@@ -215,7 +215,7 @@
 
 .sidebarHeader {
     padding-left: 1.2em;
-    margin: 1em 0 .5em;
+    margin: 1em 0 0.5em;
 }
 
 .dashboardDocument .skinBody {
@@ -337,7 +337,7 @@
 
 .headerArrowImage {
     height: 20px;
-    margin-left: .5em;
+    margin-left: 0.5em;
 }
 
 .backdropContainer {
@@ -360,7 +360,7 @@
 }
 
 .viewSettings {
-    margin: 0 0 .25em;
+    margin: 0 0 0.25em;
 }
 
 .listTopPaging,
@@ -369,7 +369,7 @@
 }
 
 .viewControls+.listTopPaging {
-    margin-left: .5em !important;
+    margin-left: 0.5em !important;
 }
 
 .criticReview {
@@ -388,7 +388,7 @@
 }
 
 .criticReview:first-child {
-    margin-top: .5em;
+    margin-top: 0.5em;
 }
 
 .criticReview img {
@@ -396,7 +396,7 @@
 }
 
 .criticRatingScore {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
 }
 
 .itemTag {
@@ -413,12 +413,12 @@
 }
 
 .itemLinks p {
-    margin: .5em 0;
+    margin: 0.5em 0;
 }
 
 .reviewLink,
 .reviewerName {
-    margin-top: .5em;
+    margin-top: 0.5em;
 }
 
 .reviewerName {
@@ -431,7 +431,7 @@
 
 .reviewScore {
     position: absolute;
-    left: .8em;
+    left: 0.8em;
 }
 
 .itemBackdrop {
@@ -452,7 +452,7 @@
 
 .desktopMiscInfoContainer {
     position: absolute;
-    bottom: .75em;
+    bottom: 0.75em;
 }
 
 .detailPagePrimaryContainer {
@@ -571,12 +571,12 @@
 
 .parentName {
     display: block;
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
 }
 
 .emby-button.detailFloatingButton {
     position: absolute;
-    background-color: rgba(0, 0, 0, .5) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
     z-index: 1;
     top: 50%;
     left: 50%;
@@ -623,7 +623,7 @@
 }
 
 .itemName {
-    margin: .5em 0;
+    margin: 0.5em 0;
 }
 
 .empty {
@@ -669,31 +669,31 @@
     -webkit-align-items: center;
     align-items: center;
     margin: 0 !important;
-    padding: .5em .7em !important;
+    padding: 0.5em 0.7em !important;
 }
 
 .detailButton {
-    margin: 0 .5em 0 0 !important;
+    margin: 0 0.5em 0 0 !important;
 }
 
 @media all and (min-width: 29em) {
     .detailButton-mobile {
-        padding-left: .75em !important;
-        padding-right: .75em !important;
+        padding-left: 0.75em !important;
+        padding-right: 0.75em !important;
     }
 }
 
 @media all and (min-width: 32em) {
     .detailButton-mobile {
-        padding-left: .8em !important;
-        padding-right: .8em !important;
+        padding-left: 0.8em !important;
+        padding-right: 0.8em !important;
     }
 }
 
 @media all and (min-width: 35em) {
     .detailButton-mobile {
-        padding-left: .85em !important;
-        padding-right: .85em !important;
+        padding-left: 0.85em !important;
+        padding-right: 0.85em !important;
     }
 }
 
@@ -725,14 +725,14 @@
 }
 
 .detailButton-mobile-text {
-    margin-top: .7em;
+    margin-top: 0.7em;
     font-size: 80%;
     font-weight: 400;
 }
 
 @media all and (max-width: 62.5em) {
     .mainDetailButtons {
-        margin-left: -.5em;
+        margin-left: -0.5em;
     }
 
     .detailButton {
@@ -830,7 +830,7 @@
 }
 
 .timelineHeader {
-    margin-bottom: .25em;
+    margin-bottom: 0.25em;
     line-height: 1.25em;
     line-height: initial;
 }
@@ -867,7 +867,7 @@
 }
 
 .bulletSeparator {
-    margin: 0 .35em;
+    margin: 0 0.35em;
 }
 
 .mediaInfoIcons {
@@ -921,7 +921,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .sectionTitleButton + .sectionTitleButton {
-    margin-left: .5em !important;
+    margin-left: 0.5em !important;
 }
 
 .sectionTitleIconButton {
@@ -929,7 +929,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
     font-size: 84% !important;
-    padding: .5em !important;
+    padding: 0.5em !important;
 }
 
 .horizontalItemsContainer {

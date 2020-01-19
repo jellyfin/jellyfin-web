@@ -7,7 +7,7 @@
 }
 
 .libraryTree {
-    margin-left: .25em;
+    margin-left: 0.25em;
 }
 
 .offlineEditorNode {
@@ -16,7 +16,7 @@
 
 .editorNode img {
     height: 18px;
-    margin: 0 .35em;
+    margin: 0 0.35em;
     vertical-align: middle;
     position: relative;
     top: -2px;
@@ -48,7 +48,7 @@
 }
 
 .metadataSidebarIcon {
-    margin-right: .4em;
+    margin-right: 0.4em;
 }
 
 @media all and (min-width: 50em) {

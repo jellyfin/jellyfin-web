@@ -1,7 +1,7 @@
 .skinHeader,
 html {
     color: #ddd;
-    color: rgba(255, 255, 255, .8);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .wizardStartForm,
@@ -12,7 +12,7 @@ html {
 
 .emby-collapsible-button {
     border-color: #383838;
-    border-color: rgba(255, 255, 255, .135);
+    border-color: rgba(255, 255, 255, 0.135);
 }
 
 .skinHeader-withBackground {
@@ -35,12 +35,12 @@ html {
 }
 
 .backgroundContainer.withBackdrop {
-    background-color: rgba(0, 0, 0, .86);
+    background-color: rgba(0, 0, 0, 0.86);
 }
 
 .paper-icon-button-light:hover:not(:disabled) {
     color: #52b54b;
-    background-color: rgba(82, 181, 75, .2);
+    background-color: rgba(82, 181, 75, 0.2);
 }
 
 .paper-icon-button-light.show-focus:focus {
@@ -50,7 +50,7 @@ html {
 .fab,
 .raised {
     background: #303030;
-    color: rgba(255, 255, 255, .87);
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .fab:focus,
@@ -70,7 +70,7 @@ html {
 
 .button-delete {
     background: rgb(247, 0, 0);
-    color: rgba(255, 255, 255, .87);
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .checkboxLabel {
@@ -83,7 +83,7 @@ html {
 .paperListLabel,
 .textareaLabelUnfocused {
     color: #bbb;
-    color: rgba(255, 255, 255, .7);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .inputLabelFocused,
@@ -132,17 +132,17 @@ html {
 .programSecondaryTitle,
 .secondaryText {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .actionsheetDivider {
     background: #444;
-    background: rgba(255, 255, 255, .14);
+    background: rgba(255, 255, 255, 0.14);
 }
 
 .cardFooter-vibrant .cardText-secondary {
     color: inherit;
-    opacity: .5;
+    opacity: 0.5;
 }
 
 .actionSheetMenuItem:hover {
@@ -152,13 +152,13 @@ html {
 .toast {
     background: #303030;
     color: #fff;
-    color: rgba(255, 255, 255, .87);
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .appfooter {
     background: #101010;
     color: #ccc;
-    color: rgba(255, 255, 255, .78);
+    color: rgba(255, 255, 255, 0.78);
 }
 
 .itemSelectionPanel {
@@ -176,7 +176,7 @@ html {
 
 .alphaPickerButton {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, 0.5);
     background-color: transparent;
 }
 
@@ -191,11 +191,11 @@ html {
 
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #1c1c1c;
-    background: rgba(30, 30, 30, .9);
+    background: rgba(30, 30, 30, 0.9);
 }
 
 .listItem-border {
-    border-color: rgba(34, 34, 34, .9) !important;
+    border-color: rgba(34, 34, 34, 0.9) !important;
 }
 
 .listItem:focus {
@@ -213,7 +213,7 @@ html {
 
 .mediaInfoText {
     color: #ddd;
-    background: rgba(170, 170, 190, .2);
+    background: rgba(170, 170, 190, 0.2);
 }
 
 .mediaInfoTimerIcon,
@@ -225,8 +225,8 @@ html {
 .emby-textarea {
     color: inherit;
     background: #292929;
-    border: .07em solid #292929;
-    border-radius: .15em;
+    border: 0.07em solid #292929;
+    border-radius: 0.15em;
 }
 
 .emby-input:focus,
@@ -237,7 +237,7 @@ html {
 .emby-select-withcolor {
     color: inherit;
     background: #292929;
-    border: .07em solid #292929;
+    border: 0.07em solid #292929;
 }
 
 .emby-select-withcolor>option {
@@ -322,7 +322,7 @@ html {
 .channelPrograms,
 .guide-channelHeaderCell,
 .programCell {
-    border-color: rgba(255, 255, 255, .05);
+    border-color: rgba(255, 255, 255, 0.05);
 }
 
 .programCell-sports {
@@ -362,7 +362,7 @@ html {
 
 .guide-date-tab-button {
     color: #555;
-    color: rgba(255, 255, 255, .3);
+    color: rgba(255, 255, 255, 0.3);
 }
 
 .guide-date-tab-button.emby-tab-button-active,
@@ -379,7 +379,7 @@ html {
     color: #ddd;
     background: #111;
     padding: 1em;
-    border-radius: .25em;
+    border-radius: 0.25em;
 }
 
 .ratingbutton-icon-withrating {
@@ -405,7 +405,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -424,7 +424,7 @@ html {
 }
 
 .timeslotHeaders-desktop::-webkit-scrollbar {
-    height: .7em;
+    height: 0.7em;
 }
 
 .metadataSidebarIcon {

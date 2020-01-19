@@ -30,7 +30,7 @@
 }
 
 .selectContainer-inline > .emby-select {
-    padding: .3em 1.9em .3em .5em;
+    padding: 0.3em 1.9em 0.3em 0.5em;
     font-size: inherit;
 }
 
@@ -51,7 +51,7 @@
     }
 
 .emby-select + .fieldDescription {
-    margin-top: .25em;
+    margin-top: 0.25em;
 }
 
 .selectContainer {
@@ -67,32 +67,32 @@
 
 .selectLabel {
     display: block;
-    margin-bottom: .25em;
+    margin-bottom: 0.25em;
 }
 
 .selectContainer-inline > .selectLabel {
     margin-bottom: 0;
-    margin-right: .5em;
+    margin-right: 0.5em;
     flex-shrink: 0;
 }
 
 .emby-select-withcolor {
     -webkit-appearance: none;
     appearance: none;
-    border-radius: .2em;
+    border-radius: 0.2em;
 }
 
 .selectArrowContainer {
     position: absolute;
-    right: .3em;
-    top: .2em;
+    right: 0.3em;
+    top: 0.2em;
     color: inherit;
     pointer-events: none;
 }
 
 .selectContainer-inline > .selectArrowContainer {
     top: initial;
-    bottom: .24em;
+    bottom: 0.24em;
     font-size: 90%;
 }
 
@@ -101,7 +101,7 @@
 }
 
 .selectArrow {
-    margin-top: .35em;
+    margin-top: 0.35em;
     font-size: 1.7em;
 }
 

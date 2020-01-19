@@ -55,7 +55,7 @@
     margin: 0;
     overflow: hidden;
     border: 2px solid currentcolor;
-    border-radius: .14em;
+    border-radius: 0.14em;
     z-index: 2;
     display: flex;
     align-items: center;
@@ -102,7 +102,7 @@
 
     .checkboxList-verticalwrap > .emby-checkbox-label {
         display: inline-flex;
-        margin: .3em 0 .3em 0;
+        margin: 0.3em 0 0.3em 0;
         width: 12em;
     }
 
@@ -111,7 +111,7 @@
 }
 
 .checkboxListLabel {
-    margin-bottom: .25em;
+    margin-bottom: 0.25em;
 }
 
 @keyframes repaintChrome {

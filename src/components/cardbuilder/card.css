@@ -93,12 +93,12 @@ button::-moz-focus-inner {
 }
 
 .card.show-focus:not(.show-animation) .cardBox {
-    margin: .4em;
+    margin: 0.4em;
 }
 
 .card.show-focus:not(.show-animation) .cardBox.visualCardBox,
 .card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
-    border: .5em solid transparent;
+    border: 0.5em solid transparent;
 }
 
 .card.show-animation:focus > .cardBox {
@@ -123,7 +123,7 @@ button::-moz-focus-inner {
 
 .btnCardOptions {
     position: absolute;
-    bottom: .25em;
+    bottom: 0.25em;
     right: 0;
     margin: 0 !important;
     z-index: 1;
@@ -134,8 +134,8 @@ button::-moz-focus-inner {
     position: absolute;
     align-items: center;
     justify-content: center;
-    top: .3em;
-    left: .3em;
+    top: 0.3em;
+    left: 0.3em;
     text-align: center;
     vertical-align: middle;
     width: 1.6em;
@@ -253,17 +253,17 @@ button::-moz-focus-inner {
 }
 
 .cardFooter {
-    padding: .3em .3em .5em .3em;
+    padding: 0.3em 0.3em 0.5em 0.3em;
     position: relative;
 }
 
 .visualCardBox {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    border-radius: .145em;
+    border-radius: 0.145em;
 }
 
 .innerCardFooter {
-    background: rgba(0, 0, 0, .7);
+    background: rgba(0, 0, 0, 0.7);
     position: absolute;
     bottom: 0;
     left: 0;
@@ -283,7 +283,7 @@ button::-moz-focus-inner {
 }
 
 .cardText {
-    padding: .06em .5em;
+    padding: 0.06em 0.5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -295,7 +295,7 @@ button::-moz-focus-inner {
 }
 
 .cardText-first {
-    padding-top: .24em;
+    padding-top: 0.24em;
 }
 
 .textActionButton {
@@ -322,7 +322,7 @@ button::-moz-focus-inner {
 }
 
 .innerCardFooter > .cardText {
-    padding: .3em .5em;
+    padding: 0.3em 0.5em;
 }
 
 .cardFooter-withlogo {
@@ -361,12 +361,12 @@ button::-moz-focus-inner {
 
 .cardImageIcon-small {
     font-size: 3em;
-    margin-bottom: .1em;
+    margin-bottom: 0.1em;
 }
 
 .cardIndicators {
-    right: .225em;
-    top: .225em;
+    right: 0.225em;
+    top: 0.225em;
     position: absolute;
     display: flex;
     align-items: center;
@@ -383,16 +383,16 @@ button::-moz-focus-inner {
 }
 
 .programAttributeIndicator {
-    padding: .18em .5em;
+    padding: 0.18em 0.5em;
     color: #fff;
     font-weight: 500;
 }
 
 .cardOverlayButton {
-    color: rgba(255, 255, 255, .76);
+    color: rgba(255, 255, 255, 0.76);
     margin: 0;
     z-index: 1;
-    padding: .75em;
+    padding: 0.75em;
     font-size: 88%;
 }
 
@@ -403,7 +403,7 @@ button::-moz-focus-inner {
 }
 
 .cardOverlayButtonIcon {
-    background-color: rgba(0, 0, 0, .7) !important;
+    background-color: rgba(0, 0, 0, 0.7) !important;
     border-radius: 100em;
     width: 1.5em !important;
     height: 1.5em !important;
@@ -425,10 +425,10 @@ button::-moz-focus-inner {
     height: 2.6em;
     top: 50%;
     left: 50%;
-    background-color: rgba(0, 0, 0, .5) !important;
-    border: .06em solid rgba(255, 255, 255, .6);
-    padding: .38em !important;
-    color: rgba(255, 255, 255, .76);
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border: 0.06em solid rgba(255, 255, 255, 0.6);
+    padding: 0.38em !important;
+    color: rgba(255, 255, 255, 0.76);
     transition: transform 200ms ease-out;
 }
 
@@ -731,7 +731,7 @@ button::-moz-focus-inner {
 .cardOverlayContainer {
     background: rgba(0, 0, 0, 0.5);
     opacity: 0;
-    transition: opacity .2s;
+    transition: opacity 0.2s;
     position: absolute;
     top: 0;
     left: 0;

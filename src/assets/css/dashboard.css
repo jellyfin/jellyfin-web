@@ -11,7 +11,7 @@
 }
 
 .dashboardFooter a {
-    margin: 0 .7em;
+    margin: 0 0.7em;
 }
 
 progress {
@@ -39,7 +39,7 @@ progress::-webkit-progress-value {
 }
 
 progress[aria-valuenow]:before {
-    border-radius: .4em;
+    border-radius: 0.4em;
     background-color: #00a4dc;
 }
 
@@ -83,9 +83,9 @@ a[data-role=button] {
     cursor: pointer !important;
     font-family: inherit !important;
     font-weight: 500 !important;
-    margin: 0 .25em !important;
+    margin: 0 0.25em !important;
     display: inline-block;
-    padding: .8em 1em;
+    padding: 0.8em 1em;
     text-align: center;
     text-decoration: none !important;
 }
@@ -115,7 +115,7 @@ div[data-role=controlgroup] a[data-role=button]:last-child {
 
 div[data-role=controlgroup] a[data-role=button]+a[data-role=button] {
     border-left-width: 0 !important;
-    margin: 0 0 0 -.4em !important;
+    margin: 0 0 0 -0.4em !important;
 }
 
 div[data-role=controlgroup] a.ui-btn-active {
@@ -136,9 +136,9 @@ div[data-role=controlgroup] a.ui-btn-active {
 .wizardContent h2 img {
     height: 2.5em;
     vertical-align: middle;
-    margin-right: .5em;
+    margin-right: 0.5em;
     position: relative;
-    top: -.3em;
+    top: -0.3em;
 }
 
 .header .imageLink {
@@ -224,8 +224,8 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .dashboardSection h3 {
-    margin-top: .5em;
-    margin-bottom: .5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .activeRecordingItems>.card {
@@ -261,7 +261,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .wizardContent {
     max-width: 62em;
-    padding: .5em 2em 1em;
+    padding: 0.5em 2em 1em;
     margin: 0 auto;
     background: #fff;
 }
@@ -286,7 +286,7 @@ div[data-role=controlgroup] a.ui-btn-active {
     height: 1.71em;
     width: 1.71em;
     border-radius: 100%;
-    margin-right: .5em;
+    margin-right: 0.5em;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -305,7 +305,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .sessionCardFooter {
-    padding-top: .5em !important;
+    padding-top: 0.5em !important;
     padding-bottom: 1em !important;
     border-top: 1px solid #eee;
     text-align: center;
@@ -336,7 +336,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .sessionNowPlayingContent-withbackground+.sessionNowPlayingInnerContent {
     color: #fff !important;
-    background: rgba(0, 0, 0, .7);
+    background: rgba(0, 0, 0, 0.7);
 }
 
 .sessionAppName {

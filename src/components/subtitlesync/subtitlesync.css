@@ -4,7 +4,7 @@
     margin-right: 30%;
     height: 4.2em;
     background: rgba(28, 28, 28, 0.8);
-    border-radius: .3em;
+    border-radius: 0.3em;
     color: #fff;
     position: absolute;
 }
@@ -43,6 +43,6 @@
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
     flex-grow: 1;
-    border-radius: .3em;
+    border-radius: 0.3em;
     z-index: 1;
 }

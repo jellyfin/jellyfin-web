@@ -23,10 +23,10 @@
 
 .textareaLabel {
     display: inline-block;
-    transition: all .2s ease-out;
-    margin-bottom: .25em;
+    transition: all 0.2s ease-out;
+    margin-bottom: 0.25em;
 }
 
 .emby-textarea + .fieldDescription {
-    margin-top: .25em;
+    margin-top: 0.25em;
 }

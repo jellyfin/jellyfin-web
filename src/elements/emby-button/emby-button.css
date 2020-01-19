@@ -45,7 +45,7 @@
 }
 
 .button-flat:hover {
-    opacity: .5;
+    opacity: 0.5;
 }
 
 .button-link {
@@ -82,7 +82,7 @@
     display: block;
     align-items: center;
     justify-content: center;
-    margin: .25em 0;
+    margin: 0.25em 0;
     width: 100%;
 }
 
@@ -91,7 +91,7 @@
     display: inline-flex;
     align-items: center;
     box-sizing: border-box;
-    margin: 0 .29em;
+    margin: 0 0.29em;
     background: transparent;
     text-align: center;
     font-size: inherit;
@@ -107,7 +107,7 @@
     min-height: initial;
     width: auto;
     height: auto;
-    padding: .556em;
+    padding: 0.556em;
     vertical-align: middle;
     border: 0;
     /* These are getting an outline in opera tv browsers, which run chrome 30 */

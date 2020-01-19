@@ -5,7 +5,7 @@
 }
 
 .formDialogHeader {
-    padding: 1em .5em;
+    padding: 1em 0.5em;
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -23,7 +23,7 @@
 }
 
 .dialogContentInner {
-    padding: .5em 1em 20em 1em;
+    padding: 0.5em 1em 20em 1em;
 }
 
 .dialogContentInner-mini {
@@ -62,11 +62,11 @@
     padding-bottom: 1.5em;
     flex-direction: column;
     width: 80% !important;
-    padding-top: .5em;
+    padding-top: 0.5em;
 }
 
 .formDialogFooterItem {
-    margin: .5em !important;
+    margin: 0.5em !important;
     flex-grow: 1;
     text-align: center;
     flex-basis: 0;

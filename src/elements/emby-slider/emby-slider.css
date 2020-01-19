@@ -56,7 +56,7 @@
     .mdl-slider::-ms-track {
         background: none;
         color: transparent;
-        height: .2em;
+        height: 0.2em;
         width: 100%;
         border: none;
     }
@@ -116,13 +116,13 @@
     border-radius: 50%;
     background: #00a4dc;
     border: none;
-    transform: scale(.9, .9);
+    transform: scale(0.9, 0.9);
     transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mdl-slider-hoverthumb::-ms-thumb {
-    margin-left: -.4em;
-    transform: scale(.5, .5);
+    margin-left: -0.4em;
+    transform: scale(0.5, 0.5);
 }
 
 .mdl-slider:hover::-ms-thumb {
@@ -160,15 +160,15 @@
 .mdl-slider-background-flex-container {
     width: 100%;
     box-sizing: border-box;
-    margin-top: -.05em;
+    margin-top: -0.05em;
     top: 50%;
     position: absolute;
 }
 
 .mdl-slider-background-flex {
     background: #333;
-    height: .2em;
-    margin-top: -.08em;
+    height: 0.2em;
+    margin-top: -0.08em;
     width: 100%;
     top: 50%;
     left: 0;
@@ -207,7 +207,7 @@
 .mdl-slider-background-upper {
     /* transition: left 0.18s cubic-bezier(0.4, 0, 0.2, 1), width 0.18s cubic-bezier(0.4, 0, 0.2, 1); */
     background: #666;
-    background: rgba(255, 255, 255, .4);
+    background: rgba(255, 255, 255, 0.4);
     position: absolute;
     left: 0;
     width: 0;
@@ -229,5 +229,5 @@
 
 .sliderBubbleText {
     margin: 0;
-    padding: .5em .75em;
+    padding: 0.5em 0.75em;
 }

@@ -35,9 +35,9 @@
     font-size: inherit;
     min-width: initial;
     margin: 0;
-    padding: .1em .4em;
+    padding: 0.1em 0.4em;
     width: auto;
-    border-radius: .1em;
+    border-radius: 0.1em;
     font-weight: normal;
     flex-shrink: 0;
     flex-grow: 1;
@@ -113,11 +113,11 @@
 }
 
 .alphaPicker-fixed-left {
-    left: .4em;
+    left: 0.4em;
 }
 
 .alphaPicker-fixed-right {
-    right: .4em;
+    right: 0.4em;
 }
 
 @media all and (min-width: 62.5em) {

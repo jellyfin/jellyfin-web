@@ -33,11 +33,11 @@
 }
 
 .nowPlayingPageTitle {
-    margin: 0 0 .5em .5em;
+    margin: 0 0 0.5em 0.5em;
 }
 
 .nowPlayingPositionSliderContainer {
-    margin: .7em 0 .7em 1em;
+    margin: 0.7em 0 0.7em 1em;
 }
 
 .nowPlayingInfoButtons {
@@ -60,7 +60,7 @@
 
 .nowPlayingPageImageContainer {
     width: 20%;
-    margin-right: .25em;
+    margin-right: 0.25em;
     position: relative;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
@@ -93,7 +93,7 @@
     width: 100%;
     -webkit-box-shadow: 0 0 1.9vh #000;
     box-shadow: 0 0 1.9vh #000;
-    border: .1em solid #222;
+    border: 0.1em solid #222;
     user-drag: none;
     user-select: none;
     -moz-user-select: none;
@@ -115,11 +115,11 @@
 
     .nowPlayingPageTitle {
         text-align: center;
-        margin: .5em 0 .75em;
+        margin: 0.5em 0 0.75em;
     }
 
     .nowPlayingPositionSliderContainer {
-        margin: .7em 1em;
+        margin: 0.7em 1em;
     }
 
     .nowPlayingInfoButtons {
@@ -185,7 +185,7 @@
 
 @media all and (min-width: 80em) {
     .nowPlayingPageImageContainer {
-        margin-right: .75em;
+        margin-right: 0.75em;
     }
 }
 

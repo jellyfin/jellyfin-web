@@ -72,19 +72,19 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, .7);
-    padding: .25em .5em;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.25em 0.5em;
     user-select: none;
 }
 
 .chapterThumbText {
-    padding: .25em 0;
+    padding: 0.25em 0;
     margin: 0;
     opacity: 1;
 }
 
 .chapterThumbText-dim {
-    opacity: .6;
+    opacity: 0.6;
 }
 
 .videoOsdBottom {
@@ -146,7 +146,7 @@
 }
 
 .volumeButtons {
-    margin: 0 .5em 0 auto;
+    margin: 0 0.5em 0 auto;
     display: flex;
     -webkit-align-items: center;
     align-items: center;
@@ -163,7 +163,7 @@
 .osdPoster {
     width: 10%;
     position: relative;
-    margin-right: .5em;
+    margin-right: 0.5em;
 }
 
 .osdPoster img {
@@ -172,7 +172,7 @@
     width: 100%;
     -webkit-box-shadow: 0 0 1.9vh #000;
     box-shadow: 0 0 1.9vh #000;
-    border: .08em solid #222;
+    border: 0.08em solid #222;
     user-drag: none;
     user-select: none;
     -moz-user-select: none;
@@ -193,7 +193,7 @@
 }
 
 .osdSecondaryMediaInfo {
-    padding-left: .6em !important;
+    padding-left: 0.6em !important;
 }
 
 .osdTextContainer {
@@ -207,8 +207,8 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    margin-bottom: .7em;
-    padding-left: .5em;
+    margin-bottom: 0.7em;
+    padding-left: 0.5em;
 }
 
 .osdMainTextContainer {

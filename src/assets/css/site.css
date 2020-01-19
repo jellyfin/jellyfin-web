@@ -56,13 +56,13 @@ div[data-role=page] {
 }
 
 .fieldDescription {
-    padding-left: .15em;
+    padding-left: 0.15em;
     font-weight: 400;
     white-space: normal !important;
 }
 
 .fieldDescription+.fieldDescription {
-    margin-top: .3em;
+    margin-top: 0.3em;
 }
 
 .content-primary,
@@ -82,8 +82,8 @@ div[data-role=page] {
 
 .headerHelpButton {
     margin-left: 1.25em !important;
-    padding-bottom: .4em !important;
-    padding-top: .4em !important;
+    padding-bottom: 0.4em !important;
+    padding-top: 0.4em !important;
 }
 
 .mediaInfoContent {

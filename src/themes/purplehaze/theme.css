@@ -12,7 +12,7 @@ html {
 
 .emby-collapsible-button {
     border-color: #383838;
-    border-color: rgba(255, 255, 255, .135);
+    border-color: rgba(255, 255, 255, 0.135);
 }
 
 .skinHeader-withBackground {
@@ -48,7 +48,7 @@ html {
 }
 
 .backgroundContainer.withBackdrop {
-    opacity: .86;
+    opacity: 0.86;
 }
 
 @media (orientation: portrait) {
@@ -59,7 +59,7 @@ html {
 
 .paper-icon-button-light:hover:not(:disabled) {
     color: rgb(12, 232, 214);
-    background-color: rgba(0, 164, 220, .2);
+    background-color: rgba(0, 164, 220, 0.2);
 }
 
 .paper-icon-button-light.show-focus:focus {
@@ -67,25 +67,25 @@ html {
 }
 
 progress {
-    border-radius: .4em;
+    border-radius: 0.4em;
 }
 
 progress::-webkit-progress-bar {
-    border-radius: .4em;
+    border-radius: 0.4em;
 }
 
 progress::-moz-progress-bar {
-    border-radius: .4em;
+    border-radius: 0.4em;
 }
 
 progress::-webkit-progress-value {
-    border-radius: .4em;
+    border-radius: 0.4em;
 }
 
 .fab,
 .raised {
-    background: rgba(0, 0, 0, .5);
-    color: rgba(255, 255, 255, .87);
+    background: rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .fab:focus,
@@ -120,13 +120,13 @@ a[data-role=button] {
 .btnForgotPassword,
 .btnCancel,
 .button-cancel {
-    background: rgba(0, 0, 0, .5);
-    color: rgba(255, 255, 255, .87);
+    background: rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .alphaPickerButton {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, 0.5);
     background-color: transparent;
 }
 
@@ -149,7 +149,7 @@ a[data-role=button] {
 .btnManual:hover,
 .block:hover {
     background: rgb(12, 232, 214);
-    color: rgba(255, 255, 255, .87);
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .button-submit:focus {
@@ -158,7 +158,7 @@ a[data-role=button] {
 
 .button-delete {
     background: rgb(247, 0, 0);
-    color: rgba(255, 255, 255, .87);
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .itemName {
@@ -205,7 +205,7 @@ a[data-role=button] {
 .formDialogHeader:not(.formDialogHeader-clear),
 .paperList,
 .visualCardBox {
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 1.000em;
 }
 
@@ -245,38 +245,38 @@ a[data-role=button] {
 .programSecondaryTitle,
 .secondaryText {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .actionsheetDivider {
     background: #444;
-    background: rgba(255, 255, 255, .14);
+    background: rgba(255, 255, 255, 0.14);
 }
 
 .cardFooter-vibrant .cardText-secondary {
     color: inherit;
-    opacity: .5;
+    opacity: 0.5;
 }
 
 .actionSheetMenuItem:hover {
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .toast {
     background: #303030;
     color: #f8f8fe;
-    color: rgba(255, 255, 255, .87);
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .appfooter {
     background: #06256f;
     color: #ccc;
-    color: rgba(255, 255, 255, .78);
+    color: rgba(255, 255, 255, 0.78);
 }
 
 @supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
     .appfooter-blurred {
-        background: rgba(6, 37, 111, .7);
+        background: rgba(6, 37, 111, 0.7);
         backdrop-filter: blur(20px);
     }
 }
@@ -305,15 +305,15 @@ a[data-role=button] {
 
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #1c1c1c;
-    background: rgba(30, 30, 30, .9);
+    background: rgba(30, 30, 30, 0.9);
 }
 
 .listItem-border {
-    border-color: rgba(255, 255, 255, .1) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 .listItem:focus {
-    background: rgba(0, 0, 0, .3);
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .progressring-spiner {
@@ -327,7 +327,7 @@ a[data-role=button] {
 
 .mediaInfoText {
     color: #f8f8fe;
-    background: rgba(170, 170, 190, .2);
+    background: rgba(170, 170, 190, 0.2);
 }
 
 .mediaInfoTimerIcon,
@@ -351,8 +351,8 @@ a[data-role=button] {
 
 .emby-select-withcolor {
     color: inherit;
-    background: rgba(0, 0, 0, .5);
-    border: .07em solid transparent;
+    background: rgba(0, 0, 0, 0.5);
+    border: 0.07em solid transparent;
 }
 
 .emby-select-withcolor>option {
@@ -406,7 +406,7 @@ a[data-role=button] {
 
 .mainDrawer {
     color: #f8f8fe;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .drawer-open {
@@ -446,7 +446,7 @@ a[data-role=button] {
 .channelPrograms,
 .guide-channelHeaderCell,
 .programCell {
-    border-color: rgba(255, 255, 255, .05);
+    border-color: rgba(255, 255, 255, 0.05);
 }
 
 .programCell-sports {
@@ -466,7 +466,7 @@ a[data-role=button] {
 }
 
 .programCell-active {
-    background: rgba(0, 0, 0, .4) !important;
+    background: rgba(0, 0, 0, 0.4) !important;
 }
 
 .guide-channelHeaderCell:focus,
@@ -486,7 +486,7 @@ a[data-role=button] {
 
 .guide-date-tab-button {
     color: #555;
-    color: rgba(255, 255, 255, .3);
+    color: rgba(255, 255, 255, 0.3);
 }
 
 .guide-date-tab-button.emby-tab-button-active,
@@ -550,7 +550,7 @@ a[data-role=button] {
 }
 
 .layout-desktop ::-webkit-scrollbar {
-    width: .4em;
+    width: 0.4em;
     height: 1em;
 }
 
@@ -562,11 +562,11 @@ a[data-role=button] {
 }
 
 .timeslotHeaders-desktop::-webkit-scrollbar {
-    height: .7em;
+    height: 0.7em;
 }
 
 .mediaInfoOfficialRating {
-    border: .09em solid #583fa0;
+    border: 0.09em solid #583fa0;
     background-color: #dbe6ff;
     color: #0e0f2d;
 }

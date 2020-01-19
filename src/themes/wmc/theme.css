@@ -1,6 +1,6 @@
 html {
     color: #eee;
-    color: rgba(255, 255, 255, .9);
+    color: rgba(255, 255, 255, 0.9);
     background-color: #0f3562;
 }
 
@@ -12,12 +12,12 @@ html {
 
 .emby-collapsible-button {
     border-color: #383838;
-    border-color: rgba(255, 255, 255, .135);
+    border-color: rgba(255, 255, 255, 0.135);
 }
 
 .skinHeader {
     color: #ccc;
-    color: rgba(255, 255, 255, .78);
+    color: rgba(255, 255, 255, 0.78);
 }
 
 .formDialogHeader:not(.formDialogHeader-clear),
@@ -53,12 +53,12 @@ html {
 }
 
 .backgroundContainer.withBackdrop {
-    background: rgba(17, 98, 164, .9);
+    background: rgba(17, 98, 164, 0.9);
 }
 
 .paper-icon-button-light:hover:not(:disabled) {
     color: #00a4dc;
-    background-color: rgba(0, 164, 220, .2);
+    background-color: rgba(0, 164, 220, 0.2);
 }
 
 .paper-icon-button-light.show-focus:focus {
@@ -88,7 +88,7 @@ html {
 
 .button-delete {
     background: rgb(247, 0, 0);
-    color: rgba(255, 255, 255, .87);
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .checkboxLabel {
@@ -101,7 +101,7 @@ html {
 .paperListLabel,
 .textareaLabelUnfocused {
     color: #bbb;
-    color: rgba(255, 255, 255, .7);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .inputLabelFocused,
@@ -148,23 +148,23 @@ html {
 .programSecondaryTitle,
 .secondaryText {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .actionsheetDivider {
     background: #ddd;
-    background: rgba(255, 255, 255, .14);
+    background: rgba(255, 255, 255, 0.14);
 }
 
 .cardFooter-vibrant .cardText-secondary {
     color: inherit;
-    opacity: .5;
+    opacity: 0.5;
 }
 
 .toast {
     background: #081b3b;
     color: #fff;
-    color: rgba(255, 255, 255, .87);
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .appfooter,
@@ -192,7 +192,7 @@ html {
 
 .alphaPickerButton {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, 0.5);
     background-color: transparent;
 }
 
@@ -204,11 +204,11 @@ html {
 
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #1c1c1c;
-    background: rgba(0, 0, 0, .3);
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .listItem-border {
-    border-color: rgba(0, 0, 0, .3) !important;
+    border-color: rgba(0, 0, 0, 0.3) !important;
 }
 
 .listItem:focus {
@@ -226,7 +226,7 @@ html {
 
 .mediaInfoText {
     color: #ddd;
-    background: rgba(170, 170, 190, .2);
+    background: rgba(170, 170, 190, 0.2);
 }
 
 .mediaInfoTimerIcon,
@@ -250,8 +250,8 @@ html {
 
 .emby-select-withcolor {
     color: inherit;
-    background: rgba(255, 255, 255, .2);
-    border: .07em solid rgba(255, 255, 255, .135);
+    background: rgba(255, 255, 255, 0.2);
+    border: 0.07em solid rgba(255, 255, 255, 0.135);
 }
 
 .emby-checkbox:checked+span+.checkboxOutline,
@@ -299,13 +299,13 @@ html {
 .mainDrawer {
     background-color: #0f3562;
     color: #ccc;
-    color: rgba(255, 255, 255, .7);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .actionSheetMenuItem:hover,
 .navMenuOption:hover {
     background: #252528;
-    background: rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .navMenuOption-selected {
@@ -338,7 +338,7 @@ html {
 .guide-channelHeaderCell,
 .programCell {
     border-color: #999;
-    border-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .programCell-sports {
@@ -358,7 +358,7 @@ html {
 }
 
 .programCell-active {
-    background: rgba(0, 0, 0, .3) !important;
+    background: rgba(0, 0, 0, 0.3) !important;
 }
 
 .guide-channelHeaderCell:focus,
@@ -378,7 +378,7 @@ html {
 
 .guide-date-tab-button {
     color: #555;
-    color: rgba(255, 255, 255, .3);
+    color: rgba(255, 255, 255, 0.3);
 }
 
 .guide-date-tab-button.emby-tab-button-active,
