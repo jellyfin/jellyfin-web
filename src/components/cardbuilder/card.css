@@ -263,7 +263,7 @@ button::-moz-focus-inner {
 }
 
 .innerCardFooter {
-    background: rgba(0,0,0,.7);
+    background: rgba(0, 0, 0, .7);
     position: absolute;
     bottom: 0;
     left: 0;
@@ -403,7 +403,7 @@ button::-moz-focus-inner {
 }
 
 .cardOverlayButtonIcon {
-    background-color: rgba(0,0,0,.7) !important;
+    background-color: rgba(0, 0, 0, .7) !important;
     border-radius: 100em;
     width: 1.5em !important;
     height: 1.5em !important;
@@ -425,8 +425,8 @@ button::-moz-focus-inner {
     height: 2.6em;
     top: 50%;
     left: 50%;
-    background-color: rgba(0,0,0,.5) !important;
-    border: .06em solid rgba(255,255,255,.6);
+    background-color: rgba(0, 0, 0, .5) !important;
+    border: .06em solid rgba(255, 255, 255, .6);
     padding: .38em !important;
     color: rgba(255, 255, 255, .76);
     transition: transform 200ms ease-out;
@@ -730,7 +730,7 @@ button::-moz-focus-inner {
 }
 
 .cardOverlayContainer {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     opacity: 0;
     transition: opacity .2s;
     position: absolute;
@@ -761,7 +761,7 @@ button::-moz-focus-inner {
 }
 
 .cardOverlayFab-primary {
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     font-size: 130%;
     padding: 0;
     width: 3em;

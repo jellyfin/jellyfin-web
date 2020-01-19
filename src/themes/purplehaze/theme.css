@@ -20,7 +20,6 @@ html {
     background: -moz-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
     background: -webkit-linear-gradient(left, #000420 0%,#06256f 18%,#2b052b 38%,#2b052b 68%,#06256f 81%,#000420 100%);
     background: linear-gradient(to right, #000420 0%,#06256f 18%,#2b052b 38%,#2b052b 68%,#06256f 81%,#000420 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000420', endColorstr='#000420',GradientType=1 );
 }
 
 .skinHeader.semiTransparent {
@@ -60,7 +59,7 @@ html {
 
 .paper-icon-button-light:hover:not(:disabled) {
     color: rgb(12, 232, 214);
-    background-color: rgba(0,164,220, .2);
+    background-color: rgba(0, 164, 220, .2);
 }
 
 .paper-icon-button-light.show-focus:focus {

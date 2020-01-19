@@ -50,7 +50,7 @@
 }
 
 .mdl-radio__button:disabled + .mdl-radio__label + .mdl-radio__outer-circle {
-    border: 2px solid rgba(0,0,0, 0.26);
+    border: 2px solid rgba(0, 0, 0, 0.26);
     cursor: auto;
 }
 
@@ -81,7 +81,7 @@
 }
 
 .mdl-radio__button:disabled + .mdl-radio__label + .mdl-radio__outer-circle + .mdl-radio__inner-circle {
-    background: rgba(0,0,0, 0.26);
+    background: rgba(0, 0, 0, 0.26);
     cursor: auto;
 }
 
@@ -98,6 +98,6 @@
 }
 
 .mdl-radio__button:disabled + .mdl-radio__label {
-    color: rgba(0,0,0, 0.26);
+    color: rgba(0, 0, 0, 0.26);
     cursor: auto;
 }

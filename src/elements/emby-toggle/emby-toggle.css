@@ -41,7 +41,7 @@
 }
 
 .mdl-switch__track {
-    background: rgba(128,128,128, 0.5);
+    background: rgba(128, 128, 128, 0.5);
     height: 1em;
     border-radius: 1em;
     cursor: pointer;
@@ -52,7 +52,7 @@
 }
 
 .mdl-switch__input[disabled] + .mdl-switch__label + .mdl-switch__trackContainer > .mdl-switch__track {
-    background: rgba(0,0,0, 0.12);
+    background: rgba(0, 0, 0, 0.12);
     cursor: auto;
 }
 
@@ -81,7 +81,7 @@
 }
 
 .mdl-switch__input[disabled] + .mdl-switch__label + .mdl-switch__trackContainer > .mdl-switch__thumb {
-    background: rgb(189,189,189);
+    background: rgb(189, 189, 189);
     cursor: auto;
 }
 
@@ -117,6 +117,6 @@
 }
 
 .mdl-switch__input[disabled] .mdl-switch__label {
-    color: rgb(189,189,189);
+    color: rgb(189, 189, 189);
     cursor: auto;
 }
