@@ -18,6 +18,7 @@
         opacity: 0;
     }
 }
+
 @keyframes view-fadein {
     from {
         opacity: 0;
