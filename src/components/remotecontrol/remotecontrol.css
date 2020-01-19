@@ -66,7 +66,7 @@
     flex-shrink: 0;
 }
 
-@media all and (min-width:50em) {
+@media all and (min-width: 50em) {
     .nowPlayingPageImageContainer {
         width: 16%;
     }
@@ -102,7 +102,7 @@
     -ms-user-select: none
 }
 
-@media all and (orientation:portrait) and (max-width:50em) {
+@media all and (orientation: portrait) and (max-width: 50em) {
     .nowPlayingInfoContainer {
         -webkit-box-orient: vertical !important;
         -webkit-box-direction: normal !important;
@@ -144,7 +144,7 @@
     }
 }
 
-@media all and (orientation:portrait) and (max-width:40em) {
+@media all and (orientation: portrait) and (max-width: 40em) {
     .nowPlayingPageImage {
         height: 30vh;
     }
@@ -172,7 +172,7 @@
     justify-content: center;
 }
 
-@media all and (min-width:50em) {
+@media all and (min-width: 50em) {
     .nowPlayingSecondaryButtons {
         -webkit-box-flex: 1;
         -webkit-flex-grow: 1;
@@ -183,7 +183,7 @@
     }
 }
 
-@media all and (min-width:80em) {
+@media all and (min-width: 80em) {
     .nowPlayingPageImageContainer {
         margin-right: .75em;
     }
@@ -214,7 +214,7 @@
     width: 9em;
 }
 
-@media all and (max-width:50em) {
+@media all and (max-width: 50em) {
     .nowPlayingInfoButtons .nowPlayingPageUserDataButtons {
         display: none !important;
     }
@@ -223,13 +223,13 @@
     }
 }
 
-@media all and (max-width:47em) {
+@media all and (max-width: 47em) {
     .nowPlayingInfoButtons .repeatToggleButton {
         display: none !important;
     }
 }
 
-@media all and (max-width:34em) {
+@media all and (max-width: 34em) {
     .nowPlayingInfoButtons .btnNowPlayingFastForward,
     .nowPlayingInfoButtons .btnNowPlayingRewind,
     .nowPlayingInfoButtons .playlist .listItemMediaInfo {

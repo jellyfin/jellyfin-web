@@ -11,14 +11,14 @@
     max-width: none !important;
 }
 
-@media all and (min-height:600px) {
+@media all and (min-height: 600px) {
     .dynamicFilterDialog {
         top: 10% !important;
         bottom: 25% !important;
     }
 }
 
-@media all and (max-width:400px) {
+@media all and (max-width: 400px) {
     .dynamicFilterDialog {
         width: auto;
         left: 10vw !important;
@@ -27,7 +27,7 @@
     }
 }
 
-@media all and (min-width:400px) {
+@media all and (min-width: 400px) {
     .dynamicFilterDialog {
         width: 20.16em;
         margin-left: -10.08em !important;

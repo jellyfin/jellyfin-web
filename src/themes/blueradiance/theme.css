@@ -52,7 +52,7 @@ html {
     opacity: .86;
 }
 
-@media (orientation:portrait) {
+@media (orientation: portrait) {
     .backgroundContainer {
         background-position: 30% top;
     }

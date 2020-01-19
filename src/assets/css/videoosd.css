@@ -53,14 +53,14 @@
     min-width: 20vh;
 }
 
-@media all and (orientation:portrait) {
+@media all and (orientation: portrait) {
     .chapterThumb {
         height: 30vw;
         min-width: 30vw;
     }
 }
 
-@media all and (max-height:50em) and (orientation:landscape) {
+@media all and (max-height: 50em) and (orientation: landscape) {
     .chapterThumb {
         height: 30vh;
         min-width: 30vh;
@@ -253,7 +253,7 @@
     position: fixed;
 }
 
-@media all and (max-width:30em) {
+@media all and (max-width: 30em) {
 
     .btnFastForward,
     .btnRewind,
@@ -263,26 +263,26 @@
     }
 }
 
-@media all and (max-width:33.75em) {
+@media all and (max-width: 33.75em) {
     .videoOsdBottom .paper-icon-button-light {
         margin: 0;
     }
 }
 
-@media all and (max-width:43em) {
+@media all and (max-width: 43em) {
     .videoOsdBottom .volumeButtons,
     .osdMediaStatus span {
         display: none !important;
     }
 }
 
-@media all and (max-width:50em) {
+@media all and (max-width: 50em) {
     .videoOsdBottom .btnFastForward, .videoOsdBottom .btnRewind {
         display: none !important;
     }
 }
 
-@media all and (max-width:75em) {
+@media all and (max-width: 75em) {
     .videoOsdBottom .endsAtText {
         display: none !important;
     }

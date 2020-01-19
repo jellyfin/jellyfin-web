@@ -73,7 +73,7 @@ div[data-role=page] {
     padding-bottom: 5em !important;
 }
 
-@media all and (min-width:50em) {
+@media all and (min-width: 50em) {
     .readOnlyContent,
     form {
         max-width: 54em;

@@ -166,25 +166,25 @@
     width: 24vw;
 }
 
-@media all and (min-width:31.25em) {
+@media all and (min-width: 31.25em) {
     .channelsContainer, .guide-channelTimeslotHeader {
         width: 16vw;
     }
 }
 
-@media all and (min-width:37.5em) {
+@media all and (min-width: 37.5em) {
     .channelsContainer, .guide-channelTimeslotHeader {
         width: 16vw;
     }
 }
 
-@media all and (min-width:50em) {
+@media all and (min-width: 50em) {
     .channelsContainer, .guide-channelTimeslotHeader {
         width: 14vw;
     }
 }
 
-@media all and (min-width:80em) {
+@media all and (min-width: 80em) {
     .channelsContainer, .guide-channelTimeslotHeader {
         width: 12vw;
     }
