@@ -86,7 +86,7 @@
 }
 
 .missingIndicator, .unairedIndicator {
-    background: #cc3333;
+    background: #c33;
     padding: .25em .5em;
     border-radius: 100em;
     color: #fff;
