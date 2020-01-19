@@ -347,7 +347,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 .sessionNowPlayingDetails {
     display: flex;
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     width: 100%;
 }
 
@@ -370,7 +370,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .playbackProgress,
 .transcodingProgress {
-    margin: 0px;
+    margin: 0;
     width: 100%;
     background: transparent !important;
 }

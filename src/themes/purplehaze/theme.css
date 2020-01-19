@@ -213,8 +213,8 @@ a[data-role=button] {
     border-radius: 0.8em;
 }
 .visualCardBox .cardOverlayContainer {
-    border-bottom-right-radius: 0em;
-    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .defaultCardBackground1 {
