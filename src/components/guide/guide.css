@@ -263,7 +263,7 @@
     position: relative;
     flex-grow: 1;
     contain: layout style paint;
-    /*transition: transform 60ms ease-out;*/
+    /* transition: transform 60ms ease-out; */
 }
 
 .guide-programNameCaret {
