@@ -193,7 +193,7 @@
     width: 30em;
 }
 
-.smallBackdropPosterItem .cardOverlayInner>div {
+.smallBackdropPosterItem .cardOverlayInner> div {
     white-space: nowrap;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;

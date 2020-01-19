@@ -48,8 +48,8 @@ progress[aria-valuenow]:before {
 }
 
 @media all and (min-width: 50em) {
-    .type-interior>div[data-role=content],
-    .type-interior>.ui-panel-content-wrap>div[data-role=content] {
+    .type-interior> div[data-role=content],
+    .type-interior> .ui-panel-content-wrap> div[data-role=content] {
         padding-right: 0;
         padding-left: 0;
         padding-top: 0;
@@ -112,7 +112,7 @@ div[data-role=controlgroup] a[data-role=button]:last-child {
     border-top-right-radius: .3125em;
 }
 
-div[data-role=controlgroup] a[data-role=button]+a[data-role=button] {
+div[data-role=controlgroup] a[data-role=button]+ a[data-role=button] {
     border-left-width: 0 !important;
     margin: 0 0 0 -0.4em !important;
 }
@@ -227,7 +227,7 @@ div[data-role=controlgroup] a.ui-btn-active {
     margin-bottom: 0.5em;
 }
 
-.activeRecordingItems>.card {
+.activeRecordingItems> .card {
     width: 50%;
 }
 
@@ -253,7 +253,7 @@ div[data-role=controlgroup] a.ui-btn-active {
         padding: 0 1.5em;
     }
 
-    .activeRecordingItems>.card {
+    .activeRecordingItems> .card {
         width: 25%;
     }
 }
@@ -333,7 +333,7 @@ div[data-role=controlgroup] a.ui-btn-active {
     font-weight: 400;
 }
 
-.sessionNowPlayingContent-withbackground+.sessionNowPlayingInnerContent {
+.sessionNowPlayingContent-withbackground+ .sessionNowPlayingInnerContent {
     color: #fff !important;
     background: rgba(0, 0, 0, 0.7);
 }
@@ -418,7 +418,7 @@ div[data-role=controlgroup] a.ui-btn-active {
     text-decoration: none !important;
 }
 
-.appLinks a+a {
+.appLinks a+ a {
     margin-left: 5px;
 }
 

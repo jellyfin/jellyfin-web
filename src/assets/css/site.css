@@ -61,7 +61,7 @@ div[data-role=page] {
     white-space: normal !important;
 }
 
-.fieldDescription+.fieldDescription {
+.fieldDescription+ .fieldDescription {
     margin-top: 0.3em;
 }
 
