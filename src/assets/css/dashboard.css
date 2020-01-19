@@ -22,7 +22,7 @@ progress {
     background: #ccc !important;
 }
 
-progress[role]:after {
+progress[role]::after {
     background-image: none;
 }
 
@@ -38,7 +38,7 @@ progress::-webkit-progress-value {
     background-color: #00a4dc;
 }
 
-progress[aria-valuenow]:before {
+progress[aria-valuenow]::before {
     border-radius: 0.4em;
     background-color: #00a4dc;
 }
