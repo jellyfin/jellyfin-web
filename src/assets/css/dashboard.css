@@ -50,8 +50,7 @@ progress[aria-valuenow]:before {
 @media all and (min-width:50em) {
 
     .type-interior>div[data-role=content],
-    .type-interior>.ui-panel-content-wrap>div[data-role=content]
-     {
+    .type-interior>.ui-panel-content-wrap>div[data-role=content] {
         padding-right: 0;
         padding-left: 0;
         padding-top: 0;
@@ -458,7 +457,7 @@ div[data-role=controlgroup] a.ui-btn-active {
     box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37)
 }
 
-.ui-bar-a{
+.ui-bar-a {
     text-align: center;
     padding: 0 20px;
 }

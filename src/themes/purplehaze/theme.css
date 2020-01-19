@@ -584,11 +584,11 @@ a[data-role=button] {
     contain: strict;
 }
 
-.personCard .coveredImage  {
+.personCard .coveredImage {
     clip-path: circle(50% at 50% 50%);
 }
 
-.personCard .cardOverlayContainer  {
+.personCard .cardOverlayContainer {
     clip-path: circle(50% at 50% 50%);
 }
 
