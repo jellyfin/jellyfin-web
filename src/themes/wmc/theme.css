@@ -1,23 +1,23 @@
 html {
     color: #eee;
     color: rgba(255, 255, 255, .9);
-    background-color: #0f3562
+    background-color: #0f3562;
 }
 
 .wizardStartForm,
 .ui-corner-all,
 .ui-shadow {
-  background-color: #0c2450
+  background-color: #0c2450;
 }
 
 .emby-collapsible-button {
     border-color: #383838;
-    border-color: rgba(255, 255, 255, .135)
+    border-color: rgba(255, 255, 255, .135);
 }
 
 .skinHeader {
     color: #ccc;
-    color: rgba(255, 255, 255, .78)
+    color: rgba(255, 255, 255, .78);
 }
 
 .formDialogHeader:not(.formDialogHeader-clear),
@@ -40,7 +40,7 @@ html {
 }
 
 .pageTitleWithDefaultLogo {
-    background-image: url(../../assets/img/banner-light.png)
+    background-image: url(../../assets/img/banner-light.png);
 }
 
 .backgroundContainer,
@@ -53,7 +53,7 @@ html {
 }
 
 .backgroundContainer.withBackdrop {
-    background: rgba(17, 98, 164, .9)
+    background: rgba(17, 98, 164, .9);
 }
 
 .paper-icon-button-light:hover:not(:disabled) {
@@ -68,31 +68,31 @@ html {
 .fab,
 .raised {
     background: #082845;
-    color: #fff
+    color: #fff;
 }
 
 .fab:focus,
 .raised:focus {
-    background: #143451
+    background: #143451;
 }
 
 .button-submit {
     background: #00a4dc;
-    color: #fff
+    color: #fff;
 }
 
 .button-submit:focus {
     background: #0cb0e8;
-    color: #fff
+    color: #fff;
 }
 
 .button-delete {
     background: rgb(247, 0, 0);
-    color: rgba(255, 255, 255, .87)
+    color: rgba(255, 255, 255, .87);
 }
 
 .checkboxLabel {
-    color: inherit
+    color: inherit;
 }
 
 .checkboxListLabel,
@@ -101,43 +101,43 @@ html {
 .paperListLabel,
 .textareaLabelUnfocused {
     color: #bbb;
-    color: rgba(255, 255, 255, .7)
+    color: rgba(255, 255, 255, .7);
 }
 
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: #00a4dc
+    color: #00a4dc;
 }
 
 .checkboxOutline {
-    border-color: currentColor
+    border-color: currentColor;
 }
 
 .collapseContent,
 .paperList,
 .visualCardBox {
-    background-color: #0f3562
+    background-color: #0f3562;
 }
 
 .defaultCardBackground1 {
-    background-color: #d2b019
+    background-color: #d2b019;
 }
 
 .defaultCardBackground2 {
-    background-color: #338abb
+    background-color: #338abb;
 }
 
 .defaultCardBackground3 {
-    background-color: #6b689d
+    background-color: #6b689d;
 }
 
 .defaultCardBackground4 {
-    background-color: #dd452b
+    background-color: #dd452b;
 }
 
 .defaultCardBackground5 {
-    background-color: #5ccea9
+    background-color: #5ccea9;
 }
 
 .cardText-secondary,
@@ -148,23 +148,23 @@ html {
 .programSecondaryTitle,
 .secondaryText {
     color: #999;
-    color: rgba(255, 255, 255, .5)
+    color: rgba(255, 255, 255, .5);
 }
 
 .actionsheetDivider {
     background: #ddd;
-    background: rgba(255, 255, 255, .14)
+    background: rgba(255, 255, 255, .14);
 }
 
 .cardFooter-vibrant .cardText-secondary {
     color: inherit;
-    opacity: .5
+    opacity: .5;
 }
 
 .toast {
     background: #081b3b;
     color: #fff;
-    color: rgba(255, 255, 255, .87)
+    color: rgba(255, 255, 255, .87);
 }
 
 .appfooter,
@@ -178,60 +178,60 @@ html {
 }
 
 .itemSelectionPanel {
-    border: 1px solid #00a4dc
+    border: 1px solid #00a4dc;
 }
 
 .selectionCommandsPanel {
     background: #00a4dc;
-    color: #fff
+    color: #fff;
 }
 
 .upNextDialog-countdownText {
-    color: #00a4dc
+    color: #00a4dc;
 }
 
 .alphaPickerButton {
     color: #999;
     color: rgba(255, 255, 255, .5);
-    background-color: transparent
+    background-color: transparent;
 }
 
 .alphaPickerButton-selected,
 .alphaPickerButton-tv:focus {
     background-color: #00a4dc;
-    color: #fff !important
+    color: #fff !important;
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #1c1c1c;
-    background: rgba(0, 0, 0, .3)
+    background: rgba(0, 0, 0, .3);
 }
 
 .listItem-border {
-    border-color: rgba(0, 0, 0, .3) !important
+    border-color: rgba(0, 0, 0, .3) !important;
 }
 
 .listItem:focus {
-    background: #333
+    background: #333;
 }
 
 .progressring-spiner {
-    border-color: #00a4dc
+    border-color: #00a4dc;
 }
 
 .button-flat-accent,
 .button-link {
-    color: #00a4dc
+    color: #00a4dc;
 }
 
 .mediaInfoText {
     color: #ddd;
-    background: rgba(170, 170, 190, .2)
+    background: rgba(170, 170, 190, .2);
 }
 
 .mediaInfoTimerIcon,
 .starIcon {
-    color: #cb272a
+    color: #cb272a;
 }
 
 .emby-input,
@@ -240,23 +240,23 @@ html {
     background: rgba(255, 255, 255, .2);
     border: .07em solid rgba(255, 255, 255, .135);
     -webkit-border-radius: .15em;
-    border-radius: .15em
+    border-radius: .15em;
 }
 
 .emby-input:focus,
 .emby-textarea:focus {
-    border-color: #00a4dc
+    border-color: #00a4dc;
 }
 
 .emby-select-withcolor {
     color: inherit;
     background: rgba(255, 255, 255, .2);
-    border: .07em solid rgba(255, 255, 255, .135)
+    border: .07em solid rgba(255, 255, 255, .135);
 }
 
 .emby-checkbox:checked+span+.checkboxOutline,
 .emby-select-withcolor:focus {
-    border-color: #00a4dc
+    border-color: #00a4dc;
 }
 
 .emby-checkbox:focus+span+.checkboxOutline {
@@ -265,7 +265,7 @@ html {
 
 .emby-checkbox:checked+span+.checkboxOutline,
 .itemProgressBarForeground {
-    background-color: #00a4dc
+    background-color: #00a4dc;
 }
 
 .emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
@@ -274,48 +274,48 @@ html {
 
 .emby-select-withcolor>option {
     color: #000;
-    background: #fff
+    background: #fff;
 }
 
 .emby-select-tv-withcolor:focus {
     background-color: #00a4dc;
-    color: #fff
+    color: #fff;
 }
 
 .itemProgressBarForeground-recording {
-    background-color: #cb272a
+    background-color: #cb272a;
 }
 
 .countIndicator,
 .fullSyncIndicator,
 .playedIndicator {
-    background: #00a4dc
+    background: #00a4dc;
 }
 
 .fullSyncIndicator {
-    color: #fff
+    color: #fff;
 }
 
 .mainDrawer {
     background-color: #0f3562;
     color: #ccc;
-    color: rgba(255, 255, 255, .7)
+    color: rgba(255, 255, 255, .7);
 }
 
 .actionSheetMenuItem:hover,
 .navMenuOption:hover {
     background: #252528;
-    background: rgba(0, 0, 0, .2)
+    background: rgba(0, 0, 0, .2);
 }
 
 .navMenuOption-selected {
     background: #00a4dc !important;
-    color: #fff
+    color: #fff;
 }
 
 .emby-button.show-focus:focus {
     background: #00a4dc;
-    color: #fff
+    color: #fff;
 }
 
 .emby-tab-button {
@@ -323,7 +323,7 @@ html {
 }
 
 .emby-tab-button-active {
-    color: #fff
+    color: #fff;
 }
 
 .emby-tab-button.show-focus:focus {
@@ -338,57 +338,57 @@ html {
 .guide-channelHeaderCell,
 .programCell {
     border-color: #999;
-    border-color: rgba(255, 255, 255, .1)
+    border-color: rgba(255, 255, 255, .1);
 }
 
 .programCell-sports {
-    background: #3949ab !important
+    background: #3949ab !important;
 }
 
 .programCell-movie {
-    background: #5e35b1 !important
+    background: #5e35b1 !important;
 }
 
 .programCell-kids {
-    background: #039be5 !important
+    background: #039be5 !important;
 }
 
 .programCell-news {
-    background: #43a047 !important
+    background: #43a047 !important;
 }
 
 .programCell-active {
-    background: rgba(0, 0, 0, .3) !important
+    background: rgba(0, 0, 0, .3) !important;
 }
 
 .guide-channelHeaderCell:focus,
 .programCell:focus {
     background-color: #00a4dc !important;
-    color: #fff !important
+    color: #fff !important;
 }
 
 .guide-programTextIcon {
     color: #1e1e1e;
-    background: #555
+    background: #555;
 }
 
 .guide-headerTimeslots {
-    color: inherit
+    color: inherit;
 }
 
 .guide-date-tab-button {
     color: #555;
-    color: rgba(255, 255, 255, .3)
+    color: rgba(255, 255, 255, .3);
 }
 
 .guide-date-tab-button.emby-tab-button-active,
 .guide-date-tab-button:focus {
-    color: #00a4dc
+    color: #00a4dc;
 }
 
 .guide-date-tab-button.show-focus:focus {
     background-color: #00a4dc;
-    color: #fff
+    color: #fff;
 }
 
 .infoBanner {
@@ -396,52 +396,52 @@ html {
     background: #fff3a5;
     padding: 1em;
     -webkit-border-radius: .25em;
-    border-radius: .25em
+    border-radius: .25em;
 }
 
 .ratingbutton-icon-withrating {
-    color: #c33
+    color: #c33;
 }
 
 .downloadbutton-icon-complete,
 .downloadbutton-icon-on {
-    color: #4285f4
+    color: #4285f4;
 }
 
 .playstatebutton-icon-played {
-    color: #c33
+    color: #c33;
 }
 
 .repeatButton-active {
-    color: #4285f4
+    color: #4285f4;
 }
 
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
-    border-color: #fff !important
+    border-color: #fff !important;
 }
 
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: #081b3b
+    background-color: #081b3b;
 }
 
 .layout-desktop ::-webkit-scrollbar {
     width: 1em;
-    height: 1em
+    height: 1em;
 }
 
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
     border-radius: 2px;
     -webkit-border-radius: 2px;
-    background: center no-repeat rgba(255, 255, 255, .7)
+    background: center no-repeat rgba(255, 255, 255, .7);
 }
 
 .metadataSidebarIcon {
-    color: #00a4dc
+    color: #00a4dc;
 }

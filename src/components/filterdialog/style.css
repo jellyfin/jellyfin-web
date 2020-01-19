@@ -8,13 +8,13 @@
     -webkit-border-radius: 0 !important;
     border-radius: 0 !important;
     max-height: none !important;
-    max-width: none !important
+    max-width: none !important;
 }
 
 @media all and (min-height:600px) {
     .dynamicFilterDialog {
         top: 10% !important;
-        bottom: 25% !important
+        bottom: 25% !important;
     }
 }
 
@@ -23,7 +23,7 @@
         width: auto;
         left: 10vw !important;
         right: 10vw !important;
-        margin-left: 0 !important
+        margin-left: 0 !important;
     }
 }
 
@@ -31,6 +31,6 @@
     .dynamicFilterDialog {
         width: 20.16em;
         margin-left: -10.08em !important;
-        left: 50% !important
+        left: 50% !important;
     }
 }

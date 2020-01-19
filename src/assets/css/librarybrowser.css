@@ -1,7 +1,7 @@
 .headerUserImage,
 .navMenuOption,
 .pageTitle {
-    vertical-align: middle
+    vertical-align: middle;
 }
 
 .detailButton-mobile,
@@ -9,7 +9,7 @@
 .listPaging,
 .sectionTabs,
 .viewSettings {
-    text-align: center
+    text-align: center;
 }
 
 .headerSelectedPlayer,
@@ -17,27 +17,27 @@
 .navMenuOptionText {
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
-    overflow: hidden
+    overflow: hidden;
 }
 
 .libraryPage {
-    padding-top: 7em !important
+    padding-top: 7em !important;
 }
 
 .itemDetailPage {
-    padding-top: 0em !important
+    padding-top: 0em !important;
 }
 
 .standalonePage {
-    padding-top: 4.5em !important
+    padding-top: 4.5em !important;
 }
 
 .wizardPage {
-    padding-top: 7em !important
+    padding-top: 7em !important;
 }
 
 .libraryPage:not(.noSecondaryNavPage) {
-    padding-top: 7.5em !important
+    padding-top: 7.5em !important;
 }
 
 .absolutePageTabContent {
@@ -50,11 +50,11 @@
     top: 6.9em !important;
     -webkit-transition: -webkit-transform .2s ease-out;
     -o-transition: transform .2s ease-out;
-    transition: transform .2s ease-out
+    transition: transform .2s ease-out;
 }
 
 .pageTabContent:not(.is-active) {
-    display: none !important
+    display: none !important;
 }
 
 .headerUserImage {
@@ -64,7 +64,7 @@
     background-position: center center;
     -webkit-border-radius: 100em;
     border-radius: 100em;
-    display: inline-block
+    display: inline-block;
 }
 
 .headerUserButtonRound div {
@@ -77,11 +77,11 @@
 
 .headerButton {
     -webkit-flex-shrink: 0;
-    flex-shrink: 0
+    flex-shrink: 0;
 }
 
 .hideMainDrawer .mainDrawerButton {
-    display: none
+    display: none;
 }
 
 .headerLeft,
@@ -97,12 +97,12 @@
     align-items: center;
     -webkit-box-pack: end;
     -webkit-justify-content: flex-end;
-    justify-content: flex-end
+    justify-content: flex-end;
 }
 
 .noHeaderRight .headerRight,
 .noHomeButtonHeader .headerHomeButton {
-    display: none !important
+    display: none !important;
 }
 
 .pageTitle {
@@ -115,7 +115,7 @@
     -webkit-align-items: center;
     align-items: center;
     -webkit-flex-shrink: 1;
-    flex-shrink: 1
+    flex-shrink: 1;
 }
 
 .headerLeft,
@@ -137,7 +137,7 @@
     -webkit-background-size: contain;
     background-size: contain;
     background-repeat: no-repeat;
-    width: 13.2em
+    width: 13.2em;
 }
 
 .skinHeader {
@@ -149,7 +149,7 @@
     border: 0;
     display: flex;
     flex-direction: column;
-    contain: layout style paint
+    contain: layout style paint;
 }
 
 .headerLeft,
@@ -158,11 +158,11 @@
 }
 
 .hiddenViewMenuBar .skinHeader {
-    display: none
+    display: none;
 }
 
 .headerTop {
-    padding: .54em 0
+    padding: .54em 0;
 }
 
 .headerLeft {
@@ -177,11 +177,11 @@
 }
 
 .sectionTabs {
-    width: 100%
+    width: 100%;
 }
 
 .selectedMediaFolder {
-    background-color: #f2f2f2 !important
+    background-color: #f2f2f2 !important;
 }
 
 .navMenuOption {
@@ -200,22 +200,22 @@
     font-weight: 400 !important;
     margin: 0 !important;
     -webkit-border-radius: 0 !important;
-    border-radius: 0 !important
+    border-radius: 0 !important;
 }
 
 .navMenuOptionIcon {
     margin-right: 1.2em;
     -webkit-flex-shrink: 0;
-    flex-shrink: 0
+    flex-shrink: 0;
 }
 
 .navMenuOptionText {
-    white-space: nowrap
+    white-space: nowrap;
 }
 
 .sidebarHeader {
     padding-left: 1.2em;
-    margin: 1em 0 .5em
+    margin: 1em 0 .5em;
 }
 
 .dashboardDocument .skinBody {
@@ -226,24 +226,24 @@
     top: 0;
     right: 0;
     bottom: 0;
-    left: 0
+    left: 0;
 }
 
 .layout-desktop .searchTabButton,
 .layout-mobile .searchTabButton,
 .layout-tv .headerSearchButton {
-    display: none !important
+    display: none !important;
 }
 
 .mainDrawer-scrollContainer {
-    padding-bottom: 10vh
+    padding-bottom: 10vh;
 }
 
 @media all and (min-width:40em) {
 
     .dashboardDocument .adminDrawerLogo,
     .dashboardDocument .mainDrawerButton {
-        display: none !important
+        display: none !important;
     }
 
     .dashboardDocument .mainDrawer {
@@ -255,21 +255,21 @@
         -webkit-box-shadow: none !important;
         box-shadow: none !important;
         width: 20.205em !important;
-        font-size: 94%
+        font-size: 94%;
     }
 
     .dashboardDocument .mainDrawer-scrollContainer {
-        margin-top: 5em !important
+        margin-top: 5em !important;
     }
 
     .dashboardDocument .skinBody {
-        left: 20em
+        left: 20em;
     }
 }
 
 @media all and (max-width:60em) {
     .libraryDocument .mainDrawerButton {
-        display: none
+        display: none;
     }
 }
 
@@ -285,7 +285,7 @@
 
 @media all and (min-width:84em) {
     .headerTop {
-        padding: 1.489em 0
+        padding: 1.489em 0;
     }
 
     .headerTabs {
@@ -300,19 +300,19 @@
         justify-content: center;
         margin-top: -3.34em;
         position: relative;
-        top: -1.05em
+        top: -1.05em;
     }
 
     .libraryPage:not(.noSecondaryNavPage) {
-        padding-top: 4.6em !important
+        padding-top: 4.6em !important;
     }
 
     .pageWithAbsoluteTabs:not(.noSecondaryNavPage) {
-        padding-top: 6.7em !important
+        padding-top: 6.7em !important;
     }
 
     .absolutePageTabContent {
-        top: 5.7em !important
+        top: 5.7em !important;
     }
 
     .dashboardDocument .mainDrawer-scrollContainer {
@@ -322,22 +322,22 @@
 
 .headerSelectedPlayer {
     max-width: 10em;
-    white-space: nowrap
+    white-space: nowrap;
 }
 
 @media all and (max-width:37.5em) {
     .headerSelectedPlayer {
-        display: none
+        display: none;
     }
 }
 
 .hidingAnimatedTab {
-    visibility: hidden
+    visibility: hidden;
 }
 
 .headerArrowImage {
     height: 20px;
-    margin-left: .5em
+    margin-left: .5em;
 }
 
 .backdropContainer {
@@ -346,30 +346,30 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: -1
+    z-index: -1;
 }
 
 .libraryPage .header {
-    padding-bottom: 0
+    padding-bottom: 0;
 }
 
 .flexPageTabContent.is-active {
     display: -webkit-box !important;
     display: -webkit-flex !important;
-    display: flex !important
+    display: flex !important;
 }
 
 .viewSettings {
-    margin: 0 0 .25em
+    margin: 0 0 .25em;
 }
 
 .listTopPaging,
 .viewControls {
-    display: inline-block
+    display: inline-block;
 }
 
 .viewControls+.listTopPaging {
-    margin-left: .5em !important
+    margin-left: .5em !important;
 }
 
 .criticReview {
@@ -378,60 +378,60 @@
     padding: .8em .8em .8em 3em;
     -webkit-border-radius: .3em;
     border-radius: .3em;
-    position: relative
+    position: relative;
 }
 
 .detailLogo,
 .itemBackdrop {
     background-repeat: no-repeat;
-    background-position: center center
+    background-position: center center;
 }
 
 .criticReview:first-child {
-    margin-top: .5em
+    margin-top: .5em;
 }
 
 .criticReview img {
-    width: 2.4em
+    width: 2.4em;
 }
 
 .criticRatingScore {
-    margin-bottom: .5em
+    margin-bottom: .5em;
 }
 
 .itemTag {
     display: inline-block;
-    margin-right: 1em
+    margin-right: 1em;
 }
 
 .itemOverview {
-    white-space: pre-wrap
+    white-space: pre-wrap;
 }
 
 .itemLinks {
-    padding: 0
+    padding: 0;
 }
 
 .itemLinks p {
-    margin: .5em 0
+    margin: .5em 0;
 }
 
 .reviewLink,
 .reviewerName {
-    margin-top: .5em
+    margin-top: .5em;
 }
 
 .reviewerName {
-    color: #ccc
+    color: #ccc;
 }
 
 .reviewDate {
-    margin-left: 1em
+    margin-left: 1em;
 }
 
 .reviewScore {
     position: absolute;
-    left: .8em
+    left: .8em;
 }
 
 .itemBackdrop {
@@ -440,19 +440,19 @@
     background-repeat: no-repeat;
     background-position: center;
     height: 50vh;
-    position: relative
+    position: relative;
 }
 
 .itemBackdropProgressBar {
     position: absolute !important;
     bottom: 0;
     left: 0;
-    right: 0
+    right: 0;
 }
 
 .desktopMiscInfoContainer {
     position: absolute;
-    bottom: .75em
+    bottom: .75em;
 }
 
 .detailPagePrimaryContainer {
@@ -510,7 +510,7 @@
     position: relative;
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
-    flex-grow: 1
+    flex-grow: 1;
 }
 
 .detailLogo {
@@ -520,18 +520,18 @@
     top: 14.5%;
     right: 10.5%;
     -webkit-background-size: contain;
-    background-size: contain
+    background-size: contain;
 }
 
 @media all and (max-width:87.5em) {
     .detailLogo {
-        right: 5%
+        right: 5%;
     }
 }
 
 @media all and (max-width:75em) {
     .detailLogo {
-        right: 2%
+        right: 2%;
     }
 }
 
@@ -543,7 +543,7 @@
         bottom: 5%;
         top: auto;
         background-position: center right;
-        display: none
+        display: none;
     }
 }
 
@@ -555,23 +555,23 @@
 
 @media all and (max-width:62.5em) {
     .detailPageContent {
-        position: relative
+        position: relative;
     }
 
     .btnPlaySimple {
-        display: none !important
+        display: none !important;
     }
 }
 
 @media all and (max-width:75em) {
     .lnkSibling {
-        display: none !important
+        display: none !important;
     }
 }
 
 .parentName {
     display: block;
-    margin-bottom: .5em
+    margin-bottom: .5em;
 }
 
 .emby-button.detailFloatingButton {
@@ -582,36 +582,36 @@
     left: 50%;
     margin: -2.2em 0 0 -2.2em;
     padding: 0.4em !important;
-    color: rgba(255, 255, 255, .76)
+    color: rgba(255, 255, 255, .76);
 }
 
 .emby-button.detailFloatingButton i {
-    font-size: 3.5em
+    font-size: 3.5em;
 }
 
 @media all and (max-width:62.5em) {
     .parentName {
-        margin-bottom: 1em
+        margin-bottom: 1em;
     }
 
     .itemDetailPage {
-        padding-top: 0 !important
+        padding-top: 0 !important;
     }
 
     .detailimg-hidemobile {
-        display: none
+        display: none;
     }
 }
 
 @media all and (min-width:31.25em) {
     .mobileDetails {
-        display: none
+        display: none;
     }
 }
 
 @media all and (max-width:31.25em) {
     .desktopDetails {
-        display: none !important
+        display: none !important;
     }
 }
 
@@ -623,19 +623,19 @@
 }
 
 .itemName {
-    margin: .5em 0
+    margin: .5em 0;
 }
 
 .empty {
-    margin: 0
+    margin: 0;
 }
 
 .detailCollapsibleSection:not(.hide)+.detailCollapsibleSection {
-    margin-top: -2em
+    margin-top: -2em;
 }
 
 .detailPageCollabsible {
-    margin-top: 0
+    margin-top: 0;
 }
 
 .mainDetailButtons {
@@ -652,11 +652,11 @@
     margin-left: 0;
     margin-right: .5em;
     -webkit-flex-shrink: 0;
-    flex-shrink: 0
+    flex-shrink: 0;
 }
 
 .mainDetailButtons.hide+.recordingFields {
-    margin-top: 1.5em !important
+    margin-top: 1.5em !important;
 }
 
 .detailButton-mobile {
@@ -669,31 +669,31 @@
     -webkit-align-items: center;
     align-items: center;
     margin: 0 !important;
-    padding: .5em .7em !important
+    padding: .5em .7em !important;
 }
 
 .detailButton {
-    margin: 0 .5em 0 0 !important
+    margin: 0 .5em 0 0 !important;
 }
 
 @media all and (min-width:29em) {
     .detailButton-mobile {
         padding-left: .75em !important;
-        padding-right: .75em !important
+        padding-right: .75em !important;
     }
 }
 
 @media all and (min-width:32em) {
     .detailButton-mobile {
         padding-left: .8em !important;
-        padding-right: .8em !important
+        padding-right: .8em !important;
     }
 }
 
 @media all and (min-width:35em) {
     .detailButton-mobile {
         padding-left: .85em !important;
-        padding-right: .85em !important
+        padding-right: .85em !important;
     }
 }
 
@@ -710,13 +710,13 @@
     justify-content: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
-    align-items: center
+    align-items: center;
 }
 
 .detailButton-mobile-icon {
     font-size: 1.6em !important;
     width: 1em;
-    height: 1em
+    height: 1em;
 }
 
 .detailImageProgressContainer {
@@ -727,33 +727,33 @@
 .detailButton-mobile-text {
     margin-top: .7em;
     font-size: 80%;
-    font-weight: 400
+    font-weight: 400;
 }
 
 @media all and (max-width:62.5em) {
     .mainDetailButtons {
-        margin-left: -.5em
+        margin-left: -.5em;
     }
 
     .detailButton {
-        display: none !important
+        display: none !important;
     }
 }
 
 @media all and (min-width:62.5em) {
     .detailFloatingButton {
-        display: none !important
+        display: none !important;
     }
 
     .mainDetailButtons {
         font-size: 108%;
-        margin: 1.25em 0
+        margin: 1.25em 0;
     }
 }
 
 @media all and (max-width:50em) {
     .editorMenuLink {
-        display: none
+        display: none;
     }
 }
 
@@ -765,7 +765,7 @@
     flex-wrap: wrap;
     -webkit-box-align: center;
     -webkit-align-items: center;
-    align-items: center
+    align-items: center;
 }
 
 @media all and (max-width:31.25em) {
@@ -773,16 +773,16 @@
         text-align: center;
         -webkit-box-pack: center;
         -webkit-justify-content: center;
-        justify-content: center
+        justify-content: center;
     }
 
     .itemMiscInfo .endsAt {
-        display: none
+        display: none;
     }
 }
 
 .layout-tv .detailVerticalSection {
-    margin-bottom: 3.4em !important
+    margin-bottom: 3.4em !important;
 }
 
 .detailPageContent {
@@ -799,66 +799,66 @@
 .mediaInfoStream {
     margin: 0 3em 0 0;
     display: inline-block;
-    vertical-align: top
+    vertical-align: top;
 }
 
 .mediaInfoStreamType {
     display: block;
-    margin: 1em 0
+    margin: 1em 0;
 }
 
 .mediaInfoAttribute,
 .mediaInfoLabel {
-    display: inline-block
+    display: inline-block;
 }
 
 .mediaInfoLabel {
     margin-right: 1em;
-    font-weight: 600
+    font-weight: 600;
 }
 
 .recordingProgressBar::-moz-progress-bar {
-    background-color: #c33
+    background-color: #c33;
 }
 
 .recordingProgressBar::-webkit-progress-value {
-    background-color: #c33
+    background-color: #c33;
 }
 
 .recordingProgressBar[aria-valuenow]:before {
-    background-color: #c33
+    background-color: #c33;
 }
 
 .timelineHeader {
     margin-bottom: .25em;
     line-height: 1.25em;
-    line-height: initial
+    line-height: initial;
 }
 
 .itemsContainer {
-    margin: 0 auto
+    margin: 0 auto;
 }
 
 @media all and (max-height:31.25em) {
     .itemBackdrop {
-        height: 52vh
+        height: 52vh;
     }
 }
 
 @media all and (max-width:75em) {
     .listViewUserDataButtons {
-        display: none !important
+        display: none !important;
     }
 }
 
 @media all and (max-width:62.5em) {
     .detailsHiddenOnMobile {
-        display: none
+        display: none;
     }
 }
 
 .btnSyncComplete {
-    background: #673ab7 !important
+    background: #673ab7 !important;
 }
 
 .btnSyncComplete i {
@@ -867,7 +867,7 @@
 }
 
 .bulletSeparator {
-    margin: 0 .35em
+    margin: 0 .35em;
 }
 
 .mediaInfoIcons {
@@ -879,18 +879,18 @@
     align-items: center;
     margin: 1em 0;
     -webkit-flex-wrap: wrap;
-    flex-wrap: wrap
+    flex-wrap: wrap;
 }
 
 .verticalSection-extrabottompadding {
-    margin-bottom: 2.7em
+    margin-bottom: 2.7em;
 }
 
 .sectionTitleButton,
 .sectionTitleIconButton {
     margin-right: 0 !important;
     display: inline-block;
-    vertical-align: middle
+    vertical-align: middle;
 }
 
 .sectionTitleContainer {
@@ -917,11 +917,11 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 .sectionTitleButton {
     margin-left: 1.5em !important;
     -webkit-flex-shrink: 0;
-    flex-shrink: 0
+    flex-shrink: 0;
 }
 
 .sectionTitleButton + .sectionTitleButton {
-    margin-left: .5em !important
+    margin-left: .5em !important;
 }
 
 .sectionTitleIconButton {
@@ -929,13 +929,13 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
     font-size: 84% !important;
-    padding: .5em !important
+    padding: .5em !important;
 }
 
 .horizontalItemsContainer {
     display: -webkit-box;
     display: -webkit-flex;
-    display: flex
+    display: flex;
 }
 
 .sectionTitleTextButton {
@@ -943,22 +943,22 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     display: -webkit-inline-box !important;
     display: -webkit-inline-flex !important;
     display: inline-flex !important;
-    color: inherit !important
+    color: inherit !important;
 }
 
 .sectionTitleTextButton:not(.padded-left) {
-    padding: 0 !important
+    padding: 0 !important;
 }
 
 .sectionTitleTextButton.padded-left {
     padding-bottom: 0 !important;
     padding-right: 0 !important;
-    padding-top: 0 !important
+    padding-top: 0 !important;
 }
 
 .sectionTitleTextButton>.sectionTitle {
     margin-bottom: 0;
-    margin-top: 0
+    margin-top: 0;
 }
 
 .padded-left {
@@ -1009,27 +1009,27 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     text-decoration: none;
     font-weight: inherit !important;
     vertical-align: middle;
-    color: inherit !important
+    color: inherit !important;
 }
 
 .itemsViewSettingsContainer {
     -webkit-box-pack: center;
     -webkit-justify-content: center;
-    justify-content: center
+    justify-content: center;
 }
 
 @media all and (min-width:40em) {
     .listIconButton-autohide {
-        display: none !important
+        display: none !important;
     }
 }
 
 @media all and (max-width:40em) {
     .listTextButton-autohide {
-        display: none !important
+        display: none !important;
     }
 }
 
 .itemsViewSettingsContainer>.button-flat {
-    margin: 0
+    margin: 0;
 }

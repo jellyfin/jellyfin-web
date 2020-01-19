@@ -90,7 +90,7 @@
 }
 
 .mdl-radio__button:checked:focus + .mdl-radio__label + .mdl-radio__outer-circle + .mdl-radio__inner-circle {
-    box-shadow: 0 0 0 10px rgba(0, 164, 220, 0.26)
+    box-shadow: 0 0 0 10px rgba(0, 164, 220, 0.26);
 }
 
 .mdl-radio__label {
