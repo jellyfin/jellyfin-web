@@ -530,7 +530,6 @@ button::-moz-focus-inner {
     }
 }
 
-
 @media (min-width: 87.5em) {
     .squareCard, .portraitCard {
         width: 14.285714285714285714285714285714%;
