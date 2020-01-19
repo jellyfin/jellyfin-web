@@ -197,7 +197,7 @@ a[data-role=button] {
 }
 
 .cardContent {
-    border-radius: 1.000em;
+    border-radius: 1em;
 }
 
 .collapseContent,
@@ -206,7 +206,7 @@ a[data-role=button] {
 .paperList,
 .visualCardBox {
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 1.000em;
+    border-radius: 1em;
 }
 
 .cardOverlayContainer {

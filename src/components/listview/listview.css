@@ -50,7 +50,7 @@
 }
 
 .listItem-border.show-focus:focus {
-    transform: scale(1.0) !important;
+    transform: scale(1) !important;
 }
 
 .listItemImage, .listItemIcon, .listItemAside {
