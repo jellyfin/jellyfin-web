@@ -1,13 +1,13 @@
 html {
     color: #eee;
     color: rgba(255, 255, 255, .9);
-    background-color: #0F3562
+    background-color: #0f3562
 }
 
 .wizardStartForm,
 .ui-corner-all,
 .ui-shadow {
-  background-color: #0C2450
+  background-color: #0c2450
 }
 
 .emby-collapsible-button {
@@ -22,11 +22,11 @@ html {
 
 .formDialogHeader:not(.formDialogHeader-clear),
 .skinHeader-withBackground {
-    background: -webkit-gradient(linear, left top, left bottom, from(#0C2450), to(#081B3B));
-    background: -webkit-linear-gradient(top, #0C2450, #081B3B);
-    background: -o-linear-gradient(top, #0C2450, #081B3B);
-    background: linear-gradient(to bottom, #0C2450, #081B3B);
-    background-color: #0C2450;
+    background: -webkit-gradient(linear, left top, left bottom, from(#0c2450), to(#081b3b));
+    background: -webkit-linear-gradient(top, #0c2450, #081b3b);
+    background: -o-linear-gradient(top, #0c2450, #081b3b);
+    background: linear-gradient(to bottom, #0c2450, #081b3b);
+    background-color: #0c2450;
 }
 
 .skinHeader.semiTransparent {
@@ -35,7 +35,7 @@ html {
     background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .6)), to(rgba(0, 0, 0, 0)));
     background: -webkit-linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
     background: -o-linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
-    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0))
+    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
     background-color: rgba(0, 0, 0, .3);
 }
 
@@ -48,7 +48,7 @@ html {
     background: -webkit-gradient(linear, left top, left bottom, from(#0F3562), color-stop(#1162A4), to(#03215F));
     background: -webkit-linear-gradient(top, #0F3562, #1162A4, #03215F);
     background: -o-linear-gradient(top, #0F3562, #1162A4, #03215F);
-    background: linear-gradient(to bottom, #0F3562, #1162A4, #03215F)
+    background: linear-gradient(to bottom, #0F3562, #1162A4, #03215F);
     background-color: #0F3562;
 }
 
@@ -117,7 +117,7 @@ html {
 .collapseContent,
 .paperList,
 .visualCardBox {
-    background-color: #0F3562
+    background-color: #0f3562
 }
 
 .defaultCardBackground1 {
@@ -162,7 +162,7 @@ html {
 }
 
 .toast {
-    background: #081B3B;
+    background: #081b3b;
     color: #fff;
     color: rgba(255, 255, 255, .87)
 }
@@ -174,7 +174,7 @@ html {
     background: -webkit-linear-gradient(bottom, #0C2450, #081B3B);
     background: -o-linear-gradient(bottom, #0C2450, #081B3B);
     background: linear-gradient(to top, #0C2450, #081B3B);
-    color: rgba(255, 255, 255, .78)
+    color: rgba(255, 255, 255, .78);
 }
 
 .itemSelectionPanel {
@@ -231,7 +231,7 @@ html {
 
 .mediaInfoTimerIcon,
 .starIcon {
-    color: #CB272A
+    color: #cb272a
 }
 
 .emby-input,
@@ -283,7 +283,7 @@ html {
 }
 
 .itemProgressBarForeground-recording {
-    background-color: #CB272A
+    background-color: #cb272a
 }
 
 .countIndicator,
@@ -297,7 +297,7 @@ html {
 }
 
 .mainDrawer {
-    background-color: #0F3562;
+    background-color: #0f3562;
     color: #ccc;
     color: rgba(255, 255, 255, .7)
 }
@@ -342,19 +342,19 @@ html {
 }
 
 .programCell-sports {
-    background: #3949AB !important
+    background: #3949ab !important
 }
 
 .programCell-movie {
-    background: #5E35B1 !important
+    background: #5e35b1 !important
 }
 
 .programCell-kids {
-    background: #039BE5 !important
+    background: #039be5 !important
 }
 
 .programCell-news {
-    background: #43A047 !important
+    background: #43a047 !important
 }
 
 .programCell-active {
@@ -405,7 +405,7 @@ html {
 
 .downloadbutton-icon-complete,
 .downloadbutton-icon-on {
-    color: #4285F4
+    color: #4285f4
 }
 
 .playstatebutton-icon-played {
@@ -413,7 +413,7 @@ html {
 }
 
 .repeatButton-active {
-    color: #4285F4
+    color: #4285f4
 }
 
 .card:focus .cardBox.visualCardBox,
@@ -427,7 +427,7 @@ html {
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: #081B3B
+    background-color: #081b3b
 }
 
 .layout-desktop ::-webkit-scrollbar {

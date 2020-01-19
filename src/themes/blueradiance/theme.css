@@ -245,7 +245,7 @@ html {
 
 .mediaInfoTimerIcon,
 .starIcon {
-    color: #CB272A
+    color: #cb272a
 }
 
 .emby-input,
@@ -300,7 +300,7 @@ html {
 }
 
 .itemProgressBarForeground-recording {
-    background-color: #CB272A
+    background-color: #cb272a
 }
 
 .countIndicator,
@@ -358,19 +358,19 @@ html {
 }
 
 .programCell-sports {
-    background: #3949AB !important
+    background: #3949ab !important
 }
 
 .programCell-movie {
-    background: #5E35B1 !important
+    background: #5e35b1 !important
 }
 
 .programCell-kids {
-    background: #039BE5 !important
+    background: #039be5 !important
 }
 
 .programCell-news {
-    background: #43A047 !important
+    background: #43a047 !important
 }
 
 .programCell-active {
@@ -421,7 +421,7 @@ html {
 
 .downloadbutton-icon-complete,
 .downloadbutton-icon-on {
-    color: #4285F4
+    color: #4285f4
 }
 
 .playstatebutton-icon-played {
@@ -429,7 +429,7 @@ html {
 }
 
 .repeatButton-active {
-    color: #4285F4
+    color: #4285f4
 }
 
 .card:focus .cardBox.visualCardBox,

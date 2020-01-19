@@ -283,16 +283,16 @@ a[data-role=button] {
 }
 
 .itemSelectionPanel {
-    border: 1px solid #48C3C8
+    border: 1px solid #48c3c8
 }
 
 .selectionCommandsPanel {
-    background: #48C3C8;
+    background: #48c3c8;
     color: #f8f8fe
 }
 
 .upNextDialog-countdownText {
-    color: #48C3C8
+    color: #48c3c8
 }
 
 .alphaPickerButton-selected {
@@ -318,12 +318,12 @@ a[data-role=button] {
 }
 
 .progressring-spiner {
-    border-color: #48C3C8
+    border-color: #48c3c8
 }
 
 .button-flat-accent,
 .button-link {
-    color: #48C3C8
+    color: #48c3c8
 }
 
 .mediaInfoText {
@@ -392,7 +392,7 @@ a[data-role=button] {
 }
 
 .itemProgressBarForeground-recording {
-    background-color: #CB272A
+    background-color: #cb272a
 }
 
 .countIndicator,
@@ -451,19 +451,19 @@ a[data-role=button] {
 }
 
 .programCell-sports {
-    background: #3949AB !important
+    background: #3949ab !important
 }
 
 .programCell-movie {
-    background: #5E35B1 !important
+    background: #5e35b1 !important
 }
 
 .programCell-kids {
-    background: #039BE5 !important
+    background: #039be5 !important
 }
 
 .programCell-news {
-    background: #43A047 !important
+    background: #43a047 !important
 }
 
 .programCell-active {
@@ -472,7 +472,7 @@ a[data-role=button] {
 
 .guide-channelHeaderCell:focus,
 .programCell:focus {
-    background-color: #48C3C8 !important;
+    background-color: #48c3c8 !important;
     color: #fff !important
 }
 
@@ -496,7 +496,7 @@ a[data-role=button] {
 }
 
 .guide-date-tab-button.show-focus:focus {
-    background-color: #48C3C8;
+    background-color: #48c3c8;
     color: #fff
 }
 
@@ -514,7 +514,7 @@ a[data-role=button] {
 
 .downloadbutton-icon-complete,
 .downloadbutton-icon-on {
-    color: #4285F4
+    color: #4285f4
 }
 
 .playstatebutton-icon-played {
@@ -522,7 +522,7 @@ a[data-role=button] {
 }
 
 .repeatButton-active {
-    color: #4285F4
+    color: #4285f4
 }
 
 .personCard .cardScalable {
