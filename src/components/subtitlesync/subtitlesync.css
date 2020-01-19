@@ -14,7 +14,7 @@
     top: 0;
     right: 0;
     color: #ccc;
-    z-index: 2; 
+    z-index: 2;
 }
 
 .subtitleSyncTextField {
@@ -27,7 +27,7 @@
     text-align: center;
     font-size: 20px;
     color: white;
-    z-index: 2; 
+    z-index: 2;
 }
 
 #prompt {
@@ -44,5 +44,5 @@
     -webkit-flex-grow: 1;
     flex-grow: 1;
     border-radius: .3em;
-    z-index: 1; 
+    z-index: 1;
 }
