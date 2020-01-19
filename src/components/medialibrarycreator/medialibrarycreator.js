@@ -95,7 +95,7 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
 
     function getFolderHtml(pathInfo, index) {
         var html = "";
-        return html += '<div class="listItem listItem-border lnkPath" style="padding-left:.5em;">', html += '<div class="' + (pathInfo.NetworkPath ? "listItemBody two-line" : "listItemBody") + '">', html += '<div class="listItemBodyText">' + pathInfo.Path + "</div>", pathInfo.NetworkPath && (html += '<div class="listItemBodyText secondary">' + pathInfo.NetworkPath + "</div>"), html += "</div>", html += '<button type="button" is="paper-icon-button-light"" class="listItemButton btnRemovePath" data-index="' + index + '"><i class="md-icon">remove_circle</i></button>', html += "</div>"
+        return html += '<div class="listItem listItem-border lnkPath" style="padding-left:.5em;">', html += '<div class="' + (pathInfo.NetworkPath ? "listItemBody two-line" : "listItemBody") + '">', html += '<div class="listItemBodyText">' + pathInfo.Path + "</div>", pathInfo.NetworkPath && (html += '<div class="listItemBodyText secondary">' + pathInfo.NetworkPath + "</div>"), html += "</div>", html += '<button type="button" is="paper-icon-button-light"" class="listItemButton btnRemovePath" data-index="' + index + '"><i class="material-icons">remove_circle</i></button>', html += "</div>"
     }
 
     function renderPaths(page) {

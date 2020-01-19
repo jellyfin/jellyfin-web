@@ -132,7 +132,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
                 itemHtml += '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
 
-                itemHtml += '<i class="listItemIcon md-icon">closed_caption</i>';
+                itemHtml += '<i class="listItemIcon material-icons">closed_caption</i>';
 
                 itemHtml += '<div class="listItemBody two-line">';
 
@@ -149,7 +149,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
                 if (!layoutManager.tv) {
                     if (s.Path) {
-                        itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><i class="md-icon">delete</i></button>';
+                        itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><i class="material-icons">delete</i></button>';
                     }
                 }
 
@@ -248,7 +248,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
             html += '<' + tagName + ' class="' + className + '" data-subid="' + result.Id + '">';
 
-            html += '<i class="listItemIcon md-icon">closed_caption</i>';
+            html += '<i class="listItemIcon material-icons">closed_caption</i>';
 
             var bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
 
@@ -281,7 +281,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             html += '</div>';
 
             if (!layoutManager.tv) {
-                html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><i class="md-icon">file_download</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><i class="material-icons">file_download</i></button>';
             }
 
             html += '</' + tagName + '>';

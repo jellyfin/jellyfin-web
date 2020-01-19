@@ -76,12 +76,12 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
         var index = 0;
         var html = '<div class="paperList">' + headers.map(function (h) {
             var li = '<div class="listItem">';
-            li += '<i class="md-icon listItemIcon">info</i>';
+            li += '<i class="material-icons listItemIcon">info</i>';
             li += '<div class="listItemBody">';
             li += '<h3 class="listItemBodyText">' + h.Name + ": " + (h.Value || "") + "</h3>";
             li += '<div class="listItemBodyText secondary">' + (h.Match || "") + "</div>";
             li += "</div>";
-            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteIdentificationHeader listItemButton" data-index="' + index + '"><i class="md-icon">delete</i></button>';
+            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteIdentificationHeader listItemButton" data-index="' + index + '"><i class="material-icons">delete</i></button>';
             li += "</div>";
             index++;
             return li;
@@ -132,11 +132,11 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
     function renderXmlDocumentAttributes(page, attribute) {
         var html = '<div class="paperList">' + attribute.map(function (h) {
             var li = '<div class="listItem">';
-            li += '<i class="md-icon listItemIcon">info</i>';
+            li += '<i class="material-icons listItemIcon">info</i>';
             li += '<div class="listItemBody">';
             li += '<h3 class="listItemBodyText">' + h.Name + " = " + (h.Value || "") + "</h3>";
             li += "</div>";
-            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteXmlAttribute listItemButton" data-index="0"><i class="md-icon">delete</i></button>';
+            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteXmlAttribute listItemButton" data-index="0"><i class="material-icons">delete</i></button>';
             return li += "</div>";
         }).join("") + "</div>";
         var elem = $(".xmlDocumentAttributeList", page).html(html).trigger("create");
@@ -174,11 +174,11 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
         var index = 0;
         var html = '<div class="paperList">' + profiles.map(function (h) {
             var li = '<div class="listItem lnkEditSubProfile" data-index="' + index + '">';
-            li += '<i class="md-icon listItemIcon">info</i>';
+            li += '<i class="material-icons listItemIcon">info</i>';
             li += '<div class="listItemBody">';
             li += '<h3 class="listItemBodyText">' + (h.Format || "") + "</h3>";
             li += "</div>";
-            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-index="' + index + '"><i class="md-icon">delete</i></button>';
+            li += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-index="' + index + '"><i class="material-icons">delete</i></button>';
             li += "</div>";
             index++;
             return li;
@@ -270,7 +270,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="md-icon">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="material-icons">delete</i></button>';
             html += "</div>";
         }
 
@@ -331,7 +331,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="md-icon">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="material-icons">delete</i></button>';
             html += "</div>";
         }
 
@@ -415,7 +415,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="md-icon">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="material-icons">delete</i></button>';
             html += "</div>";
         }
 
@@ -487,7 +487,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="md-icon">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="material-icons">delete</i></button>';
             html += "</div>";
         }
 
@@ -567,7 +567,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             }
 
             html += "</a>";
-            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="md-icon">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile listItemButton" data-profileindex="' + i + '"><i class="material-icons">delete</i></button>';
             html += "</div>";
         }
 

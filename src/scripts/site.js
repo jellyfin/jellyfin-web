@@ -703,7 +703,8 @@ var AppInfo = {};
                     "swiper",
                     "sortable",
                     "libjass",
-                    "webcomponents"
+                    "webcomponents",
+                    "material-icons"
                 ]
             },
             urlArgs: urlArgs,
@@ -721,7 +722,6 @@ var AppInfo = {};
 
         // define styles
         // TODO determine which of these files can be moved to the components themselves
-        define("material-icons", ["css!assets/css/material-icons/style"], returnFirstDependency);
         define("systemFontsCss", ["css!assets/css/fonts"], returnFirstDependency);
         define("systemFontsSizedCss", ["css!assets/css/fonts.sized"], returnFirstDependency);
         define("scrollStyles", ["css!assets/css/scrollstyles"], returnFirstDependency);
