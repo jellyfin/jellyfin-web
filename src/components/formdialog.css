@@ -91,7 +91,6 @@
 }
 
 @media all and (min-width: 50em) {
-
     .formDialogFooterItem {
         max-width: 80%;
     }
@@ -103,7 +102,6 @@
 }
 
 @media all and (min-width: 80em) {
-
     .formDialogFooterItem {
         max-width: 70%;
     }

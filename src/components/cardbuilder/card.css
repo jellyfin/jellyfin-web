@@ -677,7 +677,6 @@ button::-moz-focus-inner {
 }
 
 @media (min-width: 100em) {
-
     .overflowBackdropCard, .overflowSmallBackdropCard {
         width: 18.7vw;
     }
@@ -688,21 +687,18 @@ button::-moz-focus-inner {
 }
 
 @media (min-width: 120em) {
-
     .overflowSquareCard, .overflowPortraitCard {
         width: 10.3vw;
     }
 }
 
 @media (min-width: 131.25em) {
-
     .overflowSquareCard, .overflowPortraitCard {
         width: 9.3vw;
     }
 }
 
 @media (min-width: 156.25em) {
-
     .overflowBackdropCard, .overflowSmallBackdropCard {
         width: 15.6vw;
     }

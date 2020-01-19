@@ -121,7 +121,6 @@
 }
 
 @media all and (max-width: 70em) {
-
     .nowPlayingBarRight .nowPlayingBarUserDataButtons {
         display: none;
     }
@@ -155,6 +154,7 @@
     .nowPlayingBarRight .nowPlayingBarVolumeSliderContainer {
         display: none !important;
     }
+
     .nowPlayingBarInfoContainer {
         width: 70%;
     }

@@ -48,7 +48,6 @@ progress[aria-valuenow]:before {
 }
 
 @media all and (min-width: 50em) {
-
     .type-interior>div[data-role=content],
     .type-interior>.ui-panel-content-wrap>div[data-role=content] {
         padding-right: 0;

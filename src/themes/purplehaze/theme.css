@@ -212,6 +212,7 @@ a[data-role=button] {
 .cardOverlayContainer {
     border-radius: 0.8em;
 }
+
 .visualCardBox .cardOverlayContainer {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;

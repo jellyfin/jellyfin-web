@@ -37,7 +37,6 @@
 }
 
 @media all and (orientation: landscape) {
-
     .upNextDialog {
         flex-direction: row;
     }

@@ -4,7 +4,6 @@
 }
 
 @media all and (max-width: 50em) {
-
     .homeLibraryButton {
         width: 46% !important;
     }

@@ -78,7 +78,6 @@
 }
 
 @keyframes fadeout {
-
     from {
         opacity: 1;
     }
@@ -101,7 +100,6 @@
 }
 
 @keyframes slidedown {
-
     from {
         opacity: 1;
         transform: none;
@@ -114,7 +112,6 @@
 }
 
 @media all and (max-width: 80em), all and (max-height: 45em) {
-
     .dialog-fixedSize, .dialog-fullscreen-lowres {
         position: fixed !important;
         top: 0 !important;
@@ -127,7 +124,6 @@
 }
 
 @media all and (min-width: 80em) and (min-height: 45em) {
-
     .dialog-medium {
         width: 80%;
         height: 80%;

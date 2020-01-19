@@ -44,7 +44,6 @@
 }
 
 @media all and (max-height: 50em) {
-
     .alphaPicker-fixed {
         bottom: 5em;
     }
@@ -56,14 +55,12 @@
 }
 
 @media all and (max-height: 49em) {
-
     .alphaPicker-vertical {
         font-size: 94%;
     }
 }
 
 @media all and (max-height: 44em) {
-
     .alphaPicker-vertical {
         font-size: 90%;
     }
@@ -75,14 +72,12 @@
 }
 
 @media all and (max-height: 37em) {
-
     .alphaPicker-vertical {
         font-size: 82%;
     }
 }
 
 @media all and (max-height: 32em) {
-
     .alphaPicker-vertical {
         font-size: 74%;
     }
@@ -121,7 +116,6 @@
 }
 
 @media all and (min-width: 62.5em) {
-
     .alphaPicker-fixed-left {
         left: 1em;
     }
@@ -132,7 +126,6 @@
 }
 
 @media all and (max-height: 31.25em) {
-
     .alphaPicker-fixed {
         display: none !important;
     }

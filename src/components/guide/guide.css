@@ -96,21 +96,18 @@
 }
 
 @media all and (min-width: 37.5em) {
-
     .channelPrograms, .timeslotHeadersInner {
         width: 1400vw;
     }
 }
 
 @media all and (min-width: 50em) {
-
     .channelPrograms, .timeslotHeadersInner {
         width: 1200vw;
     }
 }
 
 @media all and (min-width: 80em) {
-
     .channelPrograms, .timeslotHeadersInner {
         width: 810vw;
     }
@@ -204,7 +201,6 @@
 }
 
 @media all and (max-width: 50em) {
-
     .newTvProgram, .liveTvProgram, .premiereTvProgram, .guideHdIcon {
         display: none;
     }
@@ -339,14 +335,12 @@
 }
 
 @media all and (min-width: 62.5em) {
-
     .guideChannelName {
         max-width: 40%;
     }
 }
 
 @media all and (max-width: 62.5em) {
-
     .guideChannelNumber {
         display: none;
     }
@@ -382,7 +376,6 @@
 }
 
 @media all and (max-width: 50em), all and (max-height: 37.5em) {
-
     .tvGuideHeader {
         padding-left: 0;
     }

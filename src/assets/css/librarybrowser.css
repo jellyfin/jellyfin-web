@@ -240,7 +240,6 @@
 }
 
 @media all and (min-width: 40em) {
-
     .dashboardDocument .adminDrawerLogo,
     .dashboardDocument .mainDrawerButton {
         display: none !important;
