@@ -345,19 +345,6 @@
     }
 }
 
-.mdl-spinner__circle-clipper {
-    display: inline-block;
-    position: relative;
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-    border-color: inherit;
-}
-
-    .mdl-spinner__circle-clipper .mdl-spinner__circle {
-        width: 200%;
-    }
-
 .mdl-spinner__circle {
     box-sizing: border-box;
     height: 100%;
@@ -374,6 +361,19 @@
     bottom: 0;
     left: 0;
 }
+
+.mdl-spinner__circle-clipper {
+    display: inline-block;
+    position: relative;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    border-color: inherit;
+}
+
+    .mdl-spinner__circle-clipper .mdl-spinner__circle {
+        width: 200%;
+    }
 
 .mdl-spinner__circleLeft {
     border-right-color: transparent !important;

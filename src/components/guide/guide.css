@@ -123,6 +123,10 @@
     width: 2.0833333333333333333333333333333%;
 }
 
+.programCell, .guide-channelHeaderCell {
+    outline: none !important;
+}
+
 .guide-channelHeaderCell, .guide-channelTimeslotHeader {
     padding: 0 !important;
     cursor: pointer;
@@ -360,10 +364,6 @@
 
 .channelsContainer, .programGrid {
     contain: layout style paint;
-}
-
-.programCell, .guide-channelHeaderCell {
-    outline: none !important;
 }
 
 .timerIcon, .seriesTimerIcon {

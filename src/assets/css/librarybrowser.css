@@ -84,6 +84,22 @@
     display: none
 }
 
+.headerLeft,
+.headerRight {
+    justify-content: center;
+}
+
+.headerRight {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end
+}
+
 .noHeaderRight .headerRight,
 .noHomeButtonHeader .headerHomeButton {
     display: none !important
@@ -162,17 +178,6 @@
 
 .sectionTabs {
     width: 100%
-}
-
-.headerRight {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-box-pack: end;
-    -webkit-justify-content: flex-end;
-    justify-content: flex-end
 }
 
 .selectedMediaFolder {
@@ -358,6 +363,11 @@
     margin: 0 0 .25em
 }
 
+.listTopPaging,
+.viewControls {
+    display: inline-block
+}
+
 .viewControls+.listTopPaging {
     margin-left: .5em !important
 }
@@ -445,15 +455,6 @@
     bottom: .75em
 }
 
-.layout-mobile .detailPagePrimaryContainer {
-    display: block;
-    position: relative;
-}
-
-.layout-tv .detailPagePrimaryContainer {
-    position: relative;
-}
-
 .detailPagePrimaryContainer {
     display: flex;
     align-items: center;
@@ -462,6 +463,15 @@
     background-color: #101010;
     top: 0;
     z-index: 2;
+}
+
+.layout-mobile .detailPagePrimaryContainer {
+    display: block;
+    position: relative;
+}
+
+.layout-tv .detailPagePrimaryContainer {
+    position: relative;
 }
 
 .infoWrapper {
@@ -483,17 +493,17 @@
     padding-right: 2%;
 }
 
-.layout-mobile .detailImageContainer,
-.layout-tv .detailImageContainer {
-    position: relative;
-}
-
 .detailImageContainer {
     margin: 1.25em 0;
     position: sticky;
     top: 15%;
     float: left;
     width: 22.786458333333332vw;
+}
+
+.layout-mobile .detailImageContainer,
+.layout-tv .detailImageContainer {
+    position: relative;
 }
 
 .detailPagePrimaryContent {
@@ -739,11 +749,6 @@
         font-size: 108%;
         margin: 1.25em 0
     }
-}
-
-.listTopPaging,
-.viewControls {
-    display: inline-block
 }
 
 @media all and (max-width:50em) {

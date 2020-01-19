@@ -290,13 +290,13 @@ html {
     border-color: #fff;
 }
 
-.emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
-    border-color: #00a4dc;
-}
-
 .emby-checkbox:checked+span+.checkboxOutline,
 .itemProgressBarForeground {
     background-color: #00a4dc
+}
+
+.emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
+    border-color: #00a4dc;
 }
 
 .itemProgressBarForeground-recording {
@@ -437,17 +437,17 @@ html {
     border-color: #00a4dc !important
 }
 
-.layout-desktop ::-webkit-scrollbar {
-    width: 1em;
-    height: 1em
-}
-
 ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
 }
 
 ::-webkit-scrollbar-track-piece {
     background-color: #3b3b3b
+}
+
+.layout-desktop ::-webkit-scrollbar {
+    width: 1em;
+    height: 1em
 }
 
 ::-webkit-scrollbar-thumb:horizontal,

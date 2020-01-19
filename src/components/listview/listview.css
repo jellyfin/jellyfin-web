@@ -85,6 +85,11 @@
     justify-content: center;
 }
 
+.listItem, .listItemBody, .listItemMediaInfo {
+    display: flex;
+    contain: layout style;
+}
+
 .layout-tv .listItemBody {
     padding: .35em .75em;
 }
@@ -239,11 +244,6 @@
     position: absolute;
     display: flex;
     align-items: center;
-}
-
-.listItem, .listItemBody, .listItemMediaInfo {
-    display: flex;
-    contain: layout style;
 }
 
 .listItem-bottomoverview {

@@ -273,6 +273,11 @@ html {
     border-color: #000;
 }
 
+.emby-checkbox:checked+span+.checkboxOutline,
+.itemProgressBarForeground {
+    background-color: #00a4dc
+}
+
 .emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
     border-color: #00a4dc;
 }
@@ -285,11 +290,6 @@ html {
 .emby-select-tv-withcolor:focus {
     background-color: #00a4dc;
     color: #fff
-}
-
-.emby-checkbox:checked+span+.checkboxOutline,
-.itemProgressBarForeground {
-    background-color: #00a4dc
 }
 
 .itemProgressBarForeground-recording {

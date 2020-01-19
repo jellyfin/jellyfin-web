@@ -25,6 +25,10 @@
         appearance: none;
     }
 
+.emby-select::-moz-focus-inner {
+    border: 0;
+}
+
 .selectContainer-inline > .emby-select {
     padding: .3em 1.9em .3em .5em;
     font-size: inherit;
@@ -34,10 +38,6 @@
         padding-left: 0;
         padding-right: 0;
     }
-
-.emby-select::-moz-focus-inner {
-    border: 0;
-}
 
 .emby-select-focusscale {
     transition: transform 180ms ease-out !important;

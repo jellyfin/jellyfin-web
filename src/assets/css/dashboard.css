@@ -49,8 +49,9 @@ progress[aria-valuenow]:before {
 
 @media all and (min-width:50em) {
 
-    .type-interior>.ui-panel-content-wrap>div[data-role=content],
-    .type-interior>div[data-role=content] {
+    .type-interior>div[data-role=content],
+    .type-interior>.ui-panel-content-wrap>div[data-role=content]
+     {
         padding-right: 0;
         padding-left: 0;
         padding-top: 0;
@@ -72,6 +73,22 @@ progress[aria-valuenow]:before {
 
 .adminDrawerLogo img {
     height: 4em
+}
+
+a[data-role=button] {
+    background: #292929 !important;
+    background-clip: padding-box;
+    -webkit-font-smoothing: antialiased;
+    -webkit-user-select: none;
+    -webkit-background-clip: padding-box;
+    cursor: pointer !important;
+    font-family: inherit !important;
+    font-weight: 500 !important;
+    margin: 0 .25em !important;
+    display: inline-block;
+    padding: .8em 1em;
+    text-align: center;
+    text-decoration: none !important;
 }
 
 div[data-role=controlgroup] a[data-role=button] {
@@ -105,6 +122,24 @@ div[data-role=controlgroup] a[data-role=button]+a[data-role=button] {
 div[data-role=controlgroup] a.ui-btn-active {
     background: #00a4dc !important;
     color: #292929 !important
+}
+
+.sessionAppInfo img {
+    max-width: 40px;
+    max-height: 40px;
+    margin-right: 8px;
+}
+
+.appLinks img {
+    height: 36px
+}
+
+.wizardContent h2 img {
+    height: 2.5em;
+    vertical-align: middle;
+    margin-right: .5em;
+    position: relative;
+    top: -.3em
 }
 
 .header .imageLink {
@@ -167,6 +202,18 @@ div[data-role=controlgroup] a.ui-btn-active {
     flex-grow: 1
 }
 
+.sessionNowPlayingContent {
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0
+}
+
 .activeSession:not(.playingSession) .sessionNowPlayingContent {
     display: none
 }
@@ -213,15 +260,6 @@ div[data-role=controlgroup] a.ui-btn-active {
     }
 }
 
-.premiumBanner img {
-    position: absolute;
-    text-align: right;
-    top: 0;
-    right: 0;
-    width: 4.4em;
-    height: 4.4em
-}
-
 .wizardContent {
     max-width: 62em;
     padding: .5em 2em 1em;
@@ -235,14 +273,6 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .wizardContent form {
     max-width: 100%
-}
-
-.wizardContent h2 img {
-    height: 2.5em;
-    vertical-align: middle;
-    margin-right: .5em;
-    position: relative;
-    top: -.3em
 }
 
 .scheduledTaskPaperIconItem {
@@ -296,18 +326,6 @@ div[data-role=controlgroup] a.ui-btn-active {
     margin: 0
 }
 
-.sessionNowPlayingContent {
-    -webkit-background-size: cover;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0
-}
-
 .sessionNowPlayingInnerContent {
     position: absolute;
     top: 0;
@@ -340,12 +358,6 @@ div[data-role=controlgroup] a.ui-btn-active {
     padding: 0.8em 0.5em;
 }
 
-.sessionAppInfo img {
-    max-width: 40px;
-    max-height: 40px;
-    margin-right: 8px;
-}
-
 .sessionNowPlayingTime {
     flex-shrink: 0;
     align-self: flex-end;
@@ -357,6 +369,13 @@ div[data-role=controlgroup] a.ui-btn-active {
     white-space: nowrap;
 }
 
+.playbackProgress,
+.transcodingProgress {
+    margin: 0px;
+    width: 100%;
+    background: transparent !important;
+}
+
 .activeSession .playbackProgress,
 .activeSession .transcodingProgress {
     position: absolute;
@@ -365,13 +384,6 @@ div[data-role=controlgroup] a.ui-btn-active {
     left: 0;
     height: 6px;
     width: 100%;
-}
-
-.playbackProgress,
-.transcodingProgress {
-    margin: 0px;
-    width: 100%;
-    background: transparent !important;
 }
 
 .playbackProgress > div {
@@ -410,26 +422,6 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .appLinks a+a {
     margin-left: 5px
-}
-
-.appLinks img {
-    height: 36px
-}
-
-a[data-role=button] {
-    background: #292929 !important;
-    background-clip: padding-box;
-    -webkit-font-smoothing: antialiased;
-    -webkit-user-select: none;
-    -webkit-background-clip: padding-box;
-    cursor: pointer !important;
-    font-family: inherit !important;
-    font-weight: 500 !important;
-    margin: 0 .25em !important;
-    display: inline-block;
-    padding: .8em 1em;
-    text-align: center;
-    text-decoration: none !important;
 }
 
 @-webkit-keyframes rotating {

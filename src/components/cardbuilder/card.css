@@ -1,10 +1,10 @@
+button {
+    -webkit-border-fit: border !important;
+}
+
 button::-moz-focus-inner {
     padding: 0;
     border: 0;
-}
-
-button {
-    -webkit-border-fit: border !important;
 }
 
 .card {
@@ -87,6 +87,11 @@ button {
     contain: style;
 }
 
+.card.show-animation .cardBox {
+    will-change: transform;
+    transition: transform 200ms ease-out;
+}
+
 .card.show-focus:not(.show-animation) .cardBox {
     margin: .4em;
 }
@@ -94,11 +99,6 @@ button {
 .card.show-focus:not(.show-animation) .cardBox.visualCardBox,
 .card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
     border: .5em solid transparent;
-}
-
-.card.show-animation .cardBox {
-    will-change: transform;
-    transition: transform 200ms ease-out;
 }
 
 .card.show-animation:focus > .cardBox {
@@ -298,6 +298,23 @@ button {
     padding-top: .24em;
 }
 
+.textActionButton {
+    border: 0 !important;
+    background: transparent;
+    padding: 0 !important;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    outline: none !important;
+    color: inherit;
+    vertical-align: middle;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.textActionButton:hover {
+    text-decoration: underline;
+}
+
 .cardText > .textActionButton {
     width: 100%;
     overflow: hidden;
@@ -335,23 +352,6 @@ button {
 .cardDefaultText {
     white-space: normal;
     text-align: center;
-}
-
-.textActionButton {
-    border: 0 !important;
-    background: transparent;
-    padding: 0 !important;
-    cursor: pointer;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    outline: none !important;
-    color: inherit;
-    vertical-align: middle;
-    font-family: inherit;
-    font-size: inherit;
-}
-
-.textActionButton:hover {
-    text-decoration: underline;
 }
 
 .cardImageIcon {
