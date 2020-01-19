@@ -1325,5 +1325,7 @@
     "LabelTag": "Etiqueta:",
     "LabelSubtitles": "Legendas:",
     "LabelSportsCategories": "Categorias de Desporto:",
-    "FetchingData": "A transferir informação adicional"
+    "FetchingData": "A transferir informação adicional",
+    "List": "lista",
+    "LaunchWebAppOnStartup": "Iniciar a interface web ao iniciar o servidor"
 }
