@@ -102,8 +102,8 @@ _:-ms-input-placeholder {
     height: 0.9em;
     box-sizing: border-box;
     border-radius: 50%;
-    background-image: none;
     background: #00a4dc;
+    background-image: none;
     border: none;
     transform: Scale(1.4, 1.4);
 }

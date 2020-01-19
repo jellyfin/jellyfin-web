@@ -12,8 +12,8 @@ button {
     font-size: inherit !important;
     font-family: inherit !important;
     text-transform: none;
-    background-color: transparent !important;
     background: none !important;
+    background-color: transparent !important;
     margin: 0;
     padding: 0;
     display: block;
