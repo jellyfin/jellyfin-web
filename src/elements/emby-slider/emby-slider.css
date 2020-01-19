@@ -105,7 +105,7 @@
     background: #00a4dc;
     background-image: none;
     border: none;
-    transform: Scale(1.4, 1.4);
+    transform: scale(1.4, 1.4);
 }
 
 .mdl-slider::-ms-thumb {
