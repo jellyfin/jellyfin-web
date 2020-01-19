@@ -344,7 +344,6 @@ button {
 .textActionButton {
     border: 0 !important;
     background: transparent;
-    border: 0 !important;
     padding: 0 !important;
     cursor: pointer;
     -webkit-tap-highlight-color: rgba(0,0,0,0);

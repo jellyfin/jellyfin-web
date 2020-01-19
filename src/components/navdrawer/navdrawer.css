@@ -38,7 +38,6 @@
 .tmla-mask {
     left: 0;
     right: 0;
-    background-color: #000;
     opacity: 0;
     z-index: 1098;
     -webkit-transition: opacity ease-in-out .38s, visibility ease-in-out .38s;
