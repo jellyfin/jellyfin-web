@@ -367,7 +367,7 @@
     display: inline-block;
 }
 
-.viewControls+ .listTopPaging {
+.viewControls + .listTopPaging {
     margin-left: 0.5em !important;
 }
 
@@ -629,7 +629,7 @@
     margin: 0;
 }
 
-.detailCollapsibleSection:not(.hide)+ .detailCollapsibleSection {
+.detailCollapsibleSection:not(.hide) + .detailCollapsibleSection {
     margin-top: -2em;
 }
 
@@ -654,7 +654,7 @@
     flex-shrink: 0;
 }
 
-.mainDetailButtons.hide+ .recordingFields {
+.mainDetailButtons.hide + .recordingFields {
     margin-top: 1.5em !important;
 }
 
@@ -955,7 +955,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     padding-top: 0 !important;
 }
 
-.sectionTitleTextButton> .sectionTitle {
+.sectionTitleTextButton > .sectionTitle {
     margin-bottom: 0;
     margin-top: 0;
 }
@@ -1029,6 +1029,6 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     }
 }
 
-.itemsViewSettingsContainer> .button-flat {
+.itemsViewSettingsContainer > .button-flat {
     margin: 0;
 }
