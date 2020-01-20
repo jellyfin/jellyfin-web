@@ -42,7 +42,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             id: "light"
         }, {
             name: "Purple Haze",
-            id: "purple-haze"
+            id: "purplehaze"
         }, {
             name: "Windows Media Center",
             id: "wmc"
