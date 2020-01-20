@@ -124,7 +124,10 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
             shape: getPortraitShape(),
             scalable: true,
             overlayPlayButton: true,
-            allowBottomPadding: allowBottomPadding
+            allowBottomPadding: allowBottomPadding,
+            showTitle: true,
+            showYear: true,
+            centerText: true
         });
 
         if (enableScrollX()) {
