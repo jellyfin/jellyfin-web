@@ -28,10 +28,6 @@
     order: -1;
 }
 
-video::-webkit-media-controls {
-    display: none !important;
-}
-
 .htmlvideoplayer {
     margin: 0 !important;
     padding: 0 !important;
