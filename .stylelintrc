@@ -1,8 +1,6 @@
 {
   "plugins": [
 		"stylelint-no-browser-hacks/lib",
-    "stylelint-order",
-    "stylelint-config-rational-order/plugin"
 	],
   "rules": {
     "at-rule-empty-line-before": [ "always", {
@@ -72,7 +70,6 @@
     "function-parentheses-newline-inside": "always-multi-line",
     "function-parentheses-space-inside": "never-single-line",
     "function-whitespace-after": "always",
-    "indentation": 2,
     "keyframe-declaration-no-important": true,
     "length-zero-no-unit": true,
     "max-empty-lines": 1,
@@ -94,14 +91,9 @@
     "no-extra-semicolons": true,
     "no-invalid-double-slash-comments": true,
     "no-missing-end-of-source-newline": true,
-    "order/properties-order": [],
     "number-leading-zero": "always",
     "number-no-trailing-zeros": true,
     "plugin/no-browser-hacks": true,
-    "plugin/rational-order": [true, {
-      "border-in-box-model": false,
-      "empty-line-between-groups": true,
-    }],
     "property-case": "lower",
     "property-no-unknown": [
       true,
