@@ -137,7 +137,7 @@
     align-items: center;
     flex-grow: 1;
     overflow: hidden;
-    justify-content: left;
+    justify-content: flex-start;
 }
 
 .sectionTabs {
