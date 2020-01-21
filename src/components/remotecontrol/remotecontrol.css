@@ -7,6 +7,26 @@
     text-align: center
 }
 
+.btnArrowUp{
+    border-radius: 40% 40% 10% 10%;
+}
+
+.btnArrowLeft{
+    border-radius: 40% 10% 10% 40%;
+}
+
+.btnArrowRight{
+    border-radius: 10% 40% 40% 10%;
+}
+
+.btnArrowDown{
+    border-radius: 10% 10% 40% 40%;
+}
+
+.btnOk{
+    border-radius: 10%;
+}
+
 .nowPlayingPageTitle {
     margin: 0 0 .5em .5em
 }
@@ -150,6 +170,9 @@
 @media all and (max-width:50em) {
     .nowPlayingInfoButtons .nowPlayingPageUserDataButtons {
         display: none !important
+    }
+    .navigationSection .collapseContent i{
+        font-size: 4em;
     }
 }
 
