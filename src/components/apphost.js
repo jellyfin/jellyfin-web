@@ -342,18 +342,18 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
 
         require(["actionsheet"], function (actionsheet) {
             exitPromise = actionsheet.show({
-                    title: Globalize.translate("MessageConfirmAppExit"),
-                    items: [
-                        {id: "yes", name: Globalize.translate("Yes")},
-                        {id: "no", name: Globalize.translate("No")}
-                    ]
-                }).then(function (value) {
-                    if (value === "yes") {
-                        doExit();
-                    }
-                }).finally(function () {
-                    exitPromise = null;
-                });
+                title: Globalize.translate("MessageConfirmAppExit"),
+                items: [
+                    {id: "yes", name: Globalize.translate("Yes")},
+                    {id: "no", name: Globalize.translate("No")}
+                ]
+            }).then(function (value) {
+                if (value === "yes") {
+                    doExit();
+                }
+            }).finally(function () {
+                exitPromise = null;
+            });
         });
     }
 
