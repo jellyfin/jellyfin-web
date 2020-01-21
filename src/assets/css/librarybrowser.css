@@ -242,20 +242,6 @@
 }
 
 @media all and (min-width:84em) {
-    .headerTop {
-        padding: 1.489em 0
-    }
-
-    .headerTabs {
-        align-self: center;
-        width: auto;
-        align-items: center;
-        justify-content: center;
-        margin-top: -3.34em;
-        position: relative;
-        top: -1.05em
-    }
-
     .libraryPage:not(.noSecondaryNavPage) {
         padding-top: 4.6em !important
     }
@@ -430,7 +416,7 @@
     align-items: center;
     align-content: center;
     position: sticky;
-    top: 0;
+    top: 8%;
     z-index: 2;
 }
 
@@ -467,7 +453,7 @@
 
 .detailImageContainer {
     position: sticky;
-    top: 15%;
+    top: 25%;
     float: left;
     width: 22.786458333333332vw;
 }
@@ -686,11 +672,16 @@
 
 @media all and (min-width:62.5em) {
     .headerTop {
-        padding: 1.489em 0
+        padding: 0.8em 0
     }
 
-    .itemDetailPage  {
-        padding-top: 5em !important
+    .headerTabs {
+        align-self: center;
+        width: auto;
+        align-items: center;
+        justify-content: center;
+        margin-top: -3.34em;
+        position: relative;
     }
 
     .detailFloatingButton {
