@@ -194,6 +194,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                 element: alphaPickerElement,
                 valueChangeEvent: "click"
             });
+
             if (layoutManager.tv) {
                 tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-left");
                 alphaPickerElement.classList.add("alphaPicker-fixed-left");
