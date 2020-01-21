@@ -945,6 +945,7 @@
     "MessageAlreadyInstalled": "This version is already installed.",
     "MessageAreYouSureDeleteSubtitles": "Are you sure you wish to delete this subtitle file?",
     "MessageAreYouSureYouWishToRemoveMediaFolder": "Are you sure you wish to remove this media folder?",
+    "MessageConfirmAppExit": "Do you want to exit?",
     "MessageConfirmDeleteGuideProvider": "Are you sure you wish to delete this guide provider?",
     "MessageConfirmDeleteTunerDevice": "Are you sure you wish to delete this device?",
     "MessageConfirmProfileDeletion": "Are you sure you wish to delete this profile?",

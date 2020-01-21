@@ -551,7 +551,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return false;
         }
 
-        if (curr.type === 'home') {
+        if (!document.querySelector('.dialogContainer') && curr.type === 'home') {
             return false;
         }
         return page.canGoBack();

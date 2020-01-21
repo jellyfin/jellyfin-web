@@ -890,6 +890,7 @@
     "MessageAlreadyInstalled": "Данная версия уже установлена.",
     "MessageAreYouSureDeleteSubtitles": "Вы действительно хотите удалить данный файл субитров?",
     "MessageAreYouSureYouWishToRemoveMediaFolder": "Вы действительно хотите изъять данную медиапапку?",
+    "MessageConfirmAppExit": "Вы хотите выйти?",
     "MessageConfirmDeleteGuideProvider": "Вы действительно хотите удалить данного поставщика телегида?",
     "MessageConfirmDeleteTunerDevice": "Вы действительно хотите удалить данное устройство?",
     "MessageConfirmProfileDeletion": "Вы действительно хотите удалить данный профиль?",
