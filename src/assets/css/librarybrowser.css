@@ -110,6 +110,7 @@
 
 .detailButton-mobile,
 .skinHeader {
+    flex-direction: column;
     -webkit-flex-direction: column;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal

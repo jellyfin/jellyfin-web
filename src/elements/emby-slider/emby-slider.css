@@ -1,4 +1,5 @@
 _:-ms-input-placeholder {
+    appearance: none;
     -ms-appearance: none;
     height: 2.223em;
     margin: 0;

@@ -115,6 +115,16 @@
     margin-bottom: .25em;
 }
 
+@keyframes repaintChrome {
+    from {
+        padding: 0;
+    }
+
+    to {
+        padding: 0;
+    }
+}
+
 @-webkit-keyframes repaintChrome {
     from {
         padding: 0;
