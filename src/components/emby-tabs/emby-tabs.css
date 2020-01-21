@@ -31,6 +31,10 @@
     overflow: hidden;
 }
 
+.layout-mobile .emby-tabs-slider {
+    overflow: auto;
+}
+
 .tabContent:not(.is-active) {
     display: none;
 }
