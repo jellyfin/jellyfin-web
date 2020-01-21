@@ -33,7 +33,7 @@ html {
 }
 
 .pageTitleWithDefaultLogo {
-    background-image: url(../logowhite.png)
+    background-image: url(assets/img/banner-light.png)
 }
 
 .backgroundContainer,

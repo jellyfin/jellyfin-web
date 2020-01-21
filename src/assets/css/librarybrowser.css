@@ -521,8 +521,7 @@
     top: 50%;
     left: 50%;
     margin: -2.2em 0 0 -2.2em;
-    border: 2.7px solid rgba(255, 255, 255, .6);
-    padding: .38em !important;
+    padding: 0.4em !important;
     color: rgba(255, 255, 255, .76)
 }
 
