@@ -169,9 +169,11 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     valueChangeEvent: "click"
                 });
 
-                if (layoutManager.desktop || layoutManager.mobile) {
-                    alphaPickerElement.classList.add("alphabetPicker-right");
-                    itemsContainer.classList.remove("padded-left-withalphapicker");
+                if (layoutManager.tv) {
+                    alphaPickerElement.classList.add("alphaPicker-fixed-left");
+                    itemsContainer.classList.add("padded-left-withalphapicker");
+                } else {
+                    alphaPickerElement.classList.add("alphaPicker-fixed-right");
                     itemsContainer.classList.add("padded-right-withalphapicker");
                 }
             }

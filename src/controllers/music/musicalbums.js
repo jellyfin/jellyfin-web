@@ -199,6 +199,7 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
 
         function initPage(tabContent) {
             var alphaPickerElement = tabContent.querySelector(".alphaPicker");
+            var itemsContainer = tabContent.querySelector(".itemsContainer");
 
             alphaPickerElement.addEventListener("alphavaluechanged", function (e) {
                 var newValue = e.detail.value;
@@ -211,10 +212,11 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                 element: alphaPickerElement,
                 valueChangeEvent: "click"
             });
-            if (layoutManager.desktop || layoutManager.mobile) {
+            if (layoutManager.tv) {
+                tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-left");
+                itemsContainer.classList.add("padded-left-withalphapicker");
+            } else {
                 tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-right");
-                var itemsContainer = tabContent.querySelector(".itemsContainer");
-                itemsContainer.classList.remove("padded-left-withalphapicker");
                 itemsContainer.classList.add("padded-right-withalphapicker");
             }
 
