@@ -133,7 +133,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
         if (enableScrollX()) {
             html += '</div>';
         }
-
+        html += "</div>";
         html += "</div>";
         return html;
     }
