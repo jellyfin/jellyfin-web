@@ -223,15 +223,10 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                 element: alphaPickerElement,
                 valueChangeEvent: "click"
             });
-            if (layoutManager.tv) {
-                tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-left");
-                alphaPickerElement.classList.add("alphaPicker-fixed-left");
-                itemsContainer.classList.add("padded-left-withalphapicker");
-            } else {
-                tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-right");
-                alphaPickerElement.classList.add("alphaPicker-fixed-right");
-                itemsContainer.classList.add("padded-right-withalphapicker");
-            }
+
+            tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-right");
+            alphaPickerElement.classList.add("alphaPicker-fixed-right");
+            itemsContainer.classList.add("padded-right-withalphapicker");
 
             tabContent.querySelector(".btnFilter").addEventListener("click", function () {
                 self.showFilterMenu();
