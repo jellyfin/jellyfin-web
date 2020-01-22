@@ -22,9 +22,9 @@ html {
 .skinHeader-withBackground {
     background-color: #303030;
     color: #ccc;
-    color: rgba(255, 255, 255, .87);
-    -webkit-box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
-    box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
+    color: rgba(255, 255, 255, 0.87);
+    -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
 .osdHeader {
@@ -248,9 +248,9 @@ html {
 .emby-textarea {
     color: inherit;
     background: #fff;
-    border: .07em solid rgba(0, 0, 0, .158);
-    -webkit-border-radius: .15em;
-    border-radius: .15em;
+    border: 0.07em solid rgba(0, 0, 0, 0.158);
+    -webkit-border-radius: 0.15em;
+    border-radius: 0.15em;
 }
 
 .emby-input:focus,
@@ -400,8 +400,8 @@ html {
     color: #000;
     background: #fff3a5;
     padding: 1em;
-    -webkit-border-radius: .25em;
-    border-radius: .25em;
+    -webkit-border-radius: 0.25em;
+    border-radius: 0.25em;
 }
 
 .ratingbutton-icon-withrating {

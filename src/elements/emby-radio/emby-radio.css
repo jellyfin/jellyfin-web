@@ -17,6 +17,7 @@
 .mdl-radio__button {
     line-height: 24px;
     position: absolute;
+
     /* 1px is for focusing purposes, so the focusManager doesn't skip over it */
     width: 1px;
     height: 1px;

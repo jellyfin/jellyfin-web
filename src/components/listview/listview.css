@@ -53,11 +53,15 @@
     transform: scale(1) !important;
 }
 
-.listItemImage, .listItemIcon, .listItemAside {
+.listItemImage,
+ .listItemIcon,
+ .listItemAside {
     flex-shrink: 0;
 }
 
-.listItemBody, .listItemImage, .listItemIcon {
+.listItemBody,
+ .listItemImage,
+ .listItemIcon {
     display: inline-block;
     vertical-align: middle;
 }
@@ -85,7 +89,9 @@
     justify-content: center;
 }
 
-.listItem, .listItemBody, .listItemMediaInfo {
+.listItem,
+ .listItemBody,
+ .listItemMediaInfo {
     display: flex;
     contain: layout style;
 }
@@ -253,7 +259,9 @@
 }
 
 @media all and (max-width: 50em) {
-    .listItem .endsAt, .listItem .criticRating, .listItem-overview {
+    .listItem .endsAt,
+ .listItem .criticRating,
+ .listItem-overview {
         display: none !important;
     }
 }

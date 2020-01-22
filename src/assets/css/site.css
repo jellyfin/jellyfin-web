@@ -31,7 +31,7 @@ html {
 body {
     overflow-x: hidden;
     background-color: transparent !important;
-    -webkit-font-smoothing: antialiased
+    -webkit-font-smoothing: antialiased;
 }
 
 .mainAnimatedPage {

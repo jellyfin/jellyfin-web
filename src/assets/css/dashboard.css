@@ -2,7 +2,7 @@
 .dashboardSections {
     flex-direction: column;
     -webkit-box-orient: vertical;
-    -webkit-box-direction: normal
+    -webkit-box-direction: normal;
 }
 
 .dashboardFooter {
@@ -99,17 +99,17 @@ div[data-role=controlgroup] a[data-role=button] {
 }
 
 div[data-role=controlgroup] a[data-role=button]:first-child {
-    -webkit-border-bottom-left-radius: .3125em;
-    border-bottom-left-radius: .3125em;
-    -webkit-border-top-left-radius: .3125em;
-    border-top-left-radius: .3125em;
+    -webkit-border-bottom-left-radius: 0.3125em;
+    border-bottom-left-radius: 0.3125em;
+    -webkit-border-top-left-radius: 0.3125em;
+    border-top-left-radius: 0.3125em;
 }
 
 div[data-role=controlgroup] a[data-role=button]:last-child {
-    -webkit-border-bottom-right-radius: .3125em;
-    border-bottom-right-radius: .3125em;
-    -webkit-border-top-right-radius: .3125em;
-    border-top-right-radius: .3125em;
+    -webkit-border-bottom-right-radius: 0.3125em;
+    border-bottom-right-radius: 0.3125em;
+    -webkit-border-top-right-radius: 0.3125em;
+    border-top-right-radius: 0.3125em;
 }
 
 div[data-role=controlgroup] a[data-role=button] + a[data-role=button] {
@@ -425,12 +425,12 @@ div[data-role=controlgroup] a.ui-btn-active {
 @-webkit-keyframes rotating {
     from {
         -webkit-transform: rotate(0);
-        transform: rotate(0)
+        transform: rotate(0);
     }
 
     to {
         -webkit-transform: rotate(360deg);
-        transform: rotate(360deg)
+        transform: rotate(360deg);
     }
 }
 
@@ -452,8 +452,8 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .pluginPreviewImg {
-    -webkit-box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
-    box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
+    -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
 .ui-bar-a {

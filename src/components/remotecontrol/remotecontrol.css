@@ -12,23 +12,23 @@
     text-align: center;
 }
 
-.btnArrowUp{
+.btnArrowUp {
     border-radius: 40% 40% 10% 10%;
 }
 
-.btnArrowLeft{
+.btnArrowLeft {
     border-radius: 40% 10% 10% 40%;
 }
 
-.btnArrowRight{
+.btnArrowRight {
     border-radius: 10% 40% 40% 10%;
 }
 
-.btnArrowDown{
+.btnArrowDown {
     border-radius: 10% 10% 40% 40%;
 }
 
-.btnOk{
+.btnOk {
     border-radius: 10%;
 }
 
@@ -55,7 +55,7 @@
 .nowPlayingTime {
     display: flex;
     display: -webkit-box;
-    display: -webkit-flex
+    display: -webkit-flex;
 }
 
 .nowPlayingPageImageContainer {
@@ -99,7 +99,7 @@
     -moz-user-select: none;
     -webkit-user-drag: none;
     -webkit-user-select: none;
-    -ms-user-select: none
+    -ms-user-select: none;
 }
 
 @media all and (orientation: portrait) and (max-width: 50em) {
@@ -218,7 +218,8 @@
     .nowPlayingInfoButtons .nowPlayingPageUserDataButtons {
         display: none !important;
     }
-    .navigationSection .collapseContent i{
+
+    .navigationSection .collapseContent i {
         font-size: 4em;
     }
 }

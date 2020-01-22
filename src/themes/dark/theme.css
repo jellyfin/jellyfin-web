@@ -226,9 +226,9 @@ html {
 .emby-textarea {
     color: inherit;
     background: #292929;
-    border: .07em solid #292929;
-    -webkit-border-radius: .15em;
-    border-radius: .15em;
+    border: 0.07em solid #292929;
+    -webkit-border-radius: 0.15em;
+    border-radius: 0.15em;
 }
 
 .emby-input:focus,
@@ -381,8 +381,8 @@ html {
     color: #ddd;
     background: #111;
     padding: 1em;
-    -webkit-border-radius: .25em;
-    border-radius: .25em;
+    -webkit-border-radius: 0.25em;
+    border-radius: 0.25em;
 }
 
 .ratingbutton-icon-withrating {
@@ -408,8 +408,8 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-track-piece {

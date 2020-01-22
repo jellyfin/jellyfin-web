@@ -85,7 +85,8 @@
     color: #333;
 }
 
-.missingIndicator, .unairedIndicator {
+.missingIndicator,
+ .unairedIndicator {
     background: #c33;
     padding: 0.25em 0.5em;
     border-radius: 100em;

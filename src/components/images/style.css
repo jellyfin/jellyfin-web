@@ -1,5 +1,22 @@
 .lazy-image-fadein {
+    opacity: 0;
     animation: lazy-image-fadein 330ms ease-in normal both;
+    -webkit-animation-duration: 0.8s;
+    -moz-animation-duration: 0.8s;
+    -o-animation-duration: 0.8s;
+    animation-duration: 0.8s;
+    -webkit-animation-name: popInAnimation;
+    -moz-animation-name: popInAnimation;
+    -o-animation-name: popInAnimation;
+    animation-name: popInAnimation;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-timing-function: cubic-bezier(0, 0, 0.5, 1);
+    -moz-animation-timing-function: cubic-bezier(0, 0, 0.5, 1);
+    -o-animation-timing-function: cubic-bezier(0, 0, 0.5, 1);
+    animation-timing-function: cubic-bezier(0, 0, 0.5, 1);
 }
 
 .lazy-image-fadein-fast {
@@ -14,26 +31,6 @@
     to {
         opacity: 1;
     }
-}
-
-.lazy-image-fadein {
-    opacity: 0;
-    -webkit-animation-duration: .8s;
-    -moz-animation-duration: .8s;
-    -o-animation-duration: .8s;
-    animation-duration: .8s;
-    -webkit-animation-name: popInAnimation;
-    -moz-animation-name: popInAnimation;
-    -o-animation-name: popInAnimation;
-    animation-name: popInAnimation;
-    -webkit-animation-fill-mode: forwards;
-    -moz-animation-fill-mode: forwards;
-    -o-animation-fill-mode: forwards;
-    animation-fill-mode: forwards;
-    -webkit-animation-timing-function: cubic-bezier(0,0,.5,1);
-    -moz-animation-timing-function: cubic-bezier(0,0,.5,1);
-    -o-animation-timing-function: cubic-bezier(0,0,.5,1);
-    animation-timing-function: cubic-bezier(0,0,.5,1);
 }
 
 @keyframes popInAnimation {

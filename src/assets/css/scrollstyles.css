@@ -9,7 +9,8 @@
     scroll-behavior: smooth;
 }
 
-.hiddenScrollX, .layout-tv .scrollX {
+.hiddenScrollX,
+ .layout-tv .scrollX {
     -ms-overflow-style: none;
 }
 
@@ -17,7 +18,8 @@
     overflow: -moz-scrollbars-none;
 }
 
-.hiddenScrollX::-webkit-scrollbar, .layout-tv .scrollX::-webkit-scrollbar {
+.hiddenScrollX::-webkit-scrollbar,
+ .layout-tv .scrollX::-webkit-scrollbar {
     height: 0 !important;
     display: none;
 }
@@ -35,17 +37,22 @@
     scroll-behavior: smooth;
 }
 
-.hiddenScrollY, .layout-tv .smoothScrollY {
+.hiddenScrollY,
+ .layout-tv .smoothScrollY {
     -ms-overflow-style: none;
+
     /* Can't do this because it not only hides the scrollbar, but also prevents scrolling */
-    /*overflow: -moz-scrollbars-none;*/
+
+    /* overflow: -moz-scrollbars-none; */
 }
 
 .hiddenScrollY-forced {
     overflow: -moz-scrollbars-none;
 }
 
-.hiddenScrollY::-webkit-scrollbar, .layout-tv .smoothScrollY::-webkit-scrollbar, .layout-tv .scrollY::-webkit-scrollbar {
+.hiddenScrollY::-webkit-scrollbar,
+ .layout-tv .smoothScrollY::-webkit-scrollbar,
+ .layout-tv .scrollY::-webkit-scrollbar {
     width: 0 !important;
     display: none;
 }

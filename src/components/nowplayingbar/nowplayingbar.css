@@ -28,7 +28,8 @@
     justify-content: center;
 }
 
-.mediaButton, .nowPlayingBarUserDataButtons .btnUserItemRating {
+.mediaButton,
+ .nowPlayingBarUserDataButtons .btnUserItemRating {
     vertical-align: middle;
     margin: 0;
     text-align: center;
@@ -62,6 +63,7 @@
 .nowPlayingBarCenter {
     vertical-align: middle;
     text-align: center;
+
     /* Need this to make sure it's on top of nowPlayingBarPositionContainer so that buttons are fully clickable */
     z-index: 2;
     flex-grow: 1;
@@ -89,7 +91,8 @@
 
 .nowPlayingBarRight {
     position: relative;
-    margin: 0 .5em 0 auto;
+    margin: 0 0.5em 0 auto;
+
     /* Need this to make sure it's on top of nowPlayingBarPositionContainer so that buttons are fully clickable */
     z-index: 2;
     display: flex;
@@ -161,7 +164,8 @@
 }
 
 @media all and (max-width: 24em) {
-    .nowPlayingBar .muteButton, .nowPlayingBar .unmuteButton {
+    .nowPlayingBar .muteButton,
+ .nowPlayingBar .unmuteButton {
         display: none;
     }
 }

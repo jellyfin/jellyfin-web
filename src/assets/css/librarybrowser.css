@@ -48,9 +48,9 @@
     z-index: 1;
     margin: 0 !important;
     top: 6.9em !important;
-    -webkit-transition: -webkit-transform .2s ease-out;
-    -o-transition: transform .2s ease-out;
-    transition: transform .2s ease-out;
+    -webkit-transition: -webkit-transform 0.2s ease-out;
+    -o-transition: transform 0.2s ease-out;
+    transition: transform 0.2s ease-out;
 }
 
 .pageTabContent:not(.is-active) {
@@ -84,9 +84,15 @@
     display: none;
 }
 
-.headerLeft,
-.headerRight {
-    justify-content: center;
+.headerLeft {
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    overflow: hidden;
+    justify-content: flex-start;
 }
 
 .headerRight {
@@ -121,7 +127,7 @@
 .headerLeft,
 .skinHeader {
     display: -webkit-box;
-    display: -webkit-flex
+    display: -webkit-flex;
 }
 
 .detailButton-mobile,
@@ -129,7 +135,7 @@
     flex-direction: column;
     -webkit-flex-direction: column;
     -webkit-box-orient: vertical;
-    -webkit-box-direction: normal
+    -webkit-box-direction: normal;
 }
 
 .pageTitleWithLogo {
@@ -152,28 +158,12 @@
     contain: layout style paint;
 }
 
-.headerLeft,
-.headerRight {
-    -webkit-box-align: center
-}
-
 .hiddenViewMenuBar .skinHeader {
     display: none;
 }
 
 .headerTop {
     padding: 0.54em 0;
-}
-
-.headerLeft {
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    flex-grow: 1;
-    overflow: hidden;
-    justify-content: flex-start;
 }
 
 .sectionTabs {
@@ -193,7 +183,7 @@
     align-items: center;
     text-decoration: none;
     color: inherit;
-    padding: .9em 0 .9em 2.4em !important;
+    padding: 0.9em 0 0.9em 2.4em !important;
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
     flex-grow: 1;
@@ -219,9 +209,9 @@
 }
 
 .dashboardDocument .skinBody {
-    -webkit-transition: left ease-in-out .3s, padding ease-in-out .3s;
-    -o-transition: left ease-in-out .3s, padding ease-in-out .3s;
-    transition: left ease-in-out .3s, padding ease-in-out .3s;
+    -webkit-transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
+    -o-transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
+    transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
     position: absolute;
     top: 0;
     right: 0;
@@ -374,9 +364,9 @@
 .criticReview {
     margin: 1.5em 0;
     background: #222;
-    padding: .8em .8em .8em 3em;
-    -webkit-border-radius: .3em;
-    border-radius: .3em;
+    padding: 0.8em 0.8em 0.8em 3em;
+    -webkit-border-radius: 0.3em;
+    border-radius: 0.3em;
     position: relative;
 }
 
@@ -548,8 +538,8 @@
 
 .itemDetailImage {
     width: 100% !important;
-    box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
-    -webkit-box-shadow: 0 .0725em .29em 0 rgba(0, 0, 0, .37);
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
 @media all and (max-width: 62.5em) {
@@ -573,6 +563,15 @@
     margin-bottom: 0.5em;
 }
 
+.btnSyncComplete {
+    background: #673ab7 !important;
+}
+
+.btnSyncComplete i {
+    -webkit-border-radius: 100em;
+    border-radius: 100em;
+}
+
 .emby-button.detailFloatingButton {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.5) !important;
@@ -581,7 +580,7 @@
     left: 50%;
     margin: -2.2em 0 0 -2.2em;
     padding: 0.4em !important;
-    color: rgba(255, 255, 255, .76);
+    color: rgba(255, 255, 255, 0.76);
 }
 
 .emby-button.detailFloatingButton i {
@@ -618,7 +617,7 @@
 .mainDetailButtons {
     display: flex;
     display: -webkit-box;
-    display: -webkit-flex
+    display: -webkit-flex;
 }
 
 .itemName {
@@ -649,7 +648,7 @@
 
 .recordingFields button {
     margin-left: 0;
-    margin-right: .5em;
+    margin-right: 0.5em;
     -webkit-flex-shrink: 0;
     flex-shrink: 0;
 }
@@ -854,15 +853,6 @@
     .detailsHiddenOnMobile {
         display: none;
     }
-}
-
-.btnSyncComplete {
-    background: #673ab7 !important;
-}
-
-.btnSyncComplete i {
-    -webkit-border-radius: 100em;
-    border-radius: 100em
 }
 
 .bulletSeparator {

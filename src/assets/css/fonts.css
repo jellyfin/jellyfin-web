@@ -5,7 +5,9 @@ html {
     text-size-adjust: 100%;
 }
 
-h1, h2, h3 {
+h1,
+ h2,
+ h3 {
     /* For better bolding, since Helvetica does not support 500 weight, and 600 is too thick */
     font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", 'Open Sans', sans-serif;
 }

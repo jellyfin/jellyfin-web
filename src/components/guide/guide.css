@@ -91,24 +91,28 @@
     flex-shrink: 0;
 }
 
-.channelPrograms, .timeslotHeadersInner {
+.channelPrograms,
+ .timeslotHeadersInner {
     width: 1800vw;
 }
 
 @media all and (min-width: 37.5em) {
-    .channelPrograms, .timeslotHeadersInner {
+    .channelPrograms,
+ .timeslotHeadersInner {
         width: 1400vw;
     }
 }
 
 @media all and (min-width: 50em) {
-    .channelPrograms, .timeslotHeadersInner {
+    .channelPrograms,
+ .timeslotHeadersInner {
         width: 1200vw;
     }
 }
 
 @media all and (min-width: 80em) {
-    .channelPrograms, .timeslotHeadersInner {
+    .channelPrograms,
+ .timeslotHeadersInner {
         width: 810vw;
     }
 }
@@ -120,11 +124,13 @@
     width: 2.0833333333333333333333333333333%;
 }
 
-.programCell, .guide-channelHeaderCell {
+.programCell,
+ .guide-channelHeaderCell {
     outline: none !important;
 }
 
-.guide-channelHeaderCell, .guide-channelTimeslotHeader {
+.guide-channelHeaderCell,
+ .guide-channelTimeslotHeader {
     padding: 0 !important;
     cursor: pointer;
     outline: none !important;
@@ -138,6 +144,7 @@
     display: flex;
     align-items: center;
     text-decoration: none;
+
     /* Needed in firefox */
     text-align: left;
     contain: strict;
@@ -159,30 +166,35 @@
 /* Important - have to put the fixed width on channelsContainer, not the individual channelHeaderCell
    This was causing channelsContainer to extend beyond the fixed width on ps4, tizen, lg and opera tv.
 */
-.channelsContainer, .guide-channelTimeslotHeader {
+.channelsContainer,
+ .guide-channelTimeslotHeader {
     width: 24vw;
 }
 
 @media all and (min-width: 31.25em) {
-    .channelsContainer, .guide-channelTimeslotHeader {
+    .channelsContainer,
+ .guide-channelTimeslotHeader {
         width: 16vw;
     }
 }
 
 @media all and (min-width: 37.5em) {
-    .channelsContainer, .guide-channelTimeslotHeader {
+    .channelsContainer,
+ .guide-channelTimeslotHeader {
         width: 16vw;
     }
 }
 
 @media all and (min-width: 50em) {
-    .channelsContainer, .guide-channelTimeslotHeader {
+    .channelsContainer,
+ .guide-channelTimeslotHeader {
         width: 14vw;
     }
 }
 
 @media all and (min-width: 80em) {
-    .channelsContainer, .guide-channelTimeslotHeader {
+    .channelsContainer,
+ .guide-channelTimeslotHeader {
         width: 12vw;
     }
 }
@@ -201,20 +213,26 @@
 }
 
 @media all and (max-width: 50em) {
-    .newTvProgram, .liveTvProgram, .premiereTvProgram, .guideHdIcon {
+    .newTvProgram,
+ .liveTvProgram,
+ .premiereTvProgram,
+ .guideHdIcon {
         display: none;
     }
 }
 
-    .channelPrograms + .channelPrograms, .guide-channelHeaderCell + .guide-channelHeaderCell {
+    .channelPrograms + .channelPrograms,
+ .guide-channelHeaderCell + .guide-channelHeaderCell {
         margin-top: -1px;
     }
 
-.channelPrograms-tv, .guide-channelHeaderCell-tv {
+.channelPrograms-tv,
+ .guide-channelHeaderCell-tv {
     height: 3em;
 }
 
-.guide-channelTimeslotHeader, .timeslotHeader {
+.guide-channelTimeslotHeader,
+ .timeslotHeader {
     background: transparent !important;
     height: 2.8em;
 }
@@ -243,6 +261,7 @@
     text-decoration: none;
     overflow: hidden;
     align-items: center;
+
     /* Needed for Firefox */
     text-align: left;
     contain: strict;
@@ -259,6 +278,7 @@
     position: relative;
     flex-grow: 1;
     contain: layout style paint;
+
     /* transition: transform 60ms ease-out; */
 }
 
@@ -356,11 +376,13 @@
     flex-direction: column;
 }
 
-.channelsContainer, .programGrid {
+.channelsContainer,
+ .programGrid {
     contain: layout style paint;
 }
 
-.timerIcon, .seriesTimerIcon {
+.timerIcon,
+ .seriesTimerIcon {
     color: #c33 !important;
 }
 

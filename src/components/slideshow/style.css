@@ -3,11 +3,14 @@
     background: #000;
 }
 
-.slideshowSwiperContainer, .swiper-wrapper, .swiper-slide {
+.slideshowSwiperContainer,
+ .swiper-wrapper,
+ .swiper-slide {
     background: #000;
 }
 
-.slideshowImage, .slideshowSwiperContainer {
+.slideshowImage,
+ .slideshowSwiperContainer {
     position: fixed;
     top: 0;
     right: 0;
@@ -32,6 +35,7 @@
     color: #fff;
     z-index: 1002;
     font-weight: normal;
+
     /* Add an outline */
     text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
