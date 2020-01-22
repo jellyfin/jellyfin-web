@@ -38,10 +38,8 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
                 dragMode = 1;
                 scrollContainer.addEventListener("scroll", disableEvent);
                 self.showMask();
-            } else {
-                if (0 === dragMode && Math.abs(deltaY) >= 5) {
-                    dragMode = 2;
-                }
+            } else if (0 === dragMode && Math.abs(deltaY) >= 5) {
+                dragMode = 2;
             }
 
             if (1 === dragMode) {
