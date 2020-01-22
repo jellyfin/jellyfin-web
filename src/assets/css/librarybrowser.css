@@ -4,7 +4,7 @@
     vertical-align: middle
 }
 
-.detailButton-mobile,
+.detailButton,
 .itemLinks,
 .listPaging,
 .sectionTabs,
@@ -95,7 +95,7 @@
     display: flex;
 }
 
-.detailButton-mobile,
+.detailButton,
 .skinHeader {
     flex-direction: column;
 }
@@ -563,7 +563,7 @@
     }
 }
 
-.detailButton-mobile,
+.detailButton,
 .mainDetailButtons {
     display: flex;
 }
@@ -601,7 +601,7 @@
     margin-top: 1.5em !important
 }
 
-.detailButton-mobile {
+.detailButton {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -610,39 +610,35 @@
     padding: .5em .7em !important
 }
 
-.detailButton {
-    margin: 0 .5em 0 0 !important
-}
-
 @media all and (min-width:29em) {
-    .detailButton-mobile {
+    .detailButton {
         padding-left: .75em !important;
         padding-right: .75em !important
     }
 }
 
 @media all and (min-width:32em) {
-    .detailButton-mobile {
+    .detailButton {
         padding-left: .8em !important;
         padding-right: .8em !important
     }
 }
 
 @media all and (min-width:35em) {
-    .detailButton-mobile {
+    .detailButton {
         padding-left: .85em !important;
         padding-right: .85em !important
     }
 }
 
-.detailButton-mobile-content {
+.detailButton-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center
 }
 
-.detailButton-mobile-icon {
+.detailButton-icon {
     font-size: 1.6em !important;
     width: 1em;
     height: 1em
@@ -654,7 +650,7 @@
     width: 22.786458333333332vw;
 }
 
-.detailButton-mobile-text {
+.detailButton-text {
     margin-top: .7em;
     font-size: 80%;
     font-weight: 400
@@ -665,7 +661,7 @@
         margin-left: -.5em
     }
 
-    .detailButton {
+    .detailButtonHideonMobile {
         display: none !important
     }
 }
