@@ -108,7 +108,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             headerCastButton.addEventListener("click", onCastButtonClicked);
         }
 
-        initHeadRoom(skinHeader);
+        if (layoutManager.mobile) {
+            initHeadRoom(skinHeader);
+        }
     }
 
     function onCastButtonClicked() {
