@@ -1461,5 +1461,6 @@
     "ButtonAddImage": "Add Image",
     "OptionRandom": "Random",
     "SelectAdminUsername": "Please select a username for the admin account.",
-    "ButtonSplit": "Split"
+    "ButtonSplit": "Split",
+    "HeaderNavigation": "Navigation"
 }
