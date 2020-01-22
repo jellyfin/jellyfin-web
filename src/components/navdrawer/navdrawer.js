@@ -114,12 +114,17 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
                 countStart++;
                 var deltaX = endX - (backgroundTouchStartX || 0);
 
-                if (1 === countStart && (startPoint = deltaX), deltaX < 0 && 2 !== dragMode) {
-                    dragMode = 1;
-                    newPos = deltaX - startPoint + options.width;
-                    self.changeMenuPos();
-                    var time = new Date().getTime() - (backgroundTouchStartTime || 0);
-                    velocity = Math.abs(deltaX) / time;
+                if (countStart == 1) {
+                    startPoint = deltaX;
+                }
+                if (deltaX < 0) {
+                    if (dragMode !== 2) {
+                        dragMode = 1;
+                        newPos = deltaX - startPoint + options.width;
+                        self.changeMenuPos();
+                        var time = new Date().getTime() - (backgroundTouchStartTime || 0);
+                        velocity = Math.abs(deltaX) / time;
+                    }
                 }
             }
 
@@ -262,6 +267,7 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
         };
 
         TouchMenuLA.prototype.hideMask = function () {
+            mask.classList.add("hide");
             mask.classList.remove("backdrop");
         };
 

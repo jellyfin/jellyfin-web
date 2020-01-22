@@ -9,7 +9,8 @@ define(["loading", "libraryMenu", "globalize", "emby-checkbox", "emby-select"], 
             var validationResult = getValidationAlert(form);
 
             if (validationResult) {
-                return void alertText(validationResult);
+                alertText(validationResult);
+                return;
             }
 
             validateHttps(form).then(function () {
