@@ -1453,5 +1453,6 @@
     "TabCodecs": "Codecuri",
     "TabCatalog": "Catalog",
     "TV": "TV",
-    "SystemDlnaProfilesHelp": "Profilele de sistem pot fi numai citite. Modificările aduse unui profil de sistem vor fi salvate într-un nou profil personalizat."
+    "SystemDlnaProfilesHelp": "Profilele de sistem pot fi numai citite. Modificările aduse unui profil de sistem vor fi salvate într-un nou profil personalizat.",
+    "HeaderNavigation": "Navigare"
 }
