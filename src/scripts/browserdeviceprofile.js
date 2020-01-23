@@ -132,7 +132,7 @@ define(['browser'], function (browser) {
                 typeString = 'audio/ogg; codecs="opus"';
                 return !!document.createElement('audio').canPlayType(typeString).replace(/no/, '');
             }
-			
+
             return false;
         } else if (format === 'alac') {
             if (browser.iOS || browser.osx) {
@@ -172,7 +172,7 @@ define(['browser'], function (browser) {
             }
 
             var userAgent = navigator.userAgent.toLowerCase();
-			
+
             // Filter out browsers based on chromium that don't support mkv
             if (userAgent.indexOf('vivaldi') !== -1 || userAgent.indexOf('opera') !== -1) {
                 return false;
@@ -494,15 +494,15 @@ define(['browser'], function (browser) {
             hlsVideoCodecs.push('h265');
             hlsVideoCodecs.push('hevc');
         }
-		
-		if (canPlayH265(videoTestElement) && (browser.tizen || browser.web0s)) {
-			if (hlsVideoCodecs.indexOf('h265') === -1) {
-				hlsVideoCodecs.push('h265');
-			}
-			if (hlsVideoCodecs.indexOf('hevc') === -1) {
-				hlsVideoCodecs.push('hevc');
-			}
-		}
+
+        if (canPlayH265(videoTestElement) && (browser.tizen || browser.web0s)) {
+            if (hlsVideoCodecs.indexOf('h265') === -1) {
+                hlsVideoCodecs.push('h265');
+            }
+            if (hlsVideoCodecs.indexOf('hevc') === -1) {
+                hlsVideoCodecs.push('hevc');
+            }
+        }
 
         if (supportsMpeg2Video()) {
             mp4VideoCodecs.push('mpeg2video');
@@ -773,7 +773,7 @@ define(['browser'], function (browser) {
             videoTestElement.canPlayType('video/mp4; codecs="avc1.640833"').replace(/no/, '')) {
             maxH264Level = 51;
         }
-		
+
         var userAgent = navigator.userAgent.toLowerCase();
         if (browser.chromecast) {
             var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
