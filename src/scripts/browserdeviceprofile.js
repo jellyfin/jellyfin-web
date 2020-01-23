@@ -139,7 +139,7 @@ define(['browser'], function (browser) {
                 return true;
             }
         } else if (format === 'mp2') {
-            //For now
+            // For now
             return false;
         }
 
