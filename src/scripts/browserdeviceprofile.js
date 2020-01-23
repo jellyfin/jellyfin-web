@@ -241,7 +241,7 @@ define(['browser'], function (browser) {
                 supported = browser.tizen || browser.orsay;
                 break;
             case 'mov':
-                supported = browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
+                supported = browser.tizen || browser.orsay || browser.web0s || browser.chrome || browser.edgeUwp;
                 videoCodecs.push('h264');
                 break;
             case 'm2ts':
