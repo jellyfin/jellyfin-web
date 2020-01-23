@@ -117,14 +117,12 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
                 if (countStart == 1) {
                     startPoint = deltaX;
                 }
-                if (deltaX < 0) {
-                    if (dragMode !== 2) {
-                        dragMode = 1;
-                        newPos = deltaX - startPoint + options.width;
-                        self.changeMenuPos();
-                        var time = new Date().getTime() - (backgroundTouchStartTime || 0);
-                        velocity = Math.abs(deltaX) / time;
-                    }
+                if (deltaX < 0 && dragMode !== 2) {
+                    dragMode = 1;
+                    newPos = deltaX - startPoint + options.width;
+                    self.changeMenuPos();
+                    var time = new Date().getTime() - (backgroundTouchStartTime || 0);
+                    velocity = Math.abs(deltaX) / time;
                 }
             }
 
