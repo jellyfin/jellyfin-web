@@ -167,24 +167,24 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         if (browser.mobile) {
             return false;
         }
-
-        var savedResult = appSettings.get(htmlMediaAutoplayAppStorageKey);
-        return "true" === savedResult || "false" !== savedResult && null;
     }
 
-    function cueSupported() {
+    function supportsCue() {
         try {
             var video = document.createElement("video");
             var style = document.createElement("style");
+
             style.textContent = "video::cue {background: inherit}";
             document.body.appendChild(style);
             document.body.appendChild(video);
+
             var cue = window.getComputedStyle(video, "::cue").background;
             document.body.removeChild(style);
             document.body.removeChild(video);
+
             return !!cue.length;
         } catch (err) {
-            console.log("Error detecting cue support:" + err);
+            console.log("error detecting cue support: " + err);
             return false;
         }
     }
@@ -203,8 +203,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             console.log("app is hidden");
         }
     }
-
-    var htmlMediaAutoplayAppStorageKey = "supportshtmlmediaautoplay0";
 
     var supportedFeatures = function () {
         var features = [];
@@ -280,7 +278,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         //features.push("multiserver");
         features.push("screensaver");
 
-        if (!browser.orsay && !browser.tizen && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || cueSupported())) {
+        if (!browser.orsay && !browser.tizen && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
             features.push("subtitleappearancesettings");
         }
 
@@ -298,18 +296,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
 
         return features;
     }();
-
-    if (supportedFeatures.indexOf("htmlvideoautoplay") === -1 && supportsHtmlMediaAutoplay() !== false) {
-        require(["autoPlayDetect"], function (autoPlayDetect) {
-            autoPlayDetect.supportsHtmlMediaAutoplay().then(function () {
-                appSettings.set(htmlMediaAutoplayAppStorageKey, "true");
-                supportedFeatures.push("htmlvideoautoplay");
-                supportedFeatures.push("htmlaudioautoplay");
-            }, function () {
-                appSettings.set(htmlMediaAutoplayAppStorageKey, "false");
-            });
-        });
-    }
 
     var deviceId;
     var deviceName;
@@ -395,7 +381,9 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             }
         }
     };
+
     var doc = self.document;
+    var isHidden = false;
 
     if (doc) {
         if (void 0 !== doc.visibilityState) {
@@ -418,8 +406,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             }
         }
     }
-
-    var isHidden = false;
 
     if (doc) {
         doc.addEventListener(visibilityChange, function () {
