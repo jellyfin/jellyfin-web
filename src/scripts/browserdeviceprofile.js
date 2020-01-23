@@ -91,6 +91,14 @@ define(['browser'], function (browser) {
         return videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '');
     }
 
+    function supportsEac3(videoTestElement) {
+        if (browser.tizen || browser.orsay || browser.web0s) {
+            return true;
+        }
+
+        return videoTestElement.canPlayType('audio/mp4; codecs="ec-3"').replace(/no/, '');
+    }
+
     function supportsAc3InHls(videoTestElement) {
         if (browser.tizen || browser.orsay || browser.web0s) {
             return true;
@@ -102,14 +110,6 @@ define(['browser'], function (browser) {
         }
 
         return false;
-    }
-
-    function supportsEac3(videoTestElement) {
-        if (browser.tizen || browser.orsay || browser.web0s) {
-            return true;
-        }
-
-        return videoTestElement.canPlayType('audio/mp4; codecs="ec-3"').replace(/no/, '');
     }
 
     function canPlayAudioFormat(format) {
