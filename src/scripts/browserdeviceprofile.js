@@ -180,7 +180,7 @@ define(['browser'], function (browser) {
 
             return true;
         }
-		
+
         if (browser.edgeUwp) {
             return true;
         }
