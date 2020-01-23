@@ -7,8 +7,8 @@
                     <p style="margin-top:2em;">${UserProfilesIntro}</p>
                     <br />
                     <div class="inputContainer">
-                        <input is="emby-input" type="text" id="txtUsername" label="${LabelYourFirstName}" required="required" />
-                        <div class="fieldDescription">${MoreUsersCanBeAddedLater}</div>
+                        <input is="emby-input" type="text" id="txtUsername" label="${LabelUsername}" required="required" />
+                        <div class="fieldDescription">${SelectAdminUsername}</div>
                     </div>
                     <div class="inputContainer">
                         <input is="emby-input" id="txtManualPassword" type="password" label="${LabelPassword}" />
@@ -17,6 +17,7 @@
                     <div class="inputContainer">
                         <input is="emby-input" id="txtPasswordConfirm" type="password" label="${LabelPasswordConfirm}" />
                     </div>
+                    <p>${MoreUsersCanBeAddedLater}</p>
                 </div>
 
                 <div class="wizardNavigation">

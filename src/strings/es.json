@@ -1,7 +1,7 @@
 {
     "AccessRestrictedTryAgainLater": "El acceso está restringido actualmente. Por favor, inténtalo más tarde.",
     "Add": "Añadir",
-    "AddItemToCollectionHelp": "Agregue elementos a las colecciones buscando en ellos y utilizando sus menús con el botón derecho del ratón o pulsando en los menús para agregarlos a una colección.",
+    "AddItemToCollectionHelp": "Agregue elementos a las colecciones buscándolos y haciendo clic con el botón derecho o tocando los menús para agregarlos a una colección.",
     "AddToCollection": "Añadir a la colección",
     "AddToPlaylist": "Añadir a la lista de reproducción",
     "AddedOnValue": "Añadido {0}",
@@ -1368,7 +1368,7 @@
     "DashboardServerName": "Servidor: {0}",
     "DashboardOperatingSystem": "Sistema operativo: {0}",
     "DashboardArchitecture": "Arquitectura: {0}",
-    "LabelWeb": "Web: ",
+    "LabelWeb": "Web:",
     "LaunchWebAppOnStartup": "Iniciar la aplicación web al iniciar el servidor",
     "LaunchWebAppOnStartupHelp": "Abrir el cliente web en el navegador por defecto al iniciar el servidor. Esto no ocurrirá al utilizar la función de reinicio del servidor.",
     "MediaInfoSoftware": "Software",
@@ -1459,5 +1459,7 @@
     "FetchingData": "Obteniendo datos adicionales",
     "ButtonAddImage": "Añadir imagen",
     "HeaderFavoritePeople": "Personas favoritas",
-    "OptionRandom": "Aleatorio"
+    "OptionRandom": "Aleatorio",
+    "SelectAdminUsername": "Por favor seleccione un nombre de usuario para la cuenta de administrador.",
+    "ButtonSplit": "Dividir"
 }

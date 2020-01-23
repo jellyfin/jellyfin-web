@@ -83,7 +83,7 @@
     "Art": "Art",
     "AsManyAsPossible": "As many as possible",
     "Ascending": "Ascending",
-    "AspectRatio": "Aspect ratio",
+    "AspectRatio": "Aspect Ratio",
     "AttributeNew": "New",
     "Audio": "Audio",
     "AuthProviderHelp": "Select an Authentication Provider to be used to authenticate this user's password.",
@@ -565,7 +565,7 @@
     "ReplaceExistingImages": "Replace existing images",
     "ReplaceAllMetadata": "Replace all metadata",
     "RepeatOne": "Repeat one",
-    "RepeatMode": "Repeat mode",
+    "RepeatMode": "Repeat Mode",
     "RepeatEpisodes": "Repeat episodes",
     "RepeatAll": "Repeat all",
     "Repeat": "Repeat",
@@ -777,7 +777,7 @@
     "LabelXDlnaDocHelp": "Determines the content of the X_DLNADOC element in the urn:schemas-dlna-org:device-1-0 namespace.",
     "LabelXDlnaDoc": "X-DLNA doc:",
     "LabelXDlnaCapHelp": "Determines the content of the X_DLNACAP element in the urn:schemas-dlna-org:device-1-0 namespace.",
-    "LabelWeb": "Web: ",
+    "LabelWeb": "Web:",
     "DashboardServerName": "Server: {0}",
     "DashboardVersionNumber": "Version: {0}",
     "LabelVersionInstalled": "{0} installed",
@@ -1459,5 +1459,8 @@
     "HeaderFavoritePeople": "Favourite People",
     "FetchingData": "Fetching additional data",
     "ButtonAddImage": "Add Image",
-    "OptionRandom": "Random"
+    "OptionRandom": "Random",
+    "SelectAdminUsername": "Please select a username for the admin account.",
+    "ButtonSplit": "Split",
+    "HeaderNavigation": "Navigation"
 }

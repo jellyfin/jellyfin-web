@@ -35,14 +35,11 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             isDefault: true,
             isDefaultServerDashboard: true
         }, {
-            name: "Emby",
-            id: "emby"
-        }, {
             name: "Light",
             id: "light"
         }, {
             name: "Purple Haze",
-            id: "purple-haze"
+            id: "purplehaze"
         }, {
             name: "Windows Media Center",
             id: "wmc"
