@@ -545,13 +545,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         page.back();
     }
 
+    /**
+     * Pages of "no return" (Go back).
+     */
+    var startPages = ['home', 'login'];
+
     function canGoBack() {
         var curr = current();
         if (!curr) {
             return false;
         }
 
-        if (!document.querySelector('.dialogContainer') && curr.type === 'home') {
+        if (!document.querySelector('.dialogContainer') && startPages.indexOf(curr.type) !== -1) {
             return false;
         }
         return page.canGoBack();

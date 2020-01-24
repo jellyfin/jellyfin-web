@@ -226,7 +226,8 @@ define([
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: "auth/login"
+        controller: "auth/login",
+        type: "login"
     });
     defineRoute({
         path: "/metadataimages.html",
