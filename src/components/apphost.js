@@ -167,6 +167,8 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         if (browser.mobile) {
             return false;
         }
+
+        return true;
     }
 
     function supportsCue() {
