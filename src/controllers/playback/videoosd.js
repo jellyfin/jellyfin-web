@@ -1105,7 +1105,6 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 case "Enter":
                     showOsd();
                     break;
-
                 case "Escape":
                 case "Back":
                     // Ignore key when some dialog is opened
@@ -1114,52 +1113,45 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                         e.stopPropagation();
                     }
                     break;
-
                 case "k":
                     playbackManager.playPause(currentPlayer);
                     showOsd();
                     break;
-
                 case "l":
                 case "ArrowRight":
                 case "Right":
                     playbackManager.fastForward(currentPlayer);
                     showOsd();
                     break;
-
                 case "j":
                 case "ArrowLeft":
                 case "Left":
                     playbackManager.rewind(currentPlayer);
                     showOsd();
                     break;
-
                 case "f":
                     if (!e.ctrlKey && !e.metaKey) {
                         playbackManager.toggleFullscreen(currentPlayer);
                         showOsd();
                     }
                     break;
-
                 case "m":
                     playbackManager.toggleMute(currentPlayer);
                     showOsd();
                     break;
-
                 case "NavigationLeft":
                 case "GamepadDPadLeft":
                 case "GamepadLeftThumbstickLeft":
-                // Ignores gamepad events that are always triggered, even when not focused.
+                    // Ignores gamepad events that are always triggered, even when not focused.
                     if (document.hasFocus()) {
                         playbackManager.rewind(currentPlayer);
                         showOsd();
                     }
                     break;
-
                 case "NavigationRight":
                 case "GamepadDPadRight":
                 case "GamepadLeftThumbstickRight":
-                // Ignores gamepad events that are always triggered, even when not focused.
+                    // Ignores gamepad events that are always triggered, even when not focused.
                     if (document.hasFocus()) {
                         playbackManager.fastForward(currentPlayer);
                         showOsd();
