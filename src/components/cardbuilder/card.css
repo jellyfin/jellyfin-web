@@ -36,6 +36,11 @@ button {
     margin-right: -0.6em;
 }
 
+.itemsContainer.scrollSlider.focuscontainer-x.animatedScrollX {
+    overflow-x: scroll;
+    margin-bottom: -15px
+}
+
 /* TODO replace this with a proper fix */
 /* doesnt work on mobile devices */
 /* negative margin fixes annoying misalignment with cards and title */
@@ -216,6 +221,7 @@ button {
 .visualCardBox .cardContent {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    background-size: contain;
 }
 
 .cardContent-shadow {
