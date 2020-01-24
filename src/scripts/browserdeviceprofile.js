@@ -80,7 +80,7 @@ define(['browser'], function (browser) {
 
     function canPlayHlsWithMSE() {
         // text tracks don’t work with this in firefox
-        return null != window.MediaSource;
+        return window.MediaSource != null;
     }
 
     function supportsAc3(videoTestElement) {
