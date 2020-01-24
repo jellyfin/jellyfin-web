@@ -40,7 +40,7 @@ html {
 }
 
 .pageTitleWithDefaultLogo {
-    background-image: url(assets/img/banner-light.png)
+    background-image: url(../../assets/img/banner-light.png)
 }
 
 .backgroundContainer,
