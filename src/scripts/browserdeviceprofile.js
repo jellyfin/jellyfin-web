@@ -124,7 +124,7 @@ define(['browser'], function (browser) {
                 return true;
             }
         } else if (format === 'asf') {
-            if (browser.tizen || browser.edgeUwp) {
+            if (browser.tizen || browser.web0s || browser.edgeUwp) {
                 return true;
             }
         } else if (format === 'opus') {
