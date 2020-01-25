@@ -548,7 +548,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     /**
      * Pages of "no return" (Go back).
      */
-    var startPages = ['home', 'login'];
+    var startPages = ['home', 'login', 'selectserver'];
 
     function canGoBack() {
         var curr = current();

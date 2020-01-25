@@ -313,7 +313,8 @@ define([
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: "auth/selectserver"
+        controller: "auth/selectserver",
+        type: "selectserver"
     });
     defineRoute({
         path: "/serveractivity.html",
