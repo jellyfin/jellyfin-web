@@ -114,7 +114,7 @@
 
 @media all and (max-width: 80em), all and (max-height: 45em) {
     .dialog-fixedSize,
- .dialog-fullscreen-lowres {
+    .dialog-fullscreen-lowres {
         position: fixed !important;
         top: 0 !important;
         bottom: 0 !important;

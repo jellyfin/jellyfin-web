@@ -21,9 +21,9 @@
     width: 100%;
 }
 
-    .emby-textarea::-moz-focus-inner {
-        border: 0;
-    }
+.emby-textarea::-moz-focus-inner {
+    border: 0;
+}
 
 .textareaLabel {
     display: inline-block;

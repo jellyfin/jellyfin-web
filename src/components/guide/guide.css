@@ -92,27 +92,27 @@
 }
 
 .channelPrograms,
- .timeslotHeadersInner {
+.timeslotHeadersInner {
     width: 1800vw;
 }
 
 @media all and (min-width: 37.5em) {
     .channelPrograms,
- .timeslotHeadersInner {
+    .timeslotHeadersInner {
         width: 1400vw;
     }
 }
 
 @media all and (min-width: 50em) {
     .channelPrograms,
- .timeslotHeadersInner {
+    .timeslotHeadersInner {
         width: 1200vw;
     }
 }
 
 @media all and (min-width: 80em) {
     .channelPrograms,
- .timeslotHeadersInner {
+    .timeslotHeadersInner {
         width: 810vw;
     }
 }
@@ -125,12 +125,12 @@
 }
 
 .programCell,
- .guide-channelHeaderCell {
+.guide-channelHeaderCell {
     outline: none !important;
 }
 
 .guide-channelHeaderCell,
- .guide-channelTimeslotHeader {
+.guide-channelTimeslotHeader {
     padding: 0 !important;
     cursor: pointer;
     outline: none !important;
@@ -167,34 +167,34 @@
    This was causing channelsContainer to extend beyond the fixed width on ps4, tizen, lg and opera tv.
 */
 .channelsContainer,
- .guide-channelTimeslotHeader {
+.guide-channelTimeslotHeader {
     width: 24vw;
 }
 
 @media all and (min-width: 31.25em) {
     .channelsContainer,
- .guide-channelTimeslotHeader {
+    .guide-channelTimeslotHeader {
         width: 16vw;
     }
 }
 
 @media all and (min-width: 37.5em) {
     .channelsContainer,
- .guide-channelTimeslotHeader {
+    .guide-channelTimeslotHeader {
         width: 16vw;
     }
 }
 
 @media all and (min-width: 50em) {
     .channelsContainer,
- .guide-channelTimeslotHeader {
+    .guide-channelTimeslotHeader {
         width: 14vw;
     }
 }
 
 @media all and (min-width: 80em) {
     .channelsContainer,
- .guide-channelTimeslotHeader {
+    .guide-channelTimeslotHeader {
         width: 12vw;
     }
 }
@@ -214,25 +214,25 @@
 
 @media all and (max-width: 50em) {
     .newTvProgram,
- .liveTvProgram,
- .premiereTvProgram,
- .guideHdIcon {
+    .liveTvProgram,
+    .premiereTvProgram,
+    .guideHdIcon {
         display: none;
     }
 }
 
-    .channelPrograms + .channelPrograms,
- .guide-channelHeaderCell + .guide-channelHeaderCell {
-        margin-top: -1px;
-    }
+.channelPrograms + .channelPrograms,
+.guide-channelHeaderCell + .guide-channelHeaderCell {
+    margin-top: -1px;
+}
 
 .channelPrograms-tv,
- .guide-channelHeaderCell-tv {
+.guide-channelHeaderCell-tv {
     height: 3em;
 }
 
 .guide-channelTimeslotHeader,
- .timeslotHeader {
+.timeslotHeader {
     background: transparent !important;
     height: 2.8em;
 }
@@ -377,12 +377,12 @@
 }
 
 .channelsContainer,
- .programGrid {
+.programGrid {
     contain: layout style paint;
 }
 
 .timerIcon,
- .seriesTimerIcon {
+.seriesTimerIcon {
     color: #c33 !important;
 }
 
@@ -425,11 +425,11 @@
     font-weight: normal;
 }
 
-    .guide-date-tab-button.emby-tab-button-active {
-        border-color: transparent !important;
-    }
+.guide-date-tab-button.emby-tab-button-active {
+    border-color: transparent !important;
+}
 
-    .guide-date-tab-button.show-focus:focus {
-        border-radius: 0.15em !important;
-        transform: none !important;
-    }
+.guide-date-tab-button.show-focus:focus {
+    border-radius: 0.15em !important;
+    transform: none !important;
+}

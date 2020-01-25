@@ -277,7 +277,7 @@
 
 @media all and (max-width: 50em) {
     .videoOsdBottom .btnFastForward,
- .videoOsdBottom .btnRewind {
+    .videoOsdBottom .btnRewind {
         display: none !important;
     }
 }

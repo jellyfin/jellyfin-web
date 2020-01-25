@@ -54,14 +54,14 @@
 }
 
 .listItemImage,
- .listItemIcon,
- .listItemAside {
+.listItemIcon,
+.listItemAside {
     flex-shrink: 0;
 }
 
 .listItemBody,
- .listItemImage,
- .listItemIcon {
+.listItemImage,
+.listItemIcon {
     display: inline-block;
     vertical-align: middle;
 }
@@ -90,8 +90,8 @@
 }
 
 .listItem,
- .listItemBody,
- .listItemMediaInfo {
+.listItemBody,
+.listItemMediaInfo {
     display: flex;
     contain: layout style;
 }
@@ -260,8 +260,8 @@
 
 @media all and (max-width: 50em) {
     .listItem .endsAt,
- .listItem .criticRating,
- .listItem-overview {
+    .listItem .criticRating,
+    .listItem-overview {
         display: none !important;
     }
 }

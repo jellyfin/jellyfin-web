@@ -131,33 +131,33 @@
     z-index: 1;
 }
 
-    .paper-icon-button-light::-moz-focus-inner {
-        border: 0;
-    }
+.paper-icon-button-light::-moz-focus-inner {
+    border: 0;
+}
 
-    .paper-icon-button-light:disabled {
-        opacity: 0.3;
-        cursor: default;
-    }
+.paper-icon-button-light:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
 
-    .paper-icon-button-light > i {
-        font-size: 1.66956521739130434em;
+.paper-icon-button-light > i {
+    font-size: 1.66956521739130434em;
 
-        /* Make sure its on top of the ripple */
-        position: relative;
-        z-index: 1;
-        vertical-align: middle;
-    }
+    /* Make sure its on top of the ripple */
+    position: relative;
+    z-index: 1;
+    vertical-align: middle;
+}
 
-    .paper-icon-button-light > div {
-        max-height: 100%;
-        transform: scale(1.8);
-        position: relative;
-        z-index: 1;
-        vertical-align: middle;
-        display: inline;
-        margin: 0 auto;
-    }
+.paper-icon-button-light > div {
+    max-height: 100%;
+    transform: scale(1.8);
+    position: relative;
+    z-index: 1;
+    vertical-align: middle;
+    display: inline;
+    margin: 0 auto;
+}
 
 .emby-button-foreground {
     position: relative;

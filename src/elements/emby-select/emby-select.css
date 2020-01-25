@@ -20,14 +20,14 @@
     width: 100%;
 }
 
-    .emby-select[disabled] {
-        background: none !important;
-        border-color: transparent !important;
-        color: inherit !important;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-    }
+.emby-select[disabled] {
+    background: none !important;
+    border-color: transparent !important;
+    color: inherit !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
 
 .emby-select::-moz-focus-inner {
     border: 0;
@@ -38,10 +38,10 @@
     font-size: inherit;
 }
 
-    .selectContainer-inline > .emby-select[disabled] {
-        padding-left: 0;
-        padding-right: 0;
-    }
+.selectContainer-inline > .emby-select[disabled] {
+    padding-left: 0;
+    padding-right: 0;
+}
 
 .emby-select-focusscale {
     transition: transform 180ms ease-out !important;
@@ -49,10 +49,10 @@
     transform-origin: center center;
 }
 
-    .emby-select-focusscale:focus {
-        transform: scale(1.04);
-        z-index: 1;
-    }
+.emby-select-focusscale:focus {
+    transform: scale(1.04);
+    z-index: 1;
+}
 
 .emby-select + .fieldDescription {
     margin-top: 0.25em;

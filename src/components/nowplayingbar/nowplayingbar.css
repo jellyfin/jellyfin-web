@@ -29,7 +29,7 @@
 }
 
 .mediaButton,
- .nowPlayingBarUserDataButtons .btnUserItemRating {
+.nowPlayingBarUserDataButtons .btnUserItemRating {
     vertical-align: middle;
     margin: 0;
     text-align: center;
@@ -165,7 +165,7 @@
 
 @media all and (max-width: 24em) {
     .nowPlayingBar .muteButton,
- .nowPlayingBar .unmuteButton {
+    .nowPlayingBar .unmuteButton {
         display: none;
     }
 }

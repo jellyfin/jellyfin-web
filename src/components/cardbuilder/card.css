@@ -56,26 +56,26 @@ button::-moz-focus-inner {
 }
 
 .cardPadder-backdrop,
- .cardPadder-mixedBackdrop,
- .cardPadder-smallBackdrop,
- .cardPadder-overflowBackdrop,
- .cardPadder-overflowSmallBackdrop {
+.cardPadder-mixedBackdrop,
+.cardPadder-smallBackdrop,
+.cardPadder-overflowBackdrop,
+.cardPadder-overflowSmallBackdrop {
     padding-bottom: 56.25%;
     contain: strict;
 }
 
 .cardPadder-square,
- .cardPadder-mixedSquare,
- .cardPadder-overflowSquare,
- .overflowSquareCard-textCardPadder {
+.cardPadder-mixedSquare,
+.cardPadder-overflowSquare,
+.overflowSquareCard-textCardPadder {
     padding-bottom: 100%;
     contain: strict;
 }
 
 .cardPadder-portrait,
- .cardPadder-mixedPortrait,
- .cardPadder-overflowPortrait,
- .overflowPortraitCard-textCardPadder {
+.cardPadder-mixedPortrait,
+.cardPadder-overflowPortrait,
+.overflowPortraitCard-textCardPadder {
     padding-bottom: 150%;
     contain: strict;
 }
@@ -492,14 +492,14 @@ button::-moz-focus-inner {
     }
 
     .squareCard,
- .portraitCard {
+    .portraitCard {
         width: 33.333333333333333333333333333333%;
     }
 }
 
 @media (min-width: 43.75em) {
     .squareCard,
- .portraitCard {
+    .portraitCard {
         width: 25%;
     }
 }
@@ -516,7 +516,7 @@ button::-moz-focus-inner {
     }
 
     .squareCard,
- .portraitCard {
+    .portraitCard {
         width: 20%;
     }
 
@@ -537,7 +537,7 @@ button::-moz-focus-inner {
     }
 
     .squareCard,
- .portraitCard {
+    .portraitCard {
         width: 16.666666666666666666666666666667%;
     }
 
@@ -552,7 +552,7 @@ button::-moz-focus-inner {
 
 @media (min-width: 87.5em) {
     .squareCard,
- .portraitCard {
+    .portraitCard {
         width: 14.285714285714285714285714285714%;
     }
 
@@ -571,14 +571,14 @@ button::-moz-focus-inner {
     }
 
     .squareCard,
- .portraitCard {
+    .portraitCard {
         width: 12.5%;
     }
 }
 
 @media (min-width: 120em) {
     .squareCard,
- .portraitCard {
+    .portraitCard {
         width: 11.111111111111111111111111111111%;
     }
 }
@@ -589,7 +589,7 @@ button::-moz-focus-inner {
     }
 
     .squareCard,
- .portraitCard {
+    .portraitCard {
         width: 10%;
     }
 }
@@ -621,7 +621,7 @@ button::-moz-focus-inner {
 }
 
 .overflowSquareCard,
- .overflowPortraitCard {
+.overflowPortraitCard {
     width: 40vw;
 }
 
@@ -647,33 +647,33 @@ button::-moz-focus-inner {
 
 @media (min-width: 43.75em) {
     .overflowSquareCard,
- .overflowPortraitCard {
+    .overflowPortraitCard {
         width: 23.1vw;
     }
 }
 
 @media (min-width: 48.125em) {
     .overflowBackdropCard,
- .overflowSmallBackdropCard {
+    .overflowSmallBackdropCard {
         width: 30vw;
     }
 }
 
 @media (orientation: landscape) {
     .overflowBackdropCard,
- .overflowSmallBackdropCard {
+    .overflowSmallBackdropCard {
         width: 30vw;
     }
 
     .overflowSquareCard,
- .overflowPortraitCard {
+    .overflowPortraitCard {
         width: 23.1vw;
     }
 }
 
 @media (orientation: landscape) and (min-width: 48.125em) {
     .overflowBackdropCard,
- .overflowSmallBackdropCard {
+    .overflowSmallBackdropCard {
         width: 23.1vw;
     }
 }
@@ -686,59 +686,59 @@ button::-moz-focus-inner {
 
 @media (min-width: 50em) {
     .overflowSquareCard,
- .overflowPortraitCard {
+    .overflowPortraitCard {
         width: 18.5vw;
     }
 }
 
 @media (min-width: 75em) {
     .overflowBackdropCard,
- .overflowSmallBackdropCard {
+    .overflowSmallBackdropCard {
         width: 23.1vw;
     }
 
     .overflowSquareCard,
- .overflowPortraitCard {
+    .overflowPortraitCard {
         width: 15.5vw;
     }
 }
 
 @media (min-width: 87.5em) {
     .overflowSquareCard,
- .overflowPortraitCard {
+    .overflowPortraitCard {
         width: 13.3vw;
     }
 }
 
 @media (min-width: 100em) {
     .overflowBackdropCard,
- .overflowSmallBackdropCard {
+    .overflowSmallBackdropCard {
         width: 18.7vw;
     }
 
     .overflowSquareCard,
- .overflowPortraitCard {
+    .overflowPortraitCard {
         width: 11.6vw;
     }
 }
 
 @media (min-width: 120em) {
     .overflowSquareCard,
- .overflowPortraitCard {
+    .overflowPortraitCard {
         width: 10.3vw;
     }
 }
 
 @media (min-width: 131.25em) {
     .overflowSquareCard,
- .overflowPortraitCard {
+    .overflowPortraitCard {
         width: 9.3vw;
     }
 }
 
 @media (min-width: 156.25em) {
     .overflowBackdropCard,
- .overflowSmallBackdropCard {
+    .overflowSmallBackdropCard {
         width: 15.6vw;
     }
 }
@@ -756,7 +756,7 @@ button::-moz-focus-inner {
 }
 
 .itemsContainer-tv > .overflowSquareCard,
- .itemsContainer-tv > .overflowPortraitCard {
+.itemsContainer-tv > .overflowPortraitCard {
     width: 15.6vw;
 }
 

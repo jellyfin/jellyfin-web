@@ -4,13 +4,13 @@
 }
 
 .slideshowSwiperContainer,
- .swiper-wrapper,
- .swiper-slide {
+.swiper-wrapper,
+.swiper-slide {
     background: #000;
 }
 
 .slideshowImage,
- .slideshowSwiperContainer {
+.slideshowSwiperContainer {
     position: fixed;
     top: 0;
     right: 0;

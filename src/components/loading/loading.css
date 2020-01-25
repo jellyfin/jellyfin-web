@@ -371,9 +371,9 @@
     border-color: inherit;
 }
 
-    .mdl-spinner__circle-clipper .mdl-spinner__circle {
-        width: 200%;
-    }
+.mdl-spinner__circle-clipper .mdl-spinner__circle {
+    width: 200%;
+}
 
 .mdl-spinner__circleLeft {
     border-right-color: transparent !important;
