@@ -160,8 +160,8 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
 
         if (navigator.mediaSession) {
             navigator.mediaSession.metadata = new MediaMetadata({
-                title: title,
-                artist: artist,
+                title: artist,
+                artist: title,
                 album: album,
                 artwork: getImageUrls(item),
                 albumArtist: albumArtist,
@@ -185,8 +185,8 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
                 action: eventName,
                 isLocalPlayer: isLocalPlayer,
                 itemId: itemId,
-                title: title,
-                artist: artist,
+                title: artist,
+                artist: title,
                 album: album,
                 duration: duration,
                 position: currentTime,
