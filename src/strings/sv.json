@@ -962,7 +962,6 @@
     "OptionEnableAccessFromAllDevices": "Aktivera åtkomst från alla enheter",
     "OptionEnableAccessToAllChannels": "Aktivera åtkomst till alla kanaler",
     "OptionEnableAccessToAllLibraries": "Aktivera åtkomst till alla bibliotek",
-    "OptionEnableAutomaticServerUpdates": "Aktivera automatiska serveruppdateringar",
     "OptionEnableExternalContentInSuggestions": "Aktivera externt innehåll under förslag",
     "OptionEnableExternalContentInSuggestionsHelp": "Tillåt internet trailers och livetv-program att visas under förslag på innehåll.",
     "OptionEnableForAllTuners": "Aktivera för alla TV-mottagare",

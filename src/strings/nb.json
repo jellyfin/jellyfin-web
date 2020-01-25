@@ -822,7 +822,6 @@
     "OptionEnableAccessFromAllDevices": "Gi tilgang fra alle enheter",
     "OptionEnableAccessToAllChannels": "Gi tilgang til alle kanaler",
     "OptionEnableAccessToAllLibraries": "Gi tilgang til alle bibliotek",
-    "OptionEnableAutomaticServerUpdates": "Aktiver automatiske serveroppdateringer",
     "OptionEnableExternalContentInSuggestions": "Aktiver eksternt innhold i forslag",
     "OptionEnableExternalContentInSuggestionsHelp": "Tillat at Internett-trailere og programmer på direkte-TV inkluderes i foreslått innhold.",
     "OptionEnableForAllTuners": "Aktiver for alle mottakerenheter",

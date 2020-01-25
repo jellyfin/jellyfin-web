@@ -16,18 +16,6 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
             return '<option value="' + language.Value + '">' + language.Name + "</option>"
         })).val(config.UICulture);
         currentLanguage = config.UICulture;
-        if (systemInfo.CanSelfUpdate) {
-            page.querySelector(".fldAutomaticUpdates").classList.remove("hide");
-        } else {
-            page.querySelector(".fldAutomaticUpdates").classList.add("hide");
-        }
-        $("#chkEnableAutomaticServerUpdates", page).checked(config.EnableAutoUpdate);
-        $("#chkEnableAutomaticRestart", page).checked(config.EnableAutomaticRestart);
-        if (systemInfo.CanSelfRestart) {
-            page.querySelector("#fldEnableAutomaticRestart").classList.remove("hide");
-        } else {
-            page.querySelector("#fldEnableAutomaticRestart").classList.add("hide");
-        }
         if (systemInfo.CanSelfRestart || systemInfo.CanSelfUpdate) {
             $(".autoUpdatesContainer", page).removeClass("hide");
         } else {
@@ -48,8 +36,6 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
             config.MetadataNetworkPath = $("#txtMetadataNetworkPath", form).val();
             var requiresReload = (config.UICulture !== currentLanguage);
             config.AutoRunWebApp = $("#chkAutoRunWebApp", form).checked();
-            config.EnableAutomaticRestart = $("#chkEnableAutomaticRestart", form).checked();
-            config.EnableAutoUpdate = $("#chkEnableAutomaticServerUpdates", form).checked();
             ApiClient.updateServerConfiguration(config).then(function() {
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
                     brandingConfig.LoginDisclaimer = form.querySelector("#txtLoginDisclaimer").value;
