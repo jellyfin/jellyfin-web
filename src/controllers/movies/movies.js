@@ -169,6 +169,7 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     valueChangeEvent: "click"
                 });
 
+                tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-right");
                 alphaPickerElement.classList.add("alphaPicker-fixed-right");
                 itemsContainer.classList.add("padded-right-withalphapicker");
             }
