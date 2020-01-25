@@ -969,7 +969,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .sectionTitleTextButton > .sectionTitle {
-    margin-bottom: 0;
+    margin-bottom: 0.35em;
     margin-top: 0;
 }
 
