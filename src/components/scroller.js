@@ -213,7 +213,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         };
 
         self.getScrollEventName = function () {
-            return transform ? 'scrollanimate' : 'scroll';
+            // Scroll event is not triggered when overflow is hidden, so use wheel instead
+            return 'wheel';
         };
 
         self.getScrollSlider = function () {

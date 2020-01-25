@@ -54,14 +54,21 @@ define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', '
     }
 
     function onScroll(e) {
-        var scrollButtons = this;
-        var scroller = this.scroller;
+        // Only handle horizontal scrolls
+        if (!e.deltaX) return;
 
+        var scroller = this.scroller;
         var scrollSize = getScrollSize(scroller);
         var scrollPos = getScrollPosition(scroller);
         var scrollWidth = getScrollWidth(scroller);
 
-        updateScrollButtons(scrollButtons, scrollSize, scrollPos, scrollWidth);
+        // Get the width of the first item in the scroller
+        var itemWidth = scroller.children[0].children[0].offsetWidth;
+        var newPos = Math.max(0, scrollPos + (itemWidth * e.deltaX));
+
+        scroller.scrollToPosition(newPos, false);
+        // Disable buttons when at start / end
+        updateScrollButtons(this, scrollSize, newPos, scrollWidth);
     }
 
     function getStyleValue(style, name) {
