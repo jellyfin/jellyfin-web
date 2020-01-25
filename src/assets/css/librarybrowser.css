@@ -201,6 +201,7 @@
 
 .navMenuOptionText {
     white-space: nowrap;
+    margin-top: 0.25em;
 }
 
 .sidebarHeader {
