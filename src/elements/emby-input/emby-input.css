@@ -19,7 +19,7 @@
 
 .emby-input::-moz-focus-inner {
     border: 0;
-    }
+}
 
 .emby-input:required { 
     box-shadow:none; 
