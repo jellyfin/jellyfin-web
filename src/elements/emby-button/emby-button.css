@@ -47,7 +47,7 @@
 }
 
 .button-flat:hover {
-    opacity: .5;
+    background-color: rgba(0,164,220, .4);
 }
 
 .button-link {
