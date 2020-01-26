@@ -120,6 +120,15 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return val !== 'false';
     };
 
+    UserSettings.prototype.enableFastFadein = function (val) {
+        if (val != null) {
+            return this.set('fastFadein', val.toString(), false);
+        }
+
+        val = this.get('fastFadein', false);
+        return val !== 'false';
+    };
+
     UserSettings.prototype.enableBackdrops = function (val) {
         if (val != null) {
             return this.set('enableBackdrops', val.toString(), false);

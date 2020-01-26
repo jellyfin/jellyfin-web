@@ -793,6 +793,8 @@
     "LabelSaveLocalMetadataHelp": "Saving artwork into media folders will put them in a place where they can be easily edited.",
     "LabelScheduledTaskLastRan": "Last ran {0}, taking {1}.",
     "LabelScreensaver": "Screensaver:",
+    "EnableFastImageFadeIn": "Fast image fade-in",
+    "EnableFastImageFadeInHelp": "Enable faster fade-in animation for loaded images",
     "LabelSeasonNumber": "Season number:",
     "LabelSecureConnectionsMode": "Secure connection mode:",
     "LabelSelectFolderGroups": "Automatically group content from the following folders into views such as Movies, Music and TV:",
