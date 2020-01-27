@@ -340,9 +340,9 @@ a[data-role=button] {
 .emby-textarea {
     color: inherit;
     background: rgba(0, 0, 0, 0.5);
-    border: 0.07em solid transparent;
-    -webkit-border-radius: 0.15em;
-    border-radius: 0.15em;
+    border: 0.16em solid transparent;
+    -webkit-border-radius: 0.2em;
+    border-radius: 0.2em;
 }
 
 .emby-input:focus,

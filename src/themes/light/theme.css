@@ -248,9 +248,9 @@ html {
 .emby-textarea {
     color: inherit;
     background: #fff;
-    border: 0.07em solid rgba(0, 0, 0, 0.158);
-    -webkit-border-radius: 0.15em;
-    border-radius: 0.15em;
+    border: 0.16em solid rgba(0, 0, 0, 0.158);
+    -webkit-border-radius: 0.2em;
+    border-radius: 0.2em;
 }
 
 .emby-input:focus,
