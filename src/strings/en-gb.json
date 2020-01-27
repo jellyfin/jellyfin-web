@@ -1303,7 +1303,6 @@
     "OptionEnableM2tsModeHelp": "Enable m2ts mode when encoding to mpegts.",
     "OptionEnableM2tsMode": "Enable M2ts mode",
     "OptionEnableExternalContentInSuggestions": "Enable external content in suggestions",
-    "OptionEnableAutomaticServerUpdates": "Enable automatic server updates",
     "OptionEnableAccessToAllLibraries": "Enable access to all libraries",
     "OptionEnableAccessToAllChannels": "Enable access to all channels",
     "OptionEnableAccessFromAllDevices": "Enable access from all devices",

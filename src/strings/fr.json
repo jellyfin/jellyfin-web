@@ -1009,7 +1009,6 @@
     "OptionEnableAccessFromAllDevices": "Autoriser l'accès depuis tous les appareils",
     "OptionEnableAccessToAllChannels": "Activer l'accès à toutes les chaînes",
     "OptionEnableAccessToAllLibraries": "Activer l'accès à toutes les librairies",
-    "OptionEnableAutomaticServerUpdates": "Activer les mises à jour automatiques du serveur",
     "OptionEnableExternalContentInSuggestions": "Activer le contenu externe dans les suggestions",
     "OptionEnableExternalContentInSuggestionsHelp": "Autoriser les bandes-annonces sur internet et les programmes TV en direct à être inclus dans le contenu suggéré.",
     "OptionEnableForAllTuners": "Autoriser pour tous les tuners",
@@ -1455,5 +1454,6 @@
     "HeaderFavoritePeople": "Personnes préférées",
     "OptionRandom": "Aléatoire",
     "ButtonSplit": "Séparer",
-    "SelectAdminUsername": "Veuillez choisir un nom d'utilisateur pour le compte administrateur."
+    "SelectAdminUsername": "Veuillez choisir un nom d'utilisateur pour le compte administrateur.",
+    "HeaderNavigation": "Navigation"
 }

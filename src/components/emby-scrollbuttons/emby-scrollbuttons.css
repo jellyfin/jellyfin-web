@@ -4,11 +4,11 @@
     right: 0;
     align-items: center;
     justify-content: center;
-    min-width:104px;
-    min-height:24px;
+    min-width: 104px;
+    min-height: 24px;
     padding-top: 1.25em;
     z-index: 1;
-    color: #ffffff;
+    color: #fff;
     display: flex;
 }
 

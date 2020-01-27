@@ -1,4 +1,4 @@
-define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement', 'emby-input'], function (browser, dom, layoutManager) {
+define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-slider', 'registerElement', 'emby-input'], function (browser, dom, layoutManager, keyboardnavigation) {
     'use strict';
 
     var EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
@@ -250,7 +250,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement
      * Handle KeyDown event
      */
     function onKeyDown(e) {
-        switch (e.key) {
+        switch (keyboardnavigation.getKeyName(e)) {
             case 'ArrowLeft':
             case 'Left':
                 stepKeyboard(this, -this.keyboardStepDown || -1);
