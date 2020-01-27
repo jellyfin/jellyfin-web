@@ -546,7 +546,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     /**
-     * Pages of "no return" (Go back).
+     * Pages of "no return" (when "Go back" should behave differently, probably quitting the application).
      */
     var startPages = ['home', 'login', 'selectserver'];
 
