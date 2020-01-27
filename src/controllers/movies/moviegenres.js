@@ -114,7 +114,10 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
                         shape: getPortraitShape(),
                         scalable: true,
                         overlayMoreButton: true,
-                        allowBottomPadding: false
+                        allowBottomPadding: true,
+                        showTitle: true,
+                        centerText: true,
+                        showYear: true
                     });
                 }
                 if (result.Items.length >= query.Limit) {

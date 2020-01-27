@@ -983,7 +983,6 @@
     "OptionEnableAccessFromAllDevices": "允许所有设备访问",
     "OptionEnableAccessToAllChannels": "允许访问所有频道",
     "OptionEnableAccessToAllLibraries": "允许访问所有媒体库",
-    "OptionEnableAutomaticServerUpdates": "开启自动服务器更新",
     "OptionEnableExternalContentInSuggestions": "在建议中启用外部内容",
     "OptionEnableExternalContentInSuggestionsHelp": "允许建议的内容中包含互联网预告片和电视直播节目。",
     "OptionEnableForAllTuners": "给所有调谐器开启",

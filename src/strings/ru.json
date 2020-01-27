@@ -1037,7 +1037,6 @@
     "OptionEnableAccessFromAllDevices": "Включить доступ со всех устройств",
     "OptionEnableAccessToAllChannels": "Включить доступ ко всем каналам",
     "OptionEnableAccessToAllLibraries": "Включить доступ ко всем медиатекам",
-    "OptionEnableAutomaticServerUpdates": "Включить автоматические обновления сервера",
     "OptionEnableExternalContentInSuggestions": "Включать внешнее содержание в предложения",
     "OptionEnableExternalContentInSuggestionsHelp": "Разрешить охват интернет-трейлеров и эфирных передач в предлагаемом содержании.",
     "OptionEnableForAllTuners": "Включить для всех тюнерных устройств",

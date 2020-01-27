@@ -4,7 +4,7 @@
     padding: 0;
     border: none;
     max-height: 84%;
-    border-radius: .1em !important;
+    border-radius: 0.1em !important;
 }
 
 .actionsheet-not-fullscreen {
@@ -24,7 +24,7 @@
 
 .actionSheetContent {
     margin: 0 !important;
-    padding: .4em 0 !important;
+    padding: 0.4em 0 !important;
     flex-direction: column;
     display: flex;
     justify-content: center;
@@ -45,7 +45,7 @@
 }
 
 .actionsheetListItemBody {
-    padding: .4em 1em .4em .6em !important;
+    padding: 0.4em 1em 0.4em 0.6em !important;
 }
 
 .actionSheetItemText {
@@ -59,13 +59,13 @@
 }
 
 .actionSheetItemAsideText {
-    opacity: .7;
+    opacity: 0.7;
     font-size: 90%;
     display: flex;
     justify-content: flex-end;
     flex-shrink: 0;
     margin-left: 5em;
-    margin-right: .5em;
+    margin-right: 0.5em;
 }
 
 .actionSheetScroller {
@@ -83,14 +83,14 @@
 }
 
 .actionsheetDivider {
-    height: .07em;
-    margin: .25em 0;
+    height: 0.07em;
+    margin: 0.25em 0;
     flex-shrink: 0;
 }
 
 .actionSheetTitle {
-    margin: .6em 0 .7em !important;
-    padding: 0 .9em;
+    margin: 0.6em 0 0.7em !important;
+    padding: 0 0.9em;
     flex-grow: 0;
 }
 
@@ -100,7 +100,7 @@
 }
 
 .actionsheetMenuItemIcon {
-    margin: 0 .85em 0 .45em !important;
+    margin: 0 0.85em 0 0.45em !important;
     padding: 0 !important;
 }
 
@@ -110,6 +110,6 @@
 
 .btnCloseActionSheet {
     position: fixed;
-    top: .75em;
-    left: .5em;
+    top: 0.75em;
+    left: 0.5em;
 }

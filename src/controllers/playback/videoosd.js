@@ -1,4 +1,4 @@
-define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "mediaInfo", "focusManager", "imageLoader", "scrollHelper", "events", "connectionManager", "browser", "globalize", "apphost", "layoutManager", "userSettings", "scrollStyles", "emby-slider", "paper-icon-button-light", "css!assets/css/videoosd"], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager, userSettings) {
+define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "mediaInfo", "focusManager", "imageLoader", "scrollHelper", "events", "connectionManager", "browser", "globalize", "apphost", "layoutManager", "userSettings", "keyboardnavigation", "scrollStyles", "emby-slider", "paper-icon-button-light", "css!assets/css/videoosd"], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost, layoutManager, userSettings, keyboardnavigation) {
     "use strict";
 
     function seriesImageUrl(item, options) {
@@ -437,6 +437,11 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 });
                 currentVisibleMenu = null;
                 toggleSubtitleSync("hide");
+
+                // Firefox does not blur by itself
+                if (document.activeElement) {
+                    document.activeElement.blur();
+                }
             }
         }
 
@@ -1087,69 +1092,92 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
          */
         var NavigationKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
 
+        /**
+         * Clicked element.
+         * To skip 'click' handling on Firefox/Edge.
+         */
+        var clickedElement;
+
         function onWindowKeyDown(e) {
+            clickedElement = e.srcElement;
+
+            var key = keyboardnavigation.getKeyName(e);
+
             if (!currentVisibleMenu && 32 === e.keyCode) {
                 playbackManager.playPause(currentPlayer);
                 showOsd();
                 return;
             }
 
-            if (layoutManager.tv && NavigationKeys.indexOf(e.key) != -1) {
+            if (layoutManager.tv && NavigationKeys.indexOf(key) != -1) {
                 showOsd();
                 return;
             }
 
-            switch (e.key) {
+            switch (key) {
+                case "Enter":
+                    showOsd();
+                    break;
+                case "Escape":
+                case "Back":
+                    // Ignore key when some dialog is opened
+                    if (currentVisibleMenu === "osd" && !document.querySelector(".dialogContainer")) {
+                        hideOsd();
+                        e.stopPropagation();
+                    }
+                    break;
                 case "k":
                     playbackManager.playPause(currentPlayer);
                     showOsd();
                     break;
-
                 case "l":
                 case "ArrowRight":
                 case "Right":
                     playbackManager.fastForward(currentPlayer);
                     showOsd();
                     break;
-
                 case "j":
                 case "ArrowLeft":
                 case "Left":
                     playbackManager.rewind(currentPlayer);
                     showOsd();
                     break;
-
                 case "f":
                     if (!e.ctrlKey && !e.metaKey) {
                         playbackManager.toggleFullscreen(currentPlayer);
                         showOsd();
                     }
                     break;
-
                 case "m":
                     playbackManager.toggleMute(currentPlayer);
                     showOsd();
                     break;
-
                 case "NavigationLeft":
                 case "GamepadDPadLeft":
                 case "GamepadLeftThumbstickLeft":
-                // Ignores gamepad events that are always triggered, even when not focused.
+                    // Ignores gamepad events that are always triggered, even when not focused.
                     if (document.hasFocus()) {
                         playbackManager.rewind(currentPlayer);
                         showOsd();
                     }
                     break;
-
                 case "NavigationRight":
                 case "GamepadDPadRight":
                 case "GamepadLeftThumbstickRight":
-                // Ignores gamepad events that are always triggered, even when not focused.
+                    // Ignores gamepad events that are always triggered, even when not focused.
                     if (document.hasFocus()) {
                         playbackManager.fastForward(currentPlayer);
                         showOsd();
                     }
             }
+        }
+
+        function onWindowMouseDown(e) {
+            clickedElement = e.srcElement;
+        }
+
+        function onWindowTouchStart(e) {
+            clickedElement = e.srcElement;
         }
 
         function getImgUrl(item, chapter, index, maxWidth, apiClient) {
@@ -1280,6 +1308,12 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 showOsd();
                 inputManager.on(window, onInputCommand);
                 dom.addEventListener(window, "keydown", onWindowKeyDown, {
+                    capture: true
+                });
+                dom.addEventListener(window, window.PointerEvent ? "pointerdown" : "mousedown", onWindowMouseDown, {
+                    passive: true
+                });
+                dom.addEventListener(window, "touchstart", onWindowTouchStart, {
                     passive: true
                 });
             } catch (e) {
@@ -1294,6 +1328,12 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }
 
             dom.removeEventListener(window, "keydown", onWindowKeyDown, {
+                capture: true
+            });
+            dom.removeEventListener(window, window.PointerEvent ? "pointerdown" : "mousedown", onWindowMouseDown, {
+                passive: true
+            });
+            dom.removeEventListener(window, "touchstart", onWindowTouchStart, {
                 passive: true
             });
             stopOsdHideTimer();
@@ -1465,7 +1505,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             playbackManager.previousTrack(currentPlayer);
         });
         view.querySelector(".btnPause").addEventListener("click", function () {
-            playbackManager.playPause(currentPlayer);
+            // Ignore 'click' if another element was originally clicked (Firefox/Edge issue)
+            if (this.contains(clickedElement)) {
+                playbackManager.playPause(currentPlayer);
+            }
         });
         view.querySelector(".btnNextTrack").addEventListener("click", function () {
             playbackManager.nextTrack(currentPlayer);

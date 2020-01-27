@@ -17,7 +17,7 @@ _define("fetch", function() {
 });
 
 // flvjs
-var flvjs = require("flv.js").default;
+var flvjs = require("flv.js/dist/flv").default;
 _define("flvjs", function() {
     return flvjs;
 });
