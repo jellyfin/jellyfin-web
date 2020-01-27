@@ -1,4 +1,4 @@
-define(["jQuery", "datetime", "loading", "libraryMenu", "listViewStyle", "paper-icon-button-light"], function ($, datetime, loading, libraryMenu) {
+define(["jQuery", "datetime", "loading", "libraryMenu", "css!components/listview/listview", "paper-icon-button-light"], function ($, datetime, loading, libraryMenu) {
     "use strict";
 
     function populateRatings(allParentalRatings, page) {

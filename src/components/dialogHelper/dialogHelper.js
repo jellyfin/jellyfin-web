@@ -1,4 +1,4 @@
-define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager', 'dom', 'css!./dialoghelper.css', 'scrollStyles'], function (appRouter, focusManager, browser, layoutManager, inputManager, dom) {
+define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager', 'dom', 'css!components/dialogHelper/dialoghelper.css', 'css!assets/css/scrollstyles'], function (appRouter, focusManager, browser, layoutManager, inputManager, dom) {
     'use strict';
 
     var globalOnOpenCallback;

@@ -433,7 +433,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function loadUserSkinWithOptions(ctx) {
-        require(['queryString'], function (queryString) {
+        require(['query-string'], function (queryString) {
             var params = queryString.parse(ctx.querystring);
             skinManager.loadUserSkin({
                 start: params.start

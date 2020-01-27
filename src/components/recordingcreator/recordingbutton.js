@@ -1,4 +1,4 @@
-define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'paper-icon-button-light', 'emby-button', 'css!./recordingfields'], function (globalize, connectionManager, require, loading, appHost, dom, recordingHelper, events) {
+define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'paper-icon-button-light', 'emby-button', 'css!components/recordingcreator/recordingfields'], function (globalize, connectionManager, require, loading, appHost, dom, recordingHelper, events) {
     'use strict';
 
     function onRecordingButtonClick(e) {

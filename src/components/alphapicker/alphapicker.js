@@ -1,4 +1,4 @@
-define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-button-light', 'material-icons'], function (focusManager, layoutManager, dom) {
+define(['focusManager', 'layoutManager', 'dom', 'css!components/alphapicker/style.css', 'paper-icon-button-light', 'material-icons'], function (focusManager, layoutManager, dom) {
     'use strict';
 
     var selectedButtonClass = 'alphaPickerButton-selected';

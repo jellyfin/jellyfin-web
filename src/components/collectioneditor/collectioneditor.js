@@ -1,4 +1,4 @@
-define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize) {
+define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!components/formdialog', 'emby-button', 'css!assets/css/flexstyles'], function (dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize) {
     'use strict';
 
     var currentServerId;

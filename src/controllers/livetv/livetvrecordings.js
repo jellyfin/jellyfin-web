@@ -1,4 +1,4 @@
-define(["layoutManager", "loading", "cardBuilder", "apphost", "imageLoader", "scripts/livetvcomponents", "listViewStyle", "emby-itemscontainer"], function (layoutManager, loading, cardBuilder, appHost, imageLoader) {
+define(["layoutManager", "loading", "cardBuilder", "apphost", "imageLoader", "scripts/livetvcomponents", "css!components/listview/listview", "emby-itemscontainer"], function (layoutManager, loading, cardBuilder, appHost, imageLoader) {
     "use strict";
 
     function renderRecordings(elem, recordings, cardOptions, scrollX) {

@@ -1,4 +1,4 @@
-define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focusManager", "connectionManager", "globalize", "actionsheet", "dom", "browser", "material-icons", "flexStyles", "emby-scroller", "emby-itemscontainer", "cardStyle", "emby-button"], function (loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom, browser) {
+define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focusManager", "connectionManager", "globalize", "actionsheet", "dom", "browser", "material-icons", "css!assets/css/flexstyles", "emby-scroller", "emby-itemscontainer", "css!components/cardbuilder/card", "emby-button"], function (loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom, browser) {
     "use strict";
 
     var enableFocusTransform = !browser.slow && !browser.edge;

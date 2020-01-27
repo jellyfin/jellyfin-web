@@ -1,4 +1,4 @@
-define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "humanedate", "emby-button", "emby-itemscontainer", "cardStyle"], function (loading, dom, libraryMenu, globalize, imageHelper) {
+define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "humanedate", "emby-button", "emby-itemscontainer", "css!components/cardbuilder/card"], function (loading, dom, libraryMenu, globalize, imageHelper) {
     "use strict";
 
     function canDelete(deviceId) {

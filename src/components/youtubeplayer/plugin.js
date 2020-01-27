@@ -20,7 +20,7 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
 
             if (!dlg) {
 
-                require(['css!./style'], function () {
+                require(['css!components/youtubeplayer/style'], function () {
 
                     loading.show();
 
@@ -134,7 +134,7 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
 
         return new Promise(function (resolve, reject) {
 
-            require(['queryString'], function (queryString) {
+            require(['query-string'], function (queryString) {
 
                 instance._currentSrc = options.url;
                 var params = queryString.parse(options.url.split('?')[1]);

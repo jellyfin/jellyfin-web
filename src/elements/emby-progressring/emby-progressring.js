@@ -1,4 +1,4 @@
-define(['require', 'css!./emby-progressring', 'registerElement'], function (require) {
+define(['require', 'css!elements/emby-progressring/emby-progressring', 'registerElement'], function (require) {
     'use strict';
 
     var EmbyProgressRing = Object.create(HTMLDivElement.prototype);

@@ -1,4 +1,4 @@
-define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 'focusManager', 'globalize', 'scrollHelper', 'imageLoader', 'require', 'browser', 'apphost', 'cardStyle', 'formDialogStyle', 'emby-button', 'paper-icon-button-light', 'css!./imageeditor'], function (dialogHelper, connectionManager, loading, dom, layoutManager, focusManager, globalize, scrollHelper, imageLoader, require, browser, appHost) {
+define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 'focusManager', 'globalize', 'scrollHelper', 'imageLoader', 'require', 'browser', 'apphost', 'css!components/cardbuilder/card', 'css!components/formdialog', 'emby-button', 'paper-icon-button-light', 'css!components/imageeditor/imageeditor'], function (dialogHelper, connectionManager, loading, dom, layoutManager, focusManager, globalize, scrollHelper, imageLoader, require, browser, appHost) {
     'use strict';
 
     var enableFocusTransform = !browser.slow && !browser.edge;

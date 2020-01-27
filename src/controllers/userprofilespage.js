@@ -1,4 +1,4 @@
-define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", "cardStyle", "emby-button", "indicators", "flexStyles"], function (loading, dom, globalize) {
+define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", "css!components/cardbuilder/card", "emby-button", "indicators", "css!assets/css/flexstyles"], function (loading, dom, globalize) {
     "use strict";
 
     function deleteUser(page, id) {

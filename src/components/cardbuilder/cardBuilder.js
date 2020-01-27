@@ -18,9 +18,9 @@ import browser from 'browser';
 import playbackManager from 'playbackManager';
 import itemShortcuts from 'itemShortcuts';
 import imageHelper from 'scripts/imagehelper';
-import 'css!./card';
+import 'css!components/cardbuilder/card';
 import 'paper-icon-button-light';
-import 'programStyles';
+import 'css!components/guide/programs';
 
         const enableFocusTransform = !browser.slow && !browser.edge;
 

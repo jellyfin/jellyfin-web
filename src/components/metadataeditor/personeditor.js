@@ -1,4 +1,4 @@
-define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-button-light', 'emby-input', 'emby-select', 'css!./../formdialog'], function (dialogHelper, layoutManager, globalize, require) {
+define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-button-light', 'emby-input', 'emby-select', 'css!components/formdialog'], function (dialogHelper, layoutManager, globalize, require) {
     'use strict';
 
     function centerFocus(elem, horiz, on) {

@@ -1,4 +1,4 @@
-define(["events", "globalize", "dom", "datetime", "userSettings", "serverNotifications", "connectionManager", "emby-button", "listViewStyle"], function (events, globalize, dom, datetime, userSettings, serverNotifications, connectionManager) {
+define(["events", "globalize", "dom", "datetime", "userSettings", "serverNotifications", "connectionManager", "emby-button", "css!components/listview/listview"], function (events, globalize, dom, datetime, userSettings, serverNotifications, connectionManager) {
     "use strict";
 
     function getEntryHtml(entry, apiClient) {

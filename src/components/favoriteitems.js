@@ -1,4 +1,4 @@
-define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoader", "globalize", "layoutManager", "scrollStyles", "emby-itemscontainer"], function (loading, libraryBrowser, cardBuilder, dom, appHost, imageLoader, globalize, layoutManager) {
+define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoader", "globalize", "layoutManager", "css!assets/css/scrollstyles", "emby-itemscontainer"], function (loading, libraryBrowser, cardBuilder, dom, appHost, imageLoader, globalize, layoutManager) {
     "use strict";
 
     function enableScrollX() {

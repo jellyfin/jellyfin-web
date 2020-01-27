@@ -1,4 +1,4 @@
-define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'scrollStyles'], function (browser, layoutManager, dom, focusManager, ResizeObserver) {
+define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'css!assets/css/scrollstyles'], function (browser, layoutManager, dom, focusManager, ResizeObserver) {
     'use strict';
 
     /**

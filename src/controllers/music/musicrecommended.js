@@ -1,4 +1,4 @@
-define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "cardBuilder", "dom", "apphost", "imageLoader", "libraryMenu", "playbackManager", "mainTabsManager", "scrollStyles", "emby-itemscontainer", "emby-tabs", "emby-button", "flexStyles"], function (browser, layoutManager, userSettings, inputManager, loading, cardBuilder, dom, appHost, imageLoader, libraryMenu, playbackManager, mainTabsManager) {
+define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "cardBuilder", "dom", "apphost", "imageLoader", "libraryMenu", "playbackManager", "mainTabsManager", "css!assets/css/scrollstyles", "emby-itemscontainer", "emby-tabs", "emby-button", "css!assets/css/flexstyles"], function (browser, layoutManager, userSettings, inputManager, loading, cardBuilder, dom, appHost, imageLoader, libraryMenu, playbackManager, mainTabsManager) {
     "use strict";
 
     function itemsPerRow() {

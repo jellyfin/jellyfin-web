@@ -1,4 +1,4 @@
-define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loading', 'connectionManager', 'subtitleAppearanceHelper', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-input', 'emby-checkbox', 'flexStyles'], function (require, globalize, appSettings, appHost, focusManager, loading, connectionManager, subtitleAppearanceHelper, dom, events) {
+define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loading', 'connectionManager', 'subtitleAppearanceHelper', 'dom', 'events', 'css!components/listview/listview', 'emby-select', 'emby-input', 'emby-checkbox', 'css!assets/css/flexstyles'], function (require, globalize, appSettings, appHost, focusManager, loading, connectionManager, subtitleAppearanceHelper, dom, events) {
     "use strict";
 
     function populateLanguages(select, languages) {

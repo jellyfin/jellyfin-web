@@ -4,7 +4,7 @@
  * License: MIT
  */
 
-define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, layoutManager, browser) {
+define(['dom', 'layoutManager', 'browser', 'css!components/headroom/headroom'], function (dom, layoutManager, browser) {
 
     'use strict';
 

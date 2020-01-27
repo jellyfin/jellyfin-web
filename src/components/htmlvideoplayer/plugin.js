@@ -1284,7 +1284,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 if (!dlg) {
 
-                    require(['css!./style'], function () {
+                    require(['css!components/htmlvideoplayer/style'], function () {
 
                         loading.show();
 

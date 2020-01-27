@@ -1,4 +1,4 @@
-define(["apphost", "connectionManager", "layoutManager", "listViewStyle", "emby-button"], function(appHost, connectionManager, layoutManager) {
+define(["apphost", "connectionManager", "layoutManager", "css!components/listview/listview", "emby-button"], function(appHost, connectionManager, layoutManager) {
     "use strict";
 
     return function(view, params) {

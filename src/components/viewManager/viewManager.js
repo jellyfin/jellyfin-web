@@ -1,4 +1,4 @@
-define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], function (viewContainer, focusManager, queryString, layoutManager) {
+define(['viewContainer', 'focusManager', 'query-string', 'layoutManager'], function (viewContainer, focusManager, queryString, layoutManager) {
     'use strict';
 
     var currentView;

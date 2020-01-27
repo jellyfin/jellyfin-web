@@ -1,4 +1,4 @@
-define(["browser", "appStorage", "apphost", "loading", "connectionManager", "globalize", "appRouter", "dom", "css!./multiselect"], function (browser, appStorage, appHost, loading, connectionManager, globalize, appRouter, dom) {
+define(["browser", "appStorage", "apphost", "loading", "connectionManager", "globalize", "appRouter", "dom", "css!components/multiselect/multiselect"], function (browser, appStorage, appHost, loading, connectionManager, globalize, appRouter, dom) {
     "use strict";
 
     var selectedItems = [];

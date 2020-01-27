@@ -1,4 +1,4 @@
-define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "globalize", "dom", "indicators", "scripts/imagehelper", "cardStyle", "emby-itemrefreshindicator"], function ($, appHost, taskButton, loading, libraryMenu, globalize, dom, indicators, imageHelper) {
+define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "globalize", "dom", "indicators", "scripts/imagehelper", "css!components/cardbuilder/card", "emby-itemrefreshindicator"], function ($, appHost, taskButton, loading, libraryMenu, globalize, dom, indicators, imageHelper) {
     "use strict";
 
     function addVirtualFolder(page) {

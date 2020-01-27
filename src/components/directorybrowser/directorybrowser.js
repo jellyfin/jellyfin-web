@@ -1,4 +1,4 @@
-define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-icon-button-light', 'css!./directorybrowser', 'formDialogStyle', 'emby-button'], function(loading, dialogHelper, dom) {
+define(['loading', 'dialogHelper', 'dom', 'css!components/listview/listview', 'emby-input', 'paper-icon-button-light', 'css!components/directorybrowser/directorybrowser', 'css!components/formdialog', 'emby-button'], function(loading, dialogHelper, dom) {
     'use strict';
 
     function getSystemInfo() {

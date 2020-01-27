@@ -35,7 +35,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
             $(".taskName", view).html(task.Name);
             $("#pTaskDescription", view).html(task.Description);
 
-            require(["listViewStyle"], function () {
+            require(["css!components/listview/listview"], function () {
                 ScheduledTaskPage.loadTaskTriggers(view, task);
             });
 

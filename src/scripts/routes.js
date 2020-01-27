@@ -7,12 +7,12 @@ define([
     "emby-itemscontainer",
     "emby-collapse",
     "emby-select",
-    "livetvcss",
+    "css!assets/css/livetv.css",
     "emby-checkbox",
     "emby-slider",
-    "listViewStyle",
-    "dashboardcss",
-    "detailtablecss"], function () {
+    "css!components/listview/listview",
+    "css!assets/css/dashboard",
+    "css!assets/css/detailtable.css"], function () {
 
     function defineRoute(newRoute) {
         var path = newRoute.path;

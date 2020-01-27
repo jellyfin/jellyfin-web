@@ -1,4 +1,4 @@
-define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], function (datetime, itemHelper) {
+define(['datetime', 'itemHelper', 'css!components/indicators/indicators.css', 'material-icons'], function (datetime, itemHelper) {
     'use strict';
 
     function enableProgressIndicator(item) {

@@ -1,4 +1,4 @@
-define(["layoutManager", "userSettings", "inputManager", "loading", "globalize", "libraryBrowser", "mainTabsManager", "cardBuilder", "apphost", "imageLoader", "scrollStyles", "emby-itemscontainer", "emby-tabs", "emby-button"], function (layoutManager, userSettings, inputManager, loading, globalize, libraryBrowser, mainTabsManager, cardBuilder, appHost, imageLoader) {
+define(["layoutManager", "userSettings", "inputManager", "loading", "globalize", "libraryBrowser", "mainTabsManager", "cardBuilder", "apphost", "imageLoader", "css!assets/css/scrollstyles", "emby-itemscontainer", "emby-tabs", "emby-button"], function (layoutManager, userSettings, inputManager, loading, globalize, libraryBrowser, mainTabsManager, cardBuilder, appHost, imageLoader) {
     "use strict";
 
     function enableScrollX() {

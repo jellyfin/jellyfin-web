@@ -1,4 +1,4 @@
-define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'layoutManager', 'focusManager', 'globalize', 'itemHelper', 'css!./upnextdialog', 'emby-button', 'flexStyles'], function (dom, playbackManager, connectionManager, events, mediaInfo, layoutManager, focusManager, globalize, itemHelper) {
+define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'layoutManager', 'focusManager', 'globalize', 'itemHelper', 'css!components/upnextdialog/upnextdialog', 'emby-button', 'css!assets/css/flexstyles'], function (dom, playbackManager, connectionManager, events, mediaInfo, layoutManager, focusManager, globalize, itemHelper) {
     'use strict';
 
     var transitionEndEventName = dom.whichTransitionEvent();

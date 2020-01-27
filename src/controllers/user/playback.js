@@ -1,4 +1,4 @@
-define(["playbackSettings", "userSettingsBuilder", "dom", "globalize", "loading", "userSettings", "autoFocuser", "listViewStyle"], function (PlaybackSettings, userSettingsBuilder, dom, globalize, loading, currentUserSettings, autoFocuser) {
+define(["playbackSettings", "userSettingsBuilder", "dom", "globalize", "loading", "userSettings", "autoFocuser", "css!components/listview/listview"], function (PlaybackSettings, userSettingsBuilder, dom, globalize, loading, currentUserSettings, autoFocuser) {
     "use strict";
 
     return function (view, params) {

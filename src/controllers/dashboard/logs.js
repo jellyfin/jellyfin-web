@@ -1,4 +1,4 @@
-define(["datetime", "loading", "apphost", "listViewStyle", "emby-button", "flexStyles"], function(datetime, loading, appHost) {
+define(["datetime", "loading", "apphost", "css!components/listview/listview", "emby-button", "css!assets/css/flexstyles"], function(datetime, loading, appHost) {
     "use strict";
     return function(view, params) {
         view.addEventListener("viewbeforeshow", function() {

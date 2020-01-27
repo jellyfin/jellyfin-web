@@ -314,22 +314,6 @@ var AppInfo = {};
         return obj;
     }
 
-    function getBowerPath() {
-        return "libraries";
-    }
-
-    function getComponentsPath() {
-        return "components";
-    }
-
-    function getElementsPath() {
-        return "elements"
-    }
-
-    function getScriptsPath() {
-        return "scripts"
-    }
-
     function getPlaybackManager(playbackManager) {
         window.addEventListener("beforeunload", function () {
             try {
@@ -374,20 +358,11 @@ var AppInfo = {};
     }
 
     function initRequireWithBrowser(browser) {
-        var bowerPath = getBowerPath();
-        var componentsPath = getComponentsPath();
-
-        define("filesystem", [componentsPath + "/filesystem"], returnFirstDependency);
-
         if (window.IntersectionObserver && !browser.edge) {
-            define("lazyLoader", [componentsPath + "/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency);
+            define("lazyLoader", ["components/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency);
         } else {
-            define("lazyLoader", [componentsPath + "/lazyloader/lazyloader-scroll"], returnFirstDependency);
+            define("lazyLoader", ["components/lazyloader/lazyloader-scroll"], returnFirstDependency);
         }
-
-        define("shell", [componentsPath + "/shell"], returnFirstDependency);
-
-        define("apiclient", [bowerPath + "/apiclient/apiclient"], returnFirstDependency);
 
         if ("registerElement" in document) {
             define("registerElement", []);
@@ -397,35 +372,10 @@ var AppInfo = {};
             define("registerElement", ["document-register-element"], returnFirstDependency);
         }
 
-        define("imageFetcher", [componentsPath + "/images/imageFetcher"], returnFirstDependency);
-
-        var preferNativeAlerts = browser.tv;
-
-        define("alert", [componentsPath + "/alert"], returnFirstDependency);
-
         defineResizeObserver();
-        define("dialog", [componentsPath + "/dialog/dialog"], returnFirstDependency);
-
-        define("confirm", [componentsPath + "/confirm/confirm"], returnFirstDependency);
-
-        define("prompt", [componentsPath + "/prompt/prompt"], returnFirstDependency);
-
-        define("loading", [componentsPath + "/loading/loading"], returnFirstDependency);
-        define("multi-download", [componentsPath + "/multidownload"], returnFirstDependency);
-        define("fileDownloader", [componentsPath + "/filedownloader"], returnFirstDependency);
-        define("localassetmanager", [bowerPath + "/apiclient/localassetmanager"], returnFirstDependency);
-
-        define("castSenderApiLoader", [componentsPath + "/castSenderApi"], returnFirstDependency);
-
-        define("transfermanager", [bowerPath + "/apiclient/sync/transfermanager"], returnFirstDependency);
-        define("filerepository", [bowerPath + "/apiclient/sync/filerepository"], returnFirstDependency);
-        define("localsync", [bowerPath + "/apiclient/sync/localsync"], returnFirstDependency);
     }
 
     function init() {
-        define("livetvcss", ["css!assets/css/livetv.css"], returnFirstDependency);
-        define("detailtablecss", ["css!assets/css/detailtable.css"], returnFirstDependency);
-
         var promises = [];
         if (!window.fetch) {
             promises.push(require(["fetch"]));
@@ -481,11 +431,11 @@ var AppInfo = {};
         document.title = Globalize.translateDocument(document.title, "core");
 
         if (browser.tv && !browser.android) {
-            console.debug("using system fonts with explicit sizes");
-            require(["systemFontsSizedCss"]);
+            console.log("using system fonts with explicit sizes");
+            require(["css!assets/css/fonts.sized.css"]);
         } else {
-            console.debug("using default fonts");
-            require(["systemFontsCss"]);
+            console.log("using default fonts");
+            require(["css!assets/css/fonts.css"]);
         }
 
         require(["apphost", "css!assets/css/librarybrowser"], function (appHost) {
@@ -634,36 +584,166 @@ var AppInfo = {};
 
     (function () {
         var urlArgs = "v=" + (window.dashboardVersion || new Date().getDate());
-
-        var bowerPath = getBowerPath();
-        var componentsPath = getComponentsPath();
-        var elementsPath = getElementsPath();
-        var scriptsPath = getScriptsPath();
-
         var paths = {
-            browserdeviceprofile: "scripts/browserdeviceprofile",
+            apphost: "components/apphost",
+            autoPlayDetect: "components/playback/autoplaydetect",
             browser: "scripts/browser",
-            libraryBrowser: "scripts/librarybrowser",
-            inputManager: "scripts/inputManager",
+            browserdeviceprofile: "scripts/browserdeviceprofile",
             datetime: "scripts/datetime",
+            focusManager: "components/focusManager",
             globalize: "scripts/globalize",
+            humanedate: "components/humanedate",
+            imageoptionseditor: "components/imageoptionseditor/imageoptionseditor",
+            inputManager: "scripts/inputManager",
+            itemHelper: "components/itemhelper",
+            itemShortcuts: "components/shortcuts",
+            libraryBrowser: "scripts/librarybrowser",
             libraryMenu: "scripts/librarymenu",
-            playlisteditor: componentsPath + "/playlisteditor/playlisteditor",
-            medialibrarycreator: componentsPath + "/medialibrarycreator/medialibrarycreator",
-            medialibraryeditor: componentsPath + "/medialibraryeditor/medialibraryeditor",
-            imageoptionseditor: componentsPath + "/imageoptionseditor/imageoptionseditor",
-            humanedate: componentsPath + "/humanedate",
-            apphost: componentsPath + "/apphost",
-            visibleinviewport: componentsPath + "/visibleinviewport",
-            qualityoptions: componentsPath + "/qualityoptions",
-            focusManager: componentsPath + "/focusManager",
-            itemHelper: componentsPath + "/itemhelper",
-            itemShortcuts: componentsPath + "/shortcuts",
-            playQueueManager: componentsPath + "/playback/playqueuemanager",
-            nowPlayingHelper: componentsPath + "/playback/nowplayinghelper",
-            pluginManager: componentsPath + "/pluginManager",
-            packageManager: componentsPath + "/packagemanager",
-            screensaverManager: componentsPath + "/screensavermanager"
+            medialibrarycreator: "components/medialibrarycreator/medialibrarycreator",
+            medialibraryeditor: "components/medialibraryeditor/medialibraryeditor",
+            nowPlayingHelper: "components/playback/nowplayinghelper",
+            packageManager: "components/packagemanager",
+            playlisteditor: "components/playlisteditor/playlisteditor",
+            playQueueManager: "components/playback/playqueuemanager",
+            pluginManager: "components/pluginManager",
+            qualityoptions: "components/qualityoptions",
+            screensaverManager: "components/screensavermanager",
+            visibleinviewport: "components/visibleinviewport",
+            filesystem: "components/filesystem",
+            shell: "components/shell",
+            apiclient: "libraries/apiclient/apiclient",
+            imageFetcher: "components/images/imageFetcher",
+            alert: "components/alert",
+            dialog: "components/dialog/dialog",
+            loading: "components/loading/loading",
+            "multi-download": "components/multidownload",
+            fileDownloader: "components/filedownloader",
+            localassetmanager: "libraries/apiclient/localassetmanager",
+            transfermanager: "libraries/apiclient/sync/transfermanager",
+            filerepository: "libraries/apiclient/sync/filerepository",
+            localsync: "libraries/apiclient/sync/localsync",
+            fnchecked: "legacy/fnchecked",
+            legacyDashboard: "legacy/dashboard",
+            legacySelectMenu: "legacy/selectmenu",
+            events: "libraries/apiclient/events",
+            credentialprovider: "libraries/apiclient/credentialprovider",
+            connectionManagerFactory: "libraries/apiclient/connectionmanager",
+            appStorage: "libraries/apiclient/appStorage",
+            serversync: "libraries/apiclient/sync/serversync",
+            multiserversync: "libraries/apiclient/sync/multiserversync",
+            mediasync: "libraries/apiclient/sync/mediasync",
+            itemrepository: "libraries/apiclient/sync/itemrepository",
+            useractionrepository: "libraries/apiclient/sync/useractionrepository",
+            page: "libraries/pagejs/page",
+            headroom: "components/headroom/headroom",
+            scroller: "components/scroller",
+            navdrawer: "components/navdrawer/navdrawer",
+            queryString: "libraries/query-string/index",
+            "emby-button": "elements/emby-button/emby-button",
+            "paper-icon-button-light": "elements/emby-button/paper-icon-button-light",
+            "emby-checkbox": "elements/emby-checkbox/emby-checkbox",
+            "emby-collapse": "elements/emby-collapse/emby-collapse",
+            "emby-input": "elements/emby-input/emby-input",
+            "emby-progressring": "elements/emby-progressring/emby-progressring",
+            "emby-radio": "elements/emby-radio/emby-radio",
+            "emby-select": "elements/emby-select/emby-select",
+            "emby-slider": "elements/emby-slider/emby-slider",
+            "emby-textarea": "elements/emby-textarea/emby-textarea",
+            "emby-toggle": "elements/emby-toggle/emby-toggle",
+            "chromecastHelper": "components/chromecast/chromecasthelpers",
+            "mediaSession": "components/playback/mediasession",
+            "actionsheet": "components/actionsheet/actionsheet",
+            "tunerPicker": "components/tunerpicker",
+            "mainTabsManager": "components/maintabsmanager",
+            "imageLoader": "components/images/imageLoader",
+            "directorybrowser": "components/directorybrowser/directorybrowser",
+            "metadataEditor": "components/metadataeditor/metadataeditor",
+            "personEditor": "components/metadataeditor/personeditor",
+            "playerSelectionMenu": "components/playback/playerSelectionMenu",
+            "playerSettingsMenu": "components/playback/playersettingsmenu",
+            "playMethodHelper": "components/playback/playmethodhelper",
+            "brightnessOsd": "components/playback/brightnessosd",
+            "emby-itemscontainer": "components/emby-itemscontainer/emby-itemscontainer",
+            "alphaNumericShortcuts": "components/alphanumericshortcuts/alphanumericshortcuts",
+            "emby-scroller": "components/emby-scroller/emby-scroller",
+            "emby-tabs": "components/emby-tabs/emby-tabs",
+            "emby-scrollbuttons": "components/emby-scrollbuttons/emby-scrollbuttons",
+            "emby-itemrefreshindicator": "components/emby-itemrefreshindicator/emby-itemrefreshindicator",
+            "multiSelect": "components/multiselect/multiselect",
+            "alphaPicker": "components/alphapicker/alphapicker",
+            "tabbedView": "components/tabbedview/tabbedview",
+            "itemsTab": "components/tabbedview/itemstab",
+            "collectionEditor": "components/collectioneditor/collectioneditor",
+            "serverRestartDialog": "components/serverRestartDialog",
+            "playlistEditor": "components/playlisteditor/playlisteditor",
+            "recordingCreator": "components/recordingcreator/recordingcreator",
+            "recordingEditor": "components/recordingcreator/recordingeditor",
+            "seriesRecordingEditor": "components/recordingcreator/seriesrecordingeditor",
+            "recordingFields": "components/recordingcreator/recordingfields",
+            "recordingButton": "components/recordingcreator/recordingbutton",
+            "recordingHelper": "components/recordingcreator/recordinghelper",
+            "subtitleEditor": "components/subtitleeditor/subtitleeditor",
+            "subtitleSync": "components/subtitlesync/subtitlesync",
+            "itemIdentifier": "components/itemidentifier/itemidentifier",
+            "itemMediaInfo": "components/itemMediaInfo/itemMediaInfo",
+            "mediaInfo": "components/mediainfo/mediainfo",
+            "itemContextMenu": "components/itemcontextmenu",
+            "imageEditor": "components/imageeditor/imageeditor",
+            "imageDownloader": "components/imagedownloader/imagedownloader",
+            "dom": "components/dom",
+            "playerStats": "components/playerstats/playerstats",
+            "searchFields": "components/search/searchfields",
+            "searchResults": "components/search/searchresults",
+            "upNextDialog": "components/upnextdialog/upnextdialog",
+            "fullscreen-doubleclick": "components/fullscreen/fullscreen-dc",
+            "fullscreenManager": "components/fullscreenManager",
+            "subtitleAppearanceHelper": "components/subtitlesettings/subtitleappearancehelper",
+            "subtitleSettings": "components/subtitlesettings/subtitlesettings",
+            "displaySettings": "components/displaysettings/displaysettings",
+            "playbackSettings": "components/playbacksettings/playbacksettings",
+            "homescreenSettings": "components/homescreensettings/homescreensettings",
+            "homeSections": "components/homesections/homesections",
+            "playMenu": "components/playmenu",
+            "refreshDialog": "components/refreshdialog/refreshdialog",
+            "backdrop": "components/backdrop/backdrop",
+            "fetchHelper": "components/fetchhelper",
+            "cardBuilder": "components/cardbuilder/cardBuilder",
+            "peoplecardbuilder": "components/cardbuilder/peoplecardbuilder",
+            "chaptercardbuilder": "components/cardbuilder/chaptercardbuilder",
+            "deleteHelper": "components/deletehelper",
+            "tvguide": "components/guide/guide",
+            "guide-settings-dialog": "components/guide/guide-settings",
+            "loadingDialog": "components/loadingdialog/loadingdialog",
+            "slideshow": "components/slideshow/slideshow",
+            "objectassign": "components/polyfills/objectassign",
+            "focusPreventScroll": "components/polyfills/focusPreventScroll",
+            "userdataButtons": "components/userdatabuttons/userdatabuttons",
+            "emby-playstatebutton": "components/userdatabuttons/emby-playstatebutton",
+            "emby-ratingbutton": "components/userdatabuttons/emby-ratingbutton",
+            "listView": "components/listview/listview",
+            "indicators": "components/indicators/indicators",
+            "viewSettings": "components/viewsettings/viewsettings",
+            "filterMenu": "components/filtermenu/filtermenu",
+            "sortMenu": "components/sortmenu/sortmenu",
+            "idb": "components/idb",
+            "sanitizefilename": "components/sanitizefilename",
+            "toast": "components/toast/toast",
+            "scrollHelper": "components/scrollhelper",
+            "touchHelper": "components/touchhelper",
+            "appSettings": "components/appSettings",
+            "userSettings": "components/usersettings/usersettings",
+            "imageUploader": "components/imageuploader/imageuploader",
+            "htmlMediaHelper": "components/htmlMediaHelper",
+            "viewContainer": "components/viewContainer",
+            "dialogHelper": "components/dialogHelper/dialogHelper",
+            "serverNotifications": "components/serverNotifications/serverNotifications",
+            "skinManager": "components/skinManager",
+            "keyboardnavigation": "components/keyboardnavigation",
+            "scrollManager": "components/scrollManager",
+            "autoFocuser": "components/autoFocuser",
+            "confirm": "components/confirm/confirm",
+            "prompt": "components/prompt/prompt",
+            "castSenderApiLoader": "components/castSenderApi"
         };
 
         requirejs.onError = onRequireJsError;
@@ -715,160 +795,24 @@ var AppInfo = {};
 
         // define styles
         // TODO determine which of these files can be moved to the components themselves
-        define("systemFontsCss", ["css!assets/css/fonts"], returnFirstDependency);
-        define("systemFontsSizedCss", ["css!assets/css/fonts.sized"], returnFirstDependency);
-        define("scrollStyles", ["css!assets/css/scrollstyles"], returnFirstDependency);
-        define("dashboardcss", ["css!assets/css/dashboard"], returnFirstDependency);
-        define("programStyles", ["css!" + componentsPath + "/guide/programs"], returnFirstDependency);
-        define("listViewStyle", ["css!" + componentsPath + "/listview/listview"], returnFirstDependency);
-        define("formDialogStyle", ["css!" + componentsPath + "/formdialog"], returnFirstDependency);
-        define("clearButtonStyle", ["css!assets/css/clearbutton"], returnFirstDependency);
-        define("cardStyle", ["css!" + componentsPath + "/cardbuilder/card"], returnFirstDependency);
-        define("flexStyles", ["css!assets/css/flexstyles"], returnFirstDependency);
-
-        // define legacy features
-        // TODO delete the rest of these
-        define("fnchecked", ["legacy/fnchecked"], returnFirstDependency);
-        define("legacyDashboard", ["legacy/dashboard"], returnFirstDependency);
-        define("legacySelectMenu", ["legacy/selectmenu"], returnFirstDependency);
+        define("material-icons", ["css!assets/css/material-icons/style"], returnFirstDependency);
 
         // there are several objects that need to be instantiated
         // TODO find a better way to do this
-        define("appFooter", [componentsPath + "/appfooter/appfooter"], returnFirstDependency);
-        define("appFooter-shared", ["appFooter"], createSharedAppFooter);
+        define("appFooter", ["components/appfooter/appfooter"], returnFirstDependency);
+        define("appFooter", ["appFooter"], createSharedAppFooter);
 
-        // TODO pull apiclient out of this repository
-        define('events', [bowerPath + "/apiclient/events"], returnFirstDependency);
-        define('credentialprovider', [bowerPath + "/apiclient/credentialprovider"], returnFirstDependency);
-        define('connectionManagerFactory', [bowerPath + "/apiclient/connectionmanager"], returnFirstDependency);
-        define('appStorage', [bowerPath + "/apiclient/appStorage"], returnFirstDependency);
-        define("serversync", [bowerPath + "/apiclient/sync/serversync"], returnFirstDependency);
-        define("multiserversync", [bowerPath + "/apiclient/sync/multiserversync"], returnFirstDependency);
-        define("mediasync", [bowerPath + "/apiclient/sync/mediasync"], returnFirstDependency);
-        define("itemrepository", [bowerPath + "/apiclient/sync/itemrepository"], returnFirstDependency);
-        define("useractionrepository", [bowerPath + "/apiclient/sync/useractionrepository"], returnFirstDependency);
+        define("playbackManager", ["components/playback/playbackmanager"], getPlaybackManager);
+        define("layoutManager", ["components/layoutManager", "apphost"], getLayoutManager);
 
-        // TODO remove these libraries
-        // all of these have been modified so we need to fix that first
-        define("headroom", [componentsPath + "/headroom/headroom"], returnFirstDependency);
-        define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
-        define("navdrawer", [componentsPath + "/navdrawer/navdrawer"], returnFirstDependency);
-
-        define("emby-button", [elementsPath + "/emby-button/emby-button"], returnFirstDependency);
-        define("paper-icon-button-light", [elementsPath + "/emby-button/paper-icon-button-light"], returnFirstDependency);
-        define("emby-checkbox", [elementsPath + "/emby-checkbox/emby-checkbox"], returnFirstDependency);
-        define("emby-collapse", [elementsPath + "/emby-collapse/emby-collapse"], returnFirstDependency);
-        define("emby-input", [elementsPath + "/emby-input/emby-input"], returnFirstDependency);
-        define("emby-progressring", [elementsPath + "/emby-progressring/emby-progressring"], returnFirstDependency);
-        define("emby-radio", [elementsPath + "/emby-radio/emby-radio"], returnFirstDependency);
-        define("emby-select", [elementsPath + "/emby-select/emby-select"], returnFirstDependency);
-        define("emby-slider", [elementsPath + "/emby-slider/emby-slider"], returnFirstDependency);
-        define("emby-textarea", [elementsPath + "/emby-textarea/emby-textarea"], returnFirstDependency);
-        define("emby-toggle", [elementsPath + "/emby-toggle/emby-toggle"], returnFirstDependency);
-
-        define("appSettings", [scriptsPath + "/settings/appSettings"], returnFirstDependency);
-        define("userSettingsBuilder", [scriptsPath + "/settings/userSettingsBuilder"], returnFirstDependency);
-        define("userSettings", ["userSettingsBuilder"], function(userSettingsBuilder) {
-            return new userSettingsBuilder();
-        });
-
-        define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
-        define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);
-        define("actionsheet", [componentsPath + "/actionsheet/actionsheet"], returnFirstDependency);
-        define("tunerPicker", [componentsPath + "/tunerpicker"], returnFirstDependency);
-        define("mainTabsManager", [componentsPath + "/maintabsmanager"], returnFirstDependency);
-        define("imageLoader", [componentsPath + "/images/imageLoader"], returnFirstDependency);
-        define("directorybrowser", [componentsPath + "/directorybrowser/directorybrowser"], returnFirstDependency);
-        define("metadataEditor", [componentsPath + "/metadataeditor/metadataeditor"], returnFirstDependency);
-        define("personEditor", [componentsPath + "/metadataeditor/personeditor"], returnFirstDependency);
-        define("playerSelectionMenu", [componentsPath + "/playback/playerSelectionMenu"], returnFirstDependency);
-        define("playerSettingsMenu", [componentsPath + "/playback/playersettingsmenu"], returnFirstDependency);
-        define("playMethodHelper", [componentsPath + "/playback/playmethodhelper"], returnFirstDependency);
-        define("brightnessOsd", [componentsPath + "/playback/brightnessosd"], returnFirstDependency);
-        define("emby-itemscontainer", [componentsPath + "/emby-itemscontainer/emby-itemscontainer"], returnFirstDependency);
-        define("alphaNumericShortcuts", [componentsPath + "/alphanumericshortcuts/alphanumericshortcuts"], returnFirstDependency);
-        define("emby-scroller", [componentsPath + "/emby-scroller/emby-scroller"], returnFirstDependency);
-        define("emby-tabs", [componentsPath + "/emby-tabs/emby-tabs"], returnFirstDependency);
-        define("emby-scrollbuttons", [componentsPath + "/emby-scrollbuttons/emby-scrollbuttons"], returnFirstDependency);
-        define("emby-itemrefreshindicator", [componentsPath + "/emby-itemrefreshindicator/emby-itemrefreshindicator"], returnFirstDependency);
-        define("multiSelect", [componentsPath + "/multiselect/multiselect"], returnFirstDependency);
-        define("alphaPicker", [componentsPath + "/alphapicker/alphapicker"], returnFirstDependency);
-        define("tabbedView", [componentsPath + "/tabbedview/tabbedview"], returnFirstDependency);
-        define("itemsTab", [componentsPath + "/tabbedview/itemstab"], returnFirstDependency);
-        define("collectionEditor", [componentsPath + "/collectioneditor/collectioneditor"], returnFirstDependency);
-        define("serverRestartDialog", [componentsPath + "/serverRestartDialog"], returnFirstDependency);
-        define("playlistEditor", [componentsPath + "/playlisteditor/playlisteditor"], returnFirstDependency);
-        define("recordingCreator", [componentsPath + "/recordingcreator/recordingcreator"], returnFirstDependency);
-        define("recordingEditor", [componentsPath + "/recordingcreator/recordingeditor"], returnFirstDependency);
-        define("seriesRecordingEditor", [componentsPath + "/recordingcreator/seriesrecordingeditor"], returnFirstDependency);
-        define("recordingFields", [componentsPath + "/recordingcreator/recordingfields"], returnFirstDependency);
-        define("recordingButton", [componentsPath + "/recordingcreator/recordingbutton"], returnFirstDependency);
-        define("recordingHelper", [componentsPath + "/recordingcreator/recordinghelper"], returnFirstDependency);
-        define("subtitleEditor", [componentsPath + "/subtitleeditor/subtitleeditor"], returnFirstDependency);
-        define("subtitleSync", [componentsPath + "/subtitlesync/subtitlesync"], returnFirstDependency);
-        define("itemIdentifier", [componentsPath + "/itemidentifier/itemidentifier"], returnFirstDependency);
-        define("itemMediaInfo", [componentsPath + "/itemMediaInfo/itemMediaInfo"], returnFirstDependency);
-        define("mediaInfo", [componentsPath + "/mediainfo/mediainfo"], returnFirstDependency);
-        define("itemContextMenu", [componentsPath + "/itemcontextmenu"], returnFirstDependency);
-        define("imageEditor", [componentsPath + "/imageeditor/imageeditor"], returnFirstDependency);
-        define("imageDownloader", [componentsPath + "/imagedownloader/imagedownloader"], returnFirstDependency);
-        define("dom", [componentsPath + "/dom"], returnFirstDependency);
-        define("playerStats", [componentsPath + "/playerstats/playerstats"], returnFirstDependency);
-        define("searchFields", [componentsPath + "/search/searchfields"], returnFirstDependency);
-        define("searchResults", [componentsPath + "/search/searchresults"], returnFirstDependency);
-        define("upNextDialog", [componentsPath + "/upnextdialog/upnextdialog"], returnFirstDependency);
-        define("fullscreen-doubleclick", [componentsPath + "/fullscreen/fullscreen-dc"], returnFirstDependency);
-        define("fullscreenManager", [componentsPath + "/fullscreenManager", "events"], returnFirstDependency);
-        define("subtitleAppearanceHelper", [componentsPath + "/subtitlesettings/subtitleappearancehelper"], returnFirstDependency);
-        define("subtitleSettings", [componentsPath + "/subtitlesettings/subtitlesettings"], returnFirstDependency);
-        define("displaySettings", [componentsPath + "/displaysettings/displaysettings"], returnFirstDependency);
-        define("playbackSettings", [componentsPath + "/playbacksettings/playbacksettings"], returnFirstDependency);
-        define("homescreenSettings", [componentsPath + "/homescreensettings/homescreensettings"], returnFirstDependency);
-        define("playbackManager", [componentsPath + "/playback/playbackmanager"], getPlaybackManager);
-        define("layoutManager", [componentsPath + "/layoutManager", "apphost"], getLayoutManager);
-        define("homeSections", [componentsPath + "/homesections/homesections"], returnFirstDependency);
-        define("playMenu", [componentsPath + "/playmenu"], returnFirstDependency);
-        define("refreshDialog", [componentsPath + "/refreshdialog/refreshdialog"], returnFirstDependency);
-        define("backdrop", [componentsPath + "/backdrop/backdrop"], returnFirstDependency);
-        define("fetchHelper", [componentsPath + "/fetchhelper"], returnFirstDependency);
-        define("cardBuilder", [componentsPath + "/cardbuilder/cardBuilder"], returnFirstDependency);
-        define("peoplecardbuilder", [componentsPath + "/cardbuilder/peoplecardbuilder"], returnFirstDependency);
-        define("chaptercardbuilder", [componentsPath + "/cardbuilder/chaptercardbuilder"], returnFirstDependency);
-        define("deleteHelper", [componentsPath + "/deletehelper"], returnFirstDependency);
-        define("tvguide", [componentsPath + "/guide/guide"], returnFirstDependency);
-        define("guide-settings-dialog", [componentsPath + "/guide/guide-settings"], returnFirstDependency);
-        define("loadingDialog", [componentsPath + "/loadingdialog/loadingdialog"], returnFirstDependency);
-        define("viewManager", [componentsPath + "/viewManager/viewManager"], function (viewManager) {
+        define("viewManager", ["components/viewManager/viewManager"], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
             return viewManager;
         });
-        define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
-        define("objectassign", [componentsPath + "/polyfills/objectassign"], returnFirstDependency);
-        define("focusPreventScroll", [componentsPath + "/polyfills/focusPreventScroll"], returnFirstDependency);
-        define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
-        define("emby-playstatebutton", [componentsPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
-        define("emby-ratingbutton", [componentsPath + "/userdatabuttons/emby-ratingbutton"], returnFirstDependency);
-        define("listView", [componentsPath + "/listview/listview"], returnFirstDependency);
-        define("indicators", [componentsPath + "/indicators/indicators"], returnFirstDependency);
-        define("viewSettings", [componentsPath + "/viewsettings/viewsettings"], returnFirstDependency);
-        define("filterMenu", [componentsPath + "/filtermenu/filtermenu"], returnFirstDependency);
-        define("sortMenu", [componentsPath + "/sortmenu/sortmenu"], returnFirstDependency);
-        define("idb", [componentsPath + "/idb"], returnFirstDependency);
-        define("sanitizefilename", [componentsPath + "/sanitizefilename"], returnFirstDependency);
-        define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
-        define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);
-        define("touchHelper", [componentsPath + "/touchhelper"], returnFirstDependency);
-        define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
-        define("htmlMediaHelper", [componentsPath + "/htmlMediaHelper"], returnFirstDependency);
-        define("viewContainer", [componentsPath + "/viewContainer"], returnFirstDependency);
-        define("dialogHelper", [componentsPath + "/dialogHelper/dialogHelper"], returnFirstDependency);
-        define("serverNotifications", [componentsPath + "/serverNotifications"], returnFirstDependency);
-        define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
-        define("keyboardnavigation", [componentsPath + "/input/keyboardnavigation"], returnFirstDependency);
-        define("mouseManager", [componentsPath + "/input/mouseManager"], returnFirstDependency);
-        define("scrollManager", [componentsPath + "/scrollManager"], returnFirstDependency);
-        define("autoFocuser", [componentsPath + "/autoFocuser"], returnFirstDependency);
+        define("serverNotifications", ["components//serverNotifications"], returnFirstDependency);
+        define("keyboardnavigation", ["components//input/keyboardnavigation"], returnFirstDependency);
+        define("mouseManager", ["components//input/mouseManager"], returnFirstDependency);
         define("connectionManager", [], function () {
             return ConnectionManager;
         });
@@ -877,7 +821,7 @@ var AppInfo = {};
                 return window.ApiClient;
             };
         });
-        define("appRouter", [componentsPath + "/appRouter", "itemHelper"], function (appRouter, itemHelper) {
+        define("appRouter", ["components/appRouter", "itemHelper"], function (appRouter, itemHelper) {
             function showItem(item, serverId, options) {
                 if ("string" == typeof item) {
                     require(["connectionManager"], function (connectionManager) {
@@ -1000,7 +944,7 @@ var AppInfo = {};
                 }
 
                 if ("livetv" === item) {
-                    if ("programs" === options.section) {
+                    if ("progra        var bowerPath = getBowerPath();" === options.section) {
                         return "livetv.html?tab=0&serverId=" + options.serverId;
                     }
                     if ("guide" === options.section) {

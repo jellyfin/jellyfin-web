@@ -1,4 +1,4 @@
-define(['components/loading/loadingLegacy', 'browser', 'css!./loading'], function (loadingLegacy, browser) {
+define(['components/loading/loadingLegacy', 'browser', 'css!components/loading/loading'], function (loadingLegacy, browser) {
     'use strict';
 
     if (browser.tizen || browser.operaTv || browser.chromecast || browser.orsay || browser.web0s || browser.ps4) {

@@ -1,4 +1,4 @@
-define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize", "loading", "browser", "focusManager", "scrollHelper", "material-icons", "formDialogStyle", "emby-button", "emby-itemscontainer", "cardStyle"], function (dialogHelper, dom, layoutManager, connectionManager, globalize, loading, browser, focusManager, scrollHelper) {
+define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize", "loading", "browser", "focusManager", "scrollHelper", "material-icons", "css!components/formdialog", "emby-button", "emby-itemscontainer", "css!components/cardbuilder/card"], function (dialogHelper, dom, layoutManager, connectionManager, globalize, loading, browser, focusManager, scrollHelper) {
     "use strict";
 
     var enableFocusTransform = !browser.slow && !browser.edge;

@@ -1,4 +1,4 @@
-define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layoutManager", "browser", "cardStyle", "emby-checkbox"], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, browser) {
+define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layoutManager", "browser", "css!components/cardbuilder/card", "emby-checkbox"], function(appHost, appSettings, dom, connectionManager, loading, layoutManager, browser) {
     "use strict";
 
     var enableFocusTransform = !browser.slow && !browser.edge;

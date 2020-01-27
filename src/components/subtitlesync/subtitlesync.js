@@ -1,4 +1,4 @@
-define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitlesync'], function (playbackManager, template, css) {
+define(['playbackManager', 'text!./subtitlesync.template.html', 'css!components/subtitlesync/subtitlesync'], function (playbackManager, template, css) {
     "use strict";
 
     var player;

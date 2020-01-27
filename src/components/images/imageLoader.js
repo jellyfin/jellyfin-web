@@ -1,4 +1,4 @@
-define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings', 'userSettings', 'require', 'css!./style'], function (lazyLoader, imageFetcher, layoutManager, browser, appSettings, userSettings, require) {
+define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings', 'userSettings', 'require', 'css!components/images/style'], function (lazyLoader, imageFetcher, layoutManager, browser, appSettings, userSettings, require) {
     'use strict';
 
     var requestIdleCallback = window.requestIdleCallback || function (fn) {

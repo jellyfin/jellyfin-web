@@ -1,4 +1,4 @@
-define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser, dom) {
+define(["browser", "dom", "css!components/navdrawer/navdrawer", "css!assets/css/scrollstyles"], function(browser, dom) {
     "use strict";
 
     return function (options) {

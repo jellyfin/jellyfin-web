@@ -1,4 +1,4 @@
-define(['layoutManager', 'css!./emby-radio', 'registerElement'], function (layoutManager) {
+define(['layoutManager', 'css!elements/emby-radio/emby-radio', 'registerElement'], function (layoutManager) {
     'use strict';
 
     var EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);

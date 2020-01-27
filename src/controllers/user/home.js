@@ -1,4 +1,4 @@
-define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loading", "userSettings", "autoFocuser", "listViewStyle"], function (HomescreenSettings, userSettingsBuilder, dom, globalize, loading, currentUserSettings, autoFocuser) {
+define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loading", "userSettings", "autoFocuser", "css!components/listview/listview"], function (HomescreenSettings, userSettingsBuilder, dom, globalize, loading, currentUserSettings, autoFocuser) {
     "use strict";
 
     return function (view, params) {

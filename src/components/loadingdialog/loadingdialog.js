@@ -1,4 +1,4 @@
-define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles'], function (loading, events, dialogHelper, dom, layoutManager, scrollHelper, globalize, require) {
+define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'css!components/formdialog', 'css!assets/css/flexstyles'], function (loading, events, dialogHelper, dom, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
     function showDialog(instance, options, template) {

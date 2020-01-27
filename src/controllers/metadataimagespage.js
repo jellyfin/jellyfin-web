@@ -1,4 +1,4 @@
-define(["jQuery", "dom", "loading", "libraryMenu", "listViewStyle"], function($, dom, loading, libraryMenu) {
+define(["jQuery", "dom", "loading", "libraryMenu", "css!components/listview/listview"], function($, dom, loading, libraryMenu) {
     "use strict";
 
     function populateLanguages(select) {

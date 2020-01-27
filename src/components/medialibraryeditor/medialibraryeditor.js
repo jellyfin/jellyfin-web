@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "dialogHelper", "dom", "components/libraryoptionseditor/libraryoptionseditor", "emby-button", "listViewStyle", "paper-icon-button-light", "formDialogStyle", "emby-toggle", "flexStyles"], function (jQuery, loading, dialogHelper, dom, libraryoptionseditor) {
+define(["jQuery", "loading", "dialogHelper", "dom", "components/libraryoptionseditor/libraryoptionseditor", "emby-button", "css!components/listview/listview", "paper-icon-button-light", "css!components/formdialog", "emby-toggle", "css!assets/css/flexstyles"], function(jQuery, loading, dialogHelper, dom, libraryoptionseditor) {
     "use strict";
 
     function onEditLibrary() {

@@ -7,7 +7,7 @@ define(['require', 'browser'], function (require, browser) {
     }
 
     if (browser.edge) {
-        require(['css!./lazyedgehack']);
+        require(['css!components/lazyloader/lazyedgehack']);
     }
 
     LazyLoader.prototype.createObserver = function () {

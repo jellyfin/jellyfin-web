@@ -1,4 +1,4 @@
-define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPicker', 'emby-input', 'flexStyles', 'material-icons', 'css!./searchfields'], function (layoutManager, globalize, require, events, browser, AlphaPicker) {
+define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPicker', 'emby-input', 'css!assets/css/flexstyles', 'material-icons', 'css!components/search/searchfields'], function (layoutManager, globalize, require, events, browser, AlphaPicker) {
     'use strict';
 
     function onSearchTimeout() {

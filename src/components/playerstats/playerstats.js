@@ -1,4 +1,4 @@
-define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!./playerstats'], function (events, globalize, playbackManager, connectionManager, playMethodHelper, layoutManager, serverNotifications) {
+define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!components/playerstats/playerstats'], function (events, globalize, playbackManager, connectionManager, playMethodHelper, layoutManager, serverNotifications) {
     'use strict';
 
     function init(instance) {
