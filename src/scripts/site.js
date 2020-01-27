@@ -944,7 +944,7 @@ var AppInfo = {};
                 }
 
                 if ("livetv" === item) {
-                    if ("progra        var bowerPath = getBowerPath();" === options.section) {
+                    if ("programs" === options.section) {
                         return "livetv.html?tab=0&serverId=" + options.serverId;
                     }
                     if ("guide" === options.section) {
