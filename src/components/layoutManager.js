@@ -1,4 +1,4 @@
-define(['browser', 'appSettings', 'events'], function (browser, appSettings, events) {
+define(['browser', 'appSettings', 'events', 'apphost'], function (browser, appSettings, events, appHost) {
     'use strict';
 
     function setLayout(instance, layout, selectedLayout) {
@@ -61,5 +61,12 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
         }
     };
 
-    return new LayoutManager();
+    var _layoutManager = new LayoutManager();
+
+    if (appHost.getDefaultLayout) {
+        _layoutManager.defaultLayout = appHost.getDefaultLayout();
+    }
+
+    _layoutManager.init();
+    return _layoutManager;
 });

@@ -1,4 +1,4 @@
-define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 'connectionManager', 'userSettings', 'appRouter', 'globalize', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!components/formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, playbackManager, connectionManager, userSettings, appRouter, globalize) {
+define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 'connectionManager', 'userSettings', 'appRouter', 'globalize', 'emby-input', 'paper-icon-button-light', 'emby-select', 'css!assets/css/material-icons/style', 'css!components/formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, playbackManager, connectionManager, userSettings, appRouter, globalize) {
     'use strict';
 
     var currentServerId;

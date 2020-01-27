@@ -1,4 +1,4 @@
-define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layoutManager", "loading", "browser", "css!components/listview/listview", "css!assets/css/flexstyles", "emby-itemscontainer", "css!components/cardbuilder/card", "material-icons", "emby-button"], function ($, globalize, taskButton, dom, libraryMenu, layoutManager, loading, browser) {
+define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layoutManager", "loading", "browser", "css!components/listview/listview", "css!assets/css/flexstyles", "emby-itemscontainer", "css!components/cardbuilder/card", "css!assets/css/material-icons/style", "emby-button"], function ($, globalize, taskButton, dom, libraryMenu, layoutManager, loading, browser) {
     "use strict";
 
     var enableFocusTransform = !browser.slow && !browser.edge;

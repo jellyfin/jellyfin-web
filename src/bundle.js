@@ -4,11 +4,20 @@
 // Use define from require.js not webpack's define
 var _define = window.define;
 
-// document-register-element
-var docRegister = require("document-register-element");
-_define("document-register-element", function() {
-    return docRegister;
-});
+var ResizeObserver = require("resize-observer-polyfill").default;
+_define("ResizeObserver", function () {
+    return ResizeObserver;
+})
+
+var IntersectionObserver = require("intersection-observer");
+_define("IntersectionObserver", function () {
+    return IntersectionObserver;
+})
+
+var registerElement = require("document-register-element");
+_define("registerElement", function () {
+    return registerElement;
+})
 
 // fetch
 var fetch = require("whatwg-fetch");

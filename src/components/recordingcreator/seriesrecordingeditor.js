@@ -1,4 +1,4 @@
-define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'imageLoader', 'datetime', 'css!assets/css/scrollstyles', 'emby-button', 'emby-checkbox', 'emby-input', 'emby-select', 'paper-icon-button-light', 'css!components/formdialog', 'css!components/recordingcreator/recordingcreator', 'material-icons', 'css!assets/css/flexstyles'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, imageLoader, datetime) {
+define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'imageLoader', 'datetime', 'css!assets/css/scrollstyles', 'emby-button', 'emby-checkbox', 'emby-input', 'emby-select', 'paper-icon-button-light', 'css!components/formdialog', 'css!components/recordingcreator/recordingcreator', 'css!assets/css/material-icons/style', 'css!assets/css/flexstyles'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, imageLoader, datetime) {
     'use strict';
 
     var currentDialog;

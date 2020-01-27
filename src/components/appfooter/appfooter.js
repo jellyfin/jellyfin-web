@@ -33,5 +33,5 @@ define(['browser', 'css!components/appfooter/appfooter'], function (browser) {
         self.element = null;
     };
 
-    return new appFooter;
+    return new appFooter({});
 });

@@ -347,34 +347,6 @@ var AppInfo = {};
         console.error("RequireJS error: " + (requireType || "unknown") + ". Failed modules: " + (requireModules || []).join(","));
     }
 
-    function defineResizeObserver() {
-        if (self.ResizeObserver) {
-            define("ResizeObserver", [], function () {
-                return self.ResizeObserver;
-            });
-        } else {
-            define("ResizeObserver", ["resize-observer-polyfill"], returnFirstDependency);
-        }
-    }
-
-    function initRequireWithBrowser(browser) {
-        if (window.IntersectionObserver && !browser.edge) {
-            define("lazyLoader", ["components/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency);
-        } else {
-            define("lazyLoader", ["components/lazyloader/lazyloader-scroll"], returnFirstDependency);
-        }
-
-        if ("registerElement" in document) {
-            define("registerElement", []);
-        } else if (browser.msie) {
-            define("registerElement", ["webcomponents"], returnFirstDependency);
-        } else {
-            define("registerElement", ["document-register-element"], returnFirstDependency);
-        }
-
-        defineResizeObserver();
-    }
-
     function init() {
         var promises = [];
         if (!window.fetch) {
@@ -743,7 +715,11 @@ var AppInfo = {};
             "autoFocuser": "components/autoFocuser",
             "confirm": "components/confirm/confirm",
             "prompt": "components/prompt/prompt",
-            "castSenderApiLoader": "components/castSenderApi"
+            "castSenderApiLoader": "components/castSenderApi",
+            "appFooter": "components/appfooter/appfooter",
+            "playbackManager": "components/playback/playbackmanager",
+            "layoutManager": "components/layoutManager",
+            "lazyLoader": "components/lazyloader/lazyloader-intersectionobserver"
         };
 
         requirejs.onError = onRequireJsError;
@@ -792,18 +768,6 @@ var AppInfo = {};
 
         require(["css!assets/css/site"]);
         require(["jellyfin-noto"]);
-
-        // define styles
-        // TODO determine which of these files can be moved to the components themselves
-        define("material-icons", ["css!assets/css/material-icons/style"], returnFirstDependency);
-
-        // there are several objects that need to be instantiated
-        // TODO find a better way to do this
-        define("appFooter", ["components/appfooter/appfooter"], returnFirstDependency);
-        define("appFooter", ["appFooter"], createSharedAppFooter);
-
-        define("playbackManager", ["components/playback/playbackmanager"], getPlaybackManager);
-        define("layoutManager", ["components/layoutManager", "apphost"], getLayoutManager);
 
         define("viewManager", ["components/viewManager/viewManager"], function (viewManager) {
             window.ViewManager = viewManager;

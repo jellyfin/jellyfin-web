@@ -1,4 +1,4 @@
-define(['require', 'browser'], function (require, browser) {
+define(['require', 'browser', 'IntersectionObserver'], function (require, browser) {
     'use strict';
 
     function LazyLoader(options) {

@@ -1,4 +1,4 @@
-define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "viewManager", "libraryBrowser", "appRouter", "apphost", "playbackManager", "browser", "globalize", "scripts/imagehelper", "paper-icon-button-light", "material-icons", "css!assets/css/scrollstyles", "css!assets/css/flexstyles"], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, browser, globalize, imageHelper) {
+define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "viewManager", "libraryBrowser", "appRouter", "apphost", "playbackManager", "browser", "globalize", "scripts/imagehelper", "paper-icon-button-light", "css!assets/css/material-icons/style", "css!assets/css/scrollstyles", "css!assets/css/flexstyles"], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, browser, globalize, imageHelper) {
     "use strict";
 
     function renderHeader() {

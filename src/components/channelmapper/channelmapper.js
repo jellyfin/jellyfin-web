@@ -1,4 +1,4 @@
-define(["dialogHelper", "loading", "connectionManager", "globalize", "actionsheet", "emby-input", "paper-icon-button-light", "emby-button", "css!components/listview/listview", "material-icons", "css!components/formdialog"], function (dialogHelper, loading, connectionManager, globalize, actionsheet) {
+define(["dialogHelper", "loading", "connectionManager", "globalize", "actionsheet", "emby-input", "paper-icon-button-light", "emby-button", "css!components/listview/listview", "css!assets/css/material-icons/style", "css!components/formdialog"], function (dialogHelper, loading, connectionManager, globalize, actionsheet) {
     "use strict";
 
     return function (options) {
