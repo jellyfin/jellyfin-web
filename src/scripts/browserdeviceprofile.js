@@ -749,20 +749,12 @@ define(['browser'], function (browser) {
             });
         }
 
-        var maxH264Level = browser.chromecast ? 42 : 51;
+        var maxH264Level = 42;
         var h264Profiles = 'high|main|baseline|constrained baseline';
 
         if (browser.tizen || browser.orsay || browser.web0s ||
             videoTestElement.canPlayType('video/mp4; codecs="avc1.640833"').replace(/no/, '')) {
             maxH264Level = 51;
-        }
-
-        var userAgent = navigator.userAgent.toLowerCase();
-        if (browser.chromecast) {
-            var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
-            if (isChromecastUltra) {
-                maxH264Level = 51;
-            }
         }
 
         if (browser.tizen || browser.orsay ||
