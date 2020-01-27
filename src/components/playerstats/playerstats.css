@@ -1,11 +1,10 @@
 .playerStats {
-    background: rgba(28,28,28,0.8);
-    border-radius: .3em;
+    background: rgba(28, 28, 28, 0.8);
+    border-radius: 0.3em;
     color: #fff;
     left: 1.5em;
     position: absolute;
     top: 5em;
-    color: #fff;
 }
 
 .playerStats-tv {
@@ -23,8 +22,8 @@
 
 .playerStats-closeButton {
     position: absolute;
-    top: .25em;
-    right: .25em;
+    top: 0.25em;
+    right: 0.25em;
     color: #ccc;
     z-index: 1;
 }
@@ -44,7 +43,7 @@
 
 .playerStats-stat-label {
     font-weight: 500;
-    margin: 0 .5em 0 0;
+    margin: 0 0.5em 0 0;
 }
 
 .playerStats-stat-header {

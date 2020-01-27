@@ -2,7 +2,6 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
     'use strict';
 
     function setLayout(instance, layout, selectedLayout) {
-
         if (layout === selectedLayout) {
             instance[layout] = true;
             document.documentElement.classList.add('layout-' + layout);
@@ -38,7 +37,6 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
     };
 
     LayoutManager.prototype.getSavedLayout = function (layout) {
-
         return appSettings.get('layout');
     };
 

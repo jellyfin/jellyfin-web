@@ -632,7 +632,6 @@
     "OptionEnableAccessFromAllDevices": "Povoliť prístup zo všetkých zariadení",
     "OptionEnableAccessToAllChannels": "Povoliť prístup ku všetkým kanálom",
     "OptionEnableAccessToAllLibraries": "Povoliť prístup ku všetkým knižniciam",
-    "OptionEnableAutomaticServerUpdates": "Povoliť automatické aktualizácie servera",
     "OptionEnableM2tsMode": "Povoliť M2ts mód",
     "OptionEnableM2tsModeHelp": "Povoliť režim M2TS pri kódovaní do MPEGTS.",
     "OptionEnded": "Ukončené",
