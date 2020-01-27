@@ -108,7 +108,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             headerCastButton.addEventListener("click", onCastButtonClicked);
         }
 
-        initHeadRoom(skinHeader);
+        if (layoutManager.mobile) {
+            initHeadRoom(skinHeader);
+        }
     }
 
     function onCastButtonClicked() {
@@ -424,7 +426,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
             var html = "";
             html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="home.html">';
-            html += '<img src="assets/img/logo.png" />';
+            html += '<img src="assets/img/icon-transparent.png" />';
             html += "</a>";
             html += toolsMenuHtml;
             navDrawerScrollContainer.innerHTML = html;

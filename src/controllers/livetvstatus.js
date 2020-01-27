@@ -187,16 +187,12 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         switch (providerId = providerId.toLowerCase()) {
             case "m3u":
                 return "M3U";
-
             case "hdhomerun":
-                return "HDHomerun";
-
+                return "HDHomeRun";
             case "hauppauge":
                 return "Hauppauge";
-
             case "satip":
                 return "DVB";
-
             default:
                 return "Unknown";
         }
@@ -206,13 +202,8 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         switch (providerId = providerId.toLowerCase()) {
             case "schedulesdirect":
                 return "Schedules Direct";
-
             case "xmltv":
-                return "Xml TV";
-
-            case "emby":
-                return "Emby Guide";
-
+                return "XMLTV";
             default:
                 return "Unknown";
         }
@@ -222,12 +213,8 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         switch (providerId = providerId.toLowerCase()) {
             case "xmltv":
                 return "livetvguideprovider.html?type=xmltv";
-
             case "schedulesdirect":
                 return "livetvguideprovider.html?type=schedulesdirect";
-
-            case "emby":
-                return "livetvguideprovider.html?type=emby";
         }
     }
 
@@ -238,7 +225,7 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
             id: "SchedulesDirect"
         });
         menuItems.push({
-            name: "Xml TV",
+            name: "XMLTV",
             id: "xmltv"
         });
 

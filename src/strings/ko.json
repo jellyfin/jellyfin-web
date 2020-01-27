@@ -585,7 +585,6 @@
     "OptionEnableAccessFromAllDevices": "모든 기기에서 접속 허용",
     "OptionEnableAccessToAllChannels": "모든 채널에 접속 허용",
     "OptionEnableAccessToAllLibraries": "모든 라이브러리에 접속 허용",
-    "OptionEnableAutomaticServerUpdates": "서버 자동 업데이트 사용",
     "OptionEnableM2tsMode": "M2ts 모드 활성화",
     "OptionEnded": "종료됨",
     "OptionEveryday": "매일",
