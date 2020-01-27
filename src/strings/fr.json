@@ -1454,5 +1454,6 @@
     "HeaderFavoritePeople": "Personnes préférées",
     "OptionRandom": "Aléatoire",
     "ButtonSplit": "Séparer",
-    "SelectAdminUsername": "Veuillez choisir un nom d'utilisateur pour le compte administrateur."
+    "SelectAdminUsername": "Veuillez choisir un nom d'utilisateur pour le compte administrateur.",
+    "HeaderNavigation": "Navigation"
 }
