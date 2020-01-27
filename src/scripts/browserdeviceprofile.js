@@ -5,8 +5,8 @@ define(['browser'], function (browser) {
         return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
     }
 
-    function canPlayH265(videoTestElement, protocol) {
-        if (browser.tizen || browser.orsay || browser.xboxOne || browser.web0s) {
+    function canPlayH265(videoTestElement, options) {
+        if (browser.tizen || browser.orsay || browser.xboxOne || browser.web0s || options.supportsHevc) {
             return true;
         }
 
@@ -22,23 +22,11 @@ define(['browser'], function (browser) {
             return false;
         }
 
-        if (protocol === 'hls') {
-
-            //safari seems to be lying about this
-            if (browser.iOS || browser.safari) {
-                return false;
-            }
-
-            return !!videoTestElement.canPlayType &&
-            (videoTestElement.canPlayType('video/mp2t; codecs="hvc1.1.L0.0"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp2t; codecs="hev1.1.L0.0"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp2t; codecs="hev1.1.2.L150"').replace(/no/, ''));
-        }
-
         return !!videoTestElement.canPlayType &&
-        (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.L0.0"').replace(/no/, '') ||
-        videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L0.0"').replace(/no/, '') ||
-        videoTestElement.canPlayType('video/mp4; codecs="hev1.1.2.L150"').replace(/no/, ''));
+        (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.L120"').replace(/no/, '') ||
+        videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L120"').replace(/no/, '') ||
+        videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.0.L120"').replace(/no/, '') ||
+        videoTestElement.canPlayType('video/mp4; codecs="hev1.1.0.L120"').replace(/no/, ''));
     }
 
     var _supportsTextTracks;
@@ -492,18 +480,9 @@ define(['browser'], function (browser) {
         if (canPlayH265(videoTestElement)) {
             mp4VideoCodecs.push('h265');
             mp4VideoCodecs.push('hevc');
-        }
 
-        if (canPlayH265(videoTestElement, 'hls')) {
-            hlsVideoCodecs.push('h265');
-            hlsVideoCodecs.push('hevc');
-        }
-
-        if (canPlayH265(videoTestElement) && (browser.tizen || browser.web0s)) {
-            if (hlsVideoCodecs.indexOf('h265') === -1) {
+            if (browser.tizen || browser.web0s) {
                 hlsVideoCodecs.push('h265');
-            }
-            if (hlsVideoCodecs.indexOf('hevc') === -1) {
                 hlsVideoCodecs.push('hevc');
             }
         }
