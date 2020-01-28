@@ -1063,7 +1063,7 @@
     "Repeat": "Opakovat",
     "RepeatAll": "Opakovat vše",
     "RepeatEpisodes": "Opakovaní epizod",
-    "RepeatMode": "Mód opakování",
+    "RepeatMode": "Režim opakování",
     "RepeatOne": "Opakovat jeden",
     "ReplaceAllMetadata": "Přepsat všechna metadata",
     "ReplaceExistingImages": "Nahradit existující obrázky",
@@ -1427,7 +1427,7 @@
     "LabelUserLoginAttemptsBeforeLockout": "Neúspěšné pokusy o přihlášení před uzamčením uživatele:",
     "DashboardVersionNumber": "Verze: {0}",
     "DashboardServerName": "Server: {0}",
-    "LabelWeb": "Web: ",
+    "LabelWeb": "Web:",
     "MediaInfoStreamTypeEmbeddedImage": "Vložený obrázek",
     "MediaInfoStreamTypeSubtitle": "Titulky",
     "MediaIsBeingConverted": "Média se konvertují do formátu kompatibilního se zařízením, které médium přehrává.",
@@ -1555,5 +1555,8 @@
     "CopyStreamURL": "Kopírovat URL adresu streamu",
     "ButtonAddImage": "Přidat obrázek",
     "HeaderFavoritePeople": "Oblíbení lidé",
-    "OptionRandom": "Náhodně"
+    "OptionRandom": "Náhodně",
+    "SelectAdminUsername": "Vyberte uživatelské jméno pro účet správce.",
+    "HeaderNavigation": "Navigace",
+    "ButtonSplit": "Rozdělit"
 }
