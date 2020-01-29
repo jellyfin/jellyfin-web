@@ -254,11 +254,7 @@ require(['apphost'], function (appHost) {
     function runInputLoop() {
         // Get the latest gamepad state.
         var gamepads;
-        if (navigator.getGamepads) {
-            gamepads = navigator.getGamepads();
-        } else if (navigator.webkitGetGamepads) {
-            gamepads = navigator.webkitGetGamepads();
-        }
+        gamepads = navigator.getGamepads();
         gamepads = gamepads || [];
         var i;
         var j;

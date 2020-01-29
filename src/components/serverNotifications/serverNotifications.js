@@ -197,30 +197,30 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
         events.on(apiClient, "message", onMessageReceived);
     }
 
-    function enableNativeGamepadKeyMapping() {
-        if (window.navigator && "string" == typeof window.navigator.gamepadInputEmulation) {
-            window.navigator.gamepadInputEmulation = "keyboard";
-            return true;
+    function attachgamepad(e) {
+        if (navigator.getGamepads.length > 0) {
+            require(["components/serverNotifications/gamepadtokey"]);
+            console.log("Gamepad connected! Attaching gamepadtokey.js script");
         }
-
-        return false;
     }
 
-    function isGamepadSupported() {
-        return "ongamepadconnected" in window || navigator.getGamepads || navigator.webkitGetGamepads;
+    function dettachgamepad(e) {
+        delete require.cache[require(["components/serverNotifications/gamepadtokey"])];
+        console.log("Gamepad disconnected! Dettaching gamepadtokey.js");
     }
 
     connectionManager.getApiClients().forEach(bindEvents);
-
     events.on(connectionManager, 'apiclientcreated', function (e, newApiClient) {
         bindEvents(newApiClient);
     });
-
-    if (!enableNativeGamepadKeyMapping() && isGamepadSupported()) {
+    if (navigator.getGamepads()[0] != null) {
         require(["components/serverNotifications/gamepadtokey"]);
+        console.log("Gamepad connected! Attaching gamepadtokey.js script");
+        window.addEventListener("gamepaddisconnected", dettachgamepad);
+    } else {
+        window.addEventListener("gamepadconnected", attachgamepad);
+        console.log("No gamepad connected to this device");
     }
-
-    require(["components/serverNotifications/mouseManager"]);
-
+    // require(["components/serverNotifications/mouseManager"]);
     return serverNotifications;
 });
