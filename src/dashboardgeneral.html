@@ -1,10 +1,7 @@
 <div id="dashboardGeneralPage" data-role="page" class="page type-interior dashboardHomePage">
-
     <div>
         <div class="content-primary">
-
             <form class="dashboardGeneralForm">
-
                 <div class="verticalSection">
                     <div class="sectionTitleContainer flex align-items-center">
                         <h2 class="sectionTitle">${TabSettings}</h2>
@@ -31,9 +28,7 @@
                             <input is="emby-checkbox" type="checkbox" id="chkAutoRunWebApp" />
                             <span>${LaunchWebAppOnStartup}</span>
                         </label>
-                        <div class="fieldDescription checkboxFieldDescription">
-                            ${LaunchWebAppOnStartupHelp}
-                        </div>
+                        <div class="fieldDescription checkboxFieldDescription">${LaunchWebAppOnStartupHelp}</div>
                     </div>
                 </div>
 
@@ -61,21 +56,6 @@
                     </div>
                 </div>
 
-                <div class="verticalSection autoUpdatesContainer hide">
-                    <h2>${HeaderAutomaticUpdates}</h2>
-                    <label class="fldAutomaticUpdates checkboxContainer">
-                        <input is="emby-checkbox" type="checkbox" id="chkEnableAutomaticServerUpdates" />
-                        <span>${OptionEnableAutomaticServerUpdates}</span>
-                    </label>
-                    <div id="fldEnableAutomaticRestart" class="checkboxContainer checkboxContainer-withDescription hide">
-                        <label>
-                            <input is="emby-checkbox" type="checkbox" id="chkEnableAutomaticRestart" />
-                            <span>${LabelAllowServerAutoRestart}</span>
-                        </label>
-                        <div class="fieldDescription checkboxFieldDescription">${LabelAllowServerAutoRestartHelp}</div>
-                    </div>
-                </div>
-
                 <div class="verticalSection">
                     <h2>${HeaderBranding}</h2>
                     <div class="inputContainer">
@@ -94,7 +74,6 @@
                     </button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

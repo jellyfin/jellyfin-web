@@ -95,23 +95,19 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     }
 
     function getMediaStreamAudioTracks(mediaSource) {
-
         return mediaSource.MediaStreams.filter(function (s) {
             return s.Type === 'Audio';
         });
     }
 
     function getMediaStreamTextTracks(mediaSource) {
-
         return mediaSource.MediaStreams.filter(function (s) {
             return s.Type === 'Subtitle';
         });
     }
 
     function zoomIn(elem) {
-
         return new Promise(function (resolve, reject) {
-
             var duration = 240;
             elem.style.animation = 'htmlvideoplayer-zoomin ' + duration + 'ms ease-in normal';
             dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
@@ -584,6 +580,19 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return showTrackOffset;
         }
 
+        function getTextTrack() {
+            var videoElement = self._mediaElement;
+            if (videoElement) {
+                return Array.from(videoElement.textTracks)
+                    .find(function(trackElement) {
+                        // get showing .vtt textTack
+                        return trackElement.mode === 'showing';
+                    });
+            } else {
+                return null;
+            }
+        }
+
         self.setSubtitleOffset = function(offset) {
 
             var offsetValue = parseFloat(offset);
@@ -592,28 +601,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (currentAssRenderer) {
                 updateCurrentTrackOffset(offsetValue);
             } else {
-                var videoElement = self._mediaElement;
-                var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
-
-                Array.from(videoElement.textTracks)
-                    .filter(function(trackElement) {
-                    // get showing .vtt textTacks
-                        return trackElement.mode === 'showing';
-                    })
-                    .forEach(function(trackElement) {
-
-                        var track = customTrackIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
-                            return t.Index === customTrackIndex;
-                        })[0];
-
-                        if (track) {
-                            offsetValue = updateCurrentTrackOffset(offsetValue);
-                            setVttSubtitleOffset(trackElement, offsetValue);
-                        } else {
-                            console.log("No available track, cannot apply offset : " + offsetValue);
-                        }
-
-                    });
+                var trackElement = getTextTrack();
+                // if .vtt currently rendering
+                if (trackElement) {
+                    setTextTrackSubtitleOffset(trackElement, offsetValue);
+                } else if (currentTrackEvents) {
+                    setTrackEventsSubtitleOffset(currentTrackEvents, offsetValue);
+                } else {
+                    console.log("No available track, cannot apply offset: ", offsetValue);
+                }
             }
         };
 
@@ -629,16 +625,27 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return relativeOffset;
         }
 
-        function setVttSubtitleOffset(currentTrack, offsetValue) {
+        function setTextTrackSubtitleOffset(currentTrack, offsetValue) {
 
             if (currentTrack.cues) {
+                offsetValue = updateCurrentTrackOffset(offsetValue);
                 Array.from(currentTrack.cues)
                     .forEach(function(cue) {
                         cue.startTime -= offsetValue;
                         cue.endTime -= offsetValue;
                     });
             }
+        }
 
+        function setTrackEventsSubtitleOffset(trackEvents, offsetValue) {
+
+            if (Array.isArray(trackEvents)) {
+                offsetValue = updateCurrentTrackOffset(offsetValue);
+                trackEvents.forEach(function(trackEvent) {
+                    trackEvent.StartPositionTicks -= offsetValue;
+                    trackEvent.EndPositionTicks -= offsetValue;
+                });
+            }
         }
 
         self.getSubtitleOffset = function() {
@@ -1033,6 +1040,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return;
             }
 
+            self.resetSubtitleOffset();
             var item = self._currentPlayOptions.item;
 
             destroyCustomTrack(videoElement);
@@ -1046,7 +1054,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
-                fonts: attachments.map(i => i.DeliveryUrl),
+                fonts: attachments.map(function (i) {
+                    return i.DeliveryUrl;
+                }),
                 workerUrl: appRouter.baseUrl() + "/libraries/subtitles-octopus-worker.js",
                 onError: function() {
                     htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror')
@@ -1393,7 +1403,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         dlg.classList.add('videoPlayerContainer');
 
                         if (options.backdropUrl) {
-
                             dlg.classList.add('videoPlayerContainer-withBackdrop');
                             dlg.style.backgroundImage = "url('" + options.backdropUrl + "')";
                         }
@@ -1402,11 +1411,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                             dlg.classList.add('videoPlayerContainer-onTop');
                         }
 
-                        // playsinline new for iOS 10
-                        // https://developer.apple.com/library/content/releasenotes/General/WhatsNewInSafari/Articles/Safari_10_0.html
-
                         var html = '';
-
                         var cssClass = 'htmlvideoplayer';
 
                         if (!browser.chromecast) {
@@ -1417,7 +1422,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         if (!appHost.supports('htmlvideoautoplay')) {
                             html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
                         } else {
-
                             // Chrome 35 won't play with preload none
                             html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" webkit-playsinline playsinline>';
                         }
@@ -1442,7 +1446,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         self._mediaElement = videoElement;
 
                         if (mediaManager) {
-
                             if (!mediaManager.embyInit) {
                                 initMediaManager();
                                 mediaManager.embyInit = true;
@@ -1458,9 +1461,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         } else {
                             resolve(videoElement);
                         }
-
                     });
-
                 } else {
                     if (options.backdropUrl) {
                         dlg.classList.add('videoPlayerContainer-withBackdrop');
@@ -1521,6 +1522,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (Windows.UI.ViewManagement.ApplicationView.getForCurrentView().isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)) {
                 list.push('PictureInPicture');
             }
+        }
+
+        if (browser.safari || browser.iOS || browser.iPad) {
+            list.push('AirPlay')
         }
 
         list.push('SetBrightness');
@@ -1629,6 +1634,31 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         return false;
+    };
+
+    HtmlVideoPlayer.prototype.isAirPlayEnabled = function () {
+
+        if (document.AirPlayEnabled) {
+            return document.AirplayElement ? true : false;
+        }
+
+        return false;
+    };
+
+    HtmlVideoPlayer.prototype.setAirPlayEnabled = function (isEnabled) {
+        var video = this._mediaElement;
+
+        if (document.AirPlayEnabled) {
+            if (video) {
+                if (isEnabled) {
+                    video.requestAirPlay().catch(onAirPlayError);
+                } else {
+                    document.exitAirPLay().catch(onAirPlayError);
+                }
+            }
+        } else {
+            video.webkitShowPlaybackTargetPicker();
+        }
     };
 
     HtmlVideoPlayer.prototype.setBrightness = function (val) {
@@ -1764,7 +1794,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.getAspectRatio = function () {
-        return this._currentAspectRatio;
+        return this._currentAspectRatio || "auto";
     };
 
     HtmlVideoPlayer.prototype.getSupportedAspectRatios = function () {
@@ -1782,6 +1812,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
     HtmlVideoPlayer.prototype.togglePictureInPicture = function () {
         return this.setPictureInPictureEnabled(!this.isPictureInPictureEnabled());
+    };
+
+    HtmlVideoPlayer.prototype.toggleAirPlay = function () {
+        return this.setAirPlayEnabled(!this.isAirPlayEnabled());
     };
 
     HtmlVideoPlayer.prototype.getBufferedRanges = function () {

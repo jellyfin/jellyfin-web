@@ -1036,7 +1036,6 @@
     "OptionEnableAccessFromAllDevices": "Включить доступ со всех устройств",
     "OptionEnableAccessToAllChannels": "Включить доступ ко всем каналам",
     "OptionEnableAccessToAllLibraries": "Включить доступ ко всем медиатекам",
-    "OptionEnableAutomaticServerUpdates": "Включить автоматические обновления сервера",
     "OptionEnableExternalContentInSuggestions": "Включать внешнее содержание в предложения",
     "OptionEnableExternalContentInSuggestionsHelp": "Разрешить охват интернет-трейлеров и эфирных передач в предлагаемом содержании.",
     "OptionEnableForAllTuners": "Включить для всех тюнерных устройств",
@@ -1397,7 +1396,7 @@
     "DashboardServerName": "Сервер: {0}",
     "DashboardOperatingSystem": "Операционная система: {0}",
     "DashboardArchitecture": "Архитектура: {0}",
-    "LabelWeb": "Веб: ",
+    "LabelWeb": "Веб:",
     "LaunchWebAppOnStartup": "Запустить веб-интерфейс при запуске Jellyfin Server",
     "LaunchWebAppOnStartupHelp": "Открывается веб-клиент в браузере по умолчанию при начальном запуске сервера. Это не произойдет при использовании функции перезапуска сервера.",
     "MediaInfoSoftware": "ПО",
@@ -1452,5 +1451,8 @@
     "FetchingData": "Выборка дополнительных данных",
     "ButtonAddImage": "Добавить рисунок",
     "HeaderFavoritePeople": "Избранные люди",
-    "OptionRandom": "Случайный"
+    "OptionRandom": "Случайный",
+    "ButtonSplit": "Разделить",
+    "SelectAdminUsername": "Выберите имя пользователя для учётной записи администратора.",
+    "HeaderNavigation": "Навигация"
 }

@@ -1,5 +1,4 @@
 {
-
     "name": "Jellyfin",
     "description": "Jellyfin: the Free Software Media System.",
     "lang": "en-US",
@@ -8,7 +7,8 @@
     "theme_color": "#101010",
     "background_color": "#101010",
     "display": "standalone",
-    "icons": [{
+    "icons": [
+        {
             "sizes": "72x72",
             "src": "touchicon72.png",
             "type": "image/png"
