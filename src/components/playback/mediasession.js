@@ -97,6 +97,12 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     }
 
     function updatePlayerState(player, state, eventName) {
+        // Don't go crazy reporting position changes
+        if (eventName == 'timeupdate') {
+            // Only report if this item hasn't been reported yet, or if there's an actual playback change.
+            // Don't report on simple time updates
+            return;
+        }
 
         var item = state.NowPlayingItem;
 
@@ -118,19 +124,9 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         }
 
         var playState = state.PlayState || {};
-
         var parts = nowPlayingHelper.getNowPlayingNames(item);
-
-        var artist = parts.length === 1 ? '' : parts[0].text;
-        var title = parts[parts.length - 1].text;
-
-        // Switch these two around for video
-        if (isVideo && parts.length > 1) {
-            var temp = artist;
-            artist = title;
-            title = temp;
-        }
-
+        var artist = parts[parts.length - 1].text;
+        var title = parts.length === 1 ? '' : parts[0].text;
         var albumArtist;
 
         if (item.AlbumArtists && item.AlbumArtists[0]) {
@@ -146,17 +142,6 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
 
         var isPaused = playState.IsPaused || false;
         var canSeek = playState.CanSeek || false;
-
-        var now = new Date().getTime();
-
-        // Don't go crazy reporting position changes
-        if (eventName == 'timeupdate' && (now - lastUpdateTime) < 5000) {
-            // Only report if this item hasn't been reported yet, or if there's an actual playback change.
-            // Don't report on simple time updates
-            return;
-        }
-
-        lastUpdateTime = now;
 
         if (navigator.mediaSession) {
             navigator.mediaSession.metadata = new MediaMetadata({
