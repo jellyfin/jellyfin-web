@@ -542,6 +542,10 @@
     -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
+div.itemDetailGalleryLink.defaultCardBackground {
+    text-align: center;
+}
+
 .itemDetailGalleryLink.defaultCardBackground {
     height: 23vw; /* Dirty hack to get it to look somewhat square. Less than ideal. */
 }
