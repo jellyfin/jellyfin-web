@@ -581,7 +581,6 @@
     "OptionEnableAccessFromAllDevices": "Ativar acesso de todos os dispositivos",
     "OptionEnableAccessToAllChannels": "Permitir acesso a todos os canais",
     "OptionEnableAccessToAllLibraries": "Permitir acesso a todas as bibliotecas",
-    "OptionEnableAutomaticServerUpdates": "Ativar as atualizações automáticas do servidor",
     "OptionEnableM2tsMode": "Ativar modo M2ts",
     "OptionEnableM2tsModeHelp": "Ativar o modo m2ts durante a transcodificação para mpegts.",
     "OptionEnded": "Terminado",

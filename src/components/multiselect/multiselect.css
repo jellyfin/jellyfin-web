@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     top: 0;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, 0.3);
     z-index: 99998;
 }
 
@@ -13,7 +13,7 @@
     top: 0;
     left: 0;
     right: 0;
-    padding: 1em .5em;
+    padding: 1em 0.5em;
     display: flex;
     align-items: center;
     z-index: 99999;

@@ -1,6 +1,38 @@
 define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "viewManager", "libraryBrowser", "appRouter", "apphost", "playbackManager", "browser", "globalize", "scripts/imagehelper", "paper-icon-button-light", "material-icons", "scrollStyles", "flexStyles"], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, browser, globalize, imageHelper) {
     "use strict";
 
+    function renderHeader() {
+        var html = "";
+        html += '<div class="flex align-items-center flex-grow headerTop">';
+        html += '<div class="headerLeft">';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><i class="material-icons">' + (browser.safari ? "chevron_left" : "arrow_back") + "</i></button>";
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><i class="material-icons">home</i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><i class="material-icons">menu</i></button>';
+        html += '<h3 class="pageTitle"></h3>';
+        html += "</div>";
+        html += '<div class="headerRight">';
+        html += '<span class="headerSelectedPlayer"></span>';
+        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="material-icons">cast</i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="material-icons">search</i></button>';
+        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="material-icons">person</i></button>';
+        html += "</div>";
+        html += "</div>";
+        html += '<div class="headerTabs sectionTabs hide">';
+        html += "</div>";
+
+        skinHeader.classList.add("skinHeader-withBackground");
+        skinHeader.classList.add("skinHeader-blurred");
+        skinHeader.innerHTML = html;
+
+        headerHomeButton = skinHeader.querySelector(".headerHomeButton");
+        headerUserButton = skinHeader.querySelector(".headerUserButton");
+        headerCastButton = skinHeader.querySelector(".headerCastButton");
+        headerSearchButton = skinHeader.querySelector(".headerSearchButton");
+
+        lazyLoadViewMenuBarImages();
+        bindMenuEvents();
+    }
+
     function getCurrentApiClient() {
         if (currentUser && currentUser.localUser) {
             return connectionManager.getApiClient(currentUser.localUser.ServerId);
@@ -840,37 +872,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         updateLibraryNavLinks(page);
     });
 
-    (function () {
-        var html = "";
-        html += '<div class="flex align-items-center flex-grow headerTop">';
-        html += '<div class="headerLeft">';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><i class="material-icons">' + (browser.safari ? "chevron_left" : "arrow_back") + "</i></button>";
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><i class="material-icons">home</i></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><i class="material-icons">menu</i></button>';
-        html += '<h3 class="pageTitle"></h3>';
-        html += "</div>";
-        html += '<div class="headerRight">';
-        html += '<span class="headerSelectedPlayer"></span>';
-        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="material-icons">cast</i></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="material-icons">search</i></button>';
-        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="material-icons">person</i></button>';
-        html += "</div>";
-        html += "</div>";
-        html += '<div class="headerTabs sectionTabs hide">';
-        html += "</div>";
-
-        skinHeader.classList.add("skinHeader-withBackground");
-        skinHeader.classList.add("skinHeader-blurred");
-        skinHeader.innerHTML = html;
-
-        headerHomeButton = skinHeader.querySelector(".headerHomeButton");
-        headerUserButton = skinHeader.querySelector(".headerUserButton");
-        headerCastButton = skinHeader.querySelector(".headerCastButton");
-        headerSearchButton = skinHeader.querySelector(".headerSearchButton");
-
-        lazyLoadViewMenuBarImages();
-        bindMenuEvents();
-    })();
+    renderHeader();
 
     events.on(connectionManager, "localusersignedin", function (e, user) {
         currentDrawerType = null;

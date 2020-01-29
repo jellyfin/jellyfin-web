@@ -1,23 +1,31 @@
-define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layoutManager", "browser", "cardStyle", "emby-checkbox"], function(appHost, appSettings, dom, connectionManager, loading, layoutManager, browser) {
+define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layoutManager", "browser", "cardStyle", "emby-checkbox"], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, browser) {
     "use strict";
 
     var enableFocusTransform = !browser.slow && !browser.edge;
 
     function authenticateUserByName(page, apiClient, username, password) {
         loading.show();
-        apiClient.authenticateUserByName(username, password).then(function(result) {
+        apiClient.authenticateUserByName(username, password).then(function (result) {
             var user = result.User;
             var serverId = getParameterByName("serverid");
-            var newUrl = user.Policy.IsAdministrator && !serverId ? "dashboard.html" : "home.html";
+            var newUrl;
+
+            if (user.Policy.IsAdministrator && !serverId) {
+                newUrl = "dashboard.html";
+            } else {
+                newUrl = "home.html";
+            }
+
             loading.hide();
             Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
             Dashboard.navigate(newUrl);
-        }, function(response) {
+        }, function (response) {
             page.querySelector("#txtManualName").value = "";
             page.querySelector("#txtManualPassword").value = "";
             loading.hide();
+
             if (response.status === 401) {
-                require(["toast"], function(toast) {
+                require(["toast"], function (toast) {
                     toast(Globalize.translate("MessageInvalidUser"));
                 });
             } else {
@@ -34,8 +42,18 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
         context.querySelector(".manualLoginForm").classList.remove("hide");
         context.querySelector(".visualLoginForm").classList.add("hide");
         context.querySelector(".btnManual").classList.add("hide");
-        focusPassword ? context.querySelector("#txtManualPassword").focus() : context.querySelector("#txtManualName").focus();
-        showCancel ? context.querySelector(".btnCancel").classList.remove("hide") : context.querySelector(".btnCancel").classList.add("hide");
+
+        if (focusPassword) {
+            context.querySelector("#txtManualPassword").focus();
+        } else {
+            context.querySelector("#txtManualName").focus();
+        }
+
+        if (showCancel) {
+            context.querySelector(".btnCancel").classList.remove("hide");
+        } else {
+            context.querySelector(".btnCancel").classList.add("hide");
+        }
     }
 
     var metroColors = ["#6FBD45", "#4BB3DD", "#4164A5", "#E12026", "#800080", "#E1B222", "#008040", "#0094FF", "#FF00C7", "#FF870F", "#7F0037"];
@@ -49,22 +67,25 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
         if (str) {
             var character = String(str.substr(0, 1).charCodeAt());
             var sum = 0;
+
             for (var i = 0; i < character.length; i++) {
                 sum += parseInt(character.charAt(i));
             }
+
             var index = String(sum).substr(-1);
             return metroColors[index];
         }
+
         return getRandomMetroColor();
     }
 
     function loadUserList(context, apiClient, users) {
         var html = "";
+
         for (var i = 0; i < users.length; i++) {
             var user = users[i];
 
             // TODO move card creation code to Card component
-
             var cssClass = "card squareCard scalableCard squareCard-scalable";
 
             if (layoutManager.tv) {
@@ -76,13 +97,13 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
             }
 
             var cardBoxCssClass = "cardBox cardBox-bottompadded";
-
             html += '<button type="button" class="' + cssClass + '">';
             html += '<div class="' + cardBoxCssClass + '">';
             html += '<div class="cardScalable">';
             html += '<div class="cardPadder cardPadder-square"></div>';
             html += '<div class="cardContent" data-haspw="' + user.HasPassword + '" data-username="' + user.Name + '" data-userid="' + user.Id + '">';
             var imgUrl;
+
             if (user.PrimaryImageTag) {
                 imgUrl = apiClient.getUserImageUrl(user.Id, {
                     width: 300,
@@ -95,6 +116,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
                 imgUrl = "assets/img/avatar.png";
                 html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>';
             }
+
             html += "</div>";
             html += "</div>";
             html += '<div class="cardFooter visualCardBox-cardFooter">';
@@ -103,13 +125,19 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
             html += "</div>";
             html += "</button>";
         }
+
         context.querySelector("#divUsers").innerHTML = html;
     }
 
-    return function(view, params) {
+    return function (view, params) {
         function getApiClient() {
             var serverId = params.serverid;
-            return serverId ? connectionManager.getOrCreateApiClient(serverId) : ApiClient;
+
+            if (serverId) {
+                return connectionManager.getOrCreateApiClient(serverId);
+            }
+
+            return ApiClient;
         }
 
         function showVisualForm() {
@@ -122,14 +150,16 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
             });
         }
 
-        view.querySelector("#divUsers").addEventListener("click", function(e) {
+        view.querySelector("#divUsers").addEventListener("click", function (e) {
             var card = dom.parentWithClass(e.target, "card");
             var cardContent = card ? card.querySelector(".cardContent") : null;
+
             if (cardContent) {
                 var context = view;
                 var id = cardContent.getAttribute("data-userid");
                 var name = cardContent.getAttribute("data-username");
                 var haspw = cardContent.getAttribute("data-haspw");
+
                 if (id === 'manual') {
                     context.querySelector("#txtManualName").value = "";
                     showManualForm(context, true);
@@ -142,33 +172,30 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
                 }
             }
         });
-
-        view.querySelector(".manualLoginForm").addEventListener("submit", function(e) {
+        view.querySelector(".manualLoginForm").addEventListener("submit", function (e) {
             appSettings.enableAutoLogin(view.querySelector(".chkRememberLogin").checked);
             var apiClient = getApiClient();
             authenticateUserByName(view, apiClient, view.querySelector("#txtManualName").value, view.querySelector("#txtManualPassword").value);
             e.preventDefault();
             return false;
         });
-
-        view.querySelector(".btnForgotPassword").addEventListener("click", function() {
+        view.querySelector(".btnForgotPassword").addEventListener("click", function () {
             Dashboard.navigate("forgotpassword.html");
         });
-
         view.querySelector(".btnCancel").addEventListener("click", showVisualForm);
-
-        view.querySelector(".btnManual").addEventListener("click", function() {
+        view.querySelector(".btnManual").addEventListener("click", function () {
             view.querySelector("#txtManualName").value = "";
             showManualForm(view, true);
         });
-
-        view.addEventListener("viewshow", function(e) {
+        view.addEventListener("viewshow", function (e) {
             loading.show();
+
             if (!appHost.supports('multiserver')) {
                 view.querySelector(".btnSelectServer").classList.add("hide");
             }
+
             var apiClient = getApiClient();
-            apiClient.getPublicUsers().then(function(users) {
+            apiClient.getPublicUsers().then(function (users) {
                 if (users.length) {
                     showVisualForm();
                     loadUserList(view, apiClient, users);
@@ -176,13 +203,12 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
                     view.querySelector("#txtManualName").value = "";
                     showManualForm(view, false, false);
                 }
-            }).catch().then(function() {
+            }).catch().then(function () {
                 loading.hide();
             });
-
-            apiClient.getJSON(apiClient.getUrl("Branding/Configuration")).then(function(options) {
+            apiClient.getJSON(apiClient.getUrl("Branding/Configuration")).then(function (options) {
                 view.querySelector(".disclaimer").textContent = options.LoginDisclaimer || "";
             });
         });
-    }
+    };
 });

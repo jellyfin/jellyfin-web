@@ -1,13 +1,13 @@
+.skinHeader,
 html {
-    color: #eee;
-    color: rgba(255, 255, 255, 0.9);
-    background-color: #0f3562;
+    color: #ddd;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .wizardStartForm,
 .ui-corner-all,
 .ui-shadow {
-    background-color: #0c2450;
+    background-color: #1f1f1f;
 }
 
 .emby-collapsible-button {
@@ -15,74 +15,56 @@ html {
     border-color: rgba(255, 255, 255, 0.135);
 }
 
-.skinHeader {
-    color: #ccc;
-    color: rgba(255, 255, 255, 0.78);
-}
-
-.formDialogHeader:not(.formDialogHeader-clear),
 .skinHeader-withBackground {
-    background: -webkit-gradient(linear, left top, left bottom, from(#0c2450), to(#081b3b));
-    background: -webkit-linear-gradient(top, #0c2450, #081b3b);
-    background: -o-linear-gradient(top, #0c2450, #081b3b);
-    background: linear-gradient(to bottom, #0c2450, #081b3b);
-    background-color: #0c2450;
+    background-color: #1f1f1f;
 }
 
 .skinHeader.semiTransparent {
-    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.6)), to(rgba(0, 0, 0, 0)));
-    background: -webkit-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
-    background: -o-linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .pageTitleWithDefaultLogo {
-    background-image: url(../../assets/img/banner-light.png);
+    background-image: url(../logowhite.png);
 }
 
 .backgroundContainer,
-.dialog {
-    background: -webkit-gradient(linear, left top, left bottom, from(#0f3562), color-stop(#1162a4), to(#03215f));
-    background: -webkit-linear-gradient(top, #0f3562, #1162a4, #03215f);
-    background: -o-linear-gradient(top, #0f3562, #1162a4, #03215f);
-    background: linear-gradient(to bottom, #0f3562, #1162a4, #03215f);
-    background-color: #0f3562;
+.dialog,
+html {
+    background-color: #1a1a1a;
 }
 
 .backgroundContainer.withBackdrop {
-    background: rgba(17, 98, 164, 0.9);
+    background-color: rgba(0, 0, 0, 0.86);
 }
 
 .paper-icon-button-light:hover:not(:disabled) {
-    color: #00a4dc;
-    background-color: rgba(0, 164, 220, 0.2);
+    color: #52b54b;
+    background-color: rgba(82, 181, 75, 0.2);
 }
 
 .paper-icon-button-light.show-focus:focus {
-    color: #00a4dc;
+    color: #52b54b;
 }
 
 .fab,
 .raised {
-    background: #082845;
-    color: #fff;
+    background: #303030;
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .fab:focus,
 .raised:focus {
-    background: #143451;
+    background: #383838;
 }
 
 .button-submit {
-    background: #00a4dc;
+    background: #52b54b;
     color: #fff;
 }
 
 .button-submit:focus {
-    background: #0cb0e8;
+    background: #5ec157;
     color: #fff;
 }
 
@@ -107,7 +89,7 @@ html {
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: #00a4dc;
+    color: #52b54b;
 }
 
 .checkboxOutline {
@@ -115,9 +97,11 @@ html {
 }
 
 .collapseContent,
+.formDialogFooter:not(.formDialogFooter-clear),
+.formDialogHeader:not(.formDialogHeader-clear),
 .paperList,
 .visualCardBox {
-    background-color: #0f3562;
+    background-color: #242424;
 }
 
 .defaultCardBackground1 {
@@ -152,7 +136,7 @@ html {
 }
 
 .actionsheetDivider {
-    background: #ddd;
+    background: #444;
     background: rgba(255, 255, 255, 0.14);
 }
 
@@ -161,33 +145,33 @@ html {
     opacity: 0.5;
 }
 
+.actionSheetMenuItem:hover {
+    background-color: #242424;
+}
+
 .toast {
-    background: #081b3b;
+    background: #303030;
     color: #fff;
     color: rgba(255, 255, 255, 0.87);
 }
 
-.appfooter,
-.formDialogFooter:not(.formDialogFooter-clear) {
-    background: #0c2450;
-    background: -webkit-gradient(linear, left bottom, left top, from(#0c2450), to(#081b3b));
-    background: -webkit-linear-gradient(bottom, #0c2450, #081b3b);
-    background: -o-linear-gradient(bottom, #0c2450, #081b3b);
-    background: linear-gradient(to top, #0c2450, #081b3b);
+.appfooter {
+    background: #101010;
+    color: #ccc;
     color: rgba(255, 255, 255, 0.78);
 }
 
 .itemSelectionPanel {
-    border: 1px solid #00a4dc;
+    border: 1px solid #52b54b;
 }
 
 .selectionCommandsPanel {
-    background: #00a4dc;
+    background: #52b54b;
     color: #fff;
 }
 
 .upNextDialog-countdownText {
-    color: #00a4dc;
+    color: #52b54b;
 }
 
 .alphaPickerButton {
@@ -196,19 +180,22 @@ html {
     background-color: transparent;
 }
 
-.alphaPickerButton-selected,
+.alphaPickerButton-selected {
+    color: #fff;
+}
+
 .alphaPickerButton-tv:focus {
-    background-color: #00a4dc;
+    background-color: #52b54b;
     color: #fff !important;
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #1c1c1c;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(30, 30, 30, 0.9);
 }
 
 .listItem-border {
-    border-color: rgba(0, 0, 0, 0.3) !important;
+    border-color: rgba(34, 34, 34, 0.9) !important;
 }
 
 .listItem:focus {
@@ -216,12 +203,12 @@ html {
 }
 
 .progressring-spiner {
-    border-color: #00a4dc;
+    border-color: #52b54b;
 }
 
 .button-flat-accent,
 .button-link {
-    color: #00a4dc;
+    color: #52b54b;
 }
 
 .mediaInfoText {
@@ -237,26 +224,38 @@ html {
 .emby-input,
 .emby-textarea {
     color: inherit;
-    background: rgba(255, 255, 255, 0.2);
-    border: 0.16em solid rgba(255, 255, 255, 0.135);
-    -webkit-border-radius: 0.2em;
+    background: #292929;
+    border: 0.16em solid #292929;
     border-radius: 0.2em;
 }
 
 .emby-input:focus,
 .emby-textarea:focus {
-    border-color: #00a4dc;
+    border-color: #52b54b;
 }
 
 .emby-select-withcolor {
     color: inherit;
-    background: rgba(255, 255, 255, 0.2);
-    border: 0.07em solid rgba(255, 255, 255, 0.135);
+    background: #292929;
+    border: 0.07em solid #292929;
 }
 
-.emby-checkbox:checked + span + .checkboxOutline,
+.emby-select-withcolor > option {
+    color: inherit;
+    background: #222;
+}
+
 .emby-select-withcolor:focus {
-    border-color: #00a4dc;
+    border-color: #52b54b !important;
+}
+
+.emby-select-tv-withcolor:focus {
+    background-color: #52b54b !important;
+    color: #fff !important;
+}
+
+.emby-checkbox:checked + span + .checkboxOutline {
+    border-color: #52b54b;
 }
 
 .emby-checkbox:focus + span + .checkboxOutline {
@@ -265,21 +264,11 @@ html {
 
 .emby-checkbox:checked + span + .checkboxOutline,
 .itemProgressBarForeground {
-    background-color: #00a4dc;
+    background-color: #52b54b;
 }
 
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
-    border-color: #00a4dc;
-}
-
-.emby-select-withcolor > option {
-    color: #000;
-    background: #fff;
-}
-
-.emby-select-tv-withcolor:focus {
-    background-color: #00a4dc;
-    color: #fff;
+    border-color: #52b54b;
 }
 
 .itemProgressBarForeground-recording {
@@ -289,7 +278,7 @@ html {
 .countIndicator,
 .fullSyncIndicator,
 .playedIndicator {
-    background: #00a4dc;
+    background: #52b54b;
 }
 
 .fullSyncIndicator {
@@ -297,24 +286,20 @@ html {
 }
 
 .mainDrawer {
-    background-color: #0f3562;
-    color: #ccc;
-    color: rgba(255, 255, 255, 0.7);
+    background-color: #1c1c1c;
 }
 
-.actionSheetMenuItem:hover,
 .navMenuOption:hover {
     background: #252528;
-    background: rgba(0, 0, 0, 0.2);
 }
 
 .navMenuOption-selected {
-    background: #00a4dc !important;
+    background: #52b54b !important;
     color: #fff;
 }
 
 .emby-button.show-focus:focus {
-    background: #00a4dc;
+    background: #52b54b;
     color: #fff;
 }
 
@@ -323,22 +308,21 @@ html {
 }
 
 .emby-tab-button-active {
-    color: #fff;
+    color: #52b54b;
 }
 
 .emby-tab-button.show-focus:focus {
-    color: #fff;
+    color: #52b54b;
 }
 
 .emby-tab-button:hover {
-    color: #fff;
+    color: #52b54b;
 }
 
 .channelPrograms,
 .guide-channelHeaderCell,
 .programCell {
-    border-color: #999;
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.05);
 }
 
 .programCell-sports {
@@ -358,12 +342,12 @@ html {
 }
 
 .programCell-active {
-    background: rgba(0, 0, 0, 0.3) !important;
+    background: #1e1e1e !important;
 }
 
 .guide-channelHeaderCell:focus,
 .programCell:focus {
-    background-color: #00a4dc !important;
+    background-color: #52b54b !important;
     color: #fff !important;
 }
 
@@ -383,19 +367,18 @@ html {
 
 .guide-date-tab-button.emby-tab-button-active,
 .guide-date-tab-button:focus {
-    color: #00a4dc;
+    color: #52b54b;
 }
 
 .guide-date-tab-button.show-focus:focus {
-    background-color: #00a4dc;
+    background-color: #52b54b;
     color: #fff;
 }
 
 .infoBanner {
-    color: #000;
-    background: #fff3a5;
+    color: #ddd;
+    background: #111;
     padding: 1em;
-    -webkit-border-radius: 0.25em;
     border-radius: 0.25em;
 }
 
@@ -418,16 +401,15 @@ html {
 
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
-    border-color: #fff !important;
+    border-color: #52b54b !important;
 }
 
 ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: #081b3b;
+    background-color: #3b3b3b;
 }
 
 .layout-desktop ::-webkit-scrollbar {
@@ -438,8 +420,11 @@ html {
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
     border-radius: 2px;
-    -webkit-border-radius: 2px;
-    background: center no-repeat rgba(255, 255, 255, 0.7);
+    background: center no-repeat #888;
+}
+
+.timeslotHeaders-desktop::-webkit-scrollbar {
+    height: 0.7em;
 }
 
 .metadataSidebarIcon {
