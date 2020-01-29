@@ -97,11 +97,8 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     }
 
     function updatePlayerState(player, state, eventName) {
-        var now = new Date().getTime();
-        lastUpdateTime = now;
-
         // Don't go crazy reporting position changes
-        if (eventName == 'timeupdate' && (now - lastUpdateTime) < 5000) {
+        if (eventName == 'timeupdate') {
             // Only report if this item hasn't been reported yet, or if there's an actual playback change.
             // Don't report on simple time updates
             return;
