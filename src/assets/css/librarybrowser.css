@@ -542,6 +542,16 @@
     -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
+.itemDetailGalleryLink.defaultCardBackground {
+    height: 23vw; /* Dirty hack to get it to look somewhat square. Less than ideal. */
+}
+
+.itemDetailGalleryLink.defaultCardBackground > i {
+    font-size: 15vw;
+    margin-top: 50%;
+    transform: translateY(-50%);
+}
+
 @media all and (max-width: 62.5em) {
     .detailPageContent {
         position: relative;

@@ -795,7 +795,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             });
         }
 
-        if (editable) {
+        if (editable && url === undefined) {
+            html += "<a class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground"+ cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
+        } else if (editable) {
             html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
         }
 
@@ -807,7 +809,13 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             }
         }
 
-        html += "<img class='itemDetailImage lazy' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' />";
+        if (url) {
+            html += "<img class='itemDetailImage lazy' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' />";
+        }
+
+        if (url === undefined) {
+            html += cardBuilder.getDefaultText(item);
+        }
 
         if (editable) {
             html += "</a>";
