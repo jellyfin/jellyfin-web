@@ -49,7 +49,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
                 var trigger = task.Triggers[i];
 
                 html += '<div class="listItem listItem-border">';
-                html += '<i class="md-icon listItemIcon">schedule</i>';
+                html += '<i class="material-icons listItemIcon">schedule</i>';
                 if (trigger.MaxRuntimeMs) {
                     html += '<div class="listItemBody two-line">';
                 } else {
@@ -68,7 +68,7 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
                 }
 
                 html += "</div>";
-                html += '<button class="btnDeleteTrigger" data-index="' + i + '" type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDelete") + '"><i class="md-icon">delete</i></button>';
+                html += '<button class="btnDeleteTrigger" data-index="' + i + '" type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDelete") + '"><i class="material-icons">delete</i></button>';
                 html += "</div>";
             }
 

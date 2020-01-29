@@ -116,8 +116,8 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         if (showControls) {
             html += '<div data-role="controlgroup" data-type="horizontal" style="display:inline-block;">';
 
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Previous') + '" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><i class="md-icon">arrow_back</i></button>';
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Next') + '" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? 'disabled' : '') + '><i class="md-icon">arrow_forward</i></button>';
+            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Previous') + '" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><i class="material-icons">arrow_back</i></button>';
+            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Next') + '" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? 'disabled' : '') + '><i class="material-icons">arrow_forward</i></button>';
             html += '</div>';
         }
 
@@ -277,7 +277,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         if (enableFooterButtons) {
             html += '<div class="cardText cardTextCentered">';
 
-            html += '<button is="paper-icon-button-light" class="btnDownloadRemoteImage autoSize" raised" title="' + globalize.translate('Download') + '"><i class="md-icon">cloud_download</i></button>';
+            html += '<button is="paper-icon-button-light" class="btnDownloadRemoteImage autoSize" raised" title="' + globalize.translate('Download') + '"><i class="material-icons">cloud_download</i></button>';
             html += '</div>';
         }
 
