@@ -1454,5 +1454,6 @@
     "LabelAlbumArtHelp": "PN používa obrázok albumu, vrámci dlna:profileID atribútu upnp:albumArtURI. Niektoré zariadenia vyžadujú špecifickú hodnotu, bez ohľadu na veľkosť obrázku.",
     "HeaderDirectPlayProfileHelp": "Pridať direct play profil pre definovanie, ktorý formát môže zariadenie natívne zvládnuť.",
     "LabelInNetworkSignInWithEasyPasswordHelp": "Použite jednoduchý PIN kód na prihlásenie v klientoch vo vnútri lokálnej siete. Vaše bežné heslo bude potrebné len pokiaľ ste mimo domova. Pokiaľ je PIN kód ponechaný prázdny, tak nebude potrebovať heslo vo vašej domácej sieti.",
-    "EasyPasswordHelp": "Váš jednoduchý PIN kód sa dá používať v režime offline na podporovaných zariadeniach a taktiež môže byť použitý ako jednoduché prihlásenie v lokálnej sieti."
+    "EasyPasswordHelp": "Váš jednoduchý PIN kód sa dá používať v režime offline na podporovaných zariadeniach a taktiež môže byť použitý ako jednoduché prihlásenie v lokálnej sieti.",
+    "HeaderNavigation": "Navigácia"
 }
