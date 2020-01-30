@@ -40,7 +40,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             }
             html += '<div class="listItem listItem-border scheduledTaskPaperIconItem" data-status="' + task.State + '">';
             html += "<a is='emby-linkbutton' style='margin:0;padding:0;' class='clearLink listItemIconContainer' href='scheduledtask.html?id=" + task.Id + "'>";
-            html += '<i class="md-icon listItemIcon">schedule</i>';
+            html += '<i class="material-icons listItemIcon">schedule</i>';
             html += "</a>";
             html += '<div class="listItemBody two-line">';
             html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:left;' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";
@@ -49,9 +49,9 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             html += "</a>";
             html += "</div>";
             if (task.State === "Running") {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStop") + '"><i class="md-icon">stop</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStop") + '"><i class="material-icons">stop</i></button>';
             } else if (task.State === "Idle") {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStart") + '"><i class="md-icon">play_arrow</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStart") + '"><i class="material-icons">play_arrow</i></button>';
             }
             html += "</div>";
         }

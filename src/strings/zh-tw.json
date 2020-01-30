@@ -1312,7 +1312,6 @@
     "OptionDownloadBannerImage": "橫幅",
     "OptionEnableAccessToAllChannels": "允許存取所有頻道",
     "OptionEnableAccessToAllLibraries": "允許存取所有媒體庫",
-    "OptionEnableAutomaticServerUpdates": "啟用自動更新",
     "OptionEnableForAllTuners": "开启所有调谐器",
     "OptionExtractChapterImage": "開啟章節圖片擷取",
     "OptionEnableM2tsModeHelp": "當編碼為 MPEGTS 時啟用 M2TS 模式。",
