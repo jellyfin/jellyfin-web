@@ -299,6 +299,52 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         return features;
     }();
 
+    /**
+      * Do exit according to platform
+      */
+    function doExit() {
+        try {
+            if (window.NativeShell) {
+                window.NativeShell.AppHost.exit();
+            } else if (browser.tizen) {
+                tizen.application.getCurrentApplication().exit();
+            } else if (browser.web0s) {
+                webOS.platformBack();
+            } else {
+                window.close();
+            }
+        } catch (err) {
+            console.log("error closing application: " + err);
+        }
+    }
+
+    var exitPromise;
+
+    /**
+      * Ask user for exit
+      */
+    function askForExit() {
+        if (!!exitPromise) {
+            return;
+        }
+
+        require(["actionsheet"], function (actionsheet) {
+            exitPromise = actionsheet.show({
+                title: Globalize.translate("MessageConfirmAppExit"),
+                items: [
+                    {id: "yes", name: Globalize.translate("Yes")},
+                    {id: "no", name: Globalize.translate("No")}
+                ]
+            }).then(function (value) {
+                if (value === "yes") {
+                    doExit();
+                }
+            }).finally(function () {
+                exitPromise = null;
+            });
+        });
+    }
+
     var deviceId;
     var deviceName;
     var appName = "Jellyfin Web";
@@ -314,16 +360,10 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             alert("setWindowState is not supported and should not be called");
         },
         exit: function () {
-            if (window.NativeShell) {
-                window.NativeShell.AppHost.exit();
-            } else if (browser.tizen) {
-                try {
-                    tizen.application.getCurrentApplication().exit();
-                } catch (err) {
-                    console.log("error closing application: " + err);
-                }
+            if (!!window.appMode && browser.tizen) {
+                askForExit();
             } else {
-                window.close();
+                doExit();
             }
         },
         supports: function (command) {
