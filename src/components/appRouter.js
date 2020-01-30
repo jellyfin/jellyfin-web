@@ -545,13 +545,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         page.back();
     }
 
+    /**
+     * Pages of "no return" (when "Go back" should behave differently, probably quitting the application).
+     */
+    var startPages = ['home', 'login', 'selectserver'];
+
     function canGoBack() {
         var curr = current();
         if (!curr) {
             return false;
         }
 
-        if (curr.type === 'home') {
+        if (!document.querySelector('.dialogContainer') && startPages.indexOf(curr.type) !== -1) {
             return false;
         }
         return page.canGoBack();

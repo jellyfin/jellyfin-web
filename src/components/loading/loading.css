@@ -33,7 +33,7 @@
 }
 
 .mdl-spinner__layer-1 {
-    border-color: rgb(66,165,245);
+    border-color: rgb(66, 165, 245);
 }
 
 .mdl-spinner__layer-1-active {
@@ -42,7 +42,7 @@
 }
 
 .mdl-spinner__layer-2 {
-    border-color: rgb(244,67,54);
+    border-color: rgb(244, 67, 54);
 }
 
 .mdl-spinner__layer-2-active {
@@ -51,7 +51,7 @@
 }
 
 .mdl-spinner__layer-3 {
-    border-color: rgb(253,216,53);
+    border-color: rgb(253, 216, 53);
 }
 
 .mdl-spinner__layer-3-active {
@@ -60,7 +60,7 @@
 }
 
 .mdl-spinner__layer-4 {
-    border-color: rgb(76,175,80);
+    border-color: rgb(76, 175, 80);
 }
 
 .mdl-spinner__layer-4-active {
@@ -345,23 +345,10 @@
     }
 }
 
-.mdl-spinner__circle-clipper {
-    display: inline-block;
-    position: relative;
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-    border-color: inherit;
-}
-
-    .mdl-spinner__circle-clipper .mdl-spinner__circle {
-        width: 200%;
-    }
-
 .mdl-spinner__circle {
     box-sizing: border-box;
     height: 100%;
-    border-width: .21em;
+    border-width: 0.21em;
     border-style: solid;
     border-color: inherit;
     border-bottom-color: transparent !important;
@@ -373,6 +360,19 @@
     right: 0;
     bottom: 0;
     left: 0;
+}
+
+.mdl-spinner__circle-clipper {
+    display: inline-block;
+    position: relative;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    border-color: inherit;
+}
+
+.mdl-spinner__circle-clipper .mdl-spinner__circle {
+    width: 200%;
 }
 
 .mdl-spinner__circleLeft {

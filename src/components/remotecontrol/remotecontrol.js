@@ -135,7 +135,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
                 var userData = fullItem.UserData || {};
                 var likes = null == userData.Likes ? "" : userData.Likes;
-                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="md-icon">favorite</i></button>';
+                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="material-icons">favorite</i></button>';
             });
         } else {
             backdrop.clear();
@@ -263,13 +263,13 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             var toggleRepeatButton = context.querySelector(".repeatToggleButton");
 
             if ("RepeatAll" == repeatMode) {
-                toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat</i>";
+                toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat</i>";
                 toggleRepeatButton.classList.add("repeatButton-active");
             } else if ("RepeatOne" == repeatMode) {
-                toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat_one</i>";
+                toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat_one</i>";
                 toggleRepeatButton.classList.add("repeatButton-active");
             } else {
-                toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat</i>";
+                toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat</i>";
                 toggleRepeatButton.classList.remove("repeatButton-active");
             }
         }

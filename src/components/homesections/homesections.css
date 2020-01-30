@@ -1,25 +1,24 @@
 .homeLibraryButton {
     min-width: 18%;
-    margin: .5em !important;
+    margin: 0.5em !important;
 }
 
 @media all and (max-width: 50em) {
-
     .homeLibraryButton {
         width: 46% !important;
     }
 }
 
 .homeLibraryIcon {
-    margin-left: .5em;
-    margin-right: .5em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
     -webkit-flex-shrink: 0;
-    flex-shrink: 0
+    flex-shrink: 0;
 }
 
 .homeLibraryText {
     white-space: nowrap;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
-    overflow: hidden
+    overflow: hidden;
 }

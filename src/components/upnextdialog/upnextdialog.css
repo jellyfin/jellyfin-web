@@ -28,7 +28,7 @@
     position: relative;
     margin-right: 1em;
     flex-shrink: 0;
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
 }
 
 .upNextDialog-button {
@@ -37,7 +37,6 @@
 }
 
 @media all and (orientation: landscape) {
-
     .upNextDialog {
         flex-direction: row;
     }

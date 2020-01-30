@@ -28,7 +28,7 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
             iconCssClass = '';
         }
 
-        iconCssClass += 'md-icon';
+        iconCssClass += 'material-icons';
 
         return '<button title="' + tooltip + '" data-itemid="' + itemId + '" data-serverid="' + serverId + '" is="' + is + '" data-method="' + method + '" class="' + className + '"><i class="' + iconCssClass + '">' + icon + '</i></button>';
     }
