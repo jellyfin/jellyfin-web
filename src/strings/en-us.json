@@ -161,6 +161,7 @@
     "Continuing": "Continuing",
     "CopyStreamURL": "Copy Stream URL",
     "CopyStreamURLSuccess": "URL copied successfully.",
+    "CopyStreamURLError": "There was an error copying the URL.",
     "CriticRating": "Critic rating",
     "CustomDlnaProfilesHelp": "Create a custom profile to target a new device or override a system profile.",
     "DateAdded": "Date added",
