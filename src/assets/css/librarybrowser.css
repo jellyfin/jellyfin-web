@@ -976,11 +976,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     margin-bottom: -1em;
 }
 
-@media all and (min-height: 31.25em) {
-    .padded-left-withalphapicker {
-        padding-left: 7.5%;
-    }
-
+@media all and (min-height:31.25em) {
     .padded-right-withalphapicker {
         padding-right: 7.5%;
     }

@@ -107,18 +107,11 @@
     bottom: 1%;
 }
 
-.alphaPicker-fixed-left {
-    left: 0.4em;
-}
-
 .alphaPicker-fixed-right {
     right: 0.4em;
 }
 
 @media all and (min-width: 62.5em) {
-    .alphaPicker-fixed-left {
-        left: 1em;
-    }
 
     .alphaPicker-fixed-right {
         right: 1em;
