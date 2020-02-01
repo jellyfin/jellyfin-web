@@ -93,7 +93,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         // in cases with firefox, if the smooth scroll api is supported then use that because their implementation is very good
         if (options.allowNativeScroll === false) {
             options.enableNativeScroll = false;
-        } else if (isSmoothScrollSupported && (browser.firefox || options.allowNativeSmoothScroll)) {
+        } else if (isSmoothScrollSupported && ((browser.firefox && !layoutManager.tv) || options.allowNativeSmoothScroll)) {
             // native smooth scroll
             options.enableNativeScroll = true;
         } else if (options.requireAnimation && (browser.animate || browser.supportsCssAnimation())) {
