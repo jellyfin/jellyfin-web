@@ -351,9 +351,9 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                             toast(globalize.translate("CopyStreamURLSuccess"));
                         });
                     }, function () {
-                        console.error("Failed to copy to clipboard");
+                        prompt(globalize.translate("CopyStreamURL"), downloadHref);
                         require(["toast"], function (toast) {
-                            toast(globalize.translate("CopyStreamURLError"));
+                            toast(globalize.translate("CopyStreamURLSuccess"));
                         });
                     });
                     getResolveFunction(resolve, id)();
