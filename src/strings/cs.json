@@ -1558,5 +1558,7 @@
     "OptionRandom": "Náhodně",
     "SelectAdminUsername": "Vyberte uživatelské jméno pro účet správce.",
     "HeaderNavigation": "Navigace",
-    "ButtonSplit": "Rozdělit"
+    "ButtonSplit": "Rozdělit",
+    "MessageConfirmAppExit": "Přejete si odejít?",
+    "CopyStreamURLError": "Při kopírování URL došlo k chybě."
 }
