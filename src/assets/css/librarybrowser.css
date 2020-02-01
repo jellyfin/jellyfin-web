@@ -449,9 +449,41 @@
     bottom: 0.75em;
 }
 
-.layout-mobile .detailPagePrimaryContainer {
+.parentName {
     display: block;
-    position: relative;
+    margin-bottom: 0.5em;
+}
+
+.mainDetailButtons {
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 1em 0;
+}
+
+.detailButton,
+.mainDetailButtons {
+    display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+}
+
+.itemName {
+    margin: 0.5em 0;
+}
+
+.itemMiscInfo {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
 }
 
 .layout-mobile .parentName,
@@ -463,14 +495,6 @@
     justify-content: center;
 }
 
-.layout-mobile .infoText {
-    white-space: normal;
-}
-
-.layout-tv .detailPagePrimaryContainer {
-    position: relative;
-}
-
 .detailPagePrimaryContainer {
     display: flex;
     align-items: center;
@@ -478,6 +502,15 @@
     position: sticky;
     top: 8%;
     z-index: 2;
+}
+
+.layout-mobile .detailPagePrimaryContainer {
+    display: block;
+    position: relative;
+}
+
+.layout-tv .detailPagePrimaryContainer {
+    position: relative;
 }
 
 .detailSticky {
@@ -493,6 +526,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
+}
+
+.layout-mobile .infoText {
+    white-space: normal;
 }
 
 .detailPageSecondaryContainer {
@@ -562,9 +599,9 @@
     -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
-@media all and (max-width:62.5em) {
+@media all and (max-width: 62.5em) {
     .detailPageWrapperContainer {
-        position: relative
+        position: relative;
     }
 
     .btnPlaySimple {
@@ -576,11 +613,6 @@
     .lnkSibling {
         display: none !important;
     }
-}
-
-.parentName {
-    display: block;
-    margin-bottom: 0.5em;
 }
 
 .btnSyncComplete {
@@ -633,17 +665,6 @@
     }
 }
 
-.detailButton,
-.mainDetailButtons {
-    display: flex;
-    display: -webkit-box;
-    display: -webkit-flex;
-}
-
-.itemName {
-    margin: 0.5em 0;
-}
-
 .empty {
     margin: 0;
 }
@@ -654,16 +675,6 @@
 
 .detailPageCollabsible {
     margin-top: 0;
-}
-
-.mainDetailButtons {
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin: 1em 0;
 }
 
 .recordingFields button {
@@ -690,24 +701,24 @@
     padding: 0.5em 0.7em !important;
 }
 
-@media all and (min-width:29em) {
+@media all and (min-width: 29em) {
     .detailButton {
-        padding-left: .75em !important;
-        padding-right: .75em !important
+        padding-left: 0.75em !important;
+        padding-right: 0.75em !important;
     }
 }
 
-@media all and (min-width:32em) {
+@media all and (min-width: 32em) {
     .detailButton {
-        padding-left: .8em !important;
-        padding-right: .8em !important
+        padding-left: 0.8em !important;
+        padding-right: 0.8em !important;
     }
 }
 
-@media all and (min-width:35em) {
+@media all and (min-width: 35em) {
     .detailButton {
-        padding-left: .85em !important;
-        padding-right: .85em !important
+        padding-left: 0.85em !important;
+        padding-right: 0.85em !important;
     }
 }
 
@@ -740,7 +751,7 @@
 }
 
 .detailButton-text {
-    margin-top: .7em;
+    margin-top: 0.7em;
     font-size: 80%;
     font-weight: 400;
 }
@@ -751,13 +762,13 @@
     }
 
     .detailButtonHideonMobile {
-        display: none !important
+        display: none !important;
     }
 }
 
-@media all and (min-width:62.5em) {
+@media all and (min-width: 62.5em) {
     .headerTop {
-        padding: 0.8em 0
+        padding: 0.8em 0;
     }
 
     .headerTabs {
@@ -774,7 +785,7 @@
     }
 
     .personBackdrop {
-        display: none !important
+        display: none !important;
     }
 
     .mainDetailButtons {
@@ -787,17 +798,6 @@
     .editorMenuLink {
         display: none;
     }
-}
-
-.itemMiscInfo {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    align-items: center;
 }
 
 @media all and (max-width: 31.25em) {
@@ -1000,7 +1000,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     margin-bottom: -1em;
 }
 
-@media all and (min-height:31.25em) {
+@media all and (min-height: 31.25em) {
     .padded-right-withalphapicker {
         padding-right: 7.5%;
     }

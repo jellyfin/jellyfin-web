@@ -14,8 +14,8 @@
 }
 
 .servers > .card > .cardBox {
-    margin-left: .6em;
-    margin-right: .6em;
+    margin-left: 0.6em;
+    margin-right: 0.6em;
 }
 
 .layout-tv .emby-scroller,
