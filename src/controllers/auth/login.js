@@ -187,6 +187,9 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
             view.querySelector("#txtManualName").value = "";
             showManualForm(view, true);
         });
+        view.querySelector(".btnSelectServer").addEventListener("click", function () {
+            Dashboard.selectServer();
+        });
         view.addEventListener("viewshow", function (e) {
             loading.show();
 
