@@ -22,6 +22,7 @@
                     </select>
                     <div class="fieldDescription">${LabelHardwareAccelerationTypeHelp}</div>
                 </div>
+
                 <div class="inputContainer hide fldVaapiDevice">
                     <input is="emby-input" type="text" id="txtVaapiDevice" label="${LabelVaapiDevice}" />
                     <div class="fieldDescription">${LabelVaapiDeviceHelp}</div>
@@ -93,7 +94,7 @@
                         <div style="flex-grow:1;">
                             <input is="emby-input" class="txtEncoderPath" label="${LabelffmpegPath}" autocomplete="off" />
                         </div>
-                        <button type="button" is="paper-icon-button-light" id="btnSelectEncoderPath" class="emby-input-iconbutton"><i class="md-icon">search</i></button>
+                        <button type="button" is="paper-icon-button-light" id="btnSelectEncoderPath" class="emby-input-iconbutton"><i class="material-icons">search</i></button>
                     </div>
                     <div class="fieldDescription">
                         <div>${LabelffmpegPathHelp}</div>
@@ -104,7 +105,7 @@
                         <div style="flex-grow:1;">
                             <input is="emby-input" id="txtTranscodingTempPath" label="${LabelTranscodePath}" autocomplete="off" />
                         </div>
-                        <button type="button" is="paper-icon-button-light" id="btnSelectTranscodingTempPath" class="emby-input-iconbutton"><i class="md-icon">search</i></button>
+                        <button type="button" is="paper-icon-button-light" id="btnSelectTranscodingTempPath" class="emby-input-iconbutton"><i class="material-icons">search</i></button>
                     </div>
                     <div class="fieldDescription">${LabelTranscodingTempPathHelp}</div>
                 </div>
@@ -142,7 +143,9 @@
                 </div>
 
                 <div>
-                    <button is="emby-button" type="submit" class="raised button-submit block"><span>${ButtonSave}</span></button>
+                    <button is="emby-button" type="submit" class="raised button-submit block">
+                        <span>${ButtonSave}</span>
+                    </button>
                 </div>
             </form>
         </div>

@@ -8,6 +8,6 @@
     contain: layout style;
 }
 
-    .appfooter.headroom--unpinned {
-        transform: translateY(100%)!important;
-    }
+.appfooter.headroom--unpinned {
+    transform: translateY(100%) !important;
+}

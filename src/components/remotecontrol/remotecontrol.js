@@ -135,7 +135,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
                 var userData = fullItem.UserData || {};
                 var likes = null == userData.Likes ? "" : userData.Likes;
-                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="md-icon">favorite</i></button>';
+                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="material-icons">favorite</i></button>';
             });
         } else {
             backdrop.clear();
@@ -215,22 +215,11 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 context.querySelector(".sendTextSection").classList.add("hide");
             }
 
-            if (!currentPlayer.isLocalPlayer) {
+            if (-1 != supportedCommands.indexOf("Select") && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".navigationSection").classList.remove("hide");
             } else {
                 context.querySelector(".navigationSection").classList.add("hide");
             }
-
-            buttonVisible(context.querySelector(".btnArrowUp"), -1 != supportedCommands.indexOf("MoveUp"));
-            buttonVisible(context.querySelector(".btnArrowLeft"), -1 != supportedCommands.indexOf("MoveDown"));
-            buttonVisible(context.querySelector(".btnArrowRight"), -1 != supportedCommands.indexOf("MoveRight"));
-            buttonVisible(context.querySelector(".btnArrowDown"), -1 != supportedCommands.indexOf("MoveLeft"));
-            buttonVisible(context.querySelector(".btnOk"), -1 != supportedCommands.indexOf("Select"));
-            buttonVisible(context.querySelector(".btnBack"), -1 != supportedCommands.indexOf("Back"));
-            buttonVisible(context.querySelector(".btnContextMenu"), -1 != supportedCommands.indexOf("ToggleContextMenu"));
-            buttonVisible(context.querySelector(".btnShowSearch"), -1 != supportedCommands.indexOf("GoToSearch"));
-            buttonVisible(context.querySelector(".bthShowSettings"), -1 != supportedCommands.indexOf("GoToSettings"));
-            buttonVisible(context.querySelector(".btnGoHome"), -1 != supportedCommands.indexOf("GoHome"));
 
             buttonVisible(context.querySelector(".btnStop"), null != item);
             buttonVisible(context.querySelector(".btnNextTrack"), null != item);
@@ -274,13 +263,13 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             var toggleRepeatButton = context.querySelector(".repeatToggleButton");
 
             if ("RepeatAll" == repeatMode) {
-                toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat</i>";
+                toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat</i>";
                 toggleRepeatButton.classList.add("repeatButton-active");
             } else if ("RepeatOne" == repeatMode) {
-                toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat_one</i>";
+                toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat_one</i>";
                 toggleRepeatButton.classList.add("repeatButton-active");
             } else {
-                toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat</i>";
+                toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat</i>";
                 toggleRepeatButton.classList.remove("repeatButton-active");
             }
         }

@@ -1018,7 +1018,6 @@
     "OptionEnableAccessFromAllDevices": "Habilitar acceso desde todos los dispositivos",
     "OptionEnableAccessToAllChannels": "Habilitar acceso a todos los canales",
     "OptionEnableAccessToAllLibraries": "Habilitar el acceso a todas las bibliotecas",
-    "OptionEnableAutomaticServerUpdates": "Habilitar actualizaciones automáticas del servidor",
     "OptionEnableExternalContentInSuggestions": "Habilitar contenido externo en las sugerencias",
     "OptionEnableExternalContentInSuggestionsHelp": "Permitir que los trailers de Internet y los programas de televisión en vivo se incluyan en el contenido sugerido.",
     "OptionEnableForAllTuners": "Habilitar para todos los dispositivos sintonizadores",

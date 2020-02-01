@@ -34,7 +34,7 @@
     "ButtonSend": "Gönder",
     "ButtonSettings": "Ayarlar",
     "ButtonSignIn": "Giriş Yapın",
-    "ButtonSignOut": "Sign out",
+    "ButtonSignOut": "Çıkış yapın",
     "ButtonSort": "Sırala",
     "ButtonStop": "Durdur",
     "ButtonSubtitles": "Altyazılar",
@@ -693,5 +693,13 @@
     "HeaderSortBy": "Sırala",
     "HeaderShutdown": "Kapat",
     "HeaderSettings": "Ayarlar",
-    "LabelLogs": "Günlük:"
+    "LabelLogs": "Günlük:",
+    "HeaderSelectMetadataPathHelp": "İçinde meta veri depolamak istediğiniz yola göz atın veya bu yolu girin. Klasörün yazılabilir olması gerekir.",
+    "HeaderResponseProfileHelp": "Yanıt profilleri, belirli media türlerini oynatırken aygıta gönderilen bilgileri özelleştirmek için bir yol sağlar.",
+    "HeaderProfileServerSettingsHelp": "Bu değerler Jellyfin Server'ın kendini cihaza nasıl sunacağını kontrol eder.",
+    "HeaderPlayOn": "Üzerinde oyna",
+    "HeaderPaths": "Yollar",
+    "HeaderKodiMetadataHelp": "NFO meta verilerini açmak yada kapatmak için, meta verileri bölümünü kullanın ve her tür medya için seçeneklerinizi ayarlayın.",
+    "HeaderInstantMix": "Ani mix",
+    "ButtonSplit": "Ayır"
 }

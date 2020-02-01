@@ -70,7 +70,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                 commands.push({
                     name: globalize.translate("InstantMix"),
                     id: "instantmix",
-                    icon: "shuffle"
+                    icon: "explore"
                 });
             }
         }
@@ -178,7 +178,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                 commands.push({
                     name: globalize.translate("EditImages"),
                     id: "editimages",
-                    icon: "edit"
+                    icon: "image"
                 });
             }
         }
@@ -351,14 +351,15 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                     document.body.appendChild(textArea);
                     textArea.focus();
                     textArea.select();
-                    try {
-                        document.execCommand("copy");
-
+                    if (document.execCommand("copy")) {
                         require(["toast"], function (toast) {
                             toast(globalize.translate("CopyStreamURLSuccess"));
                         });
-                    } catch (err) {
+                    } else {
                         console.error("Failed to copy to clipboard");
+                        require(["toast"], function (toast) {
+                            toast(globalize.translate("CopyStreamURLError"));
+                        });
                     }
 
                     document.body.removeChild(textArea);

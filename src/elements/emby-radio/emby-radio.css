@@ -4,29 +4,29 @@
     display: inline-block;
     box-sizing: border-box;
     margin: 0;
-    padding-left: 0;
+    padding-left: 24px;
 }
 
 .radio-label-block {
     display: flex;
     align-items: center;
-    margin-top: .5em;
-    margin-bottom: .5em;
-}
-
-.mdl-radio {
-    padding-left: 24px;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .mdl-radio__button {
     line-height: 24px;
     position: absolute;
+
     /* 1px is for focusing purposes, so the focusManager doesn't skip over it */
     width: 1px;
     height: 1px;
     margin: 0;
     padding: 0;
     opacity: 0;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
     appearance: none;
     border: none;
 }
@@ -51,7 +51,7 @@
 }
 
 .mdl-radio__button:disabled + .mdl-radio__label + .mdl-radio__outer-circle {
-    border: 2px solid rgba(0,0,0, 0.26);
+    border: 2px solid rgba(0, 0, 0, 0.26);
     cursor: auto;
 }
 
@@ -67,27 +67,31 @@
     cursor: pointer;
     transition-duration: 0.28s;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-property: -webkit-transform;
     transition-property: transform;
+    transition-property: transform, -webkit-transform;
+    -webkit-transform: scale3d(0, 0, 0);
     transform: scale3d(0, 0, 0);
     border-radius: 50%;
     background: #00a4dc;
 }
 
 .mdl-radio__button:checked + .mdl-radio__label + .mdl-radio__outer-circle + .mdl-radio__inner-circle {
+    -webkit-transform: scale3d(1, 1, 1);
     transform: scale3d(1, 1, 1);
 }
 
 .mdl-radio__button:disabled + .mdl-radio__label + .mdl-radio__outer-circle + .mdl-radio__inner-circle {
-    background: rgba(0,0,0, 0.26);
+    background: rgba(0, 0, 0, 0.26);
     cursor: auto;
 }
 
 .mdl-radio__button:focus + .mdl-radio__label + .mdl-radio__outer-circle + .mdl-radio__inner-circle {
-    box-shadow: 0 0 0px 10px rgba(255, 255, 255, 0.76);
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.76);
 }
 
 .mdl-radio__button:checked:focus + .mdl-radio__label + .mdl-radio__outer-circle + .mdl-radio__inner-circle {
-    box-shadow: 0 0 0 10px rgba(0, 164, 220, 0.26)
+    box-shadow: 0 0 0 10px rgba(0, 164, 220, 0.26);
 }
 
 .mdl-radio__label {
@@ -95,6 +99,6 @@
 }
 
 .mdl-radio__button:disabled + .mdl-radio__label {
-    color: rgba(0,0,0, 0.26);
+    color: rgba(0, 0, 0, 0.26);
     cursor: auto;
 }

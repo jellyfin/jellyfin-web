@@ -5,31 +5,32 @@
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     margin-right: 0 !important;
+    -webkit-border-radius: 0 !important;
     border-radius: 0 !important;
     max-height: none !important;
-    max-width: none !important
+    max-width: none !important;
 }
 
-@media all and (min-height:600px) {
+@media all and (min-height: 600px) {
     .dynamicFilterDialog {
         top: 10% !important;
-        bottom: 25% !important
+        bottom: 25% !important;
     }
 }
 
-@media all and (max-width:400px) {
+@media all and (max-width: 400px) {
     .dynamicFilterDialog {
         width: auto;
         left: 10vw !important;
         right: 10vw !important;
-        margin-left: 0 !important
+        margin-left: 0 !important;
     }
 }
 
-@media all and (min-width:400px) {
+@media all and (min-width: 400px) {
     .dynamicFilterDialog {
-        width: 300px;
-        margin-left: -150px !important;
-        left: 50% !important
+        width: 20.16em;
+        margin-left: -10.08em !important;
+        left: 50% !important;
     }
 }

@@ -1,10 +1,7 @@
 <div id="dashboardGeneralPage" data-role="page" class="page type-interior dashboardHomePage">
-
     <div>
         <div class="content-primary">
-
             <form class="dashboardGeneralForm">
-
                 <div class="verticalSection">
                     <div class="sectionTitleContainer flex align-items-center">
                         <h2 class="sectionTitle">${TabSettings}</h2>
@@ -31,9 +28,7 @@
                             <input is="emby-checkbox" type="checkbox" id="chkAutoRunWebApp" />
                             <span>${LaunchWebAppOnStartup}</span>
                         </label>
-                        <div class="fieldDescription checkboxFieldDescription">
-                            ${LaunchWebAppOnStartupHelp}
-                        </div>
+                        <div class="fieldDescription checkboxFieldDescription">${LaunchWebAppOnStartupHelp}</div>
                     </div>
                 </div>
 
@@ -44,7 +39,7 @@
                             <div style="flex-grow:1;">
                                 <input is="emby-input" id="txtCachePath" label="${LabelCachePath}" autocomplete="off" />
                             </div>
-                            <button type="button" is="paper-icon-button-light" id="btnSelectCachePath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><i class="md-icon">search</i></button>
+                            <button type="button" is="paper-icon-button-light" id="btnSelectCachePath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><i class="material-icons">search</i></button>
                         </div>
                         <div class="fieldDescription">${LabelCachePathHelp}</div>
                     </div>
@@ -54,25 +49,10 @@
                             <div style="flex-grow:1;">
                                 <input is="emby-input" id="txtMetadataPath" label="${LabelMetadataPath}" autocomplete="off" />
                             </div>
-                            <button type="button" is="paper-icon-button-light" id="btnSelectMetadataPath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><i class="md-icon">search</i></button>
+                            <button type="button" is="paper-icon-button-light" id="btnSelectMetadataPath" title="${ButtonSelectDirectory}" class="emby-input-iconbutton"><i class="material-icons">search</i></button>
                         </div>
                         <div class="fieldDescription">${LabelMetadataPathHelp}</div>
                         <input type="hidden" id="txtMetadataNetworkPath" />
-                    </div>
-                </div>
-
-                <div class="verticalSection autoUpdatesContainer hide">
-                    <h2>${HeaderAutomaticUpdates}</h2>
-                    <label class="fldAutomaticUpdates checkboxContainer">
-                        <input is="emby-checkbox" type="checkbox" id="chkEnableAutomaticServerUpdates" />
-                        <span>${OptionEnableAutomaticServerUpdates}</span>
-                    </label>
-                    <div id="fldEnableAutomaticRestart" class="checkboxContainer checkboxContainer-withDescription hide">
-                        <label>
-                            <input is="emby-checkbox" type="checkbox" id="chkEnableAutomaticRestart" />
-                            <span>${LabelAllowServerAutoRestart}</span>
-                        </label>
-                        <div class="fieldDescription checkboxFieldDescription">${LabelAllowServerAutoRestartHelp}</div>
                     </div>
                 </div>
 
@@ -94,7 +74,6 @@
                     </button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

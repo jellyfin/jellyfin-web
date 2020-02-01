@@ -20,24 +20,21 @@ jobs:
 
     steps:
     - task: NodeTool@0
-      displayName: 'Install Node.js'
+      displayName: 'Install Node'
       inputs:
         versionSpec: '10.x'
 
-    - script: |
-        yarn install
-      displayName: 'Install dependencies'
+    - script: 'yarn install'
+      displayName: 'Install Dependencies'
 
-    - script: |
-        test -d dist
-      displayName: 'Check dist directory'
+    - script: 'test -d dist'
+      displayName: 'Check Build'
 
-    - script: |
-        yarn pack --filename jellyfin-web.tgz
-      displayName: 'Build package'
+    - script: 'yarn pack --filename jellyfin-web.tgz'
+      displayName: 'Bundle Release'
 
     - task: PublishPipelineArtifact@1
-      displayName: 'Publish package'
+      displayName: 'Publish Release'
       condition: succeeded()
       inputs:
         targetPath: '$(Build.SourcesDirectory)/jellyfin-web.tgz'
@@ -51,14 +48,16 @@ jobs:
 
     steps:
     - task: NodeTool@0
-      displayName: 'Install Node.js'
+      displayName: 'Install Node'
       inputs:
         versionSpec: '10.x'
 
-    - script: |
-        yarn install
-      displayName: 'Install dependencies'
+    - script: 'yarn install'
+      displayName: 'Install Dependencies'
+
+    - script: 'yarn run lint'
+      displayName: 'Run ESLint'
 
     - script: |
-        yarn run lint
-      displayName: 'Run ESLint'
+        yarn run stylelint
+      displayName: 'Run stylelint'

@@ -114,7 +114,10 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
                         shape: getPortraitShape(),
                         scalable: true,
                         overlayMoreButton: true,
-                        allowBottomPadding: false
+                        allowBottomPadding: true,
+                        showTitle: true,
+                        centerText: true,
+                        showYear: true
                     });
                 }
                 if (result.Items.length >= query.Limit) {
@@ -142,7 +145,7 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += item.Name;
                     html += "</h2>";
-                    html += '<i class="md-icon hide">chevron_right</i>';
+                    html += '<i class="material-icons hide">chevron_right</i>';
                     html += "</a>";
                     html += "</div>";
                     if (enableScrollX()) {

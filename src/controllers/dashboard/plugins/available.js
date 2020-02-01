@@ -103,7 +103,7 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
             html += '<div class="cardImage coveredImage" style="background-image:url(\'' + plugin.thumbImage + "');\">";
             html += "</div>";
         } else {
-            html += '<i class="cardImageIcon md-icon">folder</i>';
+            html += '<i class="cardImageIcon material-icons">folder</i>';
         }
 
         html += "</a>";

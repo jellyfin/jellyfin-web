@@ -1053,7 +1053,6 @@
     "OptionEnableM2tsModeHelp": "Activar o modo m2ts ao codificar para mpegts.",
     "OptionEnableM2tsMode": "Activar modo M2ts",
     "OptionEnableExternalContentInSuggestionsHelp": "Permitir que trailers da Internet e programas de TV em Directo sejam incluídos no conteúdo sugerido.",
-    "OptionEnableAutomaticServerUpdates": "Activar actualizações automáticas do servidor",
     "OptionEnableAccessToAllLibraries": "Permitir acesso a todas as bibliotecas",
     "OptionEnableAccessFromAllDevices": "Activar acesso de todos os dispositivos",
     "OptionEmbedSubtitles": "Incorporar no contentor",
