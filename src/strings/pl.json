@@ -1026,7 +1026,6 @@
     "OptionEnableAccessFromAllDevices": "Udostępniaj na wszystkich urządzeniach",
     "OptionEnableAccessToAllChannels": "Udostępniaj wszystkie kanały",
     "OptionEnableAccessToAllLibraries": "Udostępniaj wszystkie biblioteki",
-    "OptionEnableAutomaticServerUpdates": "Aktualizuj serwer automatycznie",
     "OptionEnableExternalContentInSuggestions": "Dodawaj zewnętrzną zawartość do polecanych",
     "OptionEnableExternalContentInSuggestionsHelp": "Umożliwia dodawanie zwiastunów i programów telewizyjnych do polecanej zawartości.",
     "OptionEnableForAllTuners": "Aktywuj dla wszystkich tunerów",
@@ -1453,5 +1452,8 @@
     "LabelAudioBitDepth": "Głębia bitowa audio:",
     "HeaderFavoritePeople": "Ulubieni ludzie",
     "FetchingData": "Pobieranie dodatkowych danych",
-    "ButtonSplit": "Rozdziel"
+    "ButtonSplit": "Rozdziel",
+    "SelectAdminUsername": "Proszę wybierz nazwę użytkownika dla konta administratora.",
+    "MessageConfirmAppExit": "Czy chcesz wyjść?",
+    "HeaderNavigation": "Nawigacja"
 }

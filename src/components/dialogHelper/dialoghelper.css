@@ -15,11 +15,12 @@
 
 .dialog {
     margin: 0;
-    border-radius: .2em;
+    border-radius: 0.2em;
     -webkit-font-smoothing: antialiased;
     border: 0;
     padding: 0;
     will-change: transform, opacity;
+
     /* Strict does not work well with actionsheet */
     contain: style paint;
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
@@ -51,13 +52,13 @@
 
     to {
         opacity: 0;
-        transform: scale(.5);
+        transform: scale(0.5);
     }
 }
 
 @keyframes scaleup {
     from {
-        transform: scale(.5);
+        transform: scale(0.5);
         opacity: 0;
     }
 
@@ -78,7 +79,6 @@
 }
 
 @keyframes fadeout {
-
     from {
         opacity: 1;
     }
@@ -101,7 +101,6 @@
 }
 
 @keyframes slidedown {
-
     from {
         opacity: 1;
         transform: none;
@@ -114,8 +113,8 @@
 }
 
 @media all and (max-width: 80em), all and (max-height: 45em) {
-
-    .dialog-fixedSize, .dialog-fullscreen-lowres {
+    .dialog-fixedSize,
+    .dialog-fullscreen-lowres {
         position: fixed !important;
         top: 0 !important;
         bottom: 0 !important;
@@ -127,7 +126,6 @@
 }
 
 @media all and (min-width: 80em) and (min-height: 45em) {
-
     .dialog-medium {
         width: 80%;
         height: 80%;
@@ -169,5 +167,5 @@
 }
 
 .dialogBackdropOpened {
-    opacity: .5;
+    opacity: 0.5;
 }

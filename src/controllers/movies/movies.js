@@ -169,11 +169,9 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     valueChangeEvent: "click"
                 });
 
-                if (layoutManager.desktop || layoutManager.mobile) {
-                    alphaPickerElement.classList.add("alphabetPicker-right");
-                    itemsContainer.classList.remove("padded-left-withalphapicker");
-                    itemsContainer.classList.add("padded-right-withalphapicker");
-                }
+                tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-right");
+                alphaPickerElement.classList.add("alphaPicker-fixed-right");
+                itemsContainer.classList.add("padded-right-withalphapicker");
             }
 
             var btnFilter = tabContent.querySelector(".btnFilter");

@@ -99,7 +99,7 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
                     Limit: 10,
                     SortBy: "StartDate"
                 }, {
-                    shape: "backdrop",
+                    shape: "overflowBackdrop",
                     showTitle: true,
                     centerText: true,
                     overlayMoreButton: true,
@@ -121,7 +121,7 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
                     Limit: 10,
                     SortBy: "SortName"
                 }, {
-                    shape: "portrait",
+                    shape: "overflowPortrait",
                     showTitle: true,
                     centerText: true,
                     overlayMoreButton: true,
@@ -140,7 +140,7 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
                     Limit: 10,
                     SortBy: "SortName"
                 }, {
-                    shape: "portrait",
+                    shape: "overflowPortrait",
                     showTitle: true,
                     centerText: true,
                     overlayPlayButton: true
@@ -157,7 +157,7 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
                     Limit: 10,
                     SortBy: "SortName"
                 }, {
-                    shape: "portrait",
+                    shape: "overflowPortrait",
                     showTitle: true,
                     centerText: true,
                     overlayPlayButton: true
@@ -174,7 +174,7 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
                     Limit: 10,
                     SortBy: "SortName"
                 }, {
-                    shape: "portrait",
+                    shape: "overflowPortrait",
                     showTitle: true,
                     centerText: true,
                     overlayMoreButton: true
@@ -191,7 +191,7 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
                     SortOrder: "Descending",
                     SortBy: "ProductionYear,Sortname"
                 }, {
-                    shape: "square",
+                    shape: "overflowSquare",
                     playFromHere: true,
                     showTitle: true,
                     showYear: true,
@@ -211,7 +211,7 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
                     Limit: 8,
                     SortBy: "SortName"
                 }, {
-                    shape: "square",
+                    shape: "overflowSquare",
                     playFromHere: true,
                     showTitle: true,
                     showParentTitle: true,
@@ -231,7 +231,7 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
                     Limit: 6,
                     SortBy: "SortName"
                 }, {
-                    shape: "backdrop",
+                    shape: "overflowBackdrop",
                     showTitle: true,
                     showParentTitle: true,
                     centerText: true,

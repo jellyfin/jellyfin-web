@@ -1,4 +1,4 @@
-define(["displaySettings", "userSettingsBuilder", "userSettings", "autoFocuser"], function (DisplaySettings, userSettingsBuilder, currentUserSettings, autoFocuser) {
+define(["displaySettings", "userSettings", "autoFocuser"], function (DisplaySettings, currentUserSettings, autoFocuser) {
     "use strict";
 
     return function (view, params) {
@@ -11,7 +11,7 @@ define(["displaySettings", "userSettingsBuilder", "userSettings", "autoFocuser"]
         var settingsInstance;
         var hasChanges;
         var userId = params.userId || ApiClient.getCurrentUserId();
-        var userSettings = userId === ApiClient.getCurrentUserId() ? currentUserSettings : new userSettingsBuilder();
+        var userSettings = userId === ApiClient.getCurrentUserId() ? currentUserSettings : new userSettings();
         view.addEventListener("viewshow", function () {
             window.addEventListener("beforeunload", onBeforeUnload);
 

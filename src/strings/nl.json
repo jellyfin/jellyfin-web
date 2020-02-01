@@ -953,7 +953,6 @@
     "OptionEnableAccessFromAllDevices": "Toegang vanaf alle apparaten toestaan",
     "OptionEnableAccessToAllChannels": "Toegang tot alle kanalen inschakelen",
     "OptionEnableAccessToAllLibraries": "Toegang tot alle bibliotheken inschakelen",
-    "OptionEnableAutomaticServerUpdates": "Schakel automatische server updates in",
     "OptionEnableExternalContentInSuggestions": "Inschakelen externe inhoud in suggesties",
     "OptionEnableExternalContentInSuggestionsHelp": "Laat internet trailers en live-tv-programma's op te nemen binnen de voorgestelde inhoud.",
     "OptionEnableForAllTuners": "Inschakelen voor alle tuners",
