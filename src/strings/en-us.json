@@ -610,7 +610,7 @@
     "LabelDownMixAudioScaleHelp": "Boost audio when downmixing. A value of one will preserve the original volume.",
     "LabelDownloadLanguages": "Download languages:",
     "LabelDropImageHere": "Drop image here, or click to browse.",
-	"LabelDroppedFrames": "Dropped frames:",
+    "LabelDroppedFrames": "Dropped frames:",
     "LabelDropShadow": "Drop shadow:",
     "LabelDynamicExternalId": "{0} Id:",
     "LabelEasyPinCode": "Easy pin code:",
