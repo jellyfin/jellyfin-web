@@ -124,6 +124,11 @@
     flex-shrink: 1;
 }
 
+
+.pageTitleWithDefaultLogo {
+    margin-top: 0;
+}
+
 .headerLeft,
 .skinHeader {
     display: -webkit-box;
