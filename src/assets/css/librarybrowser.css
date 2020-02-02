@@ -275,7 +275,7 @@
 
 @media all and (min-width: 84em) {
     .headerTop {
-        padding: 1.25em 1.25em;
+        padding: 0.8em 0.8em;
     }
 
     .headerTabs {
@@ -288,9 +288,8 @@
         -webkit-box-pack: center;
         -webkit-justify-content: center;
         justify-content: center;
-        margin-top: -3em;
         position: relative;
-        top: -0.35em;
+        margin-top: -4.3em;
     }
 
     .libraryPage:not(.noSecondaryNavPage) {
@@ -768,7 +767,8 @@
 
 @media all and (min-width: 62.5em) {
     .headerTop {
-        padding: 0.8em 0;
+        padding-left: 0.8em;
+        padding-right: 0.8em;
     }
 
     .headerTabs {
@@ -776,7 +776,7 @@
         width: auto;
         align-items: center;
         justify-content: center;
-        margin-top: -3.34em;
+        margin-top: -4.3em;
         position: relative;
     }
 

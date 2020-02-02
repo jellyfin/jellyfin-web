@@ -311,6 +311,14 @@ html {
 
 .emby-tab-button-active {
     color: #fff;
+    border-bottom: 2px solid #fff;
+    padding-top: 1.55em;
+    padding-bottom: 1.38em;
+}
+
+.layout-mobile .emby-tab-button-active {
+    padding-top: 1.56em; /* Add one pixel to get a better fit in mobile layout */
+    padding-bottom: 1.38em;
 }
 
 .emby-tab-button.show-focus:focus {
