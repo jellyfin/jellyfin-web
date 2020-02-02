@@ -80,7 +80,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "hu
                 deviceHtml += '<div class="cardImage" style="background-image:url(\'' + iconUrl + "');background-size: auto 64%;background-position:center center;\">";
                 deviceHtml += "</div>";
             } else {
-                deviceHtml += '<i class="cardImageIcon md-icon">tablet_android</i>';
+                deviceHtml += '<i class="cardImageIcon material-icons">tablet_android</i>';
             }
 
             deviceHtml += "</a>";
@@ -89,7 +89,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "hu
 
             if (canEdit || canDelete(device.Id)) {
                 deviceHtml += '<div style="text-align:right; float:right;padding-top:5px;">';
-                deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate("Menu") + '" class="btnDeviceMenu"><i class="md-icon">more_horiz</i></button>';
+                deviceHtml += '<button type="button" is="paper-icon-button-light" data-id="' + device.Id + '" title="' + globalize.translate("Menu") + '" class="btnDeviceMenu"><i class="material-icons">more_horiz</i></button>';
                 deviceHtml += "</div>";
             }
 

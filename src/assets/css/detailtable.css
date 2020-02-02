@@ -1,7 +1,7 @@
 .detailTableBodyCell,
 .detailTableHeaderCell {
     border-spacing: 0;
-    padding: .4em
+    padding: 0.4em;
 }
 
 .detailTable {
@@ -9,11 +9,11 @@
     border-spacing: 0;
     text-align: left;
     width: 100%;
-    margin: 0 auto
+    margin: 0 auto;
 }
 
 .detailTableHeaderCell {
     font-weight: 700;
     text-align: left;
-    vertical-align: top
+    vertical-align: top;
 }

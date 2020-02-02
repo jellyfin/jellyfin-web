@@ -461,7 +461,8 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var usePrimaryImage = item.MediaType === "Video" && item.Type !== "Movie" && item.Type !== "Trailer" ||
             item.MediaType && item.MediaType !== "Video" ||
             item.Type === "MusicAlbum" ||
-            item.Type === "MusicArtist";
+            item.Type === "MusicArtist" ||
+            item.Type === "Person";
 
         if ("Program" === item.Type && item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -513,11 +514,18 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             itemBackdropElement.style.backgroundImage = "";
         }
 
+        if ("Person" === item.Type) {
+            itemBackdropElement.classList.add("personBackdrop");
+        } else {
+            itemBackdropElement.classList.remove("personBackdrop");
+        }
+
         return hasbackdrop;
     }
 
     function reloadFromItem(instance, page, params, item, user) {
         var context = params.context;
+        page.querySelector(".detailPagePrimaryContainer").classList.add("detailSticky");
         renderName(item, page.querySelector(".nameContainer"), false, context);
         var apiClient = connectionManager.getApiClient(item.ServerId);
         renderSeriesTimerEditor(page, item, apiClient, user);
@@ -735,12 +743,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             editable = false;
         }
 
-        if ("Person" !== item.Type) {
-            elem.classList.add("detailimg-hidemobile");
-            page.querySelector(".detailPageContent").classList.add("detailPageContent-nodetailimg");
-        } else {
-            page.querySelector(".detailPageContent").classList.remove("detailPageContent-nodetailimg");
-        }
+        elem.classList.add("detailimg-hidemobile");
 
         var imageTags = item.ImageTags || {};
 
@@ -1049,11 +1052,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
         var overview = page.querySelector(".overview");
         var externalLinksElem = page.querySelector(".itemExternalLinks");
-
-        if ("Season" !== item.Type && "MusicAlbum" !== item.Type && "MusicArtist" !== item.Type) {
-            overview.classList.add("detailsHiddenOnMobile");
-            externalLinksElem.classList.add("detailsHiddenOnMobile");
-        }
 
         renderOverview([overview], item);
         var i;
@@ -1723,7 +1721,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         html += '<h2 class="sectionTitle sectionTitle-cards">';
         html += "<span>" + type.name + "</span>";
         html += "</h2>";
-        html += '<button class="btnAddToCollection sectionTitleButton" type="button" is="paper-icon-button-light" style="margin-left:1em;"><i class="md-icon" icon="add">add</i></button>';
+        html += '<button class="btnAddToCollection sectionTitleButton" type="button" is="paper-icon-button-light" style="margin-left:1em;"><i class="material-icons" icon="add">add</i></button>';
         html += "</div>";
         html += '<div is="emby-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right">';
         var shape = "MusicAlbum" == type.type ? getSquareShape(false) : getPortraitShape(false);
@@ -2093,7 +2091,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         });
         view.addEventListener("viewshow", function (e) {
             var page = this;
-            libraryMenu.setTransparentMenu(true);
+
+            if (layoutManager.mobile) {
+                libraryMenu.setTransparentMenu(true);
+            }
 
             if (e.detail.isRestored) {
                 if (currentItem) {

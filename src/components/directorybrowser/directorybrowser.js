@@ -76,7 +76,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         html += name;
         html += "</div>";
         html += "</div>";
-        html += '<i class="md-icon" style="font-size:inherit;">arrow_forward</i>';
+        html += '<i class="material-icons" style="font-size:inherit;">arrow_forward</i>';
         html += "</div>";
         return html;
     }
@@ -116,7 +116,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         html += '<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ' + readOnlyAttribute + ' label="' + Globalize.translate(labelKey) + '"/>';
         html += "</div>";
         if (!readOnlyAttribute) {
-            html += '<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="' + Globalize.translate("ButtonRefresh") + '"><i class="md-icon">search</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="' + Globalize.translate("ButtonRefresh") + '"><i class="material-icons">search</i></button>';
         }
         html += "</div>";
         if (!readOnlyAttribute) {
@@ -265,7 +265,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
 
                     var html = "";
                     html += '<div class="formDialogHeader">';
-                    html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><i class="md-icon">arrow_back</i></button>';
+                    html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><i class="material-icons">arrow_back</i></button>';
                     html += '<h3 class="formDialogHeaderTitle">';
                     html += options.header || Globalize.translate("HeaderSelectPath");
                     html += "</h3>";

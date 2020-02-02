@@ -17,7 +17,7 @@ _define("fetch", function() {
 });
 
 // flvjs
-var flvjs = require("flv.js").default;
+var flvjs = require("flv.js/dist/flv").default;
 _define("flvjs", function() {
     return flvjs;
 });
@@ -95,4 +95,10 @@ _define("libjass", function() {
 var libass_wasm = require("libass-wasm");
 _define("JavascriptSubtitlesOctopus", function() {
     return libass_wasm;
+});
+
+// material-icons
+var material_icons = require("material-design-icons-iconfont/dist/material-design-icons.css");
+_define("material-icons", function() {
+    return material_icons;
 });

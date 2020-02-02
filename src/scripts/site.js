@@ -315,6 +315,14 @@ var AppInfo = {};
         return "components";
     }
 
+    function getElementsPath() {
+        return "elements"
+    }
+
+    function getScriptsPath() {
+        return "scripts"
+    }
+
     function getPlaybackManager(playbackManager) {
         window.addEventListener("beforeunload", function () {
             try {
@@ -650,8 +658,12 @@ var AppInfo = {};
 
     (function () {
         var urlArgs = "v=" + (window.dashboardVersion || new Date().getDate());
+
         var bowerPath = getBowerPath();
         var componentsPath = getComponentsPath();
+        var elementsPath = getElementsPath();
+        var scriptsPath = getScriptsPath();
+
         var paths = {
             browserdeviceprofile: "scripts/browserdeviceprofile",
             browser: "scripts/browser",
@@ -672,7 +684,6 @@ var AppInfo = {};
             itemHelper: componentsPath + "/itemhelper",
             itemShortcuts: componentsPath + "/shortcuts",
             playQueueManager: componentsPath + "/playback/playqueuemanager",
-            autoPlayDetect: componentsPath + "/playback/autoplaydetect",
             nowPlayingHelper: componentsPath + "/playback/nowplayinghelper",
             pluginManager: componentsPath + "/pluginManager",
             packageManager: componentsPath + "/packagemanager",
@@ -703,7 +714,8 @@ var AppInfo = {};
                     "swiper",
                     "sortable",
                     "libjass",
-                    "webcomponents"
+                    "webcomponents",
+                    "material-icons"
                 ]
             },
             urlArgs: urlArgs,
@@ -721,7 +733,6 @@ var AppInfo = {};
 
         // define styles
         // TODO determine which of these files can be moved to the components themselves
-        define("material-icons", ["css!assets/css/material-icons/style"], returnFirstDependency);
         define("systemFontsCss", ["css!assets/css/fonts"], returnFirstDependency);
         define("systemFontsSizedCss", ["css!assets/css/fonts.sized"], returnFirstDependency);
         define("scrollStyles", ["css!assets/css/scrollstyles"], returnFirstDependency);
@@ -765,7 +776,6 @@ var AppInfo = {};
             return queryString;
         });
 
-        var elementsPath = "elements"
         define("emby-button", [elementsPath + "/emby-button/emby-button"], returnFirstDependency);
         define("paper-icon-button-light", [elementsPath + "/emby-button/paper-icon-button-light"], returnFirstDependency);
         define("emby-checkbox", [elementsPath + "/emby-checkbox/emby-checkbox"], returnFirstDependency);
@@ -777,6 +787,9 @@ var AppInfo = {};
         define("emby-slider", [elementsPath + "/emby-slider/emby-slider"], returnFirstDependency);
         define("emby-textarea", [elementsPath + "/emby-textarea/emby-textarea"], returnFirstDependency);
         define("emby-toggle", [elementsPath + "/emby-toggle/emby-toggle"], returnFirstDependency);
+
+        define("appSettings", [scriptsPath + "/settings/appSettings"], returnFirstDependency);
+        define("userSettings", [scriptsPath + "/settings/userSettings"], returnFirstDependency);
 
         define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
         define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);
@@ -865,9 +878,6 @@ var AppInfo = {};
         define("toast", [componentsPath + "/toast/toast"], returnFirstDependency);
         define("scrollHelper", [componentsPath + "/scrollhelper"], returnFirstDependency);
         define("touchHelper", [componentsPath + "/touchhelper"], returnFirstDependency);
-        define("appSettings", [componentsPath + "/appSettings"], returnFirstDependency);
-        define("userSettings", [componentsPath + "/usersettings/usersettings"], returnFirstDependency);
-        define("userSettingsBuilder", [componentsPath + "/usersettings/usersettingsbuilder", "layoutManager", "browser"], returnFirstDependency);
         define("imageUploader", [componentsPath + "/imageuploader/imageuploader"], returnFirstDependency);
         define("htmlMediaHelper", [componentsPath + "/htmlMediaHelper"], returnFirstDependency);
         define("viewContainer", [componentsPath + "/viewContainer"], returnFirstDependency);

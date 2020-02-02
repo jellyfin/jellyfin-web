@@ -10,13 +10,13 @@ define(['appStorage', 'events'], function (appStorage, events) {
     }
 
     function AppSettings() {
-
     }
 
     AppSettings.prototype.enableAutoLogin = function (val) {
         if (val != null) {
             this.set('enableAutoLogin', val.toString());
         }
+
         return this.get('enableAutoLogin') !== 'false';
     };
 

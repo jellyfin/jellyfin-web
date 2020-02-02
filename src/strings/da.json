@@ -825,7 +825,6 @@
     "OptionEnableAccessFromAllDevices": "Tillad adgang fra alle enheder",
     "OptionEnableAccessToAllChannels": "Tillad adgang til alle kanaler",
     "OptionEnableAccessToAllLibraries": "Tillad adgang til alle biblioteker",
-    "OptionEnableAutomaticServerUpdates": "Aktiver automatiske serveropdateringer",
     "OptionEnableExternalContentInSuggestions": "Aktiver eksternt indhold i anbefalinger",
     "OptionEnableExternalContentInSuggestionsHelp": "Tillad at internet-trailers og live-tv-programmer bliver inkluderet i det anbefalede indhold.",
     "OptionEnableForAllTuners": "Aktiver for alle tuner-enheder",

@@ -160,7 +160,7 @@ define(["pluginManager"], function (pluginManager) {
                     elem.classList.add("logoScreenSaver");
                     document.body.appendChild(elem);
 
-                    elem.innerHTML = '<img class="logoScreenSaverImage" src="' + pluginManager.mapPath(self, "logowhite.png") + '" />';
+                    elem.innerHTML = '<img class="logoScreenSaverImage" src="' + pluginManager.mapPath(self, "assets/img/banner-light.png") + '" />';
                 }
 
                 stopInterval();

@@ -585,7 +585,6 @@
     "OptionEnableAccessFromAllDevices": "모든 기기에서 접속 허용",
     "OptionEnableAccessToAllChannels": "모든 채널에 접속 허용",
     "OptionEnableAccessToAllLibraries": "모든 라이브러리에 접속 허용",
-    "OptionEnableAutomaticServerUpdates": "서버 자동 업데이트 사용",
     "OptionEnableM2tsMode": "M2ts 모드 활성화",
     "OptionEnded": "종료됨",
     "OptionEveryday": "매일",
@@ -1253,7 +1252,7 @@
     "DisplayMissingEpisodesWithinSeasons": "시즌 내 누락된 에피소드 표시",
     "EnableBackdrops": "배경",
     "EnableBackdropsHelp": "라이브러리를 탐색하는 동안 일부 페이지의 배경을 표시합니다.",
-    "ErrorAddingXmlTvFile": "XmlTV 파일에 액세스하는 동안 오류가 발생했습니다. 파일이 존재하는지 확인한 후 다시 시도하십시오.",
+    "ErrorAddingXmlTvFile": "XMLTV 파일에 액세스하는 동안 오류가 발생했습니다. 파일이 존재하는지 확인 후 다시 시도하십시오.",
     "ErrorDeletingItem": "Jellyfin 서버에서 항목을 제거하는 중에 오류가 발생했습니다. Jellyfin 서버가 미디어 폴더에 대해 쓰기 권한이 있는지 확인한 후 다시 시도하십시오.",
     "HeaderConfigureRemoteAccess": "원격 접근 구성",
     "HeaderCastAndCrew": "배역 및 제작진",
@@ -1280,5 +1279,11 @@
     "ErrorAddingMediaPathToVirtualFolder": "미디어 경로를 추가하는 데에 오류가 발생했습니다. 경로를 다시 확인하거나 Jellyfin 서버가 해당 경로에 접근할 수 있는지 확인해 주세요.",
     "ErrorGettingTvLineups": "TV 구성을 다운로드 하는 중에 오류가 발생하였습니다. 정보가 맞는지 확인한 후 다시 시도해 주세요.",
     "BoxRear": "상자 (후면)",
-    "Absolute": "절대"
+    "Absolute": "절대",
+    "LabelDropShadow": "하단 그림자:",
+    "LabelDiscNumber": "디스크 번호:",
+    "Identify": "식별자",
+    "HeaderMoreLikeThis": "비슷한 작품",
+    "DirectorsValue": "감독: {0}",
+    "ButtonSplit": "나누기"
 }
