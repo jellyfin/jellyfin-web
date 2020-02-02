@@ -1,4 +1,4 @@
-define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 'require', 'css!assets/css/material-icons/style', 'emby-button', 'paper-icon-button-light', 'emby-input', 'css!components/formdialog'], function (dialogHelper, layoutManager, scrollHelper, globalize, dom, require) {
+define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'css!components/formdialog'], function (dialogHelper, layoutManager, scrollHelper, globalize, dom, require) {
     'use strict';
 
     function setInputProperties(dlg, options) {

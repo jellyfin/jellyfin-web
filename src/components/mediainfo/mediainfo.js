@@ -1,4 +1,4 @@
-define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'css!assets/css/material-icons/style', 'css!components/mediainfo/mediainfo.css', 'css!components/guide/programs', 'emby-button'], function (datetime, globalize, appRouter, itemHelper, indicators) {
+define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'material-icons', 'css!components/mediainfo/mediainfo.css', 'css!components/guide/programs', 'emby-button'], function (datetime, globalize, appRouter, itemHelper, indicators) {
     'use strict';
 
     function getTimerIndicator(item) {

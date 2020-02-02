@@ -1,4 +1,4 @@
-define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-button-light', 'css!assets/css/material-icons/style', 'emby-button', 'css!components/userdatabuttons/userdatabuttons'], function (connectionManager, globalize, dom, itemHelper) {
+define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-button-light', 'material-icons', 'emby-button', 'css!components/userdatabuttons/userdatabuttons'], function (connectionManager, globalize, dom, itemHelper) {
     'use strict';
 
     var userDataMethods = {
