@@ -1458,5 +1458,6 @@
     "HeaderFavoritePeople": "最喜欢的人物",
     "OptionRandom": "随机",
     "ButtonSplit": "拆分",
-    "SelectAdminUsername": "请为管理员账户选择一个用户名。"
+    "SelectAdminUsername": "请为管理员账户选择一个用户名。",
+    "HeaderNavigation": "导航"
 }

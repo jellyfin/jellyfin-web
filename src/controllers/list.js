@@ -203,15 +203,9 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
 
                 if ("SortName" === values.sortBy && "Ascending" === values.sortOrder && numItems > 40) {
                     alphaPicker.classList.remove("hide");
-
-                    if (layoutManager.tv) {
-                        instance.itemsContainer.parentNode.classList.add("padded-left-withalphapicker");
-                    } else {
-                        instance.itemsContainer.parentNode.classList.add("padded-right-withalphapicker");
-                    }
+                    instance.itemsContainer.parentNode.classList.add("padded-right-withalphapicker");
                 } else {
                     alphaPicker.classList.add("hide");
-                    instance.itemsContainer.parentNode.classList.remove("padded-left-withalphapicker");
                     instance.itemsContainer.parentNode.classList.remove("padded-right-withalphapicker");
                 }
             }
@@ -540,15 +534,9 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
             self.scroller = view.querySelector(".scrollFrameY");
             var alphaPickerElement = self.alphaPickerElement;
 
-            if (layoutManager.tv) {
-                alphaPickerElement.classList.add("alphaPicker-fixed-left");
-                alphaPickerElement.classList.add("focuscontainer-left");
-                self.itemsContainer.parentNode.classList.add("padded-left-withalphapicker");
-            } else {
-                alphaPickerElement.classList.add("alphaPicker-fixed-right");
-                alphaPickerElement.classList.add("focuscontainer-right");
-                self.itemsContainer.parentNode.classList.add("padded-right-withalphapicker");
-            }
+            alphaPickerElement.classList.add("alphaPicker-fixed-right");
+            alphaPickerElement.classList.add("focuscontainer-right");
+            self.itemsContainer.parentNode.classList.add("padded-right-withalphapicker");
 
             self.alphaPicker = new alphaPicker({
                 element: alphaPickerElement,

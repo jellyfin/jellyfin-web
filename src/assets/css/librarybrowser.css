@@ -4,7 +4,7 @@
     vertical-align: middle;
 }
 
-.detailButton-mobile,
+.detailButton,
 .itemLinks,
 .listPaging,
 .sectionTabs,
@@ -130,7 +130,7 @@
     display: -webkit-flex;
 }
 
-.detailButton-mobile,
+.detailButton,
 .skinHeader {
     flex-direction: column;
     -webkit-flex-direction: column;
@@ -272,26 +272,7 @@
     }
 }
 
-@media all and (min-width: 84em) {
-    .headerTop {
-        padding: 1.489em 0;
-    }
-
-    .headerTabs {
-        -webkit-align-self: center;
-        align-self: center;
-        width: auto;
-        -webkit-box-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-        -webkit-box-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        margin-top: -3.34em;
-        position: relative;
-        top: -1.05em;
-    }
-
+@media all and (min-width:84em) {
     .libraryPage:not(.noSecondaryNavPage) {
         padding-top: 4.6em !important;
     }
@@ -432,6 +413,10 @@
     position: relative;
 }
 
+.personBackdrop {
+    background-size: contain;
+}
+
 .itemBackdropProgressBar {
     position: absolute !important;
     bottom: 0;
@@ -441,17 +426,7 @@
 
 .desktopMiscInfoContainer {
     position: absolute;
-    bottom: 0.75em;
-}
-
-.detailPagePrimaryContainer {
-    display: flex;
-    align-items: center;
-    align-content: center;
-    position: sticky;
-    background-color: #101010;
-    top: 0;
-    z-index: 2;
+    bottom: .75em
 }
 
 .layout-mobile .detailPagePrimaryContainer {
@@ -459,8 +434,34 @@
     position: relative;
 }
 
+.layout-mobile .parentName,
+.layout-mobile .itemName,
+.layout-mobile .itemMiscInfo,
+.layout-mobile .mainDetailButtons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.layout-mobile .infoText {
+    white-space: normal;
+}
+
 .layout-tv .detailPagePrimaryContainer {
     position: relative;
+}
+
+.detailPagePrimaryContainer {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    position: sticky;
+    top: 8%;
+    z-index: 2;
+}
+
+.detailSticky {
+    background-color: #101010;
 }
 
 .infoWrapper {
@@ -476,6 +477,9 @@
 
 .detailPageSecondaryContainer {
     margin: 1.25em 0;
+}
+
+.detailPageContent {
     display: flex;
     flex-direction: column;
     padding-left: 2%;
@@ -483,9 +487,8 @@
 }
 
 .detailImageContainer {
-    margin: 1.25em 0;
     position: sticky;
-    top: 15%;
+    top: 25%;
     float: left;
     width: 22.786458333333332vw;
 }
@@ -497,9 +500,6 @@
 
 .detailPagePrimaryContent {
     position: relative;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    flex-grow: 1;
 }
 
 .detailLogo {
@@ -542,9 +542,9 @@
     -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
-@media all and (max-width: 62.5em) {
-    .detailPageContent {
-        position: relative;
+@media all and (max-width:62.5em) {
+    .detailPageWrapperContainer {
+        position: relative
     }
 
     .btnPlaySimple {
@@ -613,7 +613,7 @@
     }
 }
 
-.detailButton-mobile,
+.detailButton,
 .mainDetailButtons {
     display: flex;
     display: -webkit-box;
@@ -657,7 +657,7 @@
     margin-top: 1.5em !important;
 }
 
-.detailButton-mobile {
+.detailButton {
     display: flex;
     flex-direction: column;
     -webkit-box-pack: center;
@@ -670,32 +670,28 @@
     padding: 0.5em 0.7em !important;
 }
 
-.detailButton {
-    margin: 0 0.5em 0 0 !important;
-}
-
-@media all and (min-width: 29em) {
-    .detailButton-mobile {
-        padding-left: 0.75em !important;
-        padding-right: 0.75em !important;
+@media all and (min-width:29em) {
+    .detailButton {
+        padding-left: .75em !important;
+        padding-right: .75em !important
     }
 }
 
-@media all and (min-width: 32em) {
-    .detailButton-mobile {
-        padding-left: 0.8em !important;
-        padding-right: 0.8em !important;
+@media all and (min-width:32em) {
+    .detailButton {
+        padding-left: .8em !important;
+        padding-right: .8em !important
     }
 }
 
-@media all and (min-width: 35em) {
-    .detailButton-mobile {
-        padding-left: 0.85em !important;
-        padding-right: 0.85em !important;
+@media all and (min-width:35em) {
+    .detailButton {
+        padding-left: .85em !important;
+        padding-right: .85em !important
     }
 }
 
-.detailButton-mobile-content {
+.detailButton-content {
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
@@ -711,19 +707,20 @@
     align-items: center;
 }
 
-.detailButton-mobile-icon {
+.detailButton-icon {
     font-size: 1.6em !important;
     width: 1em;
     height: 1em;
 }
 
 .detailImageProgressContainer {
-    margin-left: 6px;
-    width: 21.886458333333332vw;
+    position: absolute;
+    bottom: 0;
+    width: 22.786458333333332vw;
 }
 
-.detailButton-mobile-text {
-    margin-top: 0.7em;
+.detailButton-text {
+    margin-top: .7em;
     font-size: 80%;
     font-weight: 400;
 }
@@ -733,14 +730,31 @@
         margin-left: -0.5em;
     }
 
-    .detailButton {
-        display: none !important;
+    .detailButtonHideonMobile {
+        display: none !important
     }
 }
 
-@media all and (min-width: 62.5em) {
+@media all and (min-width:62.5em) {
+    .headerTop {
+        padding: 0.8em 0
+    }
+
+    .headerTabs {
+        align-self: center;
+        width: auto;
+        align-items: center;
+        justify-content: center;
+        margin-top: -3.34em;
+        position: relative;
+    }
+
     .detailFloatingButton {
         display: none !important;
+    }
+
+    .personBackdrop {
+        display: none !important
     }
 
     .mainDetailButtons {
@@ -783,15 +797,9 @@
     margin-bottom: 3.4em !important;
 }
 
-.detailPageContent {
+.detailPageWrapperContainer {
     border-spacing: 0;
     border-collapse: collapse;
-}
-
-@media all and (max-width: 62.5em) {
-    .detailPageContent-nodetailimg {
-        padding-top: 0;
-    }
 }
 
 .mediaInfoStream {
@@ -845,13 +853,9 @@
 
 @media all and (max-width: 75em) {
     .listViewUserDataButtons {
-        display: none !important;
-    }
-}
-
-@media all and (max-width: 62.5em) {
-    .detailsHiddenOnMobile {
-        display: none;
+        display: flex;
+        align-items: center;
+        font-size: 65%;
     }
 }
 
@@ -976,11 +980,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     margin-bottom: -1em;
 }
 
-@media all and (min-height: 31.25em) {
-    .padded-left-withalphapicker {
-        padding-left: 7.5%;
-    }
-
+@media all and (min-height:31.25em) {
     .padded-right-withalphapicker {
         padding-right: 7.5%;
     }

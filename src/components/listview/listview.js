@@ -471,6 +471,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 html += indicators.getTimerIndicator(item).replace('indicatorIcon', 'indicatorIcon listItemAside');
             }
 
+            html += '<div class="listViewUserDataButtons">';
+
             if (!clickEntireItem) {
 
                 if (options.addToListButton) {
@@ -491,8 +493,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                 if (options.enableUserDataButtons !== false) {
 
-                    html += '<span class="listViewUserDataButtons flex align-items-center">';
-
                     var userData = item.UserData || {};
                     var likes = userData.Likes == null ? '' : userData.Likes;
 
@@ -503,10 +503,9 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     if (itemHelper.canRate(item)) {
                         html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons">favorite</i></button>';
                     }
-
-                    html += '</span>';
                 }
             }
+            html += '</div>';
 
             if (enableContentWrapper) {
                 html += '</div>';

@@ -1,4 +1,4 @@
-define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playbackManager, focusManager, appRouter, dom) {
+define(['playbackManager', 'focusManager', 'appRouter', 'dom', 'apphost'], function (playbackManager, focusManager, appRouter, dom, appHost) {
     'use strict';
 
     var lastInputTime = new Date().getTime();
@@ -96,7 +96,11 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
                 appRouter.showSettings();
                 break;
             case 'back':
-                appRouter.back();
+                if (appRouter.canGoBack()) {
+                    appRouter.back();
+                } else if (appHost.supports('exit')) {
+                    appHost.exit();
+                }
                 break;
             case 'forward':
                 break;

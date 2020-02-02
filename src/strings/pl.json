@@ -1452,5 +1452,8 @@
     "LabelAudioBitDepth": "Głębia bitowa audio:",
     "HeaderFavoritePeople": "Ulubieni ludzie",
     "FetchingData": "Pobieranie dodatkowych danych",
-    "ButtonSplit": "Rozdziel"
+    "ButtonSplit": "Rozdziel",
+    "SelectAdminUsername": "Proszę wybierz nazwę użytkownika dla konta administratora.",
+    "MessageConfirmAppExit": "Czy chcesz wyjść?",
+    "HeaderNavigation": "Nawigacja"
 }
