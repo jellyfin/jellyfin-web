@@ -60,7 +60,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPick
 
     function embed(elem, instance, options) {
 
-        require(['text!./searchfields.template.html'], function (template) {
+        require(['text!components/search/searchfields.template.html'], function (template) {
 
             var html = globalize.translateDocument(template, 'core');
 

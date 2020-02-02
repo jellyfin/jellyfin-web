@@ -136,7 +136,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
 
             loading.show();
 
-            require(['text!./recordingcreator.template.html'], function (template) {
+            require(['text!components/recordingcreator/recordingcreator.template.html'], function (template) {
 
                 var dialogOptions = {
                     removeOnClose: true,

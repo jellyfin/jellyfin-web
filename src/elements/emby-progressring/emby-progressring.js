@@ -8,7 +8,7 @@ define(['require', 'css!elements/emby-progressring/emby-progressring', 'register
         this.classList.add('progressring');
         var instance = this;
 
-        require(['text!./emby-progressring.template.html'], function (template) {
+        require(['text!elements/emby-progressring/emby-progressring.template.html'], function (template) {
             instance.innerHTML = template;
 
             //if (window.MutationObserver) {

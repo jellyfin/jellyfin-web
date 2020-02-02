@@ -148,7 +148,7 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
 
     function embed(options, self) {
 
-        require(['text!./subtitlesettings.template.html'], function (template) {
+        require(['text!components/subtitlesettings/subtitlesettings.template.html'], function (template) {
 
             options.element.classList.add('subtitlesettings');
             options.element.innerHTML = globalize.translateDocument(template, 'core');

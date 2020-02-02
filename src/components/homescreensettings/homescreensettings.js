@@ -470,7 +470,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
     function embed(options, self) {
 
-        require(['text!./homescreensettings.template.html'], function (template) {
+        require(['text!components/homescreensettings/homescreensettings.template.html'], function (template) {
 
             for (var i = 1; i <= numConfigurableSections; i++) {
                 template = template.replace('{section' + i + 'label}', globalize.translate('LabelHomeScreenSectionValue', i));

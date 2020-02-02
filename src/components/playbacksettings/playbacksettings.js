@@ -285,7 +285,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
     function embed(options, self) {
 
-        require(['text!./playbacksettings.template.html'], function (template) {
+        require(['text!components/playbacksettings/playbacksettings.template.html'], function (template) {
 
             options.element.innerHTML = globalize.translateDocument(template, 'core');
 

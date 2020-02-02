@@ -259,7 +259,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'apphost', 
 
         return new Promise(function (resolve, reject) {
 
-            require(['text!./filtermenu.template.html'], function (template) {
+            require(['text!components/filtermenu/filtermenu.template.html'], function (template) {
 
                 var dialogOptions = {
                     removeOnClose: true,

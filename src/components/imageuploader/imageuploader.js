@@ -125,7 +125,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
         options = options || {};
 
-        require(['text!./imageuploader.template.html'], function (template) {
+        require(['text!components/imageuploader/imageuploader.template.html'], function (template) {
 
             currentItemId = options.itemId;
             currentServerId = options.serverId;

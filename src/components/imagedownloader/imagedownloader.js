@@ -337,7 +337,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
 
         loading.show();
 
-        require(['text!./imagedownloader.template.html'], function (template) {
+        require(['text!components/imagedownloader/imagedownloader.template.html'], function (template) {
 
             var apiClient = connectionManager.getApiClient(serverId);
 

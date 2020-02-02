@@ -63,7 +63,7 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
         loading.show();
 
         return new Promise(function (resolve, reject) {
-            require(['text!./../dialog/dialog.template.html'], function (template) {
+            require(['text!components/dialog/dialog.template.html'], function (template) {
                 showDialog(instance, instance.options, template);
                 resolve();
             });

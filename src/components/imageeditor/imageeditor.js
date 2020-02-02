@@ -446,7 +446,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
         loading.show();
 
-        require(['text!./imageeditor.template.html'], function (template) {
+        require(['text!components/imageeditor/imageeditor.template.html'], function (template) {
             var apiClient = connectionManager.getApiClient(serverId);
             apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
 

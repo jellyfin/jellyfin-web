@@ -152,7 +152,7 @@ define(["dialogHelper", "require", "layoutManager", "globalize", "userSettings",
     function showMediaInfo(itemId, serverId) {
         loading.show();
         return new Promise(function (resolve, reject) {
-            require(["text!./itemMediaInfo.template.html"], function (template) {
+            require(["text!components/itemMediaInfo/itemMediaInfo.template.html"], function (template) {
                 showMediaInfoMore(itemId, serverId, template).then(resolve, reject);
             });
         });

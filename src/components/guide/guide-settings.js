@@ -95,7 +95,7 @@ define(['dialogHelper', 'globalize', 'userSettings', 'layoutManager', 'connectio
 
             var settingsChanged = false;
 
-            require(['text!./guide-settings.template.html'], function (template) {
+            require(['text!components/guide/guide-settings.template.html'], function (template) {
 
                 var dialogOptions = {
                     removeOnClose: true,

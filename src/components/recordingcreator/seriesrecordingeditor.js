@@ -197,7 +197,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
             loading.show();
             options = options || {};
 
-            require(['text!./seriesrecordingeditor.template.html'], function (template) {
+            require(['text!components/recordingcreator/seriesrecordingeditor.template.html'], function (template) {
 
                 var dialogOptions = {
                     removeOnClose: true,

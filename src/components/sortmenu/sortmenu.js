@@ -46,7 +46,7 @@ define(['require', 'dom', 'focusManager', 'dialogHelper', 'loading', 'layoutMana
 
         return new Promise(function (resolve, reject) {
 
-            require(['text!./sortmenu.template.html'], function (template) {
+            require(['text!components/sortmenu/sortmenu.template.html'], function (template) {
 
                 var dialogOptions = {
                     removeOnClose: true,

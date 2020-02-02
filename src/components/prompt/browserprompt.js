@@ -89,7 +89,7 @@ define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 're
     return function (options) {
 
         return new Promise(function (resolve, reject) {
-            require(['text!./prompt.template.html'], function (template) {
+            require(['text!components/prompt/prompt.template.html'], function (template) {
 
                 if (typeof options === 'string') {
                     options = {

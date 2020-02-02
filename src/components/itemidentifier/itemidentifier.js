@@ -337,7 +337,7 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
 
         loading.show();
 
-        require(["text!./itemidentifier.template.html"], function (template) {
+        require(["text!components/itemidentifier/itemidentifier.template.html"], function (template) {
 
             var apiClient = getApiClient();
 
@@ -425,7 +425,7 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
         currentItem = null;
         currentItemType = itemType;
 
-        require(["text!./itemidentifier.template.html"], function (template) {
+        require(["text!components/itemidentifier/itemidentifier.template.html"], function (template) {
 
             var dialogOptions = {
                 size: "fullscreen-border",

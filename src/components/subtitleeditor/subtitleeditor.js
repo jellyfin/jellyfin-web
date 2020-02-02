@@ -510,7 +510,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
         return new Promise(function (resolve, reject) {
 
-            require(['text!./subtitleeditor.template.html'], function (template) {
+            require(['text!components/subtitleeditor/subtitleeditor.template.html'], function (template) {
 
                 showEditorInternal(itemId, serverId, template).then(resolve, reject);
             });

@@ -383,7 +383,7 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
 
         self.show = function () {
             return new Promise(function (resolve, reject) {
-                require(["text!./filterdialog.template.html"], function (template) {
+                require(["text!components/filterdialog/filterdialog.template.html"], function (template) {
                     var dlg = dialogHelper.createDialog({
                         removeOnClose: true,
                         modal: false

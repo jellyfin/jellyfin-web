@@ -594,7 +594,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 
 
     function embed(elem, instance, options) {
 
-        require(['text!./searchresults.template.html'], function (template) {
+        require(['text!components/search/searchresults.template.html'], function (template) {
 
             if (!enableScrollX()) {
                 template = replaceAll(template, 'data-horizontal="true"', 'data-horizontal="false"');

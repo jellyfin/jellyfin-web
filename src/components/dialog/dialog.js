@@ -126,7 +126,7 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
         }
 
         return new Promise(function (resolve, reject) {
-            require(['text!./dialog.template.html'], function (template) {
+            require(['text!components/dialog/dialog.template.html'], function (template) {
                 showDialog(options, template).then(resolve, reject);
             });
         });
