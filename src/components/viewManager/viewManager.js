@@ -178,5 +178,7 @@ define(['viewContainer', 'focusManager', 'query-string', 'layoutManager'], funct
         dispatchPageEvents = value;
     };
 
-    return new ViewManager();
+    var viewManager = new ViewManager();
+    viewManager.dispatchPageEvents(true);
+    return viewManager;
 });

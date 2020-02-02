@@ -238,10 +238,10 @@ var AppInfo = {};
 
     function defineConnectionManager(connectionManager) {
         window.ConnectionManager = connectionManager;
-        define("connectionManager", [], function () {
-            return connectionManager;
-        });
+        require(["ConnectionManager"]);
     }
+
+    var localApiClient;
 
     function bindConnectionManagerEvents(connectionManager, events, userSettings) {
         window.Events = events;
@@ -281,8 +281,8 @@ var AppInfo = {};
                 capabilities.DeviceProfile = deviceProfile;
 
                 var connectionManager = new ConnectionManager(credentialProviderInstance, apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), capabilities);
-
                 defineConnectionManager(connectionManager);
+
                 bindConnectionManagerEvents(connectionManager, events, userSettings);
 
                 if (!AppInfo.isNativeApp) {
@@ -314,247 +314,11 @@ var AppInfo = {};
         return obj;
     }
 
-    function getPlaybackManager(playbackManager) {
-        window.addEventListener("beforeunload", function () {
-            try {
-                playbackManager.onAppClose();
-            } catch (err) {
-                console.error("error in onAppClose: " + err);
-            }
-        });
-        return playbackManager;
-    }
-
-    function getLayoutManager(layoutManager, appHost) {
-        if (appHost.getDefaultLayout) {
-            layoutManager.defaultLayout = appHost.getDefaultLayout();
-        }
-
-        layoutManager.init();
-        return layoutManager;
-    }
-
-    function createWindowHeadroom(Headroom) {
-        var headroom = new Headroom([], {});
-        return headroom;
-    }
-
-    function createSharedAppFooter(appFooter) {
-        return new appFooter({});
-    }
-
     function onRequireJsError(requireType, requireModules) {
         console.error("RequireJS error: " + (requireType || "unknown") + ". Failed modules: " + (requireModules || []).join(","));
     }
 
-    function init() {
-        var promises = [];
-        if (!window.fetch) {
-            promises.push(require(["fetch"]));
-        }
-        if ("function" != typeof Object.assign) {
-            promises.push(require(["objectassign"]));
-        }
-
-        Promise.all(promises).then(function () {
-            createConnectionManager().then(function () {
-                console.debug("initAfterDependencies promises resolved");
-
-                require(["globalize", "browser"], function (globalize, browser) {
-                    window.Globalize = globalize;
-                    loadCoreDictionary(globalize).then(function () {
-                        onGlobalizeInit(browser);
-                    });
-                });
-                require(["keyboardnavigation"], function(keyboardnavigation) {
-                    keyboardnavigation.enable();
-                });
-                require(["mouseManager"]);
-                require(["focusPreventScroll"]);
-                require(["autoFocuser"], function(autoFocuser) {
-                    autoFocuser.enable();
-                });
-            });
-        });
-    }
-
-    function loadCoreDictionary(globalize) {
-        var languages = ["ar", "be-by", "bg-bg", "ca", "cs", "da", "de", "el", "en-gb", "en-us", "es", "es-ar", "es-mx", "fa", "fi", "fr", "fr-ca", "gsw", "he", "hi-in", "hr", "hu", "id", "it", "kk", "ko", "lt-lt", "ms", "nb", "nl", "pl", "pt-br", "pt-pt", "ro", "ru", "sk", "sl-si", "sv", "tr", "uk", "vi", "zh-cn", "zh-hk", "zh-tw"];
-        var translations = languages.map(function (language) {
-            return {
-                lang: language,
-                path: "strings/" + language + ".json"
-            };
-        });
-        globalize.defaultModule("core");
-        return globalize.loadStrings({
-            name: "core",
-            translations: translations
-        });
-    }
-
-    function onGlobalizeInit(browser) {
-        if ("android" === self.appMode) {
-            if (-1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync")) {
-                return onAppReady(browser);
-            }
-        }
-
-        document.title = Globalize.translateDocument(document.title, "core");
-
-        if (browser.tv && !browser.android) {
-            console.log("using system fonts with explicit sizes");
-            require(["css!assets/css/fonts.sized.css"]);
-        } else {
-            console.log("using default fonts");
-            require(["css!assets/css/fonts.css"]);
-        }
-
-        require(["apphost", "css!assets/css/librarybrowser"], function (appHost) {
-            loadPlugins(appHost, browser).then(function () {
-                onAppReady(browser);
-            });
-        });
-    }
-
-    function loadPlugins(appHost, browser, shell) {
-        console.debug("loading installed plugins");
-        var list = [
-            "components/playback/playaccessvalidation",
-            "components/playback/experimentalwarnings",
-            "components/htmlaudioplayer/plugin",
-            "components/htmlvideoplayer/plugin",
-            "components/photoplayer/plugin",
-            "components/youtubeplayer/plugin",
-            "components/backdropscreensaver/plugin",
-            "components/logoscreensaver/plugin"
-        ];
-
-        if (appHost.supports("remotecontrol")) {
-            list.push("components/sessionplayer");
-
-            if (browser.chrome || browser.opera) {
-                list.push("components/chromecast/chromecastplayer");
-            }
-        }
-
-        if (window.NativeShell) {
-            list = list.concat(window.NativeShell.getPlugins());
-        }
-
-        return new Promise(function (resolve, reject) {
-            Promise.all(list.map(loadPlugin)).then(function () {
-                require(["packageManager"], function (packageManager) {
-                    packageManager.init().then(resolve, reject);
-                });
-            }, reject);
-        });
-    }
-
-    function loadPlugin(url) {
-        return new Promise(function (resolve, reject) {
-            require(["pluginManager"], function (pluginManager) {
-                pluginManager.loadPlugin(url).then(resolve, reject);
-            });
-        });
-    }
-
-    function onAppReady(browser) {
-        console.debug("begin onAppReady");
-
-        // ensure that appHost is loaded in this point
-        require(['apphost', 'appRouter'], function (appHost, appRouter) {
-            window.Emby = {};
-
-            console.debug("onAppReady: loading dependencies");
-            if (browser.iOS) {
-                require(['css!assets/css/ios.css']);
-            }
-
-            window.Emby.Page = appRouter;
-
-            require(['emby-button', 'scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
-                Emby.Page.start({
-                    click: false,
-                    hashbang: true
-                });
-
-                require(["components/thememediaplayer", "scripts/autobackdrops"]);
-
-                if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-                    require(["components/nowplayingbar/nowplayingbar"]);
-                }
-
-                if (appHost.supports("remotecontrol")) {
-                    require(["playerSelectionMenu", "components/playback/remotecontrolautoplay"]);
-                }
-
-                require(["components/screensavermanager"]);
-
-                if (!appHost.supports("physicalvolumecontrol") || browser.touch) {
-                    require(["components/playback/volumeosd"]);
-                }
-
-                require(["mediaSession", "serverNotifications"]);
-
-                if (!browser.tv && !browser.xboxOne) {
-                    require(["components/playback/playbackorientation"]);
-                    registerServiceWorker();
-
-                    if (window.Notification) {
-                        require(["components/notifications/notifications"]);
-                    }
-                }
-
-                require(["playerSelectionMenu", "fullscreenManager"]);
-
-                var apiClient = window.ConnectionManager && window.ConnectionManager.currentApiClient();
-                if (apiClient) {
-                    fetch(apiClient.getUrl("Branding/Css"))
-                        .then(function(response) {
-                            if (!response.ok) {
-                                throw new Error(response.status + ' ' + response.statusText);
-                            }
-                            return response.text();
-                        })
-                        .then(function(css) {
-                            // Inject the branding css as a dom element in body so it will take
-                            // precedence over other stylesheets
-                            var style = document.createElement('style');
-                            style.appendChild(document.createTextNode(css));
-                            document.body.appendChild(style);
-                        })
-                        .catch(function(err) {
-                            console.warn('Error applying custom css', err);
-                        });
-                }
-            });
-        });
-    }
-
-    function registerServiceWorker() {
-        if (navigator.serviceWorker && "cordova" !== self.appMode && "android" !== self.appMode) {
-            try {
-                navigator.serviceWorker.register("serviceworker.js");
-            } catch (err) {
-                console.error("error registering serviceWorker: " + err);
-            }
-        }
-    }
-
-    function onWebComponentsReady(browser) {
-        initRequireWithBrowser(browser);
-
-        if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
-            AppInfo.isNativeApp = true;
-        }
-
-        init();
-    }
-
-    var localApiClient;
-
-    (function () {
+    function initRequire() {
         var urlArgs = "v=" + (window.dashboardVersion || new Date().getDate());
         var paths = {
             apphost: "components/apphost",
@@ -610,7 +374,6 @@ var AppInfo = {};
             headroom: "components/headroom/headroom",
             scroller: "components/scroller",
             navdrawer: "components/navdrawer/navdrawer",
-            queryString: "libraries/query-string/index",
             "emby-button": "elements/emby-button/emby-button",
             "paper-icon-button-light": "elements/emby-button/paper-icon-button-light",
             "emby-checkbox": "elements/emby-checkbox/emby-checkbox",
@@ -719,7 +482,14 @@ var AppInfo = {};
             "appFooter": "components/appfooter/appfooter",
             "playbackManager": "components/playback/playbackmanager",
             "layoutManager": "components/layoutManager",
-            "lazyLoader": "components/lazyloader/lazyloader-intersectionobserver"
+            "lazyLoader": "components/lazyloader/lazyloader-intersectionobserver",
+            "castSenderApiLoader": "scripts/castSenderApiLoader",
+            "confirm": "components/confirm/confirm",
+            "prompt": "components/prompt/prompt",
+            "viewManager": "components/viewManager/viewManager",
+            "appRouter": "scripts/appRouter",
+            "connectionManager": "scripts/connectionManager",
+            "apiClientResolver": "scripts/apiClientResolver"
         };
 
         requirejs.onError = onRequireJsError;
@@ -769,282 +539,202 @@ var AppInfo = {};
         require(["css!assets/css/site"]);
         require(["jellyfin-noto"]);
 
-        define("viewManager", ["components/viewManager/viewManager"], function (viewManager) {
-            window.ViewManager = viewManager;
-            viewManager.dispatchPageEvents(true);
-            return viewManager;
-        });
         define("serverNotifications", ["components//serverNotifications"], returnFirstDependency);
         define("keyboardnavigation", ["components//input/keyboardnavigation"], returnFirstDependency);
         define("mouseManager", ["components//input/mouseManager"], returnFirstDependency);
-        define("connectionManager", [], function () {
-            return ConnectionManager;
+    }
+
+    function init() {
+        var promises = [];
+        if (!window.fetch) {
+            promises.push(require(["fetch"]));
+        }
+        if ("function" != typeof Object.assign) {
+            promises.push(require(["objectassign"]));
+        }
+
+        Promise.all(promises).then(function () {
+            createConnectionManager().then(function () {
+                console.log("initAfterDependencies promises resolved");
+
+                require(["globalize", "browser"], function (globalize, browser) {
+                    window.Globalize = globalize;
+                    loadCoreDictionary(globalize).then(function () {
+                        onGlobalizeInit(browser);
+                    });
+                });
+                require(["keyboardnavigation"], function(keyboardnavigation) {
+                    keyboardnavigation.enable();
+                });
+                require(["focusPreventScroll"]);
+                require(["autoFocuser"], function(autoFocuser) {
+                    autoFocuser.enable();
+                });
+            });
         });
-        define("apiClientResolver", [], function () {
-            return function () {
-                return window.ApiClient;
+    }
+
+    function loadCoreDictionary(globalize) {
+        var languages = ["ar", "be-by", "bg-bg", "ca", "cs", "da", "de", "el", "en-gb", "en-us", "es", "es-ar", "es-mx", "fa", "fi", "fr", "fr-ca", "gsw", "he", "hi-in", "hr", "hu", "id", "it", "kk", "ko", "lt-lt", "ms", "nb", "nl", "pl", "pt-br", "pt-pt", "ro", "ru", "sk", "sl-si", "sv", "tr", "uk", "vi", "zh-cn", "zh-hk", "zh-tw"];
+        var translations = languages.map(function (language) {
+            return {
+                lang: language,
+                path: "strings/" + language + ".json"
             };
         });
-        define("appRouter", ["components/appRouter", "itemHelper"], function (appRouter, itemHelper) {
-            function showItem(item, serverId, options) {
-                if ("string" == typeof item) {
-                    require(["connectionManager"], function (connectionManager) {
-                        var apiClient = connectionManager.currentApiClient();
-                        apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
-                            appRouter.showItem(item, options);
-                        });
-                    });
-                } else {
-                    if (2 == arguments.length) {
-                        options = arguments[1];
-                    }
+        globalize.defaultModule("core");
+        return globalize.loadStrings({
+            name: "core",
+            translations: translations
+        });
+    }
 
-                    appRouter.show("/" + appRouter.getRouteUrl(item, options), {
-                        item: item
-                    });
-                }
+    function onGlobalizeInit(browser) {
+        if ("android" === self.appMode) {
+            if (-1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync")) {
+                return onAppReady(browser);
+            }
+        }
+
+        document.title = Globalize.translateDocument(document.title, "core");
+
+        if (browser.tv && !browser.android) {
+            console.log("Using system fonts with explicit sizes");
+            require(["css!assets/css/fonts.sized.css"]);
+        } else {
+            console.log("Using default fonts");
+            require(["css!assets/css/fonts.css"]);
+        }
+
+        require(["apphost", "css!assets/css/librarybrowser"], function (appHost) {
+            loadPlugins(appHost, browser).then(function () {
+                onAppReady(browser);
+            });
+        });
+    }
+
+    function loadPlugins(appHost, browser, shell) {
+        console.log("Loading installed plugins");
+        var list = [
+            "components/playback/playaccessvalidation",
+            "components/playback/experimentalwarnings",
+            "components/htmlaudioplayer/plugin",
+            "components/htmlvideoplayer/plugin",
+            "components/photoplayer/plugin",
+            "components/youtubeplayer/plugin",
+            "components/backdropscreensaver/plugin",
+            "components/logoscreensaver/plugin"
+        ];
+
+        if (appHost.supports("remotecontrol")) {
+            list.push("components/sessionplayer");
+
+            if (browser.chrome || browser.opera) {
+                list.push("components/chromecast/chromecastplayer");
+            }
+        }
+
+        if (window.NativeShell) {
+            list = list.concat(window.NativeShell.getPlugins());
+        }
+
+        return new Promise(function (resolve, reject) {
+            Promise.all(list.map(loadPlugin)).then(function () {
+                require(["packageManager"], function (packageManager) {
+                    packageManager.init().then(resolve, reject);
+                });
+            }, reject);
+        });
+    }
+
+    function loadPlugin(url) {
+        return new Promise(function (resolve, reject) {
+            require(["pluginManager"], function (pluginManager) {
+                pluginManager.loadPlugin(url).then(resolve, reject);
+            });
+        });
+    }
+
+    function onAppReady(browser) {
+        console.log("Begin onAppReady");
+
+        // ensure that appHost is loaded in this point
+        require(['apphost', 'appRouter'], function (appHost, appRouter) {
+            window.Emby = {};
+
+            console.log("onAppReady - loading dependencies");
+            if (browser.iOS) {
+                require(['css!assets/css/ios.css']);
             }
 
-            appRouter.showLocalLogin = function (serverId, manualLogin) {
-                Dashboard.navigate("login.html?serverid=" + serverId);
-            };
+            window.Emby.Page = appRouter;
 
-            appRouter.showVideoOsd = function () {
-                return Dashboard.navigate("videoosd.html");
-            };
+            require(['emby-button', 'scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
+                Emby.Page.start({
+                    click: false,
+                    hashbang: true
+                });
 
-            appRouter.showSelectServer = function () {
-                Dashboard.navigate(AppInfo.isNativeApp ? "selectserver.html" : "login.html");
-            };
+                require(["components/thememediaplayer", "scripts/autobackdrops"]);
 
-            appRouter.showWelcome = function () {
-                Dashboard.navigate(AppInfo.isNativeApp ? "selectserver.html" : "login.html");
-            };
-
-            appRouter.showSettings = function () {
-                Dashboard.navigate("mypreferencesmenu.html");
-            };
-
-            appRouter.showGuide = function () {
-                Dashboard.navigate("livetv.html?tab=1");
-            };
-
-            appRouter.goHome = function () {
-                Dashboard.navigate("home.html");
-            };
-
-            appRouter.showSearch = function () {
-                Dashboard.navigate("search.html");
-            };
-
-            appRouter.showLiveTV = function () {
-                Dashboard.navigate("livetv.html");
-            };
-
-            appRouter.showRecordedTV = function () {
-                Dashboard.navigate("livetv.html?tab=3");
-            };
-
-            appRouter.showFavorites = function () {
-                Dashboard.navigate("home.html?tab=1");
-            };
-
-            appRouter.showSettings = function () {
-                Dashboard.navigate("mypreferencesmenu.html");
-            };
-
-            appRouter.setTitle = function (title) {
-                LibraryMenu.setTitle(title);
-            };
-
-            appRouter.getRouteUrl = function (item, options) {
-                if (!item) {
-                    throw new Error("item cannot be null");
+                if (!browser.tv && !browser.xboxOne && !browser.ps4) {
+                    require(["components/nowplayingbar/nowplayingbar"]);
                 }
 
-                if (item.url) {
-                    return item.url;
+                if (appHost.supports("remotecontrol")) {
+                    require(["playerSelectionMenu", "components/playback/remotecontrolautoplay"]);
                 }
 
-                var context = options ? options.context : null;
-                var id = item.Id || item.ItemId;
+                require(["components/screensavermanager"]);
 
-                if (!options) {
-                    options = {};
+                if (!appHost.supports("physicalvolumecontrol") || browser.touch) {
+                    require(["components/playback/volumeosd"]);
                 }
 
-                var url;
-                var itemType = item.Type || (options ? options.itemType : null);
-                var serverId = item.ServerId || options.serverId;
+                require(["mediaSession", "serverNotifications"]);
 
-                if ("settings" === item) {
-                    return "mypreferencesmenu.html";
-                }
+                if (!browser.tv && !browser.xboxOne) {
+                    require(["components/playback/playbackorientation"]);
+                    registerServiceWorker();
 
-                if ("wizard" === item) {
-                    return "wizardstart.html";
-                }
-
-                if ("manageserver" === item) {
-                    return "dashboard.html";
-                }
-
-                if ("recordedtv" === item) {
-                    return "livetv.html?tab=3&serverId=" + options.serverId;
-                }
-
-                if ("nextup" === item) {
-                    return "list.html?type=nextup&serverId=" + options.serverId;
-                }
-
-                if ("list" === item) {
-                    var url = "list.html?serverId=" + options.serverId + "&type=" + options.itemTypes;
-
-                    if (options.isFavorite) {
-                        url += "&IsFavorite=true";
-                    }
-
-                    return url;
-                }
-
-                if ("livetv" === item) {
-                    if ("programs" === options.section) {
-                        return "livetv.html?tab=0&serverId=" + options.serverId;
-                    }
-                    if ("guide" === options.section) {
-                        return "livetv.html?tab=1&serverId=" + options.serverId;
-                    }
-
-                    if ("movies" === options.section) {
-                        return "list.html?type=Programs&IsMovie=true&serverId=" + options.serverId;
-                    }
-
-                    if ("shows" === options.section) {
-                        return "list.html?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=" + options.serverId;
-                    }
-
-                    if ("sports" === options.section) {
-                        return "list.html?type=Programs&IsSports=true&serverId=" + options.serverId;
-                    }
-
-                    if ("kids" === options.section) {
-                        return "list.html?type=Programs&IsKids=true&serverId=" + options.serverId;
-                    }
-
-                    if ("news" === options.section) {
-                        return "list.html?type=Programs&IsNews=true&serverId=" + options.serverId;
-                    }
-
-                    if ("onnow" === options.section) {
-                        return "list.html?type=Programs&IsAiring=true&serverId=" + options.serverId;
-                    }
-
-                    if ("dvrschedule" === options.section) {
-                        return "livetv.html?tab=4&serverId=" + options.serverId;
-                    }
-
-                    if ("seriesrecording" === options.section) {
-                        return "livetv.html?tab=5&serverId=" + options.serverId;
-                    }
-
-                    return "livetv.html?serverId=" + options.serverId;
-                }
-
-                if ("SeriesTimer" == itemType) {
-                    return "itemdetails.html?seriesTimerId=" + id + "&serverId=" + serverId;
-                }
-
-                if ("livetv" == item.CollectionType) {
-                    return "livetv.html";
-                }
-
-                if ("Genre" === item.Type) {
-                    url = "list.html?genreId=" + item.Id + "&serverId=" + serverId;
-
-                    if ("livetv" === context) {
-                        url += "&type=Programs";
-                    }
-
-                    if (options.parentId) {
-                        url += "&parentId=" + options.parentId;
-                    }
-
-                    return url;
-                }
-
-                if ("MusicGenre" === item.Type) {
-                    url = "list.html?musicGenreId=" + item.Id + "&serverId=" + serverId;
-
-                    if (options.parentId) {
-                        url += "&parentId=" + options.parentId;
-                    }
-
-                    return url;
-                }
-
-                if ("Studio" === item.Type) {
-                    url = "list.html?studioId=" + item.Id + "&serverId=" + serverId;
-
-                    if (options.parentId) {
-                        url += "&parentId=" + options.parentId;
-                    }
-
-                    return url;
-                }
-
-                if ("folders" !== context && !itemHelper.isLocalItem(item)) {
-                    if ("movies" == item.CollectionType) {
-                        url = "movies.html?topParentId=" + item.Id;
-
-                        if (options && "latest" === options.section) {
-                            url += "&tab=1";
-                        }
-
-                        return url;
-                    }
-
-                    if ("tvshows" == item.CollectionType) {
-                        url = "tv.html?topParentId=" + item.Id;
-
-                        if (options && "latest" === options.section) {
-                            url += "&tab=2";
-                        }
-
-                        return url;
-                    }
-
-                    if ("music" == item.CollectionType) {
-                        return "music.html?topParentId=" + item.Id;
+                    if (window.Notification) {
+                        require(["components/notifications/notifications"]);
                     }
                 }
 
-                var itemTypes = ["Playlist", "TvChannel", "Program", "BoxSet", "MusicAlbum", "MusicGenre", "Person", "Recording", "MusicArtist"];
+                require(["playerSelectionMenu", "fullscreenManager"]);
 
-                if (itemTypes.indexOf(itemType) >= 0) {
-                    return "itemdetails.html?id=" + id + "&serverId=" + serverId;
+                if (!AppInfo.isNativeApp && window.ApiClient) {
+                    require(["css!" + ApiClient.getUrl("Branding/Css")]);
                 }
-
-                var contextSuffix = context ? "&context=" + context : "";
-
-                if ("Series" == itemType || "Season" == itemType || "Episode" == itemType) {
-                    return "itemdetails.html?id=" + id + contextSuffix + "&serverId=" + serverId;
-                }
-
-                if (item.IsFolder) {
-                    if (id) {
-                        return "list.html?parentId=" + id + "&serverId=" + serverId;
-                    }
-
-                    return "#";
-                }
-
-                return "itemdetails.html?id=" + id + "&serverId=" + serverId;
-            };
-
-            appRouter.showItem = showItem;
-            return appRouter;
+            });
         });
-    })();
+    }
+
+    function registerServiceWorker() {
+        if (navigator.serviceWorker && "cordova" !== self.appMode && "android" !== self.appMode) {
+            try {
+                navigator.serviceWorker.register("serviceworker.js");
+            } catch (err) {
+                console.log("Error registering serviceWorker: " + err);
+            }
+        }
+    }
+
+    initRequire();
+
+    function onWebComponentsReady(browser) {
+
+        if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
+            AppInfo.isNativeApp = true;
+        }
+
+        if (!window.Promise || browser.web0s) {
+            require(["native-promise-only"], init);
+        } else {
+            init();
+        }
+    }
 
     return require(["browser"], onWebComponentsReady);
 }();
