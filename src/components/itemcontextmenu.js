@@ -351,10 +351,22 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                             toast(globalize.translate("CopyStreamURLSuccess"));
                         });
                     }, function () {
-                        prompt(globalize.translate("CopyStreamURL"), downloadHref);
-                        require(["toast"], function (toast) {
-                            toast(globalize.translate("CopyStreamURLSuccess"));
-                        });
+                        var textArea = document.createElement("textarea");
+                        textArea.value = downloadHref;
+                        document.body.appendChild(textArea);
+                        textArea.focus();
+                        textArea.select();
+                        if (document.execCommand("copy")) {
+                            require(["toast"], function (toast) {
+                                toast(globalize.translate("CopyStreamURLSuccess"));
+                            });
+                        } else {
+                            prompt(globalize.translate("CopyStreamURL"), downloadHref);
+                            require(["toast"], function (toast) {
+                                toast(globalize.translate("CopyStreamURLSuccess"));
+                            });
+                        }
+                        document.body.removeChild(textArea);
                     });
                     getResolveFunction(resolve, id)();
                     break;
