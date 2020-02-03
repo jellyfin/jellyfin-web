@@ -102,3 +102,8 @@ var material_icons = require("material-design-icons-iconfont/dist/material-desig
 _define("material-icons", function() {
     return material_icons;
 });
+
+var jellyfin_noto = require("jellyfin-noto");
+_define("jellyfin-noto", function () {
+    return jellyfin_noto;
+});
