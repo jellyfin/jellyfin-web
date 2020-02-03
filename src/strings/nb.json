@@ -1454,5 +1454,9 @@
     "Raised": "Hevet",
     "ButtonSplit": "Del opp",
     "SelectAdminUsername": "Vennligst velg et brukernavn for administrator-kontoen.",
-    "HeaderNavigation": "Navigering"
+    "HeaderNavigation": "Navigering",
+    "MessageConfirmAppExit": "Vil du avslutte?",
+    "EnableFastImageFadeInHelp": "Bruk rask inntoning av animasjon for lastede bilder",
+    "EnableFastImageFadeIn": "Rask bilde inntoning",
+    "CopyStreamURLError": "Det var en feil under kopiering av URL'en."
 }
