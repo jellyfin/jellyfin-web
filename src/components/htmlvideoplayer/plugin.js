@@ -1,4 +1,4 @@
-define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', 'htmlMediaHelper', 'itemHelper', 'fullscreenManager'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper, fullscreenManager) {
+define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', 'htmlMediaHelper', 'itemHelper', 'fullscreenManager', 'globalize'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper, fullscreenManager, globalize) {
     "use strict";
 
     var mediaManager;
@@ -1855,7 +1855,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             if (protocol) {
                 mediaCategory.stats.push({
-                    label: 'Protocol:',
+                    label: globalize.translate("LabelProtocol"),
                     value: protocol
                 });
             }
@@ -1865,12 +1865,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         if (this._hlsPlayer || this._shakaPlayer) {
             mediaCategory.stats.push({
-                label: 'Stream type:',
+                label: globalize.translate("LabelStreamType"),
                 value: 'HLS'
             });
         } else {
             mediaCategory.stats.push({
-                label: 'Stream type:',
+                label: globalize.translate("LabelStreamType"),
                 value: 'Video'
             });
         }
@@ -1882,13 +1882,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         categories.push(videoCategory);
 
         var rect = mediaElement.getBoundingClientRect ? mediaElement.getBoundingClientRect() : {};
-        var height = rect.height;
-        var width = rect.width;
+        var height = parseInt(rect.height);
+        var width = parseInt(rect.width);
 
         // Don't show player dimensions on smart TVs because the app UI could be lower resolution than the video and this causes users to think there is a problem
         if (width && height && !browser.tv) {
             videoCategory.stats.push({
-                label: 'Player dimensions:',
+                label: globalize.translate("LabelPlayerDimensions"),
                 value: width + 'x' + height
             });
         }
@@ -1898,7 +1898,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         if (width && height) {
             videoCategory.stats.push({
-                label: 'Video resolution:',
+                label: globalize.translate("LabelVideoResolution"),
                 value: width + 'x' + height
             });
         }
@@ -1908,13 +1908,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             var droppedVideoFrames = playbackQuality.droppedVideoFrames || 0;
             videoCategory.stats.push({
-                label: 'Dropped frames:',
+                label: globalize.translate("LabelDroppedFrames"),
                 value: droppedVideoFrames
             });
 
             var corruptedVideoFrames = playbackQuality.corruptedVideoFrames || 0;
             videoCategory.stats.push({
-                label: 'Corrupted frames:',
+                label: globalize.translate("LabelCorruptedFrames"),
                 value: corruptedVideoFrames
             });
         }
