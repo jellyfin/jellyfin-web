@@ -392,20 +392,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
      * Returns true if scroll manager is enabled.
      */
     var isEnabled = function() {
-
-        if (!layoutManager.tv) {
-            return false;
-        }
-
-        if (browser.tizen) {
-            return true;
-        }
-
-        if (browser.web0s) {
-            return true;
-        }
-
-        return false;
+        return layoutManager.tv;
     };
 
     /**
