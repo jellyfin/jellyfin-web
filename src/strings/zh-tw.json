@@ -1369,7 +1369,7 @@
     "LabelUserLibraryHelp": "選擇在裝置上顯示的使用者媒體庫，留空則使用預設設定值。",
     "LabelUserLoginAttemptsBeforeLockout": "使用者被封鎖前可嘗試的次數：",
     "LabelVaapiDeviceHelp": "此渲染節點用來硬體加速。",
-    "LabelWeb": "網站： ",
+    "LabelWeb": "網站：",
     "LabelXDlnaCapHelp": "決定在 urn:schemas-dlna-org:device-1-0 namespace 中的 X_DLNACAP 元素的內容。",
     "LabelXDlnaDocHelp": "決定在 urn:schemas-dlna-org:device-1-0 namespace 中的 X-Dlna doc 元素的內容。",
     "LaunchWebAppOnStartup": "在啟動伺服器時啟動使用者介面",
@@ -1624,5 +1624,9 @@
     "PlaceFavoriteChannelsAtBeginning": "將喜愛的頻道置頂",
     "PlaybackData": "恢復播放資料",
     "OptionRandom": "隨機",
-    "HeaderFavoritePeople": "最愛人物"
+    "HeaderFavoritePeople": "最愛人物",
+    "XmlDocumentAttributeListHelp": "這些屬性會在每一個XML回應的根元素上應用。",
+    "SkipEpisodesAlreadyInMyLibraryHelp": "劇集將使用季和劇集編號進行比較。",
+    "SelectAdminUsername": "請為管理員賬戶選擇一個用戶名。",
+    "CopyStreamURLError": "複製網址的時候發生錯誤."
 }

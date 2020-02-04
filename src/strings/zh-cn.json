@@ -506,6 +506,7 @@
     "LabelCollection": "收藏：",
     "LabelCommunityRating": "公众评分：",
     "LabelContentType": "内容类型：",
+    "LabelCorruptedFrames": "损坏的帧:",
     "LabelCountry": "国家：",
     "LabelCriticRating": "影评人评分：",
     "LabelCurrentPassword": "当前密码：",
@@ -540,6 +541,7 @@
     "LabelDownMixAudioScaleHelp": "缩混音频增强。值为A将保留原来的音量。",
     "LabelDownloadLanguages": "下载语言：",
     "LabelDropImageHere": "拖拽或点击选择图像于此处。",
+    "LabelDroppedFrames": "丢弃的帧:",
     "LabelDropShadow": "阴影：",
     "LabelDynamicExternalId": "{0} Id：",
     "LabelEasyPinCode": "简易PIN码：",
@@ -681,6 +683,7 @@
     "LabelPersonRole": "角色：",
     "LabelPlaceOfBirth": "出生地：",
     "LabelPlayDefaultAudioTrack": "播放默认音轨无论是什么语言",
+    "LabelPlayerDimensions": "播放器尺寸:",
     "LabelPlaylist": "播放列表：",
     "LabelPostProcessor": "后处理应用程序:",
     "LabelPostProcessorArguments": "处理器后命令行参数:",
@@ -746,6 +749,7 @@
     "LabelStatus": "状态：",
     "LabelStopWhenPossible": "当可能时自动停止：",
     "LabelStopping": "停止",
+    "LabelStreamType": "串流类型:",
     "LabelSubtitleDownloaders": "字幕下载器：",
     "LabelSubtitleFormatHelp": "例如：SRT",
     "LabelSubtitlePlaybackMode": "字幕模式：",
@@ -787,6 +791,7 @@
     "LabelVersion": "版本：",
     "LabelVersionInstalled": "{0} 已安装",
     "LabelVersionNumber": "版本 {0}",
+    "LabelVideoResolution": "视频分辨率:",
     "LabelXDlnaCap": "X-DLNA CAP：",
     "LabelXDlnaCapHelp": "决定在 urn:schemas-dlna-org:device-1-0 namespace 中的 X_DLNACAP 元素的内容。",
     "LabelXDlnaDoc": "X-DLNA DOC：",
@@ -1459,5 +1464,6 @@
     "OptionRandom": "随机",
     "ButtonSplit": "拆分",
     "SelectAdminUsername": "请为管理员账户选择一个用户名。",
-    "HeaderNavigation": "导航"
+    "HeaderNavigation": "导航",
+    "CopyStreamURLError": "复制URL地址时发生错误。"
 }

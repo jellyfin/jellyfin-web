@@ -1461,5 +1461,9 @@
     "OptionRandom": "Aleatorio",
     "SelectAdminUsername": "Por favor seleccione un nombre de usuario para la cuenta de administrador.",
     "ButtonSplit": "Dividir",
-    "HeaderNavigation": "Navegación"
+    "HeaderNavigation": "Navegación",
+    "MessageConfirmAppExit": "¿Quieres salir?",
+    "EnableFastImageFadeInHelp": "Las imágenes que hayan terminado de cargarse mostrarán una pequeña animación",
+    "EnableFastImageFadeIn": "Cargar las imágenes suavemente",
+    "CopyStreamURLError": "Ha habido un error copiando la dirección."
 }
