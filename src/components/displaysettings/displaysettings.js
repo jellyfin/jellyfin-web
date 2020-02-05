@@ -180,6 +180,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
         context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
         context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
+        context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
         context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
 
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
@@ -216,6 +217,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
         userSettingsInstance.skin(context.querySelector('.selectSkin').value);
 
+        userSettingsInstance.enableFastFadein(context.querySelector('#chkFadein').checked);
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
 
         if (user.Id === apiClient.getCurrentUserId()) {

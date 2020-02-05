@@ -595,7 +595,7 @@
     "LabelIconMaxHeight": "Altezza icona massima:",
     "LabelIconMaxHeightHelp": "Risoluzione massima delle icone inviate tramite upnp:icon.",
     "LabelIconMaxWidth": "Larghezza massima icona:",
-    "LabelIconMaxWidthHelp": "Risoluzione massima delle icone inviate tramite upnp:icon.",
+    "LabelIconMaxWidthHelp": "Risoluzione massima delle icone esposte tramite upnp:icon.",
     "LabelIdentificationFieldHelp": "Una stringa o espressione regex sensibile a maiuscole e minuscole.",
     "LabelImageFetchersHelp": "Abilitare e classificare i tuoi Fetchers immagini preferite in ordine di priorità.",
     "LabelImageType": "Tipo immagine:",
@@ -607,7 +607,7 @@
     "LabelKidsCategories": "Categorie bambini:",
     "LabelKodiMetadataDateFormat": "Data di uscita Formato:",
     "LabelKodiMetadataDateFormatHelp": "Tutte le date all'interno dei files NFO verranno analizzate utilizzando questo formato.",
-    "LabelKodiMetadataEnableExtraThumbs": "Copia extrafanart in extrathumbs",
+    "LabelKodiMetadataEnableExtraThumbs": "Copia extrafanart nel campo extrathumbs",
     "LabelKodiMetadataEnableExtraThumbsHelp": "Copia extrafanart in extrathumbs",
     "LabelKodiMetadataEnablePathSubstitution": "Abilita sostituzione di percorso",
     "LabelKodiMetadataEnablePathSubstitutionHelp": "Consente percorso sostituzione dei percorsi delle immagini utilizzando le impostazioni di sostituzione percorso del server.",
@@ -1456,5 +1456,7 @@
     "OptionRandom": "Casuale",
     "MessageConfirmAppExit": "Vuoi uscire?",
     "HeaderNavigation": "Navigazione",
-    "CopyStreamURLError": "Si è verificato un errore nel copiare l'indirizzo."
+    "CopyStreamURLError": "Si è verificato un errore nel copiare l'indirizzo.",
+    "EnableFastImageFadeInHelp": "Abilita la dissolvenza veloce per le immagini caricate",
+    "EnableFastImageFadeIn": "Dissolvenza immagine veloce"
 }

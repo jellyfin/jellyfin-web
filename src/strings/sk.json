@@ -1455,5 +1455,14 @@
     "HeaderDirectPlayProfileHelp": "Pridať direct play profil pre definovanie, ktorý formát môže zariadenie natívne zvládnuť.",
     "LabelInNetworkSignInWithEasyPasswordHelp": "Použite jednoduchý PIN kód na prihlásenie v klientoch vo vnútri lokálnej siete. Vaše bežné heslo bude potrebné len pokiaľ ste mimo domova. Pokiaľ je PIN kód ponechaný prázdny, tak nebude potrebovať heslo vo vašej domácej sieti.",
     "EasyPasswordHelp": "Váš jednoduchý PIN kód sa dá používať v režime offline na podporovaných zariadeniach a taktiež môže byť použitý ako jednoduché prihlásenie v lokálnej sieti.",
-    "HeaderNavigation": "Navigácia"
+    "HeaderNavigation": "Navigácia",
+    "MessageConfirmAppExit": "Chceli by ste odísiť?",
+    "LabelVideoResolution": "Rozlíšenie videa:",
+    "LabelStreamType": "Typ streamu:",
+    "EnableFastImageFadeInHelp": "Povoliť animáciu rýchleho rozjasnenia pre nahrané obrázky",
+    "EnableFastImageFadeIn": "Rýchle rozjasnenie obrázku",
+    "LabelPlayerDimensions": "Rozmery prehrávača:",
+    "LabelDroppedFrames": "Vynechané snímky:",
+    "LabelCorruptedFrames": "Poškodené snímky:",
+    "CopyStreamURLError": "Pri kopírovaní URL nastala chyba."
 }
