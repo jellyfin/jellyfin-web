@@ -276,7 +276,7 @@ a[data-role=button] {
 }
 
 @supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
-    .appfooter-blurred {
+    .appfooter {
         background: rgba(6, 37, 111, 0.7);
         backdrop-filter: blur(20px);
     }
@@ -321,7 +321,10 @@ a[data-role=button] {
     border-color: #48c3c8;
 }
 
-.button-flat-accent,
+.button-flat:hover {
+    color: #48c3c8;
+}
+
 .button-link {
     color: #48c3c8;
 }

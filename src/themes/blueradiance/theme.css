@@ -182,7 +182,7 @@ html {
 }
 
 @supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
-    .appfooter-blurred {
+    .appfooter {
         background: rgba(1, 2, 50, 0.7);
         backdrop-filter: blur(20px);
     }
@@ -233,7 +233,10 @@ html {
     border-color: #00a4dc;
 }
 
-.button-flat-accent,
+.button-flat:hover {
+    color: #00a4dc;
+}
+
 .button-link {
     color: #00a4dc;
 }
