@@ -12,7 +12,7 @@ define(["jQuery", "loading", "globalize", "dom", "libraryMenu"], function ($, lo
         page.querySelector(".txtEncoderPath").value = config.EncoderAppPathDisplay || "";
         $("#txtTranscodingTempPath", page).val(systemInfo.TranscodingTempPath || "");
         $("#txtVaapiDevice", page).val(config.VaapiDevice || "");
-        page.querySelector("#selectH264Preset").value = config.H264Preset || "";
+        page.querySelector("#selectEncoderPreset").value = config.EncoderPreset || "";
         page.querySelector("#txtH264Crf").value = config.H264Crf || "";
         page.querySelector("#chkEnableSubtitleExtraction").checked = config.EnableSubtitleExtraction || false;
         page.querySelector("#selectVideoDecoder").dispatchEvent(new CustomEvent("change", {
@@ -55,7 +55,7 @@ define(["jQuery", "loading", "globalize", "dom", "libraryMenu"], function ($, lo
                 config.EncodingThreadCount = $("#selectThreadCount", form).val();
                 config.HardwareAccelerationType = $("#selectVideoDecoder", form).val();
                 config.VaapiDevice = $("#txtVaapiDevice", form).val();
-                config.H264Preset = form.querySelector("#selectH264Preset").value;
+                config.EncoderPreset = form.querySelector("#selectEncoderPreset").value;
                 config.H264Crf = parseInt(form.querySelector("#txtH264Crf").value || "0");
                 config.EnableSubtitleExtraction = form.querySelector("#chkEnableSubtitleExtraction").checked;
                 config.HardwareDecodingCodecs = Array.prototype.map.call(Array.prototype.filter.call(form.querySelectorAll(".chkDecodeCodec"), function (c) {
