@@ -191,36 +191,14 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
             events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
         }
     }
-
     function bindEvents(apiClient) {
         events.off(apiClient, "message", onMessageReceived);
         events.on(apiClient, "message", onMessageReceived);
-    }
-
-    function attachgamepad(e) {
-        if (navigator.getGamepads.length > 0) {
-            require(["components/serverNotifications/gamepadtokey"]);
-            console.log("Gamepad connected! Attaching gamepadtokey.js script");
-        }
-    }
-
-    function dettachgamepad(e) {
-        delete require.cache[require(["components/serverNotifications/gamepadtokey"])];
-        console.log("Gamepad disconnected! Dettaching gamepadtokey.js");
     }
 
     connectionManager.getApiClients().forEach(bindEvents);
     events.on(connectionManager, 'apiclientcreated', function (e, newApiClient) {
         bindEvents(newApiClient);
     });
-    if (navigator.getGamepads()[0] != null) {
-        require(["components/serverNotifications/gamepadtokey"]);
-        console.log("Gamepad connected! Attaching gamepadtokey.js script");
-        window.addEventListener("gamepaddisconnected", dettachgamepad);
-    } else {
-        window.addEventListener("gamepadconnected", attachgamepad);
-        console.log("No gamepad connected to this device");
-    }
-    // require(["components/serverNotifications/mouseManager"]);
     return serverNotifications;
 });

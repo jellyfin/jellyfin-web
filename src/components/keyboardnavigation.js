@@ -126,6 +126,45 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
         });
     }
 
+    function isGamepadConnected() {
+        var gamepads = navigator.getGamepads();
+        var i, len;
+        for (i = 0, len = gamepads.length; i < len; i++) {
+            var gamepad = gamepads[i];
+            if (gamepad) {
+                console.log(gamepad);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function attachGamepad(e) {
+        if (isGamepadConnected()) {
+            require(["components/input/gamepadtokey"]);
+            console.log("Gamepad connected! Attaching gamepadtokey.js script");
+        }
+    }
+
+    function dettachGamepad(e) {
+        if (!isGamepadConnected()) {
+            delete require.cache[require(["components/input/gamepadtokey"])];
+            console.log("Gamepad disconnected! No other gamepads are connected, dettaching gamepadtokey.js");
+        } else {
+            console.log("Gamepad disconnected! There are gamepads still connected.");
+        }
+    }
+    
+    if (isGamepadConnected()) {
+        console.log("Gamepad connected! Attaching gamepadtokey.js script");
+    } else {
+        console.log("No gamepad connected to this device");
+    }
+    // No need to check for gamepads manually at load time, the eventhandler will be fired at load time as well
+    window.addEventListener("gamepaddisconnected", dettachGamepad);
+    window.addEventListener("gamepadconnected", attachGamepad);
+    require(["components/input/mouseManager"]);
+
     return {
         enable: enable,
         getKeyName: getKeyName
