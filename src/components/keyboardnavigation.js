@@ -128,7 +128,8 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
 
     function isGamepadConnected() {
         var gamepads = navigator.getGamepads();
-        var i, len;
+        var i;
+        var len;
         for (i = 0, len = gamepads.length; i < len; i++) {
             var gamepad = gamepads[i];
             if (gamepad) {
@@ -154,7 +155,7 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
             console.log("Gamepad disconnected! There are gamepads still connected.");
         }
     }
-    
+
     if (isGamepadConnected()) {
         console.log("Gamepad connected! Attaching gamepadtokey.js script");
     } else {
