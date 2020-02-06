@@ -246,10 +246,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
                 html += '<div class="sessionNowPlayingInnerContent">';
                 html += '<div class="sessionAppInfo">';
-                var clientImage = DashboardPage.getClientImage({
-                    AppName: session.Client,
-                    Name: session.DeviceName
-                });
+                var clientImage = DashboardPage.getClientImage(session);
 
                 if (clientImage) {
                     html += clientImage;
