@@ -499,7 +499,7 @@
     align-items: center;
     align-content: center;
     position: sticky;
-    top: 8%;
+    top: 56px;
     z-index: 2;
 }
 
