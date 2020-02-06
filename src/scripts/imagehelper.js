@@ -3,7 +3,7 @@ define(["browser"], function (browser) {
 
     function getDeviceIcon(device) {
         var baseUrl = "assets/img/devices/";
-        switch (device.AppName) {
+        switch (device.AppName || device.Client) {
             case "Samsung Smart TV":
                 return baseUrl + "samsung.svg";
             case "Xbox One":
@@ -15,7 +15,7 @@ define(["browser"], function (browser) {
             case "Jellyfin Android":
                 return baseUrl + "android.svg";
             case "Jellyfin Web":
-                switch (device.Name) {
+                switch (device.Name || device.DeviceName) {
                     case "Opera":
                     case "Opera TV":
                     case "Opera Android":
