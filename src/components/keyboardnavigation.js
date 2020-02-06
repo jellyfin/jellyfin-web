@@ -156,12 +156,7 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
         }
     }
 
-    if (isGamepadConnected()) {
-        console.log("Gamepad connected! Attaching gamepadtokey.js script");
-    } else {
-        console.log("No gamepad connected to this device");
-    }
-    // No need to check for gamepads manually at load time, the eventhandler will be fired at load time as well
+    // No need to check for gamepads manually at load time, the eventhandler will be fired for that
     window.addEventListener("gamepaddisconnected", dettachGamepad);
     window.addEventListener("gamepadconnected", attachGamepad);
     require(["components/input/mouseManager"]);
