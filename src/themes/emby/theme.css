@@ -194,6 +194,10 @@ html {
     background: rgba(30, 30, 30, 0.9);
 }
 
+.detailSticky {
+    background-color: #1f1f1f;
+}
+
 .listItem-border {
     border-color: rgba(34, 34, 34, 0.9) !important;
 }

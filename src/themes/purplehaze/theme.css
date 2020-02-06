@@ -309,6 +309,13 @@ a[data-role=button] {
     background: rgba(30, 30, 30, 0.9);
 }
 
+.detailSticky {
+    background: #000420;
+    background: -moz-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
+    background: -webkit-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
+    background: linear-gradient(to right, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
+}
+
 .listItem-border {
     border-color: rgba(255, 255, 255, 0.1) !important;
 }

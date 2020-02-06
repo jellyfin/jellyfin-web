@@ -221,6 +221,14 @@ html {
     background: rgba(30, 30, 30, 0.9);
 }
 
+.detailSticky {
+    background: #303030;
+    background: -webkit-gradient(linear, left top, right top, from(#291a31), color-stop(#033664), color-stop(#011432), color-stop(#141a3a), to(#291a31));
+    background: -webkit-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
+    background: -o-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
+    background: linear-gradient(to right, #291a31, #033664, #011432, #141a3a, #291a31);
+}
+
 .listItem-border {
     border-color: rgba(255, 255, 255, 0.1) !important;
 }

@@ -207,6 +207,14 @@ html {
     background: rgba(0, 0, 0, 0.3);
 }
 
+.detailSticky {
+    background: -webkit-gradient(linear, left top, left bottom, from(#0c2450), to(#081b3b));
+    background: -webkit-linear-gradient(top, #0c2450, #081b3b);
+    background: -o-linear-gradient(top, #0c2450, #081b3b);
+    background: linear-gradient(to bottom, #0c2450, #081b3b);
+    background-color: #0c2450;
+}
+
 .listItem-border {
     border-color: rgba(0, 0, 0, 0.3) !important;
 }

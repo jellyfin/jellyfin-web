@@ -229,6 +229,15 @@ html {
     background: rgba(0, 0, 0, 0.1);
 }
 
+.detailSticky {
+    color: rgba(0, 0, 0, 0.7);
+    background: #303030;
+    background: -webkit-gradient(linear, left top, right top, from(#bcbcbc), color-stop(#a7b4b7), color-stop(#beb5a5), color-stop(#adbec2), to(#b9c7cb));
+    background: -webkit-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
+    background: -o-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
+    background: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
+}
+
 .listItem-border {
     border-color: rgba(0, 0, 0, 0.1) !important;
 }
