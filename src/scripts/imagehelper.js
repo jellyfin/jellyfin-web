@@ -18,15 +18,22 @@ define(["browser"], function (browser) {
                 switch (device.Name) {
                     case "Opera":
                     case "Opera TV":
+                    case "Opera Android":
                         return baseUrl + "opera.svg";
                     case "Chrome":
+                    case "Chrome Android":
                         return baseUrl + "chrome.svg";
                     case "Firefox":
+                    case "Firefox Android":
                         return baseUrl + "firefox.svg";
                     case "Edge":
                         return baseUrl + "edge.svg";
                     case "Internet Explorer":
                         return baseUrl + "msie.svg";
+                    case "Safari":
+                    case "Safari iPad":
+                    case "Safari iPhone":
+                        return baseUrl + "safari.svg";
                     default:
                         return baseUrl + "html5.svg";
                 }
