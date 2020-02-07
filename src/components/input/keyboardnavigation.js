@@ -128,12 +128,9 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
 
     function isGamepadConnected() {
         var gamepads = navigator.getGamepads();
-        var i;
-        var len;
-        for (i = 0, len = gamepads.length; i < len; i++) {
+        for (var i = 0, len = gamepads.length; i < len; i++) {
             var gamepad = gamepads[i];
             if (gamepad) {
-                console.log(gamepad);
                 return true;
             }
         }
@@ -149,7 +146,6 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
 
     function dettachGamepad(e) {
         if (!isGamepadConnected()) {
-            delete require.cache[require(["components/input/gamepadtokey"])];
             console.log("Gamepad disconnected! No other gamepads are connected, dettaching gamepadtokey.js");
         } else {
             console.log("Gamepad disconnected! There are gamepads still connected.");

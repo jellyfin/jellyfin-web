@@ -253,13 +253,13 @@ require(['apphost'], function (appHost) {
 
     function runInputLoop() {
         // Get the latest gamepad state.
-        var gamepads;
-        gamepads = navigator.getGamepads();
-        var i;
-        var j;
-        var len;
-        for (i = 0, len = gamepads.length; i < len; i++) {
+        var gamepads = navigator.getGamepads();
+        for (var i = 0, len = gamepads.length; i < len; i++) {
             var gamepad = gamepads[i];
+            if (!gamepad)
+            {
+                return;
+            }
             // Iterate through the axes
             var axes = gamepad.axes;
             var leftStickX = axes[0];
@@ -280,6 +280,7 @@ require(['apphost'], function (appHost) {
             }
             // Iterate through the buttons to see if Left thumbstick, DPad, A and B are pressed.
             var buttons = gamepad.buttons;
+            var j;
             for (j = 0, len = buttons.length; j < len; j++) {
                 if (ProcessedButtons.indexOf(j) !== -1) {
                     if (buttons[j].pressed) {
