@@ -1455,5 +1455,13 @@
     "OptionRandom": "Случайный",
     "ButtonSplit": "Разделить",
     "SelectAdminUsername": "Выберите имя пользователя для учётной записи администратора.",
-    "HeaderNavigation": "Навигация"
+    "HeaderNavigation": "Навигация",
+    "LabelVideoResolution": "Разрешение видео:",
+    "LabelStreamType": "Тип потока:",
+    "EnableFastImageFadeInHelp": "Включить быстрое гашение анимации для загруженных рисунков",
+    "EnableFastImageFadeIn": "Быстрое гашение рисунка",
+    "LabelPlayerDimensions": "Размерности проигрывателя:",
+    "LabelDroppedFrames": "Пропущенные кадры:",
+    "LabelCorruptedFrames": "Испорченные кадры:",
+    "CopyStreamURLError": "Произошла ошибка при копировании URL."
 }
