@@ -256,8 +256,7 @@ require(['apphost'], function (appHost) {
         var gamepads = navigator.getGamepads();
         for (var i = 0, len = gamepads.length; i < len; i++) {
             var gamepad = gamepads[i];
-            if (!gamepad)
-            {
+            if (!gamepad) {
                 return;
             }
             // Iterate through the axes
