@@ -115,10 +115,11 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
             htmlToInsert += '</div>';
         }
 
-        htmlToInsert += '<div class="sliderBubble hide"></div>';
+        htmlToInsert += '<div class="sliderBubbleTrack"><div class="sliderBubble hide"></div></div>';
 
         containerElement.insertAdjacentHTML('beforeend', htmlToInsert);
 
+        this.sliderBubbleTrack = containerElement.querySelector('.sliderBubbleTrack');
         this.backgroundLower = containerElement.querySelector('.mdl-slider-background-lower');
         this.backgroundUpper = containerElement.querySelector('.mdl-slider-background-upper');
         var sliderBubble = containerElement.querySelector('.sliderBubble');
@@ -152,10 +153,16 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
 
             if (!this.dragging) {
-                var rect = this.getBoundingClientRect();
+                var rect = this.sliderBubbleTrack.getBoundingClientRect();
                 var clientX = e.clientX;
+
                 var bubbleValue = (clientX - rect.left) / rect.width;
                 bubbleValue *= 100;
+                if (this.step !== 0) {
+                    bubbleValue = Math.round(bubbleValue / this.step) * this.step;
+                }
+                bubbleValue = Math.min(Math.max(bubbleValue, 0), 100);
+
                 updateBubble(this, bubbleValue, sliderBubble);
 
                 if (hasHideClass) {

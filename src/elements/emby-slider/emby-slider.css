@@ -220,6 +220,13 @@
     bottom: 0;
 }
 
+.sliderBubbleTrack {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 0.54em; /* half of slider thumb size */
+}
+
 .sliderBubble {
     position: absolute;
     top: 0;
