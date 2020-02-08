@@ -362,9 +362,6 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                             });
                         } else {
                             prompt(globalize.translate("CopyStreamURL"), downloadHref);
-                            require(["toast"], function (toast) {
-                                toast(globalize.translate("CopyStreamURLSuccess"));
-                            });
                         }
                         document.body.removeChild(textArea);
                     });
