@@ -84,6 +84,9 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         if (browser.noFlex) {
             this.classList.add('slider-no-webkit-thumb');
         }
+        if (browser.edge || browser.msie) {
+            this.classList.add('slider-browser-edge');
+        }
         if (!layoutManager.mobile) {
             this.classList.add('mdl-slider-hoverthumb');
         }
