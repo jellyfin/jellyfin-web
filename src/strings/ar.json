@@ -1039,5 +1039,6 @@
     "EnableNextVideoInfoOverlay": "عرض معلومات الفيديو القادم اثناء التشغيل",
     "DatePlayed": "تاريخ التشغيل",
     "DateAdded": "تاريخ الاضافة",
-    "CriticRating": "تقييم النقاد"
+    "CriticRating": "تقييم النقاد",
+    "ResumeAt": "اكمل من {0}"
 }
