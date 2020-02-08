@@ -167,6 +167,7 @@
     margin-top: -0.05em;
     top: 50%;
     position: absolute;
+    padding: 0 0.54em; /* half of slider thumb size */
 }
 
 .mdl-slider-background-flex {
