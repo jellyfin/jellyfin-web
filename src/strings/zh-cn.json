@@ -244,7 +244,7 @@
     "GuideProviderLogin": "登入",
     "GuideProviderSelectListings": "选择列表",
     "H264CrfHelp": "The Constant Rate Factor (CRF) 是 x264 编码器的默认质量设置。您可以设置介于0和51之间的值, 其中较低的值将导致更好的质量 (以更高的文件大小为代价)。正常值介于18和28之间。x264 的默认值为 23, 因此可以将其用作起始点。",
-    "H264EncodingPresetHelp": "选择一个更快的值以提升性能，或者选择一个更慢的值以提升质量。",
+    "EncoderPresetHelp": "选择一个更快的值以提升性能，或者选择一个更慢的值以提升质量。",
     "HDPrograms": "高清节目",
     "HandledByProxy": "由反向代理处理",
     "HardwareAccelerationWarning": "启动硬件加速可能在某些环境下导致系统不稳定。请确认你的操作系统和视频驱动程序是最新的。如果你在开启此项后播放视频产生困难，那么你需要将此选项设置回”自动“。",
@@ -581,7 +581,7 @@
     "LabelGroupMoviesIntoCollections": "批量添加电影到收藏",
     "LabelGroupMoviesIntoCollectionsHelp": "显示电影列表时，属于一个收藏的电影将显示为一个分组。",
     "LabelH264Crf": "H264 CRF 编码质量等级：",
-    "LabelH264EncodingPreset": "H264 编码预设：",
+    "LabelEncoderPreset": "H264 和 H265 编码预设：",
     "LabelHardwareAccelerationType": "硬件加速：",
     "LabelHardwareAccelerationTypeHelp": "此特性只能在支持的系统上使用。",
     "LabelHomeNetworkQuality": "家庭网络质量：",
@@ -1465,5 +1465,8 @@
     "ButtonSplit": "拆分",
     "SelectAdminUsername": "请为管理员账户选择一个用户名。",
     "HeaderNavigation": "导航",
-    "CopyStreamURLError": "复制URL地址时发生错误。"
+    "CopyStreamURLError": "复制URL地址时发生错误。",
+    "MessageConfirmAppExit": "你要退出吗？",
+    "EnableFastImageFadeIn": "快速图片淡入",
+    "EnableFastImageFadeInHelp": "为加载图片启用更快的图片淡入"
 }

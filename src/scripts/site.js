@@ -623,8 +623,25 @@ var AppInfo = {};
 
                 require(["playerSelectionMenu", "fullscreenManager"]);
 
-                if (!AppInfo.isNativeApp && window.ApiClient) {
-                    require(["css!" + ApiClient.getUrl("Branding/Css")]);
+                var apiClient = window.ConnectionManager && window.ConnectionManager.currentApiClient();
+                if (apiClient) {
+                    fetch(apiClient.getUrl("Branding/Css"))
+                        .then(function(response) {
+                            if (!response.ok) {
+                                throw new Error(response.status + ' ' + response.statusText);
+                            }
+                            return response.text();
+                        })
+                        .then(function(css) {
+                            // Inject the branding css as a dom element in body so it will take
+                            // precedence over other stylesheets
+                            var style = document.createElement('style');
+                            style.appendChild(document.createTextNode(css));
+                            document.body.appendChild(style);
+                        })
+                        .catch(function(err) {
+                            console.warn('Error applying custom css', err);
+                        });
                 }
             });
         });
