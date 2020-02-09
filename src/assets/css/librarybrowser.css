@@ -269,7 +269,7 @@
 
 @media all and (max-width: 84em) {
     .withSectionTabs .headerTop {
-        padding-bottom: 0.2em;
+        padding-bottom: 0.55em;
     }
 
     .sectionTabs {
