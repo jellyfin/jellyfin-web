@@ -1230,6 +1230,9 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                     shell.disableFullscreen();
                 });
 
+                if(playerPauseClickTimeout) {
+                    clearTimeout(playerPauseClickTimeout);
+                }
                 var player = currentPlayer;
                 view.removeEventListener("viewbeforehide", onViewHideStopPlayback);
                 releaseCurrentPlayer();
@@ -1369,6 +1372,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             destroySubtitleSync();
         });
         var lastPointerDown = 0;
+        let playerPauseClickTimeout;
         dom.addEventListener(view, window.PointerEvent ? "pointerdown" : "click", function (e) {
             if (dom.parentWithClass(e.target, ["videoOsdBottom", "upNextContainer"])) {
                 return void showOsd();
@@ -1388,8 +1392,16 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
                 case "mouse":
                     if (!e.button) {
-                        playbackManager.playPause(currentPlayer);
-                        showOsd();
+                        if(playerPauseClickTimeout){
+                            clearTimeout(playerPauseClickTimeout);
+                            playerPauseClickTimeout = 0;   
+                        } else {
+                            playerPauseClickTimeout = setTimeout(() => {
+                                playbackManager.playPause(currentPlayer);
+                                showOsd();
+                                playerPauseClickTimeout = 0;
+                            }, 300);
+                        }
                     }
 
                     break;
