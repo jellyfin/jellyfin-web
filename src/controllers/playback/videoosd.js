@@ -1088,11 +1088,6 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         }
 
         /**
-         * Keys used for keyboard navigation.
-         */
-        var NavigationKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
-
-        /**
          * Clicked element.
          * To skip 'click' handling on Firefox/Edge.
          */
@@ -1109,7 +1104,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 return;
             }
 
-            if (layoutManager.tv && NavigationKeys.indexOf(key) != -1) {
+            if (layoutManager.tv && keyboardnavigation.isNavigationKey(key)) {
                 showOsd();
                 return;
             }

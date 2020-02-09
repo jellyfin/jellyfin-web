@@ -104,24 +104,17 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     }
 
     function showSortMenu() {
-
         var instance = this;
-
         require(['sortMenu'], function (SortMenu) {
-
             new SortMenu().show({
-
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getSortValues(),
                 onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
                 serverId: instance.params.serverId,
                 sortOptions: instance.getSortMenuOptions()
-
             }).then(function () {
-
                 updateSortText(instance);
                 updateAlphaPickerState(instance);
-
                 instance.itemsContainer.refreshItems();
             });
         });

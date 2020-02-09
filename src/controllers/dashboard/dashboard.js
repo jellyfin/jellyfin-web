@@ -301,23 +301,30 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 html += "</div>";
                 html += '<div class="sessionCardFooter cardFooter">';
                 html += '<div class="sessionCardButtons flex align-items-center justify-content-center">';
-                var btnCssClass;
-                btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl && session.DeviceId !== connectionManager.deviceId() ? "" : " hide";
-                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><i class="material-icons">pause</i></button>';
+
+                var btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? "" : " hide";
+                var playIcon = session.PlayState.IsPaused ? 'pause' : 'play';
+
+                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><i class="material-icons">' + playIcon + '</i></button>';
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><i class="material-icons">stop</i></button>';
+
                 btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length ? "" : " hide";
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("ViewPlaybackInfo") + '"><i class="material-icons">info</i></button>';
+
                 btnCssClass = session.ServerId && -1 !== session.SupportedCommands.indexOf("DisplayMessage") && session.DeviceId !== connectionManager.deviceId() ? "" : " hide";
                 html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("SendMessage") + '"><i class="material-icons">message</i></button>';
                 html += "</div>";
+
                 html += '<div class="sessionNowPlayingStreamInfo" style="padding:.5em 0 1em;">';
                 html += DashboardPage.getSessionNowPlayingStreamInfo(session);
                 html += "</div>";
+
                 html += '<div class="flex align-items-center justify-content-center">';
                 var userImage = DashboardPage.getUserImage(session);
                 html += userImage ? '<div class="activitylogUserPhoto" style="background-image:url(\'' + userImage + "');\"></div>" : '<div style="height:1.71em;"></div>';
                 html += '<div class="sessionUserName">';
                 html += DashboardPage.getUsersHtml(session);
+
                 html += "</div>";
                 html += "</div>";
                 html += "</div>";
