@@ -36,6 +36,11 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
         10252: "MediaPlayPause"
     };
 
+    /**
+     * Keys used for keyboard navigation.
+     */
+    var NavigationKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+
     var hasFieldKey = false;
     try {
         hasFieldKey = "key" in new KeyboardEvent("keydown");
@@ -60,11 +65,28 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
         return KeyNames[event.keyCode] || event.key;
     }
 
+    /**
+     * Returns _true_ if key is used for navigation.
+     *
+     * @param {string} key name
+     * @return {boolean} _true_ if key is used for navigation
+     */
+    function isNavigationKey(key) {
+        return NavigationKeys.indexOf(key) != -1;
+    }
+
     function enable() {
         document.addEventListener("keydown", function (e) {
+            var key = getKeyName(e);
+
+            // Ignore navigation keys for non-TV
+            if (!layoutManager.tv && isNavigationKey(key)) {
+                return;
+            }
+
             var capture = true;
 
-            switch (getKeyName(e)) {
+            switch (key) {
                 case "ArrowLeft":
                     inputManager.handle("left");
                     break;
@@ -128,6 +150,7 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
 
     return {
         enable: enable,
-        getKeyName: getKeyName
+        getKeyName: getKeyName,
+        isNavigationKey: isNavigationKey
     };
 });
