@@ -1,3 +1,8 @@
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #3b3b3b #202020;
+}
+
 .skinHeader,
 html {
     color: #ddd;
@@ -425,8 +430,7 @@ html {
 }
 
 .layout-desktop ::-webkit-scrollbar {
-    width: 1em;
-    height: 1em;
+    width: 0.4em;
 }
 
 ::-webkit-scrollbar-thumb:horizontal,
