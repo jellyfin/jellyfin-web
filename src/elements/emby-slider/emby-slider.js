@@ -3,7 +3,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
 
     var EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
 
-    var supportsNativeProgressStyle = browser.firefox;
+    var supportsNativeProgressStyle = false;
     var supportsValueSetOverride = false;
 
     var enableWidthWithTransform;
