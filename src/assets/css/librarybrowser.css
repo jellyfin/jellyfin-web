@@ -224,6 +224,12 @@
     left: 0;
 }
 
+.centerMessage {
+    margin: auto;
+    width: 30%;
+    text-align: center;
+}
+
 .layout-desktop .searchTabButton,
 .layout-mobile .searchTabButton,
 .layout-tv .headerSearchButton {
