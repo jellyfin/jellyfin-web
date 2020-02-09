@@ -167,6 +167,7 @@
     box-sizing: border-box;
     margin-top: -0.05em;
     top: 50%;
+    left: 0;
     position: absolute;
     padding: 0 0.54em; /* half of slider thumb size */
 }
