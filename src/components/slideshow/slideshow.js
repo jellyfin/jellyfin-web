@@ -212,13 +212,15 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     // Optional parameters
                     direction: 'horizontal',
                     loop: options.loop !== false,
-                    autoplay: options.interval || 8000,
+                    autoplay: {
+                        delay: options.interval || 8000
+                    },
                     // Disable preloading of all images
                     preloadImages: false,
                     // Enable lazy loading
-                    lazyLoading: true,
-                    lazyLoadingInPrevNext: true,
-                    autoplayDisableOnInteraction: false,
+                    lazy: true,
+                    loadPrevNext: true,
+                    disableOnInteraction: false,
                     initialSlide: options.startIndex || 0,
                     speed: 240
                 });
