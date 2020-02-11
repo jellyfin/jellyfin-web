@@ -67,7 +67,7 @@ _define("shaka", function() {
 
 // swiper
 var swiper = require("swiper");
-require("swiper/dist/css/swiper.min.css");
+require("swiper/css/swiper.min.css");
 _define("swiper", function() {
     return swiper;
 });
@@ -101,4 +101,9 @@ _define("JavascriptSubtitlesOctopus", function() {
 var material_icons = require("material-design-icons-iconfont/dist/material-design-icons.css");
 _define("material-icons", function() {
     return material_icons;
+});
+
+var jellyfin_noto = require("jellyfin-noto");
+_define("jellyfin-noto", function () {
+    return jellyfin_noto;
 });

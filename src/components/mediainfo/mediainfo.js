@@ -385,16 +385,13 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
     }
 
     function getStarIconsHtml(item) {
-
         var html = '';
 
-        var rating = item.CommunityRating;
-
-        if (rating) {
+        if (item.CommunityRating) {
             html += '<div class="starRatingContainer mediaInfoItem">';
 
             html += '<i class="material-icons starIcon">star</i>';
-            html += rating;
+            html += item.CommunityRating.toFixed(1);
             html += '</div>';
         }
 

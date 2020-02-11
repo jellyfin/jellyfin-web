@@ -1560,5 +1560,12 @@
     "HeaderNavigation": "Navigace",
     "ButtonSplit": "Rozdělit",
     "MessageConfirmAppExit": "Přejete si odejít?",
-    "CopyStreamURLError": "Při kopírování URL došlo k chybě."
+    "CopyStreamURLError": "Při kopírování URL došlo k chybě.",
+    "LabelVideoResolution": "Rozlišení videa:",
+    "LabelStreamType": "Typ streamu:",
+    "EnableFastImageFadeInHelp": "Povolte rychlejší animaci pro načtené obrázky",
+    "EnableFastImageFadeIn": "Rychlé zmizení obrazu",
+    "LabelPlayerDimensions": "Zobrazené rozlišení:",
+    "LabelDroppedFrames": "Vynechané snímky:",
+    "LabelCorruptedFrames": "Poškozené snímky:"
 }

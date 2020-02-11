@@ -732,7 +732,8 @@ var AppInfo = {};
                     "sortable",
                     "libjass",
                     "webcomponents",
-                    "material-icons"
+                    "material-icons",
+                    "jellyfin-noto"
                 ]
             },
             urlArgs: urlArgs,
@@ -747,6 +748,7 @@ var AppInfo = {};
         });
 
         require(["css!assets/css/site"]);
+        require(["jellyfin-noto"]);
 
         // define styles
         // TODO determine which of these files can be moved to the components themselves

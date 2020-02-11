@@ -124,6 +124,10 @@
     flex-shrink: 1;
 }
 
+.pageTitleWithDefaultLogo {
+    margin-top: 0;
+}
+
 .headerLeft,
 .skinHeader {
     display: -webkit-box;
@@ -220,6 +224,12 @@
     left: 0;
 }
 
+.centerMessage {
+    margin: auto;
+    width: 30%;
+    text-align: center;
+}
+
 .layout-desktop .searchTabButton,
 .layout-mobile .searchTabButton,
 .layout-tv .headerSearchButton {
@@ -265,7 +275,7 @@
 
 @media all and (max-width: 84em) {
     .withSectionTabs .headerTop {
-        padding-bottom: 0.2em;
+        padding-bottom: 0.55em;
     }
 
     .sectionTabs {
@@ -499,13 +509,14 @@
     align-items: center;
     align-content: center;
     position: sticky;
-    top: 6.6%;
+    top: 3.85em;
     z-index: 2;
 }
 
 .layout-mobile .detailPagePrimaryContainer {
     display: block;
     position: relative;
+    top: 0;
 }
 
 .layout-tv .detailPagePrimaryContainer {
