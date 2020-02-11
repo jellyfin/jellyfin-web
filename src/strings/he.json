@@ -546,5 +546,9 @@
     "HeaderFavoriteSongs": "שירים שאהבתי",
     "Collections": "קולקציות",
     "Channels": "ערוצים",
-    "HeaderContinueWatching": "המשך לצפות"
+    "HeaderContinueWatching": "המשך לצפות",
+    "AllowOnTheFlySubtitleExtraction": "אפשר חילוץ כתוביות בזמן אמת",
+    "AllowHWTranscodingHelp": "אפשר למלקט לקודד הזרמות בזמן אמת. זה עשוי לעזור בהפחתת הקידוד שנעשה ע\"י השרת.",
+    "AllComplexFormats": "כל הפורמטים המורכבים (ASS, SSA, VOBSUB, PGS, SUB\\IDX וכדומה)",
+    "AddItemToCollectionHelp": "הוסף פריטים לאוספים ע\"י חיפושם ושימוש בלחצן ימני או הקשה על התפריט כדי להוסיף אותם לאוסף."
 }
