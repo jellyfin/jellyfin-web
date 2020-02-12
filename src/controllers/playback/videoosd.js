@@ -1230,7 +1230,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                     shell.disableFullscreen();
                 });
 
-                if(playerPauseClickTimeout) {
+                if (playerPauseClickTimeout) {
                     clearTimeout(playerPauseClickTimeout);
                 }
                 var player = currentPlayer;
@@ -1392,9 +1392,9 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
                 case "mouse":
                     if (!e.button) {
-                        if(playerPauseClickTimeout){
+                        if (playerPauseClickTimeout) {
                             clearTimeout(playerPauseClickTimeout);
-                            playerPauseClickTimeout = 0;   
+                            playerPauseClickTimeout = 0;
                         } else {
                             playerPauseClickTimeout = setTimeout(() => {
                                 playbackManager.playPause(currentPlayer);
