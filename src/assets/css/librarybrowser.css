@@ -617,6 +617,11 @@ div.itemDetailGalleryLink.defaultCardBackground {
     height: 23vw; /* Dirty hack to get it to look somewhat square. Less than ideal. */
 }
 
+.btnSyncComplete i {
+    -webkit-border-radius: 100em;
+    border-radius: 100em;
+}
+
 .itemDetailGalleryLink.defaultCardBackground > i {
     font-size: 15vw;
     margin-top: 50%;
@@ -641,11 +646,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
 
 .btnSyncComplete {
     background: #673ab7 !important;
-}
-
-.btnSyncComplete i {
-    -webkit-border-radius: 100em;
-    border-radius: 100em;
 }
 
 .emby-button.detailFloatingButton {
