@@ -54,11 +54,11 @@
 }
 
 .mediaInfoCriticRatingFresh {
-    background-image: url(fresh.png);
+    background-image: url(../../assets/img/fresh.svg);
 }
 
 .mediaInfoCriticRatingRotten {
-    background-image: url(rotten.png);
+    background-image: url(../../assets/img/rotten.svg);
 }
 
 .mediaInfoProgramAttribute {
