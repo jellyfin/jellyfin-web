@@ -896,12 +896,9 @@ div.itemDetailGalleryLink.defaultCardBackground {
     }
 }
 
-@media all and (max-width: 75em) {
-    .listViewUserDataButtons {
-        display: flex;
-        align-items: center;
-        font-size: 65%;
-    }
+.listViewUserDataButtons {
+    display: flex;
+    align-items: center;
 }
 
 .bulletSeparator {
