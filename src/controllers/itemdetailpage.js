@@ -798,22 +798,26 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             });
         }
 
-        if (editable) {
+        if (editable && url === undefined) {
+            html += "<a class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground"+ cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
+        } else if (!editable && url === undefined) {
+            html += "<div class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground"+ cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
+        } else if (editable) {
             html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
         }
 
-        if (detectRatio && item.PrimaryImageAspectRatio) {
-            if (item.PrimaryImageAspectRatio >= 1.48) {
-                shape = "thumb";
-            } else if (item.PrimaryImageAspectRatio >= 0.85 && item.PrimaryImageAspectRatio <= 1.34) {
-                shape = "square";
-            }
+        if (url) {
+            html += "<img class='itemDetailImage lazy' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' />";
         }
 
-        html += "<img class='itemDetailImage lazy' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' />";
+        if (url === undefined) {
+            html += cardBuilder.getDefaultText(item);
+        }
 
         if (editable) {
             html += "</a>";
+        } else if (!editable && url === undefined) {
+            html += "</div>"
         }
 
         var progressHtml = item.IsFolder || !item.UserData ? "" : indicators.getProgressBarHtml(item);
@@ -825,6 +829,14 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
         html += "</div>";
         elem.innerHTML = html;
+
+        if (detectRatio && item.PrimaryImageAspectRatio) {
+            if (item.PrimaryImageAspectRatio >= 1.48) {
+                shape = "thumb";
+            } else if (item.PrimaryImageAspectRatio >= 0.85 && item.PrimaryImageAspectRatio <= 1.34) {
+                shape = "square";
+            }
+        }
 
         if ("thumb" == shape) {
             elem.classList.add("thumbDetailImageContainer");
