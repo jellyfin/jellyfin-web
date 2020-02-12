@@ -115,7 +115,7 @@
                 </div>
 
                 <div class="selectContainer">
-                    <select is="emby-select" id="selectH264Preset" label="${LabelH264EncodingPreset}">
+                    <select is="emby-select" id="selectEncoderPreset" label="${LabelEncoderPreset}">
                         <option value="">${OptionAuto}</option>
                         <option value="veryslow">veryslow</option>
                         <option value="slower">slower</option>
@@ -127,7 +127,7 @@
                         <option value="superfast">superfast</option>
                         <option value="ultrafast">ultrafast</option>
                     </select>
-                    <div class="fieldDescription">${H264EncodingPresetHelp}</div>
+                    <div class="fieldDescription">${EncoderPresetHelp}</div>
                 </div>
                 <div class="inputContainer">
                     <input is="emby-input" type="number" id="txtH264Crf" pattern="[0-9]*" min="0" max="51" step="1" label="${LabelH264Crf}" />

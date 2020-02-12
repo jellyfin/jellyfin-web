@@ -227,7 +227,7 @@
     "GuideProviderLogin": "Přihlášení",
     "GuideProviderSelectListings": "Výběr zobrazení",
     "H264CrfHelp": "Constant Rate faktor (CRF) je výchozím nastavení kvality pro kodér x264. Můžete nastavit hodnoty mezi 0 a 51, kde nižší hodnoty vedou lepší kvalitě (na úkor větší velikosti souborů). Rozumné hodnoty jsou mezi 18 a 28. Výchozí hodnota pro x264 je 23, který můžete použít jako výchozí bod.",
-    "H264EncodingPresetHelp": "Vyber hodnotu faster ke zvýšení výkonu, nebo slower ke zvýšení kvality.",
+    "EncoderPresetHelp": "Vyber hodnotu faster ke zvýšení výkonu, nebo slower ke zvýšení kvality.",
     "HDPrograms": "HD programy",
     "HardwareAccelerationWarning": "Zapnutí hardwarové akcelerace může způsobit nestabilitu v některých prostředích. Ujistěte se, že vaše ovladače operačního systému a videa jsou plně aktuální. Máte-li potíže s přehráváním videa po zapnutí, budete muset změnit nastavení zpět na Auto.",
     "HeaderAccessSchedule": "Přístup k naplánované úloze",
@@ -552,7 +552,7 @@
     "LabelGroupMoviesIntoCollections": "Seskupit filmy do kolekcí",
     "LabelGroupMoviesIntoCollectionsHelp": "Při zobrazení seznamů filmu, budou filmy patřící do kolekce, zobrazeny jako jedna položka.",
     "LabelH264Crf": "H264 kódování CRF:",
-    "LabelH264EncodingPreset": "Přednastavení H264 kódování:",
+    "LabelEncoderPreset": "Přednastavení H264 kódování:",
     "LabelHardwareAccelerationType": "Hardwarová akcelerace:",
     "LabelHardwareAccelerationTypeHelp": "Toto je experimentální funkce dostupná pouze v podporovaných systémech.",
     "LabelHomeScreenSectionValue": "Sekce domovské obrazovky {0}:",
@@ -1558,5 +1558,14 @@
     "OptionRandom": "Náhodně",
     "SelectAdminUsername": "Vyberte uživatelské jméno pro účet správce.",
     "HeaderNavigation": "Navigace",
-    "ButtonSplit": "Rozdělit"
+    "ButtonSplit": "Rozdělit",
+    "MessageConfirmAppExit": "Přejete si odejít?",
+    "CopyStreamURLError": "Při kopírování URL došlo k chybě.",
+    "LabelVideoResolution": "Rozlišení videa:",
+    "LabelStreamType": "Typ streamu:",
+    "EnableFastImageFadeInHelp": "Povolte rychlejší animaci pro načtené obrázky",
+    "EnableFastImageFadeIn": "Rychlé zmizení obrazu",
+    "LabelPlayerDimensions": "Zobrazené rozlišení:",
+    "LabelDroppedFrames": "Vynechané snímky:",
+    "LabelCorruptedFrames": "Poškozené snímky:"
 }

@@ -47,10 +47,6 @@
     background: transparent;
 }
 
-.button-flat:hover {
-    opacity: 0.5;
-}
-
 .button-link {
     background: transparent;
     margin: 0;

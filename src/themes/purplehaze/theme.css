@@ -276,7 +276,7 @@ a[data-role=button] {
 }
 
 @supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
-    .appfooter-blurred {
+    .appfooter {
         background: rgba(6, 37, 111, 0.7);
         backdrop-filter: blur(20px);
     }
@@ -304,6 +304,13 @@ a[data-role=button] {
     color: #f8f8fe !important;
 }
 
+.detailSticky {
+    background: #000420;
+    background: -moz-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
+    background: -webkit-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
+    background: linear-gradient(to right, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
+}
+
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #1c1c1c;
     background: rgba(30, 30, 30, 0.9);
@@ -321,7 +328,10 @@ a[data-role=button] {
     border-color: #48c3c8;
 }
 
-.button-flat-accent,
+.button-flat:hover {
+    color: #48c3c8;
+}
+
 .button-link {
     color: #48c3c8;
 }

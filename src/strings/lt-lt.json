@@ -912,7 +912,7 @@
     "Filters": "Filtrai",
     "FormatValue": "Formatas: {0}",
     "GuideProviderSelectListings": "Sąrašų pasirinkimas",
-    "H264EncodingPresetHelp": "Pasirinkite greitesnę reikšmę, kad pagerintumėte našumą, arba mažesnę, norėdami pagerinti kokybę.",
+    "EncoderPresetHelp": "Pasirinkite greitesnę reikšmę, kad pagerintumėte našumą, arba mažesnę, norėdami pagerinti kokybę.",
     "HeaderRestart": "Perkrauti",
     "LabelDateTimeLocale": "Data ir laikas:",
     "LabelEnableSingleImageInDidlLimit": "Apriboti iki vieno įterpto vaizdo",

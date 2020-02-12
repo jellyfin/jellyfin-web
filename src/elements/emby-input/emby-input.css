@@ -21,8 +21,8 @@
     border: 0;
 }
 
-.emby-input:required { 
-    box-shadow: none; 
+.emby-input:required {
+    box-shadow: none;
 }
 
 .inputContainer {

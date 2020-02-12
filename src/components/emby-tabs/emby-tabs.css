@@ -1,4 +1,7 @@
 .emby-tab-button {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     background: transparent;
     box-shadow: none;
     cursor: pointer;
@@ -10,7 +13,7 @@
     vertical-align: middle;
     flex-shrink: 0;
     margin: 0;
-    padding: 1em 0.9em;
+    padding: 1.5em;
     position: relative;
     height: auto;
     min-width: initial;
@@ -29,6 +32,10 @@
 .emby-tabs-slider {
     position: relative;
     overflow: hidden;
+}
+
+.layout-mobile .emby-tabs-slider {
+    overflow: auto;
 }
 
 .tabContent:not(.is-active) {
