@@ -48,8 +48,13 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
     function updateBubble(range, value, bubble, bubbleText) {
 
         requestAnimationFrame(function () {
+            var bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
+            var bubbleRect = bubble.getBoundingClientRect();
 
-            bubble.style.left = value + '%';
+            var bubblePos = bubbleTrackRect.width * value / 100;
+            bubblePos = Math.min(Math.max(bubblePos, bubbleRect.width / 2), bubbleTrackRect.width - bubbleRect.width / 2);
+
+            bubble.style.left = bubblePos + 'px';
 
             if (range.getBubbleHtml) {
                 value = range.getBubbleHtml(value);
