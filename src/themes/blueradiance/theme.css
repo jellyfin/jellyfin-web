@@ -1,3 +1,7 @@
+* {
+    scrollbar-color: #3b3b3b #202020;
+}
+
 .skinHeader,
 html {
     color: #ddd;
