@@ -40,26 +40,48 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         return getUserViews(apiClient, user.Id).then(function (userViews) {
             var html = '';
 
-            var sectionCount = 7;
-            for (var i = 0; i < sectionCount; i++) {
-                html += '<div class="verticalSection section' + i + '"></div>';
-            }
+            if (userViews.length) {
+                var sectionCount = 7;
+                for (var i = 0; i < sectionCount; i++) {
+                    html += '<div class="verticalSection section' + i + '"></div>';
+                }
 
-            elem.innerHTML = html;
-            elem.classList.add('homeSectionsContainer');
+                elem.innerHTML = html;
+                elem.classList.add('homeSectionsContainer');
 
-            var promises = [];
-            var sections = getAllSectionsToShow(userSettings, sectionCount);
-            for (var i = 0; i < sections.length; i++) {
-                promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
-            }
+                var promises = [];
+                var sections = getAllSectionsToShow(userSettings, sectionCount);
+                for (var i = 0; i < sections.length; i++) {
+                    promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
+                }
 
-            return Promise.all(promises).then(function () {
-                return resume(elem, {
-                    refresh: true,
-                    returnPromise: false
+                return Promise.all(promises).then(function () {
+                    return resume(elem, {
+                        refresh: true,
+                        returnPromise: false
+                    });
                 });
-            });
+            } else {
+                let noLibDescription;
+                if (user['Policy'] && user['Policy']['IsAdministrator']) {
+                    noLibDescription = Globalize.translate("NoCreatedLibraries", '<a id="button-createLibrary" class="button-link">', '</span>')
+                } else {
+                    noLibDescription = Globalize.translate("AskAdminToCreateLibrary");
+                }
+
+                html += '<div class="noLibraryContainer padded-left padded-right">';
+                html += '<h2>' + Globalize.translate("MessageNothingHere") + '</h2>';
+                html += '<p>' + noLibDescription + '</p>'
+                html += '</div>';
+                elem.innerHTML = html;
+
+                let createNowLink = elem.querySelector("#button-createLibrary")
+                if (createNowLink) {
+                    createNowLink.addEventListener("click", () => {
+                        Dashboard.navigate("library.html");
+                    });
+                }
+            }
         });
     }
 
