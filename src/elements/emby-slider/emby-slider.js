@@ -16,6 +16,62 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         }
     }
 
+    /**
+     * Returns slider fraction corresponding to client position.
+     *
+     * @param {Object} range slider itself
+     * @param {number} clientX client X-coordinate
+     * @return {number} slider fraction
+     */
+    function mapClientToFraction(range, clientX) {
+        var rect = range.sliderBubbleTrack.getBoundingClientRect();
+
+        var fraction = (clientX - rect.left) / rect.width;
+
+        // Snap to step
+        var valueRange = range.max - range.min;
+        if (range.step !== 'any' && valueRange !== 0) {
+            var step = (range.step || 1) / valueRange;
+            fraction = Math.round(fraction / step) * step;
+        }
+
+        return Math.min(Math.max(fraction, 0), 1);
+    }
+
+    /**
+     * Returns slider value corresponding to slider fraction.
+     *
+     * @param {Object} range slider itself
+     * @param {number} fraction slider fraction
+     * @return {number} slider value
+     */
+    function mapFractionToValue(range, fraction) {
+        var value = (range.max - range.min) * fraction;
+
+        // Snap to step
+        if (range.step !== 'any') {
+            var step = range.step || 1;
+            value = Math.round(value / step) * step;
+        }
+
+        value += parseFloat(range.min);
+
+        return Math.min(Math.max(value, range.min), range.max);
+    }
+
+    /**
+     * Returns slider fraction corresponding to slider value.
+     *
+     * @param {Object} range slider itself
+     * @param {number} value slider value (snapped to step)
+     * @return {number} slider fraction
+     */
+    function mapValueToFraction(range, value) {
+        var valueRange = range.max - range.min;
+        var fraction = valueRange !== 0 ? (value - range.min) / valueRange : 0;
+        return Math.min(Math.max(fraction, 0), 1);
+    }
+
     function updateValues() {
 
         // Do not update values when dragging with keyboard to keep current progress for reference
@@ -61,7 +117,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
                 if (range.getBubbleText) {
                     value = range.getBubbleText(value);
                 } else {
-                    value = Math.round(value);
+                    value = mapFractionToValue(range, value / 100).toLocaleString();
                 }
                 value = '<h1 class="sliderBubbleText">' + value + '</h1>';
             }
@@ -134,7 +190,8 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         dom.addEventListener(this, 'input', function (e) {
             this.dragging = true;
 
-            updateBubble(this, this.value, sliderBubble);
+            var bubbleValue = mapValueToFraction(this, this.value) * 100;
+            updateBubble(this, bubbleValue, sliderBubble);
 
             if (hasHideClass) {
                 sliderBubble.classList.remove('hide');
@@ -158,15 +215,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
 
             if (!this.dragging) {
-                var rect = this.sliderBubbleTrack.getBoundingClientRect();
-                var clientX = e.clientX;
-
-                var bubbleValue = (clientX - rect.left) / rect.width;
-                bubbleValue *= 100;
-                if (this.step !== 0) {
-                    bubbleValue = Math.round(bubbleValue / this.step) * this.step;
-                }
-                bubbleValue = Math.min(Math.max(bubbleValue, 0), 100);
+                var bubbleValue = mapClientToFraction(this, e.clientX) * 100;
 
                 updateBubble(this, bubbleValue, sliderBubble);
 
