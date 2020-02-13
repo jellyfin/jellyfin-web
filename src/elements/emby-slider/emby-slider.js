@@ -3,7 +3,6 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
 
     var EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
 
-    var supportsNativeProgressStyle = false;
     var supportsValueSetOverride = false;
 
     var enableWidthWithTransform;
@@ -104,24 +103,22 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
 
         var htmlToInsert = '';
 
-        if (!supportsNativeProgressStyle) {
-            htmlToInsert += '<div class="mdl-slider-background-flex-container">';
-            htmlToInsert += '<div class="mdl-slider-background-flex">';
-            htmlToInsert += '<div class="mdl-slider-background-flex-inner">';
+        htmlToInsert += '<div class="mdl-slider-background-flex-container">';
+        htmlToInsert += '<div class="mdl-slider-background-flex">';
+        htmlToInsert += '<div class="mdl-slider-background-flex-inner">';
 
-            // the more of these, the more ranges we can display
-            htmlToInsert += '<div class="mdl-slider-background-upper"></div>';
+        // the more of these, the more ranges we can display
+        htmlToInsert += '<div class="mdl-slider-background-upper"></div>';
 
-            if (enableWidthWithTransform) {
-                htmlToInsert += '<div class="mdl-slider-background-lower mdl-slider-background-lower-withtransform"></div>';
-            } else {
-                htmlToInsert += '<div class="mdl-slider-background-lower"></div>';
-            }
-
-            htmlToInsert += '</div>';
-            htmlToInsert += '</div>';
-            htmlToInsert += '</div>';
+        if (enableWidthWithTransform) {
+            htmlToInsert += '<div class="mdl-slider-background-lower mdl-slider-background-lower-withtransform"></div>';
+        } else {
+            htmlToInsert += '<div class="mdl-slider-background-lower"></div>';
         }
+
+        htmlToInsert += '</div>';
+        htmlToInsert += '</div>';
+        htmlToInsert += '</div>';
 
         htmlToInsert += '<div class="sliderBubbleTrack"><div class="sliderBubble hide"></div></div>';
 
@@ -190,13 +187,10 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
             passive: true
         });
 
-        if (!supportsNativeProgressStyle) {
-
-            if (supportsValueSetOverride) {
-                this.addEventListener('valueset', updateValues);
-            } else {
-                startInterval(this);
-            }
+        if (supportsValueSetOverride) {
+            this.addEventListener('valueset', updateValues);
+        } else {
+            startInterval(this);
         }
     };
 
