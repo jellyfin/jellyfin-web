@@ -146,14 +146,6 @@
     display: none;
 }
 
-.mdl-slider-ie-container {
-    height: 1.25em;
-    overflow: visible;
-    border: none;
-    margin: 0;
-    padding: 0;
-}
-
 .mdl-slider-container {
     height: 1.25em;
     position: relative;
