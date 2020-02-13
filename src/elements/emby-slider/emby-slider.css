@@ -79,11 +79,7 @@
     pointer-events: none;
 }
 
-.mdl-slider-hoverthumb::-webkit-slider-thumb {
-    transform: none;
-}
-
-.mdl-slider:hover::-webkit-slider-thumb {
+.mdl-slider-hoverthumb:hover::-webkit-slider-thumb {
     transform: scale(1.3);
 }
 
@@ -107,7 +103,7 @@
     transition: 0.2s;
 }
 
-.mdl-slider:hover::-moz-range-thumb {
+.mdl-slider-hoverthumb:hover::-moz-range-thumb {
     transform: scale(1.3);
 }
 
@@ -127,7 +123,7 @@
     transition: 0.2s;
 }
 
-.mdl-slider:hover::-ms-thumb {
+.mdl-slider-hoverthumb:hover::-ms-thumb {
     transform: none;
 }
 
