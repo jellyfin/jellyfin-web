@@ -227,6 +227,7 @@
 .centerMessage {
     margin: auto;
     width: 30%;
+    padding: 5em 0;
     text-align: center;
 }
 
