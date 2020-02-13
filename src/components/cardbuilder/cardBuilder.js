@@ -1397,7 +1397,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             //}
 
             if (!imgUrl) {
-                cardImageContainerOpen += getCardDefaultText(item, options);
+                cardImageContainerOpen += getDefaultText(item, options);
             }
 
             var tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
@@ -1485,17 +1485,24 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getCardDefaultText(item, options) {
+        function getDefaultText(item, options) {
             if (item.CollectionType) {
                 return '<i class="cardImageIcon material-icons">' + imageHelper.getLibraryIcon(item.CollectionType) + '</i>'
             }
-            if (item.Type === 'MusicAlbum') {
-                return '<i class="cardImageIcon material-icons">album</i>';
+
+            switch (item.Type) {
+                case 'MusicAlbum':
+                    return '<i class="cardImageIcon material-icons">album</i>';
+                case 'MusicArtist':
+                case 'Person':
+                    return '<i class="cardImageIcon material-icons">person</i>';
+                case 'Movie':
+                    return '<i class="cardImageIcon material-icons">movie</i>'
+                case 'Series':
+                    return '<i class="cardImageIcon material-icons">tv</i>'
             }
-            if (item.Type === 'MusicArtist' || item.Type === 'Person') {
-                return '<i class="cardImageIcon material-icons">person</i>';
-            }
-            if (options.defaultCardImageIcon) {
+
+            if (options && options.defaultCardImageIcon) {
                 return '<i class="cardImageIcon material-icons">' + options.defaultCardImageIcon + '</i>';
             }
 
@@ -1702,6 +1709,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         return {
             getCardsHtml: getCardsHtml,
+            getDefaultBackgroundClass: getDefaultBackgroundClass,
+            getDefaultText: getDefaultText,
             buildCards: buildCards,
             onUserDataChanged: onUserDataChanged,
             onTimerCreated: onTimerCreated,

@@ -609,6 +609,25 @@
     -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
+div.itemDetailGalleryLink.defaultCardBackground {
+    text-align: center;
+}
+
+.itemDetailGalleryLink.defaultCardBackground {
+    height: 23vw; /* Dirty hack to get it to look somewhat square. Less than ideal. */
+}
+
+.btnSyncComplete i {
+    -webkit-border-radius: 100em;
+    border-radius: 100em;
+}
+
+.itemDetailGalleryLink.defaultCardBackground > i {
+    font-size: 15vw;
+    margin-top: 50%;
+    transform: translateY(-50%);
+}
+
 @media all and (max-width: 62.5em) {
     .detailPageWrapperContainer {
         position: relative;
@@ -627,11 +646,6 @@
 
 .btnSyncComplete {
     background: #673ab7 !important;
-}
-
-.btnSyncComplete i {
-    -webkit-border-radius: 100em;
-    border-radius: 100em;
 }
 
 .emby-button.detailFloatingButton {
@@ -882,12 +896,9 @@
     }
 }
 
-@media all and (max-width: 75em) {
-    .listViewUserDataButtons {
-        display: flex;
-        align-items: center;
-        font-size: 65%;
-    }
+.listViewUserDataButtons {
+    display: flex;
+    align-items: center;
 }
 
 .bulletSeparator {

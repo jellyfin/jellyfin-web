@@ -221,6 +221,13 @@ var Dashboard = {
         };
         appHost.getPushTokenInfo();
         return capabilities = Object.assign(capabilities, appHost.getPushTokenInfo());
+    },
+    selectServer: function () {
+        if (window.NativeShell && typeof window.NativeShell.selectServer === "function") {
+            window.NativeShell.selectServer();
+        } else {
+            Dashboard.navigate("selectserver.html");
+        }
     }
 };
 
