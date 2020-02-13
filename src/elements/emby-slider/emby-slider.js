@@ -75,7 +75,8 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
     function updateValues() {
 
         // Do not update values when dragging with keyboard to keep current progress for reference
-        if (!!this.keyboardDragging) {
+        // Do not update values when touched to keep current progress for reference
+        if (!!this.keyboardDragging || !!this.touched) {
             return;
         }
 
@@ -235,6 +236,46 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         }, {
             passive: true
         });
+
+        // HACK: iPhone/iPad do not change input by touch
+        if (browser.iOS) {
+            dom.addEventListener(this, 'touchstart', function (e) {
+                if (e.targetTouches.length !== 1) {
+                    return;
+                }
+
+                this.touched = true;
+
+                var fraction = mapClientToFraction(this, e.targetTouches[0].clientX);
+                this.value = mapFractionToValue(this, fraction);
+
+                this.dispatchEvent(new Event('input', {
+                    bubbles: true,
+                    cancelable: false
+                }));
+
+                // Reset dragging (from 'input' event) so that real dragging can be detected
+                var range = this;
+                setTimeout(function () {
+                    range.dragging = false;
+                }, 0);
+            }, {
+                passive: true
+            });
+
+            dom.addEventListener(this, 'touchend', function (e) {
+                if (!this.dragging) {
+                    this.dispatchEvent(new Event('change', {
+                        bubbles: true,
+                        cancelable: false
+                    }));
+                }
+
+                this.touched = false;
+            }, {
+                passive: true
+            });
+        }
 
         if (supportsValueSetOverride) {
             this.addEventListener('valueset', updateValues);
