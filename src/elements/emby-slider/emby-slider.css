@@ -75,7 +75,7 @@
     border-radius: 50%;
     background: #00a4dc;
     border: none;
-    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: 0.2s;
     pointer-events: none;
 }
 
@@ -104,6 +104,7 @@
     background: #00a4dc;
     background-image: none;
     border: none;
+    transition: 0.2s;
 }
 
 .mdl-slider:hover::-moz-range-thumb {
@@ -123,7 +124,7 @@
     background: #00a4dc;
     border: none;
     transform: scale(0.771429);
-    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: 0.2s;
 }
 
 .mdl-slider:hover::-ms-thumb {
