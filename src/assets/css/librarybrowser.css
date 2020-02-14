@@ -578,6 +578,7 @@
     top: 14.5%;
     -webkit-background-size: contain;
     background: no-repeat center center;
+    background-size: 20% auto;
     position: absolute;
 }
 
