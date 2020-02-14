@@ -1223,6 +1223,7 @@
     "PlayFromBeginning": "Play from beginning",
     "PlayNext": "Play next",
     "PlayNextEpisodeAutomatically": "Play next episode automatically",
+    "PlaybackErrorNoCompatibleStream": "There are no available formats that are compatible with this device.",
     "Played": "Played",
     "Playlists": "Playlists",
     "PleaseAddAtLeastOneFolder": "Please add at least one folder to this library by clicking the Add button.",
