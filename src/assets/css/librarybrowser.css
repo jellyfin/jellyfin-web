@@ -382,8 +382,15 @@
 }
 
 .detailLogo {
-    background-repeat: no-repeat;
-    background-position: center center;
+    background: no-repeat center center;
+    background-size: 20% auto;
+    width: 100% !important;
+    right: inherit !important;
+    left: inherit !important;
+    height: 9.375em;
+    top: 14.5%;
+    -webkit-background-size: contain;
+    position: absolute;
 }
 
 .criticReview:first-child {
@@ -568,18 +575,6 @@
 
 .detailPagePrimaryContent {
     position: relative;
-}
-
-.detailLogo {
-    width: 100% !important;
-    right: inherit !important;
-    left: inherit !important;
-    height: 9.375em;
-    top: 14.5%;
-    -webkit-background-size: contain;
-    background: no-repeat center center;
-    background-size: 20% auto;
-    position: absolute;
 }
 
 @media all and (max-width: 68.75em) {
@@ -1081,23 +1076,4 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .itemsViewSettingsContainer > .button-flat {
     margin: 0;
-}
-@media only screen and (min-width: 1024px) {
-  .detailSticky {
-      background: transparent!important;
-      position: absolute;
-      width: 93.4%;
-      top: 10em!important;
-  }
-  img.itemDetailImage {
-      margin-top: -8em;
-  }
-}
-.itemBackdrop:after {
-    content: "";
-    width: 100%;
-    height: 100%;
-    background: #000000ad;
-    background: rgba(0, 0, 0, 0.65);
-    display: block;
 }
