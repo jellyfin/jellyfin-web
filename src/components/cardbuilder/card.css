@@ -371,12 +371,12 @@ button::-moz-focus-inner {
 }
 
 .cardImageIcon {
-    font-size: 5em;
+    font-size: 5em !important;
     color: inherit;
 }
 
 .cardImageIcon-small {
-    font-size: 3em;
+    font-size: 3em !important;
     margin-bottom: 0.1em;
 }
 
