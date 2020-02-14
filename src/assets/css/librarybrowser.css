@@ -1058,7 +1058,11 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     img.itemDetailImage {
         margin-top: -8em;
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> Fix linter errors
     .detailPageContent {
         width: 69.8%;
         float: right;
