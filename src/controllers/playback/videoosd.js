@@ -1122,6 +1122,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                     }
                     break;
                 case "k":
+                case "Space":
                     playbackManager.playPause(currentPlayer);
                     showOsd();
                     break;
