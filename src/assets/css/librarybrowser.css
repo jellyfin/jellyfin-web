@@ -571,9 +571,9 @@
 }
 
 .detailLogo {
-    width: 100%!important;
-    right:inherit!important;
-    left:inherit!important;
+    width: 100% !important;
+    right: inherit !important;
+    left: inherit !important;
     height: 9.375em;
     top: 14.5%;
     -webkit-background-size: contain;
@@ -1059,16 +1059,18 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
         width: 93.4%;
         top: 10em;
     }
+
     img.itemDetailImage {
         margin-top: -8em;
     }
+    
     .detailPageContent {
         width: 69.8%;
         float: right;
     }
 }
 
-.itemBackdrop:after {
+.itemBackdrop::after {
     content: "";
     width: 100%;
     height: 100%;
