@@ -105,7 +105,7 @@ html {
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: green;
+    color: #00a4dc;
 }
 
 .checkboxOutline {
@@ -219,11 +219,8 @@ html {
 }
 
 .detailSticky {
-    background-color: #303030;
     color: #ccc;
     color: rgba(255, 255, 255, 0.87);
-    -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
