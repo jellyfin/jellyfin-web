@@ -381,8 +381,7 @@
     position: relative;
 }
 
-.detailLogo,
-.itemBackdrop {
+.detailLogo {
     background-repeat: no-repeat;
     background-position: center center;
 }
@@ -438,7 +437,8 @@
     -webkit-background-size: cover;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center center;
+    background-attachment: fixed;
     height: 50vh;
     position: relative;
 }
