@@ -206,10 +206,6 @@ html {
     color: #fff !important;
 }
 
-.detailSticky {
-    background-color: #081b3b;
-}
-
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #1c1c1c;
     background: rgba(0, 0, 0, 0.3);
