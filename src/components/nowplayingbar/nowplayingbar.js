@@ -31,7 +31,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         html += '<div class="nowPlayingBarTop">';
         html += '<div class="nowPlayingBarPositionContainer sliderContainer">';
-        html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider"/>';
+        html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
         html += '</div>';
 
         html += '<div class="nowPlayingBarInfoContainer">';
@@ -393,7 +393,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         var showMuteButton = true;
         var showVolumeSlider = true;
-        var progressElement = volumeSliderContainer.querySelector('.mdl-slider-background-lower');
 
         if (supportedCommands.indexOf('ToggleMute') === -1) {
             showMuteButton = false;
@@ -403,10 +402,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             muteButton.querySelector('i').innerHTML = 'volume_off';
         } else {
             muteButton.querySelector('i').innerHTML = 'volume_up';
-        }
-
-        if (progressElement) {
-            progressElement.style.width = (volumeLevel || 0) + '%';
         }
 
         if (supportedCommands.indexOf('SetVolume') === -1) {
