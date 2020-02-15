@@ -12,6 +12,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += "</div>";
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
+        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><i class="material-icons">music_note</i></button>';
         html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="material-icons">cast</i></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="material-icons">search</i></button>';
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="material-icons">person</i></button>';
@@ -27,6 +28,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         headerHomeButton = skinHeader.querySelector(".headerHomeButton");
         headerUserButton = skinHeader.querySelector(".headerUserButton");
         headerCastButton = skinHeader.querySelector(".headerCastButton");
+        headerAudioPlayerButton = skinHeader.querySelector(".headerAudioPlayerButton");
         headerSearchButton = skinHeader.querySelector(".headerSearchButton");
 
         lazyLoadViewMenuBarImages();
@@ -82,6 +84,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             if (!layoutManager.tv) {
                 headerCastButton.classList.remove("hide");
             }
+
         } else {
             headerHomeButton.classList.add("hide");
             headerCastButton.classList.add("hide");
@@ -116,6 +119,10 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         Dashboard.navigate("home.html");
     }
 
+    function showAudioPlayer() {
+        return appRouter.showNowPlaying();
+    }
+
     function bindMenuEvents() {
         mainDrawerButton = document.querySelector(".mainDrawerButton");
 
@@ -140,8 +147,28 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             headerCastButton.addEventListener("click", onCastButtonClicked);
         }
 
+        headerAudioPlayerButton.addEventListener("click", showAudioPlayer);
+
         if (layoutManager.mobile) {
             initHeadRoom(skinHeader);
+        }
+        events.on(playbackManager, 'playbackstart', onPlaybackStart);
+        events.on(playbackManager, 'playbackstop', onPlaybackStop);
+    }
+
+    function onPlaybackStart(e) {
+
+        if (playbackManager.isPlayingAudio() && layoutManager.tv) {
+            headerAudioPlayerButton.classList.remove("hide");
+        } else {
+            headerAudioPlayerButton.classList.add("hide");
+        }
+    }
+
+    function onPlaybackStop(e, stopInfo) {
+
+        if (stopInfo.nextMediaType != 'Audio') {
+            headerAudioPlayerButton.classList.add("hide");
         }
     }
 
@@ -763,6 +790,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     var currentUser;
     var headerCastButton;
     var headerSearchButton;
+    var headerAudioPlayerButton;
     var enableLibraryNavDrawer = !layoutManager.tv;
     var skinHeader = document.querySelector(".skinHeader");
     var requiresUserRefresh = true;
