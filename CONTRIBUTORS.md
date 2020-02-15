@@ -33,6 +33,7 @@
  - [Daniel Hartung](https://github.com/dhartung)
  - [Ryan Hartzell](https://github.com/ryan-hartzell)
  - [Thibault Nocchi](https://github.com/ThibaultNocchi)
+ - [MrTimscampi](https://github.com/MrTimscampi)
 
 # Emby Contributors
 
