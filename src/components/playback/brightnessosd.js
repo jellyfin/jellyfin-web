@@ -102,11 +102,11 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
 
         if (iconElement) {
             if (brightness >= 80) {
-                iconElement.innerHTML = 'brightness_high';
+                iconElement.innerHTML = '&#xE1AC;';
             } else if (brightness >= 20) {
-                iconElement.innerHTML = 'brightness_medium';
+                iconElement.innerHTML = '&#xE1AE;';
             } else {
-                iconElement.innerHTML = 'brightness_low';
+                iconElement.innerHTML = '&#xE1AD;';
             }
         }
         if (progressElement) {

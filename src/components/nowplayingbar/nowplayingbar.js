@@ -402,7 +402,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         if (isMuted) {
             muteButton.querySelector('i').innerHTML = '&#xE04F;';
         } else {
-            muteButton.querySelector('i').innerHTML = 'volume_up';
+            muteButton.querySelector('i').innerHTML = '&#xE050;';
         }
 
         if (progressElement) {
