@@ -522,6 +522,7 @@
 
 .layout-tv .detailPagePrimaryContainer {
     position: relative;
+    top: 0;
 }
 
 .detailSticky {
