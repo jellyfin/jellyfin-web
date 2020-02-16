@@ -249,7 +249,7 @@
     "DisplayInMyMedia": "Näytä kotinäytöllä",
     "DisplayInOtherHomeScreenSections": "Näytä kotinäytöllä osastoja kuten viimeisin media ja jatka katselua",
     "DisplayMissingEpisodesWithinSeasons": "Näytä puuttuvat jaksot tuotantokausissa",
-    "DisplayMissingEpisodesWithinSeasonsHelp": "Tämän pitää aktivoida TV-kirjastoille myös palvelimen asennusvaiheessa.",
+    "DisplayMissingEpisodesWithinSeasonsHelp": "Tämän pitää aktivoida TV-kirjastoille myös palvelimen asetuksissa.",
     "DisplayModeHelp": "Valitse näyttölaitteen tyyppi jolla pyörität Jellyfiniä.",
     "DoNotRecord": "Älä tallenna",
     "Down": "Alas",
