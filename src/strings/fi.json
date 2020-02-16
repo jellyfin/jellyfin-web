@@ -289,5 +289,21 @@
     "CopyStreamURLSuccess": "Osoite kopioitu onnistuneesti.",
     "DeathDateValue": "Kuoli: {0}",
     "CustomDlnaProfilesHelp": "Luo mukautettu profiili uutta laitetta varten, tai ohita järjestelmäprofiili.",
-    "EnableBackdrops": "Taustat"
+    "EnableBackdrops": "Taustat",
+    "ErrorAddingMediaPathToVirtualFolder": "Media-polkua lisätessä ilmeni ongelma. Varmista, että polku on kirjoitettu oikein ja Jellyfin Palvelimella pääsy sijaintiin.",
+    "Episodes": "Jaksot",
+    "EndsAtValue": "Päättyy {0}",
+    "Ended": "Päättynyt",
+    "EnableThemeSongsHelp": "Soita tunnuslaulut taustalla, selatessasi kirjastoa.",
+    "EnableThemeSongs": "Tunnuslaulut",
+    "EnableStreamLoopingHelp": "Laita tämä päälle, jos suoratoistot sisältävät vain muutaman sekuntin verran dataa jota tarvitsee pyytää jatkuvasti. Tämän päälle laittaminen ilman toiminnon tarvetta voi aiheuttaa ongelmia.",
+    "EnablePhotosHelp": "Kuvat tunnistetaan ja näytetään muiden media-tiedostojen ohessa.",
+    "EnablePhotos": "Näytä valokuvat",
+    "EnableNextVideoInfoOverlay": "Näytä seuraavan videon tiedot toiston aikana",
+    "EnableHardwareEncoding": "Salli rauta-tason muunnoksen kiihdytys",
+    "EnableExternalVideoPlayers": "Ulkoiset videosoittimet",
+    "EnableDisplayMirroring": "Näytön peilaus",
+    "EnableColorCodedBackgrounds": "Väri-koodatut taustat",
+    "EnableCinemaMode": "Teatteri-tila",
+    "EnableBackdropsHelp": "Näytä taustat tietyillä sivuilla selatessasi kirjastoa."
 }
