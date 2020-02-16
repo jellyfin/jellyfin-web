@@ -66,7 +66,7 @@ _define("shaka", function() {
 });
 
 // swiper
-var swiper = require("swiper");
+var swiper = require("swiper/js/swiper");
 require("swiper/css/swiper.min.css");
 _define("swiper", function() {
     return swiper;
