@@ -809,6 +809,7 @@ var AppInfo = {};
 
         define("appSettings", [scriptsPath + "/settings/appSettings"], returnFirstDependency);
         define("userSettings", [scriptsPath + "/settings/userSettings"], returnFirstDependency);
+        define("webSettings", [scriptsPath + "/settings/webSettings"], returnFirstDependency);
 
         define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
         define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);
