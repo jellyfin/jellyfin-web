@@ -22,10 +22,3 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
-
-.noLibraryContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}

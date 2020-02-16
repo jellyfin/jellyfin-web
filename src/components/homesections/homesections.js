@@ -69,7 +69,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                     noLibDescription = Globalize.translate("AskAdminToCreateLibrary");
                 }
 
-                html += '<div class="noLibraryContainer padded-left padded-right">';
+                html += '<div class="centerMessage padded-left padded-right">';
                 html += '<h2>' + Globalize.translate("MessageNothingHere") + '</h2>';
                 html += '<p>' + noLibDescription + '</p>'
                 html += '</div>';
