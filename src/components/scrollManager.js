@@ -158,11 +158,20 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
      */
     function getScrollableParent(element, vertical) {
         if (element) {
+            var nameScroll = "scrollWidth";
+            var nameClient = "clientWidth";
+            var nameClass = "scrollX";
+
+            if (vertical) {
+                nameScroll = "scrollHeight";
+                nameClient = "clientHeight";
+                nameClass = "scrollY";
+            }
+
             var parent = element.parentElement;
 
             while (parent) {
-                if ((!vertical && parent.scrollWidth > parent.clientWidth && parent.classList.contains("scrollX")) ||
-                    (vertical && parent.scrollHeight > parent.clientHeight && parent.classList.contains("scrollY"))) {
+                if (parent[nameScroll] > parent[nameClient] && parent.classList.contains(nameClass)) {
                     return parent;
                 }
 
