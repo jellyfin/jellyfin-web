@@ -288,5 +288,6 @@
     "Shows": "Ohjelmat",
     "CopyStreamURLSuccess": "Osoite kopioitu onnistuneesti.",
     "DeathDateValue": "Kuoli: {0}",
-    "CustomDlnaProfilesHelp": "Luo mukautettu profiili uutta laitetta varten, tai ohita järjestelmäprofiili."
+    "CustomDlnaProfilesHelp": "Luo mukautettu profiili uutta laitetta varten, tai ohita järjestelmäprofiili.",
+    "EnableBackdrops": "Taustat"
 }
