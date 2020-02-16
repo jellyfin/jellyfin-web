@@ -29,7 +29,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         var offset = newPct - left;
         var pctOfWidth = (offset / width) * 100;
 
-        //console.log(pctOfWidth);
+        //console.debug(pctOfWidth);
         var guideProgramName = cell.guideProgramName;
         if (!guideProgramName) {
             guideProgramName = cell.querySelector('.guideProgramName');
@@ -396,7 +396,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 try {
                     program.StartDateLocal = datetime.parseISO8601Date(program.StartDate, { toLocal: true });
                 } catch (err) {
-                    console.log('error parsing timestamp for start date');
+                    console.error('error parsing timestamp for start date');
                 }
             }
 
@@ -404,7 +404,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 try {
                     program.EndDateLocal = datetime.parseISO8601Date(program.EndDate, { toLocal: true });
                 } catch (err) {
-                    console.log('error parsing timestamp for end date');
+                    console.error('error parsing timestamp for end date');
                 }
             }
 

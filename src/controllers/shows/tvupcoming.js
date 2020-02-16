@@ -58,7 +58,7 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
                         day: "numeric"
                     });
                 } catch (err) {
-                    console.log('error parsing timestamp for upcoming tv shows');
+                    console.error('error parsing timestamp for upcoming tv shows');
                 }
             }
 

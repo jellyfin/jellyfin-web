@@ -62,7 +62,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
                 startDate = datetime.parseISO8601Date(item.StartDate).getTime();
                 endDate = datetime.parseISO8601Date(item.EndDate).getTime();
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
 
             var now = new Date().getTime();
@@ -174,7 +174,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
                         return '<div class="unairedIndicator">Unaired</div>';
                     }
                 } catch (err) {
-                    console.log(err);
+                    console.error(err);
                 }
             }
             return '<div class="missingIndicator">Missing</div>';

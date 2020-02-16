@@ -342,7 +342,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             try {
                                 newIndexValue = datetime.toLocaleDateString(datetime.parseISO8601Date(item.PremiereDate), { weekday: 'long', month: 'long', day: 'numeric' });
                             } catch (err) {
-                                console.log('error parsing timestamp for premiere date');
+                                console.error('error parsing timestamp for premiere date');
                             }
                         }
                     } else if (options.indexBy === 'ProductionYear') {
@@ -738,7 +738,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         airTimeText += ' - ' + datetime.getDisplayTime(date);
                     }
                 } catch (e) {
-                    console.log("Error parsing date: " + item.StartDate);
+                    console.error("error parsing date: " + item.StartDate);
                 }
             }
 

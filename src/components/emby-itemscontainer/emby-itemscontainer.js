@@ -467,7 +467,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
                     focusManager.focus(newElement);
                     return;
                 } catch (err) {
-                    console.log(err);
+                    console.error(err);
                 }
             }
         }

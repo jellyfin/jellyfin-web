@@ -131,7 +131,7 @@ define(['dom', 'playbackManager', 'connectionManager', 'events', 'mediaInfo', 'l
 
         var secondsRemaining = Math.max(Math.round(getTimeRemainingMs(instance) / 1000), 0);
 
-        console.log('up next seconds remaining: ' + secondsRemaining);
+        console.debug('up next seconds remaining: ' + secondsRemaining);
 
         var timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('HeaderSecondsValue', secondsRemaining) + '</span>';
 

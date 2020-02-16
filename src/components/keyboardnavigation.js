@@ -1,7 +1,7 @@
 define(["inputManager", "layoutManager"], function (inputManager, layoutManager) {
     "use strict";
 
-    console.log("keyboardnavigation");
+    console.debug("keyboardnavigation");
 
     /**
      * Key name mapping.
@@ -45,7 +45,7 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
     try {
         hasFieldKey = "key" in new KeyboardEvent("keydown");
     } catch (e) {
-        console.log("error checking 'key' field");
+        console.error("error checking 'key' field");
     }
 
     if (!hasFieldKey) {
@@ -142,7 +142,7 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
             }
 
             if (capture) {
-                console.log("Disabling default event handling");
+                console.debug("Disabling default event handling");
                 e.preventDefault();
             }
         });

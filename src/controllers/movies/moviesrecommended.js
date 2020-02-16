@@ -201,7 +201,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
     function loadSuggestionsTab(view, params, tabContent) {
         var parentId = params.topParentId;
         var userId = ApiClient.getCurrentUserId();
-        console.log("loadSuggestionsTab");
+        console.debug("loadSuggestionsTab");
         loadResume(tabContent, userId, parentId);
         loadLatest(tabContent, userId, parentId);
         loadSuggestions(tabContent, userId, parentId);

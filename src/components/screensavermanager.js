@@ -53,7 +53,7 @@ define(["events", "playbackManager", "pluginManager", "inputManager", "connectio
                 throw new Error("An existing screensaver is already active.");
             }
 
-            console.log("Showing screensaver " + screensaver.name);
+            console.debug("Showing screensaver " + screensaver.name);
 
             screensaver.show();
             activeScreenSaver = screensaver;
@@ -71,7 +71,7 @@ define(["events", "playbackManager", "pluginManager", "inputManager", "connectio
 
         function hide() {
             if (activeScreenSaver) {
-                console.log("Hiding screensaver");
+                console.debug("Hiding screensaver");
                 activeScreenSaver.hide();
                 activeScreenSaver = null;
             }

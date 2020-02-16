@@ -132,7 +132,7 @@ define(['events'], function (events) {
                 var match;
 
                 while (match = linkRegExp.exec(text)) {
-                    // console.log(matches);
+                    // console.debug(matches);
                     var txt = match[0];
                     var pos = match.index;
                     var len = txt.length;
@@ -189,7 +189,7 @@ define(['events'], function (events) {
                 return apiClient.getPublicSystemInfo().then(function (info) {
                     var localAddress = info.LocalAddress
                     if (!localAddress) {
-                        console.log("No valid local address returned, defaulting to external one")
+                        console.debug("No valid local address returned, defaulting to external one")
                         localAddress = serverAddress;
                     }
                     addToCache(serverAddress, localAddress);

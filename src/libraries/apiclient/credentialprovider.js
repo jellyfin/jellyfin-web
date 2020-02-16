@@ -4,7 +4,7 @@ define(["events", "appStorage"], function(events, appStorage) {
     function ensure(instance, data) {
         if (!instance._credentials) {
             var json = appStorage.getItem(instance.key) || "{}";
-            console.log("credentials initialized with: " + json), instance._credentials = JSON.parse(json), instance._credentials.Servers = instance._credentials.Servers || []
+            console.debug("credentials initialized with: " + json), instance._credentials = JSON.parse(json), instance._credentials.Servers = instance._credentials.Servers || []
         }
     }
 

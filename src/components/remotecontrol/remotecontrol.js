@@ -127,7 +127,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             maxHeight: 300
         }) : null;
 
-        console.log("updateNowPlayingInfo");
+        console.debug("updateNowPlayingInfo");
         setImageUrl(context, url);
         if (item) {
             backdrop.setBackdrops([item]);
@@ -398,7 +398,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         }
 
         function onPlaybackStart(e, state) {
-            console.log("remotecontrol event: " + e.type);
+            console.debug("remotecontrol event: " + e.type);
             var player = this;
             onStateChanged.call(player, e, state);
         }
@@ -426,7 +426,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         }
 
         function onPlaybackStopped(e, state) {
-            console.log("remotecontrol event: " + e.type);
+            console.debug("remotecontrol event: " + e.type);
             var player = this;
 
             if (!state.NextMediaType) {
