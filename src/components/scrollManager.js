@@ -171,7 +171,9 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
             var parent = element.parentElement;
 
             while (parent) {
-                if (parent[nameScroll] > parent[nameClient] && parent.classList.contains(nameClass)) {
+                // Skip 'emby-scroller' because it scrolls by itself
+                if (!parent.classList.contains("emby-scroller") &&
+                    parent[nameScroll] > parent[nameClient] && parent.classList.contains(nameClass)) {
                     return parent;
                 }
 
