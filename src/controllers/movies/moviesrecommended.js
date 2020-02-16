@@ -178,6 +178,8 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
 
             if (layoutManager.tv) {
                 elem.classList.add("smoothScrollX");
+                elem.classList.add("padded-top-focusscale");
+                elem.classList.add("padded-bottom-focusscale");
             }
 
             elem.classList.add("scrollX");
