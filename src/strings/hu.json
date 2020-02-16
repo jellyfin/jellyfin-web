@@ -4,7 +4,7 @@
     "AddToPlaylist": "Hozzáadás lejátszási listához",
     "AddedOnValue": "Hozzáadva: {0}",
     "AdditionalNotificationServices": "Keresd meg a Bővítmények katalógust további értesítési szolgáltatások telepítéséhez.",
-    "Alerts": "Riasztások",
+    "Alerts": "Értesítések",
     "All": "Összes",
     "AllEpisodes": "Összes epizód",
     "AllLanguages": "Összes nyelv",
@@ -275,7 +275,7 @@
     "LabelLogs": "Naplók:",
     "LabelMessageText": "Üzenet szövege:",
     "LabelMessageTitle": "Üzenet címe:",
-    "LabelMetadata": "Metaadat:",
+    "LabelMetadata": "Metaadatok:",
     "LabelMetadataDownloadLanguage": "Előnyben részesített letöltendő nyelv:",
     "LabelMetadataPath": "Metaadat útvonal:",
     "LabelMetadataReaders": "Metaadat olvasók:",
@@ -591,7 +591,7 @@
     "AllowMediaConversionHelp": "Add meg vagy tiltsd le a média konvertálás funkcióhoz való hozzáférést.",
     "AllowRemoteAccess": "Engedélyezze a távoli kapcsolatokat a Jellyfin szerverhez.",
     "AllowRemoteAccessHelp": "Ha nincs bekapcsolva, minden távoli kapcsolat blokkolva lesz.",
-    "AlwaysPlaySubtitles": "A feliratokat mindig jelenítse meg",
+    "AlwaysPlaySubtitles": "Mindig legyen felirat",
     "AnyLanguage": "Bármelyik nyelv",
     "Anytime": "Bármikor",
     "AroundTime": "{0} körül",
@@ -706,7 +706,7 @@
     "HeaderAccessSchedule": "Hozzáférési Ütemezés",
     "HeaderAccessScheduleHelp": "Hozz létre hozzáférési ütemezést, hogy korlátozd a hozzáférést bizonyos időben.",
     "HeaderActiveRecordings": "Aktív Felvételek",
-    "HeaderActivity": "Tevékenység",
+    "HeaderActivity": "Tevékenységek",
     "HeaderAdditionalParts": "További részek",
     "HeaderAdmin": "Adminisztrátor",
     "HeaderAlbumArtists": "Album előadók",
@@ -1439,5 +1439,6 @@
     "LabelDisplaySpecialsWithinSeasons": "Speciális epizódok megjelenítése abban az évadban, amiben adásban voltak",
     "LabelCorruptedFrames": "Sérült képkockák:",
     "HeaderKeepSeries": "Sorozat megtartása",
-    "ErrorGettingTvLineups": "Hiba történt a TV kínálat letöltése során. Kérjük ellenőrizd a megadott információkat és próbáld újra."
+    "ErrorGettingTvLineups": "Hiba történt a TV kínálat letöltése során. Kérjük ellenőrizd a megadott információkat és próbáld újra.",
+    "LabelTranscodes": "Átkódolások:"
 }
