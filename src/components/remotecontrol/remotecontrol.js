@@ -297,10 +297,10 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
 
             if (isMuted) {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute"));
-                view.querySelector(".buttonMute i").innerHTML = "volume_off";
+                view.querySelector(".buttonMute i").innerHTML = "&#xE04F;";
             } else {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute"));
-                view.querySelector(".buttonMute i").innerHTML = "volume_up";
+                view.querySelector(".buttonMute i").innerHTML = "&#xE050;";
             }
 
             if (progressElement) {
@@ -332,7 +332,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         function updatePlayPauseState(isPaused, isActive) {
             var context = dlg;
             var btnPlayPause = context.querySelector(".btnPlayPause");
-            btnPlayPause.querySelector("i").innerHTML = isPaused ? "play_arrow" : "pause";
+            btnPlayPause.querySelector("i").innerHTML = isPaused ? "&#xE037;" : "pause";
             buttonVisible(btnPlayPause, isActive);
         }
 
@@ -367,7 +367,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                     action: "setplaylistindex",
                     enableUserDataButtons: false,
                     rightButtons: [{
-                        icon: "remove_circle_outline",
+                        icon: "&#xE15D;",
                         title: globalize.translate("ButtonRemove"),
                         id: "remove"
                     }],

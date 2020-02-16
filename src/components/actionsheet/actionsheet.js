@@ -158,7 +158,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         }
 
         if (layoutManager.tv) {
-            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1"><i class="material-icons">arrow_back</i></button>';
+            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1"><i class="material-icons arrow_back"></i></button>';
         }
 
         // If any items have an icon, give them all an icon just to make sure they're all lined up evenly

@@ -128,7 +128,7 @@ define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize"
             dlg.classList.add("formDialog");
             var html = "";
             html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="material-icons">arrow_back</i></button>';
+            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="material-icons arrow_back"></i></button>';
             html += '<h3 class="formDialogHeaderTitle">';
             html += globalize.translate("HeaderLiveTvTunerSetup");
             html += "</h3>";

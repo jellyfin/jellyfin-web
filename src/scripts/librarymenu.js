@@ -5,7 +5,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         var html = "";
         html += '<div class="flex align-items-center flex-grow headerTop">';
         html += '<div class="headerLeft">';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><i class="material-icons">' + (browser.safari ? "chevron_left" : "arrow_back") + "</i></button>";
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><i class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '"></i></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><i class="material-icons">home</i></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><i class="material-icons">menu</i></button>';
         html += '<h3 class="pageTitle"></h3>';
@@ -306,7 +306,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             icon: "folder"
         }, {
             name: globalize.translate("TabPlayback"),
-            icon: "play_arrow",
+            icon: "&#xE037;",
             href: "encodingsettings.html",
             pageIds: ["encodingSettingsPage", "playbackConfigurationPage", "streamingSettingsPage"]
         }];
@@ -584,7 +584,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         var icon = headerCastButton.querySelector("i");
 
         if (info && !info.isLocalPlayer) {
-            icon.innerHTML = "cast_connected";
+            icon.innerHTML = "&#xE308;";
             headerCastButton.classList.add("castButton-active");
             context.querySelector(".headerSelectedPlayer").innerHTML = info.deviceName || info.name;
         } else {

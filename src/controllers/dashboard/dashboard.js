@@ -571,7 +571,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             }
 
             if (session.PlayState && session.PlayState.IsPaused) {
-                btnSessionPlayPause.querySelector("i").innerHTML = "play_arrow";
+                btnSessionPlayPause.querySelector("i").innerHTML = "&#xE037;";
             } else {
                 btnSessionPlayPause.querySelector("i").innerHTML = "pause";
             }

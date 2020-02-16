@@ -67,7 +67,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
         html += '<div class="' + rowClassName + '">';
         if (options.mode === 'keyboard') {
-            html += '<button data-value=" " is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><i class="material-icons alphaPickerButtonIcon">space_bar</i></button>';
+            html += '<button data-value=" " is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><i class="material-icons alphaPickerButtonIcon space_bar"></i></button>';
         } else {
             letters = ['#'];
             html += mapLetters(letters, vertical).join('');

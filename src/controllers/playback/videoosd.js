@@ -539,7 +539,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         function updateFullscreenIcon() {
             if (playbackManager.isFullscreen(currentPlayer)) {
                 view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("ExitFullscreen"));
-                view.querySelector(".btnFullscreen i").innerHTML = "fullscreen_exit";
+                view.querySelector(".btnFullscreen i").innerHTML = "&#xE5D1;";
             } else {
                 view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("Fullscreen") + " (f)");
                 view.querySelector(".btnFullscreen i").innerHTML = "fullscreen";
@@ -741,7 +741,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         function updatePlayPauseState(isPaused) {
             var button = view.querySelector(".btnPause i");
             if (isPaused) {
-                button.innerHTML = "play_arrow";
+                button.innerHTML = "&#xE037;";
                 button.setAttribute("title", globalize.translate("ButtonPlay") + " (k)");
             } else {
                 button.innerHTML = "pause";
@@ -880,10 +880,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             if (isMuted) {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute") + " (m)");
-                view.querySelector(".buttonMute i").innerHTML = "volume_off";
+                view.querySelector(".buttonMute i").innerHTML = "&#xE04F;";
             } else {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute") + " (m)");
-                view.querySelector(".buttonMute i").innerHTML = "volume_up";
+                view.querySelector(".buttonMute i").innerHTML = "&#xE050;";
             }
 
             if (progressElement) {

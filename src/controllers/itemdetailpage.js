@@ -2070,7 +2070,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         bindAll(view, ".btnCancelTimer", "click", onCancelTimerClick);
         bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
         bindAll(view, ".btnDownload", "click", onDownloadClick);
-        view.querySelector(".btnMoreCommands i").innerHTML = "more_horiz";
+        view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
         view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
         view.querySelector(".btnSplitVersions").addEventListener("click", function () {
             splitVersions(self, view, apiClient, params);
