@@ -152,8 +152,11 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         if (item.Type === 'Video') {
             return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">videocam</i></div>';
         }
-        if (item.Type === 'Folder' || item.Type === 'PhotoAlbum') {
+        if (item.Type === 'Folder') {
             return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">folder</i></div>';
+        }
+        if (item.Type === 'PhotoAlbum') {
+            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon photo_album"></i></div>';
         }
         if (item.Type === 'Photo') {
             return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">photo</i></div>';
