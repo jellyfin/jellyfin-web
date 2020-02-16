@@ -278,7 +278,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
         features.push("targetblank");
         features.push("screensaver");
 
-        if (webSettings.getMultiserver()) {
+        if (webSettings.getMultiServer()) {
             features.push("multiserver")
         }
 

@@ -1,4 +1,4 @@
-define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings'], function (appHost, userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings) {
+define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings', 'webSettings'], function (appHost, userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings, webSettings) {
     'use strict';
 
     var themeStyleElement;
@@ -116,8 +116,8 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
             var linkUrl = info.stylesheetPath;
             unloadTheme();
-            var link = document.createElement('link');
 
+            var link = document.createElement('link');
             link.setAttribute('rel', 'stylesheet');
             link.setAttribute('type', 'text/css');
             link.onload = function () {

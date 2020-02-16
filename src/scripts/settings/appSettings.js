@@ -20,6 +20,14 @@ define(['appStorage', 'events'], function (appStorage, events) {
         return this.get('enableAutoLogin') !== 'false';
     };
 
+    AppSettings.prototype.enableSystemExternalPlayers = function (val) {
+        if (val != null) {
+            this.set('enableSystemExternalPlayers', val.toString());
+        }
+
+        return this.get('enableSystemExternalPlayers') === 'true';
+    };
+
     AppSettings.prototype.enableAutomaticBitrateDetection = function (isInNetwork, mediaType, val) {
         var key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
         if (val != null) {
@@ -121,14 +129,6 @@ define(['appStorage', 'events'], function (appStorage, events) {
 
     AppSettings.prototype.get = function (name, userId) {
         return appStorage.getItem(getKey(name, userId));
-    };
-
-    AppSettings.prototype.enableSystemExternalPlayers = function (val) {
-        if (val != null) {
-            this.set('enableSystemExternalPlayers', val.toString());
-        }
-
-        return this.get('enableSystemExternalPlayers') === 'true';
     };
 
     return new AppSettings();
