@@ -62,7 +62,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                     });
                 });
             } else {
-                let noLibDescription;
+                var noLibDescription;
                 if (user['Policy'] && user['Policy']['IsAdministrator']) {
                     noLibDescription = Globalize.translate("NoCreatedLibraries", '<a id="button-createLibrary" class="button-link">', '</span>')
                 } else {
@@ -75,7 +75,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 html += '</div>';
                 elem.innerHTML = html;
 
-                let createNowLink = elem.querySelector("#button-createLibrary")
+                var createNowLink = elem.querySelector("#button-createLibrary")
                 if (createNowLink) {
                     createNowLink.addEventListener("click", () => {
                         Dashboard.navigate("library.html");
