@@ -1123,5 +1123,7 @@
     "LabelEnableDlnaDebugLogging": "DLNAデバッグログの有効化",
     "LabelDroppedFrames": "ドロップフレーム:",
     "LabelDisplayMissingEpisodesWithinSeasons": "シーズン中の見つからなかったエピソードを表示",
-    "LabelCustomDeviceDisplayNameHelp": "任意の表示名を提供するか、空白のままにしてデバイスネームで報告する。"
+    "LabelCustomDeviceDisplayNameHelp": "任意の表示名を提供するか、空白のままにしてデバイスネームで報告する。",
+    "LabelArtistsHelp": "分けますと使用;",
+    "Identify": "識別する"
 }
