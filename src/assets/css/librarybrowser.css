@@ -443,6 +443,22 @@
     position: relative;
 }
 
+.itemBackdrop.noBackdrop {
+    display: none;
+}
+
+.detailPageContent.noBackdrop {
+    margin-top: 6.75em;
+}
+
+.layout-desktop .detailImageContainer.noBackdrop img {
+    margin-top: -2.5em;
+}
+
+.layout-tv .detailImageContainer.noBackdrop img {
+    margin-top: 0;
+}
+
 .personBackdrop {
     background-size: contain;
 }

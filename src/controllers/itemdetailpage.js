@@ -1,4 +1,4 @@
-define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, connectionManager, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser) {
+define(["loading", "appRouter", "layoutManager", "connectionManager", "userSettings", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, connectionManager, userSettings, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser) {
     "use strict";
 
     function getPromise(apiClient, params) {
@@ -464,6 +464,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             item.Type === "MusicArtist" ||
             item.Type === "Person";
 
+        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
+            return hasbackdrop;
+        }
+
         if ("Program" === item.Type && item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
@@ -663,7 +667,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         });
         var detailLogo = page.querySelector(".detailLogo");
 
-        if (url) {
+        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
+            detailLogo.classList.add("hide");
+        } else if (url) {
             detailLogo.classList.remove("hide");
             detailLogo.classList.add("lazy");
             detailLogo.setAttribute("data-src", url);
@@ -836,6 +842,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             } else if (item.PrimaryImageAspectRatio >= 0.85 && item.PrimaryImageAspectRatio <= 1.34) {
                 shape = "square";
             }
+        }
+
+        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
+            elem.classList.add("noBackdrop");
         }
 
         if ("thumb" == shape) {
@@ -1047,6 +1057,11 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     }
 
     function renderDetails(page, item, apiClient, context, isStatic) {
+        var taglineElement = page.querySelector(".detailPageContent");
+        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
+            taglineElement.classList.add("noBackdrop");
+        }
+
         renderSimilarItems(page, item, context);
         renderMoreFromSeason(page, item, apiClient);
         renderMoreFromArtist(page, item, apiClient);
