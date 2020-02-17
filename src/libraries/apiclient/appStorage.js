@@ -2,7 +2,7 @@ define([], function() {
     "use strict";
 
     function onCachePutFail(e) {
-        console.error(e);
+        console.error("cannot put to a cache: " + e);
     }
 
     function updateCache(instance) {

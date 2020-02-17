@@ -1,8 +1,6 @@
 define(["inputManager", "layoutManager"], function (inputManager, layoutManager) {
     "use strict";
 
-    console.debug("keyboardnavigation");
-
     /**
      * Key name mapping.
      */
@@ -142,7 +140,7 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
             }
 
             if (capture) {
-                console.debug("Disabling default event handling");
+                console.debug("disabling default event handling");
                 e.preventDefault();
             }
         });

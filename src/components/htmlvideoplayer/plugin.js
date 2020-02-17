@@ -408,7 +408,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             lrd.media.streamType = cast.receiver.media.StreamType.OTHER;
             lrd.media.customData = options;
 
-            console.debug('loading media url into mediaManager');
+            console.debug('loading media url into media manager');
 
             try {
                 mediaManager.load(lrd);
@@ -418,7 +418,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return Promise.resolve();
             } catch (err) {
 
-                console.debug('mediaManager error: ' + err);
+                console.debug('media manager error: ' + err);
                 return Promise.reject();
             }
         }
@@ -461,10 +461,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             console.debug('loading playback url: ' + url);
-            console.debug('contentType: ' + contentType);
+            console.debug('content type: ' + contentType);
 
             host.onError = function (errorCode) {
-                console.error("Fatal Error - " + errorCode);
+                console.error("fatal Error - " + errorCode);
             };
 
             mediaElement.autoplay = false;
@@ -911,7 +911,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function onError() {
             var errorCode = this.error ? (this.error.code || 0) : 0;
             var errorMessage = this.error ? (this.error.message || '') : '';
-            console.error('Media element error: ' + errorCode.toString() + ' ' + errorMessage);
+            console.error('media element error: ' + errorCode.toString() + ' ' + errorMessage);
 
             var type;
 
@@ -1328,7 +1328,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function setCurrentTrackElement(streamIndex) {
 
-            console.debug('Setting new text track index to: ' + streamIndex);
+            console.debug('setting new text track index to: ' + streamIndex);
 
             var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
 

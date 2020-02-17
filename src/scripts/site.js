@@ -588,7 +588,7 @@ var AppInfo = {};
         require(['apphost', 'appRouter'], function (appHost, appRouter) {
             window.Emby = {};
 
-            console.debug("onAppReady - loading dependencies");
+            console.debug("onAppReady: loading dependencies");
             if (browser.iOS) {
                 require(['css!assets/css/ios.css']);
             }

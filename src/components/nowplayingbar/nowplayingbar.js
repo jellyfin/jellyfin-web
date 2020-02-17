@@ -581,8 +581,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function onPlaybackStart(e, state) {
-
-        //console.debug('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + e.type);
 
         var player = this;
 

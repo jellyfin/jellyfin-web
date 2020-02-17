@@ -68,6 +68,7 @@ define(["events", "appStorage"], function(events, appStorage) {
         console.debug("ApiClient appVersion: " + appVersion);
         console.debug("ApiClient deviceName: " + deviceName);
         console.debug("ApiClient deviceId: " + deviceId);
+
         this._serverInfo = {};
         this._serverAddress = serverAddress;
         this._deviceId = deviceId;
@@ -165,9 +166,10 @@ define(["events", "appStorage"], function(events, appStorage) {
     function setSocketOnClose(apiClient, socket) {
         socket.onclose = function() {
             console.debug("web socket closed");
-            apiClient._webSocket === socket;
-            console.debug("nulling out web socket");
-            apiClient._webSocket = null;
+            if (apiClient._webSocket === socket) {
+                console.debug("nulling out web socket");
+                apiClient._webSocket = null;
+            }
             setTimeout(function() {
                 events.trigger(apiClient, "websocketclose")
             }, 0)

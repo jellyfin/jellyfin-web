@@ -29,7 +29,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         var offset = newPct - left;
         var pctOfWidth = (offset / width) * 100;
 
-        //console.debug(pctOfWidth);
         var guideProgramName = cell.guideProgramName;
         if (!guideProgramName) {
             guideProgramName = cell.querySelector('.guideProgramName');

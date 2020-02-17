@@ -298,7 +298,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
             var errorCode = this.error ? (this.error.code || 0) : 0;
             var errorMessage = this.error ? (this.error.message || '') : '';
-            console.error('Media element error: ' + errorCode.toString() + ' ' + errorMessage);
+            console.error('media element error: ' + errorCode.toString() + ' ' + errorMessage);
 
             var type;
 
