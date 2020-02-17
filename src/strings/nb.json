@@ -434,7 +434,7 @@
     "LabelCustomCssHelp": "Bruk tilpasset CSS-kode for å endre stil på web-grensesnittet.",
     "LabelCustomDeviceDisplayName": "Visningsnavn:",
     "LabelCustomDeviceDisplayNameHelp": "Oppgi et egendefinert visningsnavn eller la det være tomt for å bruke navnet som enheten rapporterer.",
-    "LabelCustomRating": "Egen anmeldelse:",
+    "LabelCustomRating": "Egen aldersgrense:",
     "LabelDateAdded": "Dato lagt til:",
     "LabelDateAddedBehavior": "Hvordan bestemme \"Dato lagt til\" for nytt innhold:",
     "LabelDateAddedBehaviorHelp": "Hvis en metadataverdi finnes, vil den alltid bli brukt fremfor noen av disse valgene.",
@@ -1463,5 +1463,6 @@
     "LabelPlayerDimensions": "Dimensjoner på avspiller:",
     "LabelCorruptedFrames": "Korrupte bilder:",
     "LabelStreamType": "Type strøm:",
-    "LabelDroppedFrames": "Fortapte bilder:"
+    "LabelDroppedFrames": "Fortapte bilder:",
+    "OptionForceRemoteSourceTranscoding": "Tvunget omkoding av eksterne media-kilder (som Direkte-TV)"
 }
