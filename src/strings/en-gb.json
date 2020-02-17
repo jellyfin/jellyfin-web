@@ -1463,5 +1463,13 @@
     "OptionRandom": "Random",
     "SelectAdminUsername": "Please select a username for the admin account.",
     "ButtonSplit": "Split",
-    "HeaderNavigation": "Navigation"
+    "HeaderNavigation": "Navigation",
+    "OptionForceRemoteSourceTranscoding": "Force transcoding of remote media sources (like LiveTV)",
+    "MessageConfirmAppExit": "Do you want to exit?",
+    "LabelVideoResolution": "Video resolution:",
+    "LabelStreamType": "Stream type:",
+    "LabelPlayerDimensions": "Player dimensions:",
+    "LabelDroppedFrames": "Dropped frames:",
+    "LabelCorruptedFrames": "Corrupted frames:",
+    "CopyStreamURLError": "There was an error copying the URL."
 }
