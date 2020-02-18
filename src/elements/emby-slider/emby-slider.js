@@ -254,24 +254,40 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
                     cancelable: false
                 }));
 
-                // Reset dragging (from 'input' event) so that real dragging can be detected
-                var range = this;
-                setTimeout(function () {
-                    range.dragging = false;
-                }, 0);
+                // Prevent 'pointermove' and 'click' after 'touch*'
+                // FIXME: Still have some 'pointermove' and 'click' that bypass 'touchstart'
+                e.preventDefault();
+            }, {
+                capture: true
+            });
+
+            dom.addEventListener(this, 'touchmove', function (e) {
+                if (!this.touched || e.targetTouches.length !== 1) {
+                    return;
+                }
+
+                var fraction = mapClientToFraction(this, e.targetTouches[0].clientX);
+                this.value = mapFractionToValue(this, fraction);
+
+                this.dispatchEvent(new Event('input', {
+                    bubbles: true,
+                    cancelable: false
+                }));
             }, {
                 passive: true
             });
 
             dom.addEventListener(this, 'touchend', function (e) {
-                if (!this.dragging) {
-                    this.dispatchEvent(new Event('change', {
+                var range = this;
+
+                setTimeout(function () {
+                    range.touched = false;
+
+                    range.dispatchEvent(new Event('change', {
                         bubbles: true,
                         cancelable: false
                     }));
-                }
-
-                this.touched = false;
+                }, 0);
             }, {
                 passive: true
             });
