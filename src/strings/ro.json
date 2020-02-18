@@ -1462,5 +1462,6 @@
     "LabelStreamType": "Tipul streamului:",
     "LabelPlayerDimensions": "Dimensiunile soft redare:",
     "LabelDroppedFrames": "Cadre abandonate:",
-    "LabelCorruptedFrames": "Cadre corupte:"
+    "LabelCorruptedFrames": "Cadre corupte:",
+    "OptionForceRemoteSourceTranscoding": "Forțați transcodarea surselor media distante (cum ar fi LiveTV)"
 }
