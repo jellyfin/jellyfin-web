@@ -1,4 +1,4 @@
-define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings', 'webSettings'], function (appHost, userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings, webSettings) {
+define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings'], function (appHost, userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings) {
     'use strict';
 
     var themeStyleElement;
