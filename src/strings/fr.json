@@ -605,7 +605,7 @@
     "LabelH264Crf": "CRF d'encodage H264 :",
     "LabelEncoderPreset": "Profil d'encodage H264 :",
     "LabelHardwareAccelerationType": "Accélération matérielle :",
-    "LabelHardwareAccelerationTypeHelp": "Fonctionnalité expérimentale disponible sur les systèmes supportés.",
+    "LabelHardwareAccelerationTypeHelp": "L'accélération matérielle nécessite une configuration supplémentaire.",
     "LabelHomeNetworkQuality": "Qualité du réseau local :",
     "LabelHomeScreenSectionValue": "Section {0} de l'accueil :",
     "LabelHttpsPort": "Numéro de port HTTPS local :",
