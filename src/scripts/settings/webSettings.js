@@ -9,7 +9,7 @@ define(['appStorage', 'events'], function (appStorage, events) {
         })
     }
 
-    WebSettings.prototype.getMultiServer = function () {
+    WebSettings.prototype.enableMultiServer = function () {
         return data.multiServer || false;
     };
 
