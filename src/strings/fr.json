@@ -916,7 +916,7 @@
     "MetadataSettingChangeHelp": "Les modifications des paramètres des métadonnées auront une incidence sur le nouveau contenu ajouté. Pour actualiser le contenu existant, ouvrez l'écran des détails et cliquez sur le bouton Actualiser, ou effectuez des actualisations en masse en utilisant le gestionnaire de métadonnées.",
     "MinutesAfter": "minutes après",
     "MinutesBefore": "minutes avant",
-    "Mobile": "Mobile",
+    "Mobile": "Pour appareil Mobile",
     "Monday": "Lundi",
     "MoreFromValue": "Plus de {0}",
     "MoreUsersCanBeAddedLater": "D'autres utilisateurs pourront être ajoutés ultérieurement à partir du tableau de bord.",
@@ -1455,5 +1455,15 @@
     "OptionRandom": "Aléatoire",
     "ButtonSplit": "Séparer",
     "SelectAdminUsername": "Veuillez choisir un nom d'utilisateur pour le compte administrateur.",
-    "HeaderNavigation": "Navigation"
+    "HeaderNavigation": "Navigation",
+    "OptionForceRemoteSourceTranscoding": "Transcodafe forcé pour source de media à distance (comme Télé)",
+    "MessageConfirmAppExit": "Sortir?",
+    "LabelVideoResolution": "Résolution vidéo",
+    "LabelStreamType": "Type de flux",
+    "EnableFastImageFadeInHelp": "Activer un transition plus rapide pour images téléchargées",
+    "EnableFastImageFadeIn": "Transition d'image rapide",
+    "LabelPlayerDimensions": "Dimension du lecteur",
+    "LabelDroppedFrames": "Cadre informatique oublié",
+    "LabelCorruptedFrames": "Cadre informatique corrompu",
+    "CopyStreamURLError": "Il y a eu une erreur lors de la copie du URL."
 }

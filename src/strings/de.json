@@ -1487,5 +1487,6 @@
     "EnableFastImageFadeIn": "Schnelle Bildeinblendung",
     "LabelPlayerDimensions": "Playerabmessungen:",
     "LabelDroppedFrames": "Verlorene Frames:",
-    "LabelCorruptedFrames": "Fehlerhafte Frames:"
+    "LabelCorruptedFrames": "Fehlerhafte Frames:",
+    "OptionForceRemoteSourceTranscoding": "Transkodieren von externen Medienquellen erzwingen (z.B. LiveTV)"
 }
