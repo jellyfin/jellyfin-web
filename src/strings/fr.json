@@ -1456,7 +1456,7 @@
     "ButtonSplit": "Séparer",
     "SelectAdminUsername": "Veuillez choisir un nom d'utilisateur pour le compte administrateur.",
     "HeaderNavigation": "Navigation",
-    "OptionForceRemoteSourceTranscoding": "Transcodafe forcé pour source de media à distance (comme Télé)",
+    "OptionForceRemoteSourceTranscoding": "Transcodage forcé pour sources de media à distance (ex: TV en direct)",
     "MessageConfirmAppExit": "Sortir?",
     "LabelVideoResolution": "Résolution vidéo",
     "LabelStreamType": "Type de flux",
