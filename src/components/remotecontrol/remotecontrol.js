@@ -279,8 +279,6 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             var supportedCommands = currentPlayerSupportedCommands;
             var showMuteButton = true;
             var showVolumeSlider = true;
-            var volumeSlider = view.querySelector('.nowPlayingVolumeSliderContainer');
-            var progressElement = volumeSlider.querySelector('.mdl-slider-background-lower');
 
             if (-1 === supportedCommands.indexOf("Mute")) {
                 showMuteButton = false;
@@ -301,10 +299,6 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             } else {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute"));
                 view.querySelector(".buttonMute i").innerHTML = "volume_up";
-            }
-
-            if (progressElement) {
-                progressElement.style.width = (volumeLevel || 0) + '%';
             }
 
             if (showMuteButton) {
@@ -615,15 +609,27 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 return datetime.getDisplayRunningTime(ticks);
             };
 
-            context.querySelector(".nowPlayingVolumeSlider").addEventListener("change", function () {
+            var volumeSliderTimer;
+
+            function setVolume() {
+                clearTimeout(volumeSliderTimer);
+                volumeSliderTimer = null;
+
                 playbackManager.setVolume(this.value, currentPlayer);
-            });
-            context.querySelector(".nowPlayingVolumeSlider").addEventListener("mousemove", function () {
-                playbackManager.setVolume(this.value, currentPlayer);
-            });
-            context.querySelector(".nowPlayingVolumeSlider").addEventListener("touchmove", function () {
-                playbackManager.setVolume(this.value, currentPlayer);
-            });
+            }
+
+            function setVolumeDelayed() {
+                if (!volumeSliderTimer) {
+                    var that = this;
+                    volumeSliderTimer = setTimeout(function () {
+                        setVolume.call(that);
+                    }, 700);
+                }
+            }
+
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("change", setVolume);
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("mousemove", setVolumeDelayed);
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("touchmove", setVolumeDelayed);
             context.querySelector(".buttonMute").addEventListener("click", function () {
                 playbackManager.toggleMute(currentPlayer);
             });

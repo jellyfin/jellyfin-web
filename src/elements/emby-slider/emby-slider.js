@@ -72,11 +72,15 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         return Math.min(Math.max(fraction, 0), 1);
     }
 
-    function updateValues() {
+    /**
+     * Updates progress bar.
+     *
+     * @param {boolean} [isValueSet] update by 'valueset' event or by timer
+     */
+    function updateValues(isValueSet) {
 
-        // Do not update values when dragging with keyboard to keep current progress for reference
-        // Do not update values when touched to keep current progress for reference
-        if (!!this.keyboardDragging || !!this.touched) {
+        // Do not update values by 'valueset' in case of soft-implemented dragging
+        if (!!isValueSet && (!!this.keyboardDragging || !!this.touched)) {
             return;
         }
 
@@ -84,7 +88,9 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         var value = range.value;
 
         // put this on a callback. Doing it within the event sometimes causes the slider to get hung up and not respond
-        requestAnimationFrame(function () {
+        // Keep only one per slider frame request
+        cancelAnimationFrame(range.updateValuesFrame);
+        range.updateValuesFrame = requestAnimationFrame(function () {
 
             var backgroundLower = range.backgroundLower;
 
@@ -191,6 +197,10 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         dom.addEventListener(this, 'input', function (e) {
             this.dragging = true;
 
+            if (this.dataset.sliderKeepProgress !== 'true') {
+                updateValues.call(this);
+            }
+
             var bubbleValue = mapValueToFraction(this, this.value) * 100;
             updateBubble(this, bubbleValue, sliderBubble);
 
@@ -204,7 +214,10 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
 
         dom.addEventListener(this, 'change', function () {
             this.dragging = false;
-            updateValues.call(this);
+
+            if (this.dataset.sliderKeepProgress === 'true') {
+                updateValues.call(this);
+            }
 
             sliderBubble.classList.add('hide');
             hasHideClass = true;
@@ -294,7 +307,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         }
 
         if (supportsValueSetOverride) {
-            this.addEventListener('valueset', updateValues);
+            this.addEventListener('valueset', updateValues.bind(this, true));
         } else {
             startInterval(this);
         }
@@ -473,7 +486,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
         if (interval) {
             clearInterval(interval);
         }
-        range.interval = setInterval(updateValues.bind(range), 100);
+        range.interval = setInterval(updateValues.bind(range, true), 100);
     }
 
     EmbySliderPrototype.detachedCallback = function () {
