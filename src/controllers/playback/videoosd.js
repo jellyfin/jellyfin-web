@@ -1231,9 +1231,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                     shell.disableFullscreen();
                 });
                 
-                if (playPauseClickTimeout) {
-                    clearTimeout(playPauseClickTimeout);
-                }
+                clearTimeout(playPauseClickTimeout);
                 var player = currentPlayer;
                 view.removeEventListener("viewbeforehide", onViewHideStopPlayback);
                 releaseCurrentPlayer();
