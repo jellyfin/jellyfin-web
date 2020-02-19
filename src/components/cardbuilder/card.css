@@ -370,8 +370,8 @@ button::-moz-focus-inner {
     text-align: center;
 }
 
-.cardImageIcon {
-    font-size: 5em !important;
+.cardImageContainer .cardImageIcon {
+    font-size: 5em;
     color: inherit;
 }
 

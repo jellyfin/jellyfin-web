@@ -1115,5 +1115,15 @@
     "LabelPreferredDisplayLanguage": "優先する表示言語:",
     "ImportMissingEpisodesHelp": "有効にすると、所有してないエピソードの情報がJellyfinデータベースにインポートされ、シーズンとシリーズに表示されます。これは、ライブラリスキャンに莫大な時間が掛かる可能性があります。",
     "LabelBindToLocalNetworkAddress": "ローカルネットワークアドレスにバインド:",
-    "LabelDownMixAudioScale": "ダウンミキシング時の音声ブースト:"
+    "LabelDownMixAudioScale": "ダウンミキシング時の音声ブースト:",
+    "HeaderNavigation": "ナビゲーション",
+    "CopyStreamURLError": "URLのコピー中にエラーが発生しました。",
+    "ButtonSplit": "分ける",
+    "LabelEnableDlnaServer": "DLNAサーバーの有効化",
+    "LabelEnableDlnaDebugLogging": "DLNAデバッグログの有効化",
+    "LabelDroppedFrames": "ドロップフレーム:",
+    "LabelDisplayMissingEpisodesWithinSeasons": "シーズン中の見つからなかったエピソードを表示",
+    "LabelCustomDeviceDisplayNameHelp": "任意の表示名を提供するか、空白のままにしてデバイスネームで報告する。",
+    "LabelArtistsHelp": "分けますと使用;",
+    "Identify": "識別する"
 }

@@ -152,7 +152,7 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
                         var scrollXClass = "scrollX hiddenScrollX";
 
                         if (layoutManager.tv) {
-                            scrollXClass += "smoothScrollX";
+                            scrollXClass += "smoothScrollX padded-top-focusscale padded-bottom-focusscale";
                         }
 
                         html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' lazy padded-left padded-right" data-id="' + item.Id + '">';

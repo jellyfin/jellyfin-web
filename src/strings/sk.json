@@ -1464,5 +1464,6 @@
     "LabelPlayerDimensions": "Rozmery prehrávača:",
     "LabelDroppedFrames": "Vynechané snímky:",
     "LabelCorruptedFrames": "Poškodené snímky:",
-    "CopyStreamURLError": "Pri kopírovaní URL nastala chyba."
+    "CopyStreamURLError": "Pri kopírovaní URL nastala chyba.",
+    "OptionForceRemoteSourceTranscoding": "Vynútiť transkódovanie vzdialených mediálnych zdrojov (ako napr. živá TV)"
 }
