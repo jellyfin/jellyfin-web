@@ -1223,14 +1223,14 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             return null;
         }
-        
+
         let playPauseClickTimeout;
         function onViewHideStopPlayback() {
             if (playbackManager.isPlayingVideo()) {
                 require(['shell'], function (shell) {
                     shell.disableFullscreen();
                 });
-                
+
                 clearTimeout(playPauseClickTimeout);
                 var player = currentPlayer;
                 view.removeEventListener("viewbeforehide", onViewHideStopPlayback);
