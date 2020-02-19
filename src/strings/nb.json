@@ -489,7 +489,7 @@
     "LabelH264Crf": "CRF-verdi for H264-koding:",
     "LabelEncoderPreset": "Forhåndsinnstilling for H264-koding:",
     "LabelHardwareAccelerationType": "Maskinvareakselerasjon:",
-    "LabelHardwareAccelerationTypeHelp": "Dette er en eksperimentell funksjon som bare er tilgjengelig på støttede systemer.",
+    "LabelHardwareAccelerationTypeHelp": "Maskinvareakselerasjon krever ytterligere konfigurasjon.",
     "LabelHomeScreenSectionValue": "Hjemskjermseksjon {0}:",
     "LabelHttpsPort": "Lokal HTTPS-port:",
     "LabelHttpsPortHelp": "TCP-portnummeret som Jellyfin sin HTTPS-server skal benytte.",
@@ -783,7 +783,7 @@
     "OptionAllowRemoteControlOthers": "Tillat fjernstyring av andre brukere",
     "OptionAllowRemoteSharedDevices": "Tillat fjernstyring av delte enheter",
     "OptionAllowRemoteSharedDevicesHelp": "DLNA-enheter betraktes som delte inntil en bruker begynner å styre dem.",
-    "OptionAllowUserToManageServer": "TIllatt denne brukeren å administrere serveren",
+    "OptionAllowUserToManageServer": "Tillatt denne brukeren å administrere serveren",
     "OptionAllowVideoPlaybackRemuxing": "Tillat avspilling av video som krever konvertering uten omkoding",
     "OptionAllowVideoPlaybackTranscoding": "Tillat filmavspilling som krever omkoding",
     "OptionAscending": "Økende",
@@ -1464,5 +1464,7 @@
     "LabelCorruptedFrames": "Korrupte bilder:",
     "LabelStreamType": "Type strøm:",
     "LabelDroppedFrames": "Fortapte bilder:",
-    "OptionForceRemoteSourceTranscoding": "Tvunget omkoding av eksterne media-kilder (som Direkte-TV)"
+    "OptionForceRemoteSourceTranscoding": "Tvunget omkoding av eksterne media-kilder (som Direkte-TV)",
+    "NoCreatedLibraries": "Det virker som at du ikke har opprettet noen biblioteker ennå. {0}Vil du opprette et nå?{1}",
+    "AskAdminToCreateLibrary": "Spør en administrator om å lage et bibliotek."
 }
