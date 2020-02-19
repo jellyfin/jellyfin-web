@@ -1405,39 +1405,28 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             }, options);
         }
 
+        function setVolume() {
+            clearTimeout(volumeSliderTimer);
+            volumeSliderTimer = null;
+
+            playbackManager.setVolume(this.value, currentPlayer);
+        }
+
+        function setVolumeDelayed() {
+            if (!volumeSliderTimer) {
+                var that = this;
+                volumeSliderTimer = setTimeout(function () {
+                    setVolume.call(that);
+                }, 700);
+            }
+        }
+
         view.querySelector(".buttonMute").addEventListener("click", function () {
             playbackManager.toggleMute(currentPlayer);
         });
-        nowPlayingVolumeSlider.addEventListener("change", function () {
-            if (volumeSliderTimer) {
-                // interupt and remove existing timer
-                clearTimeout(volumeSliderTimer);
-                volumeSliderTimer = null;
-            }
-            playbackManager.setVolume(this.value, currentPlayer);
-        });
-        nowPlayingVolumeSlider.addEventListener("mousemove", function () {
-            if (!volumeSliderTimer) {
-                var that = this;
-                // register new timer
-                volumeSliderTimer = setTimeout(function() {
-                    playbackManager.setVolume(that.value, currentPlayer);
-                    // delete timer after completion
-                    volumeSliderTimer = null;
-                }, 700);
-            }
-        });
-        nowPlayingVolumeSlider.addEventListener("touchmove", function () {
-            if (!volumeSliderTimer) {
-                var that = this;
-                // register new timer
-                volumeSliderTimer = setTimeout(function() {
-                    playbackManager.setVolume(that.value, currentPlayer);
-                    // delete timer after completion
-                    volumeSliderTimer = null;
-                }, 700);
-            }
-        });
+        nowPlayingVolumeSlider.addEventListener("change", setVolume);
+        nowPlayingVolumeSlider.addEventListener("mousemove", setVolumeDelayed);
+        nowPlayingVolumeSlider.addEventListener("touchmove", setVolumeDelayed);
 
         nowPlayingPositionSlider.addEventListener("change", function () {
             var player = currentPlayer;
