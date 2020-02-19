@@ -597,8 +597,6 @@
     "PreferredNotRequired": "Preferred, but not required",
     "PreferEmbeddedTitlesOverFileNamesHelp": "This determines the default display title when no internet metadata or local metadata is available.",
     "PreferEmbeddedTitlesOverFileNames": "Prefer embedded titles over filenames",
-    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "This uses the episode informations from the embedded metadata if available.",
-    "PreferEmbeddedEpisodeInfosOverFileNames": "Prefer embedded episode informations over filenames",
     "PluginInstalledMessage": "The plugin has been successfully installed. Jellyfin Server will need to be restarted for changes to take effect.",
     "PleaseSelectTwoItems": "Please select at least two items.",
     "PleaseRestartServerName": "Please restart Jellyfin Server - {0}.",
