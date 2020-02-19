@@ -1223,15 +1223,16 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             return null;
         }
-
+        
+        let playPauseClickTimeout;
         function onViewHideStopPlayback() {
             if (playbackManager.isPlayingVideo()) {
                 require(['shell'], function (shell) {
                     shell.disableFullscreen();
                 });
-
-                if (playerPauseClickTimeout) {
-                    clearTimeout(playerPauseClickTimeout);
+                
+                if (playPauseClickTimeout) {
+                    clearTimeout(playPauseClickTimeout);
                 }
                 var player = currentPlayer;
                 view.removeEventListener("viewbeforehide", onViewHideStopPlayback);
@@ -1372,7 +1373,6 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             destroySubtitleSync();
         });
         var lastPointerDown = 0;
-        let playerPauseClickTimeout;
         dom.addEventListener(view, window.PointerEvent ? "pointerdown" : "click", function (e) {
             if (dom.parentWithClass(e.target, ["videoOsdBottom", "upNextContainer"])) {
                 return void showOsd();
@@ -1392,14 +1392,14 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
                 case "mouse":
                     if (!e.button) {
-                        if (playerPauseClickTimeout) {
-                            clearTimeout(playerPauseClickTimeout);
-                            playerPauseClickTimeout = 0;
+                        if (playPauseClickTimeout) {
+                            clearTimeout(playPauseClickTimeout);
+                            playPauseClickTimeout = 0;
                         } else {
-                            playerPauseClickTimeout = setTimeout(() => {
+                            playPauseClickTimeout = setTimeout(() => {
                                 playbackManager.playPause(currentPlayer);
                                 showOsd();
-                                playerPauseClickTimeout = 0;
+                                playPauseClickTimeout = 0;
                             }, 300);
                         }
                     }
