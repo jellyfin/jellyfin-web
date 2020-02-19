@@ -583,7 +583,7 @@
     "LabelH264Crf": "H264 CRF 编码质量等级：",
     "LabelEncoderPreset": "H264 和 H265 编码预设：",
     "LabelHardwareAccelerationType": "硬件加速：",
-    "LabelHardwareAccelerationTypeHelp": "此特性只能在支持的系统上使用。",
+    "LabelHardwareAccelerationTypeHelp": "硬件加速需要额外配置。",
     "LabelHomeNetworkQuality": "家庭网络质量：",
     "LabelHomeScreenSectionValue": "主屏幕模块{0}：",
     "LabelHttpsPort": "本地 HTTPS 端口号：",
@@ -802,7 +802,7 @@
     "LabelZipCode": "邮编：",
     "LabelffmpegPath": "FFmpeg 路径：",
     "LabelffmpegPathHelp": "FFmpeg 应用程序的文件，或者包含了 FFmpeg 的文件夹的路径。",
-    "LanNetworksHelp": "在强制带宽限制时, 将在本地网络上考虑的网络的 ip 地址或 ip/网络掩码条目的逗号分隔列表。如果设置, 所有其他 IP 地址将被视为在外部网络上, 并且将受到外部带宽限制。如果保留为空, 则只将服务器的子网视为本地网络。",
+    "LanNetworksHelp": "在强制带宽限制时，认作本地网络上的 IP 地址或 IP/网络掩码条目的逗号分隔列表。如果设置此项，所有其它 IP 地址将被视为在外部网络上，并且将受到外部带宽限制。如果保留为空，则只将服务器的子网视为本地网络。",
     "Large": "大",
     "LatestFromLibrary": "最新的{0}",
     "LearnHowYouCanContribute": "学习如何构建。",
@@ -1049,7 +1049,7 @@
     "OptionRuntime": "播放时长",
     "OptionSaturday": "星期六",
     "OptionSaveMetadataAsHidden": "保存媒体资料和图像为隐藏文件",
-    "OptionSaveMetadataAsHiddenHelp": "更改此项将适用于保存向前的新元数据。在下次 Jellyfin 服务器保存时, 现有元数据文件将被更新。",
+    "OptionSaveMetadataAsHiddenHelp": "更改此项将应用于以后保存的元数据。现有元数据文件将在下一次 Jellyfin 服务器保存它们时被更新。",
     "OptionSpecialEpisode": "特集",
     "OptionSubstring": "子串",
     "OptionSunday": "星期天",
@@ -1422,7 +1422,7 @@
     "DashboardArchitecture": "架构：{0}",
     "GroupVersions": "按版本分组",
     "LaunchWebAppOnStartup": "当启动服务器时，打开Web界面",
-    "LaunchWebAppOnStartupHelp": "这个插件已经被成功安装。 服务器需要重启以使该插件生效。",
+    "LaunchWebAppOnStartupHelp": "服务器启动时在默认浏览器中打开网页端。使用重启服务器功能时此项不生效。",
     "MusicAlbum": "音乐专辑",
     "MusicArtist": "音乐艺术家",
     "MusicVideo": "音乐视频",
@@ -1468,5 +1468,6 @@
     "CopyStreamURLError": "复制URL地址时发生错误。",
     "MessageConfirmAppExit": "你要退出吗？",
     "EnableFastImageFadeIn": "快速图片淡入",
-    "EnableFastImageFadeInHelp": "为加载图片启用更快的图片淡入"
+    "EnableFastImageFadeInHelp": "为已加载的图片启用更快的图片淡入动画",
+    "OptionForceRemoteSourceTranscoding": "强制远程转码（像电视直播一样）"
 }
