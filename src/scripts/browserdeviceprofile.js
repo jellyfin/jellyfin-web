@@ -761,7 +761,7 @@ define(['browser'], function (browser) {
             videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, '')) {
 
             // These tests are passing in safari, but playback is failing
-            if (!browser.safari && !browser.iOS && !browser.web0s && !browser.edge) {
+            if (!browser.safari && !browser.iOS && !browser.web0s && !browser.edge && !browser.mobile) {
                 h264Profiles += '|high 10';
             }
         }
