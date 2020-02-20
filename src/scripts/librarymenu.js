@@ -113,7 +113,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function onHeaderHomeButtonClick() {
-        Dashboard.navigate("home.html");
+        appRouter.goHome();
     }
 
     function bindMenuEvents() {

@@ -1,4 +1,4 @@
-define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, layoutManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
+define(['loading', 'globalize', 'events', 'viewManager', 'userSettings', 'layoutManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, userSettings, layoutManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
     var appRouter = {
@@ -182,6 +182,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 alert(msg);
             });
         }
+    }
+
+    function getHomeRoute() {
+        if (layoutManager.tv && userSettings.get('tvhome') === 'horizontal') {
+            return '/tvhome/home.html';
+        } else {
+            return '/home.html';
+        }
+    }
+
+    function goHome() {
+        return show(getHomeRoute());
     }
 
     function showForcedLogoutMessage(msg) {
@@ -701,6 +713,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     appRouter.param = param;
     appRouter.back = back;
     appRouter.show = show;
+    appRouter.goHome = goHome;
     appRouter.showDirect = showDirect;
     appRouter.start = start;
     appRouter.baseUrl = baseUrl;

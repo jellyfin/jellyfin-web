@@ -612,6 +612,7 @@ var AppInfo = {};
                 }
 
                 require(["components/screensavermanager"]);
+                require(["components/models"]);
 
                 if (!appHost.supports("physicalvolumecontrol") || browser.touch) {
                     require(["components/playback/volumeosd"]);
@@ -963,10 +964,6 @@ var AppInfo = {};
 
             appRouter.showGuide = function () {
                 Dashboard.navigate("livetv.html?tab=1");
-            };
-
-            appRouter.goHome = function () {
-                Dashboard.navigate("home.html");
             };
 
             appRouter.showSearch = function () {

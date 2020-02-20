@@ -153,6 +153,13 @@ define([
         type: "home"
     });
     defineRoute({
+        path: "/tvhome/home.html",
+        autoFocus: false,
+        controller: "tvhome/home",
+        transition: "fade",
+        type: "home"
+    });
+    defineRoute({
         path: "/list.html",
         autoFocus: false,
         controller: "list",

@@ -1,0 +1,170 @@
+.homePageContainer {
+    padding-top: 5em !important;
+    padding-bottom: 1em !important;
+}
+
+.itemScrollFrame.scrollFrameX .scrollSlider {
+    padding-left: 4.5%
+}
+
+.itemScrollFrame.scrollFrameX .scrollSlider {
+    padding-bottom: 1.2em;
+    padding-top: .5em
+}
+
+.selectedItemInfoInner {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+.selectedItemInfoLogo {
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.selectedItemInfoLogo {
+    margin: 0 1em;
+    width: 10em;
+    height: 3em;
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+
+.selectedItemInfoDetails {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.selectedItemName {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 .5em;
+    font-weight: 400;
+    font-size: 1.6em;
+}
+
+.selectedItemMediaInfo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.homePageContainer .selectedItemInfo {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    bottom: 2em;
+    left: 0;
+    right: 0;
+}
+
+.horizontalSectionsContainer {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d
+}
+
+.scrollFrameX .scrollSlider {
+    white-space: nowrap !important
+}
+
+.homeHorizontalTabContainer {
+    position: absolute;
+    display: flex;
+    top: 0;
+    right: 6%;
+    left: 6%;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0.5em;
+    z-index: 9999;
+}
+
+.horizontalSection {
+    margin-right: 1.25em;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0
+}
+
+.horizontalSection .sectionTitle {
+    font-size: 90%;
+    padding: 0.06em 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.homePageContainer .cardImageContainer {
+    -webkit-animation: none !important;
+    animation: none !important;
+    opacity: 1 !important
+}
+
+.homePageContent .squareCard {
+    width: 7.18em
+}
+
+.homePageContent .backdropCard {
+    width: 12.48em
+}
+
+.homePageContent .portraitCard {
+    width: 7.3em
+}
+
+.homePageContent .fourThreeCard {
+    width: 9.4em
+}
+
+.wideSpotlightCard {
+    width: 100%
+}
+
+.wideSpotlightCard .cardImageContainer {
+    width: auto !important;
+    height: 38.26vh;
+}
+
+.itemScrollFrame.scrollFrameX.noTopPadding {
+    padding-top: 2.74vh;
+}
+
+.songCard .cardImageContainer,
+.albumsCard .cardImageContainer,
+.recordingsCard .cardImageContainer {
+    background: #38c;
+}
+
+.allGenericCard .cardImageContainer,
+.artistsCard .cardImageContainer {
+    background: #00A4DC;
+}
+
+.genresCard .cardImageContainer,
+.scheduledLiveTvCard .cardImageContainer {
+    background: #F44336;
+}
+
+.movieCollectionsCard .cardImageContainer {
+    background-color: #009688;
+}
+
+.movieGenresCard .cardImageContainer {
+    background-color: #009688;
+}
+
+.tvUpcomingCard .cardImageContainer {
+    background-color: #009688;
+}
+
+.userViewNames {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+
