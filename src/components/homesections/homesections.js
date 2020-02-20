@@ -77,7 +77,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
                 var createNowLink = elem.querySelector("#button-createLibrary")
                 if (createNowLink) {
-                    createNowLink.addEventListener("click", () => {
+                    createNowLink.addEventListener("click", function () {
                         Dashboard.navigate("library.html");
                     });
                 }
