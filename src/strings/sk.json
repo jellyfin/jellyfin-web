@@ -1465,5 +1465,7 @@
     "LabelDroppedFrames": "Vynechané snímky:",
     "LabelCorruptedFrames": "Poškodené snímky:",
     "CopyStreamURLError": "Pri kopírovaní URL nastala chyba.",
-    "OptionForceRemoteSourceTranscoding": "Vynútiť transkódovanie vzdialených mediálnych zdrojov (ako napr. živá TV)"
+    "OptionForceRemoteSourceTranscoding": "Vynútiť transkódovanie vzdialených mediálnych zdrojov (ako napr. živá TV)",
+    "NoCreatedLibraries": "Vyzerá to tak, že ste zatiaľ nevytvorili žiadnu knižnicu. {0}Chceli by ste nejakú vytvoriť teraz?{1}",
+    "AskAdminToCreateLibrary": "Pokiaľ chcete vytvoriť knižnicu, musíte sa spýtať administrátora."
 }
