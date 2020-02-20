@@ -12,7 +12,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += "</div>";
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
-        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><i class="material-icons">music_note</i></button>';
+        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><i class="material-icons music_note"></i></button>';
         html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="material-icons">cast</i></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="material-icons">search</i></button>';
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="material-icons">person</i></button>';
@@ -84,7 +84,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             if (!layoutManager.tv) {
                 headerCastButton.classList.remove("hide");
             }
-
         } else {
             headerHomeButton.classList.add("hide");
             headerCastButton.classList.add("hide");
@@ -157,7 +156,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function onPlaybackStart(e) {
-
         if (playbackManager.isPlayingAudio() && layoutManager.tv) {
             headerAudioPlayerButton.classList.remove("hide");
         } else {
@@ -166,7 +164,6 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function onPlaybackStop(e, stopInfo) {
-
         if (stopInfo.nextMediaType != 'Audio') {
             headerAudioPlayerButton.classList.add("hide");
         }
