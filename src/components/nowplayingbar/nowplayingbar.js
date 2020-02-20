@@ -42,19 +42,19 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         // The onclicks are needed due to the return false above
         html += '<div class="nowPlayingBarCenter">';
 
-        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><i class="material-icons">skip_previous</i></button>';
+        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><i class="material-icons skip_previous"></i></button>';
 
         html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons">pause</i></button>';
 
         html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><i class="material-icons">stop</i></button>';
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><i class="material-icons">skip_next</i></button>';
+        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><i class="material-icons skip_next"></i></button>';
 
         html += '<div class="nowPlayingBarCurrentTime"></div>';
         html += '</div>';
 
         html += '<div class="nowPlayingBarRight">';
 
-        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="material-icons">volume_up</i></button>';
+        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="material-icons volume_up"></i></button>';
 
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
@@ -66,7 +66,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         html += '</div>';
 
         html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons">pause</i></button>';
-        html += '<button is="paper-icon-button-light" class="remoteControlButton mediaButton"><i class="material-icons">playlist_play</i></button>';
+        html += '<button is="paper-icon-button-light" class="remoteControlButton mediaButton"><i class="material-icons playlist_play"></i></button>';
 
         html += '</div>';
         html += '</div>';
@@ -304,7 +304,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             if (isPaused) {
 
                 for (i = 0, length = playPauseButtons.length; i < length; i++) {
-                    playPauseButtons[i].querySelector('i').innerHTML = 'play_arrow';
+                    playPauseButtons[i].querySelector('i').innerHTML = '&#xE037;';
                 }
 
             } else {
@@ -414,9 +414,9 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         if (isMuted) {
-            muteButton.querySelector('i').innerHTML = 'volume_off';
+            muteButton.querySelector('i').innerHTML = '&#xE04F;';
         } else {
-            muteButton.querySelector('i').innerHTML = 'volume_up';
+            muteButton.querySelector('i').innerHTML = '&#xE050;';
         }
 
         if (supportedCommands.indexOf('SetVolume') === -1) {

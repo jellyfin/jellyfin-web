@@ -51,7 +51,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             if (task.State === "Running") {
                 html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStop") + '"><i class="material-icons">stop</i></button>';
             } else if (task.State === "Idle") {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStart") + '"><i class="material-icons">play_arrow</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStart") + '"><i class="material-icons play_arrow"></i></button>';
             }
             html += "</div>";
         }
@@ -99,7 +99,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
         } else if (state === "Idle") {
             elem.classList.add("btnStartTask");
             elem.classList.remove("btnStopTask");
-            elem.querySelector("i").innerHTML = "play_arrow";
+            elem.querySelector("i").innerHTML = "&#xE037;";
             elem.title = globalize.translate("ButtonStart");
         }
         $(elem).parents(".listItem")[0].setAttribute("data-status", state);

@@ -758,7 +758,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
 
                 if (options.cardFooterAside !== 'none') {
-                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="material-icons">more_horiz</i></button>';
+                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="material-icons more_horiz"></i></button>';
                 }
             }
 
@@ -1316,15 +1316,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
                 if (options.centerPlayButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="material-icons cardOverlayButtonIcon">play_arrow</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
                 }
 
                 if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="material-icons cardOverlayButtonIcon">play_arrow</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
                 }
 
                 if (options.overlayMoreButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon">more_horiz</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon more_horiz"></i></button>';
                 }
             }
 
@@ -1457,7 +1457,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
             if (playbackManager.canPlay(item)) {
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">play_arrow</i></button>';
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></i></button>';
             }
 
             html += '<div class="cardOverlayButton-br">';
@@ -1477,7 +1477,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">favorite</i></button>';
             }
 
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">more_horiz</i></button>';
+            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_horiz"></i></button>';
 
             html += '</div>';
             html += '</div>';
@@ -1677,7 +1677,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var icon = cell.querySelector('.timerIndicator');
                 if (!icon) {
                     var indicatorsElem = ensureIndicators(cell);
-                    indicatorsElem.insertAdjacentHTML('beforeend', '<i class="material-icons timerIndicator indicatorIcon">fiber_manual_record</i>');
+                    indicatorsElem.insertAdjacentHTML('beforeend', '<i class="material-icons timerIndicator indicatorIcon fiber_manual_record"></i>');
                 }
                 cell.setAttribute('data-timerid', newTimerId);
             }

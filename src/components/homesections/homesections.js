@@ -282,7 +282,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             html += '<h2 class="sectionTitle sectionTitle-cards">';
             html += globalize.translate('LatestFromLibrary', parent.Name);
             html += '</h2>';
-            html += '<i class="material-icons">chevron_right</i>';
+            html += '<i class="material-icons chevron_right"></i>';
             html += '</a>';
         } else {
             html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LatestFromLibrary', parent.Name) + '</h2>';
@@ -630,7 +630,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += globalize.translate('HeaderOnNow');
                     html += '</h2>';
-                    html += '<i class="material-icons">chevron_right</i>';
+                    html += '<i class="material-icons chevron_right"></i>';
                     html += '</a>';
 
                 } else {
@@ -705,7 +705,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             html += '<h2 class="sectionTitle sectionTitle-cards">';
             html += globalize.translate('HeaderNextUp');
             html += '</h2>';
-            html += '<i class="material-icons">chevron_right</i>';
+            html += '<i class="material-icons chevron_right"></i>';
             html += '</a>';
         } else {
             html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderNextUp') + '</h2>';

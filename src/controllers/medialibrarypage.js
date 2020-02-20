@@ -297,7 +297,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
 
         if (virtualFolder.showMenu !== false) {
             html += '<div style="text-align:right; float:right;padding-top:5px;">';
-            html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="material-icons">more_horiz</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="material-icons more_horiz"></i></button>';
             html += "</div>";
         }
 

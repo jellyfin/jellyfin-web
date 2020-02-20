@@ -118,7 +118,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         var status;
 
         if (item.Type === 'SeriesTimer') {
-            return '<i class="material-icons timerIndicator indicatorIcon">fiber_smart_record</i>';
+            return '<i class="material-icons timerIndicator indicatorIcon fiber_smart_record"></i>';
         } else if (item.TimerId || item.SeriesTimerId) {
             status = item.Status || 'Cancelled';
         } else if (item.Type === 'Timer') {
@@ -129,20 +129,20 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
         if (item.SeriesTimerId) {
             if (status !== 'Cancelled') {
-                return '<i class="material-icons timerIndicator indicatorIcon">fiber_smart_record</i>';
+                return '<i class="material-icons timerIndicator indicatorIcon fiber_smart_record"></i>';
             }
 
-            return '<i class="material-icons timerIndicator timerIndicator-inactive indicatorIcon">fiber_smart_record</i>';
+            return '<i class="material-icons timerIndicator timerIndicator-inactive indicatorIcon fiber_smart_record"></i>';
         }
 
-        return '<i class="material-icons timerIndicator indicatorIcon">fiber_manual_record</i>';
+        return '<i class="material-icons timerIndicator indicatorIcon fiber_manual_record"></i>';
     }
 
     function getSyncIndicator(item) {
         if (item.SyncPercent === 100) {
-            return '<div class="syncIndicator indicator fullSyncIndicator"><i class="material-icons indicatorIcon">file_download</i></div>';
+            return '<div class="syncIndicator indicator fullSyncIndicator"><i class="material-icons indicatorIcon file_download"></i></div>';
         } else if (item.SyncPercent != null) {
-            return '<div class="syncIndicator indicator emptySyncIndicator"><i class="material-icons indicatorIcon">file_download</i></div>';
+            return '<div class="syncIndicator indicator emptySyncIndicator"><i class="material-icons indicatorIcon file_download"></i></div>';
         }
 
         return '';

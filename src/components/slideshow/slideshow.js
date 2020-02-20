@@ -349,7 +349,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
             if (btnSlideshowPause) {
-                btnSlideshowPause.innerHTML = "play_arrow";
+                btnSlideshowPause.innerHTML = "&#xE037;";
             }
 
             swiperInstance.stopAutoplay();
