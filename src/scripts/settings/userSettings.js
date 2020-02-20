@@ -93,6 +93,23 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return val !== 'false';
     };
 
+    UserSettings.prototype.enableCinemaTrailersUnseenOnly = function (val) {
+        if (val != null) {
+            return this.set('enableCinemaTrailersUnseenOnly', val.toString(), false);
+        }
+
+        val = this.get('enableCinemaTrailersUnseenOnly', false);
+        return val !== 'false';
+    };
+
+    UserSettings.prototype.cinemaModeTrailerCount = function (val) {
+        if (val != null) {
+            return this.set('cinemaModeTrailerCount', val, false);
+        }
+
+        return this.get('cinemaModeTrailerCount', false);
+    };
+
     UserSettings.prototype.enableNextVideoInfoOverlay = function (val) {
         if (val != null) {
             return this.set('enableNextVideoInfoOverlay', val.toString());

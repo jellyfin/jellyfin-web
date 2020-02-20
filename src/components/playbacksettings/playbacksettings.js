@@ -195,6 +195,8 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
         context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
+        context.querySelector('.chkTrailerUnseenOnly').checked = userSettings.enableCinemaTrailersUnseenOnly();
+        context.querySelector('.txtTrailerCount').value = userSettings.cinemaModeTrailerCount();
         context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
         context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
 
@@ -232,6 +234,8 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         user.Configuration.EnableNextEpisodeAutoPlay = context.querySelector('.chkEpisodeAutoPlay').checked;
 
         userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
+        userSettingsInstance.enableCinemaTrailersUnseenOnly(context.querySelector('.chkTrailerUnseenOnly').checked);
+        userSettingsInstance.cinemaModeTrailerCount(context.querySelector('.txtTrailerCount').value)
 
         userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
         userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);

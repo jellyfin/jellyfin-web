@@ -39,17 +39,33 @@
         </div>
     </div>
 
-    <div class="verticalSection verticalSection-extrabottompadding">
+    <div class="verticalSection verticalSection-extrabottompadding cinemaModeOptions">
         <h2 class="sectionTitle">
-            ${TabAdvanced}
+            Cinema-Mode
         </h2>
-        <div class="checkboxContainer checkboxContainer-withDescription cinemaModeOptions">
+        <div class="checkboxContainer checkboxContainer-withDescription">
             <label>
                 <input type="checkbox" is="emby-checkbox" class="chkEnableCinemaMode" />
                 <span>${EnableCinemaMode}</span>
             </label>
             <div class="fieldDescription checkboxFieldDescription">${CinemaModeConfigurationHelp}</div>
         </div>
+        <div class="inputContainer">
+            <input is="emby-input" type="number" class="txtTrailerCount" label="Anzahl der Trailer" autocomplete="off" min="0" />
+        </div>
+        <div class="checkboxContainer checkboxContainer-withDescription">
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkTrailerUnseenOnly" />
+                <span>Only trailers of unplayed movies</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">Only plays trailers to movies you haven't watched yet.</div>
+        </div>
+    </div>
+
+    <div class="verticalSection verticalSection-extrabottompadding">
+        <h2 class="sectionTitle">
+            ${TabAdvanced}
+        </h2>
         <div class="checkboxContainer fldEpisodeAutoPlay hide">
             <label>
                 <input type="checkbox" is="emby-checkbox" class="chkEpisodeAutoPlay" />
