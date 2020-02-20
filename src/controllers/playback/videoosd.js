@@ -1218,7 +1218,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             return null;
         }
 
-        let playPauseClickTimeout;
+        var playPauseClickTimeout;
         function onViewHideStopPlayback() {
             if (playbackManager.isPlayingVideo()) {
                 require(['shell'], function (shell) {
@@ -1388,7 +1388,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                             clearTimeout(playPauseClickTimeout);
                             playPauseClickTimeout = 0;
                         } else {
-                            playPauseClickTimeout = setTimeout(() => {
+                            playPauseClickTimeout = setTimeout(function() {
                                 playbackManager.playPause(currentPlayer);
                                 showOsd();
                                 playPauseClickTimeout = 0;
