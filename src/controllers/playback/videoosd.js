@@ -1218,12 +1218,14 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
             return null;
         }
 
+        let playPauseClickTimeout;
         function onViewHideStopPlayback() {
             if (playbackManager.isPlayingVideo()) {
                 require(['shell'], function (shell) {
                     shell.disableFullscreen();
                 });
 
+                clearTimeout(playPauseClickTimeout);
                 var player = currentPlayer;
                 view.removeEventListener("viewbeforehide", onViewHideStopPlayback);
                 releaseCurrentPlayer();
@@ -1382,8 +1384,16 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
                 case "mouse":
                     if (!e.button) {
-                        playbackManager.playPause(currentPlayer);
-                        showOsd();
+                        if (playPauseClickTimeout) {
+                            clearTimeout(playPauseClickTimeout);
+                            playPauseClickTimeout = 0;
+                        } else {
+                            playPauseClickTimeout = setTimeout(() => {
+                                playbackManager.playPause(currentPlayer);
+                                showOsd();
+                                playPauseClickTimeout = 0;
+                            }, 300);
+                        }
                     }
 
                     break;
