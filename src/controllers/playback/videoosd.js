@@ -1119,6 +1119,14 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                     playbackManager.playPause(currentPlayer);
                     showOsd();
                     break;
+                case "ArrowUp":
+                case "Up":
+                    playbackManager.volumeUp(currentPlayer);
+                    break;
+                case "ArrowDown":
+                case "Down":
+                    playbackManager.volumeDown(currentPlayer);
+                    break;
                 case "l":
                 case "ArrowRight":
                 case "Right":
@@ -1141,6 +1149,18 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                     playbackManager.toggleMute(currentPlayer);
                     showOsd();
                     break;
+                case "p":
+                case "P":
+                    if (e.shiftKey) {
+                        playbackManager.previousTrack(currentPlayer);
+                    }
+                    break;
+                case "n":
+                case "N":
+                    if (e.shiftKey) {
+                        playbackManager.nextTrack(currentPlayer);
+                    }
+                    break;
                 case "NavigationLeft":
                 case "GamepadDPadLeft":
                 case "GamepadLeftThumbstickLeft":
@@ -1158,6 +1178,29 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                         playbackManager.fastForward(currentPlayer);
                         showOsd();
                     }
+                //
+                case "Home":
+                    playbackManager.seekPercent(0, currentPlayer);
+                    break;
+                case "End":
+                    // Honestly this binding seems kind of pointless, just use 'nextTrack',
+                    // but YouTube has this one and that's the standard I'm aiming for
+                    playbackManager.seekPercent(100, currentPlayer);
+                    break;
+                case "0":
+                case "1":
+                case "2":
+                case "3":
+                case "4":
+                case "5":
+                case "6":
+                case "7":
+                case "8":
+                case "9":
+                    var percent = parseInt(key);
+                    percent *= 10;
+                    playbackManager.seekPercent(percent, currentPlayer);
+                    break;
             }
         }
 
