@@ -169,6 +169,15 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         }, {
             passive: true
         });
+
+        dom.addEventListener((dlg.dialogContainer || backdrop), 'contextmenu', function (e) {
+            if (e.target === dlg.dialogContainer) {
+                // Close the application dialog menu
+                close(dlg);
+                // Prevent the default browser context menu from appearing
+                e.preventDefault();
+            }
+        });
     }
 
     function isHistoryEnabled(dlg) {
