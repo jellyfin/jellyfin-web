@@ -3638,24 +3638,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         this.seek(parseInt(ticks), player);
     };
 
-    PlaybackManager.prototype.playTrailers = function (item) {
-
-        var player = this._currentPlayer;
-
-        if (player && player.playTrailers) {
-            return player.playTrailers(item);
-        }
-
+    PlaybackManager.prototype.getAllTrailers = function (item) {
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
-        var instance = this;
-
         if (item.LocalTrailerCount) {
-            return apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(function (result) {
-                return instance.play({
-                    items: result
-                });
-            });
+            return apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id);
         } else {
             var remoteTrailers = item.RemoteTrailers || [];
 
@@ -3663,18 +3650,27 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return Promise.reject();
             }
 
-            return this.play({
-                items: remoteTrailers.map(function (t) {
-                    return {
-                        Name: t.Name || (item.Name + ' Trailer'),
-                        Url: t.Url,
-                        MediaType: 'Video',
-                        Type: 'Trailer',
-                        ServerId: apiClient.serverId()
-                    };
-                })
+            return remoteTrailers.map(function (t) {
+                return {
+                    Name: t.Name || (item.Name + ' Trailer'),
+                    Url: t.Url,
+                    MediaType: 'Video',
+                    Type: 'Trailer',
+                    ServerId: apiClient.serverId()
+                };
             });
         }
+    }
+
+    PlaybackManager.prototype.playTrailers = function (item) {
+        var player = this._currentPlayer;
+
+        if (player && player.playTrailers) {
+            return player.playTrailers(item);
+        }
+
+        var trailers = this.getAllTrailers(item)
+        return this.play({items: trailers});
     };
 
     PlaybackManager.prototype.getSubtitleUrl = function (textStream, serverId) {

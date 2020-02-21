@@ -34,6 +34,7 @@
  - [Ryan Hartzell](https://github.com/ryan-hartzell)
  - [Thibault Nocchi](https://github.com/ThibaultNocchi)
  - [MrTimscampi](https://github.com/MrTimscampi)
+ - [Ullmie02](https://github.com/Ullmie02)
 
 # Emby Contributors
 
