@@ -1486,5 +1486,6 @@
     "LabelPlayerDimensions": "Playerabmessungen:",
     "LabelDroppedFrames": "Verlorene Frames:",
     "LabelCorruptedFrames": "Fehlerhafte Frames:",
-    "OptionForceRemoteSourceTranscoding": "Transkodieren von externen Medienquellen erzwingen (z.B. LiveTV)"
+    "OptionForceRemoteSourceTranscoding": "Transkodieren von externen Medienquellen erzwingen (z.B. LiveTV)",
+    "AskAdminToCreateLibrary": "Bitten Sie einen Administrator, eine Bibliothek zu erstellen."
 }
