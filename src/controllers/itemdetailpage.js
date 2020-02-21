@@ -1952,7 +1952,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
             var enableCinema = userSettings.enableCinemaMode();
 
-            if(item.Type == "Movie" && enableCinema) {
+            if (item.Type == "Movie" && enableCinema) {
                 var trailerCount = userSettings.cinemaModeTrailerCount();
                 var unwatchedOnly = userSettings.enableCinemaTrailersUnseenOnly();
 
@@ -1967,7 +1967,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (unwatchedMoves) {
                     var randomTrailers = [];
 
-                    for(var i=0; i < trailerCount; i++){
+                    for (var i=0; i < trailerCount; i++) {
                         var index = Math.floor(Math.random() * unwatchedMoves.Items.length);
                         var randomMovie = unwatchedMoves.Items[index];
                         var trailer = playbackManager.getAllTrailers(randomMovie)[0];
@@ -1977,8 +1977,8 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                     }
 
                     randomTrailers.push(item);
-    
-                    playItem(randomTrailers, item.UserData && "resume" === mode ? item.UserData.PlaybackPositionTicks : 0); 
+
+                    playItem(randomTrailers, item.UserData && "resume" === mode ? item.UserData.PlaybackPositionTicks : 0);
                 });
             } else {
                 playItem([item], item.UserData && "resume" === mode ? item.UserData.PlaybackPositionTicks : 0);
