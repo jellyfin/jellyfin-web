@@ -1440,5 +1440,6 @@
     "LabelCorruptedFrames": "Sérült képkockák:",
     "HeaderKeepSeries": "Sorozat megtartása",
     "ErrorGettingTvLineups": "Hiba történt a TV kínálat letöltése során. Kérjük ellenőrizd a megadott információkat és próbáld újra.",
-    "LabelTranscodes": "Átkódolások:"
+    "LabelTranscodes": "Átkódolások:",
+    "AskAdminToCreateLibrary": "Kérj meg egy adminisztrátort könyvtár létrehozására."
 }
