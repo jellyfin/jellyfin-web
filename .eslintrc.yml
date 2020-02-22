@@ -8,7 +8,7 @@ rules:
   brace-style: ["error"]
   comma-dangle: ["error", "never"]
   comma-spacing: ["error"]
-  eol-last: ["off"]
+  eol-last: ["error"]
   indent: ["error", 4, { "SwitchCase": 1 }]
   keyword-spacing: ["error"]
   line-comment-position: ["off"]
