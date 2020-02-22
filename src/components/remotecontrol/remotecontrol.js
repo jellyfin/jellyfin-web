@@ -266,7 +266,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat</i>";
                 toggleRepeatButton.classList.add("repeatButton-active");
             } else if ("RepeatOne" == repeatMode) {
-                toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat_one</i>";
+                toggleRepeatButton.innerHTML = "<i class='material-icons repeat_one'></i>";
                 toggleRepeatButton.classList.add("repeatButton-active");
             } else {
                 toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat</i>";

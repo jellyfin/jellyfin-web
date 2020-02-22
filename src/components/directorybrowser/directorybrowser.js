@@ -76,7 +76,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         html += name;
         html += "</div>";
         html += "</div>";
-        html += '<i class="material-icons" style="font-size:inherit;">arrow_forward</i>';
+        html += '<i class="material-icons arrow_forward" style="font-size:inherit;"></i>';
         html += "</div>";
         return html;
     }
