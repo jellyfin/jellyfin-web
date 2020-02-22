@@ -46,7 +46,7 @@
     "BoxRear": "Omslag (baksida)",
     "Browse": "Bläddra",
     "BrowsePluginCatalogMessage": "Besök katalogen för att se tillgängliga tillägg.",
-    "BurnSubtitlesHelp": "Avgör ifall servern ska \"bränna in\" undertexterna under videokonverteringen, beroende på undertextformatet. Att undvika inbränning av undertexter kommer att förbättra prestandan på servern. Välj Automatisk för att bränna bild-baserade formats (VOBSUB, PGS, SUB/IDX, etc) och vissa ASS/SSA undertexter.",
+    "BurnSubtitlesHelp": "Avgör ifall servern ska \"bränna in\" undertexterna under videokonverteringen, beroende på undertextsformatet. Att undvika inbränning av undertexter kommer att förbättra prestandan på servern. Välj Automatisk för att bränna bild-baserade formats (ex. VOBSUB, PGS, SUB/IDX, etc.) och vissa ASS/SSA undertexter.",
     "ButtonAdd": "Lägg till",
     "ButtonAddMediaLibrary": "Lägg till mediabibliotek",
     "ButtonAddScheduledTaskTrigger": "Lägg till utlösare",
