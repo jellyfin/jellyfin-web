@@ -17,7 +17,7 @@
     "AllEpisodes": "Alla avsnitt",
     "AllLanguages": "Alla språk",
     "AllLibraries": "Alla bibliotek",
-    "AllowHWTranscodingHelp": "Låt TV-mottagaren omkoda strömmar. Det kan minska behovet av omkodning på Jellyfin Server.",
+    "AllowHWTranscodingHelp": "Tillåt TV-mottagaren att omkoda strömmar. Det kan minska behovet av omkodning på Jellyfin Servern.",
     "AllowOnTheFlySubtitleExtraction": "Tillåt undertextsextrahering under uppspelning",
     "AllowOnTheFlySubtitleExtractionHelp": "Inbäddade undertexter kan extraheras ur videor och skickas till klienter i textformat för att förhindra omkodning. I vissa system kan detta ta en lång tid och stoppa videouppspelningen under extraheringsprocessen. Avaktivera detta för att bränna in inbäddade undertexter genom omkodning när de inte stöds av klienten.",
     "AllowRemoteAccess": "Tillåt fjärranslutningar till denna Jellyfin-server.",
