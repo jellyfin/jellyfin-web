@@ -626,7 +626,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function onPlaybackStopped(e, state) {
 
-        //console.debug('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + e.type);
         var player = this;
 
         if (player.isLocalPlayer) {
@@ -652,7 +652,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function onStateChanged(event, state) {
 
-        //console.debug('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + e.type);
         var player = this;
 
         if (!state.NowPlayingItem || layoutManager.tv) {

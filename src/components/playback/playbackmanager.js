@@ -57,7 +57,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
         }
 
-        //console.debug(method + '-' + JSON.stringify(info));
+        console.debug(method + '-' + JSON.stringify(info));
         var apiClient = connectionManager.getApiClient(serverId);
         apiClient[method](info);
     }

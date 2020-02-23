@@ -377,7 +377,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
     };
 
     CastPlayer.prototype.onPlayCommandSuccess = function () {
-        //console.debug('Message was sent to receiver ok.');
+        console.debug('Message was sent to receiver ok.');
     };
 
     /**
@@ -386,7 +386,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
      */
     CastPlayer.prototype.onMediaDiscovered = function (how, mediaSession) {
 
-        //console.debug("chromecast new media session ID:" + mediaSession.mediaSessionId + ' (' + how + ')');
+        console.debug("chromecast new media session ID:" + mediaSession.mediaSessionId + ' (' + how + ')');
         this.currentMediaSession = mediaSession;
 
         if (how === 'loadMedia') {
@@ -417,7 +417,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
      */
     CastPlayer.prototype.setReceiverVolume = function (mute, vol) {
         if (!this.currentMediaSession) {
-            //console.debug('this.currentMediaSession is null');
+            console.debug('this.currentMediaSession is null');
             return;
         }
 
@@ -443,7 +443,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
      * Callback function for media command success
      */
     CastPlayer.prototype.mediaCommandSuccessCallback = function (info, e) {
-        //console.debug(info);
+        console.debug(info);
     };
 
     function normalizeImages(state) {
@@ -493,7 +493,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
 
         events.on(instance._castPlayer, eventName, function (e, data) {
 
-            //console.debug('cc: ' + eventName);
+            console.debug('cc: ' + eventName);
             var state = instance.getPlayerStateInternal(data);
 
             events.trigger(instance, eventName, [state]);
@@ -555,7 +555,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
 
         events.on(instance._castPlayer, "playbackprogress", function (e, data) {
 
-            //console.debug('cc: positionchange');
+            console.debug('cc: positionchange');
             var state = instance.getPlayerStateInternal(data);
 
             events.trigger(instance, "timeupdate", [state]);
@@ -569,7 +569,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
 
         events.on(instance._castPlayer, "playstatechange", function (e, data) {
 
-            //console.debug('cc: playstatechange');
+            console.debug('cc: playstatechange');
             var state = instance.getPlayerStateInternal(data);
 
             events.trigger(instance, "pause", [state]);
@@ -664,7 +664,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
 
         normalizeImages(data);
 
-        //console.debug(JSON.stringify(data));
+        console.debug(JSON.stringify(data));
 
         if (triggerStateChange) {
             events.trigger(this, "statechange", [data]);
