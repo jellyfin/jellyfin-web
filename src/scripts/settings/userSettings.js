@@ -90,7 +90,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         }
 
         val = this.get('enableCinemaMode', false);
-        return val !== 'false';
+        return val == null ? false : val;
     };
 
     UserSettings.prototype.enableCinemaTrailersUnseenOnly = function (val) {
@@ -107,7 +107,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
             return this.set('cinemaModeTrailerCount', val, false);
         }
 
-        return this.get('cinemaModeTrailerCount', false);
+        return parseInt(this.get('cinemaModeTrailerCount') || '0');
     };
 
     UserSettings.prototype.enableNextVideoInfoOverlay = function (val) {
@@ -183,7 +183,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         if (val != null) {
             return this.set('skipForwardLength', val.toString());
         }
-
+        //MARKER
         return parseInt(this.get('skipForwardLength') || '30000');
     };
 
