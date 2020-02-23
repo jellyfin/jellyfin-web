@@ -215,8 +215,6 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
         }, {
             name: Globalize.translate("TabSuggestions")
         }, {
-            name: Globalize.translate("TabTrailers")
-        }, {
             name: Globalize.translate("TabFavorites")
         }, {
             name: Globalize.translate("TabCollections")
@@ -234,13 +232,13 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
                 return 1;
 
             case "favorites":
-                return 3;
+                return 2;
 
             case "collections":
-                return 4;
+                return 3;
 
             case "genres":
-                return 5;
+                return 4;
 
             default:
                 return 0;
@@ -277,22 +275,18 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
                     break;
 
                 case 2:
-                    depends.push("controllers/movies/movietrailers");
-                    break;
-
-                case 3:
                     depends.push("controllers/movies/movies");
                     break;
 
-                case 4:
+                case 3:
                     depends.push("controllers/movies/moviecollections");
                     break;
 
-                case 5:
+                case 4:
                     depends.push("controllers/movies/moviegenres");
                     break;
 
-                case 6:
+                case 5:
                     depends.push("scripts/searchtab");
             }
 
@@ -311,12 +305,12 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
 
                     if (index === suggestionsTabIndex) {
                         controller = self;
-                    } else if (index === 6) {
+                    } else if (index === 5) {
                         controller = new controllerFactory(view, tabContent, {
                             collectionType: "movies",
                             parentId: params.topParentId
                         });
-                    } else if (index == 0 || index == 3) {
+                    } else if (index == 0 || index == 2) {
                         controller = new controllerFactory(view, params, tabContent, {
                             mode: index ? "favorites" : "movies"
                         });
