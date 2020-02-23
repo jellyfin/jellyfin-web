@@ -439,8 +439,19 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    background-attachment: fixed;
     height: 50vh;
     position: relative;
+}
+
+.layout-desktop .itemBackdrop::after,
+.layout-tv .itemBackdrop::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: #000000ad;
+    background: rgba(0, 0, 0, 0.65);
+    display: block;
 }
 
 .itemBackdrop.noBackdrop {
@@ -525,8 +536,6 @@
     display: flex;
     align-items: center;
     align-content: center;
-    position: sticky;
-    top: 3.85em;
     z-index: 2;
 }
 
@@ -536,13 +545,19 @@
     top: 0;
 }
 
-.layout-tv .detailPagePrimaryContainer {
+.layout-tv .detailPagePrimaryContainer:not(.noBackdrop),
+.layout-desktop .detailPagePrimaryContainer:not(.noBackdrop) {
     position: relative;
     top: 0;
+    padding-left: 32.45vw;
 }
 
 .detailSticky {
-    background-color: #101010;
+    margin-top: -7.3em;
+}
+
+.detailSticky.noBackdrop {
+    margin-top: 0;
 }
 
 .infoWrapper {
@@ -572,15 +587,15 @@
 }
 
 .detailImageContainer {
-    position: sticky;
-    top: 25%;
+    position: relative;
+    margin-top: -25vh;
     float: left;
-    width: 22.786458333333332vw;
+    width: 25vw;
+    z-index: 3;
 }
 
-.layout-mobile .detailImageContainer,
-.layout-tv .detailImageContainer {
-    position: relative;
+.detailImageContainer.noBackdrop {
+    margin-top: 0;
 }
 
 .detailPagePrimaryContent {
@@ -588,11 +603,11 @@
 }
 
 .detailLogo {
-    width: 25em;
-    height: 9.375em;
+    width: 67.25vw;
+    height: 14.5vh;
     position: absolute;
-    top: 14.5%;
-    right: 10.5%;
+    top: 15vh;
+    right: 0;
     -webkit-background-size: contain;
     background-size: contain;
 }
@@ -623,8 +638,8 @@
 
 .itemDetailImage {
     width: 100% !important;
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    -webkit-box-shadow: 0 0.1em 0.5em 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0.1em 0.5em 0 rgba(0, 0, 0, 0.75);
 }
 
 div.itemDetailGalleryLink.defaultCardBackground {
@@ -863,6 +878,10 @@ div.itemDetailGalleryLink.defaultCardBackground {
 .detailPageWrapperContainer {
     border-spacing: 0;
     border-collapse: collapse;
+}
+
+.detailPageWrapperContainer.noBackdrop {
+    margin-top: 4em;
 }
 
 .mediaInfoStream {

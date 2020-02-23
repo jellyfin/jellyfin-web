@@ -515,6 +515,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             hasbackdrop = true;
         } else {
             itemBackdropElement.classList.add("noBackdrop");
+            page.querySelector(".detailPageWrapperContainer").add("noBackdrop");
             itemBackdropElement.style.backgroundImage = "";
         }
 
@@ -530,6 +531,11 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
     function reloadFromItem(instance, page, params, item, user) {
         var context = params.context;
         page.querySelector(".detailPagePrimaryContainer").classList.add("detailSticky");
+
+        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
+            page.querySelector(".detailSticky").classList.add("noBackdrop");
+        }
+
         renderName(item, page.querySelector(".nameContainer"), false, context);
         var apiClient = connectionManager.getApiClient(item.ServerId);
         renderSeriesTimerEditor(page, item, apiClient, user);
