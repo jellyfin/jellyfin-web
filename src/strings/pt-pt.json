@@ -351,7 +351,7 @@
     "LabelGroupMoviesIntoCollections": "Agrupar filmes em coleções",
     "LabelGroupMoviesIntoCollectionsHelp": "Ao mostrar listas de filmes, filmes que pertençam a uma coleção serão mostrados como um único item agrupado.",
     "LabelHardwareAccelerationType": "Aceleração por hardware:",
-    "LabelHardwareAccelerationTypeHelp": "Esta funcionalidade é experimental e está disponível apenas em sistemas suportados.",
+    "LabelHardwareAccelerationTypeHelp": "Aceleração via Hardware requer configurações adicionais.",
     "LabelHttpsPort": "Número do porto HTTPS local:",
     "LabelHttpsPortHelp": "Número do porto TCP em que o servidor HTTPS do Jellyfin ficará à escuta.",
     "LabelIconMaxHeight": "Altura máxima do ícone:",
@@ -1442,5 +1442,9 @@
     "EnableStreamLooping": "Auto-cíclico de streams ao vivo",
     "Down": "Baixo",
     "CopyStreamURLError": "Ocorreu um erro a copiar o URL.",
-    "ButtonSplit": "Dividir"
+    "ButtonSplit": "Dividir",
+    "NoCreatedLibraries": "Oh Não! Parece que você ainda não criou nenhuma biblioteca por enquanto. {0} Gostaria de criar uma biblioteca agora? {1}",
+    "AskAdminToCreateLibrary": "Pergunte a um administrador para criar uma biblioteca.",
+    "LabelVideoResolution": "Resolução de vídeo:",
+    "LabelPlayerDimensions": "Dimensões de leitor:"
 }
