@@ -198,6 +198,20 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             }
         }
 
+        function onAutoplayStart() {
+            var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
+            if (btnSlideshowPause) {
+                btnSlideshowPause.innerHTML = "pause";
+            }
+        }
+
+        function onAutoplayStop() {
+            var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
+            if (btnSlideshowPause) {
+                btnSlideshowPause.innerHTML = "&#xE037;";
+            }
+        }
+
         function loadSwiper(dlg) {
 
             if (currentOptions.slides) {
@@ -224,6 +238,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     initialSlide: options.startIndex || 0,
                     speed: 240
                 });
+
+                swiperInstance.on('autoplayStart', onAutoplayStart);
+                swiperInstance.on('autoplayStop', onAutoplayStop);
 
                 if (layoutManager.mobile) {
                     pause();
@@ -336,24 +353,12 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         }
 
         function play() {
-
-            var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
-            if (btnSlideshowPause) {
-                btnSlideshowPause.innerHTML = "pause";
-            }
-
             if (swiperInstance.autoplay) {
                 swiperInstance.autoplay.start();
             }
         }
 
         function pause() {
-
-            var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
-            if (btnSlideshowPause) {
-                btnSlideshowPause.innerHTML = "&#xE037;";
-            }
-
             if (swiperInstance.autoplay) {
                 swiperInstance.autoplay.stop();
             }
