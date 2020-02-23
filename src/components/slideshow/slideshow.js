@@ -342,7 +342,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 btnSlideshowPause.innerHTML = "pause";
             }
 
-            swiperInstance.startAutoplay();
+            if (swiperInstance.autoplay) {
+                swiperInstance.autoplay.start();
+            }
         }
 
         function pause() {
@@ -352,7 +354,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 btnSlideshowPause.innerHTML = "&#xE037;";
             }
 
-            swiperInstance.stopAutoplay();
+            if (swiperInstance.autoplay) {
+                swiperInstance.autoplay.stop();
+            }
         }
 
         function playPause() {
