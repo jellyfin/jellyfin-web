@@ -66,6 +66,12 @@ define(["jQuery", "loading", "globalize", "dom", "libraryMenu"], function ($, lo
                 config.EnableHardwareEncoding = form.querySelector("#chkHardwareEncoding").checked;
                 ApiClient.updateNamedConfiguration("encoding", config).then(function () {
                     updateEncoder(form);
+                }, function () {
+                    require(["alert"], function (alert) {
+                        alert(globalize.translate("DefaultErrorMessage"));
+                    });
+
+                    Dashboard.processServerConfigurationUpdateResult();
                 });
             });
         };
