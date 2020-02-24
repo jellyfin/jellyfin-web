@@ -622,7 +622,7 @@
     "LabelH264Crf": "Значение CRF H264-кодирования:",
     "LabelEncoderPreset": "Предустановка H264-кодирования:",
     "LabelHardwareAccelerationType": "Аппаратное ускорение:",
-    "LabelHardwareAccelerationTypeHelp": "Это экспериментальная функция, имеющаяся только на поддерживаемых системах.",
+    "LabelHardwareAccelerationTypeHelp": "Аппаратное ускорение требует дополнительной конфигурации.",
     "LabelHomeNetworkQuality": "Качество в домашней сети:",
     "LabelHomeScreenSectionValue": "Главная страница - раздел {0}:",
     "LabelHttpsPort": "Номер локального HTTPS-порта:",
@@ -1458,10 +1458,13 @@
     "HeaderNavigation": "Навигация",
     "LabelVideoResolution": "Разрешение видео:",
     "LabelStreamType": "Тип потока:",
-    "EnableFastImageFadeInHelp": "Включить быстрое гашение анимации для загруженных рисунков",
-    "EnableFastImageFadeIn": "Быстрое гашение рисунка",
+    "EnableFastImageFadeInHelp": "Включить быстрое появление анимации для загруженных рисунков",
+    "EnableFastImageFadeIn": "Быстрое появление рисунка",
     "LabelPlayerDimensions": "Размерности проигрывателя:",
     "LabelDroppedFrames": "Пропущенные кадры:",
     "LabelCorruptedFrames": "Испорченные кадры:",
-    "CopyStreamURLError": "Произошла ошибка при копировании URL."
+    "CopyStreamURLError": "Произошла ошибка при копировании URL.",
+    "OptionForceRemoteSourceTranscoding": "Принудительное перекодирование удалённых источников медиаданных (например, эфирное ТВ)",
+    "NoCreatedLibraries": "Похоже, вы еще не создали ни одной медиатеки. {0}Желаете создать её сейчас?{1}",
+    "AskAdminToCreateLibrary": "Запрашивать администратора для создания медиатеки."
 }
