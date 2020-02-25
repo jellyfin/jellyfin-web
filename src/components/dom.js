@@ -69,7 +69,7 @@ define([], function () {
         });
         window.addEventListener("test", null, opts);
     } catch (e) {
-        console.log('error checking capture support');
+        console.debug('error checking capture support');
     }
 
     function addEventListenerWithOptions(target, type, handler, options) {

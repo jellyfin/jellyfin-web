@@ -2,7 +2,7 @@ define(["filerepository", "itemrepository", "useractionrepository", "transferman
     "use strict";
 
     function getLocalItem(serverId, itemId) {
-        return console.log("[lcoalassetmanager] Begin getLocalItem"), itemrepository.get(serverId, itemId)
+        return console.debug("localassetmanager: begin getLocalItem"), itemrepository.get(serverId, itemId)
     }
 
     function recordUserAction(action) {
@@ -25,7 +25,7 @@ define(["filerepository", "itemrepository", "useractionrepository", "transferman
     }
 
     function getServerItems(serverId) {
-        return console.log("[localassetmanager] Begin getServerItems"), itemrepository.getAll(serverId)
+        return console.debug("localassetmanager: begin getServerItems"), itemrepository.getAll(serverId)
     }
 
     function getItemsFromIds(serverId, ids) {

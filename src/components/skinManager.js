@@ -96,7 +96,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
                 appHost.setThemeColor(color);
             }
         } catch (err) {
-            console.log('Error setting theme color: ' + err);
+            console.error('error setting theme color: ' + err);
         }
     }
 
@@ -170,7 +170,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
                 sound.play();
                 currentSound = sound;
             } catch (err) {
-                console.log('Error playing sound: ' + err);
+                console.error('error playing sound: ' + err);
             }
         });
     }

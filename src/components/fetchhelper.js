@@ -51,7 +51,7 @@ define([], function () {
 
     function fetchWithTimeout(url, options, timeoutMs) {
 
-        console.log('fetchWithTimeout: timeoutMs: ' + timeoutMs + ', url: ' + url);
+        console.debug('fetchWithTimeout: timeoutMs: ' + timeoutMs + ', url: ' + url);
 
         return new Promise(function (resolve, reject) {
 
@@ -63,14 +63,14 @@ define([], function () {
             fetch(url, options).then(function (response) {
                 clearTimeout(timeout);
 
-                console.log('fetchWithTimeout: succeeded connecting to url: ' + url);
+                console.debug('fetchWithTimeout: succeeded connecting to url: ' + url);
 
                 resolve(response);
             }, function (error) {
 
                 clearTimeout(timeout);
 
-                console.log('fetchWithTimeout: timed out connecting to url: ' + url);
+                console.debug('fetchWithTimeout: timed out connecting to url: ' + url);
 
                 reject();
             });
@@ -93,21 +93,17 @@ define([], function () {
     }
 
     function ajax(request) {
-
         if (!request) {
             throw new Error("Request cannot be null");
         }
 
         request.headers = request.headers || {};
 
-        console.log('requesting url: ' + request.url);
+        console.debug('requesting url: ' + request.url);
 
         return getFetchPromise(request).then(function (response) {
-
-            console.log('response status: ' + response.status + ', url: ' + request.url);
-
+            console.debug('response status: ' + response.status + ', url: ' + request.url);
             if (response.status < 400) {
-
                 if (request.dataType === 'json' || request.headers.accept === 'application/json') {
                     return response.json();
                 } else if (request.dataType === 'text' || (response.headers.get('Content-Type') || '').toLowerCase().indexOf('text/') === 0) {
@@ -118,10 +114,8 @@ define([], function () {
             } else {
                 return Promise.reject(response);
             }
-
         }, function (err) {
-
-            console.log('request failed to url: ' + request.url);
+            console.error('request failed to url: ' + request.url);
             throw err;
         });
     }

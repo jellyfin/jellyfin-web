@@ -40,7 +40,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
 
         elem.scrollTo(opts);
     } catch (e) {
-        console.log("error checking ScrollToOptions support");
+        console.error("error checking ScrollToOptions support");
     }
 
     /**

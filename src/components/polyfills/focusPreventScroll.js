@@ -19,7 +19,7 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
 
             focusElem.focus(opts);
         } catch (e) {
-            console.log("error checking preventScroll support");
+            console.error("error checking preventScroll support");
         }
 
         if (!supportsPreventScrollOption) {

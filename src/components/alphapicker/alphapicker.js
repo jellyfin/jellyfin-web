@@ -241,7 +241,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
                     try {
                         btn = element.querySelector('.alphaPickerButton[data-value=\'' + value + '\']');
                     } catch (err) {
-                        console.log('Error in querySelector: ' + err);
+                        console.error('error in querySelector: ' + err);
                     }
 
                     if (btn && btn !== selected) {

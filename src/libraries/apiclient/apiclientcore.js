@@ -59,8 +59,23 @@ define(["events", "appStorage"], function(events, appStorage) {
     }
 
     function ApiClient(serverAddress, appName, appVersion, deviceName, deviceId, devicePixelRatio) {
-        if (!serverAddress) throw new Error("Must supply a serverAddress");
-        console.log("ApiClient serverAddress: " + serverAddress), console.log("ApiClient appName: " + appName), console.log("ApiClient appVersion: " + appVersion), console.log("ApiClient deviceName: " + deviceName), console.log("ApiClient deviceId: " + deviceId), this._serverInfo = {}, this._serverAddress = serverAddress, this._deviceId = deviceId, this._deviceName = deviceName, this._appName = appName, this._appVersion = appVersion, this._devicePixelRatio = devicePixelRatio
+        if (!serverAddress) {
+            throw new Error("Must supply a serverAddress");
+        }
+
+        console.debug("ApiClient serverAddress: " + serverAddress);
+        console.debug("ApiClient appName: " + appName);
+        console.debug("ApiClient appVersion: " + appVersion);
+        console.debug("ApiClient deviceName: " + deviceName);
+        console.debug("ApiClient deviceId: " + deviceId);
+
+        this._serverInfo = {};
+        this._serverAddress = serverAddress;
+        this._deviceId = deviceId;
+        this._deviceName = deviceName;
+        this._appName = appName;
+        this._appVersion = appVersion;
+        this._devicePixelRatio = devicePixelRatio;
     }
 
     function setSavedEndpointInfo(instance, info) {
@@ -68,13 +83,14 @@ define(["events", "appStorage"], function(events, appStorage) {
     }
 
     function getTryConnectPromise(instance, url, state, resolve, reject) {
-        console.log("getTryConnectPromise " + url), fetchWithTimeout(instance.getUrl("system/info/public", null, url), {
+        console.debug("getTryConnectPromise " + url);
+        fetchWithTimeout(instance.getUrl("system/info/public", null, url), {
             method: "GET",
             accept: "application/json"
         }, 15e3).then(function() {
-            state.resolved || (state.resolved = !0, console.log("Reconnect succeeded to " + url), instance.serverAddress(url), resolve())
+            state.resolved || (state.resolved = !0, console.debug("Reconnect succeeded to " + url), instance.serverAddress(url), resolve())
         }, function() {
-            state.resolved || (console.log("Reconnect failed to " + url), ++state.rejects >= state.numAddresses && reject())
+            state.resolved || (console.error("Reconnect failed to " + url), ++state.rejects >= state.numAddresses && reject())
         })
     }
 
@@ -91,7 +107,7 @@ define(["events", "appStorage"], function(events, appStorage) {
         }), addressesStrings.push(addresses[addresses.length - 1].url)), serverInfo.RemoteAddress && -1 === addressesStrings.indexOf(serverInfo.RemoteAddress) && (addresses.push({
             url: serverInfo.RemoteAddress,
             timeout: 200
-        }), addressesStrings.push(addresses[addresses.length - 1].url)), console.log("tryReconnect: " + addressesStrings.join("|")), new Promise(function(resolve, reject) {
+        }), addressesStrings.push(addresses[addresses.length - 1].url)), console.debug("tryReconnect: " + addressesStrings.join("|")), new Promise(function(resolve, reject) {
             var state = {};
             state.numAddresses = addresses.length, state.rejects = 0, addresses.map(function(url) {
                 setTimeout(function() {
@@ -103,7 +119,7 @@ define(["events", "appStorage"], function(events, appStorage) {
 
     function tryReconnect(instance, retryCount) {
         return retryCount = retryCount || 0, retryCount >= 20 ? Promise.reject() : tryReconnectInternal(instance).catch(function(err) {
-            return console.log("error in tryReconnectInternal: " + (err || "")), new Promise(function(resolve, reject) {
+            return console.error("error in tryReconnectInternal: " + (err || "")), new Promise(function(resolve, reject) {
                 setTimeout(function() {
                     tryReconnect(instance, retryCount + 1).then(resolve, reject)
                 }, 500)
@@ -139,7 +155,7 @@ define(["events", "appStorage"], function(events, appStorage) {
 
     function onWebSocketOpen() {
         var instance = this;
-        console.log("web socket connection opened"), events.trigger(instance, "websocketopen")
+        console.debug("web socket connection opened"), events.trigger(instance, "websocketopen")
     }
 
     function onWebSocketError() {
@@ -149,7 +165,12 @@ define(["events", "appStorage"], function(events, appStorage) {
 
     function setSocketOnClose(apiClient, socket) {
         socket.onclose = function() {
-            console.log("web socket closed"), apiClient._webSocket === socket && (console.log("nulling out web socket"), apiClient._webSocket = null), setTimeout(function() {
+            console.debug("web socket closed");
+            if (apiClient._webSocket === socket) {
+                console.debug("nulling out web socket");
+                apiClient._webSocket = null;
+            }
+            setTimeout(function() {
                 events.trigger(apiClient, "websocketclose")
             }, 0)
         }
@@ -244,24 +265,24 @@ define(["events", "appStorage"], function(events, appStorage) {
         var lowered = url.toLowerCase();
         return "/" !== name.charAt(0) && (url += "/"), url += name, params && (params = paramsToString(params)) && (url += "?" + params), url
     }, ApiClient.prototype.fetchWithFailover = function(request, enableReconnection) {
-        console.log("Requesting " + request.url), request.timeout = 3e4;
+        console.debug("Requesting " + request.url), request.timeout = 3e4;
         var instance = this;
         return getFetchPromise(request).then(function(response) {
             return instance.lastFetch = (new Date).getTime(), response.status < 400 ? "json" === request.dataType || "application/json" === request.headers.accept ? response.json() : "text" === request.dataType || 0 === (response.headers.get("Content-Type") || "").toLowerCase().indexOf("text/") ? response.text() : response : (onFetchFail(instance, request.url, response), Promise.reject(response))
         }, function(error) {
-            if (error ? console.log("Request failed to " + request.url + " " + (error.status || "") + " " + error.toString()) : console.log("Request timed out to " + request.url), error && error.status || !enableReconnection) throw console.log("Reporting request failure"), onFetchFail(instance, request.url, {}), error;
-            console.log("Attempting reconnection");
+            if (error ? console.error("Request failed to " + request.url + " " + (error.status || "") + " " + error.toString()) : console.error("Request timed out to " + request.url), error && error.status || !enableReconnection) throw console.error("Reporting request failure"), onFetchFail(instance, request.url, {}), error;
+            console.debug("Attempting reconnection");
             var previousServerAddress = instance.serverAddress();
             return tryReconnect(instance).then(function() {
-                return console.log("Reconnect succeesed"), request.url = request.url.replace(previousServerAddress, instance.serverAddress()), instance.fetchWithFailover(request, !1)
+                return console.debug("Reconnect succeesed"), request.url = request.url.replace(previousServerAddress, instance.serverAddress()), instance.fetchWithFailover(request, !1)
             }, function(innerError) {
-                throw console.log("Reconnect failed"), onFetchFail(instance, request.url, {}), innerError
+                throw console.error("Reconnect failed"), onFetchFail(instance, request.url, {}), innerError
             })
         })
     }, ApiClient.prototype.fetch = function(request, includeAuthorization) {
         if (!request) throw new Error("Request cannot be null");
         if (request.headers = request.headers || {}, !1 !== includeAuthorization && this.setRequestHeaders(request.headers), !1 === this.enableAutomaticNetworking || "GET" !== request.type) {
-            console.log("Requesting url without automatic networking: " + request.url);
+            console.debug("Requesting url without automatic networking: " + request.url);
             var instance = this;
             return getFetchPromise(request).then(function(response) {
                 return instance.lastFetch = (new Date).getTime(), response.status < 400 ? "json" === request.dataType || "application/json" === request.headers.accept ? response.json() : "text" === request.dataType || 0 === (response.headers.get("Content-Type") || "").toLowerCase().indexOf("text/") ? response.text() : response : (onFetchFail(instance, request.url, response), Promise.reject(response))
@@ -340,7 +361,7 @@ define(["events", "appStorage"], function(events, appStorage) {
         if (!this.isWebSocketOpenOrConnecting() && this.isWebSocketSupported()) try {
             this.openWebSocket()
         } catch (err) {
-            console.log("Error opening web socket: " + err)
+            console.error("error opening web socket: " + err)
         }
     };
     var messageIdsReceived = {};
@@ -348,14 +369,14 @@ define(["events", "appStorage"], function(events, appStorage) {
         var accessToken = this.accessToken();
         if (!accessToken) throw new Error("Cannot open web socket without access token.");
         var url = this.getUrl("socket");
-        url = replaceAll(url, "emby/socket", "embywebsocket"), url = replaceAll(url, "https:", "wss:"), url = replaceAll(url, "http:", "ws:"), url += "?api_key=" + accessToken, url += "&deviceId=" + this.deviceId(), console.log("opening web socket with url: " + url);
+        url = replaceAll(url, "emby/socket", "embywebsocket"), url = replaceAll(url, "https:", "wss:"), url = replaceAll(url, "http:", "ws:"), url += "?api_key=" + accessToken, url += "&deviceId=" + this.deviceId(), console.debug("opening web socket with url: " + url);
         var webSocket = new WebSocket(url);
         webSocket.onmessage = onWebSocketMessage.bind(this), webSocket.onopen = onWebSocketOpen.bind(this), webSocket.onerror = onWebSocketError.bind(this), setSocketOnClose(this, webSocket), this._webSocket = webSocket
     }, ApiClient.prototype.closeWebSocket = function() {
         var socket = this._webSocket;
         socket && socket.readyState === WebSocket.OPEN && socket.close()
     }, ApiClient.prototype.sendWebSocketMessage = function(name, data) {
-        console.log("Sending web socket message: " + name);
+        console.debug("Sending web socket message: " + name);
         var msg = {
             MessageType: name
         };
@@ -387,7 +408,7 @@ define(["events", "appStorage"], function(events, appStorage) {
     }, ApiClient.prototype.updateServerInfo = function(server, serverUrl) {
         if (null == server) throw new Error("server cannot be null");
         if (this.serverInfo(server), !serverUrl) throw new Error("serverUrl cannot be null. serverInfo: " + JSON.stringify(server));
-        console.log("Setting server address to " + serverUrl), this.serverAddress(serverUrl)
+        console.debug("Setting server address to " + serverUrl), this.serverAddress(serverUrl)
     }, ApiClient.prototype.isWebSocketSupported = function() {
         try {
             return null != WebSocket

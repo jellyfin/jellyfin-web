@@ -591,8 +591,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function onPlaybackStart(e, state) {
-
-        //console.log('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + e.type);
 
         var player = this;
 
@@ -637,7 +636,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function onPlaybackStopped(e, state) {
 
-        //console.log('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + e.type);
         var player = this;
 
         if (player.isLocalPlayer) {
@@ -663,7 +662,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function onStateChanged(event, state) {
 
-        //console.log('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + e.type);
         var player = this;
 
         if (!state.NowPlayingItem || layoutManager.tv) {

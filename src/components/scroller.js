@@ -392,7 +392,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             var currentStart = self._pos.cur;
             var currentEnd = currentStart + frameSize;
 
-            //console.log('offset:' + offset + ' currentStart:' + currentStart + ' currentEnd:' + currentEnd);
+            console.debug('offset:' + offset + ' currentStart:' + currentStart + ' currentEnd:' + currentEnd);
             var isVisible = offset >= currentStart && (offset + size) <= currentEnd;
 
             return {

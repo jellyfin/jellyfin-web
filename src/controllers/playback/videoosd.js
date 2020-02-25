@@ -575,7 +575,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         }
 
         function onPlaybackStart(e, state) {
-            console.log("nowplaying event: " + e.type);
+            console.debug("nowplaying event: " + e.type);
             var player = this;
             onStateChanged.call(player, e, state);
             resetUpNextDialog();
@@ -594,7 +594,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         function onPlaybackStopped(e, state) {
             currentRuntimeTicks = null;
             resetUpNextDialog();
-            console.log("nowplaying event: " + e.type);
+            console.debug("nowplaying event: " + e.type);
 
             if ("Video" !== state.NextMediaType) {
                 view.removeEventListener("viewbeforehide", onViewHideStopPlayback);
@@ -725,14 +725,14 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                         var endDate = datetime.parseISO8601Date(program.EndDate);
 
                         if (new Date().getTime() >= endDate.getTime()) {
-                            console.log("program info needs to be refreshed");
+                            console.debug("program info needs to be refreshed");
                             var state = playbackManager.getPlayerState(player);
                             onStateChanged.call(player, {
                                 type: "init"
                             }, state);
                         }
                     } catch (e) {
-                        console.log("Error parsing date: " + program.EndDate);
+                        console.error("error parsing date: " + program.EndDate);
                     }
                 }
             }
