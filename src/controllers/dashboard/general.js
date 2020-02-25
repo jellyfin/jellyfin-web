@@ -56,6 +56,12 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                         }
                     });
                 });
+            }, function () {
+                require(["alert"], function (alert) {
+                    alert(globalize.translate("DefaultErrorMessage"));
+                });
+
+                Dashboard.processServerConfigurationUpdateResult();
             });
         });
         return false;
