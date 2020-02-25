@@ -662,7 +662,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function onStateChanged(event, state) {
 
-        console.debug('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + event.type);
         var player = this;
 
         if (!state.NowPlayingItem || layoutManager.tv) {
