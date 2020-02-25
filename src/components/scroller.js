@@ -574,9 +574,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 		 * @return {Int}
 		 */
         function normalizeWheelDelta(event) {
-            // wheelDelta needed only for IE8-
-            // JELLYFIN MOD: Only use deltaX for horizontal scroll instead of `event.deltaY || event.deltaX`
-            scrolling.curDelta = ((o.horizontal ? event.deltaX : event.deltaY) || -event.wheelDelta);
+            // JELLYFIN MOD: Only use deltaX for horizontal scroll and remove IE8 support
+            scrolling.curDelta = o.horizontal ? event.deltaX : event.deltaY;
             // END JELLYFIN MOD
 
             if (transform) {
