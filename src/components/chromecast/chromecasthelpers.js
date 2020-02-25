@@ -132,7 +132,7 @@ define(['events'], function (events) {
                 var match;
 
                 while (match = linkRegExp.exec(text)) {
-                    // console.debug(matches);
+                    console.debug(matches);
                     var txt = match[0];
                     var pos = match.index;
                     var len = txt.length;
