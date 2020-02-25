@@ -357,6 +357,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return new Promise(function (resolve, reject) {
 
                 require(['shaka'], function () {
+                    /* globals shaka */
 
                     var player = new shaka.Player(elem);
 

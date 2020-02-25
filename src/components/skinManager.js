@@ -162,6 +162,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
     function playSound(path, volume) {
         lastSound = new Date().getTime();
         require(['howler'], function (howler) {
+            /* globals Howl */
             try {
                 var sound = new Howl({
                     src: [path],

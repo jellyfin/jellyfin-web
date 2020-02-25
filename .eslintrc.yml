@@ -3,6 +3,52 @@ env:
   browser: true
   amd: true
 
+globals:
+  # New browser globals
+  DataView: readonly
+  MediaMetadata: readonly
+  Promise: readonly
+  # Deprecated browser globals
+  DocumentTouch: readonly
+  # Tizen globals
+  tizen: readonly
+  webapis: readonly
+  # WebOS globals
+  webOS: readonly
+  # Dependency globals
+  $: readonly
+  jQuery: readonly
+  queryString: readonly
+  requirejs: readonly
+  # Jellyfin globals
+  ApiClient: writable
+  AppInfo: writable
+  chrome: writable
+  ConnectionManager: writable
+  DlnaProfilePage: writable
+  Dashboard: writable
+  DashboardPage: writable
+  Emby: readonly
+  Events: writable
+  getParameterByName: writable
+  getWindowLocationSearch: writable
+  Globalize: writable
+  Hls: writable
+  humaneDate: writable
+  humaneElapsed: writable
+  LibraryMenu: writable
+  LinkParser: writable
+  LiveTvHelpers: writable
+  MetadataEditor: writable
+  pageClassOn: writable
+  pageIdOn: writable
+  PlaylistViewer: writable
+  UserParentalControlPage: writable
+  Windows: readonly
+
+extends:
+  - eslint:recommended
+
 rules:
   block-spacing: ["error"]
   brace-style: ["error"]
@@ -11,17 +57,13 @@ rules:
   eol-last: ["error"]
   indent: ["error", 4, { "SwitchCase": 1 }]
   keyword-spacing: ["error"]
-  line-comment-position: ["off"]
   max-statements-per-line: ["error"]
-  no-empty: ["error"]
-  no-extra-semi: ["error"]
   no-floating-decimal: ["error"]
   no-multi-spaces: ["error"]
   no-multiple-empty-lines: ["error", { "max": 1 }]
+  no-redeclare: ["warn"]
   no-trailing-spaces: ["error"]
-  no-void: ["off"]
+  no-unused-vars: ["warn"]
+  no-useless-escape: ["warn"]
   one-var: ["error", "never"]
-  padding-line-between-statements: ["off"]
-  semi: ["off"]
   space-before-blocks: ["error"]
-  yoda: ["off"]
