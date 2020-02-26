@@ -741,12 +741,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     elemAudioTracks[i].enabled = false;
                 }
             }
-
-            // No idea what this is possibly trying to workaround
-            setTimeout(function () {
-                // eslint-disable-next-line no-self-assign
-                elem.currentTime = elem.currentTime;
-            }, 100);
         };
 
         self.stop = function (destroyPlayer) {
