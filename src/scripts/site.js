@@ -671,11 +671,7 @@ var AppInfo = {};
             AppInfo.isNativeApp = true;
         }
 
-        if (!window.Promise || browser.web0s) {
-            require(["native-promise-only"], init);
-        } else {
-            init();
-        }
+        init();
     }
 
     var localApiClient;
