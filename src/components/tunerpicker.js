@@ -1,4 +1,4 @@
-define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize", "loading", "browser", "material-icons", "formDialogStyle", "emby-button", "emby-itemscontainer", "cardStyle"], function (dialogHelper, dom, layoutManager, connectionManager, globalize, loading, browser) {
+define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize", "loading", "browser", "focusManager", "scrollHelper", "material-icons", "formDialogStyle", "emby-button", "emby-itemscontainer", "cardStyle"], function (dialogHelper, dom, layoutManager, connectionManager, globalize, loading, browser, focusManager, scrollHelper) {
     "use strict";
 
     var enableFocusTransform = !browser.slow && !browser.edge;
@@ -152,14 +152,14 @@ define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize"
             });
 
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector(".formDialogContent"), false, true);
+                scrollHelper.centerFocus.on(dlg.querySelector(".formDialogContent"), false);
             }
 
             var apiClient = connectionManager.getApiClient(options.serverId);
             discoverDevices(dlg, apiClient);
 
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector(".formDialogContent"), false, false);
+                scrollHelper.centerFocus.off(dlg.querySelector(".formDialogContent"), false);
             }
 
             return dialogHelper.open(dlg).then(function () {
