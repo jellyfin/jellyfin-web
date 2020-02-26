@@ -741,21 +741,15 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
     };
     return function (view, params) {
         function onRestartRequired(evt, apiClient) {
-            if (apiClient.serverId() === serverId) {
-                renderHasPendingRestart(view, apiClient, true);
-            }
+            console.debug('onRestartRequired not implemented', evt, apiClient);
         }
 
         function onServerShuttingDown(evt, apiClient) {
-            if (apiClient.serverId() === serverId) {
-                renderHasPendingRestart(view, apiClient, true);
-            }
+            console.debug('onServerShuttingDown not implemented', evt, apiClient);
         }
 
         function onServerRestarting(evt, apiClient) {
-            if (apiClient.serverId() === serverId) {
-                renderHasPendingRestart(view, apiClient, true);
-            }
+            console.debug('onServerRestarting not implemented', evt, apiClient);
         }
 
         function onPackageInstalling(evt, apiClient) {

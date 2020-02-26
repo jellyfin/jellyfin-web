@@ -647,7 +647,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     function setTitle(item, apiClient) {
         var url = logoImageUrl(item, apiClient, {});
 
-        if (url = null) {
+        if (url != null) {
             var pageTitle = document.querySelector(".pageTitle");
             pageTitle.style.backgroundImage = "url('" + url + "')";
             pageTitle.classList.add("pageTitleWithLogo");
@@ -1661,7 +1661,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     function canPlaySomeItemInCollection(items) {
         var i = 0;
 
-        for (length = items.length; i < length; i++) {
+        for (var length = items.length; i < length; i++) {
             if (playbackManager.canPlay(items[i])) {
                 return true;
             }

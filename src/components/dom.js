@@ -63,6 +63,7 @@ define([], function () {
     var supportsCaptureOption = false;
     try {
         var opts = Object.defineProperty({}, 'capture', {
+            // eslint-disable-next-line getter-return
             get: function () {
                 supportsCaptureOption = true;
             }

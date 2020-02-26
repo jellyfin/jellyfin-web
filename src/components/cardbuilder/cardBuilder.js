@@ -140,7 +140,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 72;
                     }
-                    break;
                 case 'overflowPortrait':
 
                     if (layoutManager.tv) {
@@ -166,7 +165,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 42;
                     }
-                    break;
                 case 'overflowSquare':
                     if (layoutManager.tv) {
                         return 100 / 15.5;
@@ -191,7 +189,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 42;
                     }
-                    break;
                 case 'overflowBackdrop':
                     if (layoutManager.tv) {
                         return 100 / 23.3;
@@ -216,7 +213,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 72;
                     }
-                    break;
                 default:
                     return 4;
             }
@@ -870,9 +866,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     if (item.PremiereDate) {
                         try {
-
-                            lines.push(getPremiereDateText(item));
-
+                            lines.push(datetime.toLocaleDateString(
+                                datetime.parseISO8601Date(item.PremiereDate),
+                                { weekday: 'long', month: 'long', day: 'numeric' }
+                            ));
                         } catch (err) {
                             lines.push('');
 
@@ -1383,7 +1380,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (item.Type === 'CollectionFolder' || item.CollectionType) {
-                var refreshClass = item.RefreshProgress || (item.RefreshStatus && virtualFolder.item !== 'Idle') ? '' : ' class="hide"';
+                var refreshClass = item.RefreshProgress ? '' : ' class="hide"';
                 indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
                 requireRefreshIndicator();
             }

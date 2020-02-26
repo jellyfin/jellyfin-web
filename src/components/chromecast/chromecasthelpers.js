@@ -131,8 +131,9 @@ define(['events'], function (events) {
                 var links = [];
                 var match;
 
+                // eslint-disable-next-line no-cond-assign
                 while (match = linkRegExp.exec(text)) {
-                    console.debug(matches);
+                    console.debug(match);
                     var txt = match[0];
                     var pos = match.index;
                     var len = txt.length;

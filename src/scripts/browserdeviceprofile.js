@@ -92,7 +92,7 @@ define(['browser'], function (browser) {
             return true;
         }
 
-        if (!!videoTestElement.canPlayType) {
+        if (videoTestElement.canPlayType) {
             return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-3"').replace(/no/, '') ||
                 videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-3"').replace(/no/, '');
         }

@@ -463,7 +463,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
 
             if (!typeOptions) {
                 typeOptions = {
-                    Type: type
+                    Type: originalTypeOption.Type
                 };
                 options.TypeOptions.push(typeOptions);
             }
