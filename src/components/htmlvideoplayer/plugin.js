@@ -1,5 +1,6 @@
 define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', 'htmlMediaHelper', 'itemHelper', 'fullscreenManager', 'globalize'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper, fullscreenManager, globalize) {
     "use strict";
+    /* globals cast */
 
     var mediaManager;
 
@@ -741,7 +742,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 }
             }
 
+            // No idea what this is possibly trying to workaround
             setTimeout(function () {
+                // eslint-disable-next-line no-self-assign
                 elem.currentTime = elem.currentTime;
             }, 100);
         };
@@ -1350,38 +1353,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         }
 
-        function updateTextStreamUrls(startPositionTicks) {
-
-            if (!supportsTextTracks()) {
-                return;
-            }
-
-            var allTracks = self._mediaElement.textTracks; // get list of tracks
-            var i;
-            var track;
-
-            for (i = 0; i < allTracks.length; i++) {
-
-                track = allTracks[i];
-
-                // This throws an error in IE, but is fine in chrome
-                // In IE it's not necessary anyway because changing the src seems to be enough
-                try {
-                    while (track.cues.length) {
-                        track.removeCue(track.cues[0]);
-                    }
-                } catch (e) {
-                    console.error('error removing cue from textTrack');
-                }
-            }
-
-            var tracks = self._mediaElement.querySelectorAll('track');
-            for (i = 0; i < tracks.length; i++) {
-                track = tracks[i];
-                track.src = replaceQueryString(track.src, 'startPositionTicks', startPositionTicks);
-            }
-        }
-
         function createMediaElement(options) {
 
             if (browser.tv || browser.iOS || browser.mobile) {
@@ -1653,9 +1624,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         if (document.AirPlayEnabled) {
             if (video) {
                 if (isEnabled) {
-                    video.requestAirPlay().catch(onAirPlayError);
+                    video.requestAirPlay().catch(function(err) {
+                        console.error("Error requesting AirPlay", err)
+                    });
                 } else {
-                    document.exitAirPLay().catch(onAirPlayError);
+                    document.exitAirPLay().catch(function(err) {
+                        console.error("Error exiting AirPlay", err)
+                    });
                 }
             }
         } else {
