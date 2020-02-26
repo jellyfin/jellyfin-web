@@ -215,5 +215,10 @@
     "AddToPlaylist": "Thêm vào danh sách phát",
     "AddToPlayQueue": "Thêm vào hàng đợi",
     "AddItemToCollectionHelp": "Thêm các mục vào bộ sưu tập bằng cách tìm kiếm và nhấp chuột phải hoặc nhấn vào menu để thêm chúng vào bộ sưu tập.",
-    "Absolute": "Tuyệt Đối"
+    "Absolute": "Tuyệt Đối",
+    "ButtonSend": "Gửi",
+    "ButtonSelectView": "Chọn chế độ xem",
+    "ButtonSelectServer": "Chọn máy chủ",
+    "ButtonScanAllLibraries": "Quét tất cả các thư viện",
+    "ButtonOk": "Đồng Ý"
 }
