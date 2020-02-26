@@ -647,7 +647,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     function setTitle(item, apiClient) {
         var url = logoImageUrl(item, apiClient, {});
 
-        if (url == null) {
+        if (url != null) {
             var pageTitle = document.querySelector(".pageTitle");
             pageTitle.style.backgroundImage = "url('" + url + "')";
             pageTitle.classList.add("pageTitleWithLogo");
