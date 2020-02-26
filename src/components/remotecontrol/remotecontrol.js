@@ -1,4 +1,4 @@
-define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageLoader", "playbackManager", "nowPlayingHelper", "events", "connectionManager", "apphost", "globalize", "cardStyle", "emby-itemscontainer", "css!./remotecontrol.css", "emby-ratingbutton"], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize) {
+define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageLoader", "playbackManager", "nowPlayingHelper", "events", "connectionManager", "apphost", "globalize", "layoutManager", "userSettings", "cardStyle", "emby-itemscontainer", "css!./remotecontrol.css", "emby-ratingbutton"], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize, layoutManager, userSettings) {
     "use strict";
 
     function showAudioMenu(context, player, button, item) {
@@ -227,6 +227,11 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             buttonVisible(context.querySelector(".btnRewind"), null != item);
             buttonVisible(context.querySelector(".btnFastForward"), null != item);
             var positionSlider = context.querySelector(".nowPlayingPositionSlider");
+
+            if (positionSlider && item && item.RunTimeTicks) {
+                positionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / item.RunTimeTicks,
+                    userSettings.skipForwardLength() * 1000000 / item.RunTimeTicks);
+            }
 
             if (positionSlider && !positionSlider.dragging) {
                 positionSlider.disabled = !playState.CanSeek;
@@ -693,6 +698,12 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             context.querySelector(".sendMessageForm").addEventListener("submit", onMessageSubmit);
             context.querySelector(".typeTextForm").addEventListener("submit", onSendStringSubmit);
             events.on(playbackManager, "playerchange", onPlayerChange);
+
+            if (layoutManager.tv) {
+                var positionSlider = context.querySelector(".nowPlayingPositionSlider");
+                positionSlider.classList.add("focusable");
+                positionSlider.enableKeyboardDragging();
+            }
         }
 
         function onDialogClosed(e) {

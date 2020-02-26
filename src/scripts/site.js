@@ -989,10 +989,6 @@ var AppInfo = {};
                 Dashboard.navigate("mypreferencesmenu.html");
             };
 
-            appRouter.showNowPlaying = function () {
-                Dashboard.navigate("nowplaying.html");
-            };
-
             appRouter.setTitle = function (title) {
                 LibraryMenu.setTitle(title);
             };

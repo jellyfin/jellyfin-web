@@ -14,6 +14,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         },
         showSettings: function () {
             show('/settings/settings.html');
+        },
+        showNowPlaying: function () {
+            show("/nowplaying.html");
         }
     };
 
