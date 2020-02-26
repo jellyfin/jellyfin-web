@@ -324,7 +324,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
       * Ask user for exit
       */
     function askForExit() {
-        if (!!exitPromise) {
+        if (exitPromise) {
             return;
         }
 

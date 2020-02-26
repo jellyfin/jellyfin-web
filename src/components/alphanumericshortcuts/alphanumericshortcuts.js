@@ -10,7 +10,7 @@ define(['dom', 'focusManager'], function (dom, focusManager) {
         if (e.ctrlKey) {
             return;
         }
-        if (!!e.shiftKey) {
+        if (e.shiftKey) {
             return;
         }
         if (e.altKey) {
