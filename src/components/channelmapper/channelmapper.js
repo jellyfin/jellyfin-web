@@ -84,7 +84,7 @@ define(["dialogHelper", "loading", "connectionManager", "globalize", "actionshee
 
             html += "</div>";
             html += "</div>";
-            html += '<button class="btnMap autoSize" is="paper-icon-button-light" type="button" data-id="' + channel.Id + '" data-providerid="' + channel.ProviderChannelId + '"><i class="material-icons">mode_edit</i></button>';
+            html += '<button class="btnMap autoSize" is="paper-icon-button-light" type="button" data-id="' + channel.Id + '" data-providerid="' + channel.ProviderChannelId + '"><i class="material-icons mode_edit"></i></button>';
             return html += "</div>";
         }
 

@@ -58,7 +58,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
             html += '<div class="listItem localReaderOption sortableOption" data-pluginname="' + plugin.Name + '">';
-            html += '<i class="listItemIcon material-icons">live_tv</i>';
+            html += '<i class="listItemIcon material-icons live_tv"></i>';
             html += '<div class="listItemBody">';
             html += '<h3 class="listItemBodyText">';
             html += plugin.Name;

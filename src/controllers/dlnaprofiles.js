@@ -32,7 +32,7 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
         for (var i = 0, length = profiles.length; i < length; i++) {
             var profile = profiles[i];
             html += '<div class="listItem listItem-border">';
-            html += '<i class="listItemIcon material-icons">live_tv</i>';
+            html += '<i class="listItemIcon material-icons live_tv"></i>';
             html += '<div class="listItemBody two-line">';
             html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='dlnaprofile.html?id=" + profile.Id + "'>";
             html += "<div>" + profile.Name + "</div>";

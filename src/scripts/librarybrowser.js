@@ -92,7 +92,7 @@ define(["userSettings"], function (userSettings) {
 
                 if (showControls) {
                     html += '<button is="paper-icon-button-light" class="btnPreviousPage autoSize" ' + (startIndex ? "" : "disabled") + '><i class="material-icons arrow_back"></i></button>';
-                    html += '<button is="paper-icon-button-light" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? "disabled" : "") + '><i class="material-icons">arrow_forward</i></button>';
+                    html += '<button is="paper-icon-button-light" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? "disabled" : "") + '><i class="material-icons arrow_forward"></i></button>';
                 }
 
                 if (options.addLayoutButton) {

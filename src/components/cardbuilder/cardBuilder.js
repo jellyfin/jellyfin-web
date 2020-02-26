@@ -1497,13 +1497,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 case 'Person':
                     return '<i class="cardImageIcon material-icons">person</i>';
                 case 'Movie':
-                    return '<i class="cardImageIcon material-icons">movie</i>'
+                    return '<i class="cardImageIcon material-icons">movie</i>';
                 case 'Series':
-                    return '<i class="cardImageIcon material-icons">tv</i>'
+                    return '<i class="cardImageIcon material-icons">tv</i>';
                 case 'Book':
-                    return '<i class="cardImageIcon material-icons">book</i>'
+                    return '<i class="cardImageIcon material-icons">book</i>';
                 case 'Folder':
-                    return '<i class="cardImageIcon material-icons">folder</i>'
+                    return '<i class="cardImageIcon material-icons">folder</i>';
             }
 
             if (options && options.defaultCardImageIcon) {
