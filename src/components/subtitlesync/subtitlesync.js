@@ -130,7 +130,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
     SubtitleSync.prototype.toggle = function(action) {
 
         if (player && playbackManager.supportSubtitleOffset(player)) {
-
+            /* eslint-disable no-fallthrough */
             switch (action) {
                 case undefined:
                     // if showing subtitle sync is enabled
@@ -157,7 +157,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
                     subtitleSyncContainer.classList.add("hide");
                     break;
             }
-
+            /* eslint-enable no-fallthrough */
         }
     }
 
