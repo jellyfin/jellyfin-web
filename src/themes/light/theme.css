@@ -51,6 +51,11 @@ html {
     background-color: rgba(255, 255, 255, 0.8);
 }
 
+.itemBackdropFader {
+    background: #ffffffcc;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
 .dialog {
     background-color: #f0f0f0;
 }
@@ -219,11 +224,8 @@ html {
 }
 
 .detailSticky {
-    background-color: #303030;
-    color: #ccc;
-    color: rgba(255, 255, 255, 0.87);
-    -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    background: #ffffff;
+    background: rgba(255, 255, 255, 0.8);
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {

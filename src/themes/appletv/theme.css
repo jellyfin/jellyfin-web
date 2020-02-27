@@ -1,7 +1,7 @@
 .skinHeader,
 html {
     color: #222;
-    color: rgba(0, 0, 0, 0.87);
+    color: rgba(0, 0, 0, 0.9);
 }
 
 .wizardStartForm,
@@ -54,6 +54,11 @@ html {
     background: -webkit-linear-gradient(top, rgba(192, 212, 222, 0.94), rgba(235, 250, 254, 0.94), rgba(227, 220, 212, 0.94), rgba(206, 214, 216, 0.94), rgba(192, 211, 218, 0.94));
     background: -o-linear-gradient(top, rgba(192, 212, 222, 0.94), rgba(235, 250, 254, 0.94), rgba(227, 220, 212, 0.94), rgba(206, 214, 216, 0.94), rgba(192, 211, 218, 0.94));
     background: linear-gradient(to bottom, rgba(192, 212, 222, 0.94), rgba(235, 250, 254, 0.94), rgba(227, 220, 212, 0.94), rgba(206, 214, 216, 0.94), rgba(192, 211, 218, 0.94));
+}
+
+.itemBackdropFader {
+    background: rgb(192, 212, 222);
+    background: linear-gradient(to bottom, rgba(192, 212, 222, 0.8), rgba(235, 250, 254, 0.8), rgba(227, 220, 212, 0.8), rgba(206, 214, 216, 0.8), rgba(192, 211, 218, 0.8));
 }
 
 .actionSheet {
@@ -225,12 +230,9 @@ html {
 }
 
 .detailSticky {
-    background: #303030;
-    background: -webkit-gradient(linear, left top, right top, from(#bcbcbc), color-stop(#a7b4b7), color-stop(#beb5a5), color-stop(#adbec2), to(#b9c7cb));
-    background: -webkit-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
-    background: -o-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
-    background: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
-}
+    background: #beb5a5;
+    background: rgba(190, 181, 165,0.8);
+},
 
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #f8f8f8;

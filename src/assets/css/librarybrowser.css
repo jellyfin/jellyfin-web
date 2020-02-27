@@ -381,12 +381,6 @@
     position: relative;
 }
 
-.detailLogo,
-.itemBackdrop {
-    background-repeat: no-repeat;
-    background-position: center center;
-}
-
 .criticReview:first-child {
     margin-top: 0.5em;
 }
@@ -441,6 +435,15 @@
     background-position: center;
     height: 50vh;
     position: relative;
+}
+
+.itemBackdropFader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    contain: strict;
 }
 
 .personBackdrop {
@@ -525,10 +528,6 @@
     top: 0;
 }
 
-.detailSticky {
-    background-color: #101010;
-}
-
 .infoWrapper {
     flex: 1 0 0;
 }
@@ -569,16 +568,6 @@
 
 .detailPagePrimaryContent {
     position: relative;
-}
-
-.detailLogo {
-    width: 25em;
-    height: 9.375em;
-    position: absolute;
-    top: 14.5%;
-    right: 10.5%;
-    -webkit-background-size: contain;
-    background-size: contain;
 }
 
 @media all and (max-width: 87.5em) {
@@ -805,6 +794,19 @@ div.itemDetailGalleryLink.defaultCardBackground {
         justify-content: center;
         margin-top: -4.3em;
         position: relative;
+    }
+
+    .itemBackdrop {
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .detailPageWrapperContainer {
+        margin-top: 4em;
     }
 
     .detailFloatingButton {

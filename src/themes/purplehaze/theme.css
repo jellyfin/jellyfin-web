@@ -1,7 +1,7 @@
 .skinHeader,
 html {
     color: #f8f8fe;
-    color: rgba(248, 248, 254, 0.973);
+    color: rgba(248, 248, 254, 0.9);
 }
 
 .wizardStartForm,
@@ -55,6 +55,11 @@ html {
     .backgroundContainer {
         background-position: 30% top;
     }
+}
+
+.itemBackdropFader {
+    background: rgb(0,4,32);
+    background: linear-gradient(0deg, rgba(0, 4, 32, 0.897) 0%, rgba(15, 5, 36, 0.705) 50%, rgba(0, 4, 32, 0.603) 100%);
 }
 
 .paper-icon-button-light:hover:not(:disabled) {
@@ -246,7 +251,7 @@ a[data-role=button] {
 .programSecondaryTitle,
 .secondaryText {
     color: #999;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .actionsheetDivider {
@@ -306,9 +311,7 @@ a[data-role=button] {
 
 .detailSticky {
     background: #000420;
-    background: -moz-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
-    background: -webkit-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
-    background: linear-gradient(to right, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
+    background: rgba(0, 4, 32, 0.7);
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {

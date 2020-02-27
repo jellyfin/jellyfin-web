@@ -1,4 +1,4 @@
-define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, connectionManager, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser) {
+define(["loading", "appRouter", "layoutManager", "connectionManager", "userSettings", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, connectionManager, userSettings, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser) {
     "use strict";
 
     function getPromise(apiClient, params) {
@@ -445,14 +445,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         }
     }
 
-    function renderBackdrop(page, item, apiClient) {
-        if (dom.getWindowSize().innerWidth >= 1000) {
-            backdrop.setBackdrops([item]);
-        } else {
-            backdrop.clear();
-        }
-    }
-
     function renderDetailPageBackdrop(page, item, apiClient) {
         var imgUrl;
         var screenWidth = screen.availWidth;
@@ -463,6 +455,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             item.Type === "MusicAlbum" ||
             item.Type === "MusicArtist" ||
             item.Type === "Person";
+
+        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
+            return hasbackdrop;
+        }
 
         if ("Program" === item.Type && item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -531,12 +527,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         renderSeriesTimerEditor(page, item, apiClient, user);
         renderTimerEditor(page, item, apiClient, user);
         renderImage(page, item, apiClient, user);
-        renderLogo(page, item, apiClient);
         setTitle(item, apiClient);
         setInitialCollapsibleState(page, item, apiClient, context, user);
         renderDetails(page, item, apiClient, context);
         renderTrackSelections(page, instance, item);
-        renderBackdrop(page, item, apiClient);
         renderDetailPageBackdrop(page, item, apiClient);
         var canPlay = reloadPlayButtons(page, item);
 
@@ -647,29 +641,13 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     function setTitle(item, apiClient) {
         var url = logoImageUrl(item, apiClient, {});
 
-        if (url != null) {
+        if (url) {
             var pageTitle = document.querySelector(".pageTitle");
             pageTitle.style.backgroundImage = "url('" + url + "')";
             pageTitle.classList.add("pageTitleWithLogo");
             pageTitle.innerHTML = "";
         } else {
             Emby.Page.setTitle("");
-        }
-    }
-
-    function renderLogo(page, item, apiClient) {
-        var url = logoImageUrl(item, apiClient, {
-            maxWidth: 400
-        });
-        var detailLogo = page.querySelector(".detailLogo");
-
-        if (url) {
-            detailLogo.classList.remove("hide");
-            detailLogo.classList.add("lazy");
-            detailLogo.setAttribute("data-src", url);
-            imageLoader.lazyImage(detailLogo);
-        } else {
-            detailLogo.classList.add("hide");
         }
     }
 

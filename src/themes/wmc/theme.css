@@ -60,6 +60,11 @@ html {
     background: rgba(17, 98, 164, 0.9);
 }
 
+.itemBackdropFader {
+    background: rgb(3,51,97);
+    background: linear-gradient(0deg, rgba(3,51,97,1) 0%, rgba(3,51,97,0.6839869736957283) 54%, rgba(3,51,97,0.0005135843399859397) 100%);
+}
+
 .paper-icon-button-light:hover:not(:disabled) {
     color: #00a4dc;
     background-color: rgba(0, 164, 220, 0.2);
@@ -207,7 +212,8 @@ html {
 }
 
 .detailSticky {
-    background-color: #081b3b;
+    background: #081b3b;
+    background: rgba(8, 27, 59, 0.8);
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {

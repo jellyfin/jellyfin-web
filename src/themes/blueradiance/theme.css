@@ -5,7 +5,7 @@
 .skinHeader,
 html {
     color: #ddd;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .wizardStartForm,
@@ -54,6 +54,11 @@ html {
 
 .backgroundContainer.withBackdrop {
     opacity: 0.86;
+}
+
+.itemBackdropFader {
+    background: rgb(3, 51, 97);
+    background: rgba(3, 51, 97,0.7);
 }
 
 @media (orientation: portrait) {
@@ -221,11 +226,8 @@ html {
 }
 
 .detailSticky {
-    background: #303030;
-    background: -webkit-gradient(linear, left top, right top, from(#291a31), color-stop(#033664), color-stop(#011432), color-stop(#141a3a), to(#291a31));
-    background: -webkit-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
-    background: -o-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);
-    background: linear-gradient(to right, #291a31, #033664, #011432, #141a3a, #291a31);
+    background: rgb(1, 20, 50);
+    background: rgba(1, 20, 50,0.8);
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
