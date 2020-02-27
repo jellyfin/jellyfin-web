@@ -58,7 +58,7 @@ html {
 
 .itemBackdropFader {
     background: rgb(3, 51, 97);
-    background: rgba(3, 51, 97,0.7);
+    background: rgba(3, 51, 97, 0.7);
 }
 
 @media (orientation: portrait) {
@@ -227,7 +227,7 @@ html {
 
 .detailSticky {
     background: rgb(1, 20, 50);
-    background: rgba(1, 20, 50,0.8);
+    background: rgba(1, 20, 50, 0.8);
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {

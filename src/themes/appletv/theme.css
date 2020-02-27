@@ -231,8 +231,8 @@ html {
 
 .detailSticky {
     background: #beb5a5;
-    background: rgba(190, 181, 165,0.8);
-},
+    background: rgba(190, 181, 165, 0.8);
+}
 
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #f8f8f8;

@@ -46,7 +46,7 @@ html {
 
 .itemBackdropFader {
     background: rgb(0, 0, 0);
-    background: rgba(0, 0, 0, 0.7)
+    background: rgba(0, 0, 0, 0.7);
 }
 
 .paper-icon-button-light:hover:not(:disabled) {

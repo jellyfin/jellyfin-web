@@ -58,7 +58,7 @@ html {
 }
 
 .itemBackdropFader {
-    background: rgb(0,4,32);
+    background: #000420;
     background: linear-gradient(0deg, rgba(0, 4, 32, 0.897) 0%, rgba(15, 5, 36, 0.705) 50%, rgba(0, 4, 32, 0.603) 100%);
 }
 
@@ -369,7 +369,7 @@ a[data-role=button] {
     border: 0.07em solid transparent;
 }
 
-.emby-select-withcolor > option {
+.emby-select-withcolor>option {
     color: inherit;
     background: #030322d7;
 }
@@ -383,20 +383,20 @@ a[data-role=button] {
     color: #fff !important;
 }
 
-.emby-checkbox:checked + span + .checkboxOutline {
+.emby-checkbox:checked+span+.checkboxOutline {
     background-color: #030322;
     border: 2px solid rgb(72, 195, 200);
 }
 
-.emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-checked {
+.emby-checkbox:checked+span+.checkboxOutline>.checkboxIcon-checked {
     color: rgb(12, 232, 214);
 }
 
-.emby-checkbox:focus + span + .checkboxOutline {
+.emby-checkbox:focus+span+.checkboxOutline {
     border-color: #ff77f1;
 }
 
-.emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
+.emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
     border: 2px solid #ff77f1;
 }
 
