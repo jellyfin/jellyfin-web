@@ -23,11 +23,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(),
-        new CopyPlugin([{
-            from: "**/*",
-            to: "."
-        }]),
         new CopyPlugin(
             Assets.map(asset => {
                 return {
