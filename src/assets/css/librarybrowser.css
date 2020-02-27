@@ -779,6 +779,10 @@ div.itemDetailGalleryLink.defaultCardBackground {
     .detailButtonHideonMobile {
         display: none !important;
     }
+
+    .itemBackdropFader {
+        display: none !important;
+    }
 }
 
 @media all and (min-width: 62.5em) {
