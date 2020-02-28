@@ -394,6 +394,8 @@ require(['apphost'], function (appHost) {
     window.addEventListener("blur", dettachGamepad);
     window.addEventListener("focus", attachGamepad);
 
+    attachGamepad();
+
     // The gamepadInputEmulation is a string property that exists in JavaScript UWAs and in WebViews in UWAs.
     // It won't exist in Win8.1 style apps or browsers.
     if (window.navigator && typeof window.navigator.gamepadInputEmulation === "string") {
