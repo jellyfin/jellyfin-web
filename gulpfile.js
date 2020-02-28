@@ -1,6 +1,6 @@
 'use strict';
 
-const { src, dest, series, parallel } = require('gulp');
+const { src, dest, series, parallel, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
 const del = require('del');
 const babel = require('gulp-babel');
@@ -9,6 +9,11 @@ const terser = require('gulp-terser');
 const htmlmin = require('gulp-htmlmin');
 const imagemin = require('gulp-imagemin');
 const sourcemaps = require('gulp-sourcemaps');
+const mode = require('gulp-mode')({
+    modes: ["production", "development"],
+    default: "development",
+    verbose: false
+  });
 const webpack_stream = require('webpack-stream');
 const webpack_config = require('./webpack.prod.js');
 const inject = require('gulp-inject');
@@ -16,13 +21,21 @@ const postcss = require('gulp-postcss');
 const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 
-function devBrowser() {
+function serve() {
     browserSync.init({
         server: {
             baseDir: "./dist"
         },
         port: 8080
     });
+
+    watch(['src/**/*.js', '!src/bundle.js'], javascript);
+    watch('src/bundle.js', webpack);
+    watch('src/**/*.css', css);
+    watch(['src/**/*.html', '!src/index.html'], html);
+    watch(['src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg'], images);
+    watch(['src/**/*.json', 'src/**/*.ico'], copy);
+    watch('src/index.html', injectBundle);
 }
 
 function setStandalone() {
@@ -38,7 +51,7 @@ function clean() {
 
 function javascript() {
     return src(['src/**/*.js', '!src/bundle.js'], {base: './src/'})
-    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(mode.development(sourcemaps.init({loadMaps: true})))
     .pipe(babel({
         presets: ['@babel/preset-env']
     }))
@@ -46,41 +59,47 @@ function javascript() {
         keep_fnames: true,
         mangle: false
     }))
-    .pipe(sourcemaps.write('.'))
-    .pipe(dest('dist/'));
+    .pipe(mode.development(sourcemaps.write('.')))
+    .pipe(dest('dist/'))
+    .pipe(browserSync.stream());;
 }
 
 function webpack() {
     return webpack_stream(webpack_config)
-    .pipe(dest('dist/'));
+    .pipe(dest('dist/'))
+    .pipe(browserSync.stream());
 }
 
 function css() {
     return src('src/**/*.css', {base: './src/'})
-    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(mode.development(sourcemaps.init({loadMaps: true})))
     .pipe(postcss([
         autoprefixer(),
         cssnano()
     ]))
-    .pipe(sourcemaps.write('.'))
-    .pipe(dest('dist/'));
+    .pipe(mode.development(sourcemaps.write('.')))
+    .pipe(dest('dist/'))
+    .pipe(browserSync.stream());
 }
 
 function html() {
     return src(['src/**/*.html', '!src/index.html'], {base: './src/'})
     .pipe(htmlmin({ collapseWhitespace: true }))
-    .pipe(dest('dist/'));
+    .pipe(dest('dist/'))
+    .pipe(browserSync.stream());
 }
 
 function images() {
     return src(['src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg'], {base: './src/'})
     .pipe(imagemin())
     .pipe(dest('dist/'))
+    .pipe(browserSync.stream());
 }
 
 function copy() {
     return src(['src/**/*.json', 'src/**/*.ico'], {base: './src/'})
     .pipe(dest('dist/'))
+    .pipe(browserSync.stream());
 }
 
 function injectBundle() {
@@ -89,7 +108,8 @@ function injectBundle() {
         src(['src/scripts/apploader.js'], {read: false}, {base: './src/'}), {relative: true}
     ))
     .pipe(dest('dist/'))
+    .pipe(browserSync.stream());
 }
 
 exports.default = series(clean, parallel(javascript, webpack, css, html, images, copy), injectBundle)
-exports.run = series(exports.default, setStandalone, devBrowser)
+exports.serve = series(exports.default, setStandalone, serve)
