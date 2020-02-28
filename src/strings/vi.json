@@ -220,5 +220,21 @@
     "ButtonSelectView": "Chọn chế độ xem",
     "ButtonSelectServer": "Chọn máy chủ",
     "ButtonScanAllLibraries": "Quét tất cả các thư viện",
-    "ButtonOk": "Đồng Ý"
+    "ButtonOk": "Đồng Ý",
+    "ButtonShuffle": "Xáo trộn",
+    "Categories": "Phân loại",
+    "CancelRecording": "Ngưng ghi hình",
+    "ButtonWebsite": "Trang web",
+    "ButtonViewWebsite": "Xem trang web",
+    "ButtonUp": "Lên",
+    "ButtonUninstall": "Gỡ cài đặt",
+    "ButtonTrailer": "Tóm tắt",
+    "ButtonSubtitles": "Phụ đề",
+    "ButtonSubmit": "Đăng",
+    "ButtonSplit": "Tách",
+    "ButtonStop": "Ngưng",
+    "ButtonStart": "Bắt đầu",
+    "ButtonSignIn": "Đăng nhập",
+    "ButtonShutdown": "Tắt",
+    "ButtonSettings": "Cài đặt"
 }
