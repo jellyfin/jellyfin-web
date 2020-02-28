@@ -12,8 +12,13 @@ module.exports = merge(common, {
     module: {
         rules: [
             {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: "babel-loader"
+            },
+            {
                 test: /\.css$/i,
-                use: ["style-loader", "css-loader"]
+                use: ["style-loader", "css-loader", "postcss-loader"]
             },
             {
                 test: /\.(png|jpg|gif)$/i,

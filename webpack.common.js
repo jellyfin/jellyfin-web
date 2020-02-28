@@ -22,6 +22,11 @@ module.exports = {
             path.resolve(__dirname, "node_modules")
         ]
     },
+    output: {
+        filename: "bundle.js",
+        path: path.resolve(__dirname, "dist"),
+        libraryTarget: "amd-require"
+    },
     plugins: [
         new CopyPlugin(
             Assets.map(asset => {

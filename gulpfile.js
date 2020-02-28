@@ -15,7 +15,6 @@ const mode = require('gulp-mode')({
     verbose: false
   });
 const webpack_stream = require('webpack-stream');
-const webpack_config = require('./webpack.prod.js');
 const inject = require('gulp-inject');
 const postcss = require('gulp-postcss');
 const cssnano = require('cssnano');
@@ -23,6 +22,13 @@ const autoprefixer = require('autoprefixer');
 const sass = require('gulp-sass');
  
 sass.compiler = require('node-sass')
+
+
+if(mode.production()) {
+    var webpack_config = require('./webpack.prod.js');
+} else {
+    var webpack_config = require('./webpack.dev.js');
+}
 
 function serve() {
     browserSync.init({
@@ -39,6 +45,7 @@ function serve() {
     watch(['src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg'], images);
     watch(['src/**/*.json', 'src/**/*.ico'], copy);
     watch('src/index.html', injectBundle);
+    watch(['src/standalone.js', 'src/scripts/apploader.js'], setStandalone);
 }
 
 function setStandalone() {
@@ -56,7 +63,9 @@ function javascript() {
     return src(['src/**/*.js', '!src/bundle.js'], {base: './src/'})
     .pipe(mode.development(sourcemaps.init({loadMaps: true})))
     .pipe(babel({
-        presets: ['@babel/preset-env']
+        presets: [
+            ['@babel/preset-env']
+        ]
     }))
     .pipe(terser({
         keep_fnames: true,
@@ -77,10 +86,7 @@ function css() {
     return src(['src/**/*.css', 'src/**/*.scss'], {base: './src/'})
     .pipe(mode.development(sourcemaps.init({loadMaps: true})))
     .pipe(sass().on('error', sass.logError))
-    .pipe(postcss([
-        autoprefixer(),
-        cssnano()
-    ]))
+    .pipe(postcss())
     .pipe(mode.development(sourcemaps.write('.')))
     .pipe(dest('dist/'))
     .pipe(browserSync.stream());
