@@ -251,13 +251,14 @@ require(['apphost'], function (appHost) {
         }
     }
 
+    var inputLoopTimer;
     function runInputLoop() {
         // Get the latest gamepad state.
         var gamepads = navigator.getGamepads();
         for (var i = 0, len = gamepads.length; i < len; i++) {
             var gamepad = gamepads[i];
             if (!gamepad) {
-                return;
+                continue;
             }
             // Iterate through the axes
             var axes = gamepad.axes;
@@ -279,8 +280,7 @@ require(['apphost'], function (appHost) {
             }
             // Iterate through the buttons to see if Left thumbstick, DPad, A and B are pressed.
             var buttons = gamepad.buttons;
-            var j;
-            for (j = 0, len = buttons.length; j < len; j++) {
+            for (var j = 0, len = buttons.length; j < len; j++) {
                 if (ProcessedButtons.indexOf(j) !== -1) {
                     if (buttons[j].pressed) {
                         switch (j) {
@@ -347,10 +347,50 @@ require(['apphost'], function (appHost) {
             }
         }
         // Schedule the next one
-        requestAnimationFrame(runInputLoop);
+        inputLoopTimer = requestAnimationFrame(runInputLoop);
     }
 
-    runInputLoop();
+    function startInputLoop() {
+        if (!inputLoopTimer) {
+            runInputLoop();
+        }
+    }
+
+    function stopInputLoop() {
+        cancelAnimationFrame(inputLoopTimer);
+        inputLoopTimer = undefined;
+    }
+
+    function isGamepadConnected() {
+        var gamepads = navigator.getGamepads();
+        for (var i = 0, len = gamepads.length; i < len; i++) {
+            var gamepad = gamepads[i];
+            if (gamepad) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function attachGamepad(e) {
+        if (isGamepadConnected()) {
+            console.log("Gamepad connected! Starting input loop");
+            startInputLoop();
+        }
+    }
+
+    function dettachGamepad(e) {
+        if (!isGamepadConnected()) {
+            console.log("Gamepad disconnected! No other gamepads are connected, stopping input loop");
+            stopInputLoop();
+        } else {
+            console.log("Gamepad disconnected! There are gamepads still connected.");
+        }
+    }
+
+    // Event Listeners for any change in gamepads' state.
+    window.addEventListener("gamepaddisconnected", dettachGamepad);
+    window.addEventListener("gamepadconnected", attachGamepad);
 
     // The gamepadInputEmulation is a string property that exists in JavaScript UWAs and in WebViews in UWAs.
     // It won't exist in Win8.1 style apps or browsers.
