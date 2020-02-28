@@ -24,7 +24,7 @@ const sass = require('gulp-sass');
 sass.compiler = require('node-sass')
 
 
-if(mode.production()) {
+if (mode.production()) {
     var webpack_config = require('./webpack.prod.js');
 } else {
     var webpack_config = require('./webpack.dev.js');
@@ -94,7 +94,7 @@ function css() {
 
 function html() {
     return src(['src/**/*.html', '!src/index.html'], {base: './src/'})
-    .pipe(htmlmin({ collapseWhitespace: true }))
+    .pipe(mode.production(htmlmin({ collapseWhitespace: true })))
     .pipe(dest('dist/'))
     .pipe(browserSync.stream());
 }
