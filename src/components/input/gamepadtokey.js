@@ -373,14 +373,14 @@ require(['apphost'], function (appHost) {
     }
 
     function attachGamepad(e) {
-        if (isGamepadConnected()) {
+        if (isGamepadConnected() && document.hasFocus()) {
             console.log("Gamepad connected! Starting input loop");
             startInputLoop();
         }
     }
 
     function dettachGamepad(e) {
-        if (!isGamepadConnected()) {
+        if (!isGamepadConnected() || !document.hasFocus()) {
             console.log("Gamepad disconnected! No other gamepads are connected, stopping input loop");
             stopInputLoop();
         } else {
@@ -391,6 +391,8 @@ require(['apphost'], function (appHost) {
     // Event Listeners for any change in gamepads' state.
     window.addEventListener("gamepaddisconnected", dettachGamepad);
     window.addEventListener("gamepadconnected", attachGamepad);
+    window.addEventListener("blur", dettachGamepad);
+    window.addEventListener("focus", attachGamepad);
 
     // The gamepadInputEmulation is a string property that exists in JavaScript UWAs and in WebViews in UWAs.
     // It won't exist in Win8.1 style apps or browsers.
