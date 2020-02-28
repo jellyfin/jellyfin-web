@@ -80,6 +80,7 @@
     "last 2 Safari versions",
     "last 2 iOS versions",
     "last 2 Edge versions",
+    "Chrome 27",
     "Chrome 38",
     "Chrome 47",
     "Chrome 53",
@@ -88,10 +89,10 @@
     "Firefox ESR"
   ],
   "scripts": {
-    "serve": "webpack-dev-server --config webpack.dev.js --open",
-    "build": "webpack --config webpack.prod.js",
+    "serve": "gulp serve",
+    "build": "gulp --production",
+    "build-dev": "gulp",
     "lint": "eslint \"src\"",
     "stylelint": "stylelint \"src/**/*.css\"",
-    "prepare": "webpack --config webpack.prod.js"
   }
 }
