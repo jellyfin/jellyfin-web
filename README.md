@@ -61,14 +61,14 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 
 3. Run the web client with webpack for local development.
    ```sh
-   gulp serve
+   yarn serve
    ```
 
 4. Build the client with sourcemaps.
    '''sh
-   gulp
+   yarn
    '''
    Or without sourcemaps
    '''sh
-   gulp --production
+   yarn --production
    '''
