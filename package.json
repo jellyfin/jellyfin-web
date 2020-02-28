@@ -19,6 +19,7 @@
     "file-loader": "^5.0.2",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
+    "gulp-cli": "^2.2.0",
     "gulp-concat": "^2.6.1",
     "gulp-htmlmin": "^5.0.1",
     "gulp-imagemin": "^7.1.0",
@@ -68,9 +69,7 @@
   },
   "babel": {
     "presets": [
-      [
-        "@babel/preset-env"
-      ]
+      "@babel/preset-env"
     ]
   },
   "browserslist": [
@@ -93,6 +92,6 @@
     "build": "gulp --production",
     "build-dev": "gulp",
     "lint": "eslint \"src\"",
-    "stylelint": "stylelint \"src/**/*.css\"",
+    "stylelint": "stylelint \"src/**/*.css\""
   }
 }

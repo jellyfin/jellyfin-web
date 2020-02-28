@@ -45,6 +45,7 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 ### Dependencies
 
 - Yarn
+- Gulp-cli
 
 ### Getting Started
 
@@ -60,5 +61,14 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 
 3. Run the web client with webpack for local development.
    ```sh
-   yarn serve
+   gulp serve
    ```
+
+4. Build the client with sourcemaps.
+   '''sh
+   gulp
+   '''
+   Or without sourcemaps
+   '''sh
+   gulp --production
+   '''
