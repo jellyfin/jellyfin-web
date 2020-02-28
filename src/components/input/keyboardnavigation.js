@@ -145,28 +145,13 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
             }
         });
     }
-    // For hiding the mouse while playbackç
-    require(["components/input/mouseManager"]);
 
-    // Gamepad initialization. No script is required if no gamepads are at boot time, saving a bit of resources._10k
+    // Gamepad initialisation. No script is required if no gamepads are present at init time, saving a bit of resources.
     // Whenever the gamepad is connected, we hand all the control of the gamepad to gamepadtokey.js by removing the event handler
-    function isGamepadConnected() {
-        var gamepads = navigator.getGamepads();
-        for (var i = 0, len = gamepads.length; i < len; i++) {
-            var gamepad = gamepads[i];
-            if (gamepad) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     function attachGamepadScript(e) {
-        if (isGamepadConnected()) {
-            console.log("Gamepad connected! Attaching gamepadtokey.js script");
-            window.removeEventListener("gamepadconnected", attachGamepadScript);
-            require(["components/input/gamepadtokey"]);
-        }
+        console.log("Gamepad connected! Attaching gamepadtokey.js script");
+        window.removeEventListener("gamepadconnected", attachGamepadScript);
+        require(["components/input/gamepadtokey"]);
     }
 
     // No need to check for gamepads manually at load time, the eventhandler will be fired for that

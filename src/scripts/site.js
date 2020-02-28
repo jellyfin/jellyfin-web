@@ -492,6 +492,7 @@ var AppInfo = {};
                 require(["keyboardnavigation"], function(keyboardnavigation) {
                     keyboardnavigation.enable();
                 });
+                require(["mouseManager"]);
                 require(["focusPreventScroll"]);
                 require(["autoFocuser"], function(autoFocuser) {
                     autoFocuser.enable();
@@ -907,6 +908,7 @@ var AppInfo = {};
         define("serverNotifications", [componentsPath + "/serverNotifications"], returnFirstDependency);
         define("skinManager", [componentsPath + "/skinManager"], returnFirstDependency);
         define("keyboardnavigation", [componentsPath + "/input/keyboardnavigation"], returnFirstDependency);
+        define("mouseManager", [componentsPath + "/input/mouseManager"], returnFirstDependency);
         define("scrollManager", [componentsPath + "/scrollManager"], returnFirstDependency);
         define("autoFocuser", [componentsPath + "/autoFocuser"], returnFirstDependency);
         define("connectionManager", [], function () {
