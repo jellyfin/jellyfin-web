@@ -20,6 +20,9 @@ const inject = require('gulp-inject');
 const postcss = require('gulp-postcss');
 const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
+const sass = require('gulp-sass');
+ 
+sass.compiler = require('node-sass')
 
 function serve() {
     browserSync.init({
@@ -71,8 +74,9 @@ function webpack() {
 }
 
 function css() {
-    return src('src/**/*.css', {base: './src/'})
+    return src(['src/**/*.css', 'src/**/*.scss'], {base: './src/'})
     .pipe(mode.development(sourcemaps.init({loadMaps: true})))
+    .pipe(sass().on('error', sass.logError))
     .pipe(postcss([
         autoprefixer(),
         cssnano()
