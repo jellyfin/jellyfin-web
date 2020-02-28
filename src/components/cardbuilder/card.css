@@ -370,13 +370,13 @@ button::-moz-focus-inner {
     text-align: center;
 }
 
-.cardImageIcon {
+.cardImageContainer .cardImageIcon {
     font-size: 5em;
     color: inherit;
 }
 
 .cardImageIcon-small {
-    font-size: 3em;
+    font-size: 3em !important;
     margin-bottom: 0.1em;
 }
 
@@ -725,7 +725,7 @@ button::-moz-focus-inner {
 @media (min-width: 120em) {
     .overflowSquareCard,
     .overflowPortraitCard {
-        width: 10.3vw;
+        width: 10.41vw;
     }
 }
 

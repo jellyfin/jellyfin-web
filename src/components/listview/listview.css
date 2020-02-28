@@ -111,6 +111,10 @@
     text-overflow: ellipsis;
 }
 
+.layout-desktop .listItemBodyText {
+    margin: 0.25em 0 0 0;
+}
+
 .listItemBodyText-nowrap {
     white-space: nowrap;
 }
@@ -162,13 +166,14 @@
 
 @media all and (max-width: 64em) {
     .listItemImage-large {
-        width: 33.75vw;
-        height: 22.5vw;
+        width: 22vw;
+        height: 16vw;
         margin-right: 0 !important;
     }
 
+    .listItemIndicators,
     .listItemImageButton {
-        font-size: 1em !important;
+        font-size: 0.6em !important;
     }
 
     .listItemBody {

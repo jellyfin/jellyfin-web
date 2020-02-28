@@ -268,7 +268,7 @@
     "GuideProviderLogin": "Logowanie",
     "GuideProviderSelectListings": "Pokazuj oferty",
     "H264CrfHelp": "Constant Rate Factor (CRF) to domyślna jakość kodowania x264. Możesz ją ustawić w zakresie 0-51, gdzie niższe wartości zwiększają jakość (kosztem większego rozmiaru pliku). Rozsądne wartości to zakres 18-28. Domyślnie jest to wartość 23 - możesz jej użyć jako wartości początkowej.",
-    "H264EncodingPresetHelp": "Wybierz wartość faster, żeby zwiększyć wydajność, albo slower, żeby zwiększyć jakość.",
+    "EncoderPresetHelp": "Wybierz wartość faster, żeby zwiększyć wydajność, albo slower, żeby zwiększyć jakość.",
     "HDPrograms": "Programy w jakości HD",
     "HandledByProxy": "Obsługiwane przez usługę pośredniczącą",
     "HardwareAccelerationWarning": "Aktywacja akceleracji sprzętowej może powodować niestabilność na niektórych środowiskach. Upewnij się, że system operacyjny i sterowniki karty graficznej są aktualne. Jeżeli masz problemy z odtwarzaniem wideo po aktywacji, przywróć to ustawienie do wartości Automatycznie.",
@@ -617,7 +617,7 @@
     "LabelGroupMoviesIntoCollections": "Grupuj filmy w kolekcje",
     "LabelGroupMoviesIntoCollectionsHelp": "Podczas wyświetlania listy filmów, filmy należące do kolekcji będą wyświetlone jako jedna zgrupowana pozycja.",
     "LabelH264Crf": "CRF kodowania H264:",
-    "LabelH264EncodingPreset": "Szablon kodowania H264:",
+    "LabelEncoderPreset": "Szablon kodowania H264:",
     "LabelHardwareAccelerationType": "Akceleracja sprzętowa:",
     "LabelHardwareAccelerationTypeHelp": "Jest to funkcja eksperymentalna dostępna tylko w obsługiwanych systemach.",
     "LabelHomeNetworkQuality": "Jakość dla sieci lokalnej:",
@@ -1452,5 +1452,8 @@
     "LabelAudioBitDepth": "Głębia bitowa audio:",
     "HeaderFavoritePeople": "Ulubieni ludzie",
     "FetchingData": "Pobieranie dodatkowych danych",
-    "ButtonSplit": "Rozdziel"
+    "ButtonSplit": "Rozdziel",
+    "SelectAdminUsername": "Proszę wybierz nazwę użytkownika dla konta administratora.",
+    "MessageConfirmAppExit": "Czy chcesz wyjść?",
+    "HeaderNavigation": "Nawigacja"
 }

@@ -1,3 +1,8 @@
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #3b3b3b #202020;
+}
+
 .skinHeader,
 html {
     color: #ddd;
@@ -16,7 +21,7 @@ html {
 }
 
 .skinHeader-withBackground {
-    background-color: #101010;
+    background-color: #202020;
 }
 
 .skinHeader.semiTransparent {
@@ -157,7 +162,7 @@ html {
 }
 
 .appfooter {
-    background: #101010;
+    background: #202020;
     color: #ccc;
     color: rgba(255, 255, 255, 0.78);
 }
@@ -195,6 +200,10 @@ html {
     background: rgba(30, 30, 30, 0.9);
 }
 
+.detailSticky {
+    background: #202020;
+}
+
 .listItem-border {
     border-color: rgba(34, 34, 34, 0.9) !important;
 }
@@ -207,7 +216,10 @@ html {
     border-color: #00a4dc;
 }
 
-.button-flat-accent,
+.button-flat:hover {
+    color: #00a4dc;
+}
+
 .button-link {
     color: #00a4dc;
 }
@@ -311,6 +323,14 @@ html {
 
 .emby-tab-button-active {
     color: #fff;
+    border-bottom: 2px solid #fff;
+    padding-top: 1.55em;
+    padding-bottom: 1.38em;
+}
+
+.layout-mobile .emby-tab-button-active {
+    padding-top: 1.56em; /* Add one pixel to get a better fit in mobile layout */
+    padding-bottom: 1.38em;
 }
 
 .emby-tab-button.show-focus:focus {
@@ -417,8 +437,7 @@ html {
 }
 
 .layout-desktop ::-webkit-scrollbar {
-    width: 1em;
-    height: 1em;
+    width: 0.4em;
 }
 
 ::-webkit-scrollbar-thumb:horizontal,

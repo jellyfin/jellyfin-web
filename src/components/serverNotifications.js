@@ -33,7 +33,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
     }
 
     function processGeneralCommand(cmd, apiClient) {
-        console.log('Received command: ' + cmd.Name);
+        console.debug('Received command: ' + cmd.Name);
         switch (cmd.Name) {
             case 'Select':
                 inputManager.trigger('select');
@@ -133,7 +133,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                 focusManager.sendText(cmd.Arguments.String);
                 break;
             default:
-                console.log('processGeneralCommand does not recognize: ' + cmd.Name);
+                console.debug('processGeneralCommand does not recognize: ' + cmd.Name);
                 break;
         }
 

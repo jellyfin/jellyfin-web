@@ -5,13 +5,14 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         var html = "";
         html += '<div class="flex align-items-center flex-grow headerTop">';
         html += '<div class="headerLeft">';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><i class="material-icons">' + (browser.safari ? "chevron_left" : "arrow_back") + "</i></button>";
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><i class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '"></i></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><i class="material-icons">home</i></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><i class="material-icons">menu</i></button>';
         html += '<h3 class="pageTitle"></h3>';
         html += "</div>";
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
+        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><i class="material-icons music_note"></i></button>';
         html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="material-icons">cast</i></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="material-icons">search</i></button>';
         html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="material-icons">person</i></button>';
@@ -27,6 +28,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         headerHomeButton = skinHeader.querySelector(".headerHomeButton");
         headerUserButton = skinHeader.querySelector(".headerUserButton");
         headerCastButton = skinHeader.querySelector(".headerCastButton");
+        headerAudioPlayerButton = skinHeader.querySelector(".headerAudioPlayerButton");
         headerSearchButton = skinHeader.querySelector(".headerSearchButton");
 
         lazyLoadViewMenuBarImages();
@@ -116,6 +118,10 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         Dashboard.navigate("home.html");
     }
 
+    function showAudioPlayer() {
+        return appRouter.showNowPlaying();
+    }
+
     function bindMenuEvents() {
         mainDrawerButton = document.querySelector(".mainDrawerButton");
 
@@ -140,8 +146,26 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             headerCastButton.addEventListener("click", onCastButtonClicked);
         }
 
+        headerAudioPlayerButton.addEventListener("click", showAudioPlayer);
+
         if (layoutManager.mobile) {
             initHeadRoom(skinHeader);
+        }
+        events.on(playbackManager, 'playbackstart', onPlaybackStart);
+        events.on(playbackManager, 'playbackstop', onPlaybackStop);
+    }
+
+    function onPlaybackStart(e) {
+        if (playbackManager.isPlayingAudio() && layoutManager.tv) {
+            headerAudioPlayerButton.classList.remove("hide");
+        } else {
+            headerAudioPlayerButton.classList.add("hide");
+        }
+    }
+
+    function onPlaybackStop(e, stopInfo) {
+        if (stopInfo.nextMediaType != 'Audio') {
+            headerAudioPlayerButton.classList.add("hide");
         }
     }
 
@@ -205,7 +229,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             html += globalize.translate("HeaderAdmin");
             html += "</h3>";
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="dashboard.html"><i class="material-icons navMenuOptionIcon">dashboard</i><span class="navMenuOptionText">' + globalize.translate("TabDashboard") + "</span></a>";
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="edititemmetadata.html"><i class="material-icons navMenuOptionIcon">mode_edit</i><span class="navMenuOptionText">' + globalize.translate("Metadata") + "</span></a>";
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="edititemmetadata.html"><i class="material-icons navMenuOptionIcon mode_edit"></i><span class="navMenuOptionText">' + globalize.translate("Metadata") + "</span></a>";
             html += "</div>";
         }
 
@@ -219,7 +243,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="material-icons navMenuOptionIcon">wifi</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
             }
 
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="material-icons navMenuOptionIcon">exit_to_app</i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="material-icons navMenuOptionIcon exit_to_app"></i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
             html += "</div>";
         }
 
@@ -306,7 +330,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             icon: "folder"
         }, {
             name: globalize.translate("TabPlayback"),
-            icon: "play_arrow",
+            icon: "&#xE037;",
             href: "encodingsettings.html",
             pageIds: ["encodingSettingsPage", "playbackConfigurationPage", "streamingSettingsPage"]
         }];
@@ -584,7 +608,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         var icon = headerCastButton.querySelector("i");
 
         if (info && !info.isLocalPlayer) {
-            icon.innerHTML = "cast_connected";
+            icon.innerHTML = "&#xE308;";
             headerCastButton.classList.add("castButton-active");
             context.querySelector(".headerSelectedPlayer").innerHTML = info.deviceName || info.name;
         } else {
@@ -763,6 +787,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     var currentUser;
     var headerCastButton;
     var headerSearchButton;
+    var headerAudioPlayerButton;
     var enableLibraryNavDrawer = !layoutManager.tv;
     var skinHeader = document.querySelector(".skinHeader");
     var requiresUserRefresh = true;

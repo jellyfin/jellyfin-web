@@ -18,22 +18,22 @@
             <div class="flex flex-direction-row align-items-center">
                 <div class="osdTextContainer startTimeText" style="margin: 0 .25em 0 0;"></div>
                 <div class="sliderContainer flex-grow" style="margin: .5em .5em .25em;">
-                    <input type="range" step=".01" min="0" max="100" value="0" is="emby-slider" class="osdPositionSlider" />
+                    <input type="range" step=".01" min="0" max="100" value="0" is="emby-slider" class="osdPositionSlider" data-slider-keep-progress="true" />
                 </div>
                 <div class="osdTextContainer endTimeText" style="margin: 0 0 0 .25em;"></div>
             </div>
 
             <div class="buttons focuscontainer-x">
                 <button is="paper-icon-button-light" class="btnRecord autoSize hide">
-                    <i class="xlargePaperIconButton material-icons">fiber_manual_record</i>
+                    <i class="xlargePaperIconButton material-icons fiber_manual_record"></i>
                 </button>
 
                 <button is="paper-icon-button-light" class="btnPreviousTrack autoSize hide">
-                    <i class="xlargePaperIconButton material-icons">skip_previous</i>
+                    <i class="xlargePaperIconButton material-icons skip_previous"></i>
                 </button>
 
                 <button is="paper-icon-button-light" class="btnRewind" title="${Rewind} (j)">
-                    <i class="xlargePaperIconButton material-icons">fast_rewind</i>
+                    <i class="xlargePaperIconButton material-icons fast_rewind"></i>
                 </button>
 
                 <button is="paper-icon-button-light" class="btnPause autoSize">
@@ -41,18 +41,18 @@
                 </button>
 
                 <button is="paper-icon-button-light" class="btnFastForward" title="${FastForward} (l)">
-                    <i class="xlargePaperIconButton material-icons">fast_forward</i>
+                    <i class="xlargePaperIconButton material-icons fast_forward"></i>
                 </button>
 
                 <button is="paper-icon-button-light" class="btnNextTrack autoSize hide">
-                    <i class="xlargePaperIconButton material-icons">skip_next</i>
+                    <i class="xlargePaperIconButton material-icons skip_next"></i>
                 </button>
 
                 <button is="paper-icon-button-light" class="btnAudio hide autoSize" title="${Audio}">
                     <i class="xlargePaperIconButton material-icons">audiotrack</i>
                 </button>
                 <button is="paper-icon-button-light" class="btnSubtitles hide autoSize" title="${Subtitles}">
-                    <i class="xlargePaperIconButton material-icons">closed_caption</i>
+                    <i class="xlargePaperIconButton material-icons closed_caption"></i>
                 </button>
 
                 <button is="paper-icon-button-light" class="btnVideoOsdSettings hide autoSize" title="${Settings}">
@@ -62,7 +62,7 @@
                     <i class="xlargePaperIconButton material-icons">fullscreen</i>
                 </button>
                 <button is="paper-icon-button-light" class="btnPip hide autoSize" title="${PictureInPicture}">
-                    <i class="xlargePaperIconButton material-icons">picture_in_picture_alt</i>
+                    <i class="xlargePaperIconButton material-icons picture_in_picture_alt"></i>
                 </button>
                 <button is="paper-icon-button-light" class="btnAirPlay hide autoSize" title="${AirPlay}">
                     <i class="xlargePaperIconButton material-icons">airplay</i>
@@ -76,7 +76,7 @@
 
                 <div class="volumeButtons hide-mouse-idle-tv">
                     <button is="paper-icon-button-light" class="buttonMute autoSize" title="${Mute} (m)">
-                        <i class="xlargePaperIconButton material-icons">volume_up</i>
+                        <i class="xlargePaperIconButton material-icons"></i>
                     </button>
                     <div class="sliderContainer osdVolumeSliderContainer">
                         <input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="osdVolumeSlider" />

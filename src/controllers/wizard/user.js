@@ -10,7 +10,7 @@ define(["loading", "globalize", "dashboardcss", "emby-input", "emby-button", "em
     }
 
     function onUpdateUserComplete(result) {
-        console.log(result);
+        console.debug("user update complete: " + result);
         loading.hide();
         nextWizardPage();
     }

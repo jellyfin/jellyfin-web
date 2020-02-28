@@ -10,7 +10,7 @@ define(["backdrop", "userSettings", "libraryMenu"], function (backdrop, userSett
         var data = cache[key];
 
         if (data) {
-            console.log("Found backdrop id list in cache. Key: " + key);
+            console.debug("Found backdrop id list in cache. Key: " + key);
             data = JSON.parse(data);
             return Promise.resolve(data);
         }

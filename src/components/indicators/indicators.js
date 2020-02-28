@@ -62,7 +62,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
                 startDate = datetime.parseISO8601Date(item.StartDate).getTime();
                 endDate = datetime.parseISO8601Date(item.EndDate).getTime();
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
 
             var now = new Date().getTime();
@@ -118,7 +118,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         var status;
 
         if (item.Type === 'SeriesTimer') {
-            return '<i class="material-icons timerIndicator indicatorIcon">fiber_smart_record</i>';
+            return '<i class="material-icons timerIndicator indicatorIcon fiber_smart_record"></i>';
         } else if (item.TimerId || item.SeriesTimerId) {
             status = item.Status || 'Cancelled';
         } else if (item.Type === 'Timer') {
@@ -129,20 +129,20 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
         if (item.SeriesTimerId) {
             if (status !== 'Cancelled') {
-                return '<i class="material-icons timerIndicator indicatorIcon">fiber_smart_record</i>';
+                return '<i class="material-icons timerIndicator indicatorIcon fiber_smart_record"></i>';
             }
 
-            return '<i class="material-icons timerIndicator timerIndicator-inactive indicatorIcon">fiber_smart_record</i>';
+            return '<i class="material-icons timerIndicator timerIndicator-inactive indicatorIcon fiber_smart_record"></i>';
         }
 
-        return '<i class="material-icons timerIndicator indicatorIcon">fiber_manual_record</i>';
+        return '<i class="material-icons timerIndicator indicatorIcon fiber_manual_record"></i>';
     }
 
     function getSyncIndicator(item) {
         if (item.SyncPercent === 100) {
-            return '<div class="syncIndicator indicator fullSyncIndicator"><i class="material-icons indicatorIcon">file_download</i></div>';
+            return '<div class="syncIndicator indicator fullSyncIndicator"><i class="material-icons indicatorIcon file_download"></i></div>';
         } else if (item.SyncPercent != null) {
-            return '<div class="syncIndicator indicator emptySyncIndicator"><i class="material-icons indicatorIcon">file_download</i></div>';
+            return '<div class="syncIndicator indicator emptySyncIndicator"><i class="material-icons indicatorIcon file_download"></i></div>';
         }
 
         return '';
@@ -152,8 +152,11 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         if (item.Type === 'Video') {
             return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">videocam</i></div>';
         }
-        if (item.Type === 'Folder' || item.Type === 'PhotoAlbum') {
+        if (item.Type === 'Folder') {
             return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">folder</i></div>';
+        }
+        if (item.Type === 'PhotoAlbum') {
+            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon photo_album"></i></div>';
         }
         if (item.Type === 'Photo') {
             return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">photo</i></div>';
@@ -171,7 +174,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
                         return '<div class="unairedIndicator">Unaired</div>';
                     }
                 } catch (err) {
-                    console.log(err);
+                    console.error(err);
                 }
             }
             return '<div class="missingIndicator">Missing</div>';

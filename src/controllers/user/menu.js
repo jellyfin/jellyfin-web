@@ -6,6 +6,10 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
             Dashboard.logout();
         });
 
+        view.querySelector(".selectServer").addEventListener("click", function () {
+            Dashboard.selectServer();
+        });
+
         view.addEventListener("viewshow", function() {
             // this page can also be used by admins to change user preferences from the user edit page
             var userId = params.userId || Dashboard.getCurrentUserId();

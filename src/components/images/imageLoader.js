@@ -1,4 +1,4 @@
-define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings', 'require', 'css!./style'], function (lazyLoader, imageFetcher, layoutManager, browser, appSettings, require) {
+define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings', 'userSettings', 'require', 'css!./style'], function (lazyLoader, imageFetcher, layoutManager, browser, appSettings, userSettings, require) {
     'use strict';
 
     var requestIdleCallback = window.requestIdleCallback || function (fn) {
@@ -6,9 +6,6 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
     };
 
     var self = {};
-
-    // seeing slow performance with firefox
-    var enableFade = false;
 
     function fillImage(elem, source, enableEffects) {
 
@@ -30,7 +27,7 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
     function fillImageElement(elem, source, enableEffects) {
         imageFetcher.loadImage(elem, source).then(function () {
 
-            if (enableFade && enableEffects !== false) {
+            if (enableEffects !== false) {
                 fadeIn(elem);
             }
 
@@ -39,10 +36,11 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
     }
 
     function fadeIn(elem) {
-
-        var cssClass = 'lazy-image-fadein';
-
-        elem.classList.add(cssClass);
+        if (userSettings.enableFastFadein()) {
+            elem.classList.add('lazy-image-fadein-fast');
+        } else {
+            elem.classList.add('lazy-image-fadein');
+        }
     }
 
     function lazyChildren(elem) {

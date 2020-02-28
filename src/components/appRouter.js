@@ -14,6 +14,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         },
         showSettings: function () {
             show('/settings/settings.html');
+        },
+        showNowPlaying: function () {
+            show("/nowplaying.html");
         }
     };
 
@@ -387,13 +390,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         var apiClient = connectionManager.currentApiClient();
         var pathname = ctx.pathname.toLowerCase();
 
-        console.log('appRouter - processing path request ' + pathname);
+        console.debug('appRouter - processing path request ' + pathname);
 
         var isCurrentRouteStartup = currentRouteInfo ? currentRouteInfo.route.startup : true;
         var shouldExitApp = ctx.isBack && route.isDefaultRoute && isCurrentRouteStartup;
 
         if (!shouldExitApp && (!apiClient || !apiClient.isLoggedIn()) && !route.anonymous) {
-            console.log('appRouter - route does not allow anonymous access, redirecting to login');
+            console.debug('appRouter - route does not allow anonymous access, redirecting to login');
             beginConnectionWizard();
             return;
         }
@@ -408,10 +411,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         if (apiClient && apiClient.isLoggedIn()) {
 
-            console.log('appRouter - user is authenticated');
+            console.debug('appRouter - user is authenticated');
 
             if (route.isDefaultRoute) {
-                console.log('appRouter - loading skin home page');
+                console.debug('appRouter - loading skin home page');
                 loadUserSkinWithOptions(ctx);
                 return;
             } else if (route.roles) {
@@ -425,7 +428,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             }
         }
 
-        console.log('appRouter - proceeding to ' + pathname);
+        console.debug('appRouter - proceeding to ' + pathname);
         callback();
     }
 
@@ -545,13 +548,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         page.back();
     }
 
+    /**
+     * Pages of "no return" (when "Go back" should behave differently, probably quitting the application).
+     */
+    var startPages = ['home', 'login', 'selectserver'];
+
     function canGoBack() {
         var curr = current();
         if (!curr) {
             return false;
         }
 
-        if (curr.type === 'home') {
+        if (!document.querySelector('.dialogContainer') && startPages.indexOf(curr.type) !== -1) {
             return false;
         }
         return page.canGoBack();
@@ -667,7 +675,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             baseRoute = baseRoute.substring(0, baseRoute.length - 1);
         }
 
-        console.log('Setting page base to ' + baseRoute);
+        console.debug('setting page base to ' + baseRoute);
         page.base(baseRoute);
     }
 

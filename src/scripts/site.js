@@ -221,6 +221,13 @@ var Dashboard = {
         };
         appHost.getPushTokenInfo();
         return capabilities = Object.assign(capabilities, appHost.getPushTokenInfo());
+    },
+    selectServer: function () {
+        if (window.NativeShell && typeof window.NativeShell.selectServer === "function") {
+            window.NativeShell.selectServer();
+        } else {
+            Dashboard.navigate("selectserver.html");
+        }
     }
 };
 
@@ -279,10 +286,10 @@ var AppInfo = {};
                 bindConnectionManagerEvents(connectionManager, events, userSettings);
 
                 if (!AppInfo.isNativeApp) {
-                    console.log("loading ApiClient singleton");
+                    console.debug("loading ApiClient singleton");
 
                     return require(["apiclient"], function (apiClientFactory) {
-                        console.log("creating ApiClient singleton");
+                        console.debug("creating ApiClient singleton");
 
                         var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId(), window.devicePixelRatio);
 
@@ -294,7 +301,7 @@ var AppInfo = {};
                         window.ApiClient = apiClient;
                         localApiClient = apiClient;
 
-                        console.log("loaded ApiClient singleton");
+                        console.debug("loaded ApiClient singleton");
                     });
                 }
 
@@ -328,7 +335,7 @@ var AppInfo = {};
             try {
                 playbackManager.onAppClose();
             } catch (err) {
-                console.log("error in onAppClose: " + err);
+                console.error("error in onAppClose: " + err);
             }
         });
         return playbackManager;
@@ -386,7 +393,7 @@ var AppInfo = {};
     }
 
     function onRequireJsError(requireType, requireModules) {
-        console.log("RequireJS error: " + (requireType || "unknown") + ". Failed modules: " + (requireModules || []).join(","));
+        console.error("RequireJS error: " + (requireType || "unknown") + ". Failed modules: " + (requireModules || []).join(","));
     }
 
     function defineResizeObserver() {
@@ -474,7 +481,7 @@ var AppInfo = {};
 
         Promise.all(promises).then(function () {
             createConnectionManager().then(function () {
-                console.log("initAfterDependencies promises resolved");
+                console.debug("initAfterDependencies promises resolved");
 
                 require(["globalize", "browser"], function (globalize, browser) {
                     window.Globalize = globalize;
@@ -518,10 +525,10 @@ var AppInfo = {};
         document.title = Globalize.translateDocument(document.title, "core");
 
         if (browser.tv && !browser.android) {
-            console.log("Using system fonts with explicit sizes");
+            console.debug("using system fonts with explicit sizes");
             require(["systemFontsSizedCss"]);
         } else {
-            console.log("Using default fonts");
+            console.debug("using default fonts");
             require(["systemFontsCss"]);
         }
 
@@ -533,7 +540,7 @@ var AppInfo = {};
     }
 
     function loadPlugins(appHost, browser, shell) {
-        console.log("Loading installed plugins");
+        console.debug("loading installed plugins");
         var list = [
             "components/playback/playaccessvalidation",
             "components/playback/experimentalwarnings",
@@ -575,13 +582,13 @@ var AppInfo = {};
     }
 
     function onAppReady(browser) {
-        console.log("Begin onAppReady");
+        console.debug("begin onAppReady");
 
         // ensure that appHost is loaded in this point
         require(['apphost', 'appRouter'], function (appHost, appRouter) {
             window.Emby = {};
 
-            console.log("onAppReady - loading dependencies");
+            console.debug("onAppReady: loading dependencies");
             if (browser.iOS) {
                 require(['css!assets/css/ios.css']);
             }
@@ -623,8 +630,25 @@ var AppInfo = {};
 
                 require(["playerSelectionMenu", "fullscreenManager"]);
 
-                if (!AppInfo.isNativeApp && window.ApiClient) {
-                    require(["css!" + ApiClient.getUrl("Branding/Css")]);
+                var apiClient = window.ConnectionManager && window.ConnectionManager.currentApiClient();
+                if (apiClient) {
+                    fetch(apiClient.getUrl("Branding/Css"))
+                        .then(function(response) {
+                            if (!response.ok) {
+                                throw new Error(response.status + ' ' + response.statusText);
+                            }
+                            return response.text();
+                        })
+                        .then(function(css) {
+                            // Inject the branding css as a dom element in body so it will take
+                            // precedence over other stylesheets
+                            var style = document.createElement('style');
+                            style.appendChild(document.createTextNode(css));
+                            document.body.appendChild(style);
+                        })
+                        .catch(function(err) {
+                            console.warn('Error applying custom css', err);
+                        });
                 }
             });
         });
@@ -635,7 +659,7 @@ var AppInfo = {};
             try {
                 navigator.serviceWorker.register("serviceworker.js");
             } catch (err) {
-                console.log("Error registering serviceWorker: " + err);
+                console.error("error registering serviceWorker: " + err);
             }
         }
     }
@@ -647,11 +671,7 @@ var AppInfo = {};
             AppInfo.isNativeApp = true;
         }
 
-        if (!window.Promise || browser.web0s) {
-            require(["native-promise-only"], init);
-        } else {
-            init();
-        }
+        init();
     }
 
     var localApiClient;
@@ -715,7 +735,8 @@ var AppInfo = {};
                     "sortable",
                     "libjass",
                     "webcomponents",
-                    "material-icons"
+                    "material-icons",
+                    "jellyfin-noto"
                 ]
             },
             urlArgs: urlArgs,
@@ -730,6 +751,7 @@ var AppInfo = {};
         });
 
         require(["css!assets/css/site"]);
+        require(["jellyfin-noto"]);
 
         // define styles
         // TODO determine which of these files can be moved to the components themselves
@@ -961,10 +983,6 @@ var AppInfo = {};
 
             appRouter.showSettings = function () {
                 Dashboard.navigate("mypreferencesmenu.html");
-            };
-
-            appRouter.showNowPlaying = function () {
-                Dashboard.navigate("nowplaying.html");
             };
 
             appRouter.setTitle = function (title) {

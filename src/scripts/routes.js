@@ -16,12 +16,12 @@ define([
 
     function defineRoute(newRoute) {
         var path = newRoute.path;
-        console.log("defining route: " + path);
+        console.debug("defining route: " + path);
         newRoute.dictionary = "core";
         Emby.Page.addRoute(path, newRoute);
     }
 
-    console.log("defining core routes");
+    console.debug("defining core routes");
 
     defineRoute({
         path: "/addplugin.html",
@@ -226,7 +226,8 @@ define([
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: "auth/login"
+        controller: "auth/login",
+        type: "login"
     });
     defineRoute({
         path: "/metadataimages.html",
@@ -312,7 +313,8 @@ define([
         autoFocus: false,
         anonymous: true,
         startup: true,
-        controller: "auth/selectserver"
+        controller: "auth/selectserver",
+        type: "selectserver"
     });
     defineRoute({
         path: "/serveractivity.html",

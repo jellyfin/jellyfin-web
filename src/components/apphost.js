@@ -104,7 +104,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
 
     function getDeviceName() {
         var deviceName;
-        deviceName = browser.tizen ? "Samsung Smart TV" : browser.web0s ? "LG Smart TV" : browser.operaTv ? "Opera TV" : browser.xboxOne ? "Xbox One" : browser.ps4 ? "Sony PS4" : browser.chrome ? "Chrome" : browser.edge ? "Edge" : browser.firefox ? "Firefox" : browser.msie ? "Internet Explorer" : browser.opera ? "Opera" : "Web Browser";
+        deviceName = browser.tizen ? "Samsung Smart TV" : browser.web0s ? "LG Smart TV" : browser.operaTv ? "Opera TV" : browser.xboxOne ? "Xbox One" : browser.ps4 ? "Sony PS4" : browser.chrome ? "Chrome" : browser.edge ? "Edge" : browser.firefox ? "Firefox" : browser.msie ? "Internet Explorer" : browser.opera ? "Opera" : browser.safari ? "Safari" : "Web Browser";
 
         if (browser.ipad) {
             deviceName += " iPad";
@@ -186,7 +186,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
 
             return !!cue.length;
         } catch (err) {
-            console.log("error detecting cue support: " + err);
+            console.error("error detecting cue support: " + err);
             return false;
         }
     }
@@ -194,7 +194,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
     function onAppVisible() {
         if (isHidden) {
             isHidden = false;
-            console.log("triggering app resume event");
+            console.debug("triggering app resume event");
             events.trigger(appHost, "resume");
         }
     }
@@ -202,7 +202,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
     function onAppHidden() {
         if (!isHidden) {
             isHidden = true;
-            console.log("app is hidden");
+            console.debug("app is hidden");
         }
     }
 
@@ -299,6 +299,52 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         return features;
     }();
 
+    /**
+      * Do exit according to platform
+      */
+    function doExit() {
+        try {
+            if (window.NativeShell) {
+                window.NativeShell.AppHost.exit();
+            } else if (browser.tizen) {
+                tizen.application.getCurrentApplication().exit();
+            } else if (browser.web0s) {
+                webOS.platformBack();
+            } else {
+                window.close();
+            }
+        } catch (err) {
+            console.error("error closing application: " + err);
+        }
+    }
+
+    var exitPromise;
+
+    /**
+      * Ask user for exit
+      */
+    function askForExit() {
+        if (exitPromise) {
+            return;
+        }
+
+        require(["actionsheet"], function (actionsheet) {
+            exitPromise = actionsheet.show({
+                title: Globalize.translate("MessageConfirmAppExit"),
+                items: [
+                    {id: "yes", name: Globalize.translate("Yes")},
+                    {id: "no", name: Globalize.translate("No")}
+                ]
+            }).then(function (value) {
+                if (value === "yes") {
+                    doExit();
+                }
+            }).finally(function () {
+                exitPromise = null;
+            });
+        });
+    }
+
     var deviceId;
     var deviceName;
     var appName = "Jellyfin Web";
@@ -314,16 +360,10 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             alert("setWindowState is not supported and should not be called");
         },
         exit: function () {
-            if (window.NativeShell) {
-                window.NativeShell.AppHost.exit();
-            } else if (browser.tizen) {
-                try {
-                    tizen.application.getCurrentApplication().exit();
-                } catch (err) {
-                    console.log("error closing application: " + err);
-                }
+            if (!!window.appMode && browser.tizen) {
+                askForExit();
             } else {
-                window.close();
+                doExit();
             }
         },
         supports: function (command) {
@@ -334,7 +374,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             return -1 !== supportedFeatures.indexOf(command.toLowerCase());
         },
         preferVisualCards: browser.android || browser.chrome,
-        moreIcon: browser.android ? "dots-vert" : "dots-horiz",
+        moreIcon: browser.android ? "more_vert" : "more_horiz",
         getSyncProfile: getSyncProfile,
         getDefaultLayout: function () {
             if (window.NativeShell) {

@@ -63,13 +63,14 @@ define([], function () {
     var supportsCaptureOption = false;
     try {
         var opts = Object.defineProperty({}, 'capture', {
+            // eslint-disable-next-line getter-return
             get: function () {
                 supportsCaptureOption = true;
             }
         });
         window.addEventListener("test", null, opts);
     } catch (e) {
-        console.log('error checking capture support');
+        console.debug('error checking capture support');
     }
 
     function addEventListenerWithOptions(target, type, handler, options) {

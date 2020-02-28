@@ -461,7 +461,8 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var usePrimaryImage = item.MediaType === "Video" && item.Type !== "Movie" && item.Type !== "Trailer" ||
             item.MediaType && item.MediaType !== "Video" ||
             item.Type === "MusicAlbum" ||
-            item.Type === "MusicArtist";
+            item.Type === "MusicArtist" ||
+            item.Type === "Person";
 
         if ("Program" === item.Type && item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -513,11 +514,18 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             itemBackdropElement.style.backgroundImage = "";
         }
 
+        if ("Person" === item.Type) {
+            itemBackdropElement.classList.add("personBackdrop");
+        } else {
+            itemBackdropElement.classList.remove("personBackdrop");
+        }
+
         return hasbackdrop;
     }
 
     function reloadFromItem(instance, page, params, item, user) {
         var context = params.context;
+        page.querySelector(".detailPagePrimaryContainer").classList.add("detailSticky");
         renderName(item, page.querySelector(".nameContainer"), false, context);
         var apiClient = connectionManager.getApiClient(item.ServerId);
         renderSeriesTimerEditor(page, item, apiClient, user);
@@ -639,7 +647,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     function setTitle(item, apiClient) {
         var url = logoImageUrl(item, apiClient, {});
 
-        if (url = null) {
+        if (url != null) {
             var pageTitle = document.querySelector(".pageTitle");
             pageTitle.style.backgroundImage = "url('" + url + "')";
             pageTitle.classList.add("pageTitleWithLogo");
@@ -735,12 +743,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             editable = false;
         }
 
-        if ("Person" !== item.Type) {
-            elem.classList.add("detailimg-hidemobile");
-            page.querySelector(".detailPageContent").classList.add("detailPageContent-nodetailimg");
-        } else {
-            page.querySelector(".detailPageContent").classList.remove("detailPageContent-nodetailimg");
-        }
+        elem.classList.add("detailimg-hidemobile");
 
         var imageTags = item.ImageTags || {};
 
@@ -795,22 +798,26 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             });
         }
 
-        if (editable) {
+        if (editable && url === undefined) {
+            html += "<a class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground"+ cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
+        } else if (!editable && url === undefined) {
+            html += "<div class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground"+ cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
+        } else if (editable) {
             html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
         }
 
-        if (detectRatio && item.PrimaryImageAspectRatio) {
-            if (item.PrimaryImageAspectRatio >= 1.48) {
-                shape = "thumb";
-            } else if (item.PrimaryImageAspectRatio >= 0.85 && item.PrimaryImageAspectRatio <= 1.34) {
-                shape = "square";
-            }
+        if (url) {
+            html += "<img class='itemDetailImage lazy' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' />";
         }
 
-        html += "<img class='itemDetailImage lazy' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' />";
+        if (url === undefined) {
+            html += cardBuilder.getDefaultText(item);
+        }
 
         if (editable) {
             html += "</a>";
+        } else if (!editable && url === undefined) {
+            html += "</div>"
         }
 
         var progressHtml = item.IsFolder || !item.UserData ? "" : indicators.getProgressBarHtml(item);
@@ -822,6 +829,14 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
         html += "</div>";
         elem.innerHTML = html;
+
+        if (detectRatio && item.PrimaryImageAspectRatio) {
+            if (item.PrimaryImageAspectRatio >= 1.48) {
+                shape = "thumb";
+            } else if (item.PrimaryImageAspectRatio >= 0.85 && item.PrimaryImageAspectRatio <= 1.34) {
+                shape = "square";
+            }
+        }
 
         if ("thumb" == shape) {
             elem.classList.add("thumbDetailImageContainer");
@@ -1049,11 +1064,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
         var overview = page.querySelector(".overview");
         var externalLinksElem = page.querySelector(".itemExternalLinks");
-
-        if ("Season" !== item.Type && "MusicAlbum" !== item.Type && "MusicArtist" !== item.Type) {
-            overview.classList.add("detailsHiddenOnMobile");
-            externalLinksElem.classList.add("detailsHiddenOnMobile");
-        }
 
         renderOverview([overview], item);
         var i;
@@ -1651,7 +1661,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     function canPlaySomeItemInCollection(items) {
         var i = 0;
 
-        for (length = items.length; i < length; i++) {
+        for (var length = items.length; i < length; i++) {
             if (playbackManager.canPlay(items[i])) {
                 return true;
             }
@@ -2060,7 +2070,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         bindAll(view, ".btnCancelTimer", "click", onCancelTimerClick);
         bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
         bindAll(view, ".btnDownload", "click", onDownloadClick);
-        view.querySelector(".btnMoreCommands i").innerHTML = "more_horiz";
+        view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
         view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
         view.querySelector(".btnSplitVersions").addEventListener("click", function () {
             splitVersions(self, view, apiClient, params);
@@ -2093,7 +2103,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         });
         view.addEventListener("viewshow", function (e) {
             var page = this;
-            libraryMenu.setTransparentMenu(true);
+
+            if (layoutManager.mobile) {
+                libraryMenu.setTransparentMenu(true);
+            }
 
             if (e.detail.isRestored) {
                 if (currentItem) {

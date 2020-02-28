@@ -140,7 +140,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 72;
                     }
-                    break;
                 case 'overflowPortrait':
 
                     if (layoutManager.tv) {
@@ -166,7 +165,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 42;
                     }
-                    break;
                 case 'overflowSquare':
                     if (layoutManager.tv) {
                         return 100 / 15.5;
@@ -191,7 +189,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 42;
                     }
-                    break;
                 case 'overflowBackdrop':
                     if (layoutManager.tv) {
                         return 100 / 23.3;
@@ -216,7 +213,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 72;
                     }
-                    break;
                 default:
                     return 4;
             }
@@ -342,7 +338,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             try {
                                 newIndexValue = datetime.toLocaleDateString(datetime.parseISO8601Date(item.PremiereDate), { weekday: 'long', month: 'long', day: 'numeric' });
                             } catch (err) {
-                                console.log('error parsing timestamp for premiere date');
+                                console.error('error parsing timestamp for premiere date');
                             }
                         }
                     } else if (options.indexBy === 'ProductionYear') {
@@ -738,7 +734,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         airTimeText += ' - ' + datetime.getDisplayTime(date);
                     }
                 } catch (e) {
-                    console.log("Error parsing date: " + item.StartDate);
+                    console.error("error parsing date: " + item.StartDate);
                 }
             }
 
@@ -758,7 +754,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
 
                 if (options.cardFooterAside !== 'none') {
-                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="material-icons">more_horiz</i></button>';
+                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="material-icons more_horiz"></i></button>';
                 }
             }
 
@@ -870,9 +866,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     if (item.PremiereDate) {
                         try {
-
-                            lines.push(getPremiereDateText(item));
-
+                            lines.push(datetime.toLocaleDateString(
+                                datetime.parseISO8601Date(item.PremiereDate),
+                                { weekday: 'long', month: 'long', day: 'numeric' }
+                            ));
                         } catch (err) {
                             lines.push('');
 
@@ -1316,15 +1313,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
                 if (options.centerPlayButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="material-icons cardOverlayButtonIcon">play_arrow</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
                 }
 
                 if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="material-icons cardOverlayButtonIcon">play_arrow</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
                 }
 
                 if (options.overlayMoreButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon">more_horiz</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon more_horiz"></i></button>';
                 }
             }
 
@@ -1383,7 +1380,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (item.Type === 'CollectionFolder' || item.CollectionType) {
-                var refreshClass = item.RefreshProgress || (item.RefreshStatus && virtualFolder.item !== 'Idle') ? '' : ' class="hide"';
+                var refreshClass = item.RefreshProgress ? '' : ' class="hide"';
                 indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
                 requireRefreshIndicator();
             }
@@ -1397,7 +1394,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             //}
 
             if (!imgUrl) {
-                cardImageContainerOpen += getCardDefaultText(item, options);
+                cardImageContainerOpen += getDefaultText(item, options);
             }
 
             var tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
@@ -1457,7 +1454,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
             if (playbackManager.canPlay(item)) {
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">play_arrow</i></button>';
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></i></button>';
             }
 
             html += '<div class="cardOverlayButton-br">';
@@ -1477,7 +1474,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">favorite</i></button>';
             }
 
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">more_horiz</i></button>';
+            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_horiz"></i></button>';
 
             html += '</div>';
             html += '</div>';
@@ -1485,17 +1482,28 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getCardDefaultText(item, options) {
+        function getDefaultText(item, options) {
             if (item.CollectionType) {
                 return '<i class="cardImageIcon material-icons">' + imageHelper.getLibraryIcon(item.CollectionType) + '</i>'
             }
-            if (item.Type === 'MusicAlbum') {
-                return '<i class="cardImageIcon material-icons">album</i>';
+
+            switch (item.Type) {
+                case 'MusicAlbum':
+                    return '<i class="cardImageIcon material-icons">album</i>';
+                case 'MusicArtist':
+                case 'Person':
+                    return '<i class="cardImageIcon material-icons">person</i>';
+                case 'Movie':
+                    return '<i class="cardImageIcon material-icons">movie</i>';
+                case 'Series':
+                    return '<i class="cardImageIcon material-icons">tv</i>';
+                case 'Book':
+                    return '<i class="cardImageIcon material-icons">book</i>';
+                case 'Folder':
+                    return '<i class="cardImageIcon material-icons">folder</i>';
             }
-            if (item.Type === 'MusicArtist' || item.Type === 'Person') {
-                return '<i class="cardImageIcon material-icons">person</i>';
-            }
-            if (options.defaultCardImageIcon) {
+
+            if (options && options.defaultCardImageIcon) {
                 return '<i class="cardImageIcon material-icons">' + options.defaultCardImageIcon + '</i>';
             }
 
@@ -1666,7 +1674,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var icon = cell.querySelector('.timerIndicator');
                 if (!icon) {
                     var indicatorsElem = ensureIndicators(cell);
-                    indicatorsElem.insertAdjacentHTML('beforeend', '<i class="material-icons timerIndicator indicatorIcon">fiber_manual_record</i>');
+                    indicatorsElem.insertAdjacentHTML('beforeend', '<i class="material-icons timerIndicator indicatorIcon fiber_manual_record"></i>');
                 }
                 cell.setAttribute('data-timerid', newTimerId);
             }
@@ -1702,6 +1710,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         return {
             getCardsHtml: getCardsHtml,
+            getDefaultBackgroundClass: getDefaultBackgroundClass,
+            getDefaultText: getDefaultText,
             buildCards: buildCards,
             onUserDataChanged: onUserDataChanged,
             onTimerCreated: onTimerCreated,
