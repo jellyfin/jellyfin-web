@@ -459,6 +459,13 @@
     display: none;
 }
 
+.detailPageContent {
+    display: flex;
+    flex-direction: column;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
 .layout-desktop .noBackdrop .detailPageContent,
 .layout-tv .noBackdrop .detailPageContent {
     margin-top: 2.5em;
@@ -578,13 +585,6 @@
 
 .detailPageSecondaryContainer {
     margin: 1.25em 0;
-}
-
-.detailPageContent {
-    display: flex;
-    flex-direction: column;
-    padding-left: 2%;
-    padding-right: 2%;
 }
 
 .detailImageContainer {
