@@ -78,6 +78,7 @@ jobs:
         testResultsFiles: 'junit-eslint.xml'
         failTaskOnFailedTests: true
         testRunTitle: 'Javascript linting'
+      continueOnError: true
 
     - script: 'yarn run stylelint'
       displayName: 'Run stylelint'
