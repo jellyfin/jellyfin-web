@@ -784,7 +784,7 @@ button::-moz-focus-inner {
     opacity: 0;
     transition: 0.2s;
     background: transparent;
-    padding: 0.5em;
+    padding: 0.25em;
 }
 
 .cardOverlayButtonIcon-hover {
