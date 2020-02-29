@@ -90,7 +90,7 @@
   "scripts": {
     "serve": "gulp serve",
     "build": "gulp --production",
-    "build-dev": "gulp",
+    "build dev": "gulp",
     "lint": "eslint \"src\"",
     "stylelint": "stylelint \"src/**/*.css\""
   }
