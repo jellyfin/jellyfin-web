@@ -816,7 +816,7 @@
     "HeaderXmlDocumentAttribute": "XML dokumentum attribútum",
     "HeaderXmlDocumentAttributes": "XML dokumentum attribútumok",
     "HeaderXmlSettings": "XML beállítások",
-    "Hide": "Elrejt",
+    "Hide": "Elrejtés",
     "Horizontal": "Vízszintes",
     "HttpsRequiresCert": "A biztonságos kapcsolatok engedélyezéséhez megbízható SSL-tanúsítványt kell használni, mint például a Let's Encrypt. Kérlek add meg a tanúsítványt, vagy tiltsd le a biztonságos kapcsolatokat.",
     "ImportMissingEpisodesHelp": "Ha engedélyezve van, a hiányzó epizódokra vonatkozó információk a Jellyfin adatbázisába kerülnek importálásra és megjelenítésre kerülnek az évadokban és sorozatokban. Ez jelentősen hosszabb könyvtárvizsgálatot okozhat.",
