@@ -55,9 +55,13 @@ jobs:
     - script: 'yarn install'
       displayName: 'Install Dependencies'
 
-    - script: 'yarn run lint'
+    - script: 'yarn run lint --format junit -o junit-eslint.xml'
       displayName: 'Run ESLint'
 
-    - script: |
-        yarn run stylelint
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'junit-eslint.xml'
+
+    - script: 'yarn run stylelint'
       displayName: 'Run stylelint'
