@@ -457,6 +457,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         var imgUrl;
         var screenWidth = screen.availWidth;
         var hasbackdrop = false;
+        console.debug(page);
         var itemBackdropElement = page.querySelector("#itemBackdrop");
         var usePrimaryImage = item.MediaType === "Video" && item.Type !== "Movie" && item.Type !== "Trailer" ||
             item.MediaType && item.MediaType !== "Video" ||
@@ -474,7 +475,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 index: 0,
                 tag: item.ImageTags.Thumb
             });
-            itemBackdropElement.classList.remove("noBackdrop");
+            page.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else if (usePrimaryImage && item.ImageTags && item.ImageTags.Primary) {
@@ -483,7 +484,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 index: 0,
                 tag: item.ImageTags.Primary
             });
-            itemBackdropElement.classList.remove("noBackdrop");
+            page.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
@@ -492,7 +493,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 index: 0,
                 tag: item.BackdropImageTags[0]
             });
-            itemBackdropElement.classList.remove("noBackdrop");
+            page.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
@@ -501,7 +502,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 index: 0,
                 tag: item.ParentBackdropImageTags[0]
             });
-            itemBackdropElement.classList.remove("noBackdrop");
+            page.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else if (item.ImageTags && item.ImageTags.Thumb) {
@@ -510,16 +511,15 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 index: 0,
                 tag: item.ImageTags.Thumb
             });
-            itemBackdropElement.classList.remove("noBackdrop");
+            page.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else {
-            itemBackdropElement.classList.add("noBackdrop");
-            page.querySelector(".detailPageWrapperContainer").add("noBackdrop");
             itemBackdropElement.style.backgroundImage = "";
         }
 
         if ("Person" === item.Type) {
+            page.classList.add('noBackdrop');
             itemBackdropElement.classList.add("personBackdrop");
         } else {
             itemBackdropElement.classList.remove("personBackdrop");
@@ -531,10 +531,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
     function reloadFromItem(instance, page, params, item, user) {
         var context = params.context;
         page.querySelector(".detailPagePrimaryContainer").classList.add("detailSticky");
-
-        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
-            page.querySelector(".detailSticky").classList.add("noBackdrop");
-        }
 
         renderName(item, page.querySelector(".nameContainer"), false, context);
         var apiClient = connectionManager.getApiClient(item.ServerId);
@@ -850,10 +846,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             }
         }
 
-        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
-            elem.classList.add("noBackdrop");
-        }
-
         if ("thumb" == shape) {
             elem.classList.add("thumbDetailImageContainer");
             elem.classList.remove("portraitDetailImageContainer");
@@ -1064,9 +1056,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
 
     function renderDetails(page, item, apiClient, context, isStatic) {
         var taglineElement = page.querySelector(".detailPageContent");
-        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
-            taglineElement.classList.add("noBackdrop");
-        }
 
         renderSimilarItems(page, item, context);
         renderMoreFromSeason(page, item, apiClient);

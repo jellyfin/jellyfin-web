@@ -454,19 +454,18 @@
     display: block;
 }
 
-.itemBackdrop.noBackdrop {
+.layout-desktop .noBackdrop .itemBackdrop,
+.layout-tv .noBackdrop .itemBackdrop {
     display: none;
 }
 
-.detailPageContent.noBackdrop {
-    margin-top: 6.75em;
+.layout-desktop .noBackdrop .detailPageContent,
+.layout-tv .noBackdrop .detailPageContent {
+    margin-top: 2.5em;
 }
 
-.layout-desktop .detailImageContainer.noBackdrop img {
-    margin-top: -2.5em;
-}
-
-.layout-tv .detailImageContainer.noBackdrop img {
+.layout-desktop .noBackdrop .detailImageContainer img,
+.layout-tv .noBackdrop .detailImageContainer img {
     margin-top: 0;
 }
 
@@ -545,18 +544,20 @@
     top: 0;
 }
 
-.layout-tv .detailPagePrimaryContainer:not(.noBackdrop),
-.layout-desktop .detailPagePrimaryContainer:not(.noBackdrop) {
+.layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
+.layout-desktop #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer {
     position: relative;
     top: 0;
     padding-left: 32.45vw;
 }
 
-.detailSticky {
-    margin-top: -7.3em;
+.layout-desktop .detailSticky,
+.layout-tv .detailSticky {
+    margin-top: -7.2em;
 }
 
-.detailSticky.noBackdrop {
+.layout-desktop .noBackdrop .detailSticky,
+.layout-tv .noBackdrop .detailSticky {
     margin-top: 0;
 }
 
@@ -594,7 +595,8 @@
     z-index: 3;
 }
 
-.detailImageContainer.noBackdrop {
+.layout-desktop .noBackdrop .detailImageContainer,
+.layout-tv .noBackdrop .detailImageContainer {
     margin-top: 0;
 }
 
@@ -610,6 +612,10 @@
     right: 0;
     -webkit-background-size: contain;
     background-size: contain;
+}
+
+.noBackdrop .detailLogo {
+    display: none;
 }
 
 @media all and (max-width: 87.5em) {
@@ -664,6 +670,16 @@ div.itemDetailGalleryLink.defaultCardBackground {
 @media all and (max-width: 62.5em) {
     .detailPageWrapperContainer {
         position: relative;
+    }
+
+    .layout-desktop .detailPageWrapperContainer,
+    .layout-tv .detailPageWrapperContainer {
+        margin-top: 7.2em;
+    }
+
+    .layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
+    .layout-desktop #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer {
+        padding-left: 3.3%;
     }
 
     .btnPlaySimple {
@@ -880,7 +896,8 @@ div.itemDetailGalleryLink.defaultCardBackground {
     border-collapse: collapse;
 }
 
-.detailPageWrapperContainer.noBackdrop {
+.layout-desktop .noBackdrop .detailPageWrapperContainer,
+.layout-tv .noBackdrop .detailPageWrapperContainer {
     margin-top: 4em;
 }
 
