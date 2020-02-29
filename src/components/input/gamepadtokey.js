@@ -365,7 +365,7 @@ require(['apphost'], function (appHost) {
         var gamepads = navigator.getGamepads();
         for (var i = 0, len = gamepads.length; i < len; i++) {
             var gamepad = gamepads[i];
-            if (gamepad) {
+            if (gamepad && gamepad.connected) {
                 return true;
             }
         }
@@ -388,7 +388,7 @@ require(['apphost'], function (appHost) {
         }
     }
 
-    // Event Listeners for any change in gamepads' state.
+    // Event listeners for any change in gamepads' state.
     window.addEventListener("gamepaddisconnected", dettachGamepad);
     window.addEventListener("gamepadconnected", attachGamepad);
     window.addEventListener("blur", dettachGamepad);
