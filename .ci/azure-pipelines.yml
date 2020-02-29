@@ -8,6 +8,10 @@ trigger:
     include:
     - '*'
 
+
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+
 jobs:
   - job: main_build
     displayName: 'Main Build'
@@ -52,6 +56,15 @@ jobs:
       inputs:
         versionSpec: '10.x'
 
+    - task: Cache@2
+      inputs:
+        key: yarn | $(Agent.OS) | yarn.lock
+        path: $(YARN_CACHE_FOLDER)
+        restoreKeys: |
+          yarn | $(Agent.OS)
+          yarn
+      displayName: Cache Yarn packages
+
     - script: 'yarn install'
       displayName: 'Install Dependencies'
 
@@ -59,9 +72,12 @@ jobs:
       displayName: 'Run ESLint'
 
     - task: PublishTestResults@2
+      displayName: 'Publish ESLint results'
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: 'junit-eslint.xml'
+        failTaskOnFailedTests: true
+        testRunTitle: 'Javascript linting'
 
     - script: 'yarn run stylelint'
       displayName: 'Run stylelint'
