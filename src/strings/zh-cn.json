@@ -247,7 +247,7 @@
     "EncoderPresetHelp": "选择一个更快的值以提升性能，或者选择一个更慢的值以提升质量。",
     "HDPrograms": "高清节目",
     "HandledByProxy": "由反向代理处理",
-    "HardwareAccelerationWarning": "启动硬件加速可能在某些环境下导致系统不稳定。请确认你的操作系统和视频驱动程序是最新的。如果你在开启此项后播放视频产生困难，那么你需要将此选项设置回”自动“。",
+    "HardwareAccelerationWarning": "启动硬件加速可能在某些环境下导致系统不稳定。请确认你的操作系统和显卡驱动程序是最新的。如果你在开启此项后播放视频产生困难，那么你需要将此选项设置回“自动”。",
     "HeaderAccessSchedule": "访问计划",
     "HeaderAccessScheduleHelp": "创建一个访问计划以限制可访问的时间段。",
     "HeaderActiveDevices": "活动的设备",
