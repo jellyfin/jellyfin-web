@@ -172,7 +172,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
     }
 
     function isHistoryEnabled(dlg) {
-        return dlg.getAttribute('data-history') === 'true';
+        return dlg.getAttribute('data-history') === 'false';
     }
 
     function open(dlg) {

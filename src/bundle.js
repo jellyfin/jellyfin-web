@@ -101,3 +101,9 @@ var jellyfin_noto = require("jellyfin-noto");
 _define("jellyfin-noto", function () {
     return jellyfin_noto;
 });
+
+// page.js
+var page = require("page");
+_define("page", function() {
+    return page;
+});
