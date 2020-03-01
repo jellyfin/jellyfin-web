@@ -1,4 +1,4 @@
-define(["loading", "appRouter", "layoutManager", "connectionManager", "userSettings", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, connectionManager, userSettings, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser) {
+define(["loading", "appRouter", "layoutManager", "connectionManager", "userSettings", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "imageLoader", "libraryMenu", "globalize", "browser", "events", "playbackManager", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, connectionManager, userSettings, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, imageLoader, libraryMenu, globalize, browser, events, playbackManager) {
     "use strict";
 
     function getPromise(apiClient, params) {
@@ -60,8 +60,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         return options;
     }
 
-    function getProgramScheduleHtml(items, options) {
-        options = options || {};
+    function getProgramScheduleHtml(items) {
         var html = "";
         html += '<div is="emby-itemscontainer" class="itemsContainer vertical-list" data-contextmenu="false">';
         html += listView.getListViewHtml({
@@ -445,7 +444,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
     }
 
-    function renderBackdrop(page, item, apiClient) {
+    function renderBackdrop(item) {
         if (dom.getWindowSize().innerWidth >= 1000) {
             backdrop.setBackdrops([item]);
         } else {
@@ -455,9 +454,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
 
     function renderDetailPageBackdrop(page, item, apiClient) {
         var imgUrl;
-        var screenWidth = screen.availWidth;
         var hasbackdrop = false;
-        console.debug(page);
         var itemBackdropElement = page.querySelector("#itemBackdrop");
         var usePrimaryImage = item.MediaType === "Video" && item.Type !== "Movie" && item.Type !== "Trailer" ||
             item.MediaType && item.MediaType !== "Video" ||
@@ -542,7 +539,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         setInitialCollapsibleState(page, item, apiClient, context, user);
         renderDetails(page, item, apiClient, context);
         renderTrackSelections(page, instance, item);
-        renderBackdrop(page, item, apiClient);
+        renderBackdrop(item);
         renderDetailPageBackdrop(page, item, apiClient);
         var canPlay = reloadPlayButtons(page, item);
 
@@ -825,7 +822,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         if (editable) {
             html += "</a>";
         } else if (!editable && url === undefined) {
-            html += "</div>"
+            html += "</div>";
         }
 
         var progressHtml = item.IsFolder || !item.UserData ? "" : indicators.getProgressBarHtml(item);
@@ -881,7 +878,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         elem.querySelector(".detailImageProgressContainer").innerHTML = indicators.getProgressBarHtml(item);
     }
 
-    function refreshImage(page, item, user) {
+    function refreshImage(page, item) {
         refreshDetailImageUserData(page.querySelector(".detailImageContainer"), item);
     }
 
@@ -930,10 +927,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
 
         if ("Playlist" == item.Type) {
             page.querySelector("#childrenCollapsible").classList.remove("hide");
-            renderPlaylistItems(page, item, user);
+            renderPlaylistItems(page, item);
         } else if ("Studio" == item.Type || "Person" == item.Type || "Genre" == item.Type || "MusicGenre" == item.Type || "MusicArtist" == item.Type) {
             page.querySelector("#childrenCollapsible").classList.remove("hide");
-            renderItemsByName(page, item, user);
+            renderItemsByName(page, item);
         } else if (item.IsFolder) {
             if ("BoxSet" == item.Type) {
                 page.querySelector("#childrenCollapsible").classList.add("hide");
@@ -945,7 +942,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
 
         if ("Series" == item.Type) {
-            renderSeriesSchedule(page, item, user);
+            renderSeriesSchedule(page, item);
             renderNextUp(page, item, user);
         } else {
             page.querySelector(".nextUpSection").classList.add("hide");
@@ -960,7 +957,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             page.querySelector("#specialsCollapsible").classList.add("hide");
         }
 
-        renderCast(page, item, context, enableScrollX() ? null : 12);
+        renderCast(page, item);
 
         if (item.PartCount && item.PartCount > 1) {
             page.querySelector("#additionalPartsCollapsible").classList.remove("hide");
@@ -996,7 +993,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
     }
 
-    function renderGenres(page, item, apiClient, context, isStatic) {
+    function renderGenres(page, item, context) {
         context = context || inferContext(item);
         var type;
         var genres = item.GenreItems || [];
@@ -1030,7 +1027,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
     }
 
-    function renderDirector(page, item, apiClient, context, isStatic) {
+    function renderDirector(page, item, context) {
         var directors = (item.People || []).filter(function (p) {
             return "Director" === p.Type;
         });
@@ -1055,13 +1052,11 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
     }
 
     function renderDetails(page, item, apiClient, context, isStatic) {
-        var taglineElement = page.querySelector(".detailPageContent");
-
         renderSimilarItems(page, item, context);
         renderMoreFromSeason(page, item, apiClient);
         renderMoreFromArtist(page, item, apiClient);
-        renderDirector(page, item, apiClient, context, isStatic);
-        renderGenres(page, item, apiClient, context, isStatic);
+        renderDirector(page, item, context);
+        renderGenres(page, item, context);
         renderChannelGuide(page, apiClient, item);
         var taglineElement = page.querySelector(".tagline");
 
@@ -1133,14 +1128,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
 
         return scrollX ? "overflowSquare" : "square";
-    }
-
-    function getThumbShape(scrollX) {
-        if (null == scrollX) {
-            scrollX = enableScrollX();
-        }
-
-        return scrollX ? "overflowBackdrop" : "backdrop";
     }
 
     function renderMoreFromSeason(view, item, apiClient) {
@@ -1518,13 +1505,13 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
     }
 
-    function renderItemsByName(page, item, user) {
+    function renderItemsByName(page, item) {
         require("scripts/itembynamedetailpage".split(","), function () {
             window.ItemsByName.renderItems(page, item);
         });
     }
 
-    function renderPlaylistItems(page, item, user) {
+    function renderPlaylistItems(page, item) {
         require("scripts/playlistedit".split(","), function () {
             PlaylistViewer.render(page, item);
         });
@@ -1604,7 +1591,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
     }
 
-    function renderSeriesSchedule(page, item, user) {
+    function renderSeriesSchedule(page, item) {
         var apiClient = connectionManager.getApiClient(item.ServerId);
         apiClient.getLiveTvPrograms({
             UserId: apiClient.getCurrentUserId(),
@@ -1854,7 +1841,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         });
     }
 
-    function renderCast(page, item, context, limit, isStatic) {
+    function renderCast(page, item) {
         var people = (item.People || []).filter(function (p) {
             return "Director" !== p.Type;
         });
@@ -1944,7 +1931,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             playbackManager.play(playOptions);
         }
 
-        function playTrailer(page) {
+        function playTrailer() {
             playbackManager.playTrailers(currentItem);
         }
 
@@ -2001,11 +1988,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
 
         function onPlayTrailerClick() {
-            playTrailer(view);
-        }
-
-        function onDownloadChange() {
-            reload(self, view, params);
+            playTrailer();
         }
 
         function onDownloadClick() {
@@ -2060,9 +2043,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 if (userData) {
                     currentItem.UserData = userData;
                     reloadPlayButtons(view, currentItem);
-                    apiClient.getCurrentUser().then(function (user) {
-                        refreshImage(view, currentItem, user);
-                    });
+                    refreshImage(view, currentItem);
                 }
             }
         }
@@ -2093,11 +2074,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         });
         view.addEventListener("click", function (e) {
             if (dom.parentWithClass(e.target, "moreScenes")) {
-                apiClient.getCurrentUser().then(function (user) {
-                    renderScenes(view, currentItem);
-                });
+                renderScenes(view, currentItem);
             } else if (dom.parentWithClass(e.target, "morePeople")) {
-                renderCast(view, currentItem, params.context);
+                renderCast(view, currentItem);
             } else if (dom.parentWithClass(e.target, "moreSpecials")) {
                 apiClient.getCurrentUser().then(function (user) {
                     renderSpecials(view, currentItem, user);
