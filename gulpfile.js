@@ -18,7 +18,7 @@ const stream = require('webpack-stream');
 const inject = require('gulp-inject');
 const postcss = require('gulp-postcss');
 const sass = require('gulp-sass');
- 
+
 sass.compiler = require('node-sass')
 
 
