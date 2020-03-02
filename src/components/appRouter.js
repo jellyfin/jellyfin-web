@@ -562,7 +562,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         if (!document.querySelector('.dialogContainer') && startPages.indexOf(curr.type) !== -1) {
             return false;
         }
-        if (enableHistory) {
+        if (enableHistory()) {
             return history.length > 1;
         }
         return (page.len || 0) > 0;
