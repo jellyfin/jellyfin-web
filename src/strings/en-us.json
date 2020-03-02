@@ -282,7 +282,7 @@
     "EncoderPresetHelp": "Choose a faster value to improve performance, or a slower value to improve quality.",
     "HDPrograms": "HD programs",
     "HandledByProxy": "Handled by reverse proxy",
-    "HardwareAccelerationWarning": "Enabling hardware acceleration may cause instability in some environments. Ensure that your operating system and video drivers are fully up to date. If you have difficulty playing video after enabling this, you'll need to change the setting back to Auto.",
+    "HardwareAccelerationWarning": "Enabling hardware acceleration may cause instability in some environments. Ensure that your operating system and video drivers are fully up to date. If you have difficulty playing video after enabling this, you'll need to change the setting back to None.",
     "HeaderAccessSchedule": "Access Schedule",
     "HeaderAccessScheduleHelp": "Create an access schedule to limit access to certain hours.",
     "HeaderActiveDevices": "Active Devices",
