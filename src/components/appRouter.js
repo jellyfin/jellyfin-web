@@ -370,7 +370,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function enableNativeHistory() {
-        return enableHistory;
+        return false;
     }
 
     function authenticate(ctx, route, callback) {
