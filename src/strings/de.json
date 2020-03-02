@@ -260,7 +260,7 @@
     "EncoderPresetHelp": "Wähle einen schnelleren Wert um die Performance zu verbessern oder einen langsameren Wert um die Qualität zu verbessern.",
     "HDPrograms": "HD Programme",
     "HandledByProxy": "Verwaltet vom Reverse Proxy",
-    "HardwareAccelerationWarning": "Das Aktivieren der Hardwarebeschleunigung kann auf einigen Systemen zu Instabilität führen. Stellen Sie sicher, dass Ihr Betriebssystem sowie Ihre Grafikkarten-Treiber auf dem aktuellsten Stand sind. Wenn Sie nach der Aktivierung Probleme mit der Wiedergabe von Videos haben, müssen Sie diese Einstellung zurück auf \"Auto\" stellen.",
+    "HardwareAccelerationWarning": "Das Aktivieren der Hardwarebeschleunigung kann auf einigen Systemen zu Instabilität führen. Stellen Sie sicher, dass Ihr Betriebssystem sowie Ihre Grafikkarten-Treiber auf dem aktuellsten Stand sind. Wenn Sie nach der Aktivierung Probleme mit der Wiedergabe von Videos haben, müssen Sie diese Einstellung zurück auf \"Keine\" stellen.",
     "HeaderAccessSchedule": "Zugangsplan",
     "HeaderAccessScheduleHelp": "Erstelle einen Zugangsplan, um den Zugriff auf bestimmte Zeiten zu limitieren.",
     "HeaderActiveDevices": "Aktive Geräte",
@@ -593,7 +593,7 @@
     "LabelGroupMoviesIntoCollectionsHelp": "Wenn Filmlisten angezeigt werden, dann werden Filme, die zu einer Collection gehören, als ein gruppiertes Element angezeigt.",
     "LabelEncoderPreset": "H264 Encoding Voreinstellung:",
     "LabelHardwareAccelerationType": "Hardware Beschleunigung:",
-    "LabelHardwareAccelerationTypeHelp": "Dies ist eine experimentelle Funktion und nur auf unterstützten Systemen verfügbar.",
+    "LabelHardwareAccelerationTypeHelp": "Hardwarebeschleunigung benötigt zusätzliche Konfiguration.",
     "LabelHomeNetworkQuality": "Heimnetzwerkqualität:",
     "LabelHomeScreenSectionValue": "Startseitenbereich {0}:",
     "LabelHttpsPort": "Lokale HTTPS-Portnummer:",
@@ -1487,5 +1487,6 @@
     "LabelDroppedFrames": "Verlorene Frames:",
     "LabelCorruptedFrames": "Fehlerhafte Frames:",
     "OptionForceRemoteSourceTranscoding": "Transkodieren von externen Medienquellen erzwingen (z.B. LiveTV)",
-    "AskAdminToCreateLibrary": "Bitten Sie einen Administrator, eine Bibliothek zu erstellen."
+    "AskAdminToCreateLibrary": "Bitten Sie einen Administrator, eine Bibliothek zu erstellen.",
+    "NoCreatedLibraries": "Sieht so aus als hättest du bis jetzt keine Bibliothek erstellt. {0}Möchtest du jetzt eine Bibliothek erstellen?{1}"
 }
