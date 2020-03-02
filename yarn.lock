@@ -3683,10 +3683,9 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-libass-wasm@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/libass-wasm/-/libass-wasm-2.1.1.tgz#f12f4fdb9579dd422dcbc348bc3bd61097f4d07d"
-  integrity sha512-d45bHQ7tFVsLW3QstQDrDog2m+0D6Cja4GTrkGi70R9A5+aeLunPSUz3G4CVB+sKffNgiWjK4QI5NZLHQKZ9oQ==
+"libass-wasm@https://github.com/jellyfin/JavascriptSubtitlesOctopus":
+  version "3.0.2"
+  resolved "https://github.com/jellyfin/JavascriptSubtitlesOctopus#7f331237026db75af2441717a4132d2398e96735"
 
 libjass@^0.11.0:
   version "0.11.0"

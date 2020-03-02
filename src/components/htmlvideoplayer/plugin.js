@@ -1056,8 +1056,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     return i.DeliveryUrl;
                 }),
                 workerUrl: appRouter.baseUrl() + "/libraries/subtitles-octopus-worker.js",
+                legacyWorkerUrl: appRouter.baseUrl() + "/libraries/subtitles-octopus-worker-legacy.js",
                 onError: function() {
-                    htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror')
+                    htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
                 }
             };
             require(['JavascriptSubtitlesOctopus'], function(SubtitlesOctopus) {
