@@ -46,21 +46,21 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
     function showBlurayMessage() {
 
         var message =
-            'Playback of Bluray folders in this app is experimental. Some titles may not work at all. For a better experience, consider converting to mkv video files, or use an Jellyfin app with native Bluray folder support.';
+            'Playback of Bluray folders in this app is experimental. Jellyfin cannot decrypt DRM. The current behavior is to play all files in series, this can include a two minute black intro video.';
         return showMessage(message, 'blurayexpirementalinfo', 'nativeblurayplayback');
     }
 
     function showDvdMessage() {
 
         var message =
-            'Playback of Dvd folders in this app is experimental. Some titles may not work at all. For a better experience, consider converting to mkv video files, or use an Jellyfin app with native Dvd folder support.';
+            'Playback of Dvd folders in this app is experimental. Jellyfin cannot decrypt DRM. The current behavior is to play all files in series, this can include a two minute black intro video.';
         return showMessage(message, 'dvdexpirementalinfo', 'nativedvdplayback');
     }
 
     function showIsoMessage() {
 
         var message =
-            'Playback of ISO files in this app is experimental. Some titles may not work at all. For a better experience, consider converting to mkv video files, or use an Jellyfin app with native ISO support.';
+            'Playback of ISO files in this app is experimental. The current behavior is to play all files in series, this can include a two minute black intro video.';
         return showMessage(message, 'isoexpirementalinfo', 'nativeisoplayback');
     }
 
