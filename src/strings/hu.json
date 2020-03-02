@@ -702,7 +702,7 @@
     "EncoderPresetHelp": "Válassz egy gyorsabb értéket a teljesítmény javítása érdekében, vagy egy lassabb értéket a minőség javítása érdekében.",
     "HDPrograms": "HD programok",
     "HandledByProxy": "Reverse proxy segítségével kezelhető",
-    "HardwareAccelerationWarning": "A hardveres gyorsítás engedélyezése bizonyos környezetekben instabilitást okozhat. Győződj meg róla, hogy az operációs rendszer és a videó-illesztőprogramok teljesen naprakészek. Ha a beállítás után problémába ütközik a videólejátszás, akkor vissza kell állítani a beállítást Auto-ra.",
+    "HardwareAccelerationWarning": "A hardveres gyorsítás engedélyezése bizonyos környezetekben instabilitást okozhat. Győződj meg róla, hogy az operációs rendszer és a videó-illesztőprogramok teljesen naprakészek. Ha a beállítás után problémába ütközik a videólejátszás, akkor vissza kell állítani a beállítást Nincs-re.",
     "HeaderAccessSchedule": "Hozzáférési Ütemezés",
     "HeaderAccessScheduleHelp": "Hozz létre hozzáférési ütemezést, hogy korlátozd a hozzáférést bizonyos időben.",
     "HeaderActiveRecordings": "Aktív Felvételek",
