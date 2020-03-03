@@ -463,7 +463,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             item.Type === "Person";
 
         if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
-            return hasbackdrop;
+            return false;
         }
 
         if ("Program" === item.Type && item.ImageTags && item.ImageTags.Thumb) {
