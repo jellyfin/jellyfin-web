@@ -146,6 +146,17 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
         });
     }
 
+    // Gamepad initialisation. No script is required if no gamepads are present at init time, saving a bit of resources.
+    // Whenever the gamepad is connected, we hand all the control of the gamepad to gamepadtokey.js by removing the event handler
+    function attachGamepadScript(e) {
+        console.log("Gamepad connected! Attaching gamepadtokey.js script");
+        window.removeEventListener("gamepadconnected", attachGamepadScript);
+        require(["components/input/gamepadtokey"]);
+    }
+
+    // No need to check for gamepads manually at load time, the eventhandler will be fired for that
+    window.addEventListener("gamepadconnected", attachGamepadScript);
+
     return {
         enable: enable,
         getKeyName: getKeyName,
