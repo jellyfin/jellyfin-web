@@ -449,7 +449,6 @@
     content: "";
     width: 100%;
     height: 100%;
-    background: #000000ad;
     background: rgba(0, 0, 0, 0.65);
     display: block;
 }
@@ -898,7 +897,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
 
 .layout-desktop .noBackdrop .detailPageWrapperContainer,
 .layout-tv .noBackdrop .detailPageWrapperContainer {
-    margin-top: 4em;
+    margin-top: 3.8em;
 }
 
 .mediaInfoStream {

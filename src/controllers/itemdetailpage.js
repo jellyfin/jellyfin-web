@@ -516,6 +516,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
 
         if ("Person" === item.Type) {
+            // FIXME: This hides the backdrop on all persons to fix a margin issue. Ideally, a proper fix should be made.
             page.classList.add('noBackdrop');
             itemBackdropElement.classList.add("personBackdrop");
         } else {
