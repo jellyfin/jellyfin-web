@@ -68,7 +68,8 @@
     color: #fff;
 }
 
-.checkboxIcon-checked {
+.checkboxIcon-checked,
+.emby-checkbox-label .checkboxIcon-checked {
     display: none;
 }
 
