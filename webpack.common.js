@@ -8,7 +8,10 @@ const Assets = [
     "native-promise-only/npo.js",
     "libass-wasm/dist/subtitles-octopus-worker.js",
     "libass-wasm/dist/subtitles-octopus-worker.data",
-    "libass-wasm/dist/subtitles-octopus-worker.wasm"
+    "libass-wasm/dist/subtitles-octopus-worker.wasm",
+    "libass-wasm/dist/subtitles-octopus-worker-legacy.js",
+    "libass-wasm/dist/subtitles-octopus-worker-legacy.data",
+    "libass-wasm/dist/subtitles-octopus-worker-legacy.js.mem"
 ];
 
 module.exports = {
