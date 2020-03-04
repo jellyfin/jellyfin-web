@@ -1457,7 +1457,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></i></button>';
             }
 
-            html += '<div class="cardOverlayButton-br">';
+            html += '<div class="cardOverlayButton-br flex">';
 
             var userData = item.UserData || {};
 
