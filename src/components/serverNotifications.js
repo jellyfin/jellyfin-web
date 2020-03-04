@@ -33,7 +33,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
     }
 
     function processGeneralCommand(cmd, apiClient) {
-        console.log('Received command: ' + cmd.Name);
+        console.debug('Received command: ' + cmd.Name);
         switch (cmd.Name) {
             case 'Select':
                 inputManager.trigger('select');
@@ -133,7 +133,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                 focusManager.sendText(cmd.Arguments.String);
                 break;
             default:
-                console.log('processGeneralCommand does not recognize: ' + cmd.Name);
+                console.debug('processGeneralCommand does not recognize: ' + cmd.Name);
                 break;
         }
 
@@ -191,36 +191,14 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
             events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
         }
     }
-
     function bindEvents(apiClient) {
         events.off(apiClient, "message", onMessageReceived);
         events.on(apiClient, "message", onMessageReceived);
     }
 
-    function enableNativeGamepadKeyMapping() {
-        if (window.navigator && "string" == typeof window.navigator.gamepadInputEmulation) {
-            window.navigator.gamepadInputEmulation = "keyboard";
-            return true;
-        }
-
-        return false;
-    }
-
-    function isGamepadSupported() {
-        return "ongamepadconnected" in window || navigator.getGamepads || navigator.webkitGetGamepads;
-    }
-
     connectionManager.getApiClients().forEach(bindEvents);
-
     events.on(connectionManager, 'apiclientcreated', function (e, newApiClient) {
         bindEvents(newApiClient);
     });
-
-    if (!enableNativeGamepadKeyMapping() && isGamepadSupported()) {
-        require(["components/serverNotifications/gamepadtokey"]);
-    }
-
-    require(["components/serverNotifications/mouseManager"]);
-
     return serverNotifications;
 });

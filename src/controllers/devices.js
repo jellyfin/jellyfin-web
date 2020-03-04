@@ -80,7 +80,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "hu
                 deviceHtml += '<div class="cardImage" style="background-image:url(\'' + iconUrl + "');background-size: auto 64%;background-position:center center;\">";
                 deviceHtml += "</div>";
             } else {
-                deviceHtml += '<i class="cardImageIcon material-icons">tablet_android</i>';
+                deviceHtml += '<i class="cardImageIcon material-icons tablet_android"></i>';
             }
 
             deviceHtml += "</a>";

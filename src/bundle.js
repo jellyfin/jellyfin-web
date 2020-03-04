@@ -47,12 +47,6 @@ _define("howler", function() {
     return howler;
 });
 
-// native-promise-only
-var nativePromise = require("native-promise-only");
-_define("native-promise-only", function() {
-    return nativePromise;
-});
-
 // resize-observer-polyfill
 var resize = require("resize-observer-polyfill").default;
 _define("resize-observer-polyfill", function() {

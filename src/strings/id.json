@@ -200,5 +200,7 @@
     "Sync": "Sinkron",
     "Shows": "Tayangan",
     "Photos": "Foto",
-    "Movies": "Film"
+    "Movies": "Film",
+    "Alerts": "Peringatan",
+    "AddedOnValue": "Ditambahkan {0}"
 }

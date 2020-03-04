@@ -32,7 +32,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
             try {
                 parentNode.removeChild(elem);
             } catch (err) {
-                console.log('Error removing dialog element: ' + err);
+                console.error('error removing dialog element: ' + err);
             }
         }
     }

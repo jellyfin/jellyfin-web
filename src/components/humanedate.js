@@ -25,6 +25,7 @@ define(["datetime"], function (datetime) {
         if (seconds < 0) {
             seconds = Math.abs(seconds);
         }
+        // eslint-disable-next-line no-cond-assign
         for (; format = time_formats[i++];) {
             if (seconds < format[0]) {
                 if (2 == format.length) {

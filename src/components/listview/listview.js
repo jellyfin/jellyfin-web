@@ -269,7 +269,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             if (options.image !== false) {
                 var imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
-                console.log(imgUrl);
                 var imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
                 if (isLargeStyle && layoutManager.tv) {

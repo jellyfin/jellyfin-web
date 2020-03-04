@@ -11,7 +11,7 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
     function getOsdElementHtml() {
         var html = '';
 
-        html += '<i class="material-icons iconOsdIcon volume_up"></i>';
+        html += '<i class="material-icons iconOsdIcon"></i>';
 
         html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner"></div></div>';
 

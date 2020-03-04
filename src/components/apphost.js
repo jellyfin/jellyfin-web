@@ -186,7 +186,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
 
             return !!cue.length;
         } catch (err) {
-            console.log("error detecting cue support: " + err);
+            console.error("error detecting cue support: " + err);
             return false;
         }
     }
@@ -194,7 +194,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
     function onAppVisible() {
         if (isHidden) {
             isHidden = false;
-            console.log("triggering app resume event");
+            console.debug("triggering app resume event");
             events.trigger(appHost, "resume");
         }
     }
@@ -202,7 +202,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
     function onAppHidden() {
         if (!isHidden) {
             isHidden = true;
-            console.log("app is hidden");
+            console.debug("app is hidden");
         }
     }
 
@@ -314,7 +314,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
                 window.close();
             }
         } catch (err) {
-            console.log("error closing application: " + err);
+            console.error("error closing application: " + err);
         }
     }
 
@@ -324,7 +324,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
       * Ask user for exit
       */
     function askForExit() {
-        if (!!exitPromise) {
+        if (exitPromise) {
             return;
         }
 
@@ -374,7 +374,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
             return -1 !== supportedFeatures.indexOf(command.toLowerCase());
         },
         preferVisualCards: browser.android || browser.chrome,
-        moreIcon: browser.android ? "dots-vert" : "dots-horiz",
+        moreIcon: browser.android ? "more_vert" : "more_horiz",
         getSyncProfile: getSyncProfile,
         getDefaultLayout: function () {
             if (window.NativeShell) {

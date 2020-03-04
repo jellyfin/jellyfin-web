@@ -43,7 +43,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
                 preventScroll: scrollManager.isEnabled()
             });
         } catch (err) {
-            console.log('Error in focusManager.autoFocus: ' + err);
+            console.error('Error in focusManager.autoFocus: ' + err);
         }
     }
 

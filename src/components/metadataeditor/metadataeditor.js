@@ -477,7 +477,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             html += '</div>';
 
             if (formatString) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><i class="material-icons">open_in_browser</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><i class="material-icons open_in_browser"></i></button>';
             }
             html += '</div>';
 
@@ -917,7 +917,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         for (var i = 0; i < items.length; i++) {
             html += '<div class="listItem">';
 
-            html += '<i class="material-icons listItemIcon" style="background-color:#333;">live_tv</i>';
+            html += '<i class="material-icons listItemIcon live_tv" style="background-color:#333;"></i>';
 
             html += '<div class="listItemBody">';
 

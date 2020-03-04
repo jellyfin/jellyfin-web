@@ -392,7 +392,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             var currentStart = self._pos.cur;
             var currentEnd = currentStart + frameSize;
 
-            //console.log('offset:' + offset + ' currentStart:' + currentStart + ' currentEnd:' + currentEnd);
+            console.debug('offset:' + offset + ' currentStart:' + currentStart + ' currentEnd:' + currentEnd);
             var isVisible = offset >= currentStart && (offset + size) <= currentEnd;
 
             return {
@@ -574,8 +574,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 		 * @return {Int}
 		 */
         function normalizeWheelDelta(event) {
-            // wheelDelta needed only for IE8-
-            scrolling.curDelta = ((o.horizontal ? event.deltaY || event.deltaX : event.deltaY) || -event.wheelDelta);
+            // JELLYFIN MOD: Only use deltaX for horizontal scroll and remove IE8 support
+            scrolling.curDelta = o.horizontal ? event.deltaX : event.deltaY;
+            // END JELLYFIN MOD
 
             if (transform) {
                 scrolling.curDelta /= event.deltaMode === 1 ? 3 : 100;

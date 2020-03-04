@@ -57,7 +57,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
                 miscInfo.push(text);
             } catch (e) {
-                console.log("Error parsing date: " + item.StartDate);
+                console.error("error parsing date: " + item.StartDate);
             }
         }
 
@@ -143,7 +143,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     text = datetime.toLocaleDateString(date);
                     miscInfo.push(text);
                 } catch (e) {
-                    console.log("Error parsing date: " + item.PremiereDate);
+                    console.error("error parsing date: " + item.PremiereDate);
                 }
             }
         }
@@ -176,7 +176,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     miscInfo.push(text);
                 }
             } catch (e) {
-                console.log("Error parsing date: " + item.StartDate);
+                console.error("error parsing date: " + item.StartDate);
             }
         }
 
@@ -200,7 +200,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                         }
 
                     } catch (e) {
-                        console.log("Error parsing date: " + item.EndDate);
+                        console.error("error parsing date: " + item.EndDate);
                     }
                 }
 
@@ -248,7 +248,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
                     miscInfo.push(text);
                 } catch (e) {
-                    console.log("Error parsing date: " + item.PremiereDate);
+                    console.error("error parsing date: " + item.PremiereDate);
                 }
             } else if (item.ProductionYear) {
                 miscInfo.push(item.ProductionYear);
@@ -267,7 +267,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                         text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
                         miscInfo.push(text);
                     } catch (e) {
-                        console.log("Error parsing date: " + item.PremiereDate);
+                        console.error("error parsing date: " + item.PremiereDate);
                     }
                 }
             }

@@ -49,7 +49,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
         } else if (item.MediaType === "Audio") {
             htmlName += '<i class="material-icons metadataSidebarIcon">audiotrack</i>';
         } else if (item.Type === "TvChannel") {
-            htmlName += '<i class="material-icons metadataSidebarIcon">live_tv</i>';
+            htmlName += '<i class="material-icons metadataSidebarIcon live_tv"></i>';
         } else if (item.MediaType === "Photo") {
             htmlName += '<i class="material-icons metadataSidebarIcon">photo</i>';
         } else if (item.MediaType === "Book") {

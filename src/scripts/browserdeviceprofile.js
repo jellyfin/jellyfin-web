@@ -92,7 +92,7 @@ define(['browser'], function (browser) {
             return true;
         }
 
-        if (!!videoTestElement.canPlayType) {
+        if (videoTestElement.canPlayType) {
             return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-3"').replace(/no/, '') ||
                 videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-3"').replace(/no/, '');
         }
@@ -302,9 +302,9 @@ define(['browser'], function (browser) {
             try {
                 var isTizenUhd = webapis.productinfo.isUdPanelSupported();
                 isTizenFhd = !isTizenUhd;
-                console.log("isTizenFhd = " + isTizenFhd);
+                console.debug("isTizenFhd = " + isTizenFhd);
             } catch (error) {
-                console.log("isUdPanelSupported() error code = " + error.code);
+                console.error("isUdPanelSupported() error code = " + error.code);
             }
         }
 
@@ -761,7 +761,7 @@ define(['browser'], function (browser) {
             videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, '')) {
 
             // These tests are passing in safari, but playback is failing
-            if (!browser.safari && !browser.iOS && !browser.web0s && !browser.edge) {
+            if (!browser.safari && !browser.iOS && !browser.web0s && !browser.edge && !browser.mobile) {
                 h264Profiles += '|high 10';
             }
         }

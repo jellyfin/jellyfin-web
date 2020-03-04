@@ -809,7 +809,7 @@
     "LabelHttpsPort": "Portul local HTTPS:",
     "LabelHomeScreenSectionValue": "Secțiunea ecranului de pornire {0}:",
     "LabelHomeNetworkQuality": "Calitatea pe rețeaua de domiciliu:",
-    "LabelHardwareAccelerationTypeHelp": "Aceasta este o caracteristică experimentală disponibilă doar pe sistemele acceptate.",
+    "LabelHardwareAccelerationTypeHelp": "Accelerarea hardware necesită configurare suplimentară.",
     "LabelHardwareAccelerationType": "Accelerare hardware:",
     "LabelEncoderPreset": "H264 encoding presetat:",
     "LabelH264Crf": "CRF codare H264:",
@@ -1463,5 +1463,7 @@
     "LabelPlayerDimensions": "Dimensiunile soft redare:",
     "LabelDroppedFrames": "Cadre abandonate:",
     "LabelCorruptedFrames": "Cadre corupte:",
-    "OptionForceRemoteSourceTranscoding": "Forțați transcodarea surselor media distante (cum ar fi LiveTV)"
+    "OptionForceRemoteSourceTranscoding": "Forțați transcodarea surselor media distante (cum ar fi LiveTV)",
+    "NoCreatedLibraries": "Se pare că nu ați creat încă biblioteci. {0} Doriți să creați una acum? {1}",
+    "AskAdminToCreateLibrary": "Cereți unui administrator să creeze o bibliotecă."
 }

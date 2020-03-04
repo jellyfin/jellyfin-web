@@ -25,7 +25,7 @@ define(["focusManager", "layoutManager"], function (focusManager, layoutManager)
             activeElement = e.target;
         });
 
-        console.log("AutoFocuser enabled");
+        console.debug("AutoFocuser enabled");
     }
 
     /**
