@@ -444,6 +444,10 @@
     position: relative;
 }
 
+.layout-mobile .itemBackdrop {
+    background-attachment: scroll;
+}
+
 .layout-desktop .itemBackdrop::after,
 .layout-tv .itemBackdrop::after {
     content: "";
