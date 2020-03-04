@@ -107,7 +107,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
         if (!plugins.length) return html;
 
         html += '<div class="metadataFetcher" data-type="' + availableTypeOptions.Type + '">';
-        html += '<h3 class="checkboxListLabel">' + globalize.translate("LabelTypeMetadataDownloaders", availableTypeOptions.Type) + "</h3>";
+        html += '<h3 class="checkboxListLabel">' + globalize.translate("LabelTypeMetadataDownloaders", globalize.translate(availableTypeOptions.Type)) + "</h3>";
         html += '<div class="checkboxList paperList checkboxList-paperList">';
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
