@@ -81,7 +81,7 @@
 }
 
 .trackSelections > .selectContainer {
-    margin: 0.4em;
+    margin: 0.4em 0;
 }
 
 .emby-select-withcolor {
