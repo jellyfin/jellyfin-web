@@ -28,6 +28,10 @@
     padding-top: 0 !important;
 }
 
+.itemLastPlayed {
+    text-align: right;
+}
+
 .standalonePage {
     padding-top: 4.5em !important;
 }
@@ -854,7 +858,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
         width: auto;
         align-items: center;
         justify-content: center;
-        margin-top: -4.2em;
+        margin-top: -4.3em;
         position: relative;
     }
 
