@@ -699,7 +699,7 @@
     "LabelLoginDisclaimer": "ログイン免責事項:",
     "LabelSendNotificationToUsers": "通知を送る:",
     "LabelVideoCodec": "映像コーデック:",
-    "LabelWeb": "ウェブ: ",
+    "LabelWeb": "ウェブ:",
     "LabelYear": "年:",
     "MediaInfoExternal": "外部",
     "MediaInfoLanguage": "言語",
@@ -1125,5 +1125,14 @@
     "LabelDisplayMissingEpisodesWithinSeasons": "シーズン中の見つからなかったエピソードを表示",
     "LabelCustomDeviceDisplayNameHelp": "任意の表示名を提供するか、空白のままにしてデバイスネームで報告する。",
     "LabelArtistsHelp": "分けますと使用;",
-    "Identify": "識別する"
+    "Identify": "識別する",
+    "TabRecordings": "録画",
+    "Recordings": "録画",
+    "RecordingScheduled": "録画をスケジュールしました。",
+    "RecordingCancelled": "録画をキャンセルしました。",
+    "LabelMaxChromecastBitrate": "Chromecastのストリーミング品質：",
+    "LabelImportOnlyFavoriteChannels": "お気に入りのチャンネルだけ",
+    "LabelIdentificationFieldHelp": "大文字小文字を区別しない部分文字列や正規表現です。",
+    "LabelCustomRating": "カスタム格付け：",
+    "LabelCorruptedFrames": "破損したフレーム："
 }
