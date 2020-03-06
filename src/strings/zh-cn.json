@@ -289,7 +289,7 @@
     "HeaderContainerProfile": "媒体载体配置",
     "HeaderContainerProfileHelp": "媒体载体的配置文件标明了设备播放特定媒体格式时的限制。如果在限制之内则媒体将被转码，否则媒体格式将被配置为直接播放。",
     "HeaderContinueListening": "继续听",
-    "HeaderContinueWatching": "继续观看",
+    "HeaderContinueWatching": "继续观影",
     "HeaderCustomDlnaProfiles": "自定义配置",
     "HeaderDateIssued": "发布日期",
     "HeaderDefaultRecordingSettings": "默认录制设定",
@@ -360,7 +360,7 @@
     "HeaderMyMediaSmall": "我的媒体 (小)",
     "HeaderNewApiKey": "新 API 密钥",
     "HeaderNewDevices": "新设备",
-    "HeaderNextUp": "下一步",
+    "HeaderNextUp": "接下来",
     "HeaderOnNow": "现在",
     "HeaderOtherItems": "其他项目",
     "HeaderParentalRatings": "家长分级",
@@ -548,7 +548,7 @@
     "LabelEmbedAlbumArtDidl": "在DIDL中嵌入专辑封面",
     "LabelEmbedAlbumArtDidlHelp": "有些设备首选这种方式获取专辑封面。启用该选项可能导致其他设备播放失败。",
     "LabelEnableAutomaticPortMap": "开启自动端口映射",
-    "LabelEnableAutomaticPortMapHelp": "勾选以通过 UPnP 自动映射公共端口到本地端口。这个选项在某些不支持的路由器上可能不起作用。",
+    "LabelEnableAutomaticPortMapHelp": "尝试通过UPnP将公共端口自动映射到本地端口。这可能不适用于某些型号的路由器。需要服务器重新启动后才会应用更改。",
     "LabelEnableBlastAliveMessages": "爆发活动信号",
     "LabelEnableBlastAliveMessagesHelp": "如果该服务器不能被网络中的其他UPnP设备检测到，请启用此选项。",
     "LabelEnableDlnaClientDiscoveryInterval": "客户端搜寻时间间隔（秒）",
@@ -1471,5 +1471,8 @@
     "EnableFastImageFadeInHelp": "为已加载的图片启用更快的图片淡入动画",
     "OptionForceRemoteSourceTranscoding": "强制远程转码（像电视直播一样）",
     "NoCreatedLibraries": "看上去您还未创建任何资料库。{0} 您想现在创建一个吗？ {1}",
-    "AskAdminToCreateLibrary": "请联系管理员以创建一个新的资料库。"
+    "AskAdminToCreateLibrary": "请联系管理员以创建一个新的资料库。",
+    "PlaybackErrorNoCompatibleStream": "客户端配置文件存在问题，服务器未发送兼容的媒体格式。",
+    "AllowFfmpegThrottlingHelp": "当转码或remux距离当前播放位置足够远时，请暂停该进程，以减少资源消耗。 在不经常观看的情况下最有用。 如果遇到播放问题，请关闭此功能。",
+    "AllowFfmpegThrottling": "节流转码"
 }
