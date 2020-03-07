@@ -31,13 +31,15 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
     function RecordingButton(options) {
         this.options = options;
 
+        var button = options.button;
+
+        setButtonIcon(button, 'fiber_manual_record');
+
         if (options.item) {
             this.refreshItem(options.item);
         } else if (options.itemId && options.serverId) {
             this.refresh(options.itemId, options.serverId);
         }
-        var button = options.button;
-        setButtonIcon(button, 'fiber_manual_record');
 
         var clickFn = onRecordingButtonClick.bind(this);
         this.clickFn = clickFn;
