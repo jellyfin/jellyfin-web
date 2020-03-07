@@ -273,14 +273,19 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
 
     function adjustSortableListElement(elem) {
         var btnSortable = elem.querySelector(".btnSortable");
+        var inner = btnSortable.querySelector("i");
         if (elem.previousSibling) {
+            btnSortable.title = globalize.translate("ButtonUp");
             btnSortable.classList.add("btnSortableMoveUp");
             btnSortable.classList.remove("btnSortableMoveDown");
-            btnSortable.querySelector("i").innerHTML = "keyboard_arrow_up";
+            inner.classList.remove("keyboard_arrow_down");
+            inner.classList.add("keyboard_arrow_up");
         } else {
+            btnSortable.title = globalize.translate("ButtonDown");
             btnSortable.classList.remove("btnSortableMoveUp");
             btnSortable.classList.add("btnSortableMoveDown");
-            btnSortable.querySelector("i").innerHTML = "keyboard_arrow_down";
+            inner.classList.remove("keyboard_arrow_up");
+            inner.classList.add("keyboard_arrow_down");
         }
     }
 
