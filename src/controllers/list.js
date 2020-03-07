@@ -157,6 +157,12 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
         return query;
     }
 
+    function setSortButtonIcon(btnSortIcon, icon) {
+        btnSortIcon.classList.remove("arrow_downward");
+        btnSortIcon.classList.remove("arrow_upward");
+        btnSortIcon.classList.add(icon);
+    }
+
     function updateSortText(instance) {
         var btnSortText = instance.btnSortText;
 
@@ -175,7 +181,7 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
             var btnSortIcon = instance.btnSortIcon;
 
             if (btnSortIcon) {
-                btnSortIcon.innerHTML = "Descending" === values.sortOrder ? "&#xE5DB;" : "&#xE5D8;";
+                setSortButtonIcon(btnSortIcon, "Descending" === values.sortOrder ? "arrow_downward" : "arrow_upward");
             }
         }
     }
