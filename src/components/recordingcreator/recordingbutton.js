@@ -21,6 +21,13 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
         }
     }
 
+    function setButtonIcon(button, icon) {
+        var inner = button.querySelector('i');
+        inner.classList.remove('fiber_smart_record');
+        inner.classList.remove('fiber_manual_record');
+        inner.classList.add(icon);
+    }
+
     function RecordingButton(options) {
         this.options = options;
 
@@ -30,7 +37,7 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
             this.refresh(options.itemId, options.serverId);
         }
         var button = options.button;
-        button.querySelector('i').innerHTML = 'fiber_manual_record';
+        setButtonIcon(button, 'fiber_manual_record');
 
         var clickFn = onRecordingButtonClick.bind(this);
         this.clickFn = clickFn;
@@ -80,7 +87,7 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
         var options = this.options;
         var button = options.button;
         this.item = item;
-        button.querySelector('i').innerHTML = getIndicatorIcon(item);
+        setButtonIcon(button, getIndicatorIcon(item));
 
         if (item.TimerId && (item.Status || 'Cancelled') !== 'Cancelled') {
             button.classList.add('recordingIcon-active');
