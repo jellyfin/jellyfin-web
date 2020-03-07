@@ -376,7 +376,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
         function startOsdHideTimer() {
             stopOsdHideTimer();
-            osdHideTimeout = setTimeout(hideOsd, 5e3);
+            osdHideTimeout = setTimeout(hideOsd, 3e3);
         }
 
         function stopOsdHideTimer() {
