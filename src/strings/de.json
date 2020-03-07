@@ -304,7 +304,7 @@
     "HeaderContainerProfile": "Containerprofil",
     "HeaderContainerProfileHelp": "Containerprofile weisen auf Beschränkungen einen Gerätes beim Abspielen bestimmter Formate hin. Wenn eine Beschränkung zutrifft, dann werden Medien transcodiert, auch wenn das Format für die Direktwiedergabe konfiguriert ist.",
     "HeaderContinueListening": "Weiterhören",
-    "HeaderContinueWatching": "Weiterschauen",
+    "HeaderContinueWatching": "Fortsetzen",
     "HeaderCustomDlnaProfiles": "Benutzerdefinierte Profile",
     "HeaderDateIssued": "Datum gesetzt",
     "HeaderDefaultRecordingSettings": "Standard Aufnahmeeinstellungen",
