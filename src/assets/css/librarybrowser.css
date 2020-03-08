@@ -1144,3 +1144,22 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     margin-top: 0;
     font-size: 1.4em;
 }
+
+.detail-clamp-text {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 12;
+    -webkit-box-orient: vertical;
+
+    /* Fallback for older browsers: line-height * number of lines */
+    max-height: calc(1.35 * 12em);
+}
+
+@media all and (min-width: 40em) {
+    .detail-clamp-text {
+        -webkit-line-clamp: 6;
+
+        /* Fallback for older browsers: line-height * number of lines */
+        max-height: calc(1.35 * 6em);
+    }
+}

@@ -972,6 +972,17 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
     }
 
+    function toggleLineClamp(e) {
+        var target = e.target;
+        var clampClassName = 'detail-clamp-text';
+
+        if (target.classList.contains(clampClassName)) {
+            target.classList.remove(clampClassName);
+        } else {
+            target.classList.add(clampClassName);
+        }
+    }
+
     function renderOverview(elems, item) {
         for (var i = 0, length = elems.length; i < length; i++) {
             var elem = elems[i];
@@ -980,6 +991,10 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             if (overview) {
                 elem.innerHTML = overview;
                 elem.classList.remove('hide');
+
+                elem.classList.add('detail-clamp-text');
+                elem.addEventListener('click', toggleLineClamp);
+
                 var anchors = elem.querySelectorAll('a');
 
                 for (var j = 0, length2 = anchors.length; j < length2; j++) {
