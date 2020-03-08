@@ -53,7 +53,7 @@
     "BoxRear": "ボックス(後)",
     "Browse": "ブラウズ",
     "BrowsePluginCatalogMessage": "利用可能なプラグインを表示するには、プラグインカタログを参照してください。",
-    "BurnSubtitlesHelp": "字幕フォーマットに応じて、ビデオを変換するときにサーバーが字幕を直接書き込むかどうかを決定します。 字幕の書き込みを避けると、サーバーのパフォーマンスが向上します。 特定のASS / SSA字幕だけでなく画像ベースのフォーマット(e.g. VOBSUB, PGS, SUB/IDX, etc.)を焼くには自動を選択します",
+    "BurnSubtitlesHelp": "字幕フォーマットに応じて、ビデオを変換するときにサーバーが字幕を直接書き込むかどうかを決定します。 字幕の書き込みを避けると、サーバーのパフォーマンスが向上します。 特定のASS / SSA字幕だけでなく画像ベースのフォーマット(VOBSUB, PGS, SUB/IDX, etc)を焼くには自動を選択します",
     "ButtonAdd": "追加",
     "ButtonAddMediaLibrary": "メディアライブラリを追加",
     "ButtonAddScheduledTaskTrigger": "トリガーを追加",
@@ -279,7 +279,7 @@
     "EncoderPresetHelp": "パフォーマンスを向上させるには小さい値を、品質を向上させるには大きい値を選択してください。",
     "HDPrograms": "HD番組",
     "HandledByProxy": "リバースプロキシで処理",
-    "HardwareAccelerationWarning": "ハードウェアアクセラレーションを有効にすると、環境によっては不安定になる可能性があります。 オペレーティングシステムとビデオドライバが完全に最新であることを確認してください。 これを有効にした後でビデオの再生が困難な場合は、設定を[自動]に戻す必要があります。",
+    "HardwareAccelerationWarning": "ハードウェアアクセラレーションを有効にすると、環境によっては不安定になる可能性があります。 オペレーティングシステムとビデオドライバが完全に最新であることを確認してください。 これを有効にした後でビデオの再生が困難な場合は、設定を[なし]に戻す必要があります。",
     "HeaderAccessSchedule": "アクセススケジュール",
     "HeaderAccessScheduleHelp": "アクセススケジュールを作成して、アクセスを特定の時間に制限します。",
     "HeaderActiveDevices": "アクティブデバイス",
@@ -1134,5 +1134,12 @@
     "LabelImportOnlyFavoriteChannels": "お気に入りのチャンネルだけ",
     "LabelIdentificationFieldHelp": "大文字小文字を区別しない部分文字列や正規表現です。",
     "LabelCustomRating": "カスタム格付け：",
-    "LabelCorruptedFrames": "破損したフレーム："
+    "LabelCorruptedFrames": "破損したフレーム：",
+    "LabelFriendlyName": "フレンドリ名：",
+    "LabelEveryXMinutes": "毎：",
+    "LabelEnableSingleImageInDidlLimit": "単一の埋め込み画像に制限",
+    "LabelEnableBlastAliveMessages": "アライブメッセージを配信する",
+    "LabelDateAddedBehaviorHelp": "メタデータある場合、これらのオプションの前にメタデータ使います。",
+    "AskAdminToCreateLibrary": "管理者にライブラリを作成する依頼をしてください。",
+    "AllowFfmpegThrottling": "トランスコードをスロットルする"
 }
