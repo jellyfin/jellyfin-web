@@ -1162,5 +1162,14 @@
     "CopyStreamURLError": "Pri kopiranju naslova URL je prišlo do napake.",
     "AskAdminToCreateLibrary": "Prosite skrbnika, da ustvari knjižnico.",
     "AllowFfmpegThrottlingHelp": "Ko je napredek prekodiranja dovolj pred mestom predvajanja se proces ustavi in porablja manj sredstev. To je najbolj uporabno pri gledanju brez pogostega premikanja mesta predvajanja. Če naletite na težave s predvajanjem onemogočite to možnost.",
-    "AllowFfmpegThrottling": "Zaviraj prekodiranje"
+    "AllowFfmpegThrottling": "Zaviraj prekodiranje",
+    "LabelStreamType": "Vrsta pretakanja:",
+    "LabelStopping": "Ustavljanje",
+    "LabelStopWhenPossible": "Ustavi, ko je mogoče:",
+    "LabelStatus": "Status:",
+    "LabelStartWhenPossible": "Začni, ko je mogoče:",
+    "LabelSportsCategories": "Športne kategorije:",
+    "LabelSource": "Vir:",
+    "LabelSoundEffects": "Zvočni učinki:",
+    "LabelSkipIfGraphicalSubsPresentHelp": "Ohranjanje besedilnih različic podnapisov omogoča učinkovitejše predvajanje in zmanjša potrebo po prekodiranju."
 }
