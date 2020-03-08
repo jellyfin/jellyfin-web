@@ -1871,7 +1871,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 itemsContainer: castContent,
                 coverImage: true,
                 serverId: item.ServerId,
-                width: 160,
                 shape: "overflowPortrait"
             });
         });

@@ -106,7 +106,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
 
             if (user.PrimaryImageTag) {
                 imgUrl = apiClient.getUserImageUrl(user.Id, {
-                    width: 300,
+                    width: 300 * window.devicePixelRatio,
                     tag: user.PrimaryImageTag,
                     type: "Primary"
                 });

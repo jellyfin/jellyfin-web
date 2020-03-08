@@ -105,7 +105,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
         var options = {
-            width: width,
             type: "Primary"
         };
 
