@@ -46,7 +46,7 @@
     "ChannelNameOnly": "ערוץ {0} בלבד",
     "ChannelNumber": "מספר ערוץ",
     "Composer": "מלחין",
-    "ConfigureDateAdded": "הגדר כיצד תאריך התוספת נקבע בלוח המחוונים של שרת Amby תחת הגדרות ספריה",
+    "ConfigureDateAdded": "‫הגדר כיצד תאריך ההוספה נקבע בלוח המחוונים של שרת ה-Jellyfin תחת הגדרות הספרייה",
     "ConfirmDeleteImage": "למחוק את התמונה?",
     "ConfirmDeleteItem": "מחיקת פריט זה תמחק אותו הן ממערכת הקבצים והן מספריית המדיה שלך. האם אתה בטוח שברצונך להמשיך?",
     "ConfirmDeleteItems": "מחיקת פריטים אלה תמחק אותם הן ממערכת הקבצים והן מספריית המדיה שלך. האם אתה בטוח שברצונך להמשיך?",
@@ -726,7 +726,7 @@
     "ButtonNextTrack": "הרצועה הבאה",
     "ButtonGuide": "מדריך",
     "HeaderForgotPassword": "שחזור סיסמה",
-    "ButtonForgotPassword": "שכחתי את הסיסמה",
+    "ButtonForgotPassword": "שחזור סיסמה",
     "ButtonEditOtherUserPreferences": "ערוך את הפרופיל, התמונה וההגדרות האישיות של משתמש זה.",
     "ButtonDownload": "הורדה",
     "ButtonDown": "למטה",
@@ -742,5 +742,6 @@
     "ButtonAddScheduledTaskTrigger": "הוסף טריגר",
     "Browse": "עיין",
     "BoxRear": "מארז (מאחור)",
-    "BookLibraryHelp": "ניתן להוסיף ספרים מוקלטים וספרים כתובים. עיינו {0}במדריך מתן שמות לספרים{1}."
+    "BookLibraryHelp": "ניתן להוסיף ספרים מוקלטים וספרים כתובים. עיינו {0}במדריך מתן שמות לספרים{1}.",
+    "Desktop": "שולחן עבודה"
 }
