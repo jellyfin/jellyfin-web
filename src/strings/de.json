@@ -10,7 +10,7 @@
     "AddToPlaylist": "Zur Wiedergabeliste hinzufügen",
     "AddUser": "Benutzer anlegen",
     "AddUserByManually": "Lege einen lokalen User durch manuelle Eingabe der User-Informationen an.",
-    "AddedOnValue": "Hinzugefügt {0}",
+    "AddedOnValue": "{0} hinzugefügt",
     "AdditionalNotificationServices": "Schau im Pluginkatalog, um weitere Benachrichtigungsdienste zu installieren.",
     "AirDate": "Erstausstrahlung",
     "Aired": "Ausgestrahlt",
@@ -26,7 +26,7 @@
     "AllowMediaConversion": "Erlaube Medienkonvertierung",
     "AllowMediaConversionHelp": "Erlaube oder unterbinde Zugriff auf die Medienkonvertierung.",
     "AllowOnTheFlySubtitleExtraction": "Erlaube Untertitelextraktion \"on-the-fly\"",
-    "AllowOnTheFlySubtitleExtractionHelp": "Eingebettete Untertitel können aus Videos extrahiert und in Textformat an Clients gesendet werden um Transkodieren zu vermeiden. Auf manchen Systemen kann dieser Vorgang eine lange Zeit in Anspruch nehmen und die Videowiedergabe zum Halten bringen während der Extraktion. Deaktiviere diese Option um eingebettete Untertitel während der Videotranskodierung einbrennen zu lassen, wenn sie nicht nativ vom Client unterstützt werden.",
+    "AllowOnTheFlySubtitleExtractionHelp": "Eingebettete Untertitel können aus Videos extrahiert und im Textformat an Clients gesendet werden um die Videotranskodierung zu vermeiden. Auf manchen Systemen kann dieser Vorgang eine lange Zeit in Anspruch nehmen und die Videowiedergabe während der Extraktion unterbrochen werden. Deaktiviere diese Option um eingebettete Untertitel während der Videotranskodierung einbrennen zu lassen, wenn sie nicht nativ vom Client unterstützt werden.",
     "AllowRemoteAccess": "Erlaube externe Verbindungen zu diesem Jellyfin Server.",
     "AllowRemoteAccessHelp": "Wenn deaktiviert werden alle externen Verbindungen blockiert.",
     "AllowSeasonalThemes": "Erlaube automatische Jahreszeitenmotive",
@@ -560,7 +560,7 @@
     "LabelEmbedAlbumArtDidl": "Integrierte Alben-Cover in Didl",
     "LabelEmbedAlbumArtDidlHelp": "Einige Geräte bevorzugen diese Methode um Album Art darstellen zu können. Andere wiederum können evtl. nichts abspielen, wenn diese Funktion aktiviert ist.",
     "LabelEnableAutomaticPortMap": "Aktiviere das automatische Port-Mapping",
-    "LabelEnableAutomaticPortMapHelp": "Versuche automatisch den öffentlichen Port dem lokalen Port mit Hilfe von UPnP zuzuordnen. Dies kann mit einigen Router-Modellen nicht funktionieren.",
+    "LabelEnableAutomaticPortMapHelp": "Versuche automatisch den öffentlichen Port dem lokalen Port mit Hilfe von UPnP zuzuordnen. Dies kann mit einigen Router-Modellen nicht funktionieren. Die Änderungen werden erst nach einem Neustart des Server aktiv.",
     "LabelEnableBlastAliveMessages": "Erzeuge Alive Meldungen",
     "LabelEnableBlastAliveMessagesHelp": "Aktiviere dies, wenn der Server nicht zuverlässig von anderen UPnP Geräten in ihrem Netzwerk erkannt wird.",
     "LabelEnableDlnaClientDiscoveryInterval": "Client-Entdeckungs Intervall (Sekunden)",
@@ -1488,5 +1488,8 @@
     "LabelCorruptedFrames": "Fehlerhafte Frames:",
     "OptionForceRemoteSourceTranscoding": "Transkodieren von externen Medienquellen erzwingen (z.B. LiveTV)",
     "AskAdminToCreateLibrary": "Bitten Sie einen Administrator, eine Bibliothek zu erstellen.",
-    "NoCreatedLibraries": "Sieht so aus als hättest du bis jetzt keine Bibliothek erstellt. {0}Möchtest du jetzt eine Bibliothek erstellen?{1}"
+    "NoCreatedLibraries": "Sieht so aus als hättest du bis jetzt keine Bibliothek erstellt. {0}Möchtest du jetzt eine Bibliothek erstellen?{1}",
+    "AllowFfmpegThrottling": "Transkodierung drosseln",
+    "PlaybackErrorNoCompatibleStream": "Es gab ein Problem bei der Erkennung des Wiedergabeprofils des Clients und der Server sendet kein kompatibles Format.",
+    "AllowFfmpegThrottlingHelp": "Wenn eine Transkodierung oder ein Remux weit genug über die aktuelle Abspielposition fortgeschritten ist, pausiere sie sodass weniger Ressourcen verbraucht werden. Dies ist am nützlichsten, wenn wenig geskippt wird. Bei Wiedergabeproblemen sollte diese Option deaktiviert werden."
 }
