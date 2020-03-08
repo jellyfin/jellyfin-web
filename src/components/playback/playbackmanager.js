@@ -261,16 +261,59 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
     function getIntros(firstItem, apiClient, options) {
 
-        if (options.startPositionTicks || options.startIndex || options.fullscreen === false || !enableIntros(firstItem) || !userSettings.enableCinemaMode()) {
+        var unwatchedOnly = userSettings.enableCinemaTrailersUnseenOnly();
+        var trailerCount = userSettings.cinemaModeTrailerCount();
+        var enableCinema = userSettings.enableCinemaMode();
+
+        if (options.startPositionTicks || options.startIndex || options.fullscreen === false || !enableIntros(firstItem) || !enableCinema || trailerCount == 0) {
             return Promise.resolve({
                 Items: []
             });
         }
 
-        return apiClient.getIntros(firstItem.Id).then(function (result) {
+        var fetchOptions = {
+            limit: 500,
+            fields: "RemoteTrailers,LocalTrailerCount,ServerID",
+            filters: unwatchedOnly ? "IsUnPlayed" : "",
+            recursive: true,
+            includeItemTypes: "Movie"
+        };
 
-            return result;
+        function getAllTrailers(item) {
+            if (item.LocalTrailerCount) {
+                return apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id);
+            } else {
+                var remoteTrailers = item.RemoteTrailers || [];
 
+                if (!remoteTrailers.length) {
+                    return Promise.reject();
+                }
+
+                return remoteTrailers.map(function (t) {
+                    return {
+                        Name: t.Name || (item.Name + ' Trailer'),
+                        Url: t.Url,
+                        MediaType: 'Video',
+                        Type: 'Trailer',
+                        ServerId: apiClient.serverId()
+                    };
+                });
+            }
+        }
+
+        return apiClient.getItems(apiClient.getCurrentUserId(), fetchOptions).then(function (unwatchedMoves) {
+            var randomTrailers = [];
+
+            for (var i=0; i < trailerCount; i++) {
+                var index = Math.floor(Math.random() * unwatchedMoves.Items.length);
+                var randomMovie = unwatchedMoves.Items[index];
+                var trailer = getAllTrailers(randomMovie)[0];
+                if (trailer != null) {
+                    randomTrailers.push(trailer);
+                }
+            }
+
+            return {"Items": randomTrailers};
         }, function (err) {
 
             return Promise.resolve({
@@ -3638,11 +3681,24 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         this.seek(parseInt(ticks), player);
     };
 
-    PlaybackManager.prototype.getAllTrailers = function (item) {
+    PlaybackManager.prototype.playTrailers = function (item) {
+
+        var player = this._currentPlayer;
+
+        if (player && player.playTrailers) {
+            return player.playTrailers(item);
+        }
+
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
+        var instance = this;
+
         if (item.LocalTrailerCount) {
-            return apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id);
+            return apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(function (result) {
+                return instance.play({
+                    items: result
+                });
+            });
         } else {
             var remoteTrailers = item.RemoteTrailers || [];
 
@@ -3650,27 +3706,18 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return Promise.reject();
             }
 
-            return remoteTrailers.map(function (t) {
-                return {
-                    Name: t.Name || (item.Name + ' Trailer'),
-                    Url: t.Url,
-                    MediaType: 'Video',
-                    Type: 'Trailer',
-                    ServerId: apiClient.serverId()
-                };
+            return this.play({
+                items: remoteTrailers.map(function (t) {
+                    return {
+                        Name: t.Name || (item.Name + ' Trailer'),
+                        Url: t.Url,
+                        MediaType: 'Video',
+                        Type: 'Trailer',
+                        ServerId: apiClient.serverId()
+                    };
+                })
             });
         }
-    }
-
-    PlaybackManager.prototype.playTrailers = function (item) {
-        var player = this._currentPlayer;
-
-        if (player && player.playTrailers) {
-            return player.playTrailers(item);
-        }
-
-        var trailers = this.getAllTrailers(item)
-        return this.play({items: trailers});
     };
 
     PlaybackManager.prototype.getSubtitleUrl = function (textStream, serverId) {

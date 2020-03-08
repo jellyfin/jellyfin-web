@@ -1,4 +1,4 @@
-define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "userSettings", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, connectionManager, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser, scrollStyles, userSettings) {
+define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, connectionManager, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser, scrollStyles) {
     "use strict";
 
     function getPromise(apiClient, params) {
@@ -1928,9 +1928,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             };
         }
 
-        function playItem(items, startPosition) {
+        function playItem(item, startPosition) {
             var playOptions = getPlayOptions(startPosition);
-            playOptions.items = items;
+            playOptions.items = [item];
             playbackManager.play(playOptions);
         }
 
@@ -1940,9 +1940,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
         function playCurrentItem(button, mode) {
             var item = currentItem;
-            var apiClient = connectionManager.getApiClient(item.ServerId);
 
             if ("Program" === item.Type) {
+                var apiClient = connectionManager.getApiClient(item.ServerId);
                 return void apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(function (channel) {
                     playbackManager.play({
                         items: [channel]
@@ -1950,39 +1950,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 });
             }
 
-            var enableCinema = userSettings.enableCinemaMode();
-
-            if (item.Type == "Movie" && enableCinema) {
-                var trailerCount = userSettings.cinemaModeTrailerCount();
-                var unwatchedOnly = userSettings.enableCinemaTrailersUnseenOnly();
-
-                var options = {
-                    limit: 500,
-                    fields: "RemoteTrailers,LocalTrailerCount,ServerID",
-                    filters: unwatchedOnly ? "IsUnPlayed" : "",
-                    recursive: true,
-                    includeItemTypes: "Movie"
-                };
-
-                apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (unwatchedMoves) {
-                    var randomTrailers = [];
-
-                    for (var i=0; i < trailerCount; i++) {
-                        var index = Math.floor(Math.random() * unwatchedMoves.Items.length);
-                        var randomMovie = unwatchedMoves.Items[index];
-                        var trailer = playbackManager.getAllTrailers(randomMovie)[0];
-                        if (trailer != null) {
-                            randomTrailers.push(trailer);
-                        }
-                    }
-
-                    randomTrailers.push(item);
-
-                    playItem(randomTrailers, item.UserData && "resume" === mode ? item.UserData.PlaybackPositionTicks : 0);
-                });
-            } else {
-                playItem([item], item.UserData && "resume" === mode ? item.UserData.PlaybackPositionTicks : 0);
-            }
+            playItem(item, item.UserData && "resume" === mode ? item.UserData.PlaybackPositionTicks : 0);
         }
 
         function onPlayClick() {

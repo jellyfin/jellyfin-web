@@ -285,7 +285,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             self._currentTime = null;
 
             self.resetSubtitleOffset();
-            //MARKER eventuell hier rein
+
             appRouter.setTransparency('full');
 
             return createMediaElement(options).then(function (elem) {
