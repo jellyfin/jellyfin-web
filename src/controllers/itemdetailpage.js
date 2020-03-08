@@ -469,6 +469,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         if ("Program" === item.Type && item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ImageTags.Thumb
             });
@@ -478,6 +479,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         } else if (usePrimaryImage && item.ImageTags && item.ImageTags.Primary) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Primary",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ImageTags.Primary
             });
@@ -487,6 +489,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Backdrop",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.BackdropImageTags[0]
             });
@@ -496,6 +499,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
             imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                 type: "Backdrop",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ParentBackdropImageTags[0]
             });
@@ -505,6 +509,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         } else if (item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ImageTags.Thumb
             });
@@ -765,41 +770,48 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         if (imageTags.Primary) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Primary",
+                maxWidth: dom.getScreenWidth() * 0.5,
                 tag: item.ImageTags.Primary
             });
             detectRatio = true;
         } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Backdrop",
+                maxWidth: dom.getScreenWidth() * 0.5,
                 tag: item.BackdropImageTags[0]
             });
             shape = "thumb";
         } else if (imageTags.Thumb) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
+                maxWidth: dom.getScreenWidth() * 0.5,
                 tag: item.ImageTags.Thumb
             });
             shape = "thumb";
         } else if (imageTags.Disc) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Disc",
+                maxWidth: dom.getScreenWidth() * 0.5,
                 tag: item.ImageTags.Disc
             });
             shape = "square";
         } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.AlbumId, {
                 type: "Primary",
+                maxWidth: dom.getScreenWidth() * 0.5,
                 tag: item.AlbumPrimaryImageTag
             });
             shape = "square";
         } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.SeriesId, {
                 type: "Primary",
+                maxWidth: dom.getScreenWidth() * 0.5,
                 tag: item.SeriesPrimaryImageTag
             });
         } else if (item.ParentPrimaryImageItemId && item.ParentPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
                 type: "Primary",
+                maxWidth: dom.getScreenWidth() * 0.5,
                 tag: item.ParentPrimaryImageTag
             });
         }

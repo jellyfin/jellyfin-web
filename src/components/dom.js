@@ -112,6 +112,24 @@ define([], function () {
         return windowSize;
     }
 
+    var standardWidths = [480, 720, 1280, 1440, 1920, 2560, 3840, 5120, 7680];
+    function getScreenWidth() {
+        var width = window.innerWidth * window.devicePixelRatio;
+        var height = window.innerHeight * window.devicePixelRatio;
+
+        if (height > width) {
+            /* If we're in portrait, compute the proper width for this height,
+               taking 16:9 as the most common ratio */
+            width = height * 1.78;
+        }
+
+        var closest = standardWidths.sort(function (a, b) {
+            return Math.abs(width - a) - Math.abs(width - b);
+        })[0];
+
+        return closest;
+    }
+
     var _animationEvent;
     function whichAnimationEvent() {
 
@@ -175,6 +193,7 @@ define([], function () {
         addEventListener: addEventListenerWithOptions,
         removeEventListener: removeEventListenerWithOptions,
         getWindowSize: getWindowSize,
+        getScreenWidth: getScreenWidth,
         whichTransitionEvent: whichTransitionEvent,
         whichAnimationEvent: whichAnimationEvent,
         whichAnimationCancelEvent: whichAnimationCancelEvent

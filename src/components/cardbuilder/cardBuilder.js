@@ -233,9 +233,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         function getImageWidth(shape, screenWidth, isOrientationLandscape) {
             var imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
-            var shapeWidth = screenWidth / imagesPerRow;
+            var shapeWidth = Math.round(screenWidth / imagesPerRow) * 2;
 
-            return Math.round(shapeWidth);
+            return shapeWidth;
         }
 
         function setCardData(items, options) {
@@ -463,6 +463,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
 
@@ -470,6 +471,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Banner",
+                    maxWidth: width,
                     tag: item.ImageTags.Banner
                 });
 
@@ -477,6 +479,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Disc",
+                    maxWidth: width,
                     tag: item.ImageTags.Disc
                 });
 
@@ -484,6 +487,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Logo",
+                    maxWidth: width,
                     tag: item.ImageTags.Logo
                 });
 
@@ -491,6 +495,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
                     type: "Logo",
+                    maxWidth: width,
                     tag: item.ParentLogoImageTag
                 });
 
@@ -498,6 +503,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.SeriesThumbImageTag
                 });
 
@@ -505,6 +511,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.ParentThumbImageTag
                 });
 
@@ -512,6 +519,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Backdrop",
+                    maxWidth: width,
                     tag: item.BackdropImageTags[0]
                 });
 
@@ -521,6 +529,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                     type: "Backdrop",
+                    maxWidth: width,
                     tag: item.ParentBackdropImageTags[0]
                 });
 
@@ -530,6 +539,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Primary",
+                    maxHeight: height,
+                    maxWidth: width,
                     tag: item.ImageTags.Primary
                 });
 
@@ -550,6 +561,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.PrimaryImageItemId || item.Id || item.ItemId, {
                     type: "Primary",
+                    maxHeight: height,
+                    maxWidth: width,
                     tag: item.PrimaryImageTag
                 });
 
@@ -567,12 +580,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
                     type: "Primary",
+                    maxWidth: width,
                     tag: item.ParentPrimaryImageTag
                 });
             } else if (item.SeriesPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
                     type: "Primary",
+                    maxWidth: width,
                     tag: item.SeriesPrimaryImageTag
                 });
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
@@ -581,6 +596,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.AlbumId, {
                     type: "Primary",
+                    maxHeight: height,
+                    maxWidth: width,
                     tag: item.AlbumPrimaryImageTag
                 });
 
@@ -594,6 +611,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
 
@@ -601,6 +619,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Backdrop",
+                    maxWidth: width,
                     tag: item.BackdropImageTags[0]
                 });
 
@@ -608,6 +627,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
 
@@ -615,6 +635,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.SeriesThumbImageTag
                 });
 
@@ -622,6 +643,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.ParentThumbImageTag
                 });
 
@@ -629,6 +651,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                     type: "Backdrop",
+                    maxWidth: width,
                     tag: item.ParentBackdropImageTags[0]
                 });
 
