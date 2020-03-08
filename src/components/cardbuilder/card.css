@@ -51,8 +51,39 @@ button::-moz-focus-inner {
 }
 
 .cardScalable {
+    background-color: #202020;
     position: relative;
     contain: layout style;
+}
+
+.cardLoader {
+    background-image: url('../../assets/img/icon-transparent-grey.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 75%;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
+.overflowPortraitCard .cardLoader,
+.portraitCard .cardLoader {
+    height: 80%;
+}
+
+.overflowSquareCard .cardLoader,
+.squareCard .cardLoader {
+    height: 79%;
+}
+
+.overflowBackdropCard .cardLoader {
+    height: 80%;
+    background-size: 40%;
+}
+
+.backdropCard .cardLoader {
+    height: 100%;
+    background-size: 40%;
 }
 
 .cardPadder-backdrop,
@@ -214,8 +245,17 @@ button::-moz-focus-inner {
     font-size: inherit;
 }
 
+.defaultCardBackground1,
+.defaultCardBackground2,
+.defaultCardBackground3,
+.defaultCardBackground4,
+.defaultCardBackground5 {
+    z-index: 2;
+}
+
 .cardContent-button:not(.defaultCardBackground) {
     background-color: transparent;
+    z-index: 2;
 }
 
 .visualCardBox .cardContent {
@@ -780,6 +820,7 @@ button::-moz-focus-inner {
     bottom: 0;
     right: 0;
     user-select: none;
+    z-index: 3;
 }
 
 .card-hoverable:hover .cardOverlayContainer {
