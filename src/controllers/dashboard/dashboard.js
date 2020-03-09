@@ -493,15 +493,15 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             if (nowPlayingItem.ImageTags && nowPlayingItem.ImageTags.Logo) {
                 imgUrl = ApiClient.getScaledImageUrl(nowPlayingItem.Id, {
                     tag: nowPlayingItem.ImageTags.Logo,
-                    maxHeight: 24,
-                    maxWidth: 130,
+                    maxHeight: 24 * window.devicePixelRatio,
+                    maxWidth: 130 * window.devicePixelRatio,
                     type: "Logo"
                 });
             } else if (nowPlayingItem.ParentLogoImageTag) {
                 imgUrl = ApiClient.getScaledImageUrl(nowPlayingItem.ParentLogoItemId, {
                     tag: nowPlayingItem.ParentLogoImageTag,
-                    maxHeight: 24,
-                    maxWidth: 130,
+                    maxHeight: 24 * window.devicePixelRatio,
+                    maxWidth: 130 * window.devicePixelRatio,
                     type: "Logo"
                 });
             }
@@ -636,6 +636,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         getNowPlayingImageUrl: function (item) {
             if (item && item.BackdropImageTags && item.BackdropImageTags.length) {
                 return ApiClient.getScaledImageUrl(item.Id, {
+                    maxWidth: dom.getScreenWidth() * 0.20,
                     type: "Backdrop",
                     tag: item.BackdropImageTags[0]
                 });
@@ -643,6 +644,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
                 return ApiClient.getScaledImageUrl(item.ParentBackdropItemId, {
+                    maxWidth: dom.getScreenWidth() * 0.20,
                     type: "Backdrop",
                     tag: item.ParentBackdropImageTags[0]
                 });
@@ -650,6 +652,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && item.BackdropImageTag) {
                 return ApiClient.getScaledImageUrl(item.BackdropItemId, {
+                    maxWidth: dom.getScreenWidth() * 0.20,
                     type: "Backdrop",
                     tag: item.BackdropImageTag
                 });
@@ -659,6 +662,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && imageTags.Thumb) {
                 return ApiClient.getScaledImageUrl(item.Id, {
+                    maxWidth: dom.getScreenWidth() * 0.20,
                     type: "Thumb",
                     tag: imageTags.Thumb
                 });
@@ -666,6 +670,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && item.ParentThumbImageTag) {
                 return ApiClient.getScaledImageUrl(item.ParentThumbItemId, {
+                    maxWidth: dom.getScreenWidth() * 0.20,
                     type: "Thumb",
                     tag: item.ParentThumbImageTag
                 });
@@ -673,6 +678,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && item.ThumbImageTag) {
                 return ApiClient.getScaledImageUrl(item.ThumbItemId, {
+                    maxWidth: dom.getScreenWidth() * 0.20,
                     type: "Thumb",
                     tag: item.ThumbImageTag
                 });
@@ -680,6 +686,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && imageTags.Primary) {
                 return ApiClient.getScaledImageUrl(item.Id, {
+                    maxWidth: dom.getScreenWidth() * 0.20,
                     type: "Primary",
                     tag: imageTags.Primary
                 });
@@ -687,6 +694,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && item.PrimaryImageTag) {
                 return ApiClient.getScaledImageUrl(item.PrimaryImageItemId, {
+                    maxWidth: dom.getScreenWidth() * 0.20,
                     type: "Primary",
                     tag: item.PrimaryImageTag
                 });
@@ -694,6 +702,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && item.AlbumPrimaryImageTag) {
                 return ApiClient.getScaledImageUrl(item.AlbumId, {
+                    maxWidth: dom.getScreenWidth() * 0.20,
                     type: "Primary",
                     tag: item.AlbumPrimaryImageTag
                 });

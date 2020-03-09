@@ -1818,7 +1818,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             require(["chaptercardbuilder"], function (chaptercardbuilder) {
                 chaptercardbuilder.buildChapterCards(item, chapters, {
                     itemsContainer: scenesContent,
-                    width: 400,
                     backdropShape: "overflowBackdrop",
                     squareShape: "overflowSquare"
                 });
