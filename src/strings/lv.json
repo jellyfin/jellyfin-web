@@ -628,5 +628,10 @@
     "AddToCollection": "Pievienot kolekcijai",
     "Add": "Pievienot",
     "Actor": "Aktieris",
-    "AccessRestrictedTryAgainLater": "Piekļuve pašlaik ir ierobežota. Lūdzu mēģini vēlreiz pēc brīža."
+    "AccessRestrictedTryAgainLater": "Piekļuve pašlaik ir ierobežota. Lūdzu mēģini vēlreiz pēc brīža.",
+    "NewCollection": "Jauna Kolekcija",
+    "Never": "Nekad",
+    "Name": "Nosaukums",
+    "MySubtitles": "Mani subtitri",
+    "MusicVideo": "Mūzikas Video"
 }
