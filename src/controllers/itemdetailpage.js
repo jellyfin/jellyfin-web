@@ -770,48 +770,48 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         if (imageTags.Primary) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Primary",
-                maxWidth: dom.getScreenWidth() * 0.5,
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.ImageTags.Primary
             });
             detectRatio = true;
         } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Backdrop",
-                maxWidth: dom.getScreenWidth() * 0.5,
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.BackdropImageTags[0]
             });
             shape = "thumb";
         } else if (imageTags.Thumb) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
-                maxWidth: dom.getScreenWidth() * 0.5,
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.ImageTags.Thumb
             });
             shape = "thumb";
         } else if (imageTags.Disc) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Disc",
-                maxWidth: dom.getScreenWidth() * 0.5,
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.ImageTags.Disc
             });
             shape = "square";
         } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.AlbumId, {
                 type: "Primary",
-                maxWidth: dom.getScreenWidth() * 0.5,
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.AlbumPrimaryImageTag
             });
             shape = "square";
         } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.SeriesId, {
                 type: "Primary",
-                maxWidth: dom.getScreenWidth() * 0.5,
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.SeriesPrimaryImageTag
             });
         } else if (item.ParentPrimaryImageItemId && item.ParentPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
                 type: "Primary",
-                maxWidth: dom.getScreenWidth() * 0.5,
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.ParentPrimaryImageTag
             });
         }
