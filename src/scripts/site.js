@@ -737,7 +737,8 @@ var AppInfo = {};
                     "libjass",
                     "webcomponents",
                     "material-icons",
-                    "jellyfin-noto"
+                    "jellyfin-noto",
+                    "page"
                 ]
             },
             urlArgs: urlArgs,
@@ -791,7 +792,6 @@ var AppInfo = {};
 
         // TODO remove these libraries
         // all of these have been modified so we need to fix that first
-        define("page", [bowerPath + "/pagejs/page"], returnFirstDependency);
         define("headroom", [componentsPath + "/headroom/headroom"], returnFirstDependency);
         define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("navdrawer", [componentsPath + "/navdrawer/navdrawer"], returnFirstDependency);
