@@ -13,12 +13,10 @@ const mode = require('gulp-mode')({
     modes: ["production", "development"],
     default: "development",
     verbose: false
-  });
+});
 const webpack_stream = require('webpack-stream');
 const inject = require('gulp-inject');
 const postcss = require('gulp-postcss');
-const cssnano = require('cssnano');
-const autoprefixer = require('autoprefixer');
 const sass = require('gulp-sass');
  
 sass.compiler = require('node-sass')
@@ -50,8 +48,8 @@ function serve() {
 
 function setStandalone() {
     return src(['src/standalone.js', 'src/scripts/apploader.js'], {base: './src/'})
-    .pipe(concat('scripts/apploader.js'))
-    .pipe(dest('dist/'));
+        .pipe(concat('scripts/apploader.js'))
+        .pipe(dest('dist/'));
 }
 
 // Clean assets
@@ -61,64 +59,64 @@ function clean() {
 
 function javascript() {
     return src(['src/**/*.js', '!src/bundle.js'], {base: './src/'})
-    .pipe(mode.development(sourcemaps.init({loadMaps: true})))
-    .pipe(babel({
-        presets: [
-            ['@babel/preset-env']
-        ]
-    }))
-    .pipe(terser({
-        keep_fnames: true,
-        mangle: false
-    }))
-    .pipe(mode.development(sourcemaps.write('.')))
-    .pipe(dest('dist/'))
-    .pipe(browserSync.stream());;
+        .pipe(mode.development(sourcemaps.init({loadMaps: true})))
+        .pipe(babel({
+            presets: [
+                ['@babel/preset-env']
+            ]
+        }))
+        .pipe(terser({
+            keep_fnames: true,
+            mangle: false
+        }))
+        .pipe(mode.development(sourcemaps.write('.')))
+        .pipe(dest('dist/'))
+        .pipe(browserSync.stream());
 }
 
 function webpack() {
     return webpack_stream(webpack_config)
-    .pipe(dest('dist/'))
-    .pipe(browserSync.stream());
+        .pipe(dest('dist/'))
+        .pipe(browserSync.stream());
 }
 
 function css() {
     return src(['src/**/*.css', 'src/**/*.scss'], {base: './src/'})
-    .pipe(mode.development(sourcemaps.init({loadMaps: true})))
-    .pipe(sass().on('error', sass.logError))
-    .pipe(postcss())
-    .pipe(mode.development(sourcemaps.write('.')))
-    .pipe(dest('dist/'))
-    .pipe(browserSync.stream());
+        .pipe(mode.development(sourcemaps.init({loadMaps: true})))
+        .pipe(sass().on('error', sass.logError))
+        .pipe(postcss())
+        .pipe(mode.development(sourcemaps.write('.')))
+        .pipe(dest('dist/'))
+        .pipe(browserSync.stream());
 }
 
 function html() {
     return src(['src/**/*.html', '!src/index.html'], {base: './src/'})
-    .pipe(mode.production(htmlmin({ collapseWhitespace: true })))
-    .pipe(dest('dist/'))
-    .pipe(browserSync.stream());
+        .pipe(mode.production(htmlmin({ collapseWhitespace: true })))
+        .pipe(dest('dist/'))
+        .pipe(browserSync.stream());
 }
 
 function images() {
     return src(['src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg'], {base: './src/'})
-    .pipe(imagemin())
-    .pipe(dest('dist/'))
-    .pipe(browserSync.stream());
+        .pipe(imagemin())
+        .pipe(dest('dist/'))
+        .pipe(browserSync.stream());
 }
 
 function copy() {
     return src(['src/**/*.json', 'src/**/*.ico'], {base: './src/'})
-    .pipe(dest('dist/'))
-    .pipe(browserSync.stream());
+        .pipe(dest('dist/'))
+        .pipe(browserSync.stream());
 }
 
 function injectBundle() {
     return src('src/index.html', {base: './src/'})
-    .pipe(inject(
-        src(['src/scripts/apploader.js'], {read: false}, {base: './src/'}), {relative: true}
-    ))
-    .pipe(dest('dist/'))
-    .pipe(browserSync.stream());
+        .pipe(inject(
+            src(['src/polyfill.js', 'src/scripts/apploader.js'], {read: false}, {base: './src/'}), {relative: true}
+        ))
+        .pipe(dest('dist/'))
+        .pipe(browserSync.stream());
 }
 
 exports.default = series(clean, parallel(javascript, webpack, css, html, images, copy), injectBundle)
