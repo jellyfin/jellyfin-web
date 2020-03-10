@@ -1484,7 +1484,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         function getDefaultText(item, options) {
             if (item.CollectionType) {
-                return '<i class="cardImageIcon material-icons">' + imageHelper.getLibraryIcon(item.CollectionType) + '</i>'
+                return '<i class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '"></i>'
             }
 
             switch (item.Type) {
