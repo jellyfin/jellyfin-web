@@ -58,7 +58,7 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom', 'apphost'], funct
             sourceElement = focusManager.focusableParent(sourceElement);
         }
 
-        sourceElement = sourceElement || document.activeElement || window;
+        sourceElement = sourceElement || document.querySelector('.dialogContainer .dialog.opened') || document.activeElement || window;
 
         if (eventListenerCount) {
             var customEvent = new CustomEvent("command", {
