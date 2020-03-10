@@ -92,8 +92,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
 
     function setTaskButtonIcon(button, icon) {
         var inner = button.querySelector("i");
-        inner.classList.remove("stop");
-        inner.classList.remove("play_arrow");
+        inner.classList.remove("stop", "play_arrow");
         inner.classList.add(icon);
     }
 
