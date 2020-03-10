@@ -768,7 +768,7 @@
     "AllowMediaConversion": "Permitir conversão multimédia",
     "AllowMediaConversionHelp": "Permitir ou negar acesso à funcionalidade de conversão multimédia.",
     "AllowOnTheFlySubtitleExtraction": "Permitir a extração de legendas em tempo real",
-    "AllowOnTheFlySubtitleExtractionHelp": "Legendas integradas podem ser extraídas do vídeo e enviadas como texto simples para os clientes para evitar transcodificação. Em certos dispositivos,  é uma operação demorada e pode causar paragens de reprodução durante o processo de extração. Desative esta opção para que as legendas sejam integradas no vídeo durante a conversão para um formato suportado pelo dispositivo de destino.",
+    "AllowOnTheFlySubtitleExtractionHelp": "Legendas integradas podem ser extraídas do vídeo e enviadas como texto simples para os clientes para evitar transcodificação. Em certos dispositivos, esta poderá ser uma operação demorada e pode causar paragens de reprodução durante o processo de extração. Desative esta opção para que as legendas sejam integradas no vídeo durante a conversão para um formato suportado pelo dispositivo de destino.",
     "AllowRemoteAccess": "Permitir ligações remotas a este Jellyfin Server.",
     "AllowRemoteAccessHelp": "Se inativo, todas as ligações remotas serão bloqueadas.",
     "AllowedRemoteAddressesHelp": "Lista de IP ou IP/Máscara, separados por vírgulas, com permissão para se ligar remotamente. Se deixado em branco, todos os endereços remotos serão permitidos.",
