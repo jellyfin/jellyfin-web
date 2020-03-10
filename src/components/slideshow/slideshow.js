@@ -70,7 +70,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         var tabIndex = canFocus ? '' : ' tabindex="-1"';
         autoFocus = autoFocus ? ' autofocus' : '';
-        return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><i class="material-icons slideshowButtonIcon">' + icon + '</i></button>';
+        return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><i class="material-icons slideshowButtonIcon ' + icon + '"></i></button>';
     }
 
     function setUserScalable(scalable) {
@@ -201,14 +201,16 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         function onAutoplayStart() {
             var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
             if (btnSlideshowPause) {
-                btnSlideshowPause.innerHTML = "pause";
+                btnSlideshowPause.classList.remove("play_arrow");
+                btnSlideshowPause.classList.add("pause");
             }
         }
 
         function onAutoplayStop() {
             var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
             if (btnSlideshowPause) {
-                btnSlideshowPause.innerHTML = "&#xE037;";
+                btnSlideshowPause.classList.remove("pause");
+                btnSlideshowPause.classList.add("play_arrow");
             }
         }
 
@@ -365,8 +367,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         }
 
         function playPause() {
-
-            var paused = dlg.querySelector('.btnSlideshowPause i').innerHTML !== "pause";
+            var paused = !dlg.querySelector('.btnSlideshowPause i').classList.contains("pause");
             if (paused) {
                 play();
             } else {
