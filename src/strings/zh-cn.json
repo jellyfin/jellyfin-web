@@ -1,5 +1,5 @@
 {
-    "AccessRestrictedTryAgainLater": "访问目前受限。请稍后再试。",
+    "AccessRestrictedTryAgainLater": "目前访问受限。请稍后再试。",
     "Actor": "演员",
     "Add": "添加",
     "AddItemToCollectionHelp": "通过搜索并使用鼠标右键单击或点击菜单将项目添加到集合中, 将项目添加到集合中。",
@@ -1473,6 +1473,6 @@
     "NoCreatedLibraries": "看上去您还未创建任何资料库。{0} 您想现在创建一个吗？ {1}",
     "AskAdminToCreateLibrary": "请联系管理员以创建一个新的资料库。",
     "PlaybackErrorNoCompatibleStream": "客户端配置文件存在问题，服务器未发送兼容的媒体格式。",
-    "AllowFfmpegThrottlingHelp": "当转码或remux距离当前播放位置足够远时，请暂停该进程，以减少资源消耗。 在不经常观看的情况下最有用。 如果遇到播放问题，请关闭此功能。",
-    "AllowFfmpegThrottling": "节流转码"
+    "AllowFfmpegThrottlingHelp": "当转码或再封装的进度大幅超过当前播放位置时，暂停该进程，以使其消耗更少的资源。在观看时不经常调整播放进度的情况下，这将非常有用。如果遇到播放问题，请关闭此功能。",
+    "AllowFfmpegThrottling": "限制转码速度"
 }
