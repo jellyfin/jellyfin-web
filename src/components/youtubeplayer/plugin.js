@@ -1,5 +1,6 @@
 define(['require', 'events', 'browser', 'appRouter', 'loading'], function (require, events, browser, appRouter, loading) {
     "use strict";
+    /* globals YT */
 
     function zoomIn(elem, iterations) {
         var keyframes = [

@@ -1143,7 +1143,7 @@
     "HeaderApp": "Appka",
     "HeaderApiKeysHelp": "Externé aplikácie musia mať vlastný API kľúč, aby mohli komunikovať s Jellyfin Serverom. Kľúče sú vydávané pomocou prihlásenia sa cez Jellyfin účet alebo manuálnym priradením kľúča aplikácií.",
     "HeaderAdditionalParts": "Dodatočné časti",
-    "HardwareAccelerationWarning": "Povolenie hardvérovej akcelerácie môže spôsobiť nestabilitu v niektorých podmienkach. Uistite sa, že váš operačný systém a grafické ovládače sú plne aktualizované. Pokiaľ máte po zapnutí problémy s prehrávaním videa, budete musieť zmeniť nastavenie späť na Auto.",
+    "HardwareAccelerationWarning": "Povolenie hardvérovej akcelerácie môže spôsobiť nestabilitu v niektorých podmienkach. Uistite sa, že váš operačný systém a grafické ovládače sú plne aktualizované. Pokiaľ máte po zapnutí problémy s prehrávaním videa, budete musieť zmeniť nastavenie späť na Žiadne.",
     "AddItemToCollectionHelp": "Pridať položku do kolekcie jej vyhľadaním a použitím pravého tlačítka myši alebo kliknutím na tlačidlo ponuky a pridať do kolekcie.",
     "HandledByProxy": "Spracované pomocou reverznej proxy",
     "EncoderPresetHelp": "Vyberte hodnotu faster pre zlepšenie výkonu alebo hodnotu slower pre zlepšenie kvality.",
@@ -1444,7 +1444,7 @@
     "LabelEnableDlnaDebugLogging": "Povoliť loggovanie DLNA debugu",
     "LabelEnableDlnaClientDiscoveryIntervalHelp": "Určuje dobu trvania v sekundách medzi SSDP vyhľadávaniami vykonanými Jellyfinom.",
     "LabelEnableDlnaClientDiscoveryInterval": "Interval pre objavenie klienta (sekundy)",
-    "LabelEnableAutomaticPortMapHelp": "Pokus o automatické namapovanie vejerného portu na lokálny port cez UPnP. Toto nemusí fungovať so všetkými modelmi routerov.",
+    "LabelEnableAutomaticPortMapHelp": "Pokus o automatické namapovanie vejerného portu na lokálny port cez UPnP. Toto nemusí fungovať so všetkými modelmi routerov. Zmeny sa vykonajú až po reštarte servera.",
     "LabelEmbedAlbumArtDidlHelp": "Niektoré zariadenia preferujú túto metódu pre získavanie obrázku albumu. Ostatným môže zlyhať prehrávanie pokiaľ je táto možnosť povolená.",
     "LabelBlastMessageIntervalHelp": "Určuje dobu v sekundách medzi vysielaniami správ o serveri.",
     "LabelBindToLocalNetworkAddressHelp": "Voliteľné. Prepísať lokálnu IP adresu viazanú na http server. Pokiaľ zostane prázdna, server sa naviaže na všetky dostupné adresy. Pri zmene tejto hodnoty sa vyžaduje reštart Jellyfin Servera.",
@@ -1465,5 +1465,10 @@
     "LabelDroppedFrames": "Vynechané snímky:",
     "LabelCorruptedFrames": "Poškodené snímky:",
     "CopyStreamURLError": "Pri kopírovaní URL nastala chyba.",
-    "OptionForceRemoteSourceTranscoding": "Vynútiť transkódovanie vzdialených mediálnych zdrojov (ako napr. živá TV)"
+    "OptionForceRemoteSourceTranscoding": "Vynútiť transkódovanie vzdialených mediálnych zdrojov (ako napr. živá TV)",
+    "NoCreatedLibraries": "Vyzerá to tak, že ste zatiaľ nevytvorili žiadnu knižnicu. {0}Chceli by ste nejakú vytvoriť teraz?{1}",
+    "AskAdminToCreateLibrary": "Pokiaľ chcete vytvoriť knižnicu, musíte sa spýtať administrátora.",
+    "PlaybackErrorNoCompatibleStream": "Nastal problém s profilom klienta a server preto neposiela kompatibilný mediálny formát.",
+    "AllowFfmpegThrottlingHelp": "Keď sa transkódovanie alebo remuxovanie dostane do bodu, kedy je dostatočne vopred voči súčasnej polohe prehrávania, pozastaví proces aby spotrebovával menej zdrojov. Toto je najviac užitočné, keď sa pozerá obsah bez pretáčania. Vypnite túto možnosť, pokiaľ má vaše prehrávanie problémy.",
+    "AllowFfmpegThrottling": "Obmedzenie transkódovania"
 }

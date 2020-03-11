@@ -47,7 +47,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         };
         reader.onabort = function () {
             loading.hide();
-            console.log('File read cancelled');
+            console.debug('File read cancelled');
         };
 
         // Closure to capture the file information.

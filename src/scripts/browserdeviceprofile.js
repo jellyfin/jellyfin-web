@@ -92,7 +92,7 @@ define(['browser'], function (browser) {
             return true;
         }
 
-        if (!!videoTestElement.canPlayType) {
+        if (videoTestElement.canPlayType) {
             return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-3"').replace(/no/, '') ||
                 videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-3"').replace(/no/, '');
         }
@@ -302,9 +302,9 @@ define(['browser'], function (browser) {
             try {
                 var isTizenUhd = webapis.productinfo.isUdPanelSupported();
                 isTizenFhd = !isTizenUhd;
-                console.log("isTizenFhd = " + isTizenFhd);
+                console.debug("isTizenFhd = " + isTizenFhd);
             } catch (error) {
-                console.log("isUdPanelSupported() error code = " + error.code);
+                console.error("isUdPanelSupported() error code = " + error.code);
             }
         }
 

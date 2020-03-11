@@ -122,7 +122,7 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
                 confirm(msg, globalize.translate("HeaderConfirmPluginInstallation")).then(function () {
                     alertCallback();
                 }, function () {
-                    console.log('plugin not installed');
+                    console.debug('plugin not installed');
                 });
             });
         } else {

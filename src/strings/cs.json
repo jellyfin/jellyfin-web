@@ -554,7 +554,7 @@
     "LabelH264Crf": "H264 kódování CRF:",
     "LabelEncoderPreset": "Přednastavení H264 kódování:",
     "LabelHardwareAccelerationType": "Hardwarová akcelerace:",
-    "LabelHardwareAccelerationTypeHelp": "Toto je experimentální funkce dostupná pouze v podporovaných systémech.",
+    "LabelHardwareAccelerationTypeHelp": "Hardwarová akcelerace vyžaduje další konfiguraci.",
     "LabelHomeScreenSectionValue": "Sekce domovské obrazovky {0}:",
     "LabelHttpsPort": "Lokální HTTPS port:",
     "LabelHttpsPortHelp": "Číslo portu TCP, ke kterému by se měl připojit HTTPS server Jellyfin.",
@@ -1567,5 +1567,8 @@
     "EnableFastImageFadeIn": "Rychlé zmizení obrazu",
     "LabelPlayerDimensions": "Zobrazené rozlišení:",
     "LabelDroppedFrames": "Vynechané snímky:",
-    "LabelCorruptedFrames": "Poškozené snímky:"
+    "LabelCorruptedFrames": "Poškozené snímky:",
+    "OptionForceRemoteSourceTranscoding": "Vynutit transkódování vzdálených zdrojů médií (jako např. živá TV)",
+    "NoCreatedLibraries": "Zdá se, že jste dosud nevytvořili žádnou knihovnu. {0}Chtěli byste nějakou vytvořit nyní?{1}",
+    "AskAdminToCreateLibrary": "Požádejte administrátora o vytvoření knihovny."
 }

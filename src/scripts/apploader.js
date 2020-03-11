@@ -19,11 +19,23 @@
         document.head.appendChild(script);
     }
 
-    injectScriptElement(
-        self.Promise ? "./libraries/alameda.js" : "./libraries/require.js",
-        function() {
-            // onload of require library
-            injectScriptElement("./scripts/site.js");
-        }
-    );
+    function loadSite() {
+        injectScriptElement(
+            "./libraries/alameda.js",
+            function() {
+                // onload of require library
+                injectScriptElement("./scripts/site.js");
+            }
+        );
+    }
+
+    if (!self.Promise) {
+        // Load Promise polyfill if they are not natively supported
+        injectScriptElement(
+            "./libraries/npo.js",
+            loadSite
+        );
+    } else {
+        loadSite();
+    }
 })();

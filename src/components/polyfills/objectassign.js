@@ -11,6 +11,7 @@ if (typeof Object.assign != 'function') {
                 var source = arguments[index];
                 if (source !== undefined && source !== null) {
                     for (var nextKey in source) {
+                        // eslint-disable-next-line no-prototype-builtins
                         if (source.hasOwnProperty(nextKey)) {
                             output[nextKey] = source[nextKey];
                         }

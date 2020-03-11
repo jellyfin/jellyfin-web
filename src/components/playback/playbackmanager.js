@@ -57,7 +57,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
         }
 
-        //console.log(method + '-' + JSON.stringify(info));
+        console.debug(method + '-' + JSON.stringify(info));
         var apiClient = connectionManager.getApiClient(serverId);
         apiClient[method](info);
     }
@@ -1097,7 +1097,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             currentTargetInfo = targetInfo;
 
             if (targetInfo) {
-                console.log('Active player: ' + JSON.stringify(targetInfo));
+                console.debug('Active player: ' + JSON.stringify(targetInfo));
             }
 
             if (player && player.isLocalPlayer) {
@@ -2901,7 +2901,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             if (newItemInfo) {
 
-                console.log('playing next track');
+                console.debug('playing next track');
 
                 var newItemPlayOptions = newItemInfo.item.playOptions || getDefaultPlayOptions();
 
@@ -3191,7 +3191,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             // medianotsupported
             var errorType = error.type;
 
-            console.log('playbackmanager playback error type: ' + (errorType || ''));
+            console.debug('playbackmanager playback error type: ' + (errorType || ''));
 
             var streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
 
@@ -3474,7 +3474,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         function getLiveStreamMediaInfo(player, streamInfo, mediaSource, liveStreamId, serverId) {
 
-            console.log('getLiveStreamMediaInfo');
+            console.debug('getLiveStreamMediaInfo');
 
             streamInfo.lastMediaInfoQuery = new Date().getTime();
 
@@ -4034,7 +4034,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     };
 
     PlaybackManager.prototype.sendCommand = function (cmd, player) {
-        console.log('MediaController received command: ' + cmd.Name);
+        console.debug('MediaController received command: ' + cmd.Name);
         switch (cmd.Name) {
             case 'SetRepeatMode':
                 this.setRepeatMode(cmd.Arguments.RepeatMode, player);

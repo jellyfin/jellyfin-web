@@ -34,7 +34,7 @@ define(["layoutManager", "datetime", "cardBuilder", "apphost"], function (layout
                         day: "numeric"
                     });
                 } catch (err) {
-                    console.log("Error parsing premiereDate:" + item.StartDate + "; error: " + err);
+                    console.error("error parsing premiereDate:" + item.StartDate + "; error: " + err);
                 }
             }
 

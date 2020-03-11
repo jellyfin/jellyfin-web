@@ -4,6 +4,7 @@ define([], function () {
     'use strict';
 
     var illegalRe = /[\/\?<>\\:\*\|":]/g;
+    // eslint-disable-next-line no-control-regex
     var controlRe = /[\x00-\x1f\x80-\x9f]/g;
     var reservedRe = /^\.+$/;
     var windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;

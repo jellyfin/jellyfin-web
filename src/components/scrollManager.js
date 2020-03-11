@@ -33,6 +33,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         var elem = document.createElement("div");
 
         var opts = Object.defineProperty({}, "behavior", {
+            // eslint-disable-next-line getter-return
             get: function () {
                 supportsScrollToOptions = true;
             }
@@ -40,7 +41,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
 
         elem.scrollTo(opts);
     } catch (e) {
-        console.log("error checking ScrollToOptions support");
+        console.error("error checking ScrollToOptions support");
     }
 
     /**

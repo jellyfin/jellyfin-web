@@ -98,15 +98,22 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
         }
     }
 
+    function setIcon(iconElement, icon) {
+        iconElement.classList.remove('brightness_high');
+        iconElement.classList.remove('brightness_medium');
+        iconElement.classList.remove('brightness_low');
+        iconElement.classList.add(icon);
+    }
+
     function updateElementsFromPlayer(brightness) {
 
         if (iconElement) {
             if (brightness >= 80) {
-                iconElement.innerHTML = '&#xE1AC;';
+                setIcon(iconElement, 'brightness_high');
             } else if (brightness >= 20) {
-                iconElement.innerHTML = '&#xE1AE;';
+                setIcon(iconElement, 'brightness_medium');
             } else {
-                iconElement.innerHTML = '&#xE1AD;';
+                setIcon(iconElement, 'brightness_low');
             }
         }
         if (progressElement) {

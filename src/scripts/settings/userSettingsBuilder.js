@@ -269,5 +269,5 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return this.get(key, true);
     };
 
-    return new UserSettings();
+    return UserSettings;
 });

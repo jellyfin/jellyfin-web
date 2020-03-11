@@ -290,7 +290,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         html += '</div>';
 
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
             html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
@@ -343,7 +343,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         if (userViews.length) {
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
             if (enableScrollX()) {
-                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
                 html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
             } else {
                 html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right focuscontainer-x vertical-wrap">';
@@ -423,7 +423,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
             html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
@@ -496,7 +496,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
             html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="audioplayback,markplayed">';
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="audioplayback,markplayed">';
@@ -582,7 +582,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 html += '</div>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true" data-scrollbuttons="false">';
+                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true" data-scrollbuttons="false">';
                     html += '<div class="padded-top padded-bottom scrollSlider focuscontainer-x">';
                 } else {
                     html += '<div class="padded-top padded-bottom focuscontainer-x">';
@@ -639,7 +639,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                 html += '</div>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
                     html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">'
                 } else {
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
@@ -713,7 +713,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         html += '</div>';
 
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
             html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">'
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
@@ -785,7 +785,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         html += '</div>';
 
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
             html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">'
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';

@@ -1,4 +1,4 @@
-define(["subtitleSettings", "userSettings", "autoFocuser"], function (SubtitleSettings, currentUserSettings, autoFocuser) {
+define(["subtitleSettings", "userSettingsBuilder", "userSettings", "autoFocuser"], function (SubtitleSettings, userSettingsBuilder, currentUserSettings, autoFocuser) {
     "use strict";
 
     return function (view, params) {
@@ -11,7 +11,7 @@ define(["subtitleSettings", "userSettings", "autoFocuser"], function (SubtitleSe
         var subtitleSettingsInstance;
         var hasChanges;
         var userId = params.userId || ApiClient.getCurrentUserId();
-        var userSettings = userId === ApiClient.getCurrentUserId() ? currentUserSettings : new userSettings();
+        var userSettings = userId === ApiClient.getCurrentUserId() ? currentUserSettings : new userSettingsBuilder();
         view.addEventListener("viewshow", function () {
             window.addEventListener("beforeunload", onBeforeUnload);
 
