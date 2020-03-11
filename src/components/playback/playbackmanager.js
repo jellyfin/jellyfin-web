@@ -279,38 +279,68 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             includeItemTypes: "Movie"
         };
 
-        function getAllTrailers(item) {
-            if (item.LocalTrailerCount) {
-                return apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id);
-            } else {
-                var remoteTrailers = item.RemoteTrailers || [];
+        function getRemoteTrailers(item) {
+            var remoteTrailers = item.RemoteTrailers || [];
 
-                if (!remoteTrailers.length) {
-                    return Promise.reject();
-                }
-
-                return remoteTrailers.map(function (t) {
-                    return {
-                        Name: t.Name || (item.Name + ' Trailer'),
-                        Url: t.Url,
-                        MediaType: 'Video',
-                        Type: 'Trailer',
-                        ServerId: apiClient.serverId()
-                    };
-                });
+            if (!remoteTrailers.length) {
+                return [];
             }
+
+            return remoteTrailers.map(function (t) {
+                return {
+                    Name: t.Name || (item.Name + ' Trailer'),
+                    Url: t.Url,
+                    MediaType: 'Video',
+                    Type: 'Trailer',
+                    ServerId: apiClient.serverId()
+                };
+            });
         }
 
-        return apiClient.getItems(apiClient.getCurrentUserId(), fetchOptions).then(function (unwatchedMoves) {
+        function getLocalTrailers(item) {
+            if (item.LocalTrailerCount) {
+                apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(function (trailers) {
+                    if (!trailers.length) return [];
+                    return trailers;
+                });
+            }
+            return [];
+        }
+
+        return apiClient.getItems(apiClient.getCurrentUserId(), fetchOptions).then(function (unwatchedMovies) {
+            // ensures that there are never fewer unwatched movies than there should be trailers
+            if (unwatchedMovies.Items.length < trailerCount) {
+                trailerCount = unwatchedMovies.Items.length;
+            }
+
             var randomTrailers = [];
+            var indexHistory = [];
 
             for (var i=0; i < trailerCount; i++) {
-                var index = Math.floor(Math.random() * unwatchedMoves.Items.length);
-                var randomMovie = unwatchedMoves.Items[index];
-                var trailer = getAllTrailers(randomMovie)[0];
-                if (trailer != null) {
-                    randomTrailers.push(trailer);
+                // get random movies that hasn't been selected
+                var index = Math.floor(Math.random() * unwatchedMovies.Items.length);
+                while (indexHistory.includes(index)) {
+                    index = Math.floor(Math.random() * unwatchedMovies.Items.length);
                 }
+                indexHistory.push(index);
+                var randomMovie = unwatchedMovies.Items[index];
+
+                // get local and remote trailers in one array
+                var trailers = getLocalTrailers(randomMovie);
+                var remoteTrailers = getRemoteTrailers(randomMovie);
+                trailers.push.apply(trailers, remoteTrailers);
+
+                // don't count the movie to the trailer count if it has no trailers
+                if (!trailers.length) {
+                    i--;
+                    continue;
+                }
+
+                // select a random trailer from the array of local and remote trailers
+                var ind = Math.floor(Math.random() * trailers.length);
+                var trailer = trailers[ind];
+
+                randomTrailers.push(trailer);
             }
 
             return {"Items": randomTrailers};
