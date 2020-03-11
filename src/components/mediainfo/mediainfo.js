@@ -385,13 +385,15 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
     }
 
     function MinsToHumanStr(mins) {
-      function AddLeadingZeros(str, count) {
-        var res = str + "";
-        while (res.length < count) { res = "0" + res; }
-        return res;
-      }
+        function AddLeadingZeros(str, count) {
+            var res = str + "";
+            while (res.length < count) {
+                res = "0" + res;
+            }
+            return res;
+        }
 
-      return AddLeadingZeros(Math.floor(mins / 60), 2) + "h" + AddLeadingZeros((mins % 60), 2) + "m";
+        return AddLeadingZeros(Math.floor(mins / 60), 2) + "h" + AddLeadingZeros((mins % 60), 2) + "m";
     }
 
     function getStarIconsHtml(item) {
