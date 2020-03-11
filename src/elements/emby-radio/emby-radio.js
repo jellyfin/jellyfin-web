@@ -9,7 +9,13 @@ define(['css!./emby-radio', 'registerElement'], function () {
         if (e.keyCode === 13) {
             e.preventDefault();
 
-            this.checked = true;
+            if (!this.checked) {
+                this.checked = true;
+
+                this.dispatchEvent(new CustomEvent('change', {
+                    bubbles: true
+                }));
+            }
 
             return false;
         }
