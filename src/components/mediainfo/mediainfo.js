@@ -284,7 +284,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
                 minutes = minutes || 1;
 
-                miscInfo.push(Math.round(minutes) + " mins");
+                miscInfo.push(MinsToHumanStr(Math.round(minutes)));
             }
         }
 
@@ -382,6 +382,16 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
             cssClass += ' ' + m.cssClass;
         }
         return '<div class="' + cssClass + '">' + mediaInfoText + '</div>';
+    }
+
+    function MinsToHumanStr(mins) {
+      function AddLeadingZeros(str, count) {
+        var res = str + "";
+        while (res.length < count) { res = "0" + res; }
+        return res;
+      }
+
+      return AddLeadingZeros(Math.floor(mins / 60), 2) + "h" + AddLeadingZeros((mins % 60), 2) + "m";
     }
 
     function getStarIconsHtml(item) {
