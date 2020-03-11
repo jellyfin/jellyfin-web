@@ -2,7 +2,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
     function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, playbackManager, itemShortcuts, imageHelper) {
         'use strict';
 
-        var devicePixelRatio = window.devicePixelRatio || 1;
         var enableFocusTransform = !browser.slow && !browser.edge;
 
         function getCardsHtml(items, options) {
@@ -592,7 +591,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 });
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
-                width = primaryImageAspectRatio ? Math.round(height * primaryImageAspectRatio) : null;
+                height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.AlbumId, {
                     type: "Primary",

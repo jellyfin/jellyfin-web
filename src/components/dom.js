@@ -114,8 +114,8 @@ define([], function () {
 
     var standardWidths = [480, 720, 1280, 1440, 1920, 2560, 3840, 5120, 7680];
     function getScreenWidth() {
-        var width = window.innerWidth * window.devicePixelRatio;
-        var height = window.innerHeight * window.devicePixelRatio;
+        var width = window.innerWidth;
+        var height = window.innerHeight;
 
         if (height > width) {
             /* If we're in portrait, compute the proper width for this height,

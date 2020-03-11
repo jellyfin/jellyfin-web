@@ -493,15 +493,15 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             if (nowPlayingItem.ImageTags && nowPlayingItem.ImageTags.Logo) {
                 imgUrl = ApiClient.getScaledImageUrl(nowPlayingItem.Id, {
                     tag: nowPlayingItem.ImageTags.Logo,
-                    maxHeight: 24 * window.devicePixelRatio,
-                    maxWidth: 130 * window.devicePixelRatio,
+                    maxHeight: 24,
+                    maxWidth: 130,
                     type: "Logo"
                 });
             } else if (nowPlayingItem.ParentLogoImageTag) {
                 imgUrl = ApiClient.getScaledImageUrl(nowPlayingItem.ParentLogoItemId, {
                     tag: nowPlayingItem.ParentLogoImageTag,
-                    maxHeight: 24 * window.devicePixelRatio,
-                    maxWidth: 130 * window.devicePixelRatio,
+                    maxHeight: 24,
+                    maxWidth: 130,
                     type: "Logo"
                 });
             }

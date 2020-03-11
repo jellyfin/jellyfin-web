@@ -88,7 +88,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
 
         if (user.PrimaryImageTag) {
             imgUrl = ApiClient.getUserImageUrl(user.Id, {
-                width: 300 * window.devicePixelRatio,
+                width: 300,
                 tag: user.PrimaryImageTag,
                 type: "Primary"
             });

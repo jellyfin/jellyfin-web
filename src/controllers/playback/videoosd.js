@@ -334,24 +334,24 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             if (item) {
                 var imgUrl = seriesImageUrl(item, {
-                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Primary"
                 }) || seriesImageUrl(item, {
-                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Thumb"
                 }) || imageUrl(item, {
-                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Primary"
                 });
 
                 if (!imgUrl && secondaryItem && (imgUrl = seriesImageUrl(secondaryItem, {
-                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Primary"
                 }) || seriesImageUrl(secondaryItem, {
-                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Thumb"
                 }) || imageUrl(secondaryItem, {
-                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Primary"
                 })), imgUrl) {
                     return void (osdPoster.innerHTML = '<img src="' + imgUrl + '" />');
