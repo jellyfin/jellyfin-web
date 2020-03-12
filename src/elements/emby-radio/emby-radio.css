@@ -53,7 +53,7 @@
     cursor: auto;
 }
 
-.mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__outer-circle {
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__outer-circle {
     color: #00a4dc;
 }
 
@@ -80,7 +80,7 @@
     color: rgba(0, 0, 0, 0.26);
 }
 
-.mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__inner-circle {
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__inner-circle {
     color: #00a4dc;
 }
 
@@ -103,7 +103,7 @@
     transform: scale(0);
 }
 
-.mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__focus-circle {
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__focus-circle {
     -webkit-transform: scale(1.75);
     transform: scale(1.75);
 }

@@ -1,4 +1,4 @@
-define(['css!./emby-radio', 'registerElement'], function () {
+define(['layoutManager', 'css!./emby-radio', 'registerElement'], function (layoutManager) {
     'use strict';
 
     var EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
@@ -23,6 +23,7 @@ define(['css!./emby-radio', 'registerElement'], function () {
     }
 
     EmbyRadioPrototype.attachedCallback = function () {
+        var showFocus = !layoutManager.mobile;
 
         if (this.getAttribute('data-radio') === 'true') {
             return;
@@ -37,6 +38,9 @@ define(['css!./emby-radio', 'registerElement'], function () {
         labelElement.classList.add('mdl-radio');
         labelElement.classList.add('mdl-js-radio');
         labelElement.classList.add('mdl-js-ripple-effect');
+        if (showFocus) {
+            labelElement.classList.add('show-focus');
+        }
 
         var labelTextElement = labelElement.querySelector('span');
 
@@ -57,7 +61,9 @@ define(['css!./emby-radio', 'registerElement'], function () {
         html += '<circle class="mdl-radio__inner-circle" cx="50%" cy="50%" r="25%" fill="currentcolor" />';
         html += '</svg>';
 
-        html += '<div class="mdl-radio__focus-circle"></div>';
+        if (showFocus) {
+            html += '<div class="mdl-radio__focus-circle"></div>';
+        }
 
         html += '</div>';
 
