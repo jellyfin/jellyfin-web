@@ -570,7 +570,7 @@
     "LabelEmbedAlbumArtDidl": "Intégrer les images d'album dans le DIDL",
     "LabelEmbedAlbumArtDidlHelp": "Certains appareils préfèrent cette méthode pour obtenir les images d'album. D'autres peuvent échouer à lire avec cette option activée.",
     "LabelEnableAutomaticPortMap": "Autoriser le mapping automatique de port",
-    "LabelEnableAutomaticPortMapHelp": "Essayer de mapper automatiquement le port public au port local via UPnP. Cela peut ne pas fonctionner avec certains modèles de routeurs.",
+    "LabelEnableAutomaticPortMapHelp": "Essayer de mapper automatiquement le port public au port local via UPnP. Cela peut ne pas fonctionner avec certains modèles de routeurs. La modification de ce paramètre ne sera effective qu’après redémarrage du serveur.",
     "LabelEnableBlastAliveMessages": "Diffuser des message de présence",
     "LabelEnableBlastAliveMessagesHelp": "Activer cette option si le serveur n'est pas détecté de manière fiable par les autres appareils UPnP sur votre réseau.",
     "LabelEnableDlnaClientDiscoveryInterval": "Intervalle de découverte des clients (secondes)",
@@ -1468,5 +1468,6 @@
     "CopyStreamURLError": "Il y a eu une erreur lors de la copie du URL.",
     "AskAdminToCreateLibrary": "Demander à un administrateur de créer une médiathèque.",
     "AllowFfmpegThrottlingHelp": "Quand le transcodage ou le remultiplexage est suffisamment loin de la position de lecture, le processus se mettra en pause afin d’économiser des ressources. Plus utile lors d’une lecture continue. À désactiver en cas de problèmes de lecture.",
-    "AllowFfmpegThrottling": "Adapter la Vitesse du Transcodage"
+    "AllowFfmpegThrottling": "Adapter la Vitesse du Transcodage",
+    "NoCreatedLibraries": "Il semblerait que vous n’ayez pas encore créé de médiathèque. {0}Voulez-vous en créer une tout de suite ?{1}"
 }
