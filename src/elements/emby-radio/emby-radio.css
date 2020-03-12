@@ -46,6 +46,7 @@
     top: 0;
     left: 0;
     z-index: 1;
+    overflow: visible;
 }
 
 .mdl-radio__button:disabled + .mdl-radio__circles {
