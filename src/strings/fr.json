@@ -262,7 +262,7 @@
     "EncoderPresetHelp": "Choisissez une valeur plus rapide pour améliorer la performance, ou plus lente pour améliorer la qualité.",
     "HDPrograms": "Programmes HD",
     "HandledByProxy": "Gérée par un proxy inverse",
-    "HardwareAccelerationWarning": "L'activation de l'accélération matérielle peut provoquer une instabilité dans certains environnements. Assurez-vous que votre système d'exploitation et vos pilotes vidéo sont complètement à jour. Si vous avez des difficultés pour lire des vidéos après l'activation, vous devrez remettre ce paramètre sur Auto.",
+    "HardwareAccelerationWarning": "L'activation de l'accélération matérielle peut provoquer une instabilité dans certains environnements. Assurez-vous que votre système d'exploitation et vos pilotes vidéo sont complètement à jour. Si vous avez des difficultés pour lire des vidéos après l'activation, vous devrez remettre ce paramètre sur Aucun.",
     "HeaderAccessSchedule": "Programme d'Accès",
     "HeaderAccessScheduleHelp": "Créez un programme d'accès pour limiter l'accès à certaines heures.",
     "HeaderActiveDevices": "Appareils actifs",
@@ -1465,5 +1465,8 @@
     "LabelPlayerDimensions": "Dimension du lecteur",
     "LabelDroppedFrames": "Cadre informatique oublié",
     "LabelCorruptedFrames": "Cadre informatique corrompu",
-    "CopyStreamURLError": "Il y a eu une erreur lors de la copie du URL."
+    "CopyStreamURLError": "Il y a eu une erreur lors de la copie du URL.",
+    "AskAdminToCreateLibrary": "Demander à un administrateur de créer une médiathèque.",
+    "AllowFfmpegThrottlingHelp": "Quand le transcodage ou le remultiplexage est suffisamment loin de la position de lecture, le processus se mettra en pause afin d’économiser des ressources. Plus utile lors d’une lecture continue. À désactiver en cas de problèmes de lecture.",
+    "AllowFfmpegThrottling": "Adapter la Vitesse du Transcodage"
 }
