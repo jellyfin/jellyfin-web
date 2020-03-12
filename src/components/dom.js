@@ -118,9 +118,7 @@ define([], function () {
         var height = window.innerHeight;
 
         if (height > width) {
-            /* If we're in portrait, compute the proper width for this height,
-               taking 16:9 as the most common ratio */
-            width = height * 1.78;
+            width = height * (16.0 / 9.0);
         }
 
         var closest = standardWidths.sort(function (a, b) {
