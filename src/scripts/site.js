@@ -733,6 +733,7 @@ var AppInfo = {};
                     "resize-observer-polyfill",
                     "shaka",
                     "swiper",
+                    "queryString",
                     "sortable",
                     "libjass",
                     "webcomponents",
@@ -795,9 +796,6 @@ var AppInfo = {};
         define("headroom", [componentsPath + "/headroom/headroom"], returnFirstDependency);
         define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("navdrawer", [componentsPath + "/navdrawer/navdrawer"], returnFirstDependency);
-        define("queryString", [bowerPath + "/query-string/index"], function () {
-            return queryString;
-        });
 
         define("emby-button", [elementsPath + "/emby-button/emby-button"], returnFirstDependency);
         define("paper-icon-button-light", [elementsPath + "/emby-button/paper-icon-button-light"], returnFirstDependency);
