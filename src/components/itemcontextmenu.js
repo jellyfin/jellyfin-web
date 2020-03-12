@@ -362,13 +362,13 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                         document.body.removeChild(textArea);
                     };
                     if (navigator.clipboard === undefined) {
-                        textareaCopy();
+                        textAreaCopy();
                     } else {
                         navigator.clipboard.writeText(downloadHref).then(function () {
                             require(["toast"], function (toast) {
                                 toast(globalize.translate("CopyStreamURLSuccess"));
                             });
-                        }, textareaCopy);
+                        }, textAreaCopy);
                     }
                     getResolveFunction(resolve, id)();
                     break;
