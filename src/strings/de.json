@@ -1450,7 +1450,7 @@
     "LabelFolder": "Ordner:",
     "LabelPasswordResetProvider": "Anbieter zum Zurücksetzen des Passwortes:",
     "LabelPlayMethod": "Spielmethode:",
-    "DashboardOperatingSystem": "Betriebssystem: {O}",
+    "DashboardOperatingSystem": "Betriebssystem: {0}",
     "DashboardArchitecture": "Architektur: {0}",
     "LabelVideoCodec": "Videocodec:",
     "LaunchWebAppOnStartup": "Das Webinterface öffnen, wenn der Server startet",
