@@ -43,7 +43,25 @@ define(['css!./emby-radio', 'registerElement'], function () {
         labelTextElement.classList.add('radioButtonLabel');
         labelTextElement.classList.add('mdl-radio__label');
 
-        labelElement.insertAdjacentHTML('beforeend', '<span class="mdl-radio__outer-circle"></span><span class="mdl-radio__inner-circle"></span>');
+        var html = '';
+
+        html += '<div class="mdl-radio__circles">';
+
+        html += '<svg>';
+        html += '<defs>';
+        html += '<clipPath id="cutoff">';
+        html += '<circle cx="50%" cy="50%" r="50%" />';
+        html += '</clipPath>';
+        html += '</defs>';
+        html += '<circle class="mdl-radio__outer-circle" cx="50%" cy="50%" r="50%" fill="none" stroke="currentcolor" stroke-width="0.26em" clip-path="url(#cutoff)" />';
+        html += '<circle class="mdl-radio__inner-circle" cx="50%" cy="50%" r="25%" fill="currentcolor" />';
+        html += '</svg>';
+
+        html += '<div class="mdl-radio__focus-circle"></div>';
+
+        html += '</div>';
+
+        this.insertAdjacentHTML('afterend', html);
 
         this.addEventListener('keydown', onKeyDown);
     };
