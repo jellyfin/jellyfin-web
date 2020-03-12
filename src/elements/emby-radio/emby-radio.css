@@ -53,12 +53,12 @@
     cursor: auto;
 }
 
-.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__outer-circle {
-    color: #00a4dc;
-}
-
 .mdl-radio__button:disabled + .mdl-radio__circles .mdl-radio__outer-circle {
     color: rgba(0, 0, 0, 0.26);
+}
+
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__outer-circle {
+    color: #00a4dc;
 }
 
 .mdl-radio__inner-circle {
