@@ -346,7 +346,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                     break;
                 case "copy-stream":
                     var downloadHref = apiClient.getItemDownloadUrl(itemId);
-                    var textareaCopy = function () {
+                    var textAreaCopy = function () {
                         var textArea = document.createElement("textarea");
                         textArea.value = downloadHref;
                         document.body.appendChild(textArea);
