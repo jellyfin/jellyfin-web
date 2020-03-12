@@ -767,6 +767,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         var shape = "portrait";
         var detectRatio = false;
 
+        /* In the following section, getScreenWidth() is multiplied by 0.5 as the posters
+        are 25vw and we need double the resolution to counter Skia's scaling. */
+        // TODO: Find a reliable way to get the poster width
         if (imageTags.Primary) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Primary",
