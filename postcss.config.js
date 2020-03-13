@@ -1,4 +1,4 @@
-const postcssPresetEnv = require('postcss-preset-env')
+const postcssPresetEnv = require('postcss-preset-env');
 const cssnano = require('cssnano');
 
 const config = () => ({
@@ -6,6 +6,6 @@ const config = () => ({
     postcssPresetEnv(),
     cssnano()
   ]
-})
+});
 
 module.exports = config
