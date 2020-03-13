@@ -113,7 +113,7 @@ function copy() {
 function injectBundle() {
     return src('src/index.html', {base: './src/'})
         .pipe(inject(
-            src(['src/polyfill.js', 'src/scripts/apploader.js'], {read: false}, {base: './src/'}), {relative: true}
+            src(['src/scripts/apploader.js'], {read: false}, {base: './src/'}), {relative: true}
         ))
         .pipe(dest('dist/'))
         .pipe(browserSync.stream());
