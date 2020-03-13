@@ -1502,5 +1502,7 @@
     "CopyStreamURLError": "URL kóshirgende qate oryn aldy.",
     "ButtonSplit": "Bólý",
     "AskAdminToCreateLibrary": "Tasýǵyshanany jasaý úshin ákimshiden suraý.",
-    "AllowFfmpegThrottling": "Qaıta kodtaýdy retteý"
+    "AllowFfmpegThrottling": "Qaıta kodtaýdy retteý",
+    "PlaybackErrorNoCompatibleStream": "Klıent profaılyn jasaýda másele oryn aldy jáne server úılesimdi pishiminde tasyǵysh derekterin jibermedi.",
+    "AllowFfmpegThrottlingHelp": "Qaıta kodtaý nemese qaıta býmalaý aǵymdyq oınatý jaıǵasymynan edáýir alǵa ozǵanda, qor kózderin azdaý tutynatyndaı etip údiristi kidirtedi. Bul jıi izdemeı qaraý kezinde paıdaly. Eger oınatý máseleleri bolsa, ony óshirińiz."
 }
