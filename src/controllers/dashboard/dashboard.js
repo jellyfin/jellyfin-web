@@ -634,8 +634,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             return "<img src='" + iconUrl + "' />";
         },
         getNowPlayingImageUrl: function (item) {
-            /* Screen width is multiplied by 0.2, as the there is now way to get the width of
-            elements that aren't crated yet. */
+            /* Screen width is multiplied by 0.2, as the there is currently no way to get the width of
+            elements that aren't created yet. */
             if (item && item.BackdropImageTags && item.BackdropImageTags.length) {
                 return ApiClient.getScaledImageUrl(item.Id, {
                     maxWidth: Math.round(dom.getScreenWidth() * 0.20),
