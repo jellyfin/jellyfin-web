@@ -242,9 +242,12 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
 
         var onAnimationFinish = function () {
             focusManager.pushScope(dlg);
+
             if (dlg.getAttribute('data-autofocus') === 'true') {
                 focusManager.autoFocus(dlg);
-            } else if (document.activeElement && !dlg.contains(document.activeElement)) {
+            }
+
+            if (document.activeElement && !dlg.contains(document.activeElement)) {
                 // Blur foreign element to prevent triggering of an action from the previous scope
                 document.activeElement.blur();
             }
