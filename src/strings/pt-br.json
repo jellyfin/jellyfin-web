@@ -1464,5 +1464,6 @@
     "HeaderNavigation": "Navegação",
     "CopyStreamURLError": "Houve um erro ao copiar a URL.",
     "ButtonSplit": "Dividir",
-    "AskAdminToCreateLibrary": "Peça a um administrador para criar uma biblioteca."
+    "AskAdminToCreateLibrary": "Peça a um administrador para criar uma biblioteca.",
+    "AllowFfmpegThrottling": "Limitar transcodificação"
 }
