@@ -72,7 +72,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
         var options = {
-            maxWidth: width,
+            maxWidth: width * 2,
             type: "Primary"
         };
 
