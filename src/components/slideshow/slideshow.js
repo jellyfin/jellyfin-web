@@ -188,11 +188,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 stopInterval();
             });
 
-            // Blur foreign element to prevent starting of "nested" slideshow
-            if (document.activeElement && !dlg.contains(document.activeElement)) {
-                document.activeElement.blur();
-            }
-
             inputManager.on(window, onInputCommand);
             document.addEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
 
