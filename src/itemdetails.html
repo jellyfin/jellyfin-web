@@ -111,22 +111,32 @@
             <div class="detailImageContainer padded-left"></div>
             <div class="detailPageContent">
                 <div class="detailPagePrimaryContent padded-left padded-right">
-                    <div class="detailSection" style="margin-bottom: 0;">
+                    <div class="detailSection">
                         <div class="itemMiscInfo nativeName hide"></div>
-                        <div class="genres hide" style="margin: .7em 0;font-size:92%;"></div>
-                        <div class="directors hide" style="margin: .7em 0;font-size:92%;"></div>
 
-                        <form class="trackSelections flex align-items-center flex-wrap-wrap hide focuscontainer-x">
-                            <div class="selectContainer selectContainer-inline selectSourceContainer hide trackSelectionFieldContainer flex-shrink-zero">
+                        <div class="itemDetailsGroup">
+                            <div class="detailsGroupItem genresGroup hide">
+                                <div class="genresLabel label"></div>
+                                <div class="genres content"></div>
+                            </div>
+
+                            <div class="detailsGroupItem directorsGroup hide">
+                                <div class="directorsLabel label"></div>
+                                <div class="directors content"></div>
+                            </div>
+                        </div>
+
+                        <form class="trackSelections hide focuscontainer-x">
+                            <div class="selectContainer selectSourceContainer hide trackSelectionFieldContainer flex-shrink-zero">
                                 <select is="emby-select" class="selectSource detailTrackSelect" label=""></select>
                             </div>
-                            <div class="selectContainer selectContainer-inline selectVideoContainer hide trackSelectionFieldContainer flex-shrink-zero">
+                            <div class="selectContainer selectVideoContainer hide trackSelectionFieldContainer flex-shrink-zero">
                                 <select is="emby-select" class="selectVideo detailTrackSelect" label=""></select>
                             </div>
-                            <div class="selectContainer selectContainer-inline selectAudioContainer hide trackSelectionFieldContainer flex-shrink-zero">
+                            <div class="selectContainer selectAudioContainer hide trackSelectionFieldContainer flex-shrink-zero">
                                 <select is="emby-select" class="selectAudio detailTrackSelect" label=""></select>
                             </div>
-                            <div class="selectContainer selectContainer-inline selectSubtitlesContainer hide trackSelectionFieldContainer">
+                            <div class="selectContainer selectSubtitlesContainer hide trackSelectionFieldContainer">
                                 <select is="emby-select" class="selectSubtitles detailTrackSelect" label=""></select>
                             </div>
                         </form>
