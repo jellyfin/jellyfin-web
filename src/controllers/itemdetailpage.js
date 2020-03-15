@@ -459,7 +459,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         var usePrimaryImage = item.MediaType === "Video" && item.Type !== "Movie" && item.Type !== "Trailer" ||
             item.MediaType && item.MediaType !== "Video" ||
             item.Type === "MusicAlbum" ||
-            item.Type === "MusicArtist" ||
             item.Type === "Person";
 
         if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
