@@ -1273,7 +1273,7 @@
     "TabPassword": "Hasło",
     "TabPlayback": "Odtwarzanie",
     "TabPlaylist": "Lista odtwarzania",
-    "TabPlaylists": "Lista odtwarzania",
+    "TabPlaylists": "Listy odtwarzania",
     "TabPlugins": "Wtyczki",
     "TabProfile": "Profil",
     "TabProfiles": "Profile",
@@ -1453,7 +1453,7 @@
     "HeaderFavoritePeople": "Ulubieni ludzie",
     "FetchingData": "Pobieranie dodatkowych danych",
     "ButtonSplit": "Rozdziel",
-    "SelectAdminUsername": "Proszę wybierz nazwę użytkownika dla konta administratora.",
+    "SelectAdminUsername": "Podaj nazwę użytkownika dla konta administratora.",
     "MessageConfirmAppExit": "Czy chcesz wyjść?",
     "HeaderNavigation": "Nawigacja",
     "LabelPlayerDimensions": "Rozmiar odtwarzacza:",
@@ -1462,5 +1462,12 @@
     "CopyStreamURLError": "Wystąpił błąd podczas kopiowania adresu URL.",
     "AskAdminToCreateLibrary": "Poproś administratora o stworzenie biblioteki.",
     "AllowFfmpegThrottlingHelp": "Kiedy transkodowanie lub remuxowanie dotrze wystarczająco daleko od aktualnej pozycji odtwarzania, zatrzymaj proces aby zużywać mniej zasobów. Jest to najbardziej użyteczne podczas oglądania bez częstego przeskakiwania. Wyłącz jeśli zaobserwujesz problemy z odtwarzaniem.",
-    "AllowFfmpegThrottling": "Ograniczaj transkodowanie"
+    "AllowFfmpegThrottling": "Ograniczaj transkodowanie",
+    "PlaybackErrorNoCompatibleStream": "Wystąpił problem ze sprofilowaniem klienta i serwer nie wysyła kompatybilnego formatu mediów.",
+    "OptionForceRemoteSourceTranscoding": "Wymuś transkodowanie zewnętrznych źródeł mediów (jak telewizja na żywo)",
+    "NoCreatedLibraries": "Wygląda na to, że nie utworzyłeś jeszcze żadnych bibliotek. {0}Czy chcesz utworzyć jedną teraz?{1}",
+    "LabelVideoResolution": "Rozdzielczość wideo:",
+    "LabelStreamType": "Typ transmisji:",
+    "EnableFastImageFadeInHelp": "Włącz szybszą animację pojawiania się dla załadowanych obrazów",
+    "EnableFastImageFadeIn": "Szybkie pojawianie się obrazów"
 }
