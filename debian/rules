@@ -12,8 +12,8 @@ override_dh_clistrip:
 
 override_dh_auto_build:
 	npm install yarn
-	$(CURDIR)/node_modules/yarn/bin/yarn install
-	$(CURDIR)/node_modules/yarn/bin/yarn build
+	npx yarn install
+	npx yarn build
 	mv $(CURDIR)/dist $(CURDIR)/web
 
 override_dh_auto_clean:
