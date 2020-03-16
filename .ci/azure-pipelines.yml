@@ -7,6 +7,10 @@ trigger:
   tags:
     include:
     - '*'
+pr:
+  branches:
+    include:
+    - '*'
 
 jobs:
   - job: main_build
