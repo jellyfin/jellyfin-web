@@ -41,7 +41,7 @@ jobs:
         key: 'yarn | yarn.lock'
         path: 'node_modules'
 
-    - script: 'yarn install'
+    - script: 'yarn install --pure-lockfile'
       displayName: 'Install Dependencies'
 
     - script: 'yarn build:development'
