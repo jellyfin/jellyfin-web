@@ -71,11 +71,11 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 4. Build the client with sourcemaps.
 
    ```sh
-   yarn
+   yarn build:development
    ```
 
    You can build a nginx compatible version as well.
 
    ```sh
-   yarn --standalone
+   yarn build:standalone
    ```
