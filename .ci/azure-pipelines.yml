@@ -35,14 +35,14 @@ jobs:
       inputs:
         versionSpec: '10.x'
 
-    - script: 'yarn install'
-      displayName: 'Install Dependencies'
-
     - task: Cache@2
-      displayName: 'Cache Dependencies'
+      displayName: 'Check Cache'
       inputs:
         key: 'yarn | yarn.lock'
         path: '$(Pipeline.Workspace)/node_modules'
+
+    - script: 'yarn install'
+      displayName: 'Install Dependencies'
 
     - script: 'yarn build'
       displayName: 'Build Development'
