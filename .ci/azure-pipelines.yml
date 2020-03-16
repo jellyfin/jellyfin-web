@@ -39,13 +39,10 @@ jobs:
       displayName: 'Check Cache'
       inputs:
         key: 'yarn | yarn.lock'
-        path: '$(Pipeline.Workspace)/node_modules'
+        path: 'node_modules'
 
     - script: 'yarn install'
       displayName: 'Install Dependencies'
-
-    - script: 'ls -al $(Pipeline.Workspace)'
-      displayName: 'Output Files'
 
     - script: 'yarn build'
       displayName: 'Build Development'

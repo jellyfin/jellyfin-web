@@ -90,7 +90,7 @@
   ],
   "scripts": {
     "serve": "gulp serve",
-    "build": "gulp",
+    "prepare": "gulp --bundle",
     "build development": "gulp --development",
     "build bundle": "gulp --bundle",
     "build standalone": "gulp --standalone",
