@@ -24,10 +24,12 @@ jobs:
 
     strategy:
       matrix:
-        bundle:
-          BuildConfiguration: Bundle
-        standalone:
-          BuildConfiguration: Standalone
+        Development:
+          BuildConfiguration: development
+        Bundle:
+          BuildConfiguration: bundle
+        Standalone:
+          BuildConfiguration: standalone
       maxParallel: 2
 
     steps:
@@ -40,20 +42,25 @@ jobs:
       displayName: 'Install Dependencies'
 
     - script: 'yarn build'
-      displayName: 'Build'
+      displayName: 'Build Bundle'
+      condition: eq(variables['BuildConfiguration'], 'bundle')
+
+    - script: 'yarn build --standalone'
+      displayName: 'Build Standalone'
+      condition: eq(variables['BuildConfiguration'], 'standalone')
 
     - script: 'test -d dist'
       displayName: 'Check Build'
 
-    - script: 'yarn pack --filename jellyfin-web.tgz'
-      displayName: 'Bundle Release'
+    - script: 'mv dist jellyfin-web'
+      displayName: 'Rename Directory'
 
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Release'
       condition: succeeded()
       inputs:
-        targetPath: '$(Build.SourcesDirectory)/jellyfin-web.tgz'
-        artifactName: 'jellyfin-web'
+        targetPath: '$(Build.SourcesDirectory)/jellyfin-web'
+        artifactName: 'jellyfin-web-$(BuildConfiguration)'
 
   - job: lint
     displayName: 'Lint'
