@@ -1469,6 +1469,6 @@
     "AskAdminToCreateLibrary": "Demander à un administrateur de créer une médiathèque.",
     "AllowFfmpegThrottlingHelp": "Quand le transcodage ou le remultiplexage est suffisamment loin de la position de lecture, le processus se mettra en pause afin d’économiser des ressources. Plus utile lors d’une lecture continue. À désactiver en cas de problèmes de lecture.",
     "AllowFfmpegThrottling": "Adapter la Vitesse du Transcodage",
-    "NoCreatedLibraries": "Il semblerait que vous n’ayez pas encore créé de médiathèque. {0}Voulez-vous en créer une tout de suite ?{1}",
+    "NoCreatedLibraries": "Il semblerait que vous n'ayez créé aucune librairie. {0}Voulez-vous en créer une maintenant ?{1}",
     "PlaybackErrorNoCompatibleStream": "Problème de profil client, le serveur n’a pas pu envoyer un format média compatible."
 }

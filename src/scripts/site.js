@@ -739,13 +739,16 @@ var AppInfo = {};
                     "webcomponents",
                     "material-icons",
                     "jellyfin-noto",
-                    "page"
+                    "page",
+                    "polyfill"
                 ]
             },
             urlArgs: urlArgs,
             paths: paths,
             onError: onRequireJsError
         });
+
+        require(["polyfill"]);
 
         // Expose jQuery globally
         require(["jQuery"], function(jQuery) {

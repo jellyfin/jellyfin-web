@@ -1464,5 +1464,10 @@
     "HeaderNavigation": "Navegação",
     "CopyStreamURLError": "Houve um erro ao copiar a URL.",
     "ButtonSplit": "Dividir",
-    "AskAdminToCreateLibrary": "Peça a um administrador para criar uma biblioteca."
+    "AskAdminToCreateLibrary": "Peça a um administrador para criar uma biblioteca.",
+    "AllowFfmpegThrottling": "Limitar transcodificação",
+    "PlaybackErrorNoCompatibleStream": "Houve um erro na criação de perfil do cliente e o servidor não está enviando um formato de mídia compatível.",
+    "EnableFastImageFadeInHelp": "Habilitar animações rápidas de aparecimento para imagens carregadas",
+    "LabelDroppedFrames": "Quadros caídos:",
+    "AllowFfmpegThrottlingHelp": "Quando uma transcodificação ou remux estiver suficientemente avançada da posição atual de reprodução, pause o processo para que consuma menos recursos. Isso é mais proveitoso para quando não há avanço ou retrocesso do vídeo com frequência. Desative se tiver problemas de reprodução."
 }

@@ -7,6 +7,10 @@ trigger:
   tags:
     include:
     - '*'
+pr:
+  branches:
+    include:
+    - '*'
 
 jobs:
   - job: main_build
@@ -26,6 +30,9 @@ jobs:
 
     - script: 'yarn install'
       displayName: 'Install Dependencies'
+
+    - script: 'yarn build'
+      displayName: 'Build'
 
     - script: 'test -d dist'
       displayName: 'Check Build'
