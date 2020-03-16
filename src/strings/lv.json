@@ -1031,5 +1031,20 @@
     "ErrorGettingTvLineups": "Notika kļūda lejupielādējot TV sarakstus. Lūdzu pārliecinies, ka tava informācija ir pareiza un mēģini vēlreiz.",
     "DisplayMissingEpisodesWithinSeasonsHelp": "Tam arī jābūt iespējotam priekš TV bibliotēkām servera konfigurācijā.",
     "DefaultMetadataLangaugeDescription": "Šie ir jūsu noklusējumi, kas var tikt rediģēti atkarībā no bibliotēkas.",
-    "AddItemToCollectionHelp": "Pievieno vienumus kolekcijām tos meklējot un izmantojot to labā taustiņa vai spiediena izvēlnes lai pievienotu tos."
+    "AddItemToCollectionHelp": "Pievieno vienumus kolekcijām tos meklējot un izmantojot to labā taustiņa vai spiediena izvēlnes lai pievienotu tos.",
+    "LabelPleaseRestart": "Izmaiņas tiks pielietotas pēc manuālas web klienta pārlādes.",
+    "LabelPersonRole": "Loma:",
+    "LabelMusicStreamingTranscodingBitrateHelp": "Iestati maksimālo mūzikas straumēšanas bitu ātrumu.",
+    "LabelMusicStreamingTranscodingBitrate": "Mūzikas trans-kodēšanas bitu ātrums:",
+    "LabelModelUrl": "Modeļa URL",
+    "LabelModelNumber": "Modeļa numurs",
+    "LabelModelName": "Modeļa nosaukums",
+    "LabelModelDescription": "Modeļa apraksts",
+    "LabelMinScreenshotDownloadWidth": "Minimālais ekrānattēlu lejupielādes platums:",
+    "LabelMinBackdropDownloadWidth": "Minimālais fona attēla lejupielādes platums:",
+    "LabelKodiMetadataUser": "Saglabāt lietotāja skatīšanās informāciju uz NFO datnēm priekš:",
+    "LabelKodiMetadataSaveImagePathsHelp": "Tas ir ieteicams ja tev ir attēlu datņu nosaukumi, kas neatbilst Kodi vadlīnijām.",
+    "LabelKodiMetadataSaveImagePaths": "Saglabāt attēlu ceļus iekš nfo datnēm",
+    "LabelKodiMetadataEnablePathSubstitutionHelp": "Iespējot ceļu substitūciju attēlu ceļiem izmantojot serveru ceļu substitūcijas iestatījumus.",
+    "LabelKodiMetadataEnablePathSubstitution": "Iespējot ceļu substitūciju"
 }
