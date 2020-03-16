@@ -16,9 +16,6 @@ jobs:
   - job: build
     displayName: 'Build'
 
-    dependsOn: lint
-    condition: succeeded()
-
     pool:
       vmImage: 'ubuntu-latest'
 
@@ -30,7 +27,7 @@ jobs:
           BuildConfiguration: bundle
         Standalone:
           BuildConfiguration: standalone
-      maxParallel: 2
+      maxParallel: 3
 
     steps:
     - task: NodeTool@0
@@ -40,6 +37,10 @@ jobs:
 
     - script: 'yarn install'
       displayName: 'Install Dependencies'
+
+    - script: 'yarn build'
+      displayName: 'Build Development'
+      condition: eq(variables['BuildConfiguration'], 'development')
 
     - script: 'yarn build'
       displayName: 'Build Bundle'
@@ -54,6 +55,7 @@ jobs:
 
     - script: 'mv dist jellyfin-web'
       displayName: 'Rename Directory'
+      condition: succeeded()
 
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Release'
