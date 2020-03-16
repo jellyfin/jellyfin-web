@@ -42,7 +42,7 @@ jobs:
         path: 'node_modules'
         cacheHitVar: CACHE_RESTORED
 
-    - script: 'yarn install --pure-lockfile'
+    - script: 'yarn install --frozen-lockfile'
       displayName: 'Install Dependencies'
       condition: ne(variables.CACHE_RESTORED, 'true')
 
@@ -91,7 +91,7 @@ jobs:
         path: 'node_modules'
         cacheHitVar: CACHE_RESTORED
 
-    - script: 'yarn install --pure-lockfile'
+    - script: 'yarn install --frozen-lockfile'
       displayName: 'Install Dependencies'
       condition: ne(variables.CACHE_RESTORED, 'true')
 
