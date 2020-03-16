@@ -10,11 +10,11 @@ const htmlmin = require('gulp-htmlmin');
 const imagemin = require('gulp-imagemin');
 const sourcemaps = require('gulp-sourcemaps');
 const mode = require('gulp-mode')({
-    modes: ["production", "development"],
+    modes: ["development", "bundle", "standalone"],
     default: "development",
     verbose: false
 });
-const webpack_stream = require('webpack-stream');
+const stream = require('webpack-stream');
 const inject = require('gulp-inject');
 const postcss = require('gulp-postcss');
 const sass = require('gulp-sass');
@@ -22,10 +22,10 @@ const sass = require('gulp-sass');
 sass.compiler = require('node-sass')
 
 
-if (mode.production()) {
-    var webpack_config = require('./webpack.prod.js');
+if (mode.bundle() || mode.standalone()) {
+    var config = require('./webpack.prod.js');
 } else {
-    var webpack_config = require('./webpack.dev.js');
+    var config = require('./webpack.dev.js');
 }
 
 function serve() {
@@ -43,23 +43,22 @@ function serve() {
     watch(['src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg'], images);
     watch(['src/**/*.json', 'src/**/*.ico'], copy);
     watch('src/index.html', injectBundle);
-    watch(['src/standalone.js', 'src/scripts/apploader.js'], setStandalone);
+    watch(['src/standalone.js', 'src/scripts/apploader.js'], standalone);
 }
 
-function setStandalone() {
-    return src(['src/standalone.js', 'src/scripts/apploader.js'], {base: './src/'})
+function standalone() {
+    return src(['src/standalone.js', 'src/scripts/apploader.js'], { base: './src/' })
         .pipe(concat('scripts/apploader.js'))
         .pipe(dest('dist/'));
 }
 
-// Clean assets
 function clean() {
     return del(['dist/']);
 }
 
 function javascript() {
-    return src(['src/**/*.js', '!src/bundle.js'], {base: './src/'})
-        .pipe(mode.development(sourcemaps.init({loadMaps: true})))
+    return src(['src/**/*.js', '!src/bundle.js'], { base: './src/' })
+        .pipe(mode.development(sourcemaps.init({ loadMaps: true })))
         .pipe(babel({
             presets: [
                 ['@babel/preset-env']
@@ -75,14 +74,14 @@ function javascript() {
 }
 
 function webpack() {
-    return webpack_stream(webpack_config)
+    return stream(config)
         .pipe(dest('dist/'))
         .pipe(browserSync.stream());
 }
 
 function css() {
-    return src(['src/**/*.css', 'src/**/*.scss'], {base: './src/'})
-        .pipe(mode.development(sourcemaps.init({loadMaps: true})))
+    return src(['src/**/*.css', 'src/**/*.scss'], { base: './src/' })
+        .pipe(mode.development(sourcemaps.init({ loadMaps: true })))
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss())
         .pipe(mode.development(sourcemaps.write('.')))
@@ -91,33 +90,34 @@ function css() {
 }
 
 function html() {
-    return src(['src/**/*.html', '!src/index.html'], {base: './src/'})
-        .pipe(mode.production(htmlmin({ collapseWhitespace: true })))
+    return src(['src/**/*.html', '!src/index.html'], { base: './src/' })
+        .pipe(mode.bundle(htmlmin({ collapseWhitespace: true })))
+        .pipe(mode.standalone(htmlmin({ collapseWhitespace: true })))
         .pipe(dest('dist/'))
         .pipe(browserSync.stream());
 }
 
 function images() {
-    return src(['src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg'], {base: './src/'})
+    return src(['src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg'], { base: './src/' })
         .pipe(imagemin())
         .pipe(dest('dist/'))
         .pipe(browserSync.stream());
 }
 
 function copy() {
-    return src(['src/**/*.json', 'src/**/*.ico'], {base: './src/'})
+    return src(['src/**/*.json', 'src/**/*.ico'], { base: './src/' })
         .pipe(dest('dist/'))
         .pipe(browserSync.stream());
 }
 
 function injectBundle() {
-    return src('src/index.html', {base: './src/'})
+    return src('src/index.html', { base: './src/' })
         .pipe(inject(
-            src(['src/scripts/apploader.js'], {read: false}, {base: './src/'}), {relative: true}
+            src(['src/scripts/apploader.js'], { read: false }, { base: './src/' }), { relative: true }
         ))
         .pipe(dest('dist/'))
         .pipe(browserSync.stream());
 }
 
 exports.default = series(clean, parallel(javascript, webpack, css, html, images, copy), injectBundle)
-exports.serve = series(exports.default, setStandalone, serve)
+exports.serve = series(exports.default, standalone, serve)
