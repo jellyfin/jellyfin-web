@@ -42,7 +42,7 @@ jobs:
       displayName: 'Cache Dependencies'
       inputs:
         key: 'yarn | yarn.lock'
-        path: '$(Pipeline.Workspace)/.yarn'
+        path: '$(Pipeline.Workspace)/.node_modules'
 
     - script: 'yarn build'
       displayName: 'Build Development'
