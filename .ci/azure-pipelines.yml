@@ -38,6 +38,12 @@ jobs:
     - script: 'yarn install'
       displayName: 'Install Dependencies'
 
+    - task: Cache@2
+      displayName: 'Cache Dependencies'
+      inputs:
+        key: 'yarn | yarn.lock'
+        path: '$(Pipeline.Workspace)/.yarn'
+
     - script: 'yarn build'
       displayName: 'Build Development'
       condition: eq(variables['BuildConfiguration'], 'development')
