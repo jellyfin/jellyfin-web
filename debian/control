@@ -1,0 +1,16 @@
+Source: jellyfin-web
+Section: misc
+Priority: optional
+Maintainer: Jellyfin Team <team@jellyfin.org>
+Build-Depends:  debhelper (>= 9),
+                npm | nodejs
+Standards-Version: 3.9.4
+Homepage: https://jellyfin.media/
+Vcs-Git: https://github.org/jellyfin/jellyfin.git
+Vcs-Browser: https://github.org/jellyfin/jellyfin
+
+Package: jellyfin-web
+Recommends: jellyfin-server
+Architecture: any
+Description: Jellyfin is the Free Software Media System.
+ This package provides the Jellyfin server WebUI.
