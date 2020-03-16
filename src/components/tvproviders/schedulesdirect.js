@@ -264,13 +264,15 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
         self.init = function () {
             options = options || {};
 
-            if (options.showCancelButton) {
+            // Show cancel button by default
+            if (options.showCancelButton !== false) {
                 page.querySelector(".btnCancel").classList.remove("hide");
             } else {
                 page.querySelector(".btnCancel").classList.add("hide");
             }
 
-            if (options.showSubmitButton) {
+            // Show submit button by default
+            if (options.showSubmitButton !== false) {
                 page.querySelector(".btnSubmitListings").classList.remove("hide");
             } else {
                 page.querySelector(".btnSubmitListings").classList.add("hide");
