@@ -23,8 +23,8 @@ jobs:
       matrix:
         Development:
           BuildConfiguration: development
-        Bundle:
-          BuildConfiguration: bundle
+        Production:
+          BuildConfiguration: production
         Standalone:
           BuildConfiguration: standalone
       maxParallel: 3
@@ -50,9 +50,9 @@ jobs:
       displayName: 'Build Development'
       condition: eq(variables['BuildConfiguration'], 'development')
 
-    - script: 'yarn build:bundle'
+    - script: 'yarn build:production'
       displayName: 'Build Bundle'
-      condition: eq(variables['BuildConfiguration'], 'bundle')
+      condition: eq(variables['BuildConfiguration'], 'production')
 
     - script: 'yarn build:standalone'
       displayName: 'Build Standalone'
