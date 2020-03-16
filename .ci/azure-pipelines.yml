@@ -44,6 +44,9 @@ jobs:
     - script: 'yarn install'
       displayName: 'Install Dependencies'
 
+    - script: 'ls -al $(Pipeline.Workspace)'
+      displayName: 'Output Files'
+
     - script: 'yarn build'
       displayName: 'Build Development'
       condition: eq(variables['BuildConfiguration'], 'development')
