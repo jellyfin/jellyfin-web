@@ -576,3 +576,5 @@ healthchecksdb
 
 # dist for webpack output
 dist
+web
+node_modules
