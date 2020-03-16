@@ -44,15 +44,15 @@ jobs:
     - script: 'yarn install'
       displayName: 'Install Dependencies'
 
-    - script: 'yarn build'
+    - script: 'yarn build:development'
       displayName: 'Build Development'
       condition: eq(variables['BuildConfiguration'], 'development')
 
-    - script: 'yarn build'
+    - script: 'yarn build:bundle'
       displayName: 'Build Bundle'
       condition: eq(variables['BuildConfiguration'], 'bundle')
 
-    - script: 'yarn build --standalone'
+    - script: 'yarn build:standalone'
       displayName: 'Build Standalone'
       condition: eq(variables['BuildConfiguration'], 'standalone')
 

@@ -91,9 +91,9 @@
   "scripts": {
     "serve": "gulp serve",
     "prepare": "gulp --bundle",
-    "build development": "gulp --development",
-    "build bundle": "gulp --bundle",
-    "build standalone": "gulp --standalone",
+    "build:development": "gulp --development",
+    "build:bundle": "gulp --bundle",
+    "build:standalone": "gulp --standalone",
     "lint": "eslint \"src\"",
     "stylelint": "stylelint \"src/**/*.css\""
   }
