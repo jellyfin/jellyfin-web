@@ -229,7 +229,7 @@
     "H264CrfHelp": "Constant Rate faktor (CRF) je výchozím nastavení kvality pro kodér x264. Můžete nastavit hodnoty mezi 0 a 51, kde nižší hodnoty vedou lepší kvalitě (na úkor větší velikosti souborů). Rozumné hodnoty jsou mezi 18 a 28. Výchozí hodnota pro x264 je 23, který můžete použít jako výchozí bod.",
     "EncoderPresetHelp": "Vyber hodnotu faster ke zvýšení výkonu, nebo slower ke zvýšení kvality.",
     "HDPrograms": "HD programy",
-    "HardwareAccelerationWarning": "Zapnutí hardwarové akcelerace může způsobit nestabilitu v některých prostředích. Ujistěte se, že vaše ovladače operačního systému a videa jsou plně aktuální. Máte-li potíže s přehráváním videa po zapnutí, budete muset změnit nastavení zpět na Auto.",
+    "HardwareAccelerationWarning": "Zapnutí hardwarové akcelerace může způsobit nestabilitu v některých prostředích. Ujistěte se, že vaše ovladače operačního systému a videa jsou plně aktuální. Máte-li potíže s přehráváním videa po zapnutí, budete muset změnit nastavení zpět na Žádná.",
     "HeaderAccessSchedule": "Přístup k naplánované úloze",
     "HeaderAccessScheduleHelp": "Vytvořte plán přístupu pro limitování přístupu jen určitém čase.",
     "HeaderActiveDevices": "Aktivní zařízení",
@@ -516,7 +516,7 @@
     "LabelEmbedAlbumArtDidl": "Vložit alba do DIDL",
     "LabelEmbedAlbumArtDidlHelp": "Některá zařízení preferují tento způsob pro získání alba. Jiné mohou selhat pokud máte tuto volbu povolenu.",
     "LabelEnableAutomaticPortMap": "Povolit automatické mapování portů",
-    "LabelEnableAutomaticPortMapHelp": "Pokusí se automaticky namapovat veřejný port místního portu přes UPnP na vašem routeru. Nemusí fungovat u některých modelů routeru.",
+    "LabelEnableAutomaticPortMapHelp": "Pokusí se automaticky namapovat veřejný port místního portu přes UPnP na vašem routeru. Nemusí fungovat u některých modelů routeru. Změny se projeví až po restartování serveru.",
     "LabelEnableBlastAliveMessages": "Vytroubit zprávu do světa",
     "LabelEnableBlastAliveMessagesHelp": "Povolit v případě, že server není zjistitelný jinými UPnP zařízeními v síti.",
     "LabelEnableDlnaClientDiscoveryInterval": "Čas pro vyhledání klienta (sekund)",
@@ -1570,5 +1570,7 @@
     "LabelCorruptedFrames": "Poškozené snímky:",
     "OptionForceRemoteSourceTranscoding": "Vynutit transkódování vzdálených zdrojů médií (jako např. živá TV)",
     "NoCreatedLibraries": "Zdá se, že jste dosud nevytvořili žádnou knihovnu. {0}Chtěli byste nějakou vytvořit nyní?{1}",
-    "AskAdminToCreateLibrary": "Požádejte administrátora o vytvoření knihovny."
+    "AskAdminToCreateLibrary": "Požádejte administrátora o vytvoření knihovny.",
+    "AllowFfmpegThrottlingHelp": "Když se překódování nebo remux dostane dostatečně daleko dopředu od aktuální pozice přehrávání, pozastaví se proces, aby spotřeboval méně zdrojů. To je nejužitečnější při sledování bez častého vyhledávání. Pokud máte problémy s přehráváním, vypněte tuto funkci.",
+    "AllowFfmpegThrottling": "Omezit překódování"
 }
