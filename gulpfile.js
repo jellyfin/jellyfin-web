@@ -10,7 +10,7 @@ const htmlmin = require('gulp-htmlmin');
 const imagemin = require('gulp-imagemin');
 const sourcemaps = require('gulp-sourcemaps');
 const mode = require('gulp-mode')({
-    modes: ["development", "bundle", "standalone"],
+    modes: ["development", "production"],
     default: "development",
     verbose: false
 });
@@ -22,7 +22,7 @@ const sass = require('gulp-sass');
 sass.compiler = require('node-sass')
 
 
-if (mode.bundle() || mode.standalone()) {
+if (mode.production()) {
     var config = require('./webpack.prod.js');
 } else {
     var config = require('./webpack.dev.js');
@@ -91,15 +91,14 @@ function css() {
 
 function html() {
     return src(['src/**/*.html', '!src/index.html'], { base: './src/' })
-        .pipe(mode.bundle(htmlmin({ collapseWhitespace: true })))
-        .pipe(mode.standalone(htmlmin({ collapseWhitespace: true })))
+        .pipe(mode.production(htmlmin({ collapseWhitespace: true })))
         .pipe(dest('dist/'))
         .pipe(browserSync.stream());
 }
 
 function images() {
     return src(['src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg'], { base: './src/' })
-        .pipe(imagemin())
+        .pipe(mode.production(imagemin()))
         .pipe(dest('dist/'))
         .pipe(browserSync.stream());
 }
@@ -120,4 +119,5 @@ function injectBundle() {
 }
 
 exports.default = series(clean, parallel(javascript, webpack, css, html, images, copy), injectBundle)
-exports.serve = series(exports.default, standalone, serve)
+exports.standalone = series(exports.default, standalone)
+exports.serve = series(exports.standalone, serve)

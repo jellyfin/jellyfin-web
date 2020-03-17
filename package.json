@@ -90,9 +90,10 @@
   ],
   "scripts": {
     "serve": "gulp serve",
-    "build": "gulp --bundle",
-    "build standalone": "gulp --standalone",
-    "build development": "gulp",
+    "prepare": "gulp --production",
+    "build:development": "gulp --development",
+    "build:production": "gulp --production",
+    "build:standalone": "gulp standalone --development",
     "lint": "eslint \"src\"",
     "stylelint": "stylelint \"src/**/*.css\""
   }
