@@ -95,6 +95,10 @@
     justify-content: flex-start;
 }
 
+.headerLeft > button {
+    transform: scale(1.2);
+}
+
 .headerRight {
     display: -webkit-box;
     display: -webkit-flex;
@@ -109,6 +113,10 @@
 .noHeaderRight .headerRight,
 .noHomeButtonHeader .headerHomeButton {
     display: none !important;
+}
+
+.headerRight > * {
+    transform: scale(1.2);
 }
 
 .pageTitle {
