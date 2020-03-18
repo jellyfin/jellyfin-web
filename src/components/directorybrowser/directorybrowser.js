@@ -163,16 +163,15 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
             }
         }).catch(function(response) {
             if (response) {
-                // TODO All alerts (across the project), should use Globalize.translate()
                 if (response.status === 404) {
-                    alertText("The path could not be found. Please ensure the path is valid and try again.");
+                    alertText(Globalize.translate("PathNotFound"));
                     return Promise.reject();
                 }
                 if (response.status === 500) {
                     if (validateWriteable) {
-                        alertText("Jellyfin Server requires write access to this folder. Please ensure write access and try again.");
+                        alertText(Globalize.translate("WriteAccessRequired"));
                     } else {
-                        alertText("The path could not be found. Please ensure the path is valid and try again.")
+                        alertText(Globalize.translate("PathNotFound"))
                     }
                     return Promise.reject()
                 }
