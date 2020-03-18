@@ -256,6 +256,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
 
         if (virtualFolder.PrimaryImageItemId) {
             imgUrl = ApiClient.getScaledImageUrl(virtualFolder.PrimaryImageItemId, {
+                maxWidth: Math.round(dom.getScreenWidth() * 0.40),
                 type: "Primary"
             });
         }

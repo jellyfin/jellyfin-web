@@ -334,18 +334,24 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             if (item) {
                 var imgUrl = seriesImageUrl(item, {
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Primary"
                 }) || seriesImageUrl(item, {
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Thumb"
                 }) || imageUrl(item, {
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Primary"
                 });
 
                 if (!imgUrl && secondaryItem && (imgUrl = seriesImageUrl(secondaryItem, {
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Primary"
                 }) || seriesImageUrl(secondaryItem, {
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Thumb"
                 }) || imageUrl(secondaryItem, {
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Primary"
                 })), imgUrl) {
                     return void (osdPoster.innerHTML = '<img src="' + imgUrl + '" />');

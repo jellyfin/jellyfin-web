@@ -186,7 +186,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         Manual: 2
     };
 
-    var ConnectionManager = function (credentialProvider, appName, appVersion, deviceName, deviceId, capabilities, devicePixelRatio) {
+    var ConnectionManager = function (credentialProvider, appName, appVersion, deviceName, deviceId, capabilities) {
 
         function onAuthenticated(apiClient, result, options, saveCredentials) {
             var credentials = credentialProvider.credentials();
@@ -540,7 +540,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             var apiClient = self.getApiClient(server.Id);
 
             if (!apiClient) {
-                apiClient = new apiClientFactory(serverUrl, appName, appVersion, deviceName, deviceId, devicePixelRatio);
+                apiClient = new apiClientFactory(serverUrl, appName, appVersion, deviceName, deviceId);
                 self._apiClients.push(apiClient);
                 apiClient.serverInfo(server);
                 apiClient.onAuthenticated = function (instance, result) {
