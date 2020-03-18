@@ -1478,5 +1478,6 @@
     "AskAdminToCreateLibrary": "Solo un administrador puede crear librerías.",
     "AllowFfmpegThrottling": "Acelerar transcodificación",
     "PathNotFound": "No se encontró la ruta especificada. Asegúrate de que existe e inténtalo de nuevo.",
-    "WriteAccessRequired": "Jellyfin requiere de permisos de escritura en esta carpeta. Asegúrate de que existe este permiso e inténtalo de nuevo."
+    "WriteAccessRequired": "Jellyfin requiere de permisos de escritura en esta carpeta. Asegúrate de que existe este permiso e inténtalo de nuevo.",
+    "ListPaging": "{0} de {1}"
 }
