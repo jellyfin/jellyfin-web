@@ -459,16 +459,6 @@ import 'programStyles';
                 }
             }
 
-            /*let cardFooterHtml = '';
-            for (let i = 0; i < (options.lines || 0); i++) {
-
-                if (i === 0) {
-                    cardFooterHtml += '<div class="cardText cardTextCentered cardText-first">&nbsp;</div>';
-                } else {
-                    cardFooterHtml += '<div class="cardText cardTextCentered cardText-secondary">&nbsp;</div>';
-                }
-            }*/
-
             return html;
         }
 
