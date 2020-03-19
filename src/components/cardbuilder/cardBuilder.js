@@ -1,3 +1,7 @@
+/**
+ * Card builder module.
+ * @module cardBuilder
+ */
 import datetime from 'datetime';
 import imageLoader from 'imageLoader';
 import connectionManager from 'connectionManager';
@@ -17,6 +21,12 @@ import 'programStyles';
 
         var enableFocusTransform = !browser.slow && !browser.edge;
 
+        /**
+         * Generate the HTML markup for cards of a set of items.
+         * @param items - The items to generate cards for.
+         * @param options - The options of the cards.
+         * @returns {string} The HTML markup for cards.
+         */
         export function getCardsHtml(items, options) {
             if (arguments.length === 1) {
                 options = arguments[0];
@@ -26,6 +36,13 @@ import 'programStyles';
             return buildCardsHtmlInternal(items, options);
         }
 
+        /**
+         * Computes the number of posters per row.
+         * @param {string} shape - Shape of the cards.
+         * @param {number} screenWidth - Width of the screen.
+         * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
+         * @returns {number} Number of cards per row of an itemsContainer.
+         */
         function getPostersPerRow(shape, screenWidth, isOrientationLandscape) {
             switch (shape) {
                 case 'portrait':
@@ -230,6 +247,11 @@ import 'programStyles';
             }
         }
 
+        /**
+         * Checks if the window is resizable.
+         * @param {number} windowWidth - Width of the client's screen.
+         * @returns {boolean} - Result of the check.
+         */
         function isResizable(windowWidth) {
             var screen = window.screen;
             if (screen) {
@@ -243,15 +265,24 @@ import 'programStyles';
             return false;
         }
 
+        /**
+         * Gets the width of a card's image according to the shape and amount of cards per row.
+         * @param {string} shape - Shape of the card.
+         * @param {number} screenWidth - Width of the screen.
+         * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
+         * @returns {number} Width of the image for a card.
+         */
         function getImageWidth(shape, screenWidth, isOrientationLandscape) {
             var imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
-            var shapeWidth = Math.round(screenWidth / imagesPerRow) * 2;
-
-            return shapeWidth;
+            return Math.round(screenWidth / imagesPerRow) * 2;
         }
 
+        /**
+         * Normalizes the options of a card.
+         * @param {Object} items - A set of items.
+         * @param {Object} options - Options for handling the items.
+         */
         function setCardData(items, options) {
-
             options.shape = options.shape || "auto";
 
             var primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items);
@@ -308,8 +339,13 @@ import 'programStyles';
             }
         }
 
+        /**
+         * Generates the internal HTML markup for cards.
+         * @param {Object} items - Items for which to generate the markup.
+         * @param {Object} options - Options for generating the markup.
+         * @returns {string} The internal HTML markup of the cards.
+         */
         function buildCardsHtmlInternal(items, options) {
-
             var isVertical;
 
             if (options.shape === 'autoVertical') {
@@ -438,8 +474,12 @@ import 'programStyles';
             return html;
         }
 
+        /**
+         * Computes the Aspect Ratio for a card given its shape.
+         * @param {string} shape - Shape for which to get the aspect ratio.
+         * @returns {null|number} Ratio of the shape.
+         */
         function getDesiredAspect(shape) {
-
             if (shape) {
                 shape = shape.toLowerCase();
                 if (shape.indexOf('portrait') !== -1) {
@@ -458,8 +498,21 @@ import 'programStyles';
             return null;
         }
 
-        function getCardImageUrl(item, apiClient, options, shape) {
+        /**
+         * @typedef {Object} CardImageUrl
+         * @property {string} imgUrl - URL of the image.
+         * @property {boolean} forceName - Force the name to be visible.
+         * @property {boolean} coverImage - Acts as a cover image.
+         */
 
+        /** Get the URL of the Card's image.
+         * @param {Object} item - Item for which to generate a card.
+         * @param {Object} apiClient - API Client object.
+         * @param {Object} options - Options of the card to generate.
+         * @param {string} shape - Shape of the desired image.
+         * @returns {CardImageUrl} Object representing the URL of the card's image.
+         */
+        function getCardImageUrl(item, apiClient, options, shape) {
             var imageItem = item.ProgramInfo || item;
             item = imageItem;
 
@@ -676,12 +729,23 @@ import 'programStyles';
             };
         }
 
+        /**
+         * Generates a random integer in a range.
+         * @param {number} min - Minimum of the range.
+         * @param {number} max - Maximum of the range.
+         * @returns {number} Randomly generated number.
+         */
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        var numRandomColors = 5;
+        /**
+         * Generates an index used to select the default color of a Card based on a string.
+         * @param {string} str - String to use for generating the index.
+         * @returns {number} Index of the color.
+         */
         function getDefaultColorIndex(str) {
+            var numRandomColors = 5;
 
             if (str) {
                 var charIndex = Math.floor(str.length / 2);
@@ -698,8 +762,18 @@ import 'programStyles';
             }
         }
 
+        /**
+         * Generates the HTML markup for a card's text.
+         * @param {Array} lines - Array containing the text lines.
+         * @param {string} cssClass - Base CSS class to use for the lines.
+         * @param {boolean} forceLines - Flag to force the rendering of all lines.
+         * @param {boolean} isOuterFooter - Flag to mark the text lines as outer footer.
+         * @param {string} cardLayout - DEPRECATED
+         * @param {boolean} addRightMargin - Flag to add a right margin to the text.
+         * @param {number} maxLines - Maximum number of lines to render.
+         * @returns {string} HTML markup fo the card's text.
+         */
         function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout, addRightMargin, maxLines) {
-
             var html = '';
 
             var valid = 0;
@@ -746,12 +820,23 @@ import 'programStyles';
             return html;
         }
 
+        /**
+         * Determines if the item is Live TV.
+         * @param {Object} item - Item to use.
+         * @returns {boolean} Flag showing if the item is Live TV.
+         */
         function isUsingLiveTvNaming(item) {
             return item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording';
         }
 
+        /**
+         * Returns the air time text for the item based on the given times.
+         * @param {object} item - Item used to generate the air time text.
+         * @param {string} showAirDateTime - ISO8601 date for the start of the show.
+         * @param {string} showAirEndTime - ISO8601 date for the end of the show.
+         * @returns {string} The air time text for the item base on the given dates.
+         */
         function getAirTimeText(item, showAirDateTime, showAirEndTime) {
-
             var airTimeText = '';
             if (item.StartDate) {
 
@@ -776,8 +861,22 @@ import 'programStyles';
             return airTimeText;
         }
 
+        /**
+         * Generates the HTML markup for the card's footer text.
+         * @param {Object} item - Item used to generate the footer text.
+         * @param {Object} apiClient - API Client instance.
+         * @param {Object} options - Options used to generate the footer text.
+         * @param {string} showTitle - Title of the show.
+         * @param {boolean} forceName - Flag to force showing the name of the item.
+         * @param {boolean} overlayText - Flag to show overlay text.
+         * @param {CardImageUrl} imgUrl - Object representing the card's image URL.
+         * @param {string} footerClass - CSS class of the footer.
+         * @param {string} progressHtml - HTML markup of the progress bar.
+         * @param {string} logoUrl - URL of the logo for the item.
+         * @param {boolean} isOuterFooter - Flag to mark the text as outer footer.
+         * @returns {string} HTML markup of the card's footer text.
+         */
         function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, logoUrl, isOuterFooter) {
-
             var html = '';
 
             if (logoUrl) {
@@ -1040,8 +1139,14 @@ import 'programStyles';
             return html;
         }
 
+        /**
+         * Generates the HTML markup for the action button.
+         * @param {Object} item - Item used to generate the action button.
+         * @param {string} text - Text of the action button.
+         * @param {string} serverId - ID of the server.
+         * @returns {string} HTML markup of the action button.
+         */
         function getTextActionButton(item, text, serverId) {
-
             if (!text) {
                 text = itemHelper.getDisplayName(item);
             }
@@ -1057,10 +1162,14 @@ import 'programStyles';
             return html;
         }
 
+        /**
+         * Generates HTML markup for the item count indicator.
+         * @param {Object} options - Options used to generate the item count.
+         * @param {Object} item - Item used to generate the item count.
+         * @returns {string} HTML markup for the item count indicator.
+         */
         function getItemCountsHtml(options, item) {
-
             var counts = [];
-
             var childText;
 
             if (item.Type === 'Playlist') {
@@ -1148,48 +1257,36 @@ import 'programStyles';
             return counts.join(', ');
         }
 
-        function getProgramIndicators(item) {
-
-            item = item.ProgramInfo || item;
-
-            var html = '';
-
-            if (item.IsLive) {
-                html += '<div class="liveTvProgram programAttributeIndicator">' + globalize.translate('Live') + '</div>';
-            }
-
-            if (item.IsPremiere) {
-                html += '<div class="premiereTvProgram programAttributeIndicator">' + globalize.translate('Premiere') + '</div>';
-            } else if (item.IsSeries && !item.IsRepeat) {
-                html += '<div class="newTvProgram programAttributeIndicator">' + globalize.translate('AttributeNew') + '</div>';
-            }
-            //else if (item.IsRepeat) {
-            //    html += '<div class="repeatTvProgram programAttributeIndicator">' + globalize.translate('Repeat') + '</div>';
-            //}
-
-            if (html) {
-                html = '<div class="cardProgramAttributeIndicators">' + html;
-                html += '</div>';
-            }
-
-            return html;
-        }
-
         var refreshIndicatorLoaded;
-        function requireRefreshIndicator() {
 
+        /**
+         * Imports the refresh indicator element.
+         */
+        function requireRefreshIndicator() {
             if (!refreshIndicatorLoaded) {
                 refreshIndicatorLoaded = true;
                 require(['emby-itemrefreshindicator']);
             }
         }
 
+        /**
+         * Returns the default background class for a card based on a string.
+         * @param {string} str - Text used to generate the background class.
+         * @returns {string} CSS classes for default card backgrounds.
+         */
         export function getDefaultBackgroundClass(str) {
             return 'defaultCardBackground defaultCardBackground' + getDefaultColorIndex(str);
         }
 
+        /**
+         * Builds the HTML markup for an individual card.
+         * @param {number} index - Index of the card
+         * @param {object} item - Item used to generate the card.
+         * @param {object} apiClient - API Client instance.
+         * @param {object} options - Options used to generate the card.
+         * @returns {string} HTML markup for the generated card.
+         */
         function buildCard(index, item, apiClient, options) {
-
             var action = options.action || 'link';
 
             if (action === 'play' && item.IsFolder) {
@@ -1424,10 +1521,6 @@ import 'programStyles';
                 cardImageContainerOpen += '<div class="cardIndicators">' + indicatorsHtml + '</div>';
             }
 
-            //if (item.Type === 'Program' || item.Type === 'Timer') {
-            //    cardImageContainerOpen += getProgramIndicators(item);
-            //}
-
             if (!imgUrl) {
                 cardImageContainerOpen += getDefaultText(item, options);
             }
@@ -1480,8 +1573,13 @@ import 'programStyles';
             return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
+        /**
+         * Generates HTML markup for the card overlay.
+         * @param {object} item - Item used to generate the card overlay.
+         * @param {string} action - Action assigned to the overlay.
+         * @returns {string} HTML markup of the card overlay.
+         */
         function getHoverMenuHtml(item, action) {
-
             var html = '';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
@@ -1517,6 +1615,12 @@ import 'programStyles';
             return html;
         }
 
+        /**
+         * Generates the text or icon used on default card backgrounds.
+         * @param {object} item - Item used to generate the card overlay.
+         * @param {object} options - Options used to generate the card overlay.
+         * @returns {string} HTML markup of the card overlay.
+         */
         export function getDefaultText(item, options) {
             if (item.CollectionType) {
                 return '<i class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '"></i>'
@@ -1546,8 +1650,12 @@ import 'programStyles';
             return '<div class="cardText cardDefaultText">' + defaultName + '</div>';
         }
 
+        /**
+         * Builds a set of cards and inserts it into the page;.
+         * @param {Array} items - Array of items used to build cards.
+         * @param {options} options - Options of the cards to build.
+         */
         export function buildCards(items, options) {
-
             // Abort if the container has been disposed
             if (!document.body.contains(options.itemsContainer)) {
                 return;
@@ -1588,8 +1696,13 @@ import 'programStyles';
             }
         }
 
+        /**
+         * Ensures the indicators for a card exist and creates them if they don't.
+         * @param {string} card - HTML Markup of the card.
+         * @param {string} indicatorsElem - HTML markup of the indicators.
+         * @returns {string} - HTML markup of the indicators.
+         */
         function ensureIndicators(card, indicatorsElem) {
-
             if (indicatorsElem) {
                 return indicatorsElem;
             }
@@ -1607,8 +1720,12 @@ import 'programStyles';
             return indicatorsElem;
         }
 
+        /**
+         * Adds user data to the card such as progress indicators, played status, etc.
+         * @param {string} card - HTML markup of the card.
+         * @param {Object} userData - User data to apply to the card.
+         */
         function updateUserData(card, userData) {
-
             var type = card.getAttribute('data-type');
             var enableCountIndicator = type === 'Series' || type === 'BoxSet' || type === 'Season';
             var indicatorsElem = null;
@@ -1691,8 +1808,12 @@ import 'programStyles';
             }
         }
 
+        /**
+         * Handles when user data has changed.
+         * @param {Object} userData - User data to apply to the card.
+         * @param {HTMLElement} scope - DOM Element to use as a scope when selecting cards.
+         */
         export function onUserDataChanged(userData, scope) {
-
             var cards = (scope || document.body).querySelectorAll('.card-withuserdata[data-id="' + userData.ItemId + '"]');
 
             for (var i = 0, length = cards.length; i < length; i++) {
@@ -1700,8 +1821,13 @@ import 'programStyles';
             }
         }
 
+        /**
+         * Handles when a timer was created.
+         * @param {string} programId - ID of the program.
+         * @param {string} newTimerId - ID of the new timer.
+         * @param {HTMLElement} itemsContainer - DOM Element of the items container.
+         */
         export function onTimerCreated(programId, newTimerId, itemsContainer) {
-
             var cells = itemsContainer.querySelectorAll('.card[data-id="' + programId + '"]');
 
             for (var i = 0, length = cells.length; i < length; i++) {
@@ -1715,9 +1841,13 @@ import 'programStyles';
             }
         }
 
-        export function onTimerCancelled(id, itemsContainer) {
-
-            var cells = itemsContainer.querySelectorAll('.card[data-timerid="' + id + '"]');
+        /**
+         * Handles when a timer is cancelled.
+         * @param {string} timerId - ID of the cancelled timer.
+         * @param {HTMLElement} itemsContainer - DOM Element of the items container.
+         */
+        export function onTimerCancelled(timerId, itemsContainer) {
+            var cells = itemsContainer.querySelectorAll('.card[data-timerid="' + timerId + '"]');
 
             for (var i = 0, length = cells.length; i < length; i++) {
                 var cell = cells[i];
@@ -1729,9 +1859,13 @@ import 'programStyles';
             }
         }
 
-        export function onSeriesTimerCancelled(id, itemsContainer) {
-
-            var cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + id + '"]');
+        /**
+         * Handles when a series timer is cancelled.
+         * @param {string} canceledTimerId - ID of the cancelled timer.
+         * @param {HTMLElement} itemsContainer - DOM Element of the items container.
+         */
+        export function onSeriesTimerCancelled(canceledTimerId, itemsContainer) {
+            var cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + canceledTimerId + '"]');
 
             for (var i = 0, length = cells.length; i < length; i++) {
                 var cell = cells[i];
