@@ -1077,5 +1077,11 @@
     "LabelReadHowYouCanContribute": "Uzzini, kā tu vari dot ieguldījumu.",
     "LabelNumberOfGuideDays": "Dienu daudzumus, kuram lejupielādēt gidu:",
     "LabelLockItemToPreventChanges": "Aizslēgt šo objektu lai aizliegtu izmaiņas",
-    "LabelLocalHttpServerPortNumber": "Vietējais HTTP porta numurs:"
+    "LabelLocalHttpServerPortNumber": "Vietējais HTTP porta numurs:",
+    "OptionAllowManageLiveTv": "Atļaut Tiešraides TV ierakstu pārvaldīšanu",
+    "OptionAllowLinkSharing": "Atļaut dalīšanos sociālajos tīklos",
+    "OptionAllowBrowsingLiveTv": "Atļaut Tiešraides TV piekļuvi",
+    "MediaInfoForced": "Piespiests",
+    "LabelPublicHttpPortHelp": "Publiskai porta numurs, kas tiks kartēts uz vietējo HTTP portu.",
+    "LabelOptionalNetworkPath": "(Neobligāts) Koplietota tīkla mape:"
 }
