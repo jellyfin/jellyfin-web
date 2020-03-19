@@ -10,6 +10,10 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
             Dashboard.selectServer();
         });
 
+        view.querySelector(".clientSettings").addEventListener("click", function () {
+            window.NativeShell.openClientSettings();
+        });
+
         view.addEventListener("viewshow", function() {
             // this page can also be used by admins to change user preferences from the user edit page
             var userId = params.userId || Dashboard.getCurrentUserId();
@@ -20,6 +24,12 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
             page.querySelector(".lnkHomePreferences").setAttribute("href", "mypreferenceshome.html?userId=" + userId);
             page.querySelector(".lnkPlaybackPreferences").setAttribute("href", "mypreferencesplayback.html?userId=" + userId);
             page.querySelector(".lnkSubtitlePreferences").setAttribute("href", "mypreferencessubtitles.html?userId=" + userId);
+
+            if (window.NativeShell && window.NativeShell.AppHost.supports("clientsettings")) {
+                page.querySelector(".clientSettings").classList.remove("hide");
+            } else {
+                page.querySelector(".clientSettings").classList.add("hide");
+            }
 
             if (appHost.supports("multiserver")) {
                 page.querySelector(".selectServer").classList.remove("hide");
