@@ -305,5 +305,10 @@
     "EnableDisplayMirroring": "Näytön peilaus",
     "EnableColorCodedBackgrounds": "Väri-koodatut taustat",
     "EnableCinemaMode": "Teatteri-tila",
-    "EnableBackdropsHelp": "Näytä taustat tietyillä sivuilla selatessasi kirjastoa."
+    "EnableBackdropsHelp": "Näytä taustat tietyillä sivuilla selatessasi kirjastoa.",
+    "EnableExternalVideoPlayersHelp": "Videota soitettaessa näytetään erillinen valikko.",
+    "Depressed": "Painettu",
+    "CopyStreamURLError": "Verkko-osoitteen kopioinnissa tapahtui virhe.",
+    "ButtonSplit": "jaa",
+    "AskAdminToCreateLibrary": "Pyydä järjestelmän ylläpitäjää luomaan kirjasto."
 }
