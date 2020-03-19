@@ -7,6 +7,17 @@
     margin-right: 3.3%;
 }
 
+.emby-scroller {
+    flex-wrap: inherit;
+    overflow-x: auto !important;
+    scrollbar-width: none;
+}
+
+.emby-scroller::-webkit-scrollbar {
+  display: none;
+  scrollbar-width: none;
+}
+
 /* align first card in scroller to heading */
 .itemsContainer > .card > .cardBox {
     margin-left: 0;
