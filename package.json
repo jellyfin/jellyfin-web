@@ -61,6 +61,7 @@
     "material-design-icons-iconfont": "^5.0.1",
     "native-promise-only": "^0.8.0-a",
     "page": "^1.11.5",
+    "query-string": "^6.11.1",
     "resize-observer-polyfill": "^1.5.1",
     "shaka-player": "^2.5.9",
     "sortablejs": "^1.10.2",
