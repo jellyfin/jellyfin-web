@@ -1,10 +1,23 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'playbackManager', 'itemShortcuts', 'scripts/imagehelper', 'css!./card', 'paper-icon-button-light', 'programStyles'],
-    function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, playbackManager, itemShortcuts, imageHelper) {
-        'use strict';
+import datetime from 'datetime';
+import imageLoader from 'imageLoader';
+import connectionManager from 'connectionManager';
+import itemHelper from 'itemHelper';
+import focusManager from 'focusManager';
+import indicators from 'indicators';
+import globalize from 'globalize';
+import layoutManager from 'layoutManager';
+import dom from 'dom';
+import browser from 'browser';
+import playbackManager from 'playbackManager';
+import itemShortcuts from 'itemShortcuts';
+import imageHelper from 'scripts/imagehelper';
+import 'css!./card';
+import 'paper-icon-button-light';
+import 'programStyles';
 
         var enableFocusTransform = !browser.slow && !browser.edge;
 
-        function getCardsHtml(items, options) {
+        export function getCardsHtml(items, options) {
             if (arguments.length === 1) {
                 options = arguments[0];
                 items = options.items;
@@ -1171,7 +1184,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function getDefaultBackgroundClass(str) {
+        export function getDefaultBackgroundClass(str) {
             return 'defaultCardBackground defaultCardBackground' + getDefaultColorIndex(str);
         }
 
@@ -1504,7 +1517,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getDefaultText(item, options) {
+        export function getDefaultText(item, options) {
             if (item.CollectionType) {
                 return '<i class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '"></i>'
             }
@@ -1533,7 +1546,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return '<div class="cardText cardDefaultText">' + defaultName + '</div>';
         }
 
-        function buildCards(items, options) {
+        export function buildCards(items, options) {
 
             // Abort if the container has been disposed
             if (!document.body.contains(options.itemsContainer)) {
@@ -1678,7 +1691,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function onUserDataChanged(userData, scope) {
+        export function onUserDataChanged(userData, scope) {
 
             var cards = (scope || document.body).querySelectorAll('.card-withuserdata[data-id="' + userData.ItemId + '"]');
 
@@ -1687,7 +1700,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function onTimerCreated(programId, newTimerId, itemsContainer) {
+        export function onTimerCreated(programId, newTimerId, itemsContainer) {
 
             var cells = itemsContainer.querySelectorAll('.card[data-id="' + programId + '"]');
 
@@ -1702,7 +1715,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function onTimerCancelled(id, itemsContainer) {
+        export function onTimerCancelled(id, itemsContainer) {
 
             var cells = itemsContainer.querySelectorAll('.card[data-timerid="' + id + '"]');
 
@@ -1716,7 +1729,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function onSeriesTimerCancelled(id, itemsContainer) {
+        export function onSeriesTimerCancelled(id, itemsContainer) {
 
             var cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + id + '"]');
 
@@ -1729,15 +1742,3 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cell.removeAttribute('data-seriestimerid');
             }
         }
-
-        return {
-            getCardsHtml: getCardsHtml,
-            getDefaultBackgroundClass: getDefaultBackgroundClass,
-            getDefaultText: getDefaultText,
-            buildCards: buildCards,
-            onUserDataChanged: onUserDataChanged,
-            onTimerCreated: onTimerCreated,
-            onTimerCancelled: onTimerCancelled,
-            onSeriesTimerCancelled: onSeriesTimerCancelled
-        };
-    });
