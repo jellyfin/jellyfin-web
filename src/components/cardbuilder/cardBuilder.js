@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /**
  * Card builder module.
  * @module cardBuilder
@@ -19,7 +20,7 @@ import 'css!./card';
 import 'paper-icon-button-light';
 import 'programStyles';
 
-        var enableFocusTransform = !browser.slow && !browser.edge;
+        const enableFocusTransform = !browser.slow && !browser.edge;
 
         /**
          * Generate the HTML markup for cards of a set of items.
@@ -253,9 +254,9 @@ import 'programStyles';
          * @returns {boolean} - Result of the check.
          */
         function isResizable(windowWidth) {
-            var screen = window.screen;
+            const screen = window.screen;
             if (screen) {
-                var screenWidth = screen.availWidth;
+                const screenWidth = screen.availWidth;
 
                 if ((screenWidth - windowWidth) > 20) {
                     return true;
@@ -273,7 +274,7 @@ import 'programStyles';
          * @returns {number} Width of the image for a card.
          */
         function getImageWidth(shape, screenWidth, isOrientationLandscape) {
-            var imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
+            const imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
             return Math.round(screenWidth / imagesPerRow) * 2;
         }
 
@@ -285,11 +286,11 @@ import 'programStyles';
         function setCardData(items, options) {
             options.shape = options.shape || "auto";
 
-            var primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items);
+            const primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items);
 
-            if (options.shape === 'auto' || options.shape === 'autohome' || options.shape === 'autooverflow' || options.shape === 'autoVertical') {
+            if (['auto', 'autohome', 'autooverflow', 'autoVertical'].includes(options.shape)) {
 
-                var requestedShape = options.shape;
+                const requestedShape = options.shape;
                 options.shape = null;
 
                 if (primaryImageAspectRatio) {
@@ -327,11 +328,11 @@ import 'programStyles';
             }
 
             if (!options.width) {
-                var screenWidth = dom.getWindowSize().innerWidth;
-                var screenHeight = dom.getWindowSize().innerHeight;
+                let screenWidth = dom.getWindowSize().innerWidth;
+                const screenHeight = dom.getWindowSize().innerHeight;
 
                 if (isResizable(screenWidth)) {
-                    var roundScreenTo = 100;
+                    const roundScreenTo = 100;
                     screenWidth = Math.floor(screenWidth / roundScreenTo) * roundScreenTo;
                 }
 
@@ -346,7 +347,7 @@ import 'programStyles';
          * @returns {string} The internal HTML markup of the cards.
          */
         function buildCardsHtmlInternal(items, options) {
-            var isVertical;
+            let isVertical = false;
 
             if (options.shape === 'autoVertical') {
                 isVertical = true;
@@ -354,24 +355,21 @@ import 'programStyles';
 
             setCardData(items, options);
 
-            var html = '';
-            var itemsInRow = 0;
+            let html = '';
+            let itemsInRow = 0;
 
-            var currentIndexValue;
-            var hasOpenRow;
-            var hasOpenSection;
+            let currentIndexValue;
+            let hasOpenRow;
+            let hasOpenSection;
 
-            var sectionTitleTagName = options.sectionTitleTagName || 'div';
-            var apiClient;
-            var lastServerId;
+            let sectionTitleTagName = options.sectionTitleTagName || 'div';
+            let apiClient;
+            let lastServerId;
 
-            var i;
-            var length;
+            for (let i = 0; i < items.length; i++) {
 
-            for (i = 0, length = items.length; i < length; i++) {
-
-                var item = items[i];
-                var serverId = item.ServerId || options.serverId;
+                let item = items[i];
+                let serverId = item.ServerId || options.serverId;
 
                 if (serverId !== lastServerId) {
                     lastServerId = serverId;
@@ -379,14 +377,14 @@ import 'programStyles';
                 }
 
                 if (options.indexBy) {
-                    var newIndexValue = '';
+                    let newIndexValue = '';
 
                     if (options.indexBy === 'PremiereDate') {
                         if (item.PremiereDate) {
                             try {
                                 newIndexValue = datetime.toLocaleDateString(datetime.parseISO8601Date(item.PremiereDate), { weekday: 'long', month: 'long', day: 'numeric' });
-                            } catch (err) {
-                                console.error('error parsing timestamp for premiere date');
+                            } catch (error) {
+                                console.error('error parsing timestamp for premiere date', error);
                             }
                         }
                     } else if (options.indexBy === 'ProductionYear') {
@@ -461,15 +459,15 @@ import 'programStyles';
                 }
             }
 
-            var cardFooterHtml = '';
-            for (i = 0, length = (options.lines || 0); i < length; i++) {
+            /*let cardFooterHtml = '';
+            for (let i = 0; i < (options.lines || 0); i++) {
 
                 if (i === 0) {
                     cardFooterHtml += '<div class="cardText cardTextCentered cardText-first">&nbsp;</div>';
                 } else {
                     cardFooterHtml += '<div class="cardText cardTextCentered cardText-secondary">&nbsp;</div>';
                 }
-            }
+            }*/
 
             return html;
         }
@@ -513,16 +511,15 @@ import 'programStyles';
          * @returns {CardImageUrl} Object representing the URL of the card's image.
          */
         function getCardImageUrl(item, apiClient, options, shape) {
-            var imageItem = item.ProgramInfo || item;
-            item = imageItem;
+            item = item.ProgramInfo || item;
 
-            var width = options.width;
-            var height = null;
-            var primaryImageAspectRatio = item.PrimaryImageAspectRatio;
-            var forceName = false;
-            var imgUrl = null;
-            var coverImage = false;
-            var uiAspect = null;
+            const width = options.width;
+            let height = null;
+            const primaryImageAspectRatio = item.PrimaryImageAspectRatio;
+            let forceName = false;
+            let imgUrl = null;
+            let coverImage = false;
+            let uiAspect = null;
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
 
@@ -745,16 +742,16 @@ import 'programStyles';
          * @returns {number} Index of the color.
          */
         function getDefaultColorIndex(str) {
-            var numRandomColors = 5;
+            const numRandomColors = 5;
 
             if (str) {
-                var charIndex = Math.floor(str.length / 2);
-                var character = String(str.substr(charIndex, 1).charCodeAt());
-                var sum = 0;
-                for (var i = 0; i < character.length; i++) {
+                const charIndex = Math.floor(str.length / 2);
+                const character = String(str.substr(charIndex, 1).charCodeAt());
+                let sum = 0;
+                for (let i = 0; i < character.length; i++) {
                     sum += parseInt(character.charAt(i));
                 }
-                var index = String(sum).substr(-1);
+                let index = String(sum).substr(-1);
 
                 return (index % numRandomColors) + 1;
             } else {
@@ -774,16 +771,14 @@ import 'programStyles';
          * @returns {string} HTML markup fo the card's text.
          */
         function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout, addRightMargin, maxLines) {
-            var html = '';
+            let html = '';
 
-            var valid = 0;
-            var i;
-            var length;
+            let valid = 0;
 
-            for (i = 0, length = lines.length; i < length; i++) {
+            for (let i = 0; i < lines.length; i++) {
 
-                var currentCssClass = cssClass;
-                var text = lines[i];
+                let currentCssClass = cssClass;
+                let text = lines[i];
 
                 if (valid > 0 && isOuterFooter) {
                     currentCssClass += ' cardText-secondary';
@@ -809,9 +804,9 @@ import 'programStyles';
 
             if (forceLines) {
 
-                length = maxLines || Math.min(lines.length, maxLines || lines.length);
+                let linesLength = maxLines || Math.min(lines.length, maxLines || lines.length);
 
-                while (valid < length) {
+                while (valid < linesLength) {
                     html += "<div class='" + cssClass + "'>&nbsp;</div>";
                     valid++;
                 }
@@ -837,11 +832,12 @@ import 'programStyles';
          * @returns {string} The air time text for the item base on the given dates.
          */
         function getAirTimeText(item, showAirDateTime, showAirEndTime) {
-            var airTimeText = '';
+            let airTimeText = '';
+
             if (item.StartDate) {
 
                 try {
-                    var date = datetime.parseISO8601Date(item.StartDate);
+                    let date = datetime.parseISO8601Date(item.StartDate);
 
                     if (showAirDateTime) {
                         airTimeText += datetime.toLocaleDateString(date, { weekday: 'short', month: 'short', day: 'numeric' }) + ' ';
@@ -877,13 +873,13 @@ import 'programStyles';
          * @returns {string} HTML markup of the card's footer text.
          */
         function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, logoUrl, isOuterFooter) {
-            var html = '';
+            let html = '';
 
             if (logoUrl) {
                 html += '<div class="lazy cardFooterLogo" data-src="' + logoUrl + '"></div>';
             }
 
-            var showOtherText = isOuterFooter ? !overlayText : overlayText;
+            const showOtherText = isOuterFooter ? !overlayText : overlayText;
 
             if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
 
@@ -892,12 +888,12 @@ import 'programStyles';
                 }
             }
 
-            var cssClass = options.centerText ? "cardText cardTextCentered" : "cardText";
-            var serverId = item.ServerId || options.serverId;
+            const cssClass = options.centerText ? "cardText cardTextCentered" : "cardText";
+            const serverId = item.ServerId || options.serverId;
 
-            var lines = [];
-            var parentTitleUnderneath = item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'MusicVideo';
-            var titleAdded;
+            let lines = [];
+            const parentTitleUnderneath = item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'MusicVideo';
+            let titleAdded;
 
             if (showOtherText) {
                 if ((options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
@@ -926,7 +922,7 @@ import 'programStyles';
                             }
 
                         } else {
-                            var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || "";
+                            const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || "";
 
                             if (parentTitle || showTitle) {
                                 lines.push(parentTitle);
@@ -936,14 +932,14 @@ import 'programStyles';
                 }
             }
 
-            var showMediaTitle = (showTitle && !titleAdded) || (options.showParentTitleOrTitle && !lines.length);
+            let showMediaTitle = (showTitle && !titleAdded) || (options.showParentTitleOrTitle && !lines.length);
             if (!showMediaTitle && !titleAdded && (showTitle || forceName)) {
                 showMediaTitle = true;
             }
 
             if (showMediaTitle) {
 
-                var name = options.showTitle === 'auto' && !item.IsFolder && item.MediaType === 'Photo' ? '' : itemHelper.getDisplayName(item, {
+                const name = options.showTitle === 'auto' && !item.IsFolder && item.MediaType === 'Photo' ? '' : itemHelper.getDisplayName(item, {
                     includeParentInfo: options.includeParentInfoInTitle
                 });
 
@@ -970,22 +966,18 @@ import 'programStyles';
                 }
 
                 if (options.showItemCounts) {
-
-                    var itemCountHtml = getItemCountsHtml(options, item);
-
-                    lines.push(itemCountHtml);
+                    lines.push(getItemCountsHtml(options, item));
                 }
 
                 if (options.textLines) {
-                    var additionalLines = options.textLines(item);
-                    for (var i = 0, length = additionalLines.length; i < length; i++) {
+                    const additionalLines = options.textLines(item);
+                    for (let i = 0; i < additionalLines.length; i++) {
                         lines.push(additionalLines[i]);
                     }
                 }
 
                 if (options.showSongCount) {
-
-                    var songLine = '';
+                    let songLine = '';
 
                     if (item.SongCount) {
                         songLine = item.SongCount === 1 ?
@@ -1023,7 +1015,7 @@ import 'programStyles';
                         } else {
 
                             if (item.EndDate && item.ProductionYear) {
-                                var endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
+                                const endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
                                 lines.push(item.ProductionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
                             } else {
                                 lines.push(item.ProductionYear || '');
@@ -1118,7 +1110,7 @@ import 'programStyles';
                 lines = [];
             }
 
-            var addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
+            const addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
 
             html += getCardTextLines(lines, cssClass, !options.overlayText, isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
 
@@ -1155,7 +1147,7 @@ import 'programStyles';
                 return text;
             }
 
-            var html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton" title="' + text + '" data-action="link">';
+            let html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton" title="' + text + '" data-action="link">';
             html += text;
             html += '</button>';
 
@@ -1169,8 +1161,8 @@ import 'programStyles';
          * @returns {string} HTML markup for the item count indicator.
          */
         function getItemCountsHtml(options, item) {
-            var counts = [];
-            var childText;
+            let counts = [];
+            let childText;
 
             if (item.Type === 'Playlist') {
 
@@ -1178,7 +1170,7 @@ import 'programStyles';
 
                 if (item.RunTimeTicks) {
 
-                    var minutes = item.RunTimeTicks / 600000000;
+                    let minutes = item.RunTimeTicks / 600000000;
 
                     minutes = minutes || 1;
 
@@ -1257,7 +1249,7 @@ import 'programStyles';
             return counts.join(', ');
         }
 
-        var refreshIndicatorLoaded;
+        let refreshIndicatorLoaded;
 
         /**
          * Imports the refresh indicator element.
@@ -1287,7 +1279,7 @@ import 'programStyles';
          * @returns {string} HTML markup for the generated card.
          */
         function buildCard(index, item, apiClient, options) {
-            var action = options.action || 'link';
+            let action = options.action || 'link';
 
             if (action === 'play' && item.IsFolder) {
                 // If this hard-coding is ever removed make sure to test nested photo albums
@@ -1296,13 +1288,13 @@ import 'programStyles';
                 action = 'play';
             }
 
-            var shape = options.shape;
+            let shape = options.shape;
 
             if (shape === 'mixed') {
 
                 shape = null;
 
-                var primaryImageAspectRatio = item.PrimaryImageAspectRatio;
+                const primaryImageAspectRatio = item.PrimaryImageAspectRatio;
 
                 if (primaryImageAspectRatio) {
 
@@ -1320,7 +1312,7 @@ import 'programStyles';
 
             // TODO move card creation code to Card component
 
-            var className = 'card';
+            let className = 'card';
 
             if (shape) {
                 className += ' ' + shape + 'Card';
@@ -1346,16 +1338,16 @@ import 'programStyles';
                 }
             }
 
-            var imgInfo = getCardImageUrl(item, apiClient, options, shape);
-            var imgUrl = imgInfo.imgUrl;
+            const imgInfo = getCardImageUrl(item, apiClient, options, shape);
+            const imgUrl = imgInfo.imgUrl;
 
-            var forceName = imgInfo.forceName;
+            const forceName = imgInfo.forceName;
 
-            var showTitle = options.showTitle === 'auto' ? true : (options.showTitle || item.Type === 'PhotoAlbum' || item.Type === 'Folder');
-            var overlayText = options.overlayText;
+            const showTitle = options.showTitle === 'auto' ? true : (options.showTitle || item.Type === 'PhotoAlbum' || item.Type === 'Folder');
+            const overlayText = options.overlayText;
 
-            var cardImageContainerClass = 'cardImageContainer';
-            var coveredImage = options.coverImage || imgInfo.coverImage;
+            let cardImageContainerClass = 'cardImageContainer';
+            const coveredImage = options.coverImage || imgInfo.coverImage;
 
             if (coveredImage) {
                 cardImageContainerClass += ' coveredImage';
@@ -1369,17 +1361,17 @@ import 'programStyles';
                 cardImageContainerClass += ' ' + getDefaultBackgroundClass(item.Name);
             }
 
-            var cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
+            let cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
 
-            var footerCssClass;
-            var progressHtml = indicators.getProgressBarHtml(item);
+            let footerCssClass;
+            let progressHtml = indicators.getProgressBarHtml(item);
 
-            var innerCardFooter = '';
+            let innerCardFooter = '';
 
-            var footerOverlayed = false;
+            let footerOverlayed = false;
 
-            var logoUrl;
-            var logoHeight = 40;
+            let logoUrl;
+            const logoHeight = 40;
 
             if (options.showChannelLogo && item.ChannelPrimaryImageTag) {
                 logoUrl = apiClient.getScaledImageUrl(item.ChannelId, {
@@ -1410,12 +1402,12 @@ import 'programStyles';
                 progressHtml = '';
             }
 
-            var mediaSourceCount = item.MediaSourceCount || 1;
+            const mediaSourceCount = item.MediaSourceCount || 1;
             if (mediaSourceCount > 1) {
                 innerCardFooter += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
             }
 
-            var outerCardFooter = '';
+            let outerCardFooter = '';
             if (!overlayText && !footerOverlayed) {
                 footerCssClass = options.cardLayout ? 'cardFooter' : 'cardFooter cardFooter-transparent';
 
@@ -1434,15 +1426,15 @@ import 'programStyles';
                 cardBoxClass += ' cardBox-bottompadded';
             }
 
-            var overlayButtons = '';
+            let overlayButtons = '';
             if (layoutManager.mobile) {
-                var overlayPlayButton = options.overlayPlayButton;
+                let overlayPlayButton = options.overlayPlayButton;
 
                 if (overlayPlayButton == null && !options.overlayMoreButton && !options.overlayInfoButton && !options.cardLayout) {
                     overlayPlayButton = item.MediaType === 'Video';
                 }
 
-                var btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
+                const btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
                 if (options.centerPlayButton) {
                     overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
@@ -1462,12 +1454,12 @@ import 'programStyles';
             }
 
             // cardBox can be it's own separate element if an outer footer is ever needed
-            var cardImageContainerOpen;
-            var cardImageContainerClose = '';
-            var cardBoxClose = '';
-            var cardScalableClose = '';
+            let cardImageContainerOpen;
+            let cardImageContainerClose = '';
+            let cardBoxClose = '';
+            let cardScalableClose = '';
 
-            var cardContentClass = 'cardContent';
+            let cardContentClass = 'cardContent';
             if (!options.cardLayout) {
                 cardContentClass += ' cardContent-shadow';
             }
@@ -1485,13 +1477,13 @@ import 'programStyles';
                 cardImageContainerClose = '</button>';
             }
 
-            var cardScalableClass = 'cardScalable';
+            let cardScalableClass = 'cardScalable';
 
             cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
 
-            var indicatorsHtml = '';
+            let indicatorsHtml = '';
 
             if (options.missingIndicator !== false) {
                 indicatorsHtml += indicators.getMissingIndicator(item);
@@ -1512,7 +1504,7 @@ import 'programStyles';
             }
 
             if (item.Type === 'CollectionFolder' || item.CollectionType) {
-                var refreshClass = item.RefreshProgress ? '' : ' class="hide"';
+                const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
                 indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
                 requireRefreshIndicator();
             }
@@ -1525,16 +1517,16 @@ import 'programStyles';
                 cardImageContainerOpen += getDefaultText(item, options);
             }
 
-            var tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
+            const tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
 
-            var nameWithPrefix = (item.SortName || item.Name || '');
-            var prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
+            const nameWithPrefix = (item.SortName || item.Name || '');
+            let prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
 
             if (prefix) {
                 prefix = prefix.toUpperCase();
             }
 
-            var timerAttributes = '';
+            let timerAttributes = '';
             if (item.TimerId) {
                 timerAttributes += ' data-timerid="' + item.TimerId + '"';
             }
@@ -1542,7 +1534,7 @@ import 'programStyles';
                 timerAttributes += ' data-seriestimerid="' + item.SeriesTimerId + '"';
             }
 
-            var actionAttribute;
+            let actionAttribute;
 
             if (tagName === 'button') {
                 className += " itemAction";
@@ -1555,16 +1547,16 @@ import 'programStyles';
                 className += ' card-withuserdata';
             }
 
-            var positionTicksData = item.UserData && item.UserData.PlaybackPositionTicks ? (' data-positionticks="' + item.UserData.PlaybackPositionTicks + '"') : '';
-            var collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
-            var playlistIdData = options.playlistId ? (' data-playlistid="' + options.playlistId + '"') : '';
-            var mediaTypeData = item.MediaType ? (' data-mediatype="' + item.MediaType + '"') : '';
-            var collectionTypeData = item.CollectionType ? (' data-collectiontype="' + item.CollectionType + '"') : '';
-            var channelIdData = item.ChannelId ? (' data-channelid="' + item.ChannelId + '"') : '';
-            var contextData = options.context ? (' data-context="' + options.context + '"') : '';
-            var parentIdData = options.parentId ? (' data-parentid="' + options.parentId + '"') : '';
+            const positionTicksData = item.UserData && item.UserData.PlaybackPositionTicks ? (' data-positionticks="' + item.UserData.PlaybackPositionTicks + '"') : '';
+            const collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
+            const playlistIdData = options.playlistId ? (' data-playlistid="' + options.playlistId + '"') : '';
+            const mediaTypeData = item.MediaType ? (' data-mediatype="' + item.MediaType + '"') : '';
+            const collectionTypeData = item.CollectionType ? (' data-collectiontype="' + item.CollectionType + '"') : '';
+            const channelIdData = item.ChannelId ? (' data-channelid="' + item.ChannelId + '"') : '';
+            const contextData = options.context ? (' data-context="' + options.context + '"') : '';
+            const parentIdData = options.parentId ? (' data-parentid="' + options.parentId + '"') : '';
 
-            var additionalCardContent = '';
+            let additionalCardContent = '';
 
             if (layoutManager.desktop) {
                 additionalCardContent += getHoverMenuHtml(item, action);
@@ -1580,11 +1572,11 @@ import 'programStyles';
          * @returns {string} HTML markup of the card overlay.
          */
         function getHoverMenuHtml(item, action) {
-            var html = '';
+            let html = '';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
 
-            var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
+            const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
             if (playbackManager.canPlay(item)) {
                 html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></i></button>';
@@ -1592,7 +1584,7 @@ import 'programStyles';
 
             html += '<div class="cardOverlayButton-br flex">';
 
-            var userData = item.UserData || {};
+            const userData = item.UserData || {};
 
             if (itemHelper.canMarkPlayed(item)) {
                 require(['emby-playstatebutton']);
@@ -1601,7 +1593,7 @@ import 'programStyles';
 
             if (itemHelper.canRate(item)) {
 
-                var likes = userData.Likes == null ? '' : userData.Likes;
+                const likes = userData.Likes == null ? '' : userData.Likes;
 
                 require(['emby-ratingbutton']);
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">favorite</i></button>';
@@ -1623,7 +1615,7 @@ import 'programStyles';
          */
         export function getDefaultText(item, options) {
             if (item.CollectionType) {
-                return '<i class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '"></i>'
+                return '<i class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '"></i>';
             }
 
             switch (item.Type) {
@@ -1646,7 +1638,7 @@ import 'programStyles';
                 return '<i class="cardImageIcon material-icons">' + options.defaultCardImageIcon + '</i>';
             }
 
-            var defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
+            const defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
             return '<div class="cardText cardDefaultText">' + defaultName + '</div>';
         }
 
@@ -1670,7 +1662,7 @@ import 'programStyles';
                 }
             }
 
-            var html = buildCardsHtmlInternal(items, options);
+            const html = buildCardsHtmlInternal(items, options);
 
             if (html) {
 
@@ -1698,9 +1690,9 @@ import 'programStyles';
 
         /**
          * Ensures the indicators for a card exist and creates them if they don't.
-         * @param {string} card - HTML Markup of the card.
-         * @param {string} indicatorsElem - HTML markup of the indicators.
-         * @returns {string} - HTML markup of the indicators.
+         * @param {HTMLDivElement} card - HTML Markup of the card.
+         * @param {HTMLDivElement} indicatorsElem - HTML markup of the indicators.
+         * @returns {HTMLDivElement} - HTML markup of the indicators.
          */
         function ensureIndicators(card, indicatorsElem) {
             if (indicatorsElem) {
@@ -1711,7 +1703,7 @@ import 'programStyles';
 
             if (!indicatorsElem) {
 
-                var cardImageContainer = card.querySelector('.cardImageContainer');
+                const cardImageContainer = card.querySelector('.cardImageContainer');
                 indicatorsElem = document.createElement('div');
                 indicatorsElem.classList.add('cardIndicators');
                 cardImageContainer.appendChild(indicatorsElem);
@@ -1722,16 +1714,16 @@ import 'programStyles';
 
         /**
          * Adds user data to the card such as progress indicators, played status, etc.
-         * @param {string} card - HTML markup of the card.
+         * @param {HTMLDivElement} card - HTML markup of the card.
          * @param {Object} userData - User data to apply to the card.
          */
         function updateUserData(card, userData) {
-            var type = card.getAttribute('data-type');
-            var enableCountIndicator = type === 'Series' || type === 'BoxSet' || type === 'Season';
-            var indicatorsElem = null;
-            var playedIndicator = null;
-            var countIndicator = null;
-            var itemProgressBar = null;
+            const type = card.getAttribute('data-type');
+            const enableCountIndicator = type === 'Series' || type === 'BoxSet' || type === 'Season';
+            let indicatorsElem = null;
+            let playedIndicator = null;
+            let countIndicator = null;
+            let itemProgressBar = null;
 
             if (userData.Played) {
 
@@ -1774,7 +1766,7 @@ import 'programStyles';
                 }
             }
 
-            var progressHtml = indicators.getProgressBarHtml({
+            const progressHtml = indicators.getProgressBarHtml({
                 Type: type,
                 UserData: userData,
                 MediaType: 'Video'
@@ -1788,11 +1780,11 @@ import 'programStyles';
                     itemProgressBar = document.createElement('div');
                     itemProgressBar.classList.add('itemProgressBar');
 
-                    var innerCardFooter = card.querySelector('.innerCardFooter');
+                    let innerCardFooter = card.querySelector('.innerCardFooter');
                     if (!innerCardFooter) {
                         innerCardFooter = document.createElement('div');
                         innerCardFooter.classList.add('innerCardFooter');
-                        var cardImageContainer = card.querySelector('.cardImageContainer');
+                        const cardImageContainer = card.querySelector('.cardImageContainer');
                         cardImageContainer.appendChild(innerCardFooter);
                     }
                     innerCardFooter.appendChild(itemProgressBar);
@@ -1814,9 +1806,9 @@ import 'programStyles';
          * @param {HTMLElement} scope - DOM Element to use as a scope when selecting cards.
          */
         export function onUserDataChanged(userData, scope) {
-            var cards = (scope || document.body).querySelectorAll('.card-withuserdata[data-id="' + userData.ItemId + '"]');
+            const cards = (scope || document.body).querySelectorAll('.card-withuserdata[data-id="' + userData.ItemId + '"]');
 
-            for (var i = 0, length = cards.length; i < length; i++) {
+            for (let i = 0, length = cards.length; i < length; i++) {
                 updateUserData(cards[i], userData);
             }
         }
@@ -1828,13 +1820,13 @@ import 'programStyles';
          * @param {HTMLElement} itemsContainer - DOM Element of the items container.
          */
         export function onTimerCreated(programId, newTimerId, itemsContainer) {
-            var cells = itemsContainer.querySelectorAll('.card[data-id="' + programId + '"]');
+            const cells = itemsContainer.querySelectorAll('.card[data-id="' + programId + '"]');
 
-            for (var i = 0, length = cells.length; i < length; i++) {
-                var cell = cells[i];
-                var icon = cell.querySelector('.timerIndicator');
+            for (let i = 0, length = cells.length; i < length; i++) {
+                let cell = cells[i];
+                const icon = cell.querySelector('.timerIndicator');
                 if (!icon) {
-                    var indicatorsElem = ensureIndicators(cell);
+                    const indicatorsElem = ensureIndicators(cell);
                     indicatorsElem.insertAdjacentHTML('beforeend', '<i class="material-icons timerIndicator indicatorIcon fiber_manual_record"></i>');
                 }
                 cell.setAttribute('data-timerid', newTimerId);
@@ -1847,11 +1839,11 @@ import 'programStyles';
          * @param {HTMLElement} itemsContainer - DOM Element of the items container.
          */
         export function onTimerCancelled(timerId, itemsContainer) {
-            var cells = itemsContainer.querySelectorAll('.card[data-timerid="' + timerId + '"]');
+            const cells = itemsContainer.querySelectorAll('.card[data-timerid="' + timerId + '"]');
 
-            for (var i = 0, length = cells.length; i < length; i++) {
-                var cell = cells[i];
-                var icon = cell.querySelector('.timerIndicator');
+            for (let i = 0; i < cells.length; i++) {
+                let cell = cells[i];
+                let icon = cell.querySelector('.timerIndicator');
                 if (icon) {
                     icon.parentNode.removeChild(icon);
                 }
@@ -1865,11 +1857,11 @@ import 'programStyles';
          * @param {HTMLElement} itemsContainer - DOM Element of the items container.
          */
         export function onSeriesTimerCancelled(canceledTimerId, itemsContainer) {
-            var cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + canceledTimerId + '"]');
+            const cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + canceledTimerId + '"]');
 
-            for (var i = 0, length = cells.length; i < length; i++) {
-                var cell = cells[i];
-                var icon = cell.querySelector('.timerIndicator');
+            for (let i = 0; i < cells.length; i++) {
+                let cell = cells[i];
+                let icon = cell.querySelector('.timerIndicator');
                 if (icon) {
                     icon.parentNode.removeChild(icon);
                 }
