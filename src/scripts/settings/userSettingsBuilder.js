@@ -202,6 +202,19 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return this.get('screensaver', false);
     };
 
+    UserSettings.prototype.libraryPageSize = function (val) {
+        if (val != null) {
+            return this.set('libraryPageSize', parseInt(val, 10), false);
+        }
+
+        if (parseInt(this.get('libraryPageSize', false), 10) === 0) {
+            // Explicitely return 0 to avoid returning 100 because 0 is falsy.
+            return 0;
+        } else {
+            return parseInt(this.get('libraryPageSize', false), 10) || 100;
+        }
+    };
+
     UserSettings.prototype.soundEffects = function (val) {
         if (val != null) {
             return this.set('soundeffects', val, false);
