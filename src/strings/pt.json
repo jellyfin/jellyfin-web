@@ -1213,5 +1213,10 @@
     "CopyStreamURLError": "Ocorreu um erro ao copiar o URL.",
     "ButtonSplit": "Dividir",
     "AskAdminToCreateLibrary": "Peça  a um administrador para criar a biblioteca.",
-    "AllowFfmpegThrottling": "Transcodificação com falhas"
+    "AllowFfmpegThrottling": "Transcodificação com falhas",
+    "DashboardOperatingSystem": "Sistema Operativo",
+    "LabelUserLoginAttemptsBeforeLockout": "Número de tentativas de login falhadas antes do bloqueio do utilizador:",
+    "LabelTrackNumber": "Número da faixa:",
+    "LabelSportsCategories": "Categorias de Desportos:",
+    "Yesterday": "Ontem"
 }
