@@ -1,4 +1,4 @@
-define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu", "mainTabsManager", "cardBuilder", "dom", "imageLoader", "playbackManager", "emby-itemscontainer", "emby-tabs", "emby-button"], function (events, layoutManager, inputManager, userSettings, libraryMenu, mainTabsManager, cardBuilder, dom, imageLoader, playbackManager) {
+define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu", "mainTabsManager", "cardBuilder", "dom", "imageLoader", "playbackManager", "emby-scroller", "emby-itemscontainer", "emby-tabs", "emby-button"], function (events, layoutManager, inputManager, userSettings, libraryMenu, mainTabsManager, cardBuilder, dom, imageLoader, playbackManager) {
     "use strict";
 
     function enableScrollX() {
@@ -114,18 +114,25 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
         var allowBottomPadding = true;
 
         if (enableScrollX()) {
-            allowBottomPadding = false;
-            html += '<div is="emby-itemscontainer" class="itemsContainer hiddenScrollX padded-left padded-right">';
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
+            html += '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
         }
 
         html += cardBuilder.getCardsHtml(recommendation.Items, {
             shape: getPortraitShape(),
             scalable: true,
             overlayPlayButton: true,
-            allowBottomPadding: allowBottomPadding
+            allowBottomPadding: allowBottomPadding,
+            showTitle: true,
+            showYear: true,
+            centerText: true
         });
+
+        if (enableScrollX()) {
+            html += '</div>';
+        }
         html += "</div>";
         html += "</div>";
         return html;
@@ -171,6 +178,8 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
 
             if (layoutManager.tv) {
                 elem.classList.add("smoothScrollX");
+                elem.classList.add("padded-top-focusscale");
+                elem.classList.add("padded-bottom-focusscale");
             }
 
             elem.classList.add("scrollX");
@@ -194,7 +203,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
     function loadSuggestionsTab(view, params, tabContent) {
         var parentId = params.topParentId;
         var userId = ApiClient.getCurrentUserId();
-        console.log("loadSuggestionsTab");
+        console.debug("loadSuggestionsTab");
         loadResume(tabContent, userId, parentId);
         loadLatest(tabContent, userId, parentId);
         loadSuggestions(tabContent, userId, parentId);

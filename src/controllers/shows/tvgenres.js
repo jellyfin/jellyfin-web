@@ -141,13 +141,13 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += item.Name;
                     html += "</h2>";
-                    html += '<i class="md-icon hide">chevron_right</i>';
+                    html += '<i class="material-icons hide chevron_right"></i>';
                     html += "</a>";
                     html += "</div>";
                     if (enableScrollX()) {
                         var scrollXClass = "scrollX hiddenScrollX";
                         if (layoutManager.tv) {
-                            scrollXClass += "smoothScrollX";
+                            scrollXClass += "smoothScrollX padded-top-focusscale padded-bottom-focusscale";
                         }
                         html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' lazy padded-left padded-right" data-id="' + item.Id + '">';
                     } else {

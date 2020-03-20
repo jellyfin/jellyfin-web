@@ -1,10 +1,10 @@
+button {
+    -webkit-border-fit: border !important;
+}
+
 button::-moz-focus-inner {
     padding: 0;
     border: 0;
-}
-
-button {
-    -webkit-border-fit: border !important;
 }
 
 .card {
@@ -12,12 +12,13 @@ button {
     font-size: inherit !important;
     font-family: inherit !important;
     text-transform: none;
-    background-color: transparent !important;
     background: none !important;
+    background-color: transparent !important;
     margin: 0;
     padding: 0;
     display: block;
     color: inherit !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     outline: none !important;
     cursor: pointer;
     contain: layout style;
@@ -54,17 +55,27 @@ button {
     contain: layout style;
 }
 
-.cardPadder-backdrop, .cardPadder-mixedBackdrop, .cardPadder-smallBackdrop, .cardPadder-overflowBackdrop, .cardPadder-overflowSmallBackdrop {
+.cardPadder-backdrop,
+.cardPadder-mixedBackdrop,
+.cardPadder-smallBackdrop,
+.cardPadder-overflowBackdrop,
+.cardPadder-overflowSmallBackdrop {
     padding-bottom: 56.25%;
     contain: strict;
 }
 
-.cardPadder-square, .cardPadder-mixedSquare, .cardPadder-overflowSquare, .overflowSquareCard-textCardPadder {
+.cardPadder-square,
+.cardPadder-mixedSquare,
+.cardPadder-overflowSquare,
+.overflowSquareCard-textCardPadder {
     padding-bottom: 100%;
     contain: strict;
 }
 
-.cardPadder-portrait, .cardPadder-mixedPortrait, .cardPadder-overflowPortrait, .overflowPortraitCard-textCardPadder {
+.cardPadder-portrait,
+.cardPadder-mixedPortrait,
+.cardPadder-overflowPortrait,
+.overflowPortraitCard-textCardPadder {
     padding-bottom: 150%;
     contain: strict;
 }
@@ -79,23 +90,26 @@ button {
     margin: 0.6em;
     transition: none;
     border: 0 solid transparent;
+
+    /* These both are needed in case cardBox is a button */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     outline: none !important;
     contain: layout;
     contain: style;
 }
 
+.card.show-animation .cardBox {
+    will-change: transform;
+    transition: transform 200ms ease-out;
+}
+
 .card.show-focus:not(.show-animation) .cardBox {
-    margin: .4em;
+    margin: 0.4em;
 }
 
 .card.show-focus:not(.show-animation) .cardBox.visualCardBox,
 .card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
-    border: .5em solid transparent;
-}
-
-.card.show-animation .cardBox {
-    will-change: transform;
-    transition: transform 200ms ease-out;
+    border: 0.5em solid transparent;
 }
 
 .card.show-animation:focus > .cardBox {
@@ -120,7 +134,7 @@ button {
 
 .btnCardOptions {
     position: absolute;
-    bottom: .25em;
+    bottom: 0.25em;
     right: 0;
     margin: 0 !important;
     z-index: 1;
@@ -131,8 +145,8 @@ button {
     position: absolute;
     align-items: center;
     justify-content: center;
-    top: .3em;
-    left: .3em;
+    top: 0.3em;
+    left: 0.3em;
     text-align: center;
     vertical-align: middle;
     width: 1.6em;
@@ -146,12 +160,14 @@ button {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+    display: -webkit-flex;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     background-clip: content-box !important;
     color: inherit;
+
     /* This is only needed for scalable cards */
     height: 100%;
     contain: strict;
@@ -173,12 +189,16 @@ button {
     left: 0;
     right: 0;
     bottom: 0;
+
     /* Needed in case this is a button */
     display: block;
+
     /* Needed in case this is a button */
     margin: 0 !important;
+
     /* Needed in safari */
     height: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     outline: none !important;
     contain: strict;
 }
@@ -207,10 +227,6 @@ button {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
-.cardImageContainer {
-    display: flex;
-}
-
 .cardImage {
     position: absolute;
     top: 0;
@@ -226,6 +242,7 @@ button {
 .cardImage-img {
     max-height: 100%;
     max-width: 100%;
+
     /* This is simply for lazy image purposes, to ensure the image is visible sooner when scrolling */
     min-height: 70%;
     min-width: 70%;
@@ -252,17 +269,17 @@ button {
 }
 
 .cardFooter {
-    padding: .3em .3em .5em .3em;
+    padding: 0.3em 0.3em 0.5em 0.3em;
     position: relative;
 }
 
 .visualCardBox {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    border-radius: .145em;
+    border-radius: 0.145em;
 }
 
 .innerCardFooter {
-    background: rgba(0,0,0,.7);
+    background: rgba(0, 0, 0, 0.7);
     position: absolute;
     bottom: 0;
     left: 0;
@@ -282,7 +299,7 @@ button {
 }
 
 .cardText {
-    padding: .06em .5em;
+    padding: 0.06em 0.5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -294,7 +311,24 @@ button {
 }
 
 .cardText-first {
-    padding-top: .24em;
+    padding-top: 0.24em;
+}
+
+.textActionButton {
+    border: 0 !important;
+    background: transparent;
+    padding: 0 !important;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: none !important;
+    color: inherit;
+    vertical-align: middle;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.textActionButton:hover {
+    text-decoration: underline;
 }
 
 .cardText > .textActionButton {
@@ -304,7 +338,7 @@ button {
 }
 
 .innerCardFooter > .cardText {
-    padding: .3em .5em;
+    padding: 0.3em 0.5em;
 }
 
 .cardFooter-withlogo {
@@ -336,36 +370,19 @@ button {
     text-align: center;
 }
 
-.textActionButton {
-    border: 0 !important;
-    background: transparent;
-    border: 0 !important;
-    padding: 0 !important;
-    cursor: pointer;
-    outline: none !important;
-    color: inherit;
-    vertical-align: middle;
-    font-family: inherit;
-    font-size: inherit;
-}
-
-.textActionButton:hover {
-    text-decoration: underline;
-}
-
-.cardImageIcon {
+.cardImageContainer .cardImageIcon {
     font-size: 5em;
     color: inherit;
 }
 
 .cardImageIcon-small {
-    font-size: 3em;
-    margin-bottom: .1em;
+    font-size: 3em !important;
+    margin-bottom: 0.1em;
 }
 
 .cardIndicators {
-    right: .225em;
-    top: .225em;
+    right: 0.225em;
+    top: 0.225em;
     position: absolute;
     display: flex;
     align-items: center;
@@ -382,16 +399,16 @@ button {
 }
 
 .programAttributeIndicator {
-    padding: .18em .5em;
+    padding: 0.18em 0.5em;
     color: #fff;
     font-weight: 500;
 }
 
 .cardOverlayButton {
-    color: rgba(255, 255, 255, .76);
+    color: rgba(255, 255, 255, 0.76);
     margin: 0;
     z-index: 1;
-    padding: .75em;
+    padding: 0.75em;
     font-size: 88%;
 }
 
@@ -402,7 +419,7 @@ button {
 }
 
 .cardOverlayButtonIcon {
-    background-color: rgba(0,0,0,.7) !important;
+    background-color: rgba(0, 0, 0, 0.7) !important;
     border-radius: 100em;
     width: 1.5em !important;
     height: 1.5em !important;
@@ -410,6 +427,12 @@ button {
     align-items: center;
     display: flex;
     font-size: 1.66956521739130434em !important;
+}
+
+.cardOverlayButtonIcon.material-icons {
+    /* material-icons override display, so we need to
+       make a better matching selector to set it to flex */
+    display: flex;
 }
 
 .cardOverlayButton-centered {
@@ -424,10 +447,10 @@ button {
     height: 2.6em;
     top: 50%;
     left: 50%;
-    background-color: rgba(0,0,0,.5) !important;
-    border: .06em solid rgba(255,255,255,.6);
-    padding: .38em !important;
-    color: rgba(255, 255, 255, .76);
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border: 0.06em solid rgba(255, 255, 255, 0.6);
+    padding: 0.38em !important;
+    color: rgba(255, 255, 255, 0.76);
     transition: transform 200ms ease-out;
 }
 
@@ -474,13 +497,15 @@ button {
         width: 33.333333333333333333333333333333%;
     }
 
-    .squareCard, .portraitCard {
+    .squareCard,
+    .portraitCard {
         width: 33.333333333333333333333333333333%;
     }
 }
 
 @media (min-width: 43.75em) {
-    .squareCard, .portraitCard {
+    .squareCard,
+    .portraitCard {
         width: 25%;
     }
 }
@@ -496,7 +521,8 @@ button {
         width: 50%;
     }
 
-    .squareCard, .portraitCard {
+    .squareCard,
+    .portraitCard {
         width: 20%;
     }
 
@@ -516,7 +542,8 @@ button {
         width: 25%;
     }
 
-    .squareCard, .portraitCard {
+    .squareCard,
+    .portraitCard {
         width: 16.666666666666666666666666666667%;
     }
 
@@ -529,9 +556,9 @@ button {
     }
 }
 
-
 @media (min-width: 87.5em) {
-    .squareCard, .portraitCard {
+    .squareCard,
+    .portraitCard {
         width: 14.285714285714285714285714285714%;
     }
 
@@ -549,13 +576,15 @@ button {
         width: 20%;
     }
 
-    .squareCard, .portraitCard {
+    .squareCard,
+    .portraitCard {
         width: 12.5%;
     }
 }
 
 @media (min-width: 120em) {
-    .squareCard, .portraitCard {
+    .squareCard,
+    .portraitCard {
         width: 11.111111111111111111111111111111%;
     }
 }
@@ -565,7 +594,8 @@ button {
         width: 25%;
     }
 
-    .squareCard, .portraitCard {
+    .squareCard,
+    .portraitCard {
         width: 10%;
     }
 }
@@ -596,7 +626,8 @@ button {
     width: 72vw;
 }
 
-.overflowSquareCard, .overflowPortraitCard {
+.overflowSquareCard,
+.overflowPortraitCard {
     width: 40vw;
 }
 
@@ -621,29 +652,34 @@ button {
 }
 
 @media (min-width: 43.75em) {
-    .overflowSquareCard, .overflowPortraitCard {
+    .overflowSquareCard,
+    .overflowPortraitCard {
         width: 23.1vw;
     }
 }
 
 @media (min-width: 48.125em) {
-    .overflowBackdropCard, .overflowSmallBackdropCard {
+    .overflowBackdropCard,
+    .overflowSmallBackdropCard {
         width: 30vw;
     }
 }
 
 @media (orientation: landscape) {
-    .overflowBackdropCard, .overflowSmallBackdropCard {
+    .overflowBackdropCard,
+    .overflowSmallBackdropCard {
         width: 30vw;
     }
 
-    .overflowSquareCard, .overflowPortraitCard {
+    .overflowSquareCard,
+    .overflowPortraitCard {
         width: 23.1vw;
     }
 }
 
 @media (orientation: landscape) and (min-width: 48.125em) {
-    .overflowBackdropCard, .overflowSmallBackdropCard {
+    .overflowBackdropCard,
+    .overflowSmallBackdropCard {
         width: 23.1vw;
     }
 }
@@ -655,55 +691,60 @@ button {
 }
 
 @media (min-width: 50em) {
-    .overflowSquareCard, .overflowPortraitCard {
+    .overflowSquareCard,
+    .overflowPortraitCard {
         width: 18.5vw;
     }
 }
 
 @media (min-width: 75em) {
-    .overflowBackdropCard, .overflowSmallBackdropCard {
+    .overflowBackdropCard,
+    .overflowSmallBackdropCard {
         width: 23.1vw;
     }
 
-    .overflowSquareCard, .overflowPortraitCard {
+    .overflowSquareCard,
+    .overflowPortraitCard {
         width: 15.5vw;
     }
 }
 
 @media (min-width: 87.5em) {
-    .overflowSquareCard, .overflowPortraitCard {
+    .overflowSquareCard,
+    .overflowPortraitCard {
         width: 13.3vw;
     }
 }
 
 @media (min-width: 100em) {
-
-    .overflowBackdropCard, .overflowSmallBackdropCard {
+    .overflowBackdropCard,
+    .overflowSmallBackdropCard {
         width: 18.7vw;
     }
 
-    .overflowSquareCard, .overflowPortraitCard {
+    .overflowSquareCard,
+    .overflowPortraitCard {
         width: 11.6vw;
     }
 }
 
 @media (min-width: 120em) {
-
-    .overflowSquareCard, .overflowPortraitCard {
-        width: 10.3vw;
+    .overflowSquareCard,
+    .overflowPortraitCard {
+        width: 10.41vw;
     }
 }
 
 @media (min-width: 131.25em) {
-
-    .overflowSquareCard, .overflowPortraitCard {
+    .overflowSquareCard,
+    .overflowPortraitCard {
         width: 9.3vw;
     }
 }
 
 @media (min-width: 156.25em) {
-
-    .overflowBackdropCard, .overflowSmallBackdropCard {
+    .overflowBackdropCard,
+    .overflowSmallBackdropCard {
         width: 15.6vw;
     }
 }
@@ -720,7 +761,8 @@ button {
     padding-bottom: 87.75%;
 }
 
-.itemsContainer-tv > .overflowSquareCard, .itemsContainer-tv > .overflowPortraitCard {
+.itemsContainer-tv > .overflowSquareCard,
+.itemsContainer-tv > .overflowPortraitCard {
     width: 15.6vw;
 }
 
@@ -729,9 +771,9 @@ button {
 }
 
 .cardOverlayContainer {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     opacity: 0;
-    transition: opacity .2s;
+    transition: opacity 0.2s;
     position: absolute;
     top: 0;
     left: 0;
@@ -748,7 +790,7 @@ button {
     opacity: 0;
     transition: 0.2s;
     background: transparent;
-    padding: 0.5em;
+    padding: 0.25em;
 }
 
 .cardOverlayButtonIcon-hover {
@@ -760,7 +802,7 @@ button {
 }
 
 .cardOverlayFab-primary {
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     font-size: 130%;
     padding: 0;
     width: 3em;

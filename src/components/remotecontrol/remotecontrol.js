@@ -1,4 +1,4 @@
-define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageLoader", "playbackManager", "nowPlayingHelper", "events", "connectionManager", "apphost", "globalize", "cardStyle", "emby-itemscontainer", "css!./remotecontrol.css", "emby-ratingbutton"], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize) {
+define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageLoader", "playbackManager", "nowPlayingHelper", "events", "connectionManager", "apphost", "globalize", "layoutManager", "userSettings", "cardStyle", "emby-itemscontainer", "css!./remotecontrol.css", "emby-ratingbutton"], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize, layoutManager, userSettings) {
     "use strict";
 
     function showAudioMenu(context, player, button, item) {
@@ -122,12 +122,12 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         }
 
         var url = item ? seriesImageUrl(item, {
-            maxHeight: 300
+            maxHeight: 300 * 2
         }) || imageUrl(item, {
-            maxHeight: 300
+            maxHeight: 300 * 2
         }) : null;
 
-        console.log("updateNowPlayingInfo");
+        console.debug("updateNowPlayingInfo");
         setImageUrl(context, url);
         if (item) {
             backdrop.setBackdrops([item]);
@@ -135,7 +135,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
                 var userData = fullItem.UserData || {};
                 var likes = null == userData.Likes ? "" : userData.Likes;
-                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="md-icon">favorite</i></button>';
+                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="material-icons">favorite</i></button>';
             });
         } else {
             backdrop.clear();
@@ -215,22 +215,11 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 context.querySelector(".sendTextSection").classList.add("hide");
             }
 
-            if (!currentPlayer.isLocalPlayer) {
+            if (-1 != supportedCommands.indexOf("Select") && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".navigationSection").classList.remove("hide");
             } else {
                 context.querySelector(".navigationSection").classList.add("hide");
             }
-
-            buttonVisible(context.querySelector(".btnArrowUp"), -1 != supportedCommands.indexOf("MoveUp"));
-            buttonVisible(context.querySelector(".btnArrowLeft"), -1 != supportedCommands.indexOf("MoveDown"));
-            buttonVisible(context.querySelector(".btnArrowRight"), -1 != supportedCommands.indexOf("MoveRight"));
-            buttonVisible(context.querySelector(".btnArrowDown"), -1 != supportedCommands.indexOf("MoveLeft"));
-            buttonVisible(context.querySelector(".btnOk"), -1 != supportedCommands.indexOf("Select"));
-            buttonVisible(context.querySelector(".btnBack"), -1 != supportedCommands.indexOf("Back"));
-            buttonVisible(context.querySelector(".btnContextMenu"), -1 != supportedCommands.indexOf("ToggleContextMenu"));
-            buttonVisible(context.querySelector(".btnShowSearch"), -1 != supportedCommands.indexOf("GoToSearch"));
-            buttonVisible(context.querySelector(".bthShowSettings"), -1 != supportedCommands.indexOf("GoToSettings"));
-            buttonVisible(context.querySelector(".btnGoHome"), -1 != supportedCommands.indexOf("GoHome"));
 
             buttonVisible(context.querySelector(".btnStop"), null != item);
             buttonVisible(context.querySelector(".btnNextTrack"), null != item);
@@ -238,6 +227,11 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             buttonVisible(context.querySelector(".btnRewind"), null != item);
             buttonVisible(context.querySelector(".btnFastForward"), null != item);
             var positionSlider = context.querySelector(".nowPlayingPositionSlider");
+
+            if (positionSlider && item && item.RunTimeTicks) {
+                positionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / item.RunTimeTicks,
+                    userSettings.skipForwardLength() * 1000000 / item.RunTimeTicks);
+            }
 
             if (positionSlider && !positionSlider.dragging) {
                 positionSlider.disabled = !playState.CanSeek;
@@ -274,13 +268,13 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             var toggleRepeatButton = context.querySelector(".repeatToggleButton");
 
             if ("RepeatAll" == repeatMode) {
-                toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat</i>";
+                toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat</i>";
                 toggleRepeatButton.classList.add("repeatButton-active");
             } else if ("RepeatOne" == repeatMode) {
-                toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat_one</i>";
+                toggleRepeatButton.innerHTML = "<i class='material-icons repeat_one'></i>";
                 toggleRepeatButton.classList.add("repeatButton-active");
             } else {
-                toggleRepeatButton.innerHTML = "<i class='md-icon'>repeat</i>";
+                toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat</i>";
                 toggleRepeatButton.classList.remove("repeatButton-active");
             }
         }
@@ -290,8 +284,6 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             var supportedCommands = currentPlayerSupportedCommands;
             var showMuteButton = true;
             var showVolumeSlider = true;
-            var volumeSlider = view.querySelector('.nowPlayingVolumeSliderContainer');
-            var progressElement = volumeSlider.querySelector('.mdl-slider-background-lower');
 
             if (-1 === supportedCommands.indexOf("Mute")) {
                 showMuteButton = false;
@@ -308,14 +300,10 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
 
             if (isMuted) {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute"));
-                view.querySelector(".buttonMute i").innerHTML = "volume_off";
+                view.querySelector(".buttonMute i").innerHTML = "&#xE04F;";
             } else {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute"));
-                view.querySelector(".buttonMute i").innerHTML = "volume_up";
-            }
-
-            if (progressElement) {
-                progressElement.style.width = (volumeLevel || 0) + '%';
+                view.querySelector(".buttonMute i").innerHTML = "&#xE050;";
             }
 
             if (showMuteButton) {
@@ -343,7 +331,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         function updatePlayPauseState(isPaused, isActive) {
             var context = dlg;
             var btnPlayPause = context.querySelector(".btnPlayPause");
-            btnPlayPause.querySelector("i").innerHTML = isPaused ? "play_arrow" : "pause";
+            btnPlayPause.querySelector("i").innerHTML = isPaused ? "&#xE037;" : "pause";
             buttonVisible(btnPlayPause, isActive);
         }
 
@@ -378,7 +366,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                     action: "setplaylistindex",
                     enableUserDataButtons: false,
                     rightButtons: [{
-                        icon: "remove_circle_outline",
+                        icon: "&#xE15D;",
                         title: globalize.translate("ButtonRemove"),
                         id: "remove"
                     }],
@@ -409,7 +397,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         }
 
         function onPlaybackStart(e, state) {
-            console.log("remotecontrol event: " + e.type);
+            console.debug("remotecontrol event: " + e.type);
             var player = this;
             onStateChanged.call(player, e, state);
         }
@@ -437,7 +425,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         }
 
         function onPlaybackStopped(e, state) {
-            console.log("remotecontrol event: " + e.type);
+            console.debug("remotecontrol event: " + e.type);
             var player = this;
 
             if (!state.NextMediaType) {
@@ -626,15 +614,27 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 return datetime.getDisplayRunningTime(ticks);
             };
 
-            context.querySelector(".nowPlayingVolumeSlider").addEventListener("change", function () {
+            var volumeSliderTimer;
+
+            function setVolume() {
+                clearTimeout(volumeSliderTimer);
+                volumeSliderTimer = null;
+
                 playbackManager.setVolume(this.value, currentPlayer);
-            });
-            context.querySelector(".nowPlayingVolumeSlider").addEventListener("mousemove", function () {
-                playbackManager.setVolume(this.value, currentPlayer);
-            });
-            context.querySelector(".nowPlayingVolumeSlider").addEventListener("touchmove", function () {
-                playbackManager.setVolume(this.value, currentPlayer);
-            });
+            }
+
+            function setVolumeDelayed() {
+                if (!volumeSliderTimer) {
+                    var that = this;
+                    volumeSliderTimer = setTimeout(function () {
+                        setVolume.call(that);
+                    }, 700);
+                }
+            }
+
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("change", setVolume);
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("mousemove", setVolumeDelayed);
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("touchmove", setVolumeDelayed);
             context.querySelector(".buttonMute").addEventListener("click", function () {
                 playbackManager.toggleMute(currentPlayer);
             });
@@ -698,6 +698,12 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             context.querySelector(".sendMessageForm").addEventListener("submit", onMessageSubmit);
             context.querySelector(".typeTextForm").addEventListener("submit", onSendStringSubmit);
             events.on(playbackManager, "playerchange", onPlayerChange);
+
+            if (layoutManager.tv) {
+                var positionSlider = context.querySelector(".nowPlayingPositionSlider");
+                positionSlider.classList.add("focusable");
+                positionSlider.enableKeyboardDragging();
+            }
         }
 
         function onDialogClosed(e) {

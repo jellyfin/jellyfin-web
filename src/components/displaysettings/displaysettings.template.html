@@ -3,6 +3,7 @@
     <h2 class="sectionTitle">
         ${Display}
     </h2>
+
     <div class="selectContainer languageSection hide">
         <select id="selectLanguage" is="emby-select" label="${LabelDisplayLanguage}">
             <option value="">${Auto}</option>
@@ -133,12 +134,21 @@
     <div class="selectContainer selectDashboardThemeContainer hide">
         <select id="selectDashboardTheme" is="emby-select" label="${LabelDashboardTheme}"></select>
     </div>
+
     <div class="selectContainer hide selectScreensaverContainer">
         <select is="emby-select" class="selectScreensaver" label="${LabelScreensaver}"></select>
     </div>
 
     <div class="selectContainer fldSoundEffects hide">
         <select is="emby-select" class="selectSoundEffects" label="${LabelSoundEffects}"></select>
+    </div>
+
+    <div class="checkboxContainer checkboxContainer-withDescription fldFadein">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkFadein" />
+            <span>${EnableFastImageFadeIn}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${EnableFastImageFadeInHelp}</div>
     </div>
 
     <div class="checkboxContainer checkboxContainer-withDescription fldBackdrops hide">
@@ -148,6 +158,7 @@
         </label>
         <div class="fieldDescription checkboxFieldDescription">${EnableBackdropsHelp}</div>
     </div>
+
     <div class="checkboxContainer checkboxContainer-withDescription fldThemeSong hide">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkThemeSong" />
@@ -155,6 +166,7 @@
         </label>
         <div class="fieldDescription checkboxFieldDescription">${EnableThemeSongsHelp}</div>
     </div>
+
     <div class="checkboxContainer checkboxContainer-withDescription fldThemeVideo hide">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkThemeVideo" />

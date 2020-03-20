@@ -31,7 +31,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         html += '<div class="nowPlayingBarTop">';
         html += '<div class="nowPlayingBarPositionContainer sliderContainer">';
-        html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider"/>';
+        html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
         html += '</div>';
 
         html += '<div class="nowPlayingBarInfoContainer">';
@@ -42,31 +42,31 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         // The onclicks are needed due to the return false above
         html += '<div class="nowPlayingBarCenter">';
 
-        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><i class="md-icon">skip_previous</i></button>';
+        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><i class="material-icons skip_previous"></i></button>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="md-icon">pause</i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons">pause</i></button>';
 
-        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><i class="md-icon">stop</i></button>';
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><i class="md-icon">skip_next</i></button>';
+        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><i class="material-icons">stop</i></button>';
+        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><i class="material-icons skip_next"></i></button>';
 
         html += '<div class="nowPlayingBarCurrentTime"></div>';
         html += '</div>';
 
         html += '<div class="nowPlayingBarRight">';
 
-        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="md-icon">volume_up</i></button>';
+        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="material-icons"></i></button>';
 
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><i class="md-icon">repeat</i></button>';
+        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><i class="material-icons">repeat</i></button>';
 
         html += '<div class="nowPlayingBarUserDataButtons">';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="md-icon">pause</i></button>';
-        html += '<button is="paper-icon-button-light" class="remoteControlButton mediaButton"><i class="md-icon">playlist_play</i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons">pause</i></button>';
+        html += '<button is="paper-icon-button-light" class="remoteControlButton mediaButton"><i class="material-icons playlist_play"></i></button>';
 
         html += '</div>';
         html += '</div>';
@@ -187,14 +187,29 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             volumeSliderContainer.classList.remove('hide');
         }
 
+        var volumeSliderTimer;
+
         function setVolume() {
+            clearTimeout(volumeSliderTimer);
+            volumeSliderTimer = null;
+
             if (currentPlayer) {
                 currentPlayer.setVolume(this.value);
             }
         }
+
+        function setVolumeDelayed() {
+            if (!volumeSliderTimer) {
+                var that = this;
+                volumeSliderTimer = setTimeout(function () {
+                    setVolume.call(that);
+                }, 700);
+            }
+        }
+
         volumeSlider.addEventListener('change', setVolume);
-        volumeSlider.addEventListener('mousemove', setVolume);
-        volumeSlider.addEventListener('touchmove', setVolume);
+        volumeSlider.addEventListener('mousemove', setVolumeDelayed);
+        volumeSlider.addEventListener('touchmove', setVolumeDelayed);
 
         positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
         positionSlider.addEventListener('change', function () {
@@ -289,7 +304,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             if (isPaused) {
 
                 for (i = 0, length = playPauseButtons.length; i < length; i++) {
-                    playPauseButtons[i].querySelector('i').innerHTML = 'play_arrow';
+                    playPauseButtons[i].querySelector('i').innerHTML = '&#xE037;';
                 }
 
             } else {
@@ -393,20 +408,15 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         var showMuteButton = true;
         var showVolumeSlider = true;
-        var progressElement = volumeSliderContainer.querySelector('.mdl-slider-background-lower');
 
         if (supportedCommands.indexOf('ToggleMute') === -1) {
             showMuteButton = false;
         }
 
         if (isMuted) {
-            muteButton.querySelector('i').innerHTML = 'volume_off';
+            muteButton.querySelector('i').innerHTML = '&#xE04F;';
         } else {
-            muteButton.querySelector('i').innerHTML = 'volume_up';
-        }
-
-        if (progressElement) {
-            progressElement.style.width = (volumeLevel || 0) + '%';
+            muteButton.querySelector('i').innerHTML = '&#xE050;';
         }
 
         if (supportedCommands.indexOf('SetVolume') === -1) {
@@ -571,7 +581,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                     var userData = item.UserData || {};
                     var likes = userData.Likes == null ? '' : userData.Likes;
 
-                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon">favorite</i></button>';
+                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons">favorite</i></button>';
                 });
 
             }
@@ -581,8 +591,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function onPlaybackStart(e, state) {
-
-        //console.log('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + e.type);
 
         var player = this;
 
@@ -627,7 +636,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function onPlaybackStopped(e, state) {
 
-        //console.log('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + e.type);
         var player = this;
 
         if (player.isLocalPlayer) {
@@ -653,7 +662,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function onStateChanged(event, state) {
 
-        //console.log('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + event.type);
         var player = this;
 
         if (!state.NowPlayingItem || layoutManager.tv) {

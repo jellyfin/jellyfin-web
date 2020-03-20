@@ -155,7 +155,7 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
     }
 
     function loadSuggestionsTab(page, tabContent, parentId) {
-        console.log("loadSuggestionsTab");
+        console.debug("loadSuggestionsTab");
         loadLatest(tabContent, parentId);
         loadRecentlyPlayed(tabContent, parentId);
         loadFrequentlyPlayed(tabContent, parentId);

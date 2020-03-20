@@ -26,11 +26,11 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="' + padderClass + '"></div>';
         html += '<div class="cardContent searchImage">';
-        html += '<div class="cardImageContainer coveredImage"><i class="cardImageIcon md-icon">dvr</i></div>';
+        html += '<div class="cardImageContainer coveredImage"><i class="cardImageIcon material-icons">dvr</i></div>';
         html += "</div>";
         html += "</div>";
         html += '<div class="cardFooter visualCardBox-cardFooter">';
-        html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions autoSize" data-action="menu"><i class="md-icon">more_horiz</i></button>';
+        html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions autoSize" data-action="menu"><i class="material-icons more_horiz"></i></button>';
         html += '<div class="cardText">' + (device.FriendlyName || getTunerName(device.Type)) + "</div>";
         html += '<div class="cardText cardText-secondary">';
         html += device.Url || "&nbsp;";
@@ -101,7 +101,7 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
             for (var i = 0, length = providers.length; i < length; i++) {
                 var provider = providers[i];
                 html += '<div class="listItem">';
-                html += '<i class="listItemIcon md-icon">dvr</i>';
+                html += '<i class="listItemIcon material-icons">dvr</i>';
                 html += '<div class="listItemBody two-line">';
                 html += '<a is="emby-linkbutton" style="display:block;padding:0;margin:0;text-align:left;" class="clearLink" href="' + getProviderConfigurationUrl(provider.Type) + "&id=" + provider.Id + '">';
                 html += '<h3 class="listItemBodyText">';
@@ -112,7 +112,7 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
                 html += "</div>";
                 html += "</a>";
                 html += "</div>";
-                html += '<button type="button" is="paper-icon-button-light" class="btnOptions" data-id="' + provider.Id + '"><i class="md-icon listItemAside">more_horiz</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnOptions" data-id="' + provider.Id + '"><i class="material-icons listItemAside more_horiz"></i></button>';
                 html += "</div>";
             }
 
@@ -187,16 +187,12 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         switch (providerId = providerId.toLowerCase()) {
             case "m3u":
                 return "M3U";
-
             case "hdhomerun":
-                return "HDHomerun";
-
+                return "HDHomeRun";
             case "hauppauge":
                 return "Hauppauge";
-
             case "satip":
                 return "DVB";
-
             default:
                 return "Unknown";
         }
@@ -206,13 +202,8 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         switch (providerId = providerId.toLowerCase()) {
             case "schedulesdirect":
                 return "Schedules Direct";
-
             case "xmltv":
-                return "Xml TV";
-
-            case "emby":
-                return "Emby Guide";
-
+                return "XMLTV";
             default:
                 return "Unknown";
         }
@@ -222,12 +213,8 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         switch (providerId = providerId.toLowerCase()) {
             case "xmltv":
                 return "livetvguideprovider.html?type=xmltv";
-
             case "schedulesdirect":
                 return "livetvguideprovider.html?type=schedulesdirect";
-
-            case "emby":
-                return "livetvguideprovider.html?type=emby";
         }
     }
 
@@ -238,7 +225,7 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
             id: "SchedulesDirect"
         });
         menuItems.push({
-            name: "Xml TV",
+            name: "XMLTV",
             id: "xmltv"
         });
 

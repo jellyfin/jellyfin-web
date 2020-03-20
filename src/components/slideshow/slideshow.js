@@ -70,7 +70,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         var tabIndex = canFocus ? '' : ' tabindex="-1"';
         autoFocus = autoFocus ? ' autofocus' : '';
-        return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><i class="md-icon slideshowButtonIcon">' + icon + '</i></button>';
+        return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><i class="material-icons slideshowButtonIcon ' + icon + '"></i></button>';
     }
 
     function setUserScalable(scalable) {
@@ -78,7 +78,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         try {
             appHost.setUserScalable(scalable);
         } catch (err) {
-            console.log('error in appHost.setUserScalable: ' + err);
+            console.error('error in appHost.setUserScalable: ' + err);
         }
     }
 
@@ -198,6 +198,22 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             }
         }
 
+        function onAutoplayStart() {
+            var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
+            if (btnSlideshowPause) {
+                btnSlideshowPause.classList.remove("play_arrow");
+                btnSlideshowPause.classList.add("pause");
+            }
+        }
+
+        function onAutoplayStop() {
+            var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
+            if (btnSlideshowPause) {
+                btnSlideshowPause.classList.remove("pause");
+                btnSlideshowPause.classList.add("play_arrow");
+            }
+        }
+
         function loadSwiper(dlg) {
 
             if (currentOptions.slides) {
@@ -212,16 +228,21 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     // Optional parameters
                     direction: 'horizontal',
                     loop: options.loop !== false,
-                    autoplay: options.interval || 8000,
+                    autoplay: {
+                        delay: options.interval || 8000
+                    },
                     // Disable preloading of all images
                     preloadImages: false,
                     // Enable lazy loading
-                    lazyLoading: true,
-                    lazyLoadingInPrevNext: true,
-                    autoplayDisableOnInteraction: false,
+                    lazy: true,
+                    loadPrevNext: true,
+                    disableOnInteraction: false,
                     initialSlide: options.startIndex || 0,
                     speed: 240
                 });
+
+                swiperInstance.on('autoplayStart', onAutoplayStart);
+                swiperInstance.on('autoplayStop', onAutoplayStop);
 
                 if (layoutManager.mobile) {
                     pause();
@@ -334,28 +355,19 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         }
 
         function play() {
-
-            var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
-            if (btnSlideshowPause) {
-                btnSlideshowPause.innerHTML = "pause";
+            if (swiperInstance.autoplay) {
+                swiperInstance.autoplay.start();
             }
-
-            swiperInstance.startAutoplay();
         }
 
         function pause() {
-
-            var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause i');
-            if (btnSlideshowPause) {
-                btnSlideshowPause.innerHTML = "play_arrow";
+            if (swiperInstance.autoplay) {
+                swiperInstance.autoplay.stop();
             }
-
-            swiperInstance.stopAutoplay();
         }
 
         function playPause() {
-
-            var paused = dlg.querySelector('.btnSlideshowPause i').innerHTML !== "pause";
+            var paused = !dlg.querySelector('.btnSlideshowPause i').classList.contains("pause");
             if (paused) {
                 play();
             } else {

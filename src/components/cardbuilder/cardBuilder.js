@@ -2,7 +2,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
     function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, playbackManager, itemShortcuts, imageHelper) {
         'use strict';
 
-        var devicePixelRatio = window.devicePixelRatio || 1;
         var enableFocusTransform = !browser.slow && !browser.edge;
 
         function getCardsHtml(items, options) {
@@ -140,7 +139,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 72;
                     }
-                    break;
                 case 'overflowPortrait':
 
                     if (layoutManager.tv) {
@@ -166,7 +164,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 42;
                     }
-                    break;
                 case 'overflowSquare':
                     if (layoutManager.tv) {
                         return 100 / 15.5;
@@ -191,7 +188,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 42;
                     }
-                    break;
                 case 'overflowBackdrop':
                     if (layoutManager.tv) {
                         return 100 / 23.3;
@@ -216,7 +212,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 72;
                     }
-                    break;
                 default:
                     return 4;
             }
@@ -237,9 +232,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         function getImageWidth(shape, screenWidth, isOrientationLandscape) {
             var imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
-            var shapeWidth = screenWidth / imagesPerRow;
+            var shapeWidth = Math.round(screenWidth / imagesPerRow) * 2;
 
-            return Math.round(shapeWidth);
+            return shapeWidth;
         }
 
         function setCardData(items, options) {
@@ -342,7 +337,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             try {
                                 newIndexValue = datetime.toLocaleDateString(datetime.parseISO8601Date(item.PremiereDate), { weekday: 'long', month: 'long', day: 'numeric' });
                             } catch (err) {
-                                console.log('error parsing timestamp for premiere date');
+                                console.error('error parsing timestamp for premiere date');
                             }
                         }
                     } else if (options.indexBy === 'ProductionYear') {
@@ -467,6 +462,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
 
@@ -474,6 +470,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Banner",
+                    maxWidth: width,
                     tag: item.ImageTags.Banner
                 });
 
@@ -481,6 +478,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Disc",
+                    maxWidth: width,
                     tag: item.ImageTags.Disc
                 });
 
@@ -488,6 +486,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Logo",
+                    maxWidth: width,
                     tag: item.ImageTags.Logo
                 });
 
@@ -495,6 +494,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
                     type: "Logo",
+                    maxWidth: width,
                     tag: item.ParentLogoImageTag
                 });
 
@@ -502,6 +502,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.SeriesThumbImageTag
                 });
 
@@ -509,6 +510,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.ParentThumbImageTag
                 });
 
@@ -516,6 +518,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Backdrop",
+                    maxWidth: width,
                     tag: item.BackdropImageTags[0]
                 });
 
@@ -525,6 +528,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                     type: "Backdrop",
+                    maxWidth: width,
                     tag: item.ParentBackdropImageTags[0]
                 });
 
@@ -534,6 +538,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Primary",
+                    maxHeight: height,
+                    maxWidth: width,
                     tag: item.ImageTags.Primary
                 });
 
@@ -554,6 +560,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.PrimaryImageItemId || item.Id || item.ItemId, {
                     type: "Primary",
+                    maxHeight: height,
+                    maxWidth: width,
                     tag: item.PrimaryImageTag
                 });
 
@@ -571,20 +579,24 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
                     type: "Primary",
+                    maxWidth: width,
                     tag: item.ParentPrimaryImageTag
                 });
             } else if (item.SeriesPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
                     type: "Primary",
+                    maxWidth: width,
                     tag: item.SeriesPrimaryImageTag
                 });
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
-                width = primaryImageAspectRatio ? Math.round(height * primaryImageAspectRatio) : null;
+                height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.AlbumId, {
                     type: "Primary",
+                    maxHeight: height,
+                    maxWidth: width,
                     tag: item.AlbumPrimaryImageTag
                 });
 
@@ -598,6 +610,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
 
@@ -605,6 +618,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Backdrop",
+                    maxWidth: width,
                     tag: item.BackdropImageTags[0]
                 });
 
@@ -612,6 +626,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
 
@@ -619,6 +634,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.SeriesThumbImageTag
                 });
 
@@ -626,6 +642,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
                     type: "Thumb",
+                    maxWidth: width,
                     tag: item.ParentThumbImageTag
                 });
 
@@ -633,6 +650,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                     type: "Backdrop",
+                    maxWidth: width,
                     tag: item.ParentBackdropImageTags[0]
                 });
 
@@ -738,7 +756,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         airTimeText += ' - ' + datetime.getDisplayTime(date);
                     }
                 } catch (e) {
-                    console.log("Error parsing date: " + item.StartDate);
+                    console.error("error parsing date: " + item.StartDate);
                 }
             }
 
@@ -758,7 +776,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
 
                 if (options.cardFooterAside !== 'none') {
-                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">more_horiz</i></button>';
+                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="material-icons more_horiz"></i></button>';
                 }
             }
 
@@ -870,9 +888,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     if (item.PremiereDate) {
                         try {
-
-                            lines.push(getPremiereDateText(item));
-
+                            lines.push(datetime.toLocaleDateString(
+                                datetime.parseISO8601Date(item.PremiereDate),
+                                { weekday: 'long', month: 'long', day: 'numeric' }
+                            ));
                         } catch (err) {
                             lines.push('');
 
@@ -1018,7 +1037,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 return text;
             }
 
-            var html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton" data-action="link">';
+            var html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton" title="' + text + '" data-action="link">';
             html += text;
             html += '</button>';
 
@@ -1316,15 +1335,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
                 if (options.centerPlayButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="md-icon cardOverlayButtonIcon">play_arrow</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
                 }
 
                 if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="md-icon cardOverlayButtonIcon">play_arrow</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
                 }
 
                 if (options.overlayMoreButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon">more_horiz</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon more_horiz"></i></button>';
                 }
             }
 
@@ -1383,7 +1402,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (item.Type === 'CollectionFolder' || item.CollectionType) {
-                var refreshClass = item.RefreshProgress || (item.RefreshStatus && virtualFolder.item !== 'Idle') ? '' : ' class="hide"';
+                var refreshClass = item.RefreshProgress ? '' : ' class="hide"';
                 indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
                 requireRefreshIndicator();
             }
@@ -1397,7 +1416,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             //}
 
             if (!imgUrl) {
-                cardImageContainerOpen += getCardDefaultText(item, options);
+                cardImageContainerOpen += getDefaultText(item, options);
             }
 
             var tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
@@ -1457,16 +1476,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
             if (playbackManager.canPlay(item)) {
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">play_arrow</i></button>';
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></i></button>';
             }
 
-            html += '<div class="cardOverlayButton-br">';
+            html += '<div class="cardOverlayButton-br flex">';
 
             var userData = item.UserData || {};
 
             if (itemHelper.canMarkPlayed(item)) {
                 require(['emby-playstatebutton']);
-                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">check</i></button>';
+                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">check</i></button>';
             }
 
             if (itemHelper.canRate(item)) {
@@ -1474,10 +1493,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var likes = userData.Likes == null ? '' : userData.Likes;
 
                 require(['emby-ratingbutton']);
-                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">favorite</i></button>';
+                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">favorite</i></button>';
             }
 
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">more_horiz</i></button>';
+            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_horiz"></i></button>';
 
             html += '</div>';
             html += '</div>';
@@ -1485,18 +1504,29 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getCardDefaultText(item, options) {
+        function getDefaultText(item, options) {
             if (item.CollectionType) {
-                return '<i class="cardImageIcon md-icon">' + imageHelper.getLibraryIcon(item.CollectionType) + '</i>'
+                return '<i class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '"></i>'
             }
-            if (item.Type === 'MusicAlbum') {
-                return '<i class="cardImageIcon md-icon">album</i>';
+
+            switch (item.Type) {
+                case 'MusicAlbum':
+                    return '<i class="cardImageIcon material-icons">album</i>';
+                case 'MusicArtist':
+                case 'Person':
+                    return '<i class="cardImageIcon material-icons">person</i>';
+                case 'Movie':
+                    return '<i class="cardImageIcon material-icons">movie</i>';
+                case 'Series':
+                    return '<i class="cardImageIcon material-icons">tv</i>';
+                case 'Book':
+                    return '<i class="cardImageIcon material-icons">book</i>';
+                case 'Folder':
+                    return '<i class="cardImageIcon material-icons">folder</i>';
             }
-            if (item.Type === 'MusicArtist' || item.Type === 'Person') {
-                return '<i class="cardImageIcon md-icon">person</i>';
-            }
-            if (options.defaultCardImageIcon) {
-                return '<i class="cardImageIcon md-icon">' + options.defaultCardImageIcon + '</i>';
+
+            if (options && options.defaultCardImageIcon) {
+                return '<i class="cardImageIcon material-icons">' + options.defaultCardImageIcon + '</i>';
             }
 
             var defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
@@ -1585,7 +1615,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     indicatorsElem = ensureIndicators(card, indicatorsElem);
                     indicatorsElem.appendChild(playedIndicator);
                 }
-                playedIndicator.innerHTML = '<i class="md-icon indicatorIcon">check</i>';
+                playedIndicator.innerHTML = '<i class="material-icons indicatorIcon">check</i>';
             } else {
 
                 playedIndicator = card.querySelector('.playedIndicator');
@@ -1666,7 +1696,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var icon = cell.querySelector('.timerIndicator');
                 if (!icon) {
                     var indicatorsElem = ensureIndicators(cell);
-                    indicatorsElem.insertAdjacentHTML('beforeend', '<i class="md-icon timerIndicator indicatorIcon">fiber_manual_record</i>');
+                    indicatorsElem.insertAdjacentHTML('beforeend', '<i class="material-icons timerIndicator indicatorIcon fiber_manual_record"></i>');
                 }
                 cell.setAttribute('data-timerid', newTimerId);
             }
@@ -1702,6 +1732,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         return {
             getCardsHtml: getCardsHtml,
+            getDefaultBackgroundClass: getDefaultBackgroundClass,
+            getDefaultText: getDefaultText,
             buildCards: buildCards,
             onUserDataChanged: onUserDataChanged,
             onTimerCreated: onTimerCreated,

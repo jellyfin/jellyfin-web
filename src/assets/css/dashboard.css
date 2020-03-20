@@ -1,0 +1,462 @@
+.dashboardColumn,
+.dashboardSections {
+    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+}
+
+.dashboardFooter {
+    margin-top: 3.5em;
+    text-align: center;
+}
+
+.dashboardFooter a {
+    margin: 0 0.7em;
+}
+
+progress {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+    background: #ccc !important;
+}
+
+progress[role]::after {
+    background-image: none;
+}
+
+progress::-webkit-progress-bar {
+    background: #ccc;
+}
+
+progress::-moz-progress-bar {
+    background-color: #00a4dc;
+}
+
+progress::-webkit-progress-value {
+    background-color: #00a4dc;
+}
+
+progress[aria-valuenow]::before {
+    border-radius: 0.4em;
+    background-color: #00a4dc;
+}
+
+.localnav {
+    margin-bottom: 2.2em !important;
+}
+
+@media all and (min-width: 50em) {
+    .type-interior > div[data-role=content],
+    .type-interior > .ui-panel-content-wrap > div[data-role=content] {
+        padding-right: 0;
+        padding-left: 0;
+        padding-top: 0;
+        overflow: hidden;
+    }
+}
+
+.dashboardDocument .dashboardEntryHeaderButton,
+.dashboardDocument .lnkManageServer {
+    display: none !important;
+}
+
+.adminDrawerLogo {
+    padding: 1.5em 1em 1.2em;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 1em;
+    display: block;
+}
+
+.adminDrawerLogo img {
+    height: 4em;
+}
+
+a[data-role=button] {
+    background: #292929 !important;
+    background-clip: padding-box;
+    -webkit-font-smoothing: antialiased;
+    -webkit-user-select: none;
+    -webkit-background-clip: padding-box;
+    cursor: pointer !important;
+    font-family: inherit !important;
+    font-weight: 500 !important;
+    margin: 0 0.25em !important;
+    display: inline-block;
+    padding: 0.8em 1em;
+    text-align: center;
+    text-decoration: none !important;
+}
+
+div[data-role=controlgroup] a[data-role=button] {
+    display: inline-block !important;
+    margin: 0 !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+
+div[data-role=controlgroup] a[data-role=button]:first-child {
+    -webkit-border-bottom-left-radius: 0.3125em;
+    border-bottom-left-radius: 0.3125em;
+    -webkit-border-top-left-radius: 0.3125em;
+    border-top-left-radius: 0.3125em;
+}
+
+div[data-role=controlgroup] a[data-role=button]:last-child {
+    -webkit-border-bottom-right-radius: 0.3125em;
+    border-bottom-right-radius: 0.3125em;
+    -webkit-border-top-right-radius: 0.3125em;
+    border-top-right-radius: 0.3125em;
+}
+
+div[data-role=controlgroup] a[data-role=button] + a[data-role=button] {
+    border-left-width: 0 !important;
+    margin: 0 0 0 -0.4em !important;
+}
+
+div[data-role=controlgroup] a.ui-btn-active {
+    background: #00a4dc !important;
+    color: #292929 !important;
+}
+
+.sessionAppInfo img {
+    max-width: 40px;
+    max-height: 40px;
+    margin-right: 8px;
+}
+
+.appLinks img {
+    height: 36px;
+}
+
+.wizardContent h2 img {
+    height: 2.5em;
+    vertical-align: middle;
+    margin-right: 0.5em;
+    position: relative;
+    top: -0.3em;
+}
+
+.header .imageLink {
+    display: inline-block;
+}
+
+.header .imageLink img {
+    height: 2.1em;
+    vertical-align: middle;
+}
+
+.content-primary {
+    padding-top: 6em;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+.withTabs .content-primary {
+    padding-top: 9em !important;
+}
+
+@media all and (min-width: 40em) {
+    .content-primary {
+        padding-top: 7em;
+    }
+
+    .withTabs .content-primary {
+        padding-top: 10em !important;
+    }
+}
+
+@media all and (min-width: 84em) {
+    .withTabs .content-primary {
+        padding-top: 7em !important;
+    }
+}
+
+.content-primary ul:first-child {
+    margin-top: 0;
+}
+
+.dashboardSections {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+.dashboardColumn {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+}
+
+.sessionNowPlayingContent {
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.activeSession:not(.playingSession) .sessionNowPlayingContent {
+    display: none;
+}
+
+.dashboardSection {
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    margin: 0 0 2em;
+}
+
+.dashboardSection h3 {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.activeRecordingItems > .card {
+    width: 50%;
+}
+
+@media all and (min-width: 70em) {
+    .dashboardSections {
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+    }
+
+    .dashboardColumn-2-60 {
+        width: 46%;
+    }
+
+    .dashboardColumn-2-40 {
+        width: 27%;
+    }
+
+    .dashboardSection {
+        padding: 0 1.5em;
+    }
+
+    .activeRecordingItems > .card {
+        width: 25%;
+    }
+}
+
+.wizardContent {
+    max-width: 62em;
+    padding: 0.5em 2em 1em;
+    margin: 0 auto;
+    background: #fff;
+}
+
+.wizardNavigation {
+    text-align: right;
+}
+
+.wizardContent form {
+    max-width: 100%;
+}
+
+.scheduledTaskPaperIconItem {
+    outline: 0 !important;
+}
+
+.activeSession {
+    width: 100% !important;
+}
+
+.activitylogUserPhoto {
+    height: 1.71em;
+    width: 1.71em;
+    border-radius: 100%;
+    margin-right: 0.5em;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+@media all and (min-width: 40em) {
+    .activeSession {
+        width: 100% !important;
+    }
+}
+
+@media all and (min-width: 50em) {
+    .activeSession {
+        width: 50% !important;
+    }
+}
+
+.sessionCardFooter {
+    padding-top: 0.5em !important;
+    padding-bottom: 1em !important;
+    border-top: 1px solid #eee;
+    text-align: center;
+    position: relative;
+}
+
+.sessionAppInfo {
+    padding: 0.5em;
+    overflow: hidden;
+}
+
+.sessionCardButtons {
+    min-height: 2.7em;
+}
+
+.sessionCardButton {
+    margin: 0;
+}
+
+.sessionNowPlayingInnerContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-weight: 400;
+}
+
+.sessionNowPlayingContent-withbackground + .sessionNowPlayingInnerContent {
+    color: #fff !important;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.sessionAppName {
+    vertical-align: top;
+    max-width: 200px;
+}
+
+.sessionNowPlayingDetails {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.sessionNowPlayingInfo {
+    flex-grow: 1;
+    text-overflow: ellipsis;
+    padding: 0.8em 0.5em;
+}
+
+.sessionNowPlayingTime {
+    flex-shrink: 0;
+    align-self: flex-end;
+    text-overflow: ellipsis;
+    padding: 0.8em 0.5em;
+}
+
+.sessionNowPlayingStreamInfo {
+    white-space: nowrap;
+}
+
+.playbackProgress,
+.transcodingProgress {
+    margin: 0;
+    width: 100%;
+    background: transparent !important;
+}
+
+.activeSession .playbackProgress,
+.activeSession .transcodingProgress {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 6px;
+    width: 100%;
+}
+
+.playbackProgress > div {
+    z-index: 1000;
+    background-color: #00a4dc;
+}
+
+.transcodingProgress > div {
+    background-color: #dd4919;
+}
+
+@media all and (max-width: 34.375em) {
+    .sessionAppName {
+        max-width: 160px;
+    }
+}
+
+@media all and (max-width: 31.25em) {
+    .sessionAppName {
+        max-width: 150px;
+    }
+}
+
+.disabledUser {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+.disabledUserBanner {
+    margin: 0 0 2em;
+}
+
+.appLinks a {
+    text-decoration: none !important;
+}
+
+.appLinks a + a {
+    margin-left: 5px;
+}
+
+@-webkit-keyframes rotating {
+    from {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotating {
+    from {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+.rotatingCircle {
+    -webkit-animation: rotating 2s linear infinite;
+    animation: rotating 2s linear infinite;
+}
+
+.pluginPreviewImg {
+    -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+}
+
+.ui-bar-a {
+    text-align: center;
+    padding: 0 20px;
+}

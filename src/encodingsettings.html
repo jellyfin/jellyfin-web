@@ -20,8 +20,11 @@
                         <option value="vaapi">Video Acceleration API (VAAPI)</option>
                         <option value="h264_v4l2m2m">Exynos V4L2 MFC</option>
                     </select>
-                    <div class="fieldDescription">${LabelHardwareAccelerationTypeHelp}</div>
+                    <div class="fieldDescription">
+                        <a is="emby-linkbutton" class="button-link" href="https://docs.jellyfin.org/general/administration/hardware-acceleration.html" target="_blank">${LabelHardwareAccelerationTypeHelp}</a>
+                    </div>
                 </div>
+
                 <div class="inputContainer hide fldVaapiDevice">
                     <input is="emby-input" type="text" id="txtVaapiDevice" label="${LabelVaapiDevice}" />
                     <div class="fieldDescription">${LabelVaapiDeviceHelp}</div>
@@ -93,7 +96,7 @@
                         <div style="flex-grow:1;">
                             <input is="emby-input" class="txtEncoderPath" label="${LabelffmpegPath}" autocomplete="off" />
                         </div>
-                        <button type="button" is="paper-icon-button-light" id="btnSelectEncoderPath" class="emby-input-iconbutton"><i class="md-icon">search</i></button>
+                        <button type="button" is="paper-icon-button-light" id="btnSelectEncoderPath" class="emby-input-iconbutton"><i class="material-icons">search</i></button>
                     </div>
                     <div class="fieldDescription">
                         <div>${LabelffmpegPathHelp}</div>
@@ -104,7 +107,7 @@
                         <div style="flex-grow:1;">
                             <input is="emby-input" id="txtTranscodingTempPath" label="${LabelTranscodePath}" autocomplete="off" />
                         </div>
-                        <button type="button" is="paper-icon-button-light" id="btnSelectTranscodingTempPath" class="emby-input-iconbutton"><i class="md-icon">search</i></button>
+                        <button type="button" is="paper-icon-button-light" id="btnSelectTranscodingTempPath" class="emby-input-iconbutton"><i class="material-icons">search</i></button>
                     </div>
                     <div class="fieldDescription">${LabelTranscodingTempPathHelp}</div>
                 </div>
@@ -114,7 +117,7 @@
                 </div>
 
                 <div class="selectContainer">
-                    <select is="emby-select" id="selectH264Preset" label="${LabelH264EncodingPreset}">
+                    <select is="emby-select" id="selectEncoderPreset" label="${LabelEncoderPreset}">
                         <option value="">${OptionAuto}</option>
                         <option value="veryslow">veryslow</option>
                         <option value="slower">slower</option>
@@ -126,7 +129,7 @@
                         <option value="superfast">superfast</option>
                         <option value="ultrafast">ultrafast</option>
                     </select>
-                    <div class="fieldDescription">${H264EncodingPresetHelp}</div>
+                    <div class="fieldDescription">${EncoderPresetHelp}</div>
                 </div>
                 <div class="inputContainer">
                     <input is="emby-input" type="number" id="txtH264Crf" pattern="[0-9]*" min="0" max="51" step="1" label="${LabelH264Crf}" />
@@ -141,8 +144,18 @@
                     <div class="fieldDescription checkboxFieldDescription">${AllowOnTheFlySubtitleExtractionHelp}</div>
                 </div>
 
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkEnableThrottling" />
+                        <span>${AllowFfmpegThrottling}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${AllowFfmpegThrottlingHelp}</div>
+                </div>
+
                 <div>
-                    <button is="emby-button" type="submit" class="raised button-submit block"><span>${ButtonSave}</span></button>
+                    <button is="emby-button" type="submit" class="raised button-submit block">
+                        <span>${ButtonSave}</span>
+                    </button>
                 </div>
             </form>
         </div>

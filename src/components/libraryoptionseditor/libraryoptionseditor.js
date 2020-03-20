@@ -58,16 +58,16 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
             html += '<div class="listItem localReaderOption sortableOption" data-pluginname="' + plugin.Name + '">';
-            html += '<i class="listItemIcon md-icon">live_tv</i>';
+            html += '<i class="listItemIcon material-icons live_tv"></i>';
             html += '<div class="listItemBody">';
             html += '<h3 class="listItemBodyText">';
             html += plugin.Name;
             html += "</h3>";
             html += "</div>";
             if (i > 0) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonUp") + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><i class="md-icon">keyboard_arrow_up</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonUp") + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><i class="material-icons keyboard_arrow_up"></i></button>';
             } else if (plugins.length > 1) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDown") + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><i class="md-icon">keyboard_arrow_down</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDown") + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><i class="material-icons keyboard_arrow_down"></i></button>';
             }
             html += "</div>";
         }
@@ -107,7 +107,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
         if (!plugins.length) return html;
 
         html += '<div class="metadataFetcher" data-type="' + availableTypeOptions.Type + '">';
-        html += '<h3 class="checkboxListLabel">' + globalize.translate("LabelTypeMetadataDownloaders", availableTypeOptions.Type) + "</h3>";
+        html += '<h3 class="checkboxListLabel">' + globalize.translate("LabelTypeMetadataDownloaders", globalize.translate(availableTypeOptions.Type)) + "</h3>";
         html += '<div class="checkboxList paperList checkboxList-paperList">';
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
@@ -120,7 +120,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             html += plugin.Name;
             html += "</h3>";
             html += "</div>";
-            i > 0 ? html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonUp") + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><i class="md-icon">keyboard_arrow_up</i></button>' : plugins.length > 1 && (html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDown") + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><i class="md-icon">keyboard_arrow_down</i></button>'), html += "</div>"
+            i > 0 ? html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonUp") + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><i class="material-icons keyboard_arrow_up"></i></button>' : plugins.length > 1 && (html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDown") + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><i class="material-icons keyboard_arrow_down"></i></button>'), html += "</div>"
         }
         html += "</div>";
         html += '<div class="fieldDescription">' + globalize.translate("LabelMetadataDownloadersHelp") + "</div>";
@@ -181,9 +181,9 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             html += "</h3>";
             html += "</div>";
             if (i > 0) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonUp") + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><i class="md-icon">keyboard_arrow_up</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonUp") + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><i class="material-icons keyboard_arrow_up"></i></button>';
             } else if (plugins.length > 1) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDown") + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><i class="md-icon">keyboard_arrow_down</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDown") + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><i class="material-icons keyboard_arrow_down"></i></button>';
             }
             html += "</div>";
         }
@@ -220,9 +220,9 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             html += "</h3>";
             html += "</div>";
             if (i > 0) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonUp") + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><i class="md-icon">keyboard_arrow_up</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonUp") + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><i class="material-icons keyboard_arrow_up"></i></button>';
             } else if (plugins.length > 1) {
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDown") + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><i class="md-icon">keyboard_arrow_down</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDown") + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><i class="material-icons keyboard_arrow_down"></i></button>';
             }
             html += "</div>";
         }
@@ -273,14 +273,19 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
 
     function adjustSortableListElement(elem) {
         var btnSortable = elem.querySelector(".btnSortable");
+        var inner = btnSortable.querySelector("i");
         if (elem.previousSibling) {
+            btnSortable.title = globalize.translate("ButtonUp");
             btnSortable.classList.add("btnSortableMoveUp");
             btnSortable.classList.remove("btnSortableMoveDown");
-            btnSortable.querySelector("i").innerHTML = "keyboard_arrow_up";
+            inner.classList.remove("keyboard_arrow_down");
+            inner.classList.add("keyboard_arrow_up");
         } else {
+            btnSortable.title = globalize.translate("ButtonDown");
             btnSortable.classList.remove("btnSortableMoveUp");
             btnSortable.classList.add("btnSortableMoveDown");
-            btnSortable.querySelector("i").innerHTML = "keyboard_arrow_down";
+            inner.classList.remove("keyboard_arrow_up");
+            inner.classList.add("keyboard_arrow_down");
         }
     }
 
@@ -463,7 +468,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
 
             if (!typeOptions) {
                 typeOptions = {
-                    Type: type
+                    Type: originalTypeOption.Type
                 };
                 options.TypeOptions.push(typeOptions);
             }

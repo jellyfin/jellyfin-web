@@ -7,8 +7,8 @@
                     <p style="margin-top:2em;">${UserProfilesIntro}</p>
                     <br />
                     <div class="inputContainer">
-                        <input is="emby-input" type="text" id="txtUsername" label="${LabelYourFirstName}" required="required" />
-                        <div class="fieldDescription">${MoreUsersCanBeAddedLater}</div>
+                        <input is="emby-input" type="text" id="txtUsername" label="${LabelUsername}" required="required" />
+                        <div class="fieldDescription">${SelectAdminUsername}</div>
                     </div>
                     <div class="inputContainer">
                         <input is="emby-input" id="txtManualPassword" type="password" label="${LabelPassword}" />
@@ -17,16 +17,17 @@
                     <div class="inputContainer">
                         <input is="emby-input" id="txtPasswordConfirm" type="password" label="${LabelPasswordConfirm}" />
                     </div>
+                    <p>${MoreUsersCanBeAddedLater}</p>
                 </div>
 
                 <div class="wizardNavigation">
                     <button is="emby-button" type="button" class="raised button-cancel" onclick="history.back();">
-                        <i class="md-icon">arrow_back</i>
+                        <i class="material-icons arrow_back"></i>
                         <span>${LabelPrevious}</span>
                     </button>
                     <button is="emby-button" type="submit" class="raised button-submit">
                         <span>${LabelNext}</span>
-                        <i class="md-icon">arrow_forward</i>
+                        <i class="material-icons arrow_forward"></i>
                     </button>
                 </div>
             </form>

@@ -6,7 +6,7 @@
             <div class="verticalSection">
                 <div class="sectionTitleContainer flex align-items-center">
                     <h2 class="sectionTitle username"></h2>
-                    <a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/users.html">${Help}</a>
+                    <a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/users/">${Help}</a>
                 </div>
             </div>
 
@@ -88,6 +88,10 @@
                         <label>
                             <input type="checkbox" is="emby-checkbox" id="chkEnableVideoPlaybackRemuxing" />
                             <span>${OptionAllowVideoPlaybackRemuxing}</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" is="emby-checkbox" id="chkForceRemoteSourceTranscoding" />
+                            <span>${OptionForceRemoteSourceTranscoding}</span>
                         </label>
                     </div>
                     <div class="fieldDescription">${OptionAllowMediaPlaybackTranscodingHelp}</div>

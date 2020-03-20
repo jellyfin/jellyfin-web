@@ -47,7 +47,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         };
         reader.onabort = function () {
             loading.hide();
-            console.log('File read cancelled');
+            console.debug('File read cancelled');
         };
 
         // Closure to capture the file information.
@@ -74,7 +74,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
             return false;
         }
 
-        if (file.type !== "image/png" && file.type !== "image/x-png" && file.type !== "image/jpeg") {
+        if (!file.type.startsWith("image/")) {
             require(['toast'], function (toast) {
                 toast(globalize.translate('MessageImageFileTypeAllowed'));
             });

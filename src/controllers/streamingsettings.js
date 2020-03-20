@@ -13,6 +13,7 @@ define(["jQuery", "libraryMenu", "loading"], function ($, libraryMenu, loading) 
             config.RemoteClientBitrateLimit = parseInt(1e6 * parseFloat($("#txtRemoteClientBitrateLimit", form).val() || "0"));
             ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
         });
+
         return false;
     }
 
@@ -30,24 +31,6 @@ define(["jQuery", "libraryMenu", "loading"], function ($, libraryMenu, loading) 
     }
 
     $(document).on("pageinit", "#streamingSettingsPage", function () {
-        var page = this;
-        $("#btnSelectTranscodingTempPath", page).on("click.selectDirectory", function () {
-            require(["directorybrowser"], function (directoryBrowser) {
-                var picker = new directoryBrowser();
-                picker.show({
-                    callback: function (path) {
-                        if (path) {
-                            $("#txtTranscodingTempPath", page).val(path);
-                        }
-
-                        picker.close();
-                    },
-                    validateWriteable: true,
-                    header: Globalize.translate("HeaderSelectTranscodingPath"),
-                    instruction: Globalize.translate("HeaderSelectTranscodingPathHelp")
-                });
-            });
-        });
         $(".streamingSettingsForm").off("submit", onSubmit).on("submit", onSubmit);
     }).on("pageshow", "#streamingSettingsPage", function () {
         loading.show();

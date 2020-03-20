@@ -16,8 +16,14 @@ _define("fetch", function() {
     return fetch
 });
 
+// query-string
+var query = require("query-string");
+_define("queryString", function() {
+    return query;
+});
+
 // flvjs
-var flvjs = require("flv.js").default;
+var flvjs = require("flv.js/dist/flv").default;
 _define("flvjs", function() {
     return flvjs;
 });
@@ -47,12 +53,6 @@ _define("howler", function() {
     return howler;
 });
 
-// native-promise-only
-var nativePromise = require("native-promise-only");
-_define("native-promise-only", function() {
-    return nativePromise;
-});
-
 // resize-observer-polyfill
 var resize = require("resize-observer-polyfill").default;
 _define("resize-observer-polyfill", function() {
@@ -66,8 +66,8 @@ _define("shaka", function() {
 });
 
 // swiper
-var swiper = require("swiper");
-require("swiper/dist/css/swiper.min.css");
+var swiper = require("swiper/js/swiper");
+require("swiper/css/swiper.min.css");
 _define("swiper", function() {
     return swiper;
 });
@@ -81,7 +81,7 @@ _define("sortable", function() {
 // webcomponents
 var webcomponents = require("webcomponents.js/webcomponents-lite");
 _define("webcomponents", function() {
-    return webcomponents
+    return webcomponents;
 });
 
 // libjass
@@ -89,4 +89,33 @@ var libjass = require("libjass");
 require("libjass/libjass.css");
 _define("libjass", function() {
     return libjass;
+});
+
+// libass-wasm
+var libass_wasm = require("libass-wasm");
+_define("JavascriptSubtitlesOctopus", function() {
+    return libass_wasm;
+});
+
+// material-icons
+var material_icons = require("material-design-icons-iconfont/dist/material-design-icons.css");
+_define("material-icons", function() {
+    return material_icons;
+});
+
+// noto font
+var noto = require("jellyfin-noto");
+_define("jellyfin-noto", function () {
+    return noto;
+});
+
+// page.js
+var page = require("page");
+_define("page", function() {
+    return page;
+});
+
+var polyfill = require("@babel/polyfill/dist/polyfill");
+_define("polyfill", function () {
+    return polyfill;
 });

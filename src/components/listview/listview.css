@@ -10,7 +10,7 @@
     display: block;
     align-items: center;
     text-align: left;
-    padding: .25em .25em .25em .5em;
+    padding: 0.25em 0.25em 0.25em 0.5em;
     cursor: pointer;
     overflow: hidden;
 }
@@ -35,6 +35,8 @@
 }
 
 .listItem-indexnumberleft {
+    min-width: 2%;
+    text-align: center;
     margin-right: 1em;
 }
 
@@ -48,14 +50,18 @@
 }
 
 .listItem-border.show-focus:focus {
-    transform: scale(1.0) !important;
+    transform: scale(1) !important;
 }
 
-.listItemImage, .listItemIcon, .listItemAside {
+.listItemImage,
+.listItemIcon,
+.listItemAside {
     flex-shrink: 0;
 }
 
-.listItemBody, .listItemImage, .listItemIcon {
+.listItemBody,
+.listItemImage,
+.listItemIcon {
     display: inline-block;
     vertical-align: middle;
 }
@@ -69,13 +75,13 @@
 }
 
 .listViewDragHandle {
-    margin-left: -.25em !important;
+    margin-left: -0.25em !important;
     touch-action: none;
 }
 
 .listItemBody {
     flex-grow: 1;
-    padding: .85em .75em;
+    padding: 0.85em 0.75em;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-direction: column;
@@ -83,8 +89,15 @@
     justify-content: center;
 }
 
+.listItem,
+.listItemBody,
+.listItemMediaInfo {
+    display: flex;
+    contain: layout style;
+}
+
 .layout-tv .listItemBody {
-    padding: .35em .75em;
+    padding: 0.35em 0.75em;
 }
 
 .listItemBody-noleftpadding {
@@ -93,9 +106,13 @@
 
 .listItemBodyText {
     margin: 0;
-    padding: .1em 0;
+    padding: 0.1em 0;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.layout-desktop .listItemBodyText {
+    margin: 0.25em 0 0 0;
 }
 
 .listItemBodyText-nowrap {
@@ -119,27 +136,27 @@
     width: 19.5vw;
     height: 13vw;
     background-position: center center;
-    margin-right: .75em;
+    margin-right: 0.75em;
 }
 
 .listItemImageButton {
     align-self: center;
     justify-self: center;
     margin: auto;
-    color: rgba(255, 255, 255, .6);
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(0, 0, 0, 0.4);
     font-size: 1.6em;
-    background: transparent;
-    transition: transform 200ms ease-out;
+    transition: 200ms ease-out;
     display: flex;
 }
 
 .listItemImageButton:hover {
+    color: #00a4dc;
+    background: rgba(0, 164, 220, 0.2);
     transform: scale(1.2, 1.2);
 }
 
 .listItemImageButton-icon {
-    background: rgba(0,0,0,.4);
-    border: 0.1em solid currentColor;
     border-radius: 100em;
     display: flex;
     justify-content: center;
@@ -149,23 +166,24 @@
 
 @media all and (max-width: 64em) {
     .listItemImage-large {
-        width: 33.75vw;
-        height: 22.5vw;
+        width: 22vw;
+        height: 16vw;
         margin-right: 0 !important;
     }
 
+    .listItemIndicators,
     .listItemImageButton {
-        font-size: 1em !important;
+        font-size: 0.6em !important;
     }
 
     .listItemBody {
-        padding-left: .75em;
+        padding-left: 0.75em;
     }
 }
 
 @media all and (max-width: 50em) {
     .listItemBody {
-        padding-right: .5em;
+        padding-right: 0.5em;
     }
 }
 
@@ -178,15 +196,15 @@
     width: 1em !important;
     height: 1em !important;
     font-size: 143%;
-    padding: 0 .25em 0 0;
+    padding: 0 0.25em 0 0;
 }
 
 .listItemIcon:not(.listItemIcon-transparent) {
     background-color: #00a4dc;
     color: #fff;
-    padding: .5em;
+    padding: 0.5em;
     border-radius: 100em;
-    margin: 0 .2em 0 .4em;
+    margin: 0 0.2em 0 0.4em;
 }
 
 .listItemProgressBar {
@@ -197,7 +215,7 @@
 }
 
 .listItem:focus {
-    border-radius: .2em;
+    border-radius: 0.2em;
 }
 
 .listItem:focus .secondary {
@@ -205,7 +223,7 @@
 }
 
 .listItem-focusscale {
-    transition: transform .2s ease-out;
+    transition: transform 0.2s ease-out;
 }
 
 .listItem-focusscale:focus {
@@ -213,18 +231,11 @@
 }
 
 .paperList {
-    margin: .5em auto;
+    margin: 0.5em auto;
 }
 
 .paperList-clear {
     background-color: transparent !important;
-}
-
-.listItemMediaInfo {
-    /* Don't display if flex not supported */
-    display: none;
-    align-items: center;
-    margin-right: 1em;
 }
 
 .listGroupHeader-first {
@@ -232,26 +243,23 @@
 }
 
 .listItemIndicators {
-    right: .324em;
-    top: .324em;
+    right: 0.324em;
+    top: 0.324em;
     position: absolute;
     display: flex;
     align-items: center;
 }
 
-.listItem, .listItemBody, .listItemMediaInfo {
-    display: flex;
-    contain: layout style;
-}
-
 .listItem-bottomoverview {
     font-size: 88%;
     margin-bottom: 1em;
-    margin-top: .2em;
+    margin-top: 0.2em;
 }
 
 @media all and (max-width: 50em) {
-    .listItem .endsAt, .listItem .criticRating, .listItem-overview {
+    .listItem .endsAt,
+    .listItem .criticRating,
+    .listItem-overview {
         display: none !important;
     }
 }

@@ -1,0 +1,37 @@
+html {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 93%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+    font-family: "Noto Sans", sans-serif;
+}
+
+h1 {
+    font-weight: 400;
+    font-size: 1.8em;
+}
+
+h2 {
+    font-weight: 400;
+    font-size: 1.5em;
+}
+
+h3 {
+    font-weight: 400;
+    font-size: 1.17em;
+}
+
+.layout-tv {
+    font-size: 130%;
+}
+
+.layout-mobile {
+    font-size: 90%;
+}

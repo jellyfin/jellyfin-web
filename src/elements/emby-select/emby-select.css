@@ -1,0 +1,118 @@
+.emby-select {
+    display: block;
+    margin: 0;
+    margin-bottom: 0 !important;
+
+    /* Remove select styling */
+
+    /* Font size must the 16px or larger to prevent iOS page zoom on focus */
+    font-size: 110%;
+
+    /* General select styles: change as needed */
+    font-family: inherit;
+    font-weight: inherit;
+    padding: 0.5em 1.9em 0.5em 0.5em;
+
+    /* Prevent padding from causing width overflow */
+    box-sizing: border-box;
+    outline: none !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    width: 100%;
+}
+
+.emby-select[disabled] {
+    background: none !important;
+    border-color: transparent !important;
+    color: inherit !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.emby-select::-moz-focus-inner {
+    border: 0;
+}
+
+.selectContainer-inline > .emby-select {
+    padding: 0.3em 1.9em 0.3em 0.5em;
+    font-size: inherit;
+}
+
+.selectContainer-inline > .emby-select[disabled] {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.emby-select-focusscale {
+    transition: transform 180ms ease-out !important;
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+}
+
+.emby-select-focusscale:focus {
+    transform: scale(1.04);
+    z-index: 1;
+}
+
+.emby-select + .fieldDescription {
+    margin-top: 0.25em;
+}
+
+.selectContainer {
+    margin-bottom: 1.8em;
+    position: relative;
+}
+
+.selectContainer-inline {
+    display: inline-flex;
+    margin-bottom: 0;
+    align-items: center;
+}
+
+.selectLabel {
+    display: block;
+    margin-bottom: 0.25em;
+}
+
+.selectContainer-inline > .selectLabel {
+    margin-bottom: 0;
+    margin-right: 0.5em;
+    flex-shrink: 0;
+}
+
+.trackSelections > .selectContainer {
+    margin: 0.4em 0;
+}
+
+.emby-select-withcolor {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0.2em;
+}
+
+.selectArrowContainer {
+    position: absolute;
+    right: 0.3em;
+    top: 0.2em;
+    color: inherit;
+    pointer-events: none;
+}
+
+.selectContainer-inline > .selectArrowContainer {
+    top: initial;
+    bottom: 0.24em;
+    font-size: 90%;
+}
+
+.emby-select[disabled] + .selectArrowContainer {
+    display: none;
+}
+
+.selectArrow {
+    margin-top: 0.35em;
+    font-size: 1.7em;
+}
+
+.emby-select-iconbutton {
+    align-self: flex-end;
+}

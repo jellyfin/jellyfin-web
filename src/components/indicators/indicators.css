@@ -1,8 +1,8 @@
 .itemProgressBar {
     background: #333;
-    background: rgba(51,51,51,.8);
+    background: rgba(51, 51, 51, 0.8);
     position: relative;
-    height: .28em;
+    height: 0.28em;
 }
 
 .itemProgressBarForeground {
@@ -14,6 +14,7 @@
 
 .indicator {
     border-radius: 100em;
+    display: -webkit-flex;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,7 +24,7 @@
 }
 
 .timerIndicator {
-    color: #CB272A;
+    color: #cb272a;
 }
 
 .timerIndicator-inactive {
@@ -31,7 +32,7 @@
 }
 
 .indicator + .indicator {
-    margin-left: .25em;
+    margin-left: 0.25em;
 }
 
 .indicatorIcon {
@@ -42,6 +43,7 @@
 
 .countIndicator {
     border-radius: 100em;
+    display: -webkit-flex;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,6 +55,7 @@
 
 .playedIndicator {
     border-radius: 100em;
+    display: -webkit-flex;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -64,6 +67,7 @@
 .videoIndicator {
     background: #444;
     border-radius: 100em;
+    display: -webkit-flex;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,12 +85,13 @@
     color: #333;
 }
 
-.missingIndicator, .unairedIndicator {
-    background: #cc3333;
-    padding: .25em .5em;
+.missingIndicator,
+.unairedIndicator {
+    background: #c33;
+    padding: 0.25em 0.5em;
     border-radius: 100em;
     color: #fff;
     font-size: 84%;
     font-weight: 500;
-    margin: 0 .25em;
+    margin: 0 0.25em;
 }

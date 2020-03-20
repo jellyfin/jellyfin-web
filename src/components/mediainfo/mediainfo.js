@@ -6,7 +6,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         var status;
 
         if (item.Type === 'SeriesTimer') {
-            return '<i class="md-icon mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon">fiber_smart_record</i>';
+            return '<i class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></i>';
         } else if (item.TimerId || item.SeriesTimerId) {
 
             status = item.Status || 'Cancelled';
@@ -20,13 +20,13 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         if (item.SeriesTimerId) {
 
             if (status !== 'Cancelled') {
-                return '<i class="md-icon mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon">fiber_smart_record</i>';
+                return '<i class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></i>';
             }
 
-            return '<i class="md-icon mediaInfoItem mediaInfoIconItem">fiber_smart_record</i>';
+            return '<i class="material-icons mediaInfoItem mediaInfoIconItem fiber_smart_record"></i>';
         }
 
-        return '<i class="md-icon mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon">fiber_manual_record</i>';
+        return '<i class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_manual_record"></i>';
     }
 
     function getProgramInfoHtml(item, options) {
@@ -57,7 +57,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
                 miscInfo.push(text);
             } catch (e) {
-                console.log("Error parsing date: " + item.StartDate);
+                console.error("error parsing date: " + item.StartDate);
             }
         }
 
@@ -143,7 +143,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     text = datetime.toLocaleDateString(date);
                     miscInfo.push(text);
                 } catch (e) {
-                    console.log("Error parsing date: " + item.PremiereDate);
+                    console.error("error parsing date: " + item.PremiereDate);
                 }
             }
         }
@@ -176,7 +176,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     miscInfo.push(text);
                 }
             } catch (e) {
-                console.log("Error parsing date: " + item.StartDate);
+                console.error("error parsing date: " + item.StartDate);
             }
         }
 
@@ -200,7 +200,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                         }
 
                     } catch (e) {
-                        console.log("Error parsing date: " + item.EndDate);
+                        console.error("error parsing date: " + item.EndDate);
                     }
                 }
 
@@ -248,7 +248,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
                     miscInfo.push(text);
                 } catch (e) {
-                    console.log("Error parsing date: " + item.PremiereDate);
+                    console.error("error parsing date: " + item.PremiereDate);
                 }
             } else if (item.ProductionYear) {
                 miscInfo.push(item.ProductionYear);
@@ -267,7 +267,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                         text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
                         miscInfo.push(text);
                     } catch (e) {
-                        console.log("Error parsing date: " + item.PremiereDate);
+                        console.error("error parsing date: " + item.PremiereDate);
                     }
                 }
             }
@@ -385,16 +385,13 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
     }
 
     function getStarIconsHtml(item) {
-
         var html = '';
 
-        var rating = item.CommunityRating;
-
-        if (rating) {
+        if (item.CommunityRating) {
             html += '<div class="starRatingContainer mediaInfoItem">';
 
-            html += '<i class="md-icon starIcon">star</i>';
-            html += rating;
+            html += '<i class="material-icons starIcon">star</i>';
+            html += item.CommunityRating.toFixed(1);
             html += '</div>';
         }
 

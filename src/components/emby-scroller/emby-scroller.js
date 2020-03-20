@@ -155,7 +155,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
             initCenterFocus(this, this.scroller);
         }
 
-        if (bindHeader) {
+        if (bindHeader && layoutManager.mobile) {
             initHeadroom(this);
         }
 

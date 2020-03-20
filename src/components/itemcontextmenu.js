@@ -15,7 +15,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                 commands.push({
                     name: globalize.translate("Play"),
                     id: "resume",
-                    icon: "play_arrow"
+                    icon: "&#xE037;"
                 });
             }
 
@@ -23,7 +23,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                 commands.push({
                     name: globalize.translate("PlayAllFromHere"),
                     id: "playallfromhere",
-                    icon: "play_arrow"
+                    icon: "&#xE037;"
                 });
             }
         }
@@ -70,7 +70,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                 commands.push({
                     name: globalize.translate("InstantMix"),
                     id: "instantmix",
-                    icon: "shuffle"
+                    icon: "explore"
                 });
             }
         }
@@ -178,7 +178,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                 commands.push({
                     name: globalize.translate("EditImages"),
                     id: "editimages",
-                    icon: "edit"
+                    icon: "image"
                 });
             }
         }
@@ -346,22 +346,30 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                     break;
                 case "copy-stream":
                     var downloadHref = apiClient.getItemDownloadUrl(itemId);
-                    var textArea = document.createElement("textarea");
-                    textArea.value = downloadHref;
-                    document.body.appendChild(textArea);
-                    textArea.focus();
-                    textArea.select();
-                    try {
-                        document.execCommand("copy");
-
-                        require(["toast"], function (toast) {
-                            toast(globalize.translate("CopyStreamURLSuccess"));
-                        });
-                    } catch (err) {
-                        console.error("Failed to copy to clipboard");
+                    var textAreaCopy = function () {
+                        var textArea = document.createElement("textarea");
+                        textArea.value = downloadHref;
+                        document.body.appendChild(textArea);
+                        textArea.focus();
+                        textArea.select();
+                        if (document.execCommand("copy")) {
+                            require(["toast"], function (toast) {
+                                toast(globalize.translate("CopyStreamURLSuccess"));
+                            });
+                        } else {
+                            prompt(globalize.translate("CopyStreamURL"), downloadHref);
+                        }
+                        document.body.removeChild(textArea);
+                    };
+                    if (navigator.clipboard === undefined) {
+                        textAreaCopy();
+                    } else {
+                        navigator.clipboard.writeText(downloadHref).then(function () {
+                            require(["toast"], function (toast) {
+                                toast(globalize.translate("CopyStreamURLSuccess"));
+                            });
+                        }, textAreaCopy);
                     }
-
-                    document.body.removeChild(textArea);
                     getResolveFunction(resolve, id)();
                     break;
                 case "editsubtitles":
