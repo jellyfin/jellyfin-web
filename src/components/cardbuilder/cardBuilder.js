@@ -1,8 +1,10 @@
 /* eslint-disable indent */
+
 /**
  * Card builder module.
  * @module cardBuilder
  */
+
 import datetime from 'datetime';
 import imageLoader from 'imageLoader';
 import connectionManager from 'connectionManager';
@@ -23,10 +25,10 @@ import 'programStyles';
         const enableFocusTransform = !browser.slow && !browser.edge;
 
         /**
-         * Generate the HTML markup for cards of a set of items.
-         * @param items - The items to generate cards for.
+         * Generate the HTML markup for cards for a set of items.
+         * @param items - The items used to generate cards.
          * @param options - The options of the cards.
-         * @returns {string} The HTML markup for cards.
+         * @returns {string} The HTML markup for the cards.
          */
         export function getCardsHtml(items, options) {
             if (arguments.length === 1) {
@@ -42,7 +44,7 @@ import 'programStyles';
          * @param {string} shape - Shape of the cards.
          * @param {number} screenWidth - Width of the screen.
          * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
-         * @returns {number} Number of cards per row of an itemsContainer.
+         * @returns {number} Number of cards per row for an itemsContainer.
          */
         function getPostersPerRow(shape, screenWidth, isOrientationLandscape) {
             switch (shape) {
@@ -250,7 +252,7 @@ import 'programStyles';
 
         /**
          * Checks if the window is resizable.
-         * @param {number} windowWidth - Width of the client's screen.
+         * @param {number} windowWidth - Width of the device's screen.
          * @returns {boolean} - Result of the check.
          */
         function isResizable(windowWidth) {
@@ -279,7 +281,7 @@ import 'programStyles';
         }
 
         /**
-         * Normalizes the options of a card.
+         * Normalizes the options for a card.
          * @param {Object} items - A set of items.
          * @param {Object} options - Options for handling the items.
          */
@@ -463,7 +465,7 @@ import 'programStyles';
         }
 
         /**
-         * Computes the Aspect Ratio for a card given its shape.
+         * Computes the aspect ratio for a card given its shape.
          * @param {string} shape - Shape for which to get the aspect ratio.
          * @returns {null|number} Ratio of the shape.
          */
@@ -489,14 +491,14 @@ import 'programStyles';
         /**
          * @typedef {Object} CardImageUrl
          * @property {string} imgUrl - URL of the image.
-         * @property {boolean} forceName - Force the name to be visible.
+         * @property {boolean} forceName - Flag to force the name to be visible.
          * @property {boolean} coverImage - Acts as a cover image.
          */
 
-        /** Get the URL of the Card's image.
+        /** Get the URL of the card's image.
          * @param {Object} item - Item for which to generate a card.
-         * @param {Object} apiClient - API Client object.
-         * @param {Object} options - Options of the card to generate.
+         * @param {Object} apiClient - API client object.
+         * @param {Object} options - Options of the card.
          * @param {string} shape - Shape of the desired image.
          * @returns {CardImageUrl} Object representing the URL of the card's image.
          */
@@ -717,7 +719,7 @@ import 'programStyles';
         }
 
         /**
-         * Generates a random integer in a range.
+         * Generates a random integer in a given range.
          * @param {number} min - Minimum of the range.
          * @param {number} max - Maximum of the range.
          * @returns {number} Randomly generated number.
@@ -727,7 +729,7 @@ import 'programStyles';
         }
 
         /**
-         * Generates an index used to select the default color of a Card based on a string.
+         * Generates an index used to select the default color of a card based on a string.
          * @param {string} str - String to use for generating the index.
          * @returns {number} Index of the color.
          */
@@ -758,7 +760,7 @@ import 'programStyles';
          * @param {string} cardLayout - DEPRECATED
          * @param {boolean} addRightMargin - Flag to add a right margin to the text.
          * @param {number} maxLines - Maximum number of lines to render.
-         * @returns {string} HTML markup fo the card's text.
+         * @returns {string} HTML markup for the card's text.
          */
         function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout, addRightMargin, maxLines) {
             let html = '';
@@ -806,9 +808,9 @@ import 'programStyles';
         }
 
         /**
-         * Determines if the item is Live TV.
-         * @param {Object} item - Item to use.
-         * @returns {boolean} Flag showing if the item is Live TV.
+         * Determines if the item is live TV.
+         * @param {Object} item - Item to use for the check.
+         * @returns {boolean} Flag showing if the item is live TV.
          */
         function isUsingLiveTvNaming(item) {
             return item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording';
@@ -819,7 +821,7 @@ import 'programStyles';
          * @param {object} item - Item used to generate the air time text.
          * @param {string} showAirDateTime - ISO8601 date for the start of the show.
          * @param {string} showAirEndTime - ISO8601 date for the end of the show.
-         * @returns {string} The air time text for the item base on the given dates.
+         * @returns {string} The air time text for the item based on the given dates.
          */
         function getAirTimeText(item, showAirDateTime, showAirEndTime) {
             let airTimeText = '';
@@ -850,7 +852,7 @@ import 'programStyles';
         /**
          * Generates the HTML markup for the card's footer text.
          * @param {Object} item - Item used to generate the footer text.
-         * @param {Object} apiClient - API Client instance.
+         * @param {Object} apiClient - API client instance.
          * @param {Object} options - Options used to generate the footer text.
          * @param {string} showTitle - Title of the show.
          * @param {boolean} forceName - Flag to force showing the name of the item.
@@ -1264,7 +1266,7 @@ import 'programStyles';
          * Builds the HTML markup for an individual card.
          * @param {number} index - Index of the card
          * @param {object} item - Item used to generate the card.
-         * @param {object} apiClient - API Client instance.
+         * @param {object} apiClient - API client instance.
          * @param {object} options - Options used to generate the card.
          * @returns {string} HTML markup for the generated card.
          */
@@ -1598,7 +1600,7 @@ import 'programStyles';
         }
 
         /**
-         * Generates the text or icon used on default card backgrounds.
+         * Generates the text or icon used for default card backgrounds.
          * @param {object} item - Item used to generate the card overlay.
          * @param {object} options - Options used to generate the card overlay.
          * @returns {string} HTML markup of the card overlay.
@@ -1633,7 +1635,7 @@ import 'programStyles';
         }
 
         /**
-         * Builds a set of cards and inserts it into the page;.
+         * Builds a set of cards and inserts it into the page.
          * @param {Array} items - Array of items used to build cards.
          * @param {options} options - Options of the cards to build.
          */
@@ -1679,8 +1681,8 @@ import 'programStyles';
         }
 
         /**
-         * Ensures the indicators for a card exist and creates them if they don't.
-         * @param {HTMLDivElement} card - HTML Markup of the card.
+         * Ensures the indicators for a card exist and creates them if they don't exist.
+         * @param {HTMLDivElement} card - HTML markup of the card.
          * @param {HTMLDivElement} indicatorsElem - HTML markup of the indicators.
          * @returns {HTMLDivElement} - HTML markup of the indicators.
          */
@@ -1703,7 +1705,7 @@ import 'programStyles';
         }
 
         /**
-         * Adds user data to the card such as progress indicators, played status, etc.
+         * Adds user data to the card such as progress indicators and played status.
          * @param {HTMLDivElement} card - HTML markup of the card.
          * @param {Object} userData - User data to apply to the card.
          */
@@ -1793,7 +1795,7 @@ import 'programStyles';
         /**
          * Handles when user data has changed.
          * @param {Object} userData - User data to apply to the card.
-         * @param {HTMLElement} scope - DOM Element to use as a scope when selecting cards.
+         * @param {HTMLElement} scope - DOM element to use as a scope when selecting cards.
          */
         export function onUserDataChanged(userData, scope) {
             const cards = (scope || document.body).querySelectorAll('.card-withuserdata[data-id="' + userData.ItemId + '"]');
@@ -1804,10 +1806,10 @@ import 'programStyles';
         }
 
         /**
-         * Handles when a timer was created.
+         * Handles when a timer has been created.
          * @param {string} programId - ID of the program.
          * @param {string} newTimerId - ID of the new timer.
-         * @param {HTMLElement} itemsContainer - DOM Element of the items container.
+         * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
          */
         export function onTimerCreated(programId, newTimerId, itemsContainer) {
             const cells = itemsContainer.querySelectorAll('.card[data-id="' + programId + '"]');
@@ -1824,9 +1826,9 @@ import 'programStyles';
         }
 
         /**
-         * Handles when a timer is cancelled.
+         * Handles when a timer has been cancelled.
          * @param {string} timerId - ID of the cancelled timer.
-         * @param {HTMLElement} itemsContainer - DOM Element of the items container.
+         * @param {HTMLElement} itemsContainer - DOM element of the items container.
          */
         export function onTimerCancelled(timerId, itemsContainer) {
             const cells = itemsContainer.querySelectorAll('.card[data-timerid="' + timerId + '"]');
@@ -1842,9 +1844,9 @@ import 'programStyles';
         }
 
         /**
-         * Handles when a series timer is cancelled.
+         * Handles when a series timer has been cancelled.
          * @param {string} canceledTimerId - ID of the cancelled timer.
-         * @param {HTMLElement} itemsContainer - DOM Element of the items container.
+         * @param {HTMLElement} itemsContainer - DOM element of the items container.
          */
         export function onSeriesTimerCancelled(canceledTimerId, itemsContainer) {
             const cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + canceledTimerId + '"]');
