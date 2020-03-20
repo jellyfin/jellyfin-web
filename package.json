@@ -70,11 +70,23 @@
     "whatwg-fetch": "^3.0.0"
   },
   "babel": {
-    "presets": ["@babel/preset-env"],
-    "overrides": [{
-        "test": ["src/components/cardbuilder/cardBuilder.js"],
-        "plugins": ["@babel/plugin-transform-modules-amd"]
-    }]
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "overrides": [
+      {
+        "test": [
+          "src/components/cardbuilder/cardBuilder.js",
+          "src/components/filedownloader.js",
+          "src/components/filesystem.js",
+          "src/components/input/keyboardnavigation.js",
+          "src/components/sanatizefilename.js"
+        ],
+        "plugins": [
+          "@babel/plugin-transform-modules-amd"
+        ]
+      }
+    ]
   },
   "browserslist": [
     "last 2 Firefox versions",
