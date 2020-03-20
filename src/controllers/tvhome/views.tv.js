@@ -116,7 +116,6 @@ define(['./spotlight', 'focusManager', 'cardBuilder'], function (spotlight, focu
         });
     }
 
-
     function loadImages(element, apiClient, parentId) {
 
         return apiClient.getItems(apiClient.getCurrentUserId(), {

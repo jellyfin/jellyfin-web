@@ -77,7 +77,7 @@ define(['loading', 'globalize', 'connectionManager', 'components/tabbedpage', 'l
             });
         }
 
-       view.addEventListener('viewbeforeshow', function (e) {
+        view.addEventListener('viewbeforeshow', function (e) {
 
             self.reloadPromise = null;
 
