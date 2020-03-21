@@ -134,7 +134,7 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
 
         return new Promise(function (resolve, reject) {
 
-            require(['query-string'], function (queryString) {
+            require(['queryString'], function (queryString) {
 
                 instance._currentSrc = options.url;
                 var params = queryString.parse(options.url.split('?')[1]);

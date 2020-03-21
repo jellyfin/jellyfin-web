@@ -238,7 +238,7 @@ var AppInfo = {};
 
     function defineConnectionManager(connectionManager) {
         window.ConnectionManager = connectionManager;
-        require(["ConnectionManager"]);
+        require(["connectionManager"]);
     }
 
     var localApiClient;
@@ -466,14 +466,13 @@ var AppInfo = {};
             "scrollHelper": "components/scrollhelper",
             "touchHelper": "components/touchhelper",
             "appSettings": "scripts/settings/appSettings",
+            "userSettingsBuilder": "scripts/settings/userSettingsBuilder",
             "userSettings": "scripts/settings/userSettings",
             "imageUploader": "components/imageuploader/imageuploader",
             "htmlMediaHelper": "components/htmlMediaHelper",
             "viewContainer": "components/viewContainer",
             "dialogHelper": "components/dialogHelper/dialogHelper",
-            "serverNotifications": "components/serverNotifications/serverNotifications",
             "skinManager": "components/skinManager",
-            "keyboardnavigation": "components/keyboardnavigation",
             "scrollManager": "components/scrollManager",
             "autoFocuser": "components/autoFocuser",
             "confirm": "components/confirm/confirm",
@@ -489,7 +488,10 @@ var AppInfo = {};
             "viewManager": "components/viewManager/viewManager",
             "appRouter": "scripts/appRouter",
             "connectionManager": "scripts/connectionManager",
-            "apiClientResolver": "scripts/apiClientResolver"
+            "apiClientResolver": "scripts/apiClientResolver",
+            "serverNotifications": "components/serverNotifications",
+            "keyboardnavigation": "components/input/keyboardnavigation",
+            "mouseManager": "components//input/mouseManager"
         };
 
         requirejs.onError = onRequireJsError;
@@ -503,6 +505,7 @@ var AppInfo = {};
             },
             bundles: {
                 bundle: [
+                    "IntersectionObserver",
                     "document-register-element",
                     "fetch",
                     "flvjs",
@@ -538,10 +541,6 @@ var AppInfo = {};
 
         require(["css!assets/css/site"]);
         require(["jellyfin-noto"]);
-
-        define("serverNotifications", ["components//serverNotifications"], returnFirstDependency);
-        define("keyboardnavigation", ["components//input/keyboardnavigation"], returnFirstDependency);
-        define("mouseManager", ["components//input/mouseManager"], returnFirstDependency);
     }
 
     function init() {
