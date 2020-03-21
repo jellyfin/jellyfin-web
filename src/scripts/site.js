@@ -320,6 +320,7 @@ var AppInfo = {};
 
     function initRequire() {
         var urlArgs = "v=" + (window.dashboardVersion || new Date().getDate());
+
         var paths = {
             apphost: "components/apphost",
             autoPlayDetect: "components/playback/autoplaydetect",
@@ -554,7 +555,7 @@ var AppInfo = {};
 
         Promise.all(promises).then(function () {
             createConnectionManager().then(function () {
-                console.log("initAfterDependencies promises resolved");
+                console.debug("initAfterDependencies promises resolved");
 
                 require(["globalize", "browser"], function (globalize, browser) {
                     window.Globalize = globalize;
@@ -565,6 +566,7 @@ var AppInfo = {};
                 require(["keyboardnavigation"], function(keyboardnavigation) {
                     keyboardnavigation.enable();
                 });
+                require(["mouseManager"]);
                 require(["focusPreventScroll"]);
                 require(["autoFocuser"], function(autoFocuser) {
                     autoFocuser.enable();
@@ -598,10 +600,10 @@ var AppInfo = {};
         document.title = Globalize.translateDocument(document.title, "core");
 
         if (browser.tv && !browser.android) {
-            console.log("Using system fonts with explicit sizes");
+            console.debug("using system fonts with explicit sizes");
             require(["css!assets/css/fonts.sized.css"]);
         } else {
-            console.log("Using default fonts");
+            console.debug("using default fonts");
             require(["css!assets/css/fonts.css"]);
         }
 
@@ -613,7 +615,7 @@ var AppInfo = {};
     }
 
     function loadPlugins(appHost, browser, shell) {
-        console.log("Loading installed plugins");
+        console.debug("loading installed plugins");
         var list = [
             "components/playback/playaccessvalidation",
             "components/playback/experimentalwarnings",
@@ -655,13 +657,13 @@ var AppInfo = {};
     }
 
     function onAppReady(browser) {
-        console.log("Begin onAppReady");
+        console.debug("begin onAppReady");
 
         // ensure that appHost is loaded in this point
         require(['apphost', 'appRouter'], function (appHost, appRouter) {
             window.Emby = {};
 
-            console.log("onAppReady - loading dependencies");
+            console.debug("onAppReady: loading dependencies");
             if (browser.iOS) {
                 require(['css!assets/css/ios.css']);
             }
@@ -703,8 +705,25 @@ var AppInfo = {};
 
                 require(["playerSelectionMenu", "fullscreenManager"]);
 
-                if (!AppInfo.isNativeApp && window.ApiClient) {
-                    require(["css!" + ApiClient.getUrl("Branding/Css")]);
+                var apiClient = window.ConnectionManager && window.ConnectionManager.currentApiClient();
+                if (apiClient) {
+                    fetch(apiClient.getUrl("Branding/Css"))
+                        .then(function(response) {
+                            if (!response.ok) {
+                                throw new Error(response.status + ' ' + response.statusText);
+                            }
+                            return response.text();
+                        })
+                        .then(function(css) {
+                            // Inject the branding css as a dom element in body so it will take
+                            // precedence over other stylesheets
+                            var style = document.createElement('style');
+                            style.appendChild(document.createTextNode(css));
+                            document.body.appendChild(style);
+                        })
+                        .catch(function(err) {
+                            console.warn('Error applying custom css', err);
+                        });
                 }
             });
         });
@@ -715,7 +734,7 @@ var AppInfo = {};
             try {
                 navigator.serviceWorker.register("serviceworker.js");
             } catch (err) {
-                console.log("Error registering serviceWorker: " + err);
+                console.error("error registering serviceWorker: " + err);
             }
         }
     }
@@ -728,11 +747,7 @@ var AppInfo = {};
             AppInfo.isNativeApp = true;
         }
 
-        if (!window.Promise || browser.web0s) {
-            require(["native-promise-only"], init);
-        } else {
-            init();
-        }
+        init();
     }
 
     return require(["browser"], onWebComponentsReady);

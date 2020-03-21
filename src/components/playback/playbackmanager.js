@@ -4021,7 +4021,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         try {
             _playbackManager.onAppClose();
         } catch (err) {
-            console.log("error in onAppClose: " + err);
+            console.error("error in onAppClose: " + err);
         }
     });
 
