@@ -346,11 +346,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                     break;
                 case "copy-stream":
                     var downloadHref = apiClient.getItemDownloadUrl(itemId);
-                    navigator.clipboard.writeText(downloadHref).then(function () {
-                        require(["toast"], function (toast) {
-                            toast(globalize.translate("CopyStreamURLSuccess"));
-                        });
-                    }, function () {
+                    var textAreaCopy = function () {
                         var textArea = document.createElement("textarea");
                         textArea.value = downloadHref;
                         document.body.appendChild(textArea);
@@ -364,7 +360,16 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                             prompt(globalize.translate("CopyStreamURL"), downloadHref);
                         }
                         document.body.removeChild(textArea);
-                    });
+                    };
+                    if (navigator.clipboard === undefined) {
+                        textAreaCopy();
+                    } else {
+                        navigator.clipboard.writeText(downloadHref).then(function () {
+                            require(["toast"], function (toast) {
+                                toast(globalize.translate("CopyStreamURLSuccess"));
+                            });
+                        }, textAreaCopy);
+                    }
                     getResolveFunction(resolve, id)();
                     break;
                 case "editsubtitles":

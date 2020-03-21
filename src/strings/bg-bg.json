@@ -832,5 +832,9 @@
     "ButtonNetwork": "Мрежа",
     "ButtonFullscreen": "На цял екран",
     "ButtonDown": "Надолу",
-    "ButtonConnect": "Свързване"
+    "ButtonConnect": "Свързване",
+    "AllowOnTheFlySubtitleExtraction": "Позволява моментално извличане на поднадписи",
+    "AllowHWTranscodingHelp": "Позволява на тунера да прекодира моментално. Това може да помогне за редуциране на прекодирането от сървъра.",
+    "AddItemToCollectionHelp": "Добавяне към колекция чрез търсенето им и използване на дясно-щракване с мишката или контекстното меню.",
+    "Absolute": "Aбсолютен"
 }

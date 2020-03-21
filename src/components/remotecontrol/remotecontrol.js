@@ -122,9 +122,9 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         }
 
         var url = item ? seriesImageUrl(item, {
-            maxHeight: 300
+            maxHeight: 300 * 2
         }) || imageUrl(item, {
-            maxHeight: 300
+            maxHeight: 300 * 2
         }) : null;
 
         console.debug("updateNowPlayingInfo");
