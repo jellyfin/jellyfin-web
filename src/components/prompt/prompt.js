@@ -78,10 +78,8 @@ define(["browser", 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize',
                 scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
             }
 
-            var value = submitValue;
-
-            if (value) {
-                return value;
+            if (submitValue) {
+                return submitValue;
             } else {
                 return Promise.reject();
             }
