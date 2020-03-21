@@ -297,14 +297,18 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             });
         }
 
-        function getLocalTrailers(item) {
+        function getAllTrailers(item, remoteTrailers) {
             if (item.LocalTrailerCount) {
-                apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(function (trailers) {
-                    if (!trailers.length) return [];
+                return apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(function (trailers) {
+                    trailers.push.apply(trailers, remoteTrailers);
                     return trailers;
+                }).catch(function (err) {
+                    console.error(err);
+                    return remoteTrailers;
                 });
+            } else {
+                return Promise.resolve(remoteTrailers);
             }
-            return [];
         }
 
         return apiClient.getItems(apiClient.getCurrentUserId(), fetchOptions).then(function (unwatchedMovies) {
@@ -313,10 +317,10 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 trailerCount = unwatchedMovies.Items.length;
             }
 
-            var randomTrailers = [];
             var indexHistory = [];
+            var promises = [];
 
-            for (var i=0; i < trailerCount; i++) {
+            for (var i = 0; i < trailerCount && indexHistory.length < unwatchedMovies.Items.length; i++) {
                 // get random movies that hasn't been selected
                 var index = Math.floor(Math.random() * unwatchedMovies.Items.length);
                 while (indexHistory.includes(index)) {
@@ -325,14 +329,27 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 indexHistory.push(index);
                 var randomMovie = unwatchedMovies.Items[index];
 
-                // get local and remote trailers in one array
-                var trailers = getLocalTrailers(randomMovie);
                 var remoteTrailers = getRemoteTrailers(randomMovie);
-                trailers.push.apply(trailers, remoteTrailers);
 
                 // don't count the movie to the trailer count if it has no trailers
-                if (!trailers.length) {
+                if (!randomMovie.LocalTrailerCount && !remoteTrailers.length) {
                     i--;
+                    continue;
+                }
+
+                promises.push(getAllTrailers(randomMovie, remoteTrailers));
+            }
+
+            return Promise.all(promises);
+
+        }).then(function (movieTrailers) {
+            var randomTrailers = [];
+
+            for (var i = 0; i < movieTrailers.length; i++) {
+                var trailers = movieTrailers[i];
+
+                // in case of error with local trailers and empty remote trailers
+                if (!trailers.length) {
                     continue;
                 }
 
@@ -344,8 +361,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             }
 
             return {"Items": randomTrailers};
-        }, function (err) {
 
+        }).catch(function (err) {
+            console.error(err);
             return Promise.resolve({
                 Items: []
             });
