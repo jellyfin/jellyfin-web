@@ -216,7 +216,7 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
     RecordingEditor.prototype.embed = function () {
         var self = this;
         return new Promise(function (resolve, reject) {
-            require(['text!./recordingfields.template.html'], function (template) {
+            require(['text!components/recordingcreator/recordingfields.template.html'], function (template) {
                 var options = self.options;
                 var context = options.parent;
                 context.innerHTML = globalize.translateDocument(template, 'core');

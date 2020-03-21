@@ -94,7 +94,7 @@ define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'c
             options = options || {};
             currentResolve = resolve;
 
-            require(['text!./recordingeditor.template.html'], function (template) {
+            require(['text!components/recordingcreator/recordingeditor.template.html'], function (template) {
                 var dialogOptions = {
                     removeOnClose: true,
                     scrollY: false
