@@ -488,7 +488,7 @@ import 'programStyles';
             return null;
         }
 
-        /** Get the URL of the Card's image.
+        /** Get the URL of the card's image.
          * @param {Object} item - Item for which to generate a card.
          * @param {Object} apiClient - API client object.
          * @param {Object} options - Options of the card.
@@ -1628,7 +1628,7 @@ import 'programStyles';
         }
 
         /**
-         * Builds a set of cards and inserts them into the page;.
+         * Builds a set of cards and inserts them into the page.
          * @param {Array} items - Array of items used to build the cards.
          * @param {options} options - Options of the cards to build.
          */
