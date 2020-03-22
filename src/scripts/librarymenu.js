@@ -243,15 +243,20 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="material-icons navMenuOptionIcon">wifi</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
             }
 
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><i class="material-icons navMenuOptionIcon settings"></i><span class="navMenuOptionText">' + globalize.translate("ButtonSettings") + "</span></a>";
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="material-icons navMenuOptionIcon exit_to_app"></i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
             html += "</div>";
         }
 
         // add buttons to navigation drawer
         navDrawerScrollContainer.innerHTML = html;
-        // bind logout button click to method
-        var btnLogout = navDrawerScrollContainer.querySelector(".btnLogout");
 
+        var btnSettings = navDrawerScrollContainer.querySelector(".btnSettings");
+        if (btnSettings) {
+            btnSettings.addEventListener("click", onSettingsClick);
+        }
+
+        var btnLogout = navDrawerScrollContainer.querySelector(".btnLogout");
         if (btnLogout) {
             btnLogout.addEventListener("click", onLogoutClick);
         }
@@ -596,6 +601,10 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         if (dom.parentWithTag(e.target, "A")) {
             setTimeout(closeMainDrawer, 30);
         }
+    }
+
+    function onSettingsClick() {
+        Dashboard.navigate("mypreferencesmenu.html");
     }
 
     function onLogoutClick() {
