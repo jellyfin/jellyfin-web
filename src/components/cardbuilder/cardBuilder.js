@@ -1,8 +1,8 @@
 /* eslint-disable indent */
 
 /**
- * Card builder module.
- * @module cardBuilder
+ * Module for building cards from item data.
+ * @module components/cardBuilder/cardBuilder
  */
 
 import datetime from 'datetime';
@@ -488,19 +488,12 @@ import 'programStyles';
             return null;
         }
 
-        /**
-         * @typedef {Object} CardImageUrl
-         * @property {string} imgUrl - URL of the image.
-         * @property {boolean} forceName - Flag to force the name to be visible.
-         * @property {boolean} coverImage - Acts as a cover image.
-         */
-
-        /** Get the URL of the card's image.
+        /** Get the URL of the Card's image.
          * @param {Object} item - Item for which to generate a card.
          * @param {Object} apiClient - API client object.
          * @param {Object} options - Options of the card.
          * @param {string} shape - Shape of the desired image.
-         * @returns {CardImageUrl} Object representing the URL of the card's image.
+         * @returns {Object} Object representing the URL of the card's image.
          */
         function getCardImageUrl(item, apiClient, options, shape) {
             item = item.ProgramInfo || item;
@@ -854,15 +847,15 @@ import 'programStyles';
          * @param {Object} item - Item used to generate the footer text.
          * @param {Object} apiClient - API client instance.
          * @param {Object} options - Options used to generate the footer text.
-         * @param {string} showTitle - Title of the show.
+         * @param {string} showTitle - Flag to show the title in the footer.
          * @param {boolean} forceName - Flag to force showing the name of the item.
          * @param {boolean} overlayText - Flag to show overlay text.
-         * @param {CardImageUrl} imgUrl - Object representing the card's image URL.
-         * @param {string} footerClass - CSS class of the footer.
-         * @param {string} progressHtml - HTML markup of the progress bar.
+         * @param {Object} imgUrl - Object representing the card's image URL.
+         * @param {string} footerClass - CSS classes of the footer element.
+         * @param {string} progressHtml - HTML markup of the progress bar element.
          * @param {string} logoUrl - URL of the logo for the item.
          * @param {boolean} isOuterFooter - Flag to mark the text as outer footer.
-         * @returns {string} HTML markup of the card's footer text.
+         * @returns {string} HTML markup of the card's footer text element.
          */
         function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, logoUrl, isOuterFooter) {
             let html = '';
@@ -1635,8 +1628,8 @@ import 'programStyles';
         }
 
         /**
-         * Builds a set of cards and inserts it into the page.
-         * @param {Array} items - Array of items used to build cards.
+         * Builds a set of cards and inserts them into the page;.
+         * @param {Array} items - Array of items used to build the cards.
          * @param {options} options - Options of the cards to build.
          */
         export function buildCards(items, options) {
@@ -1682,9 +1675,9 @@ import 'programStyles';
 
         /**
          * Ensures the indicators for a card exist and creates them if they don't exist.
-         * @param {HTMLDivElement} card - HTML markup of the card.
-         * @param {HTMLDivElement} indicatorsElem - HTML markup of the indicators.
-         * @returns {HTMLDivElement} - HTML markup of the indicators.
+         * @param {HTMLDivElement} card - DOM element of the card.
+         * @param {HTMLDivElement} indicatorsElem - DOM element of the indicators.
+         * @returns {HTMLDivElement} - DOM element of the indicators.
          */
         function ensureIndicators(card, indicatorsElem) {
             if (indicatorsElem) {
@@ -1706,7 +1699,7 @@ import 'programStyles';
 
         /**
          * Adds user data to the card such as progress indicators and played status.
-         * @param {HTMLDivElement} card - HTML markup of the card.
+         * @param {HTMLDivElement} card - DOM element of the card.
          * @param {Object} userData - User data to apply to the card.
          */
         function updateUserData(card, userData) {
@@ -1828,7 +1821,7 @@ import 'programStyles';
         /**
          * Handles when a timer has been cancelled.
          * @param {string} timerId - ID of the cancelled timer.
-         * @param {HTMLElement} itemsContainer - DOM element of the items container.
+         * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
          */
         export function onTimerCancelled(timerId, itemsContainer) {
             const cells = itemsContainer.querySelectorAll('.card[data-timerid="' + timerId + '"]');
@@ -1845,11 +1838,11 @@ import 'programStyles';
 
         /**
          * Handles when a series timer has been cancelled.
-         * @param {string} canceledTimerId - ID of the cancelled timer.
-         * @param {HTMLElement} itemsContainer - DOM element of the items container.
+         * @param {string} cancelledTimerId - ID of the cancelled timer.
+         * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
          */
-        export function onSeriesTimerCancelled(canceledTimerId, itemsContainer) {
-            const cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + canceledTimerId + '"]');
+        export function onSeriesTimerCancelled(cancelledTimerId, itemsContainer) {
+            const cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + cancelledTimerId + '"]');
 
             for (let i = 0; i < cells.length; i++) {
                 let cell = cells[i];
