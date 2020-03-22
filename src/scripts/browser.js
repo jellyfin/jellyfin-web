@@ -271,6 +271,9 @@ define([], function () {
 
     if (!browser.tizen) {
         browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
+    } else {
+        var v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
+        browser.tizenVersion = parseInt(v[1]);
     }
 
     if (browser.edgeUwp) {

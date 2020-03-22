@@ -1213,7 +1213,7 @@
     "Screenshots": "Képernyőképek",
     "SearchForCollectionInternetMetadata": "Keresés az interneten artwork és metaadat után",
     "Series": "Sorozatok",
-    "SeriesCancelled": "A sorozat törölt.",
+    "SeriesCancelled": "Sorozat törölve.",
     "SeriesRecordingScheduled": "A sorozatfelvétel ütemezett.",
     "SeriesSettings": "Sorozat beállítások",
     "ServerRestartNeededAfterPluginInstall": "A bővítmény telepítése után újra kell indítani a Jellyfin Szerver-t.",

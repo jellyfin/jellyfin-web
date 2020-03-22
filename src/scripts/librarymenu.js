@@ -73,7 +73,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }
 
         if (user && user.localUser) {
-            if (headerHomeButton) {
+            if (headerHomeButton && !layoutManager.mobile) {
                 headerHomeButton.classList.remove("hide");
             }
 
@@ -788,7 +788,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     var headerCastButton;
     var headerSearchButton;
     var headerAudioPlayerButton;
-    var enableLibraryNavDrawer = !layoutManager.tv;
+    var enableLibraryNavDrawer = layoutManager.desktop;
     var skinHeader = document.querySelector(".skinHeader");
     var requiresUserRefresh = true;
     var lastOpenTime = new Date().getTime();
@@ -863,6 +863,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     pageClassOn("pageshow", "page", function (e) {
         var page = this;
         var isDashboardPage = page.classList.contains("type-interior");
+        var isHomePage = page.classList.contains("homePage");
         var isLibraryPage = !isDashboardPage && page.classList.contains("libraryPage");
         var apiClient = getCurrentApiClient();
 
@@ -874,7 +875,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             refreshDashboardInfoInDrawer(apiClient);
         } else {
             if (mainDrawerButton) {
-                if (enableLibraryNavDrawer) {
+                if (enableLibraryNavDrawer || isHomePage) {
                     mainDrawerButton.classList.remove("hide");
                 } else {
                     mainDrawerButton.classList.add("hide");

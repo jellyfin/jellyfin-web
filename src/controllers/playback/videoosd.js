@@ -671,7 +671,8 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         }
 
         function onTimeUpdate(e) {
-            if (isEnabled) {
+            // Test for 'currentItem' is required for Firefox since its player spams 'timeupdate' events even being at breakpoint
+            if (isEnabled && currentItem) {
                 var now = new Date().getTime();
 
                 if (!(now - lastUpdateTime < 700)) {
