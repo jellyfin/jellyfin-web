@@ -136,6 +136,14 @@
                     <div class="fieldDescription">${H264CrfHelp}</div>
                 </div>
 
+                <div class="selectContainer">
+                    <select is="emby-select" id="selectDeinterlaceMethod" label="${LabelDeinterlaceMethod}">
+                        <option value="yadif">Yadif</option>
+                        <option value="yadif_bob">Yadif Bob</option>
+                    </select>
+                    <div class="fieldDescription">${DeinterlaceMethodHelp}</div>
+                </div>
+
                 <div class="checkboxContainer checkboxContainer-withDescription">
                     <label>
                         <input is="emby-checkbox" type="checkbox" id="chkEnableSubtitleExtraction" />
