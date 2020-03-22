@@ -264,21 +264,13 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
         self.init = function () {
             options = options || {};
 
-            // Only hide the button if explicitly set to false; default to showing if undefined or null
+            // Only hide the buttons if explicitly set to false; default to showing if undefined or null
             // FIXME: rename this option to clarify logic
-            if (options.showCancelButton === false) {
-                page.querySelector(".btnCancel").classList.add("hide");
-            } else {
-                page.querySelector(".btnCancel").classList.remove("hide");
-            }
+            var hideCancelButton = options.showCancelButton === false;
+            page.querySelector(".btnCancel").classList.toggle("hide", hideCancelButton);
 
-            // Only hide the button if explicitly set to false; default to showing if undefined or null
-            // FIXME: rename this option to clarify logic
-            if (options.showSubmitButton === false) {
-                page.querySelector(".btnSubmitListings").classList.add("hide");
-            } else {
-                page.querySelector(".btnSubmitListings").classList.remove("hide");
-            }
+            var hideSubmitButton = options.showSubmitButton === false;
+            page.querySelector(".btnSubmitListings").classList.toggle("hide", hideSubmitButton);
 
             $(".formLogin", page).on("submit", function () {
                 submitLoginForm();
