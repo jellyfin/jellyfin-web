@@ -1470,5 +1470,7 @@
     "AllowFfmpegThrottlingHelp": "Quand le transcodage ou le remultiplexage est suffisamment loin de la position de lecture, le processus se mettra en pause afin d’économiser des ressources. Plus utile lors d’une lecture continue. À désactiver en cas de problèmes de lecture.",
     "AllowFfmpegThrottling": "Adapter la Vitesse du Transcodage",
     "NoCreatedLibraries": "Il semblerait que vous n'ayez créé aucune librairie. {0}Voulez-vous en créer une maintenant ?{1}",
-    "PlaybackErrorNoCompatibleStream": "Problème de profil client, le serveur n’a pas pu envoyer un format média compatible."
+    "PlaybackErrorNoCompatibleStream": "Problème de profil client, le serveur n’a pas pu envoyer un format média compatible.",
+    "PreferEmbeddedEpisodeInfosOverFileNames": "Préférer les informations intégrées aux noms de fichiers",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Utilise les informations des métadonnées intégrées, si disponible."
 }
