@@ -415,7 +415,7 @@ var AppInfo = {};
         define("fileDownloader", [componentsPath + "/filedownloader"], returnFirstDependency);
         define("localassetmanager", [bowerPath + "/apiclient/localassetmanager"], returnFirstDependency);
 
-        define("castSenderApiLoader", [componentsPath + "castSenderApi"], returnFirstDependency);
+        define("castSenderApiLoader", [componentsPath + "/castSenderApi"], returnFirstDependency);
 
         define("transfermanager", [bowerPath + "/apiclient/sync/transfermanager"], returnFirstDependency);
         define("filerepository", [bowerPath + "/apiclient/sync/filerepository"], returnFirstDependency);
