@@ -1474,5 +1474,7 @@
     "DeviceAccessHelp": "Ez csak azokra az eszközökre alkalmazható, amelyek egyedileg vannak azonosítva és nem gátolják meg a böngészőből való elérést. A felhasználói eszközök kiszűrése meg fogja akadályozni az új eszközök használatát addig, amíg itt nem engedélyezed őket.",
     "PlaybackErrorNoCompatibleStream": "Hiba történt a kliens felmérése közben és a szerver nem küld kompatibilis formátumot az eszközre.",
     "AllowFfmpegThrottlingHelp": "Ha az átkódolás vagy remux eléggé előtöltődött a jelenlegi lejátszási pozícióhoz képest, ez megállítja a folyamatot, hogy kevesebb erőforrást vegyen igénybe. Ez akkor hasznos, ha ritkán ugrálsz előre a lejátszott videókban. Kapcsold ki, ha lejátszási problémákba ütközöl.",
-    "AllowFfmpegThrottling": "Átkódolás visszafogása"
+    "AllowFfmpegThrottling": "Átkódolás visszafogása",
+    "PreferEmbeddedEpisodeInfosOverFileNames": "Inkább a beágyazott epizódokra vonatkozó információkat részesítse előnyben a fájlnevekkel szemben",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Ez a beágyazott metaadatok epizódinformációit használja, ha rendelkezésre állnak."
 }
