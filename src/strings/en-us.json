@@ -1239,6 +1239,8 @@
     "PluginInstalledMessage": "The plugin has been successfully installed. Jellyfin Server will need to be restarted for changes to take effect.",
     "PreferEmbeddedTitlesOverFileNames": "Prefer embedded titles over filenames",
     "PreferEmbeddedTitlesOverFileNamesHelp": "This determines the default display title when no internet metadata or local metadata is available.",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "This uses the episode informations from the embedded metadata if available.",
+    "PreferEmbeddedEpisodeInfosOverFileNames": "Prefer embedded episode informations over filenames",
     "PreferredNotRequired": "Preferred, but not required",
     "Premiere": "Premiere",
     "Premieres": "Premieres",
