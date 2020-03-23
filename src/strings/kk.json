@@ -280,7 +280,7 @@
     "EncoderPresetHelp": "Ónimdilikti jaqsartý úshin jyldam mánin, nemese sapasyn jaqsartý úshin baıaý mánin tańdańyz.",
     "HDPrograms": "HD-kórsetimder",
     "HandledByProxy": "Keri proksı arqyly óńdeldi",
-    "HardwareAccelerationWarning": "Apparattyq jedeldetýdi qosý keıbir ortalarda turaqsyzdyq týdyrýy múmkin. Amaldyq júıeńiz ben beıne draıverlerińiz tolyq jańartylǵanyna kóz jetkizińiz. Eger osyny qosqannan keıin beıne oınatýda  qıyndyq bolsa, parametrdi qaıta Avto úshin ózgertýińiz qajet.",
+    "HardwareAccelerationWarning": "Apparattyq jedeldetýdi qosý keıbir ortalarda turaqsyzdyq týdyrýy múmkin. Amaldyq júıeńiz ben beıne draıverlerińiz tolyq jańartylǵanyna kóz jetkizińiz. Eger osyny qosqannan keıin beıne oınatýda qıyndyq bolsa, parametrdi qaıta Eshqanadaǵa ózgertýińiz qajet.",
     "HeaderAccessSchedule": "Qatynaý kestesi",
     "HeaderAccessScheduleHelp": "Qatynaýdy belgili saǵattarǵa shekteý úshin qatynaý kestesin jasańyz.",
     "HeaderActiveDevices": "Belsendi qurylǵylar",
@@ -602,7 +602,7 @@
     "LabelEmbedAlbumArtDidl": "DIDL ishine álbom sýretin endirý",
     "LabelEmbedAlbumArtDidlHelp": "Álbom sýretin alý úshin keıbir qurylǵylar osy ádisti qalaıdy. Basqalar úshin, osy opsıa qosylǵanda, oınatý sátsiz bolýy múmkin.",
     "LabelEnableAutomaticPortMap": "Avtomatty port salǵastyrýyn qosý",
-    "LabelEnableAutomaticPortMapHelp": "Jarıa portty jergilikti portqa UPnP arqyly avtomatty salǵastyrý áreketi. Bul keıbir jol josparlaǵysh ulgilerimen jumys istemeıtini múmkin.",
+    "LabelEnableAutomaticPortMapHelp": "Jarıa portty jergilikti portqa UPnP arqyly avtomatty salǵastyrý áreketi. Bul keıbir jol josparlaǵysh ulgilerimen jumys istemeıtini múmkin. Ózgerister server qaıta iske qosylǵansha deıin qoldanylmaıdy.",
     "LabelEnableBlastAliveMessages": "Belsendilikti tekserý habarlaryn jaýdyrý",
     "LabelEnableBlastAliveMessagesHelp": "Eger jelidegi basqa UPnP qurylǵylarymen server nyq tabylmasa buny qosyńyz.",
     "LabelEnableDlnaClientDiscoveryInterval": "Klıentterdi taýyp ashý aralyǵy, s",
@@ -1501,5 +1501,8 @@
     "HeaderNavigation": "Sharlaý",
     "CopyStreamURLError": "URL kóshirgende qate oryn aldy.",
     "ButtonSplit": "Bólý",
-    "AskAdminToCreateLibrary": "Tasýǵyshanany jasaý úshin ákimshiden suraý."
+    "AskAdminToCreateLibrary": "Tasýǵyshanany jasaý úshin ákimshiden suraý.",
+    "AllowFfmpegThrottling": "Qaıta kodtaýdy retteý",
+    "PlaybackErrorNoCompatibleStream": "Klıent profaılyn jasaýda másele oryn aldy jáne server úılesimdi pishiminde tasyǵysh derekterin jibermedi.",
+    "AllowFfmpegThrottlingHelp": "Qaıta kodtaý nemese qaıta býmalaý aǵymdyq oınatý jaıǵasymynan edáýir alǵa ozǵanda, qor kózderin azdaý tutynatyndaı etip údiristi kidirtedi. Bul jıi izdemeı qaraý kezinde paıdaly. Eger oınatý máseleleri bolsa, ony óshirińiz."
 }

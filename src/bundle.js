@@ -16,6 +16,12 @@ _define("fetch", function() {
     return fetch
 });
 
+// query-string
+var query = require("query-string");
+_define("queryString", function() {
+    return query;
+});
+
 // flvjs
 var flvjs = require("flv.js/dist/flv").default;
 _define("flvjs", function() {
@@ -75,7 +81,7 @@ _define("sortable", function() {
 // webcomponents
 var webcomponents = require("webcomponents.js/webcomponents-lite");
 _define("webcomponents", function() {
-    return webcomponents
+    return webcomponents;
 });
 
 // libjass
@@ -97,7 +103,19 @@ _define("material-icons", function() {
     return material_icons;
 });
 
-var jellyfin_noto = require("jellyfin-noto");
+// noto font
+var noto = require("jellyfin-noto");
 _define("jellyfin-noto", function () {
-    return jellyfin_noto;
+    return noto;
+});
+
+// page.js
+var page = require("page");
+_define("page", function() {
+    return page;
+});
+
+var polyfill = require("@babel/polyfill/dist/polyfill");
+_define("polyfill", function () {
+    return polyfill;
 });

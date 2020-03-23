@@ -13,11 +13,11 @@
     vertical-align: middle;
     flex-shrink: 0;
     margin: 0;
-    padding: 1.5em;
+    padding: 1.5em 1.5em;
     position: relative;
     height: auto;
     min-width: initial;
-    line-height: initial;
+    line-height: 1.25;
     border-radius: 0;
     overflow: hidden;
     font-weight: 600;

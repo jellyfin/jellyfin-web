@@ -115,7 +115,7 @@
     display: -webkit-inline-box;
     display: -webkit-inline-flex;
     display: inline-flex;
-    margin: 0.3em 0 0 0.5em;
+    margin: 0 0 0 0.5em;
     height: 1.7em;
     -webkit-box-align: center;
     -webkit-align-items: center;
@@ -126,6 +126,10 @@
 
 .pageTitleWithDefaultLogo {
     margin-top: 0;
+}
+
+.layout-mobile .pageTitleWithDefaultLogo {
+    background-image: url(../img/icon-transparent.png);
 }
 
 .headerLeft,
@@ -242,7 +246,6 @@
 }
 
 @media all and (min-width: 40em) {
-    .dashboardDocument .adminDrawerLogo,
     .dashboardDocument .mainDrawerButton {
         display: none !important;
     }
@@ -265,12 +268,6 @@
 
     .dashboardDocument .skinBody {
         left: 20em;
-    }
-}
-
-@media all and (max-width: 60em) {
-    .libraryDocument .mainDrawerButton {
-        display: none;
     }
 }
 
@@ -444,6 +441,10 @@
     position: relative;
 }
 
+.layout-mobile .itemBackdrop {
+    background-attachment: scroll;
+}
+
 .layout-desktop .itemBackdrop::after,
 .layout-tv .itemBackdrop::after {
     content: "";
@@ -535,6 +536,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
 }
 
 .detailPagePrimaryContainer {
@@ -849,7 +851,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
         width: auto;
         align-items: center;
         justify-content: center;
-        margin-top: -4.3em;
+        margin-top: -4.2em;
         position: relative;
     }
 

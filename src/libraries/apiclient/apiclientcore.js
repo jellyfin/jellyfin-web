@@ -58,7 +58,7 @@ define(["events", "appStorage"], function(events, appStorage) {
         return request.data && ("string" == typeof request.data ? fetchRequest.body = request.data : (fetchRequest.body = paramsToString(request.data), contentType = contentType || "application/x-www-form-urlencoded; charset=UTF-8")), contentType && (headers["Content-Type"] = contentType), request.timeout ? fetchWithTimeout(request.url, fetchRequest, request.timeout) : fetch(request.url, fetchRequest)
     }
 
-    function ApiClient(serverAddress, appName, appVersion, deviceName, deviceId, devicePixelRatio) {
+    function ApiClient(serverAddress, appName, appVersion, deviceName, deviceId) {
         if (!serverAddress) {
             throw new Error("Must supply a serverAddress");
         }
@@ -75,7 +75,6 @@ define(["events", "appStorage"], function(events, appStorage) {
         this._deviceName = deviceName;
         this._appName = appName;
         this._appVersion = appVersion;
-        this._devicePixelRatio = devicePixelRatio;
     }
 
     function setSavedEndpointInfo(instance, info) {
@@ -218,7 +217,7 @@ define(["events", "appStorage"], function(events, appStorage) {
     }
 
     function normalizeImageOptions(instance, options) {
-        var ratio = instance._devicePixelRatio || 1;
+        var ratio = window.devicePixelRatio;
         ratio && (options.minScale && (ratio = Math.max(options.minScale, ratio)), options.width && (options.width = Math.round(options.width * ratio)), options.height && (options.height = Math.round(options.height * ratio)), options.maxWidth && (options.maxWidth = Math.round(options.maxWidth * ratio)), options.maxHeight && (options.maxHeight = Math.round(options.maxHeight * ratio))), options.quality = options.quality || instance.getDefaultImageQuality(options.type), instance.normalizeImageOptions && instance.normalizeImageOptions(options)
     }
 

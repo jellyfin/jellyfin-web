@@ -112,6 +112,22 @@ define([], function () {
         return windowSize;
     }
 
+    var standardWidths = [480, 720, 1280, 1440, 1920, 2560, 3840, 5120, 7680];
+    function getScreenWidth() {
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+
+        if (height > width) {
+            width = height * (16.0 / 9.0);
+        }
+
+        var closest = standardWidths.sort(function (a, b) {
+            return Math.abs(width - a) - Math.abs(width - b);
+        })[0];
+
+        return closest;
+    }
+
     var _animationEvent;
     function whichAnimationEvent() {
 
@@ -175,6 +191,7 @@ define([], function () {
         addEventListener: addEventListenerWithOptions,
         removeEventListener: removeEventListenerWithOptions,
         getWindowSize: getWindowSize,
+        getScreenWidth: getScreenWidth,
         whichTransitionEvent: whichTransitionEvent,
         whichAnimationEvent: whichAnimationEvent,
         whichAnimationCancelEvent: whichAnimationCancelEvent

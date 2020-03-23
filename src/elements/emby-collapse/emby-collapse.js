@@ -80,7 +80,7 @@ define(['browser', 'css!./emby-collapse', 'registerElement', 'emby-button'], fun
 
         var title = this.getAttribute('title');
 
-        var html = '<button is="emby-button" type="button" on-click="toggleExpand" id="expandButton" class="emby-collapsible-button iconRight"><h3 class="emby-collapsible-title" title="' + title + '">' + title + '</h3><i class="material-icons emby-collapse-expandIcon">expand_more</i></button>';
+        var html = '<button is="emby-button" type="button" on-click="toggleExpand" id="expandButton" class="emby-collapsible-button iconRight"><h3 class="emby-collapsible-title" title="' + title + '">' + title + '</h3><i class="material-icons emby-collapse-expandIcon expand_more"></i></button>';
 
         this.insertAdjacentHTML('afterbegin', html);
 

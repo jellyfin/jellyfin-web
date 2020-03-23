@@ -334,18 +334,24 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             if (item) {
                 var imgUrl = seriesImageUrl(item, {
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Primary"
                 }) || seriesImageUrl(item, {
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Thumb"
                 }) || imageUrl(item, {
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Primary"
                 });
 
                 if (!imgUrl && secondaryItem && (imgUrl = seriesImageUrl(secondaryItem, {
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Primary"
                 }) || seriesImageUrl(secondaryItem, {
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Thumb"
                 }) || imageUrl(secondaryItem, {
+                    maxWidth: osdPoster.clientWidth * 2,
                     type: "Primary"
                 })), imgUrl) {
                     return void (osdPoster.innerHTML = '<img src="' + imgUrl + '" />');
@@ -376,7 +382,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
         function startOsdHideTimer() {
             stopOsdHideTimer();
-            osdHideTimeout = setTimeout(hideOsd, 5e3);
+            osdHideTimeout = setTimeout(hideOsd, 3e3);
         }
 
         function stopOsdHideTimer() {
@@ -665,7 +671,8 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         }
 
         function onTimeUpdate(e) {
-            if (isEnabled) {
+            // Test for 'currentItem' is required for Firefox since its player spams 'timeupdate' events even being at breakpoint
+            if (isEnabled && currentItem) {
                 var now = new Date().getTime();
 
                 if (!(now - lastUpdateTime < 700)) {
