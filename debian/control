@@ -5,7 +5,6 @@ Maintainer: Jellyfin Team <team@jellyfin.org>
 Build-Depends:  debhelper (>= 9),
                 npm | nodejs
 Standards-Version: 3.9.4
-Architecture: all
 Homepage: https://jellyfin.media/
 Vcs-Git: https://github.org/jellyfin/jellyfin.git
 Vcs-Browser: https://github.org/jellyfin/jellyfin
