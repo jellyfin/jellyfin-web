@@ -9,8 +9,11 @@ URL:            https://jellyfin.media
 # Jellyfin Server tarball created by `make -f .copr/Makefile srpm`, real URL ends with `v%{version}.tar.gz`
 Source0:        jellyfin-web-%{version}.tar.gz
 
-Requires(pre):  shadow-utils
-BuildRequires:  nodejs-yarn
+%if 0%{?centos}
+BuildRequires:  yarn
+%else
+BuildRequires   nodejs-yarn
+%endif
 BuildArch:		noarch
 
 # Disable Automatic Dependency Processing
