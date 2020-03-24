@@ -257,7 +257,7 @@
     "DownloadsValue": "{0} latausta",
     "DrmChannelsNotImported": "Kanavia joissa on tekijänoikeusesto-ohjelmia, ei ladata.",
     "DropShadow": "Tiputa varjo",
-    "EasyPasswordHelp": "Sinun helppoa PIN-koodia käytetään offline-käytössä tuetuissa Jellyfin-sovelluksissa, ja voidaan myös nopeuttaa verkkoon kirjautumista.",
+    "EasyPasswordHelp": "Sinun helppoa PIN-koodia käytetään offline-käytössä tuetuissa Jellyfin-sovelluksissa, ja voi myös nopeuttaa lan yhteyden kautta kirjautumista.",
     "Edit": "Muokkaa",
     "EditImages": "Muokkaa kuvia",
     "EditMetadata": "Muokkaa metadataa",
@@ -310,5 +310,10 @@
     "Depressed": "Painettu",
     "CopyStreamURLError": "Verkko-osoitteen kopioinnissa tapahtui virhe.",
     "ButtonSplit": "jaa",
-    "AskAdminToCreateLibrary": "Pyydä järjestelmän ylläpitäjää luomaan kirjasto."
+    "AskAdminToCreateLibrary": "Pyydä järjestelmän ylläpitäjää luomaan kirjasto.",
+    "EnableStreamLooping": "Auto-toista suoralähetykset",
+    "EnableNextVideoInfoOverlayHelp": "Videon lopussa, näytä soittolistassa seuraavaksi toistettavan videon tiedot.",
+    "ClientSettings": "Pääte-asetukset",
+    "AllowFfmpegThrottlingHelp": "Kun uudelleenkoodaus tai remux ehtii tarpeeksi toiston edelle, keskeytä laskenta jotta laskentaresursseja kuluu vähemmän. Tämä on hyödyllistä jos katselet hyppimättä eri kohtiin. Älä käytä jos toiston kanssa ilmenee ongelmia.",
+    "AllowFfmpegThrottling": "Rajoita uudelleenkoodaus"
 }
