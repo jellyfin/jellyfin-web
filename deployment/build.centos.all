@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#= Fedora 29+ all .rpm
+#= CentOS 7 all .rpm
 
 set -o errexit
 set -o xtrace
