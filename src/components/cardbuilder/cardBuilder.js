@@ -993,11 +993,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (options.showPersonRoleOrType) {
                     if (item.Role) {
-                        lines.push('as ' + item.Role);
-                    } else if (item.Type) {
-                        lines.push(globalize.translate('' + item.Type));
-                    } else {
-                        lines.push('');
+                        lines.push(globalize.translate('PersonRole', item.Role));
                     }
                 }
             }
