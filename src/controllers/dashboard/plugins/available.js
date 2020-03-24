@@ -16,7 +16,7 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
     }
 
     function getHeaderText(category) {
-        category = category.replace(" ", "");
+        category = category(" ", "");
         if ("Channel" === category) {
             category = "Channels";
         } else if ("Theme" === category) {
@@ -116,7 +116,7 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
             return ip.Id == plugin.guid;
         })[0];
         html += "<div class='cardText cardText-secondary'>";
-        html += installedPlugin ? globalize.translate("LabelVersionInstalled").replace("{0}", installedPlugin.Version) : "&nbsp;";
+        html += installedPlugin ? globalize.translate("LabelVersionInstalled", installedPlugin.Version) : "&nbsp;";
         html += "</div>";
         html += "</div>";
         html += "</div>";

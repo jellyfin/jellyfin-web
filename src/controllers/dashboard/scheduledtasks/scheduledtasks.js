@@ -66,7 +66,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
         var html = "";
         if (task.State === "Idle") {
             if (task.LastExecutionResult) {
-                html += globalize.translate("LabelScheduledTaskLastRan").replace("{0}", humaneDate(task.LastExecutionResult.EndTimeUtc)).replace("{1}", humaneElapsed(task.LastExecutionResult.StartTimeUtc, task.LastExecutionResult.EndTimeUtc));
+                html += globalize.translate("LabelScheduledTaskLastRan", humaneDate(task.LastExecutionResult.EndTimeUtc), humaneElapsed(task.LastExecutionResult.StartTimeUtc, task.LastExecutionResult.EndTimeUtc));
                 if (task.LastExecutionResult.Status === "Failed") {
                     html += " <span style='color:#FF0000;'>(" + globalize.translate("LabelFailed") + ")</span>";
                 } else if (task.LastExecutionResult.Status === "Cancelled") {

@@ -306,7 +306,7 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
 
                 html += '<div class="inputContainer">';
 
-                var idLabel = globalize.translate("LabelDynamicExternalId").replace("{0}", idInfo.Name);
+                var idLabel = globalize.translate("LabelDynamicExternalId", idInfo.Name);
 
                 var value = providerIds[idInfo.Key] || "";
 
