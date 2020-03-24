@@ -690,7 +690,6 @@ var AppInfo = {};
                     "swiper",
                     "queryString",
                     "sortable",
-                    "libjass",
                     "webcomponents",
                     "material-icons",
                     "jellyfin-noto",

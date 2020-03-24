@@ -80,7 +80,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         if (track) {
             var format = (track.Codec || '').toLowerCase();
             if (format === 'ssa' || format === 'ass') {
-                // libjass is needed here
                 return false;
             }
         }
@@ -1047,7 +1046,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             lastCustomTrackMs = 0;
         }
 
-        function renderWithSubtitlesOctopus(videoElement, track, item) {
+        function renderSsaAss(videoElement, track, item) {
             var attachments = self._currentPlayOptions.mediaSource.MediaAttachments || [];
             var options = {
                 video: videoElement,
@@ -1064,82 +1063,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             require(['JavascriptSubtitlesOctopus'], function(SubtitlesOctopus) {
                 currentSubtitlesOctopus = new SubtitlesOctopus(options);
             });
-        }
-
-        function renderWithLibjass(videoElement, track, item) {
-
-            var rendererSettings = {};
-
-            if (browser.ps4) {
-                // Text outlines are not rendering very well
-                rendererSettings.enableSvg = false;
-            } else if (browser.edge || browser.msie) {
-                // svg not rendering at all
-                rendererSettings.enableSvg = false;
-            }
-
-            // probably safer to just disable everywhere
-            rendererSettings.enableSvg = false;
-
-            require(['libjass', 'ResizeObserver'], function (libjass, ResizeObserver) {
-
-                libjass.ASS.fromUrl(getTextTrackUrl(track, item)).then(function (ass) {
-
-                    var clock = new libjass.renderers.ManualClock();
-                    currentClock = clock;
-
-                    // Create a DefaultRenderer using the video element and the ASS object
-                    var renderer = new libjass.renderers.WebRenderer(ass, clock, videoElement.parentNode, rendererSettings);
-
-                    currentAssRenderer = renderer;
-
-                    renderer.addEventListener("ready", function () {
-                        try {
-                            renderer.resize(videoElement.offsetWidth, videoElement.offsetHeight, 0, 0);
-
-                            if (!self._resizeObserver) {
-                                self._resizeObserver = new ResizeObserver(onVideoResize, {});
-                                self._resizeObserver.observe(videoElement);
-                            }
-                            //clock.pause();
-                        } catch (ex) {
-                            //alert(ex);
-                        }
-                    });
-                }, function () {
-                    htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
-                });
-            });
-        }
-
-        function renderSsaAss(videoElement, track, item) {
-            if (supportsCanvas() && supportsWebWorkers()) {
-                console.debug('rendering subtitles with SubtitlesOctopus');
-                renderWithSubtitlesOctopus(videoElement, track, item);
-            } else {
-                console.debug('rendering subtitles with libjass');
-                renderWithLibjass(videoElement, track, item);
-            }
-        }
-
-        function onVideoResize() {
-            if (browser.iOS) {
-                // the new sizes will be delayed for about 500ms with wkwebview
-                setTimeout(resetVideoRendererSize, 500);
-            } else {
-                resetVideoRendererSize();
-            }
-        }
-
-        function resetVideoRendererSize() {
-            var renderer = currentAssRenderer;
-            if (renderer) {
-                var videoElement = self._mediaElement;
-                var width = videoElement.offsetWidth;
-                var height = videoElement.offsetHeight;
-                console.debug('videoElement resized: ' + width + 'x' + height);
-                renderer.resize(width, height, 0, 0);
-            }
         }
 
         function requiresCustomSubtitlesElement() {
@@ -1231,7 +1154,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (!itemHelper.isLocalItem(item) || track.IsExternal) {
                 var format = (track.Codec || '').toLowerCase();
                 if (format === 'ssa' || format === 'ass') {
-                    // libjass is needed here
                     renderSsaAss(videoElement, track, item);
                     return;
                 }
