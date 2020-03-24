@@ -511,9 +511,16 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return baseRoute;
     }
 
+    var popstateOccurred = false;
+    window.addEventListener('popstate', function () {
+        popstateOccurred = true;
+    });
+
     function getHandler(route) {
         return function (ctx, next) {
+            ctx.isBack = popstateOccurred;
             handleRoute(ctx, next, route);
+            popstateOccurred = false;
         };
     }
 
