@@ -5,4 +5,5 @@ version: "10.6.0"
 packages:
   - debian.all
   - fedora.all
+  - centos.all
   - portable
