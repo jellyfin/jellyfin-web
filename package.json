@@ -49,6 +49,7 @@
   "dependencies": {
     "alameda": "^1.4.0",
     "core-js": "^3.6.4",
+    "date-fns": "^2.11.0",
     "document-register-element": "^1.14.3",
     "flv.js": "^1.5.0",
     "hls.js": "^0.13.1",
