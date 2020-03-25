@@ -1,4 +1,4 @@
-define(["apphost", "connectionManager", "listViewStyle", "emby-button"], function(appHost, connectionManager) {
+define(["apphost", "connectionManager", "layoutManager", "listViewStyle", "emby-button"], function(appHost, connectionManager, layoutManager) {
     "use strict";
 
     return function(view, params) {
@@ -31,6 +31,12 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
             if (params.userId && params.userId !== Dashboard.getCurrentUserId) {
                 page.querySelector(".userSection").classList.add("hide");
                 page.querySelector(".adminSection").classList.add("hide");
+            }
+
+            if (layoutManager.mobile) {
+                page.querySelector(".headerUsername").classList.add("hide");
+                page.querySelector(".adminSection").classList.add("hide");
+                page.querySelector(".userSection").classList.add("hide");
             }
 
             ApiClient.getUser(userId).then(function(user) {
