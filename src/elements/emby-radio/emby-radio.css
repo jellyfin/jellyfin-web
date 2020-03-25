@@ -4,7 +4,6 @@
     display: inline-block;
     box-sizing: border-box;
     margin: 0;
-    padding-left: 24px;
 }
 
 .radio-label-block {
@@ -31,67 +30,82 @@
     border: none;
 }
 
-.mdl-radio__outer-circle {
-    position: absolute;
-    top: 4px;
-    left: 0;
-    display: inline-block;
-    box-sizing: border-box;
-    width: 16px;
-    height: 16px;
-    margin: 0;
-    cursor: pointer;
-    border: 2px solid currentcolor;
+.mdl-radio__circles {
+    position: relative;
+    margin-right: 0.54em;
+    width: 1.08em;
+    height: 1.08em;
     border-radius: 50%;
-    z-index: 2;
+    cursor: pointer;
 }
 
-.mdl-radio__button:checked + .mdl-radio__label + .mdl-radio__outer-circle {
-    border: 2px solid #00a4dc;
+.mdl-radio__circles svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: visible;
 }
 
-.mdl-radio__button:disabled + .mdl-radio__label + .mdl-radio__outer-circle {
-    border: 2px solid rgba(0, 0, 0, 0.26);
+.mdl-radio__button:disabled + .mdl-radio__circles {
     cursor: auto;
+}
+
+.mdl-radio__button:disabled + .mdl-radio__circles .mdl-radio__outer-circle {
+    color: rgba(0, 0, 0, 0.26);
+}
+
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__outer-circle {
+    color: #00a4dc;
 }
 
 .mdl-radio__inner-circle {
-    position: absolute;
-    z-index: 1;
-    margin: 0;
-    top: 8px;
-    left: 4px;
-    box-sizing: border-box;
-    width: 8px;
-    height: 8px;
-    cursor: pointer;
-    transition-duration: 0.28s;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 0.2s;
     transition-property: -webkit-transform;
     transition-property: transform;
     transition-property: transform, -webkit-transform;
-    -webkit-transform: scale3d(0, 0, 0);
-    transform: scale3d(0, 0, 0);
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    transform-origin: 50% 50%;
+}
+
+.mdl-radio__button:checked + .mdl-radio__circles .mdl-radio__inner-circle {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.mdl-radio__button:disabled + .mdl-radio__circles .mdl-radio__inner-circle {
+    color: rgba(0, 0, 0, 0.26);
+}
+
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__inner-circle {
+    color: #00a4dc;
+}
+
+.mdl-radio__focus-circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    margin: 0;
     border-radius: 50%;
     background: #00a4dc;
+    opacity: 0.26;
+    transition-duration: 0.2s;
+    transition-property: -webkit-transform;
+    transition-property: transform;
+    transition-property: transform, -webkit-transform;
+    -webkit-transform: scale(0);
+    transform: scale(0);
 }
 
-.mdl-radio__button:checked + .mdl-radio__label + .mdl-radio__outer-circle + .mdl-radio__inner-circle {
-    -webkit-transform: scale3d(1, 1, 1);
-    transform: scale3d(1, 1, 1);
-}
-
-.mdl-radio__button:disabled + .mdl-radio__label + .mdl-radio__outer-circle + .mdl-radio__inner-circle {
-    background: rgba(0, 0, 0, 0.26);
-    cursor: auto;
-}
-
-.mdl-radio__button:focus + .mdl-radio__label + .mdl-radio__outer-circle + .mdl-radio__inner-circle {
-    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.76);
-}
-
-.mdl-radio__button:checked:focus + .mdl-radio__label + .mdl-radio__outer-circle + .mdl-radio__inner-circle {
-    box-shadow: 0 0 0 10px rgba(0, 164, 220, 0.26);
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__focus-circle {
+    -webkit-transform: scale(1.75);
+    transform: scale(1.75);
 }
 
 .mdl-radio__label {
