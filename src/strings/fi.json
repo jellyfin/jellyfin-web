@@ -315,5 +315,10 @@
     "EnableNextVideoInfoOverlayHelp": "Videon lopussa, näytä soittolistassa seuraavaksi toistettavan videon tiedot.",
     "ClientSettings": "Pääte-asetukset",
     "AllowFfmpegThrottlingHelp": "Kun uudelleenkoodaus tai remux ehtii tarpeeksi toiston edelle, keskeytä laskenta jotta laskentaresursseja kuluu vähemmän. Tämä on hyödyllistä jos katselet hyppimättä eri kohtiin. Älä käytä jos toiston kanssa ilmenee ongelmia.",
-    "AllowFfmpegThrottling": "Rajoita uudelleenkoodaus"
+    "AllowFfmpegThrottling": "Rajoita uudelleenkoodaus",
+    "ErrorDeletingItem": "Tiedostoa poistaessa Jellyfin Palvelimelta ilmeni virhe. Varmista, että Jellyfin Palvelimella on kirjoitusoikeudet mediakansioon ja kokeile uudestaan.",
+    "ErrorAddingXmlTvFile": "XMLTV-tiedostoa käyttäessä tapahtui virhe. Varmista, että tiedosto on olemassa ja kokeile uudestaan.",
+    "ErrorAddingTunerDevice": "Viritintä lisätessä ilmeni ongelma. Varmista, että se on kytketty oikein ja kokeile uudestaan.",
+    "EnableThemeVideosHelp": "Soita tunnusvideoita taustalla, selatessasi kirjastoa.",
+    "EnableThemeVideos": "Teeman videot"
 }
