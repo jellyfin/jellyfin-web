@@ -45,7 +45,7 @@ define(['cardBuilder', 'focusManager'], function (cardBuilder, focusManager) {
             Limit: 9
         };
 
-        return Emby.Models.playlists(options).then(function (result) {
+        return apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
 
             var section = element.querySelector('.playlistsSection');
 
@@ -216,7 +216,7 @@ define(['cardBuilder', 'focusManager'], function (cardBuilder, focusManager) {
             EnableImageTypes: "Primary,Backdrop,Thumb"
         };
 
-        return Emby.Models.artists(options).then(function (result) {
+        return apiClient.getArtists(apiClient.getCurrentUserId(), options).then(function (result) {
 
             var section = element.querySelector('.favoriteArtistsSection');
 
@@ -232,11 +232,6 @@ define(['cardBuilder', 'focusManager'], function (cardBuilder, focusManager) {
                 scalable: false
             });
         });
-    }
-
-    function gotoMusicView(tab, parentId, apiClient) {
-
-        Emby.Page.show('/music.html?tab=' + tab + "&parentId=" + parentId + "&serverId=" + apiClient.serverId());
     }
 
     function view(element, apiClient, parentId, autoFocus) {
@@ -264,19 +259,15 @@ define(['cardBuilder', 'focusManager'], function (cardBuilder, focusManager) {
         };
 
         element.querySelector('.artistsCard').addEventListener('click', function () {
-            gotoMusicView('2', parentId, apiClient);
+            Emby.Page.show('/music.html?serverId=' + apiClient.serverId() + '&tab=2&parentId=' + parentId);
         });
 
         element.querySelector('.albumsCard').addEventListener('click', function () {
-            gotoMusicView('1', parentId, apiClient);
+            Emby.Page.show('/music.html?serverId=' + apiClient.serverId() + '&tab=1&parentId=' + parentId);
         });
 
         element.querySelector('.songCard').addEventListener('click', function () {
-            gotoMusicView('5', parentId, apiClient);
-        });
-
-        element.querySelector('.genresCard').addEventListener('click', function () {
-            gotoMusicView('6', parentId, apiClient);
+            Emby.Page.show('/music.html?serverId=' + apiClient.serverId() + '&tab=5&parentId=' + parentId);
         });
 
         self.destroy = function () {

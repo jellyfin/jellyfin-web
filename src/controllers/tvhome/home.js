@@ -155,9 +155,6 @@ define(['loading', 'globalize', 'connectionManager', 'components/tabbedpage', 'l
                     case 'movies':
                         viewName = 'movies';
                         break;
-                    case 'channels':
-                        viewName = 'channels';
-                        break;
                     case 'music':
                         viewName = 'music';
                         break;

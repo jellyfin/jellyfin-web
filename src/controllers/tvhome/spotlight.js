@@ -1,5 +1,36 @@
-define(['visibleinviewport', 'itemShortcuts', 'browser'], function (visibleinviewport, itemShortcuts, browser) {
+define(['visibleinviewport', 'itemShortcuts', 'browser', 'connectionManager'], function (visibleinviewport, itemShortcuts, browser, connectionManager) {
     'use strict';
+
+    function backdropImageUrl(item, options) {
+
+        var apiClient = connectionManager.getApiClient(item.ServerId);
+
+        options = options || {};
+        options.type = options.type || "Backdrop";
+
+        options.width = null;
+        delete options.width;
+        options.maxWidth = null;
+        delete options.maxWidth;
+        options.maxHeight = null;
+        delete options.maxHeight;
+        options.height = null;
+        delete options.height;
+
+        // If not resizing, get the original image
+        if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
+            options.quality = 100;
+            options.format = 'jpg';
+        }
+
+        if (item.BackdropImageTags && item.BackdropImageTags.length) {
+
+            options.tag = item.BackdropImageTags[0];
+            return apiClient.getScaledImageUrl(item.Id, options);
+        }
+
+        return null;
+    }
 
     function loadItemIntoSpotlight(card, item, width) {
 
@@ -11,7 +42,7 @@ define(['visibleinviewport', 'itemShortcuts', 'browser'], function (visibleinvie
             card.dispatchEvent(new CustomEvent("focus"));
         }
 
-        var imgUrl = Emby.Models.backdropImageUrl(item, {
+        var imgUrl = backdropImageUrl(item, {
             maxWidth: width
         });
 

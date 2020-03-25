@@ -1,5 +1,30 @@
-define(['cardBuilder'], function (cardBuilder) {
+define(['cardBuilder', 'connectionManager'], function (cardBuilder, connectionManager) {
     'use strict';
+
+    function playlists(options) {
+
+        options = options || {};
+        options.parentId = null;
+        delete options.parentId;
+        options.recursive = true;
+
+        return new Promise(function (resolve, reject) {
+
+            var apiClient = connectionManager.currentApiClient();
+
+            options.IncludeItemTypes = "Playlist";
+            normalizeOptions(options);
+
+            apiClient.getJSON(apiClient.getUrl('Users/' + apiClient.getCurrentUserId() + '/Items', options)).then(resolve, reject);
+        });
+    }
+
+    function normalizeOptions(options) {
+
+        // Just put this on every query
+        options.Fields = options.Fields ? (options.Fields + ",PrimaryImageAspectRatio") : "PrimaryImageAspectRatio";
+        options.ImageTypeLimit = 1;
+    }
 
     function loadAll(element, parentId, autoFocus) {
 
@@ -10,7 +35,7 @@ define(['cardBuilder'], function (cardBuilder) {
             SortBy: 'SortName'
         };
 
-        return Emby.Models.playlists(options).then(function (result) {
+        return playlists(options).then(function (result) {
 
             var section = element.querySelector('.allSection');
 

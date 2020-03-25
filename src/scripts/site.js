@@ -612,7 +612,6 @@ var AppInfo = {};
                 }
 
                 require(["components/screensavermanager"]);
-                require(["components/models"]);
 
                 if (!appHost.supports("physicalvolumecontrol") || browser.touch) {
                     require(["components/playback/volumeosd"]);

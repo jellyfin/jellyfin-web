@@ -1,6 +1,27 @@
-define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 'scrollHelper', 'browser', 'layoutManager', 'dom', 'userSettings'],
-    function (imageLoader, itemHelper, backdrop, mediaInfo, focusManager, scrollHelper, browser, layoutManager, dom, userSettings) {
+define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 'scrollHelper', 'browser', 'layoutManager', 'dom', 'userSettings', 'connectionManager'],
+    function (imageLoader, itemHelper, backdrop, mediaInfo, focusManager, scrollHelper, browser, layoutManager, dom, userSettings, connectionManager) {
         'use strict';
+
+        function getlogoImageUrl(item, options) {
+
+            var apiClient = connectionManager.getApiClient(item.ServerId);
+
+            options = options || {};
+            options.type = "Logo";
+
+            if (item.ImageTags && item.ImageTags.Logo) {
+
+                options.tag = item.ImageTags.Logo;
+                return apiClient.getScaledImageUrl(item.Id, options);
+            }
+
+            if (item.ParentLogoImageTag) {
+                options.tag = item.ParentLogoImageTag;
+                return apiClient.getScaledImageUrl(item.ParentLogoItemId, options);
+            }
+
+            return null;
+        }
 
         function focusHandler(options) {
 
@@ -101,14 +122,14 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
             }
 
             function onZoomTimeout() {
-                var focused = focusedElement
+                var focused = focusedElement;
                 if (focused && document.activeElement == focused) {
                     zoomIn(focused);
                 }
             }
 
             function onSelectedMediaInfoTimeout() {
-                var focused = focusedElement
+                var focused = focusedElement;
                 if (focused && document.activeElement == focused) {
                     setSelectedItemInfo(focused);
                 }
@@ -172,7 +193,9 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                 }
 
                 if (options.enableBackdrops !== false || selectedItemInfoInner) {
-                    Emby.Models.item(id).then(function (item) {
+                    var serverId = card.getAttribute("data-serverid");
+                    var apiClient = connectionManager.getApiClient(serverId);
+                    apiClient.getItem(apiClient.getCurrentUserId(), id).then(function (item) {
 
                         if (options.enableBackdrops) {
                             backdrop.setBackdrops([item]);
@@ -189,7 +212,6 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                     div.classList.add('selectedItemPanel');
                     document.body.appendChild(div);
                     selectedItemPanel = div;
-                    fillSelectedItemPanel(div, item);
                     slideInLeft(div);
                     return;
                 }
@@ -224,7 +246,7 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                 //    html += '</div>';
                 //}
 
-                var logoImageUrl = Emby.Models.logoImageUrl(item, {
+                var logoImageUrl = getlogoImageUrl(item, {
                 });
 
                 if (logoImageUrl) {
@@ -244,35 +266,6 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                 if (html && enableAnimations) {
                     fadeIn(selectedItemInfoInner, 1);
                 }
-            }
-
-            function fillSelectedItemPanel(elem, item) {
-
-                var thumbImage = Emby.Models.thumbImageUrl(item);
-
-                var html = '';
-
-                if (thumbImage) {
-
-                    html += '<div class="selectedItemPanelImage lazy" data-src="' + thumbImage + '"></div>';
-                }
-
-                html += '<div class="selectedItemPanelContent">';
-
-                html += '<div>';
-                html += item.Name;
-                html += '</div>';
-
-                if (item.Taglines && item.Taglines.length) {
-                    html += '<p class="tagline">';
-                    html += item.Taglines[0];
-                    html += '</p>';
-                }
-
-                html += '</div>';
-
-                elem.innerHTML = html;
-                imageLoader.lazyChildren(elem);
             }
 
             function clearSelectedItemInfo() {

@@ -1,19 +1,21 @@
 define(['cardBuilder'], function (cardBuilder) {
     'use strict';
 
-    function loadAll(element, parentId, autoFocus) {
+    function loadAll(element, apiClient, parentId, autoFocus) {
 
         var options = {
 
+            UserId: apiClient.getCurrentUserId(),
             ParentId: parentId,
             EnableImageTypes: "Primary,Backdrop,Thumb",
             SortBy: 'SortName'
         };
 
-        return Emby.Models.items(options).then(function (result) {
+        return apiClient.getItems(options).then(function (result) {
 
             var section = element.querySelector('.allSection');
 
+            // Needed in case the view has been destroyed
             if (!section) {
                 return;
             }
@@ -24,19 +26,12 @@ define(['cardBuilder'], function (cardBuilder) {
                 shape: 'auto',
                 autoFocus: autoFocus,
                 coverImage: true,
-                rows: {
-                    portrait: 2,
-                    square: 3,
-                    backdrop: 3
-                },
-                scalable: false,
-                overlayText: true,
-                context: 'folders'
+                showTitle: true
             });
         });
     }
 
-    function view(element, parentId, autoFocus) {
+    function view(element, apiClient, parentId, autoFocus) {
         var self = this;
 
         self.loadData = function (isRefresh) {
@@ -45,7 +40,7 @@ define(['cardBuilder'], function (cardBuilder) {
                 return Promise.resolve();
             }
 
-            return loadAll(element, parentId, autoFocus);
+            return loadAll(element, apiClient, parentId, autoFocus);
         };
 
         self.destroy = function () {

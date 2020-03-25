@@ -1,5 +1,36 @@
-define(['globalize', './spotlight', 'imageLoader', 'focusManager', 'cardBuilder', 'emby-itemscontainer'], function (globalize, spotlight, imageLoader, focusManager, cardbuilder) {
+define(['connectionManager', 'globalize', './spotlight', 'imageLoader', 'focusManager', 'cardBuilder', 'emby-itemscontainer'], function (connectionManager, globalize, spotlight, imageLoader, focusManager, cardbuilder) {
     'use strict';
+
+    function backdropImageUrl(item, options) {
+
+        var apiClient = connectionManager.getApiClient(item.ServerId);
+
+        options = options || {};
+        options.type = options.type || "Backdrop";
+
+        options.width = null;
+        delete options.width;
+        options.maxWidth = null;
+        delete options.maxWidth;
+        options.maxHeight = null;
+        delete options.maxHeight;
+        options.height = null;
+        delete options.height;
+
+        // If not resizing, get the original image
+        if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
+            options.quality = 100;
+            options.format = 'jpg';
+        }
+
+        if (item.BackdropImageTags && item.BackdropImageTags.length) {
+
+            options.tag = item.BackdropImageTags[0];
+            return apiClient.getScaledImageUrl(item.Id, options);
+        }
+
+        return null;
+    }
 
     function loadResume(element, apiClient, parentId) {
 
@@ -72,7 +103,7 @@ define(['globalize', './spotlight', 'imageLoader', 'focusManager', 'cardBuilder'
         });
     }
 
-    function loadRecommendations(element, apiClient, parentId) {
+    function loadRecommendations(element, apiClient) {
 
         return apiClient.getMovieRecommendations({
 
@@ -159,11 +190,11 @@ define(['globalize', './spotlight', 'imageLoader', 'focusManager', 'cardBuilder'
             };
 
             if (items.length > 0) {
-                element.querySelector('.movieFavoritesCard .cardImage').style.backgroundImage = "url('" + Emby.Models.backdropImageUrl(items[0], imgOptions) + "')";
+                element.querySelector('.movieFavoritesCard .cardImage').style.backgroundImage = "url('" + backdropImageUrl(items[0], imgOptions) + "')";
             }
 
             if (items.length > 1) {
-                element.querySelector('.allMoviesCard .cardImage').style.backgroundImage = "url('" + Emby.Models.backdropImageUrl(items[1], imgOptions) + "')";
+                element.querySelector('.allMoviesCard .cardImage').style.backgroundImage = "url('" + backdropImageUrl(items[1], imgOptions) + "')";
             }
         });
     }

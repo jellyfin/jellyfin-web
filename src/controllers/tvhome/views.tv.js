@@ -1,5 +1,84 @@
-define(['./spotlight', 'focusManager', 'cardBuilder'], function (spotlight, focusManager, cardBuilder) {
+define(['connectionManager', './spotlight', 'focusManager', 'cardBuilder'], function (connectionManager, spotlight, focusManager, cardBuilder) {
     'use strict';
+
+    function backdropImageUrl(item, options) {
+
+        var apiClient = connectionManager.getApiClient(item.ServerId);
+
+        options = options || {};
+        options.type = options.type || "Backdrop";
+
+        options.width = null;
+        delete options.width;
+        options.maxWidth = null;
+        delete options.maxWidth;
+        options.maxHeight = null;
+        delete options.maxHeight;
+        options.height = null;
+        delete options.height;
+
+        // If not resizing, get the original image
+        if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
+            options.quality = 100;
+            options.format = 'jpg';
+        }
+
+        if (item.BackdropImageTags && item.BackdropImageTags.length) {
+
+            options.tag = item.BackdropImageTags[0];
+            return apiClient.getScaledImageUrl(item.Id, options);
+        }
+
+        return null;
+    }
+
+    function imageUrl(item, options) {
+
+        var apiClient = connectionManager.getApiClient(item.ServerId);
+
+        options = options || {};
+        options.type = options.type || "Primary";
+
+        if (typeof (item) === 'string') {
+            return apiClient.getScaledImageUrl(item.Id, options);
+        }
+
+        if (item.ImageTags && item.ImageTags[options.type]) {
+
+            options.tag = item.ImageTags[options.type];
+            return apiClient.getScaledImageUrl(item.Id, options);
+        }
+
+        if (options.type == 'Primary') {
+            if (item.AlbumId && item.AlbumPrimaryImageTag) {
+
+                options.tag = item.AlbumPrimaryImageTag;
+                return apiClient.getScaledImageUrl(item.AlbumId, options);
+            }
+
+            //else if (item.AlbumId && item.SeriesPrimaryImageTag) {
+
+            //    imgUrl = ApiClient.getScaledImageUrl(item.SeriesId, {
+            //        type: "Primary",
+            //        width: downloadWidth,
+            //        tag: item.SeriesPrimaryImageTag,
+            //        minScale: minScale
+            //    });
+
+            //}
+            //else if (item.ParentPrimaryImageTag) {
+
+            //    imgUrl = ApiClient.getImageUrl(item.ParentPrimaryImageItemId, {
+            //        type: "Primary",
+            //        width: downloadWidth,
+            //        tag: item.ParentPrimaryImageTag,
+            //        minScale: minScale
+            //    });
+            //}
+        }
+
+        return null;
+    }
 
     function loadResume(element, apiClient, parentId) {
 
@@ -75,7 +154,7 @@ define(['./spotlight', 'focusManager', 'cardBuilder'], function (spotlight, focu
             Fields: "PrimaryImageAspectRatio",
             ParentId: parentId,
             ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Backdrop,Thumb"
+            EnableImageTypes: "Backdrop,Thumb"
         };
 
         return apiClient.getLatestItems(options).then(function (result) {
@@ -87,8 +166,6 @@ define(['./spotlight', 'focusManager', 'cardBuilder'], function (spotlight, focu
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'backdrop',
                 rows: 3,
-                preferThumb: true,
-                showGroupCount: true,
                 scalable: false
             });
         });
@@ -136,11 +213,11 @@ define(['./spotlight', 'focusManager', 'cardBuilder'], function (spotlight, focu
             };
 
             if (items.length > 0) {
-                element.querySelector('.tvFavoritesCard .cardImage').style.backgroundImage = "url('" + Emby.Models.backdropImageUrl(items[0], imgOptions) + "')";
+                element.querySelector('.tvFavoritesCard .cardImage').style.backgroundImage = "url('" + backdropImageUrl(items[0], imgOptions) + "')";
             }
 
             if (items.length > 1) {
-                element.querySelector('.allSeriesCard .cardImage').style.backgroundImage = "url('" + Emby.Models.backdropImageUrl(items[1], imgOptions) + "')";
+                element.querySelector('.allSeriesCard .cardImage').style.backgroundImage = "url('" + backdropImageUrl(items[1], imgOptions) + "')";
             }
         });
     }
@@ -165,7 +242,6 @@ define(['./spotlight', 'focusManager', 'cardBuilder'], function (spotlight, focu
         loadSpotlight(self, element, apiClient, parentId);
         loadImages(element, apiClient, parentId);
 
-        var serverId = apiClient.serverId();
         element.querySelector('.allSeriesCard').addEventListener('click', function () {
             Emby.Page.show('/tv.html?serverId=' + apiClient.serverId() + '&tab=0&parentId=' + parentId);
         });
@@ -181,6 +257,7 @@ define(['./spotlight', 'focusManager', 'cardBuilder'], function (spotlight, focu
         self.destroy = function () {
 
         };
+
         bindFlipEvents(element.querySelector('.nextUpSection'));
         bindFlipEvents(element.querySelector('.resumeSection'));
     }
@@ -241,7 +318,7 @@ define(['./spotlight', 'focusManager', 'cardBuilder'], function (spotlight, focu
         newCardImageContainer.classList.add('coveredImage');
         newCardImageContainer.classList.add('cardRevealContent');
 
-        var imgUrl = Emby.Models.imageUrl(card.getAttribute('data-id'), {
+        var imgUrl = imageUrl(card.getAttribute('data-id'), {
             tag: card.querySelector('.primaryImageTag').value,
             type: 'Primary',
             maxWidth: 400
