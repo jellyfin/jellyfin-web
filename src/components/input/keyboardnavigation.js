@@ -1,8 +1,6 @@
 define(["inputManager", "layoutManager"], function (inputManager, layoutManager) {
     "use strict";
 
-    console.log("keyboardnavigation");
-
     /**
      * Key name mapping.
      */
@@ -45,7 +43,7 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
     try {
         hasFieldKey = "key" in new KeyboardEvent("keydown");
     } catch (e) {
-        console.log("error checking 'key' field");
+        console.error("error checking 'key' field");
     }
 
     if (!hasFieldKey) {
@@ -142,11 +140,22 @@ define(["inputManager", "layoutManager"], function (inputManager, layoutManager)
             }
 
             if (capture) {
-                console.log("Disabling default event handling");
+                console.debug("disabling default event handling");
                 e.preventDefault();
             }
         });
     }
+
+    // Gamepad initialisation. No script is required if no gamepads are present at init time, saving a bit of resources.
+    // Whenever the gamepad is connected, we hand all the control of the gamepad to gamepadtokey.js by removing the event handler
+    function attachGamepadScript(e) {
+        console.log("Gamepad connected! Attaching gamepadtokey.js script");
+        window.removeEventListener("gamepadconnected", attachGamepadScript);
+        require(["components/input/gamepadtokey"]);
+    }
+
+    // No need to check for gamepads manually at load time, the eventhandler will be fired for that
+    window.addEventListener("gamepadconnected", attachGamepadScript);
 
     return {
         enable: enable,

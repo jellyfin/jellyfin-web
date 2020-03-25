@@ -105,7 +105,7 @@ html {
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: green;
+    color: #00a4dc;
 }
 
 .checkboxOutline {

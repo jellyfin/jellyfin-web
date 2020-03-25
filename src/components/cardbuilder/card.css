@@ -370,13 +370,13 @@ button::-moz-focus-inner {
     text-align: center;
 }
 
-.cardImageIcon {
+.cardImageContainer .cardImageIcon {
     font-size: 5em;
     color: inherit;
 }
 
 .cardImageIcon-small {
-    font-size: 3em;
+    font-size: 3em !important;
     margin-bottom: 0.1em;
 }
 
@@ -427,6 +427,12 @@ button::-moz-focus-inner {
     align-items: center;
     display: flex;
     font-size: 1.66956521739130434em !important;
+}
+
+.cardOverlayButtonIcon.material-icons {
+    /* material-icons override display, so we need to
+       make a better matching selector to set it to flex */
+    display: flex;
 }
 
 .cardOverlayButton-centered {
@@ -784,7 +790,7 @@ button::-moz-focus-inner {
     opacity: 0;
     transition: 0.2s;
     background: transparent;
-    padding: 0.5em;
+    padding: 0.25em;
 }
 
 .cardOverlayButtonIcon-hover {

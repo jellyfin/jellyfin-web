@@ -16,12 +16,12 @@ define([
 
     function defineRoute(newRoute) {
         var path = newRoute.path;
-        console.log("defining route: " + path);
+        console.debug("defining route: " + path);
         newRoute.dictionary = "core";
         Emby.Page.addRoute(path, newRoute);
     }
 
-    console.log("defining core routes");
+    console.debug("defining core routes");
 
     defineRoute({
         path: "/addplugin.html",

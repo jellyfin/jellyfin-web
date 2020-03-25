@@ -80,6 +80,10 @@
     flex-shrink: 0;
 }
 
+.trackSelections > .selectContainer {
+    margin: 0.4em 0;
+}
+
 .emby-select-withcolor {
     -webkit-appearance: none;
     appearance: none;

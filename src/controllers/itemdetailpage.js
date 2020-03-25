@@ -1,4 +1,4 @@
-define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "apphost", "imageLoader", "libraryMenu", "globalize", "browser", "events", "scrollHelper", "playbackManager", "libraryBrowser", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, connectionManager, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, appHost, imageLoader, libraryMenu, globalize, browser, events, scrollHelper, playbackManager, libraryBrowser) {
+define(["loading", "appRouter", "layoutManager", "connectionManager", "userSettings", "cardBuilder", "datetime", "mediaInfo", "backdrop", "listView", "itemContextMenu", "itemHelper", "dom", "indicators", "imageLoader", "libraryMenu", "globalize", "browser", "events", "playbackManager", "scrollStyles", "emby-itemscontainer", "emby-checkbox", "emby-button", "emby-playstatebutton", "emby-ratingbutton", "emby-scroller", "emby-select"], function (loading, appRouter, layoutManager, connectionManager, userSettings, cardBuilder, datetime, mediaInfo, backdrop, listView, itemContextMenu, itemHelper, dom, indicators, imageLoader, libraryMenu, globalize, browser, events, playbackManager) {
     "use strict";
 
     function getPromise(apiClient, params) {
@@ -60,8 +60,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         return options;
     }
 
-    function getProgramScheduleHtml(items, options) {
-        options = options || {};
+    function getProgramScheduleHtml(items) {
         var html = "";
         html += '<div is="emby-itemscontainer" class="itemsContainer vertical-list" data-contextmenu="false">';
         html += listView.getListViewHtml({
@@ -445,7 +444,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         }
     }
 
-    function renderBackdrop(page, item, apiClient) {
+    function renderBackdrop(item) {
         if (dom.getWindowSize().innerWidth >= 1000) {
             backdrop.setBackdrops([item]);
         } else {
@@ -455,66 +454,74 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
     function renderDetailPageBackdrop(page, item, apiClient) {
         var imgUrl;
-        var screenWidth = screen.availWidth;
         var hasbackdrop = false;
         var itemBackdropElement = page.querySelector("#itemBackdrop");
         var usePrimaryImage = item.MediaType === "Video" && item.Type !== "Movie" && item.Type !== "Trailer" ||
             item.MediaType && item.MediaType !== "Video" ||
             item.Type === "MusicAlbum" ||
-            item.Type === "MusicArtist" ||
             item.Type === "Person";
+
+        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
+            return false;
+        }
 
         if ("Program" === item.Type && item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ImageTags.Thumb
             });
-            itemBackdropElement.classList.remove("noBackdrop");
+            page.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else if (usePrimaryImage && item.ImageTags && item.ImageTags.Primary) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Primary",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ImageTags.Primary
             });
-            itemBackdropElement.classList.remove("noBackdrop");
+            page.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Backdrop",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.BackdropImageTags[0]
             });
-            itemBackdropElement.classList.remove("noBackdrop");
+            page.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
             imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                 type: "Backdrop",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ParentBackdropImageTags[0]
             });
-            itemBackdropElement.classList.remove("noBackdrop");
+            page.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else if (item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ImageTags.Thumb
             });
-            itemBackdropElement.classList.remove("noBackdrop");
+            page.classList.remove("noBackdrop");
             imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
             hasbackdrop = true;
         } else {
-            itemBackdropElement.classList.add("noBackdrop");
             itemBackdropElement.style.backgroundImage = "";
         }
 
         if ("Person" === item.Type) {
+            // FIXME: This hides the backdrop on all persons to fix a margin issue. Ideally, a proper fix should be made.
+            page.classList.add('noBackdrop');
             itemBackdropElement.classList.add("personBackdrop");
         } else {
             itemBackdropElement.classList.remove("personBackdrop");
@@ -526,6 +533,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     function reloadFromItem(instance, page, params, item, user) {
         var context = params.context;
         page.querySelector(".detailPagePrimaryContainer").classList.add("detailSticky");
+
         renderName(item, page.querySelector(".nameContainer"), false, context);
         var apiClient = connectionManager.getApiClient(item.ServerId);
         renderSeriesTimerEditor(page, item, apiClient, user);
@@ -536,7 +544,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         setInitialCollapsibleState(page, item, apiClient, context, user);
         renderDetails(page, item, apiClient, context);
         renderTrackSelections(page, instance, item);
-        renderBackdrop(page, item, apiClient);
+        renderBackdrop(item);
         renderDetailPageBackdrop(page, item, apiClient);
         var canPlay = reloadPlayButtons(page, item);
 
@@ -647,7 +655,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     function setTitle(item, apiClient) {
         var url = logoImageUrl(item, apiClient, {});
 
-        if (url = null) {
+        if (url != null) {
             var pageTitle = document.querySelector(".pageTitle");
             pageTitle.style.backgroundImage = "url('" + url + "')";
             pageTitle.classList.add("pageTitleWithLogo");
@@ -663,7 +671,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         });
         var detailLogo = page.querySelector(".detailLogo");
 
-        if (url) {
+        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
+            detailLogo.classList.add("hide");
+        } else if (url) {
             detailLogo.classList.remove("hide");
             detailLogo.classList.add("lazy");
             detailLogo.setAttribute("data-src", url);
@@ -756,44 +766,54 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         var shape = "portrait";
         var detectRatio = false;
 
+        /* In the following section, getScreenWidth() is multiplied by 0.5 as the posters
+        are 25vw and we need double the resolution to counter Skia's scaling. */
+        // TODO: Find a reliable way to get the poster width
         if (imageTags.Primary) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Primary",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.ImageTags.Primary
             });
             detectRatio = true;
         } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Backdrop",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.BackdropImageTags[0]
             });
             shape = "thumb";
         } else if (imageTags.Thumb) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.ImageTags.Thumb
             });
             shape = "thumb";
         } else if (imageTags.Disc) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Disc",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.ImageTags.Disc
             });
             shape = "square";
         } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.AlbumId, {
                 type: "Primary",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.AlbumPrimaryImageTag
             });
             shape = "square";
         } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.SeriesId, {
                 type: "Primary",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.SeriesPrimaryImageTag
             });
         } else if (item.ParentPrimaryImageItemId && item.ParentPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
                 type: "Primary",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.ParentPrimaryImageTag
             });
         }
@@ -817,7 +837,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         if (editable) {
             html += "</a>";
         } else if (!editable && url === undefined) {
-            html += "</div>"
+            html += "</div>";
         }
 
         var progressHtml = item.IsFolder || !item.UserData ? "" : indicators.getProgressBarHtml(item);
@@ -873,7 +893,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         elem.querySelector(".detailImageProgressContainer").innerHTML = indicators.getProgressBarHtml(item);
     }
 
-    function refreshImage(page, item, user) {
+    function refreshImage(page, item) {
         refreshDetailImageUserData(page.querySelector(".detailImageContainer"), item);
     }
 
@@ -922,10 +942,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
 
         if ("Playlist" == item.Type) {
             page.querySelector("#childrenCollapsible").classList.remove("hide");
-            renderPlaylistItems(page, item, user);
+            renderPlaylistItems(page, item);
         } else if ("Studio" == item.Type || "Person" == item.Type || "Genre" == item.Type || "MusicGenre" == item.Type || "MusicArtist" == item.Type) {
             page.querySelector("#childrenCollapsible").classList.remove("hide");
-            renderItemsByName(page, item, user);
+            renderItemsByName(page, item);
         } else if (item.IsFolder) {
             if ("BoxSet" == item.Type) {
                 page.querySelector("#childrenCollapsible").classList.add("hide");
@@ -937,7 +957,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         }
 
         if ("Series" == item.Type) {
-            renderSeriesSchedule(page, item, user);
+            renderSeriesSchedule(page, item);
             renderNextUp(page, item, user);
         } else {
             page.querySelector(".nextUpSection").classList.add("hide");
@@ -952,7 +972,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             page.querySelector("#specialsCollapsible").classList.add("hide");
         }
 
-        renderCast(page, item, context, enableScrollX() ? null : 12);
+        renderCast(page, item);
 
         if (item.PartCount && item.PartCount > 1) {
             page.querySelector("#additionalPartsCollapsible").classList.remove("hide");
@@ -988,7 +1008,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         }
     }
 
-    function renderGenres(page, item, apiClient, context, isStatic) {
+    function renderGenres(page, item, context) {
         context = context || inferContext(item);
         var type;
         var genres = item.GenreItems || [];
@@ -1022,7 +1042,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         }
     }
 
-    function renderDirector(page, item, apiClient, context, isStatic) {
+    function renderDirector(page, item, context) {
         var directors = (item.People || []).filter(function (p) {
             return "Director" === p.Type;
         });
@@ -1050,8 +1070,8 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         renderSimilarItems(page, item, context);
         renderMoreFromSeason(page, item, apiClient);
         renderMoreFromArtist(page, item, apiClient);
-        renderDirector(page, item, apiClient, context, isStatic);
-        renderGenres(page, item, apiClient, context, isStatic);
+        renderDirector(page, item, context);
+        renderGenres(page, item, context);
         renderChannelGuide(page, apiClient, item);
         var taglineElement = page.querySelector(".tagline");
 
@@ -1123,14 +1143,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         }
 
         return scrollX ? "overflowSquare" : "square";
-    }
-
-    function getThumbShape(scrollX) {
-        if (null == scrollX) {
-            scrollX = enableScrollX();
-        }
-
-        return scrollX ? "overflowBackdrop" : "backdrop";
     }
 
     function renderMoreFromSeason(view, item, apiClient) {
@@ -1508,13 +1520,13 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         }
     }
 
-    function renderItemsByName(page, item, user) {
+    function renderItemsByName(page, item) {
         require("scripts/itembynamedetailpage".split(","), function () {
             window.ItemsByName.renderItems(page, item);
         });
     }
 
-    function renderPlaylistItems(page, item, user) {
+    function renderPlaylistItems(page, item) {
         require("scripts/playlistedit".split(","), function () {
             PlaylistViewer.render(page, item);
         });
@@ -1594,7 +1606,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         }
     }
 
-    function renderSeriesSchedule(page, item, user) {
+    function renderSeriesSchedule(page, item) {
         var apiClient = connectionManager.getApiClient(item.ServerId);
         apiClient.getLiveTvPrograms({
             UserId: apiClient.getCurrentUserId(),
@@ -1661,7 +1673,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
     function canPlaySomeItemInCollection(items) {
         var i = 0;
 
-        for (length = items.length; i < length; i++) {
+        for (var length = items.length; i < length; i++) {
             if (playbackManager.canPlay(items[i])) {
                 return true;
             }
@@ -1808,7 +1820,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             require(["chaptercardbuilder"], function (chaptercardbuilder) {
                 chaptercardbuilder.buildChapterCards(item, chapters, {
                     itemsContainer: scenesContent,
-                    width: 400,
                     backdropShape: "overflowBackdrop",
                     squareShape: "overflowSquare"
                 });
@@ -1844,7 +1855,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         });
     }
 
-    function renderCast(page, item, context, limit, isStatic) {
+    function renderCast(page, item) {
         var people = (item.People || []).filter(function (p) {
             return "Director" !== p.Type;
         });
@@ -1861,7 +1872,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 itemsContainer: castContent,
                 coverImage: true,
                 serverId: item.ServerId,
-                width: 160,
                 shape: "overflowPortrait"
             });
         });
@@ -1934,7 +1944,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
             playbackManager.play(playOptions);
         }
 
-        function playTrailer(page) {
+        function playTrailer() {
             playbackManager.playTrailers(currentItem);
         }
 
@@ -1991,11 +2001,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         }
 
         function onPlayTrailerClick() {
-            playTrailer(view);
-        }
-
-        function onDownloadChange() {
-            reload(self, view, params);
+            playTrailer();
         }
 
         function onDownloadClick() {
@@ -2050,9 +2056,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
                 if (userData) {
                     currentItem.UserData = userData;
                     reloadPlayButtons(view, currentItem);
-                    apiClient.getCurrentUser().then(function (user) {
-                        refreshImage(view, currentItem, user);
-                    });
+                    refreshImage(view, currentItem);
                 }
             }
         }
@@ -2070,7 +2074,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         bindAll(view, ".btnCancelTimer", "click", onCancelTimerClick);
         bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
         bindAll(view, ".btnDownload", "click", onDownloadClick);
-        view.querySelector(".btnMoreCommands i").innerHTML = "more_horiz";
+        view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
         view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
         view.querySelector(".btnSplitVersions").addEventListener("click", function () {
             splitVersions(self, view, apiClient, params);
@@ -2083,11 +2087,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "cardBuild
         });
         view.addEventListener("click", function (e) {
             if (dom.parentWithClass(e.target, "moreScenes")) {
-                apiClient.getCurrentUser().then(function (user) {
-                    renderScenes(view, currentItem);
-                });
+                renderScenes(view, currentItem);
             } else if (dom.parentWithClass(e.target, "morePeople")) {
-                renderCast(view, currentItem, params.context);
+                renderCast(view, currentItem);
             } else if (dom.parentWithClass(e.target, "moreSpecials")) {
                 apiClient.getCurrentUser().then(function (user) {
                     renderSpecials(view, currentItem, user);

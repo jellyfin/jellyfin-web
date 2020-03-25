@@ -97,6 +97,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
         $("#chkEnableAudioPlaybackTranscoding", page).checked(user.Policy.EnableAudioPlaybackTranscoding);
         $("#chkEnableVideoPlaybackTranscoding", page).checked(user.Policy.EnableVideoPlaybackTranscoding);
         $("#chkEnableVideoPlaybackRemuxing", page).checked(user.Policy.EnablePlaybackRemuxing);
+        $("#chkForceRemoteSourceTranscoding", page).checked(user.Policy.ForceRemoteSourceTranscoding);
         $("#chkRemoteAccess", page).checked(null == user.Policy.EnableRemoteAccess || user.Policy.EnableRemoteAccess);
         $("#chkEnableSyncTranscoding", page).checked(user.Policy.EnableSyncTranscoding);
         $("#chkEnableConversion", page).checked(user.Policy.EnableMediaConversion || false);
@@ -128,6 +129,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
         user.Policy.EnableAudioPlaybackTranscoding = $("#chkEnableAudioPlaybackTranscoding", page).checked();
         user.Policy.EnableVideoPlaybackTranscoding = $("#chkEnableVideoPlaybackTranscoding", page).checked();
         user.Policy.EnablePlaybackRemuxing = $("#chkEnableVideoPlaybackRemuxing", page).checked();
+        user.Policy.ForceRemoteSourceTranscoding = $("#chkForceRemoteSourceTranscoding", page).checked();
         user.Policy.EnableContentDownloading = $("#chkEnableDownloading", page).checked();
         user.Policy.EnableSyncTranscoding = $("#chkEnableSyncTranscoding", page).checked();
         user.Policy.EnableMediaConversion = $("#chkEnableConversion", page).checked();

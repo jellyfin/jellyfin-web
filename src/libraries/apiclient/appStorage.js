@@ -2,7 +2,7 @@ define([], function() {
     "use strict";
 
     function onCachePutFail(e) {
-        console.log(e);
+        console.error("cannot put to a cache: " + e);
     }
 
     function updateCache(instance) {
@@ -45,7 +45,7 @@ define([], function() {
                 self.caches.open("embydata").then(onCacheOpened.bind(this));
             }
         } catch (err) {
-            console.log("Error opening cache: " + err);
+            console.error("error opening cache: " + err);
         }
     }
 

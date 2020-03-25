@@ -182,6 +182,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', "userSettings"
                 return apiClient.getScaledImageUrl(item.BackdropItemId || item.Id, Object.assign(imageOptions, {
                     type: "Backdrop",
                     tag: imgTag,
+                    maxWidth: dom.getScreenWidth(),
                     index: index
                 }));
             });
@@ -192,6 +193,7 @@ define(['browser', 'connectionManager', 'playbackManager', 'dom', "userSettings"
                 return apiClient.getScaledImageUrl(item.ParentBackdropItemId, Object.assign(imageOptions, {
                     type: "Backdrop",
                     tag: imgTag,
+                    maxWidth: dom.getScreenWidth(),
                     index: index
                 }));
             });

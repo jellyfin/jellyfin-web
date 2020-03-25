@@ -5,6 +5,11 @@ html {
     height: 100%;
 }
 
+.material-icons {
+    /* Fix font ligatures on older WebOS versions */
+    -webkit-font-feature-settings: "liga";
+}
+
 .backgroundContainer {
     position: fixed;
     top: 0;

@@ -5,10 +5,13 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 const Assets = [
     "alameda/alameda.js",
-    "requirejs/require.js",
+    "native-promise-only/npo.js",
     "libass-wasm/dist/subtitles-octopus-worker.js",
     "libass-wasm/dist/subtitles-octopus-worker.data",
-    "libass-wasm/dist/subtitles-octopus-worker.wasm"
+    "libass-wasm/dist/subtitles-octopus-worker.wasm",
+    "libass-wasm/dist/subtitles-octopus-worker-legacy.js",
+    "libass-wasm/dist/subtitles-octopus-worker-legacy.data",
+    "libass-wasm/dist/subtitles-octopus-worker-legacy.js.mem"
 ];
 
 module.exports = {
@@ -19,12 +22,12 @@ module.exports = {
             path.resolve(__dirname, "node_modules")
         ]
     },
+    output: {
+        filename: "bundle.js",
+        path: path.resolve(__dirname, "dist"),
+        libraryTarget: "amd-require"
+    },
     plugins: [
-        new CleanWebpackPlugin(),
-        new CopyPlugin([{
-            from: "**/*",
-            to: "."
-        }]),
         new CopyPlugin(
             Assets.map(asset => {
                 return {

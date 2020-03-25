@@ -29,7 +29,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         var offset = newPct - left;
         var pctOfWidth = (offset / width) * 100;
 
-        //console.log(pctOfWidth);
         var guideProgramName = cell.guideProgramName;
         if (!guideProgramName) {
             guideProgramName = cell.querySelector('.guideProgramName');
@@ -396,7 +395,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 try {
                     program.StartDateLocal = datetime.parseISO8601Date(program.StartDate, { toLocal: true });
                 } catch (err) {
-                    console.log('error parsing timestamp for start date');
+                    console.error('error parsing timestamp for start date');
                 }
             }
 
@@ -404,7 +403,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 try {
                     program.EndDateLocal = datetime.parseISO8601Date(program.EndDate, { toLocal: true });
                 } catch (err) {
-                    console.log('error parsing timestamp for end date');
+                    console.error('error parsing timestamp for end date');
                 }
             }
 
@@ -416,7 +415,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var status;
 
             if (item.Type === 'SeriesTimer') {
-                return '<i class="material-icons programIcon seriesTimerIcon">fiber_smart_record</i>';
+                return '<i class="material-icons programIcon seriesTimerIcon fiber_smart_record"></i>';
             } else if (item.TimerId || item.SeriesTimerId) {
 
                 status = item.Status || 'Cancelled';
@@ -430,13 +429,13 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             if (item.SeriesTimerId) {
 
                 if (status !== 'Cancelled') {
-                    return '<i class="material-icons programIcon seriesTimerIcon">fiber_smart_record</i>';
+                    return '<i class="material-icons programIcon seriesTimerIcon fiber_smart_record"></i>';
                 }
 
-                return '<i class="material-icons programIcon seriesTimerIcon seriesTimerIcon-inactive">fiber_smart_record</i>';
+                return '<i class="material-icons programIcon seriesTimerIcon seriesTimerIcon-inactive fiber_smart_record"></i>';
             }
 
-            return '<i class="material-icons programIcon timerIcon">fiber_manual_record</i>';
+            return '<i class="material-icons programIcon timerIcon fiber_manual_record"></i>';
         }
 
         function getChannelProgramsHtml(context, date, channel, programs, options, listInfo) {
@@ -550,7 +549,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                     html += '<div class="' + guideProgramNameClass + '">';
 
-                    html += '<div class="guide-programNameCaret hide"><i class="guideProgramNameCaretIcon material-icons">keyboard_arrow_left</i></div>';
+                    html += '<div class="guide-programNameCaret hide"><i class="guideProgramNameCaretIcon material-icons keyboard_arrow_left"></i></div>';
 
                     html += '<div class="guideProgramNameText">' + program.Name;
 
@@ -1106,7 +1105,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                 var icon = cell.querySelector('.timerIcon');
                 if (!icon) {
-                    cell.querySelector('.guideProgramName').insertAdjacentHTML('beforeend', '<i class="timerIcon material-icons programIcon">fiber_manual_record</i>');
+                    cell.querySelector('.guideProgramName').insertAdjacentHTML('beforeend', '<i class="timerIcon material-icons programIcon fiber_manual_record"></i>');
                 }
 
                 if (newTimerId) {
