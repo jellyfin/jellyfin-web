@@ -1636,15 +1636,18 @@
     "LaunchWebAppOnStartupHelp": "伺服器啓動時在默認游覽器中打開網頁端。使用重啓伺服器功能時此項不生效。",
     "LabelVideoResolution": "視頻解析度：",
     "LabelStreamType": "串流類型：",
-    "EnableFastImageFadeInHelp": "為已加載的圖片啓用更快的淡入動畫",
+    "EnableFastImageFadeInHelp": "對已載入的圖片啟用更快的淡入動畫",
     "EnableFastImageFadeIn": "圖片快速淡入效果",
     "LabelPlayerDimensions": "播放器尺寸：",
     "LabelDroppedFrames": "丟棄的幀：",
     "LabelCorruptedFrames": "損壞的幀：",
     "ButtonSplit": "分割",
-    "AskAdminToCreateLibrary": "如要建立資料庫，請求管理員",
+    "AskAdminToCreateLibrary": "如要建立資料庫，請求管理員。",
     "NoCreatedLibraries": "看來您還未創任何媒體庫。{0}立刻創一個新的嗎？{1}",
     "ClientSettings": "用戶設定",
     "AllowFfmpegThrottlingHelp": "當轉檔或重組進度大量超前目前播放進度時，將暫停轉檔節省消耗的資源。在不常跳播的時候最有效。如果遇到播放問題，請關閉此功能。",
-    "AllowFfmpegThrottling": "限制轉檔"
+    "AllowFfmpegThrottling": "限制轉檔",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "這將會使用內建劇集資料。",
+    "PlaybackErrorNoCompatibleStream": "用戶端偵測出了問題，伺服器也未傳送相容的媒體格式。",
+    "PreferEmbeddedEpisodeInfosOverFileNames": "優先使用內建劇集資訊而不是檔案名稱"
 }
