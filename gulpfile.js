@@ -21,7 +21,7 @@ const sass = require('gulp-sass');
 
 sass.compiler = require('node-sass');
 
-var config;
+let config;
 if (mode.production()) {
     config = require('./webpack.prod.js');
 } else {
