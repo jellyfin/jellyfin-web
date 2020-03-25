@@ -705,7 +705,7 @@
     "LabelPublicHttpPortHelp": "映射到本地 HTTP 端口的公开端口号。",
     "LabelPublicHttpsPort": "公开 HTTPS 端口号：",
     "LabelPublicHttpsPortHelp": "映射到本地 HTTPS 端口的公开端口号。",
-    "LabelReadHowYouCanContribute": "学习如何构建。",
+    "LabelReadHowYouCanContribute": "了解如何做出贡献。",
     "LabelReasonForTranscoding": "转码原因：",
     "LabelRecord": "录制：",
     "LabelRecordingPath": "默认录制路径：",
