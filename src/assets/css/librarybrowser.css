@@ -21,7 +21,7 @@
 }
 
 .libraryPage {
-    padding-top: 7em !important;
+    padding-top: 7em;
 }
 
 .itemDetailPage {
@@ -1118,4 +1118,8 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .itemsViewSettingsContainer > .button-flat {
     margin: 0;
+}
+
+.layout-mobile #myPreferencesMenuPage {
+    padding-top: 3.75em;
 }
