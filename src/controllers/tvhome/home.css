@@ -3,13 +3,14 @@
     padding-bottom: 1em !important;
 }
 
-.itemScrollFrame.scrollFrameX .scrollSlider {
-    padding-left: 4.5%
+.scrollFrameX .scrollSlider {
+    white-space: nowrap !important;
 }
 
 .itemScrollFrame.scrollFrameX .scrollSlider {
+    padding-left: 4.5%;
     padding-bottom: 1.2em;
-    padding-top: .5em
+    padding-top: 0.5em;
 }
 
 .selectedItemInfoInner {
@@ -19,16 +20,13 @@
 }
 
 .selectedItemInfoLogo {
-    background-repeat: no-repeat;
-    background-position: center center;
-}
-
-.selectedItemInfoLogo {
     margin: 0 1em;
     width: 10em;
     height: 3em;
     -webkit-background-size: contain;
     background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .selectedItemInfoDetails {
@@ -41,7 +39,7 @@
 .selectedItemName {
     display: flex;
     justify-content: center;
-    margin: 0 0 .5em;
+    margin: 0 0 0.5em;
     font-weight: 400;
     font-size: 1.6em;
 }
@@ -67,18 +65,14 @@
     display: -webkit-flex;
     display: flex;
     -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d
-}
-
-.scrollFrameX .scrollSlider {
-    white-space: nowrap !important
+    transform-style: preserve-3d;
 }
 
 .homeHorizontalTabContainer {
     position: absolute;
     display: flex;
     top: 0;
-    right: 6%;
+    right: 10%;
     left: 6%;
     align-items: center;
     justify-content: center;
@@ -89,7 +83,7 @@
 .horizontalSection {
     margin-right: 1.25em;
     -webkit-flex-shrink: 0;
-    flex-shrink: 0
+    flex-shrink: 0;
 }
 
 .horizontalSection .sectionTitle {
@@ -101,27 +95,27 @@
 .homePageContainer .cardImageContainer {
     -webkit-animation: none !important;
     animation: none !important;
-    opacity: 1 !important
+    opacity: 1 !important;
 }
 
 .homePageContent .squareCard {
-    width: 7.18em
+    width: 7.18em;
 }
 
 .homePageContent .backdropCard {
-    width: 12.48em
+    width: 12.48em;
 }
 
 .homePageContent .portraitCard {
-    width: 7.3em
+    width: 7.3em;
 }
 
 .homePageContent .fourThreeCard {
-    width: 9.4em
+    width: 9.4em;
 }
 
 .wideSpotlightCard {
-    width: 100%
+    width: 100%;
 }
 
 .wideSpotlightCard .cardImageContainer {
@@ -133,30 +127,22 @@
     padding-top: 2.74vh;
 }
 
-.songCard .cardImageContainer,
-.albumsCard .cardImageContainer,
-.recordingsCard .cardImageContainer {
-    background: #38c;
+.guideCard .cardImageContainer,
+.artistsCard .cardImageContainer {
+    background: #00a4dc;
 }
 
-.allGenericCard .cardImageContainer,
-.artistsCard .cardImageContainer {
-    background: #00A4DC;
+.songCard .cardImageContainer,
+.recordingsCard .cardImageContainer {
+    background: #c51d1d;
 }
 
 .channelsLiveTvCard .cardImageContainer,
-.scheduledLiveTvCard .cardImageContainer {
-    background: #F44336;
+.albumsCard .cardImageContainer {
+    background: #92f4369a;
 }
 
-.movieCollectionsCard .cardImageContainer {
-    background-color: #009688;
-}
-
-.movieGenresCard .cardImageContainer {
-    background-color: #009688;
-}
-
+.movieCollectionsCard .cardImageContainer,
 .tvUpcomingCard .cardImageContainer {
     background-color: #009688;
 }
@@ -166,5 +152,3 @@
     overflow-y: hidden;
     white-space: nowrap;
 }
-
-

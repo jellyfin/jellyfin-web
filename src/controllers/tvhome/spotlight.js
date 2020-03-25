@@ -1,4 +1,4 @@
-define(['visibleinviewport', 'itemShortcuts', 'browser', 'connectionManager'], function (visibleinviewport, itemShortcuts, browser, connectionManager) {
+define(['connectionManager', 'visibleinviewport', 'itemShortcuts', 'browser'], function (connectionManager, visibleinviewport, itemShortcuts, browser) {
     'use strict';
 
     function backdropImageUrl(item, options) {
@@ -53,7 +53,7 @@ define(['visibleinviewport', 'itemShortcuts', 'browser', 'connectionManager'], f
 
         newCardImageContainer.style.backgroundImage = "url('" + imgUrl + "')";
 
-        card.querySelector('.cardText').innerHTML = item.Name;
+        card.querySelector('.cardText').innerHTML = item.Taglines && item.Taglines.length ? item.Taglines[0] : item.Name;
         card.setAttribute('data-id', item.Id);
         card.setAttribute('data-serverid', item.ServerId);
         card.setAttribute('data-type', item.Type);
@@ -71,20 +71,11 @@ define(['visibleinviewport', 'itemShortcuts', 'browser', 'connectionManager'], f
             }
         };
 
-        if (browser.animate ) {
-            var keyframes = [{
-                opacity: '0',
-                offset: 0
-            },
-            {
-                opacity: '1',
-                offset: 1
-            }
-            ];
-            var timing = {
-                duration: 900,
-                iterations: 1
-            };
+        if (newCardImageContainer.animate) {
+            var keyframes = [
+                { opacity: '0', offset: 0 },
+                { opacity: '1', offset: 1 }];
+            var timing = { duration: 900, iterations: 1 };
             newCardImageContainer.animate(keyframes, timing).onfinish = onAnimationFinished;
         } else {
             onAnimationFinished();

@@ -7,11 +7,11 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                 systemInfo = info;
                 return info;
             }
-        )
+        );
     }
 
     function onDialogClosed() {
-        loading.hide()
+        loading.hide();
     }
 
     function refreshDirectoryBrowser(page, path, fileOptions, updatePathOnError) {
@@ -24,7 +24,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         var promises = [];
 
         if ("Network" === path) {
-            promises.push(ApiClient.getNetworkDevices())
+            promises.push(ApiClient.getNetworkDevices());
         } else {
             if (path) {
                 promises.push(ApiClient.getDirectoryContents(path, fileOptions));
@@ -101,7 +101,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                 html += Globalize.translate("MessageDirectoryPickerLinuxInstruction");
                 html += "<br/>";
             }
-            html += "</div>"
+            html += "</div>";
         }
         html += '<form style="margin:auto;">';
         html += '<div class="inputContainer" style="display: flex; align-items: center;">';
@@ -144,13 +144,13 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
     function alertText(text) {
         alertTextWithOptions({
             text: text
-        })
+        });
     }
 
     function alertTextWithOptions(options) {
         require(["alert"], function(alert) {
-            alert(options)
-        })
+            alert(options);
+        });
     }
 
     function validatePath(path, validateWriteable, apiClient) {
@@ -172,12 +172,12 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                     if (validateWriteable) {
                         alertText("Jellyfin Server requires write access to this folder. Please ensure write access and try again.");
                     } else {
-                        alertText("The path could not be found. Please ensure the path is valid and try again.")
+                        alertText("The path could not be found. Please ensure the path is valid and try again.");
                     }
-                    return Promise.reject()
+                    return Promise.reject();
                 }
             }
-            return Promise.resolve()
+            return Promise.resolve();
         });
     }
 
@@ -189,7 +189,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                 if (lnkPath.classList.contains("lnkFile")) {
                     content.querySelector("#txtDirectoryPickerPath").value = path;
                 } else {
-                    refreshDirectoryBrowser(content, path, fileOptions, true)
+                    refreshDirectoryBrowser(content, path, fileOptions, true);
                 }
             }
         });
@@ -276,7 +276,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                     dlg.addEventListener("close", onDialogClosed);
                     dialogHelper.open(dlg);
                     dlg.querySelector(".btnCloseDialog").addEventListener("click", function() {
-                        dialogHelper.close(dlg)
+                        dialogHelper.close(dlg);
                     });
                     currentDialog = dlg;
                     dlg.querySelector("#txtDirectoryPickerPath").value = initialPath;
@@ -294,9 +294,9 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
             if (currentDialog) {
                 dialogHelper.close(currentDialog);
             }
-        }
+        };
     }
 
     var systemInfo;
-    return directoryBrowser
+    return directoryBrowser;
 });

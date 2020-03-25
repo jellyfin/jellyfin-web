@@ -224,15 +224,15 @@ define(['connectionManager', 'globalize', './spotlight', 'imageLoader', 'focusMa
         loadImages(element, apiClient, parentId);
 
         element.querySelector('.allMoviesCard').addEventListener('click', function () {
-            Emby.Page.show('/movies.html?serverId=' + apiClient.serverId() + '&tab=0&parentId=' + parentId);
+            Emby.Page.show('/movies.html?tab=0&parentId=' + parentId);
         });
 
         element.querySelector('.movieCollectionsCard').addEventListener('click', function () {
-            Emby.Page.show('/movies.html?serverId=' + apiClient.serverId() + '&tab=4&parentId=' + parentId);
+            Emby.Page.show('/movies.html?tab=4&parentId=' + parentId);
         });
 
         element.querySelector('.movieFavoritesCard').addEventListener('click', function () {
-            Emby.Page.show('/movies.html?serverId=' + apiClient.serverId() + '&tab=3&parentId=' + parentId);
+            Emby.Page.show('/movies.html?tab=3&parentId=' + parentId);
         });
 
         self.destroy = function () {

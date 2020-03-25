@@ -428,7 +428,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         scrollY = clamp(Math.round(scrollY), 0, yScrollerData.scrollSize - yScrollerData.clientSize);
 
         doScroll(scroller, scrollX, scroller, scrollY, smooth);
-    }
+    };
 
     /**
      * Scrolls the document to a given element.
@@ -480,7 +480,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         }
 
         doScroll(xScroller, scrollX, yScroller, scrollY, smooth);
-    }
+    };
 
     if (isEnabled()) {
         dom.addEventListener(window, "focusin", function(e) {

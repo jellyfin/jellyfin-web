@@ -33,7 +33,7 @@ define(["focusManager", "layoutManager"], function (focusManager, layoutManager)
      */
     var arrayFrom = Array.prototype.from || function (src) {
         return Array.prototype.slice.call(src);
-    }
+    };
 
     /**
      * Set focus on a suitable element, taking into account the previously selected.

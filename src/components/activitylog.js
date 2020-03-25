@@ -16,7 +16,7 @@ define(["events", "globalize", "dom", "datetime", "userSettings", "serverNotific
             html += '<i class="listItemIcon material-icons" style="width:2em!important;height:2em!important;padding:0;color:transparent;background-color:' + color + ";background-image:url('" + apiClient.getUserImageUrl(entry.UserId, {
                 type: "Primary",
                 tag: entry.UserPrimaryImageTag
-            }) + "');background-repeat:no-repeat;background-position:center center;background-size: cover;\">dvr</i>"
+            }) + "');background-repeat:no-repeat;background-position:center center;background-size: cover;\">dvr</i>";
         } else {
             html += '<i class="listItemIcon material-icons" style="background-color:' + color + '">' + icon + '</i>';
         }

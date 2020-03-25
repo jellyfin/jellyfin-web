@@ -1,4 +1,4 @@
-define(['focusManager', 'cardBuilder'], function (focusManager, cardBuilder) {
+define(['cardBuilder', 'focusManager'], function (cardBuilder, focusManager) {
     'use strict';
 
     function loadLatestRecordings(element, apiClient) {
@@ -24,7 +24,7 @@ define(['focusManager', 'cardBuilder'], function (focusManager, cardBuilder) {
                 rows: {
                     portrait: 2,
                     square: 3,
-                    backdrop: 3
+                    backdrop: 2
                 },
                 scalable: false,
                 overlayText: true
@@ -56,57 +56,20 @@ define(['focusManager', 'cardBuilder'], function (focusManager, cardBuilder) {
                 rows: {
                     portrait: 2,
                     square: 3,
-                    backdrop: 3
+                    backdrop: 2
                 },
                 scalable: false
             });
         });
     }
 
-    function loadChannelGuide(element, apiClient) {
+    function loadUpcomingPrograms(section, apiClient, options, shape) {
 
-        return apiClient.getLiveTvPrograms({
+        options.ImageTypeLimit = 1;
+        options.Fields = "PrimaryImageAspectRatio";
+        options.UserId = apiClient.getCurrentUserId();
 
-            UserId: apiClient.getCurrentUserId(),
-            HasAired: false,
-            SortBy: "StartDate",
-            EnableTotalRecordCount: false,
-            EnableImageTypes: "Primary",
-            ImageTypeLimit: 1,
-            Fields: "PrimaryImageAspectRatio"
-        }).then(function (result) {
-
-            var section = element.querySelector('.programGuideSection');
-
-            if (!section) {
-                return;
-            }
-
-            cardBuilder.buildCards(result.Items, {
-                parentContainer: section,
-                itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'backdrop',
-                rows: 3,
-                scalable: false
-            });
-        });
-    }
-
-    function loadUpcomingPrograms(element, apiClient) {
-
-        return apiClient.getLiveTvRecordings({
-            UserId: apiClient.getCurrentUserId(),
-            IsAiring: false,
-            HasAired: false,
-            limit: 9,
-            IsMovie: false,
-            IsSports: false,
-            IsKids: false,
-            IsSeries: true
-
-        }).then(function (result) {
-
-            var section = element.querySelector('.upcomingProgramsSection');
+        return apiClient.getLiveTvRecommendedPrograms(options).then(function (result) {
 
             cardBuilder.buildCards(result.Items, {
                 parentContainer: section,
@@ -117,110 +80,11 @@ define(['focusManager', 'cardBuilder'], function (focusManager, cardBuilder) {
                 rows: {
                     portrait: 2,
                     square: 3,
-                    backdrop: 3
+                    backdrop: 2
                 },
                 scalable: false
             });
         });
-    }
-
-    function loadUpcomingMovies(element, apiClient) {
-
-        return apiClient.getLiveTvRecordings({
-
-            UserId: apiClient.getCurrentUserId(),
-
-            IsAiring: false,
-            HasAired: false,
-            limit: 9,
-            IsMovie: true
-
-        }).then(function (result) {
-
-            var section = element.querySelector('.upcomingMoviesSection');
-
-            cardBuilder.buildCards(result.Items, {
-                parentContainer: section,
-                itemsContainer: section.querySelector('.itemsContainer'),
-                preferThumb: 'auto',
-                shape: 'auto',
-                coverImage: true,
-                rows: {
-                    portrait: 2,
-                    square: 3,
-                    backdrop: 3
-                },
-                scalable: false
-            });
-        });
-    }
-
-    function loadUpcomingSports(element, apiClient) {
-
-        return apiClient.getLiveTvRecordings({
-
-            UserId: apiClient.getCurrentUserId(),
-
-            IsAiring: false,
-            HasAired: false,
-            limit: 9,
-            IsSports: true
-
-        }).then(function (result) {
-
-            var section = element.querySelector('.upcomingSportsSection');
-
-            cardBuilder.buildCards(result.Items, {
-                parentContainer: section,
-                itemsContainer: section.querySelector('.itemsContainer'),
-                preferThumb: 'auto',
-                shape: 'auto',
-                coverImage: true,
-                rows: {
-                    portrait: 2,
-                    square: 3,
-                    backdrop: 3
-                },
-                scalable: false
-            });
-        });
-    }
-
-    function loadUpcomingKids(element, apiClient) {
-
-        return apiClient.getLiveTvRecordings({
-
-            UserId: apiClient.getCurrentUserId(),
-
-            IsAiring: false,
-            HasAired: false,
-            limit: 9,
-            IsSports: false,
-            IsKids: true
-
-        }).then(function (result) {
-
-            var section = element.querySelector('.upcomingKidsSection');
-
-            cardBuilder.buildCards(result.Items, {
-                parentContainer: section,
-                itemsContainer: section.querySelector('.itemsContainer'),
-                preferThumb: 'auto',
-                shape: 'auto',
-                coverImage: true,
-                rows: {
-                    portrait: 2,
-                    square: 3,
-                    backdrop: 3
-                },
-                scalable: false
-            });
-        });
-    }
-
-    function gotoTvView(tab, parentId) {
-
-        Emby.Page.show('/livetv.html?tab=' + tab);
     }
 
     function view(element, apiClient, parentId, autoFocus) {
@@ -235,27 +99,53 @@ define(['focusManager', 'cardBuilder'], function (focusManager, cardBuilder) {
             return Promise.all([
                 loadLatestRecordings(element, apiClient),
                 loadNowPlaying(element, apiClient),
-                loadChannelGuide(element, apiClient),
 
-                loadUpcomingPrograms(element, apiClient),
-                loadUpcomingMovies(element, apiClient),
+                loadUpcomingPrograms(element.querySelector('.upcomingProgramsSection'), apiClient, {
 
-                loadUpcomingSports(element, apiClient),
+                    HasAired: false,
+                    limit: 10,
+                    IsMovie: false,
+                    IsSports: false,
+                    IsKids: false,
+                    IsSeries: true
 
-                loadUpcomingKids(element, apiClient)
+                }),
+
+                loadUpcomingPrograms(element.querySelector('.upcomingMoviesSection'), apiClient, {
+
+                    HasAired: false,
+                    limit: 10,
+                    IsMovie: true
+
+                }, 'portrait'),
+
+                loadUpcomingPrograms(element.querySelector('.upcomingSportsSection'), apiClient, {
+
+                    HasAired: false,
+                    limit: 10,
+                    IsSports: true
+
+                }),
+
+                loadUpcomingPrograms(element.querySelector('.upcomingKidsSection'), apiClient, {
+
+                    HasAired: false,
+                    limit: 10,
+                    IsKids: true
+                })
             ]);
         };
 
         element.querySelector('.guideCard').addEventListener('click', function () {
-            gotoTvView('1', parentId);
+            Emby.Page.show('/livetv.html?tab=1&parentId=' + parentId);
         });
 
         element.querySelector('.channelsLiveTvCard').addEventListener('click', function () {
-            gotoTvView('2', parentId);
+            Emby.Page.show('/livetv.html?tab=2&parentId=' + parentId);
         });
 
         element.querySelector('.recordingsCard').addEventListener('click', function () {
-            gotoTvView('3', parentId);
+            Emby.Page.show('/livetv.html?tab=3&parentId=' + parentId);
         });
 
         self.destroy = function () {

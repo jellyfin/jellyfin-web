@@ -589,8 +589,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'userSettings', 'layout
 
     function showDirect(path) {
         return new Promise(function(resolve, reject) {
-            resolveOnNextShow = resolve, page.show(baseUrl()+path)
-        })
+            resolveOnNextShow = resolve, page.show(baseUrl()+path);
+        });
     }
 
     function show(path, options) {

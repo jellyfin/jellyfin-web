@@ -1,12 +1,12 @@
-define(['loading', 'globalize', 'connectionManager', 'components/tabbedpage', 'libraryMenu', 'focusManager', 'playbackManager', 'layoutManager', 'browser', 'events', 'css!./home'], function (loading, globalize, connectionManager, tabbedPage, libraryMenu, focusManager, playbackManager, events) {
+define(['connectionManager', 'loading', 'globalize', 'tabbedPage', 'libraryMenu', 'focusManager', 'css!./home'], function (connectionManager, loading, globalize, tabbedPage, libraryMenu, focusManager) {
     'use strict';
 
-    function loadViewHtml(page, parentId, html, viewName, autoFocus, self) {
+    function loadViewHtml(page, parentId, template, viewName, autoFocus, self) {
 
         var homeScrollContent = page.querySelector('.contentScrollSlider');
-
-        html = html;
-        homeScrollContent.innerHTML = globalize.translateDocument(html);
+        var html = '';
+        html += globalize.translateDocument(template);
+        homeScrollContent.innerHTML = html;
 
         require(['controllers/tvhome/views.' + viewName], function (viewBuilder) {
 
@@ -32,7 +32,7 @@ define(['loading', 'globalize', 'connectionManager', 'components/tabbedpage', 'l
         return elem;
     }
 
-    return function (view, params) {
+    return function (view) {
 
         var self = this;
         var needsRefresh;
@@ -76,19 +76,6 @@ define(['loading', 'globalize', 'connectionManager', 'components/tabbedpage', 'l
 
             });
         }
-
-        view.addEventListener('viewbeforeshow', function (e) {
-
-            self.reloadPromise = null;
-
-            var isRestored = e.detail.isRestored;
-
-            if (isRestored) {
-                if (self.tabView) {
-                    self.reloadPromise = reloadTabData(self.tabView);
-                }
-            }
-        });
 
         view.addEventListener('viewshow', function (e) {
 
@@ -142,7 +129,7 @@ define(['loading', 'globalize', 'connectionManager', 'components/tabbedpage', 'l
 
         function loadViewContent(page, id, type) {
 
-            return new Promise(function (resolve, reject) {
+            return new Promise(function (resolve) {
 
                 type = (type || '').toLowerCase();
 
@@ -172,9 +159,9 @@ define(['loading', 'globalize', 'connectionManager', 'components/tabbedpage', 'l
                         break;
                 }
 
-                require(['text!tvhome/views.' + viewName + '.html'], function (html) {
+                require(['text!tvhome/views.' + viewName + '.html'], function (template) {
 
-                    loadViewHtml(page, id, html, viewName, autoFocusTabContent, self);
+                    loadViewHtml(page, id, template, viewName, autoFocusTabContent, self);
                     autoFocusTabContent = false;
                     resolve();
                 });

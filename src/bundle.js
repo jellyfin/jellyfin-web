@@ -13,7 +13,7 @@ _define("document-register-element", function() {
 // fetch
 var fetch = require("whatwg-fetch");
 _define("fetch", function() {
-    return fetch
+    return fetch;
 });
 
 // query-string

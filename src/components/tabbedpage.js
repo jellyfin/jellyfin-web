@@ -1,4 +1,4 @@
-define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper', 'browser', 'emby-button', 'scrollStyles'], function (loading, scroller, focusHandler, focusManager, scrollHelper, browser) {
+define(['loading', 'scroller', 'focusHandler', 'focusManager', 'scrollHelper', 'browser', 'emby-button', 'scrollStyles'], function (loading, scroller, focusHandler, focusManager, scrollHelper, browser) {
     'use strict';
 
     function focusViewSlider() {
@@ -12,7 +12,7 @@ define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper',
         }
     }
 
-    function createHeaderScroller(view, instance, initialTabId) {
+    function createHeaderScroller(view, instance) {
 
         var userViewNames = view.querySelector('.userViewNames');
 

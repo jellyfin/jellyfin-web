@@ -259,15 +259,15 @@ define(['cardBuilder', 'focusManager'], function (cardBuilder, focusManager) {
         };
 
         element.querySelector('.artistsCard').addEventListener('click', function () {
-            Emby.Page.show('/music.html?serverId=' + apiClient.serverId() + '&tab=2&parentId=' + parentId);
+            Emby.Page.show('/music.html?tab=2&parentId=' + parentId);
         });
 
         element.querySelector('.albumsCard').addEventListener('click', function () {
-            Emby.Page.show('/music.html?serverId=' + apiClient.serverId() + '&tab=1&parentId=' + parentId);
+            Emby.Page.show('/music.html?tab=1&parentId=' + parentId);
         });
 
         element.querySelector('.songCard').addEventListener('click', function () {
-            Emby.Page.show('/music.html?serverId=' + apiClient.serverId() + '&tab=5&parentId=' + parentId);
+            Emby.Page.show('/music.html?tab=5&parentId=' + parentId);
         });
 
         self.destroy = function () {

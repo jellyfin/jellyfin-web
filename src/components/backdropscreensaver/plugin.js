@@ -52,5 +52,5 @@ define(["connectionManager"], function (connectionManager) {
                 currentSlideshow = null;
             }
         };
-    }
+    };
 });

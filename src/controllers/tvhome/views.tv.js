@@ -1,4 +1,4 @@
-define(['connectionManager', './spotlight', 'focusManager', 'cardBuilder'], function (connectionManager, spotlight, focusManager, cardBuilder) {
+define(['connectionManager', './spotlight', 'cardBuilder', 'focusManager'], function (connectionManager, spotlight, cardBuilder, focusManager) {
     'use strict';
 
     function backdropImageUrl(item, options) {
@@ -55,26 +55,6 @@ define(['connectionManager', './spotlight', 'focusManager', 'cardBuilder'], func
                 options.tag = item.AlbumPrimaryImageTag;
                 return apiClient.getScaledImageUrl(item.AlbumId, options);
             }
-
-            //else if (item.AlbumId && item.SeriesPrimaryImageTag) {
-
-            //    imgUrl = ApiClient.getScaledImageUrl(item.SeriesId, {
-            //        type: "Primary",
-            //        width: downloadWidth,
-            //        tag: item.SeriesPrimaryImageTag,
-            //        minScale: minScale
-            //    });
-
-            //}
-            //else if (item.ParentPrimaryImageTag) {
-
-            //    imgUrl = ApiClient.getImageUrl(item.ParentPrimaryImageItemId, {
-            //        type: "Primary",
-            //        width: downloadWidth,
-            //        tag: item.ParentPrimaryImageTag,
-            //        minScale: minScale
-            //    });
-            //}
         }
 
         return null;
@@ -213,7 +193,7 @@ define(['connectionManager', './spotlight', 'focusManager', 'cardBuilder'], func
             };
 
             if (items.length > 0) {
-                element.querySelector('.tvFavoritesCard .cardImage').style.backgroundImage = "url('" + backdropImageUrl(items[0], imgOptions) + "')";
+                element.querySelector('.tvEpisodesCard .cardImage').style.backgroundImage = "url('" + backdropImageUrl(items[0], imgOptions) + "')";
             }
 
             if (items.length > 1) {
@@ -243,15 +223,15 @@ define(['connectionManager', './spotlight', 'focusManager', 'cardBuilder'], func
         loadImages(element, apiClient, parentId);
 
         element.querySelector('.allSeriesCard').addEventListener('click', function () {
-            Emby.Page.show('/tv.html?serverId=' + apiClient.serverId() + '&tab=0&parentId=' + parentId);
+            Emby.Page.show('/tv.html?tab=0&parentId=' + parentId);
         });
 
         element.querySelector('.tvUpcomingCard').addEventListener('click', function () {
-            Emby.Page.show('/tv.html?serverId=' + apiClient.serverId() + '&tab=3&parentId=' + parentId);
+            Emby.Page.show('/tv.html?tab=3&parentId=' + parentId);
         });
 
-        element.querySelector('.tvFavoritesCard').addEventListener('click', function () {
-            Emby.Page.show('/tv.html?serverId=' + apiClient.serverId() + '&tab=4&parentId=' + parentId);
+        element.querySelector('.tvEpisodesCard').addEventListener('click', function () {
+            Emby.Page.show('/tv.html?tab=6&parentId=' + parentId);
         });
 
         self.destroy = function () {

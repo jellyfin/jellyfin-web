@@ -21,7 +21,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
 
         subtitleSyncTextField.updateOffset = function(offset) {
             this.textContent = offset + "s";
-        }
+        };
 
         subtitleSyncTextField.addEventListener("keypress", function(event) {
 
@@ -57,7 +57,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         subtitleSyncSlider.updateOffset = function(percent) {
             // default value is 0s = 50%
             this.value = percent === undefined ? 50 : percent;
-        }
+        };
 
         subtitleSyncSlider.addEventListener("change", function () {
             // set new offset
@@ -125,7 +125,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
             elem.parentNode.removeChild(elem);
             this.element = null;
         }
-    }
+    };
 
     SubtitleSync.prototype.toggle = function(action) {
 
@@ -159,7 +159,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
             }
             /* eslint-enable no-fallthrough */
         }
-    }
+    };
 
     return SubtitleSync;
 });

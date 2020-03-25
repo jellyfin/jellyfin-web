@@ -1,4 +1,4 @@
-define(['cardBuilder', 'connectionManager'], function (cardBuilder, connectionManager) {
+define(['connectionManager', 'cardBuilder'], function (connectionManager, cardBuilder) {
     'use strict';
 
     function playlists(options) {

@@ -7,7 +7,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
         }).then(function(tasks) {
             populateList(page, tasks);
             loading.hide();
-        })
+        });
     }
 
     function populateList(page, tasks) {
@@ -152,7 +152,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             ApiClient.startScheduledTask(id).then(function() {
                 updateTaskButton(button, "Running");
                 reloadList(view);
-            })
+            });
         });
 
         $(".divScheduledTasks", view).on("click", ".btnStopTask", function() {
@@ -161,7 +161,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             ApiClient.stopScheduledTask(id).then(function() {
                 updateTaskButton(button, "");
                 reloadList(view);
-            })
+            });
         });
 
         view.addEventListener("viewbeforehide", function() {
@@ -175,5 +175,5 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             reloadList(view);
             events.on(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate);
         });
-    }
+    };
 });

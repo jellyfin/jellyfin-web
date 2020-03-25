@@ -381,7 +381,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
                 return window.NativeShell.AppHost.getDefaultLayout();
             }
 
-            return getDefaultLayout()
+            return getDefaultLayout();
         },
         getDeviceProfile: getDeviceProfile,
         init: function () {

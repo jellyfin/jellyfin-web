@@ -1,5 +1,5 @@
-define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 'scrollHelper', 'browser', 'layoutManager', 'dom', 'userSettings', 'connectionManager'],
-    function (imageLoader, itemHelper, backdrop, mediaInfo, focusManager, scrollHelper, browser, layoutManager, dom, userSettings, connectionManager) {
+define(['connectionManager', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 'scrollHelper', 'browser'],
+    function (connectionManager, itemHelper, backdrop, mediaInfo, focusManager, scrollHelper, browser) {
         'use strict';
 
         function getlogoImageUrl(item, options) {
@@ -259,9 +259,6 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                 }
 
                 selectedItemInfoInner.innerHTML = html;
-
-                var rect = card.getBoundingClientRect();
-                selectedItemInfoInner.parentNode.style.left = (Math.max(rect.left, 70)) + 'px';
 
                 if (html && enableAnimations) {
                     fadeIn(selectedItemInfoInner, 1);
