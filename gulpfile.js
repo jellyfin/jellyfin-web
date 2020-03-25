@@ -18,14 +18,14 @@ const stream = require('webpack-stream');
 const inject = require('gulp-inject');
 const postcss = require('gulp-postcss');
 const sass = require('gulp-sass');
- 
-sass.compiler = require('node-sass')
 
+sass.compiler = require('node-sass');
 
+var config;
 if (mode.production()) {
-    var config = require('./webpack.prod.js');
+    config = require('./webpack.prod.js');
 } else {
-    var config = require('./webpack.dev.js');
+    config = require('./webpack.dev.js');
 }
 
 function serve() {
@@ -36,20 +36,20 @@ function serve() {
         port: 8080
     });
 
-    watch(['src/**/*.js', '!src/bundle.js'], javascript);
+    watch(['src/**/*.js', '!src/bundle.js'], series(javascript, standalone));
     watch('src/bundle.js', webpack);
     watch('src/**/*.css', css);
     watch(['src/**/*.html', '!src/index.html'], html);
     watch(['src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg'], images);
     watch(['src/**/*.json', 'src/**/*.ico'], copy);
     watch('src/index.html', injectBundle);
-    watch(['src/standalone.js', 'src/scripts/apploader.js'], standalone);
 }
 
 function standalone() {
     return src(['src/standalone.js', 'src/scripts/apploader.js'], { base: './src/' })
         .pipe(concat('scripts/apploader.js'))
-        .pipe(dest('dist/'));
+        .pipe(dest('dist/'))
+        .pipe(browserSync.stream());
 }
 
 function clean() {
@@ -70,7 +70,6 @@ function javascript() {
         }))
         .pipe(mode.development(sourcemaps.write('.')))
         .pipe(dest('dist/'))
-        .pipe(browserSync.stream());
 }
 
 function webpack() {
@@ -118,6 +117,6 @@ function injectBundle() {
         .pipe(browserSync.stream());
 }
 
-exports.default = series(clean, parallel(javascript, webpack, css, html, images, copy), injectBundle)
-exports.standalone = series(exports.default, standalone)
-exports.serve = series(exports.standalone, serve)
+exports.default = series(clean, parallel(javascript, webpack, css, html, images, copy), injectBundle);
+exports.standalone = series(exports.default, standalone);
+exports.serve = series(exports.standalone, serve);
