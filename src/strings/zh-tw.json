@@ -328,7 +328,7 @@
     "Art": "圖像",
     "Artists": "演出者",
     "AsManyAsPossible": "越多越好",
-    "Ascending": "由少到多",
+    "Ascending": "遞增",
     "AspectRatio": "長寬比",
     "AttributeNew": "新增",
     "Audio": "音訊",
@@ -552,7 +552,7 @@
     "EncoderPresetHelp": "速度越慢則會得到更好的壓縮編碼效率。",
     "HDPrograms": "HD節目",
     "HandledByProxy": "由反向代理處理",
-    "HardwareAccelerationWarning": "啟動硬體加速可能在某些環境下導致系統不穩定。請確認你的作業系統和影片驅動程式是最新的。如果你在開啟此項後播放影片產生困難，那麼你需要將此選項設回”自動“。",
+    "HardwareAccelerationWarning": "啟動硬體加速可能在某些環境下導致系統不穩定。請確認你的作業系統和影片驅動程式是最新的。如果你在開啟此項後播放影片產生困難，那麼你需要將此選項設回”無“。",
     "HeaderAccessSchedule": "存取時程",
     "HeaderAccessScheduleHelp": "建立一個存取時程以限制可存取的時段。",
     "HeaderActiveDevices": "運行中裝置",
@@ -1493,7 +1493,7 @@
     "RecordingPathChangeMessage": "更改錄製資料夾不會將現有錄製從舊位置遷移到新的，您需要手動移動它們。",
     "RestartPleaseWaitMessage": "Jellyfin 伺服器將重新啟動，這將花費幾分鐘時間。",
     "LabelEmbedAlbumArtDidl": "於 Didl 中嵌入專輯封面",
-    "LabelEnableAutomaticPortMapHelp": "自動嘗試映射公共連接埠到 UPnP 本地連接埠。這可能無法用於某些路由器。",
+    "LabelEnableAutomaticPortMapHelp": "自動嘗試映射公共連接埠到 UPnP 本地連接埠。這可能無法用於某些路由器。需重新啓動伺服器。",
     "LabelEmbedAlbumArtDidlHelp": "有些裝置使用這個方式來取得專輯封面，啟用這個選項可能導致其他設備播放失敗。",
     "SettingsWarning": "更改這些值可能會導致不穩定或連線故障。如果您遇到任何問題，建議將它們重新更改為預設值。",
     "LabelEnableSingleImageInDidlLimitHelp": "若在 Didl 中嵌入多個圖片，某些裝置可能無法正常顯示。",
@@ -1641,5 +1641,10 @@
     "LabelPlayerDimensions": "播放器尺寸：",
     "LabelDroppedFrames": "丟棄的幀：",
     "LabelCorruptedFrames": "損壞的幀：",
-    "ButtonSplit": "拆分"
+    "ButtonSplit": "分割",
+    "AskAdminToCreateLibrary": "如要建立資料庫，請求管理員",
+    "NoCreatedLibraries": "看來您還未創任何媒體庫。{0}立刻創一個新的嗎？{1}",
+    "ClientSettings": "用戶設定",
+    "AllowFfmpegThrottlingHelp": "當轉檔或重組進度大量超前目前播放進度時，將暫停轉檔節省消耗的資源。在不常跳播的時候最有效。如果遇到播放問題，請關閉此功能。",
+    "AllowFfmpegThrottling": "限制轉檔"
 }
