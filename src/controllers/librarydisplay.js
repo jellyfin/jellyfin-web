@@ -1,19 +1,19 @@
-define(["globalize", "loading", "libraryMenu", "emby-checkbox", "emby-button", "emby-button"], function(globalize, loading, libraryMenu) {
+define(["globalize", "loading", "libraryMenu", "emby-checkbox", "emby-button", "emby-button", "globalize"], function(globalize, loading, libraryMenu) {
     "use strict";
 
     function getTabs() {
         return [{
             href: "library.html",
-            name: Globalize.translate("HeaderLibraries")
+            name: globalize.translate("HeaderLibraries")
         }, {
             href: "librarydisplay.html",
-            name: Globalize.translate("TabDisplay")
+            name: globalize.translate("TabDisplay")
         }, {
             href: "metadataimages.html",
-            name: Globalize.translate("TabMetadata")
+            name: globalize.translate("TabMetadata")
         }, {
             href: "metadatanfo.html",
-            name: Globalize.translate("TabNfoSettings")
+            name: globalize.translate("TabNfoSettings")
         }]
     }
 

@@ -1,4 +1,4 @@
-define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu", "mainTabsManager", "cardBuilder", "dom", "imageLoader", "playbackManager", "emby-scroller", "emby-itemscontainer", "emby-tabs", "emby-button"], function (events, layoutManager, inputManager, userSettings, libraryMenu, mainTabsManager, cardBuilder, dom, imageLoader, playbackManager) {
+define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu", "mainTabsManager", "cardBuilder", "dom", "imageLoader", "playbackManager", "emby-scroller", "emby-itemscontainer", "emby-tabs", "emby-button", "globalize"], function (events, layoutManager, inputManager, userSettings, libraryMenu, mainTabsManager, cardBuilder, dom, imageLoader, playbackManager, globalize) {
     "use strict";
 
     function enableScrollX() {
@@ -211,19 +211,19 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
 
     function getTabs() {
         return [{
-            name: Globalize.translate("Movies")
+            name: globalize.translate("Movies")
         }, {
-            name: Globalize.translate("TabSuggestions")
+            name: globalize.translate("TabSuggestions")
         }, {
-            name: Globalize.translate("TabTrailers")
+            name: globalize.translate("TabTrailers")
         }, {
-            name: Globalize.translate("TabFavorites")
+            name: globalize.translate("TabFavorites")
         }, {
-            name: Globalize.translate("TabCollections")
+            name: globalize.translate("TabCollections")
         }, {
-            name: Globalize.translate("TabGenres")
+            name: globalize.translate("TabGenres")
         }, {
-            name: Globalize.translate("ButtonSearch"),
+            name: globalize.translate("ButtonSearch"),
             cssClass: "searchTabButton"
         }];
     }
@@ -398,8 +398,8 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
                         libraryMenu.setTitle(item.Name);
                     });
                 } else {
-                    view.setAttribute("data-title", Globalize.translate("TabMovies"));
-                    libraryMenu.setTitle(Globalize.translate("TabMovies"));
+                    view.setAttribute("data-title", globalize.translate("TabMovies"));
+                    libraryMenu.setTitle(globalize.translate("TabMovies"));
                 }
             }
 

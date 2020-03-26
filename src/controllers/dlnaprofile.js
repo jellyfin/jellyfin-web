@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-input", "emby-checkbox", "listViewStyle", "emby-button"], function ($, loading) {
+define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-input", "emby-checkbox", "listViewStyle", "emby-button", "globalize"], function ($, loading, globalize) {
     "use strict";
 
     function loadProfile(page) {
@@ -690,7 +690,7 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
     var currentProfile;
     var currentSubProfile;
     var isSubProfileNew;
-    var allText = Globalize.translate("LabelAll");
+    var allText = globalize.translate("LabelAll");
 
     $(document).on("pageinit", "#dlnaProfilePage", function () {
         var page = this;

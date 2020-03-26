@@ -1,4 +1,4 @@
-define(["dom", "emby-button"], function (dom) {
+define(["dom", "emby-button", "globalize"], function (dom, globalize) {
     "use strict";
 
     function onSubmit(e) {
@@ -6,7 +6,7 @@ define(["dom", "emby-button"], function (dom) {
             Dashboard.navigate("wizardfinish.html");
         } else {
             Dashboard.alert({
-                message: Globalize.translate("MessagePleaseAcceptTermsOfServiceBeforeContinuing"),
+                message: globalize.translate("MessagePleaseAcceptTermsOfServiceBeforeContinuing"),
                 title: ""
             });
         }

@@ -1,4 +1,4 @@
-define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSettings, browser, events, htmlMediaHelper) {
+define(["appSettings", "browser", "events", "htmlMediaHelper", "globalize"], function (appSettings, browser, events, htmlMediaHelper, globalize) {
     "use strict";
 
     function getBaseProfileOptions(item) {
@@ -330,10 +330,10 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
 
         require(["actionsheet"], function (actionsheet) {
             exitPromise = actionsheet.show({
-                title: Globalize.translate("MessageConfirmAppExit"),
+                title: globalize.translate("MessageConfirmAppExit"),
                 items: [
-                    {id: "yes", name: Globalize.translate("Yes")},
-                    {id: "no", name: Globalize.translate("No")}
+                    {id: "yes", name: globalize.translate("Yes")},
+                    {id: "no", name: globalize.translate("No")}
                 ]
             }).then(function (value) {
                 if (value === "yes") {

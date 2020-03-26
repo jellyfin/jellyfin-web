@@ -1,4 +1,4 @@
-define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "apphost", "emby-itemscontainer"], function (layoutManager, playbackManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, appHost) {
+define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "apphost", "emby-itemscontainer", "globalize"], function (layoutManager, playbackManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, appHost, globalize) {
     "use strict";
 
     return function (view, params, tabContent) {
@@ -223,25 +223,25 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
             tabContent.querySelector(".btnSort").addEventListener("click", function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: Globalize.translate("OptionNameSort"),
+                        name: globalize.translate("OptionNameSort"),
                         id: "SortName"
                     }, {
-                        name: Globalize.translate("OptionAlbumArtist"),
+                        name: globalize.translate("OptionAlbumArtist"),
                         id: "AlbumArtist,SortName"
                     }, {
-                        name: Globalize.translate("OptionCommunityRating"),
+                        name: globalize.translate("OptionCommunityRating"),
                         id: "CommunityRating,SortName"
                     }, {
-                        name: Globalize.translate("OptionCriticRating"),
+                        name: globalize.translate("OptionCriticRating"),
                         id: "CriticRating,SortName"
                     }, {
-                        name: Globalize.translate("OptionDateAdded"),
+                        name: globalize.translate("OptionDateAdded"),
                         id: "DateCreated,SortName"
                     }, {
-                        name: Globalize.translate("OptionReleaseDate"),
+                        name: globalize.translate("OptionReleaseDate"),
                         id: "ProductionYear,PremiereDate,SortName"
                     }, {
-                        name: Globalize.translate("OptionRandom"),
+                        name: globalize.translate("OptionRandom"),
                         id: "Random,SortName"
                     }],
                     callback: function () {
