@@ -5,7 +5,8 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
 
     function onKeyDown(e) {
         // Don't submit form on enter
-        if (e.keyCode === 13) {
+        // Real (non-emulator) Tizen does nothing on Space
+        if (e.keyCode === 13 || e.keyCode === 32) {
             e.preventDefault();
 
             this.checked = !this.checked;

@@ -1,5 +1,5 @@
 {
-    "Absolute": "Gesamt",
+    "Absolute": "Absolut",
     "AccessRestrictedTryAgainLater": "Der Zugriff ist derzeit eingeschränkt. Bitte versuche es später erneut.",
     "Actor": "Darsteller(in)",
     "Add": "Hinzufügen",
@@ -1069,6 +1069,8 @@
     "PluginInstalledMessage": "Das Plugin wurde erfolgreich installiert. Der Jellyfin-Server muss neu gestartet werden, um die Änderungen zu übernehmen.",
     "PreferEmbeddedTitlesOverFileNames": "Bevorzuge eingebettete Titel vor Dateinamen",
     "PreferEmbeddedTitlesOverFileNamesHelp": "Das bestimmt den Standard Displaytitel wenn keine lokale oder Internetmetadaten verfügbar sind.",
+    "PreferEmbeddedEpisodeInfosOverFileNames": "Bevorzuge eingebettete Episodeninformationen vor Dateinamen",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Bevorzugt die in den Metadaten eingebetteten Episodeninformationen.",
     "PreferredNotRequired": "Bevorzugt, aber nicht benötigt",
     "Premieres": "Premieren",
     "Previous": "Vorheriges",
@@ -1491,5 +1493,6 @@
     "NoCreatedLibraries": "Sieht so aus als hättest du bis jetzt keine Bibliothek erstellt. {0}Möchtest du jetzt eine Bibliothek erstellen?{1}",
     "AllowFfmpegThrottling": "Transkodierung drosseln",
     "PlaybackErrorNoCompatibleStream": "Es gab ein Problem bei der Erkennung des Wiedergabeprofils des Clients und der Server sendet kein kompatibles Format.",
-    "AllowFfmpegThrottlingHelp": "Wenn eine Transkodierung oder ein Remux weit genug über die aktuelle Abspielposition fortgeschritten ist, pausiere sie sodass weniger Ressourcen verbraucht werden. Dies ist am nützlichsten, wenn wenig geskippt wird. Bei Wiedergabeproblemen sollte diese Option deaktiviert werden."
+    "AllowFfmpegThrottlingHelp": "Wenn eine Transkodierung oder ein Remux weit genug über die aktuelle Abspielposition fortgeschritten ist, pausiere sie sodass weniger Ressourcen verbraucht werden. Dies ist am nützlichsten, wenn wenig geskippt wird. Bei Wiedergabeproblemen sollte diese Option deaktiviert werden.",
+    "ClientSettings": "Client Einstellungen"
 }

@@ -7,6 +7,7 @@
   "devDependencies": {
     "@babel/core": "^7.8.6",
     "@babel/polyfill": "^7.8.7",
+    "@babel/plugin-transform-modules-amd": "^7.8.3",
     "@babel/preset-env": "^7.8.6",
     "autoprefixer": "^9.7.4",
     "babel-loader": "^8.0.6",
@@ -58,10 +59,10 @@
     "jquery": "^3.4.1",
     "jstree": "^3.3.7",
     "libass-wasm": "https://github.com/jellyfin/JavascriptSubtitlesOctopus",
-    "libjass": "^0.11.0",
     "material-design-icons-iconfont": "^5.0.1",
     "native-promise-only": "^0.8.0-a",
     "page": "^1.11.5",
+    "query-string": "^6.11.1",
     "resize-observer-polyfill": "^1.5.1",
     "shaka-player": "^2.5.9",
     "sortablejs": "^1.10.2",
@@ -70,9 +71,11 @@
     "whatwg-fetch": "^3.0.0"
   },
   "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ]
+    "presets": ["@babel/preset-env"],
+    "overrides": [{
+        "test": ["src/components/cardbuilder/cardBuilder.js"],
+        "plugins": ["@babel/plugin-transform-modules-amd"]
+    }]
   },
   "browserslist": [
     "last 2 Firefox versions",

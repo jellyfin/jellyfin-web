@@ -16,6 +16,12 @@ _define("fetch", function() {
     return fetch
 });
 
+// query-string
+var query = require("query-string");
+_define("queryString", function() {
+    return query;
+});
+
 // flvjs
 var flvjs = require("flv.js/dist/flv").default;
 _define("flvjs", function() {
@@ -75,14 +81,7 @@ _define("sortable", function() {
 // webcomponents
 var webcomponents = require("webcomponents.js/webcomponents-lite");
 _define("webcomponents", function() {
-    return webcomponents
-});
-
-// libjass
-var libjass = require("libjass");
-require("libjass/libjass.css");
-_define("libjass", function() {
-    return libjass;
+    return webcomponents;
 });
 
 // libass-wasm
@@ -97,11 +96,10 @@ _define("material-icons", function() {
     return material_icons;
 });
 
-// Noto Sans
-
-var jellyfin_noto = require("jellyfin-noto");
+// noto font
+var noto = require("jellyfin-noto");
 _define("jellyfin-noto", function () {
-    return jellyfin_noto;
+    return noto;
 });
 
 // page.js
