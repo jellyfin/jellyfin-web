@@ -1140,11 +1140,12 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 }
 
 .trackSelections .selectContainer {
-    margin: 0 0 0.15em !important;
+    margin: 0 0 0.3em !important;
 }
 
 .detailsGroupItem .label,
 .trackSelections .selectContainer .selectLabel {
+    cursor: default;
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: 6.25em;

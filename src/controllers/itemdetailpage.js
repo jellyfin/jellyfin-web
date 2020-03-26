@@ -703,18 +703,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
     }
 
-    function renderUserInfo(page, item) {
-        var lastPlayedElement = page.querySelector(".itemLastPlayed");
-
-        if (item.UserData && item.UserData.LastPlayedDate) {
-            lastPlayedElement.classList.remove("hide");
-            var datePlayed = datetime.parseISO8601Date(item.UserData.LastPlayedDate);
-            lastPlayedElement.innerHTML = globalize.translate("DatePlayed") + ": " + datetime.toLocaleDateString(datePlayed) + " " + datetime.getDisplayTime(datePlayed);
-        } else {
-            lastPlayedElement.classList.add("hide");
-        }
-    }
-
     function renderLinks(linksElem, item) {
         var html = [];
 
@@ -1123,7 +1111,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
 
         reloadUserDataButtons(page, item);
         renderLinks(externalLinksElem, item);
-        renderUserInfo(page, item);
         renderTags(page, item);
         renderSeriesAirTime(page, item, isStatic);
     }
