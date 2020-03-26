@@ -619,6 +619,7 @@ var AppInfo = {};
                 }
 
                 require(["mediaSession", "serverNotifications"]);
+                require(["date-fns", "date-fns/locale"]);
 
                 if (!browser.tv && !browser.xboxOne) {
                     require(["components/playback/playbackorientation"]);
@@ -738,6 +739,7 @@ var AppInfo = {};
                     "webcomponents",
                     "material-icons",
                     "jellyfin-noto",
+                    "date-fns",
                     "page",
                     "polyfill"
                 ]

@@ -1,4 +1,5 @@
-define(["jQuery", "loading", "events", "globalize", "serverNotifications", "humanedate", "listViewStyle", "emby-button"], function($, loading, events, globalize, serverNotifications) {
+import { es } from 'date-fns/locale'
+define(["jQuery", "loading", "events", "globalize", "serverNotifications", "date-fns", "listViewStyle", "emby-button"], function($, loading, events, globalize, serverNotifications, datefns) {
     "use strict";
 
     function reloadList(page) {
@@ -66,7 +67,8 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
         var html = "";
         if (task.State === "Idle") {
             if (task.LastExecutionResult) {
-                html += globalize.translate("LabelScheduledTaskLastRan", humaneDate(task.LastExecutionResult.EndTimeUtc), humaneElapsed(task.LastExecutionResult.StartTimeUtc, task.LastExecutionResult.EndTimeUtc));
+                html += globalize.translate("LabelScheduledTaskLastRan", datefns.formatDistanceToNow(Date.parse(task.LastExecutionResult.EndTimeUtc), { addSuffix: true, locale: es }),
+                    datefns.formatDistance(Date.parse(task.LastExecutionResult.StartTimeUtc), Date.parse(task.LastExecutionResult.EndTimeUtc), { addSuffix: false, locale: es }));
                 if (task.LastExecutionResult.Status === "Failed") {
                     html += " <span style='color:#FF0000;'>(" + globalize.translate("LabelFailed") + ")</span>";
                 } else if (task.LastExecutionResult.Status === "Cancelled") {
