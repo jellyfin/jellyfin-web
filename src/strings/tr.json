@@ -649,7 +649,7 @@
     "LabelAudioSampleRate": "Ses örnekleme hızı:",
     "LabelAudioCodec": "Ses kodeği:",
     "LabelAudioChannels": "Ses kanalları:",
-    "LabelAudio": "Ses:",
+    "LabelAudio": "Ses",
     "LabelAppName": "Uygulama adı",
     "LabelAllowHWTranscoding": "Donanım kod dönüştürmesine izin ver",
     "LabelAll": "Tümü",
