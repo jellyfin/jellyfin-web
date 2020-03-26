@@ -55,7 +55,7 @@
     height: 1.83em;
     margin: 0;
     overflow: hidden;
-    border: 2px solid currentcolor;
+    border: 0.14em solid currentcolor;
     border-radius: 0.14em;
     z-index: 2;
     display: flex;
