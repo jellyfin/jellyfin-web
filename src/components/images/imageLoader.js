@@ -1,4 +1,4 @@
-define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings', 'userSettings', 'require', 'css!./style'], function (lazyLoader, imageFetcher, layoutManager, browser, appSettings, userSettings, require) {
+define(['lazyLoader', 'imageFetcher', 'blurhash', 'layoutManager', 'browser', 'appSettings', 'userSettings', 'require', 'css!./style'], function (lazyLoader, imageFetcher, blurhash, layoutManager, browser, appSettings, userSettings, require) {
     'use strict';
 
     var requestIdleCallback = window.requestIdleCallback || function (fn) {
@@ -7,7 +7,7 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
 
     var self = {};
 
-    function fillImage(elem, source, enableEffects) {
+    function fillImage(elem, source, enableEffects, onlyBlurhash) {
 
         if (!elem) {
             throw new Error('elem cannot be null');
@@ -20,6 +20,37 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
         if (!source) {
             return;
         }
+
+        try {
+            var blurHash = elem.getAttribute("data-blurhash");
+            if (blurHash && blurhash.isBlurhashValid(blurHash)) {
+                var width = 85; // TODO: get correct dimensions
+                var height = 128;
+
+                var pixels = blurhash.decode(blurHash, width, height);
+
+                if (!self.canvas || !self.ctx) {
+                    var canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    self.canvas = canvas;
+                    self.ctx = canvas.getContext('2d');
+                }
+
+                var ctx = self.ctx;
+                var imageData = ctx.createImageData(width, height);
+                imageData.data.set(pixels);
+                ctx.putImageData(imageData, 0, 0);
+                var uri = self.canvas.toDataURL();
+                elem.style.backgroundImage = "url('" + uri + "')";
+                enableEffects = false;
+            }
+        } catch (e) {
+            console.log("blurhash load failed: " + e.toString());
+        }
+
+        if (onlyBlurhash) return;
 
         fillImageElement(elem, source, enableEffects);
     }
@@ -46,6 +77,12 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
     function lazyChildren(elem) {
 
         lazyLoader.lazyChildren(elem, fillImage);
+
+        // preload all blurhashes, since lazy-loading always lags behind a bit
+        var children = elem.getElementsByTagName('*');
+        for (var i = 0; i < children.length; i++) {
+            fillImage(children[i], null, false, true);
+        }
     }
 
     function getPrimaryImageAspectRatio(items) {

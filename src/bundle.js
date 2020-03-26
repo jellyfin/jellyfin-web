@@ -4,6 +4,12 @@
 // Use define from require.js not webpack's define
 var _define = window.define;
 
+// blurhash
+var blurhash = require("blurhash");
+_define("blurhash", function() {
+    return blurhash;
+});
+
 // document-register-element
 var docRegister = require("document-register-element");
 _define("document-register-element", function() {

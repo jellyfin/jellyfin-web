@@ -70,7 +70,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
     function getImageUrl(item, width) {
 
         var apiClient = connectionManager.getApiClient(item.ServerId);
-
+        var blurHash = null;
         var options = {
             maxWidth: width * 2,
             type: "Primary"
@@ -79,22 +79,26 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         if (item.ImageTags && item.ImageTags.Primary) {
 
             options.tag = item.ImageTags.Primary;
-            return apiClient.getScaledImageUrl(item.Id, options);
+            blurHash = item.ImageHashes[item.ImageTags.Primary];
+            return {url: apiClient.getScaledImageUrl(item.Id, options), blurHash: blurHash};
         }
 
         if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
             options.tag = item.AlbumPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.AlbumId, options);
+            blurHash = item.ImageHashes[item.AlbumPrimaryImageTag];
+            return {url: apiClient.getScaledImageUrl(item.AlbumId, options), blurHash: blurHash};
         } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
 
             options.tag = item.SeriesPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.SeriesId, options);
+            blurHash = item.ImageHashes[item.SeriesPrimaryImageTag];
+            return {url: apiClient.getScaledImageUrl(item.SeriesId, options), blurHash: blurHash};
 
         } else if (item.ParentPrimaryImageTag) {
 
             options.tag = item.ParentPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, options);
+            blurHash = item.ImageHashes[item.ParentPrimaryImageTag];
+            return {url: apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, options), blurHash: blurHash};
         }
 
         return null;
@@ -112,7 +116,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         if (item.ChannelId && item.ChannelPrimaryImageTag) {
 
             options.tag = item.ChannelPrimaryImageTag;
-            return apiClient.getScaledImageUrl(item.ChannelId, options);
+            blurHash = item.ImageHashes[item.ChannelPrimaryImageTag];
+            return {url: apiClient.getScaledImageUrl(item.ChannelId, options), blurHash: blurHash};
         }
 
         return null;
@@ -268,7 +273,10 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
 
             if (options.image !== false) {
-                var imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
+                var imgData = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
+                var imgUrl = imgData.url;
+                var blurHash = imgData.blurHash;
+
                 var imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
                 if (isLargeStyle && layoutManager.tv) {
@@ -283,8 +291,14 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                 var imageAction = playOnImageClick ? 'resume' : action;
 
+                var blurHashAttrib = '';
+                if (blurHash && blurHash.length > 0) {
+                    blurHashAttrib = 'data-blurhash="' + blurHash + '"'
+                }
+
+
                 if (imgUrl) {
-                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
+                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" ' + blurHashAttrib + ' item-icon>';
                 } else {
                     html += '<div class="' + imageClass + '">';
                 }

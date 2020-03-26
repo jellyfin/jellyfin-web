@@ -505,6 +505,11 @@ import 'programStyles';
             let imgUrl = null;
             let coverImage = false;
             let uiAspect = null;
+            let blurHash = null;
+
+            var imageItem = item.ProgramInfo || item;
+            item = imageItem;
+
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
 
@@ -514,6 +519,7 @@ import 'programStyles';
                     tag: item.ImageTags.Thumb
                 });
 
+                blurHash = item.ImageHashes[item.ImageTags.Thumb];
             } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -522,6 +528,7 @@ import 'programStyles';
                     tag: item.ImageTags.Banner
                 });
 
+                blurHash = item.ImageHashes[item.ImageTags.Banner];
             } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -530,6 +537,7 @@ import 'programStyles';
                     tag: item.ImageTags.Disc
                 });
 
+                blurHash = item.ImageHashes[item.ImageTags.Disc];
             } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -538,6 +546,7 @@ import 'programStyles';
                     tag: item.ImageTags.Logo
                 });
 
+                blurHash = item.ImageHashes[item.ImageTags.Logo];
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
@@ -546,6 +555,7 @@ import 'programStyles';
                     tag: item.ParentLogoImageTag
                 });
 
+                blurHash = item.ImageHashes[item.ParentLogoImageTag];
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
@@ -554,6 +564,7 @@ import 'programStyles';
                     tag: item.SeriesThumbImageTag
                 });
 
+                blurHash = item.ImageHashes[item.SeriesThumbImageTag];
             } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
@@ -562,6 +573,7 @@ import 'programStyles';
                     tag: item.ParentThumbImageTag
                 });
 
+                blurHash = item.ImageHashes[item.ImageTags.ParentThumbImageTag];
             } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -572,6 +584,7 @@ import 'programStyles';
 
                 forceName = true;
 
+                blurHash = item.ImageHashes[item.BackdropImageTags[0]];
             } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
@@ -580,6 +593,7 @@ import 'programStyles';
                     tag: item.ParentBackdropImageTags[0]
                 });
 
+                blurHash = item.ImageHashes[item.ParentBackdropImageTags[0]];
             } else if (item.ImageTags && item.ImageTags.Primary) {
 
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
@@ -590,6 +604,8 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ImageTags.Primary
                 });
+
+                blurHash = item.ImageHashes[item.ImageTags.Primary];
 
                 if (options.preferThumb && options.showTitle !== false) {
                     forceName = true;
@@ -613,6 +629,8 @@ import 'programStyles';
                     tag: item.PrimaryImageTag
                 });
 
+                blurHash = item.ImageHashes[item.PrimaryImageTag];
+
                 if (options.preferThumb && options.showTitle !== false) {
                     forceName = true;
                 }
@@ -630,6 +648,8 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ParentPrimaryImageTag
                 });
+
+                blurHash = item.ImageHashes[item.ParentPrimaryImageTag];
             } else if (item.SeriesPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
@@ -637,6 +657,8 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.SeriesPrimaryImageTag
                 });
+
+                blurHash = item.ImageHashes[item.SeriesPrimaryImageTag];
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
@@ -647,6 +669,8 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.AlbumPrimaryImageTag
                 });
+
+                blurHash = item.ImageHashes[item.AlbumPrimaryImageTag];
 
                 if (primaryImageAspectRatio) {
                     uiAspect = getDesiredAspect(shape);
@@ -662,6 +686,8 @@ import 'programStyles';
                     tag: item.ImageTags.Thumb
                 });
 
+                blurHash = item.ImageHashes[item.ImageTags.Thumb];
+
             } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -669,6 +695,8 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.BackdropImageTags[0]
                 });
+
+                blurHash = item.ImageHashes[item.BackdropImageTags[0]];
 
             } else if (item.ImageTags && item.ImageTags.Thumb) {
 
@@ -678,6 +706,8 @@ import 'programStyles';
                     tag: item.ImageTags.Thumb
                 });
 
+                blurHash = item.ImageHashes[item.ImageTags.Thumb];
+
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
@@ -685,6 +715,8 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.SeriesThumbImageTag
                 });
+
+                blurHash = item.ImageHashes[item.SeriesThumbImageTag];
 
             } else if (item.ParentThumbItemId && options.inheritThumb !== false) {
 
@@ -694,6 +726,8 @@ import 'programStyles';
                     tag: item.ParentThumbImageTag
                 });
 
+                blurHash = item.ImageHashes[item.ParentThumbImageTag];
+
             } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
@@ -702,10 +736,13 @@ import 'programStyles';
                     tag: item.ParentBackdropImageTags[0]
                 });
 
+                blurHash = item.ImageHashes[item.ParentBackdropImageTags];
+
             }
 
             return {
                 imgUrl: imgUrl,
+                blurHash: blurHash,
                 forceName: forceName,
                 coverImage: coverImage
             };
@@ -1325,6 +1362,7 @@ import 'programStyles';
 
             const imgInfo = getCardImageUrl(item, apiClient, options, shape);
             const imgUrl = imgInfo.imgUrl;
+            const blurHash = imgInfo.blurHash;
 
             const forceName = imgInfo.forceName;
 
@@ -1438,6 +1476,12 @@ import 'programStyles';
                 className += ' groupedCard';
             }
 
+            var blurHashAttrib = '';
+            if (blurHash && blurHash.length > 0) {
+                blurHashAttrib = 'data-blurhash="' + blurHash + '"'
+            }
+
+
             // cardBox can be it's own separate element if an outer footer is ever needed
             let cardImageContainerOpen;
             let cardImageContainerClose = '';
@@ -1452,12 +1496,12 @@ import 'programStyles';
             if (layoutManager.tv) {
 
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
+                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '" ' + blurHashAttrib + '>') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
 
                 cardImageContainerClose = '</div>';
             } else {
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '">') : ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
+                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurHashAttrib + '>') : ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
 
                 cardImageContainerClose = '</button>';
             }
