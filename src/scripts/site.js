@@ -6,7 +6,7 @@ function getWindowLocationSearch(win) {
     if (!search) {
         var index = window.location.href.indexOf("?");
 
-        if (-1 != index) {
+        if (index !== -1) {
             search = window.location.href.substring(index);
         }
     }
@@ -73,7 +73,7 @@ var Dashboard = {
         var urlLower = window.location.href.toLowerCase();
         var index = urlLower.lastIndexOf("/web");
 
-        if (-1 != index) {
+        if (index !== -1) {
             return urlLower.substring(0, index);
         }
 
@@ -155,7 +155,8 @@ var Dashboard = {
             toast(Globalize.translate("MessageSettingsSaved"));
         });
     },
-    processServerConfigurationUpdateResult: function (result) {
+    processServerConfigurationUpdateResult: function () {
+        console.error(result);
         require(["loading", "toast"], function (loading, toast) {
             loading.hide();
             toast(Globalize.translate("MessageSettingsSaved"));
@@ -220,7 +221,7 @@ var Dashboard = {
             SupportsMediaControl: true
         };
         appHost.getPushTokenInfo();
-        return capabilities = Object.assign(capabilities, appHost.getPushTokenInfo());
+        return Object.assign(capabilities, appHost.getPushTokenInfo());
     },
     selectServer: function () {
         if (window.NativeShell && typeof window.NativeShell.selectServer === "function") {
@@ -308,10 +309,6 @@ var AppInfo = {};
                 return Promise.resolve();
             });
         });
-    }
-
-    function returnFirstDependency(obj) {
-        return obj;
     }
 
     function onRequireJsError(requireType, requireModules) {
@@ -589,7 +586,7 @@ var AppInfo = {};
 
     function onGlobalizeInit(browser) {
         if ("android" === self.appMode) {
-            if (-1 !== self.location.href.toString().toLowerCase().indexOf("start=backgroundsync")) {
+            if (self.location.href.toString().toLowerCase().indexOf("start=backgroundsync") !== -1) {
                 return onAppReady(browser);
             }
         }
@@ -738,8 +735,7 @@ var AppInfo = {};
 
     initRequire();
 
-    function onWebComponentsReady(browser) {
-
+    function onWebComponentsReady() {
         if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
             AppInfo.isNativeApp = true;
         }
