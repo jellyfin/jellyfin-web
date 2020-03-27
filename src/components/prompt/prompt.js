@@ -4,7 +4,6 @@ define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize',
     function replaceAll(str, find, replace) {
         return str.split(find).join(replace);
     }
-<<<<<<< HEAD
 
     function setInputProperties(dlg, options) {
         var txtInput = dlg.querySelector('#txtInput');
@@ -120,6 +119,4 @@ define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize',
             });
         };
     }
-=======
->>>>>>> Correct linting errors
 });
