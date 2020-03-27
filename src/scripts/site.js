@@ -156,7 +156,6 @@ var Dashboard = {
         });
     },
     processServerConfigurationUpdateResult: function () {
-        console.error(result);
         require(["loading", "toast"], function (loading, toast) {
             loading.hide();
             toast(Globalize.translate("MessageSettingsSaved"));
