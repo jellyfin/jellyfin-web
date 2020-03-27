@@ -1327,5 +1327,6 @@
     "LabelAudioBitDepth": "Profundidade do bit de áudio:",
     "ClientSettings": "Configurações do Cliente",
     "AllowFfmpegThrottlingHelp": "Quando uma transcodificação ou remux se aproximar da posição atual de reprodução, pause o processo para que consuma menos recursos. Isso é mais útil ao assistir sem procurar com frequência. Desative isso se você tiver problemas de reprodução.",
-    "MySubtitles": "Minhas legendas"
+    "MySubtitles": "Minhas legendas",
+    "Name": "Nome"
 }
