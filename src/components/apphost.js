@@ -280,11 +280,11 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         //features.push("multiserver");
         features.push("screensaver");
 
-        if (!browser.orsay && !browser.tizen && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
+        if (!browser.orsay && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
             features.push("subtitleappearancesettings");
         }
 
-        if (!browser.orsay && !browser.tizen) {
+        if (!browser.orsay) {
             features.push("subtitleburnsettings");
         }
 
