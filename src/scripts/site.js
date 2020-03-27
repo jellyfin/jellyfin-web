@@ -485,7 +485,7 @@ var AppInfo = {};
             "apiClientResolver": "scripts/apiClientResolver",
             "serverNotifications": "components/serverNotifications",
             "keyboardnavigation": "components/input/keyboardnavigation",
-            "mouseManager": "components//input/mouseManager"
+            "mouseManager": "components/input/mouseManager"
         };
 
         requirejs.onError = onRequireJsError;
