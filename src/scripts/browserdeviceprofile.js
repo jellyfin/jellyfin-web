@@ -355,6 +355,31 @@ define(['browser'], function (browser) {
         // Not sure how to test for this
         var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s;
 
+        // Get Tizen version & support
+        var getTizenVersion = self.tizen && self.tizen.systeminfo ? 
+            parseFloat(tizen.systeminfo.getCapability('http://tizen.org/feature/platform.version')) : null;
+
+        function getTizenSupport(feature, version, current) {
+            if (getTizenVersion) {
+                var version = parseFloat(version);
+                switch(feature) {
+                    case 'supportsDts':
+                        if (getTizenVersion >= version) {
+                            current = false;
+                        }
+                        break;
+                    case 'maxH264Level':
+                        if (getTizenVersion >= version) {
+                            current = 52;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return current;
+        }
+
         var maxVideoWidth = browser.xboxOne ?
             (self.screen ? self.screen.width : null) :
             null;
@@ -433,14 +458,8 @@ define(['browser'], function (browser) {
 
         var supportsDts = browser.tizen || browser.orsay || browser.web0s || options.supportsDts;
 
-        if (self.tizen && self.tizen.systeminfo) {
-            var v = tizen.systeminfo.getCapability('http://tizen.org/feature/platform.version');
-
-            // DTS audio not supported in 2018 models (Tizen 4.0)
-            if (v && parseFloat(v) >= parseFloat('4.0')) {
-                supportsDts = false;
-            }
-        }
+        // DTS audio not supported in 2018 models (Tizen 4.0)
+        supportsDts = getTizenSupport('supportsDts', '4.0', supportsDts);
 
         if (supportsDts) {
             videoAudioCodecs.push('dca');
@@ -765,6 +784,9 @@ define(['browser'], function (browser) {
             videoTestElement.canPlayType('video/mp4; codecs="avc1.640833"').replace(/no/, '')) {
             maxH264Level = 51;
         }
+
+        // Support H264 Level 52 (Tizen 5.0)
+        maxH264Level = getTizenSupport('maxH264Level', '5.0', maxH264Level);
 
         if (browser.tizen || browser.orsay ||
             videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, '')) {
