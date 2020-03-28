@@ -74,17 +74,17 @@ define([], function () {
     }
 
     function addEventListenerWithOptions(target, type, handler, options) {
-        var optionsOrCapture = options;
+        var optionsOrCapture = options || {};
         if (!supportsCaptureOption) {
-            optionsOrCapture = options.capture;
+            optionsOrCapture = optionsOrCapture.capture;
         }
         target.addEventListener(type, handler, optionsOrCapture);
     }
 
     function removeEventListenerWithOptions(target, type, handler, options) {
-        var optionsOrCapture = options;
+        var optionsOrCapture = options || {};
         if (!supportsCaptureOption) {
-            optionsOrCapture = options.capture;
+            optionsOrCapture = optionsOrCapture.capture;
         }
         target.removeEventListener(type, handler, optionsOrCapture);
     }

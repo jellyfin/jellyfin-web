@@ -355,39 +355,6 @@ var AppInfo = {};
         return headroom;
     }
 
-    function getCastSenderApiLoader() {
-        var ccLoaded = false;
-        return {
-            load: function () {
-                if (ccLoaded) {
-                    return Promise.resolve();
-                }
-
-                return new Promise(function (resolve, reject) {
-                    var fileref = document.createElement("script");
-                    fileref.setAttribute("type", "text/javascript");
-
-                    fileref.onload = function () {
-                        ccLoaded = true;
-                        resolve();
-                    };
-
-                    fileref.setAttribute("src", "https://www.gstatic.com/cv/js/sender/v1/cast_sender.js");
-                    document.querySelector("head").appendChild(fileref);
-                });
-            }
-        };
-    }
-
-    function getDummyCastSenderApiLoader() {
-        return {
-            load: function () {
-                window.chrome = window.chrome || {};
-                return Promise.resolve();
-            }
-        };
-    }
-
     function createSharedAppFooter(appFooter) {
         return new appFooter({});
     }
@@ -439,28 +406,16 @@ var AppInfo = {};
         defineResizeObserver();
         define("dialog", [componentsPath + "/dialog/dialog"], returnFirstDependency);
 
-        if (preferNativeAlerts && window.confirm) {
-            define("confirm", [componentsPath + "/confirm/nativeconfirm"], returnFirstDependency);
-        } else {
-            define("confirm", [componentsPath + "/confirm/confirm"], returnFirstDependency);
-        }
+        define("confirm", [componentsPath + "/confirm/confirm"], returnFirstDependency);
 
-        if ((preferNativeAlerts || browser.xboxOne) && window.confirm) {
-            define("prompt", [componentsPath + "/prompt/nativeprompt"], returnFirstDependency);
-        } else {
-            define("prompt", [componentsPath + "/prompt/prompt"], returnFirstDependency);
-        }
+        define("prompt", [componentsPath + "/prompt/prompt"], returnFirstDependency);
 
         define("loading", [componentsPath + "/loading/loading"], returnFirstDependency);
         define("multi-download", [componentsPath + "/multidownload"], returnFirstDependency);
         define("fileDownloader", [componentsPath + "/filedownloader"], returnFirstDependency);
         define("localassetmanager", [bowerPath + "/apiclient/localassetmanager"], returnFirstDependency);
 
-        if ("cordova" === self.appMode || "android" === self.appMode) {
-            define("castSenderApiLoader", [], getDummyCastSenderApiLoader);
-        } else {
-            define("castSenderApiLoader", [], getCastSenderApiLoader);
-        }
+        define("castSenderApiLoader", [componentsPath + "/castSenderApi"], returnFirstDependency);
 
         define("transfermanager", [bowerPath + "/apiclient/sync/transfermanager"], returnFirstDependency);
         define("filerepository", [bowerPath + "/apiclient/sync/filerepository"], returnFirstDependency);
@@ -735,7 +690,6 @@ var AppInfo = {};
                     "swiper",
                     "queryString",
                     "sortable",
-                    "libjass",
                     "webcomponents",
                     "material-icons",
                     "jellyfin-noto",

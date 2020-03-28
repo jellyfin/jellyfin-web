@@ -3253,7 +3253,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             // User clicked stop or content ended
             var state = self.getPlayerState(player);
-            var streamInfo = getPlayerData(player).streamInfo;
+            var data = getPlayerData(player);
+            var streamInfo = data.streamInfo;
 
             var nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
 
@@ -3301,6 +3302,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 showPlaybackInfoErrorMessage(self, displayErrorCode, nextItem);
             } else if (nextItem) {
                 self.nextTrack();
+            } else {
+                // Nothing more to play - clear data
+                data.streamInfo = null;
             }
         }
 
