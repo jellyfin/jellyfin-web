@@ -75,6 +75,7 @@
         "test": [
             "src/components/autoFocuser.js",
             "src/components/cardbuilder/cardBuilder.js",
+            "src/components/dom.js",
             "src/components/filedownloader.js",
             "src/components/filesystem.js",
             "src/components/input/keyboardnavigation.js",
