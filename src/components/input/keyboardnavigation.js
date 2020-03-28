@@ -1,3 +1,8 @@
+/**
+ * Module for performing keyboard navigation.
+ * @module components/input/keyboardnavigation
+ */
+
 import inputManager from "inputManager";
 import layoutManager from "layoutManager";
 
@@ -55,7 +60,7 @@ if (!hasFieldKey) {
 /**
  * Returns key name from event.
  *
- * @param {KeyboardEvent} event keyboard event
+ * @param {KeyboardEvent} event - keyboard event
  * @return {string} key name
  */
 export function getKeyName(event) {
@@ -65,7 +70,7 @@ export function getKeyName(event) {
 /**
  * Returns _true_ if key is used for navigation.
  *
- * @param {string} key name
+ * @param {string} key - key name
  * @return {boolean} _true_ if key is used for navigation
  */
 export function isNavigationKey(key) {
@@ -155,3 +160,9 @@ function attachGamepadScript(e) {
 
 // No need to check for gamepads manually at load time, the eventhandler will be fired for that
 window.addEventListener("gamepadconnected", attachGamepadScript);
+
+export default {
+    enable: enable,
+    getKeyName: getKeyName,
+    isNavigationKey: isNavigationKey
+};
