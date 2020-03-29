@@ -258,14 +258,14 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
 
             html += "<div>";
             html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
-            html += "<p>" + Globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
+            html += "<p>" + globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
 
             if ("Video" == profile.Type) {
-                html += "<p>" + Globalize.translate("ValueVideoCodec").replace("{0}", profile.VideoCodec || allText) + "</p>";
-                html += "<p>" + Globalize.translate("ValueAudioCodec").replace("{0}", profile.AudioCodec || allText) + "</p>";
+                html += "<p>" + globalize.translate("ValueVideoCodec").replace("{0}", profile.VideoCodec || allText) + "</p>";
+                html += "<p>" + globalize.translate("ValueAudioCodec").replace("{0}", profile.AudioCodec || allText) + "</p>";
             } else {
                 if ("Audio" == profile.Type) {
-                    html += "<p>" + Globalize.translate("ValueCodec").replace("{0}", profile.AudioCodec || allText) + "</p>";
+                    html += "<p>" + globalize.translate("ValueCodec").replace("{0}", profile.AudioCodec || allText) + "</p>";
                 }
             }
 
@@ -319,14 +319,14 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
             html += "<div>";
             html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
             html += "<p>Protocol: " + (profile.Protocol || "Http") + "</p>";
-            html += "<p>" + Globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
+            html += "<p>" + globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
 
             if ("Video" == profile.Type) {
-                html += "<p>" + Globalize.translate("ValueVideoCodec").replace("{0}", profile.VideoCodec || allText) + "</p>";
-                html += "<p>" + Globalize.translate("ValueAudioCodec").replace("{0}", profile.AudioCodec || allText) + "</p>";
+                html += "<p>" + globalize.translate("ValueVideoCodec").replace("{0}", profile.VideoCodec || allText) + "</p>";
+                html += "<p>" + globalize.translate("ValueAudioCodec").replace("{0}", profile.AudioCodec || allText) + "</p>";
             } else {
                 if ("Audio" == profile.Type) {
-                    html += "<p>" + Globalize.translate("ValueCodec").replace("{0}", profile.AudioCodec || allText) + "</p>";
+                    html += "<p>" + globalize.translate("ValueCodec").replace("{0}", profile.AudioCodec || allText) + "</p>";
                 }
             }
 
@@ -404,11 +404,11 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
 
             html += "<div>";
             html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
-            html += "<p>" + Globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
+            html += "<p>" + globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
 
             if (profile.Conditions && profile.Conditions.length) {
                 html += "<p>";
-                html += Globalize.translate("ValueConditions").replace("{0}", profile.Conditions.map(function (c) {
+                html += globalize.translate("ValueConditions").replace("{0}", profile.Conditions.map(function (c) {
                     return c.Property;
                 }).join(", "));
                 html += "</p>";
@@ -476,11 +476,11 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
 
             html += "<div>";
             html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
-            html += "<p>" + Globalize.translate("ValueCodec").replace("{0}", profile.Codec || allText) + "</p>";
+            html += "<p>" + globalize.translate("ValueCodec").replace("{0}", profile.Codec || allText) + "</p>";
 
             if (profile.Conditions && profile.Conditions.length) {
                 html += "<p>";
-                html += Globalize.translate("ValueConditions").replace("{0}", profile.Conditions.map(function (c) {
+                html += globalize.translate("ValueConditions").replace("{0}", profile.Conditions.map(function (c) {
                     return c.Property;
                 }).join(", "));
                 html += "</p>";
@@ -547,20 +547,20 @@ define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-in
 
             html += "<div>";
             html += '<a is="emby-linkbutton" href="#" class="lnkEditSubProfile" data-profileindex="' + i + '">';
-            html += "<p>" + Globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
+            html += "<p>" + globalize.translate("ValueContainer").replace("{0}", profile.Container || allText) + "</p>";
 
             if ("Video" == profile.Type) {
-                html += "<p>" + Globalize.translate("ValueVideoCodec").replace("{0}", profile.VideoCodec || allText) + "</p>";
-                html += "<p>" + Globalize.translate("ValueAudioCodec").replace("{0}", profile.AudioCodec || allText) + "</p>";
+                html += "<p>" + globalize.translate("ValueVideoCodec").replace("{0}", profile.VideoCodec || allText) + "</p>";
+                html += "<p>" + globalize.translate("ValueAudioCodec").replace("{0}", profile.AudioCodec || allText) + "</p>";
             } else {
                 if ("Audio" == profile.Type) {
-                    html += "<p>" + Globalize.translate("ValueCodec").replace("{0}", profile.AudioCodec || allText) + "</p>";
+                    html += "<p>" + globalize.translate("ValueCodec").replace("{0}", profile.AudioCodec || allText) + "</p>";
                 }
             }
 
             if (profile.Conditions && profile.Conditions.length) {
                 html += "<p>";
-                html += Globalize.translate("ValueConditions").replace("{0}", profile.Conditions.map(function (c) {
+                html += globalize.translate("ValueConditions").replace("{0}", profile.Conditions.map(function (c) {
                     return c.Property;
                 }).join(", "));
                 html += "</p>";

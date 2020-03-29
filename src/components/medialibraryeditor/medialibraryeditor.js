@@ -213,7 +213,7 @@ define(["jQuery", "loading", "dialogHelper", "dom", "components/libraryoptionsed
                 dlg.classList.add("ui-body-a");
                 dlg.classList.add("background-theme-a");
                 dlg.classList.add("formDialog");
-                dlg.innerHTML = Globalize.translateDocument(template);
+                dlg.innerHTML = globalize.translateDocument(template);
                 dlg.querySelector(".formDialogHeaderTitle").innerHTML = options.library.Name;
                 initEditor(dlg, options);
                 dlg.addEventListener("close", onDialogClosed);

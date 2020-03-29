@@ -60,7 +60,7 @@ define(["dialogHelper", "datetime", "emby-select", "paper-icon-button-light", "f
                     });
                     dlg.classList.add("formDialog");
                     var html = "";
-                    html += Globalize.translateDocument(template);
+                    html += globalize.translateDocument(template);
                     dlg.innerHTML = html;
                     populateHours(dlg);
                     loadSchedule(dlg, options.schedule);

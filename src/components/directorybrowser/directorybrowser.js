@@ -89,7 +89,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
             var instruction = options.instruction ? options.instruction + "<br/><br/>" : "";
             html += '<div class="infoBanner" style="margin-bottom:1.5em;">';
             html += instruction;
-            html += Globalize.translate("MessageDirectoryPickerInstruction").replace("{0}", "<b>\\\\server</b>").replace("{1}", "<b>\\\\192.168.1.101</b>");
+            html += globalize.translate("MessageDirectoryPickerInstruction").replace("{0}", "<b>\\\\server</b>").replace("{1}", "<b>\\\\192.168.1.101</b>");
             if ("bsd" === systemInfo.OperatingSystem.toLowerCase()) {
                 html += "<br/>";
                 html += "<br/>";
