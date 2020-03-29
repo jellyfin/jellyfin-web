@@ -291,7 +291,7 @@ var AppInfo = {};
                     return require(["apiclient"], function (apiClientFactory) {
                         console.debug("creating ApiClient singleton");
 
-                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId());
+                        var apiClient = new apiClientModule.ApiClient(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId());
 
                         apiClient.enableAutomaticNetworking = false;
                         apiClient.manualAddressOnly = true;
@@ -355,7 +355,7 @@ var AppInfo = {};
     }
 
     function onRequireJsError(requireType, requireModules) {
-        console.error("RequireJS error: " + (requireType || "unknown") + ". Failed modules: " + (requireModules || []).join(","));
+        throw new Error("error loading " + requireModules);
     }
 
     function defineResizeObserver() {
@@ -383,8 +383,6 @@ var AppInfo = {};
 
         define("shell", [componentsPath + "/shell"], returnFirstDependency);
 
-        define("apiclient", [bowerPath + "/apiclient/apiclient"], returnFirstDependency);
-
         if ("registerElement" in document) {
             define("registerElement", []);
         } else if (browser.msie) {
@@ -409,13 +407,8 @@ var AppInfo = {};
         define("loading", [componentsPath + "/loading/loading"], returnFirstDependency);
         define("multi-download", [componentsPath + "/multidownload"], returnFirstDependency);
         define("fileDownloader", [componentsPath + "/filedownloader"], returnFirstDependency);
-        define("localassetmanager", [bowerPath + "/apiclient/localassetmanager"], returnFirstDependency);
 
         define("castSenderApiLoader", [componentsPath + "/castSenderApi"], returnFirstDependency);
-
-        define("transfermanager", [bowerPath + "/apiclient/sync/transfermanager"], returnFirstDependency);
-        define("filerepository", [bowerPath + "/apiclient/sync/filerepository"], returnFirstDependency);
-        define("localsync", [bowerPath + "/apiclient/sync/localsync"], returnFirstDependency);
     }
 
     function init() {
@@ -701,7 +694,12 @@ var AppInfo = {};
                     "intersection-observer",
                     "classlist-polyfill",
                     "screenfull",
-                    "headroom"
+                    "headroom",
+                    "events",
+                    "credentialprovider",
+                    "connectionManagerFactory",
+                    "appStorage",
+                    "apiclient"
                 ]
             },
             urlArgs: urlArgs,
@@ -747,17 +745,6 @@ var AppInfo = {};
         // TODO find a better way to do this
         define("appFooter", [componentsPath + "/appfooter/appfooter"], returnFirstDependency);
         define("appFooter-shared", ["appFooter"], createSharedAppFooter);
-
-        // TODO pull apiclient out of this repository
-        define('events', [bowerPath + "/apiclient/events"], returnFirstDependency);
-        define('credentialprovider', [bowerPath + "/apiclient/credentialprovider"], returnFirstDependency);
-        define('connectionManagerFactory', [bowerPath + "/apiclient/connectionmanager"], returnFirstDependency);
-        define('appStorage', [bowerPath + "/apiclient/appStorage"], returnFirstDependency);
-        define("serversync", [bowerPath + "/apiclient/sync/serversync"], returnFirstDependency);
-        define("multiserversync", [bowerPath + "/apiclient/sync/multiserversync"], returnFirstDependency);
-        define("mediasync", [bowerPath + "/apiclient/sync/mediasync"], returnFirstDependency);
-        define("itemrepository", [bowerPath + "/apiclient/sync/itemrepository"], returnFirstDependency);
-        define("useractionrepository", [bowerPath + "/apiclient/sync/useractionrepository"], returnFirstDependency);
 
         // TODO remove these libraries
         // all of these have been modified so we need to fix that first

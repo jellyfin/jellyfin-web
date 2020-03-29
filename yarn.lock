@@ -6542,6 +6542,10 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
+"jellyfin-apiclient@https://github.com/MrTimscampi/jellyfin-apiclient-javascript#jf-web-part2":
+  version "1.0.0"
+  resolved "https://github.com/MrTimscampi/jellyfin-apiclient-javascript#a98c2cf3e5aacde745b934210222dba7f96a1bc2"
+
 "jellyfin-noto@https://github.com/jellyfin/jellyfin-noto":
   version "1.0.2"
   resolved "https://github.com/jellyfin/jellyfin-noto#a441b179c833288fc372cadb408d32a76c5479f1"
