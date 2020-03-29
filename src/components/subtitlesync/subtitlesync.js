@@ -1,4 +1,4 @@
-define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitlesync'], function (playbackManager, template, css) {
+define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html', 'css!./subtitlesync'], function (playbackManager, layoutManager, template, css) {
     "use strict";
 
     var player;
@@ -10,12 +10,21 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
     function init(instance) {
 
         var parent = document.createElement('div');
+        document.body.appendChild(parent);
         parent.innerHTML = template;
 
         subtitleSyncSlider = parent.querySelector(".subtitleSyncSlider");
         subtitleSyncTextField = parent.querySelector(".subtitleSyncTextField");
         subtitleSyncCloseButton = parent.querySelector(".subtitleSync-closeButton");
         subtitleSyncContainer = parent.querySelector(".subtitleSyncContainer");
+
+        if (layoutManager.tv) {
+            subtitleSyncSlider.classList.add("focusable");
+            // HACK: Delay to give time for registered element attach (Firefox)
+            setTimeout(function () {
+                subtitleSyncSlider.enableKeyboardDragging();
+            }, 0);
+        }
 
         subtitleSyncContainer.classList.add("hide");
 
@@ -86,8 +95,6 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
             playbackManager.disableShowingSubtitleOffset(player);
             SubtitleSync.prototype.toggle("forceToHide");
         });
-
-        document.body.appendChild(parent);
 
         instance.element = parent;
     }
