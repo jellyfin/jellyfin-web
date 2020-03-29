@@ -382,7 +382,7 @@ a[data-role=button] {
 
 .emby-checkbox:checked + span + .checkboxOutline {
     background-color: #030322;
-    border: 2px solid rgb(72, 195, 200);
+    border: 0.14em solid rgb(72, 195, 200);
 }
 
 .emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-checked {
@@ -394,7 +394,7 @@ a[data-role=button] {
 }
 
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
-    border: 2px solid #ff77f1;
+    border: 0.14em solid #ff77f1;
 }
 
 .itemProgressBarForeground {
@@ -436,6 +436,15 @@ a[data-role=button] {
 .emby-button.show-focus:focus {
     background: #8ae9c1;
     color: #f8f8fe;
+}
+
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles svg .mdl-radio__outer-circle,
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles svg .mdl-radio__inner-circle {
+    color: #ff77f1;
+}
+
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles .mdl-radio__focus-circle {
+    background: #00a4dc;
 }
 
 .emby-tab-button {

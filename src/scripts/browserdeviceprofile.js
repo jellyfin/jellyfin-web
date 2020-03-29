@@ -214,6 +214,15 @@ define(['browser'], function (browser) {
                 break;
             case 'avi':
                 supported = browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
+                // New Samsung TV don't support XviD/DivX
+                // Explicitly add supported codecs to make other codecs be transcoded
+                if (browser.tizenVersion >= 4) {
+                    videoCodecs.push('h264');
+                    if (canPlayH265(videoTestElement, options)) {
+                        videoCodecs.push('h265');
+                        videoCodecs.push('hevc');
+                    }
+                }
                 break;
             case 'mpg':
             case 'mpeg':

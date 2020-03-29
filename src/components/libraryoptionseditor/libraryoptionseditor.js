@@ -396,6 +396,12 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             parent.querySelector(".chkEnableEmbeddedTitlesContainer").classList.remove("hide");
         }
 
+        if (contentType === "tvshows") {
+            parent.querySelector(".chkEnableEmbeddedEpisodeInfosContainer").classList.remove("hide");
+        } else {
+            parent.querySelector(".chkEnableEmbeddedEpisodeInfosContainer").classList.add("hide");
+        }
+
         return populateMetadataSettings(parent, contentType);
     }
 
@@ -493,6 +499,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             SeasonZeroDisplayName: parent.querySelector("#txtSeasonZeroName").value,
             AutomaticRefreshIntervalDays: parseInt(parent.querySelector("#selectAutoRefreshInterval").value),
             EnableEmbeddedTitles: parent.querySelector("#chkEnableEmbeddedTitles").checked,
+            EnableEmbeddedEpisodeInfos: parent.querySelector("#chkEnableEmbeddedEpisodeInfos").checked,
             SkipSubtitlesIfEmbeddedSubtitlesPresent: parent.querySelector("#chkSkipIfGraphicalSubsPresent").checked,
             SkipSubtitlesIfAudioTrackMatches: parent.querySelector("#chkSkipIfAudioTrackPresent").checked,
             SaveSubtitlesWithMedia: parent.querySelector("#chkSaveSubtitlesLocally").checked,
@@ -545,6 +552,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
         parent.querySelector("#chkImportMissingEpisodes").checked = options.ImportMissingEpisodes;
         parent.querySelector(".chkAutomaticallyGroupSeries").checked = options.EnableAutomaticSeriesGrouping;
         parent.querySelector("#chkEnableEmbeddedTitles").checked = options.EnableEmbeddedTitles;
+        parent.querySelector("#chkEnableEmbeddedEpisodeInfos").checked = options.EnableEmbeddedEpisodeInfos;
         parent.querySelector("#chkSkipIfGraphicalSubsPresent").checked = options.SkipSubtitlesIfEmbeddedSubtitlesPresent;
         parent.querySelector("#chkSaveSubtitlesLocally").checked = options.SaveSubtitlesWithMedia;
         parent.querySelector("#chkSkipIfAudioTrackPresent").checked = options.SkipSubtitlesIfAudioTrackMatches;
