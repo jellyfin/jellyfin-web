@@ -1,4 +1,4 @@
-define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicker", "listView", "cardBuilder", "emby-itemscontainer", "globalize"], function (loading, layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder, globalize) {
+define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicker", "listView", "cardBuilder", "globalize", "emby-itemscontainer"], function (loading, layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder, globalize) {
     "use strict";
 
     return function (view, params, tabContent, options) {

@@ -1,4 +1,4 @@
-define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionseditor/libraryoptionseditor", "emby-toggle", "emby-input", "emby-select", "paper-icon-button-light", "listViewStyle", "formDialogStyle", "emby-button", "flexStyles", "globalize"], function (loading, dialogHelper, dom, $, libraryoptionseditor, globalize) {
+define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionseditor/libraryoptionseditor", "globalize", "emby-toggle", "emby-input", "emby-select", "paper-icon-button-light", "listViewStyle", "formDialogStyle", "emby-button", "flexStyles"], function (loading, dialogHelper, dom, $, libraryoptionseditor, globalize) {
     "use strict";
 
     function onAddLibrary() {

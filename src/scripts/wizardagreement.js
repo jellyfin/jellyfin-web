@@ -1,4 +1,4 @@
-define(["dom", "emby-button", "globalize"], function (dom, globalize) {
+define(["dom", "globalize", "emby-button"], function (dom, globalize) {
     "use strict";
 
     function onSubmit(e) {

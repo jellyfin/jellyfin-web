@@ -1,4 +1,4 @@
-define(["datetime", "jQuery", "material-icons", "globalize"], function (datetime, $, globalize) {
+define(["datetime", "jQuery", "globalize", "material-icons"], function (datetime, $, globalize) {
     "use strict";
 
     function getNode(item, folderState, selected) {

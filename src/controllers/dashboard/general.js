@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emby-input", "emby-select", "emby-button", "globalize"], function ($, loading, globalize) {
+define(["jQuery", "loading", "globalize", "fnchecked", "emby-checkbox", "emby-textarea", "emby-input", "emby-select", "emby-button"], function ($, loading, globalize) {
     "use strict";
 
     function loadPage(page, config, languageOptions, systemInfo) {

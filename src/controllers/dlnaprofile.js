@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "fnchecked", "emby-select", "emby-button", "emby-input", "emby-checkbox", "listViewStyle", "emby-button", "globalize"], function ($, loading, globalize) {
+define(["jQuery", "loading", "globalize", "fnchecked", "emby-select", "emby-button", "emby-input", "emby-checkbox", "listViewStyle", "emby-button"], function ($, loading, globalize) {
     "use strict";
 
     function loadProfile(page) {

@@ -1,4 +1,4 @@
-define(["events", "userSettings", "serverNotifications", "connectionManager", "emby-button", "globalize"], function (events, userSettings, serverNotifications, connectionManager, globalize) {
+define(["events", "userSettings", "serverNotifications", "connectionManager", "globalize", "emby-button"], function (events, userSettings, serverNotifications, connectionManager, globalize) {
     "use strict";
 
     return function (options) {

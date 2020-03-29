@@ -1,4 +1,4 @@
-define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layoutManager", "browser", "cardStyle", "emby-checkbox", "globalize"], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, browser, globalize) {
+define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layoutManager", "browser", "globalize", "cardStyle", "emby-checkbox"], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, browser, globalize) {
     "use strict";
 
     var enableFocusTransform = !browser.slow && !browser.edge;

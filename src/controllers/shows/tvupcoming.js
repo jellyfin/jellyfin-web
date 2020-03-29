@@ -1,4 +1,4 @@
-define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder", "apphost", "imageLoader", "scrollStyles", "emby-itemscontainer", "globalize"], function (layoutManager, loading, datetime, libraryBrowser, cardBuilder, appHost, imageLoader, globalize) {
+define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder", "apphost", "imageLoader", "globalize", "scrollStyles", "emby-itemscontainer"], function (layoutManager, loading, datetime, libraryBrowser, cardBuilder, appHost, imageLoader, globalize) {
     "use strict";
 
     function getUpcomingPromise(context, params) {

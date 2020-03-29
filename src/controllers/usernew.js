@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "fnchecked", "emby-checkbox", "globalize"], function ($, loading, globalize) {
+define(["jQuery", "loading", "globalize", "fnchecked", "emby-checkbox"], function ($, loading, globalize) {
     "use strict";
 
     function loadMediaFolders(page, mediaFolders) {

@@ -1,4 +1,4 @@
-define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "dom", "userSettings", "cardBuilder", "playbackManager", "mainTabsManager", "scrollStyles", "emby-itemscontainer", "emby-button", "globalize"], function (events, inputManager, libraryMenu, layoutManager, loading, dom, userSettings, cardBuilder, playbackManager, mainTabsManager, globalize) {
+define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "dom", "userSettings", "cardBuilder", "playbackManager", "mainTabsManager", "globalize", "scrollStyles", "emby-itemscontainer", "emby-button"], function (events, inputManager, libraryMenu, layoutManager, loading, dom, userSettings, cardBuilder, playbackManager, mainTabsManager, globalize) {
     "use strict";
 
     function getTabs() {

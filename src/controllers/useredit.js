@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "libraryMenu", "fnchecked", "globalize"], function ($, loading, libraryMenu, globalize) {
+define(["jQuery", "loading", "libraryMenu", "globalize", "fnchecked"], function ($, loading, libraryMenu, globalize) {
     "use strict";
 
     function loadDeleteFolders(page, user, mediaFolders) {

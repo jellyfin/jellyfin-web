@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "emby-select", "emby-button", "flexStyles", "globalize"], function ($, loading, globalize) {
+define(["jQuery", "loading", "globalize", "emby-checkbox", "listViewStyle", "emby-input", "emby-select", "emby-button", "flexStyles"], function ($, loading, globalize) {
     "use strict";
 
     return function (page, providerId, options) {

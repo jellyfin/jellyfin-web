@@ -1,4 +1,4 @@
-define(["jQuery", "datetime", "loading", "libraryMenu", "listViewStyle", "paper-icon-button-light", "globalize"], function ($, datetime, loading, libraryMenu, globalize) {
+define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewStyle", "paper-icon-button-light"], function ($, datetime, loading, libraryMenu, globalize) {
     "use strict";
 
     function populateRatings(allParentalRatings, page) {

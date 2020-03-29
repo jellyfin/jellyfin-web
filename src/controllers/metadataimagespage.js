@@ -1,4 +1,4 @@
-define(["jQuery", "dom", "loading", "libraryMenu", "listViewStyle", "globalize"], function($, dom, loading, libraryMenu, globalize) {
+define(["jQuery", "dom", "loading", "libraryMenu", "globalize", "listViewStyle"], function($, dom, loading, libraryMenu, globalize) {
     "use strict";
 
     function populateLanguages(select) {

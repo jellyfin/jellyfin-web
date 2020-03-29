@@ -1,4 +1,4 @@
-define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "apphost", "emby-itemscontainer", "globalize"], function (layoutManager, playbackManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, appHost, globalize) {
+define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "apphost", "globalize", "emby-itemscontainer"], function (layoutManager, playbackManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, appHost, globalize) {
     "use strict";
 
     return function (view, params, tabContent) {

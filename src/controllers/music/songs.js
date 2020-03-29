@@ -1,4 +1,4 @@
-define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-itemscontainer", "globalize"], function (events, libraryBrowser, imageLoader, listView, loading, globalize) {
+define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "globalize", "emby-itemscontainer"], function (events, libraryBrowser, imageLoader, listView, loading, globalize) {
     "use strict";
 
     return function (view, params, tabContent) {

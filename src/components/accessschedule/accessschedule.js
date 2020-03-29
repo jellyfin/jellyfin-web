@@ -1,4 +1,4 @@
-define(["dialogHelper", "datetime", "emby-select", "paper-icon-button-light", "formDialogStyle", "globalize"], function (dialogHelper, datetime, globalize) {
+define(["dialogHelper", "datetime", "globalize", "emby-select", "paper-icon-button-light", "formDialogStyle"], function (dialogHelper, datetime, globalize) {
     "use strict";
 
     function getDisplayTime(hours) {

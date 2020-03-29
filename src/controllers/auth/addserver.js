@@ -1,4 +1,4 @@
-define(["appSettings", "loading", "browser", "emby-button", "globalize"], function(appSettings, loading, browser, globalize) {
+define(["appSettings", "loading", "browser", "globalize", "emby-button"], function(appSettings, loading, browser, globalize) {
     "use strict";
 
     function handleConnectionResult(page, result) {

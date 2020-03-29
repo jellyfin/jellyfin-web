@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "fnchecked", "emby-button", "globalize"], function ($, loading, globalize) {
+define(["jQuery", "loading", "globalize", "fnchecked", "emby-button"], function ($, loading, globalize) {
     "use strict";
 
     function loadPage(page, config) {
