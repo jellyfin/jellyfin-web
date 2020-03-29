@@ -1470,5 +1470,6 @@
     "NoCreatedLibraries": "Il semblerait que vous n'ayez créé aucune librairie. {0}Voulez-vous en créer une maintenant ?{1}",
     "PlaybackErrorNoCompatibleStream": "Problème de profil client, le serveur n’a pas pu envoyer un format média compatible.",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Préférer les informations intégrées aux noms de fichiers",
-    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Utilise les informations des métadonnées intégrées, si disponible."
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Utilise les informations des métadonnées intégrées, si disponible.",
+    "ClientSettings": "Paramètres Client"
 }
