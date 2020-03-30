@@ -1474,5 +1474,6 @@
     "LabelDroppedFrames": "Frames perdidos:",
     "LabelCorruptedFrames": "Frames corruptos:",
     "AskAdminToCreateLibrary": "Solo un administrador puede crear librerías.",
-    "AllowFfmpegThrottling": "Acelerar transcodificación"
+    "AllowFfmpegThrottling": "Acelerar transcodificación",
+    "ClientSettings": "Ajustes de cliente"
 }
