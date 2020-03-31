@@ -7,10 +7,10 @@
 
     /**
      * Returns parent of element with specified attribute value.
-     * @param {HTMLElement} elem - element whose parent need to find
-     * @param {string} name - attribute name
-     * @param {mixed} value - attribute value
-     * @returns {HTMLElement} Parent with specified attribute value
+     * @param {HTMLElement} elem - Element whose parent need to find.
+     * @param {string} name - Attribute name.
+     * @param {mixed} value - Attribute value.
+     * @returns {HTMLElement} Parent with specified attribute value.
      */
     export function parentWithAttribute(elem, name, value) {
         while ((value ? elem.getAttribute(name) !== value : !elem.getAttribute(name))) {
@@ -26,9 +26,9 @@
 
     /**
      * Returns parent of element with one of specified tag names.
-     * @param {HTMLElement} elem - element whose parent need to find
-     * @param {(string|Array)} tagNames - tag name or array of tag names
-     * @returns {HTMLElement} Parent with one of specified tag names
+     * @param {HTMLElement} elem - Element whose parent need to find.
+     * @param {(string|Array)} tagNames - Tag name or array of tag names.
+     * @returns {HTMLElement} Parent with one of specified tag names.
      */
     export function parentWithTag(elem, tagNames) {
         // accept both string and array passed in
@@ -49,9 +49,9 @@
 
     /**
      * Returns _true_ if class list contains one of specified names.
-     * @param {DOMTokenList} classList - class list
-     * @param {Array} classNames - array of class names
-     * @returns {boolean} _true_ if class list contains one of specified names
+     * @param {DOMTokenList} classList - Class list.
+     * @param {Array} classNames - Array of class names.
+     * @returns {boolean} _true_ if class list contains one of specified names.
      */
     function containsAnyClass(classList, classNames) {
         for (let i = 0, length = classNames.length; i < length; i++) {
@@ -64,9 +64,9 @@
 
     /**
      * Returns parent of element with one of specified class names.
-     * @param {HTMLElement} elem - element whose parent need to find
-     * @param {(string|Array)} classNames - class name or array of class names
-     * @returns {HTMLElement} Parent with one of specified class names
+     * @param {HTMLElement} elem - Element whose parent need to find.
+     * @param {(string|Array)} classNames - Class name or array of class names.
+     * @returns {HTMLElement} Parent with one of specified class names.
      */
     export function parentWithClass(elem, classNames) {
         // accept both string and array passed in
@@ -100,10 +100,10 @@
 
     /**
      * Adds event listener to specified target.
-     * @param {EventTarget} target - event target
-     * @param {string} type - event type
-     * @param {function} handler - event handler
-     * @param {Object} [options] - listener options
+     * @param {EventTarget} target - Event target.
+     * @param {string} type - Event type.
+     * @param {function} handler - Event handler.
+     * @param {Object} [options] - Listener options.
      */
     export function addEventListener(target, type, handler, options) {
         let optionsOrCapture = options || {};
@@ -115,10 +115,10 @@
 
     /**
      * Removes event listener from specified target.
-     * @param {EventTarget} target - event target
-     * @param {string} type - event type
-     * @param {function} handler - event handler
-     * @param {Object} [options] - listener options
+     * @param {EventTarget} target - Event target.
+     * @param {string} type - Event type.
+     * @param {function} handler - Event handler.
+     * @param {Object} [options] - Listener options.
      */
     export function removeEventListener(target, type, handler, options) {
         let optionsOrCapture = options || {};
@@ -147,7 +147,7 @@
 
     /**
      * Returns window size.
-     * @returns {Object} Window size
+     * @returns {Object} Window size.
      */
     export function getWindowSize() {
         if (!windowSize) {
@@ -173,7 +173,7 @@
 
     /**
      * Returns screen width.
-     * @returns {number} Screen width
+     * @returns {number} Screen width.
      */
     export function getScreenWidth() {
         let width = window.innerWidth;
@@ -197,7 +197,7 @@
 
     /**
      * Returns name of animation end event.
-     * @returns {string} Name of animation end event
+     * @returns {string} Name of animation end event.
      */
     export function whichAnimationEvent() {
         if (_animationEvent) {
@@ -224,7 +224,7 @@
 
     /**
      * Returns name of animation cancel event.
-     * @returns {string} Name of animation cancel event
+     * @returns {string} Name of animation cancel event.
      */
     export function whichAnimationCancelEvent() {
         return whichAnimationEvent().replace('animationend', 'animationcancel').replace('AnimationEnd', 'AnimationCancel');
@@ -237,7 +237,7 @@
 
     /**
      * Returns name of transition end event.
-     * @returns {string} Name of transition end event
+     * @returns {string} Name of transition end event.
      */
     export function whichTransitionEvent() {
         if (_transitionEvent) {

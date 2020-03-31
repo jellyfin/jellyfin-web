@@ -24,7 +24,7 @@ import layoutManager from "layoutManager";
      * Returns minimum vertical scroll.
      * Scroll less than that value will be zeroed.
      *
-     * @return {number} minimum vertical scroll
+     * @return {number} Minimum vertical scroll.
      */
     function minimumScrollY() {
         const topMenu = document.querySelector(".headerTop");
@@ -55,10 +55,10 @@ import layoutManager from "layoutManager";
     /**
      * Returns value clamped by range [min, max].
      *
-     * @param {number} value - clamped value
-     * @param {number} min - begining of range
-     * @param {number} max - ending of range
-     * @return {number} clamped value
+     * @param {number} value - Clamped value.
+     * @param {number} min - Begining of range.
+     * @param {number} max - Ending of range.
+     * @return {number} Clamped value.
      */
     function clamp(value, min, max) {
         return value <= min ? min : value >= max ? max : value;
@@ -68,11 +68,11 @@ import layoutManager from "layoutManager";
      * Returns the required delta to fit range 1 into range 2.
      * In case of range 1 is bigger than range 2 returns delta to fit most out of range part.
      *
-     * @param {number} begin1 - begining of range 1
-     * @param {number} end1 - ending of range 1
-     * @param {number} begin2 - begining of range 2
-     * @param {number} end2 - ending of range 2
-     * @return {number} delta: <0 move range1 to the left, >0 - to the right
+     * @param {number} begin1 - Begining of range 1.
+     * @param {number} end1 - Ending of range 1.
+     * @param {number} begin2 - Begining of range 2.
+     * @param {number} end2 - Ending of range 2.
+     * @return {number} Delta: <0 move range1 to the left, >0 - to the right.
      */
     function fitRange(begin1, end1, begin2, end2) {
         const delta1 = begin1 - begin2;
@@ -88,12 +88,20 @@ import layoutManager from "layoutManager";
     /**
      * Ease value.
      *
-     * @param {number} t - value in range [0, 1]
-     * @return {number} eased value in range [0, 1]
+     * @param {number} t - Value in range [0, 1].
+     * @return {number} Eased value in range [0, 1].
      */
     function ease(t) {
         return t*(2 - t); // easeOutQuad === ease-out
     }
+
+    /**
+     * @typedef {Object} Rect
+     * @property {number} left - X coordinate of top-left corner.
+     * @property {number} top - Y coordinate of top-left corner.
+     * @property {number} width - Width.
+     * @property {number} height - Height.
+     */
 
     /**
      * Document scroll wrapper helps to unify scrolling and fix issues of some browsers.
@@ -109,6 +117,10 @@ import layoutManager from "layoutManager";
      * Tizen 5 Browser/Native: scrolls documentElement (and window); has a document.scrollingElement
      */
     class DocumentScroller {
+        /**
+         * Horizontal scroll position.
+         * @type {number}
+         */
         get scrollLeft() {
             return window.pageXOffset;
         }
@@ -117,6 +129,10 @@ import layoutManager from "layoutManager";
             window.scroll(val, window.pageYOffset);
         }
 
+        /**
+         * Vertical scroll position.
+         * @type {number}
+         */
         get scrollTop() {
             return window.pageYOffset;
         }
@@ -125,22 +141,42 @@ import layoutManager from "layoutManager";
             window.scroll(window.pageXOffset, val);
         }
 
+        /**
+         * Horizontal scroll size (scroll width).
+         * @type {number}
+         */
         get scrollWidth() {
             return Math.max(document.documentElement.scrollWidth, document.body.scrollWidth);
         }
 
+        /**
+         * Vertical scroll size (scroll height).
+         * @type {number}
+         */
         get scrollHeight() {
             return Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
         }
 
+        /**
+         * Horizontal client size (client width).
+         * @type {number}
+         */
         get clientWidth() {
             return Math.min(document.documentElement.clientWidth, document.body.clientWidth);
         }
 
+        /**
+         * Vertical client size (client height).
+         * @type {number}
+         */
         get clientHeight() {
             return Math.min(document.documentElement.clientHeight, document.body.clientHeight);
         }
 
+        /**
+         * Returns bounding client rect.
+         * @return {Rect} Bounding client rect.
+         */
         getBoundingClientRect() {
             // Make valid viewport coordinates: documentElement.getBoundingClientRect returns rect of entire document relative to viewport
             return {
@@ -151,6 +187,10 @@ import layoutManager from "layoutManager";
             };
         }
 
+        /**
+         * Scrolls window.
+         * @param {...mixed} args See window.scrollTo.
+         */
         scrollTo() {
             window.scrollTo.apply(window, arguments);
         }
@@ -162,10 +202,11 @@ import layoutManager from "layoutManager";
     const documentScroller = new DocumentScroller();
 
     /**
-     * Returns parent element that can be scrolled. If no such, returns documentElement.
+     * Returns parent element that can be scrolled. If no such, returns document scroller.
      *
-     * @param {HTMLElement} element - element for which parent is being searched
-     * @param {boolean} vertical - search for vertical scrollable parent
+     * @param {HTMLElement} element - Element for which parent is being searched.
+     * @param {boolean} vertical - Search for vertical scrollable parent.
+     * @param {HTMLElement|DocumentScroller} Parent element that can be scrolled or document scroller.
      */
     function getScrollableParent(element, vertical) {
         if (element) {
@@ -197,17 +238,17 @@ import layoutManager from "layoutManager";
 
     /**
      * @typedef {Object} ScrollerData
-     * @property {number} scrollPos - current scroll position
-     * @property {number} scrollSize - scroll size
-     * @property {number} clientSize - client size
+     * @property {number} scrollPos - Current scroll position.
+     * @property {number} scrollSize - Scroll size.
+     * @property {number} clientSize - Client size.
      */
 
     /**
-     * Returns scroll data for specified orientation.
+     * Returns scroller data for specified orientation.
      *
-     * @param {HTMLElement} scroller - scroller
-     * @param {boolean} vertical - vertical scroll data
-     * @return {ScrollerData} scroll data
+     * @param {HTMLElement} scroller - Scroller.
+     * @param {boolean} vertical - Vertical scroller data.
+     * @return {ScrollerData} Scroller data.
      */
     function getScrollerData(scroller, vertical) {
         let data = {};
@@ -228,10 +269,10 @@ import layoutManager from "layoutManager";
     /**
      * Returns position of child of scroller for specified orientation.
      *
-     * @param {HTMLElement} scroller - scroller
-     * @param {HTMLElement} element - child of scroller
-     * @param {boolean} vertical - vertical scroll
-     * @return {number} child position
+     * @param {HTMLElement} scroller - Scroller.
+     * @param {HTMLElement} element - Child of scroller.
+     * @param {boolean} vertical - Vertical scroll.
+     * @return {number} Child position.
      */
     function getScrollerChildPos(scroller, element, vertical) {
         const elementRect = element.getBoundingClientRect();
@@ -247,11 +288,11 @@ import layoutManager from "layoutManager";
     /**
      * Returns scroll position for element.
      *
-     * @param {ScrollerData} scrollerData - scroller data
-     * @param {number} elementPos - child element position
-     * @param {number} elementSize - child element size
-     * @param {boolean} centered - scroll to center
-     * @return {number} scroll position
+     * @param {ScrollerData} scrollerData - Scroller data.
+     * @param {number} elementPos - Child element position.
+     * @param {number} elementSize - Child element size.
+     * @param {boolean} centered - Scroll to center.
+     * @return {number} Scroll position.
      */
     function calcScroll(scrollerData, elementPos, elementSize, centered) {
         const maxScroll = scrollerData.scrollSize - scrollerData.clientSize;
@@ -271,8 +312,8 @@ import layoutManager from "layoutManager";
     /**
      * Calls scrollTo function in proper way.
      *
-     * @param {HTMLElement} scroller - scroller
-     * @param {ScrollToOptions} options - scroll options
+     * @param {HTMLElement} scroller - Scroller.
+     * @param {ScrollToOptions} options - Scroll options.
      */
     function scrollToHelper(scroller, options) {
         if ("scrollTo" in scroller) {
@@ -296,11 +337,11 @@ import layoutManager from "layoutManager";
     /**
      * Performs built-in scroll.
      *
-     * @param {HTMLElement} xScroller - horizontal scroller
-     * @param {number} scrollX - horizontal coordinate
-     * @param {HTMLElement} yScroller - vertical scroller
-     * @param {number} scrollY - vertical coordinate
-     * @param {boolean} smooth - smooth scrolling
+     * @param {HTMLElement} xScroller - Horizontal scroller.
+     * @param {number} scrollX - Horizontal coordinate.
+     * @param {HTMLElement} yScroller - Vertical scroller.
+     * @param {number} scrollY - Vertical coordinate.
+     * @param {boolean} smooth - Smooth scrolling.
      */
     function builtinScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
         const scrollBehavior = smooth ? "smooth" : "instant";
@@ -313,6 +354,9 @@ import layoutManager from "layoutManager";
         }
     }
 
+    /**
+     * Requested frame for animated scroll.
+     */
     let scrollTimer;
 
     /**
@@ -326,10 +370,10 @@ import layoutManager from "layoutManager";
     /**
      * Performs animated scroll.
      *
-     * @param {HTMLElement} xScroller - horizontal scroller
-     * @param {number} scrollX - horizontal coordinate
-     * @param {HTMLElement} yScroller - vertical scroller
-     * @param {number} scrollY - vertical coordinate
+     * @param {HTMLElement} xScroller - Horizontal scroller.
+     * @param {number} scrollX - Horizontal coordinate.
+     * @param {HTMLElement} yScroller - Vertical scroller.
+     * @param {number} scrollY - Vertical coordinate.
      */
     function animateScroll(xScroller, scrollX, yScroller, scrollY) {
 
@@ -372,11 +416,11 @@ import layoutManager from "layoutManager";
     /**
      * Performs scroll.
      *
-     * @param {HTMLElement} xScroller - horizontal scroller
-     * @param {number} scrollX - horizontal coordinate
-     * @param {HTMLElement} yScroller - vertical scroller
-     * @param {number} scrollY - vertical coordinate
-     * @param {boolean} smooth - smooth scrolling
+     * @param {HTMLElement} xScroller - Horizontal scroller.
+     * @param {number} scrollX - Horizontal coordinate.
+     * @param {HTMLElement} yScroller - Vertical scroller.
+     * @param {number} scrollY - Vertical coordinate.
+     * @param {boolean} smooth - Smooth scrolling.
      */
     function doScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
 
@@ -420,9 +464,9 @@ import layoutManager from "layoutManager";
     /**
      * Scrolls the document to a given position.
      *
-     * @param {number} scrollX - horizontal coordinate
-     * @param {number} scrollY - vertical coordinate
-     * @param {boolean} [smooth=false] - smooth scrolling
+     * @param {number} scrollX - Horizontal coordinate.
+     * @param {number} scrollY - Vertical coordinate.
+     * @param {boolean} [smooth=false] - Smooth scrolling.
      */
     export function scrollTo(scrollX, scrollY, smooth) {
 
@@ -443,8 +487,8 @@ import layoutManager from "layoutManager";
     /**
      * Scrolls the document to a given element.
      *
-     * @param {HTMLElement} element - target element of scroll task
-     * @param {boolean} [smooth=false] - smooth scrolling
+     * @param {HTMLElement} element - Target element of scroll task.
+     * @param {boolean} [smooth=false] - Smooth scrolling.
      */
     export function scrollToElement(element, smooth) {
 

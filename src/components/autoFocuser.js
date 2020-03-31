@@ -21,7 +21,7 @@ import layoutManager from "layoutManager";
     }
 
     /**
-     * Start AutoFocuser
+     * Start AutoFocuser.
      */
     export function enable() {
         if (!isEnabled()) {
@@ -37,8 +37,8 @@ import layoutManager from "layoutManager";
 
     /**
      * Set focus on a suitable element, taking into account the previously selected.
-     * @param {HTMLElement} [container] - element to limit scope
-     * @returns {HTMLElement} focused element
+     * @param {HTMLElement} [container] - Element to limit scope.
+     * @returns {HTMLElement} Focused element.
      */
     export function autoFocus(container) {
         if (!isEnabled()) {
