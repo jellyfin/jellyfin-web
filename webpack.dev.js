@@ -9,7 +9,7 @@ module.exports = merge(common, {
         path: path.resolve(__dirname, "dist"),
         libraryTarget: "amd-require"
     },
-    devtool: '#inline-source-map',
+    devtool: 'inline-source-map',
     module: {
         rules: [
             {
