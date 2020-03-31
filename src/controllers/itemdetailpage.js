@@ -703,25 +703,8 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
     }
 
-    function renderUserInfo(page, item) {
-        var lastPlayedElement = page.querySelector(".itemLastPlayed");
-
-        if (item.UserData && item.UserData.LastPlayedDate) {
-            lastPlayedElement.classList.remove("hide");
-            var datePlayed = datetime.parseISO8601Date(item.UserData.LastPlayedDate);
-            lastPlayedElement.innerHTML = globalize.translate("DatePlayed") + ": " + datetime.toLocaleDateString(datePlayed) + " " + datetime.getDisplayTime(datePlayed);
-        } else {
-            lastPlayedElement.classList.add("hide");
-        }
-    }
-
     function renderLinks(linksElem, item) {
         var html = [];
-
-        if (item.DateCreated && itemHelper.enableDateAddedDisplay(item)) {
-            var dateCreated = datetime.parseISO8601Date(item.DateCreated);
-            html.push(globalize.translate("AddedOnValue", datetime.toLocaleDateString(dateCreated) + " " + datetime.getDisplayTime(dateCreated)));
-        }
 
         var links = [];
 
@@ -736,7 +719,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
 
         if (links.length) {
-            html.push(globalize.translate("LinksValue", links.join(", ")));
+            html.push(links.join(", "));
         }
 
         linksElem.innerHTML = html.join(", ");
@@ -1032,13 +1015,17 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 context: context
             }) + '">' + p.Name + "</a>";
         }).join(", ");
-        var elem = page.querySelector(".genres");
-        elem.innerHTML = globalize.translate(genres.length > 1 ? "GenresValue" : "GenreValue", html);
 
+        var genresLabel = page.querySelector(".genresLabel");
+        genresLabel.innerHTML = globalize.translate(genres.length > 1 ? "Genres" : "Genre");
+        var genresValue = page.querySelector(".genres");
+        genresValue.innerHTML = html;
+
+        var genresGroup = page.querySelector(".genresGroup");
         if (genres.length) {
-            elem.classList.remove("hide");
+            genresGroup.classList.remove("hide");
         } else {
-            elem.classList.add("hide");
+            genresGroup.classList.add("hide");
         }
     }
 
@@ -1056,13 +1043,17 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 context: context
             }) + '">' + p.Name + "</a>";
         }).join(", ");
-        var elem = page.querySelector(".directors");
-        elem.innerHTML = globalize.translate(directors.length > 1 ? "DirectorsValue" : "DirectorValue", html);
 
+        var directorsLabel = page.querySelector(".directorsLabel");
+        directorsLabel.innerHTML = globalize.translate(directors.length > 1 ? "Directors" : "Director");
+        var directorsValue = page.querySelector(".directors");
+        directorsValue.innerHTML = html;
+
+        var directorsGroup = page.querySelector(".directorsGroup");
         if (directors.length) {
-            elem.classList.remove("hide");
+            directorsGroup.classList.remove("hide");
         } else {
-            elem.classList.add("hide");
+            directorsGroup.classList.add("hide");
         }
     }
 
@@ -1120,7 +1111,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
 
         reloadUserDataButtons(page, item);
         renderLinks(externalLinksElem, item);
-        renderUserInfo(page, item);
         renderTags(page, item);
         renderSeriesAirTime(page, item, isStatic);
     }
