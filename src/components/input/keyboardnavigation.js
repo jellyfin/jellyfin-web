@@ -60,8 +60,8 @@ if (!hasFieldKey) {
 /**
  * Returns key name from event.
  *
- * @param {KeyboardEvent} event - keyboard event
- * @return {string} key name
+ * @param {KeyboardEvent} event - Keyboard event.
+ * @return {string} Key name.
  */
 export function getKeyName(event) {
     return KeyNames[event.keyCode] || event.key;
@@ -70,8 +70,8 @@ export function getKeyName(event) {
 /**
  * Returns _true_ if key is used for navigation.
  *
- * @param {string} key - key name
- * @return {boolean} _true_ if key is used for navigation
+ * @param {string} key - Key name.
+ * @return {boolean} _true_ if key is used for navigation.
  */
 export function isNavigationKey(key) {
     return NavigationKeys.indexOf(key) != -1;
