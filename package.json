@@ -82,7 +82,8 @@
           "src/components/filedownloader.js",
           "src/components/filesystem.js",
           "src/components/input/keyboardnavigation.js",
-          "src/components/sanatizefilename.js"
+          "src/components/sanatizefilename.js",
+          "src/scripts/settings/webSettings.js"
         ],
         "plugins": [
           "@babel/plugin-transform-modules-amd"

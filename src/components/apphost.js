@@ -278,9 +278,9 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
         features.push("targetblank");
         features.push("screensaver");
 
-        if (webSettings.enableMultiServer()) {
-            features.push("multiserver")
-        }
+        webSettings.enableMultiServer().then(enabled => {
+            if (enabled) features.push("multiserver")
+        })
 
         if (!browser.orsay && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
             features.push("subtitleappearancesettings");
