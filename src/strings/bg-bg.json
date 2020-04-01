@@ -10,7 +10,7 @@
     "All": "Всички",
     "AllLibraries": "Всички библиотеки",
     "Art": "Картина",
-    "Artists": "Изпълнители",
+    "Artists": "Артисти",
     "AttributeNew": "Нови",
     "Audio": "Звук",
     "Auto": "Автоматично",
@@ -839,5 +839,7 @@
     "LabelKodiMetadataSaveImagePathsHelp": "Препоръчително е ако имате изображения, пътят към които не е съобразен с изискванията на Коди.",
     "LabelKodiMetadataSaveImagePaths": "Записване на пътеките към изображенията в nfo файловете",
     "LabelChannels": "Канали:",
-    "DropShadow": "Сянка"
+    "DropShadow": "Сянка",
+    "Raised": "Повишено",
+    "OptionResElement": "рес. елемент"
 }
