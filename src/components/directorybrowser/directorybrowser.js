@@ -76,7 +76,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         html += name;
         html += "</div>";
         html += "</div>";
-        html += '<i class="material-icons" style="font-size:inherit;">arrow_forward</i>';
+        html += '<i class="material-icons arrow_forward" style="font-size:inherit;"></i>';
         html += "</div>";
         return html;
     }
@@ -265,7 +265,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
 
                     var html = "";
                     html += '<div class="formDialogHeader">';
-                    html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><i class="material-icons">arrow_back</i></button>';
+                    html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><i class="material-icons arrow_back"></i></button>';
                     html += '<h3 class="formDialogHeaderTitle">';
                     html += options.header || Globalize.translate("HeaderSelectPath");
                     html += "</h3>";

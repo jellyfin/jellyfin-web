@@ -72,7 +72,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
         var options = {
-            width: width,
+            maxWidth: width * 2,
             type: "Primary"
         };
 
@@ -105,7 +105,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
         var options = {
-            width: width,
+            maxWidth: width * 2,
             type: "Primary"
         };
 
@@ -262,14 +262,13 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
 
             if (!clickEntireItem && options.dragHandle) {
-                //html += '<button is="paper-icon-button-light" class="listViewDragHandle listItemButton"><i class="material-icons">drag_handle</i></button>';
+                //html += '<button is="paper-icon-button-light" class="listViewDragHandle listItemButton"><i class="material-icons drag_handle"></i></button>';
                 // Firefox and Edge are not allowing the button to be draggable
-                html += '<i class="listViewDragHandle material-icons listItemIcon listItemIcon-transparent">drag_handle</i>';
+                html += '<i class="listViewDragHandle material-icons listItemIcon listItemIcon-transparent drag_handle"></i>';
             }
 
             if (options.image !== false) {
                 var imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
-                console.log(imgUrl);
                 var imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
                 if (isLargeStyle && layoutManager.tv) {
@@ -298,7 +297,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
 
                 if (playOnImageClick) {
-                    html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><i class="material-icons listItemImageButton-icon">play_arrow</i></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><i class="material-icons listItemImageButton-icon play_arrow"></i></button>';
                 }
 
                 var progressHtml = indicators.getProgressBarHtml(item, {
@@ -427,7 +426,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             html += '<div class="' + cssClass + '">';
 
-            var moreIcon = 'more_horiz';
+            var moreIcon = '&#xE5D3;';
 
             html += getTextLinesHtml(textlines, isLargeStyle);
 
@@ -476,7 +475,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             if (!clickEntireItem) {
 
                 if (options.addToListButton) {
-                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><i class="material-icons">playlist_add</i></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><i class="material-icons playlist_add"></i></button>';
                 }
 
                 if (options.moreButton !== false) {
@@ -484,7 +483,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
 
                 if (options.infoButton) {
-                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><i class="material-icons">info_outline</i></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><i class="material-icons info_outline"></i></button>';
                 }
 
                 if (options.rightButtons) {

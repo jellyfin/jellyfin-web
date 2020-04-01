@@ -49,9 +49,9 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             html += "</a>";
             html += "</div>";
             if (task.State === "Running") {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStop") + '"><i class="material-icons">stop</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStop") + '"><i class="material-icons stop"></i></button>';
             } else if (task.State === "Idle") {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStart") + '"><i class="material-icons">play_arrow</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStart") + '"><i class="material-icons play_arrow"></i></button>';
             }
             html += "</div>";
         }
@@ -90,16 +90,22 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
         return html;
     }
 
+    function setTaskButtonIcon(button, icon) {
+        var inner = button.querySelector("i");
+        inner.classList.remove("stop", "play_arrow");
+        inner.classList.add(icon);
+    }
+
     function updateTaskButton(elem, state) {
         if (state === "Running") {
             elem.classList.remove("btnStartTask");
             elem.classList.add("btnStopTask");
-            elem.querySelector("i").innerHTML = "stop";
+            setTaskButtonIcon(elem, "stop");
             elem.title = globalize.translate("ButtonStop");
         } else if (state === "Idle") {
             elem.classList.add("btnStartTask");
             elem.classList.remove("btnStopTask");
-            elem.querySelector("i").innerHTML = "play_arrow";
+            setTaskButtonIcon(elem, "play_arrow");
             elem.title = globalize.translate("ButtonStart");
         }
         $(elem).parents(".listItem")[0].setAttribute("data-status", state);

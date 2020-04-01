@@ -33,6 +33,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
         var elem = document.createElement("div");
 
         var opts = Object.defineProperty({}, "behavior", {
+            // eslint-disable-next-line getter-return
             get: function () {
                 supportsScrollToOptions = true;
             }
@@ -40,7 +41,7 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
 
         elem.scrollTo(opts);
     } catch (e) {
-        console.log("error checking ScrollToOptions support");
+        console.error("error checking ScrollToOptions support");
     }
 
     /**
@@ -158,11 +159,22 @@ define(["dom", "browser", "layoutManager"], function (dom, browser, layoutManage
      */
     function getScrollableParent(element, vertical) {
         if (element) {
+            var nameScroll = "scrollWidth";
+            var nameClient = "clientWidth";
+            var nameClass = "scrollX";
+
+            if (vertical) {
+                nameScroll = "scrollHeight";
+                nameClient = "clientHeight";
+                nameClass = "scrollY";
+            }
+
             var parent = element.parentElement;
 
             while (parent) {
-                if ((!vertical && parent.scrollWidth > parent.clientWidth && parent.classList.contains("scrollX")) ||
-                    (vertical && parent.scrollHeight > parent.clientHeight && parent.classList.contains("scrollY"))) {
+                // Skip 'emby-scroller' because it scrolls by itself
+                if (!parent.classList.contains("emby-scroller") &&
+                    parent[nameScroll] > parent[nameClient] && parent.classList.contains(nameClass)) {
                     return parent;
                 }
 

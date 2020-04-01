@@ -80,6 +80,10 @@
     flex-shrink: 0;
 }
 
+.trackSelections > .selectContainer {
+    margin: 0.4em 0;
+}
+
 .emby-select-withcolor {
     -webkit-appearance: none;
     appearance: none;
@@ -105,7 +109,7 @@
 }
 
 .selectArrow {
-    margin-top: 0.35em;
+    margin-top: 1.2em;
     font-size: 1.7em;
 }
 

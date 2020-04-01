@@ -131,8 +131,9 @@ define(['events'], function (events) {
                 var links = [];
                 var match;
 
+                // eslint-disable-next-line no-cond-assign
                 while (match = linkRegExp.exec(text)) {
-                    // console.log(matches);
+                    console.debug(match);
                     var txt = match[0];
                     var pos = match.index;
                     var len = txt.length;
@@ -189,7 +190,7 @@ define(['events'], function (events) {
                 return apiClient.getPublicSystemInfo().then(function (info) {
                     var localAddress = info.LocalAddress
                     if (!localAddress) {
-                        console.log("No valid local address returned, defaulting to external one")
+                        console.debug("No valid local address returned, defaulting to external one")
                         localAddress = serverAddress;
                     }
                     addToCache(serverAddress, localAddress);

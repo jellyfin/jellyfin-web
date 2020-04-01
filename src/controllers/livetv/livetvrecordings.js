@@ -2,6 +2,10 @@ define(["layoutManager", "loading", "cardBuilder", "apphost", "imageLoader", "sc
     "use strict";
 
     function renderRecordings(elem, recordings, cardOptions, scrollX) {
+        if (!elem) {
+            return;
+        }
+
         if (recordings.length) {
             elem.classList.remove("hide");
         } else {

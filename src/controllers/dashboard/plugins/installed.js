@@ -54,7 +54,7 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
         html += "</div>";
         html += '<div class="cardFooter">';
         html += '<div style="text-align:right; float:right;padding-top:5px;">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="material-icons">more_horiz</i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="material-icons more_horiz"></i></button>';
         html += "</div>";
         html += "<div class='cardText'>";
         html += configPage ? configPage.DisplayName || plugin.Name : plugin.Name;
@@ -82,9 +82,11 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
 
             return -1;
         });
+
         var html = plugins.map(function (p) {
             return getPluginCardHtml(p, pluginConfigurationPages);
         }).join("");
+
         var installedPluginsElement = page.querySelector(".installedPlugins");
         installedPluginsElement.removeEventListener("click", onInstalledPluginsClick);
         installedPluginsElement.addEventListener("click", onInstalledPluginsClick);
@@ -93,8 +95,8 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
             installedPluginsElement.classList.add("itemsContainer");
             installedPluginsElement.classList.add("vertical-wrap");
         } else {
-            html += '<div style="padding:5px;">';
-            html += "<p>" + globalize.translate("MessageNoPluginsInstalled") + "</p>";
+            html += '<div class="centerMessage">';
+            html += "<h1>" + globalize.translate("MessageNoPluginsInstalled") + "</h1>";
             html += '<p><a is="emby-linkbutton" class="button-link" href="availableplugins.html">';
             html += globalize.translate("BrowsePluginCatalogMessage");
             html += "</a></p>";
@@ -135,9 +137,9 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
                         case "open":
                             Dashboard.navigate(configHref);
                             break;
-
                         case "delete":
                             deletePlugin(page, id, name);
+                            break;
                     }
                 }
             });
@@ -168,7 +170,6 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
             showConnectMessage();
         } else {
             var btnCardMenu = dom.parentWithClass(e.target, "btnCardMenu");
-
             if (btnCardMenu) {
                 showPluginMenu(dom.parentWithClass(btnCardMenu, "page"), btnCardMenu);
             }
@@ -179,6 +180,7 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
         libraryMenu.setTabs("plugins", 0, getTabs);
         reloadList(this);
     });
+
     window.PluginsPage = {
         renderPlugins: renderPlugins
     };

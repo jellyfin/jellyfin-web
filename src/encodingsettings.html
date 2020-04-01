@@ -20,7 +20,9 @@
                         <option value="vaapi">Video Acceleration API (VAAPI)</option>
                         <option value="h264_v4l2m2m">Exynos V4L2 MFC</option>
                     </select>
-                    <div class="fieldDescription">${LabelHardwareAccelerationTypeHelp}</div>
+                    <div class="fieldDescription">
+                        <a is="emby-linkbutton" class="button-link" href="https://docs.jellyfin.org/general/administration/hardware-acceleration.html" target="_blank">${LabelHardwareAccelerationTypeHelp}</a>
+                    </div>
                 </div>
 
                 <div class="inputContainer hide fldVaapiDevice">
@@ -140,6 +142,14 @@
                         <span>${AllowOnTheFlySubtitleExtraction}</span>
                     </label>
                     <div class="fieldDescription checkboxFieldDescription">${AllowOnTheFlySubtitleExtractionHelp}</div>
+                </div>
+
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkEnableThrottling" />
+                        <span>${AllowFfmpegThrottling}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${AllowFfmpegThrottlingHelp}</div>
                 </div>
 
                 <div>

@@ -178,6 +178,8 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
 
             if (layoutManager.tv) {
                 elem.classList.add("smoothScrollX");
+                elem.classList.add("padded-top-focusscale");
+                elem.classList.add("padded-bottom-focusscale");
             }
 
             elem.classList.add("scrollX");
@@ -201,7 +203,7 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
     function loadSuggestionsTab(view, params, tabContent) {
         var parentId = params.topParentId;
         var userId = ApiClient.getCurrentUserId();
-        console.log("loadSuggestionsTab");
+        console.debug("loadSuggestionsTab");
         loadResume(tabContent, userId, parentId);
         loadLatest(tabContent, userId, parentId);
         loadSuggestions(tabContent, userId, parentId);
