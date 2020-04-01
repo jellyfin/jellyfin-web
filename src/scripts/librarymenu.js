@@ -1,4 +1,4 @@
-define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, browser, globalize, imageHelper) {
+define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'syncplayManager', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, syncplayManager, browser, globalize, imageHelper) {
     'use strict';
 
     function renderHeader() {
@@ -12,6 +12,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         html += '</div>';
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
+        html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons sync_disabled"></span></button>';
         html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note"></span></button>';
         html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast"></span></button>';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search"></span></button>';
@@ -30,6 +31,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         headerCastButton = skinHeader.querySelector('.headerCastButton');
         headerAudioPlayerButton = skinHeader.querySelector('.headerAudioPlayerButton');
         headerSearchButton = skinHeader.querySelector('.headerSearchButton');
+        headerSyncButton = skinHeader.querySelector('.headerSyncButton');
 
         lazyLoadViewMenuBarImages();
         bindMenuEvents();
@@ -93,6 +95,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             }
         }
 
+        headerSyncButton.classList.remove("hide");
+
         requiresUserRefresh = false;
     }
 
@@ -147,6 +151,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
 
         headerAudioPlayerButton.addEventListener('click', showAudioPlayer);
+        headerSyncButton.addEventListener('click', onSyncButtonClicked);
 
         if (layoutManager.mobile) {
             initHeadRoom(skinHeader);
@@ -175,6 +180,32 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         require(['playerSelectionMenu'], function (playerSelectionMenu) {
             playerSelectionMenu.show(btn);
         });
+    }
+
+    function onSyncButtonClicked() {
+        var btn = this;
+
+        require(["groupSelectionMenu"], function (groupSelectionMenu) {
+            groupSelectionMenu.show(btn);
+        });
+    }
+
+    function updateSyncplayIcon(event, enabled) {
+        var icon = headerSyncButton.querySelector("i");
+        if (enabled) {
+            icon.innerHTML = "sync";
+        } else {
+            icon.innerHTML = "sync_disabled";
+        }
+    }
+
+    function updateSyncplayErrorIcon(event, show_error) {
+        var icon = headerSyncButton.querySelector("i");
+        if (show_error) {
+            icon.innerHTML = "sync_problem";
+        } else {
+            icon.innerHTML = "sync";
+        }
     }
 
     function getItemHref(item, context) {
@@ -799,6 +830,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     var headerCastButton;
     var headerSearchButton;
     var headerAudioPlayerButton;
+    var headerSyncButton;
     var enableLibraryNavDrawer = layoutManager.desktop;
     var skinHeader = document.querySelector('.skinHeader');
     var requiresUserRefresh = true;
@@ -931,6 +963,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         updateUserInHeader();
     });
     events.on(playbackManager, 'playerchange', updateCastIcon);
+    events.on(syncplayManager, 'SyncplayEnabled', updateSyncplayIcon);
+    events.on(syncplayManager, 'SyncplayError', updateSyncplayErrorIcon);
     loadNavDrawer();
     return LibraryMenu;
 });

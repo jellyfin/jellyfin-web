@@ -1,4 +1,4 @@
-define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focusManager', 'appRouter'], function (connectionManager, playbackManager, events, inputManager, focusManager, appRouter) {
+define(['connectionManager', 'playbackManager', 'syncplayManager', 'events', 'inputManager', 'focusManager', 'appRouter'], function (connectionManager, playbackManager, syncplayManager, events, inputManager, focusManager, appRouter) {
     'use strict';
 
     var serverNotifications = {};
@@ -187,6 +187,10 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                     events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
                 }
             }
+        } else if (msg.MessageType === "SyncplayCommand") {
+            syncplayManager.processCommand(msg.Data, apiClient);
+        } else if (msg.MessageType === "SyncplayGroupUpdate") {
+            syncplayManager.processGroupUpdate(msg.Data, apiClient);
         } else {
             events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
         }

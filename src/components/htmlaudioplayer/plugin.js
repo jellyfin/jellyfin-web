@@ -171,6 +171,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             elem.addEventListener('pause', onPause);
             elem.addEventListener('playing', onPlaying);
             elem.addEventListener('play', onPlay);
+            elem.addEventListener('waiting', onWaiting);
         }
 
         function unBindEvents(elem) {
@@ -180,6 +181,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             elem.removeEventListener('pause', onPause);
             elem.removeEventListener('playing', onPlaying);
             elem.removeEventListener('play', onPlay);
+            elem.removeEventListener('waiting', onWaiting);
         }
 
         self.stop = function (destroyPlayer) {
@@ -292,6 +294,10 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
         function onPause() {
             events.trigger(self, 'pause');
+        }
+
+        function onWaiting() {
+            events.trigger(self, 'waiting');
         }
 
         function onError() {
@@ -450,6 +456,21 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         return false;
     };
 
+    HtmlAudioPlayer.prototype.setPlaybackRate = function (value) {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            mediaElement.playbackRate = value;
+        }
+    };
+
+    HtmlAudioPlayer.prototype.getPlaybackRate = function () {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            return mediaElement.playbackRate;
+        }
+        return null;
+    };
+
     HtmlAudioPlayer.prototype.setVolume = function (val) {
         var mediaElement = this._mediaElement;
         if (mediaElement) {
@@ -491,6 +512,27 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
     HtmlAudioPlayer.prototype.destroy = function () {
 
+    };
+
+    var supportedFeatures;
+
+    function getSupportedFeatures() {
+        var list = [];
+        var audio = document.createElement('audio');
+
+        if (typeof audio.playbackRate === "number") {
+            list.push("PlaybackRate");
+        }
+
+        return list;
+    }
+
+    HtmlAudioPlayer.prototype.supports = function (feature) {
+        if (!supportedFeatures) {
+            supportedFeatures = getSupportedFeatures();
+        }
+
+        return supportedFeatures.indexOf(feature) !== -1;
     };
 
     return HtmlAudioPlayer;

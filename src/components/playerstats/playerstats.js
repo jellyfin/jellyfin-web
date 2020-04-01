@@ -1,4 +1,4 @@
-define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!./playerstats'], function (events, globalize, playbackManager, connectionManager, playMethodHelper, layoutManager, serverNotifications) {
+define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncplayManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!./playerstats'], function (events, globalize, playbackManager, connectionManager, syncplayManager, playMethodHelper, layoutManager, serverNotifications) {
     'use strict';
 
     function init(instance) {
@@ -327,6 +327,28 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         return sessionStats;
     }
 
+    function getSyncplayStats() {
+        var syncStats = [];
+        var stats = syncplayManager.getStats();
+
+        syncStats.push({
+            label: globalize.translate("LabelSyncplayTimeDiff"),
+            value: stats.TimeDiff + "ms"
+        });
+
+        syncStats.push({
+            label: globalize.translate("LabelSyncplayPlaybackDiff"),
+            value: stats.PlaybackDiff + "ms"
+        });
+
+        syncStats.push({
+            label: globalize.translate("LabelSyncplaySyncMethod"),
+            value: stats.SyncMethod
+        });
+        
+        return syncStats;
+    }
+
     function getStats(instance, player) {
 
         var statsPromise = player.getStats ? player.getStats() : Promise.resolve({});
@@ -382,6 +404,13 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
                 stats: getMediaSourceStats(session, player),
                 name: 'Original Media Info'
             });
+
+            if (syncplayManager.isSyncplayEnabled()) {
+                categories.push({
+                    stats: getSyncplayStats(),
+                    name: 'Syncplay Info'
+                });
+            }
 
             return Promise.resolve(categories);
         });

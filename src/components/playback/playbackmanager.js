@@ -3777,6 +3777,24 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         }
     };
 
+    PlaybackManager.prototype.setPlaybackRate = function (value, player) {
+        player = player || this._currentPlayer;
+
+        if (player) {
+            player.setPlaybackRate(value);
+        }
+    };
+
+    PlaybackManager.prototype.getPlaybackRate = function (player) {
+        player = player || this._currentPlayer;
+
+        if (player) {
+            return player.getPlaybackRate(val);
+        }
+
+        return null;
+    };
+
     PlaybackManager.prototype.instantMix = function (item, player) {
 
         player = player || this._currentPlayer;
@@ -3886,6 +3904,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 }
                 if (player.supports('SetAspectRatio')) {
                     list.push('SetAspectRatio');
+                }
+                if (player.supports('PlaybackRate')) {
+                    list.push('PlaybackRate');
                 }
             }
 
