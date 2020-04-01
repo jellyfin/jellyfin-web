@@ -24,7 +24,7 @@ define(['events', 'loading', 'connectionManager', 'playbackManager', 'syncplayMa
                 var menuItems = groups.map(function (group) {
                     var name = datetime.getDisplayRunningTime(group.PositionTicks);
                     if (!inSession) {
-                        name = group.PlayingItemName
+                        name = group.PlayingItemName;
                     }
                     return {
                         name: name,
@@ -32,7 +32,7 @@ define(['events', 'loading', 'connectionManager', 'playbackManager', 'syncplayMa
                         id: group.GroupId,
                         selected: false,
                         secondaryText: group.Partecipants.join(", ")
-                    }
+                    };
                 });
 
                 if (inSession) {

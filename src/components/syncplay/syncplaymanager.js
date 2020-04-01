@@ -6,7 +6,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
             var callback = function () {
                 events.off(emitter, eventType, callback);
                 resolve(arguments);
-            }
+            };
             events.on(emitter, eventType, callback);
         });
     }
@@ -80,11 +80,11 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                     if (self.playbackRateSupported && absDiffMillis > self.maxAcceptedDelaySpeedToSync && absDiffMillis < self.syncMethodThreshold) {
                         // SpeedToSync method
                         var speed = 1 + diffMillis / self.speedUpToSyncTime;
-                        
+
                         self.currentPlayer.setPlaybackRate(speed);
                         self.syncEnabled = false;
                         self.showSyncIcon("SpeedToSync (x" + speed + ")");
-                            
+
                         self.syncTimeout = setTimeout(() => {
                             self.currentPlayer.setPlaybackRate(1);
                             self.syncEnabled = true;
@@ -95,7 +95,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                         playbackManager.syncplay_seek(ServerPositionTicks);
                         self.syncEnabled = false;
                         self.showSyncIcon("SkipToSync");
-    
+
                         self.syncTimeout = setTimeout(() => {
                             self.syncEnabled = true;
                             self.clearSyncIcon();
@@ -105,7 +105,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
             }
         }
 
-        self.lastPlaybackWaiting = null; // used to determine if player's buffering 
+        self.lastPlaybackWaiting = null; // used to determine if player's buffering
         self.minBufferingThresholdMillis = 1000;
 
         // TODO: implement group wait
@@ -119,13 +119,13 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
             if (!self.lastPlaybackWaiting) {
                 self.lastPlaybackWaiting = new Date();
             }
-            events.trigger(self, "PlayerWaiting");            
+            events.trigger(self, "PlayerWaiting");
         }
 
         self.isBuffering = function () {
             if (self.lastPlaybackWaiting === null) return false;
             return (new Date() - self.lastPlaybackWaiting) > self.minBufferingThresholdMillis;
-        }
+        };
 
         function bindToPlayer(player) {
             if (player !== self.currentPlayer) {
@@ -165,7 +165,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
         self.syncplayEnabledAt = null; // Server time of when Syncplay has been enabled
         self.syncplayReady = false; // Syncplay is ready after first ping to server
 
-        self.processGroupUpdate = function (cmd, apiClient) {                        
+        self.processGroupUpdate = function (cmd, apiClient) {
             switch (cmd.Type) {
                 case 'PrepareSession':
                     var serverId = apiClient.serverInfo().Id;
@@ -199,17 +199,17 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                     break;
                 case 'UserJoined':
                     displaySyncplayUpdate({
-                        Text: globalize.translate('MessageSyncplayUserJoined', cmd.Data),
+                        Text: globalize.translate('MessageSyncplayUserJoined', cmd.Data)
                     });
                     break;
                 case 'UserLeft':
                     displaySyncplayUpdate({
-                        Text: globalize.translate('MessageSyncplayUserLeft', cmd.Data),
+                        Text: globalize.translate('MessageSyncplayUserLeft', cmd.Data)
                     });
                     break;
                 case 'GroupJoined':
                     displaySyncplayUpdate({
-                        Text: globalize.translate('MessageSyncplayEnabled'),
+                        Text: globalize.translate('MessageSyncplayEnabled')
                     });
                     // Enable Syncplay
                     self.syncplayEnabledAt = new Date(cmd.Data);
@@ -225,7 +225,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                 case 'NotInGroup':
                 case 'GroupLeft':
                     displaySyncplayUpdate({
-                        Text: globalize.translate('MessageSyncplayDisabled'),
+                        Text: globalize.translate('MessageSyncplayDisabled')
                     });
                     // Disable Syncplay
                     self.syncplayEnabledAt = null;
@@ -236,7 +236,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                     break;
                 case 'GroupWait':
                     displaySyncplayUpdate({
-                        Text: globalize.translate('MessageSyncplayGroupWait', cmd.Data),
+                        Text: globalize.translate('MessageSyncplayGroupWait', cmd.Data)
                     });
                     break;
                 case 'KeepAlive':
@@ -245,7 +245,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                     console.error('processSyncplayGroupUpdate does not recognize: ' + cmd.Type);
                     break;
             }
-        }
+        };
 
         self.lastCommand = null;
         self.queuedCommand = null;
@@ -283,7 +283,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
 
             self.lastCommand = cmd;
             console.log("Syncplay will", cmd.Command, "at", cmd.When, "PositionTicks", cmd.PositionTicks);
-            
+
             switch (cmd.Command) {
                 case 'Play':
                     self.schedulePlay(cmd.When, cmd.PositionTicks);
@@ -298,7 +298,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                     console.error('processSyncplayCommand does not recognize: ' + cmd.Type);
                     break;
             }
-        }
+        };
 
         self.scheduledCommand = null;
         self.syncTimeout = null;
@@ -332,7 +332,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                     self.syncEnabled = true
                 }, self.syncMethodThreshold / 2);
             }
-        }
+        };
 
         self.schedulePause = function (pauseAtTime, positionTicks) {
             self.clearScheduledCommand();
@@ -355,11 +355,11 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                     playbackManager.syncplay_seek(positionTicks);
                 }, 800);
             }
-        }
+        };
 
         self.scheduleSeek = function (seekAtTime, positionTicks) {
             self.schedulePause(seekAtTime, positionTicks);
-        }
+        };
 
         self.clearScheduledCommand = function () {
             clearTimeout(self.scheduledCommand);
@@ -370,7 +370,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                 self.currentPlayer.setPlaybackRate(1);
             }
             self.clearSyncIcon();
-        }
+        };
 
         self.injectPlaybackManager = function () {
             if (!self.isSyncplayEnabled()) return;
@@ -379,12 +379,12 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
             playbackManager.syncplay_unpause = playbackManager.unpause;
             playbackManager.syncplay_pause = playbackManager.pause;
             playbackManager.syncplay_seek = playbackManager.seek;
-            
+
             playbackManager.unpause = self.playRequest;
             playbackManager.pause = self.pauseRequest;
             playbackManager.seek = self.seekRequest;
             playbackManager.syncplayEnabled = true;
-        }
+        };
 
         self.restorePlaybackManager = function () {
             if (self.isSyncplayEnabled()) return;
@@ -394,13 +394,13 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
             playbackManager.pause = playbackManager.syncplay_pause;
             playbackManager.seek = playbackManager.syncplay_seek;
             playbackManager.syncplayEnabled = false;
-        }
+        };
 
         self.playRequest = function (player) {
             var apiClient = connectionManager.currentApiClient();
             var sessionId = getActivePlayerId();
             apiClient.sendSyncplayCommand(sessionId, "PlayRequest");
-        }
+        };
 
         self.pauseRequest = function (player) {
             var apiClient = connectionManager.currentApiClient();
@@ -408,7 +408,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
             apiClient.sendSyncplayCommand(sessionId, "PauseRequest");
             // Pause locally as well, to give the user some little control
             playbackManager.syncplay_pause();
-        }
+        };
 
         self.seekRequest = function (PositionTicks, player) {
             var apiClient = connectionManager.currentApiClient();
@@ -416,7 +416,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
             apiClient.sendSyncplayCommand(sessionId, "SeekRequest", {
                 PositionTicks: PositionTicks
             });
-        }
+        };
 
         self.pingIntervalTimeoutGreedy = 1000;
         self.pingIntervalTimeoutLowProfile = 60000;
@@ -459,7 +459,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
             }
 
             // console.debug("Syncplay updateTimeDiff:", serverTime, self.timeDiff, self.roundTripDuration, newTimeDiff);
-        }
+        };
 
         self.requestPing = function () {
             if (self.pingInterval === null && !self.pingStop) {
@@ -493,14 +493,14 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                                 events.trigger(self, "SyncplayReady");
                                 self.notifySyncplayReady = false;
                             }
-                            
+
                             self.requestPing();
                         });
                     });
 
                 }, self.pingIntervalTimeout);
             }
-        }
+        };
 
         self.startPing = function () {
             self.notifySyncplayReady = true;
@@ -509,7 +509,7 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
             self.pingIntervalTimeout = self.pingIntervalTimeoutGreedy;
 
             self.requestPing();
-        }
+        };
 
         self.stopPing = function () {
             self.pingStop = true;
@@ -517,17 +517,17 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                 clearTimeout(self.pingInterval);
                 self.pingInterval = null;
             }
-        }
+        };
 
         self.serverDateToLocal = function (server) {
             // local - server = diff
             return new Date(server.getTime() + self.timeDiff);
-        }
+        };
 
         self.localDateToServer = function (local) {
             // local - server = diff
             return new Date(local.getTime() - self.timeDiff);
-        }
+        };
 
         // THIS FEATURE IS CURRENTLY DISABLED
         // Mainly because SpeedToSync seems to do the job
@@ -569,12 +569,12 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                     }, 1000);
                 }, 2000);
             }
-        }
+        };
 
         // Stats
         self.isSyncplayEnabled = function () {
             return self.syncplayEnabledAt !== null ? true : false;
-        }
+        };
 
         self.getStats = function () {
             return {
@@ -582,18 +582,18 @@ define(['events', 'globalize', 'loading', 'connectionManager', 'playbackManager'
                 PlaybackDiff: self.playbackDiffMillis,
                 SyncMethod: self.syncMethod
             }
-        }
+        };
 
         // UI
         self.showSyncIcon = function (syncMethod) {
             self.syncMethod = syncMethod;
             events.trigger(self, "SyncplayError", [true]);
-        }
+        };
 
         self.clearSyncIcon = function () {
             self.syncMethod = "None";
             events.trigger(self, "SyncplayError", [false]);
-        }
+        };
     }
 
     return new SyncplayManager();

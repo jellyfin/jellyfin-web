@@ -3789,7 +3789,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         player = player || this._currentPlayer;
 
         if (player) {
-            return player.getPlaybackRate(val);
+            return player.getPlaybackRate();
         }
 
         return null;

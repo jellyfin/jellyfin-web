@@ -345,7 +345,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncplay
             label: globalize.translate("LabelSyncplaySyncMethod"),
             value: stats.SyncMethod
         });
-        
+
         return syncStats;
     }
 
