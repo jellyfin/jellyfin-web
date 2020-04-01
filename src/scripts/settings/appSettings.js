@@ -21,7 +21,7 @@ define(['appStorage', 'events'], function (appStorage, events) {
     };
 
     AppSettings.prototype.enableSystemExternalPlayers = function (val) {
-        if (val != null) {
+        if (val !== null) {
             this.set('enableSystemExternalPlayers', val.toString());
         }
 
