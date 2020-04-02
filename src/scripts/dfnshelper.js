@@ -1,5 +1,6 @@
-import * as locale from 'date-fns/locale'
-define(["globalize"], function (globalize) {
+import { ar, be, bg, ca, cs, da, de, el, enGB, enUS, es, faIR, fi, fr, frCA, he, hi, hr, hu, id, it, kk, ko, lt, ms, nb, nl, pl, ptBR, pt, ro, ru, sk, sl, sv, tr, uk, vi, zhCN, zhTW } from 'date-fns/locale';
+import globalize from 'globalize';
+
     "use strict";
 
     function getLocale()
