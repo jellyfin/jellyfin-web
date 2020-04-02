@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+
 import appSettings from 'appSettings';
 import events from 'events';
 

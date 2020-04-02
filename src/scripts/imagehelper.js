@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+
 import browser from 'browser';
 
     export function getDeviceIcon(device) {

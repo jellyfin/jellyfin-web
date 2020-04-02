@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+
 import appStorage from 'appStorage';
 import events from 'events';
 
