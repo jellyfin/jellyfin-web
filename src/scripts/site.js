@@ -654,7 +654,6 @@ var AppInfo = {};
             medialibrarycreator: componentsPath + "/medialibrarycreator/medialibrarycreator",
             medialibraryeditor: componentsPath + "/medialibraryeditor/medialibraryeditor",
             imageoptionseditor: componentsPath + "/imageoptionseditor/imageoptionseditor",
-            humanedate: componentsPath + "/humanedate",
             apphost: componentsPath + "/apphost",
             visibleinviewport: componentsPath + "/visibleinviewport",
             qualityoptions: componentsPath + "/qualityoptions",

@@ -1,4 +1,4 @@
-define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", "cardStyle", "emby-button", "indicators", "flexStyles"], function (loading, dom, globalize) {
+define(["loading", "dom", "globalize", "date-fns", "dfnshelper", "paper-icon-button-light", "cardStyle", "emby-button", "indicators", "flexStyles"], function (loading, dom, globalize, datefns, dfnshelper) {
     "use strict";
 
     function deleteUser(page, id) {
@@ -128,7 +128,7 @@ define(["loading", "dom", "globalize", "humanedate", "paper-icon-button-light", 
 
     function getLastSeenText(lastActivityDate) {
         if (lastActivityDate) {
-            return "Last seen " + humaneDate(lastActivityDate);
+            return globalize.translate("LastSeen", datefns.formatDistanceToNow(Date.parse(session.LastActivityDate), { addSuffix: true, locale: dfnshelper.getLocale() }));
         }
 
         return "";
