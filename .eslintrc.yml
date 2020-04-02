@@ -40,7 +40,7 @@ globals:
   getWindowLocationSearch: writable
   Globalize: writable
   Hls: writable
-  humaneDate: writable
+  dfnshelper: writable
   humaneElapsed: writable
   LibraryMenu: writable
   LinkParser: writable
