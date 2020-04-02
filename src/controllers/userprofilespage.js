@@ -125,10 +125,11 @@ define(["loading", "dom", "globalize", "date-fns", "dfnshelper", "paper-icon-but
         html += "</div>";
         return html + "</div>";
     }
-
+    // FIXME: It seems that, sometimes, server sends date in the future, so date-fns displays messages like 'in less than a minute'. We should fix
+    // how dates are returned by the server when the session is active and show something like 'Active now', instead of past/future sentences
     function getLastSeenText(lastActivityDate) {
         if (lastActivityDate) {
-            return globalize.translate("LastSeen", datefns.formatDistanceToNow(Date.parse(session.LastActivityDate), { addSuffix: true, locale: dfnshelper.getLocale() }));
+            return globalize.translate("LastSeen", datefns.formatDistanceToNow(Date.parse(lastActivityDate), { addSuffix: true, locale: dfnshelper.getLocale() }));
         }
 
         return "";
