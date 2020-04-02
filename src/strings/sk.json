@@ -1468,5 +1468,8 @@
     "AskAdminToCreateLibrary": "Pokiaľ chcete vytvoriť knižnicu, musíte sa spýtať administrátora.",
     "PlaybackErrorNoCompatibleStream": "Nastal problém s profilom klienta a server preto neposiela kompatibilný mediálny formát.",
     "AllowFfmpegThrottlingHelp": "Keď sa transkódovanie alebo remuxovanie dostane do bodu, kedy je dostatočne vopred voči súčasnej polohe prehrávania, pozastaví proces aby spotrebovával menej zdrojov. Toto je najviac užitočné, keď sa pozerá obsah bez pretáčania. Vypnite túto možnosť, pokiaľ má vaše prehrávanie problémy.",
-    "AllowFfmpegThrottling": "Obmedzenie transkódovania"
+    "AllowFfmpegThrottling": "Obmedzenie transkódovania",
+    "PreferEmbeddedEpisodeInfosOverFileNames": "Preferovať vložené informácie o epizóde pred názvom súboru",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Toto využíva informácie o epizóde z vložených metadát, pokiaľ sú dostupne.",
+    "ClientSettings": "Nastavenie klienta"
 }

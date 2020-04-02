@@ -768,6 +768,7 @@ var AppInfo = {};
         define("emby-textarea", [elementsPath + "/emby-textarea/emby-textarea"], returnFirstDependency);
         define("emby-toggle", [elementsPath + "/emby-toggle/emby-toggle"], returnFirstDependency);
 
+        define("webSettings", [scriptsPath + "/settings/webSettings"], returnFirstDependency);
         define("appSettings", [scriptsPath + "/settings/appSettings"], returnFirstDependency);
         define("userSettingsBuilder", [scriptsPath + "/settings/userSettingsBuilder"], returnFirstDependency);
         define("userSettings", ["userSettingsBuilder"], function(userSettingsBuilder) {

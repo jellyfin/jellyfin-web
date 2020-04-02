@@ -1467,5 +1467,8 @@
     "PlaybackErrorNoCompatibleStream": "Houve um erro na criação de perfil do cliente e o servidor não está enviando um formato de mídia compatível.",
     "EnableFastImageFadeInHelp": "Habilitar animações rápidas de aparecimento para imagens carregadas",
     "LabelDroppedFrames": "Quadros caídos:",
-    "AllowFfmpegThrottlingHelp": "Quando uma transcodificação ou remux estiver suficientemente avançada da posição atual de reprodução, pause o processo para que consuma menos recursos. Isso é mais proveitoso para quando não há avanço ou retrocesso do vídeo com frequência. Desative se tiver problemas de reprodução."
+    "AllowFfmpegThrottlingHelp": "Quando uma transcodificação ou remux estiver suficientemente avançada da posição atual de reprodução, pause o processo para que consuma menos recursos. Isso é mais proveitoso para quando não há avanço ou retrocesso do vídeo com frequência. Desative se tiver problemas de reprodução.",
+    "PreferEmbeddedEpisodeInfosOverFileNames": "Preferir as informações incorporadas nos arquivos dos episódios ao invés dos nomes",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Isso utiliza as informações dos episódios incorporadas nos metadados dos arquivos se estiverem disponíveis.",
+    "ClientSettings": "Configurações do cliente"
 }
