@@ -1854,6 +1854,8 @@ import 'programStyles';
             }
         }
 
+/* eslint-enable indent */
+
 export default {
     getCardsHtml: getCardsHtml,
     getDefaultBackgroundClass: getDefaultBackgroundClass,
