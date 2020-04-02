@@ -648,6 +648,7 @@ var AppInfo = {};
             inputManager: "scripts/inputManager",
             datetime: "scripts/datetime",
             globalize: "scripts/globalize",
+            dfnshelper: "scripts/dfnshelper",
             libraryMenu: "scripts/librarymenu",
             playlisteditor: componentsPath + "/playlisteditor/playlisteditor",
             medialibrarycreator: componentsPath + "/medialibrarycreator/medialibrarycreator",

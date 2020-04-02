@@ -1,5 +1,4 @@
-import { es } from 'date-fns/locale'
-define(["jQuery", "loading", "events", "globalize", "serverNotifications", "date-fns", "listViewStyle", "emby-button"], function($, loading, events, globalize, serverNotifications, datefns) {
+define(["jQuery", "loading", "events", "globalize", "dfnshelper", "serverNotifications", "date-fns", "listViewStyle", "emby-button"], function($, loading, events, globalize, dfnshelper, serverNotifications, datefns) {
     "use strict";
 
     function reloadList(page) {
@@ -67,8 +66,8 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "date
         var html = "";
         if (task.State === "Idle") {
             if (task.LastExecutionResult) {
-                html += globalize.translate("LabelScheduledTaskLastRan", datefns.formatDistanceToNow(Date.parse(task.LastExecutionResult.EndTimeUtc), { addSuffix: true, locale: es }),
-                    datefns.formatDistance(Date.parse(task.LastExecutionResult.StartTimeUtc), Date.parse(task.LastExecutionResult.EndTimeUtc), { addSuffix: false, locale: es }));
+                html += globalize.translate("LabelScheduledTaskLastRan", datefns.formatDistanceToNow(Date.parse(task.LastExecutionResult.EndTimeUtc), { addSuffix: true, locale: dfnshelper.getLocale() }),
+                    datefns.formatDistance(Date.parse(task.LastExecutionResult.StartTimeUtc), Date.parse(task.LastExecutionResult.EndTimeUtc), { addSuffix: false, locale: dfnshelper.getLocale() }));
                 if (task.LastExecutionResult.Status === "Failed") {
                     html += " <span style='color:#FF0000;'>(" + globalize.translate("LabelFailed") + ")</span>";
                 } else if (task.LastExecutionResult.Status === "Cancelled") {
