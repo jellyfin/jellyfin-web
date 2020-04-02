@@ -16,7 +16,7 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
     }
 
     function getHeaderText(category) {
-        category = category(" ", "");
+        category = category.replace(" ", "");
         if ("Channel" === category) {
             category = "Channels";
         } else if ("Theme" === category) {
