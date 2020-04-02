@@ -1,21 +1,19 @@
 env:
-  es6: true
-  browser: true
   amd: true
+  browser: true
+  es6: true
+  es2017: true
+  es2020: true
 
 parserOptions:
-  ecmaVersion: 6
+  ecmaVersion: 2020
   sourceType: module
   ecmaFeatures:
     impliedStrict: true
 
 globals:
-  # New browser globals
-  DataView: readonly
+  # Browser globals
   MediaMetadata: readonly
-  Promise: readonly
-  # Deprecated browser globals
-  DocumentTouch: readonly
   # Tizen globals
   tizen: readonly
   webapis: readonly
@@ -24,7 +22,6 @@ globals:
   # Dependency globals
   $: readonly
   jQuery: readonly
-  queryString: readonly
   requirejs: readonly
   # Jellyfin globals
   ApiClient: writable
