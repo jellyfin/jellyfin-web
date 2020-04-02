@@ -465,6 +465,11 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             var id = "txt1" + idInfo.Key;
             var formatString = idInfo.UrlFormatString || '';
 
+            var fullName = idInfo.Name;
+            if (idInfo.Type) {
+                fullName = idInfo.Name + " " + globalize.translate(idInfo.Type);
+            }
+
             var labelText = globalize.translate('LabelDynamicExternalId', idInfo.Name);
 
             html += '<div class="inputContainer">';

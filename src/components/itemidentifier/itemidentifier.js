@@ -296,8 +296,6 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
 
             var html = "";
 
-            var providerIds = item.ProviderIds || {};
-
             for (var i = 0, length = idList.length; i < length; i++) {
 
                 var idInfo = idList[i];
@@ -306,9 +304,12 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
 
                 html += '<div class="inputContainer">';
 
-                var idLabel = globalize.translate("LabelDynamicExternalId", idInfo.Name);
+                var fullName = idInfo.Name;
+                if (idInfo.Type) {
+                    fullName = idInfo.Name + " " + globalize.translate(idInfo.Type);
+                }
 
-                var value = providerIds[idInfo.Key] || "";
+                var idLabel = globalize.translate("LabelDynamicExternalId", idInfo.Name);
 
                 html += '<input is="emby-input" class="txtLookupId" data-providerkey="' + idInfo.Key + '" id="' + id + '" label="' + idLabel + '"/>';
 
