@@ -1853,3 +1853,14 @@ import 'programStyles';
                 cell.removeAttribute('data-seriestimerid');
             }
         }
+
+export default {
+    getCardsHtml: getCardsHtml,
+    getDefaultBackgroundClass: getDefaultBackgroundClass,
+    getDefaultText: getDefaultText,
+    buildCards: buildCards,
+    onUserDataChanged: onUserDataChanged,
+    onTimerCreated: onTimerCreated,
+    onTimerCancelled: onTimerCancelled,
+    onSeriesTimerCancelled: onSeriesTimerCancelled
+};
