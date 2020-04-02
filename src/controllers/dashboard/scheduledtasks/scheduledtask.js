@@ -78,12 +78,12 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
         // TODO: Replace this mess with date-fns and remove datetime completely
         getTriggerFriendlyName: function (trigger) {
             if ("DailyTrigger" == trigger.Type) {
-                return globalize("DailyAt", ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks));
+                return globalize.translate("DailyAt", ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks));
             }
 
             if ("WeeklyTrigger" == trigger.Type) {
                 // TODO: The day of week isn't localised as well
-                return globalize("WeeklyAt", trigger.DayOfWeek, ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks));
+                return globalize.translate("WeeklyAt", trigger.DayOfWeek, ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks));
             }
 
             if ("SystemEventTrigger" == trigger.Type && "WakeFromSleep" == trigger.SystemEvent) {
