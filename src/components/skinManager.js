@@ -116,8 +116,8 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
             var linkUrl = info.stylesheetPath;
             unloadTheme();
-            var link = document.createElement('link');
 
+            var link = document.createElement('link');
             link.setAttribute('rel', 'stylesheet');
             link.setAttribute('type', 'text/css');
             link.onload = function () {

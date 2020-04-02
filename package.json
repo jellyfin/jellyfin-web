@@ -85,6 +85,7 @@
           "src/components/filesystem.js",
           "src/components/input/keyboardnavigation.js",
           "src/components/sanatizefilename.js",
+          "src/scripts/settings/webSettings.js",
           "src/components/scrollManager.js"
         ],
         "plugins": [
