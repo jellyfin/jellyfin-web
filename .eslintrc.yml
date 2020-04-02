@@ -41,7 +41,6 @@ globals:
   Globalize: writable
   Hls: writable
   dfnshelper: writable
-  humaneElapsed: writable
   LibraryMenu: writable
   LinkParser: writable
   LiveTvHelpers: writable
