@@ -1474,5 +1474,12 @@
     "WriteAccessRequired": "Jellyfin Server requires write access to this folder. Please ensure write access and try again.",
     "ListPaging": "{0} of {1}",
     "PersonRole": "as {0}",
-    "LastSeen": "Last seen {0}"
+    "LastSeen": "Last seen {0}",
+    "DailyAt": "Daily at {0}",
+    "WeeklyAt": "{0}s at {1}",
+    "OnWakeFromSleep": "On wake from sleep",
+    "EveryXMinutes": "Every {0} minutes",
+    "EveryHour": "Every hour",
+    "EveryXHours": "Every {0} hours",
+    "OnApplicationStartup": "On application startup"
 }

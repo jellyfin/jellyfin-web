@@ -1482,5 +1482,12 @@
     "WriteAccessRequired": "Jellyfin requiere de permisos de escritura en esta carpeta. Asegúrate de que existe este permiso e inténtalo de nuevo.",
     "ListPaging": "{0} de {1}",
     "PersonRole": "como {0}",
-    "LastSeen": "Última vez {0}"
+    "LastSeen": "Última vez {0}",
+    "DailyAt": "Diariamente a las {0}",
+    "WeeklyAt": "Los {0}s a las {1}",
+    "OnWakeFromSleep": "Al reanudar el servidor",
+    "EveryXMinutes": "Cada {0} minutos",
+    "EveryHour": "Cada hora",
+    "EveryXHours": "Cada {0} horas",
+    "OnApplicationStartup": "Al iniciarse el servidor"
 }
