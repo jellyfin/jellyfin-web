@@ -7,95 +7,95 @@ import globalize from 'globalize';
     {
         switch (globalize.getCurrentLocale()) {
             case 'ar':
-                return locale.ar;
+                return ar;
             case 'be-by':
-                return locale.be;
+                return be;
             case 'bg-bg':
-                return locale.bg;
+                return bg;
             case 'ca':
-                return locale.ca;
+                return ca;
             case 'cs':
-                return locale.cs;
+                return cs;
             case 'da':
-                return locale.da;
+                return da;
             case 'de':
-                return locale.de;
+                return de;
             case 'el':
-                return locale.el;
+                return el;
             case 'en-gb':
-                return locale.enGB;
+                return enGB;
             case 'en-us':
-                return locale.enUS;
+                return enUS;
             case 'es':
-                return locale.es;
+                return es;
             case 'es-ar':
-                return locale.es;
+                return es;
             case 'es-mx':
-                return locale.es;
+                return es;
             case 'fa':
-                return locale.faIR;
+                return faIR;
             case 'fi':
-                return locale.fi;
+                return fi;
             case 'fr':
-                return locale.fr;
+                return fr;
             case 'fr-ca':
-                return locale.frCA;
+                return frCA;
             case 'gsw':
-                return locale.de;
+                return de;
             case 'he':
-                return locale.he;
+                return he;
             case 'hi-in':
-                return locale.hi;
+                return hi;
             case 'hr':
-                return locale.hr;
+                return hr;
             case 'hu':
-                return locale.hu;
+                return hu;
             case 'id':
-                return locale.id;
+                return id;
             case 'it':
-                return locale.it;
+                return it;
             case 'kk':
-                return locale.kk;
+                return kk;
             case 'ko':
-                return locale.ko;
+                return ko;
             case 'lt-lt':
-                return locale.lt;
+                return lt;
             case 'ms':
-                return locale.ms;
+                return ms;
             case 'nb':
-                return locale.nb;
+                return nb;
             case 'nl':
-                return locale.nl;
+                return nl;
             case 'pl':
-                return locale.pl;
+                return pl;
             case 'pt-br':
-                return locale.ptBR;
+                return ptBR;
             case 'pt-pt':
-                return locale.pt;
+                return pt;
             case 'ro':
-                return locale.ro;
+                return ro;
             case 'ru':
-                return locale.ru;
+                return ru;
             case 'sk':
-                return locale.sk;
+                return sk;
             case 'sl-si':
-                return locale.sl;
+                return sl;
             case 'sv':
-                return locale.sv;
+                return sv;
             case 'tr':
-                return locale.tr;
+                return tr;
             case 'uk':
-                return locale.uk;
+                return uk;
             case 'vi':
-                return locale.vi;
+                return vi;
             case 'zh-cn':
-                return locale.zhCN;
+                return zhCN;
             case 'zh-hk':
-                return locale.zhCN;
+                return zhCN;
             case 'zh-tw':
-                return locale.zhTW;
+                return zhTW;
             default:
-                return locale.enUS;
+                return enUS;
         }
     }
     return {
