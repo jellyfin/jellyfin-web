@@ -1468,7 +1468,7 @@
     "EnableFastImageFadeInHelp": "Habilitar animações rápidas de aparecimento para imagens carregadas",
     "LabelDroppedFrames": "Quadros caídos:",
     "AllowFfmpegThrottlingHelp": "Quando uma transcodificação ou remux estiver suficientemente avançada da posição atual de reprodução, pause o processo para que consuma menos recursos. Isso é mais proveitoso para quando não há avanço ou retrocesso do vídeo com frequência. Desative se tiver problemas de reprodução.",
-    "PreferEmbeddedEpisodeInfosOverFileNames": "Preferir informações do episodio incorporados ao invés dos nomes dos arquivos",
-    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Isso utiliza as informações do episodio provida pelos metadados incorporados caso estejam disponíveis.",
+    "PreferEmbeddedEpisodeInfosOverFileNames": "Preferir as informações incorporadas nos arquivos dos episódios ao invés dos nomes",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Isso utiliza as informações dos episódios incorporadas nos metadados dos arquivos se estiverem disponíveis.",
     "ClientSettings": "Configurações do cliente"
 }
