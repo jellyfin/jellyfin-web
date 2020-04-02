@@ -1,4 +1,4 @@
-define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loading", "userSettings", "autoFocuser", "listViewStyle"], function (HomescreenSettings, userSettingsBuilder, dom, globalize, loading, currentUserSettings, autoFocuser) {
+define(["homescreenSettings", "dom", "globalize", "loading", "userSettings", "autoFocuser", "listViewStyle"], function (HomescreenSettings, dom, globalize, loading, userSettings, autoFocuser) {
     "use strict";
 
     return function (view, params) {
@@ -11,7 +11,7 @@ define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loadin
         var homescreenSettingsInstance;
         var hasChanges;
         var userId = params.userId || ApiClient.getCurrentUserId();
-        var userSettings = userId === ApiClient.getCurrentUserId() ? currentUserSettings : new userSettingsBuilder();
+        var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new userSettings();
         view.addEventListener("viewshow", function () {
             window.addEventListener("beforeunload", onBeforeUnload);
 
@@ -22,7 +22,7 @@ define(["homescreenSettings", "userSettingsBuilder", "dom", "globalize", "loadin
                     serverId: ApiClient.serverId(),
                     userId: userId,
                     element: view.querySelector(".homeScreenSettingsContainer"),
-                    userSettings: userSettings,
+                    userSettings: currentSettings,
                     enableSaveButton: false,
                     enableSaveConfirmation: false,
                     autoFocus: autoFocuser.isEnabled()

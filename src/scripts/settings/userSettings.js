@@ -1,5 +1,5 @@
-define(['appSettings', 'events'], function (appSettings, events) {
-    'use strict';
+import appSettings from 'appSettings';
+import events from 'events';
 
     function onSaveTimeout() {
         var self = this;
@@ -15,10 +15,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
     }
 
-    function UserSettings() {
-    }
-
-    UserSettings.prototype.setUserInfo = function (userId, apiClient) {
+    export function setUserInfo(userId, apiClient) {
         if (this.saveTimeout) {
             clearTimeout(this.saveTimeout);
         }
@@ -39,15 +36,15 @@ define(['appSettings', 'events'], function (appSettings, events) {
         });
     };
 
-    UserSettings.prototype.getData = function () {
+    export function getData() {
         return this.displayPrefs;
     };
 
-    UserSettings.prototype.importFrom = function (instance) {
+    export function importFrom(instance) {
         this.displayPrefs = instance.getData();
     };
 
-    UserSettings.prototype.set = function (name, value, enableOnServer) {
+    export function set(name, value, enableOnServer) {
         var userId = this.currentUserId;
         var currentValue = this.get(name, enableOnServer);
         var result = appSettings.set(name, value, userId);
@@ -64,7 +61,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return result;
     };
 
-    UserSettings.prototype.get = function (name, enableOnServer) {
+    export function get(name, enableOnServer) {
         var userId = this.currentUserId;
         if (enableOnServer !== false && this.displayPrefs) {
             return this.displayPrefs.CustomPrefs[name];
@@ -73,7 +70,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return appSettings.get(name, userId);
     };
 
-    UserSettings.prototype.serverConfig = function (config) {
+    export function serverConfig(config) {
         var apiClient = this.currentApiClient;
         if (config) {
             return apiClient.updateUserConfiguration(this.currentUserId, config);
@@ -84,7 +81,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         });
     };
 
-    UserSettings.prototype.enableCinemaMode = function (val) {
+    export function enableCinemaMode(val) {
         if (val != null) {
             return this.set('enableCinemaMode', val.toString(), false);
         }
@@ -93,7 +90,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return val !== 'false';
     };
 
-    UserSettings.prototype.enableNextVideoInfoOverlay = function (val) {
+    export function enableNextVideoInfoOverlay(val) {
         if (val != null) {
             return this.set('enableNextVideoInfoOverlay', val.toString());
         }
@@ -102,7 +99,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return val !== 'false';
     };
 
-    UserSettings.prototype.enableThemeSongs = function (val) {
+    export function enableThemeSongs(val) {
         if (val != null) {
             return this.set('enableThemeSongs', val.toString(), false);
         }
@@ -111,7 +108,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return val !== 'false';
     };
 
-    UserSettings.prototype.enableThemeVideos = function (val) {
+    export function enableThemeVideos(val) {
         if (val != null) {
             return this.set('enableThemeVideos', val.toString(), false);
         }
@@ -120,7 +117,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return val !== 'false';
     };
 
-    UserSettings.prototype.enableFastFadein = function (val) {
+    export function enableFastFadein(val) {
         if (val != null) {
             return this.set('fastFadein', val.toString(), false);
         }
@@ -129,7 +126,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return val !== 'false';
     };
 
-    UserSettings.prototype.enableBackdrops = function (val) {
+    export function enableBackdrops(val) {
         if (val != null) {
             return this.set('enableBackdrops', val.toString(), false);
         }
@@ -138,7 +135,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return val !== 'false';
     };
 
-    UserSettings.prototype.language = function (val) {
+    export function language(val) {
         if (val != null) {
             return this.set('language', val.toString(), false);
         }
@@ -146,7 +143,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return this.get('language', false);
     };
 
-    UserSettings.prototype.dateTimeLocale = function (val) {
+    export function dateTimeLocale(val) {
         if (val != null) {
             return this.set('datetimelocale', val.toString(), false);
         }
@@ -154,7 +151,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return this.get('datetimelocale', false);
     };
 
-    UserSettings.prototype.skipBackLength = function (val) {
+    export function skipBackLength(val) {
         if (val != null) {
             return this.set('skipBackLength', val.toString());
         }
@@ -162,7 +159,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return parseInt(this.get('skipBackLength') || '10000');
     };
 
-    UserSettings.prototype.skipForwardLength = function (val) {
+    export function skipForwardLength(val) {
         if (val != null) {
             return this.set('skipForwardLength', val.toString());
         }
@@ -170,7 +167,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return parseInt(this.get('skipForwardLength') || '30000');
     };
 
-    UserSettings.prototype.dashboardTheme = function (val) {
+    export function dashboardTheme(val) {
         if (val != null) {
             return this.set('dashboardTheme', val);
         }
@@ -178,7 +175,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return this.get('dashboardTheme');
     };
 
-    UserSettings.prototype.skin = function (val) {
+    export function skin(val) {
         if (val != null) {
             return this.set('skin', val, false);
         }
@@ -186,7 +183,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return this.get('skin', false);
     };
 
-    UserSettings.prototype.theme = function (val) {
+    export function theme(val) {
         if (val != null) {
             return this.set('appTheme', val, false);
         }
@@ -194,7 +191,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return this.get('appTheme', false);
     };
 
-    UserSettings.prototype.screensaver = function (val) {
+    export function screensaver(val) {
         if (val != null) {
             return this.set('screensaver', val, false);
         }
@@ -202,7 +199,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return this.get('screensaver', false);
     };
 
-    UserSettings.prototype.soundEffects = function (val) {
+    export function soundEffects(val) {
         if (val != null) {
             return this.set('soundeffects', val, false);
         }
@@ -210,7 +207,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return this.get('soundeffects', false);
     };
 
-    UserSettings.prototype.loadQuerySettings = function (key, query) {
+    export function loadQuerySettings(key, query) {
         var values = this.get(key);
         if (values) {
             values = JSON.parse(values);
@@ -220,7 +217,7 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return query;
     };
 
-    UserSettings.prototype.saveQuerySettings = function (key, query) {
+    export function saveQuerySettings(key, query) {
         var values = {};
         if (query.SortBy) {
             values.SortBy = query.SortBy;
@@ -233,23 +230,20 @@ define(['appSettings', 'events'], function (appSettings, events) {
         return this.set(key, JSON.stringify(values));
     };
 
-    UserSettings.prototype.getSubtitleAppearanceSettings = function (key) {
+    export function getSubtitleAppearanceSettings(key) {
         key = key || 'localplayersubtitleappearance3';
         return JSON.parse(this.get(key, false) || '{}');
     };
 
-    UserSettings.prototype.setSubtitleAppearanceSettings = function (value, key) {
+    export function setSubtitleAppearanceSettings(value, key) {
         key = key || 'localplayersubtitleappearance3';
         return this.set(key, JSON.stringify(value), false);
     };
 
-    UserSettings.prototype.setFilter = function (key, value) {
+    export function setFilter(key, value) {
         return this.set(key, value, true);
     };
 
-    UserSettings.prototype.getFilter = function (key) {
+    export function getFilter(key) {
         return this.get(key, true);
     };
-
-    return UserSettings;
-});

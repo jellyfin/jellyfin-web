@@ -1,7 +1,6 @@
-define(["browser"], function (browser) {
-    "use strict";
+import browser from 'browser';
 
-    function getDeviceIcon(device) {
+    export function getDeviceIcon(device) {
         var baseUrl = "assets/img/devices/";
         switch (device.AppName || device.Client) {
             case "Samsung Smart TV":
@@ -42,7 +41,7 @@ define(["browser"], function (browser) {
         }
     }
 
-    function getLibraryIcon(library) {
+    export function getLibraryIcon(library) {
         switch (library) {
             case "movies":
                 return "video_library";
@@ -71,8 +70,7 @@ define(["browser"], function (browser) {
         }
     }
 
-    return {
+    export default {
         getDeviceIcon: getDeviceIcon,
         getLibraryIcon: getLibraryIcon
-    };
-});
+    }
