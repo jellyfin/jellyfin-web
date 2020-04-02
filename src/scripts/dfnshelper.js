@@ -101,4 +101,3 @@ import globalize from 'globalize';
     return {
         getLocale: getLocale
     };
-});
