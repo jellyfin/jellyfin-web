@@ -1,4 +1,4 @@
-define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "humanedate", "emby-button", "emby-itemscontainer", "cardStyle"], function (loading, dom, libraryMenu, globalize, imageHelper) {
+define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "date-fns", "dfnshelper", "emby-button", "emby-itemscontainer", "cardStyle"], function (loading, dom, libraryMenu, globalize, imageHelper, datefns, dfnshelper) {
     "use strict";
 
     function canDelete(deviceId) {
@@ -103,7 +103,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "hu
 
             if (device.LastUserName) {
                 deviceHtml += device.LastUserName;
-                deviceHtml += ", " + humaneDate(device.DateLastActivity);
+                deviceHtml += ", " + datefns.formatDistanceToNow(Date.parse(device.DateLastActivity), { addSuffix: true, locale: dfnshelper.getLocale() });
             }
 
             deviceHtml += "&nbsp;";

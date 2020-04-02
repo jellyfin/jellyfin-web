@@ -1,4 +1,4 @@
-define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "scripts/imagehelper", "indicators", "humanedate", "listViewStyle", "emby-button", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper, indicators) {
+define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "datefns", "dfnshelper", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "scripts/imagehelper", "indicators", "listViewStyle", "emby-button", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, datefns, dfnshelper, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper, indicators) {
     "use strict";
 
     function showPlaybackInfo(btn, session) {
@@ -470,7 +470,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (!nowPlayingItem) {
                 return {
-                    html: "Last seen " + humaneDate(session.LastActivityDate),
+                    html: globalize.translate("LastSeen", datefns.formatDistanceToNow(Date.parse(session.LastActivityDate), { addSuffix: true, locale: dfnshelper.getLocale() })),
                     image: imgUrl
                 };
             }

@@ -20,7 +20,7 @@ define(["globalize"], function (globalize) {
             case 'de':
                 return locale.de;
             case 'el':
-                return locale.el
+                return locale.el;
             case 'en-gb':
                 return locale.enGB;
             case 'en-us':
@@ -52,7 +52,7 @@ define(["globalize"], function (globalize) {
             case 'id':
                 return locale.id;
             case 'it':
-                return locale.it
+                return locale.it;
             case 'kk':
                 return locale.kk;
             case 'ko':
@@ -66,7 +66,7 @@ define(["globalize"], function (globalize) {
             case 'nl':
                 return locale.nl;
             case 'pl':
-                return locale.pl
+                return locale.pl;
             case 'pt-br':
                 return locale.ptBR;
             case 'pt-pt':
