@@ -1446,7 +1446,7 @@
     "LabelAudioChannels": "Canaux audio :",
     "HeaderFavoriteBooks": "Livres préférés",
     "FetchingData": "Récuperer des données suplémentaires",
-    "CopyStreamURLSuccess": "URL copiée avec succès",
+    "CopyStreamURLSuccess": "URL copiée avec succès.",
     "CopyStreamURL": "Copier l'URL du flux",
     "LabelBaseUrlHelp": "Vous pouvez ajouter un sous-répertoire personalisé ici pour accéder au serveur depuis une URL plus exclusive.",
     "HeaderFavoritePeople": "Personnes préférées",
