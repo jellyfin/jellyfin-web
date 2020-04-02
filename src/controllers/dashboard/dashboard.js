@@ -467,7 +467,8 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         getNowPlayingName: function (session) {
             var imgUrl = "";
             var nowPlayingItem = session.NowPlayingItem;
-
+            // FIXME: It seems that, sometimes, server sends date in the future, so date-fns displays messages like 'in less than a minute'. We should fix
+            // how dates are returned by the server when the session is active and show something like 'Active now', instead of past/future sentences
             if (!nowPlayingItem) {
                 return {
                     html: globalize.translate("LastSeen", datefns.formatDistanceToNow(Date.parse(session.LastActivityDate), { addSuffix: true, locale: dfnshelper.getLocale() })),
