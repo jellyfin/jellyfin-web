@@ -207,11 +207,12 @@ define(['appSettings', 'events'], function (appSettings, events) {
             return this.set('libraryPageSize', parseInt(val, 10), false);
         }
 
-        if (parseInt(this.get('libraryPageSize', false), 10) === 0) {
-            // Explicitely return 0 to avoid returning 100 because 0 is falsy.
+        var libraryPageSize = parseInt(this.get('libraryPageSize', false), 10);
+        if (libraryPageSize === 0) {
+            // Explicitly return 0 to avoid returning 100 because 0 is falsy.
             return 0;
         } else {
-            return parseInt(this.get('libraryPageSize', false), 10) || 100;
+            return libraryPageSize || 100;
         }
     };
 
