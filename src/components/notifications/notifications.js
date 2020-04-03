@@ -173,15 +173,15 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             };
 
             if (status === 'completed') {
-                notification.title = globalize.translate('PackageInstallCompleted', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('PackageInstallCompleted', installation.Name, installation.Version);
                 notification.vibrate = true;
             } else if (status === 'cancelled') {
-                notification.title = globalize.translate('PackageInstallCancelled', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('PackageInstallCancelled', installation.Name, installation.Version);
             } else if (status === 'failed') {
-                notification.title = globalize.translate('PackageInstallFailed', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('PackageInstallFailed', installation.Name, installation.Version);
                 notification.vibrate = true;
             } else if (status === 'progress') {
-                notification.title = globalize.translate('InstallingPackage', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('InstallingPackage', installation.Name, installation.Version);
 
                 notification.actions =
                 [
