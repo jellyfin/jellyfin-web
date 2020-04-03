@@ -40,11 +40,11 @@ import events from 'events';
 
     export function getData() {
         return this.displayPrefs;
-    };
+    }
 
     export function importFrom(instance) {
         this.displayPrefs = instance.getData();
-    };
+    }
 
     export function set(name, value, enableOnServer) {
         var userId = this.currentUserId;
@@ -61,7 +61,7 @@ import events from 'events';
         }
 
         return result;
-    };
+    }
 
     export function get(name, enableOnServer) {
         var userId = this.currentUserId;
@@ -70,7 +70,7 @@ import events from 'events';
         }
 
         return appSettings.get(name, userId);
-    };
+    }
 
     export function serverConfig(config) {
         var apiClient = this.currentApiClient;
@@ -81,7 +81,7 @@ import events from 'events';
         return apiClient.getUser(this.currentUserId).then(function (user) {
             return user.Configuration;
         });
-    };
+    }
 
     export function enableCinemaMode(val) {
         if (val != null) {
@@ -90,7 +90,7 @@ import events from 'events';
 
         val = this.get('enableCinemaMode', false);
         return val !== 'false';
-    };
+    }
 
     export function enableNextVideoInfoOverlay(val) {
         if (val != null) {
@@ -99,7 +99,7 @@ import events from 'events';
 
         val = this.get('enableNextVideoInfoOverlay', false);
         return val !== 'false';
-    };
+    }
 
     export function enableThemeSongs(val) {
         if (val != null) {
@@ -117,7 +117,7 @@ import events from 'events';
 
         val = this.get('enableThemeVideos', false);
         return val !== 'false';
-    };
+    }
 
     export function enableFastFadein(val) {
         if (val != null) {
@@ -126,7 +126,7 @@ import events from 'events';
 
         val = this.get('fastFadein', false);
         return val !== 'false';
-    };
+    }
 
     export function enableBackdrops(val) {
         if (val != null) {
@@ -135,7 +135,7 @@ import events from 'events';
 
         val = this.get('enableBackdrops', false);
         return val !== 'false';
-    };
+    }
 
     export function language(val) {
         if (val != null) {
@@ -143,7 +143,7 @@ import events from 'events';
         }
 
         return this.get('language', false);
-    };
+    }
 
     export function dateTimeLocale(val) {
         if (val != null) {
@@ -151,7 +151,7 @@ import events from 'events';
         }
 
         return this.get('datetimelocale', false);
-    };
+    }
 
     export function skipBackLength(val) {
         if (val != null) {
@@ -159,7 +159,7 @@ import events from 'events';
         }
 
         return parseInt(this.get('skipBackLength') || '10000');
-    };
+    }
 
     export function skipForwardLength(val) {
         if (val != null) {
@@ -167,7 +167,7 @@ import events from 'events';
         }
 
         return parseInt(this.get('skipForwardLength') || '30000');
-    };
+    }
 
     export function dashboardTheme(val) {
         if (val != null) {
@@ -175,7 +175,7 @@ import events from 'events';
         }
 
         return this.get('dashboardTheme');
-    };
+    }
 
     export function skin(val) {
         if (val != null) {
@@ -183,7 +183,7 @@ import events from 'events';
         }
 
         return this.get('skin', false);
-    };
+    }
 
     export function theme(val) {
         if (val != null) {
@@ -191,7 +191,7 @@ import events from 'events';
         }
 
         return this.get('appTheme', false);
-    };
+    }
 
     export function screensaver(val) {
         if (val != null) {
@@ -199,7 +199,7 @@ import events from 'events';
         }
 
         return this.get('screensaver', false);
-    };
+    }
 
     export function soundEffects(val) {
         if (val != null) {
@@ -207,7 +207,7 @@ import events from 'events';
         }
 
         return this.get('soundeffects', false);
-    };
+    }
 
     export function loadQuerySettings(key, query) {
         var values = this.get(key);
@@ -217,7 +217,7 @@ import events from 'events';
         }
 
         return query;
-    };
+    }
 
     export function saveQuerySettings(key, query) {
         var values = {};
@@ -230,22 +230,22 @@ import events from 'events';
         }
 
         return this.set(key, JSON.stringify(values));
-    };
+    }
 
     export function getSubtitleAppearanceSettings(key) {
         key = key || 'localplayersubtitleappearance3';
         return JSON.parse(this.get(key, false) || '{}');
-    };
+    }
 
     export function setSubtitleAppearanceSettings(value, key) {
         key = key || 'localplayersubtitleappearance3';
         return this.set(key, JSON.stringify(value), false);
-    };
+    }
 
     export function setFilter(key, value) {
         return this.set(key, value, true);
-    };
+    }
 
     export function getFilter(key) {
         return this.get(key, true);
-    };
+    }
