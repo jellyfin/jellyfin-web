@@ -433,13 +433,9 @@ define(['browser'], function (browser) {
 
         var supportsDts = browser.tizen || browser.orsay || browser.web0s || options.supportsDts;
 
-        if (self.tizen && self.tizen.systeminfo) {
-            var v = tizen.systeminfo.getCapability('http://tizen.org/feature/platform.version');
-
-            // DTS audio not supported in 2018 models (Tizen 4.0)
-            if (v && parseFloat(v) >= parseFloat('4.0')) {
-                supportsDts = false;
-            }
+        // DTS audio not supported in 2018 models (Tizen 4.0)
+        if (browser.tizenVersion >= 4) {
+            supportsDts = false;
         }
 
         if (supportsDts) {
@@ -764,6 +760,11 @@ define(['browser'], function (browser) {
         if (browser.tizen || browser.orsay || browser.web0s ||
             videoTestElement.canPlayType('video/mp4; codecs="avc1.640833"').replace(/no/, '')) {
             maxH264Level = 51;
+        }
+
+        // Support H264 Level 52 (Tizen 5.0) - app only
+        if (browser.tizenVersion >= 5 && window.NativeShell) {
+            maxH264Level = 52;
         }
 
         if (browser.tizen || browser.orsay ||

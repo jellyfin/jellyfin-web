@@ -1,4 +1,4 @@
-define(["appSettings", "browser", "events", "htmlMediaHelper", "globalize"], function (appSettings, browser, events, htmlMediaHelper, globalize) {
+define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings", "globalize"], function (appSettings, browser, events, htmlMediaHelper, webSettings, globalize) {
     "use strict";
 
     function getBaseProfileOptions(item) {
@@ -276,9 +276,11 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "globalize"], fun
         features.push("otherapppromotions");
         features.push("displaymode");
         features.push("targetblank");
-        // allows users to connect to more than one server
-        //features.push("multiserver");
         features.push("screensaver");
+
+        webSettings.enableMultiServer().then(enabled => {
+            if (enabled) features.push("multiserver")
+        })
 
         if (!browser.orsay && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
             features.push("subtitleappearancesettings");
