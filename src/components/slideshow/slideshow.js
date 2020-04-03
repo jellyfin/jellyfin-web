@@ -148,8 +148,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
             if (options.interactive && !layoutManager.tv) {
-                console.warn(layoutManager.tv);
-                console.warn("Interactive");
                 var actionButtonsOnTop = layoutManager.mobile;
 
                 html += getIcon('keyboard_arrow_left', 'btnSlideshowPrevious slideshowButton hide-mouse-idle-tv', false);
