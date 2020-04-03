@@ -30,7 +30,7 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                         Fields: "PrimaryImageAspectRatio,SortName,BasicSyncInfo",
                         ImageTypeLimit: 1,
                         EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
-                        StartIndex: 0,
+                        StartIndex: 0
                     },
                     view: libraryBrowser.getSavedView(key) || "Poster"
                 };

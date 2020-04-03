@@ -14,7 +14,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                     Fields: "PrimaryImageAspectRatio,SortName,BasicSyncInfo",
                     StartIndex: 0,
                     ImageTypeLimit: 1,
-                    EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
+                    EnableImageTypes: "Primary,Backdrop,Banner,Thumb"
                 };
 
                 if (userSettings.libraryPageSize() > 0) {
