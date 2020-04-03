@@ -105,7 +105,9 @@
           "src/scripts/keyboardnavigation.js",
           "src/scripts/settings/appSettings.js",
           "src/scripts/settings/userSettings.js",
-          "src/scripts/settings/webSettings.js"
+          "src/scripts/settings/webSettings.js",
+          "src/components/syncplay/groupSelectionMenu.js",
+          "src/components/syncplay/syncplayManager.js"
         ],
         "plugins": [
           "@babel/plugin-transform-modules-amd"

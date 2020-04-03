@@ -314,6 +314,13 @@ var AppInfo = {};
         return obj;
     }
 
+    function returnDefault(obj) {
+        if (obj.default === null) {
+            throw new Error("Object has no default!");
+        }
+        return obj.default;
+    }
+
     function getBowerPath() {
         return 'libraries';
     }
@@ -817,7 +824,7 @@ var AppInfo = {};
         define('playbackSettings', [componentsPath + '/playbacksettings/playbacksettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homescreensettings/homescreensettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
-        define('syncplayManager', [componentsPath + '/syncplay/syncplaymanager'], returnFirstDependency);
+        define('syncplayManager', [componentsPath + '/syncplay/syncplaymanager'], returnDefault);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);
         define('homeSections', [componentsPath + '/homesections/homesections'], returnFirstDependency);
         define('playMenu', [componentsPath + '/playmenu'], returnFirstDependency);
