@@ -103,7 +103,7 @@ define(["loading", "dom", "libraryMenu", "globalize", "scripts/imagehelper", "da
 
             if (device.LastUserName) {
                 deviceHtml += device.LastUserName;
-                deviceHtml += ", " + datefns.formatDistanceToNow(Date.parse(device.DateLastActivity), { addSuffix: true, locale: dfnshelper.getLocale() });
+                deviceHtml += ", " + datefns.formatDistanceToNow(Date.parse(device.DateLastActivity), dfnshelper.localeWithSuffix);
             }
 
             deviceHtml += "&nbsp;";

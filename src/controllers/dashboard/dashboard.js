@@ -471,7 +471,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             // how dates are returned by the server when the session is active and show something like 'Active now', instead of past/future sentences
             if (!nowPlayingItem) {
                 return {
-                    html: globalize.translate("LastSeen", datefns.formatDistanceToNow(Date.parse(session.LastActivityDate), { addSuffix: true, locale: dfnshelper.getLocale() })),
+                    html: globalize.translate("LastSeen", datefns.formatDistanceToNow(Date.parse(session.LastActivityDate), dfnshelper.localeWithSuffix)),
                     image: imgUrl
                 };
             }

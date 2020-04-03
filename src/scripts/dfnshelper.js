@@ -95,3 +95,4 @@ export function getLocale() {
             return enUS;
     }
 }
+export const localeWithSuffix = { addSuffix: true, locale: getLocale() };

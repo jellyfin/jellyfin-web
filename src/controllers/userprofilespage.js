@@ -129,7 +129,7 @@ define(["loading", "dom", "globalize", "date-fns", "dfnshelper", "paper-icon-but
     // how dates are returned by the server when the session is active and show something like 'Active now', instead of past/future sentences
     function getLastSeenText(lastActivityDate) {
         if (lastActivityDate) {
-            return globalize.translate("LastSeen", datefns.formatDistanceToNow(Date.parse(lastActivityDate), { addSuffix: true, locale: dfnshelper.getLocale() }));
+            return globalize.translate("LastSeen", datefns.formatDistanceToNow(Date.parse(lastActivityDate), dfnshelper.localeWithSuffix));
         }
 
         return "";

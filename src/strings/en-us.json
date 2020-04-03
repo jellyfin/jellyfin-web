@@ -1483,7 +1483,7 @@
     "Yesterday": "Yesterday",
     "PathNotFound": "The path could not be found. Please ensure the path is valid and try again.",
     "WriteAccessRequired": "Jellyfin Server requires write access to this folder. Please ensure write access and try again.",
-    "ListPaging": "{0} of {1}",
+    "ListPaging": "{0}-{1} of {2}",
     "PersonRole": "as {0}",
     "LastSeen": "Last seen {0}",
     "DailyAt": "Daily at {0}",
