@@ -253,7 +253,6 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
     updateCurrentCulture();
 
-    events.on(connectionManager, 'localusersignedin', updateCurrentCulture);
     events.on(userSettings, 'change', function (e, name) {
         if (name === 'language' || name === 'datetimelocale') {
             updateCurrentCulture();
