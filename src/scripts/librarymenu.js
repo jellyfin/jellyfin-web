@@ -73,7 +73,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }
 
         if (user && user.localUser) {
-            if (headerHomeButton) {
+            if (headerHomeButton && !layoutManager.mobile) {
                 headerHomeButton.classList.remove("hide");
             }
 
@@ -243,15 +243,20 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="material-icons navMenuOptionIcon">wifi</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
             }
 
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><i class="material-icons navMenuOptionIcon settings"></i><span class="navMenuOptionText">' + globalize.translate("ButtonSettings") + "</span></a>";
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="material-icons navMenuOptionIcon exit_to_app"></i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
             html += "</div>";
         }
 
         // add buttons to navigation drawer
         navDrawerScrollContainer.innerHTML = html;
-        // bind logout button click to method
-        var btnLogout = navDrawerScrollContainer.querySelector(".btnLogout");
 
+        var btnSettings = navDrawerScrollContainer.querySelector(".btnSettings");
+        if (btnSettings) {
+            btnSettings.addEventListener("click", onSettingsClick);
+        }
+
+        var btnLogout = navDrawerScrollContainer.querySelector(".btnLogout");
         if (btnLogout) {
             btnLogout.addEventListener("click", onLogoutClick);
         }
@@ -598,6 +603,10 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }
     }
 
+    function onSettingsClick() {
+        Dashboard.navigate("mypreferencesmenu.html");
+    }
+
     function onLogoutClick() {
         Dashboard.logout();
     }
@@ -788,7 +797,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     var headerCastButton;
     var headerSearchButton;
     var headerAudioPlayerButton;
-    var enableLibraryNavDrawer = !layoutManager.tv;
+    var enableLibraryNavDrawer = layoutManager.desktop;
     var skinHeader = document.querySelector(".skinHeader");
     var requiresUserRefresh = true;
     var lastOpenTime = new Date().getTime();
@@ -863,6 +872,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     pageClassOn("pageshow", "page", function (e) {
         var page = this;
         var isDashboardPage = page.classList.contains("type-interior");
+        var isHomePage = page.classList.contains("homePage");
         var isLibraryPage = !isDashboardPage && page.classList.contains("libraryPage");
         var apiClient = getCurrentApiClient();
 
@@ -874,7 +884,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             refreshDashboardInfoInDrawer(apiClient);
         } else {
             if (mainDrawerButton) {
-                if (enableLibraryNavDrawer) {
+                if (enableLibraryNavDrawer || isHomePage) {
                     mainDrawerButton.classList.remove("hide");
                 } else {
                     mainDrawerButton.classList.add("hide");

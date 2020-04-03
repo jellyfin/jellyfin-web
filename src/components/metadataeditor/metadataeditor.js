@@ -465,7 +465,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             var id = "txt1" + idInfo.Key;
             var formatString = idInfo.UrlFormatString || '';
 
-            var labelText = globalize.translate('LabelDynamicExternalId').replace('{0}', idInfo.Name);
+            var fullName = idInfo.Name;
+            if (idInfo.Type) {
+                fullName = idInfo.Name + " " + globalize.translate(idInfo.Type);
+            }
+
+            var labelText = globalize.translate("LabelDynamicExternalId").replace("{0}", fullName);
 
             html += '<div class="inputContainer">';
             html += '<div class="flex align-items-center">';
