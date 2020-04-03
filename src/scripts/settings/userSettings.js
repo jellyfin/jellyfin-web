@@ -36,7 +36,7 @@ import events from 'events';
             result.CustomPrefs = result.CustomPrefs || {};
             self.displayPrefs = result;
         });
-    };
+    }
 
     export function getData() {
         return this.displayPrefs;
@@ -108,7 +108,7 @@ import events from 'events';
 
         val = this.get('enableThemeSongs', false);
         return val !== 'false';
-    };
+    }
 
     export function enableThemeVideos(val) {
         if (val != null) {
