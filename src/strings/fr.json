@@ -1471,5 +1471,16 @@
     "PlaybackErrorNoCompatibleStream": "Problème de profil client, le serveur n’a pas pu envoyer un format média compatible.",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Préférer les informations intégrées aux noms de fichiers",
     "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Utilise les informations des métadonnées intégrées, si disponible.",
-    "ClientSettings": "Paramètres Client"
+    "ClientSettings": "Paramètres Client",
+    "Track": "Piste",
+    "Season": "Saison",
+    "ReleaseGroup": "Groupe de Parution",
+    "Person": "Personne",
+    "OtherArtist": "Autre Artiste",
+    "Movie": "Film",
+    "Episode": "Épisode",
+    "BoxSet": "Coffret",
+    "Artist": "Artiste",
+    "AlbumArtist": "Artiste de l'Album",
+    "Album": "Album"
 }
