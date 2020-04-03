@@ -145,10 +145,13 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             var html = '';
 
-            if (options.interactive) {
+            html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
+
+            if (options.interactive && !layoutManager.tv) {
+                console.warn(layoutManager.tv);
+                console.warn("Interactive");
                 var actionButtonsOnTop = layoutManager.mobile;
 
-                html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
                 html += getIcon('keyboard_arrow_left', 'btnSlideshowPrevious slideshowButton hide-mouse-idle-tv', false);
                 html += getIcon('keyboard_arrow_right', 'btnSlideshowNext slideshowButton hide-mouse-idle-tv', false);
@@ -185,7 +188,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             dialog.innerHTML = html;
 
-            if (options.interactive) {
+            if (options.interactive && !layoutManager.tv) {
                 dialog.querySelector('.btnSlideshowExit').addEventListener('click', function (e) {
                     dialogHelper.close(dialog);
                 });
@@ -217,9 +220,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             dialog.addEventListener('close', onDialogClosed);
 
-            if (options.interactive) {
-                loadSwiper(dialog, options);
-            }
+            loadSwiper(dialog, options);
         }
 
         /**
@@ -257,10 +258,10 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             require(['swiper'], function (Swiper) {
                 swiperInstance = new Swiper(dialog.querySelector('.slideshowSwiperContainer'), {
-                    // Optional parameters
                     direction: 'horizontal',
+                    // Loop is disabled due to the virtual slides option not supporting it.
                     loop: false,
-                    autoplay: options.interactive ? false : true,
+                    autoplay: !options.interactive,
                     keyboard: {
                         enabled: true
                     },
@@ -273,6 +274,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                         nextEl: '.btnSlideshowNext',
                         prevEl: '.btnSlideshowPrevious'
                     },
+                    // Virtual slides reduce memory consumption for large libraries while allowing preloading of images;
                     virtual: {
                         slides: slides,
                         cache: true,
