@@ -84,7 +84,7 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                     }
 
                     if (userSettings.libraryPageSize() > 0) {
-                        query.StartIndex += query.Limit;
+                        query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
                     }
                     reloadItems(tabContent);
                 }
