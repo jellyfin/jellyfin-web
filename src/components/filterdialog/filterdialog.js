@@ -1,4 +1,4 @@
-define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "require", "emby-checkbox", "emby-collapse", "css!./style"], function (dialogHelper, globalize, connectionManager, events, browser, require) {
+define(["dom", "dialogHelper", "globalize", "connectionManager", "events", "browser", "require", "emby-checkbox", "emby-collapse", "css!./style"], function (dom, dialogHelper, globalize, connectionManager, events, browser, require) {
     "use strict";
 
     function renderOptions(context, selector, cssClass, items, isCheckedFn) {
@@ -104,16 +104,6 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
 
     function triggerChange(instance) {
         events.trigger(instance, "filterchange");
-    }
-
-    function parentWithClass(elem, className) {
-        while (!elem.classList || !elem.classList.contains(className)) {
-            elem = elem.parentNode;
-            if (!elem) {
-                return null;
-            }
-        }
-        return elem;
     }
 
     function setVisibility(context, options) {
@@ -320,7 +310,7 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
                 triggerChange(self);
             });
             context.addEventListener("change", function (e) {
-                var chkGenreFilter = parentWithClass(e.target, "chkGenreFilter");
+                var chkGenreFilter = dom.parentWithClass(e.target, "chkGenreFilter");
                 if (chkGenreFilter) {
                     var filterName = chkGenreFilter.getAttribute("data-filter");
                     var filters = query.Genres || "";
@@ -334,7 +324,7 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
                     triggerChange(self);
                     return;
                 }
-                var chkTagFilter = parentWithClass(e.target, "chkTagFilter");
+                var chkTagFilter = dom.parentWithClass(e.target, "chkTagFilter");
                 if (chkTagFilter) {
                     var filterName = chkTagFilter.getAttribute("data-filter");
                     var filters = query.Tags || "";
@@ -348,7 +338,7 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
                     triggerChange(self);
                     return;
                 }
-                var chkYearFilter = parentWithClass(e.target, "chkYearFilter");
+                var chkYearFilter = dom.parentWithClass(e.target, "chkYearFilter");
                 if (chkYearFilter) {
                     var filterName = chkYearFilter.getAttribute("data-filter");
                     var filters = query.Years || "";
@@ -362,7 +352,7 @@ define(["dialogHelper", "globalize", "connectionManager", "events", "browser", "
                     triggerChange(self);
                     return;
                 }
-                var chkOfficialRatingFilter = parentWithClass(e.target, "chkOfficialRatingFilter");
+                var chkOfficialRatingFilter = dom.parentWithClass(e.target, "chkOfficialRatingFilter");
                 if (chkOfficialRatingFilter) {
                     var filterName = chkOfficialRatingFilter.getAttribute("data-filter");
                     var filters = query.OfficialRatings || "";
