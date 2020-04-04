@@ -86,6 +86,12 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             if (!layoutManager.tv) {
                 headerCastButton.classList.remove('hide');
             }
+
+            var policy = user.Policy ? user.Policy : user.localUser.Policy;
+
+            if (headerSyncButton && policy && policy.SyncplayAccess !== "None") {
+                headerSyncButton.classList.remove("hide");
+            }
         } else {
             headerHomeButton.classList.add('hide');
             headerCastButton.classList.add('hide');
@@ -94,8 +100,6 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
                 headerSearchButton.classList.add('hide');
             }
         }
-
-        headerSyncButton.classList.remove("hide");
 
         requiresUserRefresh = false;
     }

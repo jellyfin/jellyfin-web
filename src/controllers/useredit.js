@@ -104,6 +104,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'fnchecked'], function 
         $('#chkEnableSharing', page).checked(user.Policy.EnablePublicSharing);
         $('#txtRemoteClientBitrateLimit', page).val(user.Policy.RemoteClientBitrateLimit / 1e6 || '');
         $('#txtLoginAttemptsBeforeLockout', page).val(user.Policy.LoginAttemptsBeforeLockout || '0');
+        $('#selectSyncplayAccess').val(user.Policy.SyncplayAccess);
         loading.hide();
     }
 
@@ -145,6 +146,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'fnchecked'], function 
         }).map(function (c) {
             return c.getAttribute('data-id');
         });
+        user.Policy.SyncplayAccess = page.querySelector('#selectSyncplayAccess').value;
         ApiClient.updateUser(user).then(function () {
             ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
                 onSaveComplete(page, user);

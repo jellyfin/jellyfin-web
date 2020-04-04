@@ -645,7 +645,7 @@ class SyncplayManager {
 
     /**
      * Converts server time to local time.
-     * @param {Date} server 
+     * @param {Date} server The time to convert.
      * @returns {Date} Local time.
      */
     serverDateToLocal (server) {
@@ -655,7 +655,7 @@ class SyncplayManager {
 
     /**
      * Converts local time to server time.
-     * @param {Date} local
+     * @param {Date} local The time to convert.
      * @returns {Date} Server time.
      */
     localDateToServer (local) {
@@ -665,7 +665,7 @@ class SyncplayManager {
 
     /**
      * Gets Syncplay status.
-     * @returns {boolean} _true_ is user joined a group, _false_ otherwise.
+     * @returns {boolean} _true_ if user joined a group, _false_ otherwise.
      */
     isSyncplayEnabled () {
         return this.syncplayEnabledAt !== null ? true : false;
