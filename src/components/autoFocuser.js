@@ -95,8 +95,10 @@ import layoutManager from "layoutManager";
         return focusedElement;
     }
 
-    export default {
-        isEnabled: isEnabled,
-        enable: enable,
-        autoFocus: autoFocus
-    };
+/* eslint-enable indent */
+
+export default {
+    isEnabled: isEnabled,
+    enable: enable,
+    autoFocus: autoFocus
+};
