@@ -68,6 +68,9 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
                 ensureTranslation(allTranslations[i], fallbackCulture);
             }
         }
+        if (culture == 'zh-tw' || culture == 'zh-hk') {
+            require(["css!jellyfin-noto/css/TC"]);
+        }
     }
 
     function ensureTranslation(translationInfo, culture) {
