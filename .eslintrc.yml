@@ -22,6 +22,7 @@ extends:
   - plugin:import/errors
   - plugin:import/warnings
   - plugin:eslint-comments/recommended
+  - plugin:compat/recommended
 
 globals:
   # Browser globals
