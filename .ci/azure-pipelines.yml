@@ -12,7 +12,7 @@ pr:
     - '*'
 
 jobs:
-  - job: build
+  - job: Build
     displayName: 'Build'
 
     strategy:
@@ -68,7 +68,7 @@ jobs:
         targetPath: '$(Build.SourcesDirectory)/jellyfin-web'
         artifactName: 'jellyfin-web-$(BuildConfiguration)'
 
-  - job: lint
+  - job: Lint
     displayName: 'Lint'
 
     pool:
