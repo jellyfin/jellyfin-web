@@ -1489,5 +1489,8 @@
     "EveryXMinutes": "Cada {0} minutos",
     "EveryHour": "Cada hora",
     "EveryXHours": "Cada {0} horas",
-    "OnApplicationStartup": "Al iniciarse el servidor"
+    "OnApplicationStartup": "Al iniciarse el servidor",
+    "ExperimentalBluRayPlayback": "La reproducción de Blu-Ray es experimental. Jellyfin no puede leer contenidos protegidos por DRM. Se intentará reproducir todos los títulos del Blu-Ray, incluso las partes protegidas, por lo que es posible que ciertas partes se vean en negro",
+    "ExperimentalDVDPlayback": "La reproducción de DVD es experimental. Jellyfin no puede leer contenidos protegidos por DRM. Se intentará reproducir todos los títulos del DVD, incluso las partes protegidas, por lo que es posible que ciertas partes se vean en negro",
+    "ExperimentalISOPlayback": "La reproducción de archivos ISO es experimental. Se intentará reproducir todos los títulos incluidos en el archivo ISO, por lo que es posible que ciertas partes se vean en negro"
 }

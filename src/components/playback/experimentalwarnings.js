@@ -44,24 +44,15 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
     }
 
     function showBlurayMessage() {
-
-        var message =
-            'Playback of Bluray folders in this app is experimental. Jellyfin cannot decrypt DRM. The current behavior is to play all files in series, this can include a two minute black intro video.';
-        return showMessage(message, 'blurayexpirementalinfo', 'nativeblurayplayback');
+        return showMessage(globalize.translate("ExperimentalBluRayPlayback"), 'blurayexpirementalinfo', 'nativeblurayplayback');
     }
 
     function showDvdMessage() {
-
-        var message =
-            'Playback of Dvd folders in this app is experimental. Jellyfin cannot decrypt DRM. The current behavior is to play all files in series, this can include a two minute black intro video.';
-        return showMessage(message, 'dvdexpirementalinfo', 'nativedvdplayback');
+        return showMessage(globalize.translate("ExperimentalDVDPlayback"), 'dvdexpirementalinfo', 'nativedvdplayback');
     }
 
     function showIsoMessage() {
-
-        var message =
-            'Playback of ISO files in this app is experimental. The current behavior is to play all files in series, this can include a two minute black intro video.';
-        return showMessage(message, 'isoexpirementalinfo', 'nativeisoplayback');
+        return showMessage(globalize.translate("ExperimentalISOPlayback"), 'isoexpirementalinfo', 'nativeisoplayback');
     }
 
     function ExpirementalPlaybackWarnings() {
