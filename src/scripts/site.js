@@ -612,13 +612,17 @@ var AppInfo = {};
     }
 
     function registerServiceWorker() {
-        if (navigator.serviceWorker && "cordova" !== self.appMode && "android" !== self.appMode) {
+        /* eslint-disable compat/compat */
+        if (navigator.serviceWorker && self.appMode !== "cordova" && self.appMode !== "android") {
             try {
                 navigator.serviceWorker.register("serviceworker.js");
             } catch (err) {
                 console.error("error registering serviceWorker: " + err);
             }
+        } else {
+            console.warn("serviceWorker unsupported");
         }
+        /* eslint-enable compat/compat */
     }
 
     function onWebComponentsReady(browser) {
@@ -696,7 +700,9 @@ var AppInfo = {};
                     "jellyfin-noto",
                     "date-fns",
                     "page",
-                    "polyfill"
+                    "polyfill",
+                    "fast-text-encoding",
+                    "intersection-observer"
                 ]
             },
             urlArgs: urlArgs,
@@ -705,6 +711,8 @@ var AppInfo = {};
         });
 
         require(["polyfill"]);
+        require(["fast-text-encoding"]);
+        require(["intersection-observer"]);
 
         // Expose jQuery globally
         require(["jQuery"], function(jQuery) {

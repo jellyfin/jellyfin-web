@@ -31,7 +31,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
     }
 
     function enableHlsShakaPlayer(item, mediaSource, mediaType) {
-
+        /* eslint-disable-next-line compat/compat */
         if (!!window.MediaSource && !!MediaSource.isTypeSupported) {
 
             if (canPlayNativeHls()) {

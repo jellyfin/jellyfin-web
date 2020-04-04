@@ -184,7 +184,7 @@ require(['apphost'], function (appHost) {
     function allowInput() {
 
         // This would be nice but always seems to return true with electron
-        if (!isElectron && document.hidden) {
+        if (!isElectron && document.hidden) { /* eslint-disable-line compat/compat */
             return false;
         }
 
@@ -254,7 +254,7 @@ require(['apphost'], function (appHost) {
     var inputLoopTimer;
     function runInputLoop() {
         // Get the latest gamepad state.
-        var gamepads = navigator.getGamepads();
+        var gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
         for (var i = 0, len = gamepads.length; i < len; i++) {
             var gamepad = gamepads[i];
             if (!gamepad) {
@@ -362,7 +362,7 @@ require(['apphost'], function (appHost) {
     }
 
     function isGamepadConnected() {
-        var gamepads = navigator.getGamepads();
+        var gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
         for (var i = 0, len = gamepads.length; i < len; i++) {
             var gamepad = gamepads[i];
             if (gamepad && gamepad.connected) {
@@ -373,6 +373,7 @@ require(['apphost'], function (appHost) {
     }
 
     function onFocusOrGamepadAttach(e) {
+        /* eslint-disable-next-line compat/compat */
         if (isGamepadConnected() && document.hasFocus()) {
             console.log("Gamepad connected! Starting input loop");
             startInputLoop();
@@ -380,6 +381,7 @@ require(['apphost'], function (appHost) {
     }
 
     function onFocusOrGamepadDetach(e) {
+        /* eslint-disable-next-line compat/compat */
         if (!isGamepadConnected() || !document.hasFocus()) {
             console.log("Gamepad disconnected! No other gamepads are connected, stopping input loop");
             stopInputLoop();
@@ -401,7 +403,7 @@ require(['apphost'], function (appHost) {
     if (window.navigator && typeof window.navigator.gamepadInputEmulation === "string") {
         // We want the gamepad to provide gamepad VK keyboard events rather than moving a
         // mouse like cursor. Set to "keyboard", the gamepad will provide such keyboard events
-        // and provide input to the DOM navigator.getGamepads API.
+        // and provide input to tonFocusOrGamepadDetachhe DOM navigator.getGamepads API.
         window.navigator.gamepadInputEmulation = "gamepad";
     }
 

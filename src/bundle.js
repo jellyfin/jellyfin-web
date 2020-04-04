@@ -123,3 +123,13 @@ var date_fns_locale = require("date-fns/locale");
 _define("date-fns/locale", function () {
     return date_fns_locale;
 });
+
+var fast_text_encoding = require("fast-text-encoding");
+_define("fast-text-encoding", function () {
+    return fast_text_encoding;
+});
+
+var intersection_observer = require("intersection-observer");
+_define("intersection-observer", function () {
+    return intersection_observer;
+});
