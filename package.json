@@ -55,6 +55,7 @@
   "dependencies": {
     "alameda": "^1.4.0",
     "core-js": "^3.6.4",
+    "date-fns": "^2.11.1",
     "document-register-element": "^1.14.3",
     "flv.js": "^1.5.0",
     "hls.js": "^0.13.1",
@@ -89,7 +90,8 @@
           "src/components/input/keyboardnavigation.js",
           "src/components/sanatizefilename.js",
           "src/scripts/settings/webSettings.js",
-          "src/components/scrollManager.js"
+          "src/components/scrollManager.js",
+          "src/scripts/dfnshelper.js"
         ],
         "plugins": [
           "@babel/plugin-transform-modules-amd"

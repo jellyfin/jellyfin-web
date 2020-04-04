@@ -112,3 +112,14 @@ var polyfill = require("@babel/polyfill/dist/polyfill");
 _define("polyfill", function () {
     return polyfill;
 });
+
+// Date-FNS
+var date_fns = require("date-fns");
+_define("date-fns", function () {
+    return date_fns;
+});
+
+var date_fns_locale = require("date-fns/locale");
+_define("date-fns/locale", function () {
+    return date_fns_locale;
+});

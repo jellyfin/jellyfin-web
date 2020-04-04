@@ -1,4 +1,4 @@
-define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "scripts/imagehelper", "indicators", "humanedate", "listViewStyle", "emby-button", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper, indicators) {
+define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "date-fns", "dfnshelper", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "scripts/imagehelper", "indicators", "listViewStyle", "emby-button", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, datefns, dfnshelper, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper, indicators) {
     "use strict";
 
     function showPlaybackInfo(btn, session) {
@@ -467,10 +467,11 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         getNowPlayingName: function (session) {
             var imgUrl = "";
             var nowPlayingItem = session.NowPlayingItem;
-
+            // FIXME: It seems that, sometimes, server sends date in the future, so date-fns displays messages like 'in less than a minute'. We should fix
+            // how dates are returned by the server when the session is active and show something like 'Active now', instead of past/future sentences
             if (!nowPlayingItem) {
                 return {
-                    html: "Last seen " + humaneDate(session.LastActivityDate),
+                    html: globalize.translate("LastSeen", datefns.formatDistanceToNow(Date.parse(session.LastActivityDate), dfnshelper.localeWithSuffix)),
                     image: imgUrl
                 };
             }

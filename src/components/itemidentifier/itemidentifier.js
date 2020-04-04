@@ -309,7 +309,7 @@ define(["dialogHelper", "loading", "connectionManager", "require", "globalize", 
                     fullName = idInfo.Name + " " + globalize.translate(idInfo.Type);
                 }
 
-                var idLabel = globalize.translate("LabelDynamicExternalId").replace("{0}", fullName);
+                var idLabel = globalize.translate("LabelDynamicExternalId", fullName);
 
                 html += '<input is="emby-input" class="txtLookupId" data-providerkey="' + idInfo.Key + '" id="' + id + '" label="' + idLabel + '"/>';
 

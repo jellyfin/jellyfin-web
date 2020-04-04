@@ -1,4 +1,4 @@
-define(["events", "globalize", "dom", "datetime", "userSettings", "serverNotifications", "connectionManager", "emby-button", "listViewStyle"], function (events, globalize, dom, datetime, userSettings, serverNotifications, connectionManager) {
+define(["events", "globalize", "dom", "date-fns", "dfnshelper", "userSettings", "serverNotifications", "connectionManager", "emby-button", "listViewStyle"], function (events, globalize, dom, datefns, dfnshelper, userSettings, serverNotifications, connectionManager) {
     "use strict";
 
     function getEntryHtml(entry, apiClient) {
@@ -26,8 +26,7 @@ define(["events", "globalize", "dom", "datetime", "userSettings", "serverNotific
         html += entry.Name;
         html += "</div>";
         html += '<div class="listItemBodyText secondary">';
-        var date = datetime.parseISO8601Date(entry.Date, true);
-        html += datetime.toLocaleString(date).toLowerCase();
+        html += datefns.formatRelative(Date.parse(entry.Date), Date.parse(new Date()), { locale: dfnshelper.getLocale() });
         html += "</div>";
         html += '<div class="listItemBodyText secondary listItemBodyText-nowrap">';
         html += entry.ShortOverview || "";

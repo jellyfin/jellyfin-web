@@ -49,8 +49,7 @@ globals:
   getWindowLocationSearch: writable
   Globalize: writable
   Hls: writable
-  humaneDate: writable
-  humaneElapsed: writable
+  dfnshelper: writable
   LibraryMenu: writable
   LinkParser: writable
   LiveTvHelpers: writable

@@ -83,7 +83,7 @@ define(["userSettings"], function (userSettings) {
 
             if (html += '<div class="listPaging">', showControls) {
                 html += '<span style="vertical-align:middle;">';
-                html += (totalRecordCount ? startIndex + 1 : 0) + "-" + recordsEnd + " of " + totalRecordCount;
+                html += Globalize.translate("ListPaging", (totalRecordCount ? startIndex + 1 : 0), recordsEnd, totalRecordCount);
                 html += "</span>";
             }
 
