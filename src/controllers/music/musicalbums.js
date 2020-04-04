@@ -183,7 +183,6 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
         var savedQueryKey;
         var pageData;
         var self = this;
-        var pageSize = 100;
         var isLoading = false;
 
         self.showFilterMenu = function () {

@@ -176,7 +176,6 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
         }
 
         var self = this;
-        var pageSize = 100;
         var data = {};
         var isLoading = false;
 

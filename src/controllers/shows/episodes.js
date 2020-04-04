@@ -160,7 +160,6 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
         }
 
         var self = this;
-        var pageSize = 100;
         var data = {};
         var isLoading = false;
 
