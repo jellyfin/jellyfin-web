@@ -7,7 +7,7 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "userS
             var pageData = data[key];
 
             if (!pageData) {
-                pageData = {
+                pageData = data[key] = {
                     query: {
                         SortBy: "Album,SortName",
                         SortOrder: "Ascending",
