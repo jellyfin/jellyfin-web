@@ -11,7 +11,7 @@
     "AddUser": "Benutzer anlegen",
     "AddUserByManually": "Lege einen lokalen User durch manuelle Eingabe der User-Informationen an.",
     "AddedOnValue": "{0} hinzugefügt",
-    "AdditionalNotificationServices": "Schau im Pluginkatalog, um weitere Benachrichtigungsdienste zu installieren.",
+    "AdditionalNotificationServices": "Durchsuche den Pluginkatalog, um weitere Benachrichtigungsdienste zu installieren.",
     "AirDate": "Erstausstrahlung",
     "Aired": "Ausgestrahlt",
     "Albums": "Alben",
@@ -26,7 +26,7 @@
     "AllowMediaConversion": "Erlaube Medienkonvertierung",
     "AllowMediaConversionHelp": "Erlaube oder unterbinde Zugriff auf die Medienkonvertierung.",
     "AllowOnTheFlySubtitleExtraction": "Erlaube Untertitelextraktion \"on-the-fly\"",
-    "AllowOnTheFlySubtitleExtractionHelp": "Eingebettete Untertitel können aus Videos extrahiert und im Textformat an Clients gesendet werden um die Videotranskodierung zu vermeiden. Auf manchen Systemen kann dieser Vorgang eine lange Zeit in Anspruch nehmen und die Videowiedergabe während der Extraktion unterbrochen werden. Deaktiviere diese Option um eingebettete Untertitel während der Videotranskodierung einbrennen zu lassen, wenn sie nicht nativ vom Client unterstützt werden.",
+    "AllowOnTheFlySubtitleExtractionHelp": "Eingebettete Untertitel können aus Videos extrahiert und in Reintext an Clients gesendet werden, um eine Videotranskodierung zu vermeiden. Auf manchen Systemen kann dieser Vorgang eine lange Zeit in Anspruch nehmen und deswegen währenddessen die Videowiedergabe stoppen. Deaktiviere diese Option, um eingebettete Untertitel während des Videotranskodierens einbrennen zu lassen, wenn sie nicht nativ vom Client unterstützt werden.",
     "AllowRemoteAccess": "Erlaube externe Verbindungen zu diesem Jellyfin Server.",
     "AllowRemoteAccessHelp": "Wenn deaktiviert werden alle externen Verbindungen blockiert.",
     "AllowSeasonalThemes": "Erlaube automatische Jahreszeitenmotive",
@@ -1314,7 +1314,7 @@
     "LabelProfileCodecs": "Codecs:",
     "LabelProfileContainer": "Container:",
     "LabelSkin": "Textur:",
-    "Art": "Kunst",
+    "Art": "Coverkunst",
     "Name": "Name",
     "Songs": "Songs",
     "ValueSpecialEpisodeName": "Extra - {0}",
@@ -1400,7 +1400,7 @@
     "Thumb": "Miniaturansicht",
     "TitleSupport": "Hilfe",
     "Whitelist": "Erlaubt",
-    "AuthProviderHelp": "Auswählen eines Authentifizierungsanbieter, der zur Authentifizierung des Passworts dieses Benutzes verwendet werden soll.",
+    "AuthProviderHelp": "Authentifizierungsanbieter auswählen, der zur Authentifizierung des Benutzerpassworts verwendet werden soll.",
     "Features": "Funktionen",
     "HeaderFavoriteBooks": "Lieblingsbücher",
     "HeaderFavoriteMovies": "Lieblingsfilme",
@@ -1514,5 +1514,6 @@
     "Episode": "Episode",
     "Artist": "Künstler",
     "AlbumArtist": "Album Künstler",
-    "Album": "Album"
+    "Album": "Album",
+    "BoxSet": "Box Set"
 }
