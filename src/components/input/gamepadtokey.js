@@ -403,7 +403,7 @@ require(['apphost'], function (appHost) {
     if (window.navigator && typeof window.navigator.gamepadInputEmulation === "string") {
         // We want the gamepad to provide gamepad VK keyboard events rather than moving a
         // mouse like cursor. Set to "keyboard", the gamepad will provide such keyboard events
-        // and provide input to tonFocusOrGamepadDetachhe DOM navigator.getGamepads API.
+        // and provide input to the DOM navigator.getGamepads API.
         window.navigator.gamepadInputEmulation = "gamepad";
     }
 
