@@ -429,14 +429,14 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             if (!layoutManager.mobile && parentNameHtml[1]) {
                 html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em; font-weight: 600;">' + parentNameHtml[1] + ' - ' + name + '</h3>';
             } else {
-                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + name + '</h3>';
+                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em; font-weight: 600;">' + name + '</h3>';
             }
         } else {
-            html = '<h1 class="itemName infoText" style="margin: .1em 0 ' + offset + ';">' + name + "</h1>" + html;
+            html = '<h1 class="itemName infoText" style="margin: .1em 0 ' + offset + '; font-weight: 600;">' + name + "</h1>" + html;
         }
 
         if (item.OriginalTitle && item.OriginalTitle != item.Name) {
-            html += '<h4 class="itemName infoText" style="margin: -' + offset + ' 0 0">' + item.OriginalTitle + '</h4>';
+            html += '<h4 class="itemName infoText" style="margin: -' + offset + ' 0 0; font-weight: 600;">' + item.OriginalTitle + '</h4>';
         }
 
         container.innerHTML = html;
