@@ -1,4 +1,4 @@
-define(["apphost", "connectionManager", "listViewStyle", "emby-button"], function(appHost, connectionManager) {
+define(["apphost", "connectionManager", "layoutManager", "listViewStyle", "emby-button"], function(appHost, connectionManager, layoutManager) {
     "use strict";
 
     return function(view, params) {
@@ -8,6 +8,10 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
 
         view.querySelector(".selectServer").addEventListener("click", function () {
             Dashboard.selectServer();
+        });
+
+        view.querySelector(".clientSettings").addEventListener("click", function () {
+            window.NativeShell.openClientSettings();
         });
 
         view.addEventListener("viewshow", function() {
@@ -21,6 +25,12 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
             page.querySelector(".lnkPlaybackPreferences").setAttribute("href", "mypreferencesplayback.html?userId=" + userId);
             page.querySelector(".lnkSubtitlePreferences").setAttribute("href", "mypreferencessubtitles.html?userId=" + userId);
 
+            if (window.NativeShell && window.NativeShell.AppHost.supports("clientsettings")) {
+                page.querySelector(".clientSettings").classList.remove("hide");
+            } else {
+                page.querySelector(".clientSettings").classList.add("hide");
+            }
+
             if (appHost.supports("multiserver")) {
                 page.querySelector(".selectServer").classList.remove("hide");
             } else {
@@ -31,6 +41,12 @@ define(["apphost", "connectionManager", "listViewStyle", "emby-button"], functio
             if (params.userId && params.userId !== Dashboard.getCurrentUserId) {
                 page.querySelector(".userSection").classList.add("hide");
                 page.querySelector(".adminSection").classList.add("hide");
+            }
+
+            if (layoutManager.mobile) {
+                page.querySelector(".headerUsername").classList.add("hide");
+                page.querySelector(".adminSection").classList.add("hide");
+                page.querySelector(".userSection").classList.add("hide");
             }
 
             ApiClient.getUser(userId).then(function(user) {

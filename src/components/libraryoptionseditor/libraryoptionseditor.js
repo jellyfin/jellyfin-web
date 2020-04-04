@@ -107,7 +107,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
         if (!plugins.length) return html;
 
         html += '<div class="metadataFetcher" data-type="' + availableTypeOptions.Type + '">';
-        html += '<h3 class="checkboxListLabel">' + globalize.translate("LabelTypeMetadataDownloaders", availableTypeOptions.Type) + "</h3>";
+        html += '<h3 class="checkboxListLabel">' + globalize.translate("LabelTypeMetadataDownloaders", globalize.translate(availableTypeOptions.Type)) + "</h3>";
         html += '<div class="checkboxList paperList checkboxList-paperList">';
         for (var i = 0; i < plugins.length; i++) {
             var plugin = plugins[i];
@@ -273,14 +273,19 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
 
     function adjustSortableListElement(elem) {
         var btnSortable = elem.querySelector(".btnSortable");
+        var inner = btnSortable.querySelector("i");
         if (elem.previousSibling) {
+            btnSortable.title = globalize.translate("ButtonUp");
             btnSortable.classList.add("btnSortableMoveUp");
             btnSortable.classList.remove("btnSortableMoveDown");
-            btnSortable.querySelector("i").innerHTML = "keyboard_arrow_up";
+            inner.classList.remove("keyboard_arrow_down");
+            inner.classList.add("keyboard_arrow_up");
         } else {
+            btnSortable.title = globalize.translate("ButtonDown");
             btnSortable.classList.remove("btnSortableMoveUp");
             btnSortable.classList.add("btnSortableMoveDown");
-            btnSortable.querySelector("i").innerHTML = "keyboard_arrow_down";
+            inner.classList.remove("keyboard_arrow_up");
+            inner.classList.add("keyboard_arrow_down");
         }
     }
 
@@ -391,6 +396,12 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             parent.querySelector(".chkEnableEmbeddedTitlesContainer").classList.remove("hide");
         }
 
+        if (contentType === "tvshows") {
+            parent.querySelector(".chkEnableEmbeddedEpisodeInfosContainer").classList.remove("hide");
+        } else {
+            parent.querySelector(".chkEnableEmbeddedEpisodeInfosContainer").classList.add("hide");
+        }
+
         return populateMetadataSettings(parent, contentType);
     }
 
@@ -488,6 +499,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             SeasonZeroDisplayName: parent.querySelector("#txtSeasonZeroName").value,
             AutomaticRefreshIntervalDays: parseInt(parent.querySelector("#selectAutoRefreshInterval").value),
             EnableEmbeddedTitles: parent.querySelector("#chkEnableEmbeddedTitles").checked,
+            EnableEmbeddedEpisodeInfos: parent.querySelector("#chkEnableEmbeddedEpisodeInfos").checked,
             SkipSubtitlesIfEmbeddedSubtitlesPresent: parent.querySelector("#chkSkipIfGraphicalSubsPresent").checked,
             SkipSubtitlesIfAudioTrackMatches: parent.querySelector("#chkSkipIfAudioTrackPresent").checked,
             SaveSubtitlesWithMedia: parent.querySelector("#chkSaveSubtitlesLocally").checked,
@@ -540,6 +552,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
         parent.querySelector("#chkImportMissingEpisodes").checked = options.ImportMissingEpisodes;
         parent.querySelector(".chkAutomaticallyGroupSeries").checked = options.EnableAutomaticSeriesGrouping;
         parent.querySelector("#chkEnableEmbeddedTitles").checked = options.EnableEmbeddedTitles;
+        parent.querySelector("#chkEnableEmbeddedEpisodeInfos").checked = options.EnableEmbeddedEpisodeInfos;
         parent.querySelector("#chkSkipIfGraphicalSubsPresent").checked = options.SkipSubtitlesIfEmbeddedSubtitlesPresent;
         parent.querySelector("#chkSaveSubtitlesLocally").checked = options.SaveSubtitlesWithMedia;
         parent.querySelector("#chkSkipIfAudioTrackPresent").checked = options.SkipSubtitlesIfAudioTrackMatches;

@@ -1,4 +1,4 @@
-define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "scripts/imagehelper", "indicators", "humanedate", "listViewStyle", "emby-button", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper, indicators) {
+define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globalize", "date-fns", "dfnshelper", "loading", "connectionManager", "playMethodHelper", "cardBuilder", "imageLoader", "components/activitylog", "scripts/imagehelper", "indicators", "listViewStyle", "emby-button", "flexStyles", "emby-button", "emby-itemscontainer"], function (datetime, events, itemHelper, serverNotifications, dom, globalize, datefns, dfnshelper, loading, connectionManager, playMethodHelper, cardBuilder, imageLoader, ActivityLog, imageHelper, indicators) {
     "use strict";
 
     function showPlaybackInfo(btn, session) {
@@ -467,10 +467,11 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
         getNowPlayingName: function (session) {
             var imgUrl = "";
             var nowPlayingItem = session.NowPlayingItem;
-
+            // FIXME: It seems that, sometimes, server sends date in the future, so date-fns displays messages like 'in less than a minute'. We should fix
+            // how dates are returned by the server when the session is active and show something like 'Active now', instead of past/future sentences
             if (!nowPlayingItem) {
                 return {
-                    html: "Last seen " + humaneDate(session.LastActivityDate),
+                    html: globalize.translate("LastSeen", datefns.formatDistanceToNow(Date.parse(session.LastActivityDate), dfnshelper.localeWithSuffix)),
                     image: imgUrl
                 };
             }
@@ -634,8 +635,11 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             return "<img src='" + iconUrl + "' />";
         },
         getNowPlayingImageUrl: function (item) {
+            /* Screen width is multiplied by 0.2, as the there is currently no way to get the width of
+            elements that aren't created yet. */
             if (item && item.BackdropImageTags && item.BackdropImageTags.length) {
                 return ApiClient.getScaledImageUrl(item.Id, {
+                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                     type: "Backdrop",
                     tag: item.BackdropImageTags[0]
                 });
@@ -643,6 +647,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
                 return ApiClient.getScaledImageUrl(item.ParentBackdropItemId, {
+                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                     type: "Backdrop",
                     tag: item.ParentBackdropImageTags[0]
                 });
@@ -650,6 +655,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && item.BackdropImageTag) {
                 return ApiClient.getScaledImageUrl(item.BackdropItemId, {
+                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                     type: "Backdrop",
                     tag: item.BackdropImageTag
                 });
@@ -659,6 +665,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && imageTags.Thumb) {
                 return ApiClient.getScaledImageUrl(item.Id, {
+                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                     type: "Thumb",
                     tag: imageTags.Thumb
                 });
@@ -666,6 +673,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && item.ParentThumbImageTag) {
                 return ApiClient.getScaledImageUrl(item.ParentThumbItemId, {
+                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                     type: "Thumb",
                     tag: item.ParentThumbImageTag
                 });
@@ -673,6 +681,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && item.ThumbImageTag) {
                 return ApiClient.getScaledImageUrl(item.ThumbItemId, {
+                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                     type: "Thumb",
                     tag: item.ThumbImageTag
                 });
@@ -680,6 +689,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && imageTags.Primary) {
                 return ApiClient.getScaledImageUrl(item.Id, {
+                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                     type: "Primary",
                     tag: imageTags.Primary
                 });
@@ -687,6 +697,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && item.PrimaryImageTag) {
                 return ApiClient.getScaledImageUrl(item.PrimaryImageItemId, {
+                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                     type: "Primary",
                     tag: item.PrimaryImageTag
                 });
@@ -694,6 +705,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
 
             if (item && item.AlbumPrimaryImageTag) {
                 return ApiClient.getScaledImageUrl(item.AlbumId, {
+                    maxWidth: Math.round(dom.getScreenWidth() * 0.20),
                     type: "Primary",
                     tag: item.AlbumPrimaryImageTag
                 });

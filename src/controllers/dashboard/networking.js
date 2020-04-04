@@ -90,10 +90,11 @@ define(["loading", "libraryMenu", "globalize", "emby-checkbox", "emby-select"], 
     }
 
     function validateHttps(form) {
+        var remoteAccess = form.querySelector("#chkRemoteAccess").checked;
         var certPath = form.querySelector("#txtCertificatePath").value || null;
         var httpsMode = form.querySelector("#selectHttpsMode").value;
 
-        if ("enabled" !== httpsMode && "required" !== httpsMode || certPath) {
+        if (!remoteAccess || ("enabled" !== httpsMode && "required" !== httpsMode || certPath)) {
             return Promise.resolve();
         }
 

@@ -191,36 +191,14 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
             events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
         }
     }
-
     function bindEvents(apiClient) {
         events.off(apiClient, "message", onMessageReceived);
         events.on(apiClient, "message", onMessageReceived);
     }
 
-    function enableNativeGamepadKeyMapping() {
-        if (window.navigator && "string" == typeof window.navigator.gamepadInputEmulation) {
-            window.navigator.gamepadInputEmulation = "keyboard";
-            return true;
-        }
-
-        return false;
-    }
-
-    function isGamepadSupported() {
-        return "ongamepadconnected" in window || navigator.getGamepads || navigator.webkitGetGamepads;
-    }
-
     connectionManager.getApiClients().forEach(bindEvents);
-
     events.on(connectionManager, 'apiclientcreated', function (e, newApiClient) {
         bindEvents(newApiClient);
     });
-
-    if (!enableNativeGamepadKeyMapping() && isGamepadSupported()) {
-        require(["components/serverNotifications/gamepadtokey"]);
-    }
-
-    require(["components/serverNotifications/mouseManager"]);
-
     return serverNotifications;
 });

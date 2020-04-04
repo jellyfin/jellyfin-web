@@ -59,8 +59,8 @@ define(["libraries/apiclient/apiclientcore", "localassetmanager"], function(ApiC
         })
     }
 
-    function ApiClientEx(serverAddress, clientName, applicationVersion, deviceName, deviceId, devicePixelRatio) {
-        ApiClient.call(this, serverAddress, clientName, applicationVersion, deviceName, deviceId, devicePixelRatio)
+    function ApiClientEx(serverAddress, clientName, applicationVersion, deviceName, deviceId) {
+        ApiClient.call(this, serverAddress, clientName, applicationVersion, deviceName, deviceId)
     }
     var localPrefix = "local:",
         localViewPrefix = "localview:";

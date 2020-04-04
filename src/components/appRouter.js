@@ -370,7 +370,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function enableNativeHistory() {
-        return page.enableNativeHistory();
+        return false;
     }
 
     function authenticate(ctx, route, callback) {
@@ -511,9 +511,16 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return baseRoute;
     }
 
+    var popstateOccurred = false;
+    window.addEventListener('popstate', function () {
+        popstateOccurred = true;
+    });
+
     function getHandler(route) {
         return function (ctx, next) {
+            ctx.isBack = popstateOccurred;
             handleRoute(ctx, next, route);
+            popstateOccurred = false;
         };
     }
 
@@ -562,7 +569,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         if (!document.querySelector('.dialogContainer') && startPages.indexOf(curr.type) !== -1) {
             return false;
         }
-        return page.canGoBack();
+        if (enableHistory()) {
+            return history.length > 1;
+        }
+        return (page.len || 0) > 0;
     }
 
     function showDirect(path) {
@@ -666,7 +676,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function pushState(state, title, url) {
         state.navigate = false;
-        page.pushState(state, title, url);
+        history.pushState(state, title, url);
+
     }
 
     function setBaseRoute() {
@@ -716,7 +727,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     appRouter.getRoutes = getRoutes;
     appRouter.pushState = pushState;
     appRouter.enableNativeHistory = enableNativeHistory;
-    appRouter.handleAnchorClick = page.handleAnchorClick;
+    appRouter.handleAnchorClick = page.clickHandler;
     appRouter.TransparencyLevel = {
         None: 0,
         Backdrop: 1,

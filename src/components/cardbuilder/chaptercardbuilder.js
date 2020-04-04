@@ -68,7 +68,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
 
             return apiClient.getScaledImageUrl(item.Id, {
 
-                maxWidth: maxWidth,
+                maxWidth: maxWidth * 2,
                 tag: chapter.ImageTag,
                 type: "Chapter",
                 index: index

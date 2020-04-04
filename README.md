@@ -45,20 +45,37 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 ### Dependencies
 
 - Yarn
+- Gulp-cli
 
 ### Getting Started
 
 1. Clone or download this repository.
+
    ```sh
    git clone https://github.com/jellyfin/jellyfin-web.git
    cd jellyfin-web
    ```
+
 2. Install build dependencies in the project directory.
+
    ```sh
    yarn install
    ```
 
 3. Run the web client with webpack for local development.
+
    ```sh
    yarn serve
+   ```
+
+4. Build the client with sourcemaps.
+
+   ```sh
+   yarn build:development
+   ```
+
+   You can build a nginx compatible version as well.
+
+   ```sh
+   yarn build:standalone
    ```
