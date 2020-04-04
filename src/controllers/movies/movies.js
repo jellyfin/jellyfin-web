@@ -43,7 +43,9 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     return;
                 }
 
-                query.StartIndex -= query.Limit;
+                if (userSettings.libraryPageSize() > 0) {
+                    query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                }
                 itemsContainer.refreshItems();
             }
 
