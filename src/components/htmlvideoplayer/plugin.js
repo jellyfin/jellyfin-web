@@ -1048,11 +1048,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function renderSsaAss(videoElement, track, item) {
             var attachments = self._currentPlayOptions.mediaSource.MediaAttachments || [];
+            var apiClient = connectionManager.getApiClient(item);
             var options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
                 fonts: attachments.map(function (i) {
-                    return i.DeliveryUrl;
+                    return apiClient.getUrl(i.DeliveryUrl);
                 }),
                 workerUrl: appRouter.baseUrl() + "/libraries/subtitles-octopus-worker.js",
                 legacyWorkerUrl: appRouter.baseUrl() + "/libraries/subtitles-octopus-worker-legacy.js",
