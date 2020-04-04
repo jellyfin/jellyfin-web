@@ -113,6 +113,12 @@ _define("polyfill", function () {
     return polyfill;
 });
 
+// domtokenlist-shim
+var classlist = require("classlist.js");
+_define("classlist-polyfill", function () {
+    return classlist;
+});
+
 // Date-FNS
 var date_fns = require("date-fns");
 _define("date-fns", function () {
