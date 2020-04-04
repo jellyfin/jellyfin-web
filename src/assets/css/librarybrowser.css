@@ -518,6 +518,12 @@
     margin: 0.5em 0;
 }
 
+.nameContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
 .itemMiscInfo {
     display: -webkit-box;
     display: -webkit-flex;
@@ -527,10 +533,6 @@
     -webkit-box-align: center;
     -webkit-align-items: center;
     align-items: center;
-}
-
-.parentName > a:nth-child(3) {
-    font-size: 0.7em;
 }
 
 .layout-mobile .parentName,
@@ -578,7 +580,6 @@
 
 .infoText {
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
 }

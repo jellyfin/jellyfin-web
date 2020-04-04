@@ -336,7 +336,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
 
         return html = html.join(" / ");
     }
-    // TODO: Clean this and the CSS rules for mobile layout. See #1022
     function renderName(item, container, isStatic, context) {
         var parentRoute;
         var parentNameHtml = [];
@@ -406,9 +405,18 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
 
         if (parentNameHtml.length) {
             if (parentNameLast) {
-                html = '<h3 class="parentName" style="margin: .25em 0;">' + parentNameHtml.join("</br>") + "</h3>";
+                // Music
+                if (layoutManager.mobile) {
+                    html = '<h3 class="parentName" style="margin: .25em 0;">' + parentNameHtml.join("</br>") + "</h3>";
+                } else {
+                    html = '<h3 class="parentName" style="margin: .25em 0;">' + parentNameHtml.join(" - ") + "</h3>";
+                }
             } else {
-                html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + parentNameHtml.join("</br>") + "</h1>";
+                if (layoutManager.mobile) {
+                    html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + parentNameHtml.join("</br>") + "</h1>";
+                } else {
+                    html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + parentNameHtml[0] + "</h1>";
+                }
             }
         }
 
@@ -418,7 +426,11 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         var offset = parentNameLast ? ".25em" : ".5em";
 
         if (html && !parentNameLast) {
-            html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + name + '</h3>';
+            if (!layoutManager.mobile && parentNameHtml[1]) {
+                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em; font-weight: 600;">' + parentNameHtml[1] + ' - ' + name + '</h3>';
+            } else {
+                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + name + '</h3>';
+            }
         } else {
             html = '<h1 class="itemName infoText" style="margin: .1em 0 ' + offset + ';">' + name + "</h1>" + html;
         }
