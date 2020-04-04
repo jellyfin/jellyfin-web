@@ -1,4 +1,4 @@
-define(['connectionManager', 'userSettings', 'events'], function (connectionManager, userSettings, events) {
+define(['userSettings', 'events'], function (userSettings, events) {
     'use strict';
     var fallbackCulture = 'en-us';
 
