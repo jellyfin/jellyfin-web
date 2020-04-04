@@ -529,6 +529,10 @@
     align-items: center;
 }
 
+.parentName > a:nth-child(3) {
+    font-size: 0.7em;
+}
+
 .layout-mobile .parentName,
 .layout-mobile .itemName,
 .layout-mobile .itemMiscInfo,

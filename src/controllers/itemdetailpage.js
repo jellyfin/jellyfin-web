@@ -336,7 +336,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
 
         return html = html.join(" / ");
     }
-
+    // TODO: Clean this and the CSS rules for mobile layout. See #1022
     function renderName(item, container, isStatic, context) {
         var parentRoute;
         var parentNameHtml = [];
@@ -406,9 +406,9 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
 
         if (parentNameHtml.length) {
             if (parentNameLast) {
-                html = '<h3 class="parentName" style="margin: .25em 0;">' + parentNameHtml.join(" - ") + "</h3>";
+                html = '<h3 class="parentName" style="margin: .25em 0;">' + parentNameHtml.join("</br>") + "</h3>";
             } else {
-                html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + parentNameHtml.join(" - ") + "</h1>";
+                html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + parentNameHtml.join("</br>") + "</h1>";
             }
         }
 
