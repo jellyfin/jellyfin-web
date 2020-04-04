@@ -694,7 +694,8 @@ var AppInfo = {};
                     "material-icons",
                     "jellyfin-noto",
                     "page",
-                    "polyfill"
+                    "polyfill",
+                    "classlist-polyfill"
                 ]
             },
             urlArgs: urlArgs,
@@ -703,6 +704,7 @@ var AppInfo = {};
         });
 
         require(["polyfill"]);
+        require(["classlist-polyfill"]);
 
         // Expose jQuery globally
         require(["jQuery"], function(jQuery) {

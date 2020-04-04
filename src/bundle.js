@@ -112,3 +112,9 @@ var polyfill = require("@babel/polyfill/dist/polyfill");
 _define("polyfill", function () {
     return polyfill;
 });
+
+// domtokenlist-shim
+var classlist = require("classlist.js");
+_define("classlist-polyfill", function () {
+    return classlist;
+});
