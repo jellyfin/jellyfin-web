@@ -268,6 +268,7 @@ define(['userSettings', 'events'], function (userSettings, events) {
         defaultModule: defaultModule,
         getCurrentLocale: getCurrentLocale,
         getCurrentDateTimeLocale: getCurrentDateTimeLocale,
-        register: register
+        register: register,
+        updateCurrentCulture: updateCurrentCulture
     };
 });
