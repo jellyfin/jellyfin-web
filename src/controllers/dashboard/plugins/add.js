@@ -84,7 +84,7 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
         }
 
         if (installedPlugin) {
-            var currentVersionText = globalize.translate("MessageYouHaveVersionInstalled").replace("{0}", "<strong>" + installedPlugin.Version + "</strong>");
+            var currentVersionText = globalize.translate("MessageYouHaveVersionInstalled", "<strong>" + installedPlugin.Version + "</strong>");
             $("#pCurrentVersion", page).show().html(currentVersionText);
         } else {
             $("#pCurrentVersion", page).hide().html("");

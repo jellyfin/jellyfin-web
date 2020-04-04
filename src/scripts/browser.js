@@ -292,7 +292,7 @@ define([], function () {
     }
 
     if (typeof document !== 'undefined') {
-        if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+        if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
             browser.touch = true;
         }
     }

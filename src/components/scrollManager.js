@@ -544,8 +544,10 @@ import layoutManager from "layoutManager";
         }, {capture: true});
     }
 
-    export default {
-        isEnabled: isEnabled,
-        scrollTo: scrollTo,
-        scrollToElement: scrollToElement
-    };
+/* eslint-enable indent */
+
+export default {
+    isEnabled: isEnabled,
+    scrollTo: scrollTo,
+    scrollToElement: scrollToElement
+};

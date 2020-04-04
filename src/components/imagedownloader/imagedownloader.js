@@ -109,7 +109,7 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         html += '<span style="margin-right: 10px;">';
 
         var startAtDisplay = totalRecordCount ? startIndex + 1 : 0;
-        html += startAtDisplay + '-' + recordsEnd + ' of ' + totalRecordCount;
+        html += globalize.translate("ListPaging", startAtDisplay, recordsEnd, totalRecordCount);
 
         html += '</span>';
 
