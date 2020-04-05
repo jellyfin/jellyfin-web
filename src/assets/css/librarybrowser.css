@@ -242,7 +242,7 @@
 }
 
 .mainDrawer-scrollContainer {
-    padding-bottom: 10vh;
+    margin-bottom: 10vh;
 }
 
 @media all and (min-width: 40em) {
@@ -314,6 +314,7 @@
 
     .dashboardDocument .mainDrawer-scrollContainer {
         margin-top: 4.6em !important;
+
     }
 }
 
