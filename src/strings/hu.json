@@ -589,7 +589,7 @@
     "AllowMediaConversionHelp": "Add meg vagy tiltsd le a média konvertálás funkcióhoz való hozzáférést.",
     "AllowRemoteAccess": "Engedélyezze a távoli kapcsolatokat a Jellyfin szerverhez.",
     "AllowRemoteAccessHelp": "Ha nincs bekapcsolva, minden távoli kapcsolat blokkolva lesz.",
-    "AlwaysPlaySubtitles": "Mindig legyen felirat",
+    "AlwaysPlaySubtitles": "Mindig jelenjen meg",
     "AnyLanguage": "Bármelyik nyelv",
     "Anytime": "Bármikor",
     "AroundTime": "{0} körül",
