@@ -1471,5 +1471,6 @@
     "AllowFfmpegThrottling": "Obmedzenie transkódovania",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Preferovať vložené informácie o epizóde pred názvom súboru",
     "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Toto využíva informácie o epizóde z vložených metadát, pokiaľ sú dostupne.",
-    "ClientSettings": "Nastavenie klienta"
+    "ClientSettings": "Nastavenie klienta",
+    "Album": "Album"
 }
