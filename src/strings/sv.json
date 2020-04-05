@@ -1467,5 +1467,6 @@
     "LabelTranscodePath": "Omkodning sökväg:",
     "PlaybackErrorNoCompatibleStream": "Klienten kunde inte identifieras och servern skickar inte ett kompatibelt medieformat.",
     "AllowFfmpegThrottlingHelp": "När omkodningen går uppspelningen långt i förväg pausas den tills vidare för att spara resurser. Detta fungerar bäst när du kollar utan att spola mycket; stäng av ifall spelaren krånglar.",
-    "AllowFfmpegThrottling": "Begränsad omkodning"
+    "AllowFfmpegThrottling": "Begränsad omkodning",
+    "Album": "Album"
 }
