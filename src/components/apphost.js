@@ -279,8 +279,8 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
         features.push("screensaver");
 
         webSettings.enableMultiServer().then(enabled => {
-            if (enabled) features.push("multiserver")
-        })
+            if (enabled) features.push("multiserver");
+        });
 
         if (!browser.orsay && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
             features.push("subtitleappearancesettings");
@@ -383,7 +383,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
                 return window.NativeShell.AppHost.getDefaultLayout();
             }
 
-            return getDefaultLayout()
+            return getDefaultLayout();
         },
         getDeviceProfile: getDeviceProfile,
         init: function () {

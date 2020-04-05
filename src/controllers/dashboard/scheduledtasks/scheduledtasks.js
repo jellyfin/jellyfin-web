@@ -7,7 +7,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "date
         }).then(function(tasks) {
             populateList(page, tasks);
             loading.hide();
-        })
+        });
     }
 
     function populateList(page, tasks) {
@@ -155,7 +155,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "date
             ApiClient.startScheduledTask(id).then(function() {
                 updateTaskButton(button, "Running");
                 reloadList(view);
-            })
+            });
         });
 
         $(".divScheduledTasks", view).on("click", ".btnStopTask", function() {
@@ -164,7 +164,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "date
             ApiClient.stopScheduledTask(id).then(function() {
                 updateTaskButton(button, "");
                 reloadList(view);
-            })
+            });
         });
 
         view.addEventListener("viewbeforehide", function() {
@@ -178,5 +178,5 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "date
             reloadList(view);
             events.on(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate);
         });
-    }
+    };
 });

@@ -14,7 +14,7 @@ define(["globalize", "loading", "libraryMenu", "emby-checkbox", "emby-button", "
         }, {
             href: "metadatanfo.html",
             name: Globalize.translate("TabNfoSettings")
-        }]
+        }];
     }
 
     return function(view, params) {
@@ -27,7 +27,7 @@ define(["globalize", "loading", "libraryMenu", "emby-checkbox", "emby-button", "
                 view.querySelector("#chkSaveMetadataHidden").checked = config.SaveMetadataHidden;
             });
             ApiClient.getNamedConfiguration("metadata").then(function(metadata) {
-                loadMetadataConfig(this, metadata)
+                loadMetadataConfig(this, metadata);
             });
         }
 
@@ -67,5 +67,5 @@ define(["globalize", "loading", "libraryMenu", "emby-checkbox", "emby-button", "
                 }
             });
         });
-    }
+    };
 });
