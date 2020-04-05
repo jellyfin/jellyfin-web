@@ -323,11 +323,11 @@ var AppInfo = {};
     }
 
     function getElementsPath() {
-        return "elements"
+        return "elements";
     }
 
     function getScriptsPath() {
-        return "scripts"
+        return "scripts";
     }
 
     function getPlaybackManager(playbackManager) {

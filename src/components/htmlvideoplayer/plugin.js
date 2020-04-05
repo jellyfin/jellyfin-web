@@ -567,19 +567,19 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         self.resetSubtitleOffset = function() {
             currentTrackOffset = 0;
             showTrackOffset = false;
-        }
+        };
 
         self.enableShowingSubtitleOffset = function() {
             showTrackOffset = true;
-        }
+        };
 
         self.disableShowingSubtitleOffset = function() {
             showTrackOffset = false;
-        }
+        };
 
         self.isShowingSubtitleOffsetEnabled = function() {
             return showTrackOffset;
-        }
+        };
 
         function getTextTrack() {
             var videoElement = self._mediaElement;
@@ -651,7 +651,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         self.getSubtitleOffset = function() {
             return currentTrackOffset;
-        }
+        };
 
         function isAudioStreamSupported(stream, deviceProfile) {
 
@@ -1019,7 +1019,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 xhr.onerror = function (e) {
                     reject(e);
                     decrementFetchQueue();
-                }
+                };
 
                 xhr.send();
             });
@@ -1428,11 +1428,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         if (browser.safari || browser.iOS || browser.iPad) {
-            list.push('AirPlay')
+            list.push('AirPlay');
         }
 
         list.push('SetBrightness');
-        list.push("SetAspectRatio")
+        list.push("SetAspectRatio");
 
         return list;
     }
@@ -1555,11 +1555,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (video) {
                 if (isEnabled) {
                     video.requestAirPlay().catch(function(err) {
-                        console.error("Error requesting AirPlay", err)
+                        console.error("Error requesting AirPlay", err);
                     });
                 } else {
                     document.exitAirPLay().catch(function(err) {
-                        console.error("Error exiting AirPlay", err)
+                        console.error("Error exiting AirPlay", err);
                     });
                 }
             }
@@ -1692,12 +1692,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var mediaElement = this._mediaElement;
         if (mediaElement) {
             if ("auto" === val) {
-                mediaElement.style.removeProperty("object-fit")
+                mediaElement.style.removeProperty("object-fit");
             } else {
-                mediaElement.style["object-fit"] = val
+                mediaElement.style["object-fit"] = val;
             }
         }
-        this._currentAspectRatio = val
+        this._currentAspectRatio = val;
     };
 
     HtmlVideoPlayer.prototype.getAspectRatio = function () {
@@ -1714,7 +1714,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }, {
             name: "Fill",
             id: "fill"
-        }]
+        }];
     };
 
     HtmlVideoPlayer.prototype.togglePictureInPicture = function () {
