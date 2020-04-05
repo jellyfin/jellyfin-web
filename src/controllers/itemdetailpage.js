@@ -400,8 +400,10 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         } else if (item.Album) {
             parentNameHtml.push(item.Album);
         }
-
+        // FIXME: This whole section needs some refactoring, so it becames easier to scale across all form factors. See GH #1022
         var html = "";
+        var tvShowHtml = parentNameHtml[0];
+        var tvSeasonHtml = parentNameHtml[1];
 
         if (parentNameHtml.length) {
             if (parentNameLast) {
@@ -415,7 +417,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 if (layoutManager.mobile) {
                     html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + parentNameHtml.join("</br>") + "</h1>";
                 } else {
-                    html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + parentNameHtml[0] + "</h1>";
+                    html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + tvShowHtml + "</h1>";
                 }
             }
         }
@@ -426,8 +428,8 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         var offset = parentNameLast ? ".25em" : ".5em";
 
         if (html && !parentNameLast) {
-            if (!layoutManager.mobile && parentNameHtml[1]) {
-                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + parentNameHtml[1] + ' - ' + name + '</h3>';
+            if (!layoutManager.mobile && tvSeasonHtml) {
+                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + tvSeasonHtml + ' - ' + name + '</h3>';
             } else {
                 html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + name + '</h3>';
             }
