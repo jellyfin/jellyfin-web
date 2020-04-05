@@ -57,6 +57,12 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
             currentDateTimeCulture = currentCulture;
         }
         ensureTranslations(currentCulture);
+        // FIXME: See GH #1027 and #913. This should be configurable and not strictly based on locale.
+        if (currentCulture == 'zh-tw' || currentCulture == 'zh-hk') {
+            require(["css!jellyfin-noto/css/TC"]);
+        } else {
+            require(["css!jellyfin-noto/css/SC"]);
+        }
     }
 
     function ensureTranslations(culture) {
@@ -67,9 +73,6 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
             for (var i in allTranslations) {
                 ensureTranslation(allTranslations[i], fallbackCulture);
             }
-        }
-        if (culture == 'zh-tw' || culture == 'zh-hk') {
-            require(["css!jellyfin-noto/css/TC"]);
         }
     }
 
