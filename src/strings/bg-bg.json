@@ -865,5 +865,12 @@
     "AllowFfmpegThrottling": "Подтискане на прекодирането",
     "AllowMediaConversionHelp": "Даване или отнемане на права за функциите за конвертиране на медия.",
     "AlbumArtist": "Изпълнител",
-    "Album": "Албум"
+    "Album": "Албум",
+    "ClientSettings": "Клиентски настройки",
+    "ChannelNumber": "Номер на канала",
+    "ChannelNameOnly": "Само {0} канал",
+    "CancelSeries": "Откажи сериите",
+    "CancelRecording": "Откажи записа",
+    "ButtonSplit": "Раздели",
+    "ButtonResetEasyPassword": "Нулиране на бързия ПИН код"
 }
