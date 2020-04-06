@@ -578,7 +578,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     function showDirect(path) {
         return new Promise(function(resolve, reject) {
             resolveOnNextShow = resolve;
-            resolve = page.show(baseUrl() + path);
+            page.show(baseUrl() + path);
         });
     }
 
