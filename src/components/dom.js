@@ -262,15 +262,17 @@
         return _transitionEvent;
     }
 
-    export default {
-        parentWithAttribute: parentWithAttribute,
-        parentWithClass: parentWithClass,
-        parentWithTag: parentWithTag,
-        addEventListener: addEventListener,
-        removeEventListener: removeEventListener,
-        getWindowSize: getWindowSize,
-        getScreenWidth: getScreenWidth,
-        whichTransitionEvent: whichTransitionEvent,
-        whichAnimationEvent: whichAnimationEvent,
-        whichAnimationCancelEvent: whichAnimationCancelEvent
-    };
+/* eslint-enable indent */
+
+export default {
+    parentWithAttribute: parentWithAttribute,
+    parentWithClass: parentWithClass,
+    parentWithTag: parentWithTag,
+    addEventListener: addEventListener,
+    removeEventListener: removeEventListener,
+    getWindowSize: getWindowSize,
+    getScreenWidth: getScreenWidth,
+    whichTransitionEvent: whichTransitionEvent,
+    whichAnimationEvent: whichAnimationEvent,
+    whichAnimationCancelEvent: whichAnimationCancelEvent
+};

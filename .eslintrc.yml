@@ -1,21 +1,31 @@
 env:
-  es6: true
-  browser: true
   amd: true
+  browser: true
+  es6: true
+  es2017: true
+  es2020: true
 
 parserOptions:
-  ecmaVersion: 6
+  ecmaVersion: 2020
   sourceType: module
   ecmaFeatures:
     impliedStrict: true
 
+plugins:
+  - promise
+  - import
+  - eslint-comments
+
+extends:
+  - eslint:recommended
+  - plugin:promise/recommended
+  - plugin:import/errors
+  - plugin:import/warnings
+  - plugin:eslint-comments/recommended
+
 globals:
-  # New browser globals
-  DataView: readonly
+  # Browser globals
   MediaMetadata: readonly
-  Promise: readonly
-  # Deprecated browser globals
-  DocumentTouch: readonly
   # Tizen globals
   tizen: readonly
   webapis: readonly
@@ -24,7 +34,6 @@ globals:
   # Dependency globals
   $: readonly
   jQuery: readonly
-  queryString: readonly
   requirejs: readonly
   # Jellyfin globals
   ApiClient: writable
@@ -40,8 +49,7 @@ globals:
   getWindowLocationSearch: writable
   Globalize: writable
   Hls: writable
-  humaneDate: writable
-  humaneElapsed: writable
+  dfnshelper: writable
   LibraryMenu: writable
   LinkParser: writable
   LiveTvHelpers: writable
@@ -51,9 +59,6 @@ globals:
   PlaylistViewer: writable
   UserParentalControlPage: writable
   Windows: readonly
-
-extends:
-  - eslint:recommended
 
 rules:
   block-spacing: ["error"]
@@ -69,9 +74,14 @@ rules:
   no-multiple-empty-lines: ["error", { "max": 1 }]
   no-trailing-spaces: ["error"]
   one-var: ["error", "never"]
-  semi: ["warn"]
+  semi: ["error"]
   space-before-blocks: ["error"]
   # TODO: Fix warnings and remove these rules
   no-redeclare: ["warn"]
   no-unused-vars: ["warn"]
   no-useless-escape: ["warn"]
+  promise/catch-or-return: ["warn"]
+  promise/always-return: ["warn"]
+  promise/no-return-wrap: ["warn"]
+  # TODO: Remove after ES6 migration is complete
+  import/no-unresolved: ["warn"]

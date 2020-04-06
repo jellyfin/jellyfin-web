@@ -323,11 +323,11 @@ var AppInfo = {};
     }
 
     function getElementsPath() {
-        return "elements"
+        return "elements";
     }
 
     function getScriptsPath() {
-        return "scripts"
+        return "scripts";
     }
 
     function getPlaybackManager(playbackManager) {
@@ -574,6 +574,7 @@ var AppInfo = {};
                 }
 
                 require(["mediaSession", "serverNotifications"]);
+                require(["date-fns", "date-fns/locale"]);
 
                 if (!browser.tv && !browser.xboxOne) {
                     require(["components/playback/playbackorientation"]);
@@ -647,12 +648,12 @@ var AppInfo = {};
             inputManager: "scripts/inputManager",
             datetime: "scripts/datetime",
             globalize: "scripts/globalize",
+            dfnshelper: "scripts/dfnshelper",
             libraryMenu: "scripts/librarymenu",
             playlisteditor: componentsPath + "/playlisteditor/playlisteditor",
             medialibrarycreator: componentsPath + "/medialibrarycreator/medialibrarycreator",
             medialibraryeditor: componentsPath + "/medialibraryeditor/medialibraryeditor",
             imageoptionseditor: componentsPath + "/imageoptionseditor/imageoptionseditor",
-            humanedate: componentsPath + "/humanedate",
             apphost: componentsPath + "/apphost",
             visibleinviewport: componentsPath + "/visibleinviewport",
             qualityoptions: componentsPath + "/qualityoptions",
@@ -693,8 +694,10 @@ var AppInfo = {};
                     "webcomponents",
                     "material-icons",
                     "jellyfin-noto",
+                    "date-fns",
                     "page",
-                    "polyfill"
+                    "polyfill",
+                    "classlist-polyfill"
                 ]
             },
             urlArgs: urlArgs,
@@ -703,6 +706,7 @@ var AppInfo = {};
         });
 
         require(["polyfill"]);
+        require(["classlist-polyfill"]);
 
         // Expose jQuery globally
         require(["jQuery"], function(jQuery) {
