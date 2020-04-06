@@ -1237,7 +1237,7 @@
     "PlayFromBeginning": "Play from beginning",
     "PlayNext": "Play next",
     "PlayNextEpisodeAutomatically": "Play next episode automatically",
-    "PlaybackErrorNoCompatibleStream": "There was an issue with the client profiling and the server isn't sending a compatible media format.",
+    "PlaybackErrorNoCompatibleStream": "This client isn't compatible with the media and the server isn't sending a compatible media format.",
     "Played": "Played",
     "Playlists": "Playlists",
     "PleaseAddAtLeastOneFolder": "Please add at least one folder to this library by clicking the Add button.",
