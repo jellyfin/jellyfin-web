@@ -62,7 +62,7 @@ function serve() {
         port: 8080
     });
 
-    let events = ['add', 'change'];
+    const events = ['add', 'change'];
 
     watch(options.javascript.query).on('all', function (event, path) {
         if (events.includes(event)) {
@@ -105,7 +105,7 @@ function clean() {
     return del(['dist/']);
 }
 
-let pipelineJavascript = lazypipe()
+const pipelineJavascript = lazypipe()
     .pipe(function () {
         return mode.development(sourcemaps.init({ loadMaps: true }));
     })
@@ -140,7 +140,7 @@ function apploader(standalone) {
             .pipe(pipelineJavascript())
             .pipe(dest('dist/'))
             .pipe(browserSync.stream());
-    };
+    }
 
     task.displayName = 'apploader';
 
