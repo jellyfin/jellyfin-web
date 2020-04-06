@@ -91,11 +91,10 @@
           "src/components/input/keyboardnavigation.js",
           "src/components/scrollManager.js",
           "src/components/sanatizefilename.js",
-          "src/components/scrollManager.js",
           "src/scripts/settings/webSettings.js",
           "src/scripts/settings/appSettings.js",
           "src/scripts/settings/userSettings.js",
-          "src/scripts/imagehelper.js"
+          "src/scripts/imagehelper.js",
           "src/scripts/dfnshelper.js"
         ],
         "plugins": [
