@@ -452,6 +452,9 @@ var AppInfo = {};
                 require(["autoFocuser"], function(autoFocuser) {
                     autoFocuser.enable();
                 });
+                require(['globalize', 'connectionManager', 'events'], function (globalize, connectionManager, events) {
+                    events.on(connectionManager, 'localusersignedin', globalize.updateCurrentCulture);
+                });
             });
         });
     }
