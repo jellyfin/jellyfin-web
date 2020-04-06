@@ -3,16 +3,20 @@ Dashboard.confirm = function(message, title, callback) {
     require(["confirm"], function(confirm) {
         confirm(message, title).then(function() {
             callback(!0);
-        }, function() {
+        }).catch(function() {
             callback(!1);
         });
     });
-}, Dashboard.showLoadingMsg = function() {
+};
+
+Dashboard.showLoadingMsg = function() {
     "use strict";
     require(["loading"], function(loading) {
         loading.show();
     });
-}, Dashboard.hideLoadingMsg = function() {
+};
+
+Dashboard.hideLoadingMsg = function() {
     "use strict";
     require(["loading"], function(loading) {
         loading.hide();
