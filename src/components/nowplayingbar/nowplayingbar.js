@@ -241,7 +241,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         elem.addEventListener('click', function (e) {
 
             if (!dom.parentWithTag(e.target, ['BUTTON', 'INPUT', 'A'])) {
-                showRemoteControl(0);
+                showRemoteControl();
             }
         });
     }

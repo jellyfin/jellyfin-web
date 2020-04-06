@@ -3140,7 +3140,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                         AllowVideoStreamCopy: false,
                         AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
 
-                    }, true);
+                    });
 
                     return;
                 }

@@ -131,7 +131,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         } else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
             loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews, allSections);
         } else if (section === 'librarybuttons') {
-            loadlibraryButtons(elem, apiClient, user, userSettings, userViews, allSections);
+            loadlibraryButtons(elem, apiClient, user, userSettings, userViews);
         } else if (section === 'resume') {
             loadResumeVideo(elem, apiClient, userId);
         } else if (section === 'resumeaudio') {
