@@ -1,32 +1,37 @@
-define(['playbackManager', 'focusManager', 'appRouter', 'dom', 'apphost'], function (playbackManager, focusManager, appRouter, dom, appHost) {
-    'use strict';
+import playbackManager from 'playbackManager';
+import focusManager from 'focusManager';
+import appRouter from 'appRouter';
+import dom from 'dom';
+import appHost from 'apphost';
+
+/* eslint-disable indent */
 
     var lastInputTime = new Date().getTime();
 
-    function notify() {
+    export function notify() {
         lastInputTime = new Date().getTime();
         handleCommand('unknown');
     }
 
-    function notifyMouseMove() {
+    export function notifyMouseMove() {
         lastInputTime = new Date().getTime();
     }
 
-    function idleTime() {
+    export function idleTime() {
         return new Date().getTime() - lastInputTime;
     }
 
-    function select(sourceElement) {
+    export function select(sourceElement) {
         sourceElement.click();
     }
 
     var eventListenerCount = 0;
-    function on(scope, fn) {
+    export function on(scope, fn) {
         eventListenerCount++;
         dom.addEventListener(scope, 'command', fn, {});
     }
 
-    function off(scope, fn) {
+    export function off(scope, fn) {
         if (eventListenerCount) {
             eventListenerCount--;
         }
@@ -48,7 +53,7 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom', 'apphost'], funct
         return true;
     }
 
-    function handleCommand(commandName, options) {
+    export function handleCommand(commandName, options) {
 
         lastInputTime = new Date().getTime();
 
@@ -147,13 +152,14 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom', 'apphost'], funct
         passive: true
     });
 
-    return {
-        trigger: handleCommand,
-        handle: handleCommand,
-        notify: notify,
-        notifyMouseMove: notifyMouseMove,
-        idleTime: idleTime,
-        on: on,
-        off: off
-    };
-});
+/* eslint-enable indent */
+
+export default {
+    trigger: handleCommand,
+    handle: handleCommand,
+    notify: notify,
+    notifyMouseMove: notifyMouseMove,
+    idleTime: idleTime,
+    on: on,
+    off: off
+};

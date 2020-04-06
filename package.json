@@ -92,7 +92,8 @@
           "src/components/sanatizefilename.js",
           "src/scripts/settings/webSettings.js",
           "src/components/scrollManager.js",
-          "src/scripts/dfnshelper.js"
+          "src/scripts/dfnshelper.js",
+          "src/scripts/inputManager.js"
         ],
         "plugins": [
           "@babel/plugin-transform-modules-amd"
