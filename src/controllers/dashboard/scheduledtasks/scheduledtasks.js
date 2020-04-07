@@ -69,7 +69,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "date
                 var endtime = Date.parse(task.LastExecutionResult.EndTimeUtc);
                 var starttime = Date.parse(task.LastExecutionResult.StartTimeUtc);
                 html += globalize.translate("LabelScheduledTaskLastRan", datefns.formatDistanceToNow(endtime, dfnshelper.localeWithSuffix),
-                    datefns.formatDistance(starttime, endtime, dfnshelper.localeWithSuffix));
+                    datefns.formatDistance(starttime, endtime, {locale: dfnshelper.getLocale()}));
                 if (task.LastExecutionResult.Status === "Failed") {
                     html += " <span style='color:#FF0000;'>(" + globalize.translate("LabelFailed") + ")</span>";
                 } else if (task.LastExecutionResult.Status === "Cancelled") {
