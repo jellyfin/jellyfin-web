@@ -90,12 +90,24 @@ import appHost from 'apphost';
         }
 
         const keyActions = (command) => ({
-            'up': focusManager.moveUp(sourceElement),
-            'down': focusManager.moveDown(sourceElement),
-            'left': focusManager.moveLeft(sourceElement),
-            'right': focusManager.moveRight(sourceElement),
-            'home': appRouter.goHome(),
-            'settings': appRouter.showSettings(),
+            'up': () => {
+                focusManager.moveUp(sourceElement);
+            },
+            'down': () => {
+                focusManager.moveDown(sourceElement);
+            },
+            'left': () => {
+                focusManager.moveLeft(sourceElement);
+            },
+            'right': () => {
+                focusManager.moveRight(sourceElement)
+            },
+            'home': () => {
+                appRouter.goHome();
+            },
+            'settings': () => {
+                appRouter.showSettings();
+            },
             'back': () => {
                 if (appRouter.canGoBack()) {
                     appRouter.back();
@@ -103,49 +115,119 @@ import appHost from 'apphost';
                     appHost.exit();
                 }
             },
-            'select': select(sourceElement),
-            'nextchapter': playbackManager.nextChapter(),
-            'next': playbackManager.nextTrack(),
-            'nexttrack': playbackManager.nextTrack(),
-            'previous': playbackManager.previousTrack(),
-            'previoustrack': playbackManager.previousTrack(),
-            'previouschapter': playbackManager.previousChapter(),
-            'guide': appRouter.showGuide(),
-            'recordedtv': appRouter.showRecordedTV(),
-            'livetv': appRouter.showLiveTV(),
-            'mute': playbackManager.setMute(true),
-            'unmute': playbackManager.setMute(false),
-            'togglemute': playbackManager.toggleMute(),
-            'channelup': playbackManager.channelUp(),
-            'channeldown': playbackManager.channelDown(),
-            'volumedown': playbackManager.volumeDown(),
-            'volumeup': playbackManager.volumeUp(),
-            'play': playbackManager.unpause(),
-            'pause': playbackManager.pause(),
-            'playpause': playbackManager.playPause(),
+            'select': () => {
+                select(sourceElement);
+            },
+            'nextchapter': () => {
+                playbackManager.nextChapter();
+            },
+            'next': () => {
+                playbackManager.nextTrack();
+            },
+            'nexttrack': () => {
+                playbackManager.nextTrack();
+            },
+            'previous': () => {
+                playbackManager.previousTrack();
+            },
+            'previoustrack': () => {
+                playbackManager.previousTrack();
+            },
+            'previouschapter': () => {
+                playbackManager.previousChapter();
+            },
+            'guide': () => {
+                appRouter.showGuide();
+            },
+            'recordedtv': () => {
+                appRouter.showRecordedTV();
+            },
+            'livetv': () => {
+                appRouter.showLiveTV();
+            },
+            'mute': () => {
+                playbackManager.setMute(true);
+            },
+            'unmute': () => {
+                playbackManager.setMute(false);
+            },
+            'togglemute': () => {
+                playbackManager.toggleMute();
+            },
+            'channelup': () => {
+                playbackManager.channelUp();
+            },
+            'channeldown': () => {
+                playbackManager.channelDown();
+            },
+            'volumedown': () => {
+                playbackManager.volumeDown();
+            },
+            'volumeup': () => {
+                playbackManager.volumeUp();
+            },
+            'play': () => {
+                playbackManager.unpause();
+            },
+            'pause': () => {
+                playbackManager.pause();
+            },
+            'playpause': () => {
+                playbackManager.playPause();
+            },
             'stop': () => {
                 if (checkCommandTime('stop')) {
                     playbackManager.stop();
                 }
             },
-            'changezoom': playbackManager.toggleAspectRatio(),
-            'changeaudiotrack': playbackManager.changeAudioStream(),
-            'changesubtitletrack': playbackManager.changeSubtitleStream(),
-            'search': appRouter.showSearch(),
-            'favorites': appRouter.showFavorites(),
-            'fastforward': playbackManager.fastForward(),
-            'rewind': playbackManager.rewind(),
-            'togglefullscreen': playbackManager.toggleFullscreen(),
-            'disabledisplaymirror': playbackManager.enableDisplayMirroring(false),
-            'enabledisplaymirror': playbackManager.enableDisplayMirroring(true),
-            'toggledisplaymirror': playbackManager.toggleDisplayMirroring(),
-            'nowplaying': appRouter.showNowPlaying(),
-            'repeatnone': playbackManager.setRepeatMode('RepeatNone'),
-            'repeatall': playbackManager.setRepeatMode('RepeatAll'),
-            'repeatone': playbackManager.setRepeatMode('RepeatOne')
+            'changezoom': () => {
+                playbackManager.toggleAspectRatio();
+            },
+            'changeaudiotrack': () => {
+                playbackManager.changeAudioStream();
+            },
+            'changesubtitletrack': () => {
+                playbackManager.changeSubtitleStream();
+            },
+            'search': () => {
+                appRouter.showSearch();
+            },
+            'favorites': () => {
+                appRouter.showFavorites();
+            },
+            'fastforward': () => {
+                playbackManager.fastForward();
+            },
+            'rewind': () => {
+                playbackManager.rewind();
+            },
+            'togglefullscreen': () => {
+                playbackManager.toggleFullscreen();
+            },
+            'disabledisplaymirror': () => {
+                playbackManager.enableDisplayMirroring(false);
+            },
+            'enabledisplaymirror': () => {
+                playbackManager.enableDisplayMirroring(true);
+            },
+            'toggledisplaymirror': () => {
+                playbackManager.toggleDisplayMirroring();
+            },
+            'nowplaying': () => {
+                appRouter.showNowPlaying();
+            },
+            'repeatnone': () => {
+                playbackManager.setRepeatMode('RepeatNone');
+            },
+            'repeatall': () => {
+                playbackManager.setRepeatMode('RepeatAll');
+            },
+            'repeatone': () => {
+                playbackManager.setRepeatMode('RepeatOne');
+            }
         })[command];
 
-        keyActions(commandName);
+        keyActions(commandName).call();
     }
 
     dom.addEventListener(document, 'click', notify, {
