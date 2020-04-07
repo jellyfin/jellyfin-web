@@ -100,7 +100,7 @@ import appHost from 'apphost';
                 focusManager.moveLeft(sourceElement);
             },
             'right': () => {
-                focusManager.moveRight(sourceElement)
+                focusManager.moveRight(sourceElement);
             },
             'home': () => {
                 appRouter.goHome();
@@ -227,7 +227,11 @@ import appHost from 'apphost';
             }
         })[command];
 
-        keyActions(commandName).call();
+        try {
+            keyActions(commandName).call();
+        } catch (error) {
+            console.debug(`inputManager: tried to process command with no action assigned: ${commandName}`);
+        }
     }
 
     dom.addEventListener(document, 'click', notify, {
