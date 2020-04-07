@@ -506,12 +506,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var seconds = (options.playerStartPositionTicks || 0) / 10000000;
             if (seconds) {
                 val += '#t=' + seconds;
-                // update video player position when file is ready
-                var onMetadataLoaded = function() {
-                    elem.removeEventListener("loadedmetadata", onMetadataLoaded);
-                    elem.currentTime = seconds;
-                };
-                elem.addEventListener("loadedmetadata", onMetadataLoaded);
             }
 
             htmlMediaHelper.destroyHlsPlayer(self);
