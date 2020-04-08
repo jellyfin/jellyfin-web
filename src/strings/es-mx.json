@@ -158,7 +158,7 @@
     "CustomDlnaProfilesHelp": "Crear un perfil personalizado para un nuevo dispositivo o reemplazar un perfil del sistema.",
     "DateAdded": "Fecha de adición",
     "DatePlayed": "Fecha de reproducción",
-    "DeathDateValue": "Fallcimiento: {0}",
+    "DeathDateValue": "Fallecimiento: {0}",
     "Default": "Por defecto",
     "DefaultErrorMessage": "Ha ocurrido un error al procesar la solicitud. Por favor inténtelo de nuevo mas tarde.",
     "DefaultMetadataLangaugeDescription": "Estas son sus configuraciones por defecto y puedes ser personalizadas independientemente en cada biblioteca.",
@@ -1334,8 +1334,8 @@
     "Writer": "Escritor",
     "XmlDocumentAttributeListHelp": "Estos atributos se aplican al elemento raíz de cada respuesta XML.",
     "XmlTvKidsCategoriesHelp": "Los programas con estas categorías serán mostrados como programas infantiles. Separe varios con un \"|\".",
-    "XmlTvMovieCategoriesHelp": "Los programas con estas categorías serán mostrado como películas. Separe varios con un \"|\".",
-    "XmlTvNewsCategoriesHelp": "Los programas con estas categorías serán mostrado como programas noticiosos. Separe varios con un \"|\".",
+    "XmlTvMovieCategoriesHelp": "Los programas con estas categorías serán mostrados como películas. Separe varios con un \"|\".",
+    "XmlTvNewsCategoriesHelp": "Los programas con estas categorías serán mostrados como programas noticiosos. Separe varios con un \"|\".",
     "XmlTvPathHelp": "Ruta al archivo XMLTV. Jellyfin leerá este archivo y lo revisará periódicamente en busca de actualizaciones. Usted es responsable de crear y actualizar el archivo.",
     "XmlTvSportsCategoriesHelp": "Los programas con estas categorías serán mostrados como programas deportivos. Separe varios con un \"|\".",
     "Yes": "Sí",
@@ -1498,5 +1498,9 @@
     "AllowFfmpegThrottlingHelp": "Cuando una transcodificación o remux se encuentra muy por delante de la posición de reproducción, pausar el proceso para consumir menos recursos. Esto es mas practico cuando se esta viendo sin buscar constantemente. Deshabilitar esta opción si experimentas problemas de reproducción.",
     "AllowFfmpegThrottling": "Aceleración de Transcoders",
     "AlbumArtist": "Álbum de artista",
-    "Album": "Álbum"
+    "Album": "Álbum",
+    "YadifBob": "Yadif Bob",
+    "Yadif": "Yadif",
+    "LabelDeinterlaceMethod": "Forma de Desentrelazado",
+    "DeinterlaceMethodHelp": "Seleccione el método de desentrelazado que se usará al codificar el contenido entrelazado."
 }
