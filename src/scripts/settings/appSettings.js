@@ -130,17 +130,19 @@ import events from 'events';
         return appStorage.getItem(getKey(name, userId));
     }
 
-    export default {
-        enableAutoLogin: enableAutoLogin,
-        enableSystemExternalPlayers: enableSystemExternalPlayers,
-        enableAutomaticBitrateDetection: enableAutomaticBitrateDetection,
-        maxStreamingBitrate: maxStreamingBitrate,
-        maxStaticMusicBitrate: maxStaticMusicBitrate,
-        maxChromecastBitrate: maxChromecastBitrate,
-        syncOnlyOnWifi: syncOnlyOnWifi,
-        syncPath: syncPath,
-        cameraUploadServers: cameraUploadServers,
-        runAtStartup: runAtStartup,
-        set: set,
-        get: get
-    }
+/* eslint-enable indent */
+
+export default {
+    enableAutoLogin: enableAutoLogin,
+    enableSystemExternalPlayers: enableSystemExternalPlayers,
+    enableAutomaticBitrateDetection: enableAutomaticBitrateDetection,
+    maxStreamingBitrate: maxStreamingBitrate,
+    maxStaticMusicBitrate: maxStaticMusicBitrate,
+    maxChromecastBitrate: maxChromecastBitrate,
+    syncOnlyOnWifi: syncOnlyOnWifi,
+    syncPath: syncPath,
+    cameraUploadServers: cameraUploadServers,
+    runAtStartup: runAtStartup,
+    set: set,
+    get: get
+};

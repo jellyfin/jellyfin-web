@@ -72,7 +72,9 @@ import browser from 'browser';
         }
     }
 
-    export default {
-        getDeviceIcon: getDeviceIcon,
-        getLibraryIcon: getLibraryIcon
-    }
+/* eslint-enable indent */
+
+export default {
+    getDeviceIcon: getDeviceIcon,
+    getLibraryIcon: getLibraryIcon
+};

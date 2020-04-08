@@ -249,3 +249,5 @@ import events from 'events';
     export function getFilter(key) {
         return this.get(key, true);
     }
+
+/* eslint-enable indent */
