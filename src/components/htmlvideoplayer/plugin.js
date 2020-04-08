@@ -116,8 +116,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         });
     }
 
-    function normalizeTrackEventText(text) {
-        return text.replace(/\\N/gi, '\n');
+    function normalizeTrackEventText(text, useHtml) {
+        var result = text.replace(/\\N/gi, '\n').replace(/\r/gi, '');
+        return useHtml ? result.replace(/\n/gi, '<br>') : result;
     }
 
     function setTracks(elem, tracks, item, mediaSource) {
@@ -1209,7 +1210,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 data.TrackEvents.forEach(function (trackEvent) {
 
                     var trackCueObject = window.VTTCue || window.TextTrackCue;
-                    var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text));
+                    var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
                     trackElement.addCue(cue);
                 });
@@ -1250,8 +1251,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 }
 
                 if (selectedTrackEvent && selectedTrackEvent.Text) {
-
-                    subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text);
+                    subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text, true);
                     subtitleTextElement.classList.remove('hide');
 
                 } else {
