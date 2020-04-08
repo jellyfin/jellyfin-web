@@ -1496,5 +1496,7 @@
     "EveryXMinutes": "Every {0} minutes",
     "EveryHour": "Every hour",
     "EveryXHours": "Every {0} hours",
-    "OnApplicationStartup": "On application startup"
+    "OnApplicationStartup": "On application startup",
+    "EnableDecodingColorDepth10": "Enable 10-Bit hardware decoding",
+    "EnableDecodingColorDepth10Help" : "Enable 10-Bit hardware decoding on supported hardware. Only works for HEVC and VP9 formats. Turn this off if you experience playback issues."
 }

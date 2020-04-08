@@ -5,6 +5,7 @@ define(["jQuery", "loading", "globalize", "dom", "libraryMenu"], function ($, lo
         Array.prototype.forEach.call(page.querySelectorAll(".chkDecodeCodec"), function (c) {
             c.checked = -1 !== (config.HardwareDecodingCodecs || []).indexOf(c.getAttribute("data-codec"));
         });
+        page.querySelector("#chkDecodingColorDepth10").checked = config.EnableDecodingColorDepth10;
         page.querySelector("#chkHardwareEncoding").checked = config.EnableHardwareEncoding;
         $("#selectVideoDecoder", page).val(config.HardwareAccelerationType);
         $("#selectThreadCount", page).val(config.EncodingThreadCount);
@@ -67,6 +68,7 @@ define(["jQuery", "loading", "globalize", "dom", "libraryMenu"], function ($, lo
                 }), function (c) {
                     return c.getAttribute("data-codec");
                 });
+                config.EnableDecodingColorDepth10 = form.querySelector("#chkDecodingColorDepth10").checked;
                 config.EnableHardwareEncoding = form.querySelector("#chkHardwareEncoding").checked;
                 ApiClient.updateNamedConfiguration("encoding", config).then(function () {
                     updateEncoder(form);

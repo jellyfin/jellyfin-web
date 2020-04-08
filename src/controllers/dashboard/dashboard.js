@@ -258,12 +258,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 html += "</div>";
                 html += "</div>";
 
-                if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
-                    html += '<div class="sessionTranscodingFramerate">' + session.TranscodingInfo.Framerate + " fps</div>";
-                } else {
-                    html += '<div class="sessionTranscodingFramerate"></div>';
-                }
-
                 html += '<div class="sessionNowPlayingDetails">';
                 var nowPlayingName = DashboardPage.getNowPlayingName(session);
                 html += '<div class="sessionNowPlayingInfo" data-imgsrc="' + nowPlayingName.image + '">';
@@ -398,9 +392,9 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             } else if (displayPlayMethod === "Transcode") {
                 html += globalize.translate("Transcoding");
 
-                if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
-                    html += " (" + session.TranscodingInfo.Framerate + " fps)";
-                }
+            if (session.TranscodingInfo && session.TranscodingInfo.Framerate) {
+                html += " (" + session.TranscodingInfo.Framerate + " fps)";
+            }
 
                 showTranscodingInfo = true;
             } else if (displayPlayMethod === "DirectPlay") {

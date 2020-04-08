@@ -1502,5 +1502,7 @@
     "YadifBob": "Yadif Bob",
     "Yadif": "Yadif",
     "LabelDeinterlaceMethod": "反交错方法：",
-    "DeinterlaceMethodHelp": "选择对隔行扫描内容进行转码时所用的反交错方法。"
+    "DeinterlaceMethodHelp": "选择对隔行扫描内容进行转码时所用的反交错方法。",
+    "EnableDecodingColorDepth10": "启用 10-Bit 硬件解码",
+    "EnableDecodingColorDepth10Help" : "在支持的硬件上启用 10-Bit 硬件解码。仅对 HEVC 和 VP9 格式起作用。如果你遇到了播放问题，请关闭这个选项。"
 }
