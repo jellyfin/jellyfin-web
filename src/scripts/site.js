@@ -775,10 +775,7 @@ var AppInfo = {};
 
         define("webSettings", [scriptsPath + "/settings/webSettings"], returnFirstDependency);
         define("appSettings", [scriptsPath + "/settings/appSettings"], returnFirstDependency);
-        define("userSettingsBuilder", [scriptsPath + "/settings/userSettingsBuilder"], returnFirstDependency);
-        define("userSettings", ["userSettingsBuilder"], function(userSettingsBuilder) {
-            return new userSettingsBuilder();
-        });
+        define("userSettings", [scriptsPath + "/settings/userSettings"], returnFirstDependency);
 
         define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
         define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);
