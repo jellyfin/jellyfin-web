@@ -164,5 +164,8 @@
     "Songs": "Lieder",
     "Sync": "Synchronisation",
     "ValueSpecialEpisodeName": "Extra - {0}",
-    "VersionNumber": "Version {0}"
+    "VersionNumber": "Version {0}",
+    "Absolute": "Absolut",
+    "Actor": "Schauspiler",
+    "AccessRestrictedTryAgainLater": "Zuegriff isch momentan beschränkt. Probier bitte später nomau. "
 }

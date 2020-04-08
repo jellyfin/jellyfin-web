@@ -1,4 +1,4 @@
-define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSettings, browser, events, htmlMediaHelper) {
+define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], function (appSettings, browser, events, htmlMediaHelper, webSettings) {
     "use strict";
 
     function getBaseProfileOptions(item) {
@@ -276,15 +276,17 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         features.push("otherapppromotions");
         features.push("displaymode");
         features.push("targetblank");
-        // allows users to connect to more than one server
-        //features.push("multiserver");
         features.push("screensaver");
 
-        if (!browser.orsay && !browser.tizen && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
+        webSettings.enableMultiServer().then(enabled => {
+            if (enabled) features.push("multiserver");
+        });
+
+        if (!browser.orsay && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
             features.push("subtitleappearancesettings");
         }
 
-        if (!browser.orsay && !browser.tizen) {
+        if (!browser.orsay) {
             features.push("subtitleburnsettings");
         }
 
@@ -381,7 +383,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
                 return window.NativeShell.AppHost.getDefaultLayout();
             }
 
-            return getDefaultLayout()
+            return getDefaultLayout();
         },
         getDeviceProfile: getDeviceProfile,
         init: function () {

@@ -2,8 +2,7 @@ trigger:
   batch: true
   branches:
     include:
-    - master
-    - release-*
+    - '*'
   tags:
     include:
     - '*'
@@ -13,11 +12,8 @@ pr:
     - '*'
 
 jobs:
-  - job: build
+  - job: Build
     displayName: 'Build'
-
-    pool:
-      vmImage: 'ubuntu-latest'
 
     strategy:
       matrix:
@@ -27,13 +23,15 @@ jobs:
           BuildConfiguration: production
         Standalone:
           BuildConfiguration: standalone
-      maxParallel: 3
+
+    pool:
+      vmImage: 'ubuntu-latest'
 
     steps:
     - task: NodeTool@0
       displayName: 'Install Node'
       inputs:
-        versionSpec: '10.x'
+        versionSpec: '12.x'
 
     - task: Cache@2
       displayName: 'Check Cache'
@@ -63,16 +61,14 @@ jobs:
 
     - script: 'mv dist jellyfin-web'
       displayName: 'Rename Directory'
-      condition: succeeded()
 
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Release'
-      condition: succeeded()
       inputs:
         targetPath: '$(Build.SourcesDirectory)/jellyfin-web'
         artifactName: 'jellyfin-web-$(BuildConfiguration)'
 
-  - job: lint
+  - job: Lint
     displayName: 'Lint'
 
     pool:
@@ -82,7 +78,7 @@ jobs:
     - task: NodeTool@0
       displayName: 'Install Node'
       inputs:
-        versionSpec: '10.x'
+        versionSpec: '12.x'
 
     - task: Cache@2
       displayName: 'Check Cache'
@@ -95,7 +91,7 @@ jobs:
       displayName: 'Install Dependencies'
       condition: ne(variables.CACHE_RESTORED, 'true')
 
-    - script: 'yarn run lint'
+    - script: 'yarn run lint --quiet'
       displayName: 'Run ESLint'
 
     - script: 'yarn run stylelint'
