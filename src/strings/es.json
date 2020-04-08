@@ -1234,7 +1234,7 @@
     "Auto": "Automático",
     "AutoBasedOnLanguageSetting": "Automático (basado en la configuración de idioma)",
     "Banner": "Pancarta",
-    "BurnSubtitlesHelp": "Determina si el servidor debe grabar subtítulos al transcodificar videos. Evitar esto mejorará altamente el rendimiento del servidor. Seleccione Auto para grabar formatos basados en imágenes (VOBSUB, PGS, SUB/IDX) y ciertos subtítulos ASS o SSA.",
+    "BurnSubtitlesHelp": "Determina si el servidor debe grabar los subtítulos en el vídeo al transcodificar. Desactivar esta opción puede mejorar el rendimiento. Seleccione 'Auto' para grabar formatos basados en imágenes (VOBSUB, PGS, SUB/IDX) y ciertos subtítulos ASS o SSA.",
     "ButtonInfo": "Información",
     "ChangingMetadataImageSettingsNewContent": "Los cambios a la configuración de descarga de etiquetas e imágenes sólo se aplicará al nuevo contenido que se añada a la biblioteca. Para aplicar los cambios a los elementos existentes necesitarás actualizar las etiquetas manualmente.",
     "ColorPrimaries": "Colores primarios",
@@ -1499,6 +1499,6 @@
     "Episode": "Episodio",
     "BoxSet": "Box Set",
     "Artist": "Artista",
-    "AlbumArtist": "Álbum de artista",
+    "AlbumArtist": "Artista del álbum",
     "Album": "Álbum"
 }
