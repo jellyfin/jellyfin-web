@@ -13,7 +13,7 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
+                exclude: /node_modules[\\/](?!query-string)/,
                 loader: "babel-loader"
             },
             {
