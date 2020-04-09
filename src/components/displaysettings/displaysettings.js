@@ -186,7 +186,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
         context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
 
-        context.querySelector('#txtLibraryPageSize').value = userSettings.libraryPageSize() || 100;
+        context.querySelector('#txtLibraryPageSize').value = userSettings.libraryPageSize();
 
         selectDashboardTheme.value = userSettings.dashboardTheme() || '';
         selectTheme.value = userSettings.theme() || '';
