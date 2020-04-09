@@ -3713,6 +3713,10 @@ libjass@^0.11.0:
   resolved "https://registry.yarnpkg.com/libjass/-/libjass-0.11.0.tgz#bff1f464a2428c3bddfb68e4503b2d52afe3d6e6"
   integrity sha1-v/H0ZKJCjDvd+2jkUDstUq/j1uY=
 
+"libass-wasm@https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf-cordova":
+  version "4.0.0"
+  resolved "https://github.com/jellyfin/JavascriptSubtitlesOctopus#b38056588bfaebc18a8353cb1757de0a815ac879"
+
 lightercollective@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/lightercollective/-/lightercollective-0.3.0.tgz#1f07638642ec645d70bdb69ab2777676f35a28f0"
