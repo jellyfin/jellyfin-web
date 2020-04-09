@@ -1,4 +1,4 @@
-define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'paper-icon-button-light', 'emby-button', 'formDialogStyle', 'cardStyle'], function (loading, appHost, dialogHelper, connectionManager, imageLoader, browser, layoutManager, scrollHelper, globalize, require) {
+define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'paper-icon-button-light', 'emby-button', 'formDialogStyle', 'cardStyle'], function (dom, loading, appHost, dialogHelper, connectionManager, imageLoader, browser, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
     var enableFocusTransform = !browser.slow && !browser.edge;
@@ -109,7 +109,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         html += '<span style="margin-right: 10px;">';
 
         var startAtDisplay = totalRecordCount ? startIndex + 1 : 0;
-        html += startAtDisplay + '-' + recordsEnd + ' of ' + totalRecordCount;
+        html += globalize.translate("ListPaging", startAtDisplay, recordsEnd, totalRecordCount);
 
         html += '</span>';
 
@@ -126,21 +126,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         return html;
     }
 
-    function parentWithClass(elem, className) {
-
-        while (!elem.classList || !elem.classList.contains(className)) {
-            elem = elem.parentNode;
-
-            if (!elem) {
-                return null;
-            }
-        }
-
-        return elem;
-    }
-
     function downloadRemoteImage(page, apiClient, url, type, provider) {
-
         var options = getBaseRemoteOptions();
 
         options.Type = type;
@@ -152,7 +138,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
         apiClient.downloadRemoteImage(options).then(function () {
 
             hasChanges = true;
-            var dlg = parentWithClass(page, 'dialog');
+            var dlg = dom.parentWithClass(page, 'dialog');
             dialogHelper.close(dlg);
         });
     }
@@ -162,7 +148,6 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
     }
 
     function getRemoteImageHtml(image, imageType, apiClient) {
-
         var tagName = layoutManager.tv ? 'button' : 'div';
         var enableFooterButtons = !layoutManager.tv;
 
@@ -293,7 +278,6 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
     }
 
     function initEditor(page, apiClient) {
-
         page.querySelector('#selectBrowsableImageType').addEventListener('change', function () {
             browsableImageType = this.value;
             browsableImageStartIndex = 0;
@@ -319,14 +303,14 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
 
         page.addEventListener('click', function (e) {
 
-            var btnDownloadRemoteImage = parentWithClass(e.target, 'btnDownloadRemoteImage');
+            var btnDownloadRemoteImage = dom.parentWithClass(e.target, 'btnDownloadRemoteImage');
             if (btnDownloadRemoteImage) {
-                var card = parentWithClass(btnDownloadRemoteImage, 'card');
+                var card = dom.parentWithClass(btnDownloadRemoteImage, 'card');
                 downloadRemoteImage(page, apiClient, card.getAttribute('data-imageurl'), card.getAttribute('data-imagetype'), card.getAttribute('data-imageprovider'));
                 return;
             }
 
-            var btnImageCard = parentWithClass(e.target, 'btnImageCard');
+            var btnImageCard = dom.parentWithClass(e.target, 'btnImageCard');
             if (btnImageCard) {
                 downloadRemoteImage(page, apiClient, btnImageCard.getAttribute('data-imageurl'), btnImageCard.getAttribute('data-imagetype'), btnImageCard.getAttribute('data-imageprovider'));
             }
@@ -334,7 +318,6 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
     }
 
     function showEditor(itemId, serverId, itemType) {
-
         loading.show();
 
         require(['text!./imagedownloader.template.html'], function (template) {
@@ -380,7 +363,6 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
     }
 
     function onDialogClosed() {
-
         var dlg = this;
 
         if (layoutManager.tv) {
@@ -397,9 +379,7 @@ define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader'
 
     return {
         show: function (itemId, serverId, itemType, imageType) {
-
             return new Promise(function (resolve, reject) {
-
                 currentResolve = resolve;
                 currentReject = reject;
                 hasChanges = false;

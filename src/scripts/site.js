@@ -323,11 +323,11 @@ var AppInfo = {};
     }
 
     function getElementsPath() {
-        return "elements"
+        return "elements";
     }
 
     function getScriptsPath() {
-        return "scripts"
+        return "scripts";
     }
 
     function getPlaybackManager(playbackManager) {
@@ -452,6 +452,9 @@ var AppInfo = {};
                 require(["autoFocuser"], function(autoFocuser) {
                     autoFocuser.enable();
                 });
+                require(['globalize', 'connectionManager', 'events'], function (globalize, connectionManager, events) {
+                    events.on(connectionManager, 'localusersignedin', globalize.updateCurrentCulture);
+                });
             });
         });
     }
@@ -574,6 +577,7 @@ var AppInfo = {};
                 }
 
                 require(["mediaSession", "serverNotifications"]);
+                require(["date-fns", "date-fns/locale"]);
 
                 if (!browser.tv && !browser.xboxOne) {
                     require(["components/playback/playbackorientation"]);
@@ -647,12 +651,12 @@ var AppInfo = {};
             inputManager: "scripts/inputManager",
             datetime: "scripts/datetime",
             globalize: "scripts/globalize",
+            dfnshelper: "scripts/dfnshelper",
             libraryMenu: "scripts/librarymenu",
             playlisteditor: componentsPath + "/playlisteditor/playlisteditor",
             medialibrarycreator: componentsPath + "/medialibrarycreator/medialibrarycreator",
             medialibraryeditor: componentsPath + "/medialibraryeditor/medialibraryeditor",
             imageoptionseditor: componentsPath + "/imageoptionseditor/imageoptionseditor",
-            humanedate: componentsPath + "/humanedate",
             apphost: componentsPath + "/apphost",
             visibleinviewport: componentsPath + "/visibleinviewport",
             qualityoptions: componentsPath + "/qualityoptions",
@@ -690,12 +694,13 @@ var AppInfo = {};
                     "swiper",
                     "queryString",
                     "sortable",
-                    "libjass",
                     "webcomponents",
                     "material-icons",
                     "jellyfin-noto",
+                    "date-fns",
                     "page",
-                    "polyfill"
+                    "polyfill",
+                    "classlist-polyfill"
                 ]
             },
             urlArgs: urlArgs,
@@ -704,6 +709,7 @@ var AppInfo = {};
         });
 
         require(["polyfill"]);
+        require(["classlist-polyfill"]);
 
         // Expose jQuery globally
         require(["jQuery"], function(jQuery) {
@@ -767,11 +773,9 @@ var AppInfo = {};
         define("emby-textarea", [elementsPath + "/emby-textarea/emby-textarea"], returnFirstDependency);
         define("emby-toggle", [elementsPath + "/emby-toggle/emby-toggle"], returnFirstDependency);
 
+        define("webSettings", [scriptsPath + "/settings/webSettings"], returnFirstDependency);
         define("appSettings", [scriptsPath + "/settings/appSettings"], returnFirstDependency);
-        define("userSettingsBuilder", [scriptsPath + "/settings/userSettingsBuilder"], returnFirstDependency);
-        define("userSettings", ["userSettingsBuilder"], function(userSettingsBuilder) {
-            return new userSettingsBuilder();
-        });
+        define("userSettings", [scriptsPath + "/settings/userSettings"], returnFirstDependency);
 
         define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
         define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);

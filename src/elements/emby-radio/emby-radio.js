@@ -1,4 +1,4 @@
-define(['css!./emby-radio', 'registerElement'], function () {
+define(['layoutManager', 'css!./emby-radio', 'registerElement'], function (layoutManager) {
     'use strict';
 
     var EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
@@ -23,6 +23,7 @@ define(['css!./emby-radio', 'registerElement'], function () {
     }
 
     EmbyRadioPrototype.attachedCallback = function () {
+        var showFocus = !layoutManager.mobile;
 
         if (this.getAttribute('data-radio') === 'true') {
             return;
@@ -37,13 +38,36 @@ define(['css!./emby-radio', 'registerElement'], function () {
         labelElement.classList.add('mdl-radio');
         labelElement.classList.add('mdl-js-radio');
         labelElement.classList.add('mdl-js-ripple-effect');
+        if (showFocus) {
+            labelElement.classList.add('show-focus');
+        }
 
         var labelTextElement = labelElement.querySelector('span');
 
         labelTextElement.classList.add('radioButtonLabel');
         labelTextElement.classList.add('mdl-radio__label');
 
-        labelElement.insertAdjacentHTML('beforeend', '<span class="mdl-radio__outer-circle"></span><span class="mdl-radio__inner-circle"></span>');
+        var html = '';
+
+        html += '<div class="mdl-radio__circles">';
+
+        html += '<svg>';
+        html += '<defs>';
+        html += '<clipPath id="cutoff">';
+        html += '<circle cx="50%" cy="50%" r="50%" />';
+        html += '</clipPath>';
+        html += '</defs>';
+        html += '<circle class="mdl-radio__outer-circle" cx="50%" cy="50%" r="50%" fill="none" stroke="currentcolor" stroke-width="0.26em" clip-path="url(#cutoff)" />';
+        html += '<circle class="mdl-radio__inner-circle" cx="50%" cy="50%" r="25%" fill="currentcolor" />';
+        html += '</svg>';
+
+        if (showFocus) {
+            html += '<div class="mdl-radio__focus-circle"></div>';
+        }
+
+        html += '</div>';
+
+        this.insertAdjacentHTML('afterend', html);
 
         this.addEventListener('keydown', onKeyDown);
     };
