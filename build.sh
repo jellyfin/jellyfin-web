@@ -63,17 +63,17 @@ while [[ $# -gt 0 ]]; do
     case $key in
         -t|--type)
         BUILD_TYPE="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -p|--platform)
         PLATFORM="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -k|--keep-artifacts)
         KEEP_ARTIFACTS=YES
-        shift # past argument
+        shift
         ;;
         -l|--list-platforms)
         list_platforms
@@ -83,7 +83,7 @@ while [[ $# -gt 0 ]]; do
         usage
         exit 0
         ;;
-        *)    # unknown option
+        *)
         echo "Unknown option $1"
         usage
         exit 1
