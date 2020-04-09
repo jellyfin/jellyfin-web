@@ -49,12 +49,12 @@ define(["loading", "libraryMenu", "globalize", "listViewStyle", "emby-button"], 
             }
             page.querySelector(".notificationList").innerHTML = html;
             loading.hide();
-        })
+        });
     }
 
     return function(view, params) {
         view.addEventListener("viewshow", function() {
             reload(view);
         });
-    }
+    };
 });

@@ -18,6 +18,9 @@
     "cssnano": "^4.1.10",
     "del": "^5.1.0",
     "eslint": "^6.8.0",
+    "eslint-plugin-eslint-comments": "^3.1.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-promise": "^4.2.1",
     "file-loader": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
@@ -51,7 +54,9 @@
   },
   "dependencies": {
     "alameda": "^1.4.0",
+    "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
     "core-js": "^3.6.4",
+    "date-fns": "^2.11.1",
     "document-register-element": "^1.14.3",
     "flv.js": "^1.5.0",
     "hls.js": "^0.13.1",
@@ -59,7 +64,7 @@
     "jellyfin-noto": "https://github.com/jellyfin/jellyfin-noto",
     "jquery": "^3.4.1",
     "jstree": "^3.3.7",
-    "libass-wasm": "https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf",
+    "libass-wasm": "https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf-cordova",
     "material-design-icons-iconfont": "^5.0.1",
     "native-promise-only": "^0.8.0-a",
     "page": "^1.11.5",
@@ -84,9 +89,13 @@
           "src/components/filedownloader.js",
           "src/components/filesystem.js",
           "src/components/input/keyboardnavigation.js",
+          "src/components/scrollManager.js",
           "src/components/sanatizefilename.js",
           "src/scripts/settings/webSettings.js",
-          "src/components/scrollManager.js"
+          "src/scripts/settings/appSettings.js",
+          "src/scripts/settings/userSettings.js",
+          "src/scripts/imagehelper.js",
+          "src/scripts/dfnshelper.js"
         ],
         "plugins": [
           "@babel/plugin-transform-modules-amd"

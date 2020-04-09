@@ -36,7 +36,7 @@ define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) 
     }
 
     $(document).on("pageinit", "#playbackConfigurationPage", function () {
-        $(".playbackConfigurationForm").off("submit", onSubmit).on("submit", onSubmit)
+        $(".playbackConfigurationForm").off("submit", onSubmit).on("submit", onSubmit);
     }).on("pageshow", "#playbackConfigurationPage", function () {
         loading.show();
         libraryMenu.setTabs("playback", 1, getTabs);

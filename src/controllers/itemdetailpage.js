@@ -591,7 +591,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             try {
                 var birthday = datetime.parseISO8601Date(item.PremiereDate, true).toDateString();
                 itemBirthday.classList.remove("hide");
-                itemBirthday.innerHTML = globalize.translate("BirthDateValue").replace("{0}", birthday);
+                itemBirthday.innerHTML = globalize.translate("BirthDateValue", birthday);
             } catch (err) {
                 itemBirthday.classList.add("hide");
             }
@@ -605,7 +605,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             try {
                 var deathday = datetime.parseISO8601Date(item.EndDate, true).toDateString();
                 itemDeathDate.classList.remove("hide");
-                itemDeathDate.innerHTML = globalize.translate("DeathDateValue").replace("{0}", deathday);
+                itemDeathDate.innerHTML = globalize.translate("DeathDateValue", deathday);
             } catch (err) {
                 itemDeathDate.classList.add("hide");
             }
@@ -618,7 +618,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         if ("Person" == item.Type && item.ProductionLocations && item.ProductionLocations.length) {
             var gmap = '<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://maps.google.com/maps?q=' + item.ProductionLocations[0] + '">' + item.ProductionLocations[0] + "</a>";
             itemBirthLocation.classList.remove("hide");
-            itemBirthLocation.innerHTML = globalize.translate("BirthPlaceValue").replace("{0}", gmap);
+            itemBirthLocation.innerHTML = globalize.translate("BirthPlaceValue", gmap);
         } else {
             itemBirthLocation.classList.add("hide");
         }
