@@ -6,7 +6,7 @@ import appHost from 'apphost';
 
 /* eslint-disable indent */
 
-    var lastInputTime = new Date().getTime();
+    let lastInputTime = new Date().getTime();
 
     export function notify() {
         lastInputTime = new Date().getTime();
@@ -25,7 +25,7 @@ import appHost from 'apphost';
         sourceElement.click();
     }
 
-    var eventListenerCount = 0;
+    let eventListenerCount = 0;
     export function on(scope, fn) {
         eventListenerCount++;
         dom.addEventListener(scope, 'command', fn, {});
@@ -38,12 +38,12 @@ import appHost from 'apphost';
         dom.removeEventListener(scope, 'command', fn, {});
     }
 
-    var commandTimes = {};
+    let commandTimes = {};
 
     function checkCommandTime(command) {
 
-        var last = commandTimes[command] || 0;
-        var now = new Date().getTime();
+        let last = commandTimes[command] || 0;
+        const now = new Date().getTime();
 
         if ((now - last) < 1000) {
             return false;
@@ -57,7 +57,7 @@ import appHost from 'apphost';
 
         lastInputTime = new Date().getTime();
 
-        var sourceElement = (options ? options.sourceElement : null);
+        let sourceElement = (options ? options.sourceElement : null);
 
         if (sourceElement) {
             sourceElement = focusManager.focusableParent(sourceElement);
@@ -66,7 +66,7 @@ import appHost from 'apphost';
         if (!sourceElement) {
             sourceElement = document.activeElement || window;
 
-            var dlg = document.querySelector('.dialogContainer .dialog.opened');
+            const dlg = document.querySelector('.dialogContainer .dialog.opened');
 
             if (dlg && (!sourceElement || !dlg.contains(sourceElement))) {
                 sourceElement = dlg;
@@ -74,7 +74,7 @@ import appHost from 'apphost';
         }
 
         if (eventListenerCount) {
-            var customEvent = new CustomEvent("command", {
+            const customEvent = new CustomEvent("command", {
                 detail: {
                     command: commandName
                 },
@@ -82,7 +82,7 @@ import appHost from 'apphost';
                 cancelable: true
             });
 
-            var eventResult = sourceElement.dispatchEvent(customEvent);
+            const eventResult = sourceElement.dispatchEvent(customEvent);
             if (!eventResult) {
                 // event cancelled
                 return;
@@ -227,10 +227,10 @@ import appHost from 'apphost';
             }
         })[command];
 
-        try {
-            keyActions(commandName).call();
-        } catch (error) {
+        if (keyActions(commandName) === undefined) {
             console.debug(`inputManager: tried to process command with no action assigned: ${commandName}`);
+        } else {
+            keyActions(commandName).call();
         }
     }
 

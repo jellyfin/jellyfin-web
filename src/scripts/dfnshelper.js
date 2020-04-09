@@ -51,8 +51,6 @@ const dateLocales = (locale) => ({
 })[locale];
 
 export function getLocale() {
-    console.warn(globalize.getCurrentLocale());
-    console.warn(dateLocales(globalize.getCurrentLocale()));
     return dateLocales(globalize.getCurrentLocale()) || enUS;
 }
 
