@@ -5,8 +5,8 @@ define(["loading", "emby-checkbox", "emby-button", "emby-select"], function (loa
         loading.show();
         var apiClient = ApiClient;
         apiClient.getJSON(apiClient.getUrl("Startup/Configuration")).then(function (config) {
-            config.PreferredMetadataLanguage = page.querySelector("#selectLanguage").value;
-            config.MetadataCountryCode = page.querySelector("#selectCountry").value;
+            config.preferredMetadataLanguage = page.querySelector("#selectLanguage").value;
+            config.metadataCountryCode = page.querySelector("#selectCountry").value;
             apiClient.ajax({
                 type: "POST",
                 data: config,

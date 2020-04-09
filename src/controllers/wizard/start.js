@@ -12,7 +12,7 @@ define(["jQuery", "loading", "emby-button", "emby-select"], function ($, loading
         loading.show();
         var apiClient = ApiClient;
         apiClient.getJSON(apiClient.getUrl("Startup/Configuration")).then(function (config) {
-            config.UICulture = $("#selectLocalizationLanguage", page).val();
+            config.uiCulture = $("#selectLocalizationLanguage", page).val();
             apiClient.ajax({
                 type: "POST",
                 data: config,
