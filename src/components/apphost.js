@@ -454,7 +454,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
     if (doc) {
         doc.addEventListener(visibilityChange, function () {
             /* eslint-disable-next-line compat/compat */
-            if (document[visibilityState]) {
+            if (document.visibilityState) {
                 onAppHidden();
             } else {
                 onAppVisible();
