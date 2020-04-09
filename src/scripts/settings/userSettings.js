@@ -201,6 +201,20 @@ import events from 'events';
         return this.get('screensaver', false);
     }
 
+    export function libraryPageSize(val) {
+        if (val != null) {
+            return this.set('libraryPageSize', parseInt(val, 10), false);
+        }
+
+        var libraryPageSize = parseInt(this.get('libraryPageSize', false), 10);
+        if (libraryPageSize === 0) {
+            // Explicitly return 0 to avoid returning 100 because 0 is falsy.
+            return 0;
+        } else {
+            return libraryPageSize || 100;
+        }
+    }
+
     export function soundEffects(val) {
         if (val != null) {
             return this.set('soundeffects', val, false);
