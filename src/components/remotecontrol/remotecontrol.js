@@ -144,7 +144,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 }
             }
             context.querySelector(".nowPlayingEpisode").innerHTML = item.Name;
-        } else  {
+        } else {
             context.querySelector(".nowPlayingPageTitle").innerHTML = displayName;
         }
 
