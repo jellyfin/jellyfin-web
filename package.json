@@ -119,7 +119,7 @@
     "Firefox ESR"
   ],
   "scripts": {
-    "serve": "gulp serve",
+    "serve": "gulp serve --development",
     "prepare": "gulp --production",
     "build:development": "gulp --development",
     "build:production": "gulp --production",
