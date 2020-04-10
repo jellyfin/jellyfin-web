@@ -352,6 +352,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                         document.body.appendChild(textArea);
                         textArea.focus();
                         textArea.select();
+
                         if (document.execCommand("copy")) {
                             require(["toast"], function (toast) {
                                 toast(globalize.translate("CopyStreamURLSuccess"));
@@ -361,14 +362,19 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                         }
                         document.body.removeChild(textArea);
                     };
+
+                    /* eslint-disable-next-line compat/compat */
                     if (navigator.clipboard === undefined) {
                         textAreaCopy();
                     } else {
+                        /* eslint-disable-next-line compat/compat */
                         navigator.clipboard.writeText(downloadHref).then(function () {
                             require(["toast"], function (toast) {
                                 toast(globalize.translate("CopyStreamURLSuccess"));
                             });
-                        }, textAreaCopy);
+                        }).catch(function () {
+                            textAreaCopy();
+                        });
                     }
                     getResolveFunction(resolve, id)();
                     break;

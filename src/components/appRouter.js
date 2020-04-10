@@ -268,6 +268,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function getMaxBandwidth() {
+        /* eslint-disable compat/compat */
         if (navigator.connection) {
             var max = navigator.connection.downlinkMax;
             if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
@@ -279,6 +280,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 return max;
             }
         }
+        /* eslint-enable compat/compat */
 
         return null;
     }
