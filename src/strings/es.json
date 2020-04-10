@@ -1500,5 +1500,7 @@
     "BoxSet": "Box Set",
     "Artist": "Artista",
     "AlbumArtist": "Artista del álbum",
-    "Album": "Álbum"
+    "Album": "Álbum",
+    "LabelDeinterlaceMethod": "Metodo de desentrelazar:",
+    "DeinterlaceMethodHelp": "Seleccione el método de desentrelazar para el transcodificar de contenido entrelazado."
 }
