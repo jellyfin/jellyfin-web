@@ -1498,5 +1498,7 @@
     "Episode": "Epizóda",
     "BoxSet": "Box Set",
     "Artist": "Umelec",
-    "AlbumArtist": "Umelec albumu"
+    "AlbumArtist": "Umelec albumu",
+    "LabelLibraryPageSizeHelp": "Určuje množstvo položiek na zobrazenie na stránke knižnice. Nastavte 0 pre vypnutie stránkovania.",
+    "LabelLibraryPageSize": "Veľkosť stránky knižnice:"
 }
