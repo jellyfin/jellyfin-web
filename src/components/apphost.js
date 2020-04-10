@@ -431,9 +431,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
     if (typeof document.hidden !== "undefined") { /* eslint-disable-line compat/compat */
         hidden = "hidden";
         visibilityChange = "visibilitychange";
-    } else if (typeof document.msHidden !== "undefined") {
-        hidden = "msHidden";
-        visibilityChange = "msvisibilitychange";
     } else if (typeof document.webkitHidden !== "undefined") {
         hidden = "webkitHidden";
         visibilityChange = "webkitvisibilitychange";
@@ -447,7 +444,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
             } else {
                 onAppVisible();
             }
-        });
+        }, false);
     }
 
     if (self.addEventListener) {
