@@ -96,7 +96,7 @@
     background-color: #5ccea9;
 }
 
-.nowPlayingPageImageContainerNoAlbum:after {
+.nowPlayingPageImageContainerNoAlbum::after {
     content: "";
     display: block;
     padding-bottom: 100%;
@@ -112,11 +112,11 @@
     .nowPlayingPageImageContainer {
         width: 16%;
     }
-    
+
     .nowPlayingPageUserDataButtonsTitle {
         display: none !important;
     }
-    
+
     .nowPlayingPageImage {
         margin: 0 auto;
         width: 100%;
@@ -142,7 +142,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    /* width: 100%; */
     -webkit-box-shadow: 0 0 1.9vh #000;
     box-shadow: 0 0 1.9vh #000;
     border: 0.1em solid #222;
@@ -163,7 +162,7 @@
 }
 
 @media all and (orientation: portrait) and (max-width: 47em) {
-    
+
     .remoteControlContent {
         padding-left: 7.3% !important;
         padding-right: 7.3% !important;
@@ -171,7 +170,7 @@
         height: 100%;
         flex-direction: column;
     }
-    
+
     .nowPlayingInfoContainer {
         -webkit-box-orient: vertical !important;
         -webkit-box-direction: normal !important;
@@ -181,7 +180,6 @@
         -webkit-align-items: center;
         align-items: center;
         width: 100%;
-        flex-flow: column;
         height: calc(100% - 4.2em);
     }
 
@@ -189,7 +187,7 @@
         /* text-align: center; */
         margin: 0;
     }
-    
+
     .nowPlayingInfoContainerMedia {
         text-align: left !important;
         width: 80%;
@@ -212,12 +210,12 @@
         width: 100%;
         margin: auto auto;
     }
-    
+
     .nowPlayingPageImageContainerNoAlbum .cardImageContainer .cardImageIcon {
         font-size: 15em;
         color: inherit;
     }
-    
+
     .nowPlayingInfoControls {
         margin: 1em 0 1em 0;
         width: 100%;
@@ -225,16 +223,16 @@
         -webkit-justify-content: start !important;
         justify-content: start !important;
     }
-    
+
     .nowPlayingSecondaryButtons {
         /* margin: 1em 0 1em 0; */
     }
-    
+
     .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle {
         width: 20%;
         font-size: large;
     }
-    
+
     .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle button {
         padding-top: 0;
         padding-right: 0;
@@ -242,28 +240,33 @@
         float: right;
         border-radius: 0;
     }
-        
+
     .nowPlayingInfoButtons .btnRewind {
         position: absolute;
         left: 0;
         margin-left: 0;
         padding-left: 7.3%;
-        font-size: smaller
+        font-size: smaller;
     }
-    
+
     .nowPlayingInfoButtons .btnFastForward {
         position: absolute;
         right: 0;
         margin-right: 0;
         padding-right: 7.3%;
-        font-size: smaller
+        font-size: smaller;
     }
-    
+
     .paper-icon-button-light:hover {
         color: #fff !important;
         background-color: transparent !important;
     }
-    
+
+	.btnPlayPause {
+        padding: 0;
+        margin: 0;
+    }
+
     .btnPlayPause:hover {
         background-color: transparent !important;
     }
@@ -274,25 +277,21 @@
         overflow: hidden;
         margin: 0 auto;
     }
-    
+
     .nowPlayingPageImage.nowPlayingPageImageAudio {
         width: 100%;
     }
-    
+
     .nowPlayingPageImageContainer.nowPlayingPageImagePoster {
         height: 50%;
     }
-    
-    .nowPlayingPageImageContainer.nowPlayingPageImagePoster img{
+
+    .nowPlayingPageImageContainer.nowPlayingPageImagePoster img {
         height: 100%;
     }
-    
-    #nowPlayingPage .playlistSection {
-        
-    }
-    
+
     #nowPlayingPage .playlistSection .playlist,
-    #nowPlayingPage .playlistSection .contextMenu   {
+    #nowPlayingPage .playlistSection .contextMenu {
         position: absolute;
         top: 12.2em;
         bottom: 4.2em;
@@ -304,7 +303,7 @@
         background: #202020;
         z-index: 1000;
     }
-    
+
     .playlistSectionButton {
         position: fixed;
         bottom: 0;
@@ -315,18 +314,13 @@
         padding-right: 7.3%;
         background-color: #101010;
     }
-    
-    .btnPlayPause {
-        padding: 0;
-        margin: 0;
-    }
-    
+
     .playlistSectionButton .btnTooglePlaylist {
         font-size: larger;
         margin: 0;
         padding-left: 0;
     }
-    
+
     .playlistSectionButton .btnSavePlaylist {
         margin: 0;
         padding-right: 0;
@@ -338,7 +332,7 @@
         justify-content: flex-end;
         border-radius: 0;
     }
-        
+
     .playlistSectionButton .btnToogleContextMenu {
         font-size: larger;
         margin: 0;
@@ -351,11 +345,11 @@
         justify-content: flex-end;
         border-radius: 0;
     }
-        
+
     .remoteControlSection {
         margin: 4.2em 0 0 0;
     }
-    
+
 }
 
 .nowPlayingTime {
@@ -381,7 +375,7 @@
 }
 
 @media all and (min-width: 47em) {
-    .nowPlayingSecondaryButtons {
+	.nowPlayingSecondaryButtons {
         -webkit-box-flex: 1;
         -webkit-flex-grow: 1;
         flex-grow: 1;
@@ -389,7 +383,6 @@
         -webkit-justify-content: flex-end;
         justify-content: flex-end;
     }
-    
 }
 
 @media all and (min-width: 80em) {
@@ -434,10 +427,9 @@
     .navigationSection .collapseContent i {
         font-size: 4em;
     }
-    
+
     .nowPlayingButtonsContainer {
         display: block;
         height: 100%;
     }
-    
 }
