@@ -1,4 +1,4 @@
-define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "apphost", "emby-itemscontainer"], function (layoutManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, appHost) {
+define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "apphost", "userSettings", "emby-itemscontainer"], function (layoutManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, appHost, userSettings) {
     "use strict";
 
     return function (view, params, tabContent) {
@@ -7,17 +7,22 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
             var pageData = data[key];
 
             if (!pageData) {
+                var queryValues = {
+                    SortBy: "SortName",
+                    SortOrder: "Ascending",
+                    Recursive: true,
+                    Fields: "PrimaryImageAspectRatio,SortName,BasicSyncInfo",
+                    StartIndex: 0,
+                    ImageTypeLimit: 1,
+                    EnableImageTypes: "Primary,Backdrop,Banner,Thumb"
+                };
+
+                if (userSettings.libraryPageSize() > 0) {
+                    queryValues['Limit'] = userSettings.libraryPageSize();
+                }
+
                 pageData = data[key] = {
-                    query: {
-                        SortBy: "SortName",
-                        SortOrder: "Ascending",
-                        Recursive: true,
-                        Fields: "PrimaryImageAspectRatio,SortName,BasicSyncInfo",
-                        StartIndex: 0,
-                        ImageTypeLimit: 1,
-                        EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
-                        Limit: 100
-                    },
+                    query: queryValues,
                     view: libraryBrowser.getSavedView(key) || "Poster"
                 };
                 pageData.query.ParentId = params.topParentId;
@@ -67,7 +72,9 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         return;
                     }
 
-                    query.StartIndex += query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex += query.Limit;
+                    }
                     reloadItems(tabContent);
                 }
 
@@ -76,7 +83,9 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         return;
                     }
 
-                    query.StartIndex -= query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                    }
                     reloadItems(tabContent);
                 }
 

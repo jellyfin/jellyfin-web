@@ -64,7 +64,7 @@
     "jellyfin-noto": "https://github.com/jellyfin/jellyfin-noto",
     "jquery": "^3.4.1",
     "jstree": "^3.3.7",
-    "libass-wasm": "https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf",
+    "libass-wasm": "https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf-cordova",
     "material-design-icons-iconfont": "^5.0.1",
     "native-promise-only": "^0.8.0-a",
     "page": "^1.11.5",
@@ -90,9 +90,12 @@
           "src/components/filesystem.js",
           "src/components/input/keyboardnavigation.js",
           "src/components/sanatizefilename.js",
-          "src/scripts/settings/webSettings.js",
           "src/components/scrollManager.js",
+          "src/scripts/settings/appSettings.js",
+          "src/scripts/settings/userSettings.js",
+          "src/scripts/settings/webSettings.js",
           "src/scripts/dfnshelper.js",
+          "src/scripts/imagehelper.js",
           "src/scripts/inputManager.js"
         ],
         "plugins": [

@@ -2,8 +2,7 @@ trigger:
   batch: true
   branches:
     include:
-    - master
-    - release-*
+    - '*'
   tags:
     include:
     - '*'
@@ -13,11 +12,8 @@ pr:
     - '*'
 
 jobs:
-  - job: build
+  - job: Build
     displayName: 'Build'
-
-    pool:
-      vmImage: 'ubuntu-latest'
 
     strategy:
       matrix:
@@ -27,7 +23,9 @@ jobs:
           BuildConfiguration: production
         Standalone:
           BuildConfiguration: standalone
-      maxParallel: 3
+
+    pool:
+      vmImage: 'ubuntu-latest'
 
     steps:
     - task: NodeTool@0
@@ -63,16 +61,14 @@ jobs:
 
     - script: 'mv dist jellyfin-web'
       displayName: 'Rename Directory'
-      condition: succeeded()
 
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Release'
-      condition: succeeded()
       inputs:
         targetPath: '$(Build.SourcesDirectory)/jellyfin-web'
         artifactName: 'jellyfin-web-$(BuildConfiguration)'
 
-  - job: lint
+  - job: Lint
     displayName: 'Lint'
 
     pool:
