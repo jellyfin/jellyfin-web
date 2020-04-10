@@ -42,7 +42,7 @@ import appHost from 'apphost';
 
     function checkCommandTime(command) {
 
-        let last = commandTimes[command] || 0;
+        const last = commandTimes[command] || 0;
         const now = new Date().getTime();
 
         if ((now - last) < 1000) {
