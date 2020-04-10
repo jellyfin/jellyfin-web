@@ -426,35 +426,27 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
         }
     };
 
-    var doc = self.document;
     var isHidden = false;
 
-    if (doc) {
-        if (void 0 !== doc.visibilityState) {
+    if (self.document) {
+        if (self.document.visibilityState !== undefined) {
             visibilityChange = "visibilitychange";
             visibilityState = "hidden";
-        } else {
-            if (void 0 !== doc.mozHidden) {
-                visibilityChange = "mozvisibilitychange";
-                visibilityState = "mozVisibilityState";
-            } else {
-                if (void 0 !== doc.msHidden) {
-                    visibilityChange = "msvisibilitychange";
-                    visibilityState = "msVisibilityState";
-                } else {
-                    if (void 0 !== doc.webkitHidden) {
-                        visibilityChange = "webkitvisibilitychange";
-                        visibilityState = "webkitVisibilityState";
-                    }
-                }
-            }
+        } else if (self.document.mozHidden !== undefined) {
+            visibilityChange = "mozvisibilitychange";
+            visibilityState = "mozVisibilityState";
+        } else if (self.document.msHidden !== undefined) {
+            visibilityChange = "msvisibilitychange";
+            visibilityState = "msVisibilityState";
+        } else if (self.document.webkitHidden !== undefined) {
+            visibilityChange = "webkitvisibilitychange";
+            visibilityState = "webkitVisibilityState";
         }
     }
 
-    if (doc) {
-        doc.addEventListener(visibilityChange, function () {
-            /* eslint-disable-next-line compat/compat */
-            if (document.visibilityState) {
+    if (self.document) {
+        document.addEventListener(visibilityChange, function () {
+            if (visibilityState) {
                 onAppHidden();
             } else {
                 onAppVisible();
