@@ -690,6 +690,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 var playlistItemId = e.detail.playlistItemId;
                 playbackManager.movePlaylistItem(playlistItemId, newIndex, currentPlayer);
             });
+            context.querySelector(".btnSavePlaylist").addEventListener("click", savePlaylist);
             context.querySelector(".btnTogglePlaylist").addEventListener("click", function () {
                 if (context.querySelector(".playlist").classList.contains("hide")) {
                     context.querySelector(".playlist").classList.remove("hide");
