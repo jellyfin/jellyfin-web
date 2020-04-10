@@ -118,15 +118,16 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             var songName = item.Name;
             if(item.Album != null && (item.Artists != null)) {
                 var albumName = item.Album;
+                var artistName;
                 if(item.ArtistItems != null) {
-                    var artistName = item.ArtistItems[0].Name;
+                    artistName = item.ArtistItems[0].Name;
                     context.querySelector(".nowPlayingAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + albumName + '</a>';
                     context.querySelector(".nowPlayingArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '">' + artistName + '</a>';
                     context.querySelector(".contextMenuAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">album</i> View album</a>';
                     context.querySelector(".contextMenuArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">person</i> View artist</a>';
                 } else {
                     context.querySelector(".nowPlayingAlbum").innerHTML = albumName;
-                    var artistName = item.Artists;
+                    artistName = item.Artists;
                     context.querySelector(".nowPlayingArtist").innerHTML = artistName;
                 }
                     
