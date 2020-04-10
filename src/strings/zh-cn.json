@@ -1502,5 +1502,7 @@
     "YadifBob": "Yadif Bob",
     "Yadif": "Yadif",
     "LabelDeinterlaceMethod": "反交错方法：",
-    "DeinterlaceMethodHelp": "选择对隔行扫描内容进行转码时所用的反交错方法。"
+    "DeinterlaceMethodHelp": "选择对隔行扫描内容进行转码时所用的反交错方法。",
+    "LabelLibraryPageSize": "媒体库分页阈值：",
+    "LabelLibraryPageSizeHelp": "设置媒体库页面每页要显示的最多媒体个数。设置为 0 以禁用分页。"
 }
