@@ -436,16 +436,14 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
         visibilityChange = "webkitvisibilitychange";
     }
 
-    if (self.document) {
-        document.addEventListener(visibilityChange, function () {
-            /* eslint-disable-next-line compat/compat */
-            if (document[hidden]) {
-                onAppHidden();
-            } else {
-                onAppVisible();
-            }
-        }, false);
-    }
+    document.addEventListener(visibilityChange, function () {
+        /* eslint-disable-next-line compat/compat */
+        if (document[hidden]) {
+            onAppHidden();
+        } else {
+            onAppVisible();
+        }
+    }, false);
 
     if (self.addEventListener) {
         self.addEventListener("focus", onAppVisible);
