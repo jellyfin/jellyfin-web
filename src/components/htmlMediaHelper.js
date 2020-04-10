@@ -171,13 +171,29 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
             // Appending #t=xxx to the query string doesn't seem to work with HLS
             // For plain video files, not all browsers support it either
-            var delay = browser.safari ? 2500 : 0;
-            if (delay) {
-                setTimeout(function () {
-                    setCurrentTimeIfNeeded(element, seconds);
-                }, delay);
-            } else {
+
+            if (element.duration >= seconds) {
+                // media is ready, seek immediately
                 setCurrentTimeIfNeeded(element, seconds);
+            } else {
+                // update video player position when media is ready to be sought
+                var events = ["durationchange", "loadeddata", "play", "loadedmetadata"];
+                var onMediaChange = function(e) {
+                    if (element.currentTime === 0 && element.duration >= seconds) {
+                        // seek only when video position is exactly zero,
+                        // as this is true only if video hasn't started yet or
+                        // user rewound to the very beginning
+                        // (but rewinding cannot happen as the first event with media of non-empty duration)
+                        console.debug(`seeking to ${seconds} on ${e.type} event`);
+                        setCurrentTimeIfNeeded(element, seconds);
+                        events.map(function(name) {
+                            element.removeEventListener(name, onMediaChange);
+                        });
+                    }
+                };
+                events.map(function (name) {
+                    element.addEventListener(name, onMediaChange);
+                });
             }
         }
     }

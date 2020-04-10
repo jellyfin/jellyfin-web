@@ -14,7 +14,7 @@
     "Alerts": "Meldingen",
     "All": "Alle",
     "AllChannels": "Alle kanalen",
-    "AllComplexFormats": "Alle complexe formaten (ASS, SSA, VOBSUB, PGS, SUB/IDX, etc.)",
+    "AllComplexFormats": "Alle Complexe Formaten (ASS, SSA, VOBSUB, PGS, SUB, IDX, etc.)",
     "AllEpisodes": "Alle afleveringen",
     "AllLanguages": "Alle talen",
     "AllLibraries": "Alle bibliotheken",
@@ -1461,5 +1461,7 @@
     "TabStreaming": "Streamen",
     "TabTrailers": "Trailers",
     "OptionAuto": "Auto",
-    "OptionProfileVideo": "Video"
+    "OptionProfileVideo": "Video",
+    "AlbumArtist": "Album Artiest",
+    "Album": "Album"
 }
