@@ -114,7 +114,6 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         var item = state.NowPlayingItem;
         var displayName = item ? getNowPlayingNameHtml(item).replace("<br/>", " - ") : "";
         console.debug(JSON.stringify(item, null, 4));
-        //alert(item.Artists);
         if(item.Type == "Audio" || item.MediaStreams[0].Type == "Audio"){
             var songName = item.Name;
             if(item.Album != null && (item.Artists != null)) {
@@ -680,7 +679,6 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 var playlistItemId = e.detail.playlistItemId;
                 playbackManager.movePlaylistItem(playlistItemId, newIndex, currentPlayer);
             });
-            //context.querySelector(".btnSavePlaylist").addEventListener("click", savePlaylist);
             context.querySelector(".btnTooglePlaylist").addEventListener("click", function () {
                 if(context.querySelector(".playlist").classList.contains("hide")) {
                     context.querySelector(".playlist").classList.remove("hide");
