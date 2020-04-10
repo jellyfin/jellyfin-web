@@ -207,7 +207,7 @@
 
     .nowPlayingPageImageContainer {
         width: 100%;
-        margin: auto auto;
+        margin: auto auto 0.5em;
     }
 
     .nowPlayingPageImageContainerNoAlbum .cardImageContainer .cardImageIcon {
@@ -216,7 +216,7 @@
     }
 
     .nowPlayingInfoControls {
-        margin: 1em 0 1em 0;
+        margin: 0.5em 0 1em 0;
         width: 100%;
         -webkit-box-pack: start !important;
         -webkit-justify-content: start !important;
@@ -283,6 +283,7 @@
 
     .nowPlayingPageImageContainer.nowPlayingPageImagePoster {
         height: 50%;
+        overflow: hidden;
     }
 
     .nowPlayingPageImageContainer.nowPlayingPageImagePoster img {
