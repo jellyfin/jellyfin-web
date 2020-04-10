@@ -6,7 +6,7 @@
             <div class="nowPlayingPageImageContainer"></div>
             <div class="nowPlayingInfoControls">
             
-                <div style="display: flex;">
+                <div class="flex">
 
                     <div class="nowPlayingInfoContainerMedia">
                         <h2 class="nowPlayingPageTitle"></h2>
@@ -18,7 +18,7 @@
                     
                 </div>
                 
-                <div class="sliderContainer" style="display:flex;">
+                <div class="sliderContainer flex">
                     <div class="positionTime"></div>
                         <div class="nowPlayingPositionSliderContainer">
                             <input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="nowPlayingPositionSlider" data-slider-keep-progress="true" />
@@ -170,13 +170,13 @@
         <div class="playlistSection hide">
             <div class="playlistSectionButton" style="display: flex; align-items: center;">
                 <!--<h2 style="margin:0;">${TabPlaylist}</h2>-->
-                <button id="togglePlaylist" is="paper-icon-button-light" class="btnTooglePlaylist" title="${ButtonTooglePlaylist}">
+                <button id="togglePlaylist" is="paper-icon-button-light" class="btnTogglePlaylist" title="${ButtonTooglePlaylist}">
                     <i class="material-icons">queue_music</i>   
                 </button>
                 <button is="paper-icon-button-light" class="btnSavePlaylist" title="${ButtonSave}">
                     <i class="material-icons">save</i>  
                 </button>
-                <button id="toggleContextMenu" is="paper-icon-button-light" class="btnToogleContextMenu" title="${ButtonToogleContextMenu}">
+                <button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title="${ButtonToogleContextMenu}">
                     <i class="material-icons more_vert"></i>    
                 </button>
             </div>

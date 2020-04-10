@@ -678,7 +678,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 var playlistItemId = e.detail.playlistItemId;
                 playbackManager.movePlaylistItem(playlistItemId, newIndex, currentPlayer);
             });
-            context.querySelector(".btnTooglePlaylist").addEventListener("click", function () {
+            context.querySelector(".btnTogglePlaylist").addEventListener("click", function () {
                 if (context.querySelector(".playlist").classList.contains("hide")) {
                     context.querySelector(".playlist").classList.remove("hide");
                     context.querySelector(".btnSavePlaylist").classList.remove("hide");
@@ -688,7 +688,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                     context.querySelector(".btnSavePlaylist").classList.add("hide");
                 }
             });
-            context.querySelector(".btnToogleContextMenu").addEventListener("click", function () {
+            context.querySelector(".btnToggleContextMenu").addEventListener("click", function () {
                 if (context.querySelector(".contextMenu").classList.contains("hide")) {
                     context.querySelector(".contextMenu").classList.remove("hide");
                     context.querySelector(".btnSavePlaylist").classList.add("hide");
