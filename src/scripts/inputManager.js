@@ -227,10 +227,11 @@ import appHost from 'apphost';
             }
         })[command];
 
-        if (keyActions(commandName) === undefined) {
-            console.debug(`inputManager: tried to process command with no action assigned: ${commandName}`);
+        const action = keyActions(commandName);
+        if (action !== undefined) {
+            action.call();
         } else {
-            keyActions(commandName).call();
+            console.debug(`inputManager: tried to process command with no action assigned: ${commandName}`);
         }
     }
 
