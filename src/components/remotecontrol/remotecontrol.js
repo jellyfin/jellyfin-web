@@ -116,23 +116,35 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         console.debug(JSON.stringify(item, null, 4));
         if (item.Type == "Audio" || item.MediaStreams[0].Type == "Audio") {
             var songName = item.Name;
-            if (item.Album != null && (item.Artists != null)) {
+            if (item.Album != null && item.Artists != null) {
                 var albumName = item.Album;
                 var artistName;
                 if (item.ArtistItems != null) {
                     artistName = item.ArtistItems[0].Name;
                     context.querySelector(".nowPlayingAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + albumName + '</a>';
                     context.querySelector(".nowPlayingArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '">' + artistName + '</a>';
-                    context.querySelector(".contextMenuAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">album</i> View album</a>';
-                    context.querySelector(".contextMenuArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">person</i> View artist</a>';
+                    context.querySelector(".contextMenuAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">album</i> ' + globalize.translate("ViewAlbum") + '</a>';
+                    context.querySelector(".contextMenuArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">person</i> ' + globalize.translate("ViewArtist") + '</a>';
                 } else {
-                    context.querySelector(".nowPlayingAlbum").innerHTML = albumName;
                     artistName = item.Artists;
+                    context.querySelector(".nowPlayingAlbum").innerHTML = albumName;
                     context.querySelector(".nowPlayingArtist").innerHTML = artistName;
                 }
             }
             context.querySelector(".nowPlayingSongName").innerHTML = songName;
-        } else {
+        } else if (item.Type == "Episode") {
+            if (item.SeasonName != null) {
+                context.querySelector(".nowPlayingSeason").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeasonId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + item.SeasonName + '</a>';
+            }
+            if (item.SeriesName != null) {
+                if (item.SeriesId !=null) {
+                    context.querySelector(".nowPlayingSerie").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeriesId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + item.SeriesName + '</a>';
+                } else {
+                    context.querySelector(".nowPlayingSerie").innerHTML = item.SeriesName;
+                }
+            }
+            context.querySelector(".nowPlayingEpisode").innerHTML = item.Name;
+        } else  {
             context.querySelector(".nowPlayingPageTitle").innerHTML = displayName;
         }
 
@@ -143,9 +155,9 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         }
 
         var url = item ? seriesImageUrl(item, {
-            maxHeight: 300
+            maxHeight: 300 * 2
         }) || imageUrl(item, {
-            maxHeight: 300
+            maxHeight: 300 * 2
         }) : null;
 
         console.debug("updateNowPlayingInfo");
