@@ -54,9 +54,7 @@
 }
 
 .nowPlayingPositionSlider {
-    width: -moz-available;  /* Mozilla-based browsers will ignore this. */
-    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
-    width: fill-available;
+    width: stretch;
 }
 
 .nowPlayingPositionSliderContainer {
