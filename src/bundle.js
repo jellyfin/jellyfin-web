@@ -13,7 +13,7 @@ _define("document-register-element", function() {
 // fetch
 var fetch = require("whatwg-fetch");
 _define("fetch", function() {
-    return fetch
+    return fetch;
 });
 
 // query-string
@@ -111,6 +111,12 @@ _define("page", function() {
 var polyfill = require("@babel/polyfill/dist/polyfill");
 _define("polyfill", function () {
     return polyfill;
+});
+
+// domtokenlist-shim
+var classlist = require("classlist.js");
+_define("classlist-polyfill", function () {
+    return classlist;
 });
 
 // Date-FNS

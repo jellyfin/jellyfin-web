@@ -1470,5 +1470,6 @@
     "AllowFfmpegThrottling": "Acceleratore Transcodifica",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Preferisci le informazioni incorporate nell'episodio rispetto ai nomi dei file",
     "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Questo utilizza le informazioni dell'episodio provenienti dai metadata incorporati, se disponibili.",
-    "ClientSettings": "Impostazioni del client"
+    "ClientSettings": "Impostazioni del client",
+    "Album": "Album"
 }

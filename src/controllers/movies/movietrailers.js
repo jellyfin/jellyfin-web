@@ -1,4 +1,4 @@
-define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "apphost", "emby-itemscontainer"], function (layoutManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, appHost) {
+define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "userSettings", "emby-itemscontainer"], function (layoutManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, userSettings) {
     "use strict";
 
     return function (view, params, tabContent) {
@@ -16,11 +16,15 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         Fields: "PrimaryImageAspectRatio,SortName,BasicSyncInfo",
                         ImageTypeLimit: 1,
                         EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
-                        StartIndex: 0,
-                        Limit: pageSize
+                        StartIndex: 0
                     },
                     view: libraryBrowser.getSavedView(key) || "Poster"
                 };
+
+                if (userSettings.libraryPageSize() > 0) {
+                    pageData.query['Limit'] = userSettings.libraryPageSize();
+                }
+
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
 
@@ -49,7 +53,9 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         return;
                     }
 
-                    query.StartIndex += query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex += query.Limit;
+                    }
                     reloadItems();
                 }
 
@@ -58,7 +64,9 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
                         return;
                     }
 
-                    query.StartIndex -= query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                    }
                     reloadItems();
                 }
 
@@ -168,7 +176,6 @@ define(["layoutManager", "loading", "events", "libraryBrowser", "imageLoader", "
         }
 
         var self = this;
-        var pageSize = 100;
         var data = {};
         var isLoading = false;
 

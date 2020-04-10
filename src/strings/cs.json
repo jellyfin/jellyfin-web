@@ -426,7 +426,7 @@
     "Images": "Obrázky",
     "ImportFavoriteChannelsHelp": "Pokud je povoleno, jen kanály označené jako oblíbené budou importována na zařízení tuneru.",
     "ImportMissingEpisodesHelp": "Pokud je povoleno, budou informace o chybějících epizodách importovány do databáze Jellyfin a zobrazí se v sezónách seriálu. To může způsobit podstatně delší skenování knihovny.",
-    "InstallingPackage": "Instalace {0}",
+    "InstallingPackage": "Instalace {0} (Verze {1})",
     "InstantMix": "Okamžité míchání",
     "ItemCount": "{0} položek",
     "Items": "Položky",
@@ -1584,5 +1584,15 @@
     "ClientSettings": "Nastavení klienta",
     "Artist": "Interpret",
     "AlbumArtist": "Interpret alba",
-    "Album": "Album"
+    "Album": "Album",
+    "OnApplicationStartup": "Při zapnutí aplikace",
+    "EveryXHours": "Každých {0} hodin",
+    "EveryHour": "Každou hodinu",
+    "EveryXMinutes": "Každých {0} minut",
+    "OnWakeFromSleep": "Při probuzení",
+    "DailyAt": "Denně v {0}",
+    "PersonRole": "jako {0}",
+    "ListPaging": "{0}-{1} ze {2}",
+    "WriteAccessRequired": "Jellyfin Server potřebuje oprávnění pro zápis v této složce. Zkontrolujte oprávnění a zkuste to znovu.",
+    "PathNotFound": "Cesta nebyla nalezena. Zkontrolujte, zda je platná a zkuste to znovu."
 }

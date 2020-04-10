@@ -48,7 +48,7 @@ define(["layoutManager", "cardBuilder", "apphost", "imageLoader", "loading", "sc
     }
 
     function getBackdropShape() {
-        return enableScrollX() ? "overflowBackdrop" : "backdrop"
+        return enableScrollX() ? "overflowBackdrop" : "backdrop";
     }
 
     function renderActiveRecordings(context, promise) {

@@ -116,8 +116,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         });
     }
 
-    function normalizeTrackEventText(text) {
-        return text.replace(/\\N/gi, '\n');
+    function normalizeTrackEventText(text, useHtml) {
+        var result = text.replace(/\\N/gi, '\n').replace(/\r/gi, '');
+        return useHtml ? result.replace(/\n/gi, '<br>') : result;
     }
 
     function setTracks(elem, tracks, item, mediaSource) {
@@ -567,19 +568,19 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         self.resetSubtitleOffset = function() {
             currentTrackOffset = 0;
             showTrackOffset = false;
-        }
+        };
 
         self.enableShowingSubtitleOffset = function() {
             showTrackOffset = true;
-        }
+        };
 
         self.disableShowingSubtitleOffset = function() {
             showTrackOffset = false;
-        }
+        };
 
         self.isShowingSubtitleOffsetEnabled = function() {
             return showTrackOffset;
-        }
+        };
 
         function getTextTrack() {
             var videoElement = self._mediaElement;
@@ -651,7 +652,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         self.getSubtitleOffset = function() {
             return currentTrackOffset;
-        }
+        };
 
         function isAudioStreamSupported(stream, deviceProfile) {
 
@@ -1019,7 +1020,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 xhr.onerror = function (e) {
                     reject(e);
                     decrementFetchQueue();
-                }
+                };
 
                 xhr.send();
             });
@@ -1209,7 +1210,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 data.TrackEvents.forEach(function (trackEvent) {
 
                     var trackCueObject = window.VTTCue || window.TextTrackCue;
-                    var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text));
+                    var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
                     trackElement.addCue(cue);
                 });
@@ -1250,8 +1251,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 }
 
                 if (selectedTrackEvent && selectedTrackEvent.Text) {
-
-                    subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text);
+                    subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text, true);
                     subtitleTextElement.classList.remove('hide');
 
                 } else {
@@ -1428,11 +1428,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         if (browser.safari || browser.iOS || browser.iPad) {
-            list.push('AirPlay')
+            list.push('AirPlay');
         }
 
         list.push('SetBrightness');
-        list.push("SetAspectRatio")
+        list.push("SetAspectRatio");
 
         return list;
     }
@@ -1555,11 +1555,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (video) {
                 if (isEnabled) {
                     video.requestAirPlay().catch(function(err) {
-                        console.error("Error requesting AirPlay", err)
+                        console.error("Error requesting AirPlay", err);
                     });
                 } else {
                     document.exitAirPLay().catch(function(err) {
-                        console.error("Error exiting AirPlay", err)
+                        console.error("Error exiting AirPlay", err);
                     });
                 }
             }
@@ -1692,12 +1692,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var mediaElement = this._mediaElement;
         if (mediaElement) {
             if ("auto" === val) {
-                mediaElement.style.removeProperty("object-fit")
+                mediaElement.style.removeProperty("object-fit");
             } else {
-                mediaElement.style["object-fit"] = val
+                mediaElement.style["object-fit"] = val;
             }
         }
-        this._currentAspectRatio = val
+        this._currentAspectRatio = val;
     };
 
     HtmlVideoPlayer.prototype.getAspectRatio = function () {
@@ -1714,7 +1714,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }, {
             name: "Fill",
             id: "fill"
-        }]
+        }];
     };
 
     HtmlVideoPlayer.prototype.togglePictureInPicture = function () {

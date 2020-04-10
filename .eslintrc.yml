@@ -75,7 +75,7 @@ rules:
   no-multiple-empty-lines: ["error", { "max": 1 }]
   no-trailing-spaces: ["error"]
   one-var: ["error", "never"]
-  semi: ["warn"]
+  semi: ["error"]
   space-before-blocks: ["error"]
   # TODO: Fix warnings and remove these rules
   no-redeclare: ["warn"]

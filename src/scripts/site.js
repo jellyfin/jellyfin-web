@@ -323,11 +323,11 @@ var AppInfo = {};
     }
 
     function getElementsPath() {
-        return "elements"
+        return "elements";
     }
 
     function getScriptsPath() {
-        return "scripts"
+        return "scripts";
     }
 
     function getPlaybackManager(playbackManager) {
@@ -451,6 +451,9 @@ var AppInfo = {};
                 require(["focusPreventScroll"]);
                 require(["autoFocuser"], function(autoFocuser) {
                     autoFocuser.enable();
+                });
+                require(['globalize', 'connectionManager', 'events'], function (globalize, connectionManager, events) {
+                    events.on(connectionManager, 'localusersignedin', globalize.updateCurrentCulture);
                 });
             });
         });
@@ -702,7 +705,8 @@ var AppInfo = {};
                     "page",
                     "polyfill",
                     "fast-text-encoding",
-                    "intersection-observer"
+                    "intersection-observer",
+                    "classlist-polyfill"
                 ]
             },
             urlArgs: urlArgs,
@@ -713,6 +717,7 @@ var AppInfo = {};
         require(["polyfill"]);
         require(["fast-text-encoding"]);
         require(["intersection-observer"]);
+        require(["classlist-polyfill"]);
 
         // Expose jQuery globally
         require(["jQuery"], function(jQuery) {
@@ -778,10 +783,7 @@ var AppInfo = {};
 
         define("webSettings", [scriptsPath + "/settings/webSettings"], returnFirstDependency);
         define("appSettings", [scriptsPath + "/settings/appSettings"], returnFirstDependency);
-        define("userSettingsBuilder", [scriptsPath + "/settings/userSettingsBuilder"], returnFirstDependency);
-        define("userSettings", ["userSettingsBuilder"], function(userSettingsBuilder) {
-            return new userSettingsBuilder();
-        });
+        define("userSettings", [scriptsPath + "/settings/userSettings"], returnFirstDependency);
 
         define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
         define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);

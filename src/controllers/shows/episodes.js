@@ -1,4 +1,4 @@
-define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardBuilder", "emby-itemscontainer"], function (loading, events, libraryBrowser, imageLoader, listView, cardBuilder) {
+define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardBuilder", "userSettings", "emby-itemscontainer"], function (loading, events, libraryBrowser, imageLoader, listView, cardBuilder, userSettings) {
     "use strict";
 
     return function (view, params, tabContent) {
@@ -17,11 +17,15 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                         IsMissing: false,
                         ImageTypeLimit: 1,
                         EnableImageTypes: "Primary,Backdrop,Thumb",
-                        StartIndex: 0,
-                        Limit: pageSize
+                        StartIndex: 0
                     },
                     view: libraryBrowser.getSavedView(key) || "Poster"
                 };
+
+                if (userSettings.libraryPageSize() > 0) {
+                    pageData.query['Limit'] = userSettings.libraryPageSize();
+                }
+
                 pageData.query.ParentId = params.topParentId;
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
@@ -66,7 +70,9 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                         return;
                     }
 
-                    query.StartIndex += query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex += query.Limit;
+                    }
                     reloadItems(tabContent);
                 }
 
@@ -75,7 +81,9 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
                         return;
                     }
 
-                    query.StartIndex -= query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                    }
                     reloadItems(tabContent);
                 }
 
@@ -152,7 +160,6 @@ define(["loading", "events", "libraryBrowser", "imageLoader", "listView", "cardB
         }
 
         var self = this;
-        var pageSize = 100;
         var data = {};
         var isLoading = false;
 
