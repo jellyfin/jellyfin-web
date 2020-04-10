@@ -36,12 +36,10 @@
     margin: 0 0 0.5em 0.5em;
 }
 
-.nowPlayingAlbum a {
-    font-weight: normal;
-}
-
+.nowPlayingAlbum a,
 .nowPlayingArtist a {
     font-weight: normal;
+    text-align: left !important;
 }
 
 .nowPlayingButtonsContainer {
