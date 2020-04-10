@@ -114,12 +114,12 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         var item = state.NowPlayingItem;
         var displayName = item ? getNowPlayingNameHtml(item).replace("<br/>", " - ") : "";
         console.debug(JSON.stringify(item, null, 4));
-        if(item.Type == "Audio" || item.MediaStreams[0].Type == "Audio"){
+        if (item.Type == "Audio" || item.MediaStreams[0].Type == "Audio") {
             var songName = item.Name;
-            if(item.Album != null && (item.Artists != null)) {
+            if (item.Album != null && (item.Artists != null)) {
                 var albumName = item.Album;
                 var artistName;
-                if(item.ArtistItems != null) {
+                if (item.ArtistItems != null) {
                     artistName = item.ArtistItems[0].Name;
                     context.querySelector(".nowPlayingAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + albumName + '</a>';
                     context.querySelector(".nowPlayingArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '">' + artistName + '</a>';
@@ -130,7 +130,6 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                     artistName = item.Artists;
                     context.querySelector(".nowPlayingArtist").innerHTML = artistName;
                 }
-                    
             }
             context.querySelector(".nowPlayingSongName").innerHTML = songName;
         } else {
@@ -173,7 +172,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
 
         if (url) {
             imgContainer.innerHTML = '<img class="nowPlayingPageImage" src="' + url + '" />';
-            if(item.Type == "Audio"){
+            if (item.Type == "Audio") {
                 context.querySelector(".nowPlayingPageImage").classList.add("nowPlayingPageImageAudio");
                 context.querySelector(".nowPlayingPageImageContainer").classList.remove("nowPlayingPageImageAudio");
             } else {
@@ -183,7 +182,6 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         } else {
             imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardContent-button cardImageContainer coveredImage defaultCardBackground defaultCardBackground5 cardContent cardContent-shadow itemAction"><i class="cardImageIcon material-icons">album</i></button></div>';
         }
-    
     }
 
     function buttonVisible(btn, enabled) {
@@ -681,7 +679,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 playbackManager.movePlaylistItem(playlistItemId, newIndex, currentPlayer);
             });
             context.querySelector(".btnTooglePlaylist").addEventListener("click", function () {
-                if(context.querySelector(".playlist").classList.contains("hide")) {
+                if (context.querySelector(".playlist").classList.contains("hide")) {
                     context.querySelector(".playlist").classList.remove("hide");
                     context.querySelector(".btnSavePlaylist").classList.remove("hide");
                     context.querySelector(".contextMenu").classList.add("hide");
@@ -691,7 +689,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 }
             });
             context.querySelector(".btnToogleContextMenu").addEventListener("click", function () {
-                if(context.querySelector(".contextMenu").classList.contains("hide")) {
+                if (context.querySelector(".contextMenu").classList.contains("hide")) {
                     context.querySelector(".contextMenu").classList.remove("hide");
                     context.querySelector(".btnSavePlaylist").classList.add("hide");
                     context.querySelector(".playlist").classList.add("hide");
