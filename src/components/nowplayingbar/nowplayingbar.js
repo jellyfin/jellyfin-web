@@ -1,4 +1,4 @@
-define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'paper-icon-button-light', 'emby-ratingbutton'], function (require, datetime, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager) {
+define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'itemContextMenu', 'paper-icon-button-light', 'emby-ratingbutton'], function (require, datetime, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager, itemContextMenu) {
     'use strict';
 
     var currentPlayer;
@@ -67,6 +67,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons">pause</i></button>';
         html += '<button is="paper-icon-button-light" class="remoteControlButton mediaButton"><i class="material-icons playlist_play"></i></button>';
+        html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><i class="material-icons more_vert"></i></button>';
 
         html += '</div>';
         html += '</div>';
@@ -449,17 +450,13 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
     }
 
-    function getTextActionButton(item, text, serverId) {
+    function getTextActionButton(item, text) {
 
         if (!text) {
             text = itemHelper.getDisplayName(item);
         }
 
-        var html = '<button data-id="' + item.Id + '" data-serverid="' + (item.ServerId || serverId) + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '" type="button" class="itemAction textActionButton" data-action="link">';
-        html += text;
-        html += '</button>';
-
-        return html;
+        return '<a>' + text + '</a>';
     }
 
     function seriesImageUrl(item, options) {
@@ -537,13 +534,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         if (textLines.length > 1) {
             textLines[1].secondary = true;
         }
-        var serverId = nowPlayingItem ? nowPlayingItem.ServerId : null;
         nowPlayingTextElement.innerHTML = textLines.map(function (nowPlayingName) {
 
             var cssClass = nowPlayingName.secondary ? ' class="nowPlayingBarSecondaryText"' : '';
 
             if (nowPlayingName.item) {
-                return '<div' + cssClass + '>' + getTextActionButton(nowPlayingName.item, nowPlayingName.text, serverId) + '</div>';
+                return '<div' + cssClass + '>' + getTextActionButton(nowPlayingName.item, nowPlayingName.text) + '</div>';
             }
 
             return '<div' + cssClass + '>' + nowPlayingName.text + '</div>';
@@ -575,15 +571,26 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             if (isRefreshing) {
 
                 var apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
-
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
-
                     var userData = item.UserData || {};
                     var likes = userData.Likes == null ? '' : userData.Likes;
-
+                    var contextButton = document.querySelector('.btnToggleContextMenu');
+                    var options = {
+                        play: false,
+                        queue: false,
+                        playlist: false,
+                        positionTo: contextButton
+                    };
                     nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons">favorite</i></button>';
+                    apiClient.getCurrentUser().then(function(user) {
+                        contextButton.addEventListener('click', function () {
+                            itemContextMenu.show(Object.assign({
+                                item: item,
+                                user: user
+                            }, options ));
+                        });
+                    });
                 });
-
             }
         } else {
             nowPlayingUserData.innerHTML = '';
