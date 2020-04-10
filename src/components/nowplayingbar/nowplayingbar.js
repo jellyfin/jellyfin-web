@@ -66,7 +66,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         html += '</div>';
 
         html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons">pause</i></button>';
-        html += '<button is="paper-icon-button-light" class="remoteControlButton mediaButton"><i class="material-icons playlist_play"></i></button>';
         html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><i class="material-icons more_vert"></i></button>';
 
         html += '</div>';
@@ -155,8 +154,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 playbackManager.previousTrack(currentPlayer);
             }
         });
-
-        elem.querySelector('.remoteControlButton').addEventListener('click', showRemoteControl);
 
         toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
         toggleRepeatButton.addEventListener('click', function () {
@@ -577,7 +574,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                     var options = {
                         play: false,
                         queue: false,
-                        playlist: false,
                         positionTo: contextButton
                     };
                     nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons">favorite</i></button>';
