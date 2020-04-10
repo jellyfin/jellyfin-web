@@ -162,7 +162,6 @@
 }
 
 @media all and (orientation: portrait) and (max-width: 47em) {
-
     .remoteControlContent {
         padding-left: 7.3% !important;
         padding-right: 7.3% !important;
@@ -262,7 +261,7 @@
         background-color: transparent !important;
     }
 
-	.btnPlayPause {
+    .btnPlayPause {
         padding: 0;
         margin: 0;
     }
@@ -349,7 +348,6 @@
     .remoteControlSection {
         margin: 4.2em 0 0 0;
     }
-
 }
 
 .nowPlayingTime {
@@ -375,7 +373,7 @@
 }
 
 @media all and (min-width: 47em) {
-	.nowPlayingSecondaryButtons {
+    .nowPlayingSecondaryButtons {
         -webkit-box-flex: 1;
         -webkit-flex-grow: 1;
         flex-grow: 1;
