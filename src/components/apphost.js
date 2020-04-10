@@ -351,8 +351,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
     var deviceName;
     var appName = "Jellyfin Web";
     var appVersion = "10.5.0";
-    var visibilityChange;
-    var visibilityState;
 
     var appHost = {
         getWindowState: function () {
@@ -427,26 +425,24 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
     };
 
     var isHidden = false;
+    var hidden;
+    var visibilityChange;
 
-    if (self.document) {
-        if (self.document.visibilityState !== undefined) {
-            visibilityChange = "visibilitychange";
-            visibilityState = "hidden";
-        } else if (self.document.mozHidden !== undefined) {
-            visibilityChange = "mozvisibilitychange";
-            visibilityState = "mozVisibilityState";
-        } else if (self.document.msHidden !== undefined) {
-            visibilityChange = "msvisibilitychange";
-            visibilityState = "msVisibilityState";
-        } else if (self.document.webkitHidden !== undefined) {
-            visibilityChange = "webkitvisibilitychange";
-            visibilityState = "webkitVisibilityState";
-        }
+    if (typeof document.hidden !== "undefined") { /* eslint-disable-line compat/compat */
+        hidden = "hidden";
+        visibilityChange = "visibilitychange";
+    } else if (typeof document.msHidden !== "undefined") {
+        hidden = "msHidden";
+        visibilityChange = "msvisibilitychange";
+    } else if (typeof document.webkitHidden !== "undefined") {
+        hidden = "webkitHidden";
+        visibilityChange = "webkitvisibilitychange";
     }
 
     if (self.document) {
         document.addEventListener(visibilityChange, function () {
-            if (visibilityState) {
+            /* eslint-disable-next-line compat/compat */
+            if (document[hidden]) {
                 onAppHidden();
             } else {
                 onAppVisible();
