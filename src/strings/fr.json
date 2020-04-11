@@ -1498,5 +1498,7 @@
     "YadifBob": "Yadif Bob",
     "Yadif": "Yadif",
     "LabelDeinterlaceMethod": "Méthode de désentrelacement :",
-    "DeinterlaceMethodHelp": "Sélectionnes la méthode de désentrelacement à utiliser lors du transcodage de contenu entrelacé."
+    "DeinterlaceMethodHelp": "Sélectionnes la méthode de désentrelacement à utiliser lors du transcodage de contenu entrelacé.",
+    "LabelLibraryPageSize": "Taille de la page de la médiathèque :",
+    "LabelLibraryPageSizeHelp": "Définit la quantité d'éléments à afficher sur une page de médiathèque. Définir à 0 afin de désactiver la pagination."
 }
