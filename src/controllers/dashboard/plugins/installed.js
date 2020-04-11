@@ -42,14 +42,7 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
         html += '<div class="cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';
         html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer">';
-
-        if (plugin.ImageUrl) {
-            html += '<div class="cardImage coveredImage" style="background-image:url(\'' + plugin.ImageUrl + "');\">";
-            html += "</div>";
-        } else {
-            html += '<i class="cardImageIcon material-icons">folder</i>';
-        }
-
+        html += '<i class="cardImageIcon material-icons">folder</i>';
         html += configPageUrl ? "</a>" : "</div>";
         html += "</div>";
         html += '<div class="cardFooter">';
@@ -57,7 +50,7 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
         html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="material-icons more_horiz"></i></button>';
         html += "</div>";
         html += "<div class='cardText'>";
-        html += configPage ? configPage.DisplayName || plugin.Name : plugin.Name;
+        html += configPage.DisplayName || plugin.Name;
         html += "</div>";
         html += "<div class='cardText cardText-secondary'>";
         html += plugin.Version;
