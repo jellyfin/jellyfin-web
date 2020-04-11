@@ -150,6 +150,53 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
             });
         }
 
+        function loginQuickConnect() {
+            var apiClient = getApiClient();
+            var identifier = ""
+            var interval = 0;
+            var friendlyName = "test";
+            $.get('/QuickConnect/Initiate?FriendlyName=' + friendlyName).then(json => {
+                if (!json.Secret || !json.Code) {
+                    Dashboard.alert({
+                        message: json.Error,
+                        title: "Error"
+                    });
+                    return;
+                }
+
+                Dashboard.alert({
+                    message: "Authorize request " + json.Code + " to continue",
+                    title: "Quick Connect Code"
+                });
+
+                loading.show();
+
+                identifier = json.Secret;
+                interval = setInterval(() => {
+                    $.get('/QuickConnect/Connect?Secret=' + identifier).then(x => {
+                        if(x.Authenticated) {
+                            apiClient.quickConnect(x.Authentication).then((result) => {
+                                var user = result.User;
+                                var serverId = getParameterByName("serverid");
+                                var newUrl;
+
+                                if (user.Policy.IsAdministrator && !serverId) {
+                                    newUrl = "dashboard.html";
+                                } else {
+                                    newUrl = "home.html";
+                                }
+
+                                loading.hide();
+                                Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
+                                Dashboard.navigate(newUrl);
+                                clearInterval(interval);
+                            });
+                        }
+                    });
+                }, 5000);
+            });
+        }
+
         view.querySelector("#divUsers").addEventListener("click", function (e) {
             var card = dom.parentWithClass(e.target, "card");
             var cardContent = card ? card.querySelector(".cardContent") : null;
@@ -183,6 +230,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
             Dashboard.navigate("forgotpassword.html");
         });
         view.querySelector(".btnCancel").addEventListener("click", showVisualForm);
+        view.querySelector(".btnQuick").addEventListener("click", loginQuickConnect);
         view.querySelector(".btnManual").addEventListener("click", function () {
             view.querySelector("#txtManualName").value = "";
             showManualForm(view, true);
