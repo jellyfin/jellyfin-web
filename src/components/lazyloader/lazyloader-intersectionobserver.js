@@ -1,11 +1,7 @@
-import require from 'require';
-import browser from 'browser';
 /* eslint-disable indent */
-
     export class LazyLoader {
         constructor(options) {
             this.options = options;
-            this.observer;
         }
 
         createObserver() {
