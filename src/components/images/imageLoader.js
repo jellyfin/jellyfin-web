@@ -36,7 +36,6 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
     }
 
     function lazyChildren(elem) {
-
         lazyLoader.lazyChildren(elem, fillImage);
     }
 

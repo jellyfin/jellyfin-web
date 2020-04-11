@@ -99,7 +99,8 @@
           "src/scripts/settings/webSettings.js",
           "src/scripts/dfnshelper.js",
           "src/scripts/imagehelper.js",
-          "src/scripts/inputManager.js"
+          "src/scripts/inputManager.js",
+          "src/components/lazyloader/lazyloader-intersectionobserver.js"
         ],
         "plugins": [
           "@babel/plugin-transform-modules-amd"

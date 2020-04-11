@@ -1,76 +1,71 @@
-define(['require', 'browser'], function (require, browser) {
-    'use strict';
+import require from 'require';
+import browser from 'browser';
+/* eslint-disable indent */
 
-    function LazyLoader(options) {
+    export class LazyLoader {
+        constructor(options) {
+            this.options = options;
+            this.observer;
+        }
 
-        this.options = options;
-    }
+        createObserver() {
+            const callback = this.options.callback;
 
-    if (browser.edge) {
-        require(['css!./lazyedgehack']);
-    }
+            const observer = new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach(entry => {
+                        callback(entry);
+                    },
+                    {rootMargin: "50%"});
+                });
 
-    LazyLoader.prototype.createObserver = function () {
-        var callback = this.options.callback;
+            this.observer = observer;
+        }
 
-        var observer = new IntersectionObserver(
-            (entries, observer) => {
-                entries.forEach(entry => {
-                    callback(entry);
-                },
-                {rootMargin: "50%"});
+        addElements(elements) {
+            let observer = this.observer;
+
+            if (!observer) {
+                this.createObserver();
+                observer = this.observer;
+            }
+
+            Array.from(elements).forEach(element => {
+                observer.observe(element);
             });
-
-        this.observer = observer;
-    };
-
-    LazyLoader.prototype.addElements = function (elements) {
-
-        var observer = this.observer;
-
-        if (!observer) {
-            this.createObserver();
-            observer = this.observer;
         }
 
-        this.elementCount = (this.elementCount || 0) + elements.length;
+        destroyObserver(elements) {
+            const observer = this.observer;
 
-        for (var i = 0, length = elements.length; i < length; i++) {
-            observer.observe(elements[i]);
+            if (observer) {
+                observer.disconnect();
+                this.observer = null;
+            }
         }
-    };
 
-    LazyLoader.prototype.destroyObserver = function (elements) {
-
-        var observer = this.observer;
-
-        if (observer) {
-            observer.disconnect();
-            this.observer = null;
+        destroy(elements) {
+            this.destroyObserver();
+            this.options = null;
         }
-    };
-
-    LazyLoader.prototype.destroy = function (elements) {
-
-        this.destroyObserver();
-        this.options = null;
-    };
+    }
 
     function unveilElements(elements, root, callback) {
-
         if (!elements.length) {
             return;
         }
-        var lazyLoader = new LazyLoader({
+        const lazyLoader = new LazyLoader({
             callback: callback
         });
         lazyLoader.addElements(elements);
     }
 
-    LazyLoader.lazyChildren = function (elem, callback) {
-
+    export function lazyChildren(elem, callback) {
         unveilElements(elem.getElementsByClassName('lazy'), elem, callback);
-    };
+    }
 
-    return LazyLoader;
-});
+/* eslint-enable indent */
+export default {
+    LazyLoader: LazyLoader,
+    lazyChildren: lazyChildren
+};
