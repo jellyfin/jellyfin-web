@@ -307,8 +307,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          */
         function getSwiperSlideHtmlFromItem(item) {
             return getSwiperSlideHtmlFromSlide({
-                imageUrl: getImgUrl(item),
-                originalImage: getImgUrl(item, true),
+                originalImage: getImgUrl(item),
                 //title: item.Name,
                 //description: item.Overview
                 Id: item.Id,
