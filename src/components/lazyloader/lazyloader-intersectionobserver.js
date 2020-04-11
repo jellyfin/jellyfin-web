@@ -11,42 +11,15 @@ define(['require', 'browser'], function (require, browser) {
     }
 
     LazyLoader.prototype.createObserver = function () {
+        var callback = this.options.callback;
 
-        var observerOptions = {};
-        var options = this.options;
-        var loadedCount = 0;
-        var callback = options.callback;
-
-        observerOptions.rootMargin = "50%";
-
-        var observerId = 'obs' + new Date().getTime();
-
-        var self = this;
-        var observer = new IntersectionObserver(function (entries) {
-            for (var j = 0, length2 = entries.length; j < length2; j++) {
-                var entry = entries[j];
-
-                if (entry.intersectionRatio > 0) {
-
-                    // Stop watching and load the image
-                    var target = entry.target;
-
-                    observer.unobserve(target);
-
-                    if (!target[observerId]) {
-                        target[observerId] = 1;
-                        callback(target);
-                        loadedCount++;
-
-                        if (loadedCount >= self.elementCount) {
-                            self.destroyObserver();
-                        }
-                    }
-                }
-            }
-        },
-        observerOptions
-        );
+        var observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach(entry => {
+                    callback(entry);
+                },
+                {rootMargin: "50%"});
+            });
 
         this.observer = observer;
     };

@@ -379,12 +379,7 @@ var AppInfo = {};
 
         define("filesystem", [componentsPath + "/filesystem"], returnFirstDependency);
 
-        if (window.IntersectionObserver && !browser.edge) {
-            define("lazyLoader", [componentsPath + "/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency);
-        } else {
-            define("lazyLoader", [componentsPath + "/lazyloader/lazyloader-scroll"], returnFirstDependency);
-        }
-
+        define("lazyLoader", [componentsPath + "/lazyloader/lazyloader-intersectionobserver"], returnFirstDependency);
         define("shell", [componentsPath + "/shell"], returnFirstDependency);
 
         define("apiclient", [bowerPath + "/apiclient/apiclient"], returnFirstDependency);

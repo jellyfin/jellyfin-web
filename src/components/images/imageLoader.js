@@ -3,40 +3,36 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
 
     var self = {};
 
-    function fillImage(elem, source, enableEffects) {
-
-        if (!elem) {
-            throw new Error('elem cannot be null');
+    function fillImage(entry) {
+        if (!entry) {
+            throw new Error('entry cannot be null');
         }
 
-        if (!source) {
-            source = elem.getAttribute('data-src');
-        }
+        var source = entry.target.getAttribute('data-src');
 
-        if (!source) {
-            return;
+        if (entry.intersectionRatio > 0 && source) {
+            fillImageElement(entry.target, source);
+        } else if (!source) {
+            emptyImageElement(entry.target);
         }
-
-        fillImageElement(elem, source, enableEffects);
     }
 
-    function fillImageElement(elem, source, enableEffects) {
+    function fillImageElement(elem, source) {
         imageFetcher.loadImage(elem, source).then(function () {
-
-            if (enableEffects !== false) {
-                fadeIn(elem);
+            if (userSettings.enableFastFadein()) {
+                elem.classList.add('lazy-image-fadein-fast');
+            } else {
+                elem.classList.add('lazy-image-fadein');
             }
 
             elem.removeAttribute("data-src");
         });
     }
 
-    function fadeIn(elem) {
-        if (userSettings.enableFastFadein()) {
-            elem.classList.add('lazy-image-fadein-fast');
-        } else {
-            elem.classList.add('lazy-image-fadein');
-        }
+    function emptyImageElement(elem) {
+        imageFetcher.unloadImage(elem).then(function (url) {
+            elem.setAttribute("data-src", url);
+        });
     }
 
     function lazyChildren(elem) {
