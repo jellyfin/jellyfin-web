@@ -8,7 +8,7 @@
             const callback = this.options.callback;
 
             const observer = new IntersectionObserver(
-                (entries, observer) => {
+                (entries) => {
                     entries.forEach(entry => {
                         callback(entry);
                     },
