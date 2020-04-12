@@ -3,12 +3,33 @@ import userSettings from 'userSettings';
 import 'css!./style';
 /* eslint-disable indent */
 
+    export function lazyImage(elem, source, enableEffects) {
+
+        if (!elem) {
+            throw new Error('elem cannot be null');
+        }
+
+        if (!source) {
+            source = elem.getAttribute('data-src');
+        }
+
+        if (!source) {
+            return;
+        }
+
+        fillImageElement(elem, source, enableEffects);
+    }
+
     export function fillImage(entry) {
         if (!entry) {
             throw new Error('entry cannot be null');
         }
 
-        var source = entry.target.getAttribute('data-src');
+        if (entry.target) {
+            var source = entry.target.getAttribute('data-src');
+        } else {
+            var source = entry;
+        }
 
         if (entry.intersectionRatio > 0 && source) {
             fillImageElement(entry.target, source);
@@ -21,7 +42,7 @@ import 'css!./style';
         let preloaderImg = new Image();
         preloaderImg.src = url;
 
-        preloaderImg.addEventListener('load', (event) => {
+        preloaderImg.addEventListener('load', () => {
             if (elem.tagName !== "IMG") {
                 elem.style.backgroundImage = "url('" + url + "')";
             } else {
@@ -134,7 +155,8 @@ import 'css!./style';
 /* eslint-enable indent */
 export default {
     fillImages: fillImages,
-    lazyImage: fillImage,
+    fillImage: fillImage,
+    lazyImage: lazyImage,
     lazyChildren: lazyChildren,
     getPrimaryImageAspectRatio: getPrimaryImageAspectRatio
 };
