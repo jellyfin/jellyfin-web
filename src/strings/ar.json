@@ -918,8 +918,8 @@
     "HeaderFavoriteEpisodes": "الحلقات المفضلة",
     "HeaderFavoriteArtists": "الفنانون المفضلون",
     "Shows": "الحلقات",
-    "Books": "كتب",
-    "ValueSpecialEpisodeName": "مميز - {0}",
+    "Books": "الكتب",
+    "ValueSpecialEpisodeName": "خاص - {0}",
     "HeaderFavoriteAlbums": "الألبومات المفضلة",
     "HeaderAlbumArtists": "فناني الألبومات",
     "Genres": "الأنواع",
@@ -952,7 +952,7 @@
     "Artists": "الفنانين",
     "Art": "فن",
     "Anytime": "اي وقت",
-    "AnyLanguage": "اي لغة",
+    "AnyLanguage": "أي لغة",
     "AlwaysPlaySubtitlesHelp": "الترجمة التي تطابق تفضيلات اللغة سيتم تحميلها بغض النظر عن لغة الصوت.",
     "AlwaysPlaySubtitles": "شغل الترجمة دائماً",
     "AllowedRemoteAddressesHelp": "قائمة لعناوين IP أو إدخالات IP / قناع الشبكة مفصولة بفاصلة للشبكات التي سيتم السماح لها بالاتصال عن بعد. إذا تركت فارغة ، فسيتم السماح بجميع العناوين البعيدة.",
@@ -1040,5 +1040,10 @@
     "DatePlayed": "تاريخ التشغيل",
     "DateAdded": "تاريخ الاضافة",
     "CriticRating": "تقييم النقاد",
-    "ResumeAt": "اكمل من {0}"
+    "ResumeAt": "اكمل من {0}",
+    "AskAdminToCreateLibrary": "أطلب من الأدمن إنشاء مكتبة.",
+    "Artist": "الفنان",
+    "AllowFfmpegThrottling": "إبطاء الترميزات",
+    "AlbumArtist": "المؤدي",
+    "Album": "الألبوم"
 }

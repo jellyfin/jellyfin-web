@@ -1,18 +1,7 @@
-define(["dialogHelper", "loading", "connectionManager", "globalize", "actionsheet", "emby-input", "paper-icon-button-light", "emby-button", "listViewStyle", "material-icons", "formDialogStyle"], function (dialogHelper, loading, connectionManager, globalize, actionsheet) {
+define(["dom", "dialogHelper", "loading", "connectionManager", "globalize", "actionsheet", "emby-input", "paper-icon-button-light", "emby-button", "listViewStyle", "material-icons", "formDialogStyle"], function (dom, dialogHelper, loading, connectionManager, globalize, actionsheet) {
     "use strict";
 
     return function (options) {
-        function parentWithClass(elem, className) {
-            while (!elem.classList || !elem.classList.contains(className)) {
-                elem = elem.parentNode;
-                if (!elem) {
-                    return null;
-                }
-            }
-
-            return elem;
-        }
-
         function mapChannel(button, channelId, providerChannelId) {
             loading.show();
             var providerId = options.providerId;
@@ -26,7 +15,7 @@ define(["dialogHelper", "loading", "connectionManager", "globalize", "actionshee
                 },
                 dataType: "json"
             }).then(function (mapping) {
-                var listItem = parentWithClass(button, "listItem");
+                var listItem = dom.parentWithClass(button, "listItem");
                 button.setAttribute("data-providerid", mapping.ProviderChannelId);
                 listItem.querySelector(".secondary").innerHTML = getMappingSecondaryName(mapping, currentMappingOptions.ProviderName);
                 loading.hide();
@@ -34,7 +23,7 @@ define(["dialogHelper", "loading", "connectionManager", "globalize", "actionshee
         }
 
         function onChannelsElementClick(e) {
-            var btnMap = parentWithClass(e.target, "btnMap");
+            var btnMap = dom.parentWithClass(e.target, "btnMap");
 
             if (btnMap) {
                 var channelId = btnMap.getAttribute("data-id");

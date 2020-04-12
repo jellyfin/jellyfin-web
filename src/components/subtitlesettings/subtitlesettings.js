@@ -2,15 +2,11 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
     "use strict";
 
     function populateLanguages(select, languages) {
-
         var html = "";
 
         html += "<option value=''>" + globalize.translate('AnyLanguage') + "</option>";
-
         for (var i = 0, length = languages.length; i < length; i++) {
-
             var culture = languages[i];
-
             html += "<option value='" + culture.ThreeLetterISOLanguageName + "'>" + culture.DisplayName + "</option>";
         }
 
@@ -18,7 +14,6 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
     }
 
     function getSubtitleAppearanceObject(context) {
-
         var appearanceSettings = {};
 
         appearanceSettings.textSize = context.querySelector('#selectTextSize').value;
@@ -102,14 +97,12 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
     }
 
     function onSubmit(e) {
-
         var self = this;
         var apiClient = connectionManager.getApiClient(self.options.serverId);
         var userId = self.options.userId;
         var userSettings = self.options.userSettings;
 
         userSettings.setUserInfo(userId, apiClient).then(function () {
-
             var enableSaveConfirmation = self.options.enableSaveConfirmation;
             save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
@@ -118,6 +111,7 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
         if (e) {
             e.preventDefault();
         }
+
         return false;
     }
 
@@ -197,9 +191,7 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
         var userSettings = self.options.userSettings;
 
         apiClient.getUser(userId).then(function (user) {
-
             userSettings.setUserInfo(userId, apiClient).then(function () {
-
                 self.dataLoaded = true;
 
                 var appearanceSettings = userSettings.getSubtitleAppearanceSettings(self.options.appearanceKey);
@@ -214,7 +206,6 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
     };
 
     SubtitleSettings.prototype.destroy = function () {
-
         this.options = null;
     };
 

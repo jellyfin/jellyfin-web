@@ -75,17 +75,19 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
             html += "</div>";
             context.querySelector(".taskTriggers").innerHTML = html;
         },
+        // TODO: Replace this mess with date-fns and remove datetime completely
         getTriggerFriendlyName: function (trigger) {
             if ("DailyTrigger" == trigger.Type) {
-                return "Daily at " + ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks);
+                return globalize.translate("DailyAt", ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks));
             }
 
             if ("WeeklyTrigger" == trigger.Type) {
-                return trigger.DayOfWeek + "s at " + ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks);
+                // TODO: The day of week isn't localised as well
+                return globalize.translate("WeeklyAt", trigger.DayOfWeek, ScheduledTaskPage.getDisplayTime(trigger.TimeOfDayTicks));
             }
 
             if ("SystemEventTrigger" == trigger.Type && "WakeFromSleep" == trigger.SystemEvent) {
-                return "On wake from sleep";
+                return globalize.translate("OnWakeFromSleep");
             }
 
             if (trigger.Type == "IntervalTrigger") {
@@ -93,23 +95,23 @@ define(["jQuery", "loading", "datetime", "dom", "globalize", "emby-input", "emby
                 var hours = trigger.IntervalTicks / 36e9;
 
                 if (hours == 0.25) {
-                    return "Every 15 minutes";
+                    return globalize.translate("EveryXMinutes", "15");
                 }
                 if (hours == 0.5) {
-                    return "Every 30 minutes";
+                    return globalize.translate("EveryXMinutes", "30");
                 }
                 if (hours == 0.75) {
-                    return "Every 45 minutes";
+                    return globalize.translate("EveryXMinutes", "45");
                 }
                 if (hours == 1) {
-                    return "Every hour";
+                    return globalize.translate("EveryHour");
                 }
 
-                return "Every " + hours + " hours";
+                return globalize.translate("EveryXHours", hours);
             }
 
             if (trigger.Type == "StartupTrigger") {
-                return "On application startup";
+                return globalize.translate("OnApplicationStartup");
             }
 
             return trigger.Type;

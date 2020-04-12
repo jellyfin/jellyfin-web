@@ -271,6 +271,9 @@ define([], function () {
 
     if (!browser.tizen) {
         browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
+    } else {
+        var v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
+        browser.tizenVersion = parseInt(v[1]);
     }
 
     if (browser.edgeUwp) {
@@ -289,7 +292,8 @@ define([], function () {
     }
 
     if (typeof document !== 'undefined') {
-        if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+        /* eslint-disable-next-line compat/compat */
+        if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
             browser.touch = true;
         }
     }

@@ -1,15 +1,32 @@
 env:
-  es6: true
-  browser: true
   amd: true
+  browser: true
+  es6: true
+  es2017: true
+  es2020: true
+
+parserOptions:
+  ecmaVersion: 2020
+  sourceType: module
+  ecmaFeatures:
+    impliedStrict: true
+
+plugins:
+  - promise
+  - import
+  - eslint-comments
+
+extends:
+  - eslint:recommended
+  - plugin:promise/recommended
+  - plugin:import/errors
+  - plugin:import/warnings
+  - plugin:eslint-comments/recommended
+  - plugin:compat/recommended
 
 globals:
-  # New browser globals
-  DataView: readonly
+  # Browser globals
   MediaMetadata: readonly
-  Promise: readonly
-  # Deprecated browser globals
-  DocumentTouch: readonly
   # Tizen globals
   tizen: readonly
   webapis: readonly
@@ -18,7 +35,6 @@ globals:
   # Dependency globals
   $: readonly
   jQuery: readonly
-  queryString: readonly
   requirejs: readonly
   # Jellyfin globals
   ApiClient: writable
@@ -34,8 +50,7 @@ globals:
   getWindowLocationSearch: writable
   Globalize: writable
   Hls: writable
-  humaneDate: writable
-  humaneElapsed: writable
+  dfnshelper: writable
   LibraryMenu: writable
   LinkParser: writable
   LiveTvHelpers: writable
@@ -45,9 +60,6 @@ globals:
   PlaylistViewer: writable
   UserParentalControlPage: writable
   Windows: readonly
-
-extends:
-  - eslint:recommended
 
 rules:
   block-spacing: ["error"]
@@ -63,9 +75,97 @@ rules:
   no-multiple-empty-lines: ["error", { "max": 1 }]
   no-trailing-spaces: ["error"]
   one-var: ["error", "never"]
-  semi: ["warn"]
+  semi: ["error"]
   space-before-blocks: ["error"]
   # TODO: Fix warnings and remove these rules
   no-redeclare: ["warn"]
   no-unused-vars: ["warn"]
   no-useless-escape: ["warn"]
+  promise/catch-or-return: ["warn"]
+  promise/always-return: ["warn"]
+  promise/no-return-wrap: ["warn"]
+  # TODO: Remove after ES6 migration is complete
+  import/no-unresolved: ["warn"]
+
+settings:
+  polyfills:
+    # Native Promises Only
+    - Promise
+    # whatwg-fetch
+    - fetch
+    # document-register-element
+    - document.registerElement
+    # resize-observer-polyfill
+    - ResizeObserver
+    # fast-text-encoding
+    - TextEncoder
+    # intersection-observer
+    - IntersectionObserver
+    # Core-js
+    - Object.assign
+    - Object.is
+    - Object.setPrototypeOf
+    - Object.toString
+    - Object.freeze
+    - Object.seal
+    - Object.preventExtensions
+    - Object.isFrozen
+    - Object.isSealed
+    - Object.isExtensible
+    - Object.getOwnPropertyDescriptor
+    - Object.getPrototypeOf
+    - Object.keys
+    - Object.getOwnPropertyNames
+    - Function.name
+    - Function.hasInstance
+    - Array.from
+    - Array.arrayOf
+    - Array.copyWithin
+    - Array.fill
+    - Array.find
+    - Array.findIndex
+    - Array.iterator
+    - String.fromCodePoint
+    - String.raw
+    - String.iterator
+    - String.codePointAt
+    - String.endsWith
+    - String.includes
+    - String.repeat
+    - String.startsWith
+    - String.trim
+    - String.anchor
+    - String.big
+    - String.blink
+    - String.bold
+    - String.fixed
+    - String.fontcolor
+    - String.fontsize
+    - String.italics
+    - String.link
+    - String.small
+    - String.strike
+    - String.sub
+    - String.sup
+    - RegExp
+    - Number
+    - Math
+    - Date
+    - async
+    - Symbol
+    - Map
+    - Set
+    - WeakMap
+    - WeakSet
+    - ArrayBuffer
+    - DataView
+    - Int8Array
+    - Uint8Array
+    - Uint8ClampedArray
+    - Int16Array
+    - Uint16Array
+    - Int32Array
+    - Uint32Array
+    - Float32Array
+    - Float64Array
+    - Reflect

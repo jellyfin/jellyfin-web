@@ -9,11 +9,12 @@ module.exports = merge(common, {
         path: path.resolve(__dirname, "dist"),
         libraryTarget: "amd-require"
     },
+    devtool: '#inline-source-map',
     module: {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
+                exclude: /node_modules[\\/](?!query-string)/,
                 loader: "babel-loader"
             },
             {

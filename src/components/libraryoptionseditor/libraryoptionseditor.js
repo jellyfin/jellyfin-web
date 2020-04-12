@@ -36,7 +36,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
                 html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + "</option>";
             }
             select.innerHTML = html;
-        })
+        });
     }
 
     function populateRefreshInterval(select) {
@@ -120,7 +120,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             html += plugin.Name;
             html += "</h3>";
             html += "</div>";
-            i > 0 ? html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonUp") + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><i class="material-icons keyboard_arrow_up"></i></button>' : plugins.length > 1 && (html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDown") + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><i class="material-icons keyboard_arrow_down"></i></button>'), html += "</div>"
+            i > 0 ? html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonUp") + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><i class="material-icons keyboard_arrow_up"></i></button>' : plugins.length > 1 && (html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonDown") + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><i class="material-icons keyboard_arrow_down"></i></button>'), html += "</div>";
         }
         html += "</div>";
         html += '<div class="fieldDescription">' + globalize.translate("LabelMetadataDownloadersHelp") + "</div>";
@@ -265,10 +265,10 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             renderMetadataFetchers(parent, availableOptions, {});
             renderSubtitleFetchers(parent, availableOptions, {});
             renderImageFetchers(parent, availableOptions, {});
-            availableOptions.SubtitleFetchers.length ? parent.querySelector(".subtitleDownloadSettings").classList.remove("hide") : parent.querySelector(".subtitleDownloadSettings").classList.add("hide")
+            availableOptions.SubtitleFetchers.length ? parent.querySelector(".subtitleDownloadSettings").classList.remove("hide") : parent.querySelector(".subtitleDownloadSettings").classList.add("hide");
         }).catch(function() {
             return Promise.resolve();
-        })
+        });
     }
 
     function adjustSortableListElement(elem) {
@@ -296,8 +296,8 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
                 Type: type
             }, currentLibraryOptions.TypeOptions.push(typeOptions));
             var availableOptions = getTypeOptions(currentAvailableOptions || {}, type);
-            (new ImageOptionsEditor).show(type, typeOptions, availableOptions)
-        })
+            (new ImageOptionsEditor).show(type, typeOptions, availableOptions);
+        });
     }
 
     function onImageFetchersContainerClick(e) {
@@ -315,12 +315,12 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             var list = dom.parentWithClass(li, "paperList");
             if (btnSortable.classList.contains("btnSortableMoveDown")) {
                 var next = li.nextSibling;
-                next && (li.parentNode.removeChild(li), next.parentNode.insertBefore(li, next.nextSibling))
+                next && (li.parentNode.removeChild(li), next.parentNode.insertBefore(li, next.nextSibling));
             } else {
                 var prev = li.previousSibling;
-                prev && (li.parentNode.removeChild(li), prev.parentNode.insertBefore(li, prev))
+                prev && (li.parentNode.removeChild(li), prev.parentNode.insertBefore(li, prev));
             }
-            Array.prototype.forEach.call(list.querySelectorAll(".sortableOption"), adjustSortableListElement)
+            Array.prototype.forEach.call(list.querySelectorAll(".sortableOption"), adjustSortableListElement);
         }
     }
 
@@ -396,18 +396,24 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             parent.querySelector(".chkEnableEmbeddedTitlesContainer").classList.remove("hide");
         }
 
+        if (contentType === "tvshows") {
+            parent.querySelector(".chkEnableEmbeddedEpisodeInfosContainer").classList.remove("hide");
+        } else {
+            parent.querySelector(".chkEnableEmbeddedEpisodeInfosContainer").classList.add("hide");
+        }
+
         return populateMetadataSettings(parent, contentType);
     }
 
     function setSubtitleFetchersIntoOptions(parent, options) {
         options.DisabledSubtitleFetchers = Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll(".chkSubtitleFetcher"), function(elem) {
-            return !elem.checked
+            return !elem.checked;
         }), function(elem) {
-            return elem.getAttribute("data-pluginname")
+            return elem.getAttribute("data-pluginname");
         });
 
         options.SubtitleFetcherOrder = Array.prototype.map.call(parent.querySelectorAll(".subtitleFetcherItem"), function(elem) {
-            return elem.getAttribute("data-pluginname")
+            return elem.getAttribute("data-pluginname");
         });
     }
 
@@ -449,13 +455,13 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             }
 
             typeOptions.ImageFetchers = Array.prototype.map.call(Array.prototype.filter.call(section.querySelectorAll(".chkImageFetcher"), function(elem) {
-                return elem.checked
+                return elem.checked;
             }), function(elem) {
-                return elem.getAttribute("data-pluginname")
+                return elem.getAttribute("data-pluginname");
             });
 
             typeOptions.ImageFetcherOrder = Array.prototype.map.call(section.querySelectorAll(".imageFetcherItem"), function(elem) {
-                return elem.getAttribute("data-pluginname")
+                return elem.getAttribute("data-pluginname");
             });
         }
     }
@@ -493,25 +499,26 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
             SeasonZeroDisplayName: parent.querySelector("#txtSeasonZeroName").value,
             AutomaticRefreshIntervalDays: parseInt(parent.querySelector("#selectAutoRefreshInterval").value),
             EnableEmbeddedTitles: parent.querySelector("#chkEnableEmbeddedTitles").checked,
+            EnableEmbeddedEpisodeInfos: parent.querySelector("#chkEnableEmbeddedEpisodeInfos").checked,
             SkipSubtitlesIfEmbeddedSubtitlesPresent: parent.querySelector("#chkSkipIfGraphicalSubsPresent").checked,
             SkipSubtitlesIfAudioTrackMatches: parent.querySelector("#chkSkipIfAudioTrackPresent").checked,
             SaveSubtitlesWithMedia: parent.querySelector("#chkSaveSubtitlesLocally").checked,
             RequirePerfectSubtitleMatch: parent.querySelector("#chkRequirePerfectMatch").checked,
             MetadataSavers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll(".chkMetadataSaver"), function(elem) {
-                return elem.checked
+                return elem.checked;
             }), function(elem) {
-                return elem.getAttribute("data-pluginname")
+                return elem.getAttribute("data-pluginname");
             }),
             TypeOptions: []
         };
 
         options.LocalMetadataReaderOrder = Array.prototype.map.call(parent.querySelectorAll(".localReaderOption"), function(elem) {
-            return elem.getAttribute("data-pluginname")
+            return elem.getAttribute("data-pluginname");
         });
         options.SubtitleDownloadLanguages = Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll(".chkSubtitleLanguage"), function(elem) {
-            return elem.checked
+            return elem.checked;
         }), function(elem) {
-            return elem.getAttribute("data-lang")
+            return elem.getAttribute("data-lang");
         });
         setSubtitleFetchersIntoOptions(parent, options);
         setMetadataFetchersIntoOptions(parent, options);
@@ -524,7 +531,7 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
     function getOrderedPlugins(plugins, configuredOrder) {
         plugins = plugins.slice(0);
         plugins.sort(function(a, b) {
-            return a = configuredOrder.indexOf(a.Name), b = configuredOrder.indexOf(b.Name), a < b ? -1 : a > b ? 1 : 0
+            return a = configuredOrder.indexOf(a.Name), b = configuredOrder.indexOf(b.Name), a < b ? -1 : a > b ? 1 : 0;
         });
         return plugins;
     }
@@ -545,15 +552,16 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
         parent.querySelector("#chkImportMissingEpisodes").checked = options.ImportMissingEpisodes;
         parent.querySelector(".chkAutomaticallyGroupSeries").checked = options.EnableAutomaticSeriesGrouping;
         parent.querySelector("#chkEnableEmbeddedTitles").checked = options.EnableEmbeddedTitles;
+        parent.querySelector("#chkEnableEmbeddedEpisodeInfos").checked = options.EnableEmbeddedEpisodeInfos;
         parent.querySelector("#chkSkipIfGraphicalSubsPresent").checked = options.SkipSubtitlesIfEmbeddedSubtitlesPresent;
         parent.querySelector("#chkSaveSubtitlesLocally").checked = options.SaveSubtitlesWithMedia;
         parent.querySelector("#chkSkipIfAudioTrackPresent").checked = options.SkipSubtitlesIfAudioTrackMatches;
         parent.querySelector("#chkRequirePerfectMatch").checked = options.RequirePerfectSubtitleMatch;
         Array.prototype.forEach.call(parent.querySelectorAll(".chkMetadataSaver"), function(elem) {
-            elem.checked = options.MetadataSavers ? -1 !== options.MetadataSavers.indexOf(elem.getAttribute("data-pluginname")) : "true" === elem.getAttribute("data-defaultenabled")
+            elem.checked = options.MetadataSavers ? -1 !== options.MetadataSavers.indexOf(elem.getAttribute("data-pluginname")) : "true" === elem.getAttribute("data-defaultenabled");
         });
         Array.prototype.forEach.call(parent.querySelectorAll(".chkSubtitleLanguage"), function(elem) {
-            elem.checked = !!options.SubtitleDownloadLanguages && -1 !== options.SubtitleDownloadLanguages.indexOf(elem.getAttribute("data-lang"))
+            elem.checked = !!options.SubtitleDownloadLanguages && -1 !== options.SubtitleDownloadLanguages.indexOf(elem.getAttribute("data-lang"));
         });
         renderMetadataReaders(parent, getOrderedPlugins(parent.availableOptions.MetadataReaders, options.LocalMetadataReaderOrder || []));
         renderMetadataFetchers(parent, parent.availableOptions, options);
@@ -570,5 +578,5 @@ define(["globalize", "dom", "emby-checkbox", "emby-select", "emby-input"], funct
         getLibraryOptions: getLibraryOptions,
         setLibraryOptions: setLibraryOptions,
         setAdvancedVisible: setAdvancedVisible
-    }
+    };
 });

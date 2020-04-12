@@ -2,8 +2,7 @@ trigger:
   batch: true
   branches:
     include:
-    - master
-    - release-*
+    - '*'
   tags:
     include:
     - '*'
@@ -13,65 +12,94 @@ pr:
     - '*'
 
 jobs:
-  - job: build
-    displayName: 'Build'
+- job: Build
+  displayName: 'Build'
 
-    dependsOn: lint
-    condition: succeeded()
+  strategy:
+    matrix:
+      Development:
+        BuildConfiguration: development
+      Production:
+        BuildConfiguration: production
+      Standalone:
+        BuildConfiguration: standalone
 
-    pool:
-      vmImage: 'ubuntu-latest'
+  pool:
+    vmImage: 'ubuntu-latest'
 
-    strategy:
-      matrix:
-        bundle:
-          BuildConfiguration: Bundle
-        standalone:
-          BuildConfiguration: Standalone
-      maxParallel: 2
+  steps:
+  - task: NodeTool@0
+    displayName: 'Install Node'
+    inputs:
+      versionSpec: '12.x'
 
-    steps:
-    - task: NodeTool@0
-      displayName: 'Install Node'
-      inputs:
-        versionSpec: '10.x'
+  - task: Cache@2
+    displayName: 'Check Cache'
+    inputs:
+      key: 'yarn | yarn.lock'
+      path: 'node_modules'
+      cacheHitVar: CACHE_RESTORED
 
-    - script: 'yarn install'
-      displayName: 'Install Dependencies'
+  - script: 'yarn install --frozen-lockfile'
+    displayName: 'Install Dependencies'
+    condition: ne(variables.CACHE_RESTORED, 'true')
 
-    - script: 'yarn build'
-      displayName: 'Build'
+  - script: 'yarn build:development'
+    displayName: 'Build Development'
+    condition: eq(variables['BuildConfiguration'], 'development')
 
-    - script: 'test -d dist'
-      displayName: 'Check Build'
+  - script: 'yarn build:production'
+    displayName: 'Build Bundle'
+    condition: eq(variables['BuildConfiguration'], 'production')
 
-    - script: 'yarn pack --filename jellyfin-web.tgz'
-      displayName: 'Bundle Release'
+  - script: 'yarn build:standalone'
+    displayName: 'Build Standalone'
+    condition: eq(variables['BuildConfiguration'], 'standalone')
 
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish Release'
-      condition: succeeded()
-      inputs:
-        targetPath: '$(Build.SourcesDirectory)/jellyfin-web.tgz'
-        artifactName: 'jellyfin-web'
+  - script: 'test -d dist'
+    displayName: 'Check Build'
 
-  - job: lint
-    displayName: 'Lint'
+  - script: 'mv dist jellyfin-web'
+    displayName: 'Rename Directory'
 
-    pool:
-      vmImage: 'ubuntu-latest'
+  - task: ArchiveFiles@2
+    displayName: 'Archive Directory'
+    inputs:
+      rootFolderOrFile: 'jellyfin-web'
+      includeRootFolder: true
+      archiveFile: 'jellyfin-web-$(BuildConfiguration)'
 
-    steps:
-    - task: NodeTool@0
-      displayName: 'Install Node'
-      inputs:
-        versionSpec: '10.x'
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Release'
+    inputs:
+      targetPath: '$(Build.SourcesDirectory)/jellyfin-web-$(BuildConfiguration).zip'
+      artifactName: 'jellyfin-web-$(BuildConfiguration)'
 
-    - script: 'yarn install'
-      displayName: 'Install Dependencies'
+- job: Lint
+  displayName: 'Lint'
 
-    - script: 'yarn run lint'
-      displayName: 'Run ESLint'
+  pool:
+    vmImage: 'ubuntu-latest'
 
-    - script: 'yarn run stylelint'
-      displayName: 'Run Stylelint'
+  steps:
+  - task: NodeTool@0
+    displayName: 'Install Node'
+    inputs:
+      versionSpec: '12.x'
+
+  - task: Cache@2
+    displayName: 'Check Cache'
+    inputs:
+      key: 'yarn | yarn.lock'
+      path: 'node_modules'
+      cacheHitVar: CACHE_RESTORED
+
+  - script: 'yarn install --frozen-lockfile'
+    displayName: 'Install Dependencies'
+    condition: ne(variables.CACHE_RESTORED, 'true')
+
+  - script: 'yarn run lint --quiet'
+    displayName: 'Run ESLint'
+
+  - script: 'yarn run stylelint'
+    displayName: 'Run Stylelint'

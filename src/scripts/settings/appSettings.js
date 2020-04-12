@@ -1,5 +1,7 @@
-define(['appStorage', 'events'], function (appStorage, events) {
-    'use strict';
+/* eslint-disable indent */
+
+import appStorage from 'appStorage';
+import events from 'events';
 
     function getKey(name, userId) {
         if (userId) {
@@ -9,18 +11,23 @@ define(['appStorage', 'events'], function (appStorage, events) {
         return name;
     }
 
-    function AppSettings() {
-    }
-
-    AppSettings.prototype.enableAutoLogin = function (val) {
+    export function enableAutoLogin(val) {
         if (val != null) {
             this.set('enableAutoLogin', val.toString());
         }
 
         return this.get('enableAutoLogin') !== 'false';
-    };
+    }
 
-    AppSettings.prototype.enableAutomaticBitrateDetection = function (isInNetwork, mediaType, val) {
+    export function enableSystemExternalPlayers(val) {
+        if (val !== null) {
+            this.set('enableSystemExternalPlayers', val.toString());
+        }
+
+        return this.get('enableSystemExternalPlayers') === 'true';
+    }
+
+    export function enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
         var key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
         if (val != null) {
             if (isInNetwork && mediaType === 'Audio') {
@@ -35,9 +42,9 @@ define(['appStorage', 'events'], function (appStorage, events) {
         } else {
             return this.get(key) !== 'false';
         }
-    };
+    }
 
-    AppSettings.prototype.maxStreamingBitrate = function (isInNetwork, mediaType, val) {
+    export function maxStreamingBitrate(isInNetwork, mediaType, val) {
         var key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
         if (val != null) {
             if (isInNetwork && mediaType === 'Audio') {
@@ -53,43 +60,43 @@ define(['appStorage', 'events'], function (appStorage, events) {
         } else {
             return parseInt(this.get(key) || '0') || 1500000;
         }
-    };
+    }
 
-    AppSettings.prototype.maxStaticMusicBitrate = function (val) {
+    export function maxStaticMusicBitrate(val) {
         if (val !== undefined) {
             this.set('maxStaticMusicBitrate', val);
         }
 
         var defaultValue = 320000;
         return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString()) || defaultValue;
-    };
+    }
 
-    AppSettings.prototype.maxChromecastBitrate = function (val) {
+    export function maxChromecastBitrate(val) {
         if (val != null) {
             this.set('chromecastBitrate1', val);
         }
 
         val = this.get('chromecastBitrate1');
         return val ? parseInt(val) : null;
-    };
+    }
 
-    AppSettings.prototype.syncOnlyOnWifi = function (val) {
+    export function syncOnlyOnWifi(val) {
         if (val != null) {
             this.set('syncOnlyOnWifi', val.toString());
         }
 
         return this.get('syncOnlyOnWifi') !== 'false';
-    };
+    }
 
-    AppSettings.prototype.syncPath = function (val) {
+    export function syncPath(val) {
         if (val != null) {
             this.set('syncPath', val);
         }
 
         return this.get('syncPath');
-    };
+    }
 
-    AppSettings.prototype.cameraUploadServers = function (val) {
+    export function cameraUploadServers(val) {
         if (val != null) {
             this.set('cameraUploadServers', val.join(','));
         }
@@ -100,36 +107,42 @@ define(['appStorage', 'events'], function (appStorage, events) {
         }
 
         return [];
-    };
+    }
 
-    AppSettings.prototype.runAtStartup = function (val) {
+    export function runAtStartup(val) {
         if (val != null) {
             this.set('runatstartup', val.toString());
         }
 
         return this.get('runatstartup') === 'true';
-    };
+    }
 
-    AppSettings.prototype.set = function (name, value, userId) {
+    export function set(name, value, userId) {
         var currentValue = this.get(name, userId);
         appStorage.setItem(getKey(name, userId), value);
 
         if (currentValue !== value) {
             events.trigger(this, 'change', [name]);
         }
-    };
+    }
 
-    AppSettings.prototype.get = function (name, userId) {
+    export function get(name, userId) {
         return appStorage.getItem(getKey(name, userId));
-    };
+    }
 
-    AppSettings.prototype.enableSystemExternalPlayers = function (val) {
-        if (val != null) {
-            this.set('enableSystemExternalPlayers', val.toString());
-        }
+/* eslint-enable indent */
 
-        return this.get('enableSystemExternalPlayers') === 'true';
-    };
-
-    return new AppSettings();
-});
+export default {
+    enableAutoLogin: enableAutoLogin,
+    enableSystemExternalPlayers: enableSystemExternalPlayers,
+    enableAutomaticBitrateDetection: enableAutomaticBitrateDetection,
+    maxStreamingBitrate: maxStreamingBitrate,
+    maxStaticMusicBitrate: maxStaticMusicBitrate,
+    maxChromecastBitrate: maxChromecastBitrate,
+    syncOnlyOnWifi: syncOnlyOnWifi,
+    syncPath: syncPath,
+    cameraUploadServers: cameraUploadServers,
+    runAtStartup: runAtStartup,
+    set: set,
+    get: get
+};

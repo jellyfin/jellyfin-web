@@ -116,7 +116,7 @@ define(["dialogHelper", "require", "layoutManager", "globalize", "userSettings",
     }
 
     function createAttribute(label, value) {
-        return '<span class="mediaInfoLabel">' + label + '</span><span class="mediaInfoAttribute">' + value + "</span>"
+        return '<span class="mediaInfoLabel">' + label + '</span><span class="mediaInfoAttribute">' + value + "</span>";
     }
 
     function showMediaInfoMore(itemId, serverId, template) {

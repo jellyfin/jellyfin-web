@@ -1633,29 +1633,29 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         self.supportSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
             return player && 'setSubtitleOffset' in player;
-        }
+        };
 
         self.enableShowingSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
             player.enableShowingSubtitleOffset();
-        }
+        };
 
         self.disableShowingSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
             if (player.disableShowingSubtitleOffset) {
                 player.disableShowingSubtitleOffset();
             }
-        }
+        };
 
         self.isShowingSubtitleOffsetEnabled = function(player) {
             player = player || self._currentPlayer;
             return player.isShowingSubtitleOffsetEnabled();
-        }
+        };
 
         self.isSubtitleStreamExternal = function(index, player) {
             var stream = getSubtitleStream(player, index);
             return stream ? getDeliveryMethod(stream) === 'External' : false;
-        }
+        };
 
         self.setSubtitleOffset = function (value, player) {
             player = player || self._currentPlayer;
@@ -1669,12 +1669,12 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             if (player.getSubtitleOffset) {
                 return player.getSubtitleOffset();
             }
-        }
+        };
 
         self.canHandleOffsetOnCurrentSubtitle = function(player) {
             var index = self.getSubtitleStreamIndex(player);
             return index !== -1 && self.isSubtitleStreamExternal(index, player);
-        }
+        };
 
         self.seek = function (ticks, player) {
 
@@ -3140,7 +3140,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                         AllowVideoStreamCopy: false,
                         AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
 
-                    }, true);
+                    });
 
                     return;
                 }
@@ -3162,7 +3162,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             // User clicked stop or content ended
             var state = self.getPlayerState(player);
-            var streamInfo = getPlayerData(player).streamInfo;
+            var data = getPlayerData(player);
+            var streamInfo = data.streamInfo;
 
             var nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
 
@@ -3210,6 +3211,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 showPlaybackInfoErrorMessage(self, displayErrorCode, nextItem);
             } else if (nextItem) {
                 self.nextTrack();
+            } else {
+                // Nothing more to play - clear data
+                data.streamInfo = null;
             }
         }
 

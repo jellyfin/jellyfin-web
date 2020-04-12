@@ -1,4 +1,4 @@
-define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitlesync'], function (playbackManager, template, css) {
+define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html', 'css!./subtitlesync'], function (playbackManager, layoutManager, template, css) {
     "use strict";
 
     var player;
@@ -10,6 +10,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
     function init(instance) {
 
         var parent = document.createElement('div');
+        document.body.appendChild(parent);
         parent.innerHTML = template;
 
         subtitleSyncSlider = parent.querySelector(".subtitleSyncSlider");
@@ -17,11 +18,19 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         subtitleSyncCloseButton = parent.querySelector(".subtitleSync-closeButton");
         subtitleSyncContainer = parent.querySelector(".subtitleSyncContainer");
 
+        if (layoutManager.tv) {
+            subtitleSyncSlider.classList.add("focusable");
+            // HACK: Delay to give time for registered element attach (Firefox)
+            setTimeout(function () {
+                subtitleSyncSlider.enableKeyboardDragging();
+            }, 0);
+        }
+
         subtitleSyncContainer.classList.add("hide");
 
         subtitleSyncTextField.updateOffset = function(offset) {
             this.textContent = offset + "s";
-        }
+        };
 
         subtitleSyncTextField.addEventListener("keypress", function(event) {
 
@@ -57,7 +66,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
         subtitleSyncSlider.updateOffset = function(percent) {
             // default value is 0s = 50%
             this.value = percent === undefined ? 50 : percent;
-        }
+        };
 
         subtitleSyncSlider.addEventListener("change", function () {
             // set new offset
@@ -86,8 +95,6 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
             playbackManager.disableShowingSubtitleOffset(player);
             SubtitleSync.prototype.toggle("forceToHide");
         });
-
-        document.body.appendChild(parent);
 
         instance.element = parent;
     }
@@ -125,7 +132,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
             elem.parentNode.removeChild(elem);
             this.element = null;
         }
-    }
+    };
 
     SubtitleSync.prototype.toggle = function(action) {
 
@@ -159,7 +166,7 @@ define(['playbackManager', 'text!./subtitlesync.template.html', 'css!./subtitles
             }
             /* eslint-enable no-fallthrough */
         }
-    }
+    };
 
     return SubtitleSync;
 });

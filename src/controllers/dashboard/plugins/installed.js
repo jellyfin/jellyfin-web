@@ -2,7 +2,7 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
     "use strict";
 
     function deletePlugin(page, uniqueid, name) {
-        var msg = globalize.translate("UninstallPluginConfirmation").replace("{0}", name);
+        var msg = globalize.translate("UninstallPluginConfirmation", name);
 
         require(["confirm"], function (confirm) {
             confirm({

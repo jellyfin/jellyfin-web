@@ -1,25 +1,12 @@
-define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize) {
+define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (dom, dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize) {
     'use strict';
 
     var currentServerId;
 
-    function parentWithClass(elem, className) {
-
-        while (!elem.classList || !elem.classList.contains(className)) {
-            elem = elem.parentNode;
-
-            if (!elem) {
-                return null;
-            }
-        }
-
-        return elem;
-    }
-
     function onSubmit(e) {
         loading.show();
 
-        var panel = parentWithClass(this, 'dialog');
+        var panel = dom.parentWithClass(this, 'dialog');
 
         var collectionId = panel.querySelector('#selectCollectionToAddTo').value;
 

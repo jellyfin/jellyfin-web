@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "events", "globalize", "serverNotifications", "humanedate", "listViewStyle", "emby-button"], function($, loading, events, globalize, serverNotifications) {
+define(["jQuery", "loading", "events", "globalize", "serverNotifications", "date-fns", "dfnshelper", "listViewStyle", "emby-button"], function ($, loading, events, globalize, serverNotifications, datefns, dfnshelper) {
     "use strict";
 
     function reloadList(page) {
@@ -7,7 +7,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
         }).then(function(tasks) {
             populateList(page, tasks);
             loading.hide();
-        })
+        });
     }
 
     function populateList(page, tasks) {
@@ -49,7 +49,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             html += "</a>";
             html += "</div>";
             if (task.State === "Running") {
-                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStop") + '"><i class="material-icons">stop</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStopTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStop") + '"><i class="material-icons stop"></i></button>';
             } else if (task.State === "Idle") {
                 html += '<button type="button" is="paper-icon-button-light" id="btnTask' + task.Id + '" class="btnStartTask" data-taskid="' + task.Id + '" title="' + globalize.translate("ButtonStart") + '"><i class="material-icons play_arrow"></i></button>';
             }
@@ -66,7 +66,10 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
         var html = "";
         if (task.State === "Idle") {
             if (task.LastExecutionResult) {
-                html += globalize.translate("LabelScheduledTaskLastRan").replace("{0}", humaneDate(task.LastExecutionResult.EndTimeUtc)).replace("{1}", humaneElapsed(task.LastExecutionResult.StartTimeUtc, task.LastExecutionResult.EndTimeUtc));
+                var endtime = Date.parse(task.LastExecutionResult.EndTimeUtc);
+                var starttime = Date.parse(task.LastExecutionResult.StartTimeUtc);
+                html += globalize.translate("LabelScheduledTaskLastRan", datefns.formatDistanceToNow(endtime, dfnshelper.localeWithSuffix),
+                    datefns.formatDistance(starttime, endtime, { locale: dfnshelper.getLocale() }));
                 if (task.LastExecutionResult.Status === "Failed") {
                     html += " <span style='color:#FF0000;'>(" + globalize.translate("LabelFailed") + ")</span>";
                 } else if (task.LastExecutionResult.Status === "Cancelled") {
@@ -90,16 +93,22 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
         return html;
     }
 
+    function setTaskButtonIcon(button, icon) {
+        var inner = button.querySelector("i");
+        inner.classList.remove("stop", "play_arrow");
+        inner.classList.add(icon);
+    }
+
     function updateTaskButton(elem, state) {
         if (state === "Running") {
             elem.classList.remove("btnStartTask");
             elem.classList.add("btnStopTask");
-            elem.querySelector("i").innerHTML = "stop";
+            setTaskButtonIcon(elem, "stop");
             elem.title = globalize.translate("ButtonStop");
         } else if (state === "Idle") {
             elem.classList.add("btnStartTask");
             elem.classList.remove("btnStopTask");
-            elem.querySelector("i").innerHTML = "&#xE037;";
+            setTaskButtonIcon(elem, "play_arrow");
             elem.title = globalize.translate("ButtonStart");
         }
         $(elem).parents(".listItem")[0].setAttribute("data-status", state);
@@ -146,7 +155,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             ApiClient.startScheduledTask(id).then(function() {
                 updateTaskButton(button, "Running");
                 reloadList(view);
-            })
+            });
         });
 
         $(".divScheduledTasks", view).on("click", ".btnStopTask", function() {
@@ -155,7 +164,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             ApiClient.stopScheduledTask(id).then(function() {
                 updateTaskButton(button, "");
                 reloadList(view);
-            })
+            });
         });
 
         view.addEventListener("viewbeforehide", function() {
@@ -169,5 +178,5 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "huma
             reloadList(view);
             events.on(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate);
         });
-    }
+    };
 });

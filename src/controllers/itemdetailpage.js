@@ -468,6 +468,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         if ("Program" === item.Type && item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ImageTags.Thumb
             });
@@ -477,6 +478,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         } else if (usePrimaryImage && item.ImageTags && item.ImageTags.Primary) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Primary",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ImageTags.Primary
             });
@@ -486,6 +488,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Backdrop",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.BackdropImageTags[0]
             });
@@ -495,6 +498,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
             imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                 type: "Backdrop",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ParentBackdropImageTags[0]
             });
@@ -504,6 +508,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         } else if (item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
+                maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ImageTags.Thumb
             });
@@ -586,7 +591,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             try {
                 var birthday = datetime.parseISO8601Date(item.PremiereDate, true).toDateString();
                 itemBirthday.classList.remove("hide");
-                itemBirthday.innerHTML = globalize.translate("BirthDateValue").replace("{0}", birthday);
+                itemBirthday.innerHTML = globalize.translate("BirthDateValue", birthday);
             } catch (err) {
                 itemBirthday.classList.add("hide");
             }
@@ -600,7 +605,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             try {
                 var deathday = datetime.parseISO8601Date(item.EndDate, true).toDateString();
                 itemDeathDate.classList.remove("hide");
-                itemDeathDate.innerHTML = globalize.translate("DeathDateValue").replace("{0}", deathday);
+                itemDeathDate.innerHTML = globalize.translate("DeathDateValue", deathday);
             } catch (err) {
                 itemDeathDate.classList.add("hide");
             }
@@ -613,7 +618,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         if ("Person" == item.Type && item.ProductionLocations && item.ProductionLocations.length) {
             var gmap = '<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://maps.google.com/maps?q=' + item.ProductionLocations[0] + '">' + item.ProductionLocations[0] + "</a>";
             itemBirthLocation.classList.remove("hide");
-            itemBirthLocation.innerHTML = globalize.translate("BirthPlaceValue").replace("{0}", gmap);
+            itemBirthLocation.innerHTML = globalize.translate("BirthPlaceValue", gmap);
         } else {
             itemBirthLocation.classList.add("hide");
         }
@@ -698,25 +703,8 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
     }
 
-    function renderUserInfo(page, item) {
-        var lastPlayedElement = page.querySelector(".itemLastPlayed");
-
-        if (item.UserData && item.UserData.LastPlayedDate) {
-            lastPlayedElement.classList.remove("hide");
-            var datePlayed = datetime.parseISO8601Date(item.UserData.LastPlayedDate);
-            lastPlayedElement.innerHTML = globalize.translate("DatePlayed") + ": " + datetime.toLocaleDateString(datePlayed) + " " + datetime.getDisplayTime(datePlayed);
-        } else {
-            lastPlayedElement.classList.add("hide");
-        }
-    }
-
     function renderLinks(linksElem, item) {
         var html = [];
-
-        if (item.DateCreated && itemHelper.enableDateAddedDisplay(item)) {
-            var dateCreated = datetime.parseISO8601Date(item.DateCreated);
-            html.push(globalize.translate("AddedOnValue", datetime.toLocaleDateString(dateCreated) + " " + datetime.getDisplayTime(dateCreated)));
-        }
 
         var links = [];
 
@@ -731,7 +719,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
 
         if (links.length) {
-            html.push(globalize.translate("LinksValue", links.join(", ")));
+            html.push(links.join(", "));
         }
 
         linksElem.innerHTML = html.join(", ");
@@ -761,44 +749,54 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         var shape = "portrait";
         var detectRatio = false;
 
+        /* In the following section, getScreenWidth() is multiplied by 0.5 as the posters
+        are 25vw and we need double the resolution to counter Skia's scaling. */
+        // TODO: Find a reliable way to get the poster width
         if (imageTags.Primary) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Primary",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.ImageTags.Primary
             });
             detectRatio = true;
         } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Backdrop",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.BackdropImageTags[0]
             });
             shape = "thumb";
         } else if (imageTags.Thumb) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Thumb",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.ImageTags.Thumb
             });
             shape = "thumb";
         } else if (imageTags.Disc) {
             url = apiClient.getScaledImageUrl(item.Id, {
                 type: "Disc",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.ImageTags.Disc
             });
             shape = "square";
         } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.AlbumId, {
                 type: "Primary",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.AlbumPrimaryImageTag
             });
             shape = "square";
         } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.SeriesId, {
                 type: "Primary",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.SeriesPrimaryImageTag
             });
         } else if (item.ParentPrimaryImageItemId && item.ParentPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
                 type: "Primary",
+                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
                 tag: item.ParentPrimaryImageTag
             });
         }
@@ -1017,13 +1015,17 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 context: context
             }) + '">' + p.Name + "</a>";
         }).join(", ");
-        var elem = page.querySelector(".genres");
-        elem.innerHTML = globalize.translate(genres.length > 1 ? "GenresValue" : "GenreValue", html);
 
+        var genresLabel = page.querySelector(".genresLabel");
+        genresLabel.innerHTML = globalize.translate(genres.length > 1 ? "Genres" : "Genre");
+        var genresValue = page.querySelector(".genres");
+        genresValue.innerHTML = html;
+
+        var genresGroup = page.querySelector(".genresGroup");
         if (genres.length) {
-            elem.classList.remove("hide");
+            genresGroup.classList.remove("hide");
         } else {
-            elem.classList.add("hide");
+            genresGroup.classList.add("hide");
         }
     }
 
@@ -1041,13 +1043,17 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 context: context
             }) + '">' + p.Name + "</a>";
         }).join(", ");
-        var elem = page.querySelector(".directors");
-        elem.innerHTML = globalize.translate(directors.length > 1 ? "DirectorsValue" : "DirectorValue", html);
 
+        var directorsLabel = page.querySelector(".directorsLabel");
+        directorsLabel.innerHTML = globalize.translate(directors.length > 1 ? "Directors" : "Director");
+        var directorsValue = page.querySelector(".directors");
+        directorsValue.innerHTML = html;
+
+        var directorsGroup = page.querySelector(".directorsGroup");
         if (directors.length) {
-            elem.classList.remove("hide");
+            directorsGroup.classList.remove("hide");
         } else {
-            elem.classList.add("hide");
+            directorsGroup.classList.add("hide");
         }
     }
 
@@ -1105,7 +1111,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
 
         reloadUserDataButtons(page, item);
         renderLinks(externalLinksElem, item);
-        renderUserInfo(page, item);
         renderTags(page, item);
         renderSeriesAirTime(page, item, isStatic);
     }
@@ -1805,7 +1810,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             require(["chaptercardbuilder"], function (chaptercardbuilder) {
                 chaptercardbuilder.buildChapterCards(item, chapters, {
                     itemsContainer: scenesContent,
-                    width: 400,
                     backdropShape: "overflowBackdrop",
                     squareShape: "overflowSquare"
                 });
@@ -1858,7 +1862,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
                 itemsContainer: castContent,
                 coverImage: true,
                 serverId: item.ServerId,
-                width: 160,
                 shape: "overflowPortrait"
             });
         });
