@@ -482,7 +482,7 @@ import layoutManager from "layoutManager";
         scrollY = clamp(Math.round(scrollY), 0, yScrollerData.scrollSize - yScrollerData.clientSize);
 
         doScroll(scroller, scrollX, scroller, scrollY, smooth);
-    };
+    }
 
     /**
      * Scrolls the document to a given element.
@@ -534,7 +534,7 @@ import layoutManager from "layoutManager";
         }
 
         doScroll(xScroller, scrollX, yScroller, scrollY, smooth);
-    };
+    }
 
     if (isEnabled()) {
         dom.addEventListener(window, "focusin", function(e) {
