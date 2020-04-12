@@ -377,7 +377,10 @@ define(["events", "appStorage"], function(events, appStorage) {
                 instance.onAuthenticated ? instance.onAuthenticated(instance, result).then(afterOnAuthenticated) : afterOnAuthenticated()
             }, reject)
         })
-	}, ApiClient.prototype.ensureWebSocket = function() {
+    }, ApiClient.prototype.getQuickConnect = function(verb) {
+        var url = this.getUrl("/QuickConnect/" + verb);
+        return this.getJSON(url);
+    }, ApiClient.prototype.ensureWebSocket = function() {
         if (!this.isWebSocketOpenOrConnecting() && this.isWebSocketSupported()) try {
             this.openWebSocket()
         } catch (err) {

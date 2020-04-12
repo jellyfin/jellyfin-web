@@ -152,10 +152,11 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
 
         function loginQuickConnect() {
             var apiClient = getApiClient();
-            var identifier = ""
-            var interval = 0;
             var friendlyName = "test";
-            $.get('/QuickConnect/Initiate?FriendlyName=' + friendlyName).then(json => {
+			
+			var url = apiClient.getUrl("/QuickConnect/Initiate?FriendlyName=" + friendlyName);
+			apiClient.getJSON(url)
+			.then(json => {
                 if (!json.Secret || !json.Code) {
                     Dashboard.alert({
                         message: json.Error,
@@ -171,11 +172,12 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
 
                 loading.show();
 
-                identifier = json.Secret;
-                interval = setInterval(() => {
-                    $.get('/QuickConnect/Connect?Secret=' + identifier).then(x => {
-                        if(x.Authenticated) {
-                            apiClient.quickConnect(x.Authentication).then((result) => {
+                var interval = setInterval(() => {
+					var url = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
+                    apiClient.getJSON(url)
+					.then(data => {
+                        if(data.Authenticated) {
+                            apiClient.quickConnect(data.Authentication).then((result) => {
                                 var user = result.User;
                                 var serverId = getParameterByName("serverid");
                                 var newUrl;
