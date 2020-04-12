@@ -339,7 +339,9 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                         fileDownloader.download([{
                             url: downloadHref,
                             itemId: itemId,
-                            serverId: serverId
+                            serverId: serverId,
+                            title: item.Name,
+                            filename: item.Path.replace(/^.*[\\\/]/, '')
                         }]);
                         getResolveFunction(getResolveFunction(resolve, id), id)();
                     });
