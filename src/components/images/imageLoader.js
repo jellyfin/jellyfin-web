@@ -1,4 +1,4 @@
-define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings', 'userSettings', 'require', 'css!./style'], function (lazyLoader, imageFetcher, layoutManager, browser, appSettings, userSettings, require) {
+define(['lazyLoader', 'userSettings', 'css!./style'], function (lazyLoader, userSettings) {
     'use strict';
 
     var self = {};
@@ -17,8 +17,17 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
         }
     }
 
-    function fillImageElement(elem, source) {
-        imageFetcher.loadImage(elem, source).then(function () {
+    function fillImageElement(elem, url) {
+        let preloaderImg = new Image();
+        preloaderImg.src = url;
+
+        preloaderImg.addEventListener('load', (event) => {
+            if (elem.tagName !== "IMG") {
+                elem.style.backgroundImage = "url('" + url + "')";
+            } else {
+                elem.setAttribute("src", url);
+            }
+
             if (userSettings.enableFastFadein()) {
                 elem.classList.add('lazy-image-fadein-fast');
             } else {
@@ -26,13 +35,28 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
             }
 
             elem.removeAttribute("data-src");
+            preloaderImg = null;
         });
     }
 
     function emptyImageElement(elem) {
-        imageFetcher.unloadImage(elem).then(function (url) {
-            elem.setAttribute("data-src", url);
-        });
+        var url;
+
+        if (elem.tagName !== "IMG") {
+            url = elem.style.backgroundImage.slice(4, -1).replace(/"/g, "");
+            elem.style.backgroundImage = 'none';
+        } else {
+            url = elem.getAttribute("src");
+            elem.setAttribute("src", "");
+        }
+
+        elem.setAttribute("data-src", url);
+
+        if (userSettings.enableFastFadein()) {
+            elem.classList.remove('lazy-image-fadein-fast');
+        } else {
+            elem.classList.remove('lazy-image-fadein');
+        }
     }
 
     function lazyChildren(elem) {

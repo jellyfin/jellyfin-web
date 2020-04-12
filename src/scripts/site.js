@@ -392,10 +392,6 @@ var AppInfo = {};
             define("registerElement", ["document-register-element"], returnFirstDependency);
         }
 
-        define("imageFetcher", [componentsPath + "/images/imageFetcher"], returnFirstDependency);
-
-        var preferNativeAlerts = browser.tv;
-
         define("alert", [componentsPath + "/alert"], returnFirstDependency);
 
         defineResizeObserver();
