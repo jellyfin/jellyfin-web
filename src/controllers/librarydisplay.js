@@ -27,12 +27,8 @@ define(["globalize", "loading", "libraryMenu", "emby-checkbox", "emby-button", "
                 view.querySelector("#chkSaveMetadataHidden").checked = config.SaveMetadataHidden;
             });
             ApiClient.getNamedConfiguration("metadata").then(function(metadata) {
-                loadMetadataConfig(this, metadata)
+                view.querySelector("#selectDateAdded").selectedIndex = metadata.UseFileCreationTimeForDateAdded ? 1 : 0;
             });
-        }
-
-        function loadMetadataConfig(page, config) {
-            $("#selectDateAdded", page).val(config.UseFileCreationTimeForDateAdded ? "1" : "0");
         }
 
         view.querySelector("form").addEventListener("submit", function(e) {
