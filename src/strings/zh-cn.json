@@ -1499,8 +1499,10 @@
     "EveryXMinutes": "每 {0} 分钟",
     "WriteAccessRequired": "Jellyfin 服务端需要此文件夹的写入权限。请确认是否拥有写入权限并重试。",
     "PathNotFound": "无法找到此路径。请确认路径有效并重试。",
-    "YadifBob": "Yadif Bob",
-    "Yadif": "Yadif",
+    "YadifBob": "YADIF Bob",
+    "Yadif": "YADIF",
     "LabelDeinterlaceMethod": "反交错方法：",
-    "DeinterlaceMethodHelp": "选择对隔行扫描内容进行转码时所用的反交错方法。"
+    "DeinterlaceMethodHelp": "选择对隔行扫描内容进行转码时所用的反交错方法。",
+    "LabelLibraryPageSize": "媒体库分页阈值：",
+    "LabelLibraryPageSizeHelp": "设置媒体库页面每页要显示的最多媒体个数。设置为 0 以禁用分页。"
 }

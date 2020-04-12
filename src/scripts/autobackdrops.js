@@ -1,16 +1,18 @@
 define(["backdrop", "userSettings", "libraryMenu"], function (backdrop, userSettings, libraryMenu) {
     "use strict";
 
+    var cache = {};
+
     function enabled() {
         return userSettings.enableBackdrops();
     }
 
     function getBackdropItemIds(apiClient, userId, types, parentId) {
-        var key = "backdrops2_" + userId + (types || "") + (parentId || "");
+        var key = `backdrops2_${userId + (types || "") + (parentId || "")}`;
         var data = cache[key];
 
         if (data) {
-            console.debug("Found backdrop id list in cache. Key: " + key);
+            console.debug(`Found backdrop id list in cache. Key: ${key}`);
             data = JSON.parse(data);
             return Promise.resolve(data);
         }
@@ -54,7 +56,6 @@ define(["backdrop", "userSettings", "libraryMenu"], function (backdrop, userSett
         }
     }
 
-    var cache = {};
     pageClassOn("pageshow", "page", function () {
         var page = this;
 

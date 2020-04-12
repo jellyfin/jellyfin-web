@@ -101,7 +101,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             self._timeUpdated = false;
             self._currentTime = null;
 
-            var elem = createMediaElement(options);
+            var elem = createMediaElement();
             return setCurrentSrc(elem, options);
         };
 

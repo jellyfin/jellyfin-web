@@ -310,7 +310,7 @@
     "HeaderLatestMovies": "Últimas películas",
     "HeaderLatestMusic": "Última música",
     "HeaderLatestRecordings": "Últimas grabaciones",
-    "HeaderLibraries": "Blibliotecas",
+    "HeaderLibraries": "Bibliotecas",
     "HeaderLibraryAccess": "Acceso a la biblioteca",
     "HeaderLibraryFolders": "Carpetas de la biblioteca",
     "HeaderLibraryOrder": "Orden de la biblioteca",
@@ -1500,5 +1500,9 @@
     "BoxSet": "Box Set",
     "Artist": "Artista",
     "AlbumArtist": "Artista del álbum",
-    "Album": "Álbum"
+    "Album": "Álbum",
+    "LabelDeinterlaceMethod": "Metodo de desentrelazar:",
+    "DeinterlaceMethodHelp": "Seleccione el método de desentrelazar para el transcodificar de contenido entrelazado.",
+    "LabelLibraryPageSize": "Tamaño de la página de la biblioteca:",
+    "LabelLibraryPageSizeHelp": "Establece la cantidad de artículos a mostrar en una página de la biblioteca. Ponlo en 0 para desactivar la paginación."
 }

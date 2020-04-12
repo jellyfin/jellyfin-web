@@ -85,15 +85,15 @@ _define("webcomponents", function() {
 });
 
 // libass-wasm
-var libass_wasm = require("libass-wasm");
+var libassWasm = require("libass-wasm");
 _define("JavascriptSubtitlesOctopus", function() {
-    return libass_wasm;
+    return libassWasm;
 });
 
 // material-icons
-var material_icons = require("material-design-icons-iconfont/dist/material-design-icons.css");
+var materialIcons = require("material-design-icons-iconfont/dist/material-design-icons.css");
 _define("material-icons", function() {
-    return material_icons;
+    return materialIcons;
 });
 
 // noto font
@@ -120,12 +120,22 @@ _define("classlist-polyfill", function () {
 });
 
 // Date-FNS
-var date_fns = require("date-fns");
+var dateFns = require("date-fns");
 _define("date-fns", function () {
-    return date_fns;
+    return dateFns;
 });
 
-var date_fns_locale = require("date-fns/locale");
+var dateFnsLocale = require("date-fns/locale");
 _define("date-fns/locale", function () {
-    return date_fns_locale;
+    return dateFnsLocale;
+});
+
+var fast_text_encoding = require("fast-text-encoding");
+_define("fast-text-encoding", function () {
+    return fast_text_encoding;
+});
+
+var intersection_observer = require("intersection-observer");
+_define("intersection-observer", function () {
+    return intersection_observer;
 });

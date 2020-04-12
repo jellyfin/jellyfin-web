@@ -1495,8 +1495,10 @@
     "ListPaging": "{0}-{1} de {2}",
     "WriteAccessRequired": "Le serveur Jellyfin a besoin d'un accès en écriture à ce dossier. Merci de vérifier l’accès en écriture et réessayez.",
     "PathNotFound": "Le chemin d'accès n'a pas pu être trouvé. Merci de le vérifier et de réessayer.",
-    "YadifBob": "Yadif Bob",
-    "Yadif": "Yadif",
+    "YadifBob": "YADIF Bob",
+    "Yadif": "YADIF",
     "LabelDeinterlaceMethod": "Méthode de désentrelacement :",
-    "DeinterlaceMethodHelp": "Sélectionnes la méthode de désentrelacement à utiliser lors du transcodage de contenu entrelacé."
+    "DeinterlaceMethodHelp": "Sélectionnes la méthode de désentrelacement à utiliser lors du transcodage de contenu entrelacé.",
+    "LabelLibraryPageSize": "Taille de la page de la médiathèque :",
+    "LabelLibraryPageSizeHelp": "Définit la quantité d'éléments à afficher sur une page de médiathèque. Définir à 0 afin de désactiver la pagination."
 }
