@@ -601,8 +601,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var offsetValue = parseFloat(offset);
 
             // if .ass currently rendering
-            if (currentAssRenderer) {
+            if (currentSubtitlesOctopus) {
                 updateCurrentTrackOffset(offsetValue);
+                currentSubtitlesOctopus.timeOffset = offsetValue;
             } else {
                 var trackElement = getTextTrack();
                 // if .vtt currently rendering
@@ -1297,11 +1298,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function updateSubtitleText(timeMs) {
-
-            // handle offset for ass tracks
-            if (currentTrackOffset) {
-                timeMs += (currentTrackOffset * 1000);
-            }
 
             var clock = currentClock;
             if (clock) {
