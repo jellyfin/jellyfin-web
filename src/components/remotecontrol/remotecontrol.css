@@ -163,6 +163,7 @@
     -webkit-box-pack: end;
     -webkit-justify-content: flex-end;
     justify-content: flex-end;
+    z-index: 0;
 }
 
 @media all and (min-width: 63em) {
