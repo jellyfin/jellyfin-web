@@ -76,12 +76,6 @@
                             <i class="material-icons">repeat</i>
                         </button>
 
-                        <button is="paper-icon-button-light" class="buttonMute autoSize" title="${Mute}">
-                            <i class="xlargePaperIconButton material-icons"></i>
-                        </button>
-                        <div class="sliderContainer nowPlayingVolumeSliderContainer">
-                            <input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider" />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -168,16 +162,13 @@
             </div>
         </div>
         <div class="playlistSection hide">
-            <div class="playlistSectionButton" style="display: flex; align-items: center;">
+            <div class="playlistSectionButton flex align-items-center justify-content-center">
                 <!--<h2 style="margin:0;">${TabPlaylist}</h2>-->
                 <button id="togglePlaylist" is="paper-icon-button-light" class="btnTogglePlaylist" title="${ButtonTooglePlaylist}">
                     <i class="material-icons">queue_music</i>   
                 </button>
                 <button is="paper-icon-button-light" class="btnSavePlaylist" title="${ButtonSave}">
                     <i class="material-icons">save</i>  
-                </button>
-                <button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title="${ButtonToogleContextMenu}">
-                    <i class="material-icons more_vert"></i>    
                 </button>
             </div>
             <div id="playlist" class="playlist itemsContainer vertical-list" is="emby-itemscontainer" data-dragreorder="true"></div>

@@ -122,13 +122,13 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                     var artistName;
                     if (item.ArtistItems != null) {
                         artistName = item.ArtistItems[0].Name;
-                        // context.querySelector(".nowPlayingAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + albumName + '</a>';
+                        context.querySelector(".nowPlayingAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + albumName + '</a>';
                         context.querySelector(".nowPlayingArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '">' + artistName + '</a>';
                         context.querySelector(".contextMenuAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">album</i> ' + globalize.translate("ViewAlbum") + '</a>';
                         context.querySelector(".contextMenuArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">person</i> ' + globalize.translate("ViewArtist") + '</a>';
                     } else {
                         artistName = item.Artists;
-                        // context.querySelector(".nowPlayingAlbum").innerHTML = albumName;
+                        context.querySelector(".nowPlayingAlbum").innerHTML = albumName;
                         context.querySelector(".nowPlayingArtist").innerHTML = artistName;
                     }
                 }
@@ -677,6 +677,17 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 }
             }
 
+            var contextmenuHtml = '<button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title=' + globalize.translate('ButtonToogleContextMenu') + '><i class="material-icons more_vert"></i></button>';
+            var volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
+            volumecontrolHtml += '<button is="paper-icon-button-light" class="buttonMute autoSize" title=' + globalize.translate('Mute') + '><i class="xlargePaperIconButton material-icons"></i></button>';
+            volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
+            volumecontrolHtml += '</div>';
+            if (!layoutManager.mobile) {
+                context.querySelector(".nowPlayingSecondaryButtons").innerHTML += volumecontrolHtml;
+                context.querySelector(".playlistSectionButton").innerHTML += contextmenuHtml;
+            } else {
+                context.querySelector(".playlistSectionButton").innerHTML += volumecontrolHtml + contextmenuHtml;
+            }
             context.querySelector(".nowPlayingVolumeSlider").addEventListener("change", setVolume);
             context.querySelector(".nowPlayingVolumeSlider").addEventListener("mousemove", setVolumeDelayed);
             context.querySelector(".nowPlayingVolumeSlider").addEventListener("touchmove", setVolumeDelayed);
@@ -698,9 +709,11 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                     context.querySelector(".playlist").classList.remove("hide");
                     context.querySelector(".btnSavePlaylist").classList.remove("hide");
                     context.querySelector(".contextMenu").classList.add("hide");
+                    context.querySelector(".volumecontrol").classList.add("hide");
                 } else {
                     context.querySelector(".playlist").classList.add("hide");
                     context.querySelector(".btnSavePlaylist").classList.add("hide");
+                    context.querySelector(".volumecontrol").classList.remove("hide");
                 }
             });
             context.querySelector(".btnToggleContextMenu").addEventListener("click", function () {
