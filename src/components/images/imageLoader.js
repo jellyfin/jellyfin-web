@@ -3,21 +3,16 @@ import userSettings from 'userSettings';
 import 'css!./style';
 /* eslint-disable indent */
 
-    export function lazyImage(elem, source, enableEffects) {
-
+    export function lazyImage(elem, source = elem.getAttribute('data-src')) {
         if (!elem) {
             throw new Error('elem cannot be null');
-        }
-
-        if (!source) {
-            source = elem.getAttribute('data-src');
         }
 
         if (!source) {
             return;
         }
 
-        fillImageElement(elem, source, enableEffects);
+        fillImageElement(elem, source);
     }
 
     export function fillImage(entry) {
