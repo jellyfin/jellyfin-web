@@ -1,9 +1,9 @@
-define(['lazyLoader', 'userSettings', 'css!./style'], function (lazyLoader, userSettings) {
-    'use strict';
+import lazyLoader from 'lazyLoader';
+import userSettings from 'userSettings';
+import 'css!./style';
+/* eslint-disable indent */
 
-    var self = {};
-
-    function fillImage(entry) {
+    export function fillImage(entry) {
         if (!entry) {
             throw new Error('entry cannot be null');
         }
@@ -59,11 +59,11 @@ define(['lazyLoader', 'userSettings', 'css!./style'], function (lazyLoader, user
         }
     }
 
-    function lazyChildren(elem) {
+    export function lazyChildren(elem) {
         lazyLoader.lazyChildren(elem, fillImage);
     }
 
-    function getPrimaryImageAspectRatio(items) {
+    export function getPrimaryImageAspectRatio(items) {
 
         var values = [];
 
@@ -123,7 +123,7 @@ define(['lazyLoader', 'userSettings', 'css!./style'], function (lazyLoader, user
         return result;
     }
 
-    function fillImages(elems) {
+    export function fillImages(elems) {
 
         for (var i = 0, length = elems.length; i < length; i++) {
             var elem = elems[0];
@@ -131,10 +131,10 @@ define(['lazyLoader', 'userSettings', 'css!./style'], function (lazyLoader, user
         }
     }
 
-    self.fillImages = fillImages;
-    self.lazyImage = fillImage;
-    self.lazyChildren = lazyChildren;
-    self.getPrimaryImageAspectRatio = getPrimaryImageAspectRatio;
-
-    return self;
-});
+/* eslint-enable indent */
+export default {
+    fillImages: fillImages,
+    lazyImage: fillImage,
+    lazyChildren: lazyChildren,
+    getPrimaryImageAspectRatio: getPrimaryImageAspectRatio
+};
