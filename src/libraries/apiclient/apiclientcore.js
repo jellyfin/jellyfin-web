@@ -154,7 +154,9 @@ define(["events", "appStorage"], function(events, appStorage) {
 
     function onWebSocketOpen() {
         var instance = this;
-        console.debug("web socket connection opened"), events.trigger(instance, "websocketopen")
+        console.debug("web socket connection opened"), events.trigger(instance, "websocketopen");
+        // send socket heartbeat
+        socketHeartBeat(this._webSocket);
     }
 
     function onWebSocketError() {
@@ -173,6 +175,20 @@ define(["events", "appStorage"], function(events, appStorage) {
                 events.trigger(apiClient, "websocketclose")
             }, 0)
         }
+    }
+    
+    function socketHeartBeat(socket) {
+        // check if socket already define or not
+        if(!socket) return;
+        // ensure that socket already in the readyState
+        if(socket.readyState !== WebSocket.OPEN) return;
+        // sent heartbeat to websocket.
+        socket.send("heartbeat");
+        // set interval to 60s, because cloudflare will going to close the connection
+        // without any message being sent in 100s (for free-tier).
+        setTimeout(function() {
+            socketHeartBeat(socket);
+        }, 60000);
     }
 
     function normalizeReturnBitrate(instance, bitrate) {
