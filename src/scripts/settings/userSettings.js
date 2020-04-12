@@ -265,3 +265,33 @@ import events from 'events';
     }
 
 /* eslint-enable indent */
+export default {
+    setUserInfo: setUserInfo,
+    getData: getData,
+    importFrom: importFrom,
+    set: set,
+    get: get,
+    serverConfig: serverConfig,
+    enableCinemaMode: enableCinemaMode,
+    enableNextVideoInfoOverlay: enableNextVideoInfoOverlay,
+    enableThemeSongs: enableThemeSongs,
+    enableThemeVideos: enableThemeVideos,
+    enableFastFadein: enableFastFadein,
+    enableBackdrops: enableBackdrops,
+    language: language,
+    dateTimeLocale: dateTimeLocale,
+    skipBackLength: skipBackLength,
+    skipForwardLength: skipForwardLength,
+    dashboardTheme: dashboardTheme,
+    skin: skin,
+    theme: theme,
+    screensaver: screensaver,
+    libraryPageSize: libraryPageSize,
+    soundEffects: soundEffects,
+    loadQuerySettings: loadQuerySettings,
+    saveQuerySettings: saveQuerySettings,
+    getSubtitleAppearanceSettings: getSubtitleAppearanceSettings,
+    setSubtitleAppearanceSettings: setSubtitleAppearanceSettings,
+    setFilter: setFilter,
+    getFilter: getFilter
+};
