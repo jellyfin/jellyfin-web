@@ -1488,8 +1488,8 @@
     "ListPaging": "{0}-{1} di {2}",
     "WriteAccessRequired": "Jellyfin Server richiede il permesso di scrittura su questa cartella. Verificare l'autorizzazione e riprovare.",
     "PathNotFound": "Percorso non trovato. Assicurarsi che sia valido e riprovare.",
-    "YadifBob": "Yadif Bob",
-    "Yadif": "Yadif",
+    "YadifBob": "YADIF Bob",
+    "Yadif": "YADIF",
     "Track": "Traccia",
     "Season": "Stagione",
     "OtherArtist": "Altri Artisti",
@@ -1497,5 +1497,7 @@
     "LabelLibraryPageSizeHelp": "Numero di elementi presenti nella paginazione della libreria. Il valore 0 disabilita la paginazione.",
     "LabelLibraryPageSize": "Elementi nella paginazione della libreria:",
     "Episode": "Episodio",
-    "BoxSet": "Cofanetto"
+    "BoxSet": "Cofanetto",
+    "AlbumArtist": "Artisti dell'Album",
+    "ReleaseGroup": "Release Group"
 }
