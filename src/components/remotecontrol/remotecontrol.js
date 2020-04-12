@@ -114,66 +114,68 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         var item = state.NowPlayingItem;
         var displayName = item ? getNowPlayingNameHtml(item).replace("<br/>", " - ") : "";
         console.debug(JSON.stringify(item, null, 4));
-        if (item.Type == "Audio" || item.MediaStreams[0].Type == "Audio") {
-            var songName = item.Name;
-            if (item.Album != null && item.Artists != null) {
-                var albumName = item.Album;
-                var artistName;
-                if (item.ArtistItems != null) {
-                    artistName = item.ArtistItems[0].Name;
-                    context.querySelector(".nowPlayingAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + albumName + '</a>';
-                    context.querySelector(".nowPlayingArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '">' + artistName + '</a>';
-                    context.querySelector(".contextMenuAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">album</i> ' + globalize.translate("ViewAlbum") + '</a>';
-                    context.querySelector(".contextMenuArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">person</i> ' + globalize.translate("ViewArtist") + '</a>';
-                } else {
-                    artistName = item.Artists;
-                    context.querySelector(".nowPlayingAlbum").innerHTML = albumName;
-                    context.querySelector(".nowPlayingArtist").innerHTML = artistName;
+        if (typeof item != 'undefined') {
+            if (item.Type == "Audio" || item.MediaStreams[0].Type == "Audio") {
+                var songName = item.Name;
+                if (item.Album != null && item.Artists != null) {
+                    var albumName = item.Album;
+                    var artistName;
+                    if (item.ArtistItems != null) {
+                        artistName = item.ArtistItems[0].Name;
+                        // context.querySelector(".nowPlayingAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + albumName + '</a>';
+                        context.querySelector(".nowPlayingArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '">' + artistName + '</a>';
+                        context.querySelector(".contextMenuAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">album</i> ' + globalize.translate("ViewAlbum") + '</a>';
+                        context.querySelector(".contextMenuArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">person</i> ' + globalize.translate("ViewArtist") + '</a>';
+                    } else {
+                        artistName = item.Artists;
+                        // context.querySelector(".nowPlayingAlbum").innerHTML = albumName;
+                        context.querySelector(".nowPlayingArtist").innerHTML = artistName;
+                    }
                 }
-            }
-            context.querySelector(".nowPlayingSongName").innerHTML = songName;
-        } else if (item.Type == "Episode") {
-            if (item.SeasonName != null) {
-                context.querySelector(".nowPlayingSeason").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeasonId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + item.SeasonName + '</a>';
-            }
-            if (item.SeriesName != null) {
-                if (item.SeriesId !=null) {
-                    context.querySelector(".nowPlayingSerie").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeriesId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + item.SeriesName + '</a>';
-                } else {
-                    context.querySelector(".nowPlayingSerie").innerHTML = item.SeriesName;
+                context.querySelector(".nowPlayingSongName").innerHTML = songName;
+            } else if (item.Type == "Episode") {
+                if (item.SeasonName != null) {
+                    context.querySelector(".nowPlayingSeason").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeasonId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + item.SeasonName + '</a>';
                 }
+                if (item.SeriesName != null) {
+                    if (item.SeriesId !=null) {
+                        context.querySelector(".nowPlayingSerie").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeriesId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + item.SeriesName + '</a>';
+                    } else {
+                        context.querySelector(".nowPlayingSerie").innerHTML = item.SeriesName;
+                    }
+                }
+                context.querySelector(".nowPlayingEpisode").innerHTML = item.Name;
+            } else {
+                context.querySelector(".nowPlayingPageTitle").innerHTML = displayName;
             }
-            context.querySelector(".nowPlayingEpisode").innerHTML = item.Name;
-        } else {
-            context.querySelector(".nowPlayingPageTitle").innerHTML = displayName;
-        }
 
-        if (displayName.length > 0 && item.Type != "Audio") {
-            context.querySelector(".nowPlayingPageTitle").classList.remove("hide");
-        } else {
-            context.querySelector(".nowPlayingPageTitle").classList.add("hide");
-        }
+            if (displayName.length > 0 && item.Type != "Audio") {
+                context.querySelector(".nowPlayingPageTitle").classList.remove("hide");
+            } else {
+                context.querySelector(".nowPlayingPageTitle").classList.add("hide");
+            }
 
-        var url = item ? seriesImageUrl(item, {
-            maxHeight: 300 * 2
-        }) || imageUrl(item, {
-            maxHeight: 300 * 2
-        }) : null;
+            var url = item ? seriesImageUrl(item, {
+                maxHeight: 300 * 2
+            }) || imageUrl(item, {
+                maxHeight: 300 * 2
+            }) : null;
 
-        console.debug("updateNowPlayingInfo");
-        setImageUrl(context, state, url);
-        if (item) {
-            backdrop.setBackdrops([item]);
-            var apiClient = connectionManager.getApiClient(item.ServerId);
-            apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
-                var userData = fullItem.UserData || {};
-                var likes = null == userData.Likes ? "" : userData.Likes;
-                context.querySelector(".nowPlayingPageUserDataButtonsTitle").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="material-icons">favorite</i></button>';
-                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="material-icons">favorite</i></button>';
-            });
-        } else {
-            backdrop.clear();
-            context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = "";
+            console.debug("updateNowPlayingInfo");
+            setImageUrl(context, state, url);
+            if (item) {
+                backdrop.setBackdrops([item]);
+                var apiClient = connectionManager.getApiClient(item.ServerId);
+                apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
+                    var userData = fullItem.UserData || {};
+                    var likes = null == userData.Likes ? "" : userData.Likes;
+                    context.querySelector(".nowPlayingPageUserDataButtonsTitle").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="material-icons">favorite</i></button>';
+                    context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="material-icons">favorite</i></button>';
+                });
+            } else {
+                backdrop.clear();
+                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = "";
+            }
         }
     }
 
