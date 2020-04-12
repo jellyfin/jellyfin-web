@@ -164,7 +164,7 @@
     "ButtonOff": "Pois päältä",
     "ButtonOk": "Ok",
     "ButtonOpen": "Avoin",
-    "BurnSubtitlesHelp": "Määrittää jos palvelimen pitäisi upottaa tekstitykset suoraan videotiedostoon muuntamisvaiheessa tekstitysformaatista riippuen. Upottamisen välttäminen parantaa palvelimen suorituskykyä. Valitse Automaattinen upottaaksesi sekä kuvapohjaiset- (esim. VOBSUB, PGS, SUB/IDX, jne.) että ASS/SSA tekstitysmuodot",
+    "BurnSubtitlesHelp": "Määrittää mikäli palvelimen pitäisi polttaa tekstitykset suoraan videoon muunnoksen aikana riippuen tekstitysten formaatista. Tekstitysten polttamisen välttäminen parantaa palvelimen suorituskykyä. Valitse Automaattinen polttaaksesi sekä kuva- (esim. VOBSUB, PGS, SUB/IDX, jne.) että tekstipohjaiset (ASS/SSA) formaatit.",
     "ButtonParentalControl": "Lapsilukko",
     "ButtonPause": "Tauko",
     "ButtonPlay": "Toista",
@@ -240,8 +240,7 @@
     "DirectStreamHelp2": "Tiedoston suoraan toistaminen käyttää erittäin vähän prosessorin resursseja ilman laadun heikentämistä.",
     "DirectStreaming": "Suora suoratoisto",
     "Director": "Ohjaaja",
-    "DirectorValue": "Ohjaaja: {0}",
-    "DirectorsValue": "Ohjaajat: {0}",
+    "Directors": "Ohjaajat",
     "Disabled": "Pois päältä kytkettynä",
     "Disc": "Levy",
     "Disconnect": "Katkaise yhteys",
@@ -268,7 +267,7 @@
     "ButtonAddImage": "Lisää kuva",
     "Movies": "Elokuvat",
     "HeaderNextUp": "Seuraavaksi",
-    "HeaderLiveTV": "TV-lähetykset",
+    "HeaderLiveTV": "Suorat lähetykset",
     "HeaderFavoriteSongs": "Lempikappaleet",
     "HeaderFavoriteShows": "Lempisarjat",
     "HeaderFavoriteEpisodes": "Lempijaksot",
@@ -320,5 +319,7 @@
     "ErrorAddingXmlTvFile": "XMLTV-tiedostoa käyttäessä tapahtui virhe. Varmista, että tiedosto on olemassa ja kokeile uudestaan.",
     "ErrorAddingTunerDevice": "Viritintä lisätessä ilmeni ongelma. Varmista, että se on kytketty oikein ja kokeile uudestaan.",
     "EnableThemeVideosHelp": "Soita tunnusvideoita taustalla, selatessasi kirjastoa.",
-    "EnableThemeVideos": "Teeman videot"
+    "EnableThemeVideos": "Teeman videot",
+    "AlbumArtist": "Albumin Artisti",
+    "Album": "Albumi"
 }

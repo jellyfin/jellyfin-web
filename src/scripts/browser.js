@@ -292,7 +292,8 @@ define([], function () {
     }
 
     if (typeof document !== 'undefined') {
-        if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+        /* eslint-disable-next-line compat/compat */
+        if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
             browser.touch = true;
         }
     }

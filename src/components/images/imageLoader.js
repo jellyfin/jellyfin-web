@@ -1,10 +1,6 @@
 define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings', 'userSettings', 'require', 'css!./style'], function (lazyLoader, imageFetcher, layoutManager, browser, appSettings, userSettings, require) {
     'use strict';
 
-    var requestIdleCallback = window.requestIdleCallback || function (fn) {
-        fn();
-    };
-
     var self = {};
 
     function fillImage(elem, source, enableEffects) {

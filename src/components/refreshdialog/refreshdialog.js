@@ -1,18 +1,5 @@
-define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, connectionManager, appRouter, globalize) {
+define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (dom, shell, dialogHelper, loading, layoutManager, connectionManager, appRouter, globalize) {
     'use strict';
-
-    function parentWithClass(elem, className) {
-
-        while (!elem.classList || !elem.classList.contains(className)) {
-            elem = elem.parentNode;
-
-            if (!elem) {
-                return null;
-            }
-        }
-
-        return elem;
-    }
 
     function getEditorHtml() {
 
@@ -65,7 +52,7 @@ define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager'
         loading.show();
 
         var instance = this;
-        var dlg = parentWithClass(e.target, 'dialog');
+        var dlg = dom.parentWithClass(e.target, 'dialog');
         var options = instance.options;
 
         var apiClient = connectionManager.getApiClient(options.serverId);

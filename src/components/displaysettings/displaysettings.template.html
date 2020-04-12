@@ -63,7 +63,7 @@
 
     <div class="selectContainer fldDateTimeLocale hide">
         <select is="emby-select" class="selectDateTimeLocale" label="${LabelDateTimeLocale}">
-            <option value="">${AutoBasedOnLanguageSetting}</option>
+            <option value="">${Auto}</option>
             <option value="ar">Arabic</option>
             <option value="be-BY">Belarusian (Belarus)</option>
             <option value="bg-BG">Bulgarian (Bulgaria)</option>
@@ -141,6 +141,11 @@
 
     <div class="selectContainer fldSoundEffects hide">
         <select is="emby-select" class="selectSoundEffects" label="${LabelSoundEffects}"></select>
+    </div>
+
+    <div class="inputContainer inputContainer-withDescription fldFadein">
+        <input is="emby-input" type="number" id="txtLibraryPageSize" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelLibraryPageSize}" />
+        <div class="fieldDescription">${LabelLibraryPageSizeHelp}</div>
     </div>
 
     <div class="checkboxContainer checkboxContainer-withDescription fldFadein">

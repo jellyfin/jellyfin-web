@@ -1,4 +1,4 @@
-define(["playbackSettings", "userSettingsBuilder", "dom", "globalize", "loading", "userSettings", "autoFocuser", "listViewStyle"], function (PlaybackSettings, userSettingsBuilder, dom, globalize, loading, currentUserSettings, autoFocuser) {
+define(["playbackSettings", "dom", "globalize", "loading", "userSettings", "autoFocuser", "listViewStyle"], function (PlaybackSettings, dom, globalize, loading, userSettings, autoFocuser) {
     "use strict";
 
     return function (view, params) {
@@ -11,7 +11,7 @@ define(["playbackSettings", "userSettingsBuilder", "dom", "globalize", "loading"
         var settingsInstance;
         var hasChanges;
         var userId = params.userId || ApiClient.getCurrentUserId();
-        var userSettings = userId === ApiClient.getCurrentUserId() ? currentUserSettings : new userSettingsBuilder();
+        var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new userSettings();
         view.addEventListener("viewshow", function () {
             window.addEventListener("beforeunload", onBeforeUnload);
 
@@ -22,7 +22,7 @@ define(["playbackSettings", "userSettingsBuilder", "dom", "globalize", "loading"
                     serverId: ApiClient.serverId(),
                     userId: userId,
                     element: view.querySelector(".settingsContainer"),
-                    userSettings: userSettings,
+                    userSettings: currentSettings,
                     enableSaveButton: false,
                     enableSaveConfirmation: false,
                     autoFocus: autoFocuser.isEnabled()

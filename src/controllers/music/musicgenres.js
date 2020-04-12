@@ -107,12 +107,12 @@ define(["libraryBrowser", "cardBuilder", "apphost", "imageLoader", "loading"], f
         };
 
         self.getCurrentViewStyle = function () {
-            return getPageData(tabContent).view;
+            return getPageData().view;
         };
 
         self.setCurrentViewStyle = function (viewStyle) {
-            getPageData(tabContent).view = viewStyle;
-            libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
+            getPageData().view = viewStyle;
+            libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
             fullyReload();
         };
 

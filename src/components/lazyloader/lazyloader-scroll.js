@@ -4,10 +4,6 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
     var thresholdX;
     var thresholdY;
 
-    var requestIdleCallback = window.requestIdleCallback || function (fn) {
-        fn();
-    };
-
     function resetThresholds() {
 
         var threshold = 0.3;

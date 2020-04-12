@@ -1152,7 +1152,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 case "GamepadDPadLeft":
                 case "GamepadLeftThumbstickLeft":
                     // Ignores gamepad events that are always triggered, even when not focused.
-                    if (document.hasFocus()) {
+                    if (document.hasFocus()) { /* eslint-disable-line compat/compat */
                         playbackManager.rewind(currentPlayer);
                         showOsd();
                     }
@@ -1161,7 +1161,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 case "GamepadDPadRight":
                 case "GamepadLeftThumbstickRight":
                     // Ignores gamepad events that are always triggered, even when not focused.
-                    if (document.hasFocus()) {
+                    if (document.hasFocus()) { /* eslint-disable-line compat/compat */
                         playbackManager.fastForward(currentPlayer);
                         showOsd();
                     }

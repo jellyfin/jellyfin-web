@@ -116,8 +116,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         });
     }
 
-    function normalizeTrackEventText(text) {
-        return text.replace(/\\N/gi, '\n');
+    function normalizeTrackEventText(text, useHtml) {
+        var result = text.replace(/\\N/gi, '\n').replace(/\r/gi, '');
+        return useHtml ? result.replace(/\n/gi, '<br>') : result;
     }
 
     function setTracks(elem, tracks, item, mediaSource) {
@@ -1048,17 +1049,30 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function renderSsaAss(videoElement, track, item) {
             var attachments = self._currentPlayOptions.mediaSource.MediaAttachments || [];
+            var apiClient = connectionManager.getApiClient(item);
             var options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
                 fonts: attachments.map(function (i) {
-                    return i.DeliveryUrl;
+                    return apiClient.getUrl(i.DeliveryUrl);
                 }),
                 workerUrl: appRouter.baseUrl() + "/libraries/subtitles-octopus-worker.js",
                 legacyWorkerUrl: appRouter.baseUrl() + "/libraries/subtitles-octopus-worker-legacy.js",
                 onError: function() {
                     htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
-                }
+                },
+
+                // new octopus options; override all, even defaults
+                renderMode: 'blend',
+                dropAllAnimations: false,
+                libassMemoryLimit: 40,
+                libassGlyphLimit: 40,
+                targetFps: 24,
+                prescaleTradeoff: 0.8,
+                softHeightLimit: 1080,
+                hardHeightLimit: 2160,
+                resizeVariation: 0.2,
+                renderAhead: 90
             };
             require(['JavascriptSubtitlesOctopus'], function(SubtitlesOctopus) {
                 currentSubtitlesOctopus = new SubtitlesOctopus(options);
@@ -1196,7 +1210,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 data.TrackEvents.forEach(function (trackEvent) {
 
                     var trackCueObject = window.VTTCue || window.TextTrackCue;
-                    var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text));
+                    var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
                     trackElement.addCue(cue);
                 });
@@ -1237,8 +1251,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 }
 
                 if (selectedTrackEvent && selectedTrackEvent.Text) {
-
-                    subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text);
+                    subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text, true);
                     subtitleTextElement.classList.remove('hide');
 
                 } else {

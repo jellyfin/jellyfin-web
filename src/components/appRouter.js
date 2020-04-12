@@ -280,6 +280,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'userSettings', 'layout
     }
 
     function getMaxBandwidth() {
+        /* eslint-disable compat/compat */
         if (navigator.connection) {
             var max = navigator.connection.downlinkMax;
             if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
@@ -291,6 +292,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'userSettings', 'layout
                 return max;
             }
         }
+        /* eslint-enable compat/compat */
 
         return null;
     }
@@ -589,7 +591,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'userSettings', 'layout
 
     function showDirect(path) {
         return new Promise(function(resolve, reject) {
-            resolveOnNextShow = resolve, page.show(baseUrl()+path);
+            resolveOnNextShow = resolve;
+            page.show(baseUrl() + path);
         });
     }
 

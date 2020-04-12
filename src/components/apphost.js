@@ -1,4 +1,4 @@
-define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSettings, browser, events, htmlMediaHelper) {
+define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], function (appSettings, browser, events, htmlMediaHelper, webSettings) {
     "use strict";
 
     function getBaseProfileOptions(item) {
@@ -276,15 +276,17 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         features.push("otherapppromotions");
         features.push("displaymode");
         features.push("targetblank");
-        // allows users to connect to more than one server
-        //features.push("multiserver");
         features.push("screensaver");
 
-        if (!browser.orsay && !browser.tizen && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
+        webSettings.enableMultiServer().then(enabled => {
+            if (enabled) features.push("multiserver");
+        });
+
+        if (!browser.orsay && !browser.msie && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
             features.push("subtitleappearancesettings");
         }
 
-        if (!browser.orsay && !browser.tizen) {
+        if (!browser.orsay) {
             features.push("subtitleburnsettings");
         }
 
@@ -349,8 +351,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
     var deviceName;
     var appName = "Jellyfin Web";
     var appVersion = "10.5.0";
-    var visibilityChange;
-    var visibilityState;
 
     var appHost = {
         getWindowState: function () {
@@ -424,40 +424,26 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
         }
     };
 
-    var doc = self.document;
     var isHidden = false;
+    var hidden;
+    var visibilityChange;
 
-    if (doc) {
-        if (void 0 !== doc.visibilityState) {
-            visibilityChange = "visibilitychange";
-            visibilityState = "hidden";
+    if (typeof document.hidden !== "undefined") { /* eslint-disable-line compat/compat */
+        hidden = "hidden";
+        visibilityChange = "visibilitychange";
+    } else if (typeof document.webkitHidden !== "undefined") {
+        hidden = "webkitHidden";
+        visibilityChange = "webkitvisibilitychange";
+    }
+
+    document.addEventListener(visibilityChange, function () {
+        /* eslint-disable-next-line compat/compat */
+        if (document[hidden]) {
+            onAppHidden();
         } else {
-            if (void 0 !== doc.mozHidden) {
-                visibilityChange = "mozvisibilitychange";
-                visibilityState = "mozVisibilityState";
-            } else {
-                if (void 0 !== doc.msHidden) {
-                    visibilityChange = "msvisibilitychange";
-                    visibilityState = "msVisibilityState";
-                } else {
-                    if (void 0 !== doc.webkitHidden) {
-                        visibilityChange = "webkitvisibilitychange";
-                        visibilityState = "webkitVisibilityState";
-                    }
-                }
-            }
+            onAppVisible();
         }
-    }
-
-    if (doc) {
-        doc.addEventListener(visibilityChange, function () {
-            if (document[visibilityState]) {
-                onAppHidden();
-            } else {
-                onAppVisible();
-            }
-        });
-    }
+    }, false);
 
     if (self.addEventListener) {
         self.addEventListener("focus", onAppVisible);

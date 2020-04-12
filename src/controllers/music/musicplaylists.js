@@ -69,7 +69,7 @@ define(["libraryBrowser", "cardBuilder", "apphost", "imageLoader", "loading"], f
         var data = {};
 
         self.getCurrentViewStyle = function () {
-            return getPageData(tabContent).view;
+            return getPageData().view;
         };
 
         var promise;

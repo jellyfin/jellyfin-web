@@ -8,7 +8,7 @@ define(["listView"], function (listView) {
                 EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
                 UserId: ApiClient.getCurrentUserId()
             };
-            return ApiClient.getJSON(ApiClient.getUrl("Playlists/" + itemId + "/Items", query));
+            return ApiClient.getJSON(ApiClient.getUrl(`Playlists/${itemId}/Items`, query));
         };
     }
 
