@@ -1490,7 +1490,7 @@
     "AskAdminToCreateLibrary": "Bitten Sie einen Administrator, eine Bibliothek zu erstellen.",
     "NoCreatedLibraries": "Sieht so aus als hättest du bis jetzt keine Bibliothek erstellt. {0}Möchtest du jetzt eine Bibliothek erstellen?{1}",
     "AllowFfmpegThrottling": "Transkodierung drosseln",
-    "PlaybackErrorNoCompatibleStream": "Es gab ein Problem bei der Erkennung des Wiedergabeprofils des Clients und der Server sendet kein kompatibles Format.",
+    "PlaybackErrorNoCompatibleStream": "Der Klient ist nicht mit dem Medium kompatibel und der Server sendet kein kompatibles Format.",
     "AllowFfmpegThrottlingHelp": "Wenn eine Transkodierung oder ein Remux weit genug über die aktuelle Abspielposition fortgeschritten ist, pausiere sie sodass weniger Ressourcen verbraucht werden. Dies ist am nützlichsten, wenn wenig geskippt wird. Bei Wiedergabeproblemen sollte diese Option deaktiviert werden.",
     "ClientSettings": "Client Einstellungen",
     "OnApplicationStartup": "Beim Starten der Applikation",
@@ -1515,5 +1515,9 @@
     "Artist": "Künstler",
     "AlbumArtist": "Album Künstler",
     "Album": "Album",
-    "BoxSet": "Box Set"
+    "BoxSet": "Box Set",
+    "YadifBob": "YADIF Bob",
+    "Yadif": "YADIF",
+    "LabelLibraryPageSizeHelp": "Setzt die Anzahl der gezeigten Elemente auf einer Bibliotheksseite. Setze die Anzahl auf 0 um die Auflistung zu deaktivieren.",
+    "LabelLibraryPageSize": "Bibliothek Seiten Größe:"
 }
