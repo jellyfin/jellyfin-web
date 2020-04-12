@@ -104,21 +104,6 @@
     margin: 0;
 }
 
-@media all and (min-width: 27em) {
-    .nowPlayingPageImageContainer {
-        width: 16%;
-    }
-
-    .nowPlayingPageUserDataButtonsTitle {
-        display: none !important;
-    }
-
-    .nowPlayingPageImage {
-        margin: 0 auto;
-        width: 100%;
-    }
-}
-
 .nowPlayingInfoControls {
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
@@ -155,6 +140,50 @@
 
 .contextMenuList i.listItemIcon {
     font-size: x-large;
+}
+
+.nowPlayingPageImageContainer {
+    width: 16%;
+}
+
+.nowPlayingPageImage {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.nowPlayingSecondaryButtons {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+}
+
+@media all and (min-width: 63em) {
+    .nowPlayingSecondaryButtons {
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+        flex-grow: 1;
+        -webkit-box-pack: end;
+        -webkit-justify-content: flex-end;
+        justify-content: flex-end;
+    }
+
+    .nowPlayingPageUserDataButtonsTitle {
+        display: none !important;
+    }
+}
+
+@media all and (min-width: 80em) {
+    .nowPlayingPageImageContainer {
+        margin-right: 0.75em;
+    }
 }
 
 @media all and (orientation: portrait) and (max-width: 47em) {
@@ -220,7 +249,9 @@
     }
 
     .nowPlayingSecondaryButtons {
-        /* margin: 1em 0 1em 0; */
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
     }
 
     .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle {
@@ -284,6 +315,7 @@
 
     .nowPlayingPageImageContainer.nowPlayingPageImagePoster img {
         height: 100%;
+        width: auto;
     }
 
     #nowPlayingPage .playlistSection .playlist,
@@ -345,6 +377,198 @@
     .remoteControlSection {
         margin: 4.2em 0 0 0;
     }
+
+    .nowPlayingButtonsContainer {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+    }
+}
+
+@media all and (orientation: landscape) and (max-width: 63em) {
+    .remoteControlContent {
+        padding-left: 4.3% !important;
+        padding-right: 4.3% !important;
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+    }
+
+    .nowPlayingInfoContainer {
+        -webkit-box-orient: horizontal !important;
+        -webkit-box-direction: normal !important;
+        -webkit-flex-direction: row !important;
+        flex-direction: row !important;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        width: 100%;
+        height: calc(100% - 4.2em);
+    }
+
+    .nowPlayingPageTitle {
+        /* text-align: center; */
+        margin: 0;
+    }
+
+    .nowPlayingInfoContainerMedia {
+        text-align: left !important;
+        width: 80%;
+    }
+
+    .nowPlayingPositionSliderContainer {
+        margin: 0.2em 1em 0.2em 1em;
+    }
+
+    .nowPlayingInfoButtons {
+        /* margin: 1.5em 0 0 0; */
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        font-size: x-large;
+        height: 100%;
+    }
+
+    .nowPlayingPageImageContainer {
+        width: 30%;
+        margin: auto 1em auto auto;
+    }
+
+    .nowPlayingPageImageContainerNoAlbum .cardImageContainer .cardImageIcon {
+        font-size: 12em;
+        color: inherit;
+    }
+
+    .nowPlayingInfoControls {
+        margin: 0.5em 0 1em 0;
+        width: 100%;
+        -webkit-box-pack: start !important;
+        -webkit-justify-content: start !important;
+        justify-content: start !important;
+    }
+
+    .nowPlayingSecondaryButtons {
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+        flex-grow: 1;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+
+    .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle {
+        width: 20%;
+        font-size: large;
+    }
+
+    .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle button {
+        padding-top: 0;
+        padding-right: 0;
+        margin-right: 0;
+        float: right;
+        border-radius: 0;
+    }
+
+    .paper-icon-button-light:hover {
+        color: #fff !important;
+        background-color: transparent !important;
+    }
+
+    .btnPlayPause {
+        padding: 0;
+        margin: 0;
+    }
+
+    .btnPlayPause:hover {
+        background-color: transparent !important;
+    }
+
+    .nowPlayingPageImage {
+        /* width: inherit; */
+        overflow-y: hidden;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+
+    .nowPlayingPageImage.nowPlayingPageImageAudio {
+        width: 100%;
+    }
+
+    .nowPlayingPageImageContainer.nowPlayingPageImagePoster {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .nowPlayingPageImageContainer.nowPlayingPageImagePoster img {
+        height: 100%;
+        width: auto;
+    }
+
+    #nowPlayingPage .playlistSection .playlist,
+    #nowPlayingPage .playlistSection .contextMenu {
+        position: absolute;
+        top: 7.2em;
+        bottom: 4.2em;
+        overflow: scroll;
+        padding: 0 1em;
+        display: inline-block;
+        left: 0;
+        right: 0;
+        background: #202020;
+        z-index: 1000;
+    }
+
+    .playlistSectionButton {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: 4.2em;
+        right: 0;
+        padding-left: 4.3%;
+        padding-right: 4.3%;
+        background-color: #101010;
+    }
+
+    .playlistSectionButton .btnTogglePlaylist {
+        font-size: larger;
+        margin: 0;
+        padding-left: 0;
+    }
+
+    .playlistSectionButton .btnSavePlaylist {
+        margin: 0;
+        padding-right: 0;
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+        flex-grow: 1;
+        -webkit-box-pack: end;
+        -webkit-justify-content: flex-end;
+        justify-content: flex-end;
+        border-radius: 0;
+    }
+
+    .playlistSectionButton .btnToggleContextMenu {
+        font-size: larger;
+        margin: 0;
+        padding-right: 0;
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+        flex-grow: 1;
+        -webkit-box-pack: end;
+        -webkit-justify-content: flex-end;
+        justify-content: flex-end;
+        border-radius: 0;
+    }
+
+    .remoteControlSection {
+        margin: 4.2em 0 0 0;
+    }
+
+    .nowPlayingButtonsContainer {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+    }
 }
 
 .nowPlayingTime {
@@ -353,37 +577,6 @@
     -webkit-align-items: center;
     align-items: center;
     margin: 0 1em;
-}
-
-.nowPlayingSecondaryButtons {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-}
-
-@media all and (min-width: 47em) {
-    .nowPlayingSecondaryButtons {
-        -webkit-box-flex: 1;
-        -webkit-flex-grow: 1;
-        flex-grow: 1;
-        -webkit-box-pack: end;
-        -webkit-justify-content: flex-end;
-        justify-content: flex-end;
-    }
-}
-
-@media all and (min-width: 80em) {
-    .nowPlayingPageImageContainer {
-        margin-right: 0.75em;
-    }
 }
 
 .nowPlayingNavButtonContainer {
@@ -411,7 +604,7 @@
     width: 9em;
 }
 
-@media all and (max-width: 47em) {
+@media all and (max-width: 63em) {
     .nowPlayingSecondaryButtons .nowPlayingPageUserDataButtons,
     .nowPlayingSecondaryButtons .repeatToggleButton,
     .nowPlayingInfoButtons .playlist .listItemMediaInfo,
@@ -421,10 +614,5 @@
 
     .navigationSection .collapseContent i {
         font-size: 4em;
-    }
-
-    .nowPlayingButtonsContainer {
-        display: block;
-        height: 100%;
     }
 }
