@@ -21,7 +21,7 @@
 }
 
 .libraryPage {
-    padding-top: 7em;
+    padding-top: 7em !important;
 }
 
 .itemDetailPage {
@@ -115,7 +115,7 @@
     display: -webkit-inline-box;
     display: -webkit-inline-flex;
     display: inline-flex;
-    margin: 0 0 0 0.5em;
+    margin: 0.3em 0 0 0.5em;
     height: 1.7em;
     -webkit-box-align: center;
     -webkit-align-items: center;
@@ -126,10 +126,6 @@
 
 .pageTitleWithDefaultLogo {
     margin-top: 0;
-}
-
-.layout-mobile .pageTitleWithDefaultLogo {
-    background-image: url(../img/icon-transparent.png);
 }
 
 .headerLeft,
@@ -246,6 +242,7 @@
 }
 
 @media all and (min-width: 40em) {
+    .dashboardDocument .adminDrawerLogo,
     .dashboardDocument .mainDrawerButton {
         display: none !important;
     }
@@ -268,6 +265,12 @@
 
     .dashboardDocument .skinBody {
         left: 20em;
+    }
+}
+
+@media all and (max-width: 60em) {
+    .libraryDocument .mainDrawerButton {
+        display: none;
     }
 }
 
@@ -313,7 +316,7 @@
     }
 
     .dashboardDocument .mainDrawer-scrollContainer {
-        margin-top: 4.6em !important;
+        margin-top: 4.65em !important;
     }
 }
 
@@ -606,12 +609,11 @@
 }
 
 .detailLogo {
-    width: 67.25vw;
-    height: 14.5vh;
+    width: 30vw;
+    height: 25vh;
     position: absolute;
-    top: 15vh;
-    right: 0;
-    -webkit-background-size: contain;
+    top: 10vh;
+    right: 20vw;
     background-size: contain;
 }
 
@@ -619,26 +621,8 @@
     display: none;
 }
 
-@media all and (max-width: 87.5em) {
-    .detailLogo {
-        right: 5%;
-    }
-}
-
-@media all and (max-width: 75em) {
-    .detailLogo {
-        right: 2%;
-    }
-}
-
 @media all and (max-width: 68.75em) {
     .detailLogo {
-        width: 14.91em;
-        height: 3.5em;
-        right: 5%;
-        bottom: 5%;
-        top: auto;
-        background-position: center right;
         display: none;
     }
 }
@@ -1118,8 +1102,4 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .itemsViewSettingsContainer > .button-flat {
     margin: 0;
-}
-
-.layout-mobile #myPreferencesMenuPage {
-    padding-top: 3.75em;
 }
