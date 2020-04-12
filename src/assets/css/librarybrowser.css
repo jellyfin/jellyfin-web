@@ -609,41 +609,17 @@
 }
 
 .detailLogo {
-    width: 67.25vw;
-    height: 14.5vh;
+    width: 40vw;
+    height: 30vh;
     position: absolute;
-    top: 15vh;
-    right: 0;
+    top: 7.5vh;
+    right: 18;
     -webkit-background-size: auto;
     background-size: auto;
 }
 
 .noBackdrop .detailLogo {
     display: none;
-}
-
-@media all and (max-width: 87.5em) {
-    .detailLogo {
-        right: 5%;
-    }
-}
-
-@media all and (max-width: 75em) {
-    .detailLogo {
-        right: 2%;
-    }
-}
-
-@media all and (max-width: 68.75em) {
-    .detailLogo {
-        width: 14.91em;
-        height: 3.5em;
-        right: 5%;
-        bottom: 5%;
-        top: auto;
-        background-position: center right;
-        display: none;
-    }
 }
 
 .itemDetailImage {
