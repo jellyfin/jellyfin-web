@@ -20,10 +20,11 @@ import 'css!./style';
             throw new Error('entry cannot be null');
         }
 
+        var source = undefined;
         if (entry.target) {
-            var source = entry.target.getAttribute('data-src');
+            source = entry.target.getAttribute('data-src');
         } else {
-            var source = entry;
+            source = entry;
         }
 
         if (entry.intersectionRatio > 0 && source) {
@@ -34,6 +35,10 @@ import 'css!./style';
     }
 
     function fillImageElement(elem, url) {
+        if (url === undefined) {
+            throw new Error('url cannot be undefined');
+        }
+
         let preloaderImg = new Image();
         preloaderImg.src = url;
 
