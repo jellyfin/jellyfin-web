@@ -188,8 +188,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'userSettings', 'layout
     }
 
     function getHomeRoute() {
-        if (layoutManager.tv && userSettings.get('tvhome') === 'horizontal') {
-            return '/tvhome/home.html';
+        if (layoutManager.tv) {
+            return '/layouts/tv/home/home.html';
         } else {
             return '/home.html';
         }

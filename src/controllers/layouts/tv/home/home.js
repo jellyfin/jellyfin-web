@@ -8,7 +8,7 @@ define(['connectionManager', 'loading', 'globalize', 'tabbedPage', 'libraryMenu'
         html += globalize.translateDocument(template);
         homeScrollContent.innerHTML = html;
 
-        require(['controllers/tvhome/views.' + viewName], function (viewBuilder) {
+        require(['controllers/layouts/tv/home/views.' + viewName], function (viewBuilder) {
 
             var homePanel = homeScrollContent;
             var apiClient = connectionManager.currentApiClient();
@@ -159,7 +159,7 @@ define(['connectionManager', 'loading', 'globalize', 'tabbedPage', 'libraryMenu'
                         break;
                 }
 
-                require(['text!tvhome/views.' + viewName + '.html'], function (template) {
+                require(['text!layouts/tv/home/views.' + viewName + '.html'], function (template) {
 
                     loadViewHtml(page, id, template, viewName, autoFocusTabContent, self);
                     autoFocusTabContent = false;
