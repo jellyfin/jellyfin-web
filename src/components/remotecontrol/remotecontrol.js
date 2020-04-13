@@ -263,7 +263,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 context.querySelector(".navigationSection").classList.add("hide");
             }
 
-            if (-1 != supportedCommands.indexOf("DisplayMessage") && -1 != supportedCommands.indexOf("SendString") && -1 != supportedCommands.indexOf("Select") && !currentPlayer.isLocalPlayer) {
+            if ((-1 != supportedCommands.indexOf("DisplayMessage") || -1 != supportedCommands.indexOf("SendString") || -1 != supportedCommands.indexOf("Select")) && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".remoteControlSection").classList.remove("hide");
             } else {
                 context.querySelector(".remoteControlSection").classList.add("hide");
