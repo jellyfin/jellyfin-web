@@ -26,7 +26,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
 
             if (response.status === 401 || response.status === 403) {
                 require(["toast"], function (toast) {
-                    var messageKey = response.status === 401 ? "MessageInvalidUser" : "MessageUnauthorizedUser"
+                    var messageKey = response.status === 401 ? "MessageInvalidUser" : "MessageUnauthorizedUser";
                     toast(Globalize.translate(messageKey));
                 });
             } else {
