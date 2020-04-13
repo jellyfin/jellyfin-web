@@ -1490,7 +1490,7 @@
     "AskAdminToCreateLibrary": "Bitten Sie einen Administrator, eine Bibliothek zu erstellen.",
     "NoCreatedLibraries": "Sieht so aus als hättest du bis jetzt keine Bibliothek erstellt. {0}Möchtest du jetzt eine Bibliothek erstellen?{1}",
     "AllowFfmpegThrottling": "Transkodierung drosseln",
-    "PlaybackErrorNoCompatibleStream": "Der Klient ist nicht mit dem Medium kompatibel und der Server sendet kein kompatibles Format.",
+    "PlaybackErrorNoCompatibleStream": "Dieser Client ist nicht mit den Medien kompatibel und der Server sendet kein kompatibles Medienformat.",
     "AllowFfmpegThrottlingHelp": "Wenn eine Transkodierung oder ein Remux weit genug über die aktuelle Abspielposition fortgeschritten ist, pausiere sie sodass weniger Ressourcen verbraucht werden. Dies ist am nützlichsten, wenn wenig geskippt wird. Bei Wiedergabeproblemen sollte diese Option deaktiviert werden.",
     "ClientSettings": "Client Einstellungen",
     "OnApplicationStartup": "Beim Starten der Applikation",
@@ -1519,5 +1519,7 @@
     "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "LabelLibraryPageSizeHelp": "Setzt die Anzahl der gezeigten Elemente auf einer Bibliotheksseite. Setze die Anzahl auf 0 um die Auflistung zu deaktivieren.",
-    "LabelLibraryPageSize": "Bibliothek Seiten Größe:"
+    "LabelLibraryPageSize": "Bibliothek Seiten Größe:",
+    "DeinterlaceMethodHelp": "Wähle die Deinterlacing-Methode zum Transkodieren von Inhalten im Zeilensprungverfahren (Interlace).",
+    "LabelDeinterlaceMethod": "Deinterlacing-Methode:"
 }
