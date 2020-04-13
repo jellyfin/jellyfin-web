@@ -209,6 +209,13 @@
         margin: 0;
     }
 
+    .nowPlayingAlbum,
+    .nowPlayingArtist {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     .nowPlayingInfoContainerMedia {
         text-align: left !important;
         width: 80%;
