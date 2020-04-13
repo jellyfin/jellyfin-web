@@ -24,9 +24,10 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
             page.querySelector("#txtManualPassword").value = "";
             loading.hide();
 
-            if (response.status === 401 || response.status === 403) {
+            const UnauthorizedOrForbidden = [401, 403];
+            if (UnauthorizedOrForbidden.includes(response.status)) {
                 require(["toast"], function (toast) {
-                    var messageKey = response.status === 401 ? "MessageInvalidUser" : "MessageUnauthorizedUser";
+                    const messageKey = response.status === 401 ? "MessageInvalidUser" : "MessageUnauthorizedUser";
                     toast(Globalize.translate(messageKey));
                 });
             } else {
