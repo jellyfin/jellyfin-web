@@ -153,10 +153,10 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
         function loginQuickConnect() {
             var apiClient = getApiClient();
             var friendlyName = "test";
-			
-			var url = apiClient.getUrl("/QuickConnect/Initiate?FriendlyName=" + friendlyName);
-			apiClient.getJSON(url)
-			.then(json => {
+            
+            var url = apiClient.getUrl("/QuickConnect/Initiate?FriendlyName=" + friendlyName);
+            apiClient.getJSON(url)
+            .then(json => {
                 if (!json.Secret || !json.Code) {
                     Dashboard.alert({
                         message: json.Error,
@@ -173,9 +173,9 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
                 loading.show();
 
                 var interval = setInterval(() => {
-					var url = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
+                    var url = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
                     apiClient.getJSON(url)
-					.then(data => {
+                    .then(data => {
                         if(data.Authenticated) {
                             apiClient.quickConnect(data.Authentication).then((result) => {
                                 var user = result.User;

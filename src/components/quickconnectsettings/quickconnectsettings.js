@@ -15,12 +15,14 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
     }
     
     function list(apiClient) {
-        var elem = $("#quickConnectIncoming");
-        elem.html("");
+        console.debug("getting json");
         apiClient.getJSON("/QuickConnect/List").then(json => {
-            console.debug("raw json", json);
+            var elem = $("#quickConnectIncoming");
+            elem.html("");
+            console.debug("raw json", json, "length is", json.length);
             for(var i = 0; i < json.length; i++) {
                 var current = json[i];
+                console.debug("current is", current);
                 var html = "<li>" + current.Code + " - " + current.FriendlyName + " - ";
                 
                 if(!current.Authenticated) {

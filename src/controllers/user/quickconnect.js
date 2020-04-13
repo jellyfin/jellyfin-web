@@ -2,12 +2,21 @@ define(["quickConnectSettings", "dom", "globalize", "loading", "userSettings", "
     "use strict";
 
     return function (view, params) {
+        function notImplemented() {
+            Dashboard.alert({
+                message: "This button is not implemented yet, you must check the checkbox labeled \"Always accept quick connect login requests\" in the dashboard",
+                title: "Not implemented"
+            });
+        }
+        
         var quickConnectSettingsInstance = null;
         var hasChanges;
         var userId = params.userId || ApiClient.getCurrentUserId();
         var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new userSettings();
         view.addEventListener("viewshow", function () {
             console.debug("defining instance");
+            
+            $("#btnQuickConnectActivate").click(notImplemented);
             
             quickConnectSettingsInstance = new QuickConnectSettings({
                 serverId: ApiClient.serverId(),

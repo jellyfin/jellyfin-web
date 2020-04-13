@@ -2,13 +2,15 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
     "use strict";
 
     function loadPage(page, status) {
+        console.debug("status is \"" + status + "\"");
+
         var active = (status == "Active");
         var available = (status == "Available") || active;
-        
-        $("#quickConnectStatus").text(status.toLocaleLowerCase());
-        $("#chkQuickConnectAvailable").checked(available);
-        $("#chkQuickConnectActive").checked(active);
-        
+
+        page.querySelector("#quickConnectStatus").textContent = status.toLocaleLowerCase();
+        page.querySelector("#chkQuickConnectAvailable").checked = available;
+        page.querySelector("#chkQuickConnectActive").checked = active;
+
         loading.hide();
     }
 
@@ -44,8 +46,8 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
     }
 
     $(document).on("pageinit", "#quickConnectPage", function () {
-        $("#quickConnectPage").off("submit", onSubmit).on("submit", onSubmit);
-        $("#btnQuickConnectSubmit").click(onSubmit);
+        document.querySelector("#quickConnectPage").onsubmit = onSubmit;
+        document.querySelector("#btnQuickConnectSubmit").onclick = onSubmit;
     }).on("pageshow", "#quickConnectPage", function () {
         loading.show();
         var page = this;

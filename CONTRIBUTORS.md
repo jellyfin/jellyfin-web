@@ -34,6 +34,7 @@
  - [Ryan Hartzell](https://github.com/ryan-hartzell)
  - [Thibault Nocchi](https://github.com/ThibaultNocchi)
  - [MrTimscampi](https://github.com/MrTimscampi)
+ - [ConfusedPolarBear](https://github.com/ConfusedPolarBear)
 
 # Emby Contributors
 
