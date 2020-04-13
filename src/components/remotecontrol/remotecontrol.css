@@ -90,7 +90,10 @@
 .nowPlayingPageImageContainerNoAlbum {
     width: 100%;
     position: relative;
-    background-color: #5ccea9;
+}
+
+.nowPlayingPageImageContainerNoAlbum button {
+    cursor: default;
 }
 
 .nowPlayingPageImageContainerNoAlbum::after {
@@ -368,8 +371,13 @@
         border-radius: 0;
     }
 
+    .playlistSectionButton .volumecontrol {
+        width: 100%;
+    }
+
     .remoteControlSection {
-        margin: 4.2em 0 0 0;
+        margin: 0;
+        padding: 0 0 4.2em 0;
     }
 
     .nowPlayingButtonsContainer {
@@ -554,8 +562,13 @@
         border-radius: 0;
     }
 
+    .playlistSectionButton .volumecontrol {
+        width: 100%;
+    }
+
     .remoteControlSection {
         margin: 4.2em 0 0 0;
+        padding: 0 0 4.2em 0;
     }
 
     .nowPlayingButtonsContainer {

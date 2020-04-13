@@ -1,4 +1,4 @@
-<div id="nowPlayingPage" data-role="page" class="page libraryPage nowPlayingPage noSecondaryNavPage selfBackdropPage" data-title="-" style="padding:5em 0 0!important;">
+<div id="nowPlayingPage" data-role="page" class="page libraryPage nowPlayingPage noSecondaryNavPage selfBackdropPage" data-title="-" style="padding: 5em 0 0 !important;">
 
     <div class="remoteControlContent padded-left padded-right">
 
@@ -10,7 +10,7 @@
 
                     <div class="nowPlayingInfoContainerMedia">
                         <h2 class="nowPlayingPageTitle"></h2>
-                        <div style="font-weight:bold;" class="nowPlayingSongName nowPlayingEpisode"></div>
+                        <div style="font-weight: bold;" class="nowPlayingSongName nowPlayingEpisode"></div>
                         <div class="nowPlayingAlbum nowPlayingSeason"></div>
                         <div class="nowPlayingArtist nowPlayingSerie"></div>
                     </div>
@@ -161,18 +161,18 @@
                 </div>
             </div>
         </div>
-        <div class="playlistSection hide">
+        <div class="playlistSection">
             <div class="playlistSectionButton flex align-items-center justify-content-center">
                 <!--<h2 style="margin:0;">${TabPlaylist}</h2>-->
-                <button id="togglePlaylist" is="paper-icon-button-light" class="btnTogglePlaylist" title="${ButtonTooglePlaylist}">
+                <button id="togglePlaylist" is="paper-icon-button-light" class="btnTogglePlaylist" title="${ButtonTogglePlaylist}">
                     <i class="material-icons">queue_music</i>   
                 </button>
                 <button is="paper-icon-button-light" class="btnSavePlaylist" title="${ButtonSave}">
                     <i class="material-icons">save</i>  
                 </button>
             </div>
-            <div id="playlist" class="playlist itemsContainer vertical-list" is="emby-itemscontainer" data-dragreorder="true"></div>
-            <div id="contextMenu" class="contextMenu itemsContainer vertical-list" is="emby-itemscontainer">
+            <div id="playlist" class="playlist itemsContainer vertical-list hide" is="emby-itemscontainer" data-dragreorder="true"></div>
+            <div id="contextMenu" class="contextMenu itemsContainer vertical-list hide" is="emby-itemscontainer">
                 <div class="listItem listItem-border contextMenuList contextMenuArtist">
                 </div>
                 <div class="listItem listItem-border contextMenuList contextMenuAlbum">

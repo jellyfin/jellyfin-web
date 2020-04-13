@@ -263,6 +263,12 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 context.querySelector(".navigationSection").classList.add("hide");
             }
 
+            if (-1 != supportedCommands.indexOf("DisplayMessage") && -1 != supportedCommands.indexOf("SendString") && -1 != supportedCommands.indexOf("Select") && !currentPlayer.isLocalPlayer) {
+                context.querySelector(".remoteControlSection").classList.remove("hide");
+            } else {
+                context.querySelector(".remoteControlSection").classList.add("hide");
+            }
+
             buttonVisible(context.querySelector(".btnStop"), null != item);
             buttonVisible(context.querySelector(".btnNextTrack"), null != item);
             buttonVisible(context.querySelector(".btnPreviousTrack"), null != item);
@@ -416,9 +422,9 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 });
 
                 if (items.length) {
-                    context.querySelector(".playlistSection").classList.remove("hide");
+                    context.querySelector(".btnTogglePlaylist").classList.remove("hide");
                 } else {
-                    context.querySelector(".playlistSection").classList.add("hide");
+                    context.querySelector(".btnTogglePlaylist").classList.add("hide");
                 }
 
                 var itemsContainer = context.querySelector(".playlist");
@@ -677,7 +683,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 }
             }
 
-            var contextmenuHtml = '<button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title=' + globalize.translate('ButtonToogleContextMenu') + '><i class="material-icons more_vert"></i></button>';
+            var contextmenuHtml = '<button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title=' + globalize.translate('ButtonToggleContextMenu') + '><i class="material-icons more_vert"></i></button>';
             var volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
             volumecontrolHtml += '<button is="paper-icon-button-light" class="buttonMute autoSize" title=' + globalize.translate('Mute') + '><i class="xlargePaperIconButton material-icons"></i></button>';
             volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
