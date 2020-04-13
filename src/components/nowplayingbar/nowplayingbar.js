@@ -187,29 +187,15 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             volumeSliderContainer.classList.remove('hide');
         }
 
-        var volumeSliderTimer;
-
         function setVolume() {
-            clearTimeout(volumeSliderTimer);
-            volumeSliderTimer = null;
-
             if (currentPlayer) {
                 currentPlayer.setVolume(this.value);
             }
         }
 
-        function setVolumeDelayed() {
-            if (!volumeSliderTimer) {
-                var that = this;
-                volumeSliderTimer = setTimeout(function () {
-                    setVolume.call(that);
-                }, 700);
-            }
-        }
-
         volumeSlider.addEventListener('change', setVolume);
-        volumeSlider.addEventListener('mousemove', setVolumeDelayed);
-        volumeSlider.addEventListener('touchmove', setVolumeDelayed);
+        volumeSlider.addEventListener('mousemove', setVolume);
+        volumeSlider.addEventListener('touchmove', setVolume);
 
         positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
         positionSlider.addEventListener('change', function () {
