@@ -96,12 +96,6 @@ _define("material-icons", function() {
     return materialIcons;
 });
 
-// noto font
-var noto = require("jellyfin-noto");
-_define("jellyfin-noto", function () {
-    return noto;
-});
-
 // page.js
 var page = require("page");
 _define("page", function() {

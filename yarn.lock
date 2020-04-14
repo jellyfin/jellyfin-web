@@ -6504,10 +6504,6 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
-"jellyfin-noto@https://github.com/jellyfin/jellyfin-noto":
-  version "1.0.2"
-  resolved "https://github.com/jellyfin/jellyfin-noto#a441b179c833288fc372cadb408d32a76c5479f1"
-
 jquery@>=1.9.1, jquery@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
