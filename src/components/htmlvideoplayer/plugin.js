@@ -290,7 +290,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             return createMediaElement(options).then(function (elem) {
 
-                return updateVideoUrl(options, options.mediaSource).then(function () {
+                return updateVideoUrl(options).then(function () {
                     return setCurrentSrc(elem, options);
                 });
             });
