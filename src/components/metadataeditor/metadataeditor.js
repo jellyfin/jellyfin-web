@@ -791,11 +791,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             return a.Name;
         }).join(';');
 
-        if (item.Type === 'Series') {
-            context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
-        } else {
-            context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
-        }
+        context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
 
         context.querySelector('#txtArtist').value = (item.ArtistItems || []).map(function (a) {
             return a.Name;
