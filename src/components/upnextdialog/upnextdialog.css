@@ -64,7 +64,6 @@
     width: 100%;
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
     border: 0;
-    user-drag: none;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
