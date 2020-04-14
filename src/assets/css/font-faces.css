@@ -84,7 +84,7 @@
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* ==================== FONT-WEIGHT 700 STYLES =======================================*/
+/* ==================== FONT-WEIGHT 700 STYLES ======================================= */
 
 /* cyrillic-ext */
 
@@ -179,18 +179,23 @@
 /* ========================= NOTO SANS HK TYPEFACES================= */
 
 @import url(noto-css/HK.css);
+
 /* ========================= NOTO SANS JP TYPEFACES ======================= */
 
 @import url(noto-css/JP.css);
+
 /* ========================= NOTO SANS KR TYPEFACES ================= */
 
 @import url(noto-css/KR.css);
+
 /* ======================= NOTO SANS SC TYPEFACES ================= */
 
 @import url(noto-css/SC.css);
+
 /* ======================= NOTO SANS TC TYPEFACES ================= */
 
 @import url(noto-css/TC.css);
+
 /* ============================= ARABIC TYPEFACES ============================================= */
 
 @font-face {
