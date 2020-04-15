@@ -31,7 +31,7 @@
             });
         }
 
-        destroyObserver(elements) {
+        destroyObserver() {
             const observer = this.observer;
 
             if (observer) {
@@ -40,7 +40,7 @@
             }
         }
 
-        destroy(elements) {
+        destroy() {
             this.destroyObserver();
             this.options = null;
         }
