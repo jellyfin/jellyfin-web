@@ -3379,6 +3379,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         /** Delay timer for sendProgressUpdate */
         var sendProgressUpdateTimer;
+
         /** Delay time in ms for sendProgressUpdate */
         var sendProgressUpdateDelay = 700;
 
