@@ -10,7 +10,6 @@
 .itemScrollFrame.scrollFrameX .scrollSlider {
     padding-left: 4.5%;
     padding-bottom: 1.2em;
-    padding-top: 0.5em;
 }
 
 .selectedItemInfoInner {
@@ -23,7 +22,6 @@
     margin: 0 1em;
     width: 10em;
     height: 3em;
-    -webkit-background-size: contain;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
@@ -61,11 +59,7 @@
 }
 
 .horizontalSectionsContainer {
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
 }
 
 .homeHorizontalTabContainer {
@@ -82,7 +76,6 @@
 
 .horizontalSection {
     margin-right: 1.25em;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
 }
 
@@ -92,14 +85,8 @@
     margin-bottom: 0.5em;
 }
 
-.homePageContainer .cardImageContainer {
-    -webkit-animation: none !important;
-    animation: none !important;
-    opacity: 1 !important;
-}
-
 .homePageContent .squareCard {
-    width: 7.18em;
+    width: 7.90em;
 }
 
 .homePageContent .backdropCard {
@@ -107,11 +94,7 @@
 }
 
 .homePageContent .portraitCard {
-    width: 7.3em;
-}
-
-.homePageContent .fourThreeCard {
-    width: 9.4em;
+    width: 8em;
 }
 
 .wideSpotlightCard {
@@ -121,10 +104,6 @@
 .wideSpotlightCard .cardImageContainer {
     width: auto !important;
     height: 38.26vh;
-}
-
-.itemScrollFrame.scrollFrameX.noTopPadding {
-    padding-top: 2.74vh;
 }
 
 .guideCard .cardImageContainer,
@@ -142,8 +121,8 @@
     background: #92f4369a;
 }
 
-.movieCollectionsCard .cardImageContainer,
-.tvUpcomingCard .cardImageContainer {
+.movieGenresCard .cardImageContainer,
+.tvGenresCard .cardImageContainer {
     background-color: #009688;
 }
 
@@ -151,4 +130,8 @@
     overflow-x: hidden;
     overflow-y: hidden;
     white-space: nowrap;
+}
+
+.innerCardFooter > .cardText {
+    font-size: 90%;
 }

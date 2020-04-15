@@ -1,248 +1,229 @@
-define(['connectionManager', 'globalize', './spotlight', 'imageLoader', 'focusManager', 'cardBuilder', 'emby-itemscontainer'], function (connectionManager, globalize, spotlight, imageLoader, focusManager, cardbuilder) {
-    'use strict';
+import globalize from "globalize";
+import spotlight from "./spotlight";
+import imageLoader from "imageLoader";
+import imagehelper from "components/layouts/tv/imagehelper";
+import focusManager from "focusManager";
+import cardBuilder from "cardBuilder";
+import appRouter from "appRouter";
+import "emby-itemscontainer";
 
-    function backdropImageUrl(item, options) {
-
-        var apiClient = connectionManager.getApiClient(item.ServerId);
-
-        options = options || {};
-        options.type = options.type || "Backdrop";
-
-        options.width = null;
-        delete options.width;
-        options.maxWidth = null;
-        delete options.maxWidth;
-        options.maxHeight = null;
-        delete options.maxHeight;
-        options.height = null;
-        delete options.height;
-
-        // If not resizing, get the original image
-        if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
-            options.quality = 100;
-            options.format = 'jpg';
+function loadResume(element, apiClient, parentId) {
+    const options = {
+        Limit: 6,
+        ParentId: parentId,
+        ImageTypeLimit: 1,
+        EnableImageTypes: "Primary,Backdrop,Thumb"
+    };
+    return apiClient.getResumableItems(apiClient.getCurrentUserId(), options).then(result => {
+        const section = element.querySelector(".resumeSection");
+        if (!section) {
+            return;
         }
+        cardBuilder.buildCards(result.Items, {
+            parentContainer: section,
+            itemsContainer: section.querySelector(".itemsContainer"),
+            shape: "backdrop",
+            overlayText: true,
+            rows: 2,
+            scalable: false,
+            coverImage: true,
+            showTitle: true
+        });
+        return;
+    });
+}
 
-        if (item.BackdropImageTags && item.BackdropImageTags.length) {
-
-            options.tag = item.BackdropImageTags[0];
-            return apiClient.getScaledImageUrl(item.Id, options);
+function loadLatest(element, apiClient, parentId) {
+    const options = {
+        IncludeItemTypes: "Movie",
+        Limit: 12,
+        ParentId: parentId,
+        EnableImageTypes: "Primary,Backdrop,Thumb"
+    };
+    return apiClient.getLatestItems(options).then(result => {
+        const section = element.querySelector(".latestSection");
+        if (!section) {
+            return;
         }
-
-        return null;
-    }
-
-    function loadResume(element, apiClient, parentId) {
-
-        var options = {
-
-            Limit: 6,
-            ParentId: parentId,
-            ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Backdrop,Thumb"
-        };
-
-        return apiClient.getResumableItems(apiClient.getCurrentUserId(), options).then(function (result) {
-
-            var resumeSection = element.querySelector('.resumeSection');
-
-            cardbuilder.buildCards(result.Items, {
-                parentContainer: resumeSection,
-                itemsContainer: resumeSection.querySelector('.itemsContainer'),
-                shape: 'backdrop',
-                rows: 3,
-                preferThumb: true,
-                scalable: false
-            });
+        cardBuilder.buildCards(result, {
+            parentContainer: section,
+            itemsContainer: section.querySelector(".itemsContainer"),
+            shape: "portrait",
+            overlayText: true,
+            rows: 2,
+            scalable: false,
+            coverImage: true,
+            showTitle: true
         });
-    }
+        return;
+    });
+}
 
-    function loadLatest(element, apiClient, parentId) {
-
-        var options = {
-
-            IncludeItemTypes: "Movie",
-            Limit: 12,
-            ParentId: parentId,
-            EnableImageTypes: "Primary,Backdrop,Thumb"
-        };
-
-        return apiClient.getLatestItems(options).then(function (result) {
-
-            var resumeSection = element.querySelector('.latestSection');
-
-            cardbuilder.buildCards(result, {
-                parentContainer: resumeSection,
-                itemsContainer: resumeSection.querySelector('.itemsContainer'),
-                shape: 'portrait',
-                rows: 2,
-                scalable: false
-            });
-        });
-    }
-
-    function loadSpotlight(instance, element, apiClient, parentId) {
-
-        var options = {
-
-            SortBy: "Random",
-            IncludeItemTypes: "Movie",
-            Limit: 20,
-            Recursive: true,
-            ParentId: parentId,
-            EnableImageTypes: "Backdrop",
-            ImageTypes: "Backdrop",
-            Fields: "Taglines"
-        };
-
-        return apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
-
-            var card = element.querySelector('.wideSpotlightCard');
-
-            instance.spotlight = new spotlight(card, result.Items, 767);
-        });
-    }
-
-    function loadRecommendations(element, apiClient) {
-
-        return apiClient.getMovieRecommendations({
-
-            UserId: apiClient.getCurrentUserId(),
-            categoryLimit: 4,
-            ItemLimit: 8,
-            ImageTypeLimit: 1,
-            Fields: "PrimaryImageAspectRatio"
-
-        }).then(function (recommendations) {
-
-            var values = recommendations.map(getRecommendationHtml);
-
-            var recs = element.querySelector('.recommendations');
-
-            if (recs) {
-                recs.innerHTML = '<div class="horizontalSectionsContainer">' + values.join('') + '</div>';
-
-                imageLoader.lazyChildren(recs);
-            }
-        });
-    }
-
-    function getRecommendationHtml(recommendation) {
-
-        var cardsHtml = cardbuilder.getCardsHtml(recommendation.Items, {
-            shape: 'portrait',
+function loadFavoriteMovie(element, apiClient, parentId) {
+    const options = {
+        SortBy: "Random",
+        IncludeItemTypes: "Movie",
+        Limit: 6,
+        Recursive: true,
+        Fields: "PrimaryImageAspectRatio",
+        Filters: "IsFavorite",
+        ParentId: parentId,
+        ImageTypeLimit: 1,
+        EnableImageTypes: "Primary,Backdrop,Thumb"
+    };
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+        const section = element.querySelector(".favoriteMovieSection");
+        if (!section) {
+            return;
+        }
+        cardBuilder.buildCards(result.Items, {
+            parentContainer: section,
+            itemsContainer: section.querySelector(".itemsContainer"),
+            shape: "portrait",
+            showTitle: true,
+            overlayText: true,
             rows: 2,
             scalable: false
         });
+        return;
+    });
+}
 
-        var html = '';
+function loadSpotlight(instance, element, apiClient, parentId) {
+    const options = {
+        SortBy: "Random",
+        IncludeItemTypes: "Movie",
+        Limit: 20,
+        Recursive: true,
+        ParentId: parentId,
+        EnableImageTypes: "Backdrop",
+        ImageTypes: "Backdrop",
+        Fields: "Taglines"
+    };
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+        const card = element.querySelector(".wideSpotlightCard");
+        instance.spotlight = new spotlight(card, result.Items, 767);
+        return;
+    });
+}
 
-        var title = '';
-
-        switch (recommendation.RecommendationType) {
-
-            case 'SimilarToRecentlyPlayed':
-                title = globalize.translate('RecommendationBecauseYouWatched').replace("{0}", recommendation.BaselineItemName);
-                break;
-            case 'SimilarToLikedItem':
-                title = globalize.translate('RecommendationBecauseYouLike').replace("{0}", recommendation.BaselineItemName);
-                break;
-            case 'HasDirectorFromRecentlyPlayed':
-            case 'HasLikedDirector':
-                title = globalize.translate('RecommendationDirectedBy').replace("{0}", recommendation.BaselineItemName);
-                break;
-            case 'HasActorFromRecentlyPlayed':
-            case 'HasLikedActor':
-                title = globalize.translate('RecommendationStarring').replace("{0}", recommendation.BaselineItemName);
-                break;
+function loadRecommendations(element, apiClient) {
+    return apiClient.getMovieRecommendations({
+        UserId: apiClient.getCurrentUserId(),
+        categoryLimit: 4,
+        ItemLimit: 8,
+        ImageTypeLimit: 1,
+        Fields: "PrimaryImageAspectRatio"
+    }).then(recommendations => {
+        const values = recommendations.map(getRecommendationHtml);
+        const recs = element.querySelector(".recommendations");
+        if (recs) {
+            recs.innerHTML = "<div class=\"horizontalSectionsContainer\">" + values.join("") + "</div>";
+            imageLoader.lazyChildren(recs);
         }
+        return;
+    });
+}
 
-        html += '<div class="horizontalSection">';
-        html += '<div class="sectionTitle">' + title + '</div>';
-
-        html += '<div is="emby-itemscontainer" class="itemsContainer">';
-
-        html += cardsHtml;
-
-        html += '</div>';
-        html += '</div>';
-
-        return html;
+function getRecommendationHtml(recommendation) {
+    const cardsHtml = cardBuilder.getCardsHtml(recommendation.Items, {
+        shape: "portrait",
+        showTitle: true,
+        overlayText: true,
+        rows: 2,
+        scalable: false
+    });
+    let html = "";
+    let title = "";
+    switch (recommendation.RecommendationType) {
+        case "SimilarToRecentlyPlayed":
+            title = globalize.translate("RecommendationBecauseYouWatched", recommendation.BaselineItemName);
+            break;
+        case "SimilarToLikedItem":
+            title = globalize.translate("RecommendationBecauseYouLike", recommendation.BaselineItemName);
+            break;
+        case "HasDirectorFromRecentlyPlayed":
+        case "HasLikedDirector":
+            title = globalize.translate("RecommendationDirectedBy", recommendation.BaselineItemName);
+            break;
+        case "HasActorFromRecentlyPlayed":
+        case "HasLikedActor":
+            title = globalize.translate("RecommendationStarring", recommendation.BaselineItemName);
+            break;
     }
+    html += "<div class=\"horizontalSection\">";
+    html += `<div class="sectionTitle">${title}</div>`;
+    html += "<div is=\"emby-itemscontainer\" class=\"itemsContainer\">";
+    html += cardsHtml;
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
 
-    function loadImages(element, apiClient, parentId) {
+function loadImages(element, apiClient, parentId) {
+    return apiClient.getItems(apiClient.getCurrentUserId(), {
+        SortBy: "IsFavoriteOrLiked,Random",
+        IncludeItemTypes: "Movie",
+        Limit: 2,
+        Recursive: true,
+        ParentId: parentId,
+        EnableImageTypes: "Backdrop",
+        ImageTypes: "Backdrop"
+    }).then(result => {
+        const items = result.Items;
+        const imgOptions = {
+            maxWidth: 600
+        };
+        if (items.length > 0) {
+            element.querySelector(".movieTrailersCard .cardImage").style.backgroundImage = "url('" + imagehelper.getbackdropImageUrl(items[0], imgOptions) + "')";
+        }
+        if (items.length > 1) {
+            element.querySelector(".allMoviesCard .cardImage").style.backgroundImage = "url('" + imagehelper.getbackdropImageUrl(items[1], imgOptions) + "')";
+        }
+        return;
+    });
+}
 
-        return apiClient.getItems(apiClient.getCurrentUserId(), {
+function gotoMoviesView(tab, parentId) {
+    appRouter.show("/movies.html?tab=" + tab + "&parentid=" + parentId);
+}
 
-            SortBy: "IsFavoriteOrLiked,Random",
-            IncludeItemTypes: "Movie",
-            Limit: 2,
-            Recursive: true,
-            ParentId: parentId,
-            EnableImageTypes: "Backdrop",
-            ImageTypes: "Backdrop"
-
-        }).then(function (result) {
-
-            var items = result.Items;
-            var imgOptions = {
-                maxWidth: 600
-            };
-
-            if (items.length > 0) {
-                element.querySelector('.movieFavoritesCard .cardImage').style.backgroundImage = "url('" + backdropImageUrl(items[0], imgOptions) + "')";
-            }
-
-            if (items.length > 1) {
-                element.querySelector('.allMoviesCard .cardImage').style.backgroundImage = "url('" + backdropImageUrl(items[1], imgOptions) + "')";
-            }
-        });
-    }
-
-    function view(element, apiClient, parentId, autoFocus) {
-
-        var self = this;
-
+export class view {
+    constructor(element, apiClient, parentId, autoFocus) {
         if (autoFocus) {
             focusManager.autoFocus(element);
         }
-
-        self.loadData = function (isRefresh) {
-
-            var promises = [
+        this.loadData = isRefresh => {
+            const promises = [
                 loadResume(element, apiClient, parentId),
-                loadLatest(element, apiClient, parentId)
+                loadLatest(element, apiClient, parentId),
+                loadFavoriteMovie(element, apiClient, parentId)
             ];
-
             if (!isRefresh) {
-                promises.push(loadRecommendations(element, apiClient, parentId));
+                promises.push(
+                    loadRecommendations(element, apiClient)
+                );
             }
-
             return Promise.all(promises);
         };
-        loadSpotlight(self, element, apiClient, parentId);
+        loadSpotlight(this, element, apiClient, parentId);
         loadImages(element, apiClient, parentId);
-
-        element.querySelector('.allMoviesCard').addEventListener('click', function () {
-            Emby.Page.show('/movies.html?tab=0&parentId=' + parentId);
+        element.querySelector(".allMoviesCard").addEventListener("click", () => {
+            gotoMoviesView("0", parentId);
         });
-
-        element.querySelector('.movieCollectionsCard').addEventListener('click', function () {
-            Emby.Page.show('/movies.html?tab=4&parentId=' + parentId);
+        element.querySelector(".movieTrailersCard").addEventListener("click", () => {
+            gotoMoviesView("2", parentId);
         });
-
-        element.querySelector('.movieFavoritesCard').addEventListener('click', function () {
-            Emby.Page.show('/movies.html?tab=3&parentId=' + parentId);
+        element.querySelector(".movieGenresCard").addEventListener("click", () => {
+            gotoMoviesView("5", parentId);
         });
-
-        self.destroy = function () {
-            if (self.spotlight) {
-                self.spotlight.destroy();
-                self.spotlight = null;
+        this.destroy = function () {
+            if (this.spotlight) {
+                this.spotlight.destroy();
+                this.spotlight = null;
             }
         };
     }
+}
 
-    return view;
-
-});
+export default view;

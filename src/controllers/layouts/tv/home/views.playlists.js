@@ -1,81 +1,66 @@
-define(['connectionManager', 'cardBuilder'], function (connectionManager, cardBuilder) {
-    'use strict';
+import connectionManager from "connectionManager";
+import cardBuilder from "cardBuilder";
+import focusManager from "focusManager";
 
-    function playlists(options) {
+function playlists(options) {
+    options = options || ({});
+    options.parentId = null;
+    delete options.parentId;
+    options.recursive = true;
+    return new Promise((resolve, reject) => {
+        const apiClient = connectionManager.currentApiClient();
+        options.IncludeItemTypes = "Playlist";
+        normalizeOptions(options);
+        return apiClient.getJSON(apiClient.getUrl("Users/" + apiClient.getCurrentUserId() + "/Items", options)).then(resolve, reject);
+    });
+}
 
-        options = options || {};
-        options.parentId = null;
-        delete options.parentId;
-        options.recursive = true;
+function normalizeOptions(options) {
+    options.Fields = options.Fields ? options.Fields + ",PrimaryImageAspectRatio" : "PrimaryImageAspectRatio";
+    options.ImageTypeLimit = 1;
+}
 
-        return new Promise(function (resolve, reject) {
-
-            var apiClient = connectionManager.currentApiClient();
-
-            options.IncludeItemTypes = "Playlist";
-            normalizeOptions(options);
-
-            apiClient.getJSON(apiClient.getUrl('Users/' + apiClient.getCurrentUserId() + '/Items', options)).then(resolve, reject);
+function loadAll(element, parentId) {
+    const options = {
+        ParentId: parentId,
+        EnableImageTypes: "Primary,Backdrop,Thumb",
+        SortBy: "SortName"
+    };
+    return playlists(options).then(result => {
+        const section = element.querySelector(".allSection");
+        if (!section) {
+            return;
+        }
+        cardBuilder.buildCards(result.Items, {
+            parentContainer: section,
+            itemsContainer: section.querySelector(".itemsContainer"),
+            shape: "auto",
+            showTitle: true,
+            overlayText: true,
+            rows: {
+                portrait: 2,
+                square: 3,
+                backdrop: 3
+            },
+            scalable: false
         });
-    }
+        return;
+    });
+}
 
-    function normalizeOptions(options) {
-
-        // Just put this on every query
-        options.Fields = options.Fields ? (options.Fields + ",PrimaryImageAspectRatio") : "PrimaryImageAspectRatio";
-        options.ImageTypeLimit = 1;
-    }
-
-    function loadAll(element, parentId, autoFocus) {
-
-        var options = {
-
-            ParentId: parentId,
-            EnableImageTypes: "Primary,Backdrop,Thumb",
-            SortBy: 'SortName'
-        };
-
-        return playlists(options).then(function (result) {
-
-            var section = element.querySelector('.allSection');
-
-            if (!section) {
-                return;
-            }
-
-            cardBuilder.buildCards(result.Items, {
-                parentContainer: section,
-                itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'auto',
-                autoFocus: autoFocus,
-                showTitle: true,
-                overlayText: true,
-                rows: {
-                    portrait: 2,
-                    square: 3,
-                    backdrop: 3
-                },
-                scalable: false
-            });
-        });
-    }
-
-    function view(element, parentId, autoFocus) {
-        var self = this;
-
-        self.loadData = function (isRefresh) {
-
+export class view {
+    constructor(element, parentId, autoFocus) {
+        if (autoFocus) {
+            focusManager.autoFocus(element);
+        }
+        this.loadData = isRefresh => {
             if (isRefresh) {
                 return Promise.resolve();
             }
-
-            return loadAll(element, parentId, autoFocus);
+            return loadAll(element, parentId);
         };
-
-        self.destroy = function () {
-
-        };
+        this.destroy = () => { };
     }
+}
 
-    return view;
-});
+export default view;

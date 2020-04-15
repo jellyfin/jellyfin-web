@@ -1,55 +1,44 @@
-define(['cardBuilder'], function (cardBuilder) {
-    'use strict';
+import cardBuilder from "cardBuilder";
+import focusManager from "focusManager";
 
-    function loadAll(element, apiClient, parentId, autoFocus) {
-
-        var options = {
-
-            ParentId: parentId,
-            IncludeItemTypes: "BoxSet",
-            EnableImageTypes: "Primary,Backdrop,Thumb",
-            SortBy: 'SortName'
-        };
-
-        return apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
-
-            var section = element.querySelector('.allSection');
-
-            if (!section) {
-                return;
-            }
-
-            cardBuilder.buildCards(result.Items, {
-                parentContainer: section,
-                itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'auto',
-                autoFocus: autoFocus,
-                rows: {
-                    portrait: 2,
-                    square: 3,
-                    backdrop: 3
-                },
-                scalable: false
-            });
+function loadAll(element, apiClient, parentId) {
+    const options = {
+        ParentId: parentId,
+        EnableImageTypes: "Primary,Backdrop,Thumb",
+        SortBy: "SortName"
+    };
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+        const section = element.querySelector(".allSection");
+        if (!section) {
+            return;
+        }
+        cardBuilder.buildCards(result.Items, {
+            parentContainer: section,
+            itemsContainer: section.querySelector(".itemsContainer"),
+            shape: "portrait",
+            overlayText: true,
+            rows: 2,
+            scalable: false,
+            coverImage: true,
+            showTitle: true
         });
-    }
+        return;
+    });
+}
 
-    function view(element, apiClient, parentId, autoFocus) {
-        var self = this;
-
-        self.loadData = function (isRefresh) {
-
+export class view {
+    constructor(element, apiClient, parentId, autoFocus) {
+        if (autoFocus) {
+            focusManager.autoFocus(element);
+        }
+        this.loadData = isRefresh => {
             if (isRefresh) {
                 return Promise.resolve();
             }
-
-            return loadAll(element, apiClient, parentId, autoFocus);
+            return loadAll(element, apiClient, parentId);
         };
-
-        self.destroy = function () {
-
-        };
+        this.destroy = () => { };
     }
+}
 
-    return view;
-});
+export default view;

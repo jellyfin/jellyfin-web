@@ -1,23 +1,6 @@
 <div class="horizontalSection">
     <div class="sectionTitle">&nbsp;</div>
     <div class="cardColumn">
-        <button type="button" class="card squareCard homeSquareCard artistsCard coloredCard show-focus show-animation card-static" data-type="all">
-            <div class="cardBox cardBox-focustransform">
-                <div class="cardScalable card-focuscontent">
-                    <div class="cardPadder-square"></div>
-                    <div class="cardContent cardContent-shadow">
-                        <div class="cardImageContainer coveredImage">
-                            <i class="cardImageIcon material-icons">music_note</i>
-
-                            <div class="innerCardFooter">
-                                <div class="cardText">${Artists}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </button>
-
         <button type="button" class="card squareCard homeSquareCard albumsCard coloredCard show-focus show-animation card-static" data-type="all">
             <div class="cardBox cardBox-focustransform">
                 <div class="cardScalable card-focuscontent">
@@ -25,7 +8,6 @@
                     <div class="cardContent cardContent-shadow">
                         <div class="cardImageContainer coveredImage">
                             <i class="cardImageIcon material-icons">album</i>
-
                             <div class="innerCardFooter">
                                 <div class="cardText">${Albums}</div>
                             </div>
@@ -34,15 +16,28 @@
                 </div>
             </div>
         </button>
-
+        <button type="button" class="card squareCard homeSquareCard artistsCard coloredCard show-focus show-animation card-static" data-type="all">
+            <div class="cardBox cardBox-focustransform">
+                <div class="cardScalable card-focuscontent">
+                    <div class="cardPadder-square"></div>
+                    <div class="cardContent cardContent-shadow">
+                        <div class="cardImageContainer coveredImage">
+                            <i class="cardImageIcon material-icons music_note"></i>
+                            <div class="innerCardFooter">
+                                <div class="cardText">${Artists}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </button>
         <button type="button" class="card squareCard homeSquareCard songCard coloredCard show-focus show-animation card-static" data-type="all">
             <div class="cardBox cardBox-focustransform">
                 <div class="cardScalable card-focuscontent">
                     <div class="cardPadder-square"></div>
                     <div class="cardContent cardContent-shadow">
                         <div class="cardImageContainer coveredImage">
-                            <i class="cardImageIcon material-icons">library_music</i>
-
+                            <i class="cardImageIcon material-icons library_music"></i>
                             <div class="innerCardFooter">
                                 <div class="cardText">${Songs}</div>
                             </div>
@@ -53,37 +48,26 @@
         </button>
     </div>
 </div>
-
 <div class="horizontalSection latestSection hide">
     <div class="sectionTitle">${HeaderLatestMusic}</div>
     <div is="emby-itemscontainer" class="itemsContainer"></div>
 </div>
-
-<div class="horizontalSection playlistsSection hide">
-    <div class="sectionTitle">${Playlists}</div>
-    <div is="emby-itemscontainer" class="itemsContainer"></div>
-</div>
-
 <div class="horizontalSection recentlyPlayedSection hide">
     <div class="sectionTitle">${HeaderRecentlyPlayed}</div>
     <div is="emby-itemscontainer" class="itemsContainer"></div>
 </div>
-
 <div class="horizontalSection frequentlyPlayedSection hide">
     <div class="sectionTitle">${HeaderFrequentlyPlayed}</div>
     <div is="emby-itemscontainer" class="itemsContainer"></div>
 </div>
-
 <div class="horizontalSection favoriteArtistsSection hide">
     <div class="sectionTitle">${HeaderFavoriteArtists}</div>
     <div is="emby-itemscontainer" class="itemsContainer"></div>
 </div>
-
 <div class="horizontalSection favoriteAlbumsSection hide">
     <div class="sectionTitle">${HeaderFavoriteAlbums}</div>
     <div is="emby-itemscontainer" class="itemsContainer"></div>
 </div>
-
 <div class="horizontalSection favoriteSongsSection hide">
     <div class="sectionTitle">${HeaderFavoriteSongs}</div>
     <div is="emby-itemscontainer" class="itemsContainer"></div>

@@ -1,4 +1,4 @@
-define(['connectionManager', 'loading', 'globalize', 'tabbedPage', 'libraryMenu', 'focusManager', 'css!./home'], function (connectionManager, loading, globalize, tabbedPage, libraryMenu, focusManager) {
+define(['connectionManager', 'loading', 'globalize', 'tabbedPage', 'libraryMenu', "dom", 'focusManager', 'css!./home'], function (connectionManager, loading, globalize, tabbedPage, libraryMenu, dom, focusManager) {
     'use strict';
 
     function loadViewHtml(page, parentId, template, viewName, autoFocus, self) {
@@ -12,27 +12,14 @@ define(['connectionManager', 'loading', 'globalize', 'tabbedPage', 'libraryMenu'
 
             var homePanel = homeScrollContent;
             var apiClient = connectionManager.currentApiClient();
-            var tabView = new viewBuilder(homePanel, apiClient, parentId, autoFocus);
+            var tabView = new viewBuilder.default(homePanel, apiClient, parentId, autoFocus);
             tabView.element = homePanel;
             tabView.loadData();
             self.tabView = tabView;
         });
     }
 
-    function parentWithClass(elem, className) {
-
-        while (!elem.classList || !elem.classList.contains(className)) {
-            elem = elem.parentNode;
-
-            if (!elem) {
-                return null;
-            }
-        }
-
-        return elem;
-    }
-
-    return function (view) {
+    function homePage (view) {
 
         var self = this;
         var needsRefresh;
@@ -45,14 +32,12 @@ define(['connectionManager', 'loading', 'globalize', 'tabbedPage', 'libraryMenu'
 
             var activeElement = view.activeElement;
 
-            var card = activeElement ? parentWithClass(activeElement, 'card') : null;
+            var card = activeElement ? dom.parentWithClass(activeElement, 'card') : null;
             var itemId = card ? card.getAttribute('data-id') : null;
 
-            var parentItemsContainer = activeElement ? parentWithClass(activeElement, 'itemsContainer') : null;
+            var parentItemsContainer = activeElement ? dom.parentWithClass(activeElement, 'itemsContainer') : null;
 
-            tabView.loadData(true).then(function () {
-
-                var tabView = self.tabView;
+            return tabView.loadData(true).then(function () {
 
                 if (!activeElement || !document.body.contains(activeElement)) {
 
@@ -61,7 +46,7 @@ define(['connectionManager', 'loading', 'globalize', 'tabbedPage', 'libraryMenu'
 
                         if (card) {
 
-                            var newParentItemsContainer = parentWithClass(card, 'itemsContainer');
+                            var newParentItemsContainer = dom.parentWithClass(card, 'itemsContainer');
 
                             if (newParentItemsContainer == parentItemsContainer) {
                                 focusManager.focus(card);
@@ -73,7 +58,7 @@ define(['connectionManager', 'loading', 'globalize', 'tabbedPage', 'libraryMenu'
                     var focusParent = parentItemsContainer && document.body.contains(parentItemsContainer) ? parentItemsContainer : tabView.element;
                     focusManager.autoFocus(focusParent);
                 }
-
+                return;
             });
         }
 
@@ -111,17 +96,18 @@ define(['connectionManager', 'loading', 'globalize', 'tabbedPage', 'libraryMenu'
 
         });
 
-        function renderTabs(view, pageInstance) {
+        function renderTabs(pageInstance) {
 
             var apiClient = connectionManager.currentApiClient();
-            apiClient.getUserViews({}, apiClient.getCurrentUserId()).then(function (result) {
+            return apiClient.getUserViews({}, apiClient.getCurrentUserId()).then(function (result) {
 
-                var tabbedPageInstance = new tabbedPage(view, {
+                var tabbedPageInstance = new tabbedPage.default(view, {
                     handleFocus: true
                 });
                 tabbedPageInstance.loadViewContent = loadViewContent;
                 tabbedPageInstance.renderTabs(result.Items);
                 pageInstance.tabbedPage = tabbedPageInstance;
+                return;
             });
         }
 
@@ -167,6 +153,8 @@ define(['connectionManager', 'loading', 'globalize', 'tabbedPage', 'libraryMenu'
                 });
             });
         }
-    };
+    }
+
+    return homePage;
 
 });
