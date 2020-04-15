@@ -1636,5 +1636,6 @@
     "AuthProviderHelp": "Vælg en godkendelse udbyder, der skal bruges til at godkende denne brugers adgangskode.",
     "AskAdminToCreateLibrary": "Spørg en administrator om at oprette et bibliotek.",
     "Artist": "Artist",
-    "EveryXHours": "Hver {0} time"
+    "EveryXHours": "Hver {0} time",
+    "OnApplicationStartup": "Ved programstart"
 }
