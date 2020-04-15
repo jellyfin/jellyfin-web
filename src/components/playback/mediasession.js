@@ -1,14 +1,12 @@
-define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], function (playbackManager, nowPlayingHelper, events, connectionManager) {
-    "use strict";
-
-    // no support for mediaSession
-    if (!navigator.mediaSession && !window.NativeShell) {
-        return;
-    }
+import playbackManager from 'playbackManager';
+import nowPlayingHelper from 'nowPlayingHelper';
+import events from 'events';
+import connectionManager from 'connectionManager';
+/* eslint-disable indent */
 
     // Reports media playback to the device for lock screen control
 
-    var currentPlayer;
+    let currentPlayer;
 
     function seriesImageUrl(item, options = {}, type = options.type || 'Primary') {
         if (item.Type !== 'Episode') {
@@ -47,10 +45,10 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     }
 
     function pushImageUrl(item, imageOptions = {}) {
-        var url = seriesImageUrl(item, imageOptions) || imageUrl(item, imageOptions);
+        const url = seriesImageUrl(item, imageOptions) || imageUrl(item, imageOptions);
 
         if (url) {
-            var height = imageOptions.height || imageOptions.maxHeight;
+            const height = imageOptions.height || imageOptions.maxHeight;
 
             return {
                 src: url,
@@ -60,7 +58,7 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     }
 
     function getImageUrls(item, imageSizes = [96, 128, 192, 256, 384, 512]) {
-        var list = [];
+        const list = [];
 
         imageSizes.forEach((size) => {
             list.push(pushImageUrl(item, {height: size}));
@@ -71,45 +69,45 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
 
     function updatePlayerState(player, state, eventName) {
         // Don't go crazy reporting position changes
-        if (eventName == 'timeupdate') {
+        if (eventName === 'timeupdate') {
             // Only report if this item hasn't been reported yet, or if there's an actual playback change.
             // Don't report on simple time updates
             return;
         }
 
-        var item = state.NowPlayingItem;
+        const item = state.NowPlayingItem;
 
         if (!item) {
             hideMediaControls();
             return;
         }
 
-        if (eventName == 'init') { // transform "init" event into "timeupdate" to restraint update rate
+        if (eventName === 'init') { // transform "init" event into "timeupdate" to restraint update rate
             eventName = 'timeupdate';
         }
 
-        var isVideo = item.MediaType === 'Video';
-        var isLocalPlayer = player.isLocalPlayer || false;
+        const isVideo = item.MediaType === 'Video';
+        const isLocalPlayer = player.isLocalPlayer || false;
 
         // Local players do their own notifications
         if (isLocalPlayer && isVideo) {
             return;
         }
 
-        var playState = state.PlayState || {};
-        var parts = nowPlayingHelper.getNowPlayingNames(item);
-        var artist = parts[parts.length - 1].text;
-        var title = parts.length === 1 ? '' : parts[0].text;
+        const playState = state.PlayState || {};
+        const parts = nowPlayingHelper.getNowPlayingNames(item);
+        const artist = parts[parts.length - 1].text;
+        const title = parts.length === 1 ? '' : parts[0].text;
 
-        var album = item.Album || '';
-        var itemId = item.Id;
+        const album = item.Album || '';
+        const itemId = item.Id;
 
         // Convert to ms
-        var duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
-        var currentTime = parseInt(playState.PositionTicks ? (playState.PositionTicks / 10000) : 0);
+        const duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
+        const currentTime = parseInt(playState.PositionTicks ? (playState.PositionTicks / 10000) : 0);
 
-        var isPaused = playState.IsPaused || false;
-        var canSeek = playState.CanSeek || false;
+        const isPaused = playState.IsPaused || false;
+        const canSeek = playState.CanSeek || false;
 
         if ('mediaSession' in navigator) {
             navigator.mediaSession.metadata = new MediaMetadata({
@@ -119,7 +117,7 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
                 artwork: getImageUrls(item)
             });
         } else {
-            var imageUrl = [];
+            let imageUrl = [];
             imageUrl.push(pushImageUrl(item));
 
             if (imageUrl.length) {
@@ -145,7 +143,7 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     }
 
     function onGeneralEvent(e) {
-        var state = playbackManager.getPlayerState(this);
+        const state = playbackManager.getPlayerState(this);
 
         updatePlayerState(this, state, e.type);
     }
@@ -194,7 +192,7 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
 
         currentPlayer = player;
 
-        var state = playbackManager.getPlayerState(player);
+        const state = playbackManager.getPlayerState(player);
         updatePlayerState(player, state, 'init');
 
         events.on(currentPlayer, 'playbackstart', onPlaybackStart);
@@ -240,4 +238,5 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     });
 
     bindToPlayer(playbackManager.getCurrentPlayer());
-});
+
+/* eslint-enable indent */

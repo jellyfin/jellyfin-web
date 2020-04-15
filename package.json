@@ -92,6 +92,7 @@
           "src/components/filedownloader.js",
           "src/components/filesystem.js",
           "src/components/input/keyboardnavigation.js",
+          "src/components/playback/mediasession.js",
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
           "src/scripts/settings/appSettings.js",
