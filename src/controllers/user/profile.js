@@ -8,16 +8,16 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
             page.querySelector(".username").innerHTML = user.Name;
             libraryMenu.setTitle(user.Name);
 
-            var imageUrl = "assets/img/avatar.png";
+            var userImage = page.querySelector("#image");
             if (user.PrimaryImageTag) {
                 imageUrl = ApiClient.getUserImageUrl(user.Id, {
                     tag: user.PrimaryImageTag,
                     type: "Primary"
                 });
+                userImage.style.backgroundImage = "url(" + imageUrl + ")";
+            } else {
+                userImage.innerHTML = '<i class="material-icons" style="font-size:15em">person</i>';
             }
-
-            var userImage = page.querySelector("#image");
-            userImage.style.backgroundImage = "url(" + imageUrl + ")";
 
             Dashboard.getCurrentUser().then(function (loggedInUser) {
                 if (user.PrimaryImageTag) {

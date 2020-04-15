@@ -56,29 +56,6 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
         }
     }
 
-    var metroColors = ["#6FBD45", "#4BB3DD", "#4164A5", "#E12026", "#800080", "#E1B222", "#008040", "#0094FF", "#FF00C7", "#FF870F", "#7F0037"];
-
-    function getRandomMetroColor() {
-        var index = Math.floor(Math.random() * (metroColors.length - 1));
-        return metroColors[index];
-    }
-
-    function getMetroColor(str) {
-        if (str) {
-            var character = String(str.substr(0, 1).charCodeAt());
-            var sum = 0;
-
-            for (var i = 0; i < character.length; i++) {
-                sum += parseInt(character.charAt(i));
-            }
-
-            var index = String(sum).substr(-1);
-            return metroColors[index];
-        }
-
-        return getRandomMetroColor();
-    }
-
     function loadUserList(context, apiClient, users) {
         var html = "";
 
@@ -112,9 +89,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
                 });
                 html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');\"></div>";
             } else {
-                var background = getMetroColor(user.Id);
-                imgUrl = "assets/img/avatar.png";
-                html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-image:url(\'' + imgUrl + "');background-color:" + background + ';"></div>';
+                html += '<div class="cardImageContainer coveredImage coveredImage-noScale"><i class="material-icons" style="font-size: 15em">person</i></div>';
             }
 
             html += "</div>";
