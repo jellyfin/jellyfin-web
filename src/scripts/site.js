@@ -588,7 +588,7 @@ var AppInfo = {};
                     }
                 }
 
-                require(["playerSelectionMenu", "fullscreenManager"]);
+                require(["playerSelectionMenu"]);
 
                 var apiClient = window.ConnectionManager && window.ConnectionManager.currentApiClient();
                 if (apiClient) {
@@ -706,7 +706,8 @@ var AppInfo = {};
                     "polyfill",
                     "fast-text-encoding",
                     "intersection-observer",
-                    "classlist-polyfill"
+                    "classlist-polyfill",
+                    "screenfull"
                 ]
             },
             urlArgs: urlArgs,
@@ -834,8 +835,6 @@ var AppInfo = {};
         define("searchFields", [componentsPath + "/search/searchfields"], returnFirstDependency);
         define("searchResults", [componentsPath + "/search/searchresults"], returnFirstDependency);
         define("upNextDialog", [componentsPath + "/upnextdialog/upnextdialog"], returnFirstDependency);
-        define("fullscreen-doubleclick", [componentsPath + "/fullscreen/fullscreen-dc"], returnFirstDependency);
-        define("fullscreenManager", [componentsPath + "/fullscreenManager", "events"], returnFirstDependency);
         define("subtitleAppearanceHelper", [componentsPath + "/subtitlesettings/subtitleappearancehelper"], returnFirstDependency);
         define("subtitleSettings", [componentsPath + "/subtitlesettings/subtitlesettings"], returnFirstDependency);
         define("displaySettings", [componentsPath + "/displaysettings/displaysettings"], returnFirstDependency);
