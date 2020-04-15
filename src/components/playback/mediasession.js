@@ -9,36 +9,20 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     // Reports media playback to the device for lock screen control
 
     var currentPlayer;
-    var lastUpdateTime = 0;
 
-    function seriesImageUrl(item, options = {}) {
-
+    function seriesImageUrl(item, options = {}, type = options.type || 'Primary') {
         if (item.Type !== 'Episode') {
             return null;
-        }
+        } else if (type === 'Primary' && item.SeriesPrimaryImageTag) {
+            options.tag = item.SeriesPrimaryImageTag;
 
-        options.type = options.type || "Primary";
-
-        if (options.type === 'Primary') {
-
-            if (item.SeriesPrimaryImageTag) {
-
-                options.tag = item.SeriesPrimaryImageTag;
-
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
-        }
-
-        if (options.type === 'Thumb') {
-
+            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+        } else if (type === 'Thumb') {
             if (item.SeriesThumbImageTag) {
-
                 options.tag = item.SeriesThumbImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
-            if (item.ParentThumbImageTag) {
-
+            } else if (item.ParentThumbImageTag) {
                 options.tag = item.ParentThumbImageTag;
 
                 return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
@@ -48,18 +32,14 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         return null;
     }
 
-    function imageUrl(item, options = {}) {
-        options.type = options.type || "Primary";
+    function imageUrl(item, options = {}, type = options.type || 'Primary') {
+        if (item.ImageTags && item.ImageTags[type]) {
+            options.tag = item.ImageTags[type];
 
-        if (item.ImageTags && item.ImageTags[options.type]) {
-
-            options.tag = item.ImageTags[options.type];
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
-        }
-
-        if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
+        } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
             options.tag = item.AlbumPrimaryImageTag;
+
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
         }
 
@@ -79,9 +59,8 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         }
     }
 
-    function getImageUrls(item) {
+    function getImageUrls(item, imageSizes = [96, 128, 192, 256, 384, 512]) {
         var list = [];
-        const imageSizes = [96, 128, 192, 256, 384, 512];
 
         imageSizes.forEach((size) => {
             list.push(pushImageUrl(item, {height: size}));
@@ -166,37 +145,25 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     }
 
     function onGeneralEvent(e) {
+        var state = playbackManager.getPlayerState(this);
 
-        var player = this;
-        var state = playbackManager.getPlayerState(player);
-
-        updatePlayerState(player, state, e.type);
+        updatePlayerState(this, state, e.type);
     }
 
     function onStateChanged(e, state) {
-
-        var player = this;
-        updatePlayerState(player, state, 'statechange');
+        updatePlayerState(this, state, 'statechange');
     }
 
     function onPlaybackStart(e, state) {
-
-        var player = this;
-
-        updatePlayerState(player, state, e.type);
+        updatePlayerState(this, state, e.type);
     }
 
-    function onPlaybackStopped(e, state) {
-
-        var player = this;
-
+    function onPlaybackStopped() {
         hideMediaControls();
     }
 
     function releaseCurrentPlayer() {
-
         if (currentPlayer) {
-
             events.off(currentPlayer, 'playbackstart', onPlaybackStart);
             events.off(currentPlayer, 'playbackstop', onPlaybackStopped);
             events.off(currentPlayer, 'unpause', onGeneralEvent);
@@ -211,8 +178,6 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     }
 
     function hideMediaControls() {
-        lastUpdateTime = 0;
-
         if (navigator.mediaSession) {
             navigator.mediaSession.metadata = null;
         } else {
@@ -221,7 +186,6 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     }
 
     function bindToPlayer(player) {
-
         releaseCurrentPlayer();
 
         if (!player) {
@@ -244,8 +208,8 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     function execute(name) {
         playbackManager[name](currentPlayer);
     }
-    if (navigator.mediaSession) {
 
+    if (navigator.mediaSession) {
         navigator.mediaSession.setActionHandler('previoustrack', function () {
             execute('previousTrack');
         });
@@ -272,7 +236,6 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     }
 
     events.on(playbackManager, 'playerchange', function () {
-
         bindToPlayer(playbackManager.getCurrentPlayer());
     });
 
