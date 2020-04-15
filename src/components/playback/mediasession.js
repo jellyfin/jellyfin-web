@@ -117,13 +117,9 @@ import connectionManager from 'connectionManager';
                 artwork: getImageUrls(item)
             });
         } else {
-            let imageUrl = [];
-            imageUrl.push(pushImageUrl(item));
-
-            if (imageUrl.length) {
-                imageUrl = imageUrl[0].src;
-            } else {
-                imageUrl = null;
+            let itemImageUrl = seriesImageUrl(item) || imageUrl(item);
+            if (!itemImageUrl) {
+                itemImageUrl = null;
             }
 
             window.NativeShell.updateMediaSession({
@@ -135,7 +131,7 @@ import connectionManager from 'connectionManager';
                 album: album,
                 duration: duration,
                 position: currentTime,
-                imageUrl: imageUrl,
+                imageUrl: itemImageUrl,
                 canSeek: canSeek,
                 isPaused: isPaused
             });
