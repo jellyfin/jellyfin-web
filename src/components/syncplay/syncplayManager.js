@@ -32,7 +32,7 @@ function waitForEvent(emitter, eventType) {
  * @returns {string} The player's id.
  */
 function getActivePlayerId() {
-    var info = playbackManager.getPlayerInfo();
+    var info = playbackManager.getPlayerInfo();    
     return info ? info.id : null;
 }
 
@@ -42,7 +42,9 @@ function getActivePlayerId() {
 const MaxAcceptedDelaySpeedToSync = 50; // milliseconds, delay after which SpeedToSync is enabled
 const MaxAcceptedDelaySkipToSync = 300; // milliseconds, delay after which SkipToSync is enabled
 const SyncMethodThreshold = 2000; // milliseconds, switches between SpeedToSync or SkipToSync
-const SpeedUpToSyncTime = 1000; // milliseconds, duration in which the playback is sped up
+const SpeedToSyncTime = 1000; // milliseconds, duration in which the playback is sped up
+const MaxAttemptsSpeedToSync = 3; // attempts before disabling SpeedToSync
+const MaxAttemptsSync = 5; // attempts before disabling syncing at all
 
 /**
  * Time estimation
@@ -60,6 +62,9 @@ class SyncplayManager {
         this.syncEnabled = false;
         this.playbackDiffMillis = 0; // used for stats
         this.syncMethod = "None"; // used for stats
+        this.syncAttempts = 0;
+        this.lastSyncTime = new Date();
+        this.syncWatcherTimeout = null; // interval that watches playback time and syncs it
 
         this.lastPlaybackWaiting = null; // used to determine if player's buffering
         this.minBufferingThresholdMillis = 1000;
@@ -86,7 +91,16 @@ class SyncplayManager {
         events.on(playbackManager, "playerchange", () => {
             this.onPlayerChange();
         });
+
+        events.on(playbackManager, "playbackstart", (player, state) => {
+            events.trigger(this, 'PlaybackStart', [player, state]);
+        });
+
         this.bindToPlayer(playbackManager.getCurrentPlayer());
+
+        events.on(this, "TimeUpdate", (event) => {
+            this.syncPlaybackTime();
+        });
     }
 
     /**
@@ -110,53 +124,9 @@ class SyncplayManager {
      * @param {Object} e The time update event.
      */
     onTimeUpdate (e) {
+        // NOTICE: this event is unreliable, at least in Safari
+        // which just stops firing the event after a while.
         events.trigger(this, "TimeUpdate", [e]);
-
-        if (this.lastCommand && this.lastCommand.Command === 'Play' && !this.isBuffering()) {
-            var currentTime = new Date();
-            var playAtTime = this.lastCommand.When;
-
-            var state = playbackManager.getPlayerState().PlayState;
-            // Estimate PositionTicks on server
-            var ServerPositionTicks = this.lastCommand.PositionTicks + ((currentTime - playAtTime) - this.timeDiff) * 10000;
-            // Measure delay that needs to be recovered
-            // diff might be caused by the player internally starting the playback
-            var diff = ServerPositionTicks - state.PositionTicks;
-            var diffMillis = diff / 10000;
-
-            this.playbackDiffMillis = diffMillis;
-
-            // console.debug("Syncplay onTimeUpdate", diffMillis, state.PositionTicks, ServerPositionTicks);
-
-            if (this.syncEnabled) {
-                var absDiffMillis = Math.abs(diffMillis);
-                // TODO: SpeedToSync sounds bad on songs
-                if (this.playbackRateSupported && absDiffMillis > MaxAcceptedDelaySpeedToSync && absDiffMillis < SyncMethodThreshold) {
-                    // SpeedToSync method
-                    var speed = 1 + diffMillis / SpeedUpToSyncTime;
-
-                    this.currentPlayer.setPlaybackRate(speed);
-                    this.syncEnabled = false;
-                    this.showSyncIcon("SpeedToSync (x" + speed + ")");
-
-                    this.syncTimeout = setTimeout(() => {
-                        this.currentPlayer.setPlaybackRate(1);
-                        this.syncEnabled = true;
-                        this.clearSyncIcon();
-                    }, SpeedUpToSyncTime);
-                } else if (absDiffMillis > MaxAcceptedDelaySkipToSync) {
-                    // SkipToSync method
-                    playbackManager.syncplay_seek(ServerPositionTicks);
-                    this.syncEnabled = false;
-                    this.showSyncIcon("SkipToSync");
-
-                    this.syncTimeout = setTimeout(() => {
-                        this.syncEnabled = true;
-                        this.clearSyncIcon();
-                    }, this.syncMethodThreshold / 2);
-                }
-            }
-        }
     }
 
     /**
@@ -256,34 +226,7 @@ class SyncplayManager {
     processGroupUpdate (cmd, apiClient) {
         switch (cmd.Type) {
             case 'PrepareSession':
-                var serverId = apiClient.serverInfo().Id;
-                playbackManager.play({
-                    ids: cmd.Data.ItemIds,
-                    startPositionTicks: cmd.Data.StartPositionTicks,
-                    mediaSourceId: cmd.Data.MediaSourceId,
-                    audioStreamIndex: cmd.Data.AudioStreamIndex,
-                    subtitleStreamIndex: cmd.Data.SubtitleStreamIndex,
-                    startIndex: cmd.Data.StartIndex,
-                    serverId: serverId
-                }).then(() => {
-                    waitForEvent(this, "PlayerChange").then(() => {
-                        playbackManager.pause();
-                        var sessionId = getActivePlayerId();
-                        if (!sessionId) {
-                            console.error("Missing sessionId!");
-                            toast({
-                                text: "Failed to enable Syncplay!"
-                            });
-                            return;
-                        }
-                        // Sometimes JoinGroup fails, maybe because server hasn't been updated yet
-                        setTimeout(() => {
-                            apiClient.sendSyncplayCommand(sessionId, "JoinGroup", {
-                                GroupId: cmd.GroupId
-                            });
-                        }, 500);
-                    });
-                });
+                this.prepareSession(apiClient, cmd.GroupId, cmd.Data);
                 break;
             case 'UserJoined':
                 toast({
@@ -296,31 +239,12 @@ class SyncplayManager {
                 });
                 break;
             case 'GroupJoined':
-                toast({
-                    text: globalize.translate('MessageSyncplayEnabled')
-                });
-                // Enable Syncplay
-                this.syncplayEnabledAt = new Date(cmd.Data);
-                this.syncplayReady = false;
-                events.trigger(this, "SyncplayEnabled", [true]);
-                waitForEvent(this, "SyncplayReady").then(() => {
-                    this.processCommand(this.queuedCommand, apiClient);
-                    this.queuedCommand = null;
-                });
-                this.injectPlaybackManager();
-                this.startPing();
+                const enabledAt = new Date(cmd.Data);
+                this.enableSyncplay(apiClient, enabledAt, true);
                 break;
             case 'NotInGroup':
             case 'GroupLeft':
-                toast({
-                    text: globalize.translate('MessageSyncplayDisabled')
-                });
-                // Disable Syncplay
-                this.syncplayEnabledAt = null;
-                this.syncplayReady = false;
-                events.trigger(this, "SyncplayEnabled", [false]);
-                this.restorePlaybackManager();
-                this.stopPing();
+                this.disableSyncplay(true);
                 break;
             case 'GroupWait':
                 toast({
@@ -355,8 +279,9 @@ class SyncplayManager {
         }
 
         cmd.When = new Date(cmd.When);
+        cmd.EmittedAt = new Date(cmd.EmitttedAt);
 
-        if (cmd.When < this.syncplayEnabledAt) {
+        if (cmd.EmitttedAt < this.syncplayEnabledAt) {
             console.debug("Syncplay processCommand: ignoring old command", cmd);
             return;
         }
@@ -391,6 +316,114 @@ class SyncplayManager {
     }
 
     /**
+     * Prepares this client to join a group by loading the required content.
+     * @param {Object} apiClient The ApiClient.
+     * @param {string} groupId The group to join.
+     * @param {Object} sessionData Info about the content to load.
+     */
+    prepareSession (apiClient, groupId, sessionData) {
+        var serverId = apiClient.serverInfo().Id;
+        playbackManager.play({
+            ids: sessionData.ItemIds,
+            startPositionTicks: sessionData.StartPositionTicks,
+            mediaSourceId: sessionData.MediaSourceId,
+            audioStreamIndex: sessionData.AudioStreamIndex,
+            subtitleStreamIndex: sessionData.SubtitleStreamIndex,
+            startIndex: sessionData.StartIndex,
+            serverId: serverId
+        }).then(() => {
+            // TODO: switch to PlaybackStart maybe?
+            waitForEvent(this, "PlayerChange").then(() => {
+                playbackManager.pause();
+                var sessionId = getActivePlayerId();
+                if (!sessionId) {
+                    console.error("Missing sessionId!");
+                    toast({
+                        // TODO: translate
+                        text: "Failed to enable Syncplay! Missing session id."
+                    });
+                    return;
+                }
+                // Get playing item id
+                let playingItemId;
+                try {
+                    const playState = playbackManager.getPlayerState();
+                    playingItemId = playState.NowPlayingItem.Id;
+                } catch (error) {
+                    playingItemId = "";
+                }
+                // Sometimes JoinGroup fails, maybe because server hasn't been updated yet
+                setTimeout(() => {
+                    apiClient.sendSyncplayCommand(sessionId, "JoinGroup", {
+                        GroupId: groupId,
+                        PlayingItemId: playingItemId
+                    });
+                }, 500);
+            });
+        }).catch((error) => {
+            console.error(error);
+            toast({
+                // TODO: translate
+                text: "Failed to enable Syncplay! Media error."
+            });
+        });
+    }
+
+    /**
+     * Enables Syncplay.
+     * @param {Object} apiClient The ApiClient.
+     * @param {Date} enabledAt When Syncplay has been enabled. Server side date.
+     * @param {boolean} showMessage Display message.
+     */
+    enableSyncplay (apiClient, enabledAt, showMessage = false) {
+        this.syncplayEnabledAt = enabledAt;
+        this.syncplayReady = false;
+        events.trigger(this, "SyncplayEnabled", [true]);
+        waitForEvent(this, "SyncplayReady").then(() => {
+            this.processCommand(this.queuedCommand, apiClient);
+            this.queuedCommand = null;
+        });
+        this.injectPlaybackManager();
+        this.startPing();
+
+        if (showMessage) {
+            toast({
+                text: globalize.translate('MessageSyncplayEnabled')
+            });
+        }
+    }
+
+    /**
+     * Disables Syncplay.
+     * @param {boolean} showMessage Display message.
+     */
+    disableSyncplay (showMessage = false) {
+        this.syncplayEnabledAt = null;
+        this.syncplayReady = false;
+        this.lastCommand = null;
+        this.queuedCommand = null;
+        this.syncEnabled = false;
+        events.trigger(this, "SyncplayEnabled", [false]);
+        this.restorePlaybackManager();
+        this.stopPing();
+        this.stopSyncWatcher();
+
+        if (showMessage) {
+            toast({
+                text: globalize.translate('MessageSyncplayDisabled')
+            });
+        }
+    }
+
+    /**
+     * Gets Syncplay status.
+     * @returns {boolean} _true_ if user joined a group, _false_ otherwise.
+     */
+    isSyncplayEnabled () {
+        return this.syncplayEnabledAt !== null ? true : false;
+    }
+
+    /**
      * Schedules a resume playback on the player at the specified clock time.
      * @param {Date} playAtTime The server's UTC time at which to resume playback.
      * @param {number} positionTicks The PositionTicks from where to resume.
@@ -408,8 +441,9 @@ class SyncplayManager {
                 playbackManager.syncplay_unpause();
 
                 this.syncTimeout = setTimeout(() => {
-                    this.syncEnabled = true
-                }, this.syncMethodThreshold / 2);
+                    this.syncEnabled = true;
+                    this.startSyncWatcher();
+                }, SyncMethodThreshold / 2);
 
             }, playTimeout);
 
@@ -421,8 +455,9 @@ class SyncplayManager {
             playbackManager.syncplay_seek(serverPositionTicks);
 
             this.syncTimeout = setTimeout(() => {
-                this.syncEnabled = true
-            }, this.syncMethodThreshold / 2);
+                this.syncEnabled = true;
+                this.startSyncWatcher();
+            }, SyncMethodThreshold / 2);
         }
     }
 
@@ -471,6 +506,7 @@ class SyncplayManager {
         clearTimeout(this.syncTimeout);
 
         this.syncEnabled = false;
+        this.stopSyncWatcher();
         if (this.currentPlayer) {
             this.currentPlayer.setPlaybackRate(1);
         }
@@ -587,6 +623,15 @@ class SyncplayManager {
                 var apiClient = connectionManager.currentApiClient();
                 var sessionId = getActivePlayerId();
 
+                if (!sessionId) {
+                    this.signalError();
+                    toast({
+                        // TODO: translate
+                        text: "Syncplay error occured."
+                    });
+                    return;
+                }
+
                 var pingStartTime = new Date();
                 apiClient.sendSyncplayCommand(sessionId, "GetUtcTime").then((response) => {
                     var pingEndTime = new Date();
@@ -614,6 +659,13 @@ class SyncplayManager {
 
                         this.requestPing();
                     });
+                }).catch((error) => {
+                    console.error(error);
+                    this.signalError();
+                    toast({
+                        // TODO: translate
+                        text: "Syncplay error occured."
+                    });
                 });
 
             }, this.pingIntervalTimeout);
@@ -627,7 +679,7 @@ class SyncplayManager {
         this.notifySyncplayReady = true;
         this.pingStop = false;
         this.initTimeDiff = this.initTimeDiff > this.greedyPingCount ? 1 : this.initTimeDiff;
-        this.pingIntervalTimeout = this.pingIntervalTimeoutGreedy;
+        this.pingIntervalTimeout = PingIntervalTimeoutGreedy;
 
         this.requestPing();
     }
@@ -640,6 +692,159 @@ class SyncplayManager {
         if (this.pingInterval !== null) {
             clearTimeout(this.pingInterval);
             this.pingInterval = null;
+        }
+    }
+
+    /**
+     * Attempts to sync playback time with estimated server time.
+     * 
+     * When sync is enabled, the following will be checked:
+     *  - check if local playback time is close enough to the server playback time
+     * If it is not, then a playback time sync will be attempted.
+     * Two methods of syncing are available:
+     * - SpeedToSync: speeds up the media for some time to catch up (default is one second)
+     * - SkipToSync: seeks the media to the estimated correct time
+     * SpeedToSync aims to reduce the delay as much as possible, whereas SkipToSync is less pretentious.
+     */
+    syncPlaybackTime () {
+        // Attempt to sync only when media is playing.
+        if (!this.lastCommand || this.lastCommand.Command !== 'Play' || this.isBuffering()) return;
+
+        const currentTime = new Date();
+
+        // Avoid overloading the browser
+        const elapsed = currentTime - this.lastSyncTime;
+        if (elapsed < SyncMethodThreshold / 2) return;
+        this.lastSyncTime = currentTime;
+        this.notifySyncWatcher();
+
+        const playAtTime = this.lastCommand.When;
+
+        const CurrentPositionTicks = playbackManager.currentTime();
+        // Estimate PositionTicks on server
+        const ServerPositionTicks = this.lastCommand.PositionTicks + ((currentTime - playAtTime) - this.timeDiff) * 10000;
+        // Measure delay that needs to be recovered
+        // diff might be caused by the player internally starting the playback
+        const diff = ServerPositionTicks - CurrentPositionTicks;
+        const diffMillis = diff / 10000;
+
+        this.playbackDiffMillis = diffMillis;
+
+        // console.debug("Syncplay onTimeUpdate", diffMillis, CurrentPositionTicks, ServerPositionTicks);
+
+        if (this.syncEnabled) {
+            const absDiffMillis = Math.abs(diffMillis);
+            // TODO: SpeedToSync sounds bad on songs
+            // TODO: SpeedToSync is failing on Safari (Mojave); even if playbackRate is supported, some delay seems to exist
+            if (this.playbackRateSupported && absDiffMillis > MaxAcceptedDelaySpeedToSync && absDiffMillis < SyncMethodThreshold) {
+                // Disable SpeedToSync if it keeps failing
+                if (this.syncAttempts > MaxAttemptsSpeedToSync) {
+                    this.playbackRateSupported = false;
+                }
+                // SpeedToSync method
+                const speed = 1 + diffMillis / SpeedToSyncTime;
+
+                this.currentPlayer.setPlaybackRate(speed);
+                this.syncEnabled = false;
+                this.syncAttempts++;
+                this.showSyncIcon("SpeedToSync (x" + speed + ")");
+
+                this.syncTimeout = setTimeout(() => {
+                    this.currentPlayer.setPlaybackRate(1);
+                    this.syncEnabled = true;
+                    this.clearSyncIcon();
+                }, SpeedToSyncTime);
+            } else if (absDiffMillis > MaxAcceptedDelaySkipToSync) {
+                // Disable SkipToSync if it keeps failing
+                if (this.syncAttempts > MaxAttemptsSync) {
+                    this.syncEnabled = false;
+                    this.showSyncIcon("Sync disabled (too many attempts)");
+                }
+                // SkipToSync method
+                playbackManager.syncplay_seek(ServerPositionTicks);
+                this.syncEnabled = false;
+                this.syncAttempts++;
+                this.showSyncIcon("SkipToSync (" + this.syncAttempts + ")");
+
+                this.syncTimeout = setTimeout(() => {
+                    this.syncEnabled = true;
+                    this.clearSyncIcon();
+                }, SyncMethodThreshold / 2);
+            } else {
+                // Playback is synced
+                if (this.syncAttempts > 0) {
+                    // console.debug("Playback has been synced after", this.syncAttempts, "attempts.");
+                }
+                this.syncAttempts = 0;
+            }
+        }
+    }
+
+    /**
+     * Signals the worker to start watching sync. Also creates the worker if needed.
+     * 
+     * This additional fail-safe has been added because on Safari the timeupdate event fails after a while.
+     */
+    startSyncWatcher () {
+        // SPOILER ALERT: this idea fails too on Safari... Keeping it here for future investigations
+        return;
+        if (window.Worker) {
+            // Start worker if needed
+            if (!this.worker) {
+                this.worker = new Worker("workers/syncplay/syncplay.worker.js");
+                this.worker.onmessage = (event) => {
+                    const message = event.data;
+                    switch (message.type) {
+                        case "TriggerSync":
+                            // TODO: player state might not reflect the real playback position,
+                            // thus calling syncPlaybackTime outside a timeupdate event might not really sync to the right point
+                            this.syncPlaybackTime();
+                            break;
+                        default:
+                            console.error("Syncplay: unknown message from worker:", message.type);
+                            break;
+                    }
+                };
+                this.worker.onerror = (event) => {
+                    console.error("Syncplay: worker error", event);
+                };
+                this.worker.onmessageerror = (event) => {
+                    console.error("Syncplay: worker message error", event);
+                };
+            }
+            // Start watcher
+            this.worker.postMessage({
+                type: "StartSyncWatcher",
+                data: {
+                    interval: SyncMethodThreshold / 2,
+                    threshold: SyncMethodThreshold
+                }
+            });
+        } else {
+            console.debug("Syncplay: workers not supported.");
+        }
+    }
+
+    /**
+     * Signals the worker to stop watching sync.
+     */
+    stopSyncWatcher () {
+        if (this.worker) {
+            this.worker.postMessage({
+                type: "StopSyncWatcher"
+            });
+        }
+    }
+
+    /**
+     * Signals new state to worker.
+     */
+    notifySyncWatcher () {
+        if (this.worker) {
+            this.worker.postMessage({
+                type: "UpdateLastSyncTime",
+                data: this.lastSyncTime
+            });
         }
     }
 
@@ -661,14 +866,6 @@ class SyncplayManager {
     localDateToServer (local) {
         // local - server = diff
         return new Date(local.getTime() - this.timeDiff);
-    }
-
-    /**
-     * Gets Syncplay status.
-     * @returns {boolean} _true_ if user joined a group, _false_ otherwise.
-     */
-    isSyncplayEnabled () {
-        return this.syncplayEnabledAt !== null ? true : false;
     }
 
     /**
@@ -697,6 +894,13 @@ class SyncplayManager {
     clearSyncIcon () {
         this.syncMethod = "None";
         events.trigger(this, "SyncplayError", [false]);
+    }
+
+    /**
+     * Signals an error state, which disables and resets Syncplay for a new session.
+     */
+    signalError () {
+        this.disableSyncplay();
     }
 }
 

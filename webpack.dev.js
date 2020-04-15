@@ -48,6 +48,10 @@ module.exports = merge(common, {
             {
                 test: /\.(wav)$/i,
                 use: ["file-loader"]
+            },
+            {
+                test: /\.worker.js$/,
+                use: ["worker"]
             }
         ]
     }

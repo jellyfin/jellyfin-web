@@ -13,7 +13,7 @@ import playbackPermissionManager from 'playbackPermissionManager';
  * Gets active player id.
  * @returns {string} The player's id.
  */
-function getActivePlayerId() {
+function getActivePlayerId () {
     var info = playbackManager.getPlayerInfo();
     return info ? info.id : null;
 }
@@ -21,7 +21,7 @@ function getActivePlayerId() {
 /**
  * Used to avoid console logs about uncaught promises
  */
-function emptyCallback() {
+function emptyCallback () {
     // avoid console logs about uncaught promises
 }
 
@@ -31,15 +31,23 @@ function emptyCallback() {
  * @param {Object} user - Current user.
  * @param {Object} apiClient - ApiClient.
  */
-function showNewJoinGroupSelection(button, user, apiClient) {
+function showNewJoinGroupSelection (button, user, apiClient) {
     let sessionId = getActivePlayerId();
     sessionId = sessionId ? sessionId : "none";
     const inSession = sessionId !== "none";
     const policy = user.localUser ? user.localUser.Policy : {};
+    let playingItemId;
+    try {
+        const playState = playbackManager.getPlayerState();
+        playingItemId = playState.NowPlayingItem.Id;
+    } catch (error) {
+        playingItemId = "";
+    }
 
     apiClient.sendSyncplayCommand(sessionId, "ListGroups").then(function (response) {
         response.json().then(function (groups) {            
             var menuItems = groups.map(function (group) {
+                // TODO: update running time if group is playing?
                 var name = datetime.getDisplayRunningTime(group.PositionTicks);
                 if (!inSession) {
                     name = group.PlayingItemName;
@@ -90,7 +98,8 @@ function showNewJoinGroupSelection(button, user, apiClient) {
                     apiClient.sendSyncplayCommand(sessionId, "NewGroup");
                 } else {
                     apiClient.sendSyncplayCommand(sessionId, "JoinGroup", {
-                        GroupId: id
+                        GroupId: id,
+                        PlayingItemId: playingItemId
                     });
                 }
             }, emptyCallback);
@@ -112,8 +121,16 @@ function showNewJoinGroupSelection(button, user, apiClient) {
  * @param {Object} user - Current user.
  * @param {Object} apiClient - ApiClient.
  */
-function showLeaveGroupSelection(button, user, apiClient) {
+function showLeaveGroupSelection (button, user, apiClient) {
     const sessionId = getActivePlayerId();
+    if (!sessionId) {
+        syncplayManager.signalError();
+        toast({
+            // TODO: translate
+            text: "Syncplay error occured."
+        });
+        return;
+    }
 
 
     const menuItems = [{
@@ -151,7 +168,7 @@ events.on(syncplayManager, 'SyncplayEnabled', function (e, enabled) {
  * Shows a menu to handle Syncplay groups.
  * @param {HTMLElement} button - Element where to place the menu.
  */
-export function show(button) {
+export function show (button) {
     loading.show();
 
     // TODO: should feature be disabled if playback permission is missing?
