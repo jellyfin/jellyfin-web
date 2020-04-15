@@ -3282,7 +3282,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         function onPlaybackVolumeChange(e) {
             var player = this;
-            sendProgressUpdate(player, 'volumechange');
+            sendProgressUpdateDelayed(player, 'volumechange');
         }
 
         function onRepeatModeChange(e) {
@@ -3377,7 +3377,15 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         pluginManager.ofType('mediaplayer').map(initMediaPlayer);
 
+        /** Delay timer for sendProgressUpdate */
+        var sendProgressUpdateTimer;
+
+        /** Delay time in ms for sendProgressUpdate */
+        var sendProgressUpdateDelay = 700;
+
         function sendProgressUpdate(player, progressEventName, reportPlaylist) {
+            clearTimeout(sendProgressUpdateTimer);
+            sendProgressUpdateTimer = null;
 
             if (!player) {
                 throw new Error('player cannot be null');
@@ -3400,6 +3408,14 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                         getLiveStreamMediaInfo(player, streamInfo, self.currentMediaSource(player), streamInfo.liveStreamId, serverId);
                     }
                 }
+            }
+        }
+
+        function sendProgressUpdateDelayed(player, progressEventName, reportPlaylist) {
+            if (!sendProgressUpdateTimer) {
+                sendProgressUpdateTimer = setTimeout(function () {
+                    sendProgressUpdate(player, progressEventName, reportPlaylist);
+                }, sendProgressUpdateDelay);
             }
         }
 
