@@ -10,7 +10,7 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
 
             var userImage = page.querySelector("#image");
             if (user.PrimaryImageTag) {
-                imageUrl = ApiClient.getUserImageUrl(user.Id, {
+                var imageUrl = ApiClient.getUserImageUrl(user.Id, {
                     tag: user.PrimaryImageTag,
                     type: "Primary"
                 });
