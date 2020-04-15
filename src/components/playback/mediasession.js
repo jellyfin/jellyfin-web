@@ -11,13 +11,12 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
     var currentPlayer;
     var lastUpdateTime = 0;
 
-    function seriesImageUrl(item, options) {
+    function seriesImageUrl(item, options = {}) {
 
         if (item.Type !== 'Episode') {
             return null;
         }
 
-        options = options || {};
         options.type = options.type || "Primary";
 
         if (options.type === 'Primary') {
@@ -49,9 +48,7 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         return null;
     }
 
-    function imageUrl(item, options) {
-
-        options = options || {};
+    function imageUrl(item, options = {}) {
         options.type = options.type || "Primary";
 
         if (item.ImageTags && item.ImageTags[options.type]) {
@@ -69,29 +66,26 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         return null;
     }
 
-    function pushImageUrl(item, imageOptions, list) {
+    function pushImageUrl(item, imageOptions = {}) {
         var url = seriesImageUrl(item, imageOptions) || imageUrl(item, imageOptions);
 
         if (url) {
             var height = imageOptions.height || imageOptions.maxHeight;
 
-            list.push({
+            return {
                 src: url,
                 sizes: height + 'x' + height
-            });
+            };
         }
     }
 
     function getImageUrls(item) {
-
         var list = [];
+        const imageSizes = [96, 128, 192, 256, 384, 512];
 
-        pushImageUrl(item, {height: 96}, list);
-        pushImageUrl(item, {height: 128}, list);
-        pushImageUrl(item, {height: 192}, list);
-        pushImageUrl(item, {height: 256}, list);
-        pushImageUrl(item, {height: 384}, list);
-        pushImageUrl(item, {height: 512}, list);
+        imageSizes.forEach((size) => {
+            list.push(pushImageUrl(item, {height: size}));
+        });
 
         return list;
     }
@@ -127,11 +121,6 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         var parts = nowPlayingHelper.getNowPlayingNames(item);
         var artist = parts[parts.length - 1].text;
         var title = parts.length === 1 ? '' : parts[0].text;
-        var albumArtist;
-
-        if (item.AlbumArtists && item.AlbumArtists[0]) {
-            albumArtist = item.AlbumArtists[0].Name;
-        }
 
         var album = item.Album || '';
         var itemId = item.Id;
@@ -143,22 +132,16 @@ define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], f
         var isPaused = playState.IsPaused || false;
         var canSeek = playState.CanSeek || false;
 
-        if (navigator.mediaSession) {
+        if ('mediaSession' in navigator) {
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: title,
                 artist: artist,
                 album: album,
-                artwork: getImageUrls(item),
-                albumArtist: albumArtist,
-                currentTime: currentTime,
-                duration: duration,
-                paused: isPaused,
-                itemId: itemId,
-                mediaType: item.MediaType
+                artwork: getImageUrls(item)
             });
         } else {
             var imageUrl = [];
-            pushImageUrl(item, {maxHeight: 400}, imageUrl);
+            imageUrl.push(pushImageUrl(item));
 
             if (imageUrl.length) {
                 imageUrl = imageUrl[0].src;
