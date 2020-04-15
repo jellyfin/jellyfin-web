@@ -76,7 +76,7 @@ define(['connectionManager', 'loading', 'globalize', 'tabbedPage', 'libraryMenu'
             } else {
                 loading.show();
 
-                renderTabs(view, self);
+                renderTabs(self);
             }
         });
 

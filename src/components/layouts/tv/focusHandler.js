@@ -46,8 +46,7 @@ export class focusHandler {
                     const animate = now - lastFocus > 50;
                     options.scroller.toCenter(focused, !animate);
                     lastFocus = now;
-                }
-                else if (options.scrollElement) {
+                } else if (options.scrollElement) {
                     scrollHelper.toCenter(options.scrollElement, focused, options.horizontal);
                 }
                 startZoomTimer();
@@ -113,7 +112,6 @@ export class focusHandler {
                 transform: "scale(" + zoomScale + ")",
                 offset: 1
             }];
-            if (currentAnimation) { }
             const onAnimationFinished = () => {
                 zoomElement = elem;
                 currentAnimation = null;
@@ -128,8 +126,7 @@ export class focusHandler {
                 const animation = elem.animate(keyframes, timing);
                 animation.onfinish = onAnimationFinished;
                 currentAnimation = animation;
-            }
-            else {
+            } else {
                 onAnimationFinished();
             }
         }
@@ -180,8 +177,7 @@ export class focusHandler {
             if (logoImageUrl) {
                 selectedItemInfoInner.classList.add("selectedItemInfoInnerWithLogo");
                 html += `<div class="selectedItemInfoLogo" style="background-image:url('${logoImageUrl}');"></div>`;
-            }
-            else {
+            } else {
                 selectedItemInfoInner.classList.remove("selectedItemInfoInnerWithLogo");
             }
             selectedItemInfoInner.innerHTML = html;
@@ -196,8 +192,7 @@ export class focusHandler {
                     selectedItemPanel = null;
                     slideOutRightAndRemove(panel);
                 }
-            }
-            else if (selectedItemInfoInner) {
+            } else if (selectedItemInfoInner) {
                 selectedItemInfoInner.innerHTML = "";
             }
         }
