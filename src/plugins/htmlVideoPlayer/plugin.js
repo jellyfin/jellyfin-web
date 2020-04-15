@@ -1,11 +1,24 @@
-define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', 'htmlMediaHelper', 'itemHelper', 'screenfull', 'globalize'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper, screenfull, globalize) {
-    'use strict';
+import browser from "browser";
+import events from "events";
+import appHost from "apphost";
+import loading from "loading";
+import dom from "dom";
+import playbackManager from "playbackManager";
+import appRouter from "appRouter";
+import connectionManager from "connectionManager";
+import htmlMediaHelper from "htmlMediaHelper";
+import itemHelper from "itemHelper";
+import screenfull from "screenfull";
+import globalize from "globalize";
+
+/* eslint-disable indent */
+
     /* globals cast */
 
-    var mediaManager;
+let mediaManager;
 
-    function tryRemoveElement(elem) {
-        var parentNode = elem.parentNode;
+function tryRemoveElement(elem) {
+        const parentNode = elem.parentNode;
         if (parentNode) {
 
             // Seeing crashes in edge webview
@@ -17,8 +30,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
     }
 
-    var _supportsTextTracks;
-    function supportsTextTracks() {
+let _supportsTextTracks;
+
+function supportsTextTracks() {
 
         if (_supportsTextTracks == null) {
             _supportsTextTracks = document.createElement('video').textTracks != null;
@@ -78,7 +92,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         if (track) {
-            var format = (track.Codec || '').toLowerCase();
+            const format = (track.Codec || "").toLowerCase();
             if (format === 'ssa' || format === 'ass') {
                 return false;
             }
@@ -115,7 +129,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
     function zoomIn(elem) {
         return new Promise(function (resolve, reject) {
-            var duration = 240;
+            const duration = 240;
             elem.style.animation = 'htmlvideoplayer-zoomin ' + duration + 'ms ease-in normal';
             hidePrePlaybackPage();
             dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
@@ -125,7 +139,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     }
 
     function normalizeTrackEventText(text, useHtml) {
-        var result = text.replace(/\\N/gi, '\n').replace(/\r/gi, '');
+        const result = text.replace(/\\N/gi, "\n").replace(/\r/gi, "");
         return useHtml ? result.replace(/\n/gi, '<br>') : result;
     }
 
@@ -140,7 +154,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return track.Path;
         }
 
-        var url = playbackManager.getSubtitleUrl(track, item.ServerId);
+        let url = playbackManager.getSubtitleUrl(track, item.ServerId);
         if (format) {
             url = url.replace('.vtt', format);
         }
@@ -155,99 +169,100 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return '';
             }
 
-            var defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? ' default' : '';
+            const defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? " default" : "";
 
-            var language = t.Language || 'und';
-            var label = t.Language || 'und';
+            const language = t.Language || "und";
+            const label = t.Language || "und";
             return '<track id="textTrack' + t.Index + '" label="' + label + '" kind="subtitles" src="' + getTextTrackUrl(t, item) + '" srclang="' + language + '"' + defaultAttribute + '></track>';
 
         }).join('');
     }
 
     function getDefaultProfile() {
+        return import("browserdeviceprofile").then(profileBuilder => {
 
-        return new Promise(function (resolve, reject) {
-
-            require(['browserdeviceprofile'], function (profileBuilder) {
-
-                resolve(profileBuilder({}));
-            });
+            return profileBuilder({});
         });
     }
 
-    function HtmlVideoPlayer() {
-
-        if (browser.edgeUwp) {
-            this.name = 'Windows Video Player';
-        } else {
-            this.name = 'Html Video Player';
-        }
-
-        this.type = 'mediaplayer';
-        this.id = 'htmlvideoplayer';
-
-        // Let any players created by plugins take priority
-        this.priority = 1;
-
-        var videoDialog;
-
-        var winJsPlaybackItem;
-
-        var subtitleTrackIndexToSetOnPlaying;
-        var audioTrackIndexToSetOnPlaying;
-
-        var lastCustomTrackMs = 0;
-        var currentClock;
-        var currentSubtitlesOctopus;
-        var currentAssRenderer;
-        var customTrackIndex = -1;
-
-        var showTrackOffset;
-        var currentTrackOffset;
-
-        var videoSubtitlesElem;
-        var currentTrackEvents;
-
-        var self = this;
-
-        self.currentSrc = function () {
-            return self._currentSrc;
-        };
-
-        self._fetchQueue = 0;
-        self.isFetching = false;
-
-        function incrementFetchQueue() {
-            if (self._fetchQueue <= 0) {
-                self.isFetching = true;
-                events.trigger(self, 'beginFetch');
+    /**
+     * Private:
+     *  - videoDialog
+     *  - winJsPlaybackItem
+     *  - subtitleTrackIndexToSetOnPlaying
+     *  - audioTrackIndexToSetOnPlaying
+     *  - lastCustomTrackMs
+     *  - currentClock
+     *  - currentSubtitlesOctopus
+     *  - currentAssRenderer
+     *  - customTrackIndex
+     *  - showTrackOffset
+     *  - currentTrackOffset
+     *  - videoSubtitlesElem
+     *  - currentTrackEvents
+     *  - supportedFeatures
+     */
+    export class HtmlVideoPlayer {
+        constructor() {
+            if (browser.edgeUwp) {
+                this.name = 'Windows Video Player';
+            } else {
+                this.name = 'Html Video Player';
             }
 
-            self._fetchQueue++;
+            this.type = 'mediaplayer';
+            this.id = 'htmlvideoplayer';
+
+            // Let any players created by plugins take priority
+            this.priority = 1;
+
+            this._fetchQueue = 0;
+            this.isFetching = false;
         }
 
-        function decrementFetchQueue() {
-            self._fetchQueue--;
+        currentSrc() {
+            return this._currentSrc;
+        }
 
-            if (self._fetchQueue <= 0) {
-                self.isFetching = false;
-                events.trigger(self, 'endFetch');
+        /**
+         * @private
+         */
+        incrementFetchQueue() {
+            if (this._fetchQueue <= 0) {
+                this.isFetching = true;
+                events.trigger(this, "beginFetch");
+            }
+
+            this._fetchQueue++;
+        }
+
+        /**
+         * @private
+         */
+        decrementFetchQueue() {
+            this._fetchQueue--;
+
+            if (this._fetchQueue <= 0) {
+                this.isFetching = false;
+                events.trigger(this, "endFetch");
             }
         }
 
-        function updateVideoUrl(streamInfo) {
+        /**
+         * @private
+         */
+        updateVideoUrl(streamInfo) {
+            const isHls = streamInfo.url.toLowerCase().indexOf(".m3u8") !== -1;
 
-            var isHls = streamInfo.url.toLowerCase().indexOf('.m3u8') !== -1;
-
-            var mediaSource = streamInfo.mediaSource;
-            var item = streamInfo.item;
+            const mediaSource = streamInfo.mediaSource;
+            const item = streamInfo.item;
 
             // Huge hack alert. Safari doesn't seem to like if the segments aren't available right away when playback starts
             // This will start the transcoding process before actually feeding the video url into the player
             // Edit: Also seeing stalls from hls.js
             if (mediaSource && item && !mediaSource.RunTimeTicks && isHls && streamInfo.playMethod === 'Transcode' && (browser.iOS || browser.osx)) {
 
-                var hlsPlaylistUrl = streamInfo.url.replace('master.m3u8', 'live.m3u8');
+                const hlsPlaylistUrl = streamInfo.url.replace("master.m3u8", "live.m3u8");
 
                 loading.show();
 
@@ -259,20 +274,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     url: hlsPlaylistUrl
 
                 }).then(function () {
-
                     console.debug('completed prefetching hls playlist: ' + hlsPlaylistUrl);
 
                     loading.hide();
                     streamInfo.url = hlsPlaylistUrl;
-
-                    return Promise.resolve();
-
                 }, function () {
-
                     console.error('error prefetching hls playlist: ' + hlsPlaylistUrl);
 
                     loading.hide();
-                    return Promise.resolve();
                 });
 
             } else {
@@ -280,58 +289,58 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         }
 
-        self.play = function (options) {
-            self._started = false;
-            self._timeUpdated = false;
+        play(options) {
+            this._started = false;
+            this._timeUpdated = false;
 
-            self._currentTime = null;
+            this._currentTime = null;
 
-            self.resetSubtitleOffset();
+            this.resetSubtitleOffset();
 
-            return createMediaElement(options).then(function (elem) {
-
-                return updateVideoUrl(options).then(function () {
-                    return setCurrentSrc(elem, options);
-                });
-            });
-        };
-
-        function setSrcWithFlvJs(instance, elem, options, url) {
-
-            return new Promise(function (resolve, reject) {
-
-                require(['flvjs'], function (flvjs) {
-
-                    var flvPlayer = flvjs.createPlayer({
-                        type: 'flv',
-                        url: url
-                    },
-                    {
-                        seekType: 'range',
-                        lazyLoad: false
-                    });
-
-                    flvPlayer.attachMediaElement(elem);
-                    flvPlayer.load();
-
-                    flvPlayer.play().then(resolve, reject);
-                    instance._flvPlayer = flvPlayer;
-
-                    // This is needed in setCurrentTrackElement
-                    self._currentSrc = url;
+            return this.createMediaElement(options).then(elem => {
+                return this.updateVideoUrl(options).then(() => {
+                    return this.setCurrentSrc(elem, options);
                 });
             });
         }
 
-        function setSrcWithHlsJs(instance, elem, options, url) {
+        /**
+         * @private
+         */
+        setSrcWithFlvJs(instance, elem, options, url) {
+            return import('flvjs').then(flvjs => {
+                const flvPlayer = flvjs.createPlayer({
+                        type: "flv",
+                        url: url
+                    },
+                    {
+                        seekType: "range",
+                        lazyLoad: false
+                    });
+
+                flvPlayer.attachMediaElement(elem);
+                flvPlayer.load();
+
+                instance._flvPlayer = flvPlayer;
+
+                // This is needed in setCurrentTrackElement
+                this._currentSrc = url;
+
+                return flvPlayer.play();
+            });
+        }
+
+        /**
+         * @private
+         */
+        setSrcWithHlsJs(instance, elem, options, url) {
 
             return new Promise(function (resolve, reject) {
 
-                requireHlsPlayer(function () {
-
-                    var hls = new Hls({
+                requireHlsPlayer(() => {
+                    const hls = new Hls({
                         manifestLoadingTimeOut: 20000,
-                        xhrSetup: function(xhr, xhr_url) {
+                        xhrSetup(xhr, xhr_url) {
                             xhr.withCredentials = true;
                         }
                         //appendErrorMaxRetry: 6,
@@ -340,70 +349,70 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     hls.loadSource(url);
                     hls.attachMedia(elem);
 
-                    htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
+                    htmlMediaHelper.bindEventsToHlsPlayer(this, hls, elem, this.onError.bind(this), resolve, reject);
 
-                    self._hlsPlayer = hls;
+                    this._hlsPlayer = hls;
 
                     // This is needed in setCurrentTrackElement
-                    self._currentSrc = url;
+                    this._currentSrc = url;
                 });
             });
         }
 
-        function onShakaError(event) {
+        /**
+         * @private
+         */
+        onShakaError(event) {
 
-            var error = event.detail;
+            const error = event.detail;
             console.error('Error code', error.code, 'object', error);
         }
 
-        function setSrcWithShakaPlayer(instance, elem, options, url) {
+        /**
+         * @private
+         */
+        setSrcWithShakaPlayer(instance, elem, options, url) {
+            return import('shaka').then(() => {
+                /* globals shaka */
 
-            return new Promise(function (resolve, reject) {
+                const player = new shaka.Player(elem);
 
-                require(['shaka'], function () {
-                    /* globals shaka */
+                //player.configure({
+                //    abr: {
+                //        enabled: false
+                //    },
+                //    streaming: {
 
-                    var player = new shaka.Player(elem);
+                //        failureCallback: function () {
+                //            alert(2);
+                //        }
+                //    }
+                //});
 
-                    //player.configure({
-                    //    abr: {
-                    //        enabled: false
-                    //    },
-                    //    streaming: {
+                //shaka.log.setLevel(6);
 
-                    //        failureCallback: function () {
-                    //            alert(2);
-                    //        }
-                    //    }
-                    //});
+                // Listen for error events.
+                player.addEventListener('error', this.onShakaError.bind(this));
 
-                    //shaka.log.setLevel(6);
+                self._shakaPlayer = player;
 
-                    // Listen for error events.
-                    player.addEventListener('error', onShakaError);
+                // This is needed in setCurrentTrackElement
+                self._currentSrc = url;
 
-                    // Try to load a manifest.
-                    // This is an asynchronous process.
-                    player.load(url).then(function () {
-
-                        // This runs if the asynchronous load is successful.
-                        resolve();
-
-                    }, reject);
-
-                    self._shakaPlayer = player;
-
-                    // This is needed in setCurrentTrackElement
-                    self._currentSrc = url;
-                });
+                // Try to load a manifest.
+                // This is an asynchronous process.
+                return player.load(url);
             });
         }
 
-        function setCurrentSrcChromecast(instance, elem, options, url) {
+        /**
+         * @private
+         */
+        setCurrentSrcChromecast(instance, elem, options, url) {
 
             elem.autoplay = true;
 
-            var lrd = new cast.receiver.MediaManager.LoadRequestData();
+            const lrd = new cast.receiver.MediaManager.LoadRequestData();
             lrd.currentTime = (options.playerStartPositionTicks || 0) / 10000000;
             lrd.autoplay = true;
             lrd.media = new cast.receiver.media.MediaInformation();
@@ -418,7 +427,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             try {
                 mediaManager.load(lrd);
                 // This is needed in setCurrentTrackElement
-                self._currentSrc = url;
+                this._currentSrc = url;
 
                 return Promise.resolve();
             } catch (err) {
@@ -428,29 +437,32 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         }
 
-        // Adapted from : https://github.com/googlecast/CastReferencePlayer/blob/master/player.js
-        function onMediaManagerLoadMedia(event) {
+        /**
+         * Adapted from : https://github.com/googlecast/CastReferencePlayer/blob/master/player.js
+         * @private
+         */
+        onMediaManagerLoadMedia(event) {
 
-            if (self._castPlayer) {
-                self._castPlayer.unload(); // Must unload before starting again.
+            if (this._castPlayer) {
+                this._castPlayer.unload(); // Must unload before starting again.
             }
-            self._castPlayer = null;
+            this._castPlayer = null;
 
-            var data = event.data;
+            const data = event.data;
 
-            var media = event.data.media || {};
-            var url = media.contentId;
-            var contentType = media.contentType.toLowerCase();
-            var options = media.customData;
+            const media = event.data.media || {};
+            const url = media.contentId;
+            const contentType = media.contentType.toLowerCase();
+            const options = media.customData;
 
-            var protocol;
-            var ext = 'm3u8';
+            let protocol;
+            const ext = "m3u8";
 
-            var mediaElement = self._mediaElement;
+            const mediaElement = this._mediaElement;
 
-            var host = new cast.player.api.Host({
-                'url': url,
-                'mediaElement': mediaElement
+            const host = new cast.player.api.Host({
+                "url": url,
+                "mediaElement": mediaElement
             });
 
             if (ext === 'm3u8' ||
@@ -474,17 +486,19 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             mediaElement.autoplay = false;
 
-            self._castPlayer = new cast.player.api.Player(host);
+            this._castPlayer = new cast.player.api.Player(host);
 
-            self._castPlayer.load(protocol, data.currentTime || 0);
+            this._castPlayer.load(protocol, data.currentTime || 0);
 
-            self._castPlayer.playWhenHaveEnoughData();
+            this._castPlayer.playWhenHaveEnoughData();
         }
 
-        function initMediaManager() {
-
+        /**
+         * @private
+         */
+        initMediaManager() {
             mediaManager.defaultOnLoad = mediaManager.onLoad.bind(mediaManager);
-            mediaManager.onLoad = onMediaManagerLoadMedia.bind(self);
+            mediaManager.onLoad = this.onMediaManagerLoadMedia.bind(this);
 
             //mediaManager.defaultOnPlay = mediaManager.onPlay.bind(mediaManager);
             //mediaManager.onPlay = function (event) {
@@ -499,38 +513,40 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             };
         }
 
-        function setCurrentSrc(elem, options) {
+        /**
+         * @private
+         */
+        setCurrentSrc(elem, options) {
+            elem.removeEventListener('error', this.onError.bind(this));
 
-            elem.removeEventListener('error', onError);
-
-            var val = options.url;
+            let val = options.url;
             console.debug('playing url: ' + val);
 
             // Convert to seconds
-            var seconds = (options.playerStartPositionTicks || 0) / 10000000;
+            const seconds = (options.playerStartPositionTicks || 0) / 10000000;
             if (seconds) {
                 val += '#t=' + seconds;
             }
 
-            htmlMediaHelper.destroyHlsPlayer(self);
-            htmlMediaHelper.destroyFlvPlayer(self);
-            htmlMediaHelper.destroyCastPlayer(self);
+            htmlMediaHelper.destroyHlsPlayer(this);
+            htmlMediaHelper.destroyFlvPlayer(this);
+            htmlMediaHelper.destroyCastPlayer(this);
 
-            var tracks = getMediaStreamTextTracks(options.mediaSource);
+            const tracks = getMediaStreamTextTracks(options.mediaSource);
 
-            subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSubtitleStreamIndex;
-            if (subtitleTrackIndexToSetOnPlaying != null && subtitleTrackIndexToSetOnPlaying >= 0) {
-                var initialSubtitleStream = options.mediaSource.MediaStreams[subtitleTrackIndexToSetOnPlaying];
+            this.subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSubtitleStreamIndex;
+            if (this.subtitleTrackIndexToSetOnPlaying != null && this.subtitleTrackIndexToSetOnPlaying >= 0) {
+                const initialSubtitleStream = options.mediaSource.MediaStreams[this.subtitleTrackIndexToSetOnPlaying];
                 if (!initialSubtitleStream || initialSubtitleStream.DeliveryMethod === 'Encode') {
-                    subtitleTrackIndexToSetOnPlaying = -1;
+                    this.subtitleTrackIndexToSetOnPlaying = -1;
                 }
             }
 
-            audioTrackIndexToSetOnPlaying = options.playMethod === 'Transcode' ? null : options.mediaSource.DefaultAudioStreamIndex;
+            this.audioTrackIndexToSetOnPlaying = options.playMethod === 'Transcode' ? null : options.mediaSource.DefaultAudioStreamIndex;
 
-            self._currentPlayOptions = options;
+            this._currentPlayOptions = options;
 
-            var crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource);
+            const crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource);
             if (crossOrigin) {
                 elem.crossOrigin = crossOrigin;
             }
@@ -541,58 +557,57 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 return setSrcWithShakaPlayer(self, elem, options, val);
 
-            } else*/ if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
+            } else*/
+            if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
 
-                return setCurrentSrcChromecast(self, elem, options, val);
+                return this.setCurrentSrcChromecast(this, elem, options, val);
             } else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
-                return setSrcWithHlsJs(self, elem, options, val);
+                return this.setSrcWithHlsJs(this, elem, options, val);
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
-
-                return setSrcWithFlvJs(self, elem, options, val);
-
+                return this.setSrcWithFlvJs(this, elem, options, val);
             } else {
-
                 elem.autoplay = true;
 
                 // Safari will not send cookies without this
                 elem.crossOrigin = 'use-credentials';
 
-                return htmlMediaHelper.applySrc(elem, val, options).then(function () {
+                return htmlMediaHelper.applySrc(elem, val, options).then(() => {
+                    this._currentSrc = val;
 
-                    self._currentSrc = val;
-
-                    return htmlMediaHelper.playWithPromise(elem, onError);
+                    return htmlMediaHelper.playWithPromise(elem, this.onError.bind(this));
                 });
             }
         }
 
-        self.setSubtitleStreamIndex = function (index) {
+        setSubtitleStreamIndex(index) {
+            this.setCurrentTrackElement(index);
+        }
 
-            setCurrentTrackElement(index);
-        };
+        resetSubtitleOffset() {
+            this.currentTrackOffset = 0;
+            this.showTrackOffset = false;
+        }
 
-        self.resetSubtitleOffset = function() {
-            currentTrackOffset = 0;
-            showTrackOffset = false;
-        };
+        enableShowingSubtitleOffset() {
+            this.showTrackOffset = true;
+        }
 
-        self.enableShowingSubtitleOffset = function() {
-            showTrackOffset = true;
-        };
+        disableShowingSubtitleOffset() {
+            this.showTrackOffset = false;
+        }
 
-        self.disableShowingSubtitleOffset = function() {
-            showTrackOffset = false;
-        };
+        isShowingSubtitleOffsetEnabled() {
+            return this.showTrackOffset;
+        }
 
-        self.isShowingSubtitleOffsetEnabled = function() {
-            return showTrackOffset;
-        };
-
-        function getTextTrack() {
-            var videoElement = self._mediaElement;
+        /**
+         * @private
+         */
+        getTextTrack() {
+            const videoElement = this._mediaElement;
             if (videoElement) {
                 return Array.from(videoElement.textTracks)
-                    .find(function(trackElement) {
+                    .find(function (trackElement) {
                         // get showing .vtt textTack
                         return trackElement.mode === 'showing';
                     });
@@ -601,69 +616,80 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         }
 
-        self.setSubtitleOffset = function(offset) {
-
-            var offsetValue = parseFloat(offset);
+        /**
+         * @private
+         */
+        setSubtitleOffset(offset) {
+            const offsetValue = parseFloat(offset);
 
             // if .ass currently rendering
-            if (currentSubtitlesOctopus) {
-                updateCurrentTrackOffset(offsetValue);
-                currentSubtitlesOctopus.timeOffset = (self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+            if (this.currentSubtitlesOctopus) {
+                this.updateCurrentTrackOffset(offsetValue);
+                this.currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;;
             } else {
-                var trackElement = getTextTrack();
+                const trackElement = this.getTextTrack();
                 // if .vtt currently rendering
                 if (trackElement) {
-                    setTextTrackSubtitleOffset(trackElement, offsetValue);
-                } else if (currentTrackEvents) {
-                    setTrackEventsSubtitleOffset(currentTrackEvents, offsetValue);
+                    this.setTextTrackSubtitleOffset(trackElement, offsetValue);
+                } else if (this.currentTrackEvents) {
+                    this.setTrackEventsSubtitleOffset(this.currentTrackEvents, offsetValue);
                 } else {
                     console.debug('No available track, cannot apply offset: ', offsetValue);
                 }
             }
-        };
+        }
 
-        function updateCurrentTrackOffset(offsetValue) {
-
-            var relativeOffset = offsetValue;
-            var newTrackOffset = offsetValue;
-            if (currentTrackOffset) {
-                relativeOffset -= currentTrackOffset;
+        /**
+         * @private
+         */
+        updateCurrentTrackOffset(offsetValue) {
+            let relativeOffset = offsetValue;
+            const newTrackOffset = offsetValue;
+            if (this.currentTrackOffset) {
+                relativeOffset -= this.currentTrackOffset;
             }
-            currentTrackOffset = newTrackOffset;
+            this.currentTrackOffset = newTrackOffset;
             // relative to currentTrackOffset
             return relativeOffset;
         }
 
-        function setTextTrackSubtitleOffset(currentTrack, offsetValue) {
-
+        /**
+         * @private
+         */
+        setTextTrackSubtitleOffset(currentTrack, offsetValue) {
             if (currentTrack.cues) {
-                offsetValue = updateCurrentTrackOffset(offsetValue);
+                offsetValue = this.updateCurrentTrackOffset(offsetValue);
                 Array.from(currentTrack.cues)
-                    .forEach(function(cue) {
+                    .forEach(function (cue) {
                         cue.startTime -= offsetValue;
                         cue.endTime -= offsetValue;
                     });
             }
         }
 
-        function setTrackEventsSubtitleOffset(trackEvents, offsetValue) {
-
+        /**
+         * @private
+         */
+        setTrackEventsSubtitleOffset(trackEvents, offsetValue) {
             if (Array.isArray(trackEvents)) {
-                offsetValue = updateCurrentTrackOffset(offsetValue) * 1e7; // ticks
-                trackEvents.forEach(function(trackEvent) {
+                offsetValue = this.updateCurrentTrackOffset(offsetValue) * 1e7; // ticks
+                trackEvents.forEach(function (trackEvent) {
                     trackEvent.StartPositionTicks -= offsetValue;
                     trackEvent.EndPositionTicks -= offsetValue;
                 });
             }
         }
 
-        self.getSubtitleOffset = function() {
-            return currentTrackOffset;
-        };
+        getSubtitleOffset() {
+            return this.currentTrackOffset;
+        }
 
-        function isAudioStreamSupported(stream, deviceProfile) {
+        /**
+         * @private
+         */
+        isAudioStreamSupported(stream, deviceProfile) {
 
-            var codec = (stream.Codec || '').toLowerCase();
+            const codec = (stream.Codec || "").toLowerCase();
 
             if (!codec) {
                 return true;
@@ -674,7 +700,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return true;
             }
 
-            var profiles = deviceProfile.DirectPlayProfiles || [];
+            const profiles = deviceProfile.DirectPlayProfiles || [];
 
             return profiles.filter(function (p) {
 
@@ -692,27 +718,30 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }).length > 0;
         }
 
-        function getSupportedAudioStreams() {
-            var profile = self._lastProfile;
+        /**
+         * @private
+         */
+        getSupportedAudioStreams() {
+            const profile = self._lastProfile;
 
-            return getMediaStreamAudioTracks(self._currentPlayOptions.mediaSource).filter(function (stream) {
-                return isAudioStreamSupported(stream, profile);
+            return getMediaStreamAudioTracks(self._currentPlayOptions.mediaSource).filter((stream) => {
+                return this.isAudioStreamSupported(stream, profile);
             });
         }
 
-        self.setAudioStreamIndex = function (index) {
+        setAudioStreamIndex(index) {
 
-            var streams = getSupportedAudioStreams();
+            const streams = this.getSupportedAudioStreams();
 
             if (streams.length < 2) {
                 // If there's only one supported stream then trust that the player will handle it on it's own
                 return;
             }
 
-            var audioIndex = -1;
-            var i;
-            var length;
-            var stream;
+            let audioIndex = -1;
+            let i;
+            let length;
+            let stream;
 
             for (i = 0, length = streams.length; i < length; i++) {
                 stream = streams[i];
@@ -728,14 +757,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return;
             }
 
-            var elem = self._mediaElement;
+            const elem = self._mediaElement;
             if (!elem) {
                 return;
             }
 
             // https://msdn.microsoft.com/en-us/library/hh772507(v=vs.85).aspx
 
-            var elemAudioTracks = elem.audioTracks || [];
+            const elemAudioTracks = elem.audioTracks || [];
             console.debug('found ' + elemAudioTracks.length + ' audio tracks');
 
             for (i = 0, length = elemAudioTracks.length; i < length; i++) {
@@ -748,188 +777,222 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     elemAudioTracks[i].enabled = false;
                 }
             }
-        };
+        }
 
-        self.stop = function (destroyPlayer) {
-            var elem = self._mediaElement;
-            var src = self._currentSrc;
+        stop(destroyPlayer) {
+            const elem = this._mediaElement;
+            const src = this._currentSrc;
 
             if (elem) {
                 if (src) {
                     elem.pause();
                 }
 
-                htmlMediaHelper.onEndedInternal(self, elem, onError);
+                htmlMediaHelper.onEndedInternal(this, elem, this.onError.bind(this));
 
                 if (destroyPlayer) {
-                    self.destroy();
+                    this.destroy();
                 }
             }
 
-            destroyCustomTrack(elem);
+            this.destroyCustomTrack(elem);
 
             return Promise.resolve();
-        };
+        }
 
-        self.destroy = function () {
-            htmlMediaHelper.destroyHlsPlayer(self);
-            htmlMediaHelper.destroyFlvPlayer(self);
+        destroy() {
+            htmlMediaHelper.destroyHlsPlayer(this);
+            htmlMediaHelper.destroyFlvPlayer(this);
 
             appRouter.setTransparency('none');
 
-            var videoElement = self._mediaElement;
+            const videoElement = this._mediaElement;
 
             if (videoElement) {
-                self._mediaElement = null;
+                this._mediaElement = null;
 
-                destroyCustomTrack(videoElement);
-                videoElement.removeEventListener('timeupdate', onTimeUpdate);
-                videoElement.removeEventListener('ended', onEnded);
-                videoElement.removeEventListener('volumechange', onVolumeChange);
-                videoElement.removeEventListener('pause', onPause);
-                videoElement.removeEventListener('playing', onPlaying);
-                videoElement.removeEventListener('play', onPlay);
-                videoElement.removeEventListener('click', onClick);
-                videoElement.removeEventListener('dblclick', onDblClick);
-                videoElement.removeEventListener('waiting', onWaiting);
+                this.destroyCustomTrack(videoElement);
+                videoElement.removeEventListener('timeupdate', this.onTimeUpdate.bind(this));
+                videoElement.removeEventListener('ended', this.onEnded.bind(this));
+                videoElement.removeEventListener('volumechange', this.onVolumeChange.bind(this));
+                videoElement.removeEventListener('pause', this.onPause.bind(this));
+                videoElement.removeEventListener('playing', this.onPlaying.bind(this));
+                videoElement.removeEventListener('play', this.onPlay.bind(this));
+                videoElement.removeEventListener('click', this.onClick.bind(this));
+                videoElement.removeEventListener('dblclick', this.onDblClick.bind(this));
+                videoElement.removeEventListener('waiting', this.onWaiting.bind(this));
 
                 videoElement.parentNode.removeChild(videoElement);
             }
 
-            var dlg = videoDialog;
+            const dlg = this.videoDialog;
             if (dlg) {
-                videoDialog = null;
+                this.videoDialog = null;
                 dlg.parentNode.removeChild(dlg);
             }
 
             if (screenfull.isEnabled) {
                 screenfull.exit();
             }
-        };
-
-        function onEnded() {
-
-            destroyCustomTrack(this);
-            htmlMediaHelper.onEndedInternal(self, this, onError);
         }
 
-        function onTimeUpdate(e) {
-            // get the player position and the transcoding offset
-            var time = this.currentTime;
+        /**
+         * @private
+         */
+        onEnded() {
+            this.destroyCustomTrack(this);
+            htmlMediaHelper.onEndedInternal(this, this.onEnded.bind(this), this.onError.bind(this));
+        }
 
-            if (time && !self._timeUpdated) {
-                self._timeUpdated = true;
-                ensureValidVideo(this);
+        /**
+         * @private
+         */
+        onTimeUpdate(e) {
+            // get the player position and the transcoding offset
+            const time = this.currentTime;
+
+            if (time && !this._timeUpdated) {
+                this._timeUpdated = true;
+                this.ensureValidVideo(this);
             }
 
-            self._currentTime = time;
+            this._currentTime = time;
 
-            var currentPlayOptions = self._currentPlayOptions;
+            const currentPlayOptions = this._currentPlayOptions;
             // Not sure yet how this is coming up null since we never null it out, but it is causing app crashes
             if (currentPlayOptions) {
-                var timeMs = time * 1000;
+                let timeMs = time * 1000;
                 timeMs += ((currentPlayOptions.transcodingOffsetTicks || 0) / 10000);
-                updateSubtitleText(timeMs);
+                this.updateSubtitleText(timeMs);
             }
 
-            events.trigger(self, 'timeupdate');
+            events.trigger(this, 'timeupdate');
         }
 
-        function onVolumeChange() {
+        /**
+         * @private
+         */
+        onVolumeChange() {
             htmlMediaHelper.saveVolume(this.volume);
-            events.trigger(self, 'volumechange');
+            events.trigger(this, 'volumechange');
         }
 
-        function onNavigatedToOsd() {
-            var dlg = videoDialog;
+        /**
+         * @private
+         */
+        onNavigatedToOsd() {
+            const dlg = this.videoDialog;
             if (dlg) {
                 dlg.classList.remove('videoPlayerContainer-onTop');
 
-                onStartedAndNavigatedToOsd();
+                this.onStartedAndNavigatedToOsd();
             }
         }
 
-        function onStartedAndNavigatedToOsd() {
+        /**
+         * @private
+         */
+        onStartedAndNavigatedToOsd() {
             // If this causes a failure during navigation we end up in an awkward UI state
-            setCurrentTrackElement(subtitleTrackIndexToSetOnPlaying);
+            this.setCurrentTrackElement(this.subtitleTrackIndexToSetOnPlaying);
 
-            if (audioTrackIndexToSetOnPlaying != null && self.canSetAudioStreamIndex()) {
-                self.setAudioStreamIndex(audioTrackIndexToSetOnPlaying);
+            if (this.audioTrackIndexToSetOnPlaying != null && self.canSetAudioStreamIndex()) {
+                self.setAudioStreamIndex(this.audioTrackIndexToSetOnPlaying);
             }
         }
 
-        function onPlaying(e) {
-            if (!self._started) {
-                self._started = true;
-                this.removeAttribute('controls');
+        /**
+         * @private
+         */
+        onPlaying(e) {
+            if (!this._started) {
+                this._started = true;
+                this.onPlaying.removeAttribute('controls');
 
                 loading.hide();
 
-                htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks, function () {
-                    if (currentSubtitlesOctopus) {
-                        currentSubtitlesOctopus.timeOffset = (self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + currentTrackOffset;
-                        currentSubtitlesOctopus.resize();
-                        currentSubtitlesOctopus.resetRenderAheadCache(false);
+                htmlMediaHelper.seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, function () {
+                    if (this.currentSubtitlesOctopus) {
+                        this.currentSubtitlesOctopus.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + currentTrackOffset;
+                        this.currentSubtitlesOctopus.resize();
+                        this.currentSubtitlesOctopus.resetRenderAheadCache(false);
                     }
                 });
 
-                if (self._currentPlayOptions.fullscreen) {
+                if (this._currentPlayOptions.fullscreen) {
 
-                    appRouter.showVideoOsd().then(onNavigatedToOsd);
+                    appRouter.showVideoOsd().then(this.onNavigatedToOsd.bind(this));
 
                 } else {
                     appRouter.setTransparency('backdrop');
-                    videoDialog.classList.remove('videoPlayerContainer-onTop');
+                    this.videoDialog.classList.remove('videoPlayerContainer-onTop');
 
-                    onStartedAndNavigatedToOsd();
+                    this.onStartedAndNavigatedToOsd();
                 }
             }
-            events.trigger(self, 'playing');
+            events.trigger(this, 'playing');
         }
 
-        function onPlay(e) {
-            events.trigger(self, 'unpause');
+        /**
+         * @private
+         */
+        onPlay(e) {
+            events.trigger(this, 'unpause');
         }
 
-        function ensureValidVideo(elem) {
-            if (elem !== self._mediaElement) {
+        /**
+         * @private
+         */
+        ensureValidVideo(elem) {
+            if (elem !== this._mediaElement) {
                 return;
             }
 
             if (elem.videoWidth === 0 && elem.videoHeight === 0) {
-                var mediaSource = (self._currentPlayOptions || {}).mediaSource;
+                const mediaSource = (this._currentPlayOptions || {}).mediaSource;
 
                 // Only trigger this if there is media info
                 // Avoid triggering in situations where it might not actually have a video stream (audio only live tv channel)
                 if (!mediaSource || mediaSource.RunTimeTicks) {
-                    htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
-                    return;
+                    htmlMediaHelper.onErrorInternal(this, 'mediadecodeerror');
                 }
             }
         }
 
-        function onClick() {
-            events.trigger(self, 'click');
+        /**
+         * @private
+         */
+        onClick() {
+            events.trigger(this, 'click');
         }
 
-        function onDblClick() {
-            events.trigger(self, 'dblclick');
+        /**
+         * @private
+         */
+        onDblClick() {
+            events.trigger(this, 'dblclick');
         }
 
-        function onPause() {
-            events.trigger(self, 'pause');
+        /**
+         * @private
+         */
+        onPause() {
+            events.trigger(this, 'pause');
         }
 
-        function onWaiting() {
-            events.trigger(self, 'waiting');
+        onWaiting() {
+            events.trigger(this, 'waiting');
         }
 
-        function onError() {
-            var errorCode = this.error ? (this.error.code || 0) : 0;
-            var errorMessage = this.error ? (this.error.message || '') : '';
+        /**
+         * @private
+         */
+        onError() {
+            const errorCode = this.onError.error ? (this.onError.error.code || 0) : 0;
+            const errorMessage = this.onError.error ? (this.onError.error.message || "") : "";
             console.error('media element error: ' + errorCode.toString() + ' ' + errorMessage);
 
-            var type;
+            let type;
 
             switch (errorCode) {
                 case 1:
@@ -959,30 +1022,33 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     return;
             }
 
-            htmlMediaHelper.onErrorInternal(self, type);
+            htmlMediaHelper.onErrorInternal(this, type);
         }
 
-        function destroyCustomTrack(videoElement) {
-            if (self._resizeObserver) {
-                self._resizeObserver.disconnect();
-                self._resizeObserver = null;
+        /**
+         * @private
+         */
+        destroyCustomTrack(videoElement) {
+            if (this._resizeObserver) {
+                this._resizeObserver.disconnect();
+                this._resizeObserver = null;
             }
 
-            if (videoSubtitlesElem) {
-                var subtitlesContainer = videoSubtitlesElem.parentNode;
+            if (this.videoSubtitlesElem) {
+                const subtitlesContainer = this.videoSubtitlesElem.parentNode;
                 if (subtitlesContainer) {
                     tryRemoveElement(subtitlesContainer);
                 }
-                videoSubtitlesElem = null;
+                this.videoSubtitlesElem = null;
             }
 
-            currentTrackEvents = null;
+            this.currentTrackEvents = null;
 
             if (videoElement) {
-                var allTracks = videoElement.textTracks || []; // get list of tracks
-                for (var i = 0; i < allTracks.length; i++) {
+                const allTracks = videoElement.textTracks || []; // get list of tracks
+                for (let i = 0; i < allTracks.length; i++) {
 
-                    var currentTrack = allTracks[i];
+                    const currentTrack = allTracks[i];
 
                     if (currentTrack.label.indexOf('manualTrack') !== -1) {
                         currentTrack.mode = 'disabled';
@@ -990,85 +1056,94 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 }
             }
 
-            customTrackIndex = -1;
-            currentClock = null;
-            self._currentAspectRatio = null;
+            this.customTrackIndex = -1;
+            this.currentClock = null;
+            this._currentAspectRatio = null;
 
-            var octopus = currentSubtitlesOctopus;
+            const octopus = this.currentSubtitlesOctopus;
             if (octopus) {
                 octopus.dispose();
             }
-            currentSubtitlesOctopus = null;
+            this.currentSubtitlesOctopus = null;
 
-            var renderer = currentAssRenderer;
+            const renderer = this.currentAssRenderer;
             if (renderer) {
                 renderer.setEnabled(false);
             }
-            currentAssRenderer = null;
+            this.currentAssRenderer = null;
         }
 
-        self.destroyCustomTrack = destroyCustomTrack;
-
-        function fetchSubtitlesUwp(track, item) {
+        /**
+         * @private
+         */
+        fetchSubtitlesUwp(track, item) {
             return Windows.Storage.StorageFile.getFileFromPathAsync(track.Path).then(function (storageFile) {
-                return Windows.Storage.FileIO.readTextAsync(storageFile).then(function (text) {
-                    return JSON.parse(text);
-                });
+                return Windows.Storage.FileIO.readTextAsync(storageFile);
+            }).then(function (text) {
+                return JSON.parse(text);
             });
         }
 
-        function fetchSubtitles(track, item) {
+        /**
+         * @private
+         */
+        fetchSubtitles(track, item) {
             if (window.Windows && itemHelper.isLocalItem(item)) {
-                return fetchSubtitlesUwp(track, item);
+                return this.fetchSubtitlesUwp(track, item);
             }
 
-            incrementFetchQueue();
-            return new Promise(function (resolve, reject) {
-                var xhr = new XMLHttpRequest();
+            this.incrementFetchQueue();
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
 
-                var url = getTextTrackUrl(track, item, '.js');
+                const url = getTextTrackUrl(track, item, ".js");
 
                 xhr.open('GET', url, true);
 
-                xhr.onload = function (e) {
+                xhr.onload = (e) => {
                     resolve(JSON.parse(this.response));
-                    decrementFetchQueue();
+                    this.decrementFetchQueue();
                 };
 
-                xhr.onerror = function (e) {
+                xhr.onerror = (e) => {
                     reject(e);
-                    decrementFetchQueue();
+                    this.decrementFetchQueue();
                 };
 
                 xhr.send();
             });
         }
 
-        function setTrackForDisplay(videoElement, track) {
-
+        /**
+         * @private
+         */
+        setTrackForDisplay(videoElement, track) {
             if (!track) {
-                destroyCustomTrack(videoElement);
+                this.destroyCustomTrack(videoElement);
                 return;
             }
 
             // skip if already playing this track
-            if (customTrackIndex === track.Index) {
+            if (this.customTrackIndex === track.Index) {
                 return;
             }
 
-            self.resetSubtitleOffset();
-            var item = self._currentPlayOptions.item;
+            this.resetSubtitleOffset();
+            const item = self._currentPlayOptions.item;
 
-            destroyCustomTrack(videoElement);
-            customTrackIndex = track.Index;
-            renderTracksEvents(videoElement, track, item);
-            lastCustomTrackMs = 0;
+            this.destroyCustomTrack(videoElement);
+            this.customTrackIndex = track.Index;
+            this.renderTracksEvents(videoElement, track, item);
+            this.lastCustomTrackMs = 0;
         }
 
-        function renderSsaAss(videoElement, track, item) {
-            var attachments = self._currentPlayOptions.mediaSource.MediaAttachments || [];
-            var apiClient = connectionManager.getApiClient(item);
-            var options = {
+        /**
+         * @private
+         */
+        renderSsaAss(videoElement, track, item) {
+            const attachments = self._currentPlayOptions.mediaSource.MediaAttachments || [];
+            const apiClient = connectionManager.getApiClient(item);
+            const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
                 fonts: attachments.map(function (i) {
@@ -1076,13 +1151,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 }),
                 workerUrl: appRouter.baseUrl() + '/libraries/subtitles-octopus-worker.js',
                 legacyWorkerUrl: appRouter.baseUrl() + '/libraries/subtitles-octopus-worker-legacy.js',
-                onError: function() {
+                onError() {
                     htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
                 },
-                timeOffset: (self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
                 // new octopus options; override all, even defaults
-                renderMode: 'blend',
+                renderMode: "blend",
                 dropAllAnimations: false,
                 libassMemoryLimit: 40,
                 libassGlyphLimit: 40,
@@ -1093,13 +1168,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 resizeVariation: 0.2,
                 renderAhead: 90
             };
-            require(['JavascriptSubtitlesOctopus'], function(SubtitlesOctopus) {
-                currentSubtitlesOctopus = new SubtitlesOctopus(options);
+            import('JavascriptSubtitlesOctopus').then(SubtitlesOctopus => {
+                this.currentSubtitlesOctopus = new SubtitlesOctopus(options);
             });
         }
 
-        function requiresCustomSubtitlesElement() {
-
+        /**
+         * @private
+         */
+        requiresCustomSubtitlesElement() {
             // after a system update, ps4 isn't showing anything when creating a track element dynamically
             // going to have to do it ourselves
             if (browser.ps4) {
@@ -1116,7 +1193,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             if (browser.iOS) {
-                var userAgent = navigator.userAgent.toLowerCase();
+                const userAgent = navigator.userAgent.toLowerCase();
                 // works in the browser but not the native app
                 if ((userAgent.indexOf('os 9') !== -1 || userAgent.indexOf('os 8') !== -1) && userAgent.indexOf('safari') === -1) {
                     return true;
@@ -1126,22 +1203,28 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return false;
         }
 
-        function renderSubtitlesWithCustomElement(videoElement, track, item) {
-            fetchSubtitles(track, item).then(function (data) {
-                if (!videoSubtitlesElem) {
-                    var subtitlesContainer = document.createElement('div');
+        /**
+         * @private
+         */
+        renderSubtitlesWithCustomElement(videoElement, track, item) {
+            this.fetchSubtitles(track, item).then((data) => {
+                if (!this.videoSubtitlesElem) {
+                    const subtitlesContainer = document.createElement("div");
                     subtitlesContainer.classList.add('videoSubtitles');
                     subtitlesContainer.innerHTML = '<div class="videoSubtitlesInner"></div>';
-                    videoSubtitlesElem = subtitlesContainer.querySelector('.videoSubtitlesInner');
-                    setSubtitleAppearance(subtitlesContainer, videoSubtitlesElem);
+                    this.videoSubtitlesElem = subtitlesContainer.querySelector('.videoSubtitlesInner');
+                    this.setSubtitleAppearance(subtitlesContainer, this.videoSubtitlesElem);
                     videoElement.parentNode.appendChild(subtitlesContainer);
-                    currentTrackEvents = data.TrackEvents;
+                    this.currentTrackEvents = data.TrackEvents;
                 }
             });
         }
 
-        function setSubtitleAppearance(elem, innerElem) {
-            require(['userSettings', 'subtitleAppearanceHelper'], function (userSettings, subtitleAppearanceHelper) {
+        /**
+         * @private
+         */
+        setSubtitleAppearance(elem, innerElem) {
+            Promise.all([import('userSettings'), import('subtitleAppearanceHelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
                 subtitleAppearanceHelper.applyStyles({
                     text: innerElem,
                     window: elem
@@ -1149,9 +1232,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         }
 
-        function getCueCss(appearance, selector) {
+        /**
+         * @private
+         */
+        getCueCss(appearance, selector) {
 
-            var html = selector + '::cue {';
+            let html = selector + "::cue {";
 
             html += appearance.text.map(function (s) {
 
@@ -1164,13 +1250,16 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return html;
         }
 
-        function setCueAppearance() {
+        /**
+         * @private
+         */
+        setCueAppearance() {
 
-            require(['userSettings', 'subtitleAppearanceHelper'], function (userSettings, subtitleAppearanceHelper) {
+            Promise.all([import('userSettings'), import('subtitleAppearanceHelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
 
-                var elementId = self.id + '-cuestyle';
+                const elementId = self.id + "-cuestyle";
 
-                var styleElem = document.querySelector('#' + elementId);
+                let styleElem = document.querySelector("#" + elementId);
                 if (!styleElem) {
                     styleElem = document.createElement('style');
                     styleElem.id = elementId;
@@ -1178,26 +1267,28 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     document.getElementsByTagName('head')[0].appendChild(styleElem);
                 }
 
-                styleElem.innerHTML = getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings(), true), '.htmlvideoplayer');
+                styleElem.innerHTML = this.getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings(), true), '.htmlvideoplayer');
             });
         }
 
-        function renderTracksEvents(videoElement, track, item) {
-
+        /**
+         * @private
+         */
+        renderTracksEvents(videoElement, track, item) {
             if (!itemHelper.isLocalItem(item) || track.IsExternal) {
-                var format = (track.Codec || '').toLowerCase();
+                const format = (track.Codec || "").toLowerCase();
                 if (format === 'ssa' || format === 'ass') {
-                    renderSsaAss(videoElement, track, item);
+                    this.renderSsaAss(videoElement, track, item);
                     return;
                 }
 
-                if (requiresCustomSubtitlesElement()) {
-                    renderSubtitlesWithCustomElement(videoElement, track, item);
+                if (this.requiresCustomSubtitlesElement()) {
+                    this.renderSubtitlesWithCustomElement(videoElement, track, item);
                     return;
                 }
             }
 
-            var trackElement = null;
+            let trackElement = null;
             if (videoElement.textTracks && videoElement.textTracks.length > 0) {
                 trackElement = videoElement.textTracks[0];
 
@@ -1220,7 +1311,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             // download the track json
-            fetchSubtitles(track, item).then(function (data) {
+            this.fetchSubtitles(track, item).then(function (data) {
 
                 // show in ui
                 console.debug('downloaded ' + data.TrackEvents.length + ' track events');
@@ -1228,8 +1319,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 // in safari, the cues need to be added before setting the track mode to showing
                 data.TrackEvents.forEach(function (trackEvent) {
 
-                    var trackCueObject = window.VTTCue || window.TextTrackCue;
-                    var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
+                    const trackCueObject = window.VTTCue || window.TextTrackCue;
+                    const cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
                     trackElement.addCue(cue);
                 });
@@ -1237,9 +1328,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         }
 
-        function updateSubtitleText(timeMs) {
-
-            var clock = currentClock;
+        /**
+         * @private
+         */
+        updateSubtitleText(timeMs) {
+            const clock = this.currentClock;
             if (clock) {
                 try {
                     clock.seek(timeMs / 1000);
@@ -1249,15 +1342,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return;
             }
 
-            var trackEvents = currentTrackEvents;
-            var subtitleTextElement = videoSubtitlesElem;
+            const trackEvents = this.currentTrackEvents;
+            const subtitleTextElement = this.videoSubtitlesElem;
 
             if (trackEvents && subtitleTextElement) {
-                var ticks = timeMs * 10000;
-                var selectedTrackEvent;
-                for (var i = 0; i < trackEvents.length; i++) {
+                const ticks = timeMs * 10000;
+                let selectedTrackEvent;
+                for (let i = 0; i < trackEvents.length; i++) {
 
-                    var currentTrackEvent = trackEvents[i];
+                    const currentTrackEvent = trackEvents[i];
                     if (currentTrackEvent.StartPositionTicks <= ticks && currentTrackEvent.EndPositionTicks >= ticks) {
                         selectedTrackEvent = currentTrackEvent;
                         break;
@@ -1274,20 +1367,23 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         }
 
-        function setCurrentTrackElement(streamIndex) {
+        /**
+         * @private
+         */
+        setCurrentTrackElement(streamIndex) {
 
             console.debug('setting new text track index to: ' + streamIndex);
 
-            var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
+            const mediaStreamTextTracks = getMediaStreamTextTracks(this._currentPlayOptions.mediaSource);
 
-            var track = streamIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
+            let track = streamIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
                 return t.Index === streamIndex;
             })[0];
 
-            setTrackForDisplay(self._mediaElement, track);
-            if (enableNativeTrackSupport(self._currentSrc, track)) {
+            this.setTrackForDisplay(this._mediaElement, track);
+            if (enableNativeTrackSupport(this._currentSrc, track)) {
                 if (streamIndex !== -1) {
-                    setCueAppearance();
+                    this.setCueAppearance();
                 }
 
             } else {
@@ -1297,19 +1393,17 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         }
 
-        function createMediaElement(options) {
-
-            return new Promise(function (resolve, reject) {
-
-                var dlg = document.querySelector('.videoPlayerContainer');
+        /**
+         * @private
+         */
+        createMediaElement(options) {
+            const dlg = document.querySelector(".videoPlayerContainer");
 
                 if (!dlg) {
-
-                    require(['css!./style'], function () {
-
+                    return import('css!./style').then(() => {
                         loading.show();
 
-                        var dlg = document.createElement('div');
+                        const dlg = document.createElement("div");
 
                         dlg.classList.add('videoPlayerContainer');
 
@@ -1317,8 +1411,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                             dlg.classList.add('videoPlayerContainer-onTop');
                         }
 
-                        var html = '';
-                        var cssClass = 'htmlvideoplayer';
+                        let html = "";
+                        let cssClass = "htmlvideoplayer";
 
                         if (!browser.chromecast) {
                             cssClass += ' htmlvideoplayer-moveupsubtitles';
@@ -1335,29 +1429,29 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         html += '</video>';
 
                         dlg.innerHTML = html;
-                        var videoElement = dlg.querySelector('video');
+                        const videoElement = dlg.querySelector("video");
 
                         videoElement.volume = htmlMediaHelper.getSavedVolume();
-                        videoElement.addEventListener('timeupdate', onTimeUpdate);
-                        videoElement.addEventListener('ended', onEnded);
-                        videoElement.addEventListener('volumechange', onVolumeChange);
-                        videoElement.addEventListener('pause', onPause);
-                        videoElement.addEventListener('playing', onPlaying);
-                        videoElement.addEventListener('play', onPlay);
-                        videoElement.addEventListener('click', onClick);
-                        videoElement.addEventListener('dblclick', onDblClick);
-                        videoElement.addEventListener('waiting', onWaiting);
+                        videoElement.addEventListener('timeupdate', this.onTimeUpdate);
+                        videoElement.addEventListener('ended', this.onEnded);
+                        videoElement.addEventListener('volumechange', this.onVolumeChange);
+                        videoElement.addEventListener('pause', this.onPause);
+                        videoElement.addEventListener('playing', this.onPlaying);
+                        videoElement.addEventListener('play', this.onPlay);
+                        videoElement.addEventListener('click', this.onClick);
+                        videoElement.addEventListener('dblclick', this.onDblClick);
+                        videoElement.addEventListener('waiting', this.onWaiting);
                         if (options.backdropUrl) {
                             videoElement.poster = options.backdropUrl;
                         }
 
                         document.body.insertBefore(dlg, document.body.firstChild);
-                        videoDialog = dlg;
-                        self._mediaElement = videoElement;
+                        this.videoDialog = dlg;
+                        this._mediaElement = videoElement;
 
                         if (mediaManager) {
                             if (!mediaManager.embyInit) {
-                                initMediaManager();
+                                this.initMediaManager();
                                 mediaManager.embyInit = true;
                             }
                             mediaManager.setMediaElement(videoElement);
@@ -1366,41 +1460,50 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         // don't animate on smart tv's, too slow
                         if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
                             zoomIn(dlg).then(function () {
-                                resolve(videoElement);
+                                return videoElement;
                             });
                         } else {
                             hidePrePlaybackPage();
-                            resolve(videoElement);
+                            return videoElement;
                         }
                     });
                 } else {
-                    resolve(dlg.querySelector('video'));
+                    return Promise.resolve(dlg.querySelector('video'));
                 }
-            });
         }
+
+    /**
+     * @private
+     */
+    canPlayMediaType(mediaType) {
+        return (mediaType || '').toLowerCase() === 'video';
     }
 
-    HtmlVideoPlayer.prototype.canPlayMediaType = function (mediaType) {
-        return (mediaType || '').toLowerCase() === 'video';
-    };
-
-    HtmlVideoPlayer.prototype.supportsPlayMethod = function (playMethod, item) {
+    /**
+     * @private
+     */
+    supportsPlayMethod(playMethod, item) {
         if (appHost.supportsPlayMethod) {
             return appHost.supportsPlayMethod(playMethod, item);
         }
 
         return true;
-    };
+    }
 
-    HtmlVideoPlayer.prototype.getDeviceProfile = function (item, options) {
-        var instance = this;
-        return getDeviceProfileInternal(item, options).then(function (profile) {
-            instance._lastProfile = profile;
+    /**
+     * @private
+     */
+    getDeviceProfile(item, options) {
+        return HtmlVideoPlayer.getDeviceProfileInternal(item, options).then((profile) => {
+            this._lastProfile = profile;
             return profile;
         });
-    };
+    }
 
-    function getDeviceProfileInternal(item, options) {
+    /**
+     * @private
+     */
+    static getDeviceProfileInternal(item, options) {
         if (appHost.getDeviceProfile) {
             return appHost.getDeviceProfile(item, options);
         }
@@ -1408,14 +1511,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         return getDefaultProfile();
     }
 
-    var supportedFeatures;
+    /**
+     * @private
+     */
+    static getSupportedFeatures() {
+        const list = [];
 
-    function getSupportedFeatures() {
-
-        var list = [];
-
-        var video = document.createElement('video');
-        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' || document.pictureInPictureEnabled) {
+        const video = document.createElement("video");
+        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function" || document.pictureInPictureEnabled) {
             list.push('PictureInPicture');
         } else if (window.Windows) {
             if (Windows.UI.ViewManagement.ApplicationView.getForCurrentView().isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)) {
@@ -1432,57 +1535,55 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         list.push('SetBrightness');
-        list.push('SetAspectRatio');
+        list.push("SetAspectRatio");
 
         return list;
     }
 
-    HtmlVideoPlayer.prototype.supports = function (feature) {
-        if (!supportedFeatures) {
-            supportedFeatures = getSupportedFeatures();
+    supports(feature) {
+        if (!this.supportedFeatures) {
+            this.supportedFeatures = HtmlVideoPlayer.getSupportedFeatures();
         }
 
-        return supportedFeatures.indexOf(feature) !== -1;
-    };
+        return this.supportedFeatures.contains(feature);
+    }
 
     // Save this for when playback stops, because querying the time at that point might return 0
-    HtmlVideoPlayer.prototype.currentTime = function (val) {
-
-        var mediaElement = this._mediaElement;
+    currentTime(val) {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             if (val != null) {
                 mediaElement.currentTime = val / 1000;
                 return;
             }
 
-            var currentTime = this._currentTime;
+            const currentTime = this._currentTime;
             if (currentTime) {
                 return currentTime * 1000;
             }
 
             return (mediaElement.currentTime || 0) * 1000;
         }
-    };
+    }
 
-    HtmlVideoPlayer.prototype.duration = function (val) {
-
-        var mediaElement = this._mediaElement;
+    duration(val) {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
-            var duration = mediaElement.duration;
+            const duration = mediaElement.duration;
             if (htmlMediaHelper.isValidDuration(duration)) {
                 return duration * 1000;
             }
         }
 
         return null;
-    };
+    }
 
-    HtmlVideoPlayer.prototype.canSetAudioStreamIndex = function (index) {
+    canSetAudioStreamIndex(index) {
         if (browser.tizen || browser.orsay) {
             return true;
         }
 
-        var video = this._mediaElement;
+        const video = this._mediaElement;
         if (video) {
             if (video.audioTracks) {
                 return true;
@@ -1490,26 +1591,24 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         return false;
-    };
+    }
 
-    function onPictureInPictureError(err) {
+    static onPictureInPictureError(err) {
         console.error('Picture in picture error: ' + err.toString());
     }
 
-    HtmlVideoPlayer.prototype.setPictureInPictureEnabled = function (isEnabled) {
-
-        var video = this._mediaElement;
+    setPictureInPictureEnabled(isEnabled) {
+        const video = this._mediaElement;
 
         if (document.pictureInPictureEnabled) {
             if (video) {
                 if (isEnabled) {
-                    video.requestPictureInPicture().catch(onPictureInPictureError);
+                    video.requestPictureInPicture().catch(HtmlVideoPlayer.onPictureInPictureError);
                 } else {
-                    document.exitPictureInPicture().catch(onPictureInPictureError);
+                    document.exitPictureInPicture().catch(HtmlVideoPlayer.onPictureInPictureError);
                 }
             }
         } else if (window.Windows) {
-
             this.isPip = isEnabled;
             if (isEnabled) {
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay);
@@ -1517,93 +1616,90 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
         } else {
-            if (video && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
-                video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
+            if (video && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
+                video.webkitSetPresentationMode(isEnabled ? "picture-in-picture" : "inline");
             }
         }
-    };
+    }
 
-    HtmlVideoPlayer.prototype.isPictureInPictureEnabled = function () {
-
+    isPictureInPictureEnabled() {
         if (document.pictureInPictureEnabled) {
             return document.pictureInPictureElement ? true : false;
         } else if (window.Windows) {
             return this.isPip || false;
         } else {
-            var video = this._mediaElement;
+            const video = this._mediaElement;
             if (video) {
-                return video.webkitPresentationMode === 'picture-in-picture';
+                return video.webkitPresentationMode === "picture-in-picture";
             }
         }
 
         return false;
-    };
+    }
 
-    HtmlVideoPlayer.prototype.isAirPlayEnabled = function () {
-
+    static isAirPlayEnabled() {
         if (document.AirPlayEnabled) {
             return document.AirplayElement ? true : false;
         }
 
         return false;
-    };
+    }
 
-    HtmlVideoPlayer.prototype.setAirPlayEnabled = function (isEnabled) {
-        var video = this._mediaElement;
+    setAirPlayEnabled(isEnabled) {
+        const video = this._mediaElement;
 
         if (document.AirPlayEnabled) {
             if (video) {
                 if (isEnabled) {
                     video.requestAirPlay().catch(function(err) {
-                        console.error('Error requesting AirPlay', err);
+                        console.error("Error requesting AirPlay", err);
                     });
                 } else {
                     document.exitAirPLay().catch(function(err) {
-                        console.error('Error exiting AirPlay', err);
+                        console.error("Error exiting AirPlay", err);
                     });
                 }
             }
         } else {
             video.webkitShowPlaybackTargetPicker();
         }
-    };
+    }
 
-    HtmlVideoPlayer.prototype.setBrightness = function (val) {
-
-        var elem = this._mediaElement;
+    setBrightness(val) {
+        const elem = this._mediaElement;
 
         if (elem) {
             val = Math.max(0, val);
             val = Math.min(100, val);
 
-            var rawValue = val;
+            let rawValue = val;
             rawValue = Math.max(20, rawValue);
 
-            var cssValue = rawValue >= 100 ? 'none' : (rawValue / 100);
+            const cssValue = rawValue >= 100 ? "none" : (rawValue / 100);
             elem.style['-webkit-filter'] = 'brightness(' + cssValue + ');';
             elem.style.filter = 'brightness(' + cssValue + ')';
             elem.brightnessValue = val;
             events.trigger(this, 'brightnesschange');
         }
-    };
+    }
 
-    HtmlVideoPlayer.prototype.getBrightness = function () {
-        var elem = this._mediaElement;
+    getBrightness() {
+        const elem = this._mediaElement;
         if (elem) {
-            var val = elem.brightnessValue;
+            const val = elem.brightnessValue;
             return val == null ? 100 : val;
         }
-    };
+    }
 
-    HtmlVideoPlayer.prototype.seekable = function () {
-        var mediaElement = this._mediaElement;
+    seekable() {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
 
-            var seekable = mediaElement.seekable;
+            const seekable = mediaElement.seekable;
             if (seekable && seekable.length) {
 
-                var start = seekable.start(0);
-                var end = seekable.end(0);
+                let start = seekable.start(0);
+                let end = seekable.end(0);
 
                 if (!htmlMediaHelper.isValidDuration(start)) {
                     start = 0;
@@ -1617,144 +1713,142 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             return false;
         }
-    };
+    }
 
-    HtmlVideoPlayer.prototype.pause = function () {
-        var mediaElement = this._mediaElement;
+    pause() {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.pause();
         }
-    };
+    }
 
     // This is a retry after error
-    HtmlVideoPlayer.prototype.resume = function () {
-        var mediaElement = this._mediaElement;
+    resume() {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.play();
         }
-    };
+    }
 
-    HtmlVideoPlayer.prototype.unpause = function () {
-        var mediaElement = this._mediaElement;
+    unpause() {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.play();
         }
-    };
+    }
 
-    HtmlVideoPlayer.prototype.paused = function () {
-
-        var mediaElement = this._mediaElement;
+    paused() {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             return mediaElement.paused;
         }
 
         return false;
-    };
+    }
 
-    HtmlVideoPlayer.prototype.setPlaybackRate = function (value) {
-        var mediaElement = this._mediaElement;
+    setPlaybackRate(value) {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.playbackRate = value;
         }
     };
 
-    HtmlVideoPlayer.prototype.getPlaybackRate = function () {
-        var mediaElement = this._mediaElement;
+    getPlaybackRate() {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             return mediaElement.playbackRate;
         }
         return null;
     };
 
-    HtmlVideoPlayer.prototype.setVolume = function (val) {
-        var mediaElement = this._mediaElement;
+    setVolume(val) {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.volume = val / 100;
         }
-    };
+    }
 
-    HtmlVideoPlayer.prototype.getVolume = function () {
-        var mediaElement = this._mediaElement;
+    getVolume() {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             return Math.min(Math.round(mediaElement.volume * 100), 100);
         }
-    };
+    }
 
-    HtmlVideoPlayer.prototype.volumeUp = function () {
+    volumeUp() {
         this.setVolume(Math.min(this.getVolume() + 2, 100));
-    };
+    }
 
-    HtmlVideoPlayer.prototype.volumeDown = function () {
+    volumeDown() {
         this.setVolume(Math.max(this.getVolume() - 2, 0));
-    };
+    }
 
-    HtmlVideoPlayer.prototype.setMute = function (mute) {
-        var mediaElement = this._mediaElement;
+    setMute(mute) {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.muted = mute;
         }
-    };
+    }
 
-    HtmlVideoPlayer.prototype.isMuted = function () {
-        var mediaElement = this._mediaElement;
+    isMuted() {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             return mediaElement.muted;
         }
         return false;
-    };
+    }
 
-    HtmlVideoPlayer.prototype.setAspectRatio = function (val) {
-        var mediaElement = this._mediaElement;
+    setAspectRatio(val) {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
-            if ('auto' === val) {
-                mediaElement.style.removeProperty('object-fit');
+            if ("auto" === val) {
+                mediaElement.style.removeProperty("object-fit");
             } else {
-                mediaElement.style['object-fit'] = val;
+                mediaElement.style["object-fit"] = val;
             }
         }
         this._currentAspectRatio = val;
-    };
+    }
 
-    HtmlVideoPlayer.prototype.getAspectRatio = function () {
-        return this._currentAspectRatio || 'auto';
-    };
+    getAspectRatio() {
+        return this._currentAspectRatio || "auto";
+    }
 
-    HtmlVideoPlayer.prototype.getSupportedAspectRatios = function () {
+    getSupportedAspectRatios() {
         return [{
-            name: 'Auto',
-            id: 'auto'
+            name: "Auto",
+            id: "auto"
         }, {
-            name: 'Cover',
-            id: 'cover'
+            name: "Cover",
+            id: "cover"
         }, {
-            name: 'Fill',
-            id: 'fill'
+            name: "Fill",
+            id: "fill"
         }];
-    };
+    }
 
-    HtmlVideoPlayer.prototype.togglePictureInPicture = function () {
+    togglePictureInPicture() {
         return this.setPictureInPictureEnabled(!this.isPictureInPictureEnabled());
-    };
+    }
 
-    HtmlVideoPlayer.prototype.toggleAirPlay = function () {
+    toggleAirPlay() {
         return this.setAirPlayEnabled(!this.isAirPlayEnabled());
-    };
+    }
 
-    HtmlVideoPlayer.prototype.getBufferedRanges = function () {
-        var mediaElement = this._mediaElement;
+    getBufferedRanges() {
+        const mediaElement = this._mediaElement;
         if (mediaElement) {
             return htmlMediaHelper.getBufferedRanges(this, mediaElement);
         }
 
         return [];
-    };
+    }
 
-    HtmlVideoPlayer.prototype.getStats = function () {
+    getStats() {
+        const mediaElement = this._mediaElement;
+        const playOptions = this._currentPlayOptions || [];
 
-        var mediaElement = this._mediaElement;
-        var playOptions = this._currentPlayOptions || [];
-
-        var categories = [];
+        const categories = [];
 
         if (!mediaElement) {
             return Promise.resolve({
@@ -1762,22 +1856,22 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         }
 
-        var mediaCategory = {
+        const mediaCategory = {
             stats: [],
-            type: 'media'
+            type: "media"
         };
         categories.push(mediaCategory);
 
         if (playOptions.url) {
             //  create an anchor element (note: no need to append this element to the document)
-            var link = document.createElement('a');
+            let link = document.createElement("a");
             //  set href to any path
             link.setAttribute('href', playOptions.url);
-            var protocol = (link.protocol || '').replace(':', '');
+            const protocol = (link.protocol || "").replace(":", "");
 
             if (protocol) {
                 mediaCategory.stats.push({
-                    label: globalize.translate('LabelProtocol'),
+                    label: globalize.translate("LabelProtocol"),
                     value: protocol
                 });
             }
@@ -1787,30 +1881,30 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         if (this._hlsPlayer || this._shakaPlayer) {
             mediaCategory.stats.push({
-                label: globalize.translate('LabelStreamType'),
+                label: globalize.translate("LabelStreamType"),
                 value: 'HLS'
             });
         } else {
             mediaCategory.stats.push({
-                label: globalize.translate('LabelStreamType'),
+                label: globalize.translate("LabelStreamType"),
                 value: 'Video'
             });
         }
 
-        var videoCategory = {
+        const videoCategory = {
             stats: [],
-            type: 'video'
+            type: "video"
         };
         categories.push(videoCategory);
 
-        var rect = mediaElement.getBoundingClientRect ? mediaElement.getBoundingClientRect() : {};
-        var height = parseInt(rect.height);
-        var width = parseInt(rect.width);
+        const rect = mediaElement.getBoundingClientRect ? mediaElement.getBoundingClientRect() : {};
+        let height = parseInt(rect.height);
+        let width = parseInt(rect.width);
 
         // Don't show player dimensions on smart TVs because the app UI could be lower resolution than the video and this causes users to think there is a problem
         if (width && height && !browser.tv) {
             videoCategory.stats.push({
-                label: globalize.translate('LabelPlayerDimensions'),
+                label: globalize.translate("LabelPlayerDimensions"),
                 value: width + 'x' + height
             });
         }
@@ -1820,34 +1914,34 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         if (width && height) {
             videoCategory.stats.push({
-                label: globalize.translate('LabelVideoResolution'),
+                label: globalize.translate("LabelVideoResolution"),
                 value: width + 'x' + height
             });
         }
 
         if (mediaElement.getVideoPlaybackQuality) {
-            var playbackQuality = mediaElement.getVideoPlaybackQuality();
+            const playbackQuality = mediaElement.getVideoPlaybackQuality();
 
-            var droppedVideoFrames = playbackQuality.droppedVideoFrames || 0;
+            const droppedVideoFrames = playbackQuality.droppedVideoFrames || 0;
             videoCategory.stats.push({
-                label: globalize.translate('LabelDroppedFrames'),
+                label: globalize.translate("LabelDroppedFrames"),
                 value: droppedVideoFrames
             });
 
-            var corruptedVideoFrames = playbackQuality.corruptedVideoFrames || 0;
+            const corruptedVideoFrames = playbackQuality.corruptedVideoFrames || 0;
             videoCategory.stats.push({
-                label: globalize.translate('LabelCorruptedFrames'),
+                label: globalize.translate("LabelCorruptedFrames"),
                 value: corruptedVideoFrames
             });
         }
 
-        var audioCategory = {
+        const audioCategory = {
             stats: [],
-            type: 'audio'
+            type: "audio"
         };
         categories.push(audioCategory);
 
-        var sinkId = mediaElement.sinkId;
+        const sinkId = mediaElement.sinkId;
         if (sinkId) {
             audioCategory.stats.push({
                 label: 'Sink Id:',
@@ -1858,11 +1952,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         return Promise.resolve({
             categories: categories
         });
-    };
+    }
+    }
 
     if (browser.chromecast) {
         mediaManager = new cast.receiver.MediaManager(document.createElement('video'));
     }
+/* eslint-enable indent */
 
-    return HtmlVideoPlayer;
-});
+export default HtmlVideoPlayer;
