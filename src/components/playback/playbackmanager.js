@@ -2959,7 +2959,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         function onPlayerProgressInterval() {
             var player = this;
-            sendProgressUpdate(player, 'timeupdate');
+            sendProgressUpdateDelayed(player, 'timeupdate');
         }
 
         function startPlaybackProgressTimer(player) {
@@ -3267,7 +3267,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         function onPlaybackTimeUpdate(e) {
             var player = this;
-            sendProgressUpdate(player, 'timeupdate');
+            sendProgressUpdateDelayed(player, 'timeupdate');
         }
 
         function onPlaybackPause(e) {
@@ -3381,7 +3381,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         var sendProgressUpdateTimer;
 
         /** Delay time in ms for sendProgressUpdate */
-        var sendProgressUpdateDelay = 700;
+        var sendProgressUpdateDelay = 3000;
 
         function sendProgressUpdate(player, progressEventName, reportPlaylist) {
             clearTimeout(sendProgressUpdateTimer);
