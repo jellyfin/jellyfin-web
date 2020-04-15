@@ -7,6 +7,7 @@ import datetime from 'datetime';
 import toast from 'toast';
 import actionsheet from 'actionsheet';
 import globalize from 'globalize';
+import playbackPermissionManager from 'playbackPermissionManager';
 
 /**
  * Gets active player id.
@@ -152,6 +153,16 @@ events.on(syncplayManager, 'SyncplayEnabled', function (e, enabled) {
  */
 export function show(button) {
     loading.show();
+
+    // TODO: should feature be disabled if playback permission is missing?
+    playbackPermissionManager.check().then(() => {
+        console.debug("Playback is allowed.");
+    }).catch((error) => {
+        console.error("Playback not allowed!", error);
+        toast({
+            text: globalize.translate("MessageSyncplayPlaybackPermissionRequired")
+        });
+    });
 
     const apiClient = connectionManager.currentApiClient();
     connectionManager.user(apiClient).then((user) => {

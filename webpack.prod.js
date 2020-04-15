@@ -37,6 +37,10 @@ module.exports = merge(common, {
                 use: [
                     'file-loader'
                 ]
+            },
+            {
+                test: /\.(wav)$/i,
+                use: ["file-loader"]
             }
         ]
     }

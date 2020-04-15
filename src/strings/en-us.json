@@ -1036,6 +1036,7 @@
     "MessageSyncplayGroupWait": "<b>{0}</b> is buffering...",
     "MessageSyncplayNoGroupsAvailable": "No groups available.",
     "MessageSyncplayPermissionRequired": "Permission required to create a group.",
+    "MessageSyncplayPlaybackPermissionRequired": "Playback permission required.",
     "Metadata": "Metadata",
     "MetadataManager": "Metadata Manager",
     "MetadataSettingChangeHelp": "Changing metadata settings will affect new content that is added going forward. To refresh existing content, open the detail screen and click the refresh button, or perform bulk refreshes using the metadata manager.",
