@@ -1,3 +1,7 @@
+.nowPlayingPage {
+    padding: 5em 0 0 0 !important;
+}
+
 .nowPlayingInfoContainer {
     display: -webkit-box;
     display: -webkit-flex;
@@ -168,6 +172,10 @@
 }
 
 @media all and (min-width: 63em) {
+    .nowPlayingPage {
+        padding: 8em 0 0 0 !important;
+    }
+
     .nowPlayingSecondaryButtons {
         -webkit-box-flex: 1;
         -webkit-flex-grow: 1;
@@ -179,6 +187,12 @@
 
     .nowPlayingPageUserDataButtonsTitle {
         display: none !important;
+    }
+
+    .playlistSectionButton,
+    .nowPlayingPlaylist,
+    .nowPlayingContextMenu {
+        background: unset !important;
     }
 }
 
@@ -338,8 +352,6 @@
         display: inline-block;
         left: 0;
         right: 0;
-
-        /* background: #202020; */
         z-index: 1000;
     }
 
@@ -351,8 +363,6 @@
         right: 0;
         padding-left: 7.3%;
         padding-right: 7.3%;
-
-        /* background-color: #101010; */
     }
 
     .playlistSectionButton .btnTogglePlaylist {
@@ -532,8 +542,6 @@
         display: inline-block;
         left: 0;
         right: 0;
-
-        /* background: #202020; */
         z-index: 1000;
     }
 
@@ -545,8 +553,6 @@
         right: 0;
         padding-left: 4.3%;
         padding-right: 4.3%;
-
-        /* background-color: #101010; */
     }
 
     .playlistSectionButton .btnTogglePlaylist {

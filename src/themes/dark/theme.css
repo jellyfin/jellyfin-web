@@ -163,7 +163,8 @@ html {
     color: rgba(255, 255, 255, 0.87);
 }
 
-.appfooter {
+.appfooter,
+.playlistSectionButton {
     background: #202020;
     color: #ccc;
     color: rgba(255, 255, 255, 0.78);
