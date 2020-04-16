@@ -332,8 +332,8 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncplay
         var stats = syncplayManager.getStats();
 
         syncStats.push({
-            label: globalize.translate("LabelSyncplayTimeDiff"),
-            value: stats.TimeDiff + "ms"
+            label: globalize.translate("LabelSyncplayTimeOffset"),
+            value: stats.TimeOffset + "ms"
         });
 
         syncStats.push({

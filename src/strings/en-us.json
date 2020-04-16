@@ -855,7 +855,7 @@
     "LabelSubtitlePlaybackMode": "Subtitle mode:",
     "LabelSubtitles": "Subtitles",
     "LabelSupportedMediaTypes": "Supported Media Types:",
-    "LabelSyncplayTimeDiff": "Time difference with server:",
+    "LabelSyncplayTimeOffset": "Time offset with server:",
     "LabelSyncplayPlaybackDiff": "Playback time difference:",
     "LabelSyncplaySyncMethod": "Sync method:",
     "LabelSyncplayNewGroup": "New group",

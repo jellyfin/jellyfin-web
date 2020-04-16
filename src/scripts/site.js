@@ -824,6 +824,7 @@ var AppInfo = {};
         define('playbackSettings', [componentsPath + '/playbacksettings/playbacksettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homescreensettings/homescreensettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
+        define('timeSyncManager', [componentsPath + '/syncplay/timeSyncManager'], returnDefault);
         define('syncplayManager', [componentsPath + '/syncplay/syncplaymanager'], returnDefault);
         define('playbackPermissionManager', [componentsPath + '/syncplay/playbackPermissionManager'], returnDefault);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);

@@ -8,6 +8,7 @@
 import events from 'events';
 import connectionManager from 'connectionManager';
 import playbackManager from 'playbackManager';
+import timeSyncManager from 'timeSyncManager';
 import toast from 'toast';
 import globalize from 'globalize';
 
@@ -80,11 +81,7 @@ class SyncplayManager {
         this.scheduledCommand = null;
         this.syncTimeout = null;
 
-        this.pingStop = true;
-        this.pingIntervalTimeout = PingIntervalTimeoutGreedy;
-        this.pingInterval = null;
-        this.initTimeDiff = 0; // number of pings
-        this.timeDiff = 0; // local time minus server time
+        this.timeOffsetWithServer = 0; // server time minus local time
         this.roundTripDuration = 0;
         this.notifySyncplayReady = false;
         
@@ -100,6 +97,17 @@ class SyncplayManager {
 
         events.on(this, "TimeUpdate", (event) => {
             this.syncPlaybackTime();
+        });
+
+        events.on(timeSyncManager, "Update", (event, timeOffset, ping) => {            
+            this.timeOffsetWithServer = timeOffset;
+            this.roundTripDuration = ping * 2;
+
+            if (this.notifySyncplayReady) {
+                this.syncplayReady = true;
+                events.trigger(this, "SyncplayReady");
+                this.notifySyncplayReady = false;
+            }
         });
     }
 
@@ -377,14 +385,17 @@ class SyncplayManager {
      */
     enableSyncplay (apiClient, enabledAt, showMessage = false) {
         this.syncplayEnabledAt = enabledAt;
-        this.syncplayReady = false;
+        this.injectPlaybackManager();
         events.trigger(this, "SyncplayEnabled", [true]);
+
         waitForEvent(this, "SyncplayReady").then(() => {
             this.processCommand(this.queuedCommand, apiClient);
             this.queuedCommand = null;
         });
-        this.injectPlaybackManager();
-        this.startPing();
+        this.syncplayReady = false;
+        this.notifySyncplayReady = true;
+
+        timeSyncManager.forceUpdate();
 
         if (showMessage) {
             toast({
@@ -405,7 +416,6 @@ class SyncplayManager {
         this.syncEnabled = false;
         events.trigger(this, "SyncplayEnabled", [false]);
         this.restorePlaybackManager();
-        this.stopPing();
         this.stopSyncWatcher();
 
         if (showMessage) {
@@ -431,7 +441,7 @@ class SyncplayManager {
     schedulePlay (playAtTime, positionTicks) {
         this.clearScheduledCommand();
         var currentTime = new Date();
-        var playAtTimeLocal = this.serverDateToLocal(playAtTime);
+        var playAtTimeLocal = timeSyncManager.serverDateToLocal(playAtTime);
 
         if (playAtTimeLocal > currentTime) {
             var playTimeout = playAtTimeLocal - currentTime;
@@ -469,7 +479,7 @@ class SyncplayManager {
     schedulePause (pauseAtTime, positionTicks) {
         this.clearScheduledCommand();
         var currentTime = new Date();
-        var pauseAtTimeLocal = this.serverDateToLocal(pauseAtTime);
+        var pauseAtTimeLocal = timeSyncManager.serverDateToLocal(pauseAtTime);
 
         if (pauseAtTimeLocal > currentTime) {
             var pauseTimeout = pauseAtTimeLocal - currentTime;
@@ -576,126 +586,6 @@ class SyncplayManager {
     }
 
     /**
-     * Computes time difference between this client's time and server's time.
-     * @param {Date} pingStartTime Local time when ping request started.
-     * @param {Date} pingEndTime Local time when ping request ended.
-     * @param {Date} serverTime Server UTC time at ping request.
-     */
-    updateTimeDiff (pingStartTime, pingEndTime, serverTime) {
-        this.roundTripDuration = (pingEndTime - pingStartTime);
-        // The faster the response, the closer we are to the real timeDiff value
-        // localTime = pingStartTime + roundTripDuration / 2
-        // newTimeDiff = localTime - serverTime
-        var newTimeDiff = (pingStartTime - serverTime) + (this.roundTripDuration / 2);
-
-        // Initial setup
-        if (this.initTimeDiff === 0) {
-            this.timeDiff = newTimeDiff;
-            this.initTimeDiff++
-            return;
-        }
-
-        // As response time gets better, absolute value should decrease
-        var distanceFromZero = Math.abs(newTimeDiff);
-        var oldDistanceFromZero = Math.abs(this.timeDiff);
-        if (distanceFromZero < oldDistanceFromZero) {
-            this.timeDiff = newTimeDiff;
-        }
-
-        // Avoid overloading server
-        if (this.initTimeDiff >= GreedyPingCount) {
-            this.pingIntervalTimeout = PingIntervalTimeoutLowProfile;
-        } else {
-            this.initTimeDiff++;
-        }
-
-        // console.debug("Syncplay updateTimeDiff:", serverTime, this.timeDiff, this.roundTripDuration, newTimeDiff);
-    }
-
-    /**
-     * Schedules a ping request to the server. Used to compute time difference between client and server.
-     */
-    requestPing () {
-        if (this.pingInterval === null && !this.pingStop) {
-            this.pingInterval = setTimeout(() => {
-                this.pingInterval = null;
-
-                var apiClient = connectionManager.currentApiClient();
-                var sessionId = getActivePlayerId();
-
-                if (!sessionId) {
-                    this.signalError();
-                    toast({
-                        // TODO: translate
-                        text: "Syncplay error occured."
-                    });
-                    return;
-                }
-
-                var pingStartTime = new Date();
-                apiClient.sendSyncplayCommand(sessionId, "GetUtcTime").then((response) => {
-                    var pingEndTime = new Date();
-                    response.text().then((utcTime) => {
-                        var serverTime = new Date(utcTime);
-                        this.updateTimeDiff(pingStartTime, pingEndTime, serverTime);
-
-                        // Alert user that ping is high
-                        if (Math.abs(this.roundTripDuration) >= 1000) {
-                            events.trigger(this, "SyncplayError", [true]);
-                        } else {
-                            events.trigger(this, "SyncplayError", [false]);
-                        }
-
-                        // Notify server of ping
-                        apiClient.sendSyncplayCommand(sessionId, "KeepAlive", {
-                            Ping: this.roundTripDuration / 2
-                        });
-
-                        if (this.notifySyncplayReady) {
-                            this.syncplayReady = true;
-                            events.trigger(this, "SyncplayReady");
-                            this.notifySyncplayReady = false;
-                        }
-
-                        this.requestPing();
-                    });
-                }).catch((error) => {
-                    console.error(error);
-                    this.signalError();
-                    toast({
-                        // TODO: translate
-                        text: "Syncplay error occured."
-                    });
-                });
-
-            }, this.pingIntervalTimeout);
-        }
-    }
-
-    /**
-     * Starts the keep alive poller.
-     */
-    startPing () {
-        this.notifySyncplayReady = true;
-        this.pingStop = false;
-        this.initTimeDiff = this.initTimeDiff > this.greedyPingCount ? 1 : this.initTimeDiff;
-        this.pingIntervalTimeout = PingIntervalTimeoutGreedy;
-
-        this.requestPing();
-    }
-
-    /**
-     * Stops the keep alive poller.
-     */
-    stopPing () {
-        this.pingStop = true;
-        if (this.pingInterval !== null) {
-            clearTimeout(this.pingInterval);
-            this.pingInterval = null;
-        }
-    }
-
-    /**
      * Attempts to sync playback time with estimated server time.
      * 
      * When sync is enabled, the following will be checked:
@@ -722,7 +612,7 @@ class SyncplayManager {
 
         const CurrentPositionTicks = playbackManager.currentTime();
         // Estimate PositionTicks on server
-        const ServerPositionTicks = this.lastCommand.PositionTicks + ((currentTime - playAtTime) - this.timeDiff) * 10000;
+        const ServerPositionTicks = this.lastCommand.PositionTicks + ((currentTime - playAtTime) + this.timeOffsetWithServer) * 10000;
         // Measure delay that needs to be recovered
         // diff might be caused by the player internally starting the playback
         const diff = ServerPositionTicks - CurrentPositionTicks;
@@ -849,32 +739,12 @@ class SyncplayManager {
     }
 
     /**
-     * Converts server time to local time.
-     * @param {Date} server The time to convert.
-     * @returns {Date} Local time.
-     */
-    serverDateToLocal (server) {
-        // local - server = diff
-        return new Date(server.getTime() + this.timeDiff);
-    }
-
-    /**
-     * Converts local time to server time.
-     * @param {Date} local The time to convert.
-     * @returns {Date} Server time.
-     */
-    localDateToServer (local) {
-        // local - server = diff
-        return new Date(local.getTime() - this.timeDiff);
-    }
-
-    /**
      * Gets Syncplay stats.
      * @returns {Object} The Syncplay stats.
      */
     getStats () {
         return {
-            TimeDiff: this.timeDiff,
+            TimeOffset: this.timeOffsetWithServer,
             PlaybackDiff: this.playbackDiffMillis,
             SyncMethod: this.syncMethod
         }
