@@ -67,7 +67,10 @@ import connectionManager from 'connectionManager';
         const list = [];
 
         imageSizes.forEach((size) => {
-            list.push(getImageUrl(item, {height: size}));
+            const url = getImageUrl(item, {height: size});
+            if (url !== null) {
+                list.push(url);
+            }
         });
 
         return list;
