@@ -1,4 +1,4 @@
-define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'fullscreenManager'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, fullscreenManager) {
+define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'screenfull'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, screenfull) {
     'use strict';
 
     function enableLocalPlaylistManagement(player) {
@@ -17,7 +17,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     }
 
     function bindToFullscreenChange(player) {
-        events.on(fullscreenManager, 'fullscreenchange', function () {
+        screenfull.on('change', function () {
             events.trigger(player, 'fullscreenchange');
         });
     }
@@ -1518,7 +1518,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return player.isFullscreen();
             }
 
-            return fullscreenManager.isFullScreen();
+            return screenfull.isFullscreen;
         };
 
         self.toggleFullscreen = function (player) {
@@ -1528,10 +1528,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return player.toggleFulscreen();
             }
 
-            if (fullscreenManager.isFullScreen()) {
-                fullscreenManager.exitFullscreen();
-            } else {
-                fullscreenManager.requestFullscreen();
+            if (screenfull.isEnabled) {
+                screenfull.toggle();
             }
         };
 
