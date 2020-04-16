@@ -8,14 +8,16 @@ import connectionManager from 'connectionManager';
 
     let currentPlayer;
 
-    function seriesImageUrl(item, options = {}, type = options.type || 'Primary') {
+    function seriesImageUrl(item, options = {}) {
+        options.type = options.type || 'Primary';
+
         if (item.Type !== 'Episode') {
             return null;
-        } else if (type === 'Primary' && item.SeriesPrimaryImageTag) {
+        } else if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
             options.tag = item.SeriesPrimaryImageTag;
 
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-        } else if (type === 'Thumb') {
+        } else if (options.type === 'Thumb') {
             if (item.SeriesThumbImageTag) {
                 options.tag = item.SeriesThumbImageTag;
 
@@ -30,9 +32,11 @@ import connectionManager from 'connectionManager';
         return null;
     }
 
-    function imageUrl(item, options = {}, type = options.type || 'Primary') {
-        if (item.ImageTags && item.ImageTags[type]) {
-            options.tag = item.ImageTags[type];
+    function imageUrl(item, options = {}) {
+        options.type = options.type || 'Primary';
+
+        if (item.ImageTags && item.ImageTags[options.type]) {
+            options.tag = item.ImageTags[options.type];
 
             return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
         } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
