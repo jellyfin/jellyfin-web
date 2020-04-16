@@ -858,7 +858,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 loading.hide();
 
-                htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks);
+                htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks, function () {
+                    if (currentSubtitlesOctopus) currentSubtitlesOctopus.resize();
+                });
 
                 if (self._currentPlayOptions.fullscreen) {
 
