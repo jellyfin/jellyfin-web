@@ -48,7 +48,7 @@ import connectionManager from 'connectionManager';
         return null;
     }
 
-    function pushImageUrl(item, imageOptions = {}) {
+    function getImageUrl(item, imageOptions = {}) {
         const url = seriesImageUrl(item, imageOptions) || imageUrl(item, imageOptions);
 
         if (url) {
@@ -58,6 +58,8 @@ import connectionManager from 'connectionManager';
                 src: url,
                 sizes: height + 'x' + height
             };
+        } else {
+            return null;
         }
     }
 
@@ -65,7 +67,7 @@ import connectionManager from 'connectionManager';
         const list = [];
 
         imageSizes.forEach((size) => {
-            list.push(pushImageUrl(item, {height: size}));
+            list.push(getImageUrl(item, {height: size}));
         });
 
         return list;
@@ -122,9 +124,6 @@ import connectionManager from 'connectionManager';
             });
         } else {
             let itemImageUrl = seriesImageUrl(item) || imageUrl(item);
-            if (!itemImageUrl) {
-                itemImageUrl = null;
-            }
 
             window.NativeShell.updateMediaSession({
                 action: eventName,
