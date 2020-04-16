@@ -42,6 +42,8 @@ html {
 }
 
 .dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu,
 html {
     background-color: #033361;
 }

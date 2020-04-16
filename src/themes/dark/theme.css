@@ -36,6 +36,8 @@ html {
 
 .backgroundContainer,
 .dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu,
 html {
     background-color: #101010;
 }

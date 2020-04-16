@@ -43,7 +43,9 @@ html {
 }
 
 .backgroundContainer,
-.dialog {
+.dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu {
     background: #d5e9f2;
     -webkit-background-size: 100% 100%;
     background-size: 100% 100%;

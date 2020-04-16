@@ -113,8 +113,8 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
     function updateNowPlayingInfo(context, state, serverId) {
         var item = state.NowPlayingItem;
         var displayName = item ? getNowPlayingNameHtml(item).replace("<br/>", " - ") : "";
-        console.debug(JSON.stringify(item, null, 4));
-        if (typeof item != 'undefined') {
+        if (typeof item !== 'undefined') {
+            var nowPlayingServerId = (item.ServerId || serverId);
             if (item.Type == "Audio" || item.MediaStreams[0].Type == "Audio") {
                 var songName = item.Name;
                 if (item.Album != null && item.Artists != null) {
@@ -122,10 +122,10 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                     var artistName;
                     if (item.ArtistItems != null) {
                         artistName = item.ArtistItems[0].Name;
-                        context.querySelector(".nowPlayingAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + albumName + '</a>';
-                        context.querySelector(".nowPlayingArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '">' + artistName + '</a>';
-                        context.querySelector(".contextMenuAlbum").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">album</i> ' + globalize.translate("ViewAlbum") + '</a>';
-                        context.querySelector(".contextMenuArtist").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + '&amp;serverId=' + (item.ServerId || serverId) + '"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">person</i> ' + globalize.translate("ViewArtist") + '</a>';
+                        context.querySelector(".nowPlayingAlbum").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}">${albumName}</a>`;
+                        context.querySelector(".nowPlayingArtist").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}">${artistName}</a>`;
+                        context.querySelector(".contextMenuAlbum").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons album"></i> ` + globalize.translate("ViewAlbum") + '</a>';
+                        context.querySelector(".contextMenuArtist").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons person"></i> ` + globalize.translate("ViewArtist") + '</a>';
                     } else {
                         artistName = item.Artists;
                         context.querySelector(".nowPlayingAlbum").innerHTML = albumName;
@@ -135,13 +135,15 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 context.querySelector(".nowPlayingSongName").innerHTML = songName;
             } else if (item.Type == "Episode") {
                 if (item.SeasonName != null) {
-                    context.querySelector(".nowPlayingSeason").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeasonId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + item.SeasonName + '</a>';
+                    var seasonName = item.SeasonName;
+                    context.querySelector(".nowPlayingSeason").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeasonId + `&amp;serverId=${nowPlayingServerId}">${seasonName}</a>`;
                 }
                 if (item.SeriesName != null) {
+                    var seriesName = item.SeriesName;
                     if (item.SeriesId !=null) {
-                        context.querySelector(".nowPlayingSerie").innerHTML = '<a style="color:inherit;" class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeriesId + '&amp;serverId=' + (item.ServerId || serverId) + '">' + item.SeriesName + '</a>';
+                        context.querySelector(".nowPlayingSerie").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeriesId + `&amp;serverId=${nowPlayingServerId}">${seriesName}</a>`;
                     } else {
-                        context.querySelector(".nowPlayingSerie").innerHTML = item.SeriesName;
+                        context.querySelector(".nowPlayingSerie").innerHTML = seriesName;
                     }
                 }
                 context.querySelector(".nowPlayingEpisode").innerHTML = item.Name;
@@ -149,7 +151,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 context.querySelector(".nowPlayingPageTitle").innerHTML = displayName;
             }
 
-            if (displayName.length > 0 && item.Type != "Audio") {
+            if (displayName.length > 0 && item.Type != "Audio" && item.Type != "Episode") {
                 context.querySelector(".nowPlayingPageTitle").classList.remove("hide");
             } else {
                 context.querySelector(".nowPlayingPageTitle").classList.add("hide");
@@ -379,7 +381,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         function updatePlayPauseState(isPaused, isActive) {
             var context = dlg;
             var btnPlayPause = context.querySelector(".btnPlayPause");
-            btnPlayPause.querySelector("i").innerHTML = isPaused ? "play_circle_filled" : "pause_circle_filled";
+            btnPlayPause.querySelector("i").innerHTML = isPaused ? "&#xE038;" : "&#xE035;";
             buttonVisible(btnPlayPause, isActive);
         }
 

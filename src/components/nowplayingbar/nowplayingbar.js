@@ -439,7 +439,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             text = itemHelper.getDisplayName(item);
         }
 
-        return '<a>' + text + '</a>';
+        return `<a>${text}</a>`;
     }
 
     function seriesImageUrl(item, options) {
@@ -522,10 +522,11 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             var cssClass = nowPlayingName.secondary ? ' class="nowPlayingBarSecondaryText"' : '';
 
             if (nowPlayingName.item) {
-                return '<div' + cssClass + '>' + getTextActionButton(nowPlayingName.item, nowPlayingName.text) + '</div>';
+                var nowPlayingText = getTextActionButton(nowPlayingName.item, nowPlayingName.text);
+                return `<div ${cssClass}>${nowPlayingText}</div>`;
             }
 
-            return '<div' + cssClass + '>' + nowPlayingName.text + '</div>';
+            return `<div ${cssClass}>${nowPlayingText}</div>`;
 
         }).join('');
 

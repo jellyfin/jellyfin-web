@@ -40,6 +40,7 @@
 .nowPlayingArtist a {
     font-weight: normal;
     text-align: left !important;
+    color: inherit !important;
 }
 
 .nowPlayingButtonsContainer {
@@ -141,6 +142,10 @@
 
 .contextMenuList {
     padding: 1.5em 0;
+}
+
+.contextMenuList a {
+    color: inherit !important;
 }
 
 .contextMenuList i.listItemIcon {
@@ -295,6 +300,7 @@
     .btnPlayPause {
         padding: 0;
         margin: 0;
+        font-size: 1.7em;
     }
 
     .btnPlayPause:hover {
@@ -332,7 +338,8 @@
         display: inline-block;
         left: 0;
         right: 0;
-        background: #202020;
+
+        /* background: #202020; */
         z-index: 1000;
     }
 
@@ -344,7 +351,8 @@
         right: 0;
         padding-left: 7.3%;
         padding-right: 7.3%;
-        background-color: #101010;
+
+        /* background-color: #101010; */
     }
 
     .playlistSectionButton .btnTogglePlaylist {
@@ -486,6 +494,7 @@
     .btnPlayPause {
         padding: 0;
         margin: 0;
+        font-size: 1.7em;
     }
 
     .btnPlayPause:hover {
@@ -523,7 +532,8 @@
         display: inline-block;
         left: 0;
         right: 0;
-        background: #202020;
+
+        /* background: #202020; */
         z-index: 1000;
     }
 
@@ -535,7 +545,8 @@
         right: 0;
         padding-left: 4.3%;
         padding-right: 4.3%;
-        background-color: #101010;
+
+        /* background-color: #101010; */
     }
 
     .playlistSectionButton .btnTogglePlaylist {
