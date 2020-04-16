@@ -175,7 +175,7 @@ import connectionManager from 'connectionManager';
     }
 
     function hideMediaControls() {
-        if (navigator.mediaSession) {
+        if ('mediaSession' in navigator) {
             navigator.mediaSession.metadata = null;
         } else {
             window.NativeShell.hideMediaSession();
@@ -206,7 +206,7 @@ import connectionManager from 'connectionManager';
         playbackManager[name](currentPlayer);
     }
 
-    if (navigator.mediaSession) {
+    if ('mediaSession' in navigator) {
         navigator.mediaSession.setActionHandler('previoustrack', function () {
             execute('previousTrack');
         });
