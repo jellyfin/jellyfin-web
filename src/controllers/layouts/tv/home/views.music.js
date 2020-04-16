@@ -220,7 +220,14 @@ export class view {
             if (isRefresh) {
                 return Promise.resolve();
             }
-            return Promise.all([loadLatest(element, apiClient, parentId), loadRecentlyPlayed(element, apiClient, parentId), loadFrequentlyPlayed(element, apiClient, parentId), loadFavoriteSongs(element, apiClient, parentId), loadFavoriteAlbums(element, apiClient, parentId), loadFavoriteArtists(element, apiClient, parentId)]);
+            return Promise.all([
+                loadLatest(element, apiClient, parentId),
+                loadRecentlyPlayed(element, apiClient, parentId),
+                loadFrequentlyPlayed(element, apiClient, parentId),
+                loadFavoriteSongs(element, apiClient, parentId),
+                loadFavoriteAlbums(element, apiClient, parentId),
+                loadFavoriteArtists(element, apiClient, parentId)]
+            );
         };
         element.querySelector(".albumsCard").addEventListener("click", () => {
             gotoMusicView("1", parentId);
