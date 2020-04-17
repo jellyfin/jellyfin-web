@@ -1468,5 +1468,6 @@
     "XmlTvPathHelp": "A path to a XMLTV file. Jellyfin will read this file and periodically check it for updates. You are responsible for creating and updating the file.",
     "XmlTvSportsCategoriesHelp": "Programs with these categories will be displayed as sports programs. Separate multiple with '|'.",
     "Yes": "Yes",
-    "Yesterday": "Yesterday"
+    "Yesterday": "Yesterday",
+    "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles."
 }
