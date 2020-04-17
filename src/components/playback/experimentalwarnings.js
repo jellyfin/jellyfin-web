@@ -52,7 +52,7 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
     }
 
     function showIsoMessage() {
-        return showMessage(globalize.translate("ExperimentalISOPlayback"), 'isoexpirementalinfo', 'nativeisoplayback');
+        return showMessage(globalize.translate("UnsupportedPlayback"), 'isoexpirementalinfo', 'nativeisoplayback');
     }
 
     function ExpirementalPlaybackWarnings() {
