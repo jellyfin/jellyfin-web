@@ -191,7 +191,7 @@ class TimeSyncManager {
      */
     serverDateToLocal(server) {
         // server - local = offset
-        return new Date(server.getTime() + this.getTimeOffset());
+        return new Date(server.getTime() - this.getTimeOffset());
     }
 
     /**
@@ -201,7 +201,7 @@ class TimeSyncManager {
      */
     localDateToServer(local) {
         // server - local = offset
-        return new Date(local.getTime() - this.getTimeOffset());
+        return new Date(local.getTime() + this.getTimeOffset());
     }
 }
 
