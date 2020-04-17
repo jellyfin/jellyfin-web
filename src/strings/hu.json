@@ -1473,8 +1473,8 @@
     "PlaybackErrorNoCompatibleStream": "Ez a kliens nem kompatibilis ezzel a médiával és a szerver nem tud kompatibilis streamet küldeni az eszközre.",
     "AllowFfmpegThrottlingHelp": "Ha az átkódolás vagy remux eléggé előtöltődött a jelenlegi lejátszási pozícióhoz képest, ez megállítja a folyamatot, hogy kevesebb erőforrást vegyen igénybe. Ez akkor hasznos, ha ritkán ugrálsz előre a lejátszott videókban. Kapcsold ki, ha lejátszási problémákba ütközöl.",
     "AllowFfmpegThrottling": "Átkódolás visszafogása",
-    "PreferEmbeddedEpisodeInfosOverFileNames": "Inkább a beágyazott epizódokra vonatkozó információkat részesítse előnyben a fájlnevekkel szemben",
-    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Ez a beágyazott metaadatok epizódinformációit használja, ha rendelkezésre állnak.",
+    "PreferEmbeddedEpisodeInfosOverFileNames": "Az epizódból elérhető beágyazott információkat használja inkább, fájlnevek helyett",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Ez az epizóddal kapcsolatos beágyazott metaadatokat használja, ha azok elérhetőek.",
     "OnApplicationStartup": "Az alkalmazás indításakor",
     "EveryXHours": "{0} óránként",
     "EveryHour": "Óránként",
@@ -1494,8 +1494,11 @@
     "Movie": "Film",
     "Episode": "Epizód",
     "ClientSettings": "Kliens beállítások",
-    "BoxSet": "Dobozos készlet",
+    "BoxSet": "Dobozos kiadások",
     "Artist": "Előadó",
     "AlbumArtist": "Album előadó",
-    "Album": "Album"
+    "Album": "Album",
+    "LabelLibraryPageSizeHelp": "Az oldalnként megmutatott elemek száma. Nullára állítva a lapozási funkció ki lesz kapcsolva.",
+    "LabelLibraryPageSize": "Könyvtár oldalméret:",
+    "LabelDeinterlaceMethod": "Deinterlacing mód:"
 }
