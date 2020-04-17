@@ -44,7 +44,7 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
     }
 
     function showBlurayMessage() {
-        return showMessage(globalize.translate("ExperimentalBluRayPlayback"), 'blurayexpirementalinfo', 'nativeblurayplayback');
+        return showMessage(globalize.translate("UnsupportedPlayback"), 'blurayexpirementalinfo', 'nativeblurayplayback');
     }
 
     function showDvdMessage() {
