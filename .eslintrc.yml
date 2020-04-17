@@ -22,6 +22,7 @@ extends:
   - plugin:import/errors
   - plugin:import/warnings
   - plugin:eslint-comments/recommended
+  - plugin:compat/recommended
 
 globals:
   # Browser globals
@@ -74,7 +75,7 @@ rules:
   no-multiple-empty-lines: ["error", { "max": 1 }]
   no-trailing-spaces: ["error"]
   one-var: ["error", "never"]
-  semi: ["warn"]
+  semi: ["error"]
   space-before-blocks: ["error"]
   # TODO: Fix warnings and remove these rules
   no-redeclare: ["warn"]
@@ -85,3 +86,86 @@ rules:
   promise/no-return-wrap: ["warn"]
   # TODO: Remove after ES6 migration is complete
   import/no-unresolved: ["warn"]
+
+settings:
+  polyfills:
+    # Native Promises Only
+    - Promise
+    # whatwg-fetch
+    - fetch
+    # document-register-element
+    - document.registerElement
+    # resize-observer-polyfill
+    - ResizeObserver
+    # fast-text-encoding
+    - TextEncoder
+    # intersection-observer
+    - IntersectionObserver
+    # Core-js
+    - Object.assign
+    - Object.is
+    - Object.setPrototypeOf
+    - Object.toString
+    - Object.freeze
+    - Object.seal
+    - Object.preventExtensions
+    - Object.isFrozen
+    - Object.isSealed
+    - Object.isExtensible
+    - Object.getOwnPropertyDescriptor
+    - Object.getPrototypeOf
+    - Object.keys
+    - Object.getOwnPropertyNames
+    - Function.name
+    - Function.hasInstance
+    - Array.from
+    - Array.arrayOf
+    - Array.copyWithin
+    - Array.fill
+    - Array.find
+    - Array.findIndex
+    - Array.iterator
+    - String.fromCodePoint
+    - String.raw
+    - String.iterator
+    - String.codePointAt
+    - String.endsWith
+    - String.includes
+    - String.repeat
+    - String.startsWith
+    - String.trim
+    - String.anchor
+    - String.big
+    - String.blink
+    - String.bold
+    - String.fixed
+    - String.fontcolor
+    - String.fontsize
+    - String.italics
+    - String.link
+    - String.small
+    - String.strike
+    - String.sub
+    - String.sup
+    - RegExp
+    - Number
+    - Math
+    - Date
+    - async
+    - Symbol
+    - Map
+    - Set
+    - WeakMap
+    - WeakSet
+    - ArrayBuffer
+    - DataView
+    - Int8Array
+    - Uint8Array
+    - Uint8ClampedArray
+    - Int16Array
+    - Uint16Array
+    - Int32Array
+    - Uint32Array
+    - Float32Array
+    - Float64Array
+    - Reflect

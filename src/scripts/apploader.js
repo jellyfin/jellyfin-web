@@ -8,7 +8,7 @@
 
         var script = document.createElement("script");
         if (self.dashboardVersion) {
-            src += "?v=" + self.dashboardVersion;
+            src += `?v=${self.dashboardVersion}`;
         }
         script.src = src;
 

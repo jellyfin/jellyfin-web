@@ -614,27 +614,13 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 return datetime.getDisplayRunningTime(ticks);
             };
 
-            var volumeSliderTimer;
-
             function setVolume() {
-                clearTimeout(volumeSliderTimer);
-                volumeSliderTimer = null;
-
                 playbackManager.setVolume(this.value, currentPlayer);
             }
 
-            function setVolumeDelayed() {
-                if (!volumeSliderTimer) {
-                    var that = this;
-                    volumeSliderTimer = setTimeout(function () {
-                        setVolume.call(that);
-                    }, 700);
-                }
-            }
-
             context.querySelector(".nowPlayingVolumeSlider").addEventListener("change", setVolume);
-            context.querySelector(".nowPlayingVolumeSlider").addEventListener("mousemove", setVolumeDelayed);
-            context.querySelector(".nowPlayingVolumeSlider").addEventListener("touchmove", setVolumeDelayed);
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("mousemove", setVolume);
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("touchmove", setVolume);
             context.querySelector(".buttonMute").addEventListener("click", function () {
                 playbackManager.toggleMute(currentPlayer);
             });

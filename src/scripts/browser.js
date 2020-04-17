@@ -292,6 +292,7 @@ define([], function () {
     }
 
     if (typeof document !== 'undefined') {
+        /* eslint-disable-next-line compat/compat */
         if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
             browser.touch = true;
         }

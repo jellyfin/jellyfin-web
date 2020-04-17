@@ -63,7 +63,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 hasImage = true;
             }
 
-            headerUserButton.classList.remove("hide");
+            if (!layoutManager.mobile) {
+                headerUserButton.classList.remove("hide");
+            }
         } else {
             headerUserButton.classList.add("hide");
         }
@@ -73,7 +75,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }
 
         if (user && user.localUser) {
-            if (headerHomeButton && !layoutManager.mobile) {
+            if (headerHomeButton) {
                 headerHomeButton.classList.remove("hide");
             }
 

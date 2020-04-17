@@ -415,7 +415,7 @@
     "DefaultSubtitlesHelp": "Altyazılar, gömülü meta verilerdeki varsayılan ve zorunlu bayraklara göre yüklenir. Birden fazla seçenek olduğunda dil tercihleri göz önünde bulundurulur.",
     "DeleteDeviceConfirmation": "Bu cihazı silmek istediğinden emin misin? Bir kullanıcı bir sonraki oturum açışında yeniden görünecektir.",
     "DisplayMissingEpisodesWithinSeasons": "Sezonlardaki eksik bölümleri görüntüleme",
-    "AlwaysPlaySubtitles": "Her zaman altyazıları oynat",
+    "AlwaysPlaySubtitles": "Altyazıları her zaman oynat",
     "CopyStreamURLSuccess": "URL başarıyla kopyalandı.",
     "DateAdded": "Ekleme Tarihi",
     "DatePlayed": "Oynanan tarih",
@@ -710,5 +710,7 @@
     "OptionNone": "Hiçbiri",
     "None": "Hiçbiri",
     "HeaderNavigation": "Navigasyon",
-    "AllowFfmpegThrottling": "Video Kodlamasını Limitle"
+    "AllowFfmpegThrottling": "Video Kodlamasını Limitle",
+    "Artist": "Oyuncu",
+    "Album": "Albüm"
 }

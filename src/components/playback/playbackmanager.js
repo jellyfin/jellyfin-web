@@ -1,4 +1,4 @@
-define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'fullscreenManager'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, fullscreenManager) {
+define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'screenfull'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, screenfull) {
     'use strict';
 
     function enableLocalPlaylistManagement(player) {
@@ -17,7 +17,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     }
 
     function bindToFullscreenChange(player) {
-        events.on(fullscreenManager, 'fullscreenchange', function () {
+        screenfull.on('change', function () {
             events.trigger(player, 'fullscreenchange');
         });
     }
@@ -1518,7 +1518,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return player.isFullscreen();
             }
 
-            return fullscreenManager.isFullScreen();
+            return screenfull.isFullscreen;
         };
 
         self.toggleFullscreen = function (player) {
@@ -1528,10 +1528,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return player.toggleFulscreen();
             }
 
-            if (fullscreenManager.isFullScreen()) {
-                fullscreenManager.exitFullscreen();
-            } else {
-                fullscreenManager.requestFullscreen();
+            if (screenfull.isEnabled) {
+                screenfull.toggle();
             }
         };
 
@@ -1633,29 +1631,29 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         self.supportSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
             return player && 'setSubtitleOffset' in player;
-        }
+        };
 
         self.enableShowingSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
             player.enableShowingSubtitleOffset();
-        }
+        };
 
         self.disableShowingSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
             if (player.disableShowingSubtitleOffset) {
                 player.disableShowingSubtitleOffset();
             }
-        }
+        };
 
         self.isShowingSubtitleOffsetEnabled = function(player) {
             player = player || self._currentPlayer;
             return player.isShowingSubtitleOffsetEnabled();
-        }
+        };
 
         self.isSubtitleStreamExternal = function(index, player) {
             var stream = getSubtitleStream(player, index);
             return stream ? getDeliveryMethod(stream) === 'External' : false;
-        }
+        };
 
         self.setSubtitleOffset = function (value, player) {
             player = player || self._currentPlayer;
@@ -1669,12 +1667,12 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             if (player.getSubtitleOffset) {
                 return player.getSubtitleOffset();
             }
-        }
+        };
 
         self.canHandleOffsetOnCurrentSubtitle = function(player) {
             var index = self.getSubtitleStreamIndex(player);
             return index !== -1 && self.isSubtitleStreamExternal(index, player);
-        }
+        };
 
         self.seek = function (ticks, player) {
 
@@ -3140,7 +3138,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                         AllowVideoStreamCopy: false,
                         AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
 
-                    }, true);
+                    });
 
                     return;
                 }
@@ -3282,7 +3280,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         function onPlaybackVolumeChange(e) {
             var player = this;
-            sendProgressUpdate(player, 'volumechange');
+            sendProgressUpdateDelayed(player, 'volumechange');
         }
 
         function onRepeatModeChange(e) {
@@ -3377,7 +3375,15 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         pluginManager.ofType('mediaplayer').map(initMediaPlayer);
 
+        /** Delay timer for sendProgressUpdate */
+        var sendProgressUpdateTimer;
+
+        /** Delay time in ms for sendProgressUpdate */
+        var sendProgressUpdateDelay = 700;
+
         function sendProgressUpdate(player, progressEventName, reportPlaylist) {
+            clearTimeout(sendProgressUpdateTimer);
+            sendProgressUpdateTimer = null;
 
             if (!player) {
                 throw new Error('player cannot be null');
@@ -3400,6 +3406,14 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                         getLiveStreamMediaInfo(player, streamInfo, self.currentMediaSource(player), streamInfo.liveStreamId, serverId);
                     }
                 }
+            }
+        }
+
+        function sendProgressUpdateDelayed(player, progressEventName, reportPlaylist) {
+            if (!sendProgressUpdateTimer) {
+                sendProgressUpdateTimer = setTimeout(function () {
+                    sendProgressUpdate(player, progressEventName, reportPlaylist);
+                }, sendProgressUpdateDelay);
             }
         }
 

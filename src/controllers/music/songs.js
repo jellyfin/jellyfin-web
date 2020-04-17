@@ -1,4 +1,4 @@
-define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-itemscontainer"], function (events, libraryBrowser, imageLoader, listView, loading) {
+define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "userSettings", "emby-itemscontainer"], function (events, libraryBrowser, imageLoader, listView, loading, userSettings) {
     "use strict";
 
     return function (view, params, tabContent) {
@@ -14,12 +14,16 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                         IncludeItemTypes: "Audio",
                         Recursive: true,
                         Fields: "AudioInfo,ParentId",
-                        Limit: 100,
                         StartIndex: 0,
                         ImageTypeLimit: 1,
                         EnableImageTypes: "Primary"
                     }
                 };
+
+                if (userSettings.libraryPageSize() > 0) {
+                    pageData.query['Limit'] = userSettings.libraryPageSize();
+                }
+
                 pageData.query.ParentId = params.topParentId;
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
@@ -49,7 +53,9 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                         return;
                     }
 
-                    query.StartIndex += query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex += query.Limit;
+                    }
                     reloadItems(tabContent);
                 }
 
@@ -58,7 +64,9 @@ define(["events", "libraryBrowser", "imageLoader", "listView", "loading", "emby-
                         return;
                     }
 
-                    query.StartIndex -= query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                    }
                     reloadItems(tabContent);
                 }
 
