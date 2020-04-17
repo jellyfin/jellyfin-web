@@ -38,6 +38,12 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
     }
 
+    /** Last invoked method */
+    let reportPlaybackLastMethod;
+
+    /** Last invoke time of method */
+    let reportPlaybackLastTime;
+
     function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, serverId, method, progressEventName) {
 
         if (!serverId) {
@@ -57,7 +63,14 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
         }
 
-        console.debug(method + '-' + JSON.stringify(info));
+        const now = (new Date).getTime();
+
+        if (method !== reportPlaybackLastMethod || now - (reportPlaybackLastTime || 0) >= 1e3) {
+            console.debug(method + '-' + JSON.stringify(info));
+            reportPlaybackLastMethod = method;
+            reportPlaybackLastTime = now;
+        }
+
         var apiClient = connectionManager.getApiClient(serverId);
         apiClient[method](info);
     }
