@@ -1493,7 +1493,5 @@
     "EveryHour": "Every hour",
     "EveryXHours": "Every {0} hours",
     "OnApplicationStartup": "On application startup",
-    "ExperimentalBlurayPlayback": "Blu-Ray playback is experimental. Jellyfin cannot decrypt content protected by DRM. All the titles in the Blu-Ray will be played anyway, including the protected ones. Some parts might be in black",
-    "ExperimentalDVDPlayback": "DVD playback is experimental. Jellyfin cannot decrypt content protected by DRM. All the titles in the DVD will be played anyway, including the protected ones. Some parts might be in black",
-    "ExperimentalISOPlayback": "ISO playback is experimental. All the titles in the ISO will be played anyway. Some parts might be in black"
+    "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles."
 }
