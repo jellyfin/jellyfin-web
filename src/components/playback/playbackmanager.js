@@ -1,6 +1,9 @@
 define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'screenfull'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, screenfull) {
     'use strict';
 
+    /** Delay time in ms for reportPlayback logging */
+    const reportPlaybackLogDelay = 1e3;
+
     function enableLocalPlaylistManagement(player) {
 
         if (player.getPlaylist) {
@@ -65,7 +68,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         const now = (new Date).getTime();
 
-        if (method !== reportPlaybackLastMethod || now - (reportPlaybackLastTime || 0) >= 1e3) {
+        if (method !== reportPlaybackLastMethod || now - (reportPlaybackLastTime || 0) >= reportPlaybackLogDelay) {
             console.debug(method + '-' + JSON.stringify(info));
             reportPlaybackLastMethod = method;
             reportPlaybackLastTime = now;
