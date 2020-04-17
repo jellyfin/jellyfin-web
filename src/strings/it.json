@@ -1499,5 +1499,6 @@
     "Episode": "Episodio",
     "BoxSet": "Cofanetto",
     "AlbumArtist": "Artisti dell'Album",
-    "ReleaseGroup": "Release Group"
+    "ReleaseGroup": "Release Group",
+    "UnsupportedPlayback": "Jellyfin non è in grado di decriptare i contenuti protetti da DRM ma tutti i contenuti verranno tentati a prescindere, compresi quelli protetti. Alcuni file potrebbero apparire completamente neri a causa della crittografia o di altre funzionalità non supportate, come i titoli interattivi."
 }
