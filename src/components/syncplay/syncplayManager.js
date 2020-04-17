@@ -99,7 +99,7 @@ class SyncplayManager {
             this.syncPlaybackTime();
         });
 
-        events.on(timeSyncManager, "Update", (event, timeOffset, ping) => {            
+        events.on(timeSyncManager, "Update", (event, timeOffset, ping) => {
             this.timeOffsetWithServer = timeOffset;
             this.roundTripDuration = ping * 2;
 
@@ -107,6 +107,25 @@ class SyncplayManager {
                 this.syncplayReady = true;
                 events.trigger(this, "SyncplayReady");
                 this.notifySyncplayReady = false;
+            }
+
+            // Report ping
+            if (this.syncEnabled) {
+                const apiClient = connectionManager.currentApiClient();
+                const sessionId = getActivePlayerId();
+
+                if (!sessionId) {
+                    this.signalError();
+                    toast({
+                        // TODO: translate
+                        text: "Syncplay error occured."
+                    });
+                    return;
+                }
+
+                apiClient.sendSyncplayCommand(sessionId, "UpdatePing", {
+                    Ping: ping
+                });
             }
         });
     }
