@@ -48,7 +48,7 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
     }
 
     function showDvdMessage() {
-        return showMessage(globalize.translate("ExperimentalDVDPlayback"), 'dvdexpirementalinfo', 'nativedvdplayback');
+        return showMessage(globalize.translate("UnsupportedPlayback"), 'dvdexpirementalinfo', 'nativedvdplayback');
     }
 
     function showIsoMessage() {
