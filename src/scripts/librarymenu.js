@@ -63,9 +63,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 hasImage = true;
             }
 
-            if (!layoutManager.mobile) {
-                headerUserButton.classList.remove("hide");
-            }
+            headerUserButton.classList.remove("hide");
         } else {
             headerUserButton.classList.add("hide");
         }
