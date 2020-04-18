@@ -1,6 +1,9 @@
 define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'screenfull'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, screenfull) {
     'use strict';
 
+    /** Delay time in ms for reportPlayback logging */
+    const reportPlaybackLogDelay = 1e3;
+
     function enableLocalPlaylistManagement(player) {
 
         if (player.getPlaylist) {
@@ -38,6 +41,12 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
     }
 
+    /** Last invoked method */
+    let reportPlaybackLastMethod;
+
+    /** Last invoke time of method */
+    let reportPlaybackLastTime;
+
     function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, serverId, method, progressEventName) {
 
         if (!serverId) {
@@ -57,7 +66,14 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
         }
 
-        console.debug(method + '-' + JSON.stringify(info));
+        const now = (new Date).getTime();
+
+        if (method !== reportPlaybackLastMethod || now - (reportPlaybackLastTime || 0) >= reportPlaybackLogDelay) {
+            console.debug(method + '-' + JSON.stringify(info));
+            reportPlaybackLastMethod = method;
+            reportPlaybackLastTime = now;
+        }
+
         var apiClient = connectionManager.getApiClient(serverId);
         apiClient[method](info);
     }
@@ -3280,7 +3296,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         function onPlaybackVolumeChange(e) {
             var player = this;
-            sendProgressUpdateDelayed(player, 'volumechange');
+            sendProgressUpdate(player, 'volumechange');
         }
 
         function onRepeatModeChange(e) {
@@ -3375,16 +3391,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         pluginManager.ofType('mediaplayer').map(initMediaPlayer);
 
-        /** Delay timer for sendProgressUpdate */
-        var sendProgressUpdateTimer;
-
-        /** Delay time in ms for sendProgressUpdate */
-        var sendProgressUpdateDelay = 700;
-
         function sendProgressUpdate(player, progressEventName, reportPlaylist) {
-            clearTimeout(sendProgressUpdateTimer);
-            sendProgressUpdateTimer = null;
-
             if (!player) {
                 throw new Error('player cannot be null');
             }
@@ -3406,14 +3413,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                         getLiveStreamMediaInfo(player, streamInfo, self.currentMediaSource(player), streamInfo.liveStreamId, serverId);
                     }
                 }
-            }
-        }
-
-        function sendProgressUpdateDelayed(player, progressEventName, reportPlaylist) {
-            if (!sendProgressUpdateTimer) {
-                sendProgressUpdateTimer = setTimeout(function () {
-                    sendProgressUpdate(player, progressEventName, reportPlaylist);
-                }, sendProgressUpdateDelay);
             }
         }
 
