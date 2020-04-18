@@ -1499,5 +1499,6 @@
     "BoxSet": "Coleção",
     "Artist": "Artista",
     "AlbumArtist": "Artista do Album",
-    "Album": "Album"
+    "Album": "Album",
+    "UnsupportedPlayback": "O Jellyfin não pode descriptografar conteúdo protegido por DRM, porém mesmo assim fará uma tentativa para todo tipo de conteúdo, incluindo títulos protegidos. A imagem de alguns arquivos pode aparecer completamente preta devido a criptografia ou outros recursos não suportados, como títulos interativos."
 }
