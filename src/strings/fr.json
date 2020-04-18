@@ -1409,7 +1409,7 @@
     "MessageNoServersAvailable": "Aucun serveur n'a été trouvé en utilisant la recherche automatique de serveur.",
     "OptionBanner": "Bannière",
     "OptionList": "Liste",
-    "OptionLoginAttemptsBeforeLockout": "Défini le nombre de tentative de connexion échouées avant blocage du compte",
+    "OptionLoginAttemptsBeforeLockout": "Définis le nombre de tentatives de connexion échouées avant blocage du compte.",
     "OptionPoster": "Affiche",
     "OptionPosterCard": "Affichette",
     "OptionThumb": "Vignette",
