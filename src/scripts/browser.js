@@ -77,10 +77,10 @@ define([], function () {
             var camel = prop.replace(/-([a-z]|[0-9])/ig, function (all, letter) {
                 return (letter + '').toUpperCase();
             });
-            // Check if the property is supported
-            var support = (camel in el.style);
             // Create test element
             var el = document.createElement('div');
+            // Check if the property is supported
+            var support = (camel in el.style);
             // Assign the property and value to invoke
             // the CSS interpreter
             el.style.cssText = prop + ':' + value;
