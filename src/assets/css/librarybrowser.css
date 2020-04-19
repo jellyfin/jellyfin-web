@@ -519,6 +519,13 @@
 
 .itemName {
     margin: 0.5em 0;
+    font-weight: 600;
+}
+
+.nameContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .itemMiscInfo {
@@ -536,7 +543,6 @@
 .layout-mobile .itemName,
 .layout-mobile .itemMiscInfo,
 .layout-mobile .mainDetailButtons {
-    display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -578,7 +584,6 @@
 
 .infoText {
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
 }
