@@ -59,14 +59,14 @@ function supportsTextTracks() {
         }
 
         if (browser.firefox) {
-            if ((currentSrc || '').toLowerCase().indexOf('.m3u8') !== -1) {
+            if ((currentSrc || '').toLowerCase().includes('.m3u8')) {
                 return false;
             }
         }
 
         // subs getting blocked due to CORS
         if (browser.chromecast) {
-            if ((currentSrc || '').toLowerCase().indexOf('.m3u8') !== -1) {
+            if ((currentSrc || '').toLowerCase().includes('.m3u8')) {
                 return false;
             }
         }
@@ -252,7 +252,7 @@ function supportsTextTracks() {
          * @private
          */
         updateVideoUrl(streamInfo) {
-            const isHls = streamInfo.url.toLowerCase().indexOf(".m3u8") !== -1;
+            const isHls = streamInfo.url.toLowerCase().includes(".m3u8");
 
             const mediaSource = streamInfo.mediaSource;
             const item = streamInfo.item;
@@ -335,7 +335,7 @@ function supportsTextTracks() {
          */
         setSrcWithHlsJs(instance, elem, options, url) {
 
-            return new Promise(function (resolve, reject) {
+            return new Promise((resolve, reject) => {
 
                 requireHlsPlayer(() => {
                     const hls = new Hls({
@@ -472,7 +472,7 @@ function supportsTextTracks() {
             } else if (ext === 'mpd' ||
                 contentType === 'application/dash+xml') {
                 protocol = cast.player.api.CreateDashStreamingProtocol(host);
-            } else if (url.indexOf('.ism') > -1 ||
+            } else if (url.includes('.ism') ||
                 contentType === 'application/vnd.ms-sstr+xml') {
                 protocol = cast.player.api.CreateSmoothStreamingProtocol(host);
             }
@@ -551,17 +551,17 @@ function supportsTextTracks() {
                 elem.crossOrigin = crossOrigin;
             }
 
-            /*if (htmlMediaHelper.enableHlsShakaPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
+            /*if (htmlMediaHelper.enableHlsShakaPlayer(options.item, options.mediaSource, 'Video') && val.includes('.m3u8')) {
 
                 setTracks(elem, tracks, options.item, options.mediaSource);
 
                 return setSrcWithShakaPlayer(this, elem, options, val);
 
             } else*/
-            if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
+            if (browser.chromecast && val.includes('.m3u8') && options.mediaSource.RunTimeTicks) {
 
                 return this.setCurrentSrcChromecast(this, elem, options, val);
-            } else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
+            } else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.includes('.m3u8')) {
                 return this.setSrcWithHlsJs(this, elem, options, val);
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
                 return this.setSrcWithFlvJs(this, elem, options, val);
@@ -710,7 +710,7 @@ function supportsTextTracks() {
                         return true;
                     }
 
-                    return p.AudioCodec.toLowerCase().indexOf(codec) !== -1;
+                    return p.AudioCodec.toLowerCase().includes(codec);
                 }
 
                 return false;
@@ -902,7 +902,7 @@ function supportsTextTracks() {
         onPlaying(e) {
             if (!this._started) {
                 this._started = true;
-                this.onPlaying.removeAttribute('controls');
+                this._mediaElement.removeAttribute('controls');
 
                 loading.hide();
 
@@ -1135,6 +1135,7 @@ function supportsTextTracks() {
         renderSsaAss(videoElement, track, item) {
             const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
             const apiClient = connectionManager.getApiClient(item);
+            const htmlVideoPlayer = this;
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
@@ -1144,7 +1145,7 @@ function supportsTextTracks() {
                 workerUrl: appRouter.baseUrl() + '/libraries/subtitles-octopus-worker.js',
                 legacyWorkerUrl: appRouter.baseUrl() + '/libraries/subtitles-octopus-worker-legacy.js',
                 onError() {
-                    htmlMediaHelper.onErrorInternal(this, 'mediadecodeerror');
+                    htmlMediaHelper.onErrorInternal(htmlVideoPlayer, 'mediadecodeerror');
                 },
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
@@ -1187,7 +1188,7 @@ function supportsTextTracks() {
             if (browser.iOS) {
                 const userAgent = navigator.userAgent.toLowerCase();
                 // works in the browser but not the native app
-                if ((userAgent.indexOf('os 9') !== -1 || userAgent.indexOf('os 8') !== -1) && userAgent.indexOf('safari') === -1) {
+                if ((userAgent.includes('os 9') || userAgent.includes('os 8')) && !userAgent.includes('safari')) {
                     return true;
                 }
             }
@@ -1307,13 +1308,12 @@ function supportsTextTracks() {
                 console.debug('downloaded ' + data.TrackEvents.length + ' track events');
                 // add some cues to show the text
                 // in safari, the cues need to be added before setting the track mode to showing
-                data.TrackEvents.forEach(function (trackEvent) {
-
+                for (const trackEvent of data.TrackEvents) {
                     const trackCueObject = window.VTTCue || window.TextTrackCue;
                     const cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text, false));
 
                     trackElement.addCue(cue);
-                });
+                }
                 trackElement.mode = 'showing';
             });
         }
@@ -1533,7 +1533,7 @@ function supportsTextTracks() {
             this.supportedFeatures = HtmlVideoPlayer.getSupportedFeatures();
         }
 
-        return this.supportedFeatures.contains(feature);
+        return this.supportedFeatures.includes(feature);
     }
 
     // Save this for when playback stops, because querying the time at that point might return 0
@@ -1948,4 +1948,4 @@ function supportsTextTracks() {
     }
 /* eslint-enable indent */
 
-export default () => new HtmlVideoPlayer();
+export default HtmlVideoPlayer;
