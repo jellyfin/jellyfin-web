@@ -358,8 +358,8 @@ define(["events", "appStorage"], function(events, appStorage) {
         })
     }, ApiClient.prototype.quickConnect = function (token) {
         if (!token) return Promise.reject();
-        var url = this.getUrl("Users/AuthenticateWithQuickConnect"),
-            instance = this;
+        var url = this.getUrl("Users/AuthenticateWithQuickConnect");
+        var instance = this;
         return new Promise(function(resolve, reject) {
             var postData = {
                 Token: token
@@ -372,7 +372,8 @@ define(["events", "appStorage"], function(events, appStorage) {
                 contentType: "application/json"
             }).then(function(result) {
                 var afterOnAuthenticated = function() {
-                    redetectBitrate(instance), resolve(result)
+                    redetectBitrate(instance);
+                    return resolve(result);
                 };
                 instance.onAuthenticated ? instance.onAuthenticated(instance, result).then(afterOnAuthenticated) : afterOnAuthenticated()
             }, reject)

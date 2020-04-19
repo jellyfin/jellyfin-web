@@ -2,7 +2,7 @@ define(["jQuery", "loading", "fnchecked"], function ($, loading) {
     "use strict";
 
     var page;
-    function loadPage(page, status) {
+    function loadPage(status) {
         var active = (status == "Active");
         var available = (status == "Available") || active;
 
@@ -49,7 +49,7 @@ define(["jQuery", "loading", "fnchecked"], function ($, loading) {
     function updatePage() {
         var promise1 = ApiClient.getQuickConnect("Status");
         Promise.all([promise1]).then((responses) => {
-            loadPage(page, responses[0]);
+            loadPage(responses[0]);
             return true;
         }).catch((e) => {
             console.error("Unable to get quick connect status. error:", e);

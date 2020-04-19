@@ -23,9 +23,7 @@ define(["quickConnectSettings", "dom", "globalize", "loading", "userSettings", "
                     btn.textContent = "Quick connect is not available on this server";
                     btn.disabled = true;
                     return false;
-                }
-
-                else if (status === "Available") {
+                } else if (status === "Available") {
                     return false;
                 }
 

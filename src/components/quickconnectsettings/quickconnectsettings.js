@@ -61,7 +61,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
             }
 
             Dashboard.alert({
-                message: "Already active"
+                message: "Successfully activated"
             });
 
             return true;
