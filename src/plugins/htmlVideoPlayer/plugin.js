@@ -394,10 +394,10 @@ function supportsTextTracks() {
                 // Listen for error events.
                 player.addEventListener('error', this.onShakaError.bind(this));
 
-                self._shakaPlayer = player;
+                this._shakaPlayer = player;
 
                 // This is needed in setCurrentTrackElement
-                self._currentSrc = url;
+                this._currentSrc = url;
 
                 // Try to load a manifest.
                 // This is an asynchronous process.
@@ -555,7 +555,7 @@ function supportsTextTracks() {
 
                 setTracks(elem, tracks, options.item, options.mediaSource);
 
-                return setSrcWithShakaPlayer(self, elem, options, val);
+                return setSrcWithShakaPlayer(this, elem, options, val);
 
             } else*/
             if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
@@ -722,9 +722,9 @@ function supportsTextTracks() {
          * @private
          */
         getSupportedAudioStreams() {
-            const profile = self._lastProfile;
+            const profile = this._lastProfile;
 
-            return getMediaStreamAudioTracks(self._currentPlayOptions.mediaSource).filter((stream) => {
+            return getMediaStreamAudioTracks(this._currentPlayOptions.mediaSource).filter((stream) => {
                 return this.isAudioStreamSupported(stream, profile);
             });
         }
@@ -739,12 +739,8 @@ function supportsTextTracks() {
             }
 
             let audioIndex = -1;
-            let i;
-            let length;
-            let stream;
 
-            for (i = 0, length = streams.length; i < length; i++) {
-                stream = streams[i];
+            for (const stream of streams) {
 
                 audioIndex++;
 
@@ -757,7 +753,7 @@ function supportsTextTracks() {
                 return;
             }
 
-            const elem = self._mediaElement;
+            const elem = this._mediaElement;
             if (!elem) {
                 return;
             }
@@ -767,16 +763,15 @@ function supportsTextTracks() {
             const elemAudioTracks = elem.audioTracks || [];
             console.debug('found ' + elemAudioTracks.length + ' audio tracks');
 
-            for (i = 0, length = elemAudioTracks.length; i < length; i++) {
-
+            elemAudioTracks.forEach((audioTrack, i) => {
                 if (audioIndex === i) {
-                    console.debug('setting audio track ' + i + ' to enabled');
-                    elemAudioTracks[i].enabled = true;
+                    console.debug(`setting audio track ${i} to enabled`);
+                    audioTrack.enabled = true;
                 } else {
-                    console.debug('setting audio track ' + i + ' to disabled');
-                    elemAudioTracks[i].enabled = false;
+                    console.debug(`setting audio track ${i} to disabled`);
+                    audioTrack.enabled = false;
                 }
-            }
+            });
         }
 
         stop(destroyPlayer) {
@@ -896,8 +891,8 @@ function supportsTextTracks() {
             // If this causes a failure during navigation we end up in an awkward UI state
             this.setCurrentTrackElement(this.subtitleTrackIndexToSetOnPlaying);
 
-            if (this.audioTrackIndexToSetOnPlaying != null && self.canSetAudioStreamIndex()) {
-                self.setAudioStreamIndex(this.audioTrackIndexToSetOnPlaying);
+            if (this.audioTrackIndexToSetOnPlaying != null && this.canSetAudioStreamIndex()) {
+                this.setAudioStreamIndex(this.audioTrackIndexToSetOnPlaying);
             }
         }
 
@@ -1005,8 +1000,8 @@ function supportsTextTracks() {
                     break;
                 case 3:
                     // MEDIA_ERR_DECODE
-                    if (self._hlsPlayer) {
-                        htmlMediaHelper.handleHlsJsMediaError(self);
+                    if (this._hlsPlayer) {
+                        htmlMediaHelper.handleHlsJsMediaError(this);
                         return;
                     } else {
                         type = 'mediadecodeerror';
@@ -1046,12 +1041,9 @@ function supportsTextTracks() {
 
             if (videoElement) {
                 const allTracks = videoElement.textTracks || []; // get list of tracks
-                for (let i = 0; i < allTracks.length; i++) {
-
-                    const currentTrack = allTracks[i];
-
-                    if (currentTrack.label.indexOf('manualTrack') !== -1) {
-                        currentTrack.mode = 'disabled';
+                for (const track of allTracks) {
+                    if (track.label.includes('manualTrack')) {
+                        track.mode = 'disabled';
                     }
                 }
             }
@@ -1129,7 +1121,7 @@ function supportsTextTracks() {
             }
 
             this.resetSubtitleOffset();
-            const item = self._currentPlayOptions.item;
+            const item = this._currentPlayOptions.item;
 
             this.destroyCustomTrack(videoElement);
             this.customTrackIndex = track.Index;
@@ -1141,7 +1133,7 @@ function supportsTextTracks() {
          * @private
          */
         renderSsaAss(videoElement, track, item) {
-            const attachments = self._currentPlayOptions.mediaSource.MediaAttachments || [];
+            const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
             const apiClient = connectionManager.getApiClient(item);
             const options = {
                 video: videoElement,
@@ -1152,7 +1144,7 @@ function supportsTextTracks() {
                 workerUrl: appRouter.baseUrl() + '/libraries/subtitles-octopus-worker.js',
                 legacyWorkerUrl: appRouter.baseUrl() + '/libraries/subtitles-octopus-worker-legacy.js',
                 onError() {
-                    htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
+                    htmlMediaHelper.onErrorInternal(this, 'mediadecodeerror');
                 },
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
@@ -1254,10 +1246,8 @@ function supportsTextTracks() {
          * @private
          */
         setCueAppearance() {
-
             Promise.all([import('userSettings'), import('subtitleAppearanceHelper')]).then(([userSettings, subtitleAppearanceHelper]) => {
-
-                const elementId = self.id + "-cuestyle";
+                const elementId = this.id + "-cuestyle";
 
                 let styleElem = document.querySelector("#" + elementId);
                 if (!styleElem) {
@@ -1348,11 +1338,9 @@ function supportsTextTracks() {
             if (trackEvents && subtitleTextElement) {
                 const ticks = timeMs * 10000;
                 let selectedTrackEvent;
-                for (let i = 0; i < trackEvents.length; i++) {
-
-                    const currentTrackEvent = trackEvents[i];
-                    if (currentTrackEvent.StartPositionTicks <= ticks && currentTrackEvent.EndPositionTicks >= ticks) {
-                        selectedTrackEvent = currentTrackEvent;
+                for (const trackEvent of trackEvents) {
+                    if (trackEvent.StartPositionTicks <= ticks && trackEvent.EndPositionTicks >= ticks) {
+                        selectedTrackEvent = trackEvent;
                         break;
                     }
                 }
@@ -1960,4 +1948,4 @@ function supportsTextTracks() {
     }
 /* eslint-enable indent */
 
-export default HtmlVideoPlayer;
+export default () => new HtmlVideoPlayer();
