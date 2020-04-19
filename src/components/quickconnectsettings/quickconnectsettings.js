@@ -1,11 +1,10 @@
-define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loading', 'connectionManager', 'homeSections', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-checkbox'], function (require, appHost, layoutManager, focusManager, globalize, loading, connectionManager, homeSections, dom, events) {
+define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loading', 'connectionManager', 'listViewStyle', 'emby-select', 'emby-checkbox'], function (require, appHost, layoutManager, focusManager, globalize, loading, connectionManager) {
     "use strict";
 
     function authorizeRequest(event) {
         var lookup = event.data.lookup;
-        var apiClient = event.data.apiClient;
         var url = ApiClient.getUrl("/QuickConnect/Authorize");
-        apiClient.ajax({
+        ApiClient.ajax({
             type: "POST",
             url: url,
             data: {
@@ -13,46 +12,72 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
             }
         }, true);
     }
-    
-    function list(apiClient) {
-        console.debug("getting json");
-        apiClient.getJSON("/QuickConnect/List").then(json => {
-            var elem = $("#quickConnectIncoming");
+
+    QuickConnectSettings.prototype.list = function(argPage) {
+        ApiClient.getJSON("/QuickConnect/List").then(json => {
+            var elem = $(argPage.querySelector("#quickConnectIncoming"));
             elem.html("");
-            console.debug("raw json", json, "length is", json.length);
-            for(var i = 0; i < json.length; i++) {
+            for (var i = 0; i < json.length; i++) {
                 var current = json[i];
-                console.debug("current is", current);
                 var html = "<li>" + current.Code + " - " + current.FriendlyName + " - ";
-                
-                if(!current.Authenticated) {
+
+                if (!current.Authenticated) {
                     html += "<a href=\"#\" id=\"qc" + current.Lookup + "\">authorize</a>";
-                }
-                else {
+                } else {
                     html += " (already authorized)";
                 }
-                
+
                 html += "</li>";
                 elem.append(html);
-                $("#qc" + current.Lookup).click({ lookup: current.Lookup, apiClient: apiClient}, authorizeRequest);
+                $("#qc" + current.Lookup).click({ lookup: current.Lookup }, authorizeRequest);
             }
+
+            return true;
+        }).catch((e) => {
+            console.error("Unable to get quick connect login requests. error:", e);
         });
-    }
+    };
+
+    QuickConnectSettings.prototype.activate = function() {
+        var url = ApiClient.getUrl("/QuickConnect/Activate");
+        ApiClient.ajax({
+            type: "POST",
+            url: url,
+            contentType: "application/json",
+            dataType: "json"
+        }).then((json) => {
+            let message = json.Error;
+
+            console.log("message is \"" + message + "\"");
+            if (message && message !== "") {
+                console.error("Error activating quick connect. Error: ", json.Error);
+
+                Dashboard.alert({
+                    title: "Unable to activate quick connect",
+                    message: message
+                });
+
+                return false;
+            }
+
+            Dashboard.alert({
+                message: "Already active"
+            });
+
+            return true;
+        }).catch((e) => {
+            console.error("Error activating quick connect. Error:", e);
+            throw e;
+        });
+    };
 
     function QuickConnectSettings(options) {
         this.options = options;
     }
 
     QuickConnectSettings.prototype.loadData = function () {
-        loading.show();
-
-        var apiClient = connectionManager.getApiClient(this.options.serverId);
-        
-        list(apiClient);
-        
-        console.debug("request list finished");
-        
-        loading.hide();
+        this.options.interval = setInterval(this.list, 5000, this.options.page);
+        this.list(this.options.page);
     };
 
     QuickConnectSettings.prototype.submit = function () {
@@ -60,7 +85,13 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
     };
 
     QuickConnectSettings.prototype.destroy = function () {
+        console.debug("clearing refresh interval", this.options.interval);
+        clearInterval(this.options.interval);
         this.options = null;
+    };
+
+    QuickConnectSettings.prototype.interval = function (interval) {
+        this.options.interval = interval;
     };
 
     return QuickConnectSettings;

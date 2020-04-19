@@ -1,50 +1,55 @@
 define(["quickConnectSettings", "dom", "globalize", "loading", "userSettings", "autoFocuser", "listViewStyle"], function (QuickConnectSettings, dom, globalize, loading, userSettings, autoFocuser) {
     "use strict";
 
-    return function (view, params) {
-        function notImplemented() {
-            Dashboard.alert({
-                message: "This button is not implemented yet, you must check the checkbox labeled \"Always accept quick connect login requests\" in the dashboard",
-                title: "Not implemented"
-            });
-        }
-        
+    return function (view) {
         var quickConnectSettingsInstance = null;
-        var hasChanges;
-        var userId = params.userId || ApiClient.getCurrentUserId();
-        var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new userSettings();
+
         view.addEventListener("viewshow", function () {
-            console.debug("defining instance");
-            
-            $("#btnQuickConnectActivate").click(notImplemented);
-            
             quickConnectSettingsInstance = new QuickConnectSettings({
-                serverId: ApiClient.serverId(),
-                userId: userId,
-                element: view.querySelector(".quickConnectSettingsContainer"),
-                userSettings: currentSettings,
-                enableSaveButton: false,
-                enableSaveConfirmation: false,
-                autoFocus: autoFocuser.isEnabled()
+                page: view,
+                interval: 0
             });
-            
+
+            view.querySelector("#btnQuickConnectActivate").addEventListener("click", () => {
+                quickConnectSettingsInstance.activate(quickConnectSettingsInstance);
+            });
+
             quickConnectSettingsInstance.loadData();
-        });
-        view.addEventListener("change", function () {
-            hasChanges = true;
+
+            ApiClient.getQuickConnect("Status").then((status) => {
+                let btn = view.querySelector("#btnQuickConnectActivate");
+
+                if (status === "Unavailable") {
+                    btn.textContent = "Quick connect is not available on this server";
+                    btn.disabled = true;
+                    return false;
+                }
+
+                else if (status === "Available") {
+                    return false;
+                }
+
+                btn.style.display = "none";
+                return true;
+            }).catch((e) => {
+                throw e;
+            });
         });
         view.addEventListener("viewbeforehide", function () {
-            hasChanges = false;
-
             if (quickConnectSettingsInstance) {
                 quickConnectSettingsInstance.submit();
             }
+            onDestroy();
         });
         view.addEventListener("viewdestroy", function () {
+            onDestroy();
+        });
+
+        function onDestroy() {
             if (quickConnectSettingsInstance) {
                 quickConnectSettingsInstance.destroy();
                 quickConnectSettingsInstance = null;
             }
-        });
+        }
     };
 });

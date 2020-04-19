@@ -1,9 +1,8 @@
-define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, libraryMenu) {
+define(["jQuery", "loading", "fnchecked"], function ($, loading) {
     "use strict";
 
+    var page;
     function loadPage(page, status) {
-        console.debug("status is \"" + status + "\"");
-
         var active = (status == "Active");
         var available = (status == "Available") || active;
 
@@ -16,44 +15,53 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
 
     function onSubmit() {
         loading.show();
-        
-        var available = $("#chkQuickConnectAvailable").is(":checked") ? "Available" : "Unavailable";
+
+        var newStatus = page.querySelector("#chkQuickConnectAvailable").checked ? "Available" : "Unavailable";
+        if (newStatus && page.querySelector("#chkQuickConnectActive").checked) {
+            newStatus = "Active";
+        }
+
         var url = ApiClient.getUrl("/QuickConnect/Available");
-        
+
         ApiClient.ajax({
             type: "POST",
             data: {
-                "Status": available
+                "Status": newStatus
             },
             url: url
         }, true).then(() => {
-            if($("#chkQuickConnectActive").is(":checked")) {
-                url = ApiClient.getUrl("/QuickConnect/Activate");
-                ApiClient.ajax({
-                    type: "POST",
-                    url: url
-                }, true);
-            }
-            
             Dashboard.alert({
                 message: "Settings saved",
                 title: "Saved"
             });
+
+            setTimeout(updatePage, 500);
+
+            return true;
+        }).catch((e) => {
+            console.error("Unable to set quick connect status. error:", e);
         });
-        
+
         loading.hide();
         return false;
     }
 
-    $(document).on("pageinit", "#quickConnectPage", function () {
-        document.querySelector("#quickConnectPage").onsubmit = onSubmit;
-        document.querySelector("#btnQuickConnectSubmit").onclick = onSubmit;
-    }).on("pageshow", "#quickConnectPage", function () {
-        loading.show();
-        var page = this;
+    function updatePage() {
         var promise1 = ApiClient.getQuickConnect("Status");
-        Promise.all([promise1]).then(function (responses) {
+        Promise.all([promise1]).then((responses) => {
             loadPage(page, responses[0]);
+            return true;
+        }).catch((e) => {
+            console.error("Unable to get quick connect status. error:", e);
         });
+    }
+
+    $(document).on("pageshow", "#quickConnectPage", function () {
+        loading.show();
+        page = this;
+
+        page.querySelector("#btnQuickConnectSubmit").onclick = onSubmit;
+
+        updatePage();
     });
 });

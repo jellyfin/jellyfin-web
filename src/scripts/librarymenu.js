@@ -350,7 +350,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             pageIds: ["devicesPage", "devicePage"],
             icon: "devices"
         });
-		links.push({
+        links.push({
             name: "Quick Connect",
             href: "quickconnect.html",
             pageIds: ["quickConnectPage", "quickConnectPage"],

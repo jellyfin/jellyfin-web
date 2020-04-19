@@ -152,51 +152,54 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
 
         function loginQuickConnect() {
             var apiClient = getApiClient();
-            var friendlyName = "test";
-            
+            var friendlyName = navigator.userAgent; // TODO: what should this be changed to?
+
             var url = apiClient.getUrl("/QuickConnect/Initiate?FriendlyName=" + friendlyName);
             apiClient.getJSON(url)
-            .then(json => {
-                if (!json.Secret || !json.Code) {
+                .then(json => {
+                    if (!json.Secret || !json.Code) {
+                        Dashboard.alert({
+                            message: json.Error,
+                            title: "Error"
+                        });
+
+                        return false;
+                    }
+
                     Dashboard.alert({
-                        message: json.Error,
-                        title: "Error"
+                        message: "Authorize request " + json.Code + " to continue",
+                        title: "Quick Connect Code"
                     });
-                    return;
-                }
 
-                Dashboard.alert({
-                    message: "Authorize request " + json.Code + " to continue",
-                    title: "Quick Connect Code"
-                });
+                    loading.show();
 
-                loading.show();
+                    var interval = setInterval(async function() {
+                        let connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
+                        let data = await apiClient.getJSON(connectUrl);
+                        if (data.Authenticated) {
+                            let result = await apiClient.quickConnect(data.Authentication);
+                            var user = result.User;
+                            var serverId = getParameterByName("serverid");
+                            var newUrl = "home.html";
 
-                var interval = setInterval(() => {
-                    var url = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
-                    apiClient.getJSON(url)
-                    .then(data => {
-                        if(data.Authenticated) {
-                            apiClient.quickConnect(data.Authentication).then((result) => {
-                                var user = result.User;
-                                var serverId = getParameterByName("serverid");
-                                var newUrl;
+                            if (user.Policy.IsAdministrator && !serverId) {
+                                newUrl = "dashboard.html";
+                            }
 
-                                if (user.Policy.IsAdministrator && !serverId) {
-                                    newUrl = "dashboard.html";
-                                } else {
-                                    newUrl = "home.html";
-                                }
+                            loading.hide();
+                            Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
+                            Dashboard.navigate(newUrl);
+                            clearInterval(interval);
 
-                                loading.hide();
-                                Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
-                                Dashboard.navigate(newUrl);
-                                clearInterval(interval);
-                            });
+                            return true;
                         }
-                    });
-                }, 5000);
-            });
+                        return false;
+                    }, 5000);
+
+                    return true;
+                }).catch((e) => {
+                    console.error("Unable to initiate quick connect login request. Error:", e);
+                });
         }
 
         view.querySelector("#divUsers").addEventListener("click", function (e) {
@@ -240,7 +243,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
         view.querySelector(".btnSelectServer").addEventListener("click", function () {
             Dashboard.selectServer();
         });
-        view.addEventListener("viewshow", function (e) {
+        view.addEventListener("viewshow", function () {
             loading.show();
 
             if (!appHost.supports('multiserver')) {
