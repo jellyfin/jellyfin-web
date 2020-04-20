@@ -126,7 +126,7 @@ import connectionManager from 'connectionManager';
                 artwork: getImageUrls(item)
             });
         } else {
-            let itemImageUrl = seriesImageUrl(item) || imageUrl(item);
+            let itemImageUrl = seriesImageUrl(item, { maxHeight: 3000 }) || imageUrl(item, { maxHeight: 3000 });
 
             window.NativeShell.updateMediaSession({
                 action: eventName,
