@@ -89,10 +89,6 @@ class SyncplayManager {
             this.onPlayerChange();
         });
 
-        events.on(playbackManager, "playbackstart", (player, state) => {
-            events.trigger(this, 'PlaybackStart', [player, state]);
-        });
-
         this.bindToPlayer(playbackManager.getCurrentPlayer());
 
         events.on(this, "TimeUpdate", (event) => {
@@ -359,7 +355,6 @@ class SyncplayManager {
             startIndex: sessionData.StartIndex,
             serverId: serverId
         }).then(() => {
-            // TODO: switch to PlaybackStart maybe?
             waitForEvent(this, "PlayerChange").then(() => {
                 playbackManager.pause();
                 var sessionId = getActivePlayerId();
@@ -435,7 +430,6 @@ class SyncplayManager {
         this.syncEnabled = false;
         events.trigger(this, "SyncplayEnabled", [false]);
         this.restorePlaybackManager();
-        this.stopSyncWatcher();
 
         if (showMessage) {
             toast({
@@ -471,7 +465,6 @@ class SyncplayManager {
 
                 this.syncTimeout = setTimeout(() => {
                     this.syncEnabled = true;
-                    this.startSyncWatcher();
                 }, SyncMethodThreshold / 2);
 
             }, playTimeout);
@@ -485,7 +478,6 @@ class SyncplayManager {
 
             this.syncTimeout = setTimeout(() => {
                 this.syncEnabled = true;
-                this.startSyncWatcher();
             }, SyncMethodThreshold / 2);
         }
     }
@@ -535,7 +527,6 @@ class SyncplayManager {
         clearTimeout(this.syncTimeout);
 
         this.syncEnabled = false;
-        this.stopSyncWatcher();
         if (this.currentPlayer) {
             this.currentPlayer.setPlaybackRate(1);
         }
@@ -625,7 +616,6 @@ class SyncplayManager {
         const elapsed = currentTime - this.lastSyncTime;
         if (elapsed < SyncMethodThreshold / 2) return;
         this.lastSyncTime = currentTime;
-        this.notifySyncWatcher();
 
         const playAtTime = this.lastCommand.When;
 
@@ -686,74 +676,6 @@ class SyncplayManager {
                 }
                 this.syncAttempts = 0;
             }
-        }
-    }
-
-    /**
-     * Signals the worker to start watching sync. Also creates the worker if needed.
-     * 
-     * This additional fail-safe has been added because on Safari the timeupdate event fails after a while.
-     */
-    startSyncWatcher () {
-        // SPOILER ALERT: this idea fails too on Safari... Keeping it here for future investigations
-        return;
-        if (window.Worker) {
-            // Start worker if needed
-            if (!this.worker) {
-                this.worker = new Worker("workers/syncplay/syncplay.worker.js");
-                this.worker.onmessage = (event) => {
-                    const message = event.data;
-                    switch (message.type) {
-                        case "TriggerSync":
-                            // TODO: player state might not reflect the real playback position,
-                            // thus calling syncPlaybackTime outside a timeupdate event might not really sync to the right point
-                            this.syncPlaybackTime();
-                            break;
-                        default:
-                            console.error("Syncplay: unknown message from worker:", message.type);
-                            break;
-                    }
-                };
-                this.worker.onerror = (event) => {
-                    console.error("Syncplay: worker error", event);
-                };
-                this.worker.onmessageerror = (event) => {
-                    console.error("Syncplay: worker message error", event);
-                };
-            }
-            // Start watcher
-            this.worker.postMessage({
-                type: "StartSyncWatcher",
-                data: {
-                    interval: SyncMethodThreshold / 2,
-                    threshold: SyncMethodThreshold
-                }
-            });
-        } else {
-            console.debug("Syncplay: workers not supported.");
-        }
-    }
-
-    /**
-     * Signals the worker to stop watching sync.
-     */
-    stopSyncWatcher () {
-        if (this.worker) {
-            this.worker.postMessage({
-                type: "StopSyncWatcher"
-            });
-        }
-    }
-
-    /**
-     * Signals new state to worker.
-     */
-    notifySyncWatcher () {
-        if (this.worker) {
-            this.worker.postMessage({
-                type: "UpdateLastSyncTime",
-                data: this.lastSyncTime
-            });
         }
     }
 
