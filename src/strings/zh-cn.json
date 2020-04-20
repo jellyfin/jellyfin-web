@@ -449,7 +449,7 @@
     "Hide": "隐藏",
     "HideWatchedContentFromLatestMedia": "从最新媒体中隐藏已观看的内容",
     "Home": "首页",
-    "HttpsRequiresCert": "要启用安全连接, 您需要提供一个受信任的 SSL 证书, 如 \"允许加密\"。请提供证书或禁用安全连接。",
+    "HttpsRequiresCert": "要启用安全连接, 您需要提供一个受信任的 SSL 证书, 例如 Let's Encrypt 。请提供证书或禁用安全连接。",
     "Identify": "识别",
     "Images": "图片",
     "ImportFavoriteChannelsHelp": "如果启用，只有在协调器设备中被标记为我的最爱的频道才会被导入。",
