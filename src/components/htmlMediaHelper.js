@@ -184,7 +184,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                         // as this is true only if video hasn't started yet or
                         // user rewound to the very beginning
                         // (but rewinding cannot happen as the first event with media of non-empty duration)
-                        console.debug(`seeking to ${seconds} on ${e.type} event`);
+                        console.debug('seeking to ' + seconds + ' on ' + e.type + ' event');
                         setCurrentTimeIfNeeded(element, seconds);
                         events.map(function(name) {
                             element.removeEventListener(name, onMediaChange);
