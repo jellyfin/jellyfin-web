@@ -90,7 +90,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                 });
             }
 
-            if (itemHelper.supportsAddingToPlaylist(item)) {
+            if (itemHelper.supportsAddingToPlaylist(item) && options.playlist !== false) {
                 commands.push({
                     name: globalize.translate("AddToPlaylist"),
                     id: "addtoplaylist",

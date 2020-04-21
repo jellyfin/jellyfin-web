@@ -48,7 +48,9 @@ html {
 }
 
 .backgroundContainer,
-.dialog {
+.dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu {
     background: -webkit-gradient(linear, left top, left bottom, from(#0f3562), color-stop(#1162a4), to(#03215f));
     background: -webkit-linear-gradient(top, #0f3562, #1162a4, #03215f);
     background: -o-linear-gradient(top, #0f3562, #1162a4, #03215f);
@@ -172,7 +174,8 @@ html {
 }
 
 .appfooter,
-.formDialogFooter:not(.formDialogFooter-clear) {
+.formDialogFooter:not(.formDialogFooter-clear),
+.playlistSectionButton {
     background: #0c2450;
     background: -webkit-gradient(linear, left bottom, left top, from(#0c2450), to(#081b3b));
     background: -webkit-linear-gradient(bottom, #0c2450, #081b3b);
