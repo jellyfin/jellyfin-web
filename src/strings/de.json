@@ -1097,7 +1097,7 @@
     "RefreshMetadata": "Aktualisiere Metadaten",
     "RefreshQueued": "Aktualisierung eingereiht.",
     "ReleaseDate": "Veröffentlichungsdatum",
-    "RememberMe": "Erinnere mich",
+    "RememberMe": "Angemeldet bleiben",
     "RemoveFromCollection": "Aus Sammlung entfernen",
     "RemoveFromPlaylist": "Von Wiedergabeliste entfernen",
     "Repeat": "Wiederholen",
@@ -1518,7 +1518,7 @@
     "BoxSet": "Box Set",
     "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
-    "LabelLibraryPageSizeHelp": "Setzt die Anzahl der gezeigten Elemente auf einer Bibliotheksseite. Setze die Anzahl auf 0 um die Auflistung zu deaktivieren.",
+    "LabelLibraryPageSizeHelp": "Setzt die Anzahl der auf einer Seite angezeigten Objekte. Setze auf 0, um alle Elemente auf einer Seite anzuzeigen.",
     "LabelLibraryPageSize": "Bibliothek Seiten Größe:",
     "DeinterlaceMethodHelp": "Wähle die Deinterlacing-Methode zum Transkodieren von Inhalten im Zeilensprungverfahren (Interlace).",
     "LabelDeinterlaceMethod": "Deinterlacing-Methode:"
