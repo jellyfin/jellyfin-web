@@ -57,7 +57,7 @@ function showNewJoinGroupSelection (button, user, apiClient) {
                     icon: "group",
                     id: group.GroupId,
                     selected: false,
-                    secondaryText: group.Partecipants.join(", ")
+                    secondaryText: group.Participants.join(", ")
                 };
             });
 
@@ -74,7 +74,7 @@ function showNewJoinGroupSelection (button, user, apiClient) {
             if (menuItems.length === 0) {
                 if (inSession && policy.SyncplayAccess === "JoinGroups") {
                     toast({
-                        text: globalize.translate('MessageSyncplayPermissionRequired')
+                        text: globalize.translate('MessageSyncplayCreateGroupDenied')
                     });
                 } else {
                     toast({

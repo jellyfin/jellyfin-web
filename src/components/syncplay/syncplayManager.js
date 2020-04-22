@@ -274,7 +274,25 @@ class SyncplayManager {
                     text: globalize.translate('MessageSyncplayGroupWait', cmd.Data)
                 });
                 break;
-            case 'KeepAlive':
+            case 'GroupNotJoined':
+                toast({
+                    text: globalize.translate('MessageSyncplayGroupNotJoined', cmd.Data)
+                });
+                break;
+            case 'CreateGroupDenied':
+                toast({
+                    text: globalize.translate('MessageSyncplayCreateGroupDenied', cmd.Data)
+                });
+                break;
+            case 'JoinGroupDenied':
+                toast({
+                    text: globalize.translate('MessageSyncplayJoinGroupDenied', cmd.Data)
+                });
+                break;
+            case 'LibraryAccessDenied':
+                toast({
+                    text: globalize.translate('MessageSyncplayLibraryAccessDenied', cmd.Data)
+                });
                 break;
             default:
                 console.error('processSyncplayGroupUpdate does not recognize: ' + cmd.Type);
