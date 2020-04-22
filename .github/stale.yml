@@ -4,13 +4,12 @@ daysUntilStale: 90
 daysUntilClose: 14
 # Issues with these labels will never be considered stale
 exemptLabels:
-  - regression
-  - future
-  - feature
-  - enhancement
-  - confirmed
+  - "Type: Regression"
+  - "Type: Discussion"
+  - "Type: Enhancement"
+  - "Status: Confirmed"
 # Label to use when marking an issue as stale
-staleLabel: stale
+staleLabel: "Status: Stale"
 # Comment to post when marking an issue as stale. Set to `false` to disable
 markComment: >
   Issues go stale after 90d of inactivity. Mark the issue as fresh by adding a comment or commit. Stale issues close after an additional 14d of inactivity.
