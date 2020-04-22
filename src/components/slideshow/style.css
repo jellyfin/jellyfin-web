@@ -133,3 +133,12 @@
 .slideSubtitle {
     color: #ccc;
 }
+
+.swiper-slide {
+    display: flex;
+    flex-direction: column;
+}
+
+.slider-zoom-container {
+    margin: auto;
+}
