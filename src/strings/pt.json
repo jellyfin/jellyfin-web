@@ -1363,5 +1363,11 @@
     "NewEpisodes": "Novos episódios",
     "NewCollectionHelp": "Coleções permitem criar agrupamentos personalizados de filmes ou de outros conteúdos da biblioteca.",
     "BoxSet": "Coleção",
-    "AlbumArtist": "Artista do Álbum"
+    "AlbumArtist": "Artista do Álbum",
+    "Quality": "Qualidade",
+    "Previous": "Anterior",
+    "PreferredNotRequired": "Preferível, mas não obrigatório",
+    "PictureInPicture": "vídeo destacado",
+    "OptionThumb": "Miniatura",
+    "OptionRequirePerfectSubtitleMatchHelp": "Solicitar a \"correspondência perfeita\" filtrará as legendas incluindo apenas aquelas que foram testadas com o arquivo de vídeo. Desmarcar isto aumentará a probabilidade de baixar legendas, mas poderá obter legendas incorretas ou não sincronizadas."
 }
