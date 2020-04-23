@@ -990,6 +990,7 @@
     "MessageInstallPluginFromApp": "This plugin must be installed from within the app you intend to use it in.",
     "MessageInvalidForgotPasswordPin": "An invalid or expired pin code was entered. Please try again.",
     "MessageInvalidUser": "Invalid username or password. Please try again.",
+    "MessageUnauthorizedUser": "You are not authorized to access the server at this time. Please contact your server administrator for more information.",
     "MessageItemSaved": "Item saved.",
     "MessageItemsAdded": "Items added.",
     "MessageLeaveEmptyToInherit": "Leave empty to inherit settings from a parent item or the global default value.",
