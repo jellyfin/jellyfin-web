@@ -709,6 +709,10 @@ var AppInfo = {};
             onError: onRequireJsError
         });
 
+        require(["fetch"], function (fetch) {
+            console.debug("fetch is here", fetch);
+        });
+
         require(["polyfill"]);
         require(["fast-text-encoding"]);
         require(["intersection-observer"]);

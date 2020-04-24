@@ -116,12 +116,12 @@ const pipelineJavascript = lazypipe()
             ]
         });
     })
-    .pipe(function () {
-        return terser({
-            keep_fnames: true,
-            mangle: false
-        });
-    })
+//    .pipe(function () {
+//        return terser({
+//            keep_fnames: true,
+//            mangle: false
+//        });
+//    })
     .pipe(function () {
         return mode.development(sourcemaps.write('.'));
     });
