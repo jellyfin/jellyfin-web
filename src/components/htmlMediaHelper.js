@@ -162,7 +162,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
     }
 
-    function seekOnPlaybackStart(instance, element, ticks) {
+    function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
 
         var seconds = (ticks || 0) / 10000000;
 
@@ -175,6 +175,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
             if (element.duration >= seconds) {
                 // media is ready, seek immediately
                 setCurrentTimeIfNeeded(element, seconds);
+                if (onMediaReady) onMediaReady();
             } else {
                 // update video player position when media is ready to be sought
                 var events = ["durationchange", "loadeddata", "play", "loadedmetadata"];
@@ -189,6 +190,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                         events.map(function(name) {
                             element.removeEventListener(name, onMediaChange);
                         });
+                        if (onMediaReady) onMediaReady();
                     }
                 };
                 events.map(function (name) {

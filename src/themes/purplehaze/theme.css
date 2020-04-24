@@ -37,6 +37,8 @@ html {
 }
 
 .dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu,
 html {
     background-color: #230c33;
 }
@@ -269,7 +271,8 @@ a[data-role=button] {
     color: rgba(255, 255, 255, 0.87);
 }
 
-.appfooter {
+.appfooter,
+.playlistSectionButton {
     background: #06256f;
     color: #ccc;
     color: rgba(255, 255, 255, 0.78);
