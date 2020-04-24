@@ -139,8 +139,18 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
 
             var index = 0;
 
-            var indexAttribute = selectedIndex == null ? '' : (' data-index="' + selectedIndex + '"');
-            var tabsHtml = '<div is="emby-tabs"' + indexAttribute + ' class="tabs-viewmenubar"><div class="emby-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map(function (t) {
+            var tabsElement;
+            try {
+                tabsElement = document.createElement('div', {is: 'emby-tabs'});
+            } catch (err) {
+                // older browser not supporting options for createElement
+                tabsElement = document.createElement('div', 'emby-tabs');
+            }
+            if (selectedIndex != null) {
+                tabsElement.setAttribute('data-index', selectedIndex);
+            }
+            tabsElement.className = 'tabs-viewmenubar';
+            tabsElement.innerHTML = '<div class="emby-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map(function (t) {
 
                 var tabClass = 'emby-tab-button';
 
@@ -163,9 +173,12 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
                 index++;
                 return tabHtml;
 
-            }).join('') + '</div></div>';
+            }).join('') + '</div>';
 
-            tabsContainerElem.innerHTML = tabsHtml;
+            while (tabsContainerElem.children.length != 0) {
+                tabsContainerElem.removeChild(tabsContainerElem.children[0]);
+            }
+            tabsContainerElem.appendChild(tabsElement);
 
             document.body.classList.add('withSectionTabs');
             tabOwnerView = view;
