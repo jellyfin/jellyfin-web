@@ -151,14 +151,10 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
             /* eslint-disable no-fallthrough */
             switch (action) {
                 case undefined:
-                    // if showing subtitle sync is enabled
-                    if (playbackManager.isShowingSubtitleOffsetEnabled(player) &&
-                        // if there is an external subtitle stream enabled
-                        playbackManager.canHandleOffsetOnCurrentSubtitle(player)) {
-                        // if no subtitle offset is defined
-                        if (!(playbackManager.getPlayerSubtitleOffset(player) ||
-                        // or being defined (element has focus)
-                        subtitleSyncTextField.hasFocus)) {
+                    // if showing subtitle sync is enabled and if there is an external subtitle stream enabled
+                    if (playbackManager.isShowingSubtitleOffsetEnabled(player) && playbackManager.canHandleOffsetOnCurrentSubtitle(player)) {
+                        // if no subtitle offset is defined or element has focus (offset being defined)
+                        if (!(playbackManager.getPlayerSubtitleOffset(player) || subtitleSyncTextField.hasFocus)) {
                             // set default offset to '0' = 50%
                             subtitleSyncSlider.value = "50";
                             subtitleSyncTextField.textContent = "0s";
