@@ -350,11 +350,6 @@ var AppInfo = {};
         return layoutManager;
     }
 
-    function createWindowHeadroom(Headroom) {
-        var headroom = new Headroom([], {});
-        return headroom;
-    }
-
     function createSharedAppFooter(appFooter) {
         return new appFooter({});
     }
@@ -707,7 +702,8 @@ var AppInfo = {};
                     "fast-text-encoding",
                     "intersection-observer",
                     "classlist-polyfill",
-                    "screenfull"
+                    "screenfull",
+                    "headroom"
                 ]
             },
             urlArgs: urlArgs,
@@ -766,7 +762,6 @@ var AppInfo = {};
 
         // TODO remove these libraries
         // all of these have been modified so we need to fix that first
-        define("headroom", [componentsPath + "/headroom/headroom"], returnFirstDependency);
         define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("navdrawer", [componentsPath + "/navdrawer/navdrawer"], returnFirstDependency);
 
