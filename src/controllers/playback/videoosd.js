@@ -545,10 +545,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         function updateFullscreenIcon() {
             if (playbackManager.isFullscreen(currentPlayer)) {
                 view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("ExitFullscreen"));
-                view.querySelector(".btnFullscreen i").classList.replace("fullscreen", "fullscreen_exit");
+                view.querySelector(".btnFullscreen .material-icons").classList.replace("fullscreen", "fullscreen_exit");
             } else {
                 view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("Fullscreen") + " (f)");
-                view.querySelector(".btnFullscreen i").classList.replace("fullscreen_exit", "fullscreen");
+                view.querySelector(".btnFullscreen .material-icons").classList.replace("fullscreen_exit", "fullscreen");
             }
         }
 
@@ -746,7 +746,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         }
 
         function updatePlayPauseState(isPaused) {
-            var button = view.querySelector(".btnPause i");
+            var button = view.querySelector(".btnPause .material-icons");
             if (isPaused) {
                 button.classList.replace("pause", "play_arrow");
                 button.setAttribute("title", globalize.translate("ButtonPlay") + " (k)");
@@ -885,10 +885,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             if (isMuted) {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute") + " (m)");
-                view.querySelector(".buttonMute i").classList.replace("volume_up", "volume_off");
+                view.querySelector(".buttonMute .material-icons").classList.replace("volume_up", "volume_off");
             } else {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute") + " (m)");
-                view.querySelector(".buttonMute i").classList.replace("volume_off", "volume_up");
+                view.querySelector(".buttonMute .material-icons").classList.replace("volume_off", "volume_up");
             }
 
             if (showMuteButton) {

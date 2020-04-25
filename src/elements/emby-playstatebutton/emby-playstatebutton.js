@@ -41,7 +41,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     function setState(button, played, updateAttribute) {
         var icon = button.iconElement;
         if (!icon) {
-            button.iconElement = button.querySelector('i');
+            button.iconElement = button.querySelector('.material-icons');
             icon = button.iconElement;
         }
 

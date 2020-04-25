@@ -151,7 +151,7 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         var apiClient = connectionManager.getApiClient(options.serverId);
 
         var button = dom.parentWithTag(e.target, 'BUTTON');
-        var isChecked = !button.querySelector('i').classList.contains('recordingIcon-active');
+        var isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');
 
         var hasEnabledTimer = this.TimerId && this.Status !== 'Cancelled';
 
@@ -191,7 +191,7 @@ define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loa
         var apiClient = connectionManager.getApiClient(options.serverId);
 
         var button = dom.parentWithTag(e.target, 'BUTTON');
-        var isChecked = !button.querySelector('i').classList.contains('recordingIcon-active');
+        var isChecked = !button.querySelector('.material-icons').classList.contains('recordingIcon-active');
 
         if (isChecked) {
             options.parent.querySelector('.recordSeriesContainer').classList.remove('hide');

@@ -644,7 +644,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     height: 23vw; /* Dirty hack to get it to look somewhat square. Less than ideal. */
 }
 
-.itemDetailGalleryLink.defaultCardBackground > i {
+.itemDetailGalleryLink.defaultCardBackground > .material-icons {
     font-size: 15vw;
     margin-top: 50%;
     transform: translateY(-50%);
@@ -687,7 +687,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     color: rgba(255, 255, 255, 0.76);
 }
 
-.emby-button.detailFloatingButton i {
+.emby-button.detailFloatingButton .material-icons {
     font-size: 3.5em;
 }
 

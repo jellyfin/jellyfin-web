@@ -92,7 +92,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
     function getIcon(icon, cssClass, canFocus, autoFocus) {
         var tabIndex = canFocus ? '' : ' tabindex="-1"';
         autoFocus = autoFocus ? ' autofocus' : '';
-        return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><i class="material-icons slideshowButtonIcon ' + icon + '"></i></button>';
+        return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '"></span></button>';
     }
 
     /**
@@ -224,7 +224,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Handles OSD changes when the autoplay is started.
          */
         function onAutoplayStart() {
-            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause i');
+            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
             if (btnSlideshowPause) {
                 btnSlideshowPause.classList.replace("play_arrow", "pause");
             }
@@ -234,7 +234,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Handles OSD changes when the autoplay is stopped.
          */
         function onAutoplayStop() {
-            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause i');
+            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
             if (btnSlideshowPause) {
                 btnSlideshowPause.classList.replace("pause", "play_arrow");
             }
@@ -418,7 +418,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Toggles the autoplay feature of the Swiper instance.
          */
         function playPause() {
-            var paused = !dialog.querySelector('.btnSlideshowPause i').classList.contains("pause");
+            var paused = !dialog.querySelector('.btnSlideshowPause .material-icons').classList.contains("pause");
             if (paused) {
                 play();
             } else {

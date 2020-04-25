@@ -57,7 +57,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
     function setState(button, likes, isFavorite, updateAttribute) {
 
-        var icon = button.querySelector('i');
+        var icon = button.querySelector('.material-icons');
 
         if (isFavorite) {
 

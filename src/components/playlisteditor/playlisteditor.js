@@ -228,7 +228,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
         var title = globalize.translate('HeaderAddToPlaylist');
 
         html += '<div class="formDialogHeader">';
-        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="material-icons arrow_back"></i></button>';
+        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
         html += '<h3 class="formDialogHeaderTitle">';
         html += title;
         html += '</h3>';

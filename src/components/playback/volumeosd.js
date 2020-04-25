@@ -11,7 +11,7 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
     function getOsdElementHtml() {
         var html = '';
 
-        html += '<i class="material-icons iconOsdIcon volume_up"></i>';
+        html += '<span class="material-icons iconOsdIcon volume_up"></span>';
 
         html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner"></div></div>';
 
@@ -32,7 +32,7 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
             elem.classList.add('volumeOsd');
             elem.innerHTML = getOsdElementHtml();
 
-            iconElement = elem.querySelector('i');
+            iconElement = elem.querySelector('.material-icons');
             progressElement = elem.querySelector('.iconOsdProgressInner');
 
             document.body.appendChild(elem);

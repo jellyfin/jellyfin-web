@@ -42,31 +42,31 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         // The onclicks are needed due to the return false above
         html += '<div class="nowPlayingBarCenter">';
 
-        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><i class="material-icons skip_previous"></i></button>';
+        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><span class="material-icons skip_previous"></span></button>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons pause"></i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
 
-        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><i class="material-icons stop"></i></button>';
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><i class="material-icons skip_next"></i></button>';
+        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><span class="material-icons stop"></span></button>';
+        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
 
         html += '<div class="nowPlayingBarCurrentTime"></div>';
         html += '</div>';
 
         html += '<div class="nowPlayingBarRight">';
 
-        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="material-icons volume_up"></i></button>';
+        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><span class="material-icons volume_up"></span></button>';
 
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><i class="material-icons repeat"></i></button>';
+        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat"></span></button>';
 
         html += '<div class="nowPlayingBarUserDataButtons">';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons pause"></i></button>';
-        html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><i class="material-icons more_vert"></i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
+        html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><span class="material-icons more_vert"></span></button>';
 
         html += '</div>';
         html += '</div>';
@@ -174,7 +174,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         });
 
-        toggleRepeatButtonIcon = toggleRepeatButton.querySelector('i');
+        toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
 
         volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
         volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
@@ -289,7 +289,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             if (isPaused) icons = icons.reverse();
 
             for (i = 0, length = playPauseButtons.length; i < length; i++) {
-                playPauseButtons[i].querySelector('i').classList.replace(icons[0], icons[1]);
+                playPauseButtons[i].querySelector('.material-icons').classList.replace(icons[0], icons[1]);
             }
         }
     }
@@ -394,7 +394,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         let icons = ["volume_off", "volume_up"];
         if (isMuted) icons = icons.reverse();
-        muteButton.querySelector('i').classList.replace(icons[0], icons[1]);
+        muteButton.querySelector('.material-icons').classList.replace(icons[0], icons[1]);
 
         if (supportedCommands.indexOf('SetVolume') === -1) {
             showVolumeSlider = false;
@@ -557,7 +557,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                         queue: false,
                         positionTo: contextButton
                     };
-                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons favorite"></i></button>';
+                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
                     apiClient.getCurrentUser().then(function(user) {
                         contextButton.addEventListener('click', function () {
                             itemContextMenu.show(Object.assign({

@@ -22,7 +22,7 @@ define(['globalize', 'connectionManager', 'require', 'loading', 'apphost', 'dom'
     }
 
     function setButtonIcon(button, icon) {
-        var inner = button.querySelector('i');
+        var inner = button.querySelector('.material-icons');
         inner.classList.remove('fiber_smart_record');
         inner.classList.remove('fiber_manual_record');
         inner.classList.add(icon);
