@@ -104,7 +104,7 @@ define(["loading", "dom", "globalize", "date-fns", "dfnshelper", "paper-icon-but
             html += '<div class="' + imageClass + '" style="background-image:url(\'' + imgUrl + "');\">";
         } else {
             html += '<div class="' + imageClass + ' flex align-items-center justify-content-center">';
-            html += '<i class="material-icons cardImageIcon">person</i>';
+            html += '<i class="material-icons cardImageIcon person"></i>';
         }
 
         html += "</div>";
@@ -182,7 +182,7 @@ define(["loading", "dom", "globalize", "date-fns", "dfnshelper", "paper-icon-but
             html += '<div class="cardImage" style="background-image:url(\'' + user.ImageUrl + "');\">";
             html += "</div>";
         } else {
-            html += '<i class="cardImageIcon material-icons">person</i>';
+            html += '<i class="cardImageIcon material-icons person"></i>';
         }
 
         html += "</a>";

@@ -268,7 +268,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
             hasCardImageContainer = true;
         } else if (!virtualFolder.showNameWithIcon) {
             html += '<div class="cardImageContainer editLibrary" style="cursor:pointer;">';
-            html += '<i class="cardImageIcon-small material-icons">' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + "</i>";
+            html += '<i class="cardImageIcon-small material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '"></i>';
             hasCardImageContainer = true;
         }
 
@@ -281,7 +281,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
 
         if (!imgUrl && virtualFolder.showNameWithIcon) {
             html += '<h3 class="cardImageContainer addLibrary" style="position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;flex-direction:column;">';
-            html += '<i class="cardImageIcon-small material-icons">' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + "</i>";
+            html += '<i class="cardImageIcon-small material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '"></i>';
 
             if (virtualFolder.showNameWithIcon) {
                 html += '<div style="margin:1em 0;position:width:100%;">';

@@ -11,7 +11,7 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
     function getOsdElementHtml() {
         var html = '';
 
-        html += '<i class="material-icons iconOsdIcon"></i>';
+        html += '<i class="material-icons iconOsdIcon volume_up"></i>';
 
         html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner"></div></div>';
 
@@ -101,7 +101,9 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
     function updatePlayerVolumeState(isMuted, volume) {
 
         if (iconElement) {
-            iconElement.innerHTML = isMuted ? '&#xE04F;' : '&#xE050;';
+            let icons = ["volume_off", "volume_up"];
+            if (isMuted) icons = icons.reverse();
+            iconElement.classList.replace(icons[0], icons[1]);
         }
         if (progressElement) {
             progressElement.style.width = (volume || 0) + '%';

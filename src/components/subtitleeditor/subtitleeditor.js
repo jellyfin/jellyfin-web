@@ -149,7 +149,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
                 if (!layoutManager.tv) {
                     if (s.Path) {
-                        itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><i class="material-icons">delete</i></button>';
+                        itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><i class="material-icons delete"></i></button>';
                     }
                 }
 

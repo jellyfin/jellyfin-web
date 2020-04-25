@@ -44,9 +44,9 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><i class="material-icons skip_previous"></i></button>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons">pause</i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons pause"></i></button>';
 
-        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><i class="material-icons">stop</i></button>';
+        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><i class="material-icons stop"></i></button>';
         html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><i class="material-icons skip_next"></i></button>';
 
         html += '<div class="nowPlayingBarCurrentTime"></div>';
@@ -54,18 +54,18 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         html += '<div class="nowPlayingBarRight">';
 
-        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="material-icons"></i></button>';
+        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="material-icons volume_up"></i></button>';
 
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><i class="material-icons">repeat</i></button>';
+        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><i class="material-icons repeat"></i></button>';
 
         html += '<div class="nowPlayingBarUserDataButtons">';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons">pause</i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons pause"></i></button>';
         html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><i class="material-icons more_vert"></i></button>';
 
         html += '</div>';
@@ -285,17 +285,11 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         var length;
 
         if (playPauseButtons) {
-            if (isPaused) {
+            let icons = ["play_arrow", "pause"];
+            if (isPaused) icons = icons.reverse();
 
-                for (i = 0, length = playPauseButtons.length; i < length; i++) {
-                    playPauseButtons[i].querySelector('i').innerHTML = '&#xE037;';
-                }
-
-            } else {
-
-                for (i = 0, length = playPauseButtons.length; i < length; i++) {
-                    playPauseButtons[i].querySelector('i').innerHTML = 'pause';
-                }
+            for (i = 0, length = playPauseButtons.length; i < length; i++) {
+                playPauseButtons[i].querySelector('i').classList.replace(icons[0], icons[1]);
             }
         }
     }
@@ -340,15 +334,16 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function updateRepeatModeDisplay(repeatMode) {
+        toggleRepeatButtonIcon.classList.remove("repeat", "repeat_one");
 
         if (repeatMode === 'RepeatAll') {
-            toggleRepeatButtonIcon.innerHTML = "repeat";
+            toggleRepeatButtonIcon.classList.add("repeat");
             toggleRepeatButton.classList.add('repeatButton-active');
         } else if (repeatMode === 'RepeatOne') {
-            toggleRepeatButtonIcon.innerHTML = "repeat_one";
+            toggleRepeatButtonIcon.classList.add("repeat_one");
             toggleRepeatButton.classList.add('repeatButton-active');
         } else {
-            toggleRepeatButtonIcon.innerHTML = "repeat";
+            toggleRepeatButtonIcon.classList.add("repeat");
             toggleRepeatButton.classList.remove('repeatButton-active');
         }
     }
@@ -397,11 +392,9 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             showMuteButton = false;
         }
 
-        if (isMuted) {
-            muteButton.querySelector('i').innerHTML = '&#xE04F;';
-        } else {
-            muteButton.querySelector('i').innerHTML = '&#xE050;';
-        }
+        let icons = ["volume_off", "volume_up"];
+        if (isMuted) icons = icons.reverse();
+        muteButton.querySelector('i').classList.replace(icons[0], icons[1]);
 
         if (supportedCommands.indexOf('SetVolume') === -1) {
             showVolumeSlider = false;
@@ -564,7 +557,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                         queue: false,
                         positionTo: contextButton
                     };
-                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons">favorite</i></button>';
+                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons favorite"></i></button>';
                     apiClient.getCurrentUser().then(function(user) {
                         contextButton.addEventListener('click', function () {
                             itemContextMenu.show(Object.assign({

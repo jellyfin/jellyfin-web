@@ -90,7 +90,7 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
             }
 
             if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
-                return '<div class="playedIndicator indicator"><i class="material-icons indicatorIcon">check</i></div>';
+                return '<div class="playedIndicator indicator"><i class="material-icons indicatorIcon check"></i></div>';
             }
         }
 
@@ -150,16 +150,16 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
 
     function getTypeIndicator(item) {
         if (item.Type === 'Video') {
-            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">videocam</i></div>';
+            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon videocam"></i></div>';
         }
         if (item.Type === 'Folder') {
-            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">folder</i></div>';
+            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon folder"></i></div>';
         }
         if (item.Type === 'PhotoAlbum') {
             return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon photo_album"></i></div>';
         }
         if (item.Type === 'Photo') {
-            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">photo</i></div>';
+            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon photo"></i></div>';
         }
 
         return '';

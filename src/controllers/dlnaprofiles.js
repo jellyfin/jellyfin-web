@@ -40,7 +40,7 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
             html += "</div>";
 
             if ("User" == profile.Type) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate("ButtonDelete") + '"><i class="material-icons">delete</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate("ButtonDelete") + '"><i class="material-icons delete"></i></button>';
             }
 
             html += "</div>";

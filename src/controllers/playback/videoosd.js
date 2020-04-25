@@ -545,10 +545,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         function updateFullscreenIcon() {
             if (playbackManager.isFullscreen(currentPlayer)) {
                 view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("ExitFullscreen"));
-                view.querySelector(".btnFullscreen i").innerHTML = "&#xE5D1;";
+                view.querySelector(".btnFullscreen i").classList.replace("fullscreen", "fullscreen_exit");
             } else {
                 view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("Fullscreen") + " (f)");
-                view.querySelector(".btnFullscreen i").innerHTML = "fullscreen";
+                view.querySelector(".btnFullscreen i").classList.replace("fullscreen_exit", "fullscreen");
             }
         }
 
@@ -748,10 +748,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         function updatePlayPauseState(isPaused) {
             var button = view.querySelector(".btnPause i");
             if (isPaused) {
-                button.innerHTML = "&#xE037;";
+                button.classList.replace("pause", "play_arrow");
                 button.setAttribute("title", globalize.translate("ButtonPlay") + " (k)");
             } else {
-                button.innerHTML = "pause";
+                button.classList.replace("play_arrow", "pause");
                 button.setAttribute("title", globalize.translate("ButtonPause") + " (k)");
             }
         }
@@ -885,10 +885,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
 
             if (isMuted) {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute") + " (m)");
-                view.querySelector(".buttonMute i").innerHTML = "&#xE04F;";
+                view.querySelector(".buttonMute i").classList.replace("volume_up", "volume_off");
             } else {
                 view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute") + " (m)");
-                view.querySelector(".buttonMute i").innerHTML = "&#xE050;";
+                view.querySelector(".buttonMute i").classList.replace("volume_off", "volume_up");
             }
 
             if (showMuteButton) {

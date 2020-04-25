@@ -226,9 +226,9 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
 
             if (itemIcon) {
 
-                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">' + itemIcon + '</i>';
+                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ' + itemIcon + '"></i>';
             } else if (renderIcon && !center) {
-                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons" style="visibility:hidden;">check</i>';
+                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" style="visibility:hidden;"></i>';
             }
 
             html += '<div class="listItemBody actionsheetListItemBody">';

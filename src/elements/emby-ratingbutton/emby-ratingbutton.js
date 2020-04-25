@@ -62,7 +62,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         if (isFavorite) {
 
             if (icon) {
-                icon.innerHTML = 'favorite';
+                icon.classList.add('favorite');
                 icon.classList.add('ratingbutton-icon-withrating');
             }
 
@@ -71,7 +71,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         } else if (likes) {
 
             if (icon) {
-                icon.innerHTML = 'favorite';
+                icon.classList.add('favorite');
                 icon.classList.remove('ratingbutton-icon-withrating');
                 //icon.innerHTML = 'thumb_up';
             }
@@ -80,7 +80,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         } else if (likes === false) {
 
             if (icon) {
-                icon.innerHTML = 'favorite';
+                icon.classList.add('favorite');
                 icon.classList.remove('ratingbutton-icon-withrating');
                 //icon.innerHTML = 'thumb_down';
             }
@@ -89,7 +89,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         } else {
 
             if (icon) {
-                icon.innerHTML = 'favorite';
+                icon.classList.add('favorite');
                 icon.classList.remove('ratingbutton-icon-withrating');
                 //icon.innerHTML = 'thumbs_up_down';
             }

@@ -167,11 +167,11 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                 }
             } else {
                 if (imageProviders.length) {
-                    html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><i class="material-icons">search</i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><i class="material-icons search"></i></button>';
                 }
             }
 
-            html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" data-index="' + (image.ImageIndex != null ? image.ImageIndex : "null") + '" class="btnDeleteImage autoSize" title="' + globalize.translate('Delete') + '"><i class="material-icons">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" data-index="' + (image.ImageIndex != null ? image.ImageIndex : "null") + '" class="btnDeleteImage autoSize" title="' + globalize.translate('Delete') + '"><i class="material-icons delete"></i></button>';
             html += '</div>';
         }
 

@@ -40,7 +40,7 @@ define(["jQuery", "loading", "events", "globalize", "serverNotifications", "date
             }
             html += '<div class="listItem listItem-border scheduledTaskPaperIconItem" data-status="' + task.State + '">';
             html += "<a is='emby-linkbutton' style='margin:0;padding:0;' class='clearLink listItemIconContainer' href='scheduledtask.html?id=" + task.Id + "'>";
-            html += '<i class="material-icons listItemIcon">schedule</i>';
+            html += '<i class="material-icons listItemIcon schedule"></i>';
             html += "</a>";
             html += '<div class="listItemBody two-line">';
             html += "<a class='clearLink' style='margin:0;padding:0;display:block;text-align:left;' is='emby-linkbutton' href='scheduledtask.html?id=" + task.Id + "'>";

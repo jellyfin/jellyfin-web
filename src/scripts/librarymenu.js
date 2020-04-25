@@ -6,16 +6,16 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         html += '<div class="flex align-items-center flex-grow headerTop">';
         html += '<div class="headerLeft">';
         html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><i class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '"></i></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><i class="material-icons">home</i></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><i class="material-icons">menu</i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><i class="material-icons home"></i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><i class="material-icons menu"></i></button>';
         html += '<h3 class="pageTitle"></h3>';
         html += "</div>";
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
         html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><i class="material-icons music_note"></i></button>';
-        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="material-icons">cast</i></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="material-icons">search</i></button>';
-        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="material-icons">person</i></button>';
+        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="material-icons cast"></i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="material-icons search"></i></button>';
+        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="material-icons person"></i></button>';
         html += "</div>";
         html += "</div>";
         html += '<div class="headerTabs sectionTabs hide">';
@@ -102,7 +102,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             headerUserButton.innerHTML = '<div class="headerButton headerButtonRight paper-icon-button-light headerUserButtonRound" style="background-image:url(\'' + src + "');\"></div>";
         } else {
             headerUserButton.classList.remove("headerUserButtonRound");
-            headerUserButton.innerHTML = '<i class="material-icons">person</i>';
+            headerUserButton.innerHTML = '<i class="material-icons person"></i>';
         }
     }
 
@@ -217,7 +217,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     function refreshLibraryInfoInDrawer(user, drawer) {
         var html = "";
         html += '<div style="height:.5em;"></div>';
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><i class="material-icons navMenuOptionIcon">home</i><span class="navMenuOptionText">' + globalize.translate("ButtonHome") + "</span></a>";
+        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><i class="material-icons navMenuOptionIcon home"></i><span class="navMenuOptionText">' + globalize.translate("ButtonHome") + "</span></a>";
 
         // libraries are added here
         html += '<div class="libraryMenuOptions">';
@@ -228,7 +228,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             html += '<h3 class="sidebarHeader">';
             html += globalize.translate("HeaderAdmin");
             html += "</h3>";
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="dashboard.html"><i class="material-icons navMenuOptionIcon">dashboard</i><span class="navMenuOptionText">' + globalize.translate("TabDashboard") + "</span></a>";
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="dashboard.html"><i class="material-icons navMenuOptionIcon dashboard"></i><span class="navMenuOptionText">' + globalize.translate("TabDashboard") + "</span></a>";
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="edititemmetadata.html"><i class="material-icons navMenuOptionIcon mode_edit"></i><span class="navMenuOptionText">' + globalize.translate("Metadata") + "</span></a>";
             html += "</div>";
         }
@@ -240,7 +240,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             html += "</h3>";
 
             if (appHost.supports("multiserver")) {
-                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="material-icons navMenuOptionIcon">wifi</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
+                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="material-icons navMenuOptionIcon wifi"></i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
             }
 
             html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><i class="material-icons navMenuOptionIcon settings"></i><span class="navMenuOptionText">' + globalize.translate("ButtonSettings") + "</span></a>";
@@ -335,7 +335,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             icon: "folder"
         }, {
             name: globalize.translate("TabPlayback"),
-            icon: "&#xE037;",
+            icon: "play_arrow",
             href: "encodingsettings.html",
             pageIds: ["encodingSettingsPage", "playbackConfigurationPage", "streamingSettingsPage"]
         }];
@@ -452,7 +452,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         menuHtml += '<a is="emby-linkbutton" class="navMenuOption" href="' + item.href + '"' + pageIds + pageUrls + ">";
 
         if (item.icon) {
-            menuHtml += '<i class="material-icons navMenuOptionIcon">' + item.icon + "</i>";
+            menuHtml += '<i class="material-icons navMenuOptionIcon ' + item.icon + '"></i>';
         }
 
         menuHtml += '<span class="navMenuOptionText">';
@@ -579,7 +579,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                         i.onclick;
                     }
 
-                    return '<a is="emby-linkbutton" data-itemid="' + itemId + '" class="lnkMediaFolder navMenuOption" href="' + getItemHref(i, i.CollectionType) + '"><i class="material-icons navMenuOptionIcon">' + icon + '</i><span class="sectionName navMenuOptionText">' + i.Name + "</span></a>";
+                    return '<a is="emby-linkbutton" data-itemid="' + itemId + '" class="lnkMediaFolder navMenuOption" href="' + getItemHref(i, i.CollectionType) + '"><i class="material-icons navMenuOptionIcon ' + icon + '"></i><span class="sectionName navMenuOptionText">' + i.Name + "</span></a>";
                 }).join("");
                 libraryMenuOptions.innerHTML = html;
                 var elem = libraryMenuOptions;
@@ -617,11 +617,11 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         var icon = headerCastButton.querySelector("i");
 
         if (info && !info.isLocalPlayer) {
-            icon.innerHTML = "&#xE308;";
+            icon.classList.replace("cast", "cast_connected");
             headerCastButton.classList.add("castButton-active");
             context.querySelector(".headerSelectedPlayer").innerHTML = info.deviceName || info.name;
         } else {
-            icon.innerHTML = "cast";
+            icon.classList.replace("cast_connected", "cast");
             headerCastButton.classList.remove("castButton-active");
             context.querySelector(".headerSelectedPlayer").innerHTML = "";
         }

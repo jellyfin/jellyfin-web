@@ -26,7 +26,7 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="' + padderClass + '"></div>';
         html += '<div class="cardContent searchImage">';
-        html += '<div class="cardImageContainer coveredImage"><i class="cardImageIcon material-icons">dvr</i></div>';
+        html += '<div class="cardImageContainer coveredImage"><i class="cardImageIcon material-icons dvr"></i></div>';
         html += "</div>";
         html += "</div>";
         html += '<div class="cardFooter visualCardBox-cardFooter">';
@@ -101,7 +101,7 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
             for (var i = 0, length = providers.length; i < length; i++) {
                 var provider = providers[i];
                 html += '<div class="listItem">';
-                html += '<i class="listItemIcon material-icons">dvr</i>';
+                html += '<i class="listItemIcon material-icons dvr"></i>';
                 html += '<div class="listItemBody two-line">';
                 html += '<a is="emby-linkbutton" style="display:block;padding:0;margin:0;text-align:left;" class="clearLink" href="' + getProviderConfigurationUrl(provider.Type) + "&id=" + provider.Id + '">';
                 html += '<h3 class="listItemBodyText">';

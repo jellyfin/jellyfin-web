@@ -577,7 +577,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     html += '</div>';
 
                     if (program.IsHD && options.showHdIcon) {
-                        //html += '<i class="guideHdIcon material-icons programIcon">hd</i>';
+                        //html += '<i class="guideHdIcon material-icons programIcon hd"></i>';
                         if (layoutManager.tv) {
                             html += '<div class="programIcon guide-programTextIcon guide-programTextIcon-tv">HD</div>';
                         } else {

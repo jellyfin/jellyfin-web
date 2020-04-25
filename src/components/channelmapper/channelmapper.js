@@ -60,7 +60,7 @@ define(["dom", "dialogHelper", "loading", "connectionManager", "globalize", "act
         function getTunerChannelHtml(channel, providerName) {
             var html = "";
             html += '<div class="listItem">';
-            html += '<i class="material-icons listItemIcon">dvr</i>';
+            html += '<i class="material-icons listItemIcon dvr"></i>';
             html += '<div class="listItemBody two-line">';
             html += '<h3 class="listItemBodyText">';
             html += channel.Name;

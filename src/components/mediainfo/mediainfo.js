@@ -390,7 +390,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         if (item.CommunityRating) {
             html += '<div class="starRatingContainer mediaInfoItem">';
 
-            html += '<i class="material-icons starIcon">star</i>';
+            html += '<i class="material-icons starIcon star"></i>';
             html += item.CommunityRating.toFixed(1);
             html += '</div>';
         }

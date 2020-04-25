@@ -160,7 +160,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             var button = options.rightButtons[i];
 
-            html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="custom" data-customaction="' + button.id + '" title="' + button.title + '"><i class="material-icons">' + button.icon + '</i></button>';
+            html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="custom" data-customaction="' + button.id + '" title="' + button.title + '"><i class="material-icons ' + button.icon + '"></i></button>';
         }
 
         return html;
@@ -426,7 +426,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             html += '<div class="' + cssClass + '">';
 
-            var moreIcon = '&#xE5D3;';
+            const moreIcon = 'more_horiz';
 
             html += getTextLinesHtml(textlines, isLargeStyle);
 
@@ -479,7 +479,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
 
                 if (options.moreButton !== false) {
-                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><i class="material-icons">' + moreIcon + '</i></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><i class="material-icons ' + moreIcon + '"></i></button>';
                 }
 
                 if (options.infoButton) {
@@ -496,11 +496,11 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     var likes = userData.Likes == null ? '' : userData.Likes;
 
                     if (itemHelper.canMarkPlayed(item)) {
-                        html += '<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="material-icons">check</i></button>';
+                        html += '<button is="emby-playstatebutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="material-icons check"></i></button>';
                     }
 
                     if (itemHelper.canRate(item)) {
-                        html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons">favorite</i></button>';
+                        html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons favorite"></i></button>';
                     }
                 }
             }

@@ -41,7 +41,7 @@ define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize"
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="' + padderClass + '"></div>';
         html += '<div class="cardContent searchImage">';
-        html += '<div class="cardImageContainer coveredImage"><i class="cardImageIcon material-icons">dvr</i></div>';
+        html += '<div class="cardImageContainer coveredImage"><i class="cardImageIcon material-icons dvr"></i></div>';
         html += "</div>";
         html += "</div>";
         html += '<div class="cardFooter visualCardBox-cardFooter">';

@@ -1569,7 +1569,7 @@ import 'programStyles';
 
             if (itemHelper.canMarkPlayed(item)) {
                 require(['emby-playstatebutton']);
-                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">check</i></button>';
+                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></i></button>';
             }
 
             if (itemHelper.canRate(item)) {
@@ -1577,7 +1577,7 @@ import 'programStyles';
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
                 require(['emby-ratingbutton']);
-                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">favorite</i></button>';
+                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></i></button>';
             }
 
             html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_horiz"></i></button>';
@@ -1601,22 +1601,22 @@ import 'programStyles';
 
             switch (item.Type) {
                 case 'MusicAlbum':
-                    return '<i class="cardImageIcon material-icons">album</i>';
+                    return '<i class="cardImageIcon material-icons album"></i>';
                 case 'MusicArtist':
                 case 'Person':
-                    return '<i class="cardImageIcon material-icons">person</i>';
+                    return '<i class="cardImageIcon material-icons person"></i>';
                 case 'Movie':
-                    return '<i class="cardImageIcon material-icons">movie</i>';
+                    return '<i class="cardImageIcon material-icons movie"></i>';
                 case 'Series':
-                    return '<i class="cardImageIcon material-icons">tv</i>';
+                    return '<i class="cardImageIcon material-icons tv"></i>';
                 case 'Book':
-                    return '<i class="cardImageIcon material-icons">book</i>';
+                    return '<i class="cardImageIcon material-icons book"></i>';
                 case 'Folder':
-                    return '<i class="cardImageIcon material-icons">folder</i>';
+                    return '<i class="cardImageIcon material-icons folder"></i>';
             }
 
             if (options && options.defaultCardImageIcon) {
-                return '<i class="cardImageIcon material-icons">' + options.defaultCardImageIcon + '</i>';
+                return '<i class="cardImageIcon material-icons ' + options.defaultCardImageIcon + '"></i>';
             }
 
             const defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
@@ -1718,7 +1718,7 @@ import 'programStyles';
                     indicatorsElem = ensureIndicators(card, indicatorsElem);
                     indicatorsElem.appendChild(playedIndicator);
                 }
-                playedIndicator.innerHTML = '<i class="material-icons indicatorIcon">check</i>';
+                playedIndicator.innerHTML = '<i class="material-icons indicatorIcon check"></i>';
             } else {
 
                 playedIndicator = card.querySelector('.playedIndicator');

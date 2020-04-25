@@ -932,7 +932,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             html += '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><i class="material-icons">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><i class="material-icons delete"></i></button>';
 
             html += '</div>';
         }
@@ -953,7 +953,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             html += '<div class="listItem">';
 
-            html += '<i class="material-icons listItemIcon" style="background-color:#333;">person</i>';
+            html += '<i class="material-icons listItemIcon person" style="background-color:#333;"></i>';
 
             html += '<div class="listItemBody">';
             html += '<button style="text-align:left;" type="button" class="btnEditPerson clearButton" data-index="' + i + '">';
@@ -969,7 +969,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             html += '</button>';
             html += '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><i class="material-icons">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><i class="material-icons delete"></i></button>';
 
             html += '</div>';
         }
