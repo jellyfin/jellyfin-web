@@ -120,7 +120,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
             html += plugin.Name;
             html += '</h3>';
             html += '</div>';
-            i > 0 ? html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonUp') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><span class="material-icons keyboard_arrow_up"></span></button>' : plugins.length > 1 && (html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonDown') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><span class="material-icons keyboard_arrow_down"></span></button>'), html += '</div>';
+            index > 0 ? html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonUp') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_up"></span></button>' : plugins.length > 1 && (html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonDown') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_down"></span></button>'), html += '</div>';
         });
 
         html += '</div>';
@@ -297,8 +297,8 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
                 typeOptions = {
                     Type: type
                 };
+                currentLibraryOptions.TypeOptions.push(typeOptions);
             }
-            currentLibraryOptions.TypeOptions.push(typeOptions);
             var availableOptions = getTypeOptions(currentAvailableOptions || {}, type);
             var imageOptionsEditor = new ImageOptionsEditor();
             imageOptionsEditor.show(type, typeOptions, availableOptions);
@@ -329,6 +329,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
                 if (prev) {
                     li.parentNode.removeChild(li);
                     prev.parentNode.insertBefore(li, prev);
+                }
             }
             Array.prototype.forEach.call(list.querySelectorAll('.sortableOption'), adjustSortableListElement);
         }
