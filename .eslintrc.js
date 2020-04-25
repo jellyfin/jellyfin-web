@@ -94,27 +94,12 @@ module.exports = {
                 'Windows': 'readonly'
             },
             rules: {
-                'block-spacing': ["error"],
-                'brace-style': ["error"],
-                'comma-dangle': ["error", "never"],
-                'comma-spacing': ["error"],
-                'eol-last': ["error"],
-                'indent': ["error", 4, { "SwitchCase": 1 }],
-                'keyword-spacing': ["error"],
-                'max-statements-per-line': ["error"],
-                'no-floating-decimal': ["error"],
-                'no-multi-spaces': ["error"],
-                'no-multiple-empty-lines': ["error", { "max": 1 }],
-                'no-trailing-spaces': ["error"],
-                'one-var': ["error", "never"],
-                'semi': ["error"],
-                'space-before-blocks': ["error"],
                 // TODO: Fix warnings and remove these rules
                 'no-redeclare': ["warn"],
                 'no-unused-vars': ["warn"],
                 'no-useless-escape': ["warn"],
                 // TODO: Remove after ES6 migration is complete
-                'import/no-unresolved': ["warn"]
+                'import/no-unresolved': ["off"]
             },
             settings: {
                 polyfills: [
