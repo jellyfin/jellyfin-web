@@ -733,8 +733,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
     function initHeadRoom(elem) {
         require(["headroom"], function (Headroom) {
-            var headroom = new Headroom([], {});
-            headroom.add(elem);
+            var headroom = new Headroom(elem);
+            headroom.init();
         });
     }
 

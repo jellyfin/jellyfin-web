@@ -26,7 +26,7 @@
     "AllowRemoteAccess": "Externe verbindingen met deze Jellyfin Server toestaan.",
     "AllowRemoteAccessHelp": "Indien niet aangevinkt worden alle externe verbindingen geblokkeerd.",
     "AllowedRemoteAddressesHelp": "Komma-gescheiden lijst van IP-adressen of IP/netmask adressen voor netwerken die op afstand verbinding mogen maken. Indien blanco, worden alle externe adressen toegestaan.",
-    "AlwaysPlaySubtitles": "Altijd ondertitels weergeven",
+    "AlwaysPlaySubtitles": "Altijd afspelen",
     "AlwaysPlaySubtitlesHelp": "Ondertitels die met de taalvoorkeur overeenkomen worden weergegeven, ongeacht de audiotaal.",
     "AnyLanguage": "Elke taal",
     "Anytime": "Op elk moment",
@@ -49,7 +49,7 @@
     "BoxRear": "Hoes (achterkant)",
     "Browse": "Bladeren",
     "BrowsePluginCatalogMessage": "Bekijk de Plugin catalogus voor beschikbare Plug-ins.",
-    "BurnSubtitlesHelp": "Bepaalt of de server ondertitels moet inbranden wanneer video's op basis van het soort ondertitels geconverteerd moeten worden. Het inbranden van ondertitels heeft een negatief effect op de server performance. Selecteer Automatisch om op afbeelding gebaseerde formaten (VOBSUB, PGS, SUB/IDX etc.) en bepaalde ASS/SSA ondertitels in te branden.",
+    "BurnSubtitlesHelp": "Bepaalt of de server ondertitels moet branden bij het transcoderen van video's. Als u dit vermijd, worden de prestaties aanzienlijk verbeterd. Selecteer Auto om op afbeeldingen gebaseerde formaten (VOBSUB, PGS, SUB/IDX etc.) en bepaalde ASS/SSA ondertitels te branden.",
     "ButtonAdd": "Toevoegen",
     "ButtonAddMediaLibrary": "Voeg Media Bibliotheek toe",
     "ButtonAddScheduledTaskTrigger": "Trigger Toevoegen",
@@ -1463,5 +1463,14 @@
     "OptionAuto": "Auto",
     "OptionProfileVideo": "Video",
     "AlbumArtist": "Album Artiest",
-    "Album": "Album"
+    "Album": "Album",
+    "DeinterlaceMethodHelp": "Selecteer de deinterlacingmethode die u wilt gebruiken bij het transcoderen van geïnterlinieerde inhoud.",
+    "CopyStreamURLError": "Er trad een fout op tijdens het kopieren van de URL.",
+    "ClientSettings": "Client instellingen",
+    "ButtonSplit": "Splitsen",
+    "BoxSet": "Box Set",
+    "AskAdminToCreateLibrary": "Vraag een beheerder om een bibliotheek te maken.",
+    "Artist": "Artiest",
+    "AllowFfmpegThrottlingHelp": "Wanneer een transcode of remux ver genoeg voorloopt op de huidige afspeelpositie, pauzeer het proces, zodat het minder middelen verbruikt. Dit is vooral handig wanneer u kijkt zonder vaak te zoeken. Schakel dit uit als u afspeelproblemen ondervindt.",
+    "AllowFfmpegThrottling": "Throttle Transcodes"
 }
