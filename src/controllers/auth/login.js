@@ -152,7 +152,7 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
 
         function loginQuickConnect() {
             var apiClient = getApiClient();
-            var friendlyName = navigator.userAgent; // TODO: what should this be changed to?
+            var friendlyName = navigator.userAgent;
 
             var url = apiClient.getUrl("/QuickConnect/Initiate?FriendlyName=" + friendlyName);
             apiClient.getJSON(url)
@@ -174,25 +174,37 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
                     loading.show();
 
                     var interval = setInterval(async function() {
-                        let connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
-                        let data = await apiClient.getJSON(connectUrl);
-                        if (data.Authenticated) {
-                            let result = await apiClient.quickConnect(data.Authentication);
-                            var user = result.User;
-                            var serverId = getParameterByName("serverid");
-                            var newUrl = "home.html";
+                        try {
+                            let connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
+                            let data = await apiClient.getJSON(connectUrl);
+                            if (data.Authenticated) {
+                                let result = await apiClient.quickConnect(data.Authentication);
+                                var user = result.User;
+                                var serverId = getParameterByName("serverid");
+                                var newUrl = "home.html";
 
-                            if (user.Policy.IsAdministrator && !serverId) {
-                                newUrl = "dashboard.html";
+                                if (user.Policy.IsAdministrator && !serverId) {
+                                    newUrl = "dashboard.html";
+                                }
+
+                                loading.hide();
+                                Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
+                                Dashboard.navigate(newUrl);
+                                clearInterval(interval);
+
+                                return true;
                             }
+                        } catch (e) {
+                            Dashboard.alert({
+                                message: "Quick connect was deactivated before the login request could be approved",
+                                title: "Unexpected error"
+                            });
 
-                            loading.hide();
-                            Dashboard.onServerChanged(user.Id, result.AccessToken, apiClient);
-                            Dashboard.navigate(newUrl);
+                            console.error("Unable to login with quick connect", e);
                             clearInterval(interval);
-
-                            return true;
+                            loading.hide();
                         }
+
                         return false;
                     }, 5000);
 

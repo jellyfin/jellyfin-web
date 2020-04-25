@@ -3,12 +3,10 @@ define(["jQuery", "loading", "fnchecked"], function ($, loading) {
 
     var page;
     function loadPage(status) {
-        var active = (status == "Active");
-        var available = (status == "Available") || active;
+        var available = status === "Available" || status === "Active";
 
         page.querySelector("#quickConnectStatus").textContent = status.toLocaleLowerCase();
         page.querySelector("#chkQuickConnectAvailable").checked = available;
-        page.querySelector("#chkQuickConnectActive").checked = active;
 
         loading.hide();
     }
@@ -17,9 +15,6 @@ define(["jQuery", "loading", "fnchecked"], function ($, loading) {
         loading.show();
 
         var newStatus = page.querySelector("#chkQuickConnectAvailable").checked ? "Available" : "Unavailable";
-        if (newStatus && page.querySelector("#chkQuickConnectActive").checked) {
-            newStatus = "Active";
-        }
 
         var url = ApiClient.getUrl("/QuickConnect/Available");
 
@@ -30,9 +25,8 @@ define(["jQuery", "loading", "fnchecked"], function ($, loading) {
             },
             url: url
         }, true).then(() => {
-            Dashboard.alert({
-                message: "Settings saved",
-                title: "Saved"
+            require(["toast"], function (toast) {
+                toast("Settings saved");
             });
 
             setTimeout(updatePage, 500);

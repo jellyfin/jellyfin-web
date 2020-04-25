@@ -11,25 +11,45 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 "Lookup": lookup
             }
         }, true);
+
+        require(["toast"], function (toast) {
+            toast("Request authorized");
+        });
+
+        // prevent bubbling
+        return false;
     }
 
     QuickConnectSettings.prototype.list = function(argPage) {
         ApiClient.getJSON("/QuickConnect/List").then(json => {
+            let found = false;
             var elem = $(argPage.querySelector("#quickConnectIncoming"));
-            elem.html("");
-            for (var i = 0; i < json.length; i++) {
-                var current = json[i];
-                var html = "<li>" + current.Code + " - " + current.FriendlyName + " - ";
+            elem.text("No pending login requests");
 
-                if (!current.Authenticated) {
-                    html += "<a href=\"#\" id=\"qc" + current.Lookup + "\">authorize</a>";
-                } else {
-                    html += " (already authorized)";
+            for (var i = 0; i < json.length; i++) {
+                if (!found) {
+                    elem.html("");
+                    found = true;
                 }
 
-                html += "</li>";
+                var current = json[i];
+
+                let html = '<div class="listItem listItem-border" id="div' + current.Lookup + '"><div class="listItemBody three-line">';
+                html += '<div class="listItemBodyText"><code style="font-size:large">' + current.Code + '</code></div>';
+                html += '<div class="listItemBodyText secondary">' + current.FriendlyName + '</div>';
+                html += '<div class="listItemBodyText secondary listItemBodyText-nowrap">';
+
+                if (!current.Authenticated) {
+                    html += '<a style="color:rgb(15,150,255)" href="#" id="qc' + current.Lookup + '">authorize</a>';
+                } else {
+                    html += " (authorized)";
+                }
+
+                html += '</div></div></div>';
                 elem.append(html);
+
                 $("#qc" + current.Lookup).click({ lookup: current.Lookup }, authorizeRequest);
+                $("#div" + current.Lookup).click({ lookup: current.Lookup }, authorizeRequest);
             }
 
             return true;
@@ -60,8 +80,8 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 return false;
             }
 
-            Dashboard.alert({
-                message: "Successfully activated"
+            require(["toast"], function (toast) {
+                toast("Successfully activated");
             });
 
             return true;
