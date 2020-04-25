@@ -4,10 +4,6 @@ import 'css!./style';
 /* eslint-disable indent */
 
     export function lazyImage(elem, source = elem.getAttribute('data-src')) {
-        if (!elem) {
-            throw new Error('elem cannot be null');
-        }
-
         if (!source) {
             return;
         }
@@ -73,11 +69,8 @@ import 'css!./style';
 
         elem.setAttribute("data-src", url);
 
-        if (userSettings.enableFastFadein()) {
-            elem.classList.remove('lazy-image-fadein-fast');
-        } else {
-            elem.classList.remove('lazy-image-fadein');
-        }
+        elem.classList.remove('lazy-image-fadein-fast');
+        elem.classList.remove('lazy-image-fadein');
     }
 
     export function lazyChildren(elem) {

@@ -93,17 +93,17 @@
           "src/components/dom.js",
           "src/components/filedownloader.js",
           "src/components/filesystem.js",
+          "src/components/images/imageLoader.js",
           "src/components/input/keyboardnavigation.js",
+          "src/components/lazyloader/lazyloader-intersectionobserver.js",
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
-          "src/scripts/settings/appSettings.js",
-          "src/scripts/settings/userSettings.js",
-          "src/scripts/settings/webSettings.js",
           "src/scripts/dfnshelper.js",
           "src/scripts/imagehelper.js",
           "src/scripts/inputManager.js",
-          "src/components/lazyloader/lazyloader-intersectionobserver.js",
-          "src/components/images/imageLoader.js"
+          "src/scripts/settings/appSettings.js",
+          "src/scripts/settings/userSettings.js",
+          "src/scripts/settings/webSettings.js"
         ],
         "plugins": [
           "@babel/plugin-transform-modules-amd"
