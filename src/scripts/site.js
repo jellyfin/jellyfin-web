@@ -431,9 +431,6 @@ var AppInfo = {};
         if (!window.fetch) {
             promises.push(require(["fetch"]));
         }
-        if ("function" != typeof Object.assign) {
-            promises.push(require(["objectassign"]));
-        }
 
         Promise.all(promises).then(function () {
             createConnectionManager().then(function () {
@@ -861,8 +858,7 @@ var AppInfo = {};
             return viewManager;
         });
         define("slideshow", [componentsPath + "/slideshow/slideshow"], returnFirstDependency);
-        define("objectassign", ["legacy/polyfills/objectassign"], returnFirstDependency);
-        define("focusPreventScroll", ["legacy/polyfills/focusPreventScroll"], returnFirstDependency);
+        define("focusPreventScroll", ["legacy/focusPreventScroll"], returnFirstDependency);
         define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
         define("listView", [componentsPath + "/listview/listview"], returnFirstDependency);
         define("indicators", [componentsPath + "/indicators/indicators"], returnFirstDependency);
