@@ -237,10 +237,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
             features.push("voiceinput");
         }
 
-        if (!browser.tv && !browser.xboxOne) {
-            browser.ps4;
-        }
-
         if (supportsHtmlMediaAutoplay()) {
             features.push("htmlaudioautoplay");
             features.push("htmlvideoautoplay");

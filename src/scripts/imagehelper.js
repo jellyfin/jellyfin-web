@@ -14,6 +14,7 @@ import browser from 'browser';
             case "Kodi":
                 return baseUrl + "kodi.svg";
             case "Jellyfin Android":
+            case "Android TV":
                 return baseUrl + "android.svg";
             case "Jellyfin Web":
                 switch (device.Name || device.DeviceName) {

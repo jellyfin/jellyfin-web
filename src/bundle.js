@@ -135,7 +135,20 @@ _define("fast-text-encoding", function () {
     return fast_text_encoding;
 });
 
+// intersection-observer
 var intersection_observer = require("intersection-observer");
 _define("intersection-observer", function () {
     return intersection_observer;
+});
+
+// screenfull
+var screenfull = require("screenfull");
+_define("screenfull", function () {
+    return screenfull;
+});
+
+// headroom.js
+var headroom = require("headroom.js/dist/headroom");
+_define("headroom", function () {
+    return headroom;
 });

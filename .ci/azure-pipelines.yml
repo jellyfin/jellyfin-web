@@ -12,87 +12,94 @@ pr:
     - '*'
 
 jobs:
-  - job: Build
-    displayName: 'Build'
+- job: Build
+  displayName: 'Build'
 
-    strategy:
-      matrix:
-        Development:
-          BuildConfiguration: development
-        Production:
-          BuildConfiguration: production
-        Standalone:
-          BuildConfiguration: standalone
+  strategy:
+    matrix:
+      Development:
+        BuildConfiguration: development
+      Production:
+        BuildConfiguration: production
+      Standalone:
+        BuildConfiguration: standalone
 
-    pool:
-      vmImage: 'ubuntu-latest'
+  pool:
+    vmImage: 'ubuntu-latest'
 
-    steps:
-    - task: NodeTool@0
-      displayName: 'Install Node'
-      inputs:
-        versionSpec: '12.x'
+  steps:
+  - task: NodeTool@0
+    displayName: 'Install Node'
+    inputs:
+      versionSpec: '12.x'
 
-    - task: Cache@2
-      displayName: 'Check Cache'
-      inputs:
-        key: 'yarn | yarn.lock'
-        path: 'node_modules'
-        cacheHitVar: CACHE_RESTORED
+  - task: Cache@2
+    displayName: 'Check Cache'
+    inputs:
+      key: 'yarn | yarn.lock'
+      path: 'node_modules'
+      cacheHitVar: CACHE_RESTORED
 
-    - script: 'yarn install --frozen-lockfile'
-      displayName: 'Install Dependencies'
-      condition: ne(variables.CACHE_RESTORED, 'true')
+  - script: 'yarn install --frozen-lockfile'
+    displayName: 'Install Dependencies'
+    condition: ne(variables.CACHE_RESTORED, 'true')
 
-    - script: 'yarn build:development'
-      displayName: 'Build Development'
-      condition: eq(variables['BuildConfiguration'], 'development')
+  - script: 'yarn build:development'
+    displayName: 'Build Development'
+    condition: eq(variables['BuildConfiguration'], 'development')
 
-    - script: 'yarn build:production'
-      displayName: 'Build Bundle'
-      condition: eq(variables['BuildConfiguration'], 'production')
+  - script: 'yarn build:production'
+    displayName: 'Build Bundle'
+    condition: eq(variables['BuildConfiguration'], 'production')
 
-    - script: 'yarn build:standalone'
-      displayName: 'Build Standalone'
-      condition: eq(variables['BuildConfiguration'], 'standalone')
+  - script: 'yarn build:standalone'
+    displayName: 'Build Standalone'
+    condition: eq(variables['BuildConfiguration'], 'standalone')
 
-    - script: 'test -d dist'
-      displayName: 'Check Build'
+  - script: 'test -d dist'
+    displayName: 'Check Build'
 
-    - script: 'mv dist jellyfin-web'
-      displayName: 'Rename Directory'
+  - script: 'mv dist jellyfin-web'
+    displayName: 'Rename Directory'
 
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish Release'
-      inputs:
-        targetPath: '$(Build.SourcesDirectory)/jellyfin-web'
-        artifactName: 'jellyfin-web-$(BuildConfiguration)'
+  - task: ArchiveFiles@2
+    displayName: 'Archive Directory'
+    inputs:
+      rootFolderOrFile: 'jellyfin-web'
+      includeRootFolder: true
+      archiveFile: 'jellyfin-web-$(BuildConfiguration)'
 
-  - job: Lint
-    displayName: 'Lint'
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Release'
+    inputs:
+      targetPath: '$(Build.SourcesDirectory)/jellyfin-web-$(BuildConfiguration).zip'
+      artifactName: 'jellyfin-web-$(BuildConfiguration)'
 
-    pool:
-      vmImage: 'ubuntu-latest'
+- job: Lint
+  displayName: 'Lint'
 
-    steps:
-    - task: NodeTool@0
-      displayName: 'Install Node'
-      inputs:
-        versionSpec: '12.x'
+  pool:
+    vmImage: 'ubuntu-latest'
 
-    - task: Cache@2
-      displayName: 'Check Cache'
-      inputs:
-        key: 'yarn | yarn.lock'
-        path: 'node_modules'
-        cacheHitVar: CACHE_RESTORED
+  steps:
+  - task: NodeTool@0
+    displayName: 'Install Node'
+    inputs:
+      versionSpec: '12.x'
 
-    - script: 'yarn install --frozen-lockfile'
-      displayName: 'Install Dependencies'
-      condition: ne(variables.CACHE_RESTORED, 'true')
+  - task: Cache@2
+    displayName: 'Check Cache'
+    inputs:
+      key: 'yarn | yarn.lock'
+      path: 'node_modules'
+      cacheHitVar: CACHE_RESTORED
 
-    - script: 'yarn run lint --quiet'
-      displayName: 'Run ESLint'
+  - script: 'yarn install --frozen-lockfile'
+    displayName: 'Install Dependencies'
+    condition: ne(variables.CACHE_RESTORED, 'true')
 
-    - script: 'yarn run stylelint'
-      displayName: 'Run Stylelint'
+  - script: 'yarn run lint --quiet'
+    displayName: 'Run ESLint'
+
+  - script: 'yarn run stylelint'
+    displayName: 'Run Stylelint'
