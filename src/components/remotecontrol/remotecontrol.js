@@ -593,6 +593,18 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         }
 
         function bindEvents(context) {
+            var contextmenuHtml = '<button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title=' + globalize.translate('ButtonToggleContextMenu') + '><i class="material-icons more_vert"></i></button>';
+            var volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
+            volumecontrolHtml += '<button is="paper-icon-button-light" class="buttonMute autoSize" title=' + globalize.translate('Mute') + '><i class="xlargePaperIconButton material-icons"></i></button>';
+            volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
+            volumecontrolHtml += '</div>';
+            if (!layoutManager.mobile) {
+                context.querySelector(".nowPlayingSecondaryButtons").innerHTML += volumecontrolHtml;
+                context.querySelector(".playlistSectionButton").innerHTML += contextmenuHtml;
+            } else {
+                context.querySelector(".playlistSectionButton").innerHTML += volumecontrolHtml + contextmenuHtml;
+            }
+
             var btnCommand = context.querySelectorAll(".btnCommand");
 
             for (var i = 0, length = btnCommand.length; i < length; i++) {
@@ -670,18 +682,6 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
 
             function setVolume() {
                 playbackManager.setVolume(this.value, currentPlayer);
-            }
-
-            var contextmenuHtml = '<button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title=' + globalize.translate('ButtonToggleContextMenu') + '><i class="material-icons more_vert"></i></button>';
-            var volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
-            volumecontrolHtml += '<button is="paper-icon-button-light" class="buttonMute autoSize" title=' + globalize.translate('Mute') + '><i class="xlargePaperIconButton material-icons"></i></button>';
-            volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
-            volumecontrolHtml += '</div>';
-            if (!layoutManager.mobile) {
-                context.querySelector(".nowPlayingSecondaryButtons").innerHTML += volumecontrolHtml;
-                context.querySelector(".playlistSectionButton").innerHTML += contextmenuHtml;
-            } else {
-                context.querySelector(".playlistSectionButton").innerHTML += volumecontrolHtml + contextmenuHtml;
             }
 
             context.querySelector(".nowPlayingVolumeSlider").addEventListener("change", setVolume);
