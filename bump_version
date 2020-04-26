@@ -38,7 +38,7 @@ old_version="$(
     grep "version:" ${build_file} \
         | sed -E 's/version: "([0-9\.]+[-a-z0-9]*)"/\1/'
 )"
-echo $old_version
+echo "Old version in ${build_file}: $old_version`"
 
 # Set the build.yaml version to the specified new_version
 old_version_sed="$( sed 's/\./\\./g' <<<"${old_version}" )" # Escape the '.' chars
