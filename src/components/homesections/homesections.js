@@ -243,7 +243,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         return function (items) {
             var cardLayout = false;
             var shape;
-            if (itemType === 'Channel' || viewType === 'movies' || viewType === 'books') {
+            if (itemType === 'Channel' || viewType === 'movies' || viewType === 'books' || viewType === 'tvshows') {
                 shape = getPortraitShape();
             } else if (viewType === 'music') {
                 shape = getSquareShape();
