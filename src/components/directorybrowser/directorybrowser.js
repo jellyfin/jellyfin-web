@@ -164,14 +164,14 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
         }).catch(function(response) {
             if (response) {
                 if (response.status === 404) {
-                    alertText(Globalize.translate("PathNotFound"));
+                    alertText(globalize.translate("PathNotFound"));
                     return Promise.reject();
                 }
                 if (response.status === 500) {
                     if (validateWriteable) {
-                        alertText(Globalize.translate("WriteAccessRequired"));
+                        alertText(globalize.translate("WriteAccessRequired"));
                     } else {
-                        alertText(Globalize.translate("PathNotFound"));
+                        alertText(globalize.translate("PathNotFound"));
                     }
                     return Promise.reject();
                 }
