@@ -64,7 +64,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             } else {
                 var noLibDescription;
                 if (user['Policy'] && user['Policy']['IsAdministrator']) {
-                    noLibDescription = Globalize.translate("NoCreatedLibraries", '<a id="button-createLibrary" class="button-link">', '</a>');
+                    noLibDescription = Globalize.translate("NoCreatedLibraries", '<br><a id="button-createLibrary" class="button-link">', '</a>');
                 } else {
                     noLibDescription = Globalize.translate("AskAdminToCreateLibrary");
                 }
