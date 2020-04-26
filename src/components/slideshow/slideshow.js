@@ -258,6 +258,11 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     direction: 'horizontal',
                     // Loop is disabled due to the virtual slides option not supporting it.
                     loop: false,
+                    zoom: {
+                        minRatio: 1,
+                        toggle: true,
+                        containerClass: 'slider-zoom-container'
+                    },
                     autoplay: !options.interactive,
                     keyboard: {
                         enabled: true
@@ -307,8 +312,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          */
         function getSwiperSlideHtmlFromItem(item) {
             return getSwiperSlideHtmlFromSlide({
-                imageUrl: getImgUrl(item),
-                originalImage: getImgUrl(item, true),
+                originalImage: getImgUrl(item),
                 //title: item.Name,
                 //description: item.Overview
                 Id: item.Id,

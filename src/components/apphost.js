@@ -237,10 +237,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
             features.push("voiceinput");
         }
 
-        if (!browser.tv && !browser.xboxOne) {
-            browser.ps4;
-        }
-
         if (supportsHtmlMediaAutoplay()) {
             features.push("htmlaudioautoplay");
             features.push("htmlvideoautoplay");
@@ -351,8 +347,6 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
     var deviceName;
     var appName = "Jellyfin Web";
     var appVersion = "10.6.0";
-    var visibilityChange;
-    var visibilityState;
 
     var appHost = {
         getWindowState: function () {
@@ -426,40 +420,26 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
         }
     };
 
-    var doc = self.document;
     var isHidden = false;
+    var hidden;
+    var visibilityChange;
 
-    if (doc) {
-        if (void 0 !== doc.visibilityState) {
-            visibilityChange = "visibilitychange";
-            visibilityState = "hidden";
+    if (typeof document.hidden !== "undefined") { /* eslint-disable-line compat/compat */
+        hidden = "hidden";
+        visibilityChange = "visibilitychange";
+    } else if (typeof document.webkitHidden !== "undefined") {
+        hidden = "webkitHidden";
+        visibilityChange = "webkitvisibilitychange";
+    }
+
+    document.addEventListener(visibilityChange, function () {
+        /* eslint-disable-next-line compat/compat */
+        if (document[hidden]) {
+            onAppHidden();
         } else {
-            if (void 0 !== doc.mozHidden) {
-                visibilityChange = "mozvisibilitychange";
-                visibilityState = "mozVisibilityState";
-            } else {
-                if (void 0 !== doc.msHidden) {
-                    visibilityChange = "msvisibilitychange";
-                    visibilityState = "msVisibilityState";
-                } else {
-                    if (void 0 !== doc.webkitHidden) {
-                        visibilityChange = "webkitvisibilitychange";
-                        visibilityState = "webkitVisibilityState";
-                    }
-                }
-            }
+            onAppVisible();
         }
-    }
-
-    if (doc) {
-        doc.addEventListener(visibilityChange, function () {
-            if (document[visibilityState]) {
-                onAppHidden();
-            } else {
-                onAppVisible();
-            }
-        });
-    }
+    }, false);
 
     if (self.addEventListener) {
         self.addEventListener("focus", onAppVisible);

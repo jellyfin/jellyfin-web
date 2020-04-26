@@ -6,6 +6,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         document.removeEventListener('keydown', onOneDocumentClick);
 
         if (window.Notification) {
+            /* eslint-disable-next-line compat/compat */
             Notification.requestPermission();
         }
     }
@@ -26,6 +27,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     }
 
     function resetRegistration() {
+        /* eslint-disable-next-line compat/compat */
         var serviceWorker = navigator.serviceWorker;
         if (serviceWorker) {
             serviceWorker.ready.then(function (registration) {

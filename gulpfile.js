@@ -62,7 +62,7 @@ function serve() {
         port: 8080
     });
 
-    let events = ['add', 'change'];
+    const events = ['add', 'change'];
 
     watch(options.javascript.query).on('all', function (event, path) {
         if (events.includes(event)) {
@@ -105,7 +105,7 @@ function clean() {
     return del(['dist/']);
 }
 
-let pipelineJavascript = lazypipe()
+const pipelineJavascript = lazypipe()
     .pipe(function () {
         return mode.development(sourcemaps.init({ loadMaps: true }));
     })
@@ -140,7 +140,7 @@ function apploader(standalone) {
             .pipe(pipelineJavascript())
             .pipe(dest('dist/'))
             .pipe(browserSync.stream());
-    };
+    }
 
     task.displayName = 'apploader';
 
@@ -183,6 +183,12 @@ function copy(query) {
         .pipe(browserSync.stream());
 }
 
+function copyIndex() {
+    return src(options.injectBundle.query, { base: './src/' })
+        .pipe(dest('dist/'))
+        .pipe(browserSync.stream());
+}
+
 function injectBundle() {
     return src(options.injectBundle.query, { base: './src/' })
         .pipe(inject(
@@ -193,9 +199,9 @@ function injectBundle() {
 }
 
 function build(standalone) {
-    return series(clean, parallel(javascript, apploader(standalone), webpack, css, html, images, copy), injectBundle);
+    return series(clean, parallel(javascript, apploader(standalone), webpack, css, html, images, copy));
 }
 
-exports.default = build(false);
-exports.standalone = build(true);
+exports.default = series(build(false), copyIndex);
+exports.standalone = series(build(true), injectBundle);
 exports.serve = series(exports.standalone, serve);

@@ -159,7 +159,9 @@ function attachGamepadScript(e) {
 }
 
 // No need to check for gamepads manually at load time, the eventhandler will be fired for that
-window.addEventListener("gamepadconnected", attachGamepadScript);
+if (navigator.getGamepads) { /* eslint-disable-line compat/compat */
+    window.addEventListener("gamepadconnected", attachGamepadScript);
+}
 
 export default {
     enable: enable,

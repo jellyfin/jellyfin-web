@@ -184,12 +184,12 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
         };
 
         self.getCurrentViewStyle = function () {
-            return getPageData(tabContent).view;
+            return getPageData().view;
         };
 
         self.setCurrentViewStyle = function (viewStyle) {
-            getPageData(tabContent).view = viewStyle;
-            libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
+            getPageData().view = viewStyle;
+            libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
             fullyReload();
         };
 

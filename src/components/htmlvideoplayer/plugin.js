@@ -1,4 +1,4 @@
-define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', 'htmlMediaHelper', 'itemHelper', 'fullscreenManager', 'globalize'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper, fullscreenManager, globalize) {
+define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', 'htmlMediaHelper', 'itemHelper', 'screenfull', 'globalize'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper, screenfull, globalize) {
     "use strict";
     /* globals cast */
 
@@ -600,8 +600,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var offsetValue = parseFloat(offset);
 
             // if .ass currently rendering
-            if (currentAssRenderer) {
+            if (currentSubtitlesOctopus) {
                 updateCurrentTrackOffset(offsetValue);
+                currentSubtitlesOctopus.timeOffset = offsetValue;
             } else {
                 var trackElement = getTextTrack();
                 // if .vtt currently rendering
@@ -794,7 +795,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 dlg.parentNode.removeChild(dlg);
             }
 
-            fullscreenManager.exitFullscreen();
+            screenfull.exit();
         };
 
         function onEnded() {
@@ -856,7 +857,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 loading.hide();
 
-                htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks);
+                htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks, function () {
+                    if (currentSubtitlesOctopus) currentSubtitlesOctopus.resize();
+                });
 
                 if (self._currentPlayOptions.fullscreen) {
 
@@ -1219,11 +1222,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function updateSubtitleText(timeMs) {
-
-            // handle offset for ass tracks
-            if (currentTrackOffset) {
-                timeMs += (currentTrackOffset * 1000);
-            }
 
             var clock = currentClock;
             if (clock) {

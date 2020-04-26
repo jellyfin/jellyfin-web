@@ -350,11 +350,6 @@ var AppInfo = {};
         return layoutManager;
     }
 
-    function createWindowHeadroom(Headroom) {
-        var headroom = new Headroom([], {});
-        return headroom;
-    }
-
     function createSharedAppFooter(appFooter) {
         return new appFooter({});
     }
@@ -588,7 +583,7 @@ var AppInfo = {};
                     }
                 }
 
-                require(["playerSelectionMenu", "fullscreenManager"]);
+                require(["playerSelectionMenu"]);
 
                 var apiClient = window.ConnectionManager && window.ConnectionManager.currentApiClient();
                 if (apiClient) {
@@ -615,13 +610,17 @@ var AppInfo = {};
     }
 
     function registerServiceWorker() {
-        if (navigator.serviceWorker && "cordova" !== self.appMode && "android" !== self.appMode) {
+        /* eslint-disable compat/compat */
+        if (navigator.serviceWorker && self.appMode !== "cordova" && self.appMode !== "android") {
             try {
                 navigator.serviceWorker.register("serviceworker.js");
             } catch (err) {
                 console.error("error registering serviceWorker: " + err);
             }
+        } else {
+            console.warn("serviceWorker unsupported");
         }
+        /* eslint-enable compat/compat */
     }
 
     function onWebComponentsReady(browser) {
@@ -700,7 +699,11 @@ var AppInfo = {};
                     "date-fns",
                     "page",
                     "polyfill",
-                    "classlist-polyfill"
+                    "fast-text-encoding",
+                    "intersection-observer",
+                    "classlist-polyfill",
+                    "screenfull",
+                    "headroom"
                 ]
             },
             urlArgs: urlArgs,
@@ -709,6 +712,8 @@ var AppInfo = {};
         });
 
         require(["polyfill"]);
+        require(["fast-text-encoding"]);
+        require(["intersection-observer"]);
         require(["classlist-polyfill"]);
 
         // Expose jQuery globally
@@ -757,7 +762,6 @@ var AppInfo = {};
 
         // TODO remove these libraries
         // all of these have been modified so we need to fix that first
-        define("headroom", [componentsPath + "/headroom/headroom"], returnFirstDependency);
         define("scroller", [componentsPath + "/scroller"], returnFirstDependency);
         define("navdrawer", [componentsPath + "/navdrawer/navdrawer"], returnFirstDependency);
 
@@ -772,6 +776,15 @@ var AppInfo = {};
         define("emby-slider", [elementsPath + "/emby-slider/emby-slider"], returnFirstDependency);
         define("emby-textarea", [elementsPath + "/emby-textarea/emby-textarea"], returnFirstDependency);
         define("emby-toggle", [elementsPath + "/emby-toggle/emby-toggle"], returnFirstDependency);
+        define("emby-scroller", [elementsPath + "/emby-scroller/emby-scroller"], returnFirstDependency);
+        define("emby-tabs", [elementsPath + "/emby-tabs/emby-tabs"], returnFirstDependency);
+        define("emby-scrollbuttons", [elementsPath + "/emby-scrollbuttons/emby-scrollbuttons"], returnFirstDependency);
+        define("emby-itemrefreshindicator", [elementsPath + "/emby-itemrefreshindicator/emby-itemrefreshindicator"], returnFirstDependency);
+        define("emby-itemscontainer", [elementsPath + "/emby-itemscontainer/emby-itemscontainer"], returnFirstDependency);
+        define("emby-playstatebutton", [elementsPath + "/emby-playstatebutton/emby-playstatebutton"], returnFirstDependency);
+        define("emby-ratingbutton", [elementsPath + "/emby-ratingbutton/emby-ratingbutton"], returnFirstDependency);
+        define("emby-progressbar", [elementsPath + "/emby-progressbar/emby-progressbar"], returnFirstDependency);
+        define("emby-programcell", [elementsPath + "/emby-programcell/emby-programcell"], returnFirstDependency);
 
         define("webSettings", [scriptsPath + "/settings/webSettings"], returnFirstDependency);
         define("appSettings", [scriptsPath + "/settings/appSettings"], returnFirstDependency);
@@ -790,12 +803,7 @@ var AppInfo = {};
         define("playerSettingsMenu", [componentsPath + "/playback/playersettingsmenu"], returnFirstDependency);
         define("playMethodHelper", [componentsPath + "/playback/playmethodhelper"], returnFirstDependency);
         define("brightnessOsd", [componentsPath + "/playback/brightnessosd"], returnFirstDependency);
-        define("emby-itemscontainer", [componentsPath + "/emby-itemscontainer/emby-itemscontainer"], returnFirstDependency);
         define("alphaNumericShortcuts", [componentsPath + "/alphanumericshortcuts/alphanumericshortcuts"], returnFirstDependency);
-        define("emby-scroller", [componentsPath + "/emby-scroller/emby-scroller"], returnFirstDependency);
-        define("emby-tabs", [componentsPath + "/emby-tabs/emby-tabs"], returnFirstDependency);
-        define("emby-scrollbuttons", [componentsPath + "/emby-scrollbuttons/emby-scrollbuttons"], returnFirstDependency);
-        define("emby-itemrefreshindicator", [componentsPath + "/emby-itemrefreshindicator/emby-itemrefreshindicator"], returnFirstDependency);
         define("multiSelect", [componentsPath + "/multiselect/multiselect"], returnFirstDependency);
         define("alphaPicker", [componentsPath + "/alphapicker/alphapicker"], returnFirstDependency);
         define("tabbedView", [componentsPath + "/tabbedview/tabbedview"], returnFirstDependency);
@@ -822,8 +830,6 @@ var AppInfo = {};
         define("searchFields", [componentsPath + "/search/searchfields"], returnFirstDependency);
         define("searchResults", [componentsPath + "/search/searchresults"], returnFirstDependency);
         define("upNextDialog", [componentsPath + "/upnextdialog/upnextdialog"], returnFirstDependency);
-        define("fullscreen-doubleclick", [componentsPath + "/fullscreen/fullscreen-dc"], returnFirstDependency);
-        define("fullscreenManager", [componentsPath + "/fullscreenManager", "events"], returnFirstDependency);
         define("subtitleAppearanceHelper", [componentsPath + "/subtitlesettings/subtitleappearancehelper"], returnFirstDependency);
         define("subtitleSettings", [componentsPath + "/subtitlesettings/subtitlesettings"], returnFirstDependency);
         define("displaySettings", [componentsPath + "/displaysettings/displaysettings"], returnFirstDependency);
@@ -852,8 +858,6 @@ var AppInfo = {};
         define("objectassign", [componentsPath + "/polyfills/objectassign"], returnFirstDependency);
         define("focusPreventScroll", [componentsPath + "/polyfills/focusPreventScroll"], returnFirstDependency);
         define("userdataButtons", [componentsPath + "/userdatabuttons/userdatabuttons"], returnFirstDependency);
-        define("emby-playstatebutton", [componentsPath + "/userdatabuttons/emby-playstatebutton"], returnFirstDependency);
-        define("emby-ratingbutton", [componentsPath + "/userdatabuttons/emby-ratingbutton"], returnFirstDependency);
         define("listView", [componentsPath + "/listview/listview"], returnFirstDependency);
         define("indicators", [componentsPath + "/indicators/indicators"], returnFirstDependency);
         define("viewSettings", [componentsPath + "/viewsettings/viewsettings"], returnFirstDependency);

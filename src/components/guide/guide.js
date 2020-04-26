@@ -1,4 +1,4 @@
-define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'playbackManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'dom', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, playbackManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, dom) {
+define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'playbackManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'dom', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-programcell', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, playbackManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, dom) {
     'use strict';
 
     function showViewSettings(instance) {
@@ -1251,19 +1251,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             self.refresh();
         });
     }
-
-    var ProgramCellPrototype = Object.create(HTMLButtonElement.prototype);
-
-    ProgramCellPrototype.detachedCallback = function () {
-        this.posLeft = null;
-        this.posWidth = null;
-        this.guideProgramName = null;
-    };
-
-    document.registerElement('emby-programcell', {
-        prototype: ProgramCellPrototype,
-        extends: 'button'
-    });
 
     return Guide;
 });
