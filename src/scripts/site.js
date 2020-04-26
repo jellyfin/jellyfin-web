@@ -563,7 +563,7 @@ var AppInfo = {};
                     require(["playerSelectionMenu", "components/playback/remotecontrolautoplay"]);
                 }
 
-                require(["components/screensavermanager"]);
+                require(["libraries/screensavermanager"]);
 
                 if (!appHost.supports("physicalvolumecontrol") || browser.touch) {
                     require(["components/playback/volumeosd"]);
