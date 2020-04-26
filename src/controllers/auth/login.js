@@ -167,8 +167,8 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
                     }
 
                     Dashboard.alert({
-                        message: "Authorize request " + json.Code + " to continue",
-                        title: "Quick Connect Code"
+                        message: Globalize.translate('QuickConnectAuthorizeCode', json.Code),
+                        title: Globalize.translate('QuickConnect')
                     });
 
                     loading.show();

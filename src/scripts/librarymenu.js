@@ -351,7 +351,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             icon: "devices"
         });
         links.push({
-            name: "Quick Connect",
+            name: globalize.translate("QuickConnect"),
             href: "quickconnect.html",
             pageIds: ["quickConnectPage", "quickConnectPage"],
             icon: "tap_and_play"

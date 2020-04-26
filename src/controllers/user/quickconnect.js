@@ -20,7 +20,7 @@ define(["quickConnectSettings", "dom", "globalize", "loading", "userSettings", "
                 let btn = view.querySelector("#btnQuickConnectActivate");
 
                 if (status === "Unavailable") {
-                    btn.textContent = "Quick connect is not available on this server";
+                    btn.textContent = globalize.translate("QuickConnectNotAvailable");
                     btn.disabled = true;
                     return false;
                 } else if (status === "Available") {

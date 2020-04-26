@@ -2,8 +2,8 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
     "use strict";
 
     function authorizeRequest(event) {
-        var lookup = event.data.lookup;
-        var url = ApiClient.getUrl("/QuickConnect/Authorize");
+        let lookup = event.data.lookup;
+        let url = ApiClient.getUrl("/QuickConnect/Authorize");
         ApiClient.ajax({
             type: "POST",
             url: url,
@@ -23,12 +23,12 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
     QuickConnectSettings.prototype.list = function(argPage) {
         ApiClient.getJSON("/QuickConnect/List").then(json => {
             let found = false;
-            var elem = $(argPage.querySelector("#quickConnectIncoming"));
-            elem.text("No pending login requests");
+            var elem = argPage.querySelector('#quickConnectIncoming');
+            elem.innerText = globalize.translate('QuickConnectNoPending');
 
             for (var i = 0; i < json.length; i++) {
                 if (!found) {
-                    elem.html("");
+                    elem.innerHTML = "";
                     found = true;
                 }
 
@@ -40,13 +40,11 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 html += '<div class="listItemBodyText secondary listItemBodyText-nowrap">';
 
                 if (!current.Authenticated) {
-                    html += '<a style="color:rgb(15,150,255)" href="#" id="qc' + current.Lookup + '">authorize</a>';
-                } else {
-                    html += " (authorized)";
+                    html += '<a style="color:rgb(15,150,255)" href="#" id="qc' + current.Lookup + '">' + globalize.translate('Authorize') + '</a>';
                 }
 
                 html += '</div></div></div>';
-                elem.append(html);
+                elem.innerHTML += html;
 
                 $("#qc" + current.Lookup).click({ lookup: current.Lookup }, authorizeRequest);
                 $("#div" + current.Lookup).click({ lookup: current.Lookup }, authorizeRequest);
@@ -68,7 +66,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         }).then((json) => {
             let message = json.Error;
 
-            console.log("message is \"" + message + "\"");
             if (message && message !== "") {
                 console.error("Error activating quick connect. Error: ", json.Error);
 
@@ -81,7 +78,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
             }
 
             require(["toast"], function (toast) {
-                toast("Successfully activated");
+                toast(globalize.translate("QuickConnectActivationSuccessful"));
             });
 
             return true;
