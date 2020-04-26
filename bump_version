@@ -22,7 +22,7 @@ build_file="./build.yaml"
 
 new_version="$1"
 
-# Parse the version from the AssemblyVersion
+# Parse the version from shared version file
 old_version="$(
     grep "appVersion" ${shared_version_file} | head -1 \
         | sed -E 's/var appVersion = "([0-9\.]+)";/\1/'
