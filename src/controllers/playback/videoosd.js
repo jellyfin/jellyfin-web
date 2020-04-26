@@ -1152,7 +1152,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 case "GamepadDPadLeft":
                 case "GamepadLeftThumbstickLeft":
                     // Ignores gamepad events that are always triggered, even when not focused.
-                    if (document.hasFocus()) {
+                    if (document.hasFocus()) { /* eslint-disable-line compat/compat */
                         playbackManager.rewind(currentPlayer);
                         showOsd();
                     }
@@ -1161,7 +1161,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 case "GamepadDPadRight":
                 case "GamepadLeftThumbstickRight":
                     // Ignores gamepad events that are always triggered, even when not focused.
-                    if (document.hasFocus()) {
+                    if (document.hasFocus()) { /* eslint-disable-line compat/compat */
                         playbackManager.fastForward(currentPlayer);
                         showOsd();
                     }
@@ -1272,7 +1272,6 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         var programEndDateMs = 0;
         var playbackStartTimeTicks = 0;
         var subtitleSyncOverlay;
-        var volumeSliderTimer;
         var nowPlayingVolumeSlider = view.querySelector(".osdVolumeSlider");
         var nowPlayingVolumeSliderContainer = view.querySelector(".osdVolumeSliderContainer");
         var nowPlayingPositionSlider = view.querySelector(".osdPositionSlider");
@@ -1423,27 +1422,15 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         }
 
         function setVolume() {
-            clearTimeout(volumeSliderTimer);
-            volumeSliderTimer = null;
-
             playbackManager.setVolume(this.value, currentPlayer);
-        }
-
-        function setVolumeDelayed() {
-            if (!volumeSliderTimer) {
-                var that = this;
-                volumeSliderTimer = setTimeout(function () {
-                    setVolume.call(that);
-                }, 700);
-            }
         }
 
         view.querySelector(".buttonMute").addEventListener("click", function () {
             playbackManager.toggleMute(currentPlayer);
         });
         nowPlayingVolumeSlider.addEventListener("change", setVolume);
-        nowPlayingVolumeSlider.addEventListener("mousemove", setVolumeDelayed);
-        nowPlayingVolumeSlider.addEventListener("touchmove", setVolumeDelayed);
+        nowPlayingVolumeSlider.addEventListener("mousemove", setVolume);
+        nowPlayingVolumeSlider.addEventListener("touchmove", setVolume);
 
         nowPlayingPositionSlider.addEventListener("change", function () {
             var player = currentPlayer;

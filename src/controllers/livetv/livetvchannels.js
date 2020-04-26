@@ -1,4 +1,4 @@
-define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "emby-itemscontainer"], function (cardBuilder, imageLoader, libraryBrowser, loading, events) {
+define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "userSettings", "emby-itemscontainer"], function (cardBuilder, imageLoader, libraryBrowser, loading, events, userSettings) {
     "use strict";
 
     return function (view, params, tabContent) {
@@ -7,10 +7,13 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
                 pageData = {
                     query: {
                         StartIndex: 0,
-                        Limit: 100,
                         Fields: "PrimaryImageAspectRatio"
                     }
                 };
+            }
+
+            if (userSettings.libraryPageSize() > 0) {
+                pageData.query['Limit'] = userSettings.libraryPageSize();
             }
 
             return pageData;
@@ -39,7 +42,9 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
                     return;
                 }
 
-                query.StartIndex += query.Limit;
+                if (userSettings.libraryPageSize() > 0) {
+                    query.StartIndex += query.Limit;
+                }
                 reloadItems(context);
             }
 
@@ -48,7 +53,9 @@ define(["cardBuilder", "imageLoader", "libraryBrowser", "loading", "events", "em
                     return;
                 }
 
-                query.StartIndex -= query.Limit;
+                if (userSettings.libraryPageSize() > 0) {
+                    query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                }
                 reloadItems(context);
             }
 

@@ -96,17 +96,6 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         }
     }
 
-    function initHeadroom(elem) {
-        require(['headroom'], function (Headroom) {
-            var headroom = new Headroom([], {
-                scroller: elem
-            });
-
-            headroom.add(document.querySelector('.skinHeader'));
-            elem.headroom = headroom;
-        });
-    }
-
     ScrollerPrototype.attachedCallback = function () {
         if (this.getAttribute('data-navcommands')) {
             inputManager.on(this, onInputCommand);
@@ -119,8 +108,6 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
         if (horizontal) {
             slider.style['white-space'] = 'nowrap';
         }
-
-        var bindHeader = this.getAttribute('data-bindheader') === 'true';
 
         var scrollFrame = this;
         var enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
@@ -137,7 +124,7 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
             dragHandle: 1,
             autoImmediate: true,
             skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
-            dispatchScrollEvent: enableScrollButtons || bindHeader || this.getAttribute('data-scrollevent') === 'true',
+            dispatchScrollEvent: enableScrollButtons || this.getAttribute('data-scrollevent') === 'true',
             hideScrollbar: enableScrollButtons || this.getAttribute('data-hidescrollbar') === 'true',
             allowNativeSmoothScroll: this.getAttribute('data-allownativesmoothscroll') === 'true' && !enableScrollButtons,
             allowNativeScroll: !enableScrollButtons,
@@ -153,10 +140,6 @@ define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'bro
 
         if (layoutManager.tv && this.getAttribute('data-centerfocus')) {
             initCenterFocus(this, this.scroller);
-        }
-
-        if (bindHeader && layoutManager.mobile) {
-            initHeadroom(this);
         }
 
         if (enableScrollButtons) {

@@ -29,5 +29,5 @@ define(["datetime", "loading", "apphost", "listViewStyle", "emby-button", "flexS
                 loading.hide();
             });
         });
-    }
+    };
 });

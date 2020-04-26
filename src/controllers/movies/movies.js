@@ -32,7 +32,9 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     return;
                 }
 
-                query.StartIndex += query.Limit;
+                if (userSettings.libraryPageSize() > 0) {
+                    query.StartIndex += query.Limit;
+                }
                 itemsContainer.refreshItems();
             }
 
@@ -41,7 +43,9 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     return;
                 }
 
-                query.StartIndex -= query.Limit;
+                if (userSettings.libraryPageSize() > 0) {
+                    query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                }
                 itemsContainer.refreshItems();
             }
 
@@ -250,9 +254,13 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
             ImageTypeLimit: 1,
             EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
             StartIndex: 0,
-            Limit: 100,
             ParentId: params.topParentId
         };
+
+        if (userSettings.libraryPageSize() > 0) {
+            query['Limit'] = userSettings.libraryPageSize();
+        }
+
         var isLoading = false;
 
         if (options.mode === "favorites") {

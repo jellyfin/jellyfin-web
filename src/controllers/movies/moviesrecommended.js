@@ -91,21 +91,21 @@ define(["events", "layoutManager", "inputManager", "userSettings", "libraryMenu"
 
         switch (recommendation.RecommendationType) {
             case "SimilarToRecentlyPlayed":
-                title = globalize.translate("RecommendationBecauseYouWatched").replace("{0}", recommendation.BaselineItemName);
+                title = globalize.translate("RecommendationBecauseYouWatched", recommendation.BaselineItemName);
                 break;
 
             case "SimilarToLikedItem":
-                title = globalize.translate("RecommendationBecauseYouLike").replace("{0}", recommendation.BaselineItemName);
+                title = globalize.translate("RecommendationBecauseYouLike", recommendation.BaselineItemName);
                 break;
 
             case "HasDirectorFromRecentlyPlayed":
             case "HasLikedDirector":
-                title = globalize.translate("RecommendationDirectedBy").replace("{0}", recommendation.BaselineItemName);
+                title = globalize.translate("RecommendationDirectedBy", recommendation.BaselineItemName);
                 break;
 
             case "HasActorFromRecentlyPlayed":
             case "HasLikedActor":
-                title = globalize.translate("RecommendationStarring").replace("{0}", recommendation.BaselineItemName);
+                title = globalize.translate("RecommendationStarring", recommendation.BaselineItemName);
                 break;
         }
 

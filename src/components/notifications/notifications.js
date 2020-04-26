@@ -6,6 +6,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         document.removeEventListener('keydown', onOneDocumentClick);
 
         if (window.Notification) {
+            /* eslint-disable-next-line compat/compat */
             Notification.requestPermission();
         }
     }
@@ -26,6 +27,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     }
 
     function resetRegistration() {
+        /* eslint-disable-next-line compat/compat */
         var serviceWorker = navigator.serviceWorker;
         if (serviceWorker) {
             serviceWorker.ready.then(function (registration) {
@@ -173,15 +175,15 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             };
 
             if (status === 'completed') {
-                notification.title = globalize.translate('PackageInstallCompleted').replace('{0}', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('PackageInstallCompleted', installation.Name, installation.Version);
                 notification.vibrate = true;
             } else if (status === 'cancelled') {
-                notification.title = globalize.translate('PackageInstallCancelled').replace('{0}', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('PackageInstallCancelled', installation.Name, installation.Version);
             } else if (status === 'failed') {
-                notification.title = globalize.translate('PackageInstallFailed').replace('{0}', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('PackageInstallFailed', installation.Name, installation.Version);
                 notification.vibrate = true;
             } else if (status === 'progress') {
-                notification.title = globalize.translate('InstallingPackage').replace('{0}', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('InstallingPackage', installation.Name, installation.Version);
 
                 notification.actions =
                 [

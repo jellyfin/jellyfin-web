@@ -1,7 +1,8 @@
-define(["browser"], function (browser) {
-    "use strict";
+/* eslint-disable indent */
 
-    function getDeviceIcon(device) {
+import browser from 'browser';
+
+    export function getDeviceIcon(device) {
         var baseUrl = "assets/img/devices/";
         switch (device.AppName || device.Client) {
             case "Samsung Smart TV":
@@ -13,6 +14,7 @@ define(["browser"], function (browser) {
             case "Kodi":
                 return baseUrl + "kodi.svg";
             case "Jellyfin Android":
+            case "Android TV":
                 return baseUrl + "android.svg";
             case "Jellyfin Web":
                 switch (device.Name || device.DeviceName) {
@@ -42,7 +44,7 @@ define(["browser"], function (browser) {
         }
     }
 
-    function getLibraryIcon(library) {
+    export function getLibraryIcon(library) {
         switch (library) {
             case "movies":
                 return "video_library";
@@ -71,8 +73,9 @@ define(["browser"], function (browser) {
         }
     }
 
-    return {
-        getDeviceIcon: getDeviceIcon,
-        getLibraryIcon: getLibraryIcon
-    };
-});
+/* eslint-enable indent */
+
+export default {
+    getDeviceIcon: getDeviceIcon,
+    getLibraryIcon: getLibraryIcon
+};

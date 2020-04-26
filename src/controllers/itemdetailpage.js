@@ -336,7 +336,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
 
         return html = html.join(" / ");
     }
-
     function renderName(item, container, isStatic, context) {
         var parentRoute;
         var parentNameHtml = [];
@@ -401,14 +400,25 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         } else if (item.Album) {
             parentNameHtml.push(item.Album);
         }
-
+        // FIXME: This whole section needs some refactoring, so it becames easier to scale across all form factors. See GH #1022
         var html = "";
+        var tvShowHtml = parentNameHtml[0];
+        var tvSeasonHtml = parentNameHtml[1];
 
         if (parentNameHtml.length) {
             if (parentNameLast) {
-                html = '<h3 class="parentName" style="margin: .25em 0;">' + parentNameHtml.join(" - ") + "</h3>";
+                // Music
+                if (layoutManager.mobile) {
+                    html = '<h3 class="parentName" style="margin: .25em 0;">' + parentNameHtml.join("</br>") + "</h3>";
+                } else {
+                    html = '<h3 class="parentName" style="margin: .25em 0;">' + parentNameHtml.join(" - ") + "</h3>";
+                }
             } else {
-                html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + parentNameHtml.join(" - ") + "</h1>";
+                if (layoutManager.mobile) {
+                    html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + parentNameHtml.join("</br>") + "</h1>";
+                } else {
+                    html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + tvShowHtml + "</h1>";
+                }
             }
         }
 
@@ -418,13 +428,17 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         var offset = parentNameLast ? ".25em" : ".5em";
 
         if (html && !parentNameLast) {
-            html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + name + '</h3>';
+            if (!layoutManager.mobile && tvSeasonHtml) {
+                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + tvSeasonHtml + ' - ' + name + '</h3>';
+            } else {
+                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + name + '</h3>';
+            }
         } else {
             html = '<h1 class="itemName infoText" style="margin: .1em 0 ' + offset + ';">' + name + "</h1>" + html;
         }
 
         if (item.OriginalTitle && item.OriginalTitle != item.Name) {
-            html += '<h4 class="itemName infoText" style="margin: -' + offset + ' 0 0">' + item.OriginalTitle + '</h4>';
+            html += '<h4 class="itemName infoText" style="margin: -' + offset + ' 0 0;">' + item.OriginalTitle + '</h4>';
         }
 
         container.innerHTML = html;
@@ -591,7 +605,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             try {
                 var birthday = datetime.parseISO8601Date(item.PremiereDate, true).toDateString();
                 itemBirthday.classList.remove("hide");
-                itemBirthday.innerHTML = globalize.translate("BirthDateValue").replace("{0}", birthday);
+                itemBirthday.innerHTML = globalize.translate("BirthDateValue", birthday);
             } catch (err) {
                 itemBirthday.classList.add("hide");
             }
@@ -605,7 +619,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
             try {
                 var deathday = datetime.parseISO8601Date(item.EndDate, true).toDateString();
                 itemDeathDate.classList.remove("hide");
-                itemDeathDate.innerHTML = globalize.translate("DeathDateValue").replace("{0}", deathday);
+                itemDeathDate.innerHTML = globalize.translate("DeathDateValue", deathday);
             } catch (err) {
                 itemDeathDate.classList.add("hide");
             }
@@ -618,7 +632,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         if ("Person" == item.Type && item.ProductionLocations && item.ProductionLocations.length) {
             var gmap = '<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://maps.google.com/maps?q=' + item.ProductionLocations[0] + '">' + item.ProductionLocations[0] + "</a>";
             itemBirthLocation.classList.remove("hide");
-            itemBirthLocation.innerHTML = globalize.translate("BirthPlaceValue").replace("{0}", gmap);
+            itemBirthLocation.innerHTML = globalize.translate("BirthPlaceValue", gmap);
         } else {
             itemBirthLocation.classList.add("hide");
         }

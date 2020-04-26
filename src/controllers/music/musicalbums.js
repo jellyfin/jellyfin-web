@@ -1,4 +1,4 @@
-define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "apphost", "globalize", "emby-itemscontainer"], function (layoutManager, playbackManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, appHost, globalize) {
+define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "userSettings", "globalize", "emby-itemscontainer"], function (layoutManager, playbackManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, userSettings, globalize) {
     "use strict";
 
     return function (view, params, tabContent) {
@@ -30,11 +30,15 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                         Fields: "PrimaryImageAspectRatio,SortName,BasicSyncInfo",
                         ImageTypeLimit: 1,
                         EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
-                        StartIndex: 0,
-                        Limit: pageSize
+                        StartIndex: 0
                     },
                     view: libraryBrowser.getSavedView(key) || "Poster"
                 };
+
+                if (userSettings.libraryPageSize() > 0) {
+                    pageData.query['Limit'] = userSettings.libraryPageSize();
+                }
+
                 pageData.query.ParentId = params.topParentId;
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
@@ -79,7 +83,9 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                         return;
                     }
 
-                    query.StartIndex += query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex += query.Limit;
+                    }
                     reloadItems(tabContent);
                 }
 
@@ -88,7 +94,9 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                         return;
                     }
 
-                    query.StartIndex -= query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                    }
                     reloadItems(tabContent);
                 }
 
@@ -175,7 +183,6 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
         var savedQueryKey;
         var pageData;
         var self = this;
-        var pageSize = 100;
         var isLoading = false;
 
         self.showFilterMenu = function () {

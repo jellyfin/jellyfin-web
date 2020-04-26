@@ -8,7 +8,7 @@
 
         var script = document.createElement("script");
         if (self.dashboardVersion) {
-            src += "?v=" + self.dashboardVersion;
+            src += `?v=${self.dashboardVersion}`;
         }
         script.src = src;
 
@@ -27,6 +27,16 @@
                 injectScriptElement("./scripts/site.js");
             }
         );
+    }
+
+    try {
+        Promise.resolve();
+    } catch (ex) {
+        // this checks for several cases actually, typical is
+        // Promise() being missing on some legacy browser, and a funky one
+        // is Promise() present but buggy on WebOS 2
+        window.Promise = undefined;
+        self.Promise = undefined;
     }
 
     if (!self.Promise) {

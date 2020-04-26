@@ -188,5 +188,5 @@ define(["pluginManager"], function (pluginManager) {
                 }
             }
         };
-    }
+    };
 });

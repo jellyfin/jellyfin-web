@@ -95,7 +95,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
     }
 
     function showServerConnectionFailure() {
-        alertText(globalize.translate("MessageUnableToConnectToServer"), globalize.translate("HeaderConnectionFailure"));
+        alertText(globalize.translate("MessageUnableToConnectToServer"));
     }
 
     return function (view, params) {

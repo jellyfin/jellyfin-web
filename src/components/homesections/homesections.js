@@ -64,18 +64,18 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             } else {
                 var noLibDescription;
                 if (user['Policy'] && user['Policy']['IsAdministrator']) {
-                    noLibDescription = globalize.translate("NoCreatedLibraries", '<a id="button-createLibrary" class="button-link">', '</a>')
+                    noLibDescription = globalize.translate("NoCreatedLibraries", '<a id="button-createLibrary" class="button-link">', '</a>');
                 } else {
                     noLibDescription = globalize.translate("AskAdminToCreateLibrary");
                 }
 
                 html += '<div class="centerMessage padded-left padded-right">';
                 html += '<h2>' + globalize.translate("MessageNothingHere") + '</h2>';
-                html += '<p>' + noLibDescription + '</p>'
+                html += '<p>' + noLibDescription + '</p>';
                 html += '</div>';
                 elem.innerHTML = html;
 
-                var createNowLink = elem.querySelector("#button-createLibrary")
+                var createNowLink = elem.querySelector("#button-createLibrary");
                 if (createNowLink) {
                     createNowLink.addEventListener("click", function () {
                         Dashboard.navigate("library.html");
@@ -131,7 +131,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         } else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
             loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews, allSections);
         } else if (section === 'librarybuttons') {
-            loadlibraryButtons(elem, apiClient, user, userSettings, userViews, allSections);
+            loadlibraryButtons(elem, apiClient, user, userSettings, userViews);
         } else if (section === 'resume') {
             loadResumeVideo(elem, apiClient, userId);
         } else if (section === 'resumeaudio') {
@@ -640,7 +640,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
                 if (enableScrollX()) {
                     html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-                    html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">'
+                    html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
                 } else {
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
@@ -714,7 +714,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
         if (enableScrollX()) {
             html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">'
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="videoplayback,markplayed">';
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
         }
@@ -786,7 +786,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
         if (enableScrollX()) {
             html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">';
-            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">'
+            html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
         }

@@ -90,7 +90,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                 });
             }
 
-            if (itemHelper.supportsAddingToPlaylist(item)) {
+            if (itemHelper.supportsAddingToPlaylist(item) && options.playlist !== false) {
                 commands.push({
                     name: globalize.translate("AddToPlaylist"),
                     id: "addtoplaylist",
@@ -339,7 +339,9 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                         fileDownloader.download([{
                             url: downloadHref,
                             itemId: itemId,
-                            serverId: serverId
+                            serverId: serverId,
+                            title: item.Name,
+                            filename: item.Path.replace(/^.*[\\\/]/, '')
                         }]);
                         getResolveFunction(getResolveFunction(resolve, id), id)();
                     });
@@ -352,6 +354,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                         document.body.appendChild(textArea);
                         textArea.focus();
                         textArea.select();
+
                         if (document.execCommand("copy")) {
                             require(["toast"], function (toast) {
                                 toast(globalize.translate("CopyStreamURLSuccess"));
@@ -361,14 +364,19 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                         }
                         document.body.removeChild(textArea);
                     };
+
+                    /* eslint-disable-next-line compat/compat */
                     if (navigator.clipboard === undefined) {
                         textAreaCopy();
                     } else {
+                        /* eslint-disable-next-line compat/compat */
                         navigator.clipboard.writeText(downloadHref).then(function () {
                             require(["toast"], function (toast) {
                                 toast(globalize.translate("CopyStreamURLSuccess"));
                             });
-                        }, textAreaCopy);
+                        }).catch(function () {
+                            textAreaCopy();
+                        });
                     }
                     getResolveFunction(resolve, id)();
                     break;

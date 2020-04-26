@@ -1,4 +1,4 @@
-define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "apphost", "imageLoader", "emby-itemscontainer"], function (loading, listView, cardBuilder, libraryMenu, libraryBrowser, appHost, imageLoader) {
+define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "apphost", "imageLoader", "userSettings", "emby-itemscontainer"], function (loading, listView, cardBuilder, libraryMenu, libraryBrowser, appHost, imageLoader, userSettings) {
     "use strict";
 
     return function (view, params) {
@@ -14,11 +14,15 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                         IncludeItemTypes: "Playlist",
                         Recursive: true,
                         Fields: "PrimaryImageAspectRatio,SortName,CumulativeRunTimeTicks,CanDelete",
-                        StartIndex: 0,
-                        Limit: 100
+                        StartIndex: 0
                     },
                     view: libraryBrowser.getSavedView(key) || "Poster"
                 };
+
+                if (userSettings.libraryPageSize() > 0) {
+                    pageData.query['Limit'] = userSettings.libraryPageSize();
+                }
+
                 pageData.query.ParentId = libraryMenu.getTopParentId();
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
@@ -137,7 +141,9 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
 
                 if (btnNextPage) {
                     btnNextPage.addEventListener("click", function () {
-                        query.StartIndex += query.Limit;
+                        if (userSettings.libraryPageSize() > 0) {
+                            query.StartIndex += query.Limit;
+                        }
                         reloadItems();
                     });
                 }
@@ -146,7 +152,9 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
 
                 if (btnPreviousPage) {
                     btnPreviousPage.addEventListener("click", function () {
-                        query.StartIndex -= query.Limit;
+                        if (userSettings.libraryPageSize() > 0) {
+                            query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                        }
                         reloadItems();
                     });
                 }

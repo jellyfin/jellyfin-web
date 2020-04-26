@@ -113,6 +113,9 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
                         itemsContainer: elem,
                         shape: getPortraitShape(),
                         scalable: true,
+                        showTitle: true,
+                        centerText: true,
+                        showYear: true,
                         overlayMoreButton: true,
                         allowBottomPadding: false
                     });
@@ -177,12 +180,12 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
         };
 
         self.getCurrentViewStyle = function () {
-            return getPageData(tabContent).view;
+            return getPageData().view;
         };
 
         self.setCurrentViewStyle = function (viewStyle) {
-            getPageData(tabContent).view = viewStyle;
-            libraryBrowser.saveViewSetting(getSavedQueryKey(tabContent), viewStyle);
+            getPageData().view = viewStyle;
+            libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
             fullyReload();
         };
 
