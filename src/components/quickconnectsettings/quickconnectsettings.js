@@ -23,16 +23,16 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
     QuickConnectSettings.prototype.list = function(argPage) {
         ApiClient.getJSON("/QuickConnect/List").then(json => {
             let found = false;
-            var elem = argPage.querySelector('#quickConnectIncoming');
+            let elem = argPage.querySelector('#quickConnectIncoming');
             elem.innerText = globalize.translate('QuickConnectNoPending');
 
-            for (var i = 0; i < json.length; i++) {
+            for (let i = 0; i < json.length; i++) {
                 if (!found) {
                     elem.innerHTML = "";
                     found = true;
                 }
 
-                var current = json[i];
+                let current = json[i];
 
                 let html = '<div class="listItem listItem-border" id="div' + current.Lookup + '"><div class="listItemBody three-line">';
                 html += '<div class="listItemBodyText"><code style="font-size:large">' + current.Code + '</code></div>';
@@ -57,7 +57,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
     };
 
     QuickConnectSettings.prototype.activate = function() {
-        var url = ApiClient.getUrl("/QuickConnect/Activate");
+        let url = ApiClient.getUrl("/QuickConnect/Activate");
         ApiClient.ajax({
             type: "POST",
             url: url,

@@ -2,7 +2,7 @@ define(["quickConnectSettings", "dom", "globalize", "loading", "userSettings", "
     "use strict";
 
     return function (view) {
-        var quickConnectSettingsInstance = null;
+        let quickConnectSettingsInstance = null;
 
         view.addEventListener("viewshow", function () {
             quickConnectSettingsInstance = new QuickConnectSettings({

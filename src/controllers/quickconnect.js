@@ -1,9 +1,9 @@
 define(["jQuery", "loading", "fnchecked"], function ($, loading) {
     "use strict";
 
-    var page;
+    let page;
     function loadPage(status) {
-        var available = status === "Available" || status === "Active";
+        let available = status === "Available" || status === "Active";
 
         page.querySelector("#quickConnectStatus").textContent = status.toLocaleLowerCase();
         page.querySelector("#chkQuickConnectAvailable").checked = available;
@@ -14,9 +14,9 @@ define(["jQuery", "loading", "fnchecked"], function ($, loading) {
     function onSubmit() {
         loading.show();
 
-        var newStatus = page.querySelector("#chkQuickConnectAvailable").checked ? "Available" : "Unavailable";
+        let newStatus = page.querySelector("#chkQuickConnectAvailable").checked ? "Available" : "Unavailable";
 
-        var url = ApiClient.getUrl("/QuickConnect/Available");
+        let url = ApiClient.getUrl("/QuickConnect/Available");
 
         ApiClient.ajax({
             type: "POST",
@@ -41,7 +41,7 @@ define(["jQuery", "loading", "fnchecked"], function ($, loading) {
     }
 
     function updatePage() {
-        var promise1 = ApiClient.getQuickConnect("Status");
+        let promise1 = ApiClient.getQuickConnect("Status");
         Promise.all([promise1]).then((responses) => {
             loadPage(responses[0]);
             return true;

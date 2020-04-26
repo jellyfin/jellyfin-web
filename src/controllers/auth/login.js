@@ -151,10 +151,10 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
         }
 
         function loginQuickConnect() {
-            var apiClient = getApiClient();
-            var friendlyName = navigator.userAgent;
+            let apiClient = getApiClient();
+            let friendlyName = navigator.userAgent;
 
-            var url = apiClient.getUrl("/QuickConnect/Initiate?FriendlyName=" + friendlyName);
+            let url = apiClient.getUrl("/QuickConnect/Initiate?FriendlyName=" + friendlyName);
             apiClient.getJSON(url)
                 .then(json => {
                     if (!json.Secret || !json.Code) {
@@ -173,15 +173,15 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
 
                     loading.show();
 
-                    var interval = setInterval(async function() {
+                    let interval = setInterval(async function() {
                         try {
                             let connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
                             let data = await apiClient.getJSON(connectUrl);
                             if (data.Authenticated) {
                                 let result = await apiClient.quickConnect(data.Authentication);
-                                var user = result.User;
-                                var serverId = getParameterByName("serverid");
-                                var newUrl = "home.html";
+                                let user = result.User;
+                                let serverId = getParameterByName("serverid");
+                                let newUrl = "home.html";
 
                                 if (user.Policy.IsAdministrator && !serverId) {
                                     newUrl = "dashboard.html";
