@@ -348,7 +348,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper"], function (appSet
     var deviceId;
     var deviceName;
     var appName = "Jellyfin Web";
-    var appVersion = "10.5.4";
+    var appVersion = "10.5.5";
     var visibilityChange;
     var visibilityState;
 
