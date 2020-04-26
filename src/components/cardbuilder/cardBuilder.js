@@ -869,7 +869,7 @@ import 'programStyles';
             if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
 
                 if (options.cardFooterAside !== 'none') {
-                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="material-icons more_horiz"></i></button>';
+                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="material-icons more_vert"></i></button>';
                 }
             }
 
@@ -1426,7 +1426,7 @@ import 'programStyles';
                 }
 
                 if (options.overlayMoreButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon more_horiz"></i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon more_vert"></i></button>';
                 }
             }
 
@@ -1580,7 +1580,7 @@ import 'programStyles';
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">favorite</i></button>';
             }
 
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_horiz"></i></button>';
+            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></i></button>';
 
             html += '</div>';
             html += '</div>';
