@@ -27,7 +27,7 @@ old_version="$(
     grep "appVersion" ${shared_version_file} | head -1 \
         | sed -E 's/var appVersion = "([0-9\.]+)";/\1/'
 )"
-echo $old_version
+echo "Old version in appHost is: $old_version"
 
 # Set the shared version to the specified new_version
 old_version_sed="$( sed 's/\./\\./g' <<<"${old_version}" )" # Escape the '.' chars
