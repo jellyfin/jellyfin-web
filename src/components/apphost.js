@@ -46,20 +46,9 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
                 if (window.NativeShell) {
                     profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder);
                 } else {
-                    profile = profileBuilder(getBaseProfileOptions(item));
-
-                    if (item && !options.isRetry && "allcomplexformats" !== appSettings.get("subtitleburnin")) {
-                        if (!browser.orsay && !browser.tizen) {
-                            profile.SubtitleProfiles.push({
-                                Format: "ass",
-                                Method: "External"
-                            });
-                            profile.SubtitleProfiles.push({
-                                Format: "ssa",
-                                Method: "External"
-                            });
-                        }
-                    }
+                    var builderOpts = getBaseProfileOptions(item);
+                    builderOpts.enableSsaRender = (item && !options.isRetry && "allcomplexformats" !== appSettings.get("subtitleburnin"));
+                    profile = profileBuilder(builderOpts);
                 }
 
                 resolve(profile);
