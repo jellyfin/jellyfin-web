@@ -1336,6 +1336,8 @@
     "ShowYear": "Show year",
     "Shows": "Shows",
     "Shuffle": "Shuffle",
+    "New": "New",
+    "Filter": "Filter",
     "SimultaneousConnectionLimitHelp": "The maximum number of allowed simultaneous streams. Enter 0 for no limit.",
     "SkipEpisodesAlreadyInMyLibrary": "Don't record episodes that are already in my library",
     "SkipEpisodesAlreadyInMyLibraryHelp": "Episodes will be compared using season and episode numbers, when available.",

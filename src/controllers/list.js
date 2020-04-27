@@ -610,7 +610,7 @@ define(["globalize", "listView", "layoutManager", "userSettings", "focusManager"
             }
 
             if (item) {
-                return item.Name;
+                return globalize.translate(item.Name);
             }
 
             if ("Movie" === params.type) {

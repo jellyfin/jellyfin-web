@@ -528,6 +528,8 @@
     "Smart": "Smart",
     "SimultaneousConnectionLimitHelp": "The maximum number of allowed simultaneous streams. Enter 0 for no limit.",
     "Shuffle": "Shuffle",
+    "New": "New",
+    "Filter": "Filter",
     "ShowYear": "Show year",
     "ShowIndicatorsFor": "Show indicators for:",
     "ShowAdvancedSettings": "Show advanced settings",
