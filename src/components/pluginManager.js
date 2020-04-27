@@ -4,7 +4,7 @@ define(['events', 'globalize', 'appRouter'], function (events, globalize, appRou
     // TODO: replace with each plugin version
     var cacheParam = new Date().getTime();
 
-    function loadStrings(plugin, globalize) {
+    function loadStrings(plugin) {
         var strings = plugin.getTranslations ? plugin.getTranslations() : [];
         return globalize.loadStrings({
             name: plugin.id || plugin.packageName,
@@ -44,7 +44,7 @@ define(['events', 'globalize', 'appRouter'], function (events, globalize, appRou
                 return Promise.resolve(plugin);
             } else {
                 return new Promise((resolve, reject) => {
-                    loadStrings(plugin, globalize)
+                    loadStrings(plugin)
                         .then(function () {
                             resolve(plugin);
                         })
@@ -95,8 +95,7 @@ define(['events', 'globalize', 'appRouter'], function (events, globalize, appRou
             });
         } else if (pluginSpec.then) {
             return pluginSpec.then(pluginBuilder => {
-                const pluginHelper = {}; // TODO: Advance this
-                return pluginBuilder(pluginHelper);
+                return pluginBuilder();
             }).then(plugin => {
                 return registerPlugin(plugin);
             });
