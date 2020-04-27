@@ -92,7 +92,7 @@
           "src/components/cardbuilder/cardBuilder.js",
           "src/scripts/dom.js",
           "src/components/filedownloader.js",
-          "src/components/filesystem.js",
+          "src/scripts/filesystem.js",
           "src/scripts/keyboardnavigation.js",
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
