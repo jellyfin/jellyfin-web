@@ -22,7 +22,7 @@ define([], function () {
             return true;
         }
 
-        if (userAgent.indexOf('webos') !== -1) {
+        if (userAgent.indexOf('web0s') !== -1) {
             return true;
         }
 
