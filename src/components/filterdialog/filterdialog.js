@@ -24,9 +24,6 @@ define(["dom", "dialogHelper", "globalize", "connectionManager", "events", "brow
     }
 
     function renderFilters(context, result, query) {
-        if (result.Tags) {
-            result.Tags.length = Math.min(result.Tags.length, 50);
-        }
         renderOptions(context, ".genreFilters", "chkGenreFilter", result.Genres, function (i) {
             var delimeter = "|";
             return (delimeter + (query.Genres || "") + delimeter).indexOf(delimeter + i + delimeter) != -1;
