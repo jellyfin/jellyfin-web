@@ -5,7 +5,11 @@ export function getlogoImageUrl(item, options) {
     const apiClient = connectionManager.getApiClient(item.ServerId);
 
     options = options || {};
-    options.type = "Logo";
+    options.type = options.type || "Logo";
+
+    if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
+        options.quality = 100;
+    }
 
     if (item.ImageTags && item.ImageTags.Logo) {
 
@@ -28,19 +32,9 @@ export function getbackdropImageUrl(item, options) {
     options = options || {};
     options.type = options.type || "Backdrop";
 
-    options.width = null;
-    delete options.width;
-    options.maxWidth = null;
-    delete options.maxWidth;
-    options.maxHeight = null;
-    delete options.maxHeight;
-    options.height = null;
-    delete options.height;
-
     // If not resizing, get the original image
     if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
         options.quality = 100;
-        options.format = 'jpg';
     }
 
     if (item.BackdropImageTags && item.BackdropImageTags.length) {

@@ -31,8 +31,8 @@ export class focusHandler {
             }
             return false;
         })();
-        function onFocusIn(e) {
-            const focused = focusManager.focusableParent(e.target);
+        function onFocusIn({target}) {
+            const focused = focusManager.focusableParent(target);
             focusedElement = focused;
             if (focused) {
                 if (selectedIndexElement) {
@@ -109,7 +109,7 @@ export class focusHandler {
                 transform: "scale(1)  ",
                 offset: 0
             }, {
-                transform: "scale(" + zoomScale + ")",
+                transform: `scale(${zoomScale})`,
                 offset: 1
             }];
             const onAnimationFinished = () => {
@@ -147,38 +147,25 @@ export class focusHandler {
             }
         }
         function setSelectedInfo(card, item) {
-            if (enableSelectedItemPanel) {
-                const div = document.createElement("div");
-                div.classList.add("selectedItemPanel");
-                document.body.appendChild(div);
-                selectedItemPanel = div;
-                slideInLeft(div);
-                return;
-            }
             if (!selectedItemInfoInner) {
                 return;
             }
             let html = "";
-            const mediaInfoHtml = mediaInfo.getMediaInfoHtml(item);
-            html += "<div>";
-            html += "<div>";
+            const logoImageUrl = imagehelper.getlogoImageUrl(item, {});
+            if (logoImageUrl) {
+                html += `<div class="selectedItemInfoLogo" style="background-image:url('${logoImageUrl}');"></div>`;
+            }
+            html += "<div class=\"selectedItemNameInfo\">";
             if (item.AlbumArtist) {
-                html += item.AlbumArtist + " - ";
+                html += `${item.AlbumArtist} - `;
             }
             html += itemHelper.getDisplayName(item);
             html += "</div>";
+            const mediaInfoHtml = mediaInfo.getMediaInfoHtml(item);
             if (mediaInfoHtml) {
                 html += "<div class=\"selectedItemMediaInfo\">";
                 html += mediaInfoHtml;
                 html += "</div>";
-            }
-            html += "</div>";
-            const logoImageUrl = imagehelper.getlogoImageUrl(item, {});
-            if (logoImageUrl) {
-                selectedItemInfoInner.classList.add("selectedItemInfoInnerWithLogo");
-                html += `<div class="selectedItemInfoLogo" style="background-image:url('${logoImageUrl}');"></div>`;
-            } else {
-                selectedItemInfoInner.classList.remove("selectedItemInfoInnerWithLogo");
             }
             selectedItemInfoInner.innerHTML = html;
             if (html && enableAnimations) {
@@ -195,22 +182,6 @@ export class focusHandler {
             } else if (selectedItemInfoInner) {
                 selectedItemInfoInner.innerHTML = "";
             }
-        }
-        function slideInLeft(elem) {
-            const keyframes = [{
-                transform: "translate3d(100%, 0, 0)",
-                offset: 0
-            }, {
-                transform: "translate3d(0, 0, 0)",
-                offset: 1
-            }];
-            const timing = {
-                duration: 200,
-                iterations: 1,
-                fill: "forwards",
-                easing: "ease-out"
-            };
-            elem.animate(keyframes, timing);
         }
         function slideOutRightAndRemove(elem) {
             const keyframes = [{
@@ -232,7 +203,7 @@ export class focusHandler {
         }
         function zoomOut(elem) {
             const keyframes = [{
-                transform: "scale(" + zoomScale + ")  ",
+                transform: `scale(${zoomScale})  `,
                 offset: 0
             }, {
                 transform: "scale(1)",
@@ -258,7 +229,7 @@ export class focusHandler {
             }];
             const timing = {
                 duration: 300,
-                iterations: iterations
+                iterations
             };
             return elem.animate(keyframes, timing);
         }

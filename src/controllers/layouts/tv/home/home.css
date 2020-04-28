@@ -19,7 +19,7 @@
 }
 
 .selectedItemInfoLogo {
-    margin: 0 1em;
+    margin-right: 1em;
     width: 10em;
     height: 3em;
     background-size: contain;
@@ -27,19 +27,10 @@
     background-position: center center;
 }
 
-.selectedItemInfoDetails {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-}
-
-.selectedItemName {
-    display: flex;
-    justify-content: center;
-    margin: 0 0 0.5em;
+.selectedItemNameInfo {
+    margin-right: 1em;
     font-weight: 400;
-    font-size: 1.6em;
+    font-size: 1.5em;
 }
 
 .selectedItemMediaInfo {
@@ -47,13 +38,15 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    font-size: 70%;
 }
 
 .homePageContainer .selectedItemInfo {
-    position: absolute;
     display: flex;
+    align-items: center;
     justify-content: center;
-    bottom: 2em;
+    position: absolute;
+    bottom: 1em;
     left: 0;
     right: 0;
 }
@@ -62,39 +55,30 @@
     display: flex;
 }
 
-.homeHorizontalTabContainer {
-    position: absolute;
-    display: flex;
-    top: 0;
-    right: 10%;
-    left: 6%;
-    align-items: center;
-    justify-content: center;
-    padding-top: 0.5em;
-    z-index: 9999;
-}
-
 .horizontalSection {
     margin-right: 1.25em;
     flex-shrink: 0;
 }
 
 .horizontalSection .sectionTitle {
-    font-size: 90%;
-    padding: 0.06em 0.5em;
-    margin-bottom: 0.5em;
+    font-size: 85%;
+    margin-top: 1em;
+    padding-left: 1.2em;
 }
 
 .homePageContent .squareCard {
-    width: 7.9em;
+    width: 11vw;
+    height: 22vh;
 }
 
 .homePageContent .backdropCard {
-    width: 12.48em;
+    width: 18vw;
+    height: 22vh;
 }
 
 .homePageContent .portraitCard {
-    width: 8em;
+    width: 11vw;
+    height: 32vh;
 }
 
 .wideSpotlightCard {
@@ -126,10 +110,54 @@
     background-color: #009688;
 }
 
+.btnTabs {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0 0.3em;
+    text-align: center;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    outline: none !important;
+    outline-width: 0;
+    user-select: none;
+    cursor: pointer;
+    z-index: 0;
+    padding: 0 1em;
+    vertical-align: middle;
+    border: 0;
+    border-radius: 0.2em;
+    font-weight: 600;
+    text-decoration: none;
+    background: transparent;
+    line-height: 1.35;
+    transform-origin: center;
+    transition: 0.2s;
+}
+
+.userViewNames button.selected {
+    color: rgb(0, 248, 132);
+    opacity: 1;
+}
+
+.userViewNames .emby-button.show-focus:focus {
+    color: rgb(255, 119, 241);
+    background: transparent;
+    opacity: 1;
+}
+
 .userViewNames {
-    overflow-x: hidden;
-    overflow-y: hidden;
-    white-space: nowrap;
+    overflow: hidden;
+}
+
+.userViewNames .scrollFrameX .scrollSlider {
+    padding-left: 18.75%;
+}
+
+.userViewButtonText {
+    font-size: 110%;
 }
 
 .innerCardFooter > .cardText {
