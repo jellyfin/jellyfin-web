@@ -139,7 +139,7 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
 
             var index = 0;
 
-            var tabsElement;
+            /*var tabsElement;
             try {
                 tabsElement = document.createElement('div', {is: 'emby-tabs'});
             } catch (err) {
@@ -150,7 +150,8 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
                 tabsElement.setAttribute('data-index', selectedIndex);
             }
             tabsElement.className = 'tabs-viewmenubar';
-            tabsElement.innerHTML = '<div class="emby-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map(function (t) {
+            tabsElement.innerHTML = '<div class="emby-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map(function (t) {*/
+            var html = '<div is="emby-tabs" ' + (selectedIndex != null ? 'data-index="' + selectedIndex + '" ' : '') + 'class="tabs-viewmenubar">' + '<div class="emby-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map(function (t) {*/
 
                 var tabClass = 'emby-tab-button';
 
@@ -173,12 +174,13 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
                 index++;
                 return tabHtml;
 
-            }).join('') + '</div>';
+            }).join('') + '</div></div>';
 
-            while (tabsContainerElem.children.length != 0) {
+            /*while (tabsContainerElem.children.length != 0) {
                 tabsContainerElem.removeChild(tabsContainerElem.children[0]);
             }
-            tabsContainerElem.appendChild(tabsElement);
+            tabsContainerElem.appendChild(tabsElement);*/
+            tabsContainerElem.innerHTML = html;
 
             document.body.classList.add('withSectionTabs');
             tabOwnerView = view;
