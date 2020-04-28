@@ -499,5 +499,6 @@
     "HeaderDeleteItems": "Eliminar ítems",
     "HeaderDeleteItem": "Eliminar ítem",
     "HeaderDeleteDevice": "Eliminar dispositivo",
-    "HeaderDefaultRecordingSettings": "Ajustes de grabación por defecto"
+    "HeaderDefaultRecordingSettings": "Ajustes de grabación por defecto",
+    "UnsupportedPlayback": "Jellyfin no puede descifrar contenido protegido por DRM pero a pesar de esto lo intentará con todo el contenido, incluyendo títulos protegidos. Algunos archivos pueden aparecer completamente en negro por estar cifrados o por otras características no soportadas, como títulos interactivos."
 }
