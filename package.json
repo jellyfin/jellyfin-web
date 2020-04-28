@@ -9,7 +9,7 @@
     "@babel/plugin-transform-modules-amd": "^7.8.3",
     "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.8.6",
-    "autoprefixer": "^9.7.4",
+    "autoprefixer": "^9.7.6",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
     "clean-webpack-plugin": "^3.0.0",
@@ -90,10 +90,10 @@
         "test": [
           "src/components/autoFocuser.js",
           "src/components/cardbuilder/cardBuilder.js",
-          "src/components/dom.js",
+          "src/scripts/dom.js",
           "src/components/filedownloader.js",
           "src/components/filesystem.js",
-          "src/components/input/keyboardnavigation.js",
+          "src/scripts/keyboardnavigation.js",
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
           "src/scripts/settings/appSettings.js",
@@ -130,7 +130,7 @@
     "build:development": "gulp --development",
     "build:production": "gulp --production",
     "build:standalone": "gulp standalone --development",
-    "lint": "eslint \"src\"",
+    "lint": "eslint \".\"",
     "stylelint": "stylelint \"src/**/*.css\""
   }
 }

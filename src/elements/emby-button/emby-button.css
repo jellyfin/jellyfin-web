@@ -49,6 +49,7 @@
 
 .button-link {
     background: transparent;
+    cursor: pointer;
     margin: 0;
     padding: 0;
     vertical-align: initial;

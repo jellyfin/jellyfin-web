@@ -1603,5 +1603,6 @@
     "LabelLibraryPageSize": "Velikost stránky knihovny:",
     "LabelDeinterlaceMethod": "Metoda odstranění prokládání:",
     "DeinterlaceMethodHelp": "Vyberte metodu odstranění prokládání obrazu při překódování obsahu.",
-    "UnsupportedPlayback": "Jellyfin nemůže dešifrovat obsah chráněný technologií DRM, ale pokusí se zobrazit o veškerý obsah, včetně chráněných titulů. Některé soubory se mohou zdát úplně černé kvůli šifrování nebo jiným nepodporovaným funkcím, jako jsou například interaktivní funkce."
+    "UnsupportedPlayback": "Jellyfin nemůže dešifrovat obsah chráněný technologií DRM, ale pokusí se zobrazit o veškerý obsah, včetně chráněných titulů. Některé soubory se mohou zdát úplně černé kvůli šifrování nebo jiným nepodporovaným funkcím, jako jsou například interaktivní funkce.",
+    "MessageUnauthorizedUser": "Momentálně nemáte oprávnění k přístupu na server. Další informace získáte od správce serveru."
 }

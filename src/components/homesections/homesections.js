@@ -64,7 +64,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             } else {
                 var noLibDescription;
                 if (user['Policy'] && user['Policy']['IsAdministrator']) {
-                    noLibDescription = Globalize.translate("NoCreatedLibraries", '<a id="button-createLibrary" class="button-link">', '</a>');
+                    noLibDescription = Globalize.translate("NoCreatedLibraries", '<br><a id="button-createLibrary" class="button-link">', '</a>');
                 } else {
                     noLibDescription = Globalize.translate("AskAdminToCreateLibrary");
                 }
@@ -243,9 +243,9 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         return function (items) {
             var cardLayout = false;
             var shape;
-            if (itemType === 'Channel' || viewType === 'movies' || viewType === 'books') {
+            if (itemType === 'Channel' || viewType === 'movies' || viewType === 'books' || viewType === 'tvshows') {
                 shape = getPortraitShape();
-            } else if (viewType === 'music') {
+            } else if (viewType === 'music' || viewType === 'homevideos') {
                 shape = getSquareShape();
             } else {
                 shape = getThumbShape();

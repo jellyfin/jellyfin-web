@@ -795,7 +795,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 dlg.parentNode.removeChild(dlg);
             }
 
-            screenfull.exit();
+            if (screenfull.isEnabled) {
+                screenfull.exit();
+            }
         };
 
         function onEnded() {

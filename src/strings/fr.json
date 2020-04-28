@@ -130,7 +130,7 @@
     "CancelRecording": "Annuler l'enregistrement",
     "CancelSeries": "Annuler la série",
     "Categories": "Catégories",
-    "ChangingMetadataImageSettingsNewContent": "Les modifications des réglages de téléchargement des métadonnées et des illustrations ne seront appliquées qu'au nouveau contenu ajouté à votre médiathèque. Pour appliquer ces changements aux titres existants, vous devrez actualiser leurs métadonnées manuellement.",
+    "ChangingMetadataImageSettingsNewContent": "Les modifications des paramètres de téléchargement des métadonnées et des illustrations ne seront appliquées qu'au contenu nouvellement ajouté à votre médiathèque. Pour appliquer ces changements aux titres pré-existants, vous devrez actualiser leurs métadonnées manuellement.",
     "ChannelAccessHelp": "Sélectionnez les chaînes à partager avec cet utilisateur. Les administrateurs pourront modifier toutes les chaînes en utilisant le gestionnaire de métadonnées.",
     "ChannelNameOnly": "Seulement la chaîne {0}",
     "ChannelNumber": "Numéro de chaîne",
