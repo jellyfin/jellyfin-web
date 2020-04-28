@@ -280,7 +280,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function updatePlayPauseState(isPaused) {
         if (playPauseButtons) {
-            let icons = ["play_arrow", "pause"];
+            let icons = ['play_arrow', 'pause'];
             if (isPaused) icons = icons.reverse();
 
             playPauseButtons.forEach((button) => {
@@ -329,16 +329,16 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function updateRepeatModeDisplay(repeatMode) {
-        toggleRepeatButtonIcon.classList.remove("repeat", "repeat_one");
+        toggleRepeatButtonIcon.classList.remove('repeat', 'repeat_one');
 
         if (repeatMode === 'RepeatAll') {
-            toggleRepeatButtonIcon.classList.add("repeat");
+            toggleRepeatButtonIcon.classList.add('repeat');
             toggleRepeatButton.classList.add('repeatButton-active');
         } else if (repeatMode === 'RepeatOne') {
-            toggleRepeatButtonIcon.classList.add("repeat_one");
+            toggleRepeatButtonIcon.classList.add('repeat_one');
             toggleRepeatButton.classList.add('repeatButton-active');
         } else {
-            toggleRepeatButtonIcon.classList.add("repeat");
+            toggleRepeatButtonIcon.classList.add('repeat');
             toggleRepeatButton.classList.remove('repeatButton-active');
         }
     }
@@ -387,7 +387,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             showMuteButton = false;
         }
 
-        let icons = ["volume_off", "volume_up"];
+        let icons = ['volume_off', 'volume_up'];
         if (isMuted) icons = icons.reverse();
         muteButton.querySelector('.material-icons').classList.replace(icons[0], icons[1]);
 
