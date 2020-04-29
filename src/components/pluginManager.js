@@ -54,7 +54,7 @@ define(['events', 'globalize', 'appRouter'], function (events, globalize, appRou
         }
 
         if (typeof pluginSpec === "string") {
-            console.debug('Loading plugin: ' + pluginSpec);
+            console.debug('Loading plugin (via deprecated requirejs method): ' + pluginSpec);
 
             return new Promise(function (resolve, reject) {
                 require([pluginSpec], (pluginFactory) => {
@@ -97,6 +97,7 @@ define(['events', 'globalize', 'appRouter'], function (events, globalize, appRou
             return pluginSpec.then(pluginBuilder => {
                 return pluginBuilder();
             }).then(plugin => {
+                console.debug(`Plugin loaded: ${plugin.id}`);
                 return registerPlugin(plugin);
             });
         } else {
