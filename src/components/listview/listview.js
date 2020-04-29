@@ -426,7 +426,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             html += '<div class="' + cssClass + '">';
 
-            var moreIcon = '&#xE5D3;';
+            var moreIcon = '&#xe5d4';
 
             html += getTextLinesHtml(textlines, isLargeStyle);
 
