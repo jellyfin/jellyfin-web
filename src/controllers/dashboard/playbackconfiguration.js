@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) {
+define(["jQuery", "loading", "libraryMenu", "globalize"], function ($, loading, libraryMenu, globalize) {
     "use strict";
 
     function loadPage(page, config) {
@@ -25,13 +25,13 @@ define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) 
     function getTabs() {
         return [{
             href: "encodingsettings.html",
-            name: Globalize.translate("Transcoding")
+            name: globalize.translate("Transcoding")
         }, {
             href: "playbackconfiguration.html",
-            name: Globalize.translate("TabResumeSettings")
+            name: globalize.translate("TabResumeSettings")
         }, {
             href: "streamingsettings.html",
-            name: Globalize.translate("TabStreaming")
+            name: globalize.translate("TabStreaming")
         }];
     }
 

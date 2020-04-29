@@ -1,4 +1,4 @@
-define(["jQuery", "datetime", "loading", "libraryMenu", "listViewStyle", "paper-icon-button-light"], function ($, datetime, loading, libraryMenu) {
+define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewStyle", "paper-icon-button-light"], function ($, datetime, loading, libraryMenu, globalize) {
     "use strict";
 
     function populateRatings(allParentalRatings, page) {
@@ -35,29 +35,29 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "listViewStyle", "paper-
 
     function loadUnratedItems(page, user) {
         var items = [{
-            name: Globalize.translate("OptionBlockBooks"),
+            name: globalize.translate("OptionBlockBooks"),
             value: "Book"
         }, {
-            name: Globalize.translate("OptionBlockChannelContent"),
+            name: globalize.translate("OptionBlockChannelContent"),
             value: "ChannelContent"
         }, {
-            name: Globalize.translate("OptionBlockLiveTvChannels"),
+            name: globalize.translate("OptionBlockLiveTvChannels"),
             value: "LiveTvChannel"
         }, {
-            name: Globalize.translate("OptionBlockMovies"),
+            name: globalize.translate("OptionBlockMovies"),
             value: "Movie"
         }, {
-            name: Globalize.translate("OptionBlockMusic"),
+            name: globalize.translate("OptionBlockMusic"),
             value: "Music"
         }, {
-            name: Globalize.translate("OptionBlockTrailers"),
+            name: globalize.translate("OptionBlockTrailers"),
             value: "Trailer"
         }, {
-            name: Globalize.translate("OptionBlockTvShows"),
+            name: globalize.translate("OptionBlockTvShows"),
             value: "Series"
         }];
         var html = "";
-        html += '<h3 class="checkboxListLabel">' + Globalize.translate("HeaderBlockItemsWithNoRating") + "</h3>";
+        html += '<h3 class="checkboxListLabel">' + globalize.translate("HeaderBlockItemsWithNoRating") + "</h3>";
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
         for (var i = 0, length = items.length; i < length; i++) {
@@ -139,7 +139,7 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "listViewStyle", "paper-
             itemHtml += '<div class="liSchedule listItem" data-day="' + a.DayOfWeek + '" data-start="' + a.StartHour + '" data-end="' + a.EndHour + '">';
             itemHtml += '<div class="listItemBody two-line">';
             itemHtml += '<h3 class="listItemBodyText">';
-            itemHtml += Globalize.translate("Option" + a.DayOfWeek);
+            itemHtml += globalize.translate("Option" + a.DayOfWeek);
             itemHtml += "</h3>";
             itemHtml += '<div class="listItemBodyText secondary">' + getDisplayTime(a.StartHour) + " - " + getDisplayTime(a.EndHour) + "</div>";
             itemHtml += "</div>";
@@ -159,7 +159,7 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "listViewStyle", "paper-
         loading.hide();
 
         require(["toast"], function (toast) {
-            toast(Globalize.translate("SettingsSaved"));
+            toast(globalize.translate("SettingsSaved"));
         });
     }
 
@@ -226,7 +226,7 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "listViewStyle", "paper-
     function showBlockedTagPopup(page) {
         require(["prompt"], function (prompt) {
             prompt({
-                label: Globalize.translate("LabelTag")
+                label: globalize.translate("LabelTag")
             }).then(function (value) {
                 var tags = getBlockedTagsFromPage(page);
 

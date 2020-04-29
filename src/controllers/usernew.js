@@ -1,9 +1,9 @@
-define(["jQuery", "loading", "fnchecked", "emby-checkbox"], function ($, loading) {
+define(["jQuery", "loading", "globalize", "fnchecked", "emby-checkbox"], function ($, loading, globalize) {
     "use strict";
 
     function loadMediaFolders(page, mediaFolders) {
         var html = "";
-        html += '<h3 class="checkboxListLabel">' + Globalize.translate("HeaderLibraries") + "</h3>";
+        html += '<h3 class="checkboxListLabel">' + globalize.translate("HeaderLibraries") + "</h3>";
         html += '<div class="checkboxList paperList" style="padding:.5em 1em;">';
 
         for (var i = 0; i < mediaFolders.length; i++) {
@@ -18,7 +18,7 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox"], function ($, loading
 
     function loadChannels(page, channels) {
         var html = "";
-        html += '<h3 class="checkboxListLabel">' + Globalize.translate("HeaderChannels") + "</h3>";
+        html += '<h3 class="checkboxListLabel">' + globalize.translate("HeaderChannels") + "</h3>";
         html += '<div class="checkboxList paperList" style="padding:.5em 1em;">';
 
         for (var i = 0; i < channels.length; i++) {
@@ -85,7 +85,7 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox"], function ($, loading
             });
         }, function (response) {
             require(["toast"], function (toast) {
-                toast(Globalize.translate("DefaultErrorMessage"));
+                toast(globalize.translate("DefaultErrorMessage"));
             });
 
             loading.hide();

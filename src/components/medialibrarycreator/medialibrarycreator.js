@@ -1,4 +1,4 @@
-define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionseditor/libraryoptionseditor", "emby-toggle", "emby-input", "emby-select", "paper-icon-button-light", "listViewStyle", "formDialogStyle", "emby-button", "flexStyles"], function (loading, dialogHelper, dom, $, libraryoptionseditor) {
+define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionseditor/libraryoptionseditor", "globalize", "emby-toggle", "emby-input", "emby-select", "paper-icon-button-light", "listViewStyle", "formDialogStyle", "emby-button", "flexStyles"], function (loading, dialogHelper, dom, $, libraryoptionseditor, globalize) {
     "use strict";
 
     function onAddLibrary() {
@@ -9,7 +9,7 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
         if (pathInfos.length == 0) {
             require(["alert"], function (alert) {
                 alert({
-                    text: Globalize.translate("PleaseAddAtLeastOneFolder"),
+                    text: globalize.translate("PleaseAddAtLeastOneFolder"),
                     type: "error"
                 });
             });
@@ -36,7 +36,7 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
             dialogHelper.close(dlg);
         }, function () {
             require(["toast"], function (toast) {
-                toast(Globalize.translate("ErrorAddingMediaPathToVirtualFolder"));
+                toast(globalize.translate("ErrorAddingMediaPathToVirtualFolder"));
             });
 
             isCreating = false;
@@ -196,7 +196,7 @@ define(["loading", "dialogHelper", "dom", "jQuery", "components/libraryoptionsed
                     dlg.classList.add("background-theme-a");
                     dlg.classList.add("dlg-librarycreator");
                     dlg.classList.add("formDialog");
-                    dlg.innerHTML = Globalize.translateDocument(template);
+                    dlg.innerHTML = globalize.translateDocument(template);
                     initEditor(dlg, options.collectionTypeOptions);
                     dlg.addEventListener("close", onDialogClosed);
                     dialogHelper.open(dlg);

@@ -64,13 +64,13 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             } else {
                 var noLibDescription;
                 if (user['Policy'] && user['Policy']['IsAdministrator']) {
-                    noLibDescription = Globalize.translate("NoCreatedLibraries", '<br><a id="button-createLibrary" class="button-link">', '</a>');
+                    noLibDescription = globalize.translate("NoCreatedLibraries", '<br><a id="button-createLibrary" class="button-link">', '</a>');
                 } else {
-                    noLibDescription = Globalize.translate("AskAdminToCreateLibrary");
+                    noLibDescription = globalize.translate("AskAdminToCreateLibrary");
                 }
 
                 html += '<div class="centerMessage padded-left padded-right">';
-                html += '<h2>' + Globalize.translate("MessageNothingHere") + '</h2>';
+                html += '<h2>' + globalize.translate("MessageNothingHere") + '</h2>';
                 html += '<p>' + noLibDescription + '</p>';
                 html += '</div>';
                 elem.innerHTML = html;

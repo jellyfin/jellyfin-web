@@ -1,4 +1,4 @@
-define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicker", "listView", "cardBuilder", "emby-itemscontainer"], function (loading, layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder) {
+define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicker", "listView", "cardBuilder", "globalize", "emby-itemscontainer"], function (loading, layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder, globalize) {
     "use strict";
 
     return function (view, params, tabContent, options) {
@@ -191,31 +191,31 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                 btnSort.addEventListener("click", function (e) {
                     libraryBrowser.showSortMenu({
                         items: [{
-                            name: Globalize.translate("OptionNameSort"),
+                            name: globalize.translate("OptionNameSort"),
                             id: "SortName,ProductionYear"
                         }, {
-                            name: Globalize.translate("OptionImdbRating"),
+                            name: globalize.translate("OptionImdbRating"),
                             id: "CommunityRating,SortName,ProductionYear"
                         }, {
-                            name: Globalize.translate("OptionCriticRating"),
+                            name: globalize.translate("OptionCriticRating"),
                             id: "CriticRating,SortName,ProductionYear"
                         }, {
-                            name: Globalize.translate("OptionDateAdded"),
+                            name: globalize.translate("OptionDateAdded"),
                             id: "DateCreated,SortName,ProductionYear"
                         }, {
-                            name: Globalize.translate("OptionDatePlayed"),
+                            name: globalize.translate("OptionDatePlayed"),
                             id: "DatePlayed,SortName,ProductionYear"
                         }, {
-                            name: Globalize.translate("OptionParentalRating"),
+                            name: globalize.translate("OptionParentalRating"),
                             id: "OfficialRating,SortName,ProductionYear"
                         }, {
-                            name: Globalize.translate("OptionPlayCount"),
+                            name: globalize.translate("OptionPlayCount"),
                             id: "PlayCount,SortName,ProductionYear"
                         }, {
-                            name: Globalize.translate("OptionReleaseDate"),
+                            name: globalize.translate("OptionReleaseDate"),
                             id: "PremiereDate,SortName,ProductionYear"
                         }, {
-                            name: Globalize.translate("OptionRuntime"),
+                            name: globalize.translate("OptionRuntime"),
                             id: "Runtime,SortName,ProductionYear"
                         }],
                         callback: function () {

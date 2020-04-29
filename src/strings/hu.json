@@ -1506,5 +1506,7 @@
     "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "ReleaseGroup": "Kiadócsoport",
-    "MessageUnauthorizedUser": "Jelenleg nincs jogosultságod a szerverhez való hozzáféréshez. Kérjük, lépj kapcsolatba az adminisztrátorral további információkért!"
+    "MessageUnauthorizedUser": "Jelenleg nincs jogosultságod a szerverhez való hozzáféréshez. Kérjük, lépj kapcsolatba az adminisztrátorral további információkért!",
+    "ButtonTogglePlaylist": "Lejátszási listák",
+    "ButtonToggleContextMenu": "Továbbiak"
 }
