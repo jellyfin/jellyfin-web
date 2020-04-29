@@ -1,15 +1,15 @@
-define([], function () {
+define(["globalize"], function (globalize) {
     "use strict";
 
     function processForgotPasswordResult(result) {
         if (result.Success) {
-            var msg = Globalize.translate("MessagePasswordResetForUsers");
+            var msg = globalize.translate("MessagePasswordResetForUsers");
             msg += "<br/>";
             msg += "<br/>";
             msg += result.UsersReset.join("<br/>");
             return void Dashboard.alert({
                 message: msg,
-                title: Globalize.translate("HeaderPasswordReset"),
+                title: globalize.translate("HeaderPasswordReset"),
                 callback: function () {
                     window.location.href = "index.html";
                 }
@@ -17,8 +17,8 @@ define([], function () {
         }
 
         Dashboard.alert({
-            message: Globalize.translate("MessageInvalidForgotPasswordPin"),
-            title: Globalize.translate("HeaderPasswordReset")
+            message: globalize.translate("MessageInvalidForgotPasswordPin"),
+            title: globalize.translate("HeaderPasswordReset")
         });
     }
 

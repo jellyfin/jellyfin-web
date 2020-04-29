@@ -218,7 +218,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
         if (item.Type === "Program" && options.record !== false) {
             if (item.TimerId) {
                 commands.push({
-                    name: Globalize.translate("ManageRecording"),
+                    name: globalize.translate("ManageRecording"),
                     id: "record",
                     icon: "fiber_manual_record"
                 });
@@ -228,7 +228,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
         if (item.Type === "Program" && options.record !== false) {
             if (!item.TimerId) {
                 commands.push({
-                    name: Globalize.translate("Record"),
+                    name: globalize.translate("Record"),
                     id: "record",
                     icon: "fiber_manual_record"
                 });
@@ -283,7 +283,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
 
         if (options.openAlbum !== false && item.AlbumId && item.MediaType !== "Photo") {
             commands.push({
-                name: Globalize.translate("ViewAlbum"),
+                name: globalize.translate("ViewAlbum"),
                 id: "album",
                 icon: "album"
             });
@@ -291,7 +291,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
 
         if (options.openArtist !== false && item.ArtistItems && item.ArtistItems.length) {
             commands.push({
-                name: Globalize.translate("ViewArtist"),
+                name: globalize.translate("ViewArtist"),
                 id: "artist",
                 icon: "person"
             });

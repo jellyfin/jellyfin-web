@@ -98,21 +98,14 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';
         html += '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + href + '"' + target + ">";
-
-        if (plugin.thumbImage) {
-            html += '<div class="cardImage coveredImage" style="background-image:url(\'' + plugin.thumbImage + "');\">";
-            html += "</div>";
-        } else {
-            html += '<i class="cardImageIcon material-icons">folder</i>';
-        }
-
+        html += '<i class="cardImageIcon material-icons">folder</i>';
         html += "</a>";
         html += "</div>";
         html += '<div class="cardFooter">';
         html += "<div class='cardText'>";
         html += plugin.name;
         html += "</div>";
-        var installedPlugin = plugin.isApp ? null : installedPlugins.filter(function (ip) {
+        var installedPlugin = installedPlugins.filter(function (ip) {
             return ip.Id == plugin.guid;
         })[0];
         html += "<div class='cardText cardText-secondary'>";

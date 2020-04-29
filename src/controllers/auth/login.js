@@ -1,4 +1,4 @@
-define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layoutManager", "browser", "cardStyle", "emby-checkbox"], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, browser) {
+define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layoutManager", "browser", "globalize", "cardStyle", "emby-checkbox"], function (appHost, appSettings, dom, connectionManager, loading, layoutManager, browser, globalize) {
     "use strict";
 
     var enableFocusTransform = !browser.slow && !browser.edge;
@@ -28,12 +28,12 @@ define(["apphost", "appSettings", "dom", "connectionManager", "loading", "layout
             if (UnauthorizedOrForbidden.includes(response.status)) {
                 require(["toast"], function (toast) {
                     const messageKey = response.status === 401 ? "MessageInvalidUser" : "MessageUnauthorizedUser";
-                    toast(Globalize.translate(messageKey));
+                    toast(globalize.translate(messageKey));
                 });
             } else {
                 Dashboard.alert({
-                    message: Globalize.translate("MessageUnableToConnectToServer"),
-                    title: Globalize.translate("HeaderConnectionFailure")
+                    message: globalize.translate("MessageUnableToConnectToServer"),
+                    title: globalize.translate("HeaderConnectionFailure")
                 });
             }
         });

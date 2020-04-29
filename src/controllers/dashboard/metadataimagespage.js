@@ -1,4 +1,4 @@
-define(["jQuery", "dom", "loading", "libraryMenu", "listViewStyle"], function($, dom, loading, libraryMenu) {
+define(["jQuery", "dom", "loading", "libraryMenu", "globalize", "listViewStyle"], function($, dom, loading, libraryMenu, globalize) {
     "use strict";
 
     function populateLanguages(select) {
@@ -43,16 +43,16 @@ define(["jQuery", "dom", "loading", "libraryMenu", "listViewStyle"], function($,
     function getTabs() {
         return [{
             href: "library.html",
-            name: Globalize.translate("HeaderLibraries")
+            name: globalize.translate("HeaderLibraries")
         }, {
             href: "librarydisplay.html",
-            name: Globalize.translate("TabDisplay")
+            name: globalize.translate("TabDisplay")
         }, {
             href: "metadataimages.html",
-            name: Globalize.translate("TabMetadata")
+            name: globalize.translate("TabMetadata")
         }, {
             href: "metadatanfo.html",
-            name: Globalize.translate("TabNfoSettings")
+            name: globalize.translate("TabNfoSettings")
         }];
     }
 

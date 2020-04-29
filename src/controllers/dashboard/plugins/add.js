@@ -7,8 +7,8 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
 
         for (var i = 0; i < length; i++) {
             var version = packageInfo.versions[i];
-            html += '<h2 style="margin:.5em 0;">' + version.versionStr + " (" + version.classification + ")</h2>";
-            html += '<div style="margin-bottom:1.5em;">' + version.description + "</div>";
+            html += '<h2 style="margin:.5em 0;">' + version.version + "</h2>";
+            html += '<div style="margin-bottom:1.5em;">' + version.changelog + "</div>";
         }
 
         $("#revisionHistory", page).html(html);
@@ -19,7 +19,7 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
 
         for (var i = 0; i < packageInfo.versions.length; i++) {
             var version = packageInfo.versions[i];
-            html += '<option value="' + version.versionStr + "|" + version.classification + '">' + version.versionStr + " (" + version.classification + ")</option>";
+            html += '<option value="' + version.version + '">' + version.version + "</option>";
         }
 
         var selectmenu = $("#selectVersion", page).html(html);
@@ -28,16 +28,9 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
             $("#pCurrentVersion", page).hide().html("");
         }
 
-        var packageVersion = packageInfo.versions.filter(function (current) {
-            return "Release" == current.classification;
-        })[0];
-        packageVersion = packageVersion || packageInfo.versions.filter(function (current) {
-            return "Beta" == current.classification;
-        })[0];
-
+        var packageVersion = packageInfo.versions[0];
         if (packageVersion) {
-            var val = packageVersion.versionStr + "|" + packageVersion.classification;
-            selectmenu.val(val);
+            selectmenu.val(packageVersion.version);
         }
     }
 
@@ -45,43 +38,22 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
         var installedPlugin = installedPlugins.filter(function (ip) {
             return ip.Name == pkg.name;
         })[0];
+
         populateVersions(pkg, page, installedPlugin);
         populateHistory(pkg, page);
+
         $(".pluginName", page).html(pkg.name);
+        $("#btnInstallDiv", page).removeClass("hide");
+        $("#pSelectVersion", page).removeClass("hide");
 
-        if ("Server" == pkg.targetSystem) {
-            $("#btnInstallDiv", page).removeClass("hide");
-            $("#nonServerMsg", page).hide();
-            $("#pSelectVersion", page).removeClass("hide");
+        if (pkg.overview) {
+            $("#overview", page).show().html(pkg.overview);
         } else {
-            $("#btnInstallDiv", page).addClass("hide");
-            $("#pSelectVersion", page).addClass("hide");
-            var msg = globalize.translate("MessageInstallPluginFromApp");
-            $("#nonServerMsg", page).html(msg).show();
+            $("#overview", page).hide();
         }
 
-        if (pkg.shortDescription) {
-            $("#tagline", page).show().html(pkg.shortDescription);
-        } else {
-            $("#tagline", page).hide();
-        }
-
-        $("#overview", page).html(pkg.overview || "");
+        $("#description", page).html(pkg.description);
         $("#developer", page).html(pkg.owner);
-
-        if (pkg.richDescUrl) {
-            $("#pViewWebsite", page).show();
-            $("#pViewWebsite a", page).attr("href", pkg.richDescUrl);
-        } else {
-            $("#pViewWebsite", page).hide();
-        }
-
-        if (pkg.previewImage || pkg.thumbImage) {
-            var img = pkg.previewImage ? pkg.previewImage : pkg.thumbImage;
-            $("#pPreviewImage", page).show().html("<img class='pluginPreviewImg' src='" + img + "' style='max-width: 100%;' />");
-        } else {
-            $("#pPreviewImage", page).hide().html("");
-        }
 
         if (installedPlugin) {
             var currentVersionText = globalize.translate("MessageYouHaveVersionInstalled", "<strong>" + installedPlugin.Version + "</strong>");

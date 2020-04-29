@@ -1,5 +1,3 @@
-'use strict';
-
 const { src, dest, series, parallel, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
 const del = require('del');

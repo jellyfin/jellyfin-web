@@ -1508,5 +1508,7 @@
     "UnsupportedPlayback": "No es posible desencriptar contenido protegido mediante DRM; sin embargo se intentará su reproducción. Algunos archivos pueden aparecer completamente negros debido a encriptación u otras características no soportadas, como títulos interactivos.",
     "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
-    "MessageUnauthorizedUser": "No tiene autorización para acceder al servidor en este momento. Póngase en contacto con el administrador del servidor para obtener más información."
+    "MessageUnauthorizedUser": "No tiene autorización para acceder al servidor en este momento. Póngase en contacto con el administrador del servidor para obtener más información.",
+    "ButtonTogglePlaylist": "Lista de reproducción",
+    "ButtonToggleContextMenu": "Más"
 }

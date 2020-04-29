@@ -1467,5 +1467,8 @@
     "LabelVideoResolution": "Rozdzielczość wideo:",
     "LabelStreamType": "Typ transmisji:",
     "EnableFastImageFadeInHelp": "Włącz szybszą animację pojawiania się dla załadowanych obrazów",
-    "EnableFastImageFadeIn": "Szybkie pojawianie się obrazów"
+    "EnableFastImageFadeIn": "Szybkie pojawianie się obrazów",
+    "Artist": "Artysta",
+    "AlbumArtist": "Album artysty",
+    "Album": "Album"
 }

@@ -1499,5 +1499,8 @@
     "DeinterlaceMethodHelp": "Selectați metoda de intercalat pe care să o utilizați la transcodarea conținutului intercalat.",
     "UnsupportedPlayback": "Jellyfin nu poate decripta conținut protejat de DRM, dar tot conținutul va fi încercat indiferent de titlurile protejate. Unele fișiere pot părea complet negre din cauza criptării sau a altor funcții neacceptate, cum ar fi titluri interactive.",
     "LabelLibraryPageSizeHelp": "Setează cantitatea de elemente de afișat pe o pagină a bibliotecii. Setați la 0 pentru a dezactiva paginarea.",
-    "LabelLibraryPageSize": "Mărimea paginii Bibliotecă:"
+    "LabelLibraryPageSize": "Mărimea paginii Bibliotecă:",
+    "MessageUnauthorizedUser": "Nu sunteți autorizat să accesați serverul în acest moment. Vă rugăm să contactați administratorul serverului pentru mai multe informații.",
+    "ButtonTogglePlaylist": "Listă de redare",
+    "ButtonToggleContextMenu": "Mai mult"
 }

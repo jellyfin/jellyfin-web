@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, libraryMenu) {
+define(["jQuery", "loading", "libraryMenu", "globalize", "fnchecked"], function ($, loading, libraryMenu, globalize) {
     "use strict";
 
     function loadDeleteFolders(page, user, mediaFolders) {
@@ -112,7 +112,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
         loading.hide();
 
         require(["toast"], function (toast) {
-            toast(Globalize.translate("SettingsSaved"));
+            toast(globalize.translate("SettingsSaved"));
         });
     }
 
@@ -176,7 +176,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
     var currentUser;
     $(document).on("pageinit", "#editUserPage", function () {
         $(".editUserProfileForm").off("submit", onSubmit).on("submit", onSubmit);
-        this.querySelector(".sharingHelp").innerHTML = Globalize.translate("OptionAllowLinkSharingHelp", 30);
+        this.querySelector(".sharingHelp").innerHTML = globalize.translate("OptionAllowLinkSharingHelp", 30);
         var page = this;
         $("#chkEnableDeleteAllFolders", this).on("change", function () {
             if (this.checked) {

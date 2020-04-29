@@ -1,23 +1,23 @@
-define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "dom", "userSettings", "cardBuilder", "playbackManager", "mainTabsManager", "scrollStyles", "emby-itemscontainer", "emby-button"], function (events, inputManager, libraryMenu, layoutManager, loading, dom, userSettings, cardBuilder, playbackManager, mainTabsManager) {
+define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "dom", "userSettings", "cardBuilder", "playbackManager", "mainTabsManager", "globalize", "scrollStyles", "emby-itemscontainer", "emby-button"], function (events, inputManager, libraryMenu, layoutManager, loading, dom, userSettings, cardBuilder, playbackManager, mainTabsManager, globalize) {
     "use strict";
 
     function getTabs() {
         return [{
-            name: Globalize.translate("TabShows")
+            name: globalize.translate("TabShows")
         }, {
-            name: Globalize.translate("TabSuggestions")
+            name: globalize.translate("TabSuggestions")
         }, {
-            name: Globalize.translate("TabLatest")
+            name: globalize.translate("TabLatest")
         }, {
-            name: Globalize.translate("TabUpcoming")
+            name: globalize.translate("TabUpcoming")
         }, {
-            name: Globalize.translate("TabGenres")
+            name: globalize.translate("TabGenres")
         }, {
-            name: Globalize.translate("TabNetworks")
+            name: globalize.translate("TabNetworks")
         }, {
-            name: Globalize.translate("TabEpisodes")
+            name: globalize.translate("TabEpisodes")
         }, {
-            name: Globalize.translate("ButtonSearch"),
+            name: globalize.translate("ButtonSearch"),
             cssClass: "searchTabButton"
         }];
     }
@@ -314,8 +314,8 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
                         libraryMenu.setTitle(item.Name);
                     });
                 } else {
-                    view.setAttribute("data-title", Globalize.translate("TabShows"));
-                    libraryMenu.setTitle(Globalize.translate("TabShows"));
+                    view.setAttribute("data-title", globalize.translate("TabShows"));
+                    libraryMenu.setTitle(globalize.translate("TabShows"));
                 }
             }
 
