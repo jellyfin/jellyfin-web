@@ -1,4 +1,4 @@
-define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-icon-button-light', 'css!./directorybrowser', 'formDialogStyle', 'emby-button'], function(loading, dialogHelper, dom) {
+define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-input', 'paper-icon-button-light', 'css!./directorybrowser', 'formDialogStyle', 'emby-button'], function(loading, dialogHelper, dom, globalize) {
     'use strict';
 
     function getSystemInfo() {
@@ -53,7 +53,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                 }
 
                 if (!path) {
-                    html += getItem("lnkPath lnkDirectory", "", "Network", Globalize.translate("ButtonNetwork"));
+                    html += getItem("lnkPath lnkDirectory", "", "Network", globalize.translate("ButtonNetwork"));
                 }
 
                 page.querySelector(".results").innerHTML = html;
@@ -89,16 +89,16 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
             var instruction = options.instruction ? options.instruction + "<br/><br/>" : "";
             html += '<div class="infoBanner" style="margin-bottom:1.5em;">';
             html += instruction;
-            html += Globalize.translate("MessageDirectoryPickerInstruction", "<b>\\\\server</b>", "<b>\\\\192.168.1.101</b>");
+            html += globalize.translate("MessageDirectoryPickerInstruction", "<b>\\\\server</b>", "<b>\\\\192.168.1.101</b>");
             if ("bsd" === systemInfo.OperatingSystem.toLowerCase()) {
                 html += "<br/>";
                 html += "<br/>";
-                html += Globalize.translate("MessageDirectoryPickerBSDInstruction");
+                html += globalize.translate("MessageDirectoryPickerBSDInstruction");
                 html += "<br/>";
             } else if ("linux" === systemInfo.OperatingSystem.toLowerCase()) {
                 html += "<br/>";
                 html += "<br/>";
-                html += Globalize.translate("MessageDirectoryPickerLinuxInstruction");
+                html += globalize.translate("MessageDirectoryPickerLinuxInstruction");
                 html += "<br/>";
             }
             html += "</div>";
@@ -113,10 +113,10 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
             labelKey = "LabelPath";
         }
         var readOnlyAttribute = options.pathReadOnly ? " readonly" : "";
-        html += '<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ' + readOnlyAttribute + ' label="' + Globalize.translate(labelKey) + '"/>';
+        html += '<input is="emby-input" id="txtDirectoryPickerPath" type="text" required="required" ' + readOnlyAttribute + ' label="' + globalize.translate(labelKey) + '"/>';
         html += "</div>";
         if (!readOnlyAttribute) {
-            html += '<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="' + Globalize.translate("ButtonRefresh") + '"><i class="material-icons">search</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnRefreshDirectories emby-input-iconbutton" title="' + globalize.translate("ButtonRefresh") + '"><i class="material-icons">search</i></button>';
         }
         html += "</div>";
         if (!readOnlyAttribute) {
@@ -124,14 +124,14 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         }
         if (options.enableNetworkSharePath) {
             html += '<div class="inputContainer" style="margin-top:2em;">';
-            html += '<input is="emby-input" id="txtNetworkPath" type="text" label="' + Globalize.translate("LabelOptionalNetworkPath") + '"/>';
+            html += '<input is="emby-input" id="txtNetworkPath" type="text" label="' + globalize.translate("LabelOptionalNetworkPath") + '"/>';
             html += '<div class="fieldDescription">';
-            html += Globalize.translate("LabelOptionalNetworkPathHelp");
+            html += globalize.translate("LabelOptionalNetworkPathHelp");
             html += "</div>";
             html += "</div>";
         }
         html += '<div class="formDialogFooter">';
-        html += '<button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">' + Globalize.translate("ButtonOk") + "</button>";
+        html += '<button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">' + globalize.translate("ButtonOk") + "</button>";
         html += "</div>";
         html += "</form>";
         html += "</div>";
@@ -164,14 +164,14 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
         }).catch(function(response) {
             if (response) {
                 if (response.status === 404) {
-                    alertText(Globalize.translate("PathNotFound"));
+                    alertText(globalize.translate("PathNotFound"));
                     return Promise.reject();
                 }
                 if (response.status === 500) {
                     if (validateWriteable) {
-                        alertText(Globalize.translate("WriteAccessRequired"));
+                        alertText(globalize.translate("WriteAccessRequired"));
                     } else {
-                        alertText(Globalize.translate("PathNotFound"));
+                        alertText(globalize.translate("PathNotFound"));
                     }
                     return Promise.reject();
                 }
@@ -266,7 +266,7 @@ define(['loading', 'dialogHelper', 'dom', 'listViewStyle', 'emby-input', 'paper-
                     html += '<div class="formDialogHeader">';
                     html += '<button is="paper-icon-button-light" class="btnCloseDialog autoSize" tabindex="-1"><i class="material-icons arrow_back"></i></button>';
                     html += '<h3 class="formDialogHeaderTitle">';
-                    html += options.header || Globalize.translate("HeaderSelectPath");
+                    html += options.header || globalize.translate("HeaderSelectPath");
                     html += "</h3>";
                     html += "</div>";
                     html += getEditorHtml(options, systemInfo);

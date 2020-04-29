@@ -1,8 +1,8 @@
-define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) {
+define(["jQuery", "loading", "libraryMenu", "globalize"], function ($, loading, libraryMenu, globalize) {
     "use strict";
 
     function loadPage(page, config, users) {
-        var html = '<option value="" selected="selected">' + Globalize.translate("OptionNone") + "</option>";
+        var html = '<option value="" selected="selected">' + globalize.translate("OptionNone") + "</option>";
         html += users.map(function (user) {
             return '<option value="' + user.Id + '">' + user.Name + "</option>";
         }).join("");
@@ -33,7 +33,7 @@ define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) 
 
     function showConfirmMessage(config) {
         var msg = [];
-        msg.push(Globalize.translate("MetadataSettingChangeHelp"));
+        msg.push(globalize.translate("MetadataSettingChangeHelp"));
 
         require(["alert"], function (alert) {
             alert({
@@ -45,16 +45,16 @@ define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) 
     function getTabs() {
         return [{
             href: "library.html",
-            name: Globalize.translate("HeaderLibraries")
+            name: globalize.translate("HeaderLibraries")
         }, {
             href: "librarydisplay.html",
-            name: Globalize.translate("TabDisplay")
+            name: globalize.translate("TabDisplay")
         }, {
             href: "metadataimages.html",
-            name: Globalize.translate("TabMetadata")
+            name: globalize.translate("TabMetadata")
         }, {
             href: "metadatanfo.html",
-            name: Globalize.translate("TabNfoSettings")
+            name: globalize.translate("TabNfoSettings")
         }];
     }
 

@@ -1,4 +1,4 @@
-define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryBrowser", "emby-itemscontainer", "emby-button"], function (connectionManager, listView, cardBuilder, imageLoader, libraryBrowser) {
+define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryBrowser", "globalize", "emby-itemscontainer", "emby-button"], function (connectionManager, listView, cardBuilder, imageLoader, libraryBrowser, globalize) {
     "use strict";
 
     function renderItems(page, item) {
@@ -6,56 +6,56 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
 
         if (item.ArtistCount) {
             sections.push({
-                name: Globalize.translate("TabArtists"),
+                name: globalize.translate("TabArtists"),
                 type: "MusicArtist"
             });
         }
 
         if (item.ProgramCount && "Person" == item.Type) {
             sections.push({
-                name: Globalize.translate("HeaderUpcomingOnTV"),
+                name: globalize.translate("HeaderUpcomingOnTV"),
                 type: "Program"
             });
         }
 
         if (item.MovieCount) {
             sections.push({
-                name: Globalize.translate("TabMovies"),
+                name: globalize.translate("TabMovies"),
                 type: "Movie"
             });
         }
 
         if (item.SeriesCount) {
             sections.push({
-                name: Globalize.translate("TabShows"),
+                name: globalize.translate("TabShows"),
                 type: "Series"
             });
         }
 
         if (item.EpisodeCount) {
             sections.push({
-                name: Globalize.translate("TabEpisodes"),
+                name: globalize.translate("TabEpisodes"),
                 type: "Episode"
             });
         }
 
         if (item.TrailerCount) {
             sections.push({
-                name: Globalize.translate("TabTrailers"),
+                name: globalize.translate("TabTrailers"),
                 type: "Trailer"
             });
         }
 
         if (item.AlbumCount) {
             sections.push({
-                name: Globalize.translate("TabAlbums"),
+                name: globalize.translate("TabAlbums"),
                 type: "MusicAlbum"
             });
         }
 
         if (item.MusicVideoCount) {
             sections.push({
-                name: Globalize.translate("TabMusicVideos"),
+                name: globalize.translate("TabMusicVideos"),
                 type: "MusicVideo"
             });
         }
@@ -74,7 +74,7 @@ define(["connectionManager", "listView", "cardBuilder", "imageLoader", "libraryB
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">';
             html += section.name;
             html += "</h2>";
-            html += '<a is="emby-linkbutton" href="#" class="clearLink hide" style="margin-left:1em;vertical-align:middle;"><button is="emby-button" type="button" class="raised more raised-mini noIcon">' + Globalize.translate("ButtonMore") + "</button></a>";
+            html += '<a is="emby-linkbutton" href="#" class="clearLink hide" style="margin-left:1em;vertical-align:middle;"><button is="emby-button" type="button" class="raised more raised-mini noIcon">' + globalize.translate("ButtonMore") + "</button></a>";
             html += "</div>";
             html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right">';
             html += "</div>";
