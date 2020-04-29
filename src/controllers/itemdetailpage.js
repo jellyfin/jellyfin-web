@@ -2078,7 +2078,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         bindAll(view, ".btnCancelTimer", "click", onCancelTimerClick);
         bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
         bindAll(view, ".btnDownload", "click", onDownloadClick);
-        view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
+        view.querySelector(".btnMoreCommands i").innerHTML = "&#xe5d4;";
         view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
         view.querySelector(".btnSplitVersions").addEventListener("click", function () {
             splitVersions(self, view, apiClient, params);
