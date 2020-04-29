@@ -672,12 +672,12 @@
     "HeaderYears": "Yıl",
     "HeaderXmlSettings": "Xml Ayarları",
     "HeaderXmlDocumentAttributes": "Xml Döküman Öznitelikleri",
-    "HeaderXmlDocumentAttribute": "Xml Dökümanı Öznitelik",
+    "HeaderXmlDocumentAttribute": "Xml Döküman Özniteliği",
     "HeaderUser": "Kullanıcı",
     "HeaderUploadImage": "Resim Yükle",
     "HeaderUpcomingOnTV": "TV'de Yaklaşan",
     "HeaderTypeText": "Metin Gir",
-    "HeaderTunerDevices": "Tuner Cihazları",
+    "HeaderTunerDevices": "Alıcı Cihazları",
     "HeaderThisUserIsCurrentlyDisabled": "Bu kullanıcı şu anda pasif",
     "HeaderTags": "Etiketler",
     "HeaderSubtitleProfiles": "Altyazı Profilleri",
@@ -735,5 +735,8 @@
     "BoxSet": "Seri Filmler",
     "AskAdminToCreateLibrary": "Kütüphane oluşturmak için yöneticiden izin iste.",
     "AllowFfmpegThrottlingHelp": "Video dönüşüm işlemleri yeterince ilerlediyse kaynak tüketimini azaltmak için durdur. İleri/geri sarma işlemlerinin az yapıldığı durumlarda çok kullanışlıdır. Oynatım sorunları ile karşılaşırsanız bu özelliği kapatın.",
-    "AlbumArtist": "Sanatçı"
+    "AlbumArtist": "Sanatçı",
+    "HeaderTuners": "Alıcılar",
+    "HeaderTranscodingProfileHelp": "Kodlama gerekince hangi formatın kullanılacağını belirtmek için kodlama profili ekle.",
+    "ButtonTogglePlaylist": "Liste"
 }
