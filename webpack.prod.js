@@ -7,7 +7,7 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules[\\/](?!query-string)/,
+                exclude: /node_modules[\\/](?!query-string|split-on-first|strict-uri-encode)/,
                 loader: "babel-loader"
             },
             {

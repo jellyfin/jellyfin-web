@@ -166,6 +166,7 @@ define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button'], function (dom, 
             }).join('') + '</div></div>';
 
             tabsContainerElem.innerHTML = tabsHtml;
+            window.CustomElements.upgradeSubtree(tabsContainerElem);
 
             document.body.classList.add('withSectionTabs');
             tabOwnerView = view;
