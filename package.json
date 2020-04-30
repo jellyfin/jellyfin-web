@@ -97,6 +97,7 @@
           "src/components/layouts/tv/focusHandler.js",
           "src/components/layouts/tv/imagehelper.js",
           "src/components/layouts/tv/tabbedPage.js",
+          "src/controllers/layouts/tv/home/home.js",
           "src/controllers/layouts/tv/home/spotlight.js",
           "src/controllers/layouts/tv/home/views.collections.js",
           "src/controllers/layouts/tv/home/views.generic.js",

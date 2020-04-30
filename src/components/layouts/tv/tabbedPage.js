@@ -6,7 +6,7 @@ import focusManager from "focusManager";
 import "emby-button";
 
 function createHeaderScroller(view, instance, initialTabId) {
-    const userViewNames = view.querySelector('.userViewNames');
+    const userViewNames = document.querySelector('.userViewNames');
     const scrollFrame = userViewNames.querySelector('.scrollFrame');
     const options = {
         horizontal: 1,
@@ -37,7 +37,7 @@ function createHeaderScroller(view, instance, initialTabId) {
 }
 
 function initEvents(view, instance) {
-    const userViewNames = view.querySelector('.userViewNames');
+    const userViewNames = document.querySelector('.userViewNames');
     userViewNames.addEventListener('click', ({
         target
     }) => {
@@ -62,9 +62,9 @@ function initEvents(view, instance) {
 }
 
 function selectUserView(page, id, self) {
-    const btn = page.querySelector(`.btnUserViewHeader[data-id='${id}']`);
+    const btn = document.querySelector(`.btnUserViewHeader[data-id='${id}']`);
     self.bodyScroller.slideTo(0, true);
-    const contentScrollSlider = page.querySelector(".contentScrollSlider");
+    const contentScrollSlider = document.querySelector(".contentScrollSlider");
     contentScrollSlider.innerHTML = "";
     const promise = self.loadViewContent.call(self, page, id, btn.getAttribute('data-type'));
     if (promise) {
@@ -98,13 +98,13 @@ function tabbedPage(page, pageOptions) {
 
     const self = this;
     pageOptions = pageOptions || {};
-    const contentScrollSlider = page.querySelector('.contentScrollSlider');
+    const contentScrollSlider = document.querySelector('.contentScrollSlider');
     contentScrollSlider.classList.add('focuscontainer-x');
-    const selectedItemInfoInner = page.querySelector('.selectedItemInfoInner');
-    const selectedIndexElement = page.querySelector('.selectedIndex');
+    const selectedItemInfoInner = document.querySelector('.selectedItemInfoInner');
+    const selectedIndexElement = document.querySelector('.selectedIndex');
     const tagName = 'button';
     self.renderTabs = (tabs, initialTabId) => {
-        page.querySelector('.viewsScrollSlider').innerHTML = tabs.map(({
+        document.querySelector('.viewsScrollSlider').innerHTML = tabs.map(({
             Id,
             CollectionType,
             Name
@@ -118,7 +118,7 @@ function tabbedPage(page, pageOptions) {
         createHorizontalScroller(page);
     };
 
-    const viewsScrollSlider = page.querySelector('.viewsScrollSlider');
+    const viewsScrollSlider = document.querySelector('.viewsScrollSlider');
     viewsScrollSlider.classList.add('focusable');
     viewsScrollSlider.classList.add('focuscontainer-x');
     viewsScrollSlider.focus = focusViewSlider;
@@ -135,7 +135,7 @@ function tabbedPage(page, pageOptions) {
     let focusDelay = 0;
     self.setFocusDelay = (view, elem) => {
         const viewId = elem.getAttribute('data-id');
-        const btn = view.querySelector('.btnUserViewHeader.selected');
+        const btn = document.querySelector('.btnUserViewHeader.selected');
         if (btn) {
             if (viewId == btn.getAttribute('data-id')) {
                 return;
@@ -153,13 +153,13 @@ function tabbedPage(page, pageOptions) {
     };
 
     function createHorizontalScroller(view) {
-        const scrollFrame = view.querySelector('.itemScrollFrame');
+        const scrollFrame = document.querySelector('.itemScrollFrame');
         const options = {
             horizontal: 1,
             itemNav: 0,
             mouseDragging: 1,
             touchDragging: 1,
-            slidee: view.querySelector('.contentScrollSlider'),
+            slidee: document.querySelector('.contentScrollSlider'),
             smart: true,
             releaseSwing: true,
             scrollBy: 200,
@@ -178,7 +178,7 @@ function tabbedPage(page, pageOptions) {
 
     function initFocusHandler(view) {
         if (pageOptions.handleFocus) {
-            const scrollSlider = view.querySelector('.contentScrollSlider');
+            const scrollSlider = document.querySelector('.contentScrollSlider');
             self.focusHandler = new focusHandler({
                 parent: scrollSlider,
                 selectedItemInfoInner,
