@@ -207,8 +207,6 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
         };
 
         dialogOptions.modal = false;
-        dialogOptions.entryAnimationDuration = 160;
-        dialogOptions.exitAnimationDuration = 160;
         dialogOptions.autoFocus = false;
 
         var dlg = dialogHelper.createDialog(dialogOptions);

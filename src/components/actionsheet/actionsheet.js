@@ -2,27 +2,18 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
     'use strict';
 
     function getOffsets(elems) {
-
-        var doc = document;
         var results = [];
 
-        if (!doc) {
+        if (!document) {
             return results;
         }
 
         var box;
         var elem;
 
-        for (var i = 0, length = elems.length; i < length; i++) {
-
+        for (var i = 0; i < elems.length; i++) {
             elem = elems[i];
-            // Support: BlackBerry 5, iOS 3 (original iPhone)
-            // If we don't have gBCR, just use 0,0 rather than error
-            if (elem.getBoundingClientRect) {
-                box = elem.getBoundingClientRect();
-            } else {
-                box = { top: 0, left: 0 };
-            }
+            box = elem.getBoundingClientRect();
 
             results[i] = {
                 top: box.top,
@@ -36,43 +27,47 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
     }
 
     function getPosition(options, dlg) {
-
         var windowSize = dom.getWindowSize();
         var windowHeight = windowSize.innerHeight;
         var windowWidth = windowSize.innerWidth;
 
         var pos = getOffsets([options.positionTo])[0];
 
-        if (options.positionY !== 'top') {
-            pos.top += (pos.height || 0) / 2;
+        if (layoutManager.desktop) {
+            pos.top += window.pageXOffset + pos.height / 2;
+            pos.left += window.pageYOffset + pos.width / 2;
+        } else {
+            if (options.positionY !== 'top') {
+                pos.top += (pos.height || 0) / 2;
+            }
+
+            pos.left += (pos.width || 0) / 2;
+
+            var height = dlg.offsetHeight || 300;
+            var width = dlg.offsetWidth || 160;
+
+            // Account for popup size
+            pos.top -= height / 2;
+            pos.left -= width / 2;
+
+            // Avoid showing too close to the bottom
+            var overflowX = pos.left + width - windowWidth;
+            var overflowY = pos.top + height - windowHeight;
+
+            if (overflowX > 0) {
+                pos.left -= (overflowX + 20);
+            }
+            if (overflowY > 0) {
+                pos.top -= (overflowY + 20);
+            }
+
+            pos.top += (options.offsetTop || 0);
+            pos.left += (options.offsetLeft || 0);
+
+            // Do some boundary checking
+            pos.top = Math.max(pos.top, 10);
+            pos.left = Math.max(pos.left, 10);
         }
-
-        pos.left += (pos.width || 0) / 2;
-
-        var height = dlg.offsetHeight || 300;
-        var width = dlg.offsetWidth || 160;
-
-        // Account for popup size
-        pos.top -= height / 2;
-        pos.left -= width / 2;
-
-        // Avoid showing too close to the bottom
-        var overflowX = pos.left + width - windowWidth;
-        var overflowY = pos.top + height - windowHeight;
-
-        if (overflowX > 0) {
-            pos.left -= (overflowX + 20);
-        }
-        if (overflowY > 0) {
-            pos.top -= (overflowY + 20);
-        }
-
-        pos.top += (options.offsetTop || 0);
-        pos.left += (options.offsetLeft || 0);
-
-        // Do some boundary checking
-        pos.top = Math.max(pos.top, 10);
-        pos.left = Math.max(pos.left, 10);
 
         return pos;
     }
@@ -105,13 +100,16 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
             backButton = true;
             dialogOptions.autoFocus = true;
         } else {
-
             dialogOptions.modal = false;
-            dialogOptions.entryAnimation = options.entryAnimation;
-            dialogOptions.exitAnimation = options.exitAnimation;
-            dialogOptions.entryAnimationDuration = options.entryAnimationDuration || 140;
-            dialogOptions.exitAnimationDuration = options.exitAnimationDuration || 100;
+            dialogOptions.entryAnimation = layoutManager.desktop ? 'fadein' : options.entryAnimation;
+            dialogOptions.exitAnimation = layoutManager.desktop ? 'fadeout' : options.exitAnimation;
+            dialogOptions.entryAnimationDuration = 140;
+            dialogOptions.exitAnimationDuration = 100;
             dialogOptions.autoFocus = false;
+        }
+
+        if (layoutManager.desktop) {
+            dialogOptions.noBackdrop = true;
         }
 
         var dlg = dialogHelper.createDialog(dialogOptions);
@@ -350,6 +348,8 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
                 dlg.style.margin = 0;
                 dlg.style.left = pos.left + 'px';
                 dlg.style.top = pos.top + 'px';
+
+                dlg.parentElement.style.position = layoutManager.desktop ? 'absolute' : 'fixed';
             }
         });
     }

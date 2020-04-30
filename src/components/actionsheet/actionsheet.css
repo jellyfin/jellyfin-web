@@ -48,6 +48,10 @@
     padding: 0.4em 1em 0.4em 0.6em !important;
 }
 
+.layout-desktop .actionsheetListItemBody {
+    padding: 0 1em 0 0.6em !important;
+}
+
 .actionSheetItemText {
     white-space: nowrap;
     overflow: hidden;
@@ -56,6 +60,14 @@
     flex-grow: 1;
     display: flex;
     justify-content: flex-start;
+}
+
+.layout-desktop .actionSheetItemText {
+    margin: 0;
+}
+
+.dialogBackdrop.noBackdrop {
+    background: none;
 }
 
 .actionSheetItemAsideText {
@@ -101,6 +113,11 @@
 
 .actionsheetMenuItemIcon {
     margin: 0 0.85em 0 0.45em !important;
+    padding: 0 !important;
+}
+
+.layout-desktop .actionsheetMenuItemIcon {
+    margin: 0 0.25em 0 0.25em !important;
     padding: 0 !important;
 }
 

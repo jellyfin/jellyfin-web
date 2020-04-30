@@ -144,9 +144,7 @@ define(["userSettings", "globalize"], function (userSettings, globalize) {
 
                 var dlg = dialogHelper.createDialog({
                     removeOnClose: true,
-                    modal: false,
-                    entryAnimationDuration: 160,
-                    exitAnimationDuration: 200
+                    modal: false
                 });
                 dlg.classList.add("ui-body-a");
                 dlg.classList.add("background-theme-a");

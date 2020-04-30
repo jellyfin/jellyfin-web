@@ -154,6 +154,10 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         var backdrop = document.createElement('div');
         backdrop.classList.add('dialogBackdrop');
 
+        if (dlg.getAttribute('no-backdrop') === 'true') {
+            backdrop.classList.add('noBackdrop');
+        }
+
         var backdropParent = dlg.dialogContainer || dlg;
         backdropParent.parentNode.insertBefore(backdrop, backdropParent);
         dlg.backdrop = backdrop;
@@ -400,6 +404,10 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         // Also have to disable for firefox because it's causing select elements to not be clickable
         if (options.modal !== false) {
             dlg.setAttribute('modal', 'modal');
+        }
+
+        if (options.noBackdrop === true) {
+            dlg.setAttribute('no-backdrop', 'true');
         }
 
         if (options.autoFocus !== false) {
