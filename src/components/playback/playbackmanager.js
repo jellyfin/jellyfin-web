@@ -1,5 +1,8 @@
-define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'fullscreenManager'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, fullscreenManager) {
+define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'screenfull'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, screenfull) {
     'use strict';
+
+    /** Delay time in ms for reportPlayback logging */
+    const reportPlaybackLogDelay = 1e3;
 
     function enableLocalPlaylistManagement(player) {
 
@@ -17,9 +20,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     }
 
     function bindToFullscreenChange(player) {
-        events.on(fullscreenManager, 'fullscreenchange', function () {
-            events.trigger(player, 'fullscreenchange');
-        });
+        if (screenfull.isEnabled) {
+            screenfull.on('change', function () {
+                events.trigger(player, 'fullscreenchange');
+            });
+        }
     }
 
     function triggerPlayerChange(playbackManagerInstance, newPlayer, newTarget, previousPlayer, previousTargetInfo) {
@@ -37,6 +42,12 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
     }
+
+    /** Last invoked method */
+    let reportPlaybackLastMethod;
+
+    /** Last invoke time of method */
+    let reportPlaybackLastTime;
 
     function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, serverId, method, progressEventName) {
 
@@ -57,7 +68,14 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
         }
 
-        console.debug(method + '-' + JSON.stringify(info));
+        const now = (new Date).getTime();
+
+        if (method !== reportPlaybackLastMethod || now - (reportPlaybackLastTime || 0) >= reportPlaybackLogDelay) {
+            console.debug(method + '-' + JSON.stringify(info));
+            reportPlaybackLastMethod = method;
+            reportPlaybackLastTime = now;
+        }
+
         var apiClient = connectionManager.getApiClient(serverId);
         apiClient[method](info);
     }
@@ -1518,7 +1536,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return player.isFullscreen();
             }
 
-            return fullscreenManager.isFullScreen();
+            return screenfull.isFullscreen;
         };
 
         self.toggleFullscreen = function (player) {
@@ -1528,10 +1546,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return player.toggleFulscreen();
             }
 
-            if (fullscreenManager.isFullScreen()) {
-                fullscreenManager.exitFullscreen();
-            } else {
-                fullscreenManager.requestFullscreen();
+            if (screenfull.isEnabled) {
+                screenfull.toggle();
             }
         };
 
@@ -3378,7 +3394,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         pluginManager.ofType('mediaplayer').map(initMediaPlayer);
 
         function sendProgressUpdate(player, progressEventName, reportPlaylist) {
-
             if (!player) {
                 throw new Error('player cannot be null');
             }

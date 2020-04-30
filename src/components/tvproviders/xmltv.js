@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "emby-checkbox", "emby-input", "listViewStyle", "paper-icon-button-light"], function ($, loading) {
+define(["jQuery", "loading", "globalize", "emby-checkbox", "emby-input", "listViewStyle", "paper-icon-button-light"], function ($, loading, globalize) {
     "use strict";
 
     return function (page, providerId, options) {
@@ -92,7 +92,7 @@ define(["jQuery", "loading", "emby-checkbox", "emby-input", "listViewStyle", "pa
                 }, function () {
                     loading.hide();
                     Dashboard.alert({
-                        message: Globalize.translate("ErrorAddingXmlTvFile")
+                        message: globalize.translate("ErrorAddingXmlTvFile")
                     });
                 });
             });

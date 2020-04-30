@@ -1,4 +1,4 @@
-define(["events", "userSettings", "serverNotifications", "connectionManager", "emby-button"], function (events, userSettings, serverNotifications, connectionManager) {
+define(["events", "userSettings", "serverNotifications", "connectionManager", "globalize", "emby-button"], function (events, userSettings, serverNotifications, connectionManager, globalize) {
     "use strict";
 
     return function (options) {
@@ -48,11 +48,11 @@ define(["events", "userSettings", "serverNotifications", "connectionManager", "e
                 var lastResult = task.LastExecutionResult ? task.LastExecutionResult.Status : '';
 
                 if (lastResult == "Failed") {
-                    options.lastResultElem.html('<span style="color:#FF0000;">(' + Globalize.translate('LabelFailed') + ')</span>');
+                    options.lastResultElem.html('<span style="color:#FF0000;">(' + globalize.translate('LabelFailed') + ')</span>');
                 } else if (lastResult == "Cancelled") {
-                    options.lastResultElem.html('<span style="color:#0026FF;">(' + Globalize.translate('LabelCancelled') + ')</span>');
+                    options.lastResultElem.html('<span style="color:#0026FF;">(' + globalize.translate('LabelCancelled') + ')</span>');
                 } else if (lastResult == "Aborted") {
-                    options.lastResultElem.html('<span style="color:#FF0000;">' + Globalize.translate('LabelAbortedByServerShutdown') + '</span>');
+                    options.lastResultElem.html('<span style="color:#FF0000;">' + globalize.translate('LabelAbortedByServerShutdown') + '</span>');
                 } else {
                     options.lastResultElem.html(lastResult);
                 }

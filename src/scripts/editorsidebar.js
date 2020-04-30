@@ -1,4 +1,4 @@
-define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
+define(["datetime", "jQuery", "globalize", "material-icons"], function (datetime, $, globalize) {
     "use strict";
 
     function getNode(item, folderState, selected) {
@@ -70,7 +70,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
             var nodes = [];
             nodes.push({
                 id: "MediaFolders",
-                text: Globalize.translate("HeaderMediaFolders"),
+                text: globalize.translate("HeaderMediaFolders"),
                 state: {
                     opened: true
                 },
@@ -83,7 +83,7 @@ define(["datetime", "jQuery", "material-icons"], function (datetime, $) {
             if (result.TotalRecordCount) {
                 nodes.push({
                     id: "livetv",
-                    text: Globalize.translate("HeaderLiveTV"),
+                    text: globalize.translate("HeaderLiveTV"),
                     state: {
                         opened: false
                     },

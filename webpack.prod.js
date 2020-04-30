@@ -7,7 +7,7 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules[\\/](?!query-string)/,
+                exclude: /node_modules[\\/](?!query-string|split-on-first|strict-uri-encode)/,
                 loader: "babel-loader"
             },
             {
@@ -21,7 +21,7 @@ module.exports = merge(common, {
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
                 use: [
-                    'file-loader',
+                    'file-loader'
                 ]
             }
         ]

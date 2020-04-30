@@ -12,7 +12,7 @@ import events from 'events';
     }
 
     export function enableAutoLogin(val) {
-        if (val != null) {
+        if (val !== undefined) {
             this.set('enableAutoLogin', val.toString());
         }
 
@@ -20,7 +20,7 @@ import events from 'events';
     }
 
     export function enableSystemExternalPlayers(val) {
-        if (val !== null) {
+        if (val !== undefined) {
             this.set('enableSystemExternalPlayers', val.toString());
         }
 
@@ -29,7 +29,7 @@ import events from 'events';
 
     export function enableAutomaticBitrateDetection(isInNetwork, mediaType, val) {
         var key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
-        if (val != null) {
+        if (val !== undefined) {
             if (isInNetwork && mediaType === 'Audio') {
                 val = true;
             }
@@ -46,7 +46,7 @@ import events from 'events';
 
     export function maxStreamingBitrate(isInNetwork, mediaType, val) {
         var key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
-        if (val != null) {
+        if (val !== undefined) {
             if (isInNetwork && mediaType === 'Audio') {
                 //  nothing to do, this is always a max value
             } else {
@@ -72,7 +72,7 @@ import events from 'events';
     }
 
     export function maxChromecastBitrate(val) {
-        if (val != null) {
+        if (val !== undefined) {
             this.set('chromecastBitrate1', val);
         }
 
@@ -81,7 +81,7 @@ import events from 'events';
     }
 
     export function syncOnlyOnWifi(val) {
-        if (val != null) {
+        if (val !== undefined) {
             this.set('syncOnlyOnWifi', val.toString());
         }
 
@@ -89,7 +89,7 @@ import events from 'events';
     }
 
     export function syncPath(val) {
-        if (val != null) {
+        if (val !== undefined) {
             this.set('syncPath', val);
         }
 
@@ -97,7 +97,7 @@ import events from 'events';
     }
 
     export function cameraUploadServers(val) {
-        if (val != null) {
+        if (val !== undefined) {
             this.set('cameraUploadServers', val.join(','));
         }
 
@@ -110,7 +110,7 @@ import events from 'events';
     }
 
     export function runAtStartup(val) {
-        if (val != null) {
+        if (val !== undefined) {
             this.set('runatstartup', val.toString());
         }
 

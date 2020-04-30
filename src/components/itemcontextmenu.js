@@ -90,7 +90,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                 });
             }
 
-            if (itemHelper.supportsAddingToPlaylist(item)) {
+            if (itemHelper.supportsAddingToPlaylist(item) && options.playlist !== false) {
                 commands.push({
                     name: globalize.translate("AddToPlaylist"),
                     id: "addtoplaylist",
@@ -218,7 +218,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
         if (item.Type === "Program" && options.record !== false) {
             if (item.TimerId) {
                 commands.push({
-                    name: Globalize.translate("ManageRecording"),
+                    name: globalize.translate("ManageRecording"),
                     id: "record",
                     icon: "fiber_manual_record"
                 });
@@ -228,7 +228,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
         if (item.Type === "Program" && options.record !== false) {
             if (!item.TimerId) {
                 commands.push({
-                    name: Globalize.translate("Record"),
+                    name: globalize.translate("Record"),
                     id: "record",
                     icon: "fiber_manual_record"
                 });
@@ -283,7 +283,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
 
         if (options.openAlbum !== false && item.AlbumId && item.MediaType !== "Photo") {
             commands.push({
-                name: Globalize.translate("ViewAlbum"),
+                name: globalize.translate("ViewAlbum"),
                 id: "album",
                 icon: "album"
             });
@@ -291,7 +291,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
 
         if (options.openArtist !== false && item.ArtistItems && item.ArtistItems.length) {
             commands.push({
-                name: Globalize.translate("ViewArtist"),
+                name: globalize.translate("ViewArtist"),
                 id: "artist",
                 icon: "person"
             });
@@ -339,7 +339,9 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                         fileDownloader.download([{
                             url: downloadHref,
                             itemId: itemId,
-                            serverId: serverId
+                            serverId: serverId,
+                            title: item.Name,
+                            filename: item.Path.replace(/^.*[\\\/]/, '')
                         }]);
                         getResolveFunction(getResolveFunction(resolve, id), id)();
                     });

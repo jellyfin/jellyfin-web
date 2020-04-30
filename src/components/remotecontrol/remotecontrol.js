@@ -1,4 +1,4 @@
-define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageLoader", "playbackManager", "nowPlayingHelper", "events", "connectionManager", "apphost", "globalize", "layoutManager", "userSettings", "cardStyle", "emby-itemscontainer", "css!./remotecontrol.css", "emby-ratingbutton"], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize, layoutManager, userSettings) {
+define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageLoader", "playbackManager", "nowPlayingHelper", "events", "connectionManager", "apphost", "globalize", "layoutManager", "userSettings", "cardBuilder", "cardStyle", "emby-itemscontainer", "css!./remotecontrol.css", "emby-ratingbutton"], function (browser, datetime, backdrop, libraryBrowser, listView, imageLoader, playbackManager, nowPlayingHelper, events, connectionManager, appHost, globalize, layoutManager, userSettings, cardBuilder) {
     "use strict";
 
     function showAudioMenu(context, player, button, item) {
@@ -110,49 +110,93 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         return null;
     }
 
-    function updateNowPlayingInfo(context, state) {
+    function updateNowPlayingInfo(context, state, serverId) {
         var item = state.NowPlayingItem;
         var displayName = item ? getNowPlayingNameHtml(item).replace("<br/>", " - ") : "";
-        context.querySelector(".nowPlayingPageTitle").innerHTML = displayName;
+        if (typeof item !== 'undefined') {
+            var nowPlayingServerId = (item.ServerId || serverId);
+            if (item.Type == "Audio" || item.MediaStreams[0].Type == "Audio") {
+                var songName = item.Name;
+                if (item.Album != null && item.Artists != null) {
+                    var albumName = item.Album;
+                    var artistName;
+                    if (item.ArtistItems != null) {
+                        artistName = item.ArtistItems[0].Name;
+                        context.querySelector(".nowPlayingAlbum").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}">${albumName}</a>`;
+                        context.querySelector(".nowPlayingArtist").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}">${artistName}</a>`;
+                        context.querySelector(".contextMenuAlbum").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons album"></i> ` + globalize.translate("ViewAlbum") + '</a>';
+                        context.querySelector(".contextMenuArtist").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons person"></i> ` + globalize.translate("ViewArtist") + '</a>';
+                    } else {
+                        artistName = item.Artists;
+                        context.querySelector(".nowPlayingAlbum").innerHTML = albumName;
+                        context.querySelector(".nowPlayingArtist").innerHTML = artistName;
+                    }
+                }
+                context.querySelector(".nowPlayingSongName").innerHTML = songName;
+            } else if (item.Type == "Episode") {
+                if (item.SeasonName != null) {
+                    var seasonName = item.SeasonName;
+                    context.querySelector(".nowPlayingSeason").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeasonId + `&amp;serverId=${nowPlayingServerId}">${seasonName}</a>`;
+                }
+                if (item.SeriesName != null) {
+                    var seriesName = item.SeriesName;
+                    if (item.SeriesId !=null) {
+                        context.querySelector(".nowPlayingSerie").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeriesId + `&amp;serverId=${nowPlayingServerId}">${seriesName}</a>`;
+                    } else {
+                        context.querySelector(".nowPlayingSerie").innerHTML = seriesName;
+                    }
+                }
+                context.querySelector(".nowPlayingEpisode").innerHTML = item.Name;
+            } else {
+                context.querySelector(".nowPlayingPageTitle").innerHTML = displayName;
+            }
 
-        if (displayName.length > 0) {
-            context.querySelector(".nowPlayingPageTitle").classList.remove("hide");
-        } else {
-            context.querySelector(".nowPlayingPageTitle").classList.add("hide");
-        }
+            if (displayName.length > 0 && item.Type != "Audio" && item.Type != "Episode") {
+                context.querySelector(".nowPlayingPageTitle").classList.remove("hide");
+            } else {
+                context.querySelector(".nowPlayingPageTitle").classList.add("hide");
+            }
 
-        var url = item ? seriesImageUrl(item, {
-            maxHeight: 300 * 2
-        }) || imageUrl(item, {
-            maxHeight: 300 * 2
-        }) : null;
+            var url = item ? seriesImageUrl(item, {
+                maxHeight: 300 * 2
+            }) || imageUrl(item, {
+                maxHeight: 300 * 2
+            }) : null;
 
-        console.debug("updateNowPlayingInfo");
-        setImageUrl(context, url);
-        if (item) {
-            backdrop.setBackdrops([item]);
-            var apiClient = connectionManager.getApiClient(item.ServerId);
-            apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
-                var userData = fullItem.UserData || {};
-                var likes = null == userData.Likes ? "" : userData.Likes;
-                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="material-icons">favorite</i></button>';
-            });
-        } else {
-            backdrop.clear();
-            context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = "";
+            console.debug("updateNowPlayingInfo");
+            setImageUrl(context, state, url);
+            if (item) {
+                backdrop.setBackdrops([item]);
+                var apiClient = connectionManager.getApiClient(item.ServerId);
+                apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
+                    var userData = fullItem.UserData || {};
+                    var likes = null == userData.Likes ? "" : userData.Likes;
+                    context.querySelector(".nowPlayingPageUserDataButtonsTitle").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="material-icons">favorite</i></button>';
+                    context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="material-icons">favorite</i></button>';
+                });
+            } else {
+                backdrop.clear();
+                context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = "";
+            }
         }
     }
 
-    function setImageUrl(context, url) {
+    function setImageUrl(context, state, url) {
         currentImgUrl = url;
+        var item = state.NowPlayingItem;
         var imgContainer = context.querySelector(".nowPlayingPageImageContainer");
 
         if (url) {
             imgContainer.innerHTML = '<img class="nowPlayingPageImage" src="' + url + '" />';
-            imgContainer.classList.remove("hide");
+            if (item.Type == "Audio") {
+                context.querySelector(".nowPlayingPageImage").classList.add("nowPlayingPageImageAudio");
+                context.querySelector(".nowPlayingPageImageContainer").classList.remove("nowPlayingPageImageAudio");
+            } else {
+                context.querySelector(".nowPlayingPageImageContainer").classList.add("nowPlayingPageImagePoster");
+                context.querySelector(".nowPlayingPageImage").classList.remove("nowPlayingPageImageAudio");
+            }
         } else {
-            imgContainer.classList.add("hide");
-            imgContainer.innerHTML = "";
+            imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardContent-button cardImageContainer coveredImage ' + cardBuilder.getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><i class="cardImageIcon material-icons">album</i></button></div>';
         }
     }
 
@@ -199,26 +243,33 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             var supportedCommands = playerInfo.supportedCommands;
             currentPlayerSupportedCommands = supportedCommands;
             var playState = state.PlayState || {};
-            buttonVisible(context.querySelector(".btnToggleFullscreen"), item && "Video" == item.MediaType && -1 != supportedCommands.indexOf("ToggleFullscreen"));
+            var isSupportedCommands = supportedCommands.includes("DisplayMessage") || supportedCommands.includes("SendString") || supportedCommands.includes("Select");
+            buttonVisible(context.querySelector(".btnToggleFullscreen"), item && "Video" == item.MediaType && supportedCommands.includes("ToggleFullscreen"));
             updateAudioTracksDisplay(player, context);
             updateSubtitleTracksDisplay(player, context);
 
-            if (-1 != supportedCommands.indexOf("DisplayMessage") && !currentPlayer.isLocalPlayer) {
+            if (supportedCommands.includes("DisplayMessage") && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".sendMessageSection").classList.remove("hide");
             } else {
                 context.querySelector(".sendMessageSection").classList.add("hide");
             }
 
-            if (-1 != supportedCommands.indexOf("SendString") && !currentPlayer.isLocalPlayer) {
+            if (supportedCommands.includes("SendString") && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".sendTextSection").classList.remove("hide");
             } else {
                 context.querySelector(".sendTextSection").classList.add("hide");
             }
 
-            if (-1 != supportedCommands.indexOf("Select") && !currentPlayer.isLocalPlayer) {
+            if (supportedCommands.includes("Select") && !currentPlayer.isLocalPlayer) {
                 context.querySelector(".navigationSection").classList.remove("hide");
             } else {
                 context.querySelector(".navigationSection").classList.add("hide");
+            }
+
+            if (isSupportedCommands && !currentPlayer.isLocalPlayer) {
+                context.querySelector(".remoteControlSection").classList.remove("hide");
+            } else {
+                context.querySelector(".remoteControlSection").classList.add("hide");
             }
 
             buttonVisible(context.querySelector(".btnStop"), null != item);
@@ -331,7 +382,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         function updatePlayPauseState(isPaused, isActive) {
             var context = dlg;
             var btnPlayPause = context.querySelector(".btnPlayPause");
-            btnPlayPause.querySelector("i").innerHTML = isPaused ? "&#xE037;" : "pause";
+            btnPlayPause.querySelector("i").innerHTML = isPaused ? "&#xE038;" : "&#xE035;";
             buttonVisible(btnPlayPause, isActive);
         }
 
@@ -374,9 +425,9 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 });
 
                 if (items.length) {
-                    context.querySelector(".playlistSection").classList.remove("hide");
+                    context.querySelector(".btnTogglePlaylist").classList.remove("hide");
                 } else {
-                    context.querySelector(".playlistSection").classList.add("hide");
+                    context.querySelector(".btnTogglePlaylist").classList.add("hide");
                 }
 
                 var itemsContainer = context.querySelector(".playlist");
@@ -393,6 +444,9 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 }
 
                 imageLoader.lazyChildren(itemsContainer);
+                context.querySelector(".playlist").classList.add("hide");
+                context.querySelector(".contextMenu").classList.add("hide");
+                context.querySelector(".btnSavePlaylist").classList.add("hide");
             });
         }
 
@@ -614,27 +668,13 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 return datetime.getDisplayRunningTime(ticks);
             };
 
-            var volumeSliderTimer;
-
             function setVolume() {
-                clearTimeout(volumeSliderTimer);
-                volumeSliderTimer = null;
-
                 playbackManager.setVolume(this.value, currentPlayer);
             }
 
-            function setVolumeDelayed() {
-                if (!volumeSliderTimer) {
-                    var that = this;
-                    volumeSliderTimer = setTimeout(function () {
-                        setVolume.call(that);
-                    }, 700);
-                }
-            }
-
             context.querySelector(".nowPlayingVolumeSlider").addEventListener("change", setVolume);
-            context.querySelector(".nowPlayingVolumeSlider").addEventListener("mousemove", setVolumeDelayed);
-            context.querySelector(".nowPlayingVolumeSlider").addEventListener("touchmove", setVolumeDelayed);
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("mousemove", setVolume);
+            context.querySelector(".nowPlayingVolumeSlider").addEventListener("touchmove", setVolume);
             context.querySelector(".buttonMute").addEventListener("click", function () {
                 playbackManager.toggleMute(currentPlayer);
             });
@@ -648,6 +688,27 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 playbackManager.movePlaylistItem(playlistItemId, newIndex, currentPlayer);
             });
             context.querySelector(".btnSavePlaylist").addEventListener("click", savePlaylist);
+            context.querySelector(".btnTogglePlaylist").addEventListener("click", function () {
+                if (context.querySelector(".playlist").classList.contains("hide")) {
+                    context.querySelector(".playlist").classList.remove("hide");
+                    context.querySelector(".btnSavePlaylist").classList.remove("hide");
+                    context.querySelector(".contextMenu").classList.add("hide");
+                    context.querySelector(".volumecontrol").classList.add("hide");
+                } else {
+                    context.querySelector(".playlist").classList.add("hide");
+                    context.querySelector(".btnSavePlaylist").classList.add("hide");
+                    context.querySelector(".volumecontrol").classList.remove("hide");
+                }
+            });
+            context.querySelector(".btnToggleContextMenu").addEventListener("click", function () {
+                if (context.querySelector(".contextMenu").classList.contains("hide")) {
+                    context.querySelector(".contextMenu").classList.remove("hide");
+                    context.querySelector(".btnSavePlaylist").classList.add("hide");
+                    context.querySelector(".playlist").classList.add("hide");
+                } else {
+                    context.querySelector(".contextMenu").classList.add("hide");
+                }
+            });
         }
 
         function onPlayerChange() {
@@ -694,6 +755,18 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         }
 
         function init(ownerView, context) {
+            let contextmenuHtml = `<button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title=${globalize.translate('ButtonToggleContextMenu')}><i class="material-icons more_vert"></i></button>`;
+            let volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
+            volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><i class="xlargePaperIconButton material-icons"></i></button>`;
+            volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
+            volumecontrolHtml += '</div>';
+            if (!layoutManager.mobile) {
+                context.querySelector('.nowPlayingSecondaryButtons').innerHTML += volumecontrolHtml;
+                context.querySelector('.playlistSectionButton').innerHTML += contextmenuHtml;
+            } else {
+                context.querySelector('.playlistSectionButton').innerHTML += volumecontrolHtml + contextmenuHtml;
+            }
+
             bindEvents(context);
             context.querySelector(".sendMessageForm").addEventListener("submit", onMessageSubmit);
             context.querySelector(".typeTextForm").addEventListener("submit", onSendStringSubmit);

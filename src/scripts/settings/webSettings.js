@@ -11,5 +11,8 @@ function getConfig() {
 export function enableMultiServer() {
     return getConfig().then(config => {
         return config.multiserver;
+    }).catch(error => {
+        console.log("cannot get web config:", error);
+        return false;
     });
 }

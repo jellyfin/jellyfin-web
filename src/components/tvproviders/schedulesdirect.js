@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "emby-select", "emby-button", "flexStyles"], function ($, loading) {
+define(["jQuery", "loading", "globalize", "emby-checkbox", "listViewStyle", "emby-input", "emby-select", "emby-button", "flexStyles"], function ($, loading, globalize) {
     "use strict";
 
     return function (page, providerId, options) {
@@ -69,7 +69,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
                 $(page.querySelector(".txtZipCode")).trigger("change");
             }, function () { // ApiClient.getJSON() error handler
                 Dashboard.alert({
-                    message: Globalize.translate("ErrorGettingTvLineups")
+                    message: globalize.translate("ErrorGettingTvLineups")
                 });
             });
             loading.hide();
@@ -130,7 +130,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
                     reload();
                 }, function () {
                     Dashboard.alert({ // ApiClient.ajax() error handler
-                        message: Globalize.translate("ErrorSavingTvProvider")
+                        message: globalize.translate("ErrorSavingTvProvider")
                     });
                 });
             });
@@ -141,7 +141,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
 
             if (!selectedListingsId) {
                 return void Dashboard.alert({
-                    message: Globalize.translate("ErrorPleaseSelectLineup")
+                    message: globalize.translate("ErrorPleaseSelectLineup")
                 });
             }
 
@@ -178,7 +178,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
                 }, function () {
                     loading.hide();
                     Dashboard.alert({
-                        message: Globalize.translate("ErrorAddingListingsToSchedulesDirect")
+                        message: globalize.translate("ErrorAddingListingsToSchedulesDirect")
                     });
                 });
             });
@@ -210,7 +210,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
                 loading.hide();
             }, function (result) {
                 Dashboard.alert({
-                    message: Globalize.translate("ErrorGettingTvLineups")
+                    message: globalize.translate("ErrorGettingTvLineups")
                 });
                 refreshListings("");
                 loading.hide();
@@ -290,7 +290,7 @@ define(["jQuery", "loading", "emby-checkbox", "listViewStyle", "emby-input", "em
                     page.querySelector(".selectTunersSection").classList.remove("hide");
                 }
             });
-            $(".createAccountHelp", page).html(Globalize.translate("MessageCreateAccountAt", '<a is="emby-linkbutton" class="button-link" href="http://www.schedulesdirect.org" target="_blank">http://www.schedulesdirect.org</a>'));
+            $(".createAccountHelp", page).html(globalize.translate("MessageCreateAccountAt", '<a is="emby-linkbutton" class="button-link" href="http://www.schedulesdirect.org" target="_blank">http://www.schedulesdirect.org</a>'));
             reload();
         };
     };

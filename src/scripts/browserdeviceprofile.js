@@ -887,6 +887,16 @@ define(['browser'], function (browser) {
                 Method: 'External'
             });
         }
+        if (options.enableSsaRender) {
+            profile.SubtitleProfiles.push({
+                Format: 'ass',
+                Method: 'External'
+            });
+            profile.SubtitleProfiles.push({
+                Format: 'ssa',
+                Method: 'External'
+            });
+        }
 
         profile.ResponseProfiles = [];
         profile.ResponseProfiles.push({
