@@ -45,23 +45,6 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         return null;
     }
 
-    function logoImageUrl(item, apiClient, options) {
-        options = options || {};
-        options.type = "Logo";
-
-        if (item.ImageTags && item.ImageTags.Logo) {
-            options.tag = item.ImageTags.Logo;
-            return apiClient.getScaledImageUrl(item.Id, options);
-        }
-
-        if (item.ParentLogoImageTag) {
-            options.tag = item.ParentLogoImageTag;
-            return apiClient.getScaledImageUrl(item.ParentLogoItemId, options);
-        }
-
-        return null;
-    }
-
     return function (view, params) {
         function onVerticalSwipe(e, elem, data) {
             var player = currentPlayer;
