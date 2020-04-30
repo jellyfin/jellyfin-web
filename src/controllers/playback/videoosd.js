@@ -309,18 +309,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         }
 
         function setTitle(item, parentName) {
-            var url = logoImageUrl(item, connectionManager.getApiClient(item.ServerId), {});
-
-            if (url) {
-                Emby.Page.setTitle("");
-                var pageTitle = document.querySelector(".pageTitle");
-                pageTitle.style.backgroundImage = "url('" + url + "')";
-                pageTitle.classList.add("pageTitleWithLogo");
-                pageTitle.classList.remove("pageTitleWithDefaultLogo");
-                pageTitle.innerHTML = "";
-            } else {
-                Emby.Page.setTitle(parentName || "");
-            }
+            Emby.Page.setTitle(parentName || '');
 
             var documentTitle = parentName || (item ? item.Name : null);
 

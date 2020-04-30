@@ -554,7 +554,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         renderTimerEditor(page, item, apiClient, user);
         renderImage(page, item, apiClient, user);
         renderLogo(page, item, apiClient);
-        setTitle(item, apiClient);
+        Emby.Page.setTitle('');
         setInitialCollapsibleState(page, item, apiClient, context, user);
         renderDetails(page, item, apiClient, context);
         renderTrackSelections(page, instance, item);
@@ -664,19 +664,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         }
 
         return null;
-    }
-
-    function setTitle(item, apiClient) {
-        var url = logoImageUrl(item, apiClient, {});
-
-        if (url != null) {
-            var pageTitle = document.querySelector(".pageTitle");
-            pageTitle.style.backgroundImage = "url('" + url + "')";
-            pageTitle.classList.add("pageTitleWithLogo");
-            pageTitle.innerHTML = "";
-        } else {
-            Emby.Page.setTitle("");
-        }
     }
 
     function renderLogo(page, item, apiClient) {
@@ -2116,7 +2103,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
 
             if (e.detail.isRestored) {
                 if (currentItem) {
-                    setTitle(currentItem, connectionManager.getApiClient(currentItem.ServerId));
+                    Emby.Page.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
                 }
             } else {
