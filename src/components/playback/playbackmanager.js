@@ -20,9 +20,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     }
 
     function bindToFullscreenChange(player) {
-        screenfull.on('change', function () {
-            events.trigger(player, 'fullscreenchange');
-        });
+        if (screenfull.isEnabled) {
+            screenfull.on('change', function () {
+                events.trigger(player, 'fullscreenchange');
+            });
+        }
     }
 
     function triggerPlayerChange(playbackManagerInstance, newPlayer, newTarget, previousPlayer, previousTargetInfo) {

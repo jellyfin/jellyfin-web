@@ -116,13 +116,13 @@ define(["jQuery", "loading", "globalize", "dom", "libraryMenu"], function ($, lo
     function getTabs() {
         return [{
             href: "encodingsettings.html",
-            name: Globalize.translate("Transcoding")
+            name: globalize.translate("Transcoding")
         }, {
             href: "playbackconfiguration.html",
-            name: Globalize.translate("TabResumeSettings")
+            name: globalize.translate("TabResumeSettings")
         }, {
             href: "streamingsettings.html",
-            name: Globalize.translate("TabStreaming")
+            name: globalize.translate("TabStreaming")
         }];
     }
 

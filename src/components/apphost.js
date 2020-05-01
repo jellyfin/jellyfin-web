@@ -1,4 +1,4 @@
-define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], function (appSettings, browser, events, htmlMediaHelper, webSettings) {
+define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings", "globalize"], function (appSettings, browser, events, htmlMediaHelper, webSettings, globalize) {
     "use strict";
 
     function getBaseProfileOptions(item) {
@@ -46,20 +46,9 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
                 if (window.NativeShell) {
                     profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder);
                 } else {
-                    profile = profileBuilder(getBaseProfileOptions(item));
-
-                    if (item && !options.isRetry && "allcomplexformats" !== appSettings.get("subtitleburnin")) {
-                        if (!browser.orsay && !browser.tizen) {
-                            profile.SubtitleProfiles.push({
-                                Format: "ass",
-                                Method: "External"
-                            });
-                            profile.SubtitleProfiles.push({
-                                Format: "ssa",
-                                Method: "External"
-                            });
-                        }
-                    }
+                    var builderOpts = getBaseProfileOptions(item);
+                    builderOpts.enableSsaRender = (item && !options.isRetry && "allcomplexformats" !== appSettings.get("subtitleburnin"));
+                    profile = profileBuilder(builderOpts);
                 }
 
                 resolve(profile);
@@ -328,10 +317,10 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
 
         require(["actionsheet"], function (actionsheet) {
             exitPromise = actionsheet.show({
-                title: Globalize.translate("MessageConfirmAppExit"),
+                title: globalize.translate("MessageConfirmAppExit"),
                 items: [
-                    {id: "yes", name: Globalize.translate("Yes")},
-                    {id: "no", name: Globalize.translate("No")}
+                    {id: "yes", name: globalize.translate("Yes")},
+                    {id: "no", name: globalize.translate("No")}
                 ]
             }).then(function (value) {
                 if (value === "yes") {
@@ -346,7 +335,7 @@ define(["appSettings", "browser", "events", "htmlMediaHelper", "webSettings"], f
     var deviceId;
     var deviceName;
     var appName = "Jellyfin Web";
-    var appVersion = "10.5.0";
+    var appVersion = "10.6.0";
 
     var appHost = {
         getWindowState: function () {

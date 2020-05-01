@@ -1,4 +1,4 @@
-define(["appSettings", "loading", "browser", "emby-button"], function(appSettings, loading, browser) {
+define(["appSettings", "loading", "browser", "globalize", "emby-button"], function(appSettings, loading, browser, globalize) {
     "use strict";
 
     function handleConnectionResult(page, result) {
@@ -17,13 +17,13 @@ define(["appSettings", "loading", "browser", "emby-button"], function(appSetting
                 break;
             case "ServerUpdateNeeded":
                 Dashboard.alert({
-                    message: Globalize.translate("ServerUpdateNeeded", '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
+                    message: globalize.translate("ServerUpdateNeeded", '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
                 });
                 break;
             case "Unavailable":
                 Dashboard.alert({
-                    message: Globalize.translate("MessageUnableToConnectToServer"),
-                    title: Globalize.translate("HeaderConnectionFailure")
+                    message: globalize.translate("MessageUnableToConnectToServer"),
+                    title: globalize.translate("HeaderConnectionFailure")
                 });
         }
     }

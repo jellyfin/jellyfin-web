@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emby-input", "emby-select", "emby-button"], function ($, loading) {
+define(["jQuery", "loading", "globalize", "fnchecked", "emby-checkbox", "emby-textarea", "emby-input", "emby-select", "emby-button"], function ($, loading, globalize) {
     "use strict";
 
     function loadPage(page, config, languageOptions, systemInfo) {
@@ -58,7 +58,7 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                 });
             }, function () {
                 require(["alert"], function (alert) {
-                    alert(Globalize.translate("DefaultErrorMessage"));
+                    alert(globalize.translate("DefaultErrorMessage"));
                 });
 
                 Dashboard.processServerConfigurationUpdateResult();
@@ -83,8 +83,8 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                         picker.close();
                     },
                     validateWriteable: true,
-                    header: Globalize.translate("HeaderSelectServerCachePath"),
-                    instruction: Globalize.translate("HeaderSelectServerCachePathHelp")
+                    header: globalize.translate("HeaderSelectServerCachePath"),
+                    instruction: globalize.translate("HeaderSelectServerCachePathHelp")
                 });
             });
         });
@@ -106,8 +106,8 @@ define(["jQuery", "loading", "fnchecked", "emby-checkbox", "emby-textarea", "emb
                         picker.close();
                     },
                     validateWriteable: true,
-                    header: Globalize.translate("HeaderSelectMetadataPath"),
-                    instruction: Globalize.translate("HeaderSelectMetadataPathHelp"),
+                    header: globalize.translate("HeaderSelectMetadataPath"),
+                    instruction: globalize.translate("HeaderSelectMetadataPathHelp"),
                     enableNetworkSharePath: true
                 });
             });

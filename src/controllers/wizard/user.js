@@ -33,7 +33,7 @@ define(["loading", "globalize", "dashboardcss", "emby-input", "emby-button", "em
 
         if (form.querySelector("#txtManualPassword").value != form.querySelector("#txtPasswordConfirm").value) {
             require(["toast"], function (toast) {
-                toast(Globalize.translate("PasswordMatchError"));
+                toast(globalize.translate("PasswordMatchError"));
             });
         } else {
             submit(form);

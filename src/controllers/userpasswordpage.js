@@ -1,4 +1,4 @@
-define(["loading", "libraryMenu", "emby-button"], function (loading, libraryMenu) {
+define(["loading", "libraryMenu", "globalize", "emby-button"], function (loading, libraryMenu, globalize) {
     "use strict";
 
     function loadUser(page, params) {
@@ -79,7 +79,7 @@ define(["loading", "libraryMenu", "emby-button"], function (loading, libraryMenu
                     loading.hide();
 
                     require(["toast"], function (toast) {
-                        toast(Globalize.translate("MessageSettingsSaved"));
+                        toast(globalize.translate("MessageSettingsSaved"));
                     });
 
                     loadUser(view, params);
@@ -102,15 +102,15 @@ define(["loading", "libraryMenu", "emby-button"], function (loading, libraryMenu
                 loading.hide();
 
                 require(["toast"], function (toast) {
-                    toast(Globalize.translate("PasswordSaved"));
+                    toast(globalize.translate("PasswordSaved"));
                 });
 
                 loadUser(view, params);
             }, function () {
                 loading.hide();
                 Dashboard.alert({
-                    title: Globalize.translate("HeaderLoginFailure"),
-                    message: Globalize.translate("MessageInvalidUser")
+                    title: globalize.translate("HeaderLoginFailure"),
+                    message: globalize.translate("MessageInvalidUser")
                 });
             });
         }
@@ -120,7 +120,7 @@ define(["loading", "libraryMenu", "emby-button"], function (loading, libraryMenu
 
             if (form.querySelector("#txtNewPassword").value != form.querySelector("#txtNewPasswordConfirm").value) {
                 require(["toast"], function (toast) {
-                    toast(Globalize.translate("PasswordMatchError"));
+                    toast(globalize.translate("PasswordMatchError"));
                 });
             } else {
                 loading.show();
@@ -139,17 +139,17 @@ define(["loading", "libraryMenu", "emby-button"], function (loading, libraryMenu
         }
 
         function resetPassword() {
-            var msg = Globalize.translate("PasswordResetConfirmation");
+            var msg = globalize.translate("PasswordResetConfirmation");
 
             require(["confirm"], function (confirm) {
-                confirm(msg, Globalize.translate("PasswordResetHeader")).then(function () {
+                confirm(msg, globalize.translate("PasswordResetHeader")).then(function () {
                     var userId = params.userId;
                     loading.show();
                     ApiClient.resetUserPassword(userId).then(function () {
                         loading.hide();
                         Dashboard.alert({
-                            message: Globalize.translate("PasswordResetComplete"),
-                            title: Globalize.translate("PasswordResetHeader")
+                            message: globalize.translate("PasswordResetComplete"),
+                            title: globalize.translate("PasswordResetHeader")
                         });
                         loadUser(view, params);
                     });
@@ -158,17 +158,17 @@ define(["loading", "libraryMenu", "emby-button"], function (loading, libraryMenu
         }
 
         function resetEasyPassword() {
-            var msg = Globalize.translate("PinCodeResetConfirmation");
+            var msg = globalize.translate("PinCodeResetConfirmation");
 
             require(["confirm"], function (confirm) {
-                confirm(msg, Globalize.translate("HeaderPinCodeReset")).then(function () {
+                confirm(msg, globalize.translate("HeaderPinCodeReset")).then(function () {
                     var userId = params.userId;
                     loading.show();
                     ApiClient.resetEasyPassword(userId).then(function () {
                         loading.hide();
                         Dashboard.alert({
-                            message: Globalize.translate("PinCodeResetComplete"),
-                            title: Globalize.translate("HeaderPinCodeReset")
+                            message: globalize.translate("PinCodeResetComplete"),
+                            title: globalize.translate("HeaderPinCodeReset")
                         });
                         loadUser(view, params);
                     });

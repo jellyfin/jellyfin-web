@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "fnchecked", "emby-button"], function ($, loading) {
+define(["jQuery", "loading", "globalize", "fnchecked", "emby-button"], function ($, loading, globalize) {
     "use strict";
 
     function loadPage(page, config) {
@@ -44,7 +44,7 @@ define(["jQuery", "loading", "fnchecked", "emby-button"], function ($, loading) 
         var msg = "";
 
         if (recordingPathChanged) {
-            msg += Globalize.translate("RecordingPathChangeMessage");
+            msg += globalize.translate("RecordingPathChangeMessage");
         }
 
         if (msg) {

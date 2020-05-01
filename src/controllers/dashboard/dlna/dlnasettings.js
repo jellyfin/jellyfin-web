@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, libraryMenu) {
+define(["jQuery", "loading", "libraryMenu", "globalize", "fnchecked"], function ($, loading, libraryMenu, globalize) {
     "use strict";
 
     function loadPage(page, config, users) {
@@ -34,10 +34,10 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
     function getTabs() {
         return [{
             href: "dlnasettings.html",
-            name: Globalize.translate("TabSettings")
+            name: globalize.translate("TabSettings")
         }, {
             href: "dlnaprofiles.html",
-            name: Globalize.translate("TabProfiles")
+            name: globalize.translate("TabProfiles")
         }];
     }
 
