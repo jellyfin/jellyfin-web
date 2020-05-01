@@ -45,7 +45,6 @@ import 'css!./style';
                 elem.setAttribute("src", url);
             }
 
-            console.warn(userSettings.enableFastFadein());
             if (userSettings.enableFastFadein()) {
                 elem.classList.add('lazy-image-fadein-fast');
             } else {
