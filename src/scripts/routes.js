@@ -73,10 +73,10 @@ define([
         controller: "user/subtitles"
     });
     defineRoute({
-        path: "/mypreferencesquickconnect.html",
+        path: "/myPreferencesQuickConnect.html",
         autoFocus: false,
         transition: "fade",
-        controller: "user/quickconnect"
+        controller: "user/quickConnect"
     });
 
     defineRoute({
@@ -110,10 +110,10 @@ define([
         controller: "device"
     });
     defineRoute({
-        path: "/quickconnect.html",
+        path: "/quickConnect.html",
         autoFocus: false,
         roles: "admin",
-        controller: "quickconnect"
+        controller: "quickConnect"
     });
     defineRoute({
         path: "/dlnaprofile.html",
