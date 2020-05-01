@@ -1473,5 +1473,12 @@
     "BoxSet": "Samleboks",
     "Artist": "Artist",
     "AlbumArtist": "Albumartist",
-    "Album": "Album"
+    "Album": "Album",
+    "LabelLibraryPageSizeHelp": "Velger hvor mange elementer som skal bli vist på en bibliotek side. Velg 0 for å deaktivere.",
+    "LabelLibraryPageSize": "Biblioteks side størrelse:",
+    "LabelDeinterlaceMethod": "Deinterlacing metode:",
+    "HeaderFavoritePlaylists": "Favorittspillelister",
+    "DeinterlaceMethodHelp": "Velg deinterlacing metoden som skal bli brukt når man transkoder interlaced innhold.",
+    "ButtonTogglePlaylist": "Spilleliste",
+    "ButtonToggleContextMenu": "Mer"
 }
