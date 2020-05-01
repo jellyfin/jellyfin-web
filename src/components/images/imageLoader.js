@@ -23,7 +23,7 @@ import 'css!./style';
             source = entry;
         }
 
-        if (entry.intersectionRatio > 0 && source) {
+        if (entry.intersectionRatio > 0) {
             fillImageElement(entry.target, source);
         } else if (!source) {
             emptyImageElement(entry.target);
