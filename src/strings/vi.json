@@ -321,5 +321,6 @@
     "EasyPasswordHelp": "Mã PIN tiện lợi được sử dụng cho việc truy cập offline trên những thiết bị được hỗ trợ và cũng có thể sử dụng dành cho truy cập dễ dàng trong nội mạng.",
     "DropShadow": "Đổ Bóng",
     "DrmChannelsNotImported": "Những kênh được bảo vệ bản quyền sẽ không được nhập vào.",
-    "DownloadsValue": "{0} đã tải xuống"
+    "DownloadsValue": "{0} đã tải xuống",
+    "EnableColorCodedBackgrounds": "Màu nền theo loại kênh"
 }
