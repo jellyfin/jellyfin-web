@@ -334,6 +334,7 @@ define(['browser'], function (browser) {
 
         var canPlayVp8 = videoTestElement.canPlayType('video/webm; codecs="vp8"').replace(/no/, '');
         var canPlayVp9 = videoTestElement.canPlayType('video/webm; codecs="vp9"').replace(/no/, '');
+        var canPlayAv1 = videoTestElement.canPlayType('video/webm; codecs="av1"').replace(/no/, '');
         var webmAudioCodecs = ['vorbis'];
 
         var canPlayMkv = testCanPlayMkv(videoTestElement);
@@ -589,6 +590,15 @@ define(['browser'], function (browser) {
                 Type: 'Video',
                 AudioCodec: webmAudioCodecs.join(','),
                 VideoCodec: 'VP9'
+            });
+        }
+
+        if (canPlayAv1) {
+            profile.DirectPlayProfiles.push({
+                Container: 'webm',
+                Type: 'Video',
+                AudioCodec: webmAudioCodecs.join(','),
+                VideoCodec: 'AV1'
             });
         }
 
