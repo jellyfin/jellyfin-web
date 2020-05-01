@@ -310,5 +310,16 @@
     "DisplayModeHelp": "Chọn kiểu bố trí giao diện mà bạn muốn.",
     "Download": "Tải xuống",
     "Down": "Xuống",
-    "DoNotRecord": "Không ghi lại"
+    "DoNotRecord": "Không ghi lại",
+    "EnableCinemaMode": "Chế độ rạp phim",
+    "EnableBackdropsHelp": "Hiển thị phông nền phía sau một số trang khi xem thư viện.",
+    "EnableBackdrops": "Phông nền",
+    "EditSubtitles": "Chỉnh sửa phụ đề",
+    "EditMetadata": "Chỉnh sửa thông tin",
+    "EditImages": "Chỉnh sửa hình ảnh",
+    "Edit": "Chỉnh sửa",
+    "EasyPasswordHelp": "Mã PIN tiện lợi được sử dụng cho việc truy cập offline trên những thiết bị được hỗ trợ và cũng có thể sử dụng dành cho truy cập dễ dàng trong nội mạng.",
+    "DropShadow": "Đổ Bóng",
+    "DrmChannelsNotImported": "Những kênh được bảo vệ bản quyền sẽ không được nhập vào.",
+    "DownloadsValue": "{0} đã tải xuống"
 }
