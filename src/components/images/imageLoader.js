@@ -1,5 +1,5 @@
-import lazyLoader from 'lazyLoader';
-import userSettings from 'userSettings';
+import * as lazyLoader from 'lazyLoader';
+import * as userSettings from 'userSettings';
 import 'css!./style';
 /* eslint-disable indent */
 
@@ -45,6 +45,7 @@ import 'css!./style';
                 elem.setAttribute("src", url);
             }
 
+            console.warn(userSettings.enableFastFadein());
             if (userSettings.enableFastFadein()) {
                 elem.classList.add('lazy-image-fadein-fast');
             } else {
