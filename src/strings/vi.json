@@ -306,5 +306,6 @@
     "DeleteDeviceConfirmation": "Bạn có chắc chắn muốn xoá thiết bị này? Nó sẽ xuất hiện lại khi người dùng đăng nhập bằng thiết bị đó.",
     "DeinterlaceMethodHelp": "Chọn phương pháp khử xen kẽ khi chuyển mã những nội dung sử dụng phương pháp quét xen kẽ.",
     "DefaultSubtitlesHelp": "Phụ đề được sử dụng dựa vào thiết lập mặc định (default) và bắt buộc (forced) trong phần thông tin bổ trợ. Tuỳ chọn ưu tiên ngôn ngữ sẽ có tác dụng khi có nhiều phụ đề khác nhau.",
-    "DefaultMetadataLangaugeDescription": "Đây là thiết lập mặc định chung, bạn có thể tuỳ chỉnh thiết lập riêng cho từng thư viện."
+    "DefaultMetadataLangaugeDescription": "Đây là thiết lập mặc định chung, bạn có thể tuỳ chỉnh thiết lập riêng cho từng thư viện.",
+    "DisplayModeHelp": "Chọn kiểu bố trí giao diện mà bạn muốn."
 }
