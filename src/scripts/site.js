@@ -576,7 +576,10 @@ var AppInfo = {};
                     require(["components/playback/volumeosd"]);
                 }
 
-                require(["mediaSession", "serverNotifications"]);
+                if (navigator.mediaSession || window.NativeShell) {
+                    require(["mediaSession"]);
+                }
+                require(["serverNotifications"]);
                 require(["date-fns", "date-fns/locale"]);
 
                 if (!browser.tv && !browser.xboxOne) {
