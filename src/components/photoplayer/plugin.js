@@ -23,7 +23,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 var apiClient = connectionManager.currentApiClient();
 
-                apiClient.getCurrentUser().then(function(result){
+                apiClient.getCurrentUser().then(function(result) {
 
                     var newSlideShow = new slideshow({
                         showTitle: false,
