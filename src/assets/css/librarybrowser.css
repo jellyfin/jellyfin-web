@@ -24,6 +24,10 @@
     padding-top: 7em !important;
 }
 
+.layout-mobile .libraryPage {
+    padding-top: 4em !important;
+}
+
 .itemDetailPage {
     padding-top: 0 !important;
 }
@@ -115,7 +119,7 @@
     display: -webkit-inline-box;
     display: -webkit-inline-flex;
     display: inline-flex;
-    margin: 0.3em 0 0 0.5em;
+    margin: 0 0 0 0.5em;
     height: 1.7em;
     -webkit-box-align: center;
     -webkit-align-items: center;
@@ -265,12 +269,6 @@
 
     .dashboardDocument .skinBody {
         left: 20em;
-    }
-}
-
-@media all and (max-width: 60em) {
-    .libraryDocument .mainDrawerButton {
-        display: none;
     }
 }
 
@@ -519,6 +517,13 @@
 
 .itemName {
     margin: 0.5em 0;
+    font-weight: 600;
+}
+
+.nameContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .itemMiscInfo {
@@ -536,7 +541,6 @@
 .layout-mobile .itemName,
 .layout-mobile .itemMiscInfo,
 .layout-mobile .mainDetailButtons {
-    display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -578,7 +582,6 @@
 
 .infoText {
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
 }
@@ -1102,4 +1105,51 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .itemsViewSettingsContainer > .button-flat {
     margin: 0;
+}
+
+.layout-mobile #myPreferencesMenuPage {
+    padding-top: 3.75em;
+}
+
+.itemDetailsGroup {
+    margin-bottom: 1.5em;
+}
+
+.trackSelections {
+    max-width: 44em;
+}
+
+.detailsGroupItem,
+.trackSelections .selectContainer {
+    display: flex;
+    max-width: 44em;
+    margin: 0 0 0.5em !important;
+}
+
+.trackSelections .selectContainer {
+    margin: 0 0 0.3em !important;
+}
+
+.detailsGroupItem .label,
+.trackSelections .selectContainer .selectLabel {
+    cursor: default;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 6.25em;
+    margin: 0 0.6em 0 0;
+}
+
+.trackSelections .selectContainer .selectLabel {
+    margin: 0 0.2em 0 0;
+}
+
+.trackSelections .selectContainer .detailTrackSelect {
+    font-size: inherit;
+    padding: 0;
+    overflow: hidden;
+}
+
+.trackSelections .selectContainer .selectArrowContainer .selectArrow {
+    margin-top: 0;
+    font-size: 1.4em;
 }

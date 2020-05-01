@@ -1,4 +1,4 @@
-define(["dialogHelper", "datetime", "emby-select", "paper-icon-button-light", "formDialogStyle"], function (dialogHelper, datetime) {
+define(["dialogHelper", "datetime", "globalize", "emby-select", "paper-icon-button-light", "formDialogStyle"], function (dialogHelper, datetime, globalize) {
     "use strict";
 
     function getDisplayTime(hours) {
@@ -38,7 +38,7 @@ define(["dialogHelper", "datetime", "emby-select", "paper-icon-button-light", "f
         };
 
         if (parseFloat(updatedSchedule.StartHour) >= parseFloat(updatedSchedule.EndHour)) {
-            return void alert(Globalize.translate("ErrorMessageStartHourGreaterThanEnd"));
+            return void alert(globalize.translate("ErrorMessageStartHourGreaterThanEnd"));
         }
 
         context.submitted = true;
@@ -60,7 +60,7 @@ define(["dialogHelper", "datetime", "emby-select", "paper-icon-button-light", "f
                     });
                     dlg.classList.add("formDialog");
                     var html = "";
-                    html += Globalize.translateDocument(template);
+                    html += globalize.translateDocument(template);
                     dlg.innerHTML = html;
                     populateHours(dlg);
                     loadSchedule(dlg, options.schedule);

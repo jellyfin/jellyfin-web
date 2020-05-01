@@ -5,7 +5,8 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         document.removeEventListener('click', onOneDocumentClick);
         document.removeEventListener('keydown', onOneDocumentClick);
 
-        if (window.Notification) {
+        // don't request notification permissions if they're already granted or denied
+        if (window.Notification && window.Notification.permission === "default") {
             /* eslint-disable-next-line compat/compat */
             Notification.requestPermission();
         }

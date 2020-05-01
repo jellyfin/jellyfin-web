@@ -1,4 +1,4 @@
-define(["events", "loading"], function (events, loading) {
+define(["events", "loading", "globalize"], function (events, loading, globalize) {
     "use strict";
 
     function onListingsSubmitted() {
@@ -17,7 +17,7 @@ define(["events", "loading"], function (events, loading) {
 
     function loadTemplate(page, type, providerId) {
         require(["text!./components/tvproviders/" + type + ".template.html"], function (html) {
-            page.querySelector(".providerTemplate").innerHTML = Globalize.translateDocument(html);
+            page.querySelector(".providerTemplate").innerHTML = globalize.translateDocument(html);
             init(page, type, providerId);
         });
     }

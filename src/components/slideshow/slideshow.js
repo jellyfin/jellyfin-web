@@ -258,6 +258,11 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     direction: 'horizontal',
                     // Loop is disabled due to the virtual slides option not supporting it.
                     loop: false,
+                    zoom: {
+                        minRatio: 1,
+                        toggle: true,
+                        containerClass: 'slider-zoom-container'
+                    },
                     autoplay: !options.interactive,
                     keyboard: {
                         enabled: true

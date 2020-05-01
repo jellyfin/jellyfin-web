@@ -5,7 +5,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
     var currentResolve;
     var currentReject;
 
-    var PlayerName = 'Chromecast';
+    var PlayerName = 'Google Cast';
 
     function sendConnectionResult(isOk) {
 

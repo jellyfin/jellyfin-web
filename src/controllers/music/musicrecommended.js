@@ -1,4 +1,4 @@
-define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "cardBuilder", "dom", "apphost", "imageLoader", "libraryMenu", "playbackManager", "mainTabsManager", "scrollStyles", "emby-itemscontainer", "emby-tabs", "emby-button", "flexStyles"], function (browser, layoutManager, userSettings, inputManager, loading, cardBuilder, dom, appHost, imageLoader, libraryMenu, playbackManager, mainTabsManager) {
+define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "cardBuilder", "dom", "apphost", "imageLoader", "libraryMenu", "playbackManager", "mainTabsManager", "globalize", "scrollStyles", "emby-itemscontainer", "emby-tabs", "emby-button", "flexStyles"], function (browser, layoutManager, userSettings, inputManager, loading, cardBuilder, dom, appHost, imageLoader, libraryMenu, playbackManager, mainTabsManager, globalize) {
     "use strict";
 
     function itemsPerRow() {
@@ -167,21 +167,21 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
 
     function getTabs() {
         return [{
-            name: Globalize.translate("TabSuggestions")
+            name: globalize.translate("TabSuggestions")
         }, {
-            name: Globalize.translate("TabAlbums")
+            name: globalize.translate("TabAlbums")
         }, {
-            name: Globalize.translate("TabAlbumArtists")
+            name: globalize.translate("TabAlbumArtists")
         }, {
-            name: Globalize.translate("TabArtists")
+            name: globalize.translate("TabArtists")
         }, {
-            name: Globalize.translate("TabPlaylists")
+            name: globalize.translate("TabPlaylists")
         }, {
-            name: Globalize.translate("TabSongs")
+            name: globalize.translate("TabSongs")
         }, {
-            name: Globalize.translate("TabGenres")
+            name: globalize.translate("TabGenres")
         }, {
-            name: Globalize.translate("ButtonSearch"),
+            name: globalize.translate("ButtonSearch"),
             cssClass: "searchTabButton"
         }];
     }
@@ -388,8 +388,8 @@ define(["browser", "layoutManager", "userSettings", "inputManager", "loading", "
                         libraryMenu.setTitle(item.Name);
                     });
                 } else {
-                    view.setAttribute("data-title", Globalize.translate("TabMusic"));
-                    libraryMenu.setTitle(Globalize.translate("TabMusic"));
+                    view.setAttribute("data-title", globalize.translate("TabMusic"));
+                    libraryMenu.setTitle(globalize.translate("TabMusic"));
                 }
             }
 

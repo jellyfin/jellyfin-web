@@ -29,6 +29,16 @@
         );
     }
 
+    try {
+        Promise.resolve();
+    } catch (ex) {
+        // this checks for several cases actually, typical is
+        // Promise() being missing on some legacy browser, and a funky one
+        // is Promise() present but buggy on WebOS 2
+        window.Promise = undefined;
+        self.Promise = undefined;
+    }
+
     if (!self.Promise) {
         // Load Promise polyfill if they are not natively supported
         injectScriptElement(

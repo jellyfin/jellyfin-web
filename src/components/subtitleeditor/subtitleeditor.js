@@ -397,7 +397,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         var items = [];
 
         items.push({
-            name: Globalize.translate('Download'),
+            name: globalize.translate('Download'),
             id: 'download'
         });
 

@@ -200,7 +200,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         var apiClient = this;
 
-        if (data.status === 401) {
+        if (data.status === 403) {
             if (data.errorCode === "ParentalControl") {
 
                 var isCurrentAllowed = currentRouteInfo ? (currentRouteInfo.route.anonymous || currentRouteInfo.route.startup) : true;

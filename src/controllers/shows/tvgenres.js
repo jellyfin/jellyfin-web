@@ -113,6 +113,9 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
                         itemsContainer: elem,
                         shape: getPortraitShape(),
                         scalable: true,
+                        showTitle: true,
+                        centerText: true,
+                        showYear: true,
                         overlayMoreButton: true,
                         allowBottomPadding: false
                     });

@@ -45,23 +45,6 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         return null;
     }
 
-    function logoImageUrl(item, apiClient, options) {
-        options = options || {};
-        options.type = "Logo";
-
-        if (item.ImageTags && item.ImageTags.Logo) {
-            options.tag = item.ImageTags.Logo;
-            return apiClient.getScaledImageUrl(item.Id, options);
-        }
-
-        if (item.ParentLogoImageTag) {
-            options.tag = item.ParentLogoImageTag;
-            return apiClient.getScaledImageUrl(item.ParentLogoItemId, options);
-        }
-
-        return null;
-    }
-
     return function (view, params) {
         function onVerticalSwipe(e, elem, data) {
             var player = currentPlayer;
@@ -309,18 +292,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         }
 
         function setTitle(item, parentName) {
-            var url = logoImageUrl(item, connectionManager.getApiClient(item.ServerId), {});
-
-            if (url) {
-                Emby.Page.setTitle("");
-                var pageTitle = document.querySelector(".pageTitle");
-                pageTitle.style.backgroundImage = "url('" + url + "')";
-                pageTitle.classList.add("pageTitleWithLogo");
-                pageTitle.classList.remove("pageTitleWithDefaultLogo");
-                pageTitle.innerHTML = "";
-            } else {
-                Emby.Page.setTitle(parentName || "");
-            }
+            Emby.Page.setTitle(parentName || '');
 
             var documentTitle = parentName || (item ? item.Name : null);
 
@@ -1272,7 +1244,6 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         var programEndDateMs = 0;
         var playbackStartTimeTicks = 0;
         var subtitleSyncOverlay;
-        var volumeSliderTimer;
         var nowPlayingVolumeSlider = view.querySelector(".osdVolumeSlider");
         var nowPlayingVolumeSliderContainer = view.querySelector(".osdVolumeSliderContainer");
         var nowPlayingPositionSlider = view.querySelector(".osdPositionSlider");
@@ -1423,27 +1394,15 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         }
 
         function setVolume() {
-            clearTimeout(volumeSliderTimer);
-            volumeSliderTimer = null;
-
             playbackManager.setVolume(this.value, currentPlayer);
-        }
-
-        function setVolumeDelayed() {
-            if (!volumeSliderTimer) {
-                var that = this;
-                volumeSliderTimer = setTimeout(function () {
-                    setVolume.call(that);
-                }, 700);
-            }
         }
 
         view.querySelector(".buttonMute").addEventListener("click", function () {
             playbackManager.toggleMute(currentPlayer);
         });
         nowPlayingVolumeSlider.addEventListener("change", setVolume);
-        nowPlayingVolumeSlider.addEventListener("mousemove", setVolumeDelayed);
-        nowPlayingVolumeSlider.addEventListener("touchmove", setVolumeDelayed);
+        nowPlayingVolumeSlider.addEventListener("mousemove", setVolume);
+        nowPlayingVolumeSlider.addEventListener("touchmove", setVolume);
 
         nowPlayingPositionSlider.addEventListener("change", function () {
             var player = currentPlayer;

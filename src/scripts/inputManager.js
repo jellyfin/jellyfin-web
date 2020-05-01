@@ -235,6 +235,9 @@ import appHost from 'apphost';
         }
     }
 
+    // Alias for backward compatibility
+    export const trigger = handleCommand;
+
     dom.addEventListener(document, 'click', notify, {
         passive: true
     });

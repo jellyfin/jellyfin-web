@@ -73,7 +73,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }
 
         if (user && user.localUser) {
-            if (headerHomeButton && !layoutManager.mobile) {
+            if (headerHomeButton) {
                 headerHomeButton.classList.remove("hide");
             }
 
@@ -733,8 +733,8 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
     function initHeadRoom(elem) {
         require(["headroom"], function (Headroom) {
-            var headroom = new Headroom([], {});
-            headroom.add(elem);
+            var headroom = new Headroom(elem);
+            headroom.init();
         });
     }
 

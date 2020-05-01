@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "dialogHelper", "dom", "components/libraryoptionseditor/libraryoptionseditor", "emby-button", "listViewStyle", "paper-icon-button-light", "formDialogStyle", "emby-toggle", "flexStyles"], function (jQuery, loading, dialogHelper, dom, libraryoptionseditor) {
+define(["jQuery", "loading", "dialogHelper", "dom", "components/libraryoptionseditor/libraryoptionseditor", "globalize", "emby-button", "listViewStyle", "paper-icon-button-light", "formDialogStyle", "emby-toggle", "flexStyles"], function (jQuery, loading, dialogHelper, dom, libraryoptionseditor, globalize) {
     "use strict";
 
     function onEditLibrary() {
@@ -31,7 +31,7 @@ define(["jQuery", "loading", "dialogHelper", "dom", "components/libraryoptionsed
             refreshLibraryFromServer(page);
         }, function () {
             require(["toast"], function (toast) {
-                toast(Globalize.translate("ErrorAddingMediaPathToVirtualFolder"));
+                toast(globalize.translate("ErrorAddingMediaPathToVirtualFolder"));
             });
         });
     }
@@ -46,7 +46,7 @@ define(["jQuery", "loading", "dialogHelper", "dom", "components/libraryoptionsed
             refreshLibraryFromServer(page);
         }, function () {
             require(["toast"], function (toast) {
-                toast(Globalize.translate("ErrorAddingMediaPathToVirtualFolder"));
+                toast(globalize.translate("ErrorAddingMediaPathToVirtualFolder"));
             });
         });
     }
@@ -57,9 +57,9 @@ define(["jQuery", "loading", "dialogHelper", "dom", "components/libraryoptionsed
 
         require(["confirm"], function (confirm) {
             confirm({
-                title: Globalize.translate("HeaderRemoveMediaLocation"),
-                text: Globalize.translate("MessageConfirmRemoveMediaLocation"),
-                confirmText: Globalize.translate("ButtonDelete"),
+                title: globalize.translate("HeaderRemoveMediaLocation"),
+                text: globalize.translate("MessageConfirmRemoveMediaLocation"),
+                confirmText: globalize.translate("ButtonDelete"),
                 primary: "delete"
             }).then(function () {
                 var refreshAfterChange = currentOptions.refresh;
@@ -68,7 +68,7 @@ define(["jQuery", "loading", "dialogHelper", "dom", "components/libraryoptionsed
                     refreshLibraryFromServer(dom.parentWithClass(button, "dlg-libraryeditor"));
                 }, function () {
                     require(["toast"], function (toast) {
-                        toast(Globalize.translate("DefaultErrorMessage"));
+                        toast(globalize.translate("DefaultErrorMessage"));
                     });
                 });
             });
@@ -213,7 +213,7 @@ define(["jQuery", "loading", "dialogHelper", "dom", "components/libraryoptionsed
                 dlg.classList.add("ui-body-a");
                 dlg.classList.add("background-theme-a");
                 dlg.classList.add("formDialog");
-                dlg.innerHTML = Globalize.translateDocument(template);
+                dlg.innerHTML = globalize.translateDocument(template);
                 dlg.querySelector(".formDialogHeaderTitle").innerHTML = options.library.Name;
                 initEditor(dlg, options);
                 dlg.addEventListener("close", onDialogClosed);
