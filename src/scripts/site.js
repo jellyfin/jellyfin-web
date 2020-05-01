@@ -709,6 +709,7 @@ var AppInfo = {};
             onError: onRequireJsError
         });
 
+        require(["fetch"]);
         require(["polyfill"]);
         require(["fast-text-encoding"]);
         require(["intersection-observer"]);

@@ -1,4 +1,4 @@
-define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "emby-button"], function (UserPasswordPage, loading, libraryMenu, appHost) {
+define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "globalize", "emby-button"], function (UserPasswordPage, loading, libraryMenu, appHost, globalize) {
     "use strict";
 
     function reloadUser(page) {
@@ -37,7 +37,7 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
         switch (evt.target.error.code) {
             case evt.target.error.NOT_FOUND_ERR:
                 require(["toast"], function (toast) {
-                    toast(Globalize.translate("FileNotFound"));
+                    toast(globalize.translate("FileNotFound"));
                 });
                 break;
             case evt.target.error.ABORT_ERR:
@@ -46,7 +46,7 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
             case evt.target.error.NOT_READABLE_ERR:
             default:
                 require(["toast"], function (toast) {
-                    toast(Globalize.translate("FileReadError"));
+                    toast(globalize.translate("FileReadError"));
                 });
         }
     }
@@ -54,7 +54,7 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
     function onFileReaderAbort(evt) {
         loading.hide();
         require(["toast"], function (toast) {
-            toast(Globalize.translate("FileReadCancelled"));
+            toast(globalize.translate("FileReadCancelled"));
         });
     }
 
@@ -86,7 +86,7 @@ define(["controllers/userpasswordpage", "loading", "libraryMenu", "apphost", "em
         new UserPasswordPage(view, params);
         view.querySelector("#btnDeleteImage").addEventListener("click", function () {
             require(["confirm"], function (confirm) {
-                confirm(Globalize.translate("DeleteImageConfirmation"), Globalize.translate("DeleteImage")).then(function () {
+                confirm(globalize.translate("DeleteImageConfirmation"), globalize.translate("DeleteImage")).then(function () {
                     loading.show();
                     var userId = getParameterByName("userId");
                     ApiClient.deleteUserImage(userId, "primary").then(function () {

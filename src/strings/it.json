@@ -1501,5 +1501,7 @@
     "AlbumArtist": "Artisti dell'Album",
     "ReleaseGroup": "Release Group",
     "UnsupportedPlayback": "Jellyfin non è in grado di decriptare i contenuti protetti da DRM ma tutti i contenuti verranno tentati a prescindere, compresi quelli protetti. Alcuni file potrebbero apparire completamente neri a causa della crittografia o di altre funzionalità non supportate, come i titoli interattivi.",
-    "MessageUnauthorizedUser": "Non sei autorizzato ad accedere in questo momento al server. Contatta l'amministratore per ulteriori dettagli."
+    "MessageUnauthorizedUser": "Non sei autorizzato ad accedere in questo momento al server. Contatta l'amministratore per ulteriori dettagli.",
+    "ButtonTogglePlaylist": "Playlist",
+    "ButtonToggleContextMenu": "Altro"
 }

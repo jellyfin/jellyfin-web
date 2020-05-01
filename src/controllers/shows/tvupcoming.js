@@ -1,4 +1,4 @@
-define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder", "apphost", "imageLoader", "scrollStyles", "emby-itemscontainer"], function (layoutManager, loading, datetime, libraryBrowser, cardBuilder, appHost, imageLoader) {
+define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder", "apphost", "imageLoader", "globalize", "scrollStyles", "emby-itemscontainer"], function (layoutManager, loading, datetime, libraryBrowser, cardBuilder, appHost, imageLoader, globalize) {
     "use strict";
 
     function getUpcomingPromise(context, params) {
@@ -52,7 +52,7 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
             if (item.PremiereDate) {
                 try {
                     var premiereDate = datetime.parseISO8601Date(item.PremiereDate, true);
-                    dateText = datetime.isRelativeDay(premiereDate, -1) ? Globalize.translate("Yesterday") : datetime.toLocaleDateString(premiereDate, {
+                    dateText = datetime.isRelativeDay(premiereDate, -1) ? globalize.translate("Yesterday") : datetime.toLocaleDateString(premiereDate, {
                         weekday: "long",
                         month: "short",
                         day: "numeric"

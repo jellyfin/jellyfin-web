@@ -1,4 +1,4 @@
-define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, libraryMenu) {
+define(["jQuery", "loading", "libraryMenu", "globalize", "fnchecked"], function ($, loading, libraryMenu, globalize) {
     "use strict";
 
     function triggerChange(select) {
@@ -9,7 +9,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
 
     function loadMediaFolders(page, user, mediaFolders) {
         var html = "";
-        html += '<h3 class="checkboxListLabel">' + Globalize.translate("HeaderLibraries") + "</h3>";
+        html += '<h3 class="checkboxListLabel">' + globalize.translate("HeaderLibraries") + "</h3>";
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
         for (var i = 0, length = mediaFolders.length; i < length; i++) {
@@ -28,7 +28,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
 
     function loadChannels(page, user, channels) {
         var html = "";
-        html += '<h3 class="checkboxListLabel">' + Globalize.translate("HeaderChannels") + "</h3>";
+        html += '<h3 class="checkboxListLabel">' + globalize.translate("HeaderChannels") + "</h3>";
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
         for (var i = 0, length = channels.length; i < length; i++) {
@@ -52,7 +52,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
 
     function loadDevices(page, user, devices) {
         var html = "";
-        html += '<h3 class="checkboxListLabel">' + Globalize.translate("HeaderDevices") + "</h3>";
+        html += '<h3 class="checkboxListLabel">' + globalize.translate("HeaderDevices") + "</h3>";
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
         for (var i = 0, length = devices.length; i < length; i++) {
@@ -85,7 +85,7 @@ define(["jQuery", "loading", "libraryMenu", "fnchecked"], function ($, loading, 
         loading.hide();
 
         require(["toast"], function (toast) {
-            toast(Globalize.translate("SettingsSaved"));
+            toast(globalize.translate("SettingsSaved"));
         });
     }
 
