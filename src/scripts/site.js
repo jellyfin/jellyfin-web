@@ -646,7 +646,6 @@ var AppInfo = {};
             medialibraryeditor: componentsPath + "/medialibraryeditor/medialibraryeditor",
             imageoptionseditor: componentsPath + "/imageoptionseditor/imageoptionseditor",
             apphost: componentsPath + "/apphost",
-            visibleinviewport: bowerPath + "/visibleinviewport",
             qualityoptions: componentsPath + "/qualityoptions",
             focusManager: componentsPath + "/focusManager",
             itemHelper: componentsPath + "/itemhelper",
