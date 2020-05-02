@@ -181,9 +181,8 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
             return;
         }
 
-        let icons = ["arrow_downward", "arrow_upward"];
-        if (values.sortOrder === 'Descending') icons = icons.reverse();
-        btnSortIcon.classList.replace(icons[0], icons[1]);
+        btnSortIcon.classList.remove('arrow_downward', 'arrow_upward');
+        btnSortIcon.classList.add(values.sortOrder === 'Descending' ? 'arrow_downward' : 'arrow_upward');
     }
 
     function bindAll(elems, eventName, fn) {

@@ -571,9 +571,9 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 row.querySelector(".btnSessionStop").classList.add("hide");
             }
 
-            let icons = ["play_arrow", "pause"];
-            if (session.PlayState && session.PlayState.IsPaused) icons = icons.reverse();
-            btnSessionPlayPause.querySelector(".material-icons").classList.replace(icons[0], icons[1]);
+            const btnSessionPlayPauseIcon = btnSessionPlayPause.querySelector(".material-icons");
+            btnSessionPlayPauseIcon.classList.remove("play_arrow", "pause");
+            btnSessionPlayPauseIcon.classList.add(session.PlayState && session.PlayState.IsPaused ? "play_arrow" : "pause");
 
             row.querySelector(".sessionNowPlayingStreamInfo").innerHTML = DashboardPage.getSessionNowPlayingStreamInfo(session);
             row.querySelector(".sessionNowPlayingTime").innerHTML = DashboardPage.getSessionNowPlayingTime(session);

@@ -280,11 +280,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function updatePlayPauseState(isPaused) {
         if (playPauseButtons) {
-            let icons = ['play_arrow', 'pause'];
-            if (isPaused) icons = icons.reverse();
-
             playPauseButtons.forEach((button) => {
-                button.querySelector('.material-icons').classList.replace(icons[0], icons[1]);
+                const icon = button.querySelector('.material-icons');
+                icon.classList.remove('play_arrow', 'pause');
+                icon.classList.add(isPaused ? 'play_arrow' : 'pause');
             });
         }
     }
@@ -387,9 +386,9 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             showMuteButton = false;
         }
 
-        let icons = ['volume_off', 'volume_up'];
-        if (isMuted) icons = icons.reverse();
-        muteButton.querySelector('.material-icons').classList.replace(icons[0], icons[1]);
+        const muteButtonIcon = muteButton.querySelector('.material-icons');
+        muteButtonIcon.classList.remove('volume_off', 'volume_up');
+        muteButtonIcon.classList.add(isMuted ? 'volume_off' : 'volume_up');
 
         if (supportedCommands.indexOf('SetVolume') === -1) {
             showVolumeSlider = false;

@@ -616,12 +616,14 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         var info = playbackManager.getPlayerInfo();
         var icon = headerCastButton.querySelector(".material-icons");
 
+        icon.classList.remove("cast_connected", "cast");
+
         if (info && !info.isLocalPlayer) {
-            icon.classList.replace("cast", "cast_connected");
+            icon.classList.add("cast_connected");
             headerCastButton.classList.add("castButton-active");
             context.querySelector(".headerSelectedPlayer").innerHTML = info.deviceName || info.name;
         } else {
-            icon.classList.replace("cast_connected", "cast");
+            icon.classList.add("cast");
             headerCastButton.classList.remove("castButton-active");
             context.querySelector(".headerSelectedPlayer").innerHTML = "";
         }

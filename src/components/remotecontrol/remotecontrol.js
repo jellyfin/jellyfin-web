@@ -349,18 +349,23 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 showVolumeSlider = false;
             }
 
+            const buttonMute = view.querySelector(".buttonMute");
+            const buttonMuteIcon = buttonMute.querySelector(".material-icons");
+
+            buttonMuteIcon.classList.remove("volume_off", "volume_up");
+
             if (isMuted) {
-                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute"));
-                view.querySelector(".buttonMute .material-icons").classList.replace("volume_up", "volume_off");
+                buttonMute.setAttribute("title", globalize.translate("Unmute"));
+                buttonMuteIcon.classList.add("volume_off");
             } else {
-                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute"));
-                view.querySelector(".buttonMute .material-icons").classList.replace("volume_off", "volume_up");
+                buttonMute.setAttribute("title", globalize.translate("Mute"));
+                buttonMuteIcon.classList.add("volume_up");
             }
 
             if (showMuteButton) {
-                view.querySelector(".buttonMute").classList.remove("hide");
+                buttonMute.classList.remove("hide");
             } else {
-                view.querySelector(".buttonMute").classList.add("hide");
+                buttonMute.classList.add("hide");
             }
 
             var nowPlayingVolumeSlider = context.querySelector(".nowPlayingVolumeSlider");
@@ -382,9 +387,11 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         function updatePlayPauseState(isPaused, isActive) {
             var context = dlg;
             var btnPlayPause = context.querySelector(".btnPlayPause");
-            let icons = ["play_circle_filled", "pause_circle_filled"];
-            if (isPaused) icons = icons.reverse();
-            btnPlayPause.querySelector(".material-icons").classList.replace(icons[0], icons[1]);
+            const btnPlayPauseIcon = btnPlayPause.querySelector(".material-icons");
+
+            btnPlayPauseIcon.classList.remove("play_circle_filled", "pause_circle_filled");
+            btnPlayPauseIcon.classList.add(isPaused ? "play_circle_filled" : "pause_circle_filled");
+
             buttonVisible(btnPlayPause, isActive);
         }
 

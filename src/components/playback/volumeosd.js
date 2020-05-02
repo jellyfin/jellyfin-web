@@ -101,9 +101,8 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
     function updatePlayerVolumeState(isMuted, volume) {
 
         if (iconElement) {
-            let icons = ["volume_off", "volume_up"];
-            if (isMuted) icons = icons.reverse();
-            iconElement.classList.replace(icons[0], icons[1]);
+            iconElement.classList.remove('volume_off', 'volume_up');
+            iconElement.classList.add(isMuted ? 'volume_off' : 'volume_up');
         }
         if (progressElement) {
             progressElement.style.width = (volume || 0) + '%';
