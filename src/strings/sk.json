@@ -1500,5 +1500,12 @@
     "Artist": "Umelec",
     "AlbumArtist": "Umelec albumu",
     "LabelLibraryPageSizeHelp": "Určuje množstvo položiek na zobrazenie na stránke knižnice. Nastavte 0 pre vypnutie stránkovania.",
-    "LabelLibraryPageSize": "Veľkosť stránky knižnice:"
+    "LabelLibraryPageSize": "Veľkosť stránky knižnice:",
+    "MessageUnauthorizedUser": "Momentálne nemáte oprávnenie na prístup k serveru. Prosím, kontaktujte svojho administrátora serveru pre viac informácií.",
+    "UnsupportedPlayback": "Jellyfin nemôže dešifrovať obsah chránený technológiou DRM, ale pokúsi sa o to, vrátane chránených titulov. Niektoré súbory sa môžu zobraziť ako kompletne čierne z dôvodu, že sú zašifrované alebo obsahujú nepodporované funckie, ako napríklad interaktívne funkcie.",
+    "Filter": "Filter",
+    "New": "Nové",
+    "HeaderFavoritePlaylists": "Obľúbené playlisty",
+    "ButtonTogglePlaylist": "Playlist",
+    "ButtonToggleContextMenu": "Viac"
 }
