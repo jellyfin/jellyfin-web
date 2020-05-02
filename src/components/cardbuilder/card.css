@@ -209,7 +209,7 @@ button::-moz-focus-inner {
 }
 
 .cardContent:not(.defaultCardBackground) {
-    background-color: #202020;
+    background-color: #242424;
 }
 
 .visualCardBox .cardContent {
