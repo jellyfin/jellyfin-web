@@ -142,6 +142,6 @@
 
 .slider-zoom-container {
     margin: auto;
-    max-height: 100% !important;
-    max-width: 100% !important;
+    max-height: 100%;
+    max-width: 100%;
 }
