@@ -215,7 +215,7 @@ button::-moz-focus-inner {
 }
 
 .cardContent-button:not(.defaultCardBackground) {
-    background-color: transparent;
+    background-color: #202020;
 }
 
 .visualCardBox .cardContent {
