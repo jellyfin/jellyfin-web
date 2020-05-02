@@ -192,9 +192,14 @@ button::-moz-focus-inner {
 
     /* Needed in case this is a button */
     display: block;
-
-    /* Needed in case this is a button */
     margin: 0 !important;
+    border: 0 !important;
+    padding: 0 !important;
+    cursor: pointer;
+    color: inherit;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
 
     /* Needed in safari */
     height: 100%;
@@ -203,18 +208,7 @@ button::-moz-focus-inner {
     contain: strict;
 }
 
-.cardContent-button {
-    border: 0 !important;
-    padding: 0 !important;
-    cursor: pointer;
-    color: inherit;
-    width: 100%;
-    vertical-align: middle;
-    font-family: inherit;
-    font-size: inherit;
-}
-
-.cardContent-button:not(.defaultCardBackground) {
+.cardContent:not(.defaultCardBackground) {
     background-color: #202020;
 }
 

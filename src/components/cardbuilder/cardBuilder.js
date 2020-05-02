@@ -1377,7 +1377,6 @@ import 'programStyles';
             }
 
             if (layoutManager.tv) {
-
                 // Don't use the IMG tag with safari because it puts a white border around it
                 cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
 
