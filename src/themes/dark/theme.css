@@ -421,8 +421,7 @@ html {
     color: #4285f4;
 }
 
-.card:focus .cardBox.visualCardBox,
-.card:focus .cardBox:not(.visualCardBox) .cardScalable {
+.card:focus .cardBox.visualCardBox {
     border-color: #00a4dc !important;
 }
 

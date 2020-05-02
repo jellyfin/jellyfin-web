@@ -122,8 +122,8 @@ html {
 }
 
 .paperList,
-.visualCardBox {
-    background-color: #fff;
+.visualCardBox,
+.cardContent:not(.defaultCardBackground) {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
