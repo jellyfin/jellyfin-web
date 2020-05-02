@@ -288,10 +288,10 @@ var AppInfo = {};
                 if (!AppInfo.isNativeApp) {
                     console.debug("loading ApiClient singleton");
 
-                    return require(["apiclient"], function (apiClientModule) {
+                    return require(["apiclient"], function (apiClientFactory) {
                         console.debug("creating ApiClient singleton");
 
-                        var apiClient = new apiClientModule.ApiClient(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId());
+                        var apiClient = new apiClientFactory(Dashboard.serverAddress(), apphost.appName(), apphost.appVersion(), apphost.deviceName(), apphost.deviceId());
 
                         apiClient.enableAutomaticNetworking = false;
                         apiClient.manualAddressOnly = true;
