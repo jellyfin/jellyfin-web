@@ -73,7 +73,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         if (item.BackdropImageTags && item.BackdropImageTags.length) {
             return getBackdropImageUrl(item, imageOptions, apiClient);
         } else {
-            if (item.MediaType === 'Photo' && user.Policy.EnableContentDownloading) {
+            if (item.MediaType === 'Photo' && user && user.Policy.EnableContentDownloading) {
                 return apiClient.getItemDownloadUrl(item.Id);
             }
             imageOptions.type = "Primary";
@@ -155,7 +155,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                 html += '<div class="topActionButtons">';
                 if (actionButtonsOnTop) {
-                    if (appHost.supports('filedownload') && options.user.Policy.EnableContentDownloading) {
+                    if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
                         html += getIcon('file_download', 'btnDownload slideshowButton', true);
                     }
                     if (appHost.supports('sharing')) {
@@ -169,7 +169,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     html += '<div class="slideshowBottomBar hide">';
 
                     html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
-                    if (appHost.supports('filedownload') && options.user.Policy.EnableContentDownloading) {
+                    if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
                         html += getIcon('file_download', 'btnDownload slideshowButton', true);
                     }
                     if (appHost.supports('sharing')) {
