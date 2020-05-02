@@ -24,7 +24,7 @@ import 'css!./style';
         }
 
         if (entry.intersectionRatio > 0) {
-            fillImageElement(entry.target, source);
+            if (source) fillImageElement(entry.target, source);
         } else if (!source) {
             emptyImageElement(entry.target);
         }
