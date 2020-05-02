@@ -212,13 +212,13 @@ button::-moz-focus-inner {
     background-color: #242424;
 }
 
-.backdropCard .cardContent:not(.defaultCardBackground) {
-    background-color: transparent;
-}
-
 .visualCardBox .cardContent {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+}
+
+.backdropCard .cardContent:not(.defaultCardBackground) {
+    background-color: transparent;
 }
 
 .cardContent-shadow {
