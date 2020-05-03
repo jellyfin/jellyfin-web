@@ -837,7 +837,7 @@ var AppInfo = {};
         define("playbackManager", [componentsPath + "/playback/playbackmanager"], getPlaybackManager);
         define("layoutManager", [componentsPath + "/layoutManager", "apphost"], getLayoutManager);
         define("homeSections", [componentsPath + "/homesections/homesections"], returnFirstDependency);
-        define("playMenu", [componentsPath + "/playmenu"], returnFirstDependency);
+        define("playMenu", [componentsPath + "/playMenu"], returnFirstDependency);
         define("refreshDialog", [componentsPath + "/refreshdialog/refreshdialog"], returnFirstDependency);
         define("backdrop", [componentsPath + "/backdrop/backdrop"], returnFirstDependency);
         define("fetchHelper", [componentsPath + "/fetchhelper"], returnFirstDependency);
