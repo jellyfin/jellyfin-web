@@ -1,66 +1,58 @@
-// define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (connectionManager, confirm, appRouter, globalize) {
-    import connectionManager from 'connectionManager';
-    import confirm from 'confirm';
-    import appRouter from 'appRouter';
-    import globalize from 'globalize';
-    // 'use strict';
+import connectionManager from 'connectionManager';
+import confirm from 'confirm';
+import appRouter from 'appRouter';
+import globalize from 'globalize';
 
-    function alertText(options) {
+function alertText(options) {
 
-        return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
 
-            require(['alert'], function (alert) {
-                alert(options).then(resolve, resolve);
-            });
+        require(['alert'], function (alert) {
+            alert(options).then(resolve, resolve);
         });
-    }
+    });
+}
 
-    export function deleteItem(options) {
+export function deleteItem(options) {
 
-        var item = options.item;
-        var itemId = item.Id;
-        var parentId = item.SeasonId || item.SeriesId || item.ParentId;
-        var serverId = item.ServerId;
+    var item = options.item;
+    var itemId = item.Id;
+    var parentId = item.SeasonId || item.SeriesId || item.ParentId;
+    var serverId = item.ServerId;
 
-        var msg = globalize.translate('ConfirmDeleteItem');
-        var title = globalize.translate('HeaderDeleteItem');
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+    var msg = globalize.translate('ConfirmDeleteItem');
+    var title = globalize.translate('HeaderDeleteItem');
+    var apiClient = connectionManager.getApiClient(item.ServerId);
 
-        return confirm({
+    return confirm({
 
-            title: title,
-            text: msg,
-            confirmText: globalize.translate('Delete'),
-            primary: 'delete'
+        title: title,
+        text: msg,
+        confirmText: globalize.translate('Delete'),
+        primary: 'delete'
 
-        }).then(function () {
+    }).then(function () {
 
-            return apiClient.deleteItem(itemId).then(function () {
+        return apiClient.deleteItem(itemId).then(function () {
 
-                if (options.navigate) {
-                    if (parentId) {
-                        appRouter.showItem(parentId, serverId);
-                    } else {
-                        appRouter.goHome();
-                    }
+            if (options.navigate) {
+                if (parentId) {
+                    appRouter.showItem(parentId, serverId);
+                } else {
+                    appRouter.goHome();
                 }
-            }, function (err) {
+            }
+        }, function (err) {
 
-                var result = function () {
-                    return Promise.reject(err);
-                };
+            var result = function () {
+                return Promise.reject(err);
+            };
 
-                return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
-            });
+            return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
         });
-    }
+    });
+}
 
-    export default {
-        deleteItem: deleteItem
-    };
-
-
-//     return {
-//         deleteItem: deleteItem
-//     };
-// });
+export default {
+    deleteItem: deleteItem
+};
