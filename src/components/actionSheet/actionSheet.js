@@ -1,7 +1,6 @@
 import dialogHelper from 'dialogHelper';
 import layoutManager from 'layoutManager';
 import globalize from 'globalize';
-// import browser from 'browser';
 import dom from 'dom';
 import 'emby-button';
 import 'css!./actionSheet';
@@ -11,19 +10,14 @@ import 'listViewStyle';
 
 function getOffsets(elems) {
 
-    var doc = document;
     var results = [];
 
-    if (!doc) {
+    if (!document) {
         return results;
     }
 
     var box;
-    var elem;
-
-    for (var i = 0, length = elems.length; i < length; i++) {
-
-        elem = elems[i];
+    for (let elem in elems) {
         // Support: BlackBerry 5, iOS 3 (original iPhone)
         // If we don't have gBCR, just use 0,0 rather than error
         if (elem.getBoundingClientRect) {
@@ -147,17 +141,12 @@ export function show(options) {
         style += "min-width:" + minWidth + "px;";
     }
 
-    var i;
-    var length;
-    var option;
     var renderIcon = false;
     var icons = [];
     var itemIcon;
-    for (i = 0, length = options.items.length; i < length; i++) {
+    for (let item in options.items) {
 
-        option = options.items[i];
-
-        itemIcon = option.icon || (option.selected ? 'check' : null);
+        itemIcon = item.icon || (item.selected ? 'check' : null);
 
         if (itemIcon) {
             renderIcon = true;
@@ -214,20 +203,18 @@ export function show(options) {
         menuItemClass += ' actionsheet-xlargeFont';
     }
 
-    for (i = 0, length = options.items.length; i < length; i++) {
+    for (let item in options.items) {
 
-        option = options.items[i];
-
-        if (option.divider) {
+        if (item.divider) {
 
             html += '<div class="actionsheetDivider"></div>';
             continue;
         }
 
-        var autoFocus = option.selected && layoutManager.tv ? ' autoFocus' : '';
+        var autoFocus = item.selected && layoutManager.tv ? ' autoFocus' : '';
 
         // Check for null in case int 0 was passed in
-        var optionId = option.id == null || option.id === '' ? option.value : option.id;
+        var optionId = item.id == null || item.id === '' ? item.value : item.id;
         html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
 
         itemIcon = icons[i];
@@ -242,20 +229,20 @@ export function show(options) {
         html += '<div class="listItemBody actionsheetListItemBody">';
 
         html += '<div class="listItemBodyText actionSheetItemText">';
-        html += (option.name || option.textContent || option.innerText);
+        html += (item.name || item.textContent || item.innerText);
         html += '</div>';
 
-        if (option.secondaryText) {
+        if (item.secondaryText) {
             html += '<div class="listItemBodyText secondary">';
-            html += option.secondaryText;
+            html += item.secondaryText;
             html += '</div>';
         }
 
         html += '</div>';
 
-        if (option.asideText) {
+        if (item.asideText) {
             html += '<div class="listItemAside actionSheetItemAsideText">';
-            html += option.asideText;
+            html += item.asideText;
             html += '</div>';
         }
 

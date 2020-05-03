@@ -2,25 +2,19 @@ import actionsheet from 'actionsheet';
 import datetime from 'datetime';
 import playbackManager from 'playbackManager';
 import globalize from 'globalize';
-// import appSettings from 'appSettings';
 
 export function show(options) {
 
     var item = options.item;
 
-    var itemType = item.Type;
-    var isFolder = item.IsFolder;
-    var itemId = item.Id;
-    var channelId = item.ChannelId;
-    var serverId = item.ServerId;
     var resumePositionTicks = item.UserData ? item.UserData.PlaybackPositionTicks : null;
 
-    var playableItemId = itemType === 'Program' ? channelId : itemId;
+    var playableItemId = item.Type === 'Program' ? item.ChannelId : item.Id;
 
-    if (!resumePositionTicks || isFolder) {
+    if (!resumePositionTicks || item.IsFolder) {
         playbackManager.play({
             ids: [playableItemId],
-            serverId: serverId
+            serverId: item.ServerId
         });
         return;
     }
@@ -46,28 +40,28 @@ export function show(options) {
         switch (id) {
 
             case 'play':
-            playbackManager.play({
-                ids: [playableItemId],
-                serverId: serverId
-            });
-            break;
+                playbackManager.play({
+                    ids: [playableItemId],
+                    serverId: item.ServerId
+                });
+                break;
             case 'resume':
-            playbackManager.play({
-                ids: [playableItemId],
-                startPositionTicks: resumePositionTicks,
-                serverId: serverId
-            });
-            break;
+                playbackManager.play({
+                    ids: [playableItemId],
+                    startPositionTicks: resumePositionTicks,
+                    serverId: item.ServerId
+                });
+                break;
             case 'queue':
-            playbackManager.queue({
-                items: [item]
-            });
-            break;
+                playbackManager.queue({
+                    items: [item]
+                });
+                break;
             case 'shuffle':
-            playbackManager.shuffle(item);
-            break;
+                playbackManager.shuffle(item);
+                break;
             default:
-            break;
+                break;
         }
     });
 }

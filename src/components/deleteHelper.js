@@ -16,28 +16,24 @@ function alertText(options) {
 export function deleteItem(options) {
 
     var item = options.item;
-    var itemId = item.Id;
     var parentId = item.SeasonId || item.SeriesId || item.ParentId;
-    var serverId = item.ServerId;
 
-    var msg = globalize.translate('ConfirmDeleteItem');
-    var title = globalize.translate('HeaderDeleteItem');
     var apiClient = connectionManager.getApiClient(item.ServerId);
 
     return confirm({
 
-        title: title,
-        text: msg,
+        title: globalize.translate('HeaderDeleteItem'),
+        text: globalize.translate('ConfirmDeleteItem'),
         confirmText: globalize.translate('Delete'),
         primary: 'delete'
 
     }).then(function () {
 
-        return apiClient.deleteItem(itemId).then(function () {
+        return apiClient.deleteItem(item.Id).then(function () {
 
             if (options.navigate) {
                 if (parentId) {
-                    appRouter.showItem(parentId, serverId);
+                    appRouter.showItem(parentId, item.ServerId);
                 } else {
                     appRouter.goHome();
                 }
