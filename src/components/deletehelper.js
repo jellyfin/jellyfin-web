@@ -1,5 +1,9 @@
-define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (connectionManager, confirm, appRouter, globalize) {
-    'use strict';
+// define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (connectionManager, confirm, appRouter, globalize) {
+    import connectionManager from 'connectionManager';
+    import confirm from 'confirm';
+    import appRouter from 'appRouter';
+    import globalize from 'globalize';
+    // 'use strict';
 
     function alertText(options) {
 
@@ -11,7 +15,7 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
         });
     }
 
-    function deleteItem(options) {
+    export function deleteItem(options) {
 
         var item = options.item;
         var itemId = item.Id;
@@ -51,7 +55,12 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
         });
     }
 
-    return {
+    export default {
         deleteItem: deleteItem
     };
-});
+
+
+//     return {
+//         deleteItem: deleteItem
+//     };
+// });
