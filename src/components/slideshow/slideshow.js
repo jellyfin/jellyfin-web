@@ -66,14 +66,14 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
      * @param {object} item - Item used to generate the image URL.
      * @returns {string} URL of the item's image.
      */
-    function getImgUrl(item) {
+    function getImgUrl(item, user) {
         var apiClient = connectionManager.getApiClient(item.ServerId);
         var imageOptions = {};
 
         if (item.BackdropImageTags && item.BackdropImageTags.length) {
             return getBackdropImageUrl(item, imageOptions, apiClient);
         } else {
-            if (item.MediaType === 'Photo') {
+            if (item.MediaType === 'Photo' && user && user.Policy.EnableContentDownloading) {
                 return apiClient.getItemDownloadUrl(item.Id);
             }
             imageOptions.type = "Primary";
@@ -155,7 +155,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                 html += '<div class="topActionButtons">';
                 if (actionButtonsOnTop) {
-                    if (appHost.supports('filedownload')) {
+                    if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
                         html += getIcon('file_download', 'btnDownload slideshowButton', true);
                     }
                     if (appHost.supports('sharing')) {
@@ -169,7 +169,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     html += '<div class="slideshowBottomBar hide">';
 
                     html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
-                    if (appHost.supports('filedownload')) {
+                    if (appHost.supports('filedownload') && options.user && options.user.Policy.EnableContentDownloading) {
                         html += getIcon('file_download', 'btnDownload slideshowButton', true);
                     }
                     if (appHost.supports('sharing')) {
@@ -312,7 +312,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          */
         function getSwiperSlideHtmlFromItem(item) {
             return getSwiperSlideHtmlFromSlide({
-                originalImage: getImgUrl(item),
+                originalImage: getImgUrl(item, currentOptions.user),
                 //title: item.Name,
                 //description: item.Overview
                 Id: item.Id,
