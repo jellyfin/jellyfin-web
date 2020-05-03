@@ -791,7 +791,7 @@ var AppInfo = {};
 
         define("chromecastHelper", [componentsPath + "/chromecast/chromecasthelpers"], returnFirstDependency);
         define("mediaSession", [componentsPath + "/playback/mediasession"], returnFirstDependency);
-        define("actionsheet", [componentsPath + "/actionsheet/actionsheet"], returnFirstDependency);
+        define("actionsheet", [componentsPath + "/actionSheet/actionSheet"], returnFirstDependency);
         define("tunerPicker", [componentsPath + "/tunerpicker"], returnFirstDependency);
         define("mainTabsManager", [componentsPath + "/maintabsmanager"], returnFirstDependency);
         define("imageLoader", [componentsPath + "/images/imageLoader"], returnFirstDependency);
