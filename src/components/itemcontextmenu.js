@@ -15,7 +15,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                 commands.push({
                     name: globalize.translate("Play"),
                     id: "resume",
-                    icon: "&#xE037;"
+                    icon: "play_arrow"
                 });
             }
 
@@ -23,7 +23,7 @@ define(["apphost", "globalize", "connectionManager", "itemHelper", "appRouter", 
                 commands.push({
                     name: globalize.translate("PlayAllFromHere"),
                     id: "playallfromhere",
-                    icon: "&#xE037;"
+                    icon: "play_arrow"
                 });
             }
         }

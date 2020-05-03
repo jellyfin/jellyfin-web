@@ -32,7 +32,7 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
         for (var i = 0, length = profiles.length; i < length; i++) {
             var profile = profiles[i];
             html += '<div class="listItem listItem-border">';
-            html += '<i class="listItemIcon material-icons live_tv"></i>';
+            html += '<span class="listItemIcon material-icons live_tv"></span>';
             html += '<div class="listItemBody two-line">';
             html += "<a is='emby-linkbutton' style='padding:0;margin:0;' data-ripple='false' class='clearLink' href='dlnaprofile.html?id=" + profile.Id + "'>";
             html += "<div>" + profile.Name + "</div>";
@@ -40,7 +40,7 @@ define(["jQuery", "globalize", "loading", "libraryMenu", "listViewStyle", "emby-
             html += "</div>";
 
             if ("User" == profile.Type) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate("ButtonDelete") + '"><i class="material-icons">delete</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnDeleteProfile" data-profileid="' + profile.Id + '" title="' + globalize.translate("ButtonDelete") + '"><span class="material-icons delete"></span></button>';
             }
 
             html += "</div>";

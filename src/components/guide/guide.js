@@ -415,7 +415,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var status;
 
             if (item.Type === 'SeriesTimer') {
-                return '<i class="material-icons programIcon seriesTimerIcon fiber_smart_record"></i>';
+                return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record"></span>';
             } else if (item.TimerId || item.SeriesTimerId) {
 
                 status = item.Status || 'Cancelled';
@@ -429,13 +429,13 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             if (item.SeriesTimerId) {
 
                 if (status !== 'Cancelled') {
-                    return '<i class="material-icons programIcon seriesTimerIcon fiber_smart_record"></i>';
+                    return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record"></span>';
                 }
 
-                return '<i class="material-icons programIcon seriesTimerIcon seriesTimerIcon-inactive fiber_smart_record"></i>';
+                return '<span class="material-icons programIcon seriesTimerIcon seriesTimerIcon-inactive fiber_smart_record"></span>';
             }
 
-            return '<i class="material-icons programIcon timerIcon fiber_manual_record"></i>';
+            return '<span class="material-icons programIcon timerIcon fiber_manual_record"></span>';
         }
 
         function getChannelProgramsHtml(context, date, channel, programs, options, listInfo) {
@@ -549,7 +549,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                     html += '<div class="' + guideProgramNameClass + '">';
 
-                    html += '<div class="guide-programNameCaret hide"><i class="guideProgramNameCaretIcon material-icons keyboard_arrow_left"></i></div>';
+                    html += '<div class="guide-programNameCaret hide"><span class="guideProgramNameCaretIcon material-icons keyboard_arrow_left"></span></div>';
 
                     html += '<div class="guideProgramNameText">' + program.Name;
 
@@ -577,7 +577,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     html += '</div>';
 
                     if (program.IsHD && options.showHdIcon) {
-                        //html += '<i class="guideHdIcon material-icons programIcon">hd</i>';
+                        //html += '<span class="guideHdIcon material-icons programIcon hd"></span>';
                         if (layoutManager.tv) {
                             html += '<div class="programIcon guide-programTextIcon guide-programTextIcon-tv">HD</div>';
                         } else {
@@ -1105,7 +1105,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                 var icon = cell.querySelector('.timerIcon');
                 if (!icon) {
-                    cell.querySelector('.guideProgramName').insertAdjacentHTML('beforeend', '<i class="timerIcon material-icons programIcon fiber_manual_record"></i>');
+                    cell.querySelector('.guideProgramName').insertAdjacentHTML('beforeend', '<span class="timerIcon material-icons programIcon fiber_manual_record"></span>');
                 }
 
                 if (newTimerId) {

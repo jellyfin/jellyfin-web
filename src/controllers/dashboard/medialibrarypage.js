@@ -268,7 +268,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
             hasCardImageContainer = true;
         } else if (!virtualFolder.showNameWithIcon) {
             html += '<div class="cardImageContainer editLibrary" style="cursor:pointer;">';
-            html += '<i class="cardImageIcon-small material-icons">' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + "</i>";
+            html += '<span class="cardImageIcon-small material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '"></span>';
             hasCardImageContainer = true;
         }
 
@@ -281,7 +281,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
 
         if (!imgUrl && virtualFolder.showNameWithIcon) {
             html += '<h3 class="cardImageContainer addLibrary" style="position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;flex-direction:column;">';
-            html += '<i class="cardImageIcon-small material-icons">' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + "</i>";
+            html += '<span class="cardImageIcon-small material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '"></span>';
 
             if (virtualFolder.showNameWithIcon) {
                 html += '<div style="margin:1em 0;position:width:100%;">';
@@ -298,7 +298,7 @@ define(["jQuery", "apphost", "scripts/taskbutton", "loading", "libraryMenu", "gl
 
         if (virtualFolder.showMenu !== false) {
             html += '<div style="text-align:right; float:right;padding-top:5px;">';
-            html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="material-icons more_horiz"></i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_horiz"></span></button>';
             html += "</div>";
         }
 

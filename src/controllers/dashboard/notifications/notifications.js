@@ -31,14 +31,14 @@ define(["loading", "libraryMenu", "globalize", "listViewStyle", "emby-button"], 
                 }
                 itemHtml += '<a class="listItem listItem-border" is="emby-linkbutton" data-ripple="false" href="notificationsetting.html?type=' + notification.Type + '">';
                 if (notification.Enabled) {
-                    itemHtml += '<i class="listItemIcon material-icons notifications_active"></i>';
+                    itemHtml += '<span class="listItemIcon material-icons notifications_active"></span>';
                 } else {
-                    itemHtml += '<i class="listItemIcon material-icons notifications_off" style="background-color:#999;"></i>';
+                    itemHtml += '<span class="listItemIcon material-icons notifications_off" style="background-color:#999;"></span>';
                 }
                 itemHtml += '<div class="listItemBody">';
                 itemHtml += '<div class="listItemBodyText">' + notification.Name + "</div>";
                 itemHtml += "</div>";
-                itemHtml += '<button type="button" is="paper-icon-button-light"><i class="material-icons mode_edit"></i></button>';
+                itemHtml += '<button type="button" is="paper-icon-button-light"><span class="material-icons mode_edit"></span></button>';
                 itemHtml += "</a>";
                 return itemHtml;
             }).join("");

@@ -1736,7 +1736,7 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         html += '<h2 class="sectionTitle sectionTitle-cards">';
         html += "<span>" + type.name + "</span>";
         html += "</h2>";
-        html += '<button class="btnAddToCollection sectionTitleButton" type="button" is="paper-icon-button-light" style="margin-left:1em;"><i class="material-icons" icon="add">add</i></button>';
+        html += '<button class="btnAddToCollection sectionTitleButton" type="button" is="paper-icon-button-light" style="margin-left:1em;"><span class="material-icons add"></span></button>';
         html += "</div>";
         html += '<div is="emby-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right">';
         var shape = "MusicAlbum" == type.type ? getSquareShape(false) : getPortraitShape(false);
@@ -2065,7 +2065,6 @@ define(["loading", "appRouter", "layoutManager", "connectionManager", "userSetti
         bindAll(view, ".btnCancelTimer", "click", onCancelTimerClick);
         bindAll(view, ".btnDeleteItem", "click", onDeleteClick);
         bindAll(view, ".btnDownload", "click", onDownloadClick);
-        view.querySelector(".btnMoreCommands i").innerHTML = "&#xE5D3;";
         view.querySelector(".trackSelections").addEventListener("submit", onTrackSelectionsSubmit);
         view.querySelector(".btnSplitVersions").addEventListener("click", function () {
             splitVersions(self, view, apiClient, params);

@@ -43,20 +43,20 @@ define(["datetime", "jQuery", "globalize", "material-icons"], function (datetime
         }
         var htmlName = "<div class='editorNode'>";
         if (item.IsFolder) {
-            htmlName += '<i class="material-icons metadataSidebarIcon">folder</i>';
+            htmlName += '<span class="material-icons metadataSidebarIcon folder"></span>';
         } else if (item.MediaType === "Video") {
-            htmlName += '<i class="material-icons metadataSidebarIcon">movie</i>';
+            htmlName += '<span class="material-icons metadataSidebarIcon movie"></span>';
         } else if (item.MediaType === "Audio") {
-            htmlName += '<i class="material-icons metadataSidebarIcon">audiotrack</i>';
+            htmlName += '<span class="material-icons metadataSidebarIcon audiotrack"></span>';
         } else if (item.Type === "TvChannel") {
-            htmlName += '<i class="material-icons metadataSidebarIcon live_tv"></i>';
+            htmlName += '<span class="material-icons metadataSidebarIcon live_tv"></span>';
         } else if (item.MediaType === "Photo") {
-            htmlName += '<i class="material-icons metadataSidebarIcon">photo</i>';
+            htmlName += '<span class="material-icons metadataSidebarIcon photo"></span>';
         } else if (item.MediaType === "Book") {
-            htmlName += '<i class="material-icons metadataSidebarIcon">book</i>';
+            htmlName += '<span class="material-icons metadataSidebarIcon book"></span>';
         }
         if (item.LockData) {
-            htmlName += '<i class="material-icons metadataSidebarIcon">lock</i>';
+            htmlName += '<span class="material-icons metadataSidebarIcon lock"></span>';
         }
         htmlName += name;
         htmlName += "</div>";

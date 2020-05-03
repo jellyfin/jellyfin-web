@@ -124,8 +124,8 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                         artistName = item.ArtistItems[0].Name;
                         context.querySelector(".nowPlayingAlbum").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}">${albumName}</a>`;
                         context.querySelector(".nowPlayingArtist").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}">${artistName}</a>`;
-                        context.querySelector(".contextMenuAlbum").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons album"></i> ` + globalize.translate("ViewAlbum") + '</a>';
-                        context.querySelector(".contextMenuArtist").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}"><i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons person"></i> ` + globalize.translate("ViewArtist") + '</a>';
+                        context.querySelector(".contextMenuAlbum").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.AlbumId + `&amp;serverId=${nowPlayingServerId}"><span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons album"></span> ` + globalize.translate("ViewAlbum") + '</a>';
+                        context.querySelector(".contextMenuArtist").innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.ArtistItems[0].Id + `&amp;serverId=${nowPlayingServerId}"><span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons person"></span> ` + globalize.translate("ViewArtist") + '</a>';
                     } else {
                         artistName = item.Artists;
                         context.querySelector(".nowPlayingAlbum").innerHTML = albumName;
@@ -171,8 +171,8 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
                     var userData = fullItem.UserData || {};
                     var likes = null == userData.Likes ? "" : userData.Likes;
-                    context.querySelector(".nowPlayingPageUserDataButtonsTitle").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="material-icons">favorite</i></button>';
-                    context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><i class="material-icons">favorite</i></button>';
+                    context.querySelector(".nowPlayingPageUserDataButtonsTitle").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
+                    context.querySelector(".nowPlayingPageUserDataButtons").innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
                 });
             } else {
                 backdrop.clear();
@@ -196,7 +196,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 context.querySelector(".nowPlayingPageImage").classList.remove("nowPlayingPageImageAudio");
             }
         } else {
-            imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardContent-button cardImageContainer coveredImage ' + cardBuilder.getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><i class="cardImageIcon material-icons">album</i></button></div>';
+            imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardContent-button cardImageContainer coveredImage ' + cardBuilder.getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album"></span></button></div>';
         }
     }
 
@@ -319,13 +319,13 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
             var toggleRepeatButton = context.querySelector(".repeatToggleButton");
 
             if ("RepeatAll" == repeatMode) {
-                toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat</i>";
+                toggleRepeatButton.innerHTML = "<span class='material-icons repeat'></span>";
                 toggleRepeatButton.classList.add("repeatButton-active");
             } else if ("RepeatOne" == repeatMode) {
-                toggleRepeatButton.innerHTML = "<i class='material-icons repeat_one'></i>";
+                toggleRepeatButton.innerHTML = "<span class='material-icons repeat_one'></span>";
                 toggleRepeatButton.classList.add("repeatButton-active");
             } else {
-                toggleRepeatButton.innerHTML = "<i class='material-icons'>repeat</i>";
+                toggleRepeatButton.innerHTML = "<span class='material-icons repeat'></span>";
                 toggleRepeatButton.classList.remove("repeatButton-active");
             }
         }
@@ -349,18 +349,23 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                 showVolumeSlider = false;
             }
 
+            const buttonMute = view.querySelector(".buttonMute");
+            const buttonMuteIcon = buttonMute.querySelector(".material-icons");
+
+            buttonMuteIcon.classList.remove("volume_off", "volume_up");
+
             if (isMuted) {
-                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute"));
-                view.querySelector(".buttonMute i").innerHTML = "&#xE04F;";
+                buttonMute.setAttribute("title", globalize.translate("Unmute"));
+                buttonMuteIcon.classList.add("volume_off");
             } else {
-                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute"));
-                view.querySelector(".buttonMute i").innerHTML = "&#xE050;";
+                buttonMute.setAttribute("title", globalize.translate("Mute"));
+                buttonMuteIcon.classList.add("volume_up");
             }
 
             if (showMuteButton) {
-                view.querySelector(".buttonMute").classList.remove("hide");
+                buttonMute.classList.remove("hide");
             } else {
-                view.querySelector(".buttonMute").classList.add("hide");
+                buttonMute.classList.add("hide");
             }
 
             var nowPlayingVolumeSlider = context.querySelector(".nowPlayingVolumeSlider");
@@ -382,7 +387,11 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         function updatePlayPauseState(isPaused, isActive) {
             var context = dlg;
             var btnPlayPause = context.querySelector(".btnPlayPause");
-            btnPlayPause.querySelector("i").innerHTML = isPaused ? "&#xE038;" : "&#xE035;";
+            const btnPlayPauseIcon = btnPlayPause.querySelector(".material-icons");
+
+            btnPlayPauseIcon.classList.remove("play_circle_filled", "pause_circle_filled");
+            btnPlayPauseIcon.classList.add(isPaused ? "play_circle_filled" : "pause_circle_filled");
+
             buttonVisible(btnPlayPause, isActive);
         }
 
@@ -417,7 +426,7 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
                     action: "setplaylistindex",
                     enableUserDataButtons: false,
                     rightButtons: [{
-                        icon: "&#xE15D;",
+                        icon: "remove_circle_outline",
                         title: globalize.translate("ButtonRemove"),
                         id: "remove"
                     }],
@@ -755,9 +764,9 @@ define(["browser", "datetime", "backdrop", "libraryBrowser", "listView", "imageL
         }
 
         function init(ownerView, context) {
-            let contextmenuHtml = `<button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title=${globalize.translate('ButtonToggleContextMenu')}><i class="material-icons more_vert"></i></button>`;
+            let contextmenuHtml = `<button id="toggleContextMenu" is="paper-icon-button-light" class="btnToggleContextMenu" title=${globalize.translate('ButtonToggleContextMenu')}><span class="material-icons more_vert"></span></button>`;
             let volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
-            volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><i class="xlargePaperIconButton material-icons"></i></button>`;
+            volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up"></span></button>`;
             volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
             volumecontrolHtml += '</div>';
             if (!layoutManager.mobile) {

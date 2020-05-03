@@ -303,16 +303,16 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 html += '<div class="sessionCardButtons flex align-items-center justify-content-center">';
 
                 var btnCssClass = session.ServerId && session.NowPlayingItem && session.SupportsRemoteControl ? "" : " hide";
-                var playIcon = session.PlayState.IsPaused ? 'pause' : 'play';
+                const playIcon = session.PlayState.IsPaused ? 'pause' : 'play_arrow';
 
-                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><i class="material-icons">' + playIcon + '</i></button>';
-                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><i class="material-icons">stop</i></button>';
+                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionPlayPause paper-icon-button-light ' + btnCssClass + '"><span class="material-icons ' + playIcon + '"></span></button>';
+                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionStop paper-icon-button-light ' + btnCssClass + '"><span class="material-icons stop"></span></button>';
 
                 btnCssClass = session.TranscodingInfo && session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length ? "" : " hide";
-                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("ViewPlaybackInfo") + '"><i class="material-icons">info</i></button>';
+                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionInfo paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("ViewPlaybackInfo") + '"><span class="material-icons info"></span></button>';
 
                 btnCssClass = session.ServerId && -1 !== session.SupportedCommands.indexOf("DisplayMessage") && session.DeviceId !== connectionManager.deviceId() ? "" : " hide";
-                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("SendMessage") + '"><i class="material-icons">message</i></button>';
+                html += '<button is="paper-icon-button-light" class="sessionCardButton btnSessionSendMessage paper-icon-button-light ' + btnCssClass + '" title="' + globalize.translate("SendMessage") + '"><span class="material-icons message"></span></button>';
                 html += "</div>";
 
                 html += '<div class="sessionNowPlayingStreamInfo" style="padding:.5em 0 1em;">';
@@ -368,7 +368,7 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 html += progress + "%";
                 html += "</progress>";
                 html += "<span style='color:#00a4dc;margin-left:5px;margin-right:5px;'>" + progress + "%</span>";
-                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonStop") + '" onclick="DashboardPage.stopTask(this, \'' + task.Id + '\');" class="autoSize"><i class="material-icons">cancel</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate("ButtonStop") + '" onclick="DashboardPage.stopTask(this, \'' + task.Id + '\');" class="autoSize"><span class="material-icons cancel"></span></button>';
             } else if (task.State === "Cancelling") {
                 html += '<span style="color:#cc0000;">' + globalize.translate("LabelStopping") + "</span>";
             }
@@ -571,11 +571,9 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 row.querySelector(".btnSessionStop").classList.add("hide");
             }
 
-            if (session.PlayState && session.PlayState.IsPaused) {
-                btnSessionPlayPause.querySelector("i").innerHTML = "&#xE037;";
-            } else {
-                btnSessionPlayPause.querySelector("i").innerHTML = "pause";
-            }
+            const btnSessionPlayPauseIcon = btnSessionPlayPause.querySelector(".material-icons");
+            btnSessionPlayPauseIcon.classList.remove("play_arrow", "pause");
+            btnSessionPlayPauseIcon.classList.add(session.PlayState && session.PlayState.IsPaused ? "play_arrow" : "pause");
 
             row.querySelector(".sessionNowPlayingStreamInfo").innerHTML = DashboardPage.getSessionNowPlayingStreamInfo(session);
             row.querySelector(".sessionNowPlayingTime").innerHTML = DashboardPage.getSessionNowPlayingTime(session);

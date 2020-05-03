@@ -869,7 +869,7 @@ import 'programStyles';
             if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
 
                 if (options.cardFooterAside !== 'none') {
-                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="material-icons more_horiz"></i></button>';
+                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><span class="material-icons more_horiz"></span></button>';
                 }
             }
 
@@ -1418,15 +1418,15 @@ import 'programStyles';
                 const btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
                 if (options.centerPlayButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow"></span></button>';
                 }
 
                 if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow"></span></button>';
                 }
 
                 if (options.overlayMoreButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon more_horiz"></i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon more_horiz"></span></button>';
                 }
             }
 
@@ -1560,7 +1560,7 @@ import 'programStyles';
             const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
             if (playbackManager.canPlay(item)) {
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></i></button>';
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></span></button>';
             }
 
             html += '<div class="cardOverlayButton-br flex">';
@@ -1569,7 +1569,7 @@ import 'programStyles';
 
             if (itemHelper.canMarkPlayed(item)) {
                 require(['emby-playstatebutton']);
-                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">check</i></button>';
+                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
             }
 
             if (itemHelper.canRate(item)) {
@@ -1577,10 +1577,10 @@ import 'programStyles';
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
                 require(['emby-ratingbutton']);
-                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">favorite</i></button>';
+                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }
 
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_horiz"></i></button>';
+            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_horiz"></span></button>';
 
             html += '</div>';
             html += '</div>';
@@ -1596,27 +1596,27 @@ import 'programStyles';
          */
         export function getDefaultText(item, options) {
             if (item.CollectionType) {
-                return '<i class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '"></i>';
+                return '<span class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '"></span>';
             }
 
             switch (item.Type) {
                 case 'MusicAlbum':
-                    return '<i class="cardImageIcon material-icons">album</i>';
+                    return '<span class="cardImageIcon material-icons album"></span>';
                 case 'MusicArtist':
                 case 'Person':
-                    return '<i class="cardImageIcon material-icons">person</i>';
+                    return '<span class="cardImageIcon material-icons person"></span>';
                 case 'Movie':
-                    return '<i class="cardImageIcon material-icons">movie</i>';
+                    return '<span class="cardImageIcon material-icons movie"></span>';
                 case 'Series':
-                    return '<i class="cardImageIcon material-icons">tv</i>';
+                    return '<span class="cardImageIcon material-icons tv"></span>';
                 case 'Book':
-                    return '<i class="cardImageIcon material-icons">book</i>';
+                    return '<span class="cardImageIcon material-icons book"></span>';
                 case 'Folder':
-                    return '<i class="cardImageIcon material-icons">folder</i>';
+                    return '<span class="cardImageIcon material-icons folder"></span>';
             }
 
             if (options && options.defaultCardImageIcon) {
-                return '<i class="cardImageIcon material-icons">' + options.defaultCardImageIcon + '</i>';
+                return '<span class="cardImageIcon material-icons ' + options.defaultCardImageIcon + '"></span>';
             }
 
             const defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
@@ -1718,7 +1718,7 @@ import 'programStyles';
                     indicatorsElem = ensureIndicators(card, indicatorsElem);
                     indicatorsElem.appendChild(playedIndicator);
                 }
-                playedIndicator.innerHTML = '<i class="material-icons indicatorIcon">check</i>';
+                playedIndicator.innerHTML = '<span class="material-icons indicatorIcon check"></span>';
             } else {
 
                 playedIndicator = card.querySelector('.playedIndicator');
@@ -1808,7 +1808,7 @@ import 'programStyles';
                 const icon = cell.querySelector('.timerIndicator');
                 if (!icon) {
                     const indicatorsElem = ensureIndicators(cell);
-                    indicatorsElem.insertAdjacentHTML('beforeend', '<i class="material-icons timerIndicator indicatorIcon fiber_manual_record"></i>');
+                    indicatorsElem.insertAdjacentHTML('beforeend', '<span class="material-icons timerIndicator indicatorIcon fiber_manual_record"></span>');
                 }
                 cell.setAttribute('data-timerid', newTimerId);
             }

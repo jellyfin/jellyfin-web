@@ -149,7 +149,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
             currentHtml += '<div class="listItem viewItem" data-viewid="' + view.Id + '">';
 
-            currentHtml += '<i class="material-icons listItemIcon folder_open"></i>';
+            currentHtml += '<span class="material-icons listItemIcon folder_open"></span>';
 
             currentHtml += '<div class="listItemBody">';
 
@@ -159,8 +159,8 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
             currentHtml += '</div>';
 
-            currentHtml += '<button type="button" is="paper-icon-button-light" class="btnViewItemUp btnViewItemMove autoSize" title="' + globalize.translate('Up') + '"><i class="material-icons keyboard_arrow_up"></i></button>';
-            currentHtml += '<button type="button" is="paper-icon-button-light" class="btnViewItemDown btnViewItemMove autoSize" title="' + globalize.translate('Down') + '"><i class="material-icons keyboard_arrow_down"></i></button>';
+            currentHtml += '<button type="button" is="paper-icon-button-light" class="btnViewItemUp btnViewItemMove autoSize" title="' + globalize.translate('Up') + '"><span class="material-icons keyboard_arrow_up"></span></button>';
+            currentHtml += '<button type="button" is="paper-icon-button-light" class="btnViewItemDown btnViewItemMove autoSize" title="' + globalize.translate('Down') + '"><span class="material-icons keyboard_arrow_down"></span></button>';
 
             currentHtml += '</div>';
 

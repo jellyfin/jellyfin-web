@@ -18,7 +18,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         if (layoutManager.tv) {
             button = '';
         } else {
-            button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><i class="material-icons">close</i></button>';
+            button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><span class="material-icons close"></span></button>';
         }
 
         var contentClass = layoutManager.tv ? 'playerStats-content playerStats-content-tv' : 'playerStats-content';

@@ -42,12 +42,12 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
         html += '<div class="cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';
         html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer">';
-        html += '<i class="cardImageIcon material-icons">folder</i>';
+        html += '<span class="cardImageIcon material-icons folder"></span>';
         html += configPageUrl ? "</a>" : "</div>";
         html += "</div>";
         html += '<div class="cardFooter">';
         html += '<div style="text-align:right; float:right;padding-top:5px;">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="material-icons more_horiz"></i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_horiz"></span></button>';
         html += "</div>";
         html += "<div class='cardText'>";
         html += configPage.DisplayName || plugin.Name;

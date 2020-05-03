@@ -6,7 +6,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         var status;
 
         if (item.Type === 'SeriesTimer') {
-            return '<i class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></i>';
+            return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></span>';
         } else if (item.TimerId || item.SeriesTimerId) {
 
             status = item.Status || 'Cancelled';
@@ -20,13 +20,13 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         if (item.SeriesTimerId) {
 
             if (status !== 'Cancelled') {
-                return '<i class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></i>';
+                return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></span>';
             }
 
-            return '<i class="material-icons mediaInfoItem mediaInfoIconItem fiber_smart_record"></i>';
+            return '<span class="material-icons mediaInfoItem mediaInfoIconItem fiber_smart_record"></span>';
         }
 
-        return '<i class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_manual_record"></i>';
+        return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_manual_record"></span>';
     }
 
     function getProgramInfoHtml(item, options) {
@@ -390,7 +390,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         if (item.CommunityRating) {
             html += '<div class="starRatingContainer mediaInfoItem">';
 
-            html += '<i class="material-icons starIcon">star</i>';
+            html += '<span class="material-icons starIcon star"></span>';
             html += item.CommunityRating.toFixed(1);
             html += '</div>';
         }

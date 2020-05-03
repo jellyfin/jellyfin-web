@@ -158,7 +158,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         }
 
         if (layoutManager.tv) {
-            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1"><i class="material-icons arrow_back"></i></button>';
+            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
         }
 
         // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
@@ -226,9 +226,9 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
 
             if (itemIcon) {
 
-                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">' + itemIcon + '</i>';
+                html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ' + itemIcon + '"></span>';
             } else if (renderIcon && !center) {
-                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons" style="visibility:hidden;">check</i>';
+                html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" style="visibility:hidden;"></span>';
             }
 
             html += '<div class="listItemBody actionsheetListItemBody">';

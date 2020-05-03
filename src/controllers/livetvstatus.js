@@ -26,11 +26,11 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="' + padderClass + '"></div>';
         html += '<div class="cardContent searchImage">';
-        html += '<div class="cardImageContainer coveredImage"><i class="cardImageIcon material-icons">dvr</i></div>';
+        html += '<div class="cardImageContainer coveredImage"><span class="cardImageIcon material-icons dvr"></span></div>';
         html += "</div>";
         html += "</div>";
         html += '<div class="cardFooter visualCardBox-cardFooter">';
-        html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions autoSize" data-action="menu"><i class="material-icons more_horiz"></i></button>';
+        html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions autoSize" data-action="menu"><span class="material-icons more_horiz"></span></button>';
         html += '<div class="cardText">' + (device.FriendlyName || getTunerName(device.Type)) + "</div>";
         html += '<div class="cardText cardText-secondary">';
         html += device.Url || "&nbsp;";
@@ -101,7 +101,7 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
             for (var i = 0, length = providers.length; i < length; i++) {
                 var provider = providers[i];
                 html += '<div class="listItem">';
-                html += '<i class="listItemIcon material-icons">dvr</i>';
+                html += '<span class="listItemIcon material-icons dvr"></span>';
                 html += '<div class="listItemBody two-line">';
                 html += '<a is="emby-linkbutton" style="display:block;padding:0;margin:0;text-align:left;" class="clearLink" href="' + getProviderConfigurationUrl(provider.Type) + "&id=" + provider.Id + '">';
                 html += '<h3 class="listItemBodyText">';
@@ -112,7 +112,7 @@ define(["jQuery", "globalize", "scripts/taskbutton", "dom", "libraryMenu", "layo
                 html += "</div>";
                 html += "</a>";
                 html += "</div>";
-                html += '<button type="button" is="paper-icon-button-light" class="btnOptions" data-id="' + provider.Id + '"><i class="material-icons listItemAside more_horiz"></i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnOptions" data-id="' + provider.Id + '"><span class="material-icons listItemAside more_horiz"></span></button>';
                 html += "</div>";
             }
 

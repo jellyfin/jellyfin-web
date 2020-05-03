@@ -482,7 +482,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             html += '</div>';
 
             if (formatString) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><i class="material-icons open_in_browser"></i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><span class="material-icons open_in_browser"></span></button>';
             }
             html += '</div>';
 
@@ -922,7 +922,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         for (var i = 0; i < items.length; i++) {
             html += '<div class="listItem">';
 
-            html += '<i class="material-icons listItemIcon live_tv" style="background-color:#333;"></i>';
+            html += '<span class="material-icons listItemIcon live_tv" style="background-color:#333;"></span>';
 
             html += '<div class="listItemBody">';
 
@@ -932,7 +932,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             html += '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><i class="material-icons">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><span class="material-icons delete"></span></button>';
 
             html += '</div>';
         }
@@ -953,7 +953,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             html += '<div class="listItem">';
 
-            html += '<i class="material-icons listItemIcon" style="background-color:#333;">person</i>';
+            html += '<span class="material-icons listItemIcon person" style="background-color:#333;"></span>';
 
             html += '<div class="listItemBody">';
             html += '<button style="text-align:left;" type="button" class="btnEditPerson clearButton" data-index="' + i + '">';
@@ -969,7 +969,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             html += '</button>';
             html += '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><i class="material-icons">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><span class="material-icons delete"></span></button>';
 
             html += '</div>';
         }

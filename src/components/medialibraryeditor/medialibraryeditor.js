@@ -107,7 +107,7 @@ define(["jQuery", "loading", "dialogHelper", "dom", "components/libraryoptionsed
         }
 
         html += "</div>";
-        html += '<button type="button" is="paper-icon-button-light" class="listItemButton btnRemovePath" data-index="' + index + '"><i class="material-icons">remove_circle</i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="listItemButton btnRemovePath" data-index="' + index + '"><span class="material-icons remove_circle"></span></button>';
         html += "</div>";
         return html;
     }

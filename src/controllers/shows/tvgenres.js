@@ -121,7 +121,7 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
                     });
                 }
                 if (result.Items.length >= query.Limit) {
-                    tabContent.querySelector(".btnMoreFromGenre" + id + " i").classList.remove("hide");
+                    tabContent.querySelector(".btnMoreFromGenre" + id + " .material-icons").classList.remove("hide");
                 }
             });
         }
@@ -144,7 +144,7 @@ define(["layoutManager", "loading", "libraryBrowser", "cardBuilder", "lazyLoader
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += item.Name;
                     html += "</h2>";
-                    html += '<i class="material-icons hide chevron_right"></i>';
+                    html += '<span class="material-icons hide chevron_right"></span>';
                     html += "</a>";
                     html += "</div>";
                     if (enableScrollX()) {

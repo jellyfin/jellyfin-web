@@ -108,7 +108,7 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewSt
             li += h;
             li += "</h3>";
             li += "</div>";
-            li += '<button type="button" is="paper-icon-button-light" class="blockedTag btnDeleteTag listItemButton" data-tag="' + h + '"><i class="material-icons">delete</i></button>';
+            li += '<button type="button" is="paper-icon-button-light" class="blockedTag btnDeleteTag listItemButton" data-tag="' + h + '"><span class="material-icons delete"></span></button>';
             return li += "</div>";
         }).join("");
 
@@ -143,7 +143,7 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewSt
             itemHtml += "</h3>";
             itemHtml += '<div class="listItemBodyText secondary">' + getDisplayTime(a.StartHour) + " - " + getDisplayTime(a.EndHour) + "</div>";
             itemHtml += "</div>";
-            itemHtml += '<button type="button" is="paper-icon-button-light" class="btnDelete listItemButton" data-index="' + index + '"><i class="material-icons">delete</i></button>';
+            itemHtml += '<button type="button" is="paper-icon-button-light" class="btnDelete listItemButton" data-index="' + index + '"><span class="material-icons delete"></span></button>';
             itemHtml += "</div>";
             index++;
             return itemHtml;

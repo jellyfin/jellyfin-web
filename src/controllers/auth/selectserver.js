@@ -18,7 +18,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
             var cardImageContainer;
 
             if (item.showIcon) {
-                cardImageContainer = '<i class="cardImageIcon material-icons">' + item.icon + "</i>";
+                cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '"></span>';
             } else {
                 cardImageContainer = '<div class="cardImage" style="' + item.cardImageStyle + '"></div>';
             }

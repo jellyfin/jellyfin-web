@@ -104,7 +104,7 @@ define(["loading", "dom", "globalize", "date-fns", "dfnshelper", "paper-icon-but
             html += '<div class="' + imageClass + '" style="background-image:url(\'' + imgUrl + "');\">";
         } else {
             html += '<div class="' + imageClass + ' flex align-items-center justify-content-center">';
-            html += '<i class="material-icons cardImageIcon">person</i>';
+            html += '<span class="material-icons cardImageIcon person"></span>';
         }
 
         html += "</div>";
@@ -115,7 +115,7 @@ define(["loading", "dom", "globalize", "date-fns", "dfnshelper", "paper-icon-but
         html += '<div class="flex-grow" style="overflow:hidden;text-overflow:ellipsis;">';
         html += user.Name;
         html += "</div>";
-        html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu flex-shrink-zero"><i class="material-icons more_horiz"></i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu flex-shrink-zero"><span class="material-icons more_horiz"></span></button>';
         html += "</div>";
         html += '<div class="cardText cardText-secondary">';
         var lastSeen = getLastSeenText(user.LastActivityDate);
@@ -182,14 +182,14 @@ define(["loading", "dom", "globalize", "date-fns", "dfnshelper", "paper-icon-but
             html += '<div class="cardImage" style="background-image:url(\'' + user.ImageUrl + "');\">";
             html += "</div>";
         } else {
-            html += '<i class="cardImageIcon material-icons">person</i>';
+            html += '<span class="cardImageIcon material-icons person"></span>';
         }
 
         html += "</a>";
         html += "</div>";
         html += '<div class="cardFooter visualCardBox-cardFooter">';
         html += '<div class="cardText" style="text-align:right; float:right;padding:0;">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu"><i class="material-icons more_horiz"></i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu"><span class="material-icons more_horiz"></span></button>';
         html += "</div>";
         html += '<div class="cardText" style="padding-top:10px;padding-bottom:10px;">';
         html += user.UserName;

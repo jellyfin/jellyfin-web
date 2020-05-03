@@ -183,7 +183,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
         for (var i = 0, length = items.length; i < length; i++) {
             var item = items[i];
             var icon = imageHelper.getLibraryIcon(item.CollectionType);
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><i class="material-icons homeLibraryIcon ' + icon + '"></i><span class="homeLibraryText">' + item.Name + '</span></a>';
+            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><span class="material-icons homeLibraryIcon ' + icon + '"></span><span class="homeLibraryText">' + item.Name + '</span></a>';
         }
 
         html += '</div>';
@@ -282,7 +282,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             html += '<h2 class="sectionTitle sectionTitle-cards">';
             html += globalize.translate('LatestFromLibrary', parent.Name);
             html += '</h2>';
-            html += '<i class="material-icons chevron_right"></i>';
+            html += '<span class="material-icons chevron_right"></span>';
             html += '</a>';
         } else {
             html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LatestFromLibrary', parent.Name) + '</h2>';
@@ -630,7 +630,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += globalize.translate('HeaderOnNow');
                     html += '</h2>';
-                    html += '<i class="material-icons chevron_right"></i>';
+                    html += '<span class="material-icons chevron_right"></span>';
                     html += '</a>';
 
                 } else {
@@ -705,7 +705,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             html += '<h2 class="sectionTitle sectionTitle-cards">';
             html += globalize.translate('HeaderNextUp');
             html += '</h2>';
-            html += '<i class="material-icons chevron_right"></i>';
+            html += '<span class="material-icons chevron_right"></span>';
             html += '</a>';
         } else {
             html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderNextUp') + '</h2>';

@@ -60,7 +60,7 @@ define(["dom", "dialogHelper", "loading", "connectionManager", "globalize", "act
         function getTunerChannelHtml(channel, providerName) {
             var html = "";
             html += '<div class="listItem">';
-            html += '<i class="material-icons listItemIcon">dvr</i>';
+            html += '<span class="material-icons listItemIcon dvr"></span>';
             html += '<div class="listItemBody two-line">';
             html += '<h3 class="listItemBodyText">';
             html += channel.Name;
@@ -73,7 +73,7 @@ define(["dom", "dialogHelper", "loading", "connectionManager", "globalize", "act
 
             html += "</div>";
             html += "</div>";
-            html += '<button class="btnMap autoSize" is="paper-icon-button-light" type="button" data-id="' + channel.Id + '" data-providerid="' + channel.ProviderChannelId + '"><i class="material-icons mode_edit"></i></button>';
+            html += '<button class="btnMap autoSize" is="paper-icon-button-light" type="button" data-id="' + channel.Id + '" data-providerid="' + channel.ProviderChannelId + '"><span class="material-icons mode_edit"></span></button>';
             return html += "</div>";
         }
 
@@ -116,7 +116,7 @@ define(["dom", "dialogHelper", "loading", "connectionManager", "globalize", "act
             var html = "";
             var title = globalize.translate("MapChannels");
             html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="material-icons arrow_back"></i></button>';
+            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
             html += '<h3 class="formDialogHeaderTitle">';
             html += title;
             html += "</h3>";

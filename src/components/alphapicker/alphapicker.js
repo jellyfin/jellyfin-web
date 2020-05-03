@@ -67,7 +67,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
         html += '<div class="' + rowClassName + '">';
         if (options.mode === 'keyboard') {
-            html += '<button data-value=" " is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><i class="material-icons alphaPickerButtonIcon space_bar"></i></button>';
+            html += '<button data-value=" " is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><span class="material-icons alphaPickerButtonIcon space_bar"></span></button>';
         } else {
             letters = ['#'];
             html += mapLetters(letters, vertical).join('');
@@ -77,7 +77,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
         html += mapLetters(letters, vertical).join('');
 
         if (options.mode === 'keyboard') {
-            html += '<button data-value="backspace" is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><i class="material-icons alphaPickerButtonIcon">backspace</i></button>';
+            html += '<button data-value="backspace" is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><span class="material-icons alphaPickerButtonIcon backspace"></span></button>';
             html += '</div>';
 
             letters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];

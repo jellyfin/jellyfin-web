@@ -515,12 +515,17 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         }
 
         function updateFullscreenIcon() {
+            const button = view.querySelector(".btnFullscreen");
+            const icon = button.querySelector(".material-icons");
+
+            icon.classList.remove("fullscreen_exit", "fullscreen");
+
             if (playbackManager.isFullscreen(currentPlayer)) {
-                view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("ExitFullscreen"));
-                view.querySelector(".btnFullscreen i").innerHTML = "&#xE5D1;";
+                button.setAttribute("title", globalize.translate("ExitFullscreen") + " (f)");
+                icon.classList.add("fullscreen_exit");
             } else {
-                view.querySelector(".btnFullscreen").setAttribute("title", globalize.translate("Fullscreen") + " (f)");
-                view.querySelector(".btnFullscreen i").innerHTML = "fullscreen";
+                button.setAttribute("title", globalize.translate("Fullscreen") + " (f)");
+                icon.classList.add("fullscreen");
             }
         }
 
@@ -718,13 +723,17 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
         }
 
         function updatePlayPauseState(isPaused) {
-            var button = view.querySelector(".btnPause i");
+            const btnPlayPause = view.querySelector(".btnPause");
+            const btnPlayPauseIcon = btnPlayPause.querySelector(".material-icons");
+
+            btnPlayPauseIcon.classList.remove("play_arrow", "pause");
+
             if (isPaused) {
-                button.innerHTML = "&#xE037;";
-                button.setAttribute("title", globalize.translate("ButtonPlay") + " (k)");
+                btnPlayPauseIcon.classList.add("play_arrow");
+                btnPlayPause.setAttribute("title", globalize.translate("ButtonPlay") + " (k)");
             } else {
-                button.innerHTML = "pause";
-                button.setAttribute("title", globalize.translate("ButtonPause") + " (k)");
+                btnPlayPauseIcon.classList.add("pause");
+                btnPlayPause.setAttribute("title", globalize.translate("ButtonPause") + " (k)");
             }
         }
 
@@ -855,18 +864,23 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 showVolumeSlider = false;
             }
 
+            const buttonMute = view.querySelector(".buttonMute");
+            const buttonMuteIcon = buttonMute.querySelector(".material-icons");
+
+            buttonMuteIcon.classList.remove("volume_off", "volume_up");
+
             if (isMuted) {
-                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Unmute") + " (m)");
-                view.querySelector(".buttonMute i").innerHTML = "&#xE04F;";
+                buttonMute.setAttribute("title", globalize.translate("Unmute") + " (m)");
+                buttonMuteIcon.classList.add("volume_off");
             } else {
-                view.querySelector(".buttonMute").setAttribute("title", globalize.translate("Mute") + " (m)");
-                view.querySelector(".buttonMute i").innerHTML = "&#xE050;";
+                buttonMute.setAttribute("title", globalize.translate("Mute") + " (m)");
+                buttonMuteIcon.classList.add("volume_up");
             }
 
             if (showMuteButton) {
-                view.querySelector(".buttonMute").classList.remove("hide");
+                buttonMute.classList.remove("hide");
             } else {
-                view.querySelector(".buttonMute").classList.add("hide");
+                buttonMute.classList.add("hide");
             }
 
             if (nowPlayingVolumeSlider) {

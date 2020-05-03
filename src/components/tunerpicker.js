@@ -41,7 +41,7 @@ define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize"
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="' + padderClass + '"></div>';
         html += '<div class="cardContent searchImage">';
-        html += '<div class="cardImageContainer coveredImage"><i class="cardImageIcon material-icons">dvr</i></div>';
+        html += '<div class="cardImageContainer coveredImage"><span class="cardImageIcon material-icons dvr"></span></div>';
         html += "</div>";
         html += "</div>";
         html += '<div class="cardFooter visualCardBox-cardFooter">';
@@ -128,7 +128,7 @@ define(["dialogHelper", "dom", "layoutManager", "connectionManager", "globalize"
             dlg.classList.add("formDialog");
             var html = "";
             html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="material-icons arrow_back"></i></button>';
+            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
             html += '<h3 class="formDialogHeaderTitle">';
             html += globalize.translate("HeaderLiveTvTunerSetup");
             html += "</h3>";

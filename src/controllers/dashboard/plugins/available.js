@@ -98,7 +98,7 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';
         html += '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + href + '"' + target + ">";
-        html += '<i class="cardImageIcon material-icons">folder</i>';
+        html += '<span class="cardImageIcon material-icons folder"></span>';
         html += "</a>";
         html += "</div>";
         html += '<div class="cardFooter">';

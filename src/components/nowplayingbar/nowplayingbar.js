@@ -42,31 +42,31 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         // The onclicks are needed due to the return false above
         html += '<div class="nowPlayingBarCenter">';
 
-        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><i class="material-icons skip_previous"></i></button>';
+        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><span class="material-icons skip_previous"></span></button>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons">pause</i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
 
-        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><i class="material-icons">stop</i></button>';
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><i class="material-icons skip_next"></i></button>';
+        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><span class="material-icons stop"></span></button>';
+        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
 
         html += '<div class="nowPlayingBarCurrentTime"></div>';
         html += '</div>';
 
         html += '<div class="nowPlayingBarRight">';
 
-        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="material-icons"></i></button>';
+        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><span class="material-icons volume_up"></span></button>';
 
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><i class="material-icons">repeat</i></button>';
+        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat"></span></button>';
 
         html += '<div class="nowPlayingBarUserDataButtons">';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="material-icons">pause</i></button>';
-        html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><i class="material-icons more_vert"></i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
+        html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><span class="material-icons more_vert"></span></button>';
 
         html += '</div>';
         html += '</div>';
@@ -134,12 +134,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         });
 
-        var i;
-        var length;
         playPauseButtons = elem.querySelectorAll('.playPauseButton');
-        for (i = 0, length = playPauseButtons.length; i < length; i++) {
-            playPauseButtons[i].addEventListener('click', onPlayPauseClick);
-        }
+        playPauseButtons.forEach((button) => {
+            button.addEventListener('click', onPlayPauseClick);
+        });
 
         elem.querySelector('.nextTrackButton').addEventListener('click', function () {
 
@@ -174,7 +172,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         });
 
-        toggleRepeatButtonIcon = toggleRepeatButton.querySelector('i');
+        toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
 
         volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
         volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
@@ -281,22 +279,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function updatePlayPauseState(isPaused) {
-        var i;
-        var length;
-
         if (playPauseButtons) {
-            if (isPaused) {
-
-                for (i = 0, length = playPauseButtons.length; i < length; i++) {
-                    playPauseButtons[i].querySelector('i').innerHTML = '&#xE037;';
-                }
-
-            } else {
-
-                for (i = 0, length = playPauseButtons.length; i < length; i++) {
-                    playPauseButtons[i].querySelector('i').innerHTML = 'pause';
-                }
-            }
+            playPauseButtons.forEach((button) => {
+                const icon = button.querySelector('.material-icons');
+                icon.classList.remove('play_arrow', 'pause');
+                icon.classList.add(isPaused ? 'play_arrow' : 'pause');
+            });
         }
     }
 
@@ -340,15 +328,16 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function updateRepeatModeDisplay(repeatMode) {
+        toggleRepeatButtonIcon.classList.remove('repeat', 'repeat_one');
 
         if (repeatMode === 'RepeatAll') {
-            toggleRepeatButtonIcon.innerHTML = "repeat";
+            toggleRepeatButtonIcon.classList.add('repeat');
             toggleRepeatButton.classList.add('repeatButton-active');
         } else if (repeatMode === 'RepeatOne') {
-            toggleRepeatButtonIcon.innerHTML = "repeat_one";
+            toggleRepeatButtonIcon.classList.add('repeat_one');
             toggleRepeatButton.classList.add('repeatButton-active');
         } else {
-            toggleRepeatButtonIcon.innerHTML = "repeat";
+            toggleRepeatButtonIcon.classList.add('repeat');
             toggleRepeatButton.classList.remove('repeatButton-active');
         }
     }
@@ -397,11 +386,9 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             showMuteButton = false;
         }
 
-        if (isMuted) {
-            muteButton.querySelector('i').innerHTML = '&#xE04F;';
-        } else {
-            muteButton.querySelector('i').innerHTML = '&#xE050;';
-        }
+        const muteButtonIcon = muteButton.querySelector('.material-icons');
+        muteButtonIcon.classList.remove('volume_off', 'volume_up');
+        muteButtonIcon.classList.add(isMuted ? 'volume_off' : 'volume_up');
 
         if (supportedCommands.indexOf('SetVolume') === -1) {
             showVolumeSlider = false;
@@ -564,7 +551,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                         queue: false,
                         positionTo: contextButton
                     };
-                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons">favorite</i></button>';
+                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
                     apiClient.getCurrentUser().then(function(user) {
                         contextButton.addEventListener('click', function () {
                             itemContextMenu.show(Object.assign({
