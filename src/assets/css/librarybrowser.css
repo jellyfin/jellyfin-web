@@ -1145,6 +1145,11 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     font-size: 1.4em;
 }
 
+.overview-controls {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .detail-clamp-text {
     overflow: hidden;
     display: -webkit-box;

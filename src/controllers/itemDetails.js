@@ -972,14 +972,16 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
     }
 
-    function toggleLineClamp(e) {
-        var target = e.target;
+    function toggleLineClamp(clampTarget, e) {
+        var expandButton = e.target;
         var clampClassName = 'detail-clamp-text';
 
-        if (target.classList.contains(clampClassName)) {
-            target.classList.remove(clampClassName);
+        if (clampTarget.classList.contains(clampClassName)) {
+            clampTarget.classList.remove(clampClassName);
+            expandButton.innerHTML = 'Show Less';
         } else {
-            target.classList.add(clampClassName);
+            clampTarget.classList.add(clampClassName);
+            expandButton.innerHTML = 'Show More';
         }
     }
 
@@ -991,9 +993,20 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             if (overview) {
                 elem.innerHTML = overview;
                 elem.classList.remove('hide');
-
                 elem.classList.add('detail-clamp-text');
-                elem.addEventListener('click', toggleLineClamp);
+
+                // Grab the sibling element to control the expand state
+                var expandButton = elem.parentElement.querySelector('.overview-expand');
+
+                // Detect if we have overflow of text. Based on this StackOverflow answer
+                // https://stackoverflow.com/a/35157976
+                if (Math.abs(elem.scrollHeight - elem.offsetHeight) > 2) {
+                    expandButton.classList.remove('hide');
+                } else {
+                    expandButton.classList.add('hide');
+                }
+
+                expandButton.addEventListener('click', toggleLineClamp.bind(null, elem));
 
                 var anchors = elem.querySelectorAll('a');
 
