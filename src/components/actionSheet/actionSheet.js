@@ -17,7 +17,7 @@ function getOffsets(elems) {
     }
 
     var box;
-    for (let elem in elems) {
+    for (let elem of elems) {
         // Support: BlackBerry 5, iOS 3 (original iPhone)
         // If we don't have gBCR, just use 0,0 rather than error
         if (elem.getBoundingClientRect) {
@@ -26,12 +26,12 @@ function getOffsets(elems) {
             box = { top: 0, left: 0 };
         }
 
-        results[i] = {
+        results.push({
             top: box.top,
             left: box.left,
             width: box.width,
             height: box.height
-        };
+        });
     }
 
     return results;
@@ -144,7 +144,7 @@ export function show(options) {
     var renderIcon = false;
     var icons = [];
     var itemIcon;
-    for (let item in options.items) {
+    for (let item of options.items) {
 
         itemIcon = item.icon || (item.selected ? 'check' : null);
 
@@ -203,7 +203,7 @@ export function show(options) {
         menuItemClass += ' actionsheet-xlargeFont';
     }
 
-    for (let item in options.items) {
+    for (let [i, item] of options.items.entries()) {
 
         if (item.divider) {
 
