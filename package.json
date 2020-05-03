@@ -103,7 +103,8 @@
           "src/scripts/imagehelper.js",
           "src/scripts/inputManager.js",
           "src/components/deleteHelper.js",
-          "src/components/actionSheet/actionSheet.js"
+          "src/components/actionSheet/actionSheet.js",
+          "src/components/playMenu.js"
         ],
         "plugins": [
           "@babel/plugin-transform-modules-amd"
