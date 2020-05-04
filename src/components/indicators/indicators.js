@@ -98,7 +98,7 @@
         var status;
 
         if (item.Type === 'SeriesTimer') {
-            return '<i class="material-icons timerIndicator indicatorIcon fiber_smart_record"></i>';
+            return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record"></span>';
         } else if (item.TimerId || item.SeriesTimerId) {
             status = item.Status || 'Cancelled';
         } else if (item.Type === 'Timer') {
@@ -109,40 +109,34 @@
 
         if (item.SeriesTimerId) {
             if (status !== 'Cancelled') {
-                return '<i class="material-icons timerIndicator indicatorIcon fiber_smart_record"></i>';
+                return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record"></span>';
             }
 
-            return '<i class="material-icons timerIndicator timerIndicator-inactive indicatorIcon fiber_smart_record"></i>';
+            return '<span class="material-icons timerIndicator timerIndicator-inactive indicatorIcon fiber_smart_record"></span>';
         }
 
-        return '<i class="material-icons timerIndicator indicatorIcon fiber_manual_record"></i>';
+        return '<span class="material-icons timerIndicator indicatorIcon fiber_manual_record"></span>';
     }
 
     export function getSyncIndicator(item) {
         if (item.SyncPercent === 100) {
-            return '<div class="syncIndicator indicator fullSyncIndicator"><i class="material-icons indicatorIcon file_download"></i></div>';
+            return '<div class="syncIndicator indicator fullSyncIndicator"><span class="material-icons indicatorIcon file_download"></span></div>';
         } else if (item.SyncPercent != null) {
-            return '<div class="syncIndicator indicator emptySyncIndicator"><i class="material-icons indicatorIcon file_download"></i></div>';
+            return '<div class="syncIndicator indicator emptySyncIndicator"><span class="material-icons indicatorIcon file_download"></span></div>';
         }
 
         return '';
     }
 
     export function getTypeIndicator(item) {
-        if (item.Type === 'Video') {
-            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">videocam</i></div>';
-        }
-        if (item.Type === 'Folder') {
-            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">folder</i></div>';
-        }
-        if (item.Type === 'PhotoAlbum') {
-            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon photo_album"></i></div>';
-        }
-        if (item.Type === 'Photo') {
-            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">photo</i></div>';
+        const iconT = {
+            'Video' : 'videocam',
+            'Folder' : 'folder',
+            'PhotoAlbum' : 'photo_album',
+            'Photo' : 'photo'
         }
 
-        return '';
+        return iconT[item.iconType] ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon '+ iconT[item.iconType] +'"></span></div>' : '';
     }
 
     export function getMissingIndicator(item) {
