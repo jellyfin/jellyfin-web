@@ -1,5 +1,5 @@
-define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby-checkbox", "emby-select"], function (loading, libraryMenu, globalize) {
-    "use strict";
+define(['loading', 'libraryMenu', 'globalize', 'cardStyle', 'emby-button', 'emby-checkbox', 'emby-select'], function (loading, libraryMenu, globalize) {
+    'use strict';
 
     function reloadList(page) {
         loading.show();
@@ -7,8 +7,8 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
         var promise2 = ApiClient.getInstalledPlugins();
         Promise.all([promise1, promise2]).then(function (responses) {
             populateList({
-                catalogElement: page.querySelector("#pluginTiles"),
-                noItemsElement: page.querySelector("#noPlugins"),
+                catalogElement: page.querySelector('#pluginTiles'),
+                noItemsElement: page.querySelector('#noPlugins'),
                 availablePlugins: responses[0],
                 installedPlugins: responses[1]
             });
@@ -16,15 +16,15 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
     }
 
     function getHeaderText(category) {
-        category = category.replace(" ", "");
-        if ("Channel" === category) {
-            category = "Channels";
-        } else if ("Theme" === category) {
-            category = "Themes";
-        } else if ("LiveTV" === category) {
-            category = "HeaderLiveTV";
-        } else if ("ScreenSaver" === category) {
-            category = "HeaderScreenSavers";
+        category = category.replace(' ', '');
+        if ('Channel' === category) {
+            category = 'Channels';
+        } else if ('Theme' === category) {
+            category = 'Themes';
+        } else if ('LiveTV' === category) {
+            category = 'HeaderLiveTV';
+        } else if ('ScreenSaver' === category) {
+            category = 'HeaderScreenSavers';
         }
 
         return globalize.translate(category);
@@ -56,28 +56,28 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
         });
 
         var currentCategory = null;
-        var html = "";
+        var html = '';
 
         for (var i = 0; i < availablePlugins.length; i++) {
             var plugin = availablePlugins[i];
             var category = plugin.categoryDisplayName;
             if (category != currentCategory) {
                 if (currentCategory) {
-                    html += "</div>";
-                    html += "</div>";
+                    html += '</div>';
+                    html += '</div>';
                 }
                 html += '<div class="verticalSection">';
-                html += '<h2 class="sectionTitle sectionTitle-cards">' + category + "</h2>";
+                html += '<h2 class="sectionTitle sectionTitle-cards">' + category + '</h2>';
                 html += '<div class="itemsContainer vertical-wrap">';
                 currentCategory = category;
             }
             html += getPluginHtml(plugin, options, installedPlugins);
         }
-        html += "</div>";
-        html += "</div>";
+        html += '</div>';
+        html += '</div>';
 
         if (!availablePlugins.length && options.noItemsElement) {
-            options.noItemsElement.classList.remove("hide");
+            options.noItemsElement.classList.remove('hide');
         }
 
         options.catalogElement.innerHTML = html;
@@ -85,44 +85,44 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
     }
 
     function getPluginHtml(plugin, options, installedPlugins) {
-        var html = "";
-        var href = plugin.externalUrl ? plugin.externalUrl : "addplugin.html?name=" + encodeURIComponent(plugin.name) + "&guid=" + plugin.guid;
+        var html = '';
+        var href = plugin.externalUrl ? plugin.externalUrl : 'addplugin.html?name=' + encodeURIComponent(plugin.name) + '&guid=' + plugin.guid;
 
         if (options.context) {
-            href += "&context=" + options.context;
+            href += '&context=' + options.context;
         }
 
-        var target = plugin.externalUrl ? ' target="_blank"' : "";
+        var target = plugin.externalUrl ? ' target="_blank"' : '';
         html += "<div class='card backdropCard'>";
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';
-        html += '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + href + '"' + target + ">";
+        html += '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + href + '"' + target + '>';
         html += '<span class="cardImageIcon material-icons folder"></span>';
-        html += "</a>";
-        html += "</div>";
+        html += '</a>';
+        html += '</div>';
         html += '<div class="cardFooter">';
         html += "<div class='cardText'>";
         html += plugin.name;
-        html += "</div>";
+        html += '</div>';
         var installedPlugin = installedPlugins.filter(function (ip) {
             return ip.Id == plugin.guid;
         })[0];
         html += "<div class='cardText cardText-secondary'>";
-        html += installedPlugin ? globalize.translate("LabelVersionInstalled", installedPlugin.Version) : "&nbsp;";
-        html += "</div>";
-        html += "</div>";
-        html += "</div>";
-        return html += "</div>";
+        html += installedPlugin ? globalize.translate('LabelVersionInstalled', installedPlugin.Version) : '&nbsp;';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        return html += '</div>';
     }
 
     function getTabs() {
         return [{
-            href: "installedplugins.html",
-            name: globalize.translate("TabMyPlugins")
+            href: 'installedplugins.html',
+            name: globalize.translate('TabMyPlugins')
         }, {
-            href: "availableplugins.html",
-            name: globalize.translate("TabCatalog")
+            href: 'availableplugins.html',
+            name: globalize.translate('TabCatalog')
         }];
     }
 
@@ -131,8 +131,8 @@ define(["loading", "libraryMenu", "globalize", "cardStyle", "emby-button", "emby
     };
 
     return function (view, params) {
-        view.addEventListener("viewshow", function () {
-            libraryMenu.setTabs("plugins", 1, getTabs);
+        view.addEventListener('viewshow', function () {
+            libraryMenu.setTabs('plugins', 1, getTabs);
             reloadList(this);
         });
     };

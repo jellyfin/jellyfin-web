@@ -70,7 +70,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
 
                 maxWidth: maxWidth * 2,
                 tag: chapter.ImageTag,
-                type: "Chapter",
+                type: 'Chapter',
                 index: index
             });
         }

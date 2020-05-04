@@ -90,10 +90,10 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
             return html;
         }
 
-        var btnCssClass = "btnUserData";
+        var btnCssClass = 'btnUserData';
 
         if (cssClass) {
-            btnCssClass += " " + cssClass;
+            btnCssClass += ' ' + cssClass;
         }
 
         var iconCssClass = options.iconCssClass;

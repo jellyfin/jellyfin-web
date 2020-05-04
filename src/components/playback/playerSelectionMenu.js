@@ -99,7 +99,7 @@ define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRo
                 var name = t.name;
 
                 if (t.appName && t.appName !== t.name) {
-                    name += " - " + t.appName;
+                    name += ' - ' + t.appName;
                 }
 
                 return {

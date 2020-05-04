@@ -18,10 +18,10 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
     }
 
     if (browser.iOS) {
-        dom.addEventListener(window, "orientationchange", resetThresholdsOnTimer, { passive: true });
+        dom.addEventListener(window, 'orientationchange', resetThresholdsOnTimer, { passive: true });
         dom.addEventListener(window, 'resize', resetThresholdsOnTimer, { passive: true });
     } else {
-        dom.addEventListener(window, "orientationchange", resetThresholds, { passive: true });
+        dom.addEventListener(window, 'orientationchange', resetThresholds, { passive: true });
         dom.addEventListener(window, 'resize', resetThresholds, { passive: true });
     }
     resetThresholds();

@@ -27,8 +27,8 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
     }
 
     function triggerChange(select) {
-        var evt = document.createEvent("HTMLEvents");
-        evt.initEvent("change", false, true);
+        var evt = document.createEvent('HTMLEvents');
+        evt.initEvent('change', false, true);
         select.dispatchEvent(evt);
     }
 

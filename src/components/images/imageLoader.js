@@ -27,7 +27,7 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
                 fadeIn(elem);
             }
 
-            elem.removeAttribute("data-src");
+            elem.removeAttribute('data-src');
         });
     }
 

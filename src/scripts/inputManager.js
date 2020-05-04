@@ -74,7 +74,7 @@ import appHost from 'apphost';
         }
 
         if (eventListenerCount) {
-            const customEvent = new CustomEvent("command", {
+            const customEvent = new CustomEvent('command', {
                 detail: {
                     command: commandName
                 },
