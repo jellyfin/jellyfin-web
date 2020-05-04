@@ -272,11 +272,13 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         }
 
         var fetchOptions = {
-            limit: 500,
-            fields: "RemoteTrailers,LocalTrailerCount,ServerID",
-            filters: unwatchedOnly ? "IsUnPlayed" : "",
-            recursive: true,
-            includeItemTypes: "Movie"
+            Fields: "RemoteTrailers,LocalTrailerCount,ServerID",
+            Filters: unwatchedOnly ? "IsUnPlayed" : "",
+            HasTrailer: true,
+            IncludeItemTypes: "Movie",
+            Limit: trailerCount,
+            Recursive: true,
+            SortBy: "Random"
         };
 
         function getRemoteTrailers(item) {
@@ -312,58 +314,18 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         }
 
         return apiClient.getItems(apiClient.getCurrentUserId(), fetchOptions).then(function (unwatchedMovies) {
-            // ensures that there are never fewer unwatched movies than there should be trailers
-            if (unwatchedMovies.Items.length < trailerCount) {
-                trailerCount = unwatchedMovies.Items.length;
-            }
-
-            var indexHistory = [];
             var promises = [];
 
-            for (var i = 0; i < trailerCount && indexHistory.length < unwatchedMovies.Items.length; i++) {
-                // get random movies that hasn't been selected
-                var index = Math.floor(Math.random() * unwatchedMovies.Items.length);
-                while (indexHistory.includes(index)) {
-                    index = Math.floor(Math.random() * unwatchedMovies.Items.length);
-                }
-                indexHistory.push(index);
-                var randomMovie = unwatchedMovies.Items[index];
+            for (let unwatchedMovie in unwatchedMovies) {
+                const remoteTrailers = getRemoteTrailers(unwatchedMovie);
 
-                var remoteTrailers = getRemoteTrailers(randomMovie);
-
-                // don't count the movie to the trailer count if it has no trailers
-                if (!randomMovie.LocalTrailerCount && !remoteTrailers.length) {
-                    i--;
-                    continue;
-                }
-
-                promises.push(getAllTrailers(randomMovie, remoteTrailers));
+                promises.push(getAllTrailers(unwatchedMovie, remoteTrailers));
             }
 
             return Promise.all(promises);
-
-        }).then(function (movieTrailers) {
-            var randomTrailers = [];
-
-            for (var i = 0; i < movieTrailers.length; i++) {
-                var trailers = movieTrailers[i];
-
-                // in case of error with local trailers and empty remote trailers
-                if (!trailers.length) {
-                    continue;
-                }
-
-                // select a random trailer from the array of local and remote trailers
-                var ind = Math.floor(Math.random() * trailers.length);
-                var trailer = trailers[ind];
-
-                randomTrailers.push(trailer);
-            }
-
-            return {"Items": randomTrailers};
-
         }).catch(function (err) {
-            console.error(err);
+            console.error(`failed to get trailers: ${err}`);
+
             return Promise.resolve({
                 Items: []
             });
