@@ -123,7 +123,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         var _osdOpen = false;
 
         // Use autoplay on Chromecast since it is non-interactive.
-        options.interactive = !browser.chromecast;
+        if (browser.chromecast) options.interactive = false;
 
         /**
          * Creates the HTML markup for the dialog and the OSD.
@@ -609,7 +609,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Hides the slideshow element.
          */
         self.hide = function () {
-            var dialog = dialog;
             if (dialog) {
                 dialogHelper.close(dialog);
             }
