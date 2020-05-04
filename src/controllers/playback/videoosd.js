@@ -1178,13 +1178,10 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                         playbackManager.fastForward(currentPlayer);
                         showOsd();
                     }
-                //
                 case "Home":
                     playbackManager.seekPercent(0, currentPlayer);
                     break;
                 case "End":
-                    // Honestly this binding seems kind of pointless, just use 'nextTrack',
-                    // but YouTube has this one and that's the standard I'm aiming for
                     playbackManager.seekPercent(100, currentPlayer);
                     break;
                 case "0":
@@ -1197,8 +1194,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                 case "7":
                 case "8":
                 case "9":
-                    var percent = parseInt(key);
-                    percent *= 10;
+                    var percent = parseInt(key, 10) * 10;
                     playbackManager.seekPercent(percent, currentPlayer);
                     break;
             }
