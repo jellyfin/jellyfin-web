@@ -33,12 +33,12 @@ jobs:
     inputs:
       versionSpec: '12.x'
 
-  - task: Cache@2
-    displayName: 'Check Cache'
-    inputs:
-      key: 'yarn | yarn.lock'
-      path: 'node_modules'
-      cacheHitVar: CACHE_RESTORED
+  #- task: Cache@2
+  #  displayName: 'Check Cache'
+  #  inputs:
+  #    key: 'yarn | yarn.lock'
+  #    path: 'node_modules'
+  #    cacheHitVar: CACHE_RESTORED
 
   - script: 'yarn install --frozen-lockfile'
     displayName: 'Install Dependencies'
