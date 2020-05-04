@@ -1178,6 +1178,7 @@ define(["playbackManager", "dom", "inputManager", "datetime", "itemHelper", "med
                         playbackManager.fastForward(currentPlayer);
                         showOsd();
                     }
+                    break;
                 case "Home":
                     playbackManager.seekPercent(0, currentPlayer);
                     break;
