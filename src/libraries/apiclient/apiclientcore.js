@@ -356,31 +356,6 @@ define(["events", "appStorage"], function(events, appStorage) {
                 instance.onAuthenticated ? instance.onAuthenticated(instance, result).then(afterOnAuthenticated) : afterOnAuthenticated()
             }, reject)
         })
-    }, ApiClient.prototype.quickConnect = function (token) {
-        if (!token) return Promise.reject();
-        var url = this.getUrl("Users/AuthenticateWithQuickConnect");
-        var instance = this;
-        return new Promise(function(resolve, reject) {
-            var postData = {
-                Token: token
-            };
-            instance.ajax({
-                type: "POST",
-                url: url,
-                data: JSON.stringify(postData),
-                dataType: "json",
-                contentType: "application/json"
-            }).then(function(result) {
-                var afterOnAuthenticated = function() {
-                    redetectBitrate(instance);
-                    return resolve(result);
-                };
-                instance.onAuthenticated ? instance.onAuthenticated(instance, result).then(afterOnAuthenticated) : afterOnAuthenticated()
-            }, reject)
-        })
-    }, ApiClient.prototype.getQuickConnect = function(verb) {
-        var url = this.getUrl("/QuickConnect/" + verb);
-        return this.getJSON(url);
     }, ApiClient.prototype.ensureWebSocket = function() {
         if (!this.isWebSocketOpenOrConnecting() && this.isWebSocketSupported()) try {
             this.openWebSocket()
