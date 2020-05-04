@@ -4,9 +4,9 @@ import appHost from 'apphost';
 import appSettings from 'appSettings';
 import focusManager from 'focusManager';
 import loading from 'loading';
-import connectionManager from 'connectionmanager';
-import subtitleAppearanceHelper from 'subtitleappearancehelper';
-import playbacksettings from 'playbacksettings';
+import connectionManager from 'connectionManager';
+import subtitleAppearanceHelper from 'subtitleAppearanceHelper';
+import settingsHelper from '../settingshelper';
 import dom from 'dom';
 import events from 'events';
 import 'listViewStyle';
@@ -14,6 +14,11 @@ import 'emby-select';
 import 'emby-input';
 import 'emby-checkbox';
 import 'flexStyles';
+
+/**
+ * Subtitle settings
+ * @module components/subtitleSettings/subtitleSettings
+ */
 
 function getSubtitleAppearanceObject(context) {
     let appearanceSettings = {};
@@ -37,7 +42,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
 
         let selectSubtitleLanguage = context.querySelector( '#selectSubtitleLanguage' );
 
-        playbacksettings.populateLanguages(selectSubtitleLanguage, allCultures);
+        settingsHelper.populateLanguages(selectSubtitleLanguage, allCultures);
 
         selectSubtitleLanguage.value = user.Configuration.SubtitleLanguagePreference || "";
         context.querySelector('#selectSubtitlePlaybackMode').value = user.Configuration.SubtitleMode || "";
@@ -73,7 +78,7 @@ function saveUser(context, user, userSettingsInstance, appearanceKey, apiClient)
     return apiClient.updateUserConfiguration(user.Id, user.Configuration);
 }
 
-export function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
+function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
 
     loading.show();
 
@@ -123,14 +128,14 @@ function onAppearanceFieldChange(e) {
     subtitleAppearanceHelper.applyStyles(elements, appearanceSettings);
 }
 
-export function embed(options, self) {
+function embed(options, self) {
 
     require(['text!./subtitlesettings.template.html'], function (template) {
 
         options.element.classList.add('subtitlesettings');
         options.element.innerHTML = globalize.translateDocument(template, 'core');
 
-        options.element.querySelector('form').addEventListener('submit', playbacksettings.OnSubmit.bind(self));
+        options.element.querySelector('form').addEventListener('submit', self.onSubmit );
 
         options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
         options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
@@ -155,45 +160,62 @@ export function embed(options, self) {
     });
 }
 
-export function SubtitleSettings(options) {
+export class SubtitleSettings {
 
-    this.options = options;
+    constructor(options) {
 
-    embed(options, this);
+        this.options = options;
+
+        embed(options, this);
+    }
+
+    loadData() {
+        let self = this;
+        let context = self.options.element;
+
+        loading.show();
+
+        let userId = self.options.userId;
+        let apiClient = connectionManager.getApiClient( self.options.serverId );
+        let userSettings = self.options.userSettings;
+
+        apiClient.getUser(userId).then(function (user) {
+            userSettings.setUserInfo(userId, apiClient).then(function () {
+                self.dataLoaded = true;
+
+                let appearanceSettings = userSettings.getSubtitleAppearanceSettings( self.options.appearanceKey );
+
+                loadForm(context, user, userSettings, appearanceSettings, apiClient);
+            });
+        });
+    }
+
+    submit() {
+        this.onSubmit( null );
+    }
+
+    destroy() {
+        this.options = null;
+    }
+
+    onSubmit( e ) {
+        const self = this;
+        let apiClient = connectionManager.getApiClient(self.options.serverId);
+        let userId = self.options.userId;
+        let userSettings = self.options.userSettings;
+
+        userSettings.setUserInfo(userId, apiClient).then(function () {
+
+            let enableSaveConfirmation = self.options.enableSaveConfirmation;
+            save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
+        });
+
+        // Disable default form submission
+        if (e) {
+            e.preventDefault();
+        }
+        return false;
+    }
 }
 
-SubtitleSettings.prototype.loadData = function () {
-
-    let self = this;
-    let context = self.options.element;
-
-    loading.show();
-
-    let userId = self.options.userId;
-    let apiClient = connectionManager.getApiClient( self.options.serverId );
-    let userSettings = self.options.userSettings;
-
-    apiClient.getUser(userId).then(function (user) {
-        userSettings.setUserInfo(userId, apiClient).then(function () {
-            self.dataLoaded = true;
-
-            let appearanceSettings = userSettings.getSubtitleAppearanceSettings( self.options.appearanceKey );
-
-            loadForm(context, user, userSettings, appearanceSettings, apiClient);
-        });
-    });
-};
-
-SubtitleSettings.prototype.submit = function () {
-    playbacksettings.onSubmit.call(this);
-};
-
-SubtitleSettings.prototype.destroy = function () {
-    this.options = null;
-};
-
-export default {
-    save: save,
-    embed: embed,
-    SubtitleSettings: SubtitleSettings
-};
+export default SubtitleSettings;

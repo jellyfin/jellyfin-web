@@ -92,6 +92,7 @@
           "src/components/cardbuilder/cardBuilder.js",
           "src/components/subtitlesettings/subtitlesettings.js",
           "src/components/subtitlesettings/subtitleappearancehelper.js",
+          "src/components/settingshelper.js",
           "src/scripts/dom.js",
           "src/components/filedownloader.js",
           "src/scripts/filesystem.js",

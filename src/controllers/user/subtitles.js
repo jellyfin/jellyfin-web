@@ -18,7 +18,7 @@ define(["subtitleSettings", "userSettings", "autoFocuser"], function (SubtitleSe
             if (subtitleSettingsInstance) {
                 subtitleSettingsInstance.loadData();
             } else {
-                subtitleSettingsInstance = new SubtitleSettings({
+                subtitleSettingsInstance = new SubtitleSettings.default({
                     serverId: ApiClient.serverId(),
                     userId: userId,
                     element: view.querySelector(".settingsContainer"),
