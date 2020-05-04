@@ -433,7 +433,7 @@
     "EnableDisplayMirroring": "Cho phép trình chiếu trên thiết bị khác",
     "HeaderProfileInformation": "Thông Tin Hồ Sơ",
     "HeaderProfile": "Hồ Sơ",
-    "HeaderPreferredMetadataLanguage": "Ngôn Ngữ Dữ Liệu Bổ Trợ Yêu Thích",
+    "HeaderPreferredMetadataLanguage": "Ngôn Ngữ Thông Tin Bổ Trợ Yêu Thích",
     "HeaderPluginInstallation": "Cài Đặt Plugin",
     "HeaderPleaseSignIn": "Hãy đăng nhập",
     "HeaderPlaybackError": "Lỗi Phát Sóng",
@@ -530,5 +530,7 @@
     "HeaderDeleteItems": "Xoá Những Mục Này",
     "HeaderDeleteItem": "Xoá Mục Này",
     "HeaderDeleteDevice": "Xoá Thiết Bị",
-    "HeaderDefaultRecordingSettings": "Thiết Lập Ghi Âm/Ghi Hình Mặc Định"
+    "HeaderDefaultRecordingSettings": "Thiết Lập Ghi Âm/Ghi Hình Mặc Định",
+    "HeaderRecordingOptions": "Tuỳ Chọn Ghi Âm/Ghi Hình",
+    "HeaderProfileServerSettingsHelp": "Những thông tin này về máy chủ Jellyfin sẽ hiển thị trên các thiết bị phát được kết nối."
 }
