@@ -1,11 +1,12 @@
-define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'material-icons'], function (datetime, itemHelper) {
-    'use strict';
+    import datetime from 'datetime';
+    import itemHelper from 'itemHelper';
+    import 'emby-progressbar';
+    import 'css!./indicators.css';
+    import 'material-icons';
 
-    function enableProgressIndicator(item) {
-        if (item.MediaType === 'Video') {
-            if (item.Type !== 'TvChannel') {
-                return true;
-            }
+    export function enableProgressIndicator(item) {
+        if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
+            return true;
         }
 
         if (item.Type === 'AudioBook' || item.Type === 'AudioPodcast') {
@@ -15,34 +16,20 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
         return false;
     }
 
-    function getProgressHtml(pct, options) {
-        var containerClass = 'itemProgressBar';
-        if (options) {
-            if (options.containerClass) {
-                containerClass += ' ' + options.containerClass;
-            }
-        }
+    export function getProgressHtml(pct, options) {
+        var containerClass = options && options.containerClass ? 'itemProgressBar ' + options.containerClass : 'itemProgressBar';
 
         return '<div class="' + containerClass + '"><div class="itemProgressBarForeground" style="width:' + pct + '%;"></div></div>';
     }
 
     function getAutoTimeProgressHtml(pct, options, isRecording, start, end) {
-        var containerClass = 'itemProgressBar';
-        if (options) {
-            if (options.containerClass) {
-                containerClass += ' ' + options.containerClass;
-            }
-        }
-
-        var foregroundClass = 'itemProgressBarForeground';
-        if (isRecording) {
-            foregroundClass += ' itemProgressBarForeground-recording';
-        }
+        var containerClass = options && options.containerClass ? 'itemProgressBar ' + options.containerClass : 'itemProgressBar';
+        var foregroundClass = isRecording ? 'itemProgressBarForeground itemProgressBarForeground-recording' : 'itemProgressBarForeground';
 
         return '<div is="emby-progressbar" data-automode="time" data-starttime="' + start + '" data-endtime="' + end + '" class="' + containerClass + '"><div class="' + foregroundClass + '" style="width:' + pct + '%;"></div></div>';
     }
 
-    function getProgressBarHtml(item, options) {
+    export function getProgressBarHtml(item, options) {
         var pct;
         if (enableProgressIndicator(item) && item.Type !== "Recording") {
             var userData = options ? (options.userData || item.UserData) : item.UserData;
@@ -78,11 +65,11 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
         return '';
     }
 
-    function enablePlayedIndicator(item) {
+    export function enablePlayedIndicator(item) {
         return itemHelper.canMarkPlayed(item);
     }
 
-    function getPlayedIndicator(item) {
+    export function getPlayedIndicatorHtml(item) {
         if (enablePlayedIndicator(item)) {
             var userData = item.UserData || {};
             if (userData.UnplayedItemCount) {
@@ -97,24 +84,17 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
         return '';
     }
 
-    function getCountIndicatorHtml(count) {
-        return '<div class="countIndicator indicator">' + count + '</div>';
-    }
-
-    function getChildCountIndicatorHtml(item, options) {
-        var minCount = 0;
-        if (options) {
-            minCount = options.minCount || minCount;
-        }
+    export function getChildCountIndicatorHtml(item, options) {
+        var minCount = options ? options.minCount : 0;
 
         if (item.ChildCount && item.ChildCount > minCount) {
-            return getCountIndicatorHtml(item.ChildCount);
+            return '<div class="countIndicator indicator">' + item.ChildCount + '</div>';
         }
 
         return '';
     }
 
-    function getTimerIndicator(item) {
+    export function getTimerIndicator(item) {
         var status;
 
         if (item.Type === 'SeriesTimer') {
@@ -138,7 +118,7 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
         return '<i class="material-icons timerIndicator indicatorIcon fiber_manual_record"></i>';
     }
 
-    function getSyncIndicator(item) {
+    export function getSyncIndicator(item) {
         if (item.SyncPercent === 100) {
             return '<div class="syncIndicator indicator fullSyncIndicator"><i class="material-icons indicatorIcon file_download"></i></div>';
         } else if (item.SyncPercent != null) {
@@ -148,7 +128,7 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
         return '';
     }
 
-    function getTypeIndicator(item) {
+    export function getTypeIndicator(item) {
         if (item.Type === 'Video') {
             return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">videocam</i></div>';
         }
@@ -165,7 +145,7 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
         return '';
     }
 
-    function getMissingIndicator(item) {
+    export function getMissingIndicator(item) {
         if (item.Type === 'Episode' && item.LocationType === 'Virtual') {
             if (item.PremiereDate) {
                 try {
@@ -183,10 +163,10 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
         return '';
     }
 
-    return {
+    export default {
         getProgressHtml: getProgressHtml,
         getProgressBarHtml: getProgressBarHtml,
-        getPlayedIndicatorHtml: getPlayedIndicator,
+        getPlayedIndicatorHtml: getPlayedIndicatorHtml,
         getChildCountIndicatorHtml: getChildCountIndicatorHtml,
         enableProgressIndicator: enableProgressIndicator,
         getTimerIndicator: getTimerIndicator,
@@ -195,4 +175,3 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
         getTypeIndicator: getTypeIndicator,
         getMissingIndicator: getMissingIndicator
     };
-});

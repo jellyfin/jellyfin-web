@@ -104,7 +104,8 @@
           "src/scripts/inputManager.js",
           "src/components/deleteHelper.js",
           "src/components/actionSheet/actionSheet.js",
-          "src/components/playMenu.js"
+          "src/components/playMenu.js",
+          "src/components/indicators/indicators.js"
         ],
         "plugins": [
           "@babel/plugin-transform-modules-amd"
