@@ -59,6 +59,7 @@
     "core-js": "^3.6.5",
     "date-fns": "^2.13.0",
     "document-register-element": "^1.14.3",
+    "epubjs": "^0.3.85",
     "fast-text-encoding": "^1.0.1",
     "flv.js": "^1.5.0",
     "headroom.js": "^0.11.0",

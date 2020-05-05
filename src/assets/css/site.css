@@ -96,6 +96,14 @@ div[data-role=page] {
     }
 }
 
+#bookPlayer {
+    position: relative;
+    height: 100%;
+    overflow: auto;
+    z-index: 100;
+    background: #fff;
+}
+
 .headerHelpButton {
     margin-left: 1.25em !important;
     padding-bottom: 0.4em !important;
