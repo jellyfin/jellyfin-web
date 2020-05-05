@@ -1,21 +1,21 @@
 /* eslint-disable indent */
-import connectionManager from "connectionManager";
+import connectionManager from 'connectionManager';
 
 class BackdropScreensaver {
     constructor() {
-        this.name = "Backdrop ScreenSaver";
-        this.type = "screensaver";
-        this.id = "backdropscreensaver";
+        this.name = 'Backdrop ScreenSaver';
+        this.type = 'screensaver';
+        this.id = 'backdropscreensaver';
         this.supportsAnonymous = false;
     }
         show() {
             const query = {
-                ImageTypes: "Backdrop",
-                EnableImageTypes: "Backdrop",
-                IncludeItemTypes: "Movie,Series,MusicArtist",
-                SortBy: "Random",
+                ImageTypes: 'Backdrop',
+                EnableImageTypes: 'Backdrop',
+                IncludeItemTypes: 'Movie,Series,MusicArtist',
+                SortBy: 'Random',
                 Recursive: true,
-                Fields: "Taglines",
+                Fields: 'Taglines',
                 ImageTypeLimit: 1,
                 StartIndex: 0,
                 Limit: 200
@@ -26,7 +26,7 @@ class BackdropScreensaver {
 
                 if (result.Items.length) {
 
-                    import("slideshow").then(slideshow => {
+                    import('slideshow').then(slideshow => {
 
                         var newSlideShow = new slideshow({
                             showTitle: true,
