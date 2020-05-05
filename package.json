@@ -6,7 +6,7 @@
   "license": "GPL-2.0-or-later",
   "devDependencies": {
     "@babel/core": "^7.9.6",
-    "@babel/plugin-transform-modules-amd": "^7.8.3",
+    "@babel/plugin-transform-modules-amd": "^7.9.6",
     "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.8.6",
     "autoprefixer": "^9.7.6",
