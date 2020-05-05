@@ -134,7 +134,7 @@
     "BirthLocation": "Lieu de naissance",
     "BirthPlaceValue": "Lieu de naissance : {0}",
     "Blacklist": "Liste noire",
-    "BookLibraryHelp": "Les livres audios et numériques sont supportés. Consultez le {0}Guide de nommage pour livre de Jellyfin{1}.",
+    "BookLibraryHelp": "Les livres audios et formats textes sont supportés. Consultez le {0}Guide de nommage de livres de Jellyfin{1}.",
     "Box": "Boîtier",
     "BoxRear": "Dos de boîtier",
     "Browse": "Parcourir",
@@ -192,5 +192,6 @@
     "AllowFfmpegThrottlingHelp": "Quand un transcodage ou rémux se déplace après la position de relecture, suspendre le processus pour consommer moins de ressources. Ceci est le plus utile pour chercher moins. Désactiver s'il y a des problèmes de relecture.",
     "AllowFfmpegThrottling": "Restreindre la vitesse de transcodage",
     "AlbumArtist": "Artiste de l'Album",
-    "Album": "Album"
+    "Album": "Album",
+    "AuthProviderHelp": "Sélectionner un fournisseur d'authentification pour authentifier le mot de passe de cet utilisateur."
 }
