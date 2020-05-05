@@ -1,4 +1,4 @@
-define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userSettings', 'emby-itemscontainer'], function (events, libraryBrowser, imageLoader, listView, loading, userSettings) {
+define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userSettings', 'globalize', 'emby-itemscontainer'], function (events, libraryBrowser, imageLoader, listView, loading, userSettings, globalize) {
     'use strict';
 
     return function (view, params, tabContent) {
@@ -149,31 +149,31 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: Globalize.translate('OptionTrackName'),
+                        name: globalize.translate('OptionTrackName'),
                         id: 'Name'
                     }, {
-                        name: Globalize.translate('OptionAlbum'),
+                        name: globalize.translate('OptionAlbum'),
                         id: 'Album,SortName'
                     }, {
-                        name: Globalize.translate('OptionAlbumArtist'),
+                        name: globalize.translate('OptionAlbumArtist'),
                         id: 'AlbumArtist,Album,SortName'
                     }, {
-                        name: Globalize.translate('OptionArtist'),
+                        name: globalize.translate('OptionArtist'),
                         id: 'Artist,Album,SortName'
                     }, {
-                        name: Globalize.translate('OptionDateAdded'),
+                        name: globalize.translate('OptionDateAdded'),
                         id: 'DateCreated,SortName'
                     }, {
-                        name: Globalize.translate('OptionDatePlayed'),
+                        name: globalize.translate('OptionDatePlayed'),
                         id: 'DatePlayed,SortName'
                     }, {
-                        name: Globalize.translate('OptionPlayCount'),
+                        name: globalize.translate('OptionPlayCount'),
                         id: 'PlayCount,SortName'
                     }, {
-                        name: Globalize.translate('OptionReleaseDate'),
+                        name: globalize.translate('OptionReleaseDate'),
                         id: 'PremiereDate,AlbumArtist,Album,SortName'
                     }, {
-                        name: Globalize.translate('OptionRuntime'),
+                        name: globalize.translate('OptionRuntime'),
                         id: 'Runtime,AlbumArtist,Album,SortName'
                     }],
                     callback: function () {

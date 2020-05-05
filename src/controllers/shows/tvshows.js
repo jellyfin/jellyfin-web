@@ -1,4 +1,4 @@
-define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'alphaPicker', 'userSettings', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, listView, cardBuilder, alphaPicker, userSettings) {
+define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'alphaPicker', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, listView, cardBuilder, alphaPicker, userSettings, globalize) {
     'use strict';
 
     return function (view, params, tabContent) {
@@ -241,22 +241,22 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: Globalize.translate('OptionNameSort'),
+                        name: globalize.translate('OptionNameSort'),
                         id: 'SortName'
                     }, {
-                        name: Globalize.translate('OptionImdbRating'),
+                        name: globalize.translate('OptionImdbRating'),
                         id: 'CommunityRating,SortName'
                     }, {
-                        name: Globalize.translate('OptionDateAdded'),
+                        name: globalize.translate('OptionDateAdded'),
                         id: 'DateCreated,SortName'
                     }, {
-                        name: Globalize.translate('OptionDatePlayed'),
+                        name: globalize.translate('OptionDatePlayed'),
                         id: 'DatePlayed,SortName'
                     }, {
-                        name: Globalize.translate('OptionParentalRating'),
+                        name: globalize.translate('OptionParentalRating'),
                         id: 'OfficialRating,SortName'
                     }, {
-                        name: Globalize.translate('OptionReleaseDate'),
+                        name: globalize.translate('OptionReleaseDate'),
                         id: 'PremiereDate,SortName'
                     }],
                     callback: function () {

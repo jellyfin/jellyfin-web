@@ -1,4 +1,4 @@
-define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'userSettings', 'emby-itemscontainer'], function (loading, events, libraryBrowser, imageLoader, listView, cardBuilder, userSettings) {
+define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (loading, events, libraryBrowser, imageLoader, listView, cardBuilder, userSettings, globalize) {
     'use strict';
 
     return function (view, params, tabContent) {
@@ -188,28 +188,28 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
             tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: Globalize.translate('OptionNameSort'),
+                        name: globalize.translate('OptionNameSort'),
                         id: 'SeriesSortName,SortName'
                     }, {
-                        name: Globalize.translate('OptionTvdbRating'),
+                        name: globalize.translate('OptionTvdbRating'),
                         id: 'CommunityRating,SeriesSortName,SortName'
                     }, {
-                        name: Globalize.translate('OptionDateAdded'),
+                        name: globalize.translate('OptionDateAdded'),
                         id: 'DateCreated,SeriesSortName,SortName'
                     }, {
-                        name: Globalize.translate('OptionPremiereDate'),
+                        name: globalize.translate('OptionPremiereDate'),
                         id: 'PremiereDate,SeriesSortName,SortName'
                     }, {
-                        name: Globalize.translate('OptionDatePlayed'),
+                        name: globalize.translate('OptionDatePlayed'),
                         id: 'DatePlayed,SeriesSortName,SortName'
                     }, {
-                        name: Globalize.translate('OptionParentalRating'),
+                        name: globalize.translate('OptionParentalRating'),
                         id: 'OfficialRating,SeriesSortName,SortName'
                     }, {
-                        name: Globalize.translate('OptionPlayCount'),
+                        name: globalize.translate('OptionPlayCount'),
                         id: 'PlayCount,SeriesSortName,SortName'
                     }, {
-                        name: Globalize.translate('OptionRuntime'),
+                        name: globalize.translate('OptionRuntime'),
                         id: 'Runtime,SeriesSortName,SortName'
                     }],
                     callback: function () {
