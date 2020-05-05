@@ -57,7 +57,7 @@
     "alameda": "^1.4.0",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
     "core-js": "^3.6.4",
-    "date-fns": "^2.11.1",
+    "date-fns": "^2.12.0",
     "document-register-element": "^1.14.3",
     "fast-text-encoding": "^1.0.1",
     "flv.js": "^1.5.0",
