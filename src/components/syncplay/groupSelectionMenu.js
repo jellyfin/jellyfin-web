@@ -3,7 +3,6 @@ import connectionManager from 'connectionManager';
 import playbackManager from 'playbackManager';
 import syncplayManager from 'syncplayManager';
 import loading from 'loading';
-import datetime from 'datetime';
 import toast from 'toast';
 import actionsheet from 'actionsheet';
 import globalize from 'globalize';
@@ -19,60 +18,49 @@ function getActivePlayerId () {
 }
 
 /**
- * Used to avoid console logs about uncaught promises
- */
-function emptyCallback () {
-    // avoid console logs about uncaught promises
-}
-
-/**
  * Used when user needs to join a group.
  * @param {HTMLElement} button - Element where to place the menu.
  * @param {Object} user - Current user.
  * @param {Object} apiClient - ApiClient.
  */
 function showNewJoinGroupSelection (button, user, apiClient) {
-    let sessionId = getActivePlayerId();
-    sessionId = sessionId ? sessionId : "none";
-    const inSession = sessionId !== "none";
+    const sessionId = getActivePlayerId() || 'none';
+    const inSession = sessionId !== 'none';
     const policy = user.localUser ? user.localUser.Policy : {};
     let playingItemId;
     try {
         const playState = playbackManager.getPlayerState();
         playingItemId = playState.NowPlayingItem.Id;
+        console.debug('Item', playingItemId, 'is currently playing.');
     } catch (error) {
-        playingItemId = "";
+        playingItemId = '';
+        console.debug('No item is currently playing.');
     }
 
-    apiClient.sendSyncplayCommand(sessionId, "ListGroups").then(function (response) {
-        response.json().then(function (groups) {            
+    apiClient.sendSyncplayCommand(sessionId, 'ListGroups').then(function (response) {
+        response.json().then(function (groups) {
             var menuItems = groups.map(function (group) {
-                // TODO: update running time if group is playing?
-                var name = datetime.getDisplayRunningTime(group.PositionTicks);
-                if (!inSession) {
-                    name = group.PlayingItemName;
-                }
                 return {
-                    name: name,
-                    icon: "group",
+                    name: group.PlayingItemName,
+                    icon: 'group',
                     id: group.GroupId,
                     selected: false,
-                    secondaryText: group.Participants.join(", ")
+                    secondaryText: group.Participants.join(', ')
                 };
             });
 
-            if (inSession && policy.SyncplayAccess === "CreateAndJoinGroups") {
+            if (inSession && policy.SyncplayAccess === 'CreateAndJoinGroups') {
                 menuItems.push({
                     name: globalize.translate('LabelSyncplayNewGroup'),
-                    icon: "add",
-                    id: "new-group",
+                    icon: 'add',
+                    id: 'new-group',
                     selected: true,
                     secondaryText: globalize.translate('LabelSyncplayNewGroupDescription')
                 });
             }
 
             if (menuItems.length === 0) {
-                if (inSession && policy.SyncplayAccess === "JoinGroups") {
+                if (inSession && policy.SyncplayAccess === 'JoinGroups') {
                     toast({
                         text: globalize.translate('MessageSyncplayCreateGroupDenied')
                     });
@@ -94,15 +82,17 @@ function showNewJoinGroupSelection (button, user, apiClient) {
             };
 
             actionsheet.show(menuOptions).then(function (id) {
-                if (id == "new-group") {
-                    apiClient.sendSyncplayCommand(sessionId, "NewGroup");
+                if (id == 'new-group') {
+                    apiClient.sendSyncplayCommand(sessionId, 'NewGroup');
                 } else {
-                    apiClient.sendSyncplayCommand(sessionId, "JoinGroup", {
+                    apiClient.sendSyncplayCommand(sessionId, 'JoinGroup', {
                         GroupId: id,
                         PlayingItemId: playingItemId
                     });
                 }
-            }, emptyCallback);
+            }).catch((error) => {
+                console.error('Syncplay: unexpected error listing groups:', error);
+            });
 
             loading.hide();
         });
@@ -110,7 +100,7 @@ function showNewJoinGroupSelection (button, user, apiClient) {
         console.error(error);
         loading.hide();
         toast({
-            text: globalize.translate('MessageSyncplayNoGroupsAvailable')
+            text: globalize.translate('MessageSyncplayErrorAccessingGroups')
         });
     });
 }
@@ -126,17 +116,16 @@ function showLeaveGroupSelection (button, user, apiClient) {
     if (!sessionId) {
         syncplayManager.signalError();
         toast({
-            // TODO: translate
-            text: "Syncplay error occured."
+            text: globalize.translate('MessageSyncplayErrorNoActivePlayer')
         });
+        showNewJoinGroupSelection(button, user, apiClient);
         return;
     }
 
-
     const menuItems = [{
         name: globalize.translate('LabelSyncplayLeaveGroup'),
-        icon: "meeting_room",
-        id: "leave-group",
+        icon: 'meeting_room',
+        id: 'leave-group',
         selected: true,
         secondaryText: globalize.translate('LabelSyncplayLeaveGroupDescription')
     }];
@@ -150,17 +139,19 @@ function showLeaveGroupSelection (button, user, apiClient) {
     };
 
     actionsheet.show(menuOptions).then(function (id) {
-        if (id == "leave-group") {
-            apiClient.sendSyncplayCommand(sessionId, "LeaveGroup");
+        if (id == 'leave-group') {
+            apiClient.sendSyncplayCommand(sessionId, 'LeaveGroup');
         }
-    }, emptyCallback);
+    }).catch((error) => {
+        console.error('Syncplay: unexpected error showing group menu:', error);
+    });
 
     loading.hide();
 }
 
 // Register to Syncplay events
 let syncplayEnabled = false;
-events.on(syncplayManager, 'SyncplayEnabled', function (e, enabled) {
+events.on(syncplayManager, 'enabled', function (e, enabled) {
     syncplayEnabled = enabled;
 });
 
@@ -173,11 +164,11 @@ export function show (button) {
 
     // TODO: should feature be disabled if playback permission is missing?
     playbackPermissionManager.check().then(() => {
-        console.debug("Playback is allowed.");
+        console.debug('Playback is allowed.');
     }).catch((error) => {
-        console.error("Playback not allowed!", error);
+        console.error('Playback not allowed!', error);
         toast({
-            text: globalize.translate("MessageSyncplayPlaybackPermissionRequired")
+            text: globalize.translate('MessageSyncplayPlaybackPermissionRequired')
         });
     });
 

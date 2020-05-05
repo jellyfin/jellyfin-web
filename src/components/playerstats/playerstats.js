@@ -332,17 +332,17 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncplay
         var stats = syncplayManager.getStats();
 
         syncStats.push({
-            label: globalize.translate("LabelSyncplayTimeOffset"),
-            value: stats.TimeOffset + "ms"
+            label: globalize.translate('LabelSyncplayTimeOffset'),
+            value: stats.TimeOffset + globalize.translate('MillisecondsUnit')
         });
 
         syncStats.push({
-            label: globalize.translate("LabelSyncplayPlaybackDiff"),
-            value: stats.PlaybackDiff + "ms"
+            label: globalize.translate('LabelSyncplayPlaybackDiff'),
+            value: stats.PlaybackDiff + globalize.translate('MillisecondsUnit')
         });
 
         syncStats.push({
-            label: globalize.translate("LabelSyncplaySyncMethod"),
+            label: globalize.translate('LabelSyncplaySyncMethod'),
             value: stats.SyncMethod
         });
 

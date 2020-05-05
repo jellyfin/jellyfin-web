@@ -520,8 +520,8 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         var list = [];
         var audio = document.createElement('audio');
 
-        if (typeof audio.playbackRate === "number") {
-            list.push("PlaybackRate");
+        if (typeof audio.playbackRate === 'number') {
+            list.push('PlaybackRate');
         }
 
         return list;

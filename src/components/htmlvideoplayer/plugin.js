@@ -1442,8 +1442,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             list.push('AirPlay');
         }
 
-        if (typeof video.playbackRate === "number") {
-            list.push("PlaybackRate");
+        if (typeof video.playbackRate === 'number') {
+            list.push('PlaybackRate');
         }
 
         list.push('SetBrightness');

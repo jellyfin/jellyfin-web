@@ -187,9 +187,9 @@ define(['connectionManager', 'playbackManager', 'syncplayManager', 'events', 'in
                     events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
                 }
             }
-        } else if (msg.MessageType === "SyncplayCommand") {
+        } else if (msg.MessageType === 'SyncplayCommand') {
             syncplayManager.processCommand(msg.Data, apiClient);
-        } else if (msg.MessageType === "SyncplayGroupUpdate") {
+        } else if (msg.MessageType === 'SyncplayGroupUpdate') {
             syncplayManager.processGroupUpdate(msg.Data, apiClient);
         } else {
             events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);

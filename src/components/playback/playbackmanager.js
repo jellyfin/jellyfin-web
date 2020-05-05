@@ -54,6 +54,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         if (!serverId) {
             // Not a server item
             // We can expand on this later and possibly report them
+            events.trigger(playbackManagerInstance, 'reportplayback', [false]);
             return;
         }
 
@@ -77,7 +78,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         }
 
         var apiClient = connectionManager.getApiClient(serverId);
-        apiClient[method](info);
+        var reportPlaybackPromise = apiClient[method](info);
+        // Notify that report has been sent
+        reportPlaybackPromise.then(() => {
+            events.trigger(playbackManagerInstance, 'reportplayback', [true]);
+        });
     }
 
     function getPlaylistSync(playbackManagerInstance, player) {
@@ -3777,18 +3782,14 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         }
     };
 
-    PlaybackManager.prototype.setPlaybackRate = function (value, player) {
-        player = player || this._currentPlayer;
-
-        if (player) {
+    PlaybackManager.prototype.setPlaybackRate = function (value, player = this._currentPlayer) {
+        if (player && player.setPlaybackRate) {
             player.setPlaybackRate(value);
         }
     };
 
-    PlaybackManager.prototype.getPlaybackRate = function (player) {
-        player = player || this._currentPlayer;
-
-        if (player) {
+    PlaybackManager.prototype.getPlaybackRate = function (player = this._currentPlayer) {
+        if (player && player.getPlaybackRate) {
             return player.getPlaybackRate();
         }
 

@@ -1,5 +1,3 @@
-/* eslint-disable indent */
-
 /**
  * Module that manages time syncing with server.
  * @module components/syncplay/timeSyncManager
@@ -22,30 +20,30 @@ const GreedyPingCount = 3;
 class Measurement {
     /**
      * Creates a new measurement.
-     * @param {Date} t0 Client's timestamp of the request transmission
-     * @param {Date} t1 Server's timestamp of the request reception
-     * @param {Date} t2 Server's timestamp of the response transmission
-     * @param {Date} t3 Client's timestamp of the response reception
+     * @param {Date} requestSent Client's timestamp of the request transmission
+     * @param {Date} requestReceived Server's timestamp of the request reception
+     * @param {Date} responseSent Server's timestamp of the response transmission
+     * @param {Date} responseReceived Client's timestamp of the response reception
      */
-    constructor(t0, t1, t2, t3) {
-        this.t0 = t0.getTime();
-        this.t1 = t1.getTime();
-        this.t2 = t2.getTime();
-        this.t3 = t3.getTime();
+    constructor(requestSent, requestReceived, responseSent, responseReceived) {
+        this.requestSent = requestSent.getTime();
+        this.requestReceived = requestReceived.getTime();
+        this.responseSent = responseSent.getTime();
+        this.responseReceived = responseReceived.getTime();
     }
 
     /**
      * Time offset from server.
      */
     getOffset () {
-        return ((this.t1 - this.t0) + (this.t2 - this.t3)) / 2;
+        return ((this.requestReceived - this.requestSent) + (this.responseSent - this.responseReceived)) / 2;
     }
 
     /**
      * Get round-trip delay.
      */
     getDelay () {
-        return (this.t3 - this.t0) - (this.t2 - this.t1);
+        return (this.responseReceived - this.requestSent) - (this.responseSent - this.requestReceived);
     }
 
     /**
@@ -76,7 +74,7 @@ class TimeSyncManager {
      * @returns {boolean} _true_ if a measurement has been done, _false_ otherwise.
      */
     isReady() {
-        return this.measurement ? true : false;
+        return !!this.measurement;
     }
 
     /**
@@ -119,14 +117,14 @@ class TimeSyncManager {
             this.poller = setTimeout(() => {
                 this.poller = null;
                 const apiClient = connectionManager.currentApiClient();
-                const t0 = new Date(); // pingStartTime
+                const requestSent = new Date();
                 apiClient.getServerTime().then((response) => {
-                    const t3 = new Date(); // pingEndTime
+                    const responseReceived = new Date();
                     response.json().then((data) => {
-                        const t1 = new Date(data.RequestReceptionTime); // request received
-                        const t2 = new Date(data.ResponseTransmissionTime); // response sent
+                        const requestReceived = new Date(data.RequestReceptionTime);
+                        const responseSent = new Date(data.ResponseTransmissionTime);
 
-                        const measurement = new Measurement(t0, t1, t2, t3);
+                        const measurement = new Measurement(requestSent, requestReceived, responseSent, responseReceived);
                         this.updateTimeOffset(measurement);
 
                         // Avoid overloading server
@@ -136,11 +134,11 @@ class TimeSyncManager {
                             this.pings++;
                         }
 
-                        events.trigger(this, "Update", [this.getTimeOffset(), this.getPing()]);
+                        events.trigger(this, 'update', [null, this.getTimeOffset(), this.getPing()]);
                     });
                 }).catch((error) => {
                     console.error(error);
-                    events.trigger(this, "Error", [error]);
+                    events.trigger(this, 'update', [error, null, null]);
                 }).finally(() => {
                     this.requestPing();
                 });

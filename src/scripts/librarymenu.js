@@ -1,4 +1,4 @@
-define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'syncplayManager', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, syncplayManager, browser, globalize, imageHelper) {
+define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'syncplayManager', 'groupSelectionMenu', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, syncplayManager, groupSelectionMenu, browser, globalize, imageHelper) {
     'use strict';
 
     function renderHeader() {
@@ -89,12 +89,13 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
             var policy = user.Policy ? user.Policy : user.localUser.Policy;
 
-            if (headerSyncButton && policy && policy.SyncplayAccess !== "None") {
-                headerSyncButton.classList.remove("hide");
+            if (headerSyncButton && policy && policy.SyncplayAccess !== 'None') {
+                headerSyncButton.classList.remove('hide');
             }
         } else {
             headerHomeButton.classList.add('hide');
             headerCastButton.classList.add('hide');
+            headerSyncButton.classList.add('hide');
 
             if (headerSearchButton) {
                 headerSearchButton.classList.add('hide');
@@ -188,27 +189,26 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
     function onSyncButtonClicked() {
         var btn = this;
-
-        require(["groupSelectionMenu"], function (groupSelectionMenu) {
-            groupSelectionMenu.show(btn);
-        });
+        groupSelectionMenu.show(btn);
     }
 
-    function updateSyncplayIcon(event, enabled) {
-        var icon = headerSyncButton.querySelector("i");
+    function onSyncplayEnabled(event, enabled) {
+        var icon = headerSyncButton.querySelector('span');
+        icon.classList.remove('sync', 'sync_disabled', 'sync_problem');
         if (enabled) {
-            icon.innerHTML = "sync";
+            icon.classList.add('sync');
         } else {
-            icon.innerHTML = "sync_disabled";
+            icon.classList.add('sync_disabled');
         }
     }
 
-    function updateSyncplayErrorIcon(event, show_error) {
-        var icon = headerSyncButton.querySelector("i");
-        if (show_error) {
-            icon.innerHTML = "sync_problem";
+    function onSyncplaySyncing(event, is_syncing, syncMethod) {
+        var icon = headerSyncButton.querySelector('span');
+        icon.classList.remove('sync', 'sync_disabled', 'sync_problem');
+        if (is_syncing) {
+            icon.classList.add('sync_problem');
         } else {
-            icon.innerHTML = "sync";
+            icon.classList.add('sync');
         }
     }
 
@@ -967,8 +967,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         updateUserInHeader();
     });
     events.on(playbackManager, 'playerchange', updateCastIcon);
-    events.on(syncplayManager, 'SyncplayEnabled', updateSyncplayIcon);
-    events.on(syncplayManager, 'SyncplayError', updateSyncplayErrorIcon);
+    events.on(syncplayManager, 'enabled', onSyncplayEnabled);
+    events.on(syncplayManager, 'syncing', onSyncplaySyncing);
     loadNavDrawer();
     return LibraryMenu;
 });
