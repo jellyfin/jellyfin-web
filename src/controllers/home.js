@@ -1,11 +1,11 @@
-define(["tabbedView", "globalize", "require", "emby-tabs", "emby-button", "emby-scroller"], function (TabbedView, globalize, require) {
-    "use strict";
+define(['tabbedView', 'globalize', 'require', 'emby-tabs', 'emby-button', 'emby-scroller'], function (TabbedView, globalize, require) {
+    'use strict';
 
     function getTabs() {
         return [{
-            name: globalize.translate("Home")
+            name: globalize.translate('Home')
         }, {
-            name: globalize.translate("Favorites")
+            name: globalize.translate('Favorites')
         }];
     }
 
@@ -21,18 +21,18 @@ define(["tabbedView", "globalize", "require", "emby-tabs", "emby-button", "emby-
 
     function getTabController(index) {
         if (null == index) {
-            throw new Error("index cannot be null");
+            throw new Error('index cannot be null');
         }
 
         var depends = [];
 
         switch (index) {
             case 0:
-                depends.push("controllers/hometab");
+                depends.push('controllers/hometab');
                 break;
 
             case 1:
-                depends.push("controllers/favorites");
+                depends.push('controllers/favorites');
         }
 
         var instance = this;
@@ -63,12 +63,12 @@ define(["tabbedView", "globalize", "require", "emby-tabs", "emby-button", "emby-
 
     HomeView.prototype.onPause = function () {
         TabbedView.prototype.onPause.call(this);
-        document.querySelector(".skinHeader").classList.remove("noHomeButtonHeader");
+        document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
     };
 
     HomeView.prototype.onResume = function (options) {
         TabbedView.prototype.onResume.call(this, options);
-        document.querySelector(".skinHeader").classList.add("noHomeButtonHeader");
+        document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
     };
 
     return HomeView;

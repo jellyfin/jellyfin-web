@@ -511,7 +511,7 @@
     "Books": "ספרים",
     "Absolute": "מוחלט",
     "AccessRestrictedTryAgainLater": "הגישה מוגבלת כרגע, נסה שוב במועד מאוחר יותר.",
-    "AddedOnValue": "התווספו {0}",
+    "AddedOnValue": "נוספו {0}",
     "Blacklist": "רשימה שחורה",
     "Banner": "באנר",
     "Auto": "אוטומטי",
@@ -549,7 +549,7 @@
     "AllowOnTheFlySubtitleExtraction": "אפשר חילוץ כתוביות בזמן אמת",
     "AllowHWTranscodingHelp": "אפשר למלקט לקודד הזרמות בזמן אמת. זה עשוי לעזור בהפחתת הקידוד שנעשה ע\"י השרת.",
     "AllComplexFormats": "כל הפורמטים המורכבים (ASS, SSA, VOBSUB, PGS, SUB/IDX)",
-    "AddItemToCollectionHelp": "הוסף חפצים לאוסף דרך חיפושם ושימוש בתפריט הלחצן הימני או כפתור התפריט כדי להוסיפם לאוסף.",
+    "AddItemToCollectionHelp": "הוסף חפצים לאוסף על ידי חיפושם ושימוש בתפריט הלחצן הימני או לחצן התפריט כדי להוסיפם לאוסף.",
     "Songs": "שירים",
     "Shows": "סדרות",
     "DownloadsValue": "{0} הורדות",
@@ -765,6 +765,10 @@
     "LabelSortOrder": "מיין סדר:",
     "ShowYear": "הצג שנה",
     "ShowTitle": "הצג כותרת",
-    "DropShadow": "הפעל צל",
-    "Playlists": "רשימות הפעלה"
+    "DropShadow": "צייר צל",
+    "Playlists": "רשימות הפעלה",
+    "Raised": "מורם",
+    "LabelSpecialSeasonsDisplayName": "שם תצוגת \"עונה מיוחדת\":",
+    "LabelSource": "מקור:",
+    "LabelSoundEffects": "אפקטי סאונד:"
 }

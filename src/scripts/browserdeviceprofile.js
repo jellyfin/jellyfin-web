@@ -311,9 +311,9 @@ define(['browser'], function (browser) {
             try {
                 var isTizenUhd = webapis.productinfo.isUdPanelSupported();
                 isTizenFhd = !isTizenUhd;
-                console.debug("isTizenFhd = " + isTizenFhd);
+                console.debug('isTizenFhd = ' + isTizenFhd);
             } catch (error) {
-                console.error("isUdPanelSupported() error code = " + error.code);
+                console.error('isUdPanelSupported() error code = ' + error.code);
             }
         }
 

@@ -86,7 +86,7 @@ define([], function () {
             var value = params[key];
 
             if (value !== null && value !== undefined && value !== '') {
-                values.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
+                values.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
             }
         }
         return values.join('&');
@@ -94,7 +94,7 @@ define([], function () {
 
     function ajax(request) {
         if (!request) {
-            throw new Error("Request cannot be null");
+            throw new Error('Request cannot be null');
         }
 
         request.headers = request.headers || {};

@@ -12,7 +12,7 @@ define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelp
         }
 
         // Don't use apiclient method because we don't want it reporting authentication under the old version
-        apiClient.getJSON(apiClient.getUrl("System/Info")).then(function (info) {
+        apiClient.getJSON(apiClient.getUrl('System/Info')).then(function (info) {
 
             // If this is back to false, the restart completed
             if (!info.IsShuttingDown) {

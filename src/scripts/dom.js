@@ -93,7 +93,7 @@
                 supportsCaptureOption = true;
             }
         });
-        window.addEventListener("test", null, opts);
+        window.addEventListener('test', null, opts);
     } catch (e) {
         console.debug('error checking capture support');
     }
@@ -158,7 +158,7 @@
 
             if (!windowSizeEventsBound) {
                 windowSizeEventsBound = true;
-                addEventListener(window, "orientationchange", clearWindowSize, { passive: true });
+                addEventListener(window, 'orientationchange', clearWindowSize, { passive: true });
                 addEventListener(window, 'resize', clearWindowSize, { passive: true });
             }
         }
@@ -204,12 +204,12 @@
             return _animationEvent;
         }
 
-        const el = document.createElement("div");
+        const el = document.createElement('div');
         const animations = {
-            "animation": "animationend",
-            "OAnimation": "oAnimationEnd",
-            "MozAnimation": "animationend",
-            "WebkitAnimation": "webkitAnimationEnd"
+            'animation': 'animationend',
+            'OAnimation': 'oAnimationEnd',
+            'MozAnimation': 'animationend',
+            'WebkitAnimation': 'webkitAnimationEnd'
         };
         for (let t in animations) {
             if (el.style[t] !== undefined) {
@@ -244,12 +244,12 @@
             return _transitionEvent;
         }
 
-        const el = document.createElement("div");
+        const el = document.createElement('div');
         const transitions = {
-            "transition": "transitionend",
-            "OTransition": "oTransitionEnd",
-            "MozTransition": "transitionend",
-            "WebkitTransition": "webkitTransitionEnd"
+            'transition': 'transitionend',
+            'OTransition': 'oTransitionEnd',
+            'MozTransition': 'transitionend',
+            'WebkitTransition': 'webkitTransitionEnd'
         };
         for (let t in transitions) {
             if (el.style[t] !== undefined) {

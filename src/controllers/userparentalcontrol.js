@@ -1,8 +1,8 @@
-define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewStyle", "paper-icon-button-light"], function ($, datetime, loading, libraryMenu, globalize) {
-    "use strict";
+define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewStyle', 'paper-icon-button-light'], function ($, datetime, loading, libraryMenu, globalize) {
+    'use strict';
 
     function populateRatings(allParentalRatings, page) {
-        var html = "";
+        var html = '';
         html += "<option value=''></option>";
         var i;
         var length;
@@ -14,7 +14,7 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewSt
                 var lastRating = ratings[ratings.length - 1];
 
                 if (lastRating.Value === rating.Value) {
-                    lastRating.Name += "/" + rating.Name;
+                    lastRating.Name += '/' + rating.Name;
                     continue;
                 }
             }
@@ -27,56 +27,56 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewSt
 
         for (i = 0, length = ratings.length; i < length; i++) {
             rating = ratings[i];
-            html += "<option value='" + rating.Value + "'>" + rating.Name + "</option>";
+            html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
         }
 
-        $("#selectMaxParentalRating", page).html(html);
+        $('#selectMaxParentalRating', page).html(html);
     }
 
     function loadUnratedItems(page, user) {
         var items = [{
-            name: globalize.translate("OptionBlockBooks"),
-            value: "Book"
+            name: globalize.translate('OptionBlockBooks'),
+            value: 'Book'
         }, {
-            name: globalize.translate("OptionBlockChannelContent"),
-            value: "ChannelContent"
+            name: globalize.translate('OptionBlockChannelContent'),
+            value: 'ChannelContent'
         }, {
-            name: globalize.translate("OptionBlockLiveTvChannels"),
-            value: "LiveTvChannel"
+            name: globalize.translate('OptionBlockLiveTvChannels'),
+            value: 'LiveTvChannel'
         }, {
-            name: globalize.translate("OptionBlockMovies"),
-            value: "Movie"
+            name: globalize.translate('OptionBlockMovies'),
+            value: 'Movie'
         }, {
-            name: globalize.translate("OptionBlockMusic"),
-            value: "Music"
+            name: globalize.translate('OptionBlockMusic'),
+            value: 'Music'
         }, {
-            name: globalize.translate("OptionBlockTrailers"),
-            value: "Trailer"
+            name: globalize.translate('OptionBlockTrailers'),
+            value: 'Trailer'
         }, {
-            name: globalize.translate("OptionBlockTvShows"),
-            value: "Series"
+            name: globalize.translate('OptionBlockTvShows'),
+            value: 'Series'
         }];
-        var html = "";
-        html += '<h3 class="checkboxListLabel">' + globalize.translate("HeaderBlockItemsWithNoRating") + "</h3>";
+        var html = '';
+        html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderBlockItemsWithNoRating') + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
         for (var i = 0, length = items.length; i < length; i++) {
             var item = items[i];
-            var checkedAttribute = -1 != user.Policy.BlockUnratedItems.indexOf(item.value) ? ' checked="checked"' : "";
-            html += '<label><input type="checkbox" is="emby-checkbox" class="chkUnratedItem" data-itemtype="' + item.value + '" type="checkbox"' + checkedAttribute + "><span>" + item.name + "</span></label>";
+            var checkedAttribute = -1 != user.Policy.BlockUnratedItems.indexOf(item.value) ? ' checked="checked"' : '';
+            html += '<label><input type="checkbox" is="emby-checkbox" class="chkUnratedItem" data-itemtype="' + item.value + '" type="checkbox"' + checkedAttribute + '><span>' + item.name + '</span></label>';
         }
 
-        html += "</div>";
-        $(".blockUnratedItems", page).html(html).trigger("create");
+        html += '</div>';
+        $('.blockUnratedItems', page).html(html).trigger('create');
     }
 
     function loadUser(page, user, allParentalRatings) {
-        page.querySelector(".username").innerHTML = user.Name;
+        page.querySelector('.username').innerHTML = user.Name;
         libraryMenu.setTitle(user.Name);
         loadUnratedItems(page, user);
         loadBlockedTags(page, user.Policy.BlockedTags);
         populateRatings(allParentalRatings, page);
-        var ratingValue = "";
+        var ratingValue = '';
 
         if (user.Policy.MaxParentalRating) {
             for (var i = 0, length = allParentalRatings.length; i < length; i++) {
@@ -88,12 +88,12 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewSt
             }
         }
 
-        $("#selectMaxParentalRating", page).val(ratingValue);
+        $('#selectMaxParentalRating', page).val(ratingValue);
 
         if (user.Policy.IsAdministrator) {
-            $(".accessScheduleSection", page).hide();
+            $('.accessScheduleSection', page).hide();
         } else {
-            $(".accessScheduleSection", page).show();
+            $('.accessScheduleSection', page).show();
         }
 
         renderAccessSchedule(page, user.Policy.AccessSchedules || []);
@@ -106,19 +106,19 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewSt
             li += '<div class="listItemBody">';
             li += '<h3 class="listItemBodyText">';
             li += h;
-            li += "</h3>";
-            li += "</div>";
-            li += '<button type="button" is="paper-icon-button-light" class="blockedTag btnDeleteTag listItemButton" data-tag="' + h + '"><i class="material-icons">delete</i></button>';
-            return li += "</div>";
-        }).join("");
+            li += '</h3>';
+            li += '</div>';
+            li += '<button type="button" is="paper-icon-button-light" class="blockedTag btnDeleteTag listItemButton" data-tag="' + h + '"><span class="material-icons delete"></span></button>';
+            return li += '</div>';
+        }).join('');
 
         if (html) {
-            html = '<div class="paperList">' + html + "</div>";
+            html = '<div class="paperList">' + html + '</div>';
         }
 
-        var elem = $(".blockedTags", page).html(html).trigger("create");
-        $(".btnDeleteTag", elem).on("click", function () {
-            var tag = this.getAttribute("data-tag");
+        var elem = $('.blockedTags', page).html(html).trigger('create');
+        $('.btnDeleteTag', elem).on('click', function () {
+            var tag = this.getAttribute('data-tag');
             var newTags = tags.filter(function (t) {
                 return t != tag;
             });
@@ -132,43 +132,43 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewSt
     }
 
     function renderAccessSchedule(page, schedules) {
-        var html = "";
+        var html = '';
         var index = 0;
         html += schedules.map(function (a) {
-            var itemHtml = "";
+            var itemHtml = '';
             itemHtml += '<div class="liSchedule listItem" data-day="' + a.DayOfWeek + '" data-start="' + a.StartHour + '" data-end="' + a.EndHour + '">';
             itemHtml += '<div class="listItemBody two-line">';
             itemHtml += '<h3 class="listItemBodyText">';
-            itemHtml += globalize.translate("Option" + a.DayOfWeek);
-            itemHtml += "</h3>";
-            itemHtml += '<div class="listItemBodyText secondary">' + getDisplayTime(a.StartHour) + " - " + getDisplayTime(a.EndHour) + "</div>";
-            itemHtml += "</div>";
-            itemHtml += '<button type="button" is="paper-icon-button-light" class="btnDelete listItemButton" data-index="' + index + '"><i class="material-icons">delete</i></button>';
-            itemHtml += "</div>";
+            itemHtml += globalize.translate('Option' + a.DayOfWeek);
+            itemHtml += '</h3>';
+            itemHtml += '<div class="listItemBodyText secondary">' + getDisplayTime(a.StartHour) + ' - ' + getDisplayTime(a.EndHour) + '</div>';
+            itemHtml += '</div>';
+            itemHtml += '<button type="button" is="paper-icon-button-light" class="btnDelete listItemButton" data-index="' + index + '"><span class="material-icons delete"></span></button>';
+            itemHtml += '</div>';
             index++;
             return itemHtml;
-        }).join("");
-        var accessScheduleList = page.querySelector(".accessScheduleList");
+        }).join('');
+        var accessScheduleList = page.querySelector('.accessScheduleList');
         accessScheduleList.innerHTML = html;
-        $(".btnDelete", accessScheduleList).on("click", function () {
-            deleteAccessSchedule(page, schedules, parseInt(this.getAttribute("data-index")));
+        $('.btnDelete', accessScheduleList).on('click', function () {
+            deleteAccessSchedule(page, schedules, parseInt(this.getAttribute('data-index')));
         });
     }
 
     function onSaveComplete(page) {
         loading.hide();
 
-        require(["toast"], function (toast) {
-            toast(globalize.translate("SettingsSaved"));
+        require(['toast'], function (toast) {
+            toast(globalize.translate('SettingsSaved'));
         });
     }
 
     function saveUser(user, page) {
-        user.Policy.MaxParentalRating = $("#selectMaxParentalRating", page).val() || null;
-        user.Policy.BlockUnratedItems = $(".chkUnratedItem", page).get().filter(function (i) {
+        user.Policy.MaxParentalRating = $('#selectMaxParentalRating', page).val() || null;
+        user.Policy.BlockUnratedItems = $('.chkUnratedItem', page).get().filter(function (i) {
             return i.checked;
         }).map(function (i) {
-            return i.getAttribute("data-itemtype");
+            return i.getAttribute('data-itemtype');
         });
         user.Policy.AccessSchedules = getSchedulesFromPage(page);
         user.Policy.BlockedTags = getBlockedTagsFromPage(page);
@@ -191,7 +191,7 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewSt
     function showSchedulePopup(page, schedule, index) {
         schedule = schedule || {};
 
-        require(["components/accessschedule/accessschedule"], function (accessschedule) {
+        require(['components/accessschedule/accessschedule'], function (accessschedule) {
             accessschedule.show({
                 schedule: schedule
             }).then(function (updatedSchedule) {
@@ -208,25 +208,25 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewSt
     }
 
     function getSchedulesFromPage(page) {
-        return $(".liSchedule", page).map(function () {
+        return $('.liSchedule', page).map(function () {
             return {
-                DayOfWeek: this.getAttribute("data-day"),
-                StartHour: this.getAttribute("data-start"),
-                EndHour: this.getAttribute("data-end")
+                DayOfWeek: this.getAttribute('data-day'),
+                StartHour: this.getAttribute('data-start'),
+                EndHour: this.getAttribute('data-end')
             };
         }).get();
     }
 
     function getBlockedTagsFromPage(page) {
-        return $(".blockedTag", page).map(function () {
-            return this.getAttribute("data-tag");
+        return $('.blockedTag', page).map(function () {
+            return this.getAttribute('data-tag');
         }).get();
     }
 
     function showBlockedTagPopup(page) {
-        require(["prompt"], function (prompt) {
+        require(['prompt'], function (prompt) {
             prompt({
-                label: globalize.translate("LabelTag")
+                label: globalize.translate('LabelTag')
             }).then(function (value) {
                 var tags = getBlockedTagsFromPage(page);
 
@@ -240,28 +240,28 @@ define(["jQuery", "datetime", "loading", "libraryMenu", "globalize", "listViewSt
 
     window.UserParentalControlPage = {
         onSubmit: function () {
-            var page = $(this).parents(".page");
+            var page = $(this).parents('.page');
             loading.show();
-            var userId = getParameterByName("userId");
+            var userId = getParameterByName('userId');
             ApiClient.getUser(userId).then(function (result) {
                 saveUser(result, page);
             });
             return false;
         }
     };
-    $(document).on("pageinit", "#userParentalControlPage", function () {
+    $(document).on('pageinit', '#userParentalControlPage', function () {
         var page = this;
-        $(".btnAddSchedule", page).on("click", function () {
+        $('.btnAddSchedule', page).on('click', function () {
             showSchedulePopup(page, {}, -1);
         });
-        $(".btnAddBlockedTag", page).on("click", function () {
+        $('.btnAddBlockedTag', page).on('click', function () {
             showBlockedTagPopup(page);
         });
-        $(".userParentalControlForm").off("submit", UserParentalControlPage.onSubmit).on("submit", UserParentalControlPage.onSubmit);
-    }).on("pageshow", "#userParentalControlPage", function () {
+        $('.userParentalControlForm').off('submit', UserParentalControlPage.onSubmit).on('submit', UserParentalControlPage.onSubmit);
+    }).on('pageshow', '#userParentalControlPage', function () {
         var page = this;
         loading.show();
-        var userId = getParameterByName("userId");
+        var userId = getParameterByName('userId');
         var promise1 = ApiClient.getUser(userId);
         var promise2 = ApiClient.getParentalRatings();
         Promise.all([promise1, promise2]).then(function (responses) {

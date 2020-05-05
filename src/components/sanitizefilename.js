@@ -16,8 +16,8 @@ function isLowSurrogate(codePoint) {
 }
 
 function getByteLength(string) {
-    if (typeof string !== "string") {
-        throw new Error("Input must be string");
+    if (typeof string !== 'string') {
+        throw new Error('Input must be string');
     }
 
     const charLength = string.length;
@@ -49,8 +49,8 @@ function getByteLength(string) {
 }
 
 function truncate(string, byteLength) {
-    if (typeof string !== "string") {
-        throw new Error("Input must be string");
+    if (typeof string !== 'string') {
+        throw new Error('Input must be string');
     }
 
     const charLength = string.length;

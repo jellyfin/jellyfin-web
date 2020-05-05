@@ -20,7 +20,7 @@
 // #      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // #      THE SOFTWARE.
 require(['apphost'], function (appHost) {
-    "use strict";
+    'use strict';
 
     var _GAMEPAD_A_BUTTON_INDEX = 0;
     var _GAMEPAD_B_BUTTON_INDEX = 1;
@@ -28,16 +28,16 @@ require(['apphost'], function (appHost) {
     var _GAMEPAD_DPAD_DOWN_BUTTON_INDEX = 13;
     var _GAMEPAD_DPAD_LEFT_BUTTON_INDEX = 14;
     var _GAMEPAD_DPAD_RIGHT_BUTTON_INDEX = 15;
-    var _GAMEPAD_A_KEY = "GamepadA";
-    var _GAMEPAD_B_KEY = "GamepadB";
-    var _GAMEPAD_DPAD_UP_KEY = "GamepadDPadUp";
-    var _GAMEPAD_DPAD_DOWN_KEY = "GamepadDPadDown";
-    var _GAMEPAD_DPAD_LEFT_KEY = "GamepadDPadLeft";
-    var _GAMEPAD_DPAD_RIGHT_KEY = "GamepadDPadRight";
-    var _GAMEPAD_LEFT_THUMBSTICK_UP_KEY = "GamepadLeftThumbStickUp";
-    var _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY = "GamepadLeftThumbStickDown";
-    var _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY = "GamepadLeftThumbStickLeft";
-    var _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY = "GamepadLeftThumbStickRight";
+    var _GAMEPAD_A_KEY = 'GamepadA';
+    var _GAMEPAD_B_KEY = 'GamepadB';
+    var _GAMEPAD_DPAD_UP_KEY = 'GamepadDPadUp';
+    var _GAMEPAD_DPAD_DOWN_KEY = 'GamepadDPadDown';
+    var _GAMEPAD_DPAD_LEFT_KEY = 'GamepadDPadLeft';
+    var _GAMEPAD_DPAD_RIGHT_KEY = 'GamepadDPadRight';
+    var _GAMEPAD_LEFT_THUMBSTICK_UP_KEY = 'GamepadLeftThumbStickUp';
+    var _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY = 'GamepadLeftThumbStickDown';
+    var _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY = 'GamepadLeftThumbStickLeft';
+    var _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY = 'GamepadLeftThumbStickRight';
     var _GAMEPAD_A_KEYCODE = 0;
     var _GAMEPAD_B_KEYCODE = 27;
     var _GAMEPAD_DPAD_UP_KEYCODE = 38;
@@ -234,7 +234,7 @@ require(['apphost'], function (appHost) {
             }
 
             if (fire && keyCode) {
-                raiseEvent("keydown", key, keyCode);
+                raiseEvent('keydown', key, keyCode);
             }
 
         } else if (newPressedState === false && oldPressedState === true) {
@@ -243,7 +243,7 @@ require(['apphost'], function (appHost) {
 
             // button up
             if (keyCode) {
-                raiseEvent("keyup", key, keyCode);
+                raiseEvent('keyup', key, keyCode);
             }
             if (clickonKeyUp) {
                 clickElement(document.activeElement || window);
@@ -375,7 +375,7 @@ require(['apphost'], function (appHost) {
     function onFocusOrGamepadAttach(e) {
         /* eslint-disable-next-line compat/compat */
         if (isGamepadConnected() && document.hasFocus()) {
-            console.log("Gamepad connected! Starting input loop");
+            console.log('Gamepad connected! Starting input loop');
             startInputLoop();
         }
     }
@@ -383,28 +383,28 @@ require(['apphost'], function (appHost) {
     function onFocusOrGamepadDetach(e) {
         /* eslint-disable-next-line compat/compat */
         if (!isGamepadConnected() || !document.hasFocus()) {
-            console.log("Gamepad disconnected! No other gamepads are connected, stopping input loop");
+            console.log('Gamepad disconnected! No other gamepads are connected, stopping input loop');
             stopInputLoop();
         } else {
-            console.log("Gamepad disconnected! There are gamepads still connected.");
+            console.log('Gamepad disconnected! There are gamepads still connected.');
         }
     }
 
     // Event listeners for any change in gamepads' state.
-    window.addEventListener("gamepaddisconnected", onFocusOrGamepadDetach);
-    window.addEventListener("gamepadconnected", onFocusOrGamepadAttach);
-    window.addEventListener("blur", onFocusOrGamepadDetach);
-    window.addEventListener("focus", onFocusOrGamepadAttach);
+    window.addEventListener('gamepaddisconnected', onFocusOrGamepadDetach);
+    window.addEventListener('gamepadconnected', onFocusOrGamepadAttach);
+    window.addEventListener('blur', onFocusOrGamepadDetach);
+    window.addEventListener('focus', onFocusOrGamepadAttach);
 
     onFocusOrGamepadAttach();
 
     // The gamepadInputEmulation is a string property that exists in JavaScript UWAs and in WebViews in UWAs.
     // It won't exist in Win8.1 style apps or browsers.
-    if (window.navigator && typeof window.navigator.gamepadInputEmulation === "string") {
+    if (window.navigator && typeof window.navigator.gamepadInputEmulation === 'string') {
         // We want the gamepad to provide gamepad VK keyboard events rather than moving a
         // mouse like cursor. Set to "keyboard", the gamepad will provide such keyboard events
         // and provide input to the DOM navigator.getGamepads API.
-        window.navigator.gamepadInputEmulation = "gamepad";
+        window.navigator.gamepadInputEmulation = 'gamepad';
     }
 
 });
