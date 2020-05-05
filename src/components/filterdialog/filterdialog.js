@@ -410,7 +410,7 @@ import 'css!./style.css';
         }
 
         show() {
-            return import('text!./filterdialog.template.html').then((template) => {
+            return import('text!./filterdialog.template.html').then(({default: template}) => {
                 return new Promise((resolve) => {
                     const dlg = dialogHelper.createDialog({
                         removeOnClose: true,
