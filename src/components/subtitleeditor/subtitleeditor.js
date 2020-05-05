@@ -48,7 +48,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         var apiClient = connectionManager.getApiClient(currentItem.ServerId);
         apiClient.ajax({
 
-            type: "POST",
+            type: 'POST',
             url: apiClient.getUrl(url)
 
         }).then(function () {
@@ -87,7 +87,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
                 apiClient.ajax({
 
-                    type: "DELETE",
+                    type: 'DELETE',
                     url: apiClient.getUrl(url)
 
                 }).then(function () {

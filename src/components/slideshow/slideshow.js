@@ -14,7 +14,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
      */
     function getImageUrl(item, options, apiClient) {
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (typeof (item) === 'string') {
             return apiClient.getScaledImageUrl(item, options);
@@ -45,7 +45,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
      */
     function getBackdropImageUrl(item, options, apiClient) {
         options = options || {};
-        options.type = options.type || "Backdrop";
+        options.type = options.type || 'Backdrop';
 
         // If not resizing, get the original image
         if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
@@ -76,7 +76,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             if (item.MediaType === 'Photo' && user && user.Policy.EnableContentDownloading) {
                 return apiClient.getItemDownloadUrl(item.Id);
             }
-            imageOptions.type = "Primary";
+            imageOptions.type = 'Primary';
             return getImageUrl(item, imageOptions, apiClient);
         }
     }
@@ -226,7 +226,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         function onAutoplayStart() {
             var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
             if (btnSlideshowPause) {
-                btnSlideshowPause.classList.replace("play_arrow", "pause");
+                btnSlideshowPause.classList.replace('play_arrow', 'pause');
             }
         }
 
@@ -236,7 +236,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         function onAutoplayStop() {
             var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
             if (btnSlideshowPause) {
-                btnSlideshowPause.classList.replace("pause", "play_arrow");
+                btnSlideshowPause.classList.replace('pause', 'play_arrow');
             }
         }
 
@@ -418,7 +418,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Toggles the autoplay feature of the Swiper instance.
          */
         function playPause() {
-            var paused = !dialog.querySelector('.btnSlideshowPause .material-icons').classList.contains("pause");
+            var paused = !dialog.querySelector('.btnSlideshowPause .material-icons').classList.contains('pause');
             if (paused) {
                 play();
             } else {

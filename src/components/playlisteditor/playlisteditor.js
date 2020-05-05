@@ -23,7 +23,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
     function createPlaylist(apiClient, dlg) {
         loading.show();
 
-        var url = apiClient.getUrl("Playlists", {
+        var url = apiClient.getUrl('Playlists', {
             Name: dlg.querySelector('#txtNewPlaylistName').value,
             Ids: dlg.querySelector('.fldSelectedItemIds').value || '',
             userId: apiClient.getCurrentUserId()
@@ -31,9 +31,9 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
         });
 
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             url: url,
-            dataType: "json"
+            dataType: 'json'
         }).then(function (result) {
             loading.hide();
 
@@ -63,13 +63,13 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
 
         loading.show();
 
-        var url = apiClient.getUrl("Playlists/" + id + "/Items", {
+        var url = apiClient.getUrl('Playlists/' + id + '/Items', {
             Ids: itemIds,
             userId: apiClient.getCurrentUserId()
         });
 
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             url: url
 
         }).then(function () {
@@ -93,7 +93,7 @@ define(['dom', 'shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackMan
 
         var options = {
             Recursive: true,
-            IncludeItemTypes: "Playlist",
+            IncludeItemTypes: 'Playlist',
             SortBy: 'SortName',
             EnableTotalRecordCount: false
         };

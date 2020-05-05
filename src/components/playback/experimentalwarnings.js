@@ -1,5 +1,5 @@
 define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (connectionManager, globalize, userSettings, appHost) {
-    "use strict";
+    'use strict';
 
     function getRequirePromise(deps) {
 
@@ -44,15 +44,15 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
     }
 
     function showBlurayMessage() {
-        return showMessage(globalize.translate("UnsupportedPlayback"), 'blurayexpirementalinfo', 'nativeblurayplayback');
+        return showMessage(globalize.translate('UnsupportedPlayback'), 'blurayexpirementalinfo', 'nativeblurayplayback');
     }
 
     function showDvdMessage() {
-        return showMessage(globalize.translate("UnsupportedPlayback"), 'dvdexpirementalinfo', 'nativedvdplayback');
+        return showMessage(globalize.translate('UnsupportedPlayback'), 'dvdexpirementalinfo', 'nativedvdplayback');
     }
 
     function showIsoMessage() {
-        return showMessage(globalize.translate("UnsupportedPlayback"), 'isoexpirementalinfo', 'nativeisoplayback');
+        return showMessage(globalize.translate('UnsupportedPlayback'), 'isoexpirementalinfo', 'nativeisoplayback');
     }
 
     function ExpirementalPlaybackWarnings() {

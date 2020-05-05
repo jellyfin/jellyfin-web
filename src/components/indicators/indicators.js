@@ -44,7 +44,7 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
 
     function getProgressBarHtml(item, options) {
         var pct;
-        if (enableProgressIndicator(item) && item.Type !== "Recording") {
+        if (enableProgressIndicator(item) && item.Type !== 'Recording') {
             var userData = options ? (options.userData || item.UserData) : item.UserData;
             if (userData) {
                 pct = userData.PlayedPercentage;

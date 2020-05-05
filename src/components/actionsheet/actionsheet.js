@@ -136,7 +136,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         // Admittedly a hack but right now the scrollbar is being factored into the width which is causing truncation
         if (options.items.length > 20) {
             var minWidth = dom.getWindowSize().innerWidth >= 300 ? 240 : 200;
-            style += "min-width:" + minWidth + "px;";
+            style += 'min-width:' + minWidth + 'px;';
         }
 
         var i;

@@ -109,7 +109,7 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         html += '<span style="margin-right: 10px;">';
 
         var startAtDisplay = totalRecordCount ? startIndex + 1 : 0;
-        html += globalize.translate("ListPaging", startAtDisplay, recordsEnd, totalRecordCount);
+        html += globalize.translate('ListPaging', startAtDisplay, recordsEnd, totalRecordCount);
 
         html += '</span>';
 
@@ -144,7 +144,7 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
     }
 
     function getDisplayUrl(url, apiClient) {
-        return apiClient.getUrl("Images/Remote", { imageUrl: url });
+        return apiClient.getUrl('Images/Remote', { imageUrl: url });
     }
 
     function getRemoteImageHtml(image, imageType, apiClient) {
@@ -155,21 +155,21 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
 
         var html = '';
 
-        var cssClass = "card scalableCard imageEditorCard";
+        var cssClass = 'card scalableCard imageEditorCard';
         var cardBoxCssClass = 'cardBox visualCardBox';
 
         var shape = 'backdrop';
-        if (imageType === "Backdrop" || imageType === "Art" || imageType === "Thumb" || imageType === "Logo") {
+        if (imageType === 'Backdrop' || imageType === 'Art' || imageType === 'Thumb' || imageType === 'Logo') {
             shape = 'backdrop';
-        } else if (imageType === "Banner") {
+        } else if (imageType === 'Banner') {
             shape = 'banner';
-        } else if (imageType === "Disc") {
+        } else if (imageType === 'Disc') {
             shape = 'square';
         } else {
 
-            if (currentItemType === "Episode") {
+            if (currentItemType === 'Episode') {
                 shape = 'backdrop';
-            } else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
+            } else if (currentItemType === 'MusicAlbum' || currentItemType === 'MusicArtist') {
                 shape = 'square';
             } else {
                 shape = 'portrait';
@@ -241,18 +241,18 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
 
             html += '<div class="cardText cardText-secondary cardTextCentered">';
 
-            if (image.RatingType === "Likes") {
-                html += image.CommunityRating + (image.CommunityRating === 1 ? " like" : " likes");
+            if (image.RatingType === 'Likes') {
+                html += image.CommunityRating + (image.CommunityRating === 1 ? ' like' : ' likes');
             } else {
 
                 if (image.CommunityRating) {
                     html += image.CommunityRating.toFixed(1);
 
                     if (image.VoteCount) {
-                        html += ' • ' + image.VoteCount + (image.VoteCount === 1 ? " vote" : " votes");
+                        html += ' • ' + image.VoteCount + (image.VoteCount === 1 ? ' vote' : ' votes');
                     }
                 } else {
-                    html += "Unrated";
+                    html += 'Unrated';
                 }
             }
 

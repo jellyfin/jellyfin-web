@@ -368,7 +368,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             var timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
 
             if (runtimeTicks) {
-                timeText += " / " + datetime.getDisplayRunningTime(runtimeTicks);
+                timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
             }
 
             currentTimeElement.innerHTML = timeText;
@@ -440,7 +440,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (options.type === 'Primary') {
 
@@ -478,7 +478,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
 
