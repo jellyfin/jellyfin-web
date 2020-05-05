@@ -5,105 +5,150 @@
 var _define = window.define;
 
 // document-register-element
-var docRegister = require("document-register-element");
-_define("document-register-element", function() {
+var docRegister = require('document-register-element');
+_define('document-register-element', function() {
     return docRegister;
 });
 
 // fetch
-var fetch = require("whatwg-fetch");
-_define("fetch", function() {
-    return fetch
+var fetch = require('whatwg-fetch');
+_define('fetch', function() {
+    return fetch;
+});
+
+// query-string
+var query = require('query-string');
+_define('queryString', function() {
+    return query;
 });
 
 // flvjs
-var flvjs = require("flv.js/dist/flv").default;
-_define("flvjs", function() {
+var flvjs = require('flv.js/dist/flv').default;
+_define('flvjs', function() {
     return flvjs;
 });
 
 // jstree
-var jstree = require("jstree");
-require("jstree/dist/themes/default/style.css");
-_define("jstree", function() {
+var jstree = require('jstree');
+require('jstree/dist/themes/default/style.css');
+_define('jstree', function() {
     return jstree;
 });
 
 // jquery
-var jquery = require("jquery");
-_define("jQuery", function() {
+var jquery = require('jquery');
+_define('jQuery', function() {
     return jquery;
 });
 
 // hlsjs
-var hlsjs = require("hls.js");
-_define("hlsjs", function() {
+var hlsjs = require('hls.js');
+_define('hlsjs', function() {
     return hlsjs;
 });
 
 // howler
-var howler = require("howler");
-_define("howler", function() {
+var howler = require('howler');
+_define('howler', function() {
     return howler;
 });
 
-// native-promise-only
-var nativePromise = require("native-promise-only");
-_define("native-promise-only", function() {
-    return nativePromise;
-});
-
 // resize-observer-polyfill
-var resize = require("resize-observer-polyfill").default;
-_define("resize-observer-polyfill", function() {
+var resize = require('resize-observer-polyfill').default;
+_define('resize-observer-polyfill', function() {
     return resize;
 });
 
 // shaka
-var shaka = require("shaka-player");
-_define("shaka", function() {
+var shaka = require('shaka-player');
+_define('shaka', function() {
     return shaka;
 });
 
 // swiper
-var swiper = require("swiper/js/swiper");
-require("swiper/css/swiper.min.css");
-_define("swiper", function() {
+var swiper = require('swiper/js/swiper');
+require('swiper/css/swiper.min.css');
+_define('swiper', function() {
     return swiper;
 });
 
 // sortable
-var sortable = require("sortablejs").default;
-_define("sortable", function() {
+var sortable = require('sortablejs').default;
+_define('sortable', function() {
     return sortable;
 });
 
 // webcomponents
-var webcomponents = require("webcomponents.js/webcomponents-lite");
-_define("webcomponents", function() {
-    return webcomponents
-});
-
-// libjass
-var libjass = require("libjass");
-require("libjass/libjass.css");
-_define("libjass", function() {
-    return libjass;
+var webcomponents = require('webcomponents.js/webcomponents-lite');
+_define('webcomponents', function() {
+    return webcomponents;
 });
 
 // libass-wasm
-var libass_wasm = require("libass-wasm");
-_define("JavascriptSubtitlesOctopus", function() {
-    return libass_wasm;
+var libassWasm = require('libass-wasm');
+_define('JavascriptSubtitlesOctopus', function() {
+    return libassWasm;
 });
 
 // material-icons
-var material_icons = require("material-design-icons-iconfont/dist/material-design-icons.css");
-_define("material-icons", function() {
-    return material_icons;
+var materialIcons = require('material-design-icons-iconfont/dist/material-design-icons.css');
+_define('material-icons', function() {
+    return materialIcons;
 });
 
-var jellyfin_noto = require("jellyfin-noto");
-_define("jellyfin-noto", function () {
-    return jellyfin_noto;
+// noto font
+var noto = require('jellyfin-noto');
+_define('jellyfin-noto', function () {
+    return noto;
+});
+
+// page.js
+var page = require('page');
+_define('page', function() {
+    return page;
+});
+
+var polyfill = require('@babel/polyfill/dist/polyfill');
+_define('polyfill', function () {
+    return polyfill;
+});
+
+// domtokenlist-shim
+var classlist = require('classlist.js');
+_define('classlist-polyfill', function () {
+    return classlist;
+});
+
+// Date-FNS
+var dateFns = require('date-fns');
+_define('date-fns', function () {
+    return dateFns;
+});
+
+var dateFnsLocale = require('date-fns/locale');
+_define('date-fns/locale', function () {
+    return dateFnsLocale;
+});
+
+var fast_text_encoding = require('fast-text-encoding');
+_define('fast-text-encoding', function () {
+    return fast_text_encoding;
+});
+
+// intersection-observer
+var intersection_observer = require('intersection-observer');
+_define('intersection-observer', function () {
+    return intersection_observer;
+});
+
+// screenfull
+var screenfull = require('screenfull');
+_define('screenfull', function () {
+    return screenfull;
+});
+
+// headroom.js
+var headroom = require('headroom.js/dist/headroom');
+_define('headroom', function () {
+    return headroom;
 });

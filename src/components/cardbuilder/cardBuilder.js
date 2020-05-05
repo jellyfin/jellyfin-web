@@ -1,11 +1,36 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'playbackManager', 'itemShortcuts', 'scripts/imagehelper', 'css!./card', 'paper-icon-button-light', 'programStyles'],
-    function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, playbackManager, itemShortcuts, imageHelper) {
-        'use strict';
+/* eslint-disable indent */
 
-        var devicePixelRatio = window.devicePixelRatio || 1;
-        var enableFocusTransform = !browser.slow && !browser.edge;
+/**
+ * Module for building cards from item data.
+ * @module components/cardBuilder/cardBuilder
+ */
 
-        function getCardsHtml(items, options) {
+import datetime from 'datetime';
+import imageLoader from 'imageLoader';
+import connectionManager from 'connectionManager';
+import itemHelper from 'itemHelper';
+import focusManager from 'focusManager';
+import indicators from 'indicators';
+import globalize from 'globalize';
+import layoutManager from 'layoutManager';
+import dom from 'dom';
+import browser from 'browser';
+import playbackManager from 'playbackManager';
+import itemShortcuts from 'itemShortcuts';
+import imageHelper from 'scripts/imagehelper';
+import 'css!./card';
+import 'paper-icon-button-light';
+import 'programStyles';
+
+        const enableFocusTransform = !browser.slow && !browser.edge;
+
+        /**
+         * Generate the HTML markup for cards for a set of items.
+         * @param items - The items used to generate cards.
+         * @param options - The options of the cards.
+         * @returns {string} The HTML markup for the cards.
+         */
+        export function getCardsHtml(items, options) {
             if (arguments.length === 1) {
                 options = arguments[0];
                 items = options.items;
@@ -14,6 +39,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return buildCardsHtmlInternal(items, options);
         }
 
+        /**
+         * Computes the number of posters per row.
+         * @param {string} shape - Shape of the cards.
+         * @param {number} screenWidth - Width of the screen.
+         * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
+         * @returns {number} Number of cards per row for an itemsContainer.
+         */
         function getPostersPerRow(shape, screenWidth, isOrientationLandscape) {
             switch (shape) {
                 case 'portrait':
@@ -140,7 +172,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 72;
                     }
-                    break;
                 case 'overflowPortrait':
 
                     if (layoutManager.tv) {
@@ -166,7 +197,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 42;
                     }
-                    break;
                 case 'overflowSquare':
                     if (layoutManager.tv) {
                         return 100 / 15.5;
@@ -191,7 +221,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 42;
                     }
-                    break;
                 case 'overflowBackdrop':
                     if (layoutManager.tv) {
                         return 100 / 23.3;
@@ -216,16 +245,20 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         }
                         return 100 / 72;
                     }
-                    break;
                 default:
                     return 4;
             }
         }
 
+        /**
+         * Checks if the window is resizable.
+         * @param {number} windowWidth - Width of the device's screen.
+         * @returns {boolean} - Result of the check.
+         */
         function isResizable(windowWidth) {
-            var screen = window.screen;
+            const screen = window.screen;
             if (screen) {
-                var screenWidth = screen.availWidth;
+                const screenWidth = screen.availWidth;
 
                 if ((screenWidth - windowWidth) > 20) {
                     return true;
@@ -235,22 +268,31 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return false;
         }
 
+        /**
+         * Gets the width of a card's image according to the shape and amount of cards per row.
+         * @param {string} shape - Shape of the card.
+         * @param {number} screenWidth - Width of the screen.
+         * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
+         * @returns {number} Width of the image for a card.
+         */
         function getImageWidth(shape, screenWidth, isOrientationLandscape) {
-            var imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
-            var shapeWidth = screenWidth / imagesPerRow;
-
-            return Math.round(shapeWidth);
+            const imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape);
+            return Math.round(screenWidth / imagesPerRow) * 2;
         }
 
+        /**
+         * Normalizes the options for a card.
+         * @param {Object} items - A set of items.
+         * @param {Object} options - Options for handling the items.
+         */
         function setCardData(items, options) {
+            options.shape = options.shape || 'auto';
 
-            options.shape = options.shape || "auto";
+            const primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items);
 
-            var primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items);
+            if (['auto', 'autohome', 'autooverflow', 'autoVertical'].includes(options.shape)) {
 
-            if (options.shape === 'auto' || options.shape === 'autohome' || options.shape === 'autooverflow' || options.shape === 'autoVertical') {
-
-                var requestedShape = options.shape;
+                const requestedShape = options.shape;
                 options.shape = null;
 
                 if (primaryImageAspectRatio) {
@@ -288,11 +330,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (!options.width) {
-                var screenWidth = dom.getWindowSize().innerWidth;
-                var screenHeight = dom.getWindowSize().innerHeight;
+                let screenWidth = dom.getWindowSize().innerWidth;
+                const screenHeight = dom.getWindowSize().innerHeight;
 
                 if (isResizable(screenWidth)) {
-                    var roundScreenTo = 100;
+                    const roundScreenTo = 100;
                     screenWidth = Math.floor(screenWidth / roundScreenTo) * roundScreenTo;
                 }
 
@@ -300,9 +342,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
+        /**
+         * Generates the internal HTML markup for cards.
+         * @param {Object} items - Items for which to generate the markup.
+         * @param {Object} options - Options for generating the markup.
+         * @returns {string} The internal HTML markup of the cards.
+         */
         function buildCardsHtmlInternal(items, options) {
-
-            var isVertical;
+            let isVertical = false;
 
             if (options.shape === 'autoVertical') {
                 isVertical = true;
@@ -310,24 +357,21 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             setCardData(items, options);
 
-            var html = '';
-            var itemsInRow = 0;
+            let html = '';
+            let itemsInRow = 0;
 
-            var currentIndexValue;
-            var hasOpenRow;
-            var hasOpenSection;
+            let currentIndexValue;
+            let hasOpenRow;
+            let hasOpenSection;
 
-            var sectionTitleTagName = options.sectionTitleTagName || 'div';
-            var apiClient;
-            var lastServerId;
+            let sectionTitleTagName = options.sectionTitleTagName || 'div';
+            let apiClient;
+            let lastServerId;
 
-            var i;
-            var length;
+            for (let i = 0; i < items.length; i++) {
 
-            for (i = 0, length = items.length; i < length; i++) {
-
-                var item = items[i];
-                var serverId = item.ServerId || options.serverId;
+                let item = items[i];
+                let serverId = item.ServerId || options.serverId;
 
                 if (serverId !== lastServerId) {
                     lastServerId = serverId;
@@ -335,14 +379,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (options.indexBy) {
-                    var newIndexValue = '';
+                    let newIndexValue = '';
 
                     if (options.indexBy === 'PremiereDate') {
                         if (item.PremiereDate) {
                             try {
                                 newIndexValue = datetime.toLocaleDateString(datetime.parseISO8601Date(item.PremiereDate), { weekday: 'long', month: 'long', day: 'numeric' });
-                            } catch (err) {
-                                console.log('error parsing timestamp for premiere date');
+                            } catch (error) {
+                                console.error('error parsing timestamp for premiere date', error);
                             }
                         }
                     } else if (options.indexBy === 'ProductionYear') {
@@ -417,21 +461,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            var cardFooterHtml = '';
-            for (i = 0, length = (options.lines || 0); i < length; i++) {
-
-                if (i === 0) {
-                    cardFooterHtml += '<div class="cardText cardTextCentered cardText-first">&nbsp;</div>';
-                } else {
-                    cardFooterHtml += '<div class="cardText cardTextCentered cardText-secondary">&nbsp;</div>';
-                }
-            }
-
             return html;
         }
 
+        /**
+         * Computes the aspect ratio for a card given its shape.
+         * @param {string} shape - Shape for which to get the aspect ratio.
+         * @returns {null|number} Ratio of the shape.
+         */
         function getDesiredAspect(shape) {
-
             if (shape) {
                 shape = shape.toLowerCase();
                 if (shape.indexOf('portrait') !== -1) {
@@ -450,72 +488,85 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return null;
         }
 
+        /** Get the URL of the card's image.
+         * @param {Object} item - Item for which to generate a card.
+         * @param {Object} apiClient - API client object.
+         * @param {Object} options - Options of the card.
+         * @param {string} shape - Shape of the desired image.
+         * @returns {Object} Object representing the URL of the card's image.
+         */
         function getCardImageUrl(item, apiClient, options, shape) {
+            item = item.ProgramInfo || item;
 
-            var imageItem = item.ProgramInfo || item;
-            item = imageItem;
-
-            var width = options.width;
-            var height = null;
-            var primaryImageAspectRatio = item.PrimaryImageAspectRatio;
-            var forceName = false;
-            var imgUrl = null;
-            var coverImage = false;
-            var uiAspect = null;
+            const width = options.width;
+            let height = null;
+            const primaryImageAspectRatio = item.PrimaryImageAspectRatio;
+            let forceName = false;
+            let imgUrl = null;
+            let coverImage = false;
+            let uiAspect = null;
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Thumb",
+                    type: 'Thumb',
+                    maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
 
             } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Banner",
+                    type: 'Banner',
+                    maxWidth: width,
                     tag: item.ImageTags.Banner
                 });
 
             } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Disc",
+                    type: 'Disc',
+                    maxWidth: width,
                     tag: item.ImageTags.Disc
                 });
 
             } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Logo",
+                    type: 'Logo',
+                    maxWidth: width,
                     tag: item.ImageTags.Logo
                 });
 
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
-                    type: "Logo",
+                    type: 'Logo',
+                    maxWidth: width,
                     tag: item.ParentLogoImageTag
                 });
 
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: "Thumb",
+                    type: 'Thumb',
+                    maxWidth: width,
                     tag: item.SeriesThumbImageTag
                 });
 
             } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
-                    type: "Thumb",
+                    type: 'Thumb',
+                    maxWidth: width,
                     tag: item.ParentThumbImageTag
                 });
 
             } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
+                    maxWidth: width,
                     tag: item.BackdropImageTags[0]
                 });
 
@@ -524,7 +575,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
+                    maxWidth: width,
                     tag: item.ParentBackdropImageTags[0]
                 });
 
@@ -533,7 +585,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Primary",
+                    type: 'Primary',
+                    maxHeight: height,
+                    maxWidth: width,
                     tag: item.ImageTags.Primary
                 });
 
@@ -553,7 +607,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.PrimaryImageItemId || item.Id || item.ItemId, {
-                    type: "Primary",
+                    type: 'Primary',
+                    maxHeight: height,
+                    maxWidth: width,
                     tag: item.PrimaryImageTag
                 });
 
@@ -570,21 +626,25 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             } else if (item.ParentPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
-                    type: "Primary",
+                    type: 'Primary',
+                    maxWidth: width,
                     tag: item.ParentPrimaryImageTag
                 });
             } else if (item.SeriesPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: "Primary",
+                    type: 'Primary',
+                    maxWidth: width,
                     tag: item.SeriesPrimaryImageTag
                 });
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
-                width = primaryImageAspectRatio ? Math.round(height * primaryImageAspectRatio) : null;
+                height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.AlbumId, {
-                    type: "Primary",
+                    type: 'Primary',
+                    maxHeight: height,
+                    maxWidth: width,
                     tag: item.AlbumPrimaryImageTag
                 });
 
@@ -597,42 +657,48 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Thumb",
+                    type: 'Thumb',
+                    maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
 
             } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
+                    maxWidth: width,
                     tag: item.BackdropImageTags[0]
                 });
 
             } else if (item.ImageTags && item.ImageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Thumb",
+                    type: 'Thumb',
+                    maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
 
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: "Thumb",
+                    type: 'Thumb',
+                    maxWidth: width,
                     tag: item.SeriesThumbImageTag
                 });
 
             } else if (item.ParentThumbItemId && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
-                    type: "Thumb",
+                    type: 'Thumb',
+                    maxWidth: width,
                     tag: item.ParentThumbImageTag
                 });
 
             } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
+                    maxWidth: width,
                     tag: item.ParentBackdropImageTags[0]
                 });
 
@@ -645,21 +711,32 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             };
         }
 
+        /**
+         * Generates a random integer in a given range.
+         * @param {number} min - Minimum of the range.
+         * @param {number} max - Maximum of the range.
+         * @returns {number} Randomly generated number.
+         */
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        var numRandomColors = 5;
+        /**
+         * Generates an index used to select the default color of a card based on a string.
+         * @param {string} str - String to use for generating the index.
+         * @returns {number} Index of the color.
+         */
         function getDefaultColorIndex(str) {
+            const numRandomColors = 5;
 
             if (str) {
-                var charIndex = Math.floor(str.length / 2);
-                var character = String(str.substr(charIndex, 1).charCodeAt());
-                var sum = 0;
-                for (var i = 0; i < character.length; i++) {
+                const charIndex = Math.floor(str.length / 2);
+                const character = String(str.substr(charIndex, 1).charCodeAt());
+                let sum = 0;
+                for (let i = 0; i < character.length; i++) {
                     sum += parseInt(character.charAt(i));
                 }
-                var index = String(sum).substr(-1);
+                let index = String(sum).substr(-1);
 
                 return (index % numRandomColors) + 1;
             } else {
@@ -667,18 +744,26 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
+        /**
+         * Generates the HTML markup for a card's text.
+         * @param {Array} lines - Array containing the text lines.
+         * @param {string} cssClass - Base CSS class to use for the lines.
+         * @param {boolean} forceLines - Flag to force the rendering of all lines.
+         * @param {boolean} isOuterFooter - Flag to mark the text lines as outer footer.
+         * @param {string} cardLayout - DEPRECATED
+         * @param {boolean} addRightMargin - Flag to add a right margin to the text.
+         * @param {number} maxLines - Maximum number of lines to render.
+         * @returns {string} HTML markup for the card's text.
+         */
         function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout, addRightMargin, maxLines) {
+            let html = '';
 
-            var html = '';
+            let valid = 0;
 
-            var valid = 0;
-            var i;
-            var length;
+            for (let i = 0; i < lines.length; i++) {
 
-            for (i = 0, length = lines.length; i < length; i++) {
-
-                var currentCssClass = cssClass;
-                var text = lines[i];
+                let currentCssClass = cssClass;
+                let text = lines[i];
 
                 if (valid > 0 && isOuterFooter) {
                     currentCssClass += ' cardText-secondary';
@@ -693,7 +778,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (text) {
                     html += "<div class='" + currentCssClass + "'>";
                     html += text;
-                    html += "</div>";
+                    html += '</div>';
                     valid++;
 
                     if (maxLines && valid >= maxLines) {
@@ -704,9 +789,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (forceLines) {
 
-                length = maxLines || Math.min(lines.length, maxLines || lines.length);
+                let linesLength = maxLines || Math.min(lines.length, maxLines || lines.length);
 
-                while (valid < length) {
+                while (valid < linesLength) {
                     html += "<div class='" + cssClass + "'>&nbsp;</div>";
                     valid++;
                 }
@@ -715,17 +800,29 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
+        /**
+         * Determines if the item is live TV.
+         * @param {Object} item - Item to use for the check.
+         * @returns {boolean} Flag showing if the item is live TV.
+         */
         function isUsingLiveTvNaming(item) {
             return item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording';
         }
 
+        /**
+         * Returns the air time text for the item based on the given times.
+         * @param {object} item - Item used to generate the air time text.
+         * @param {string} showAirDateTime - ISO8601 date for the start of the show.
+         * @param {string} showAirEndTime - ISO8601 date for the end of the show.
+         * @returns {string} The air time text for the item based on the given dates.
+         */
         function getAirTimeText(item, showAirDateTime, showAirEndTime) {
+            let airTimeText = '';
 
-            var airTimeText = '';
             if (item.StartDate) {
 
                 try {
-                    var date = datetime.parseISO8601Date(item.StartDate);
+                    let date = datetime.parseISO8601Date(item.StartDate);
 
                     if (showAirDateTime) {
                         airTimeText += datetime.toLocaleDateString(date, { weekday: 'short', month: 'short', day: 'numeric' }) + ' ';
@@ -738,36 +835,50 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         airTimeText += ' - ' + datetime.getDisplayTime(date);
                     }
                 } catch (e) {
-                    console.log("Error parsing date: " + item.StartDate);
+                    console.error('error parsing date: ' + item.StartDate);
                 }
             }
 
             return airTimeText;
         }
 
+        /**
+         * Generates the HTML markup for the card's footer text.
+         * @param {Object} item - Item used to generate the footer text.
+         * @param {Object} apiClient - API client instance.
+         * @param {Object} options - Options used to generate the footer text.
+         * @param {string} showTitle - Flag to show the title in the footer.
+         * @param {boolean} forceName - Flag to force showing the name of the item.
+         * @param {boolean} overlayText - Flag to show overlay text.
+         * @param {Object} imgUrl - Object representing the card's image URL.
+         * @param {string} footerClass - CSS classes of the footer element.
+         * @param {string} progressHtml - HTML markup of the progress bar element.
+         * @param {string} logoUrl - URL of the logo for the item.
+         * @param {boolean} isOuterFooter - Flag to mark the text as outer footer.
+         * @returns {string} HTML markup of the card's footer text element.
+         */
         function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, logoUrl, isOuterFooter) {
-
-            var html = '';
+            let html = '';
 
             if (logoUrl) {
                 html += '<div class="lazy cardFooterLogo" data-src="' + logoUrl + '"></div>';
             }
 
-            var showOtherText = isOuterFooter ? !overlayText : overlayText;
+            const showOtherText = isOuterFooter ? !overlayText : overlayText;
 
             if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
 
                 if (options.cardFooterAside !== 'none') {
-                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="material-icons more_horiz"></i></button>';
+                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><span class="material-icons more_horiz"></span></button>';
                 }
             }
 
-            var cssClass = options.centerText ? "cardText cardTextCentered" : "cardText";
-            var serverId = item.ServerId || options.serverId;
+            const cssClass = options.centerText ? 'cardText cardTextCentered' : 'cardText';
+            const serverId = item.ServerId || options.serverId;
 
-            var lines = [];
-            var parentTitleUnderneath = item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'MusicVideo';
-            var titleAdded;
+            let lines = [];
+            const parentTitleUnderneath = item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'MusicVideo';
+            let titleAdded;
 
             if (showOtherText) {
                 if ((options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
@@ -796,7 +907,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             }
 
                         } else {
-                            var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || "";
+                            const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
 
                             if (parentTitle || showTitle) {
                                 lines.push(parentTitle);
@@ -806,14 +917,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            var showMediaTitle = (showTitle && !titleAdded) || (options.showParentTitleOrTitle && !lines.length);
+            let showMediaTitle = (showTitle && !titleAdded) || (options.showParentTitleOrTitle && !lines.length);
             if (!showMediaTitle && !titleAdded && (showTitle || forceName)) {
                 showMediaTitle = true;
             }
 
             if (showMediaTitle) {
 
-                var name = options.showTitle === 'auto' && !item.IsFolder && item.MediaType === 'Photo' ? '' : itemHelper.getDisplayName(item, {
+                const name = options.showTitle === 'auto' && !item.IsFolder && item.MediaType === 'Photo' ? '' : itemHelper.getDisplayName(item, {
                     includeParentInfo: options.includeParentInfoInTitle
                 });
 
@@ -835,27 +946,23 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         item.AlbumArtists[0].IsFolder = true;
                         lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
                     } else {
-                        lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || ""));
+                        lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || ''));
                     }
                 }
 
                 if (options.showItemCounts) {
-
-                    var itemCountHtml = getItemCountsHtml(options, item);
-
-                    lines.push(itemCountHtml);
+                    lines.push(getItemCountsHtml(options, item));
                 }
 
                 if (options.textLines) {
-                    var additionalLines = options.textLines(item);
-                    for (var i = 0, length = additionalLines.length; i < length; i++) {
+                    const additionalLines = options.textLines(item);
+                    for (let i = 0; i < additionalLines.length; i++) {
                         lines.push(additionalLines[i]);
                     }
                 }
 
                 if (options.showSongCount) {
-
-                    var songLine = '';
+                    let songLine = '';
 
                     if (item.SongCount) {
                         songLine = item.SongCount === 1 ?
@@ -870,9 +977,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     if (item.PremiereDate) {
                         try {
-
-                            lines.push(getPremiereDateText(item));
-
+                            lines.push(datetime.toLocaleDateString(
+                                datetime.parseISO8601Date(item.PremiereDate),
+                                { weekday: 'long', month: 'long', day: 'numeric' }
+                            ));
                         } catch (err) {
                             lines.push('');
 
@@ -885,14 +993,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (options.showYear || options.showSeriesYear) {
 
                     if (item.Type === 'Series') {
-                        if (item.Status === "Continuing") {
+                        if (item.Status === 'Continuing') {
 
                             lines.push(globalize.translate('SeriesYearToPresent', item.ProductionYear || ''));
 
                         } else {
 
                             if (item.EndDate && item.ProductionYear) {
-                                var endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
+                                const endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
                                 lines.push(item.ProductionYear + ((endYear === item.ProductionYear) ? '' : (' - ' + endYear)));
                             } else {
                                 lines.push(item.ProductionYear || '');
@@ -974,11 +1082,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (options.showPersonRoleOrType) {
                     if (item.Role) {
-                        lines.push('as ' + item.Role);
-                    } else if (item.Type) {
-                        lines.push(globalize.translate('' + item.Type));
-                    } else {
-                        lines.push('');
+                        lines.push(globalize.translate('PersonRole', item.Role));
                     }
                 }
             }
@@ -987,7 +1091,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 lines = [];
             }
 
-            var addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
+            const addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
 
             html += getCardTextLines(lines, cssClass, !options.overlayText, isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
 
@@ -1001,15 +1105,21 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     html = '<div class="' + footerClass + '">' + html;
 
                     //cardFooter
-                    html += "</div>";
+                    html += '</div>';
                 }
             }
 
             return html;
         }
 
+        /**
+         * Generates the HTML markup for the action button.
+         * @param {Object} item - Item used to generate the action button.
+         * @param {string} text - Text of the action button.
+         * @param {string} serverId - ID of the server.
+         * @returns {string} HTML markup of the action button.
+         */
         function getTextActionButton(item, text, serverId) {
-
             if (!text) {
                 text = itemHelper.getDisplayName(item);
             }
@@ -1018,18 +1128,22 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 return text;
             }
 
-            var html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton" title="' + text + '" data-action="link">';
+            let html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton" title="' + text + '" data-action="link">';
             html += text;
             html += '</button>';
 
             return html;
         }
 
+        /**
+         * Generates HTML markup for the item count indicator.
+         * @param {Object} options - Options used to generate the item count.
+         * @param {Object} item - Item used to generate the item count.
+         * @returns {string} HTML markup for the item count indicator.
+         */
         function getItemCountsHtml(options, item) {
-
-            var counts = [];
-
-            var childText;
+            let counts = [];
+            let childText;
 
             if (item.Type === 'Playlist') {
 
@@ -1037,7 +1151,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (item.RunTimeTicks) {
 
-                    var minutes = item.RunTimeTicks / 600000000;
+                    let minutes = item.RunTimeTicks / 600000000;
 
                     minutes = minutes || 1;
 
@@ -1077,7 +1191,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     counts.push(childText);
                 }
 
-            } else if (item.Type === 'MusicGenre' || options.context === "MusicArtist") {
+            } else if (item.Type === 'MusicGenre' || options.context === 'MusicArtist') {
 
                 if (item.AlbumCount) {
 
@@ -1116,49 +1230,37 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return counts.join(', ');
         }
 
-        function getProgramIndicators(item) {
+        let refreshIndicatorLoaded;
 
-            item = item.ProgramInfo || item;
-
-            var html = '';
-
-            if (item.IsLive) {
-                html += '<div class="liveTvProgram programAttributeIndicator">' + globalize.translate('Live') + '</div>';
-            }
-
-            if (item.IsPremiere) {
-                html += '<div class="premiereTvProgram programAttributeIndicator">' + globalize.translate('Premiere') + '</div>';
-            } else if (item.IsSeries && !item.IsRepeat) {
-                html += '<div class="newTvProgram programAttributeIndicator">' + globalize.translate('AttributeNew') + '</div>';
-            }
-            //else if (item.IsRepeat) {
-            //    html += '<div class="repeatTvProgram programAttributeIndicator">' + globalize.translate('Repeat') + '</div>';
-            //}
-
-            if (html) {
-                html = '<div class="cardProgramAttributeIndicators">' + html;
-                html += '</div>';
-            }
-
-            return html;
-        }
-
-        var refreshIndicatorLoaded;
+        /**
+         * Imports the refresh indicator element.
+         */
         function requireRefreshIndicator() {
-
             if (!refreshIndicatorLoaded) {
                 refreshIndicatorLoaded = true;
                 require(['emby-itemrefreshindicator']);
             }
         }
 
-        function getDefaultBackgroundClass(str) {
+        /**
+         * Returns the default background class for a card based on a string.
+         * @param {string} str - Text used to generate the background class.
+         * @returns {string} CSS classes for default card backgrounds.
+         */
+        export function getDefaultBackgroundClass(str) {
             return 'defaultCardBackground defaultCardBackground' + getDefaultColorIndex(str);
         }
 
+        /**
+         * Builds the HTML markup for an individual card.
+         * @param {number} index - Index of the card
+         * @param {object} item - Item used to generate the card.
+         * @param {object} apiClient - API client instance.
+         * @param {object} options - Options used to generate the card.
+         * @returns {string} HTML markup for the generated card.
+         */
         function buildCard(index, item, apiClient, options) {
-
-            var action = options.action || 'link';
+            let action = options.action || 'link';
 
             if (action === 'play' && item.IsFolder) {
                 // If this hard-coding is ever removed make sure to test nested photo albums
@@ -1167,13 +1269,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 action = 'play';
             }
 
-            var shape = options.shape;
+            let shape = options.shape;
 
             if (shape === 'mixed') {
 
                 shape = null;
 
-                var primaryImageAspectRatio = item.PrimaryImageAspectRatio;
+                const primaryImageAspectRatio = item.PrimaryImageAspectRatio;
 
                 if (primaryImageAspectRatio) {
 
@@ -1191,7 +1293,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             // TODO move card creation code to Card component
 
-            var className = 'card';
+            let className = 'card';
 
             if (shape) {
                 className += ' ' + shape + 'Card';
@@ -1202,7 +1304,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (options.cardClass) {
-                className += " " + options.cardClass;
+                className += ' ' + options.cardClass;
             }
 
             if (layoutManager.desktop) {
@@ -1217,16 +1319,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            var imgInfo = getCardImageUrl(item, apiClient, options, shape);
-            var imgUrl = imgInfo.imgUrl;
+            const imgInfo = getCardImageUrl(item, apiClient, options, shape);
+            const imgUrl = imgInfo.imgUrl;
 
-            var forceName = imgInfo.forceName;
+            const forceName = imgInfo.forceName;
 
-            var showTitle = options.showTitle === 'auto' ? true : (options.showTitle || item.Type === 'PhotoAlbum' || item.Type === 'Folder');
-            var overlayText = options.overlayText;
+            const showTitle = options.showTitle === 'auto' ? true : (options.showTitle || item.Type === 'PhotoAlbum' || item.Type === 'Folder');
+            const overlayText = options.overlayText;
 
-            var cardImageContainerClass = 'cardImageContainer';
-            var coveredImage = options.coverImage || imgInfo.coverImage;
+            let cardImageContainerClass = 'cardImageContainer';
+            const coveredImage = options.coverImage || imgInfo.coverImage;
 
             if (coveredImage) {
                 cardImageContainerClass += ' coveredImage';
@@ -1240,27 +1342,27 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerClass += ' ' + getDefaultBackgroundClass(item.Name);
             }
 
-            var cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
+            let cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
 
-            var footerCssClass;
-            var progressHtml = indicators.getProgressBarHtml(item);
+            let footerCssClass;
+            let progressHtml = indicators.getProgressBarHtml(item);
 
-            var innerCardFooter = '';
+            let innerCardFooter = '';
 
-            var footerOverlayed = false;
+            let footerOverlayed = false;
 
-            var logoUrl;
-            var logoHeight = 40;
+            let logoUrl;
+            const logoHeight = 40;
 
             if (options.showChannelLogo && item.ChannelPrimaryImageTag) {
                 logoUrl = apiClient.getScaledImageUrl(item.ChannelId, {
-                    type: "Primary",
+                    type: 'Primary',
                     height: logoHeight,
                     tag: item.ChannelPrimaryImageTag
                 });
             } else if (options.showLogo && item.ParentLogoImageTag) {
                 logoUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
-                    type: "Logo",
+                    type: 'Logo',
                     height: logoHeight,
                     tag: item.ParentLogoImageTag
                 });
@@ -1281,12 +1383,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 progressHtml = '';
             }
 
-            var mediaSourceCount = item.MediaSourceCount || 1;
+            const mediaSourceCount = item.MediaSourceCount || 1;
             if (mediaSourceCount > 1) {
                 innerCardFooter += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
             }
 
-            var outerCardFooter = '';
+            let outerCardFooter = '';
             if (!overlayText && !footerOverlayed) {
                 footerCssClass = options.cardLayout ? 'cardFooter' : 'cardFooter cardFooter-transparent';
 
@@ -1305,26 +1407,26 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardBoxClass += ' cardBox-bottompadded';
             }
 
-            var overlayButtons = '';
+            let overlayButtons = '';
             if (layoutManager.mobile) {
-                var overlayPlayButton = options.overlayPlayButton;
+                let overlayPlayButton = options.overlayPlayButton;
 
                 if (overlayPlayButton == null && !options.overlayMoreButton && !options.overlayInfoButton && !options.cardLayout) {
                     overlayPlayButton = item.MediaType === 'Video';
                 }
 
-                var btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
+                const btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
                 if (options.centerPlayButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow"></span></button>';
                 }
 
                 if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow"></span></button>';
                 }
 
                 if (options.overlayMoreButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon more_horiz"></i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon more_horiz"></span></button>';
                 }
             }
 
@@ -1333,12 +1435,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             // cardBox can be it's own separate element if an outer footer is ever needed
-            var cardImageContainerOpen;
-            var cardImageContainerClose = '';
-            var cardBoxClose = '';
-            var cardScalableClose = '';
+            let cardImageContainerOpen;
+            let cardImageContainerClose = '';
+            let cardBoxClose = '';
+            let cardScalableClose = '';
 
-            var cardContentClass = 'cardContent';
+            let cardContentClass = 'cardContent';
             if (!options.cardLayout) {
                 cardContentClass += ' cardContent-shadow';
             }
@@ -1356,13 +1458,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerClose = '</button>';
             }
 
-            var cardScalableClass = 'cardScalable';
+            let cardScalableClass = 'cardScalable';
 
             cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
 
-            var indicatorsHtml = '';
+            let indicatorsHtml = '';
 
             if (options.missingIndicator !== false) {
                 indicatorsHtml += indicators.getMissingIndicator(item);
@@ -1383,7 +1485,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (item.Type === 'CollectionFolder' || item.CollectionType) {
-                var refreshClass = item.RefreshProgress || (item.RefreshStatus && virtualFolder.item !== 'Idle') ? '' : ' class="hide"';
+                const refreshClass = item.RefreshProgress ? '' : ' class="hide"';
                 indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
                 requireRefreshIndicator();
             }
@@ -1392,24 +1494,20 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerOpen += '<div class="cardIndicators">' + indicatorsHtml + '</div>';
             }
 
-            //if (item.Type === 'Program' || item.Type === 'Timer') {
-            //    cardImageContainerOpen += getProgramIndicators(item);
-            //}
-
             if (!imgUrl) {
                 cardImageContainerOpen += getDefaultText(item, options);
             }
 
-            var tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
+            const tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
 
-            var nameWithPrefix = (item.SortName || item.Name || '');
-            var prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
+            const nameWithPrefix = (item.SortName || item.Name || '');
+            let prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
 
             if (prefix) {
                 prefix = prefix.toUpperCase();
             }
 
-            var timerAttributes = '';
+            let timerAttributes = '';
             if (item.TimerId) {
                 timerAttributes += ' data-timerid="' + item.TimerId + '"';
             }
@@ -1417,10 +1515,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 timerAttributes += ' data-seriestimerid="' + item.SeriesTimerId + '"';
             }
 
-            var actionAttribute;
+            let actionAttribute;
 
             if (tagName === 'button') {
-                className += " itemAction";
+                className += ' itemAction';
                 actionAttribute = ' data-action="' + action + '"';
             } else {
                 actionAttribute = '';
@@ -1430,16 +1528,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += ' card-withuserdata';
             }
 
-            var positionTicksData = item.UserData && item.UserData.PlaybackPositionTicks ? (' data-positionticks="' + item.UserData.PlaybackPositionTicks + '"') : '';
-            var collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
-            var playlistIdData = options.playlistId ? (' data-playlistid="' + options.playlistId + '"') : '';
-            var mediaTypeData = item.MediaType ? (' data-mediatype="' + item.MediaType + '"') : '';
-            var collectionTypeData = item.CollectionType ? (' data-collectiontype="' + item.CollectionType + '"') : '';
-            var channelIdData = item.ChannelId ? (' data-channelid="' + item.ChannelId + '"') : '';
-            var contextData = options.context ? (' data-context="' + options.context + '"') : '';
-            var parentIdData = options.parentId ? (' data-parentid="' + options.parentId + '"') : '';
+            const positionTicksData = item.UserData && item.UserData.PlaybackPositionTicks ? (' data-positionticks="' + item.UserData.PlaybackPositionTicks + '"') : '';
+            const collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
+            const playlistIdData = options.playlistId ? (' data-playlistid="' + options.playlistId + '"') : '';
+            const mediaTypeData = item.MediaType ? (' data-mediatype="' + item.MediaType + '"') : '';
+            const collectionTypeData = item.CollectionType ? (' data-collectiontype="' + item.CollectionType + '"') : '';
+            const channelIdData = item.ChannelId ? (' data-channelid="' + item.ChannelId + '"') : '';
+            const contextData = options.context ? (' data-context="' + options.context + '"') : '';
+            const parentIdData = options.parentId ? (' data-parentid="' + options.parentId + '"') : '';
 
-            var additionalCardContent = '';
+            let additionalCardContent = '';
 
             if (layoutManager.desktop) {
                 additionalCardContent += getHoverMenuHtml(item, action);
@@ -1448,36 +1546,41 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
+        /**
+         * Generates HTML markup for the card overlay.
+         * @param {object} item - Item used to generate the card overlay.
+         * @param {string} action - Action assigned to the overlay.
+         * @returns {string} HTML markup of the card overlay.
+         */
         function getHoverMenuHtml(item, action) {
-
-            var html = '';
+            let html = '';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
 
-            var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
+            const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
             if (playbackManager.canPlay(item)) {
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></i></button>';
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></span></button>';
             }
 
-            html += '<div class="cardOverlayButton-br">';
+            html += '<div class="cardOverlayButton-br flex">';
 
-            var userData = item.UserData || {};
+            const userData = item.UserData || {};
 
             if (itemHelper.canMarkPlayed(item)) {
                 require(['emby-playstatebutton']);
-                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">check</i></button>';
+                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
             }
 
             if (itemHelper.canRate(item)) {
 
-                var likes = userData.Likes == null ? '' : userData.Likes;
+                const likes = userData.Likes == null ? '' : userData.Likes;
 
                 require(['emby-ratingbutton']);
-                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">favorite</i></button>';
+                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }
 
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_horiz"></i></button>';
+            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_horiz"></span></button>';
 
             html += '</div>';
             html += '</div>';
@@ -1485,37 +1588,47 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getDefaultText(item, options) {
+        /**
+         * Generates the text or icon used for default card backgrounds.
+         * @param {object} item - Item used to generate the card overlay.
+         * @param {object} options - Options used to generate the card overlay.
+         * @returns {string} HTML markup of the card overlay.
+         */
+        export function getDefaultText(item, options) {
             if (item.CollectionType) {
-                return '<i class="cardImageIcon material-icons">' + imageHelper.getLibraryIcon(item.CollectionType) + '</i>'
+                return '<span class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '"></span>';
             }
 
             switch (item.Type) {
                 case 'MusicAlbum':
-                    return '<i class="cardImageIcon material-icons">album</i>';
+                    return '<span class="cardImageIcon material-icons album"></span>';
                 case 'MusicArtist':
                 case 'Person':
-                    return '<i class="cardImageIcon material-icons">person</i>';
+                    return '<span class="cardImageIcon material-icons person"></span>';
                 case 'Movie':
-                    return '<i class="cardImageIcon material-icons">movie</i>'
+                    return '<span class="cardImageIcon material-icons movie"></span>';
                 case 'Series':
-                    return '<i class="cardImageIcon material-icons">tv</i>'
+                    return '<span class="cardImageIcon material-icons tv"></span>';
                 case 'Book':
-                    return '<i class="cardImageIcon material-icons">book</i>'
+                    return '<span class="cardImageIcon material-icons book"></span>';
                 case 'Folder':
-                    return '<i class="cardImageIcon material-icons">folder</i>'
+                    return '<span class="cardImageIcon material-icons folder"></span>';
             }
 
             if (options && options.defaultCardImageIcon) {
-                return '<i class="cardImageIcon material-icons">' + options.defaultCardImageIcon + '</i>';
+                return '<span class="cardImageIcon material-icons ' + options.defaultCardImageIcon + '"></span>';
             }
 
-            var defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
+            const defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
             return '<div class="cardText cardDefaultText">' + defaultName + '</div>';
         }
 
-        function buildCards(items, options) {
-
+        /**
+         * Builds a set of cards and inserts them into the page.
+         * @param {Array} items - Array of items used to build the cards.
+         * @param {options} options - Options of the cards to build.
+         */
+        export function buildCards(items, options) {
             // Abort if the container has been disposed
             if (!document.body.contains(options.itemsContainer)) {
                 return;
@@ -1530,7 +1643,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            var html = buildCardsHtmlInternal(items, options);
+            const html = buildCardsHtmlInternal(items, options);
 
             if (html) {
 
@@ -1556,8 +1669,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
+        /**
+         * Ensures the indicators for a card exist and creates them if they don't exist.
+         * @param {HTMLDivElement} card - DOM element of the card.
+         * @param {HTMLDivElement} indicatorsElem - DOM element of the indicators.
+         * @returns {HTMLDivElement} - DOM element of the indicators.
+         */
         function ensureIndicators(card, indicatorsElem) {
-
             if (indicatorsElem) {
                 return indicatorsElem;
             }
@@ -1566,7 +1684,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (!indicatorsElem) {
 
-                var cardImageContainer = card.querySelector('.cardImageContainer');
+                const cardImageContainer = card.querySelector('.cardImageContainer');
                 indicatorsElem = document.createElement('div');
                 indicatorsElem.classList.add('cardIndicators');
                 cardImageContainer.appendChild(indicatorsElem);
@@ -1575,14 +1693,18 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return indicatorsElem;
         }
 
+        /**
+         * Adds user data to the card such as progress indicators and played status.
+         * @param {HTMLDivElement} card - DOM element of the card.
+         * @param {Object} userData - User data to apply to the card.
+         */
         function updateUserData(card, userData) {
-
-            var type = card.getAttribute('data-type');
-            var enableCountIndicator = type === 'Series' || type === 'BoxSet' || type === 'Season';
-            var indicatorsElem = null;
-            var playedIndicator = null;
-            var countIndicator = null;
-            var itemProgressBar = null;
+            const type = card.getAttribute('data-type');
+            const enableCountIndicator = type === 'Series' || type === 'BoxSet' || type === 'Season';
+            let indicatorsElem = null;
+            let playedIndicator = null;
+            let countIndicator = null;
+            let itemProgressBar = null;
 
             if (userData.Played) {
 
@@ -1596,7 +1718,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     indicatorsElem = ensureIndicators(card, indicatorsElem);
                     indicatorsElem.appendChild(playedIndicator);
                 }
-                playedIndicator.innerHTML = '<i class="material-icons indicatorIcon">check</i>';
+                playedIndicator.innerHTML = '<span class="material-icons indicatorIcon check"></span>';
             } else {
 
                 playedIndicator = card.querySelector('.playedIndicator');
@@ -1625,7 +1747,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            var progressHtml = indicators.getProgressBarHtml({
+            const progressHtml = indicators.getProgressBarHtml({
                 Type: type,
                 UserData: userData,
                 MediaType: 'Video'
@@ -1639,11 +1761,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     itemProgressBar = document.createElement('div');
                     itemProgressBar.classList.add('itemProgressBar');
 
-                    var innerCardFooter = card.querySelector('.innerCardFooter');
+                    let innerCardFooter = card.querySelector('.innerCardFooter');
                     if (!innerCardFooter) {
                         innerCardFooter = document.createElement('div');
                         innerCardFooter.classList.add('innerCardFooter');
-                        var cardImageContainer = card.querySelector('.cardImageContainer');
+                        const cardImageContainer = card.querySelector('.cardImageContainer');
                         cardImageContainer.appendChild(innerCardFooter);
                     }
                     innerCardFooter.appendChild(itemProgressBar);
@@ -1659,37 +1781,50 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function onUserDataChanged(userData, scope) {
+        /**
+         * Handles when user data has changed.
+         * @param {Object} userData - User data to apply to the card.
+         * @param {HTMLElement} scope - DOM element to use as a scope when selecting cards.
+         */
+        export function onUserDataChanged(userData, scope) {
+            const cards = (scope || document.body).querySelectorAll('.card-withuserdata[data-id="' + userData.ItemId + '"]');
 
-            var cards = (scope || document.body).querySelectorAll('.card-withuserdata[data-id="' + userData.ItemId + '"]');
-
-            for (var i = 0, length = cards.length; i < length; i++) {
+            for (let i = 0, length = cards.length; i < length; i++) {
                 updateUserData(cards[i], userData);
             }
         }
 
-        function onTimerCreated(programId, newTimerId, itemsContainer) {
+        /**
+         * Handles when a timer has been created.
+         * @param {string} programId - ID of the program.
+         * @param {string} newTimerId - ID of the new timer.
+         * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
+         */
+        export function onTimerCreated(programId, newTimerId, itemsContainer) {
+            const cells = itemsContainer.querySelectorAll('.card[data-id="' + programId + '"]');
 
-            var cells = itemsContainer.querySelectorAll('.card[data-id="' + programId + '"]');
-
-            for (var i = 0, length = cells.length; i < length; i++) {
-                var cell = cells[i];
-                var icon = cell.querySelector('.timerIndicator');
+            for (let i = 0, length = cells.length; i < length; i++) {
+                let cell = cells[i];
+                const icon = cell.querySelector('.timerIndicator');
                 if (!icon) {
-                    var indicatorsElem = ensureIndicators(cell);
-                    indicatorsElem.insertAdjacentHTML('beforeend', '<i class="material-icons timerIndicator indicatorIcon fiber_manual_record"></i>');
+                    const indicatorsElem = ensureIndicators(cell);
+                    indicatorsElem.insertAdjacentHTML('beforeend', '<span class="material-icons timerIndicator indicatorIcon fiber_manual_record"></span>');
                 }
                 cell.setAttribute('data-timerid', newTimerId);
             }
         }
 
-        function onTimerCancelled(id, itemsContainer) {
+        /**
+         * Handles when a timer has been cancelled.
+         * @param {string} timerId - ID of the cancelled timer.
+         * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
+         */
+        export function onTimerCancelled(timerId, itemsContainer) {
+            const cells = itemsContainer.querySelectorAll('.card[data-timerid="' + timerId + '"]');
 
-            var cells = itemsContainer.querySelectorAll('.card[data-timerid="' + id + '"]');
-
-            for (var i = 0, length = cells.length; i < length; i++) {
-                var cell = cells[i];
-                var icon = cell.querySelector('.timerIndicator');
+            for (let i = 0; i < cells.length; i++) {
+                let cell = cells[i];
+                let icon = cell.querySelector('.timerIndicator');
                 if (icon) {
                     icon.parentNode.removeChild(icon);
                 }
@@ -1697,13 +1832,17 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function onSeriesTimerCancelled(id, itemsContainer) {
+        /**
+         * Handles when a series timer has been cancelled.
+         * @param {string} cancelledTimerId - ID of the cancelled timer.
+         * @param {HTMLElement} itemsContainer - DOM element of the itemsContainer.
+         */
+        export function onSeriesTimerCancelled(cancelledTimerId, itemsContainer) {
+            const cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + cancelledTimerId + '"]');
 
-            var cells = itemsContainer.querySelectorAll('.card[data-seriestimerid="' + id + '"]');
-
-            for (var i = 0, length = cells.length; i < length; i++) {
-                var cell = cells[i];
-                var icon = cell.querySelector('.timerIndicator');
+            for (let i = 0; i < cells.length; i++) {
+                let cell = cells[i];
+                let icon = cell.querySelector('.timerIndicator');
                 if (icon) {
                     icon.parentNode.removeChild(icon);
                 }
@@ -1711,14 +1850,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        return {
-            getCardsHtml: getCardsHtml,
-            getDefaultBackgroundClass: getDefaultBackgroundClass,
-            getDefaultText: getDefaultText,
-            buildCards: buildCards,
-            onUserDataChanged: onUserDataChanged,
-            onTimerCreated: onTimerCreated,
-            onTimerCancelled: onTimerCancelled,
-            onSeriesTimerCancelled: onSeriesTimerCancelled
-        };
-    });
+/* eslint-enable indent */
+
+export default {
+    getCardsHtml: getCardsHtml,
+    getDefaultBackgroundClass: getDefaultBackgroundClass,
+    getDefaultText: getDefaultText,
+    buildCards: buildCards,
+    onUserDataChanged: onUserDataChanged,
+    onTimerCreated: onTimerCreated,
+    onTimerCancelled: onTimerCancelled,
+    onSeriesTimerCancelled: onSeriesTimerCancelled
+};

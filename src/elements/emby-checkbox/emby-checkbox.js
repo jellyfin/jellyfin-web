@@ -5,7 +5,8 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
 
     function onKeyDown(e) {
         // Don't submit form on enter
-        if (e.keyCode === 13) {
+        // Real (non-emulator) Tizen does nothing on Space
+        if (e.keyCode === 13 || e.keyCode === 32) {
             e.preventDefault();
 
             this.checked = !this.checked;
@@ -56,8 +57,8 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
 
         var checkedIcon = this.getAttribute('data-checkedicon') || 'check';
         var uncheckedIcon = this.getAttribute('data-uncheckedicon') || '';
-        var checkHtml = '<i class="material-icons checkboxIcon checkboxIcon-checked">' + checkedIcon + '</i>';
-        var uncheckedHtml = '<i class="material-icons checkboxIcon checkboxIcon-unchecked">' + uncheckedIcon + '</i>';
+        var checkHtml = '<span class="material-icons checkboxIcon checkboxIcon-checked ' + checkedIcon + '"></span>';
+        var uncheckedHtml = '<span class="material-icons checkboxIcon checkboxIcon-unchecked ' + uncheckedIcon + '"></span>';
         labelElement.insertAdjacentHTML('beforeend', '<span class="' + outlineClass + '">' + checkHtml + uncheckedHtml + '</span>');
 
         labelTextElement.classList.add('checkboxLabel');

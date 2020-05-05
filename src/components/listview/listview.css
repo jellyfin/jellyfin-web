@@ -238,13 +238,6 @@
     background-color: transparent !important;
 }
 
-.listItemMediaInfo {
-    /* Don't display if flex not supported */
-    display: none;
-    align-items: center;
-    margin-right: 1em;
-}
-
 .listGroupHeader-first {
     margin-top: 0;
 }

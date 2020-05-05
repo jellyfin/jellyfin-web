@@ -429,6 +429,12 @@ button::-moz-focus-inner {
     font-size: 1.66956521739130434em !important;
 }
 
+.cardOverlayButtonIcon.material-icons {
+    /* material-icons override display, so we need to
+       make a better matching selector to set it to flex */
+    display: flex;
+}
+
 .cardOverlayButton-centered {
     bottom: initial;
     right: initial;
@@ -784,7 +790,7 @@ button::-moz-focus-inner {
     opacity: 0;
     transition: 0.2s;
     background: transparent;
-    padding: 0.5em;
+    padding: 0.25em;
 }
 
 .cardOverlayButtonIcon-hover {

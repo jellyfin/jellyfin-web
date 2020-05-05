@@ -1,7 +1,5 @@
 <form style="margin:0 auto;">
-
     <div class="verticalSection">
-
         <h2 class="sectionTitle">
             ${Subtitles}
         </h2>
@@ -9,6 +7,7 @@
         <div class="selectContainer">
             <select is="emby-select" id="selectSubtitleLanguage" label="${LabelPreferredSubtitleLanguage}"></select>
         </div>
+
         <div class="selectContainer">
             <select is="emby-select" id="selectSubtitlePlaybackMode" label="${LabelSubtitlePlaybackMode}">
                 <option value="Default">${Default}</option>
@@ -23,6 +22,7 @@
             <div class="fieldDescription subtitlesOnlyForcedHelp subtitlesHelp hide">${OnlyForcedSubtitlesHelp}</div>
             <div class="fieldDescription subtitlesNoneHelp subtitlesHelp hide">${NoSubtitlesHelp}</div>
         </div>
+
         <div class="selectContainer fldBurnIn hide">
             <select is="emby-select" id="selectSubtitleBurnIn" label="${LabelBurnSubtitles}">
                 <option value="">${Auto}</option>
@@ -34,7 +34,6 @@
     </div>
 
     <div class="verticalSection subtitleAppearanceSection hide">
-
         <h2 class="sectionTitle">
             ${HeaderSubtitleAppearance}
         </h2>
@@ -61,6 +60,7 @@
                 <option value="extralarge">${ExtraLarge}</option>
             </select>
         </div>
+
         <div class="selectContainer">
             <select is="emby-select" id="selectFont" label="${LabelFont}">
                 <option value="">${Default}</option>
@@ -71,12 +71,15 @@
                 <option value="smallcaps">${SmallCaps}</option>
             </select>
         </div>
+
         <div class="inputContainer hide">
             <input is="emby-input" id="inputTextBackground" label="${LabelTextBackgroundColor}" type="text" />
         </div>
+
         <div class="inputContainer hide">
             <input is="emby-input" id="inputTextColor" label="${LabelTextColor}" type="text" />
         </div>
+
         <div class="selectContainer">
             <select is="emby-select" id="selectDropShadow" label="${LabelDropShadow}">
                 <option value="none">${None}</option>

@@ -47,7 +47,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         };
         reader.onabort = function () {
             loading.hide();
-            console.log('File read cancelled');
+            console.debug('File read cancelled');
         };
 
         // Closure to capture the file information.
@@ -74,7 +74,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
             return false;
         }
 
-        if (!file.type.startsWith("image/")) {
+        if (!file.type.startsWith('image/')) {
             require(['toast'], function (toast) {
                 toast(globalize.translate('MessageImageFileTypeAllowed'));
             });
@@ -87,9 +87,9 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         var dlg = dom.parentWithClass(this, 'dialog');
 
         var imageType = dlg.querySelector('#selectImageType').value;
-        if (imageType === "None") {
-            require(["toast"], function(toast) {
-                toast(globalize.translate("MessageImageTypeNotSelected"));
+        if (imageType === 'None') {
+            require(['toast'], function(toast) {
+                toast(globalize.translate('MessageImageTypeNotSelected'));
             });
             e.preventDefault();
             return false;
@@ -112,11 +112,11 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
         page.querySelector('form').addEventListener('submit', onSubmit);
 
-        page.querySelector('#uploadImage').addEventListener("change", function () {
+        page.querySelector('#uploadImage').addEventListener('change', function () {
             setFiles(page, this.files);
         });
 
-        page.querySelector('.btnBrowse').addEventListener("click", function () {
+        page.querySelector('.btnBrowse').addEventListener('click', function () {
             page.querySelector('#uploadImage').click();
         });
     }

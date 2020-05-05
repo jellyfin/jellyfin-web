@@ -36,6 +36,8 @@ html {
 
 .backgroundContainer,
 .dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu,
 html {
     background-color: #101010;
 }
@@ -161,7 +163,8 @@ html {
     color: rgba(255, 255, 255, 0.87);
 }
 
-.appfooter {
+.appfooter,
+.playlistSectionButton {
     background: #202020;
     color: #ccc;
     color: rgba(255, 255, 255, 0.78);
@@ -201,6 +204,10 @@ html {
 }
 
 .detailSticky {
+    background: rgba(32, 32, 32, 0.8);
+}
+
+.noBackdrop .detailSticky {
     background: #202020;
 }
 
@@ -323,14 +330,6 @@ html {
 
 .emby-tab-button-active {
     color: #fff;
-    border-bottom: 2px solid #fff;
-    padding-top: 1.55em;
-    padding-bottom: 1.38em;
-}
-
-.layout-mobile .emby-tab-button-active {
-    padding-top: 1.56em; /* Add one pixel to get a better fit in mobile layout */
-    padding-bottom: 1.38em;
 }
 
 .emby-tab-button.show-focus:focus {

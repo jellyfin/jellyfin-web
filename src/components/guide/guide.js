@@ -1,4 +1,4 @@
-define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'playbackManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'dom', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, playbackManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, dom) {
+define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'playbackManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'dom', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-programcell', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, playbackManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, dom) {
     'use strict';
 
     function showViewSettings(instance) {
@@ -29,7 +29,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
         var offset = newPct - left;
         var pctOfWidth = (offset / width) * 100;
 
-        //console.log(pctOfWidth);
         var guideProgramName = cell.guideProgramName;
         if (!guideProgramName) {
             guideProgramName = cell.querySelector('.guideProgramName');
@@ -228,7 +227,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             channelQuery.Limit = channelLimit;
             channelQuery.AddCurrentProgram = false;
             channelQuery.EnableUserData = false;
-            channelQuery.EnableImageTypes = "Primary";
+            channelQuery.EnableImageTypes = 'Primary';
 
             var categories = self.categoryOptions.categories || [];
             var displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
@@ -262,8 +261,8 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             }
 
             if (userSettings.get('livetv-channelorder') === 'DatePlayed') {
-                channelQuery.SortBy = "DatePlayed";
-                channelQuery.SortOrder = "Descending";
+                channelQuery.SortBy = 'DatePlayed';
+                channelQuery.SortOrder = 'Descending';
             } else {
                 channelQuery.SortBy = null;
                 channelQuery.SortOrder = null;
@@ -330,7 +329,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     ImageTypeLimit: 1,
                     EnableImages: false,
                     //EnableImageTypes: layoutManager.tv ? "Primary,Backdrop" : "Primary",
-                    SortBy: "StartDate",
+                    SortBy: 'StartDate',
                     EnableTotalRecordCount: false,
                     EnableUserData: false
                 };
@@ -396,7 +395,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 try {
                     program.StartDateLocal = datetime.parseISO8601Date(program.StartDate, { toLocal: true });
                 } catch (err) {
-                    console.log('error parsing timestamp for start date');
+                    console.error('error parsing timestamp for start date');
                 }
             }
 
@@ -404,7 +403,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 try {
                     program.EndDateLocal = datetime.parseISO8601Date(program.EndDate, { toLocal: true });
                 } catch (err) {
-                    console.log('error parsing timestamp for end date');
+                    console.error('error parsing timestamp for end date');
                 }
             }
 
@@ -416,7 +415,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             var status;
 
             if (item.Type === 'SeriesTimer') {
-                return '<i class="material-icons programIcon seriesTimerIcon fiber_smart_record"></i>';
+                return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record"></span>';
             } else if (item.TimerId || item.SeriesTimerId) {
 
                 status = item.Status || 'Cancelled';
@@ -430,13 +429,13 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             if (item.SeriesTimerId) {
 
                 if (status !== 'Cancelled') {
-                    return '<i class="material-icons programIcon seriesTimerIcon fiber_smart_record"></i>';
+                    return '<span class="material-icons programIcon seriesTimerIcon fiber_smart_record"></span>';
                 }
 
-                return '<i class="material-icons programIcon seriesTimerIcon seriesTimerIcon-inactive fiber_smart_record"></i>';
+                return '<span class="material-icons programIcon seriesTimerIcon seriesTimerIcon-inactive fiber_smart_record"></span>';
             }
 
-            return '<i class="material-icons programIcon timerIcon fiber_manual_record"></i>';
+            return '<span class="material-icons programIcon timerIcon fiber_manual_record"></span>';
         }
 
         function getChannelProgramsHtml(context, date, channel, programs, options, listInfo) {
@@ -503,7 +502,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 var endPercent = (renderEndMs - renderStartMs) / msPerDay;
                 endPercent *= 100;
 
-                var cssClass = "programCell itemAction";
+                var cssClass = 'programCell itemAction';
                 var accentCssClass = null;
                 var displayInnerContent = true;
 
@@ -526,11 +525,11 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 }
 
                 if (displayInnerContent && enableColorCodedBackgrounds && accentCssClass) {
-                    cssClass += " programCell-" + accentCssClass;
+                    cssClass += ' programCell-' + accentCssClass;
                 }
 
                 if (now >= startDateLocalMs && now < endDateLocalMs) {
-                    cssClass += " programCell-active";
+                    cssClass += ' programCell-active';
                 }
 
                 var timerAttributes = '';
@@ -546,11 +545,11 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                 html += '<button' + isAttribute + ' data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-startdate="' + program.StartDate + '" data-enddate="' + program.EndDate + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
 
                 if (displayInnerContent) {
-                    var guideProgramNameClass = "guideProgramName";
+                    var guideProgramNameClass = 'guideProgramName';
 
                     html += '<div class="' + guideProgramNameClass + '">';
 
-                    html += '<div class="guide-programNameCaret hide"><i class="guideProgramNameCaretIcon material-icons keyboard_arrow_left"></i></div>';
+                    html += '<div class="guide-programNameCaret hide"><span class="guideProgramNameCaretIcon material-icons keyboard_arrow_left"></span></div>';
 
                     html += '<div class="guideProgramNameText">' + program.Name;
 
@@ -578,7 +577,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     html += '</div>';
 
                     if (program.IsHD && options.showHdIcon) {
-                        //html += '<i class="guideHdIcon material-icons programIcon">hd</i>';
+                        //html += '<span class="guideHdIcon material-icons programIcon hd"></span>';
                         if (layoutManager.tv) {
                             html += '<div class="programIcon guide-programTextIcon guide-programTextIcon-tv">HD</div>';
                         } else {
@@ -631,7 +630,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
                     var url = apiClient.getScaledImageUrl(channel.Id, {
                         maxHeight: 220,
                         tag: channel.ImageTags.Primary,
-                        type: "Primary"
+                        type: 'Primary'
                     });
 
                     html += '<div class="guideChannelImage lazy" data-src="' + url + '"></div>';
@@ -1106,7 +1105,7 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
 
                 var icon = cell.querySelector('.timerIcon');
                 if (!icon) {
-                    cell.querySelector('.guideProgramName').insertAdjacentHTML('beforeend', '<i class="timerIcon material-icons programIcon fiber_manual_record"></i>');
+                    cell.querySelector('.guideProgramName').insertAdjacentHTML('beforeend', '<span class="timerIcon material-icons programIcon fiber_manual_record"></span>');
                 }
 
                 if (newTimerId) {
@@ -1252,19 +1251,6 @@ define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 
             self.refresh();
         });
     }
-
-    var ProgramCellPrototype = Object.create(HTMLButtonElement.prototype);
-
-    ProgramCellPrototype.detachedCallback = function () {
-        this.posLeft = null;
-        this.posWidth = null;
-        this.guideProgramName = null;
-    };
-
-    document.registerElement('emby-programcell', {
-        prototype: ProgramCellPrototype,
-        extends: 'button'
-    });
 
     return Guide;
 });

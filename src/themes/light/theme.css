@@ -51,7 +51,9 @@ html {
     background-color: rgba(255, 255, 255, 0.8);
 }
 
-.dialog {
+.dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu {
     background-color: #f0f0f0;
 }
 
@@ -105,7 +107,7 @@ html {
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: green;
+    color: #00a4dc;
 }
 
 .checkboxOutline {
@@ -183,7 +185,8 @@ html {
     color: rgba(255, 255, 255, 0.87);
 }
 
-.appfooter {
+.appfooter,
+.playlistSectionButton {
     background: #282828;
     color: #ccc;
     color: rgba(255, 255, 255, 0.78);

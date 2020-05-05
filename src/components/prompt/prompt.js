@@ -1,5 +1,9 @@
-define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle'], function (dialogHelper, layoutManager, scrollHelper, globalize, dom, require) {
+define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle'], function(browser, dialogHelper, layoutManager, scrollHelper, globalize, dom, require) {
     'use strict';
+
+    function replaceAll(str, find, replace) {
+        return str.split(find).join(replace);
+    }
 
     function setInputProperties(dlg, options) {
         var txtInput = dlg.querySelector('#txtInput');
@@ -13,7 +17,6 @@ define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 're
     }
 
     function showDialog(options, template) {
-
         var dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -71,34 +74,49 @@ define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 're
         dlg.style.minWidth = (Math.min(400, dom.getWindowSize().innerWidth - 50)) + 'px';
 
         return dialogHelper.open(dlg).then(function () {
-
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
             }
 
-            var value = submitValue;
-
-            if (value) {
-                return value;
+            if (submitValue) {
+                return submitValue;
             } else {
                 return Promise.reject();
             }
         });
     }
 
-    return function (options) {
+    if ((browser.tv || browser.xboxOne) && window.confirm) {
+        return function (options) {
+            if (typeof options === 'string') {
+                options = {
+                    label: '',
+                    text: options
+                };
+            }
 
-        return new Promise(function (resolve, reject) {
-            require(['text!./prompt.template.html'], function (template) {
+            var label = replaceAll(options.label || '', '<br/>', '\n');
+            var result = prompt(label, options.text || '');
 
-                if (typeof options === 'string') {
-                    options = {
-                        title: '',
-                        text: options
-                    };
-                }
-                showDialog(options, template).then(resolve, reject);
+            if (result) {
+                return Promise.resolve(result);
+            } else {
+                return Promise.reject(result);
+            }
+        };
+    } else {
+        return function (options) {
+            return new Promise(function (resolve, reject) {
+                require(['text!./prompt.template.html'], function (template) {
+                    if (typeof options === 'string') {
+                        options = {
+                            title: '',
+                            text: options
+                        };
+                    }
+                    showDialog(options, template).then(resolve, reject);
+                });
             });
-        });
-    };
+        };
+    }
 });

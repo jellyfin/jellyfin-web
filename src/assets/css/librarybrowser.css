@@ -24,6 +24,10 @@
     padding-top: 7em !important;
 }
 
+.layout-mobile .libraryPage {
+    padding-top: 4em !important;
+}
+
 .itemDetailPage {
     padding-top: 0 !important;
 }
@@ -115,7 +119,7 @@
     display: -webkit-inline-box;
     display: -webkit-inline-flex;
     display: inline-flex;
-    margin: 0.3em 0 0 0.5em;
+    margin: 0 0 0 0.5em;
     height: 1.7em;
     -webkit-box-align: center;
     -webkit-align-items: center;
@@ -268,12 +272,6 @@
     }
 }
 
-@media all and (max-width: 60em) {
-    .libraryDocument .mainDrawerButton {
-        display: none;
-    }
-}
-
 @media all and (max-width: 84em) {
     .withSectionTabs .headerTop {
         padding-bottom: 0.55em;
@@ -316,7 +314,7 @@
     }
 
     .dashboardDocument .mainDrawer-scrollContainer {
-        margin-top: 6em !important;
+        margin-top: 4.65em !important;
     }
 }
 
@@ -439,8 +437,44 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    background-attachment: fixed;
     height: 50vh;
     position: relative;
+}
+
+.layout-mobile .itemBackdrop {
+    background-attachment: scroll;
+}
+
+.layout-desktop .itemBackdrop::after,
+.layout-tv .itemBackdrop::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    display: block;
+}
+
+.layout-desktop .noBackdrop .itemBackdrop,
+.layout-tv .noBackdrop .itemBackdrop {
+    display: none;
+}
+
+.detailPageContent {
+    display: flex;
+    flex-direction: column;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.layout-desktop .noBackdrop .detailPageContent,
+.layout-tv .noBackdrop .detailPageContent {
+    margin-top: 2.5em;
+}
+
+.layout-desktop .noBackdrop .detailImageContainer img,
+.layout-tv .noBackdrop .detailImageContainer img {
+    margin-top: 0;
 }
 
 .personBackdrop {
@@ -483,6 +517,13 @@
 
 .itemName {
     margin: 0.5em 0;
+    font-weight: 600;
+}
+
+.nameContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .itemMiscInfo {
@@ -500,17 +541,15 @@
 .layout-mobile .itemName,
 .layout-mobile .itemMiscInfo,
 .layout-mobile .mainDetailButtons {
-    display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
 }
 
 .detailPagePrimaryContainer {
     display: flex;
     align-items: center;
     align-content: center;
-    position: sticky;
-    top: 3.85em;
     z-index: 2;
 }
 
@@ -520,13 +559,21 @@
     top: 0;
 }
 
-.layout-tv .detailPagePrimaryContainer {
+.layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
+.layout-desktop #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer {
     position: relative;
     top: 0;
+    padding-left: 32.45vw;
 }
 
-.detailSticky {
-    background-color: #101010;
+.layout-desktop .detailSticky,
+.layout-tv .detailSticky {
+    margin-top: -7.2em;
+}
+
+.layout-desktop .noBackdrop .detailSticky,
+.layout-tv .noBackdrop .detailSticky {
+    margin-top: 0;
 }
 
 .infoWrapper {
@@ -535,7 +582,6 @@
 
 .infoText {
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
 }
@@ -548,23 +594,17 @@
     margin: 1.25em 0;
 }
 
-.detailPageContent {
-    display: flex;
-    flex-direction: column;
-    padding-left: 2%;
-    padding-right: 2%;
-}
-
 .detailImageContainer {
-    position: sticky;
-    top: 25%;
+    position: relative;
+    margin-top: -25vh;
     float: left;
-    width: 22.786458333333332vw;
+    width: 25vw;
+    z-index: 3;
 }
 
-.layout-mobile .detailImageContainer,
-.layout-tv .detailImageContainer {
-    position: relative;
+.layout-desktop .noBackdrop .detailImageContainer,
+.layout-tv .noBackdrop .detailImageContainer {
+    margin-top: 0;
 }
 
 .detailPagePrimaryContent {
@@ -572,43 +612,28 @@
 }
 
 .detailLogo {
-    width: 25em;
-    height: 9.375em;
+    width: 30vw;
+    height: 25vh;
     position: absolute;
-    top: 14.5%;
-    right: 10.5%;
-    -webkit-background-size: contain;
+    top: 10vh;
+    right: 20vw;
     background-size: contain;
 }
 
-@media all and (max-width: 87.5em) {
-    .detailLogo {
-        right: 5%;
-    }
-}
-
-@media all and (max-width: 75em) {
-    .detailLogo {
-        right: 2%;
-    }
+.noBackdrop .detailLogo {
+    display: none;
 }
 
 @media all and (max-width: 68.75em) {
     .detailLogo {
-        width: 14.91em;
-        height: 3.5em;
-        right: 5%;
-        bottom: 5%;
-        top: auto;
-        background-position: center right;
         display: none;
     }
 }
 
 .itemDetailImage {
     width: 100% !important;
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    -webkit-box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    -webkit-box-shadow: 0 0.1em 0.5em 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0.1em 0.5em 0 rgba(0, 0, 0, 0.75);
 }
 
 div.itemDetailGalleryLink.defaultCardBackground {
@@ -619,12 +644,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     height: 23vw; /* Dirty hack to get it to look somewhat square. Less than ideal. */
 }
 
-.btnSyncComplete i {
-    -webkit-border-radius: 100em;
-    border-radius: 100em;
-}
-
-.itemDetailGalleryLink.defaultCardBackground > i {
+.itemDetailGalleryLink.defaultCardBackground > .material-icons {
     font-size: 15vw;
     margin-top: 50%;
     transform: translateY(-50%);
@@ -633,6 +653,16 @@ div.itemDetailGalleryLink.defaultCardBackground {
 @media all and (max-width: 62.5em) {
     .detailPageWrapperContainer {
         position: relative;
+    }
+
+    .layout-desktop .detailPageWrapperContainer,
+    .layout-tv .detailPageWrapperContainer {
+        margin-top: 7.2em;
+    }
+
+    .layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
+    .layout-desktop #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer {
+        padding-left: 3.3%;
     }
 
     .btnPlaySimple {
@@ -646,10 +676,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
     }
 }
 
-.btnSyncComplete {
-    background: #673ab7 !important;
-}
-
 .emby-button.detailFloatingButton {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.5) !important;
@@ -661,7 +687,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     color: rgba(255, 255, 255, 0.76);
 }
 
-.emby-button.detailFloatingButton i {
+.emby-button.detailFloatingButton .material-icons {
     font-size: 3.5em;
 }
 
@@ -803,7 +829,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
         width: auto;
         align-items: center;
         justify-content: center;
-        margin-top: -4.3em;
+        margin-top: -4.2em;
         position: relative;
     }
 
@@ -847,6 +873,11 @@ div.itemDetailGalleryLink.defaultCardBackground {
 .detailPageWrapperContainer {
     border-spacing: 0;
     border-collapse: collapse;
+}
+
+.layout-desktop .noBackdrop .detailPageWrapperContainer,
+.layout-tv .noBackdrop .detailPageWrapperContainer {
+    margin-top: 3.8em;
 }
 
 .mediaInfoStream {
@@ -1065,4 +1096,51 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .itemsViewSettingsContainer > .button-flat {
     margin: 0;
+}
+
+.layout-mobile #myPreferencesMenuPage {
+    padding-top: 3.75em;
+}
+
+.itemDetailsGroup {
+    margin-bottom: 1.5em;
+}
+
+.trackSelections {
+    max-width: 44em;
+}
+
+.detailsGroupItem,
+.trackSelections .selectContainer {
+    display: flex;
+    max-width: 44em;
+    margin: 0 0 0.5em !important;
+}
+
+.trackSelections .selectContainer {
+    margin: 0 0 0.3em !important;
+}
+
+.detailsGroupItem .label,
+.trackSelections .selectContainer .selectLabel {
+    cursor: default;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 6.25em;
+    margin: 0 0.6em 0 0;
+}
+
+.trackSelections .selectContainer .selectLabel {
+    margin: 0 0.2em 0 0;
+}
+
+.trackSelections .selectContainer .detailTrackSelect {
+    font-size: inherit;
+    padding: 0;
+    overflow: hidden;
+}
+
+.trackSelections .selectContainer .selectArrowContainer .selectArrow {
+    margin-top: 0;
+    font-size: 1.4em;
 }

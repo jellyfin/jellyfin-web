@@ -95,18 +95,18 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
     }
 
     function fetchWithTimeout(url, options, timeoutMs) {
-        console.log("fetchWithTimeout: timeoutMs: " + timeoutMs + ", url: " + url);
+        console.debug("fetchWithTimeout: timeoutMs: " + timeoutMs + ", url: " + url);
         return new Promise(function (resolve, reject) {
             var timeout = setTimeout(reject, timeoutMs);
             options = options || {};
             options.credentials = "same-origin";
             fetch(url, options).then(function (response) {
                 clearTimeout(timeout);
-                console.log("fetchWithTimeout: succeeded connecting to url: " + url);
+                console.debug("fetchWithTimeout: succeeded connecting to url: " + url);
                 resolve(response);
             }, function (error) {
                 clearTimeout(timeout);
-                console.log("fetchWithTimeout: timed out connecting to url: " + url);
+                console.error("fetchWithTimeout: timed out connecting to url: " + url);
                 reject();
             });
         });
@@ -118,9 +118,9 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         }
 
         request.headers = request.headers || {};
-        console.log("ConnectionManager requesting url: " + request.url);
+        console.debug("ConnectionManager requesting url: " + request.url);
         return getFetchPromise(request).then(function (response) {
-            console.log("ConnectionManager response status: " + response.status + ", url: " + request.url);
+            console.debug("ConnectionManager response status: " + response.status + ", url: " + request.url);
 
             if (response.status < 400) {
                 if ("json" === request.dataType || "application/json" === request.headers.accept) {
@@ -132,7 +132,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
 
             return Promise.reject(response);
         }, function (err) {
-            console.log("ConnectionManager request failed to url: " + request.url);
+            console.error("ConnectionManager request failed to url: " + request.url);
             throw err;
         });
     }
@@ -186,7 +186,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         Manual: 2
     };
 
-    var ConnectionManager = function (credentialProvider, appName, appVersion, deviceName, deviceId, capabilities, devicePixelRatio) {
+    var ConnectionManager = function (credentialProvider, appName, appVersion, deviceName, deviceId, capabilities) {
 
         function onAuthenticated(apiClient, result, options, saveCredentials) {
             var credentials = credentialProvider.credentials();
@@ -227,7 +227,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             apiClient.enableAutomaticBitrateDetection = options.enableAutomaticBitrateDetection;
 
             if (false !== options.enableWebSocket) {
-                console.log("calling apiClient.ensureWebSocket");
+                console.debug("calling apiClient.ensureWebSocket");
                 apiClient.ensureWebSocket();
             }
         }
@@ -333,7 +333,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         }
 
         function getTryConnectPromise(url, connectionMode, state, resolve, reject) {
-            console.log("getTryConnectPromise " + url);
+            console.debug("getTryConnectPromise " + url);
             ajax({
                 url: getEmbyServerUrl(url, "system/info/public"),
                 timeout: defaultTimeout,
@@ -342,7 +342,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             }).then(function (result) {
                 if (!state.resolved) {
                     state.resolved = true;
-                    console.log("Reconnect succeeded to " + url);
+                    console.debug("Reconnect succeeded to " + url);
                     resolve({
                         url: url,
                         connectionMode: connectionMode,
@@ -351,7 +351,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                 }
             }, function () {
                 if (!state.resolved) {
-                    console.log("Reconnect failed to " + url);
+                    console.error("Reconnect failed to " + url);
 
                     if (++state.rejects >= state.numAddresses) {
                         reject();
@@ -391,7 +391,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                 addressesStrings.push(addresses[addresses.length - 1].url);
             }
 
-            console.log("tryReconnect: " + addressesStrings.join("|"));
+            console.debug("tryReconnect: " + addressesStrings.join("|"));
             return new Promise(function (resolve, reject) {
                 var state = {};
                 state.numAddresses = addresses.length;
@@ -458,7 +458,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             }
         }
 
-        console.log("Begin ConnectionManager constructor");
+        console.debug("Begin ConnectionManager constructor");
         var self = this;
         this._apiClients = [];
         self._minServerVersion = "3.2.33";
@@ -530,7 +530,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         };
 
         self.clearData = function () {
-            console.log("connection manager clearing data");
+            console.debug("connection manager clearing data");
             var credentials = credentialProvider.credentials();
             credentials.Servers = [];
             credentialProvider.credentials(credentials);
@@ -540,7 +540,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
             var apiClient = self.getApiClient(server.Id);
 
             if (!apiClient) {
-                apiClient = new apiClientFactory(serverUrl, appName, appVersion, deviceName, deviceId, devicePixelRatio);
+                apiClient = new apiClientFactory(serverUrl, appName, appVersion, deviceName, deviceId);
                 self._apiClients.push(apiClient);
                 apiClient.serverInfo(server);
                 apiClient.onAuthenticated = function (instance, result) {
@@ -550,7 +550,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                 events.trigger(self, "apiclientcreated", [apiClient]);
             }
 
-            console.log("returning instance from getOrAddApiClient");
+            console.debug("returning instance from getOrAddApiClient");
             return apiClient;
         };
 
@@ -592,7 +592,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         };
 
         self.logout = function () {
-            console.log("begin connectionManager loguot");
+            console.debug("begin connectionManager loguot");
             var promises = [];
 
             for (var i = 0, length = self._apiClients.length; i < length; i++) {
@@ -628,7 +628,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         };
 
         self.getAvailableServers = function () {
-            console.log("Begin getAvailableServers");
+            console.debug("begin getAvailableServers");
             var credentials = credentialProvider.credentials();
             return Promise.all([findServers()]).then(function (responses) {
                 var foundServers = responses[0];
@@ -644,7 +644,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         };
 
         self.connectToServers = function (servers, options) {
-            console.log("Begin connectToServers, with " + servers.length + " servers");
+            console.debug("begin connectToServers, with " + servers.length + " servers");
             var firstServer = servers.length ? servers[0] : null;
 
             if (firstServer) {
@@ -653,7 +653,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                         result.State = "ServerSelection";
                     }
 
-                    console.log("resolving connectToServers with result.State: " + result.State);
+                    console.debug("resolving connectToServers with result.State: " + result.State);
                     return result;
                 });
             }
@@ -665,7 +665,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
         };
 
         self.connectToServer = function (server, options) {
-            console.log("begin connectToServer");
+            console.debug("begin connectToServer");
             return new Promise(function (resolve, reject) {
                 options = options || {};
                 tryReconnect(server).then(function (result) {
@@ -674,14 +674,14 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
                     result = result.data;
 
                     if (1 === compareVersions(self.minServerVersion(), result.Version)) {
-                        console.log("minServerVersion requirement not met. Server version: " + result.Version);
+                        console.debug("minServerVersion requirement not met. Server version: " + result.Version);
                         resolve({
                             State: "ServerUpdateNeeded",
                             Servers: [server]
                         });
                     } else {
                         if (server.Id && result.Id !== server.Id) {
-                            console.log("http request succeeded, but found a different server Id than what was expected");
+                            console.debug("http request succeeded, but found a different server Id than what was expected");
                             resolveFailure(self, resolve);
                         } else {
                             onSuccessfulConnection(server, result, connectionMode, serverUrl, options, resolve);
@@ -695,7 +695,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
 
         self.connectToAddress = function (address, options) {
             function onFail() {
-                console.log("connectToAddress " + address + " failed");
+                console.error("connectToAddress " + address + " failed");
                 return Promise.resolve({
                     State: "Unavailable",
                 });
@@ -741,7 +741,7 @@ define(["events", "apiclient", "appStorage"], function (events, apiClientFactory
     };
 
     ConnectionManager.prototype.connect = function (options) {
-        console.log("Begin connect");
+        console.debug("begin connect");
         var instance = this;
         return instance.getAvailableServers().then(function (servers) {
             return instance.connectToServers(servers, options);

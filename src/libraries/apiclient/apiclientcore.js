@@ -1,6 +1,12 @@
 define(["events", "appStorage"], function(events, appStorage) {
     "use strict";
 
+    /** Report rate limits in ms for different events */
+    const reportRateLimits = {
+        "timeupdate": 10000,
+        "volumechange": 3000
+    };
+
     function redetectBitrate(instance) {
         stopBitrateDetection(instance), instance.accessToken() && !1 !== instance.enableAutomaticBitrateDetection && setTimeout(redetectBitrateInternal.bind(instance), 6e3)
     }
@@ -58,9 +64,23 @@ define(["events", "appStorage"], function(events, appStorage) {
         return request.data && ("string" == typeof request.data ? fetchRequest.body = request.data : (fetchRequest.body = paramsToString(request.data), contentType = contentType || "application/x-www-form-urlencoded; charset=UTF-8")), contentType && (headers["Content-Type"] = contentType), request.timeout ? fetchWithTimeout(request.url, fetchRequest, request.timeout) : fetch(request.url, fetchRequest)
     }
 
-    function ApiClient(serverAddress, appName, appVersion, deviceName, deviceId, devicePixelRatio) {
-        if (!serverAddress) throw new Error("Must supply a serverAddress");
-        console.log("ApiClient serverAddress: " + serverAddress), console.log("ApiClient appName: " + appName), console.log("ApiClient appVersion: " + appVersion), console.log("ApiClient deviceName: " + deviceName), console.log("ApiClient deviceId: " + deviceId), this._serverInfo = {}, this._serverAddress = serverAddress, this._deviceId = deviceId, this._deviceName = deviceName, this._appName = appName, this._appVersion = appVersion, this._devicePixelRatio = devicePixelRatio
+    function ApiClient(serverAddress, appName, appVersion, deviceName, deviceId) {
+        if (!serverAddress) {
+            throw new Error("Must supply a serverAddress");
+        }
+
+        console.debug("ApiClient serverAddress: " + serverAddress);
+        console.debug("ApiClient appName: " + appName);
+        console.debug("ApiClient appVersion: " + appVersion);
+        console.debug("ApiClient deviceName: " + deviceName);
+        console.debug("ApiClient deviceId: " + deviceId);
+
+        this._serverInfo = {};
+        this._serverAddress = serverAddress;
+        this._deviceId = deviceId;
+        this._deviceName = deviceName;
+        this._appName = appName;
+        this._appVersion = appVersion;
     }
 
     function setSavedEndpointInfo(instance, info) {
@@ -68,13 +88,14 @@ define(["events", "appStorage"], function(events, appStorage) {
     }
 
     function getTryConnectPromise(instance, url, state, resolve, reject) {
-        console.log("getTryConnectPromise " + url), fetchWithTimeout(instance.getUrl("system/info/public", null, url), {
+        console.debug("getTryConnectPromise " + url);
+        fetchWithTimeout(instance.getUrl("system/info/public", null, url), {
             method: "GET",
             accept: "application/json"
         }, 15e3).then(function() {
-            state.resolved || (state.resolved = !0, console.log("Reconnect succeeded to " + url), instance.serverAddress(url), resolve())
+            state.resolved || (state.resolved = !0, console.debug("Reconnect succeeded to " + url), instance.serverAddress(url), resolve())
         }, function() {
-            state.resolved || (console.log("Reconnect failed to " + url), ++state.rejects >= state.numAddresses && reject())
+            state.resolved || (console.error("Reconnect failed to " + url), ++state.rejects >= state.numAddresses && reject())
         })
     }
 
@@ -91,7 +112,7 @@ define(["events", "appStorage"], function(events, appStorage) {
         }), addressesStrings.push(addresses[addresses.length - 1].url)), serverInfo.RemoteAddress && -1 === addressesStrings.indexOf(serverInfo.RemoteAddress) && (addresses.push({
             url: serverInfo.RemoteAddress,
             timeout: 200
-        }), addressesStrings.push(addresses[addresses.length - 1].url)), console.log("tryReconnect: " + addressesStrings.join("|")), new Promise(function(resolve, reject) {
+        }), addressesStrings.push(addresses[addresses.length - 1].url)), console.debug("tryReconnect: " + addressesStrings.join("|")), new Promise(function(resolve, reject) {
             var state = {};
             state.numAddresses = addresses.length, state.rejects = 0, addresses.map(function(url) {
                 setTimeout(function() {
@@ -103,7 +124,7 @@ define(["events", "appStorage"], function(events, appStorage) {
 
     function tryReconnect(instance, retryCount) {
         return retryCount = retryCount || 0, retryCount >= 20 ? Promise.reject() : tryReconnectInternal(instance).catch(function(err) {
-            return console.log("error in tryReconnectInternal: " + (err || "")), new Promise(function(resolve, reject) {
+            return console.error("error in tryReconnectInternal: " + (err || "")), new Promise(function(resolve, reject) {
                 setTimeout(function() {
                     tryReconnect(instance, retryCount + 1).then(resolve, reject)
                 }, 500)
@@ -139,7 +160,7 @@ define(["events", "appStorage"], function(events, appStorage) {
 
     function onWebSocketOpen() {
         var instance = this;
-        console.log("web socket connection opened"), events.trigger(instance, "websocketopen")
+        console.debug("web socket connection opened"), events.trigger(instance, "websocketopen")
     }
 
     function onWebSocketError() {
@@ -149,7 +170,12 @@ define(["events", "appStorage"], function(events, appStorage) {
 
     function setSocketOnClose(apiClient, socket) {
         socket.onclose = function() {
-            console.log("web socket closed"), apiClient._webSocket === socket && (console.log("nulling out web socket"), apiClient._webSocket = null), setTimeout(function() {
+            console.debug("web socket closed");
+            if (apiClient._webSocket === socket) {
+                console.debug("nulling out web socket");
+                apiClient._webSocket = null;
+            }
+            setTimeout(function() {
                 events.trigger(apiClient, "websocketclose")
             }, 0)
         }
@@ -197,7 +223,7 @@ define(["events", "appStorage"], function(events, appStorage) {
     }
 
     function normalizeImageOptions(instance, options) {
-        var ratio = instance._devicePixelRatio || 1;
+        var ratio = window.devicePixelRatio;
         ratio && (options.minScale && (ratio = Math.max(options.minScale, ratio)), options.width && (options.width = Math.round(options.width * ratio)), options.height && (options.height = Math.round(options.height * ratio)), options.maxWidth && (options.maxWidth = Math.round(options.maxWidth * ratio)), options.maxHeight && (options.maxHeight = Math.round(options.maxHeight * ratio))), options.quality = options.quality || instance.getDefaultImageQuality(options.type), instance.normalizeImageOptions && instance.normalizeImageOptions(options)
     }
 
@@ -211,6 +237,11 @@ define(["events", "appStorage"], function(events, appStorage) {
         }
         return 0
     }
+
+    function cancelReportPlaybackProgressPromise(instance) {
+        if (typeof instance.reportPlaybackProgressCancel === "function") instance.reportPlaybackProgressCancel();
+    }
+
     ApiClient.prototype.appName = function() {
         return this._appName
     }, ApiClient.prototype.setRequestHeaders = function(headers) {
@@ -244,24 +275,24 @@ define(["events", "appStorage"], function(events, appStorage) {
         var lowered = url.toLowerCase();
         return "/" !== name.charAt(0) && (url += "/"), url += name, params && (params = paramsToString(params)) && (url += "?" + params), url
     }, ApiClient.prototype.fetchWithFailover = function(request, enableReconnection) {
-        console.log("Requesting " + request.url), request.timeout = 3e4;
+        console.debug("Requesting " + request.url), request.timeout = 3e4;
         var instance = this;
         return getFetchPromise(request).then(function(response) {
             return instance.lastFetch = (new Date).getTime(), response.status < 400 ? "json" === request.dataType || "application/json" === request.headers.accept ? response.json() : "text" === request.dataType || 0 === (response.headers.get("Content-Type") || "").toLowerCase().indexOf("text/") ? response.text() : response : (onFetchFail(instance, request.url, response), Promise.reject(response))
         }, function(error) {
-            if (error ? console.log("Request failed to " + request.url + " " + (error.status || "") + " " + error.toString()) : console.log("Request timed out to " + request.url), error && error.status || !enableReconnection) throw console.log("Reporting request failure"), onFetchFail(instance, request.url, {}), error;
-            console.log("Attempting reconnection");
+            if (error ? console.error("Request failed to " + request.url + " " + (error.status || "") + " " + error.toString()) : console.error("Request timed out to " + request.url), error && error.status || !enableReconnection) throw console.error("Reporting request failure"), onFetchFail(instance, request.url, {}), error;
+            console.debug("Attempting reconnection");
             var previousServerAddress = instance.serverAddress();
             return tryReconnect(instance).then(function() {
-                return console.log("Reconnect succeesed"), request.url = request.url.replace(previousServerAddress, instance.serverAddress()), instance.fetchWithFailover(request, !1)
+                return console.debug("Reconnect succeesed"), request.url = request.url.replace(previousServerAddress, instance.serverAddress()), instance.fetchWithFailover(request, !1)
             }, function(innerError) {
-                throw console.log("Reconnect failed"), onFetchFail(instance, request.url, {}), innerError
+                throw console.error("Reconnect failed"), onFetchFail(instance, request.url, {}), innerError
             })
         })
     }, ApiClient.prototype.fetch = function(request, includeAuthorization) {
         if (!request) throw new Error("Request cannot be null");
         if (request.headers = request.headers || {}, !1 !== includeAuthorization && this.setRequestHeaders(request.headers), !1 === this.enableAutomaticNetworking || "GET" !== request.type) {
-            console.log("Requesting url without automatic networking: " + request.url);
+            console.debug("Requesting url without automatic networking: " + request.url);
             var instance = this;
             return getFetchPromise(request).then(function(response) {
                 return instance.lastFetch = (new Date).getTime(), response.status < 400 ? "json" === request.dataType || "application/json" === request.headers.accept ? response.json() : "text" === request.dataType || 0 === (response.headers.get("Content-Type") || "").toLowerCase().indexOf("text/") ? response.text() : response : (onFetchFail(instance, request.url, response), Promise.reject(response))
@@ -340,7 +371,7 @@ define(["events", "appStorage"], function(events, appStorage) {
         if (!this.isWebSocketOpenOrConnecting() && this.isWebSocketSupported()) try {
             this.openWebSocket()
         } catch (err) {
-            console.log("Error opening web socket: " + err)
+            console.error("error opening web socket: " + err)
         }
     };
     var messageIdsReceived = {};
@@ -348,14 +379,14 @@ define(["events", "appStorage"], function(events, appStorage) {
         var accessToken = this.accessToken();
         if (!accessToken) throw new Error("Cannot open web socket without access token.");
         var url = this.getUrl("socket");
-        url = replaceAll(url, "emby/socket", "embywebsocket"), url = replaceAll(url, "https:", "wss:"), url = replaceAll(url, "http:", "ws:"), url += "?api_key=" + accessToken, url += "&deviceId=" + this.deviceId(), console.log("opening web socket with url: " + url);
+        url = replaceAll(url, "emby/socket", "embywebsocket"), url = replaceAll(url, "https:", "wss:"), url = replaceAll(url, "http:", "ws:"), url += "?api_key=" + accessToken, url += "&deviceId=" + this.deviceId(), console.debug("opening web socket with url: " + url);
         var webSocket = new WebSocket(url);
         webSocket.onmessage = onWebSocketMessage.bind(this), webSocket.onopen = onWebSocketOpen.bind(this), webSocket.onerror = onWebSocketError.bind(this), setSocketOnClose(this, webSocket), this._webSocket = webSocket
     }, ApiClient.prototype.closeWebSocket = function() {
         var socket = this._webSocket;
         socket && socket.readyState === WebSocket.OPEN && socket.close()
     }, ApiClient.prototype.sendWebSocketMessage = function(name, data) {
-        console.log("Sending web socket message: " + name);
+        console.debug("Sending web socket message: " + name);
         var msg = {
             MessageType: name
         };
@@ -387,7 +418,7 @@ define(["events", "appStorage"], function(events, appStorage) {
     }, ApiClient.prototype.updateServerInfo = function(server, serverUrl) {
         if (null == server) throw new Error("server cannot be null");
         if (this.serverInfo(server), !serverUrl) throw new Error("serverUrl cannot be null. serverInfo: " + JSON.stringify(server));
-        console.log("Setting server address to " + serverUrl), this.serverAddress(serverUrl)
+        console.debug("Setting server address to " + serverUrl), this.serverAddress(serverUrl)
     }, ApiClient.prototype.isWebSocketSupported = function() {
         try {
             return null != WebSocket
@@ -1397,6 +1428,7 @@ define(["events", "appStorage"], function(events, appStorage) {
     }, ApiClient.prototype.reportPlaybackStart = function(options) {
         if (!options) throw new Error("null options");
         this.lastPlaybackProgressReport = 0, this.lastPlaybackProgressReportTicks = null, stopBitrateDetection(this);
+        cancelReportPlaybackProgressPromise(this);
         var url = this.getUrl("Sessions/Playing");
         return this.ajax({
             type: "POST",
@@ -1406,25 +1438,74 @@ define(["events", "appStorage"], function(events, appStorage) {
         })
     }, ApiClient.prototype.reportPlaybackProgress = function(options) {
         if (!options) throw new Error("null options");
-        var newPositionTicks = options.PositionTicks;
-        if ("timeupdate" === (options.EventName || "timeupdate")) {
-            var now = (new Date).getTime(),
-                msSinceLastReport = now - (this.lastPlaybackProgressReport || 0);
-            if (msSinceLastReport <= 1e4) {
-                if (!newPositionTicks) return Promise.resolve();
-                var expectedReportTicks = 1e4 * msSinceLastReport + (this.lastPlaybackProgressReportTicks || 0);
-                if (Math.abs((newPositionTicks || 0) - expectedReportTicks) < 5e7) return Promise.resolve()
-            }
-            this.lastPlaybackProgressReport = now
-        } else this.lastPlaybackProgressReport = 0;
-        this.lastPlaybackProgressReportTicks = newPositionTicks;
-        var url = this.getUrl("Sessions/Playing/Progress");
-        return this.ajax({
-            type: "POST",
-            data: JSON.stringify(options),
-            contentType: "application/json",
-            url: url
-        })
+
+        const eventName = options.EventName || "timeupdate";
+        let reportRateLimitTime = reportRateLimits[eventName] || 0;
+
+        const now = (new Date).getTime();
+        const msSinceLastReport = now - (this.lastPlaybackProgressReport || 0);
+        const newPositionTicks = options.PositionTicks;
+
+        if (msSinceLastReport < reportRateLimitTime && eventName === "timeupdate" && newPositionTicks) {
+            const expectedReportTicks = 1e4 * msSinceLastReport + (this.lastPlaybackProgressReportTicks || 0);
+            if (Math.abs(newPositionTicks - expectedReportTicks) >= 5e7) reportRateLimitTime = 0;
+        }
+
+        if (reportRateLimitTime < (this.reportPlaybackProgressTimeout !== undefined ? this.reportPlaybackProgressTimeout : 1e6)) {
+            cancelReportPlaybackProgressPromise(this);
+        }
+
+        this.lastPlaybackProgressOptions = options;
+
+        if (this.reportPlaybackProgressPromise) return Promise.resolve();
+
+        let instance = this;
+        let promise;
+        let cancelled = false;
+
+        let resetPromise = function () {
+            if (instance.reportPlaybackProgressPromise !== promise) return;
+
+            delete instance.lastPlaybackProgressOptions;
+            delete instance.reportPlaybackProgressTimeout;
+            delete instance.reportPlaybackProgressPromise;
+            delete instance.reportPlaybackProgressCancel;
+        };
+
+        let sendReport = function (lastOptions) {
+            resetPromise();
+
+            if (!lastOptions) throw new Error("null options");
+
+            instance.lastPlaybackProgressReport = (new Date).getTime();
+            instance.lastPlaybackProgressReportTicks = lastOptions.PositionTicks;
+
+            const url = instance.getUrl("Sessions/Playing/Progress");
+            return instance.ajax({
+                type: "POST",
+                data: JSON.stringify(lastOptions),
+                contentType: "application/json",
+                url: url
+            });
+        };
+
+        let delay = Math.max(0, reportRateLimitTime - msSinceLastReport);
+
+        promise = new Promise((resolve, reject) => setTimeout(resolve, delay)).then(() => {
+            if (cancelled) return Promise.resolve();
+            return sendReport(instance.lastPlaybackProgressOptions);
+        }).finally(() => {
+            resetPromise();
+        });
+
+        this.reportPlaybackProgressTimeout = reportRateLimitTime;
+        this.reportPlaybackProgressPromise = promise;
+        this.reportPlaybackProgressCancel = function () {
+            cancelled = true;
+            resetPromise();
+        };
+
+        return promise;
     }, ApiClient.prototype.reportOfflineActions = function(actions) {
         if (!actions) throw new Error("null actions");
         var url = this.getUrl("Sync/OfflineActions");
@@ -1469,6 +1550,7 @@ define(["events", "appStorage"], function(events, appStorage) {
     }, ApiClient.prototype.reportPlaybackStopped = function(options) {
         if (!options) throw new Error("null options");
         this.lastPlaybackProgressReport = 0, this.lastPlaybackProgressReportTicks = null, redetectBitrate(this);
+        cancelReportPlaybackProgressPromise(this);
         var url = this.getUrl("Sessions/Playing/Stopped");
         return this.ajax({
             type: "POST",

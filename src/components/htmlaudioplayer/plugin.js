@@ -1,5 +1,5 @@
 define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelper'], function (events, browser, require, appHost, appSettings, htmlMediaHelper) {
-    "use strict";
+    'use strict';
 
     function getDefaultProfile() {
         return new Promise(function (resolve, reject) {
@@ -16,7 +16,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         // Need to record the starting volume on each pass rather than querying elem.volume
         // This is due to iOS safari not allowing volume changes and always returning the system volume value
         var newVolume = Math.max(0, startingVolume - 0.15);
-        console.log('fading volume to ' + newVolume);
+        console.debug('fading volume to ' + newVolume);
         elem.volume = newVolume;
 
         if (newVolume <= 0) {
@@ -101,7 +101,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             self._timeUpdated = false;
             self._currentTime = null;
 
-            var elem = createMediaElement(options);
+            var elem = createMediaElement();
             return setCurrentSrc(elem, options);
         };
 
@@ -113,7 +113,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             bindEvents(elem);
 
             var val = options.url;
-            console.log('playing url: ' + val);
+            console.debug('playing url: ' + val);
 
             // Convert to seconds
             var seconds = (options.playerStartPositionTicks || 0) / 10000000;
@@ -298,7 +298,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
             var errorCode = this.error ? (this.error.code || 0) : 0;
             var errorMessage = this.error ? (this.error.message || '') : '';
-            console.log('Media element error: ' + errorCode.toString() + ' ' + errorMessage);
+            console.error('media element error: ' + errorCode.toString() + ' ' + errorMessage);
 
             var type;
 

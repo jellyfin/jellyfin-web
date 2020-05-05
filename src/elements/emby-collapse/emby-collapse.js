@@ -24,7 +24,7 @@ define(['browser', 'css!./emby-collapse', 'registerElement', 'emby-button'], fun
             elem.style.height = 'auto';
         }, 300);
 
-        var icon = button.querySelector('i');
+        var icon = button.querySelector('.material-icons');
         //icon.innerHTML = 'expand_less';
         icon.classList.add('emby-collapse-expandIconExpanded');
     }
@@ -46,7 +46,7 @@ define(['browser', 'css!./emby-collapse', 'registerElement', 'emby-button'], fun
             }
         }, 300);
 
-        var icon = button.querySelector('i');
+        var icon = button.querySelector('.material-icons');
         //icon.innerHTML = 'expand_more';
         icon.classList.remove('emby-collapse-expandIconExpanded');
     }
@@ -80,7 +80,7 @@ define(['browser', 'css!./emby-collapse', 'registerElement', 'emby-button'], fun
 
         var title = this.getAttribute('title');
 
-        var html = '<button is="emby-button" type="button" on-click="toggleExpand" id="expandButton" class="emby-collapsible-button iconRight"><h3 class="emby-collapsible-title" title="' + title + '">' + title + '</h3><i class="material-icons emby-collapse-expandIcon">expand_more</i></button>';
+        var html = '<button is="emby-button" type="button" on-click="toggleExpand" id="expandButton" class="emby-collapsible-button iconRight"><h3 class="emby-collapsible-title" title="' + title + '">' + title + '</h3><span class="material-icons emby-collapse-expandIcon expand_more"></span></button>';
 
         this.insertAdjacentHTML('afterbegin', html);
 

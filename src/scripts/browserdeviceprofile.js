@@ -92,7 +92,7 @@ define(['browser'], function (browser) {
             return true;
         }
 
-        if (!!videoTestElement.canPlayType) {
+        if (videoTestElement.canPlayType) {
             return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-3"').replace(/no/, '') ||
                 videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-3"').replace(/no/, '');
         }
@@ -214,6 +214,15 @@ define(['browser'], function (browser) {
                 break;
             case 'avi':
                 supported = browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
+                // New Samsung TV don't support XviD/DivX
+                // Explicitly add supported codecs to make other codecs be transcoded
+                if (browser.tizenVersion >= 4) {
+                    videoCodecs.push('h264');
+                    if (canPlayH265(videoTestElement, options)) {
+                        videoCodecs.push('h265');
+                        videoCodecs.push('hevc');
+                    }
+                }
                 break;
             case 'mpg':
             case 'mpeg':
@@ -302,9 +311,9 @@ define(['browser'], function (browser) {
             try {
                 var isTizenUhd = webapis.productinfo.isUdPanelSupported();
                 isTizenFhd = !isTizenUhd;
-                console.log("isTizenFhd = " + isTizenFhd);
+                console.debug('isTizenFhd = ' + isTizenFhd);
             } catch (error) {
-                console.log("isUdPanelSupported() error code = " + error.code);
+                console.error('isUdPanelSupported() error code = ' + error.code);
             }
         }
 
@@ -424,13 +433,9 @@ define(['browser'], function (browser) {
 
         var supportsDts = browser.tizen || browser.orsay || browser.web0s || options.supportsDts;
 
-        if (self.tizen && self.tizen.systeminfo) {
-            var v = tizen.systeminfo.getCapability('http://tizen.org/feature/platform.version');
-
-            // DTS audio not supported in 2018 models (Tizen 4.0)
-            if (v && parseFloat(v) >= parseFloat('4.0')) {
-                supportsDts = false;
-            }
+        // DTS audio not supported in 2018 models (Tizen 4.0)
+        if (browser.tizenVersion >= 4) {
+            supportsDts = false;
         }
 
         if (supportsDts) {
@@ -757,11 +762,16 @@ define(['browser'], function (browser) {
             maxH264Level = 51;
         }
 
+        // Support H264 Level 52 (Tizen 5.0) - app only
+        if (browser.tizenVersion >= 5 && window.NativeShell) {
+            maxH264Level = 52;
+        }
+
         if (browser.tizen || browser.orsay ||
             videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, '')) {
 
             // These tests are passing in safari, but playback is failing
-            if (!browser.safari && !browser.iOS && !browser.web0s && !browser.edge) {
+            if (!browser.safari && !browser.iOS && !browser.web0s && !browser.edge && !browser.mobile) {
                 h264Profiles += '|high 10';
             }
         }
@@ -874,6 +884,16 @@ define(['browser'], function (browser) {
         if (supportsTextTracks()) {
             profile.SubtitleProfiles.push({
                 Format: 'vtt',
+                Method: 'External'
+            });
+        }
+        if (options.enableSsaRender) {
+            profile.SubtitleProfiles.push({
+                Format: 'ass',
+                Method: 'External'
+            });
+            profile.SubtitleProfiles.push({
+                Format: 'ssa',
                 Method: 'External'
             });
         }

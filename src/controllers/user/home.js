@@ -1,19 +1,19 @@
-define(["homescreenSettings", "dom", "globalize", "loading", "userSettings", "autoFocuser", "listViewStyle"], function (HomescreenSettings, dom, globalize, loading, currentUserSettings, autoFocuser) {
-    "use strict";
+define(['homescreenSettings', 'dom', 'globalize', 'loading', 'userSettings', 'autoFocuser', 'listViewStyle'], function (HomescreenSettings, dom, globalize, loading, userSettings, autoFocuser) {
+    'use strict';
 
     return function (view, params) {
         function onBeforeUnload(e) {
             if (hasChanges) {
-                e.returnValue = "You currently have unsaved changes. Are you sure you wish to leave?";
+                e.returnValue = 'You currently have unsaved changes. Are you sure you wish to leave?';
             }
         }
 
         var homescreenSettingsInstance;
         var hasChanges;
         var userId = params.userId || ApiClient.getCurrentUserId();
-        var userSettings = userId === ApiClient.getCurrentUserId() ? currentUserSettings : new userSettings();
-        view.addEventListener("viewshow", function () {
-            window.addEventListener("beforeunload", onBeforeUnload);
+        var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new userSettings();
+        view.addEventListener('viewshow', function () {
+            window.addEventListener('beforeunload', onBeforeUnload);
 
             if (homescreenSettingsInstance) {
                 homescreenSettingsInstance.loadData();
@@ -21,25 +21,25 @@ define(["homescreenSettings", "dom", "globalize", "loading", "userSettings", "au
                 homescreenSettingsInstance = new HomescreenSettings({
                     serverId: ApiClient.serverId(),
                     userId: userId,
-                    element: view.querySelector(".homeScreenSettingsContainer"),
-                    userSettings: userSettings,
+                    element: view.querySelector('.homeScreenSettingsContainer'),
+                    userSettings: currentSettings,
                     enableSaveButton: false,
                     enableSaveConfirmation: false,
                     autoFocus: autoFocuser.isEnabled()
                 });
             }
         });
-        view.addEventListener("change", function () {
+        view.addEventListener('change', function () {
             hasChanges = true;
         });
-        view.addEventListener("viewbeforehide", function () {
+        view.addEventListener('viewbeforehide', function () {
             hasChanges = false;
 
             if (homescreenSettingsInstance) {
                 homescreenSettingsInstance.submit();
             }
         });
-        view.addEventListener("viewdestroy", function () {
+        view.addEventListener('viewdestroy', function () {
             if (homescreenSettingsInstance) {
                 homescreenSettingsInstance.destroy();
                 homescreenSettingsInstance = null;

@@ -192,7 +192,7 @@
     "AddToPlayQueue": "Tambah ke dalam antrean putar",
     "AddToCollection": "Tambah ke dalam koleksi",
     "AddItemToCollectionHelp": "Tambahkan item ke dalam koleksi melalui pencarian dan gunakan klik kanan atau ketuk menu untuk menambahkannya ke dalam koleksi.",
-    "AccessRestrictedTryAgainLater": "Akses sedang dibatas. Silakan coba kembali nanti.",
+    "AccessRestrictedTryAgainLater": "Akses sedang dibatasi. Silakan coba kembali nanti.",
     "Absolute": "Mutlak",
     "Songs": "Lagu",
     "Playlists": "Daftar putar",
@@ -200,5 +200,9 @@
     "Sync": "Sinkron",
     "Shows": "Tayangan",
     "Photos": "Foto",
-    "Movies": "Film"
+    "Movies": "Film",
+    "Alerts": "Peringatan",
+    "AddedOnValue": "Ditambahkan {0}",
+    "AllowFfmpegThrottling": "Transcode Tercekik",
+    "AllowOnTheFlySubtitleExtractionHelp": "Subtitle yang melekat di video dapat dikeluarkan dan dikirimkan kepada klien dalam bentuk text biasa dengan tujuan untuk menghalau terjadinya transcoding pada video. Pada beberapa system ini membutuhkan waktu yang lama dan dapat menyebabkan video playback menjadi terhenti dikarenakan proses ekstraksi. Non-aktifkan fitur ini untuk membiarkan subtitle langsung dilekatkan kepada video dengan cara transcoding ketika klien tidak mendukung fitur ini."
 }
