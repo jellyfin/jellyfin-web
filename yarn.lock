@@ -6543,8 +6543,9 @@ isurl@^1.0.0-alpha5:
     is-object "^1.0.1"
 
 "jellyfin-noto@https://github.com/jellyfin/jellyfin-noto":
-  version "1.0.2"
-  resolved "https://github.com/jellyfin/jellyfin-noto#a441b179c833288fc372cadb408d32a76c5479f1"
+  version "1.0.3"
+  uid b784602db063734c721a46563ae5d6577ec2b35d
+  resolved "https://github.com/jellyfin/jellyfin-noto#b784602db063734c721a46563ae5d6577ec2b35d"
 
 jquery@>=1.9.1, jquery@^3.5.0:
   version "3.5.0"
