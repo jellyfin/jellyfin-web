@@ -1,4 +1,4 @@
-define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncplayManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!./playerstats'], function (events, globalize, playbackManager, connectionManager, syncplayManager, playMethodHelper, layoutManager, serverNotifications) {
+define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlayManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!./playerstats'], function (events, globalize, playbackManager, connectionManager, syncPlayManager, playMethodHelper, layoutManager, serverNotifications) {
     'use strict';
 
     function init(instance) {
@@ -327,22 +327,22 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncplay
         return sessionStats;
     }
 
-    function getSyncplayStats() {
+    function getSyncPlayStats() {
         var syncStats = [];
-        var stats = syncplayManager.getStats();
+        var stats = syncPlayManager.getStats();
 
         syncStats.push({
-            label: globalize.translate('LabelSyncplayTimeOffset'),
+            label: globalize.translate('LabelSyncPlayTimeOffset'),
             value: stats.TimeOffset + globalize.translate('MillisecondsUnit')
         });
 
         syncStats.push({
-            label: globalize.translate('LabelSyncplayPlaybackDiff'),
+            label: globalize.translate('LabelSyncPlayPlaybackDiff'),
             value: stats.PlaybackDiff + globalize.translate('MillisecondsUnit')
         });
 
         syncStats.push({
-            label: globalize.translate('LabelSyncplaySyncMethod'),
+            label: globalize.translate('LabelSyncPlaySyncMethod'),
             value: stats.SyncMethod
         });
 
@@ -405,10 +405,10 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncplay
                 name: 'Original Media Info'
             });
 
-            if (syncplayManager.isSyncplayEnabled()) {
+            if (syncPlayManager.isSyncPlayEnabled()) {
                 categories.push({
-                    stats: getSyncplayStats(),
-                    name: 'Syncplay Info'
+                    stats: getSyncPlayStats(),
+                    name: 'SyncPlay Info'
                 });
             }
 

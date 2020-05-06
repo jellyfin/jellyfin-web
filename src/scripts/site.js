@@ -826,7 +826,7 @@ var AppInfo = {};
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
         define('timeSyncManager', [componentsPath + '/syncplay/timeSyncManager'], returnDefault);
         define('groupSelectionMenu', [componentsPath + '/syncplay/groupSelectionMenu'], returnFirstDependency);
-        define('syncplayManager', [componentsPath + '/syncplay/syncplayManager'], returnDefault);
+        define('syncPlayManager', [componentsPath + '/syncplay/syncPlayManager'], returnDefault);
         define('playbackPermissionManager', [componentsPath + '/syncplay/playbackPermissionManager'], returnDefault);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);
         define('homeSections', [componentsPath + '/homesections/homesections'], returnFirstDependency);

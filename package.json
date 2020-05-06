@@ -100,7 +100,7 @@
           "src/components/syncplay/playbackPermissionManager.js",
           "src/components/syncplay/groupSelectionMenu.js",
           "src/components/syncplay/timeSyncManager.js",
-          "src/components/syncplay/syncplayManager.js",
+          "src/components/syncplay/syncPlayManager.js",
           "src/scripts/dfnshelper.js",
           "src/scripts/dom.js",
           "src/scripts/filesystem.js",

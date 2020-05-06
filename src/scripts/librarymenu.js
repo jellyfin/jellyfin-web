@@ -1,4 +1,4 @@
-define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'syncplayManager', 'groupSelectionMenu', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, syncplayManager, groupSelectionMenu, browser, globalize, imageHelper) {
+define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'syncPlayManager', 'groupSelectionMenu', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, syncPlayManager, groupSelectionMenu, browser, globalize, imageHelper) {
     'use strict';
 
     function renderHeader() {
@@ -89,7 +89,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
             var policy = user.Policy ? user.Policy : user.localUser.Policy;
 
-            if (headerSyncButton && policy && policy.SyncplayAccess !== 'None') {
+            if (headerSyncButton && policy && policy.SyncPlayAccess !== 'None') {
                 headerSyncButton.classList.remove('hide');
             }
         } else {
@@ -192,7 +192,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         groupSelectionMenu.show(btn);
     }
 
-    function onSyncplayEnabled(event, enabled) {
+    function onSyncPlayEnabled(event, enabled) {
         var icon = headerSyncButton.querySelector('span');
         icon.classList.remove('sync', 'sync_disabled', 'sync_problem');
         if (enabled) {
@@ -202,7 +202,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     }
 
-    function onSyncplaySyncing(event, is_syncing, syncMethod) {
+    function onSyncPlaySyncing(event, is_syncing, syncMethod) {
         var icon = headerSyncButton.querySelector('span');
         icon.classList.remove('sync', 'sync_disabled', 'sync_problem');
         if (is_syncing) {
@@ -967,8 +967,8 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         updateUserInHeader();
     });
     events.on(playbackManager, 'playerchange', updateCastIcon);
-    events.on(syncplayManager, 'enabled', onSyncplayEnabled);
-    events.on(syncplayManager, 'syncing', onSyncplaySyncing);
+    events.on(syncPlayManager, 'enabled', onSyncPlayEnabled);
+    events.on(syncPlayManager, 'syncing', onSyncPlaySyncing);
     loadNavDrawer();
     return LibraryMenu;
 });

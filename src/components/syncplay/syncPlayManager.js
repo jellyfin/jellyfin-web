@@ -1,6 +1,6 @@
 /**
- * Module that manages the Syncplay feature.
- * @module components/syncplay/syncplayManager
+ * Module that manages the SyncPlay feature.
+ * @module components/syncplay/syncPlayManager
  */
 
 import events from 'events';
@@ -62,9 +62,9 @@ const WaitForEventDefaultTimeout = 30000; // milliseconds
 const WaitForPlayerEventTimeout = 500; // milliseconds
 
 /**
- * Class that manages the Syncplay feature.
+ * Class that manages the SyncPlay feature.
  */
-class SyncplayManager {
+class SyncPlayManager {
     constructor() {
         this.playbackRateSupported = false;
         this.syncEnabled = false;
@@ -80,8 +80,8 @@ class SyncplayManager {
         this.currentPlayer = null;
         this.localPlayerPlaybackRate = 1.0; // used to restore user PlaybackRate
 
-        this.syncplayEnabledAt = null; // Server time of when Syncplay has been enabled
-        this.syncplayReady = false; // Syncplay is ready after first ping to server
+        this.syncPlayEnabledAt = null; // Server time of when SyncPlay has been enabled
+        this.syncPlayReady = false; // SyncPlay is ready after first ping to server
 
         this.lastCommand = null;
         this.queuedCommand = null;
@@ -91,7 +91,7 @@ class SyncplayManager {
 
         this.timeOffsetWithServer = 0; // server time minus local time
         this.roundTripDuration = 0;
-        this.notifySyncplayReady = false;
+        this.notifySyncPlayReady = false;
 
         events.on(playbackManager, 'playbackstart', (player, state) => {
             this.onPlaybackStart(player, state);
@@ -113,17 +113,17 @@ class SyncplayManager {
 
         events.on(timeSyncManager, 'update', (event, error, timeOffset, ping) => {
             if (error) {
-                console.debug('Syncplay, time update issue', error);
+                console.debug('SyncPlay, time update issue', error);
                 return;
             }
 
             this.timeOffsetWithServer = timeOffset;
             this.roundTripDuration = ping * 2;
 
-            if (this.notifySyncplayReady) {
-                this.syncplayReady = true;
+            if (this.notifySyncPlayReady) {
+                this.syncPlayReady = true;
                 events.trigger(this, 'ready');
-                this.notifySyncplayReady = false;
+                this.notifySyncPlayReady = false;
             }
 
             // Report ping
@@ -134,12 +134,12 @@ class SyncplayManager {
                 if (!sessionId) {
                     this.signalError();
                     toast({
-                        text: globalize.translate('MessageSyncplayErrorMissingSession')
+                        text: globalize.translate('MessageSyncPlayErrorMissingSession')
                     });
                     return;
                 }
 
-                apiClient.sendSyncplayCommand(sessionId, 'UpdatePing', {
+                apiClient.sendSyncPlayCommand(sessionId, 'UpdatePing', {
                     Ping: ping
                 });
             }
@@ -158,8 +158,8 @@ class SyncplayManager {
      */
     onPlaybackStop (stopInfo) {
         events.trigger(this, 'playbackstop', [stopInfo]);
-        if (this.isSyncplayEnabled()) {
-            this.disableSyncplay(false);
+        if (this.isSyncPlayEnabled()) {
+            this.disableSyncPlay(false);
         }
     }
 
@@ -238,7 +238,7 @@ class SyncplayManager {
         // FIXME: the following are needed because the 'events' module
         // is changing the scope when executing the callbacks.
         // For instance, calling 'onPlayerUnpause' from the wrong scope breaks things because 'this'
-        // points to 'player' (the event emitter) instead of pointing to the SyncplayManager singleton.
+        // points to 'player' (the event emitter) instead of pointing to the SyncPlayManager singleton.
         const self = this;
         this._onPlayerUnpause = () => {
             self.onPlayerUnpause();
@@ -306,48 +306,48 @@ class SyncplayManager {
                 break;
             case 'UserJoined':
                 toast({
-                    text: globalize.translate('MessageSyncplayUserJoined', cmd.Data)
+                    text: globalize.translate('MessageSyncPlayUserJoined', cmd.Data)
                 });
                 break;
             case 'UserLeft':
                 toast({
-                    text: globalize.translate('MessageSyncplayUserLeft', cmd.Data)
+                    text: globalize.translate('MessageSyncPlayUserLeft', cmd.Data)
                 });
                 break;
             case 'GroupJoined':
-                this.enableSyncplay(apiClient, new Date(cmd.Data), true);
+                this.enableSyncPlay(apiClient, new Date(cmd.Data), true);
                 break;
             case 'NotInGroup':
             case 'GroupLeft':
-                this.disableSyncplay(true);
+                this.disableSyncPlay(true);
                 break;
             case 'GroupWait':
                 toast({
-                    text: globalize.translate('MessageSyncplayGroupWait', cmd.Data)
+                    text: globalize.translate('MessageSyncPlayGroupWait', cmd.Data)
                 });
                 break;
             case 'GroupDoesNotExist':
                 toast({
-                    text: globalize.translate('MessageSyncplayGroupDoesNotExist')
+                    text: globalize.translate('MessageSyncPlayGroupDoesNotExist')
                 });
                 break;
             case 'CreateGroupDenied':
                 toast({
-                    text: globalize.translate('MessageSyncplayCreateGroupDenied')
+                    text: globalize.translate('MessageSyncPlayCreateGroupDenied')
                 });
                 break;
             case 'JoinGroupDenied':
                 toast({
-                    text: globalize.translate('MessageSyncplayJoinGroupDenied')
+                    text: globalize.translate('MessageSyncPlayJoinGroupDenied')
                 });
                 break;
             case 'LibraryAccessDenied':
                 toast({
-                    text: globalize.translate('MessageSyncplayLibraryAccessDenied')
+                    text: globalize.translate('MessageSyncPlayLibraryAccessDenied')
                 });
                 break;
             default:
-                console.error('processSyncplayGroupUpdate: command is not recognised: ' + cmd.Type);
+                console.error('processSyncPlayGroupUpdate: command is not recognised: ' + cmd.Type);
                 break;
         }
     }
@@ -360,13 +360,13 @@ class SyncplayManager {
     processCommand (cmd, apiClient) {
         if (cmd === null) return;
 
-        if (!this.isSyncplayEnabled()) {
-            console.debug('Syncplay processCommand: SyncPlay not enabled, ignoring command', cmd);
+        if (!this.isSyncPlayEnabled()) {
+            console.debug('SyncPlay processCommand: SyncPlay not enabled, ignoring command', cmd);
             return;
         }
 
-        if (!this.syncplayReady) {
-            console.debug('Syncplay processCommand: SyncPlay not ready, queued command', cmd);
+        if (!this.syncPlayReady) {
+            console.debug('SyncPlay processCommand: SyncPlay not ready, queued command', cmd);
             this.queuedCommand = cmd;
             return;
         }
@@ -374,8 +374,8 @@ class SyncplayManager {
         cmd.When = new Date(cmd.When);
         cmd.EmittedAt = new Date(cmd.EmitttedAt);
 
-        if (cmd.EmitttedAt < this.syncplayEnabledAt) {
-            console.debug('Syncplay processCommand: ignoring old command', cmd);
+        if (cmd.EmitttedAt < this.syncPlayEnabledAt) {
+            console.debug('SyncPlay processCommand: ignoring old command', cmd);
             return;
         }
 
@@ -385,12 +385,12 @@ class SyncplayManager {
             this.lastCommand.PositionTicks === cmd.PositionTicks &&
             this.Command === cmd.Command
         ) {
-            console.debug('Syncplay processCommand: ignoring duplicate command', cmd);
+            console.debug('SyncPlay processCommand: ignoring duplicate command', cmd);
             return;
         }
 
         this.lastCommand = cmd;
-        console.log('Syncplay will', cmd.Command, 'at', cmd.When, 'PositionTicks', cmd.PositionTicks);
+        console.log('SyncPlay will', cmd.Command, 'at', cmd.When, 'PositionTicks', cmd.PositionTicks);
 
         switch (cmd.Command) {
             case 'Play':
@@ -430,7 +430,7 @@ class SyncplayManager {
                 if (!sessionId) {
                     console.error('Missing sessionId!');
                     toast({
-                        text: globalize.translate('MessageSyncplayErrorMissingSession')
+                        text: globalize.translate('MessageSyncPlayErrorMissingSession')
                     });
                     return;
                 }
@@ -448,22 +448,22 @@ class SyncplayManager {
                     if (!success) {
                         console.warning('Error reporting playback state to server. Joining group will fail.');
                     }
-                    apiClient.sendSyncplayCommand(sessionId, 'JoinGroup', {
+                    apiClient.sendSyncPlayCommand(sessionId, 'JoinGroup', {
                         GroupId: groupId,
                         PlayingItemId: playingItemId
                     });
                 }).catch(() => {
                     console.error('Timed out while waiting for `reportplayback` event!');
                     toast({
-                        text: globalize.translate('MessageSyncplayErrorMedia')
+                        text: globalize.translate('MessageSyncPlayErrorMedia')
                     });
                     return;
                 });
             }).catch(() => {
                 console.error('Timed out while waiting for `playbackstart` event!');
-                if (!this.isSyncplayEnabled()) {
+                if (!this.isSyncPlayEnabled()) {
                     toast({
-                        text: globalize.translate('MessageSyncplayErrorMedia')
+                        text: globalize.translate('MessageSyncPlayErrorMedia')
                     });
                 }
                 return;
@@ -471,19 +471,19 @@ class SyncplayManager {
         }).catch((error) => {
             console.error(error);
             toast({
-                text: globalize.translate('MessageSyncplayErrorMedia')
+                text: globalize.translate('MessageSyncPlayErrorMedia')
             });
         });
     }
 
     /**
-     * Enables Syncplay.
+     * Enables SyncPlay.
      * @param {Object} apiClient The ApiClient.
-     * @param {Date} enabledAt When Syncplay has been enabled. Server side date.
+     * @param {Date} enabledAt When SyncPlay has been enabled. Server side date.
      * @param {boolean} showMessage Display message.
      */
-    enableSyncplay (apiClient, enabledAt, showMessage = false) {
-        this.syncplayEnabledAt = enabledAt;
+    enableSyncPlay (apiClient, enabledAt, showMessage = false) {
+        this.syncPlayEnabledAt = enabledAt;
         this.injectPlaybackManager();
         events.trigger(this, 'enabled', [true]);
 
@@ -492,25 +492,25 @@ class SyncplayManager {
             this.queuedCommand = null;
         });
 
-        this.syncplayReady = false;
-        this.notifySyncplayReady = true;
+        this.syncPlayReady = false;
+        this.notifySyncPlayReady = true;
 
         timeSyncManager.forceUpdate();
 
         if (showMessage) {
             toast({
-                text: globalize.translate('MessageSyncplayEnabled')
+                text: globalize.translate('MessageSyncPlayEnabled')
             });
         }
     }
 
     /**
-     * Disables Syncplay.
+     * Disables SyncPlay.
      * @param {boolean} showMessage Display message.
      */
-    disableSyncplay (showMessage = false) {
-        this.syncplayEnabledAt = null;
-        this.syncplayReady = false;
+    disableSyncPlay (showMessage = false) {
+        this.syncPlayEnabledAt = null;
+        this.syncPlayReady = false;
         this.lastCommand = null;
         this.queuedCommand = null;
         this.syncEnabled = false;
@@ -519,17 +519,17 @@ class SyncplayManager {
 
         if (showMessage) {
             toast({
-                text: globalize.translate('MessageSyncplayDisabled')
+                text: globalize.translate('MessageSyncPlayDisabled')
             });
         }
     }
 
     /**
-     * Gets Syncplay status.
+     * Gets SyncPlay status.
      * @returns {boolean} _true_ if user joined a group, _false_ otherwise.
      */
-    isSyncplayEnabled () {
-        return this.syncplayEnabledAt !== null;
+    isSyncPlayEnabled () {
+        return this.syncPlayEnabledAt !== null;
     }
 
     /**
@@ -627,8 +627,8 @@ class SyncplayManager {
      * Overrides some PlaybackManager's methods to intercept playback commands.
      */
     injectPlaybackManager () {
-        if (!this.isSyncplayEnabled()) return;
-        if (playbackManager.syncplayEnabled) return;
+        if (!this.isSyncPlayEnabled()) return;
+        if (playbackManager.syncPlayEnabled) return;
 
         // TODO: make this less hacky
         playbackManager._localUnpause = playbackManager.unpause;
@@ -638,20 +638,20 @@ class SyncplayManager {
         playbackManager.unpause = this.playRequest;
         playbackManager.pause = this.pauseRequest;
         playbackManager.seek = this.seekRequest;
-        playbackManager.syncplayEnabled = true;
+        playbackManager.syncPlayEnabled = true;
     }
 
     /**
      * Restores original PlaybackManager's methods.
      */
     restorePlaybackManager () {
-        if (this.isSyncplayEnabled()) return;
-        if (!playbackManager.syncplayEnabled) return;
+        if (this.isSyncPlayEnabled()) return;
+        if (!playbackManager.syncPlayEnabled) return;
 
         playbackManager.unpause = playbackManager._localUnpause;
         playbackManager.pause = playbackManager._localPause;
         playbackManager.seek = playbackManager._localSeek;
-        playbackManager.syncplayEnabled = false;
+        playbackManager.syncPlayEnabled = false;
     }
 
     /**
@@ -660,7 +660,7 @@ class SyncplayManager {
     playRequest (player) {
         var apiClient = connectionManager.currentApiClient();
         var sessionId = getActivePlayerId();
-        apiClient.sendSyncplayCommand(sessionId, 'PlayRequest');
+        apiClient.sendSyncPlayCommand(sessionId, 'PlayRequest');
     }
 
     /**
@@ -669,7 +669,7 @@ class SyncplayManager {
     pauseRequest (player) {
         var apiClient = connectionManager.currentApiClient();
         var sessionId = getActivePlayerId();
-        apiClient.sendSyncplayCommand(sessionId, 'PauseRequest');
+        apiClient.sendSyncPlayCommand(sessionId, 'PauseRequest');
         // Pause locally as well, to give the user some little control
         playbackManager._localUnpause(player);
     }
@@ -680,7 +680,7 @@ class SyncplayManager {
     seekRequest (PositionTicks, player) {
         var apiClient = connectionManager.currentApiClient();
         var sessionId = getActivePlayerId();
-        apiClient.sendSyncplayCommand(sessionId, 'SeekRequest', {
+        apiClient.sendSyncPlayCommand(sessionId, 'SeekRequest', {
             PositionTicks: PositionTicks
         });
     }
@@ -689,7 +689,7 @@ class SyncplayManager {
      * Calls original PlaybackManager's unpause method.
      */
     localUnpause(player) {
-        if (playbackManager.syncplayEnabled) {
+        if (playbackManager.syncPlayEnabled) {
             playbackManager._localUnpause(player);
         } else {
             playbackManager.unpause(player);
@@ -700,7 +700,7 @@ class SyncplayManager {
      * Calls original PlaybackManager's pause method.
      */
     localPause(player) {
-        if (playbackManager.syncplayEnabled) {
+        if (playbackManager.syncPlayEnabled) {
             playbackManager._localPause(player);
         } else {
             playbackManager.pause(player);
@@ -711,7 +711,7 @@ class SyncplayManager {
      * Calls original PlaybackManager's seek method.
      */
     localSeek(PositionTicks, player) {
-        if (playbackManager.syncplayEnabled) {
+        if (playbackManager.syncPlayEnabled) {
             playbackManager._localSeek(PositionTicks, player);
         } else {
             playbackManager.seek(PositionTicks, player);
@@ -800,8 +800,8 @@ class SyncplayManager {
     }
 
     /**
-     * Gets Syncplay stats.
-     * @returns {Object} The Syncplay stats.
+     * Gets SyncPlay stats.
+     * @returns {Object} The SyncPlay stats.
      */
     getStats () {
         return {
@@ -812,7 +812,7 @@ class SyncplayManager {
     }
 
     /**
-     * Emits an event to update the Syncplay status icon.
+     * Emits an event to update the SyncPlay status icon.
      */
     showSyncIcon (syncMethod) {
         this.syncMethod = syncMethod;
@@ -820,7 +820,7 @@ class SyncplayManager {
     }
 
     /**
-     * Emits an event to clear the Syncplay status icon.
+     * Emits an event to clear the SyncPlay status icon.
      */
     clearSyncIcon () {
         this.syncMethod = 'None';
@@ -828,12 +828,12 @@ class SyncplayManager {
     }
 
     /**
-     * Signals an error state, which disables and resets Syncplay for a new session.
+     * Signals an error state, which disables and resets SyncPlay for a new session.
      */
     signalError () {
-        this.disableSyncplay();
+        this.disableSyncPlay();
     }
 }
 
-/** SyncplayManager singleton. */
-export default new SyncplayManager();
+/** SyncPlayManager singleton. */
+export default new SyncPlayManager();

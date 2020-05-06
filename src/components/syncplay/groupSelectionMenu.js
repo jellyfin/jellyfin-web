@@ -1,7 +1,7 @@
 import events from 'events';
 import connectionManager from 'connectionManager';
 import playbackManager from 'playbackManager';
-import syncplayManager from 'syncplayManager';
+import syncPlayManager from 'syncPlayManager';
 import loading from 'loading';
 import toast from 'toast';
 import actionsheet from 'actionsheet';
@@ -37,7 +37,7 @@ function showNewJoinGroupSelection (button, user, apiClient) {
         console.debug('No item is currently playing.');
     }
 
-    apiClient.sendSyncplayCommand(sessionId, 'ListGroups').then(function (response) {
+    apiClient.sendSyncPlayCommand(sessionId, 'ListGroups').then(function (response) {
         response.json().then(function (groups) {
             var menuItems = groups.map(function (group) {
                 return {
@@ -49,24 +49,24 @@ function showNewJoinGroupSelection (button, user, apiClient) {
                 };
             });
 
-            if (inSession && policy.SyncplayAccess === 'CreateAndJoinGroups') {
+            if (inSession && policy.SyncPlayAccess === 'CreateAndJoinGroups') {
                 menuItems.push({
-                    name: globalize.translate('LabelSyncplayNewGroup'),
+                    name: globalize.translate('LabelSyncPlayNewGroup'),
                     icon: 'add',
                     id: 'new-group',
                     selected: true,
-                    secondaryText: globalize.translate('LabelSyncplayNewGroupDescription')
+                    secondaryText: globalize.translate('LabelSyncPlayNewGroupDescription')
                 });
             }
 
             if (menuItems.length === 0) {
-                if (inSession && policy.SyncplayAccess === 'JoinGroups') {
+                if (inSession && policy.SyncPlayAccess === 'JoinGroups') {
                     toast({
-                        text: globalize.translate('MessageSyncplayCreateGroupDenied')
+                        text: globalize.translate('MessageSyncPlayCreateGroupDenied')
                     });
                 } else {
                     toast({
-                        text: globalize.translate('MessageSyncplayNoGroupsAvailable')
+                        text: globalize.translate('MessageSyncPlayNoGroupsAvailable')
                     });
                 }
                 loading.hide();
@@ -74,7 +74,7 @@ function showNewJoinGroupSelection (button, user, apiClient) {
             }
 
             var menuOptions = {
-                title: globalize.translate('HeaderSyncplaySelectGroup'),
+                title: globalize.translate('HeaderSyncPlaySelectGroup'),
                 items: menuItems,
                 positionTo: button,
                 resolveOnClick: true,
@@ -83,15 +83,15 @@ function showNewJoinGroupSelection (button, user, apiClient) {
 
             actionsheet.show(menuOptions).then(function (id) {
                 if (id == 'new-group') {
-                    apiClient.sendSyncplayCommand(sessionId, 'NewGroup');
+                    apiClient.sendSyncPlayCommand(sessionId, 'NewGroup');
                 } else {
-                    apiClient.sendSyncplayCommand(sessionId, 'JoinGroup', {
+                    apiClient.sendSyncPlayCommand(sessionId, 'JoinGroup', {
                         GroupId: id,
                         PlayingItemId: playingItemId
                     });
                 }
             }).catch((error) => {
-                console.error('Syncplay: unexpected error listing groups:', error);
+                console.error('SyncPlay: unexpected error listing groups:', error);
             });
 
             loading.hide();
@@ -100,7 +100,7 @@ function showNewJoinGroupSelection (button, user, apiClient) {
         console.error(error);
         loading.hide();
         toast({
-            text: globalize.translate('MessageSyncplayErrorAccessingGroups')
+            text: globalize.translate('MessageSyncPlayErrorAccessingGroups')
         });
     });
 }
@@ -114,24 +114,24 @@ function showNewJoinGroupSelection (button, user, apiClient) {
 function showLeaveGroupSelection (button, user, apiClient) {
     const sessionId = getActivePlayerId();
     if (!sessionId) {
-        syncplayManager.signalError();
+        syncPlayManager.signalError();
         toast({
-            text: globalize.translate('MessageSyncplayErrorNoActivePlayer')
+            text: globalize.translate('MessageSyncPlayErrorNoActivePlayer')
         });
         showNewJoinGroupSelection(button, user, apiClient);
         return;
     }
 
     const menuItems = [{
-        name: globalize.translate('LabelSyncplayLeaveGroup'),
+        name: globalize.translate('LabelSyncPlayLeaveGroup'),
         icon: 'meeting_room',
         id: 'leave-group',
         selected: true,
-        secondaryText: globalize.translate('LabelSyncplayLeaveGroupDescription')
+        secondaryText: globalize.translate('LabelSyncPlayLeaveGroupDescription')
     }];
 
     var menuOptions = {
-        title: globalize.translate('HeaderSyncplayEnabled'),
+        title: globalize.translate('HeaderSyncPlayEnabled'),
         items: menuItems,
         positionTo: button,
         resolveOnClick: true,
@@ -140,23 +140,23 @@ function showLeaveGroupSelection (button, user, apiClient) {
 
     actionsheet.show(menuOptions).then(function (id) {
         if (id == 'leave-group') {
-            apiClient.sendSyncplayCommand(sessionId, 'LeaveGroup');
+            apiClient.sendSyncPlayCommand(sessionId, 'LeaveGroup');
         }
     }).catch((error) => {
-        console.error('Syncplay: unexpected error showing group menu:', error);
+        console.error('SyncPlay: unexpected error showing group menu:', error);
     });
 
     loading.hide();
 }
 
-// Register to Syncplay events
-let syncplayEnabled = false;
-events.on(syncplayManager, 'enabled', function (e, enabled) {
-    syncplayEnabled = enabled;
+// Register to SyncPlay events
+let syncPlayEnabled = false;
+events.on(syncPlayManager, 'enabled', function (e, enabled) {
+    syncPlayEnabled = enabled;
 });
 
 /**
- * Shows a menu to handle Syncplay groups.
+ * Shows a menu to handle SyncPlay groups.
  * @param {HTMLElement} button - Element where to place the menu.
  */
 export function show (button) {
@@ -168,13 +168,13 @@ export function show (button) {
     }).catch((error) => {
         console.error('Playback not allowed!', error);
         toast({
-            text: globalize.translate('MessageSyncplayPlaybackPermissionRequired')
+            text: globalize.translate('MessageSyncPlayPlaybackPermissionRequired')
         });
     });
 
     const apiClient = connectionManager.currentApiClient();
     connectionManager.user(apiClient).then((user) => {
-        if (syncplayEnabled) {
+        if (syncPlayEnabled) {
             showLeaveGroupSelection(button, user, apiClient);
         } else {
             showNewJoinGroupSelection(button, user, apiClient);
@@ -183,7 +183,7 @@ export function show (button) {
         console.error(error);
         loading.hide();
         toast({
-            text: globalize.translate('MessageSyncplayNoGroupsAvailable')
+            text: globalize.translate('MessageSyncPlayNoGroupsAvailable')
         });
     });
 }
