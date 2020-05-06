@@ -93,22 +93,22 @@ import events from 'events';
         return val !== 'false';
     }
 
-    export function enableCinemaTrailersUnseenOnly = function (val) {
+    export function enableCinemaTrailersUnseenOnly (val) {
         if (val !== undefined) {
             return this.set('enableCinemaTrailersUnseenOnly', val.toString(), false);
         }
 
         val = this.get('enableCinemaTrailersUnseenOnly', false);
         return val !== 'false';
-    };
+    }
 
-    export function cinemaModeTrailerCount = function (val) {
+    export function cinemaModeTrailerCount (val) {
         if (val !== undefined) {
             return this.set('cinemaModeTrailerCount', val, false);
         }
 
         return parseInt(this.get('cinemaModeTrailerCount', false) || '0');
-    };
+    }
 
     export function enableNextVideoInfoOverlay(val) {
         if (val !== undefined) {

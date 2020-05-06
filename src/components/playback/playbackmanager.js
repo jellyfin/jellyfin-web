@@ -290,13 +290,13 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         }
 
         var fetchOptions = {
-            Fields: "RemoteTrailers,LocalTrailerCount,ServerID",
-            Filters: unwatchedOnly ? "IsUnPlayed" : "",
+            Fields: 'RemoteTrailers,LocalTrailerCount,ServerID',
+            Filters: unwatchedOnly ? 'IsUnPlayed' : '',
             HasTrailer: true,
-            IncludeItemTypes: "Movie",
+            IncludeItemTypes: 'Movie',
             Limit: trailerCount,
             Recursive: true,
-            SortBy: "Random"
+            SortBy: 'Random'
         };
 
         function getRemoteTrailers(item) {

@@ -235,7 +235,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
         userSettingsInstance.enableCinemaTrailersUnseenOnly(context.querySelector('.chkTrailerUnseenOnly').checked);
-        userSettingsInstance.cinemaModeTrailerCount(context.querySelector('.txtTrailerCount').value)
+        userSettingsInstance.cinemaModeTrailerCount(context.querySelector('.txtTrailerCount').value);
 
         userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
         userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
