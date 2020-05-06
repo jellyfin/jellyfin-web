@@ -3176,24 +3176,21 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             var streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
 
             if (streamInfo) {
-
                 var currentlyPreventsVideoStreamCopy = streamInfo.url.toLowerCase().indexOf('allowvideostreamcopy=false') !== -1;
                 var currentlyPreventsAudioStreamCopy = streamInfo.url.toLowerCase().indexOf('allowaudiostreamcopy=false') !== -1;
 
                 // Auto switch to transcoding
                 if (enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy)) {
-
                     var startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
 
                     changeStream(player, startTime, {
-
                         // force transcoding
                         EnableDirectPlay: false,
                         EnableDirectStream: false,
                         AllowVideoStreamCopy: false,
                         AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
 
-                    }, true);
+                    });
 
                     return;
                 }
