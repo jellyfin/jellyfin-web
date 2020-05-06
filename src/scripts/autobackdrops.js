@@ -1,26 +1,28 @@
-define(["backdrop", "userSettings", "libraryMenu"], function (backdrop, userSettings, libraryMenu) {
-    "use strict";
+define(['backdrop', 'userSettings', 'libraryMenu'], function (backdrop, userSettings, libraryMenu) {
+    'use strict';
+
+    var cache = {};
 
     function enabled() {
         return userSettings.enableBackdrops();
     }
 
     function getBackdropItemIds(apiClient, userId, types, parentId) {
-        var key = "backdrops2_" + userId + (types || "") + (parentId || "");
+        var key = `backdrops2_${userId + (types || '') + (parentId || '')}`;
         var data = cache[key];
 
         if (data) {
-            console.debug("Found backdrop id list in cache. Key: " + key);
+            console.debug(`Found backdrop id list in cache. Key: ${key}`);
             data = JSON.parse(data);
             return Promise.resolve(data);
         }
 
         var options = {
-            SortBy: "IsFavoriteOrLiked,Random",
+            SortBy: 'IsFavoriteOrLiked,Random',
             Limit: 20,
             Recursive: true,
             IncludeItemTypes: types,
-            ImageTypes: "Backdrop",
+            ImageTypes: 'Backdrop',
             ParentId: parentId,
             EnableTotalRecordCount: false
         };
@@ -54,18 +56,17 @@ define(["backdrop", "userSettings", "libraryMenu"], function (backdrop, userSett
         }
     }
 
-    var cache = {};
-    pageClassOn("pageshow", "page", function () {
+    pageClassOn('pageshow', 'page', function () {
         var page = this;
 
-        if (!page.classList.contains("selfBackdropPage")) {
-            if (page.classList.contains("backdropPage")) {
+        if (!page.classList.contains('selfBackdropPage')) {
+            if (page.classList.contains('backdropPage')) {
                 if (enabled()) {
-                    var type = page.getAttribute("data-backdroptype");
-                    var parentId = page.classList.contains("globalBackdropPage") ? "" : libraryMenu.getTopParentId();
+                    var type = page.getAttribute('data-backdroptype');
+                    var parentId = page.classList.contains('globalBackdropPage') ? '' : libraryMenu.getTopParentId();
                     showBackdrop(type, parentId);
                 } else {
-                    page.classList.remove("backdropPage");
+                    page.classList.remove('backdropPage');
                     backdrop.clear();
                 }
             } else {

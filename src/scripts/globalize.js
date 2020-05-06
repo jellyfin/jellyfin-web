@@ -1,4 +1,4 @@
-define(['connectionManager', 'userSettings', 'events'], function (connectionManager, userSettings, events) {
+define(['userSettings', 'events'], function (userSettings, events) {
     'use strict';
     var fallbackCulture = 'en-us';
 
@@ -253,7 +253,6 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
     updateCurrentCulture();
 
-    events.on(connectionManager, 'localusersignedin', updateCurrentCulture);
     events.on(userSettings, 'change', function (e, name) {
         if (name === 'language' || name === 'datetimelocale') {
             updateCurrentCulture();
@@ -269,6 +268,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         defaultModule: defaultModule,
         getCurrentLocale: getCurrentLocale,
         getCurrentDateTimeLocale: getCurrentDateTimeLocale,
-        register: register
+        register: register,
+        updateCurrentCulture: updateCurrentCulture
     };
 });

@@ -1,12 +1,12 @@
-define(["connectionManager"], function (connectionManager) {
+define(['connectionManager'], function (connectionManager) {
 
     return function () {
 
         var self = this;
 
-        self.name = "Backdrop ScreenSaver";
-        self.type = "screensaver";
-        self.id = "backdropscreensaver";
+        self.name = 'Backdrop ScreenSaver';
+        self.type = 'screensaver';
+        self.id = 'backdropscreensaver';
         self.supportsAnonymous = false;
 
         var currentSlideshow;
@@ -14,12 +14,12 @@ define(["connectionManager"], function (connectionManager) {
         self.show = function () {
 
             var query = {
-                ImageTypes: "Backdrop",
-                EnableImageTypes: "Backdrop",
-                IncludeItemTypes: "Movie,Series,MusicArtist",
-                SortBy: "Random",
+                ImageTypes: 'Backdrop',
+                EnableImageTypes: 'Backdrop',
+                IncludeItemTypes: 'Movie,Series,MusicArtist',
+                SortBy: 'Random',
                 Recursive: true,
-                Fields: "Taglines",
+                Fields: 'Taglines',
                 ImageTypeLimit: 1,
                 StartIndex: 0,
                 Limit: 200
@@ -30,7 +30,7 @@ define(["connectionManager"], function (connectionManager) {
 
                 if (result.Items.length) {
 
-                    require(["slideshow"], function (slideshow) {
+                    require(['slideshow'], function (slideshow) {
 
                         var newSlideShow = new slideshow({
                             showTitle: true,
@@ -52,5 +52,5 @@ define(["connectionManager"], function (connectionManager) {
                 currentSlideshow = null;
             }
         };
-    }
+    };
 });

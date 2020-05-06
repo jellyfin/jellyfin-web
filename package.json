@@ -5,11 +5,11 @@
   "repository": "https://github.com/jellyfin/jellyfin-web",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
-    "@babel/core": "^7.8.6",
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-transform-modules-amd": "^7.9.6",
     "@babel/polyfill": "^7.8.7",
-    "@babel/plugin-transform-modules-amd": "^7.8.3",
     "@babel/preset-env": "^7.8.6",
-    "autoprefixer": "^9.7.4",
+    "autoprefixer": "^9.7.6",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
     "clean-webpack-plugin": "^3.0.0",
@@ -18,12 +18,17 @@
     "cssnano": "^4.1.10",
     "del": "^5.1.0",
     "eslint": "^6.8.0",
-    "file-loader": "^5.0.2",
+    "eslint-plugin-compat": "^3.5.1",
+    "eslint-plugin-eslint-comments": "^3.1.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "file-loader": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-cli": "^2.2.0",
     "gulp-concat": "^2.6.1",
     "gulp-htmlmin": "^5.0.1",
+    "gulp-if": "^3.0.0",
     "gulp-imagemin": "^7.1.0",
     "gulp-inject": "^5.0.5",
     "gulp-mode": "^1.0.2",
@@ -31,12 +36,13 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-terser": "^1.2.0",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^4.3.0",
+    "lazypipe": "^1.0.2",
     "node-sass": "^4.13.1",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "style-loader": "^1.1.3",
-    "stylelint": "^13.1.0",
+    "stylelint": "^13.3.3",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-no-browser-hacks": "^1.2.1",
     "stylelint-order": "^4.0.0",
@@ -49,38 +55,59 @@
   },
   "dependencies": {
     "alameda": "^1.4.0",
-    "core-js": "^3.6.4",
+    "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
+    "core-js": "^3.6.5",
+    "date-fns": "^2.12.0",
     "document-register-element": "^1.14.3",
+    "fast-text-encoding": "^1.0.1",
     "flv.js": "^1.5.0",
+    "headroom.js": "^0.11.0",
     "hls.js": "^0.13.1",
     "howler": "^2.1.3",
+    "intersection-observer": "^0.10.0",
     "jellyfin-noto": "https://github.com/jellyfin/jellyfin-noto",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jstree": "^3.3.7",
-    "libass-wasm": "https://github.com/jellyfin/JavascriptSubtitlesOctopus",
+    "libass-wasm": "https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf-cordova",
     "material-design-icons-iconfont": "^5.0.1",
     "native-promise-only": "^0.8.0-a",
-    "page": "^1.11.5",
+    "page": "^1.11.6",
     "query-string": "^6.11.1",
     "resize-observer-polyfill": "^1.5.1",
-    "shaka-player": "^2.5.9",
+    "screenfull": "^5.0.2",
+    "shaka-player": "^2.5.10",
     "sortablejs": "^1.10.2",
-    "swiper": "^5.3.1",
+    "swiper": "^5.3.7",
     "webcomponents.js": "^0.7.24",
     "whatwg-fetch": "^3.0.0"
   },
   "babel": {
-    "presets": ["@babel/preset-env"],
-    "overrides": [{
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "overrides": [
+      {
         "test": [
-            "src/components/cardbuilder/cardBuilder.js",
-            "src/components/filedownloader.js",
-            "src/components/filesystem.js",
-            "src/components/input/keyboardnavigation.js",
-            "src/components/sanatizefilename.js"
+          "src/components/autoFocuser.js",
+          "src/components/cardbuilder/cardBuilder.js",
+          "src/scripts/dom.js",
+          "src/components/filedownloader.js",
+          "src/scripts/filesystem.js",
+          "src/scripts/keyboardnavigation.js",
+          "src/components/sanatizefilename.js",
+          "src/components/scrollManager.js",
+          "src/scripts/settings/appSettings.js",
+          "src/scripts/settings/userSettings.js",
+          "src/scripts/settings/webSettings.js",
+          "src/scripts/dfnshelper.js",
+          "src/scripts/imagehelper.js",
+          "src/scripts/inputManager.js"
         ],
-        "plugins": ["@babel/plugin-transform-modules-amd"]
-    }]
+        "plugins": [
+          "@babel/plugin-transform-modules-amd"
+        ]
+      }
+    ]
   },
   "browserslist": [
     "last 2 Firefox versions",
@@ -98,12 +125,12 @@
     "Firefox ESR"
   ],
   "scripts": {
-    "serve": "gulp serve",
+    "serve": "gulp serve --development",
     "prepare": "gulp --production",
     "build:development": "gulp --development",
     "build:production": "gulp --production",
     "build:standalone": "gulp standalone --development",
-    "lint": "eslint \"src\"",
+    "lint": "eslint \".\"",
     "stylelint": "stylelint \"src/**/*.css\""
   }
 }

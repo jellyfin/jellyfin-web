@@ -402,7 +402,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
             this.addEventListener('keydown', onKeyDown);
             this.keyboardDraggingEnabled = true;
         }
-    }
+    };
 
     /**
      * Set steps for keyboard input.
@@ -413,7 +413,7 @@ define(['browser', 'dom', 'layoutManager', 'keyboardnavigation', 'css!./emby-sli
     EmbySliderPrototype.setKeyboardSteps = function (stepDown, stepUp) {
         this.keyboardStepDown = stepDown || stepUp || 1;
         this.keyboardStepUp = stepUp || stepDown || 1;
-    }
+    };
 
     function setRange(elem, startPercent, endPercent) {
 

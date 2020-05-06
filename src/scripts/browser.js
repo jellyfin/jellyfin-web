@@ -22,7 +22,7 @@ define([], function () {
             return true;
         }
 
-        if (userAgent.indexOf('webos') !== -1) {
+        if (userAgent.indexOf('web0s') !== -1) {
             return true;
         }
 
@@ -77,10 +77,10 @@ define([], function () {
             var camel = prop.replace(/-([a-z]|[0-9])/ig, function (all, letter) {
                 return (letter + '').toUpperCase();
             });
-            // Check if the property is supported
-            var support = (camel in el.style);
             // Create test element
             var el = document.createElement('div');
+            // Check if the property is supported
+            var support = (camel in el.style);
             // Assign the property and value to invoke
             // the CSS interpreter
             el.style.cssText = prop + ':' + value;
@@ -185,7 +185,7 @@ define([], function () {
             /(safari)[ \/]([\w.]+)/.exec(ua) ||
             /(firefox)[ \/]([\w.]+)/.exec(ua) ||
             /(msie) ([\w.]+)/.exec(ua) ||
-            ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
+            ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
             [];
 
         var versionMatch = /(version)[ \/]([\w.]+)/.exec(ua);
@@ -196,17 +196,17 @@ define([], function () {
             /(android)/.exec(ua) ||
             [];
 
-        var browser = match[1] || "";
+        var browser = match[1] || '';
 
-        if (browser === "edge") {
-            platform_match = [""];
+        if (browser === 'edge') {
+            platform_match = [''];
         } else {
-            if (ua.indexOf("windows phone") !== -1 || ua.indexOf("iemobile") !== -1) {
+            if (ua.indexOf('windows phone') !== -1 || ua.indexOf('iemobile') !== -1) {
 
                 // http://www.neowin.net/news/ie11-fakes-user-agent-to-fool-gmail-in-windows-phone-81-gdr1-update
-                browser = "msie";
-            } else if (ua.indexOf("like gecko") !== -1 && ua.indexOf('webkit') === -1 && ua.indexOf('opera') === -1 && ua.indexOf('chrome') === -1 && ua.indexOf('safari') === -1) {
-                browser = "msie";
+                browser = 'msie';
+            } else if (ua.indexOf('like gecko') !== -1 && ua.indexOf('webkit') === -1 && ua.indexOf('opera') === -1 && ua.indexOf('chrome') === -1 && ua.indexOf('safari') === -1) {
+                browser = 'msie';
             }
         }
 
@@ -219,7 +219,7 @@ define([], function () {
             version = versionMatch[2];
         }
 
-        version = version || match[2] || "0";
+        version = version || match[2] || '0';
 
         var versionMajor = parseInt(version.split('.')[0]);
 
@@ -230,7 +230,7 @@ define([], function () {
         return {
             browser: browser,
             version: version,
-            platform: platform_match[0] || "",
+            platform: platform_match[0] || '',
             versionMajor: versionMajor
         };
     };
@@ -250,11 +250,11 @@ define([], function () {
         browser[matched.platform] = true;
     }
 
-    if (!browser.chrome && !browser.msie && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf("webkit") !== -1) {
+    if (!browser.chrome && !browser.msie && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf('webkit') !== -1) {
         browser.safari = true;
     }
 
-    if (userAgent.toLowerCase().indexOf("playstation 4") !== -1) {
+    if (userAgent.toLowerCase().indexOf('playstation 4') !== -1) {
         browser.ps4 = true;
         browser.tv = true;
     }
@@ -292,7 +292,8 @@ define([], function () {
     }
 
     if (typeof document !== 'undefined') {
-        if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+        /* eslint-disable-next-line compat/compat */
+        if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
             browser.touch = true;
         }
     }

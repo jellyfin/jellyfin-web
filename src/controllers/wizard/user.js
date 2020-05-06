@@ -1,16 +1,16 @@
-define(["loading", "globalize", "dashboardcss", "emby-input", "emby-button", "emby-button"], function (loading, globalize) {
-    "use strict";
+define(['loading', 'globalize', 'dashboardcss', 'emby-input', 'emby-button', 'emby-button'], function (loading, globalize) {
+    'use strict';
 
     function getApiClient() {
         return ApiClient;
     }
 
     function nextWizardPage() {
-        Dashboard.navigate("wizardlibrary.html");
+        Dashboard.navigate('wizardlibrary.html');
     }
 
     function onUpdateUserComplete(result) {
-        console.debug("user update complete: " + result);
+        console.debug('user update complete: ' + result);
         loading.hide();
         nextWizardPage();
     }
@@ -19,21 +19,21 @@ define(["loading", "globalize", "dashboardcss", "emby-input", "emby-button", "em
         loading.show();
         var apiClient = getApiClient();
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             data: {
-                Name: form.querySelector("#txtUsername").value,
-                Password: form.querySelector("#txtManualPassword").value
+                Name: form.querySelector('#txtUsername').value,
+                Password: form.querySelector('#txtManualPassword').value
             },
-            url: apiClient.getUrl("Startup/User")
+            url: apiClient.getUrl('Startup/User')
         }).then(onUpdateUserComplete);
     }
 
     function onSubmit(e) {
         var form = this;
 
-        if (form.querySelector("#txtManualPassword").value != form.querySelector("#txtPasswordConfirm").value) {
-            require(["toast"], function (toast) {
-                toast(Globalize.translate("PasswordMatchError"));
+        if (form.querySelector('#txtManualPassword').value != form.querySelector('#txtPasswordConfirm').value) {
+            require(['toast'], function (toast) {
+                toast(globalize.translate('PasswordMatchError'));
             });
         } else {
             submit(form);
@@ -47,21 +47,21 @@ define(["loading", "globalize", "dashboardcss", "emby-input", "emby-button", "em
         loading.show();
         var page = this;
         var apiClient = getApiClient();
-        apiClient.getJSON(apiClient.getUrl("Startup/User")).then(function (user) {
-            page.querySelector("#txtUsername").value = user.Name || "";
-            page.querySelector("#txtManualPassword").value = user.Password || "";
+        apiClient.getJSON(apiClient.getUrl('Startup/User')).then(function (user) {
+            page.querySelector('#txtUsername').value = user.Name || '';
+            page.querySelector('#txtManualPassword').value = user.Password || '';
             loading.hide();
         });
     }
 
     return function (view, params) {
-        view.querySelector(".wizardUserForm").addEventListener("submit", onSubmit);
-        view.addEventListener("viewshow", function () {
-            document.querySelector(".skinHeader").classList.add("noHomeButtonHeader");
+        view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
+        view.addEventListener('viewshow', function () {
+            document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
         });
-        view.addEventListener("viewhide", function () {
-            document.querySelector(".skinHeader").classList.remove("noHomeButtonHeader");
+        view.addEventListener('viewhide', function () {
+            document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
         });
-        view.addEventListener("viewshow", onViewShow);
+        view.addEventListener('viewshow', onViewShow);
     };
 });

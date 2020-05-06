@@ -1,5 +1,5 @@
-define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focusManager", "connectionManager", "globalize", "actionsheet", "dom", "browser", "material-icons", "flexStyles", "emby-scroller", "emby-itemscontainer", "cardStyle", "emby-button"], function (loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom, browser) {
-    "use strict";
+define(['loading', 'appRouter', 'layoutManager', 'appSettings', 'apphost', 'focusManager', 'connectionManager', 'globalize', 'actionsheet', 'dom', 'browser', 'material-icons', 'flexStyles', 'emby-scroller', 'emby-itemscontainer', 'cardStyle', 'emby-button'], function (loading, appRouter, layoutManager, appSettings, appHost, focusManager, connectionManager, globalize, actionSheet, dom, browser) {
+    'use strict';
 
     var enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -8,8 +8,8 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
             return {
                 name: server.Name,
                 showIcon: true,
-                icon: "cast",
-                cardType: "",
+                icon: 'cast',
+                cardType: '',
                 id: server.Id,
                 server: server
             };
@@ -18,28 +18,28 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
             var cardImageContainer;
 
             if (item.showIcon) {
-                cardImageContainer = '<i class="cardImageIcon material-icons">' + item.icon + "</i>";
+                cardImageContainer = '<span class="cardImageIcon material-icons ' + item.icon + '"></span>';
             } else {
                 cardImageContainer = '<div class="cardImage" style="' + item.cardImageStyle + '"></div>';
             }
 
             // TODO move card creation code to Card component
 
-            var cssClass = "card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable";
+            var cssClass = 'card overflowSquareCard loginSquareCard scalableCard overflowSquareCard-scalable';
 
             if (layoutManager.tv) {
-                cssClass += " show-focus";
+                cssClass += ' show-focus';
 
                 if (enableFocusTransform) {
-                    cssClass += " show-animation";
+                    cssClass += ' show-animation';
                 }
             }
 
-            var cardBoxCssClass = "cardBox";
+            var cardBoxCssClass = 'cardBox';
 
             var innerOpening = '<div class="' + cardBoxCssClass + '">';
             var cardContainer = '';
-            cardContainer += '<button raised class="' + cssClass + '" style="display:inline-block;" data-id="' + item.id + '" data-url="' + (item.url || "") + '" data-cardtype="' + item.cardType + '">';
+            cardContainer += '<button raised class="' + cssClass + '" style="display:inline-block;" data-id="' + item.id + '" data-url="' + (item.url || '') + '" data-cardtype="' + item.cardType + '">';
             cardContainer += innerOpening;
             cardContainer += '<div class="cardScalable">';
             cardContainer += '<div class="cardPadder cardPadder-square">';
@@ -54,11 +54,11 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
             cardContainer += '<div class="cardText cardTextCentered">' + item.name + '</div>';
             cardContainer += '</div></div></button>';
             return cardContainer;
-        }).join("");
-        var itemsContainer = view.querySelector(".servers");
+        }).join('');
+        var itemsContainer = view.querySelector('.servers');
 
         if (!items.length) {
-            html = '<p>' + globalize.translate("MessageNoServersAvailable") + "</p>";
+            html = '<p>' + globalize.translate('MessageNoServersAvailable') + '</p>';
         }
 
         itemsContainer.innerHTML = html;
@@ -66,20 +66,20 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
     }
 
     function updatePageStyle(view, params) {
-        if (params.showuser == "1") {
-            view.classList.add("libraryPage");
-            view.classList.remove("standalonePage");
-            view.classList.add("noSecondaryNavPage");
+        if (params.showuser == '1') {
+            view.classList.add('libraryPage');
+            view.classList.remove('standalonePage');
+            view.classList.add('noSecondaryNavPage');
         } else {
-            view.classList.add("standalonePage");
-            view.classList.remove("libraryPage");
-            view.classList.remove("noSecondaryNavPage");
+            view.classList.add('standalonePage');
+            view.classList.remove('libraryPage');
+            view.classList.remove('noSecondaryNavPage');
         }
     }
 
     function showGeneralError() {
         loading.hide();
-        alertText(globalize.translate("DefaultErrorMessage"));
+        alertText(globalize.translate('DefaultErrorMessage'));
     }
 
     function alertText(text) {
@@ -89,13 +89,13 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
     }
 
     function alertTextWithOptions(options) {
-        require(["alert"], function (alert) {
+        require(['alert'], function (alert) {
             alert(options);
         });
     }
 
     function showServerConnectionFailure() {
-        alertText(globalize.translate("MessageUnableToConnectToServer"), globalize.translate("HeaderConnectionFailure"));
+        alertText(globalize.translate('MessageUnableToConnectToServer'));
     }
 
     return function (view, params) {
@@ -108,20 +108,20 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                 var apiClient = result.ApiClient;
 
                 switch (result.State) {
-                    case "SignedIn":
+                    case 'SignedIn':
                         Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
-                        Dashboard.navigate("home.html");
+                        Dashboard.navigate('home.html');
                         break;
 
-                    case "ServerSignIn":
+                    case 'ServerSignIn':
                         Dashboard.onServerChanged(null, null, apiClient);
-                        Dashboard.navigate("login.html?serverid=" + result.Servers[0].Id);
+                        Dashboard.navigate('login.html?serverid=' + result.Servers[0].Id);
                         break;
 
-                    case "ServerUpdateNeeded":
+                    case 'ServerUpdateNeeded':
                         alertTextWithOptions({
-                            text: globalize.translate("core#ServerUpdateNeeded", "https://github.com/jellyfin/jellyfin"),
-                            html: globalize.translate("core#ServerUpdateNeeded", '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
+                            text: globalize.translate('core#ServerUpdateNeeded', 'https://github.com/jellyfin/jellyfin'),
+                            html: globalize.translate('core#ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
                         });
                         break;
 
@@ -142,23 +142,23 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
         function onServerClick(server) {
             var menuItems = [];
             menuItems.push({
-                name: globalize.translate("Connect"),
-                id: "connect"
+                name: globalize.translate('Connect'),
+                id: 'connect'
             });
             menuItems.push({
-                name: globalize.translate("Delete"),
-                id: "delete"
+                name: globalize.translate('Delete'),
+                id: 'delete'
             });
             actionSheet.show({
                 items: menuItems,
                 title: server.Name
             }).then(function (id) {
                 switch (id) {
-                    case "connect":
+                    case 'connect':
                         connectToServer(server);
                         break;
 
-                    case "delete":
+                    case 'delete':
                         deleteServer(server);
                 }
             });
@@ -180,7 +180,7 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
 
         var servers;
         updatePageStyle(view, params);
-        view.addEventListener("viewshow", function (e) {
+        view.addEventListener('viewshow', function (e) {
             var isRestored = e.detail.isRestored;
             appRouter.setTitle(null);
 
@@ -188,16 +188,16 @@ define(["loading", "appRouter", "layoutManager", "appSettings", "apphost", "focu
                 loadServers();
             }
         });
-        view.querySelector(".servers").addEventListener("click", function (e) {
-            var card = dom.parentWithClass(e.target, "card");
+        view.querySelector('.servers').addEventListener('click', function (e) {
+            var card = dom.parentWithClass(e.target, 'card');
 
             if (card) {
-                var url = card.getAttribute("data-url");
+                var url = card.getAttribute('data-url');
 
                 if (url) {
                     appRouter.show(url);
                 } else {
-                    var id = card.getAttribute("data-id");
+                    var id = card.getAttribute('data-id');
                     onServerClick(servers.filter(function (s) {
                         return s.Id === id;
                     })[0]);

@@ -1,41 +1,41 @@
-define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoader", "globalize", "layoutManager", "scrollStyles", "emby-itemscontainer"], function (loading, libraryBrowser, cardBuilder, dom, appHost, imageLoader, globalize, layoutManager) {
-    "use strict";
+define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoader', 'globalize', 'layoutManager', 'scrollStyles', 'emby-itemscontainer'], function (loading, libraryBrowser, cardBuilder, dom, appHost, imageLoader, globalize, layoutManager) {
+    'use strict';
 
     function enableScrollX() {
         return !layoutManager.desktop;
     }
 
     function getThumbShape() {
-        return enableScrollX() ? "overflowBackdrop" : "backdrop";
+        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
     }
 
     function getPosterShape() {
-        return enableScrollX() ? "overflowPortrait" : "portrait";
+        return enableScrollX() ? 'overflowPortrait' : 'portrait';
     }
 
     function getSquareShape() {
-        return enableScrollX() ? "overflowSquare" : "square";
+        return enableScrollX() ? 'overflowSquare' : 'square';
     }
 
     function getSections() {
         return [{
-            name: "HeaderFavoriteMovies",
-            types: "Movie",
-            id: "favoriteMovies",
+            name: 'HeaderFavoriteMovies',
+            types: 'Movie',
+            id: 'favoriteMovies',
             shape: getPosterShape(),
             showTitle: false,
             overlayPlayButton: true
         }, {
-            name: "HeaderFavoriteShows",
-            types: "Series",
-            id: "favoriteShows",
+            name: 'HeaderFavoriteShows',
+            types: 'Series',
+            id: 'favoriteShows',
             shape: getPosterShape(),
             showTitle: false,
             overlayPlayButton: true
         }, {
-            name: "HeaderFavoriteEpisodes",
-            types: "Episode",
-            id: "favoriteEpisode",
+            name: 'HeaderFavoriteEpisodes',
+            types: 'Episode',
+            id: 'favoriteEpisode',
             shape: getThumbShape(),
             preferThumb: false,
             showTitle: true,
@@ -44,9 +44,9 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
             overlayText: false,
             centerText: true
         }, {
-            name: "HeaderFavoriteVideos",
-            types: "Video,MusicVideo",
-            id: "favoriteVideos",
+            name: 'HeaderFavoriteVideos',
+            types: 'Video,MusicVideo',
+            id: 'favoriteVideos',
             shape: getThumbShape(),
             preferThumb: true,
             showTitle: true,
@@ -54,9 +54,9 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
             overlayText: false,
             centerText: true
         }, {
-            name: "HeaderFavoriteArtists",
-            types: "MusicArtist",
-            id: "favoriteArtists",
+            name: 'HeaderFavoriteArtists',
+            types: 'MusicArtist',
+            id: 'favoriteArtists',
             shape: getSquareShape(),
             preferThumb: false,
             showTitle: true,
@@ -66,9 +66,9 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
             overlayPlayButton: true,
             coverImage: true
         }, {
-            name: "HeaderFavoriteAlbums",
-            types: "MusicAlbum",
-            id: "favoriteAlbums",
+            name: 'HeaderFavoriteAlbums',
+            types: 'MusicAlbum',
+            id: 'favoriteAlbums',
             shape: getSquareShape(),
             preferThumb: false,
             showTitle: true,
@@ -78,9 +78,9 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
             overlayPlayButton: true,
             coverImage: true
         }, {
-            name: "HeaderFavoriteSongs",
-            types: "Audio",
-            id: "favoriteSongs",
+            name: 'HeaderFavoriteSongs',
+            types: 'Audio',
+            id: 'favoriteSongs',
             shape: getSquareShape(),
             preferThumb: false,
             showTitle: true,
@@ -88,7 +88,7 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
             showParentTitle: true,
             centerText: true,
             overlayMoreButton: true,
-            action: "instantmix",
+            action: 'instantmix',
             coverImage: true
         }];
     }
@@ -96,13 +96,13 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
     function loadSection(elem, userId, topParentId, section, isSingleSection) {
         var screenWidth = dom.getWindowSize().innerWidth;
         var options = {
-            SortBy: "SortName",
-            SortOrder: "Ascending",
-            Filters: "IsFavorite",
+            SortBy: 'SortName',
+            SortOrder: 'Ascending',
+            Filters: 'IsFavorite',
             Recursive: true,
-            Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+            Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
             CollapseBoxSetItems: false,
-            ExcludeLocationTypes: "Virtual",
+            ExcludeLocationTypes: 'Virtual',
             EnableTotalRecordCount: false
         };
 
@@ -120,7 +120,7 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
 
         var promise;
 
-        if ("MusicArtist" === section.types) {
+        if ('MusicArtist' === section.types) {
             promise = ApiClient.getArtists(userId, options);
         } else {
             options.IncludeItemTypes = section.types;
@@ -128,25 +128,25 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
         }
 
         return promise.then(function (result) {
-            var html = "";
+            var html = '';
 
             if (result.Items.length) {
                 if (html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">', !layoutManager.tv && options.Limit && result.Items.length >= options.Limit) {
-                    html += '<a is="emby-linkbutton" href="' + ("list.html?serverId=" + ApiClient.serverId() + "&type=" + section.types + "&IsFavorite=true") + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+                    html += '<a is="emby-linkbutton" href="' + ('list.html?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += globalize.translate(section.name);
-                    html += "</h2>";
-                    html += '<i class="material-icons chevron_right"></i>';
-                    html += "</a>";
+                    html += '</h2>';
+                    html += '<span class="material-icons chevron_right"></span>';
+                    html += '</a>';
                 } else {
-                    html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(section.name) + "</h2>";
+                    html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(section.name) + '</h2>';
                 }
 
-                html += "</div>";
+                html += '</div>';
                 if (enableScrollX()) {
-                    var scrollXClass = "scrollX hiddenScrollX";
+                    var scrollXClass = 'scrollX hiddenScrollX';
                     if (layoutManager.tv) {
-                        scrollXClass += " smoothScrollX";
+                        scrollXClass += ' smoothScrollX';
                     }
 
                     html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
@@ -154,7 +154,7 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
                     html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
                 }
 
-                var supportsImageAnalysis = appHost.supports("imageanalysis");
+                var supportsImageAnalysis = appHost.supports('imageanalysis');
                 var cardLayout = (appHost.preferVisualCards || supportsImageAnalysis) && section.autoCardLayout && section.showTitle;
                 cardLayout = false;
                 html += cardBuilder.getCardsHtml(result.Items, {
@@ -172,7 +172,7 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
                     allowBottomPadding: !enableScrollX(),
                     cardLayout: cardLayout
                 });
-                html += "</div>";
+                html += '</div>';
             }
 
             elem.innerHTML = html;
@@ -183,7 +183,7 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
     function loadSections(page, userId, topParentId, types) {
         loading.show();
         var sections = getSections();
-        var sectionid = getParameterByName("sectionid");
+        var sectionid = getParameterByName('sectionid');
 
         if (sectionid) {
             sections = sections.filter(function (s) {
@@ -199,10 +199,10 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
 
         var i;
         var length;
-        var elem = page.querySelector(".favoriteSections");
+        var elem = page.querySelector('.favoriteSections');
 
         if (!elem.innerHTML) {
-            var html = "";
+            var html = '';
 
             for (i = 0, length = sections.length; i < length; i++) {
                 html += '<div class="verticalSection section' + sections[i].id + '"></div>';
@@ -215,7 +215,7 @@ define(["loading", "libraryBrowser", "cardBuilder", "dom", "apphost", "imageLoad
 
         for (i = 0, length = sections.length; i < length; i++) {
             var section = sections[i];
-            elem = page.querySelector(".section" + section.id);
+            elem = page.querySelector('.section' + section.id);
             promises.push(loadSection(elem, userId, topParentId, section, 1 === sections.length));
         }
 

@@ -1,14 +1,14 @@
-define(["listView"], function (listView) {
-    "use strict";
+define(['listView'], function (listView) {
+    'use strict';
 
     function getFetchPlaylistItemsFn(itemId) {
         return function () {
             var query = {
-                Fields: "PrimaryImageAspectRatio,UserData",
-                EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
+                Fields: 'PrimaryImageAspectRatio,UserData',
+                EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
                 UserId: ApiClient.getCurrentUserId()
             };
-            return ApiClient.getJSON(ApiClient.getUrl("Playlists/" + itemId + "/Items", query));
+            return ApiClient.getJSON(ApiClient.getUrl(`Playlists/${itemId}/Items`, query));
         };
     }
 
@@ -19,7 +19,7 @@ define(["listView"], function (listView) {
                 showIndex: false,
                 showRemoveFromPlaylist: true,
                 playFromHere: true,
-                action: "playallfromhere",
+                action: 'playallfromhere',
                 smallIcon: true,
                 dragHandle: true,
                 playlistId: itemId
@@ -28,9 +28,9 @@ define(["listView"], function (listView) {
     }
 
     function init(page, item) {
-        var elem = page.querySelector("#childrenContent .itemsContainer");
-        elem.classList.add("vertical-list");
-        elem.classList.remove("vertical-wrap");
+        var elem = page.querySelector('#childrenContent .itemsContainer');
+        elem.classList.add('vertical-list');
+        elem.classList.remove('vertical-wrap');
         elem.enableDragReordering(true);
         elem.fetchData = getFetchPlaylistItemsFn(item.Id);
         elem.getItemsHtml = getItemsHtmlFn(item.Id);
@@ -43,8 +43,8 @@ define(["listView"], function (listView) {
                 init(page, item);
             }
 
-            page.querySelector("#childrenContent").classList.add("verticalSection-extrabottompadding");
-            page.querySelector("#childrenContent .itemsContainer").refreshItems();
+            page.querySelector('#childrenContent').classList.add('verticalSection-extrabottompadding');
+            page.querySelector('#childrenContent .itemsContainer').refreshItems();
         }
     };
 });

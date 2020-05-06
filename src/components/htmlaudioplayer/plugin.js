@@ -1,5 +1,5 @@
 define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelper'], function (events, browser, require, appHost, appSettings, htmlMediaHelper) {
-    "use strict";
+    'use strict';
 
     function getDefaultProfile() {
         return new Promise(function (resolve, reject) {
@@ -101,7 +101,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             self._timeUpdated = false;
             self._currentTime = null;
 
-            var elem = createMediaElement(options);
+            var elem = createMediaElement();
             return setCurrentSrc(elem, options);
         };
 

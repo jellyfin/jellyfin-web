@@ -1,5 +1,5 @@
 define(['playbackManager', 'layoutManager', 'events'], function (playbackManager, layoutManager, events) {
-    "use strict";
+    'use strict';
 
     var orientationLocked;
 
@@ -17,6 +17,7 @@ define(['playbackManager', 'layoutManager', 'events'], function (playbackManager
         var isLocalVideo = player.isLocalPlayer && !player.isExternalPlayer && playbackManager.isPlayingVideo(player);
 
         if (isLocalVideo && layoutManager.mobile) {
+            /* eslint-disable-next-line compat/compat */
             var lockOrientation = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation || (screen.orientation && screen.orientation.lock);
 
             if (lockOrientation) {
@@ -40,6 +41,7 @@ define(['playbackManager', 'layoutManager', 'events'], function (playbackManager
 
         if (orientationLocked && !playbackStopInfo.nextMediaType) {
 
+            /* eslint-disable-next-line compat/compat */
             var unlockOrientation = screen.unlockOrientation || screen.mozUnlockOrientation || screen.msUnlockOrientation || (screen.orientation && screen.orientation.unlock);
 
             if (unlockOrientation) {

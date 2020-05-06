@@ -21,7 +21,11 @@
 }
 
 .libraryPage {
-    padding-top: 7em;
+    padding-top: 7em !important;
+}
+
+.layout-mobile .libraryPage {
+    padding-top: 4em !important;
 }
 
 .itemDetailPage {
@@ -126,10 +130,6 @@
 
 .pageTitleWithDefaultLogo {
     margin-top: 0;
-}
-
-.layout-mobile .pageTitleWithDefaultLogo {
-    background-image: url(../img/icon-transparent.png);
 }
 
 .headerLeft,
@@ -246,6 +246,7 @@
 }
 
 @media all and (min-width: 40em) {
+    .dashboardDocument .adminDrawerLogo,
     .dashboardDocument .mainDrawerButton {
         display: none !important;
     }
@@ -313,7 +314,7 @@
     }
 
     .dashboardDocument .mainDrawer-scrollContainer {
-        margin-top: 6em !important;
+        margin-top: 4.65em !important;
     }
 }
 
@@ -516,6 +517,13 @@
 
 .itemName {
     margin: 0.5em 0;
+    font-weight: 600;
+}
+
+.nameContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .itemMiscInfo {
@@ -533,7 +541,6 @@
 .layout-mobile .itemName,
 .layout-mobile .itemMiscInfo,
 .layout-mobile .mainDetailButtons {
-    display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -575,7 +582,6 @@
 
 .infoText {
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
 }
@@ -606,12 +612,11 @@
 }
 
 .detailLogo {
-    width: 67.25vw;
-    height: 14.5vh;
+    width: 30vw;
+    height: 25vh;
     position: absolute;
-    top: 15vh;
-    right: 0;
-    -webkit-background-size: contain;
+    top: 10vh;
+    right: 20vw;
     background-size: contain;
 }
 
@@ -619,26 +624,8 @@
     display: none;
 }
 
-@media all and (max-width: 87.5em) {
-    .detailLogo {
-        right: 5%;
-    }
-}
-
-@media all and (max-width: 75em) {
-    .detailLogo {
-        right: 2%;
-    }
-}
-
 @media all and (max-width: 68.75em) {
     .detailLogo {
-        width: 14.91em;
-        height: 3.5em;
-        right: 5%;
-        bottom: 5%;
-        top: auto;
-        background-position: center right;
         display: none;
     }
 }
@@ -657,12 +644,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     height: 23vw; /* Dirty hack to get it to look somewhat square. Less than ideal. */
 }
 
-.btnSyncComplete i {
-    -webkit-border-radius: 100em;
-    border-radius: 100em;
-}
-
-.itemDetailGalleryLink.defaultCardBackground > i {
+.itemDetailGalleryLink.defaultCardBackground > .material-icons {
     font-size: 15vw;
     margin-top: 50%;
     transform: translateY(-50%);
@@ -694,10 +676,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
     }
 }
 
-.btnSyncComplete {
-    background: #673ab7 !important;
-}
-
 .emby-button.detailFloatingButton {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.5) !important;
@@ -709,7 +687,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
     color: rgba(255, 255, 255, 0.76);
 }
 
-.emby-button.detailFloatingButton i {
+.emby-button.detailFloatingButton .material-icons {
     font-size: 3.5em;
 }
 
@@ -1122,4 +1100,47 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .layout-mobile #myPreferencesMenuPage {
     padding-top: 3.75em;
+}
+
+.itemDetailsGroup {
+    margin-bottom: 1.5em;
+}
+
+.trackSelections {
+    max-width: 44em;
+}
+
+.detailsGroupItem,
+.trackSelections .selectContainer {
+    display: flex;
+    max-width: 44em;
+    margin: 0 0 0.5em !important;
+}
+
+.trackSelections .selectContainer {
+    margin: 0 0 0.3em !important;
+}
+
+.detailsGroupItem .label,
+.trackSelections .selectContainer .selectLabel {
+    cursor: default;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 6.25em;
+    margin: 0 0.6em 0 0;
+}
+
+.trackSelections .selectContainer .selectLabel {
+    margin: 0 0.2em 0 0;
+}
+
+.trackSelections .selectContainer .detailTrackSelect {
+    font-size: inherit;
+    padding: 0;
+    overflow: hidden;
+}
+
+.trackSelections .selectContainer .selectArrowContainer .selectArrow {
+    margin-top: 0;
+    font-size: 1.4em;
 }
