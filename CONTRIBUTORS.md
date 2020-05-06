@@ -35,6 +35,7 @@
  - [Thibault Nocchi](https://github.com/ThibaultNocchi)
  - [MrTimscampi](https://github.com/MrTimscampi)
  - [ConfusedPolarBear](https://github.com/ConfusedPolarBear)
+ - [Sarab Singh](https://github.com/sarab97)
 
 # Emby Contributors
 

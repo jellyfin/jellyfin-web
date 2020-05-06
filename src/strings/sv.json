@@ -2,7 +2,7 @@
     "AccessRestrictedTryAgainLater": "För närvarande är åtkomsten begränsad. Försök igen senare.",
     "Actor": "Skådespelare",
     "Add": "Lägg till",
-    "AddItemToCollectionHelp": "Lägg till objekt till samlingar genom att söka efter dem och använda deras högerklick- eller knack/tryck-meny för att lägga till dem.",
+    "AddItemToCollectionHelp": "Lägg till objekt i samlingar genom att söka efter dem och använda deras  högerklick- eller knackmeny",
     "AddToCollection": "Lägg till i samling",
     "AddToPlayQueue": "Lägg till i spelkö",
     "AddToPlaylist": "Lägg till i spellista",
@@ -22,7 +22,7 @@
     "AllowOnTheFlySubtitleExtractionHelp": "Inbäddade undertexter kan extraheras ur videor och skickas till klienter i textformat för att förhindra omkodning. I vissa system kan detta ta en lång tid och stoppa videouppspelningen under extraheringsprocessen. Avaktivera detta för att bränna in inbäddade undertexter genom omkodning när de inte stöds av klienten.",
     "AllowRemoteAccess": "Tillåt fjärranslutningar till denna Jellyfin-server.",
     "AllowRemoteAccessHelp": "Om avaktiverat så blockeras alla fjärranslutningar.",
-    "AlwaysPlaySubtitles": "Visa alltid undertexter",
+    "AlwaysPlaySubtitles": "Visa alltid",
     "AlwaysPlaySubtitlesHelp": "Undertexter på det önskade språket kommer att laddas oavsett ljudspårets språk.",
     "AnyLanguage": "Alla språk",
     "Anytime": "När som helst",
@@ -1489,5 +1489,8 @@
     "Episode": "Avsnitt",
     "ClientSettings": "Klientinställningar",
     "BoxSet": "Samlingsbox",
-    "Artist": "Artist"
+    "Artist": "Artist",
+    "ButtonTogglePlaylist": "Spellista",
+    "ButtonToggleContextMenu": "Mer",
+    "AlbumArtist": "Albumartist"
 }

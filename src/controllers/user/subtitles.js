@@ -1,10 +1,10 @@
-define(["subtitleSettings", "userSettings", "autoFocuser"], function (SubtitleSettings, userSettings, autoFocuser) {
-    "use strict";
+define(['subtitleSettings', 'userSettings', 'autoFocuser'], function (SubtitleSettings, userSettings, autoFocuser) {
+    'use strict';
 
     return function (view, params) {
         function onBeforeUnload(e) {
             if (hasChanges) {
-                e.returnValue = "You currently have unsaved changes. Are you sure you wish to leave?";
+                e.returnValue = 'You currently have unsaved changes. Are you sure you wish to leave?';
             }
         }
 
@@ -12,8 +12,8 @@ define(["subtitleSettings", "userSettings", "autoFocuser"], function (SubtitleSe
         var hasChanges;
         var userId = params.userId || ApiClient.getCurrentUserId();
         var currentSettings = userId === ApiClient.getCurrentUserId() ? userSettings : new userSettings();
-        view.addEventListener("viewshow", function () {
-            window.addEventListener("beforeunload", onBeforeUnload);
+        view.addEventListener('viewshow', function () {
+            window.addEventListener('beforeunload', onBeforeUnload);
 
             if (subtitleSettingsInstance) {
                 subtitleSettingsInstance.loadData();
@@ -21,7 +21,7 @@ define(["subtitleSettings", "userSettings", "autoFocuser"], function (SubtitleSe
                 subtitleSettingsInstance = new SubtitleSettings({
                     serverId: ApiClient.serverId(),
                     userId: userId,
-                    element: view.querySelector(".settingsContainer"),
+                    element: view.querySelector('.settingsContainer'),
                     userSettings: currentSettings,
                     enableSaveButton: false,
                     enableSaveConfirmation: false,
@@ -29,17 +29,17 @@ define(["subtitleSettings", "userSettings", "autoFocuser"], function (SubtitleSe
                 });
             }
         });
-        view.addEventListener("change", function () {
+        view.addEventListener('change', function () {
             hasChanges = true;
         });
-        view.addEventListener("viewbeforehide", function () {
+        view.addEventListener('viewbeforehide', function () {
             hasChanges = false;
 
             if (subtitleSettingsInstance) {
                 subtitleSettingsInstance.submit();
             }
         });
-        view.addEventListener("viewdestroy", function () {
+        view.addEventListener('viewdestroy', function () {
             if (subtitleSettingsInstance) {
                 subtitleSettingsInstance.destroy();
                 subtitleSettingsInstance = null;

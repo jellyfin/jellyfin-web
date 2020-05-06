@@ -16,7 +16,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             show('/settings/settings.html');
         },
         showNowPlaying: function () {
-            show("/nowplaying.html");
+            show('/nowplaying.html');
         }
     };
 
@@ -200,8 +200,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         var apiClient = this;
 
-        if (data.status === 401) {
-            if (data.errorCode === "ParentalControl") {
+        if (data.status === 403) {
+            if (data.errorCode === 'ParentalControl') {
 
                 var isCurrentAllowed = currentRouteInfo ? (currentRouteInfo.route.anonymous || currentRouteInfo.route.startup) : true;
 
@@ -268,6 +268,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function getMaxBandwidth() {
+        /* eslint-disable compat/compat */
         if (navigator.connection) {
             var max = navigator.connection.downlinkMax;
             if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
@@ -279,6 +280,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 return max;
             }
         }
+        /* eslint-enable compat/compat */
 
         return null;
     }
@@ -539,15 +541,15 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function param(name, url) {
-        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-        var regexS = "[\\?&]" + name + "=([^&#]*)";
-        var regex = new RegExp(regexS, "i");
+        name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
+        var regexS = '[\\?&]' + name + '=([^&#]*)';
+        var regex = new RegExp(regexS, 'i');
 
         var results = regex.exec(url || getWindowLocationSearch());
         if (results == null) {
-            return "";
+            return '';
         } else {
-            return decodeURIComponent(results[1].replace(/\+/g, " "));
+            return decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
     }
 
@@ -577,7 +579,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function showDirect(path) {
         return new Promise(function(resolve, reject) {
-            resolveOnNextShow = resolve, page.show(baseUrl()+path);
+            resolveOnNextShow = resolve;
+            page.show(baseUrl() + path);
         });
     }
 

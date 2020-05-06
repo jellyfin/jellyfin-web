@@ -1,5 +1,5 @@
-define(["tvguide"], function (tvguide) {
-    "use strict";
+define(['tvguide'], function (tvguide) {
+    'use strict';
 
     return function (view, params, tabContent) {
         var guideInstance;

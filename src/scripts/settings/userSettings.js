@@ -84,7 +84,7 @@ import events from 'events';
     }
 
     export function enableCinemaMode(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('enableCinemaMode', val.toString(), false);
         }
 
@@ -93,7 +93,7 @@ import events from 'events';
     }
 
     export function enableNextVideoInfoOverlay(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('enableNextVideoInfoOverlay', val.toString());
         }
 
@@ -102,7 +102,7 @@ import events from 'events';
     }
 
     export function enableThemeSongs(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('enableThemeSongs', val.toString(), false);
         }
 
@@ -111,7 +111,7 @@ import events from 'events';
     }
 
     export function enableThemeVideos(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('enableThemeVideos', val.toString(), false);
         }
 
@@ -120,7 +120,7 @@ import events from 'events';
     }
 
     export function enableFastFadein(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('fastFadein', val.toString(), false);
         }
 
@@ -129,7 +129,7 @@ import events from 'events';
     }
 
     export function enableBackdrops(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('enableBackdrops', val.toString(), false);
         }
 
@@ -138,7 +138,7 @@ import events from 'events';
     }
 
     export function language(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('language', val.toString(), false);
         }
 
@@ -146,7 +146,7 @@ import events from 'events';
     }
 
     export function dateTimeLocale(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('datetimelocale', val.toString(), false);
         }
 
@@ -154,7 +154,7 @@ import events from 'events';
     }
 
     export function skipBackLength(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('skipBackLength', val.toString());
         }
 
@@ -162,7 +162,7 @@ import events from 'events';
     }
 
     export function skipForwardLength(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('skipForwardLength', val.toString());
         }
 
@@ -170,7 +170,7 @@ import events from 'events';
     }
 
     export function dashboardTheme(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('dashboardTheme', val);
         }
 
@@ -178,7 +178,7 @@ import events from 'events';
     }
 
     export function skin(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('skin', val, false);
         }
 
@@ -186,7 +186,7 @@ import events from 'events';
     }
 
     export function theme(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('appTheme', val, false);
         }
 
@@ -194,15 +194,29 @@ import events from 'events';
     }
 
     export function screensaver(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('screensaver', val, false);
         }
 
         return this.get('screensaver', false);
     }
 
+    export function libraryPageSize(val) {
+        if (val !== undefined) {
+            return this.set('libraryPageSize', parseInt(val, 10), false);
+        }
+
+        var libraryPageSize = parseInt(this.get('libraryPageSize', false), 10);
+        if (libraryPageSize === 0) {
+            // Explicitly return 0 to avoid returning 100 because 0 is falsy.
+            return 0;
+        } else {
+            return libraryPageSize || 100;
+        }
+    }
+
     export function soundEffects(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('soundeffects', val, false);
         }
 

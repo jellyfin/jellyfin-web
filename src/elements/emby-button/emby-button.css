@@ -49,6 +49,7 @@
 
 .button-link {
     background: transparent;
+    cursor: pointer;
     margin: 0;
     padding: 0;
     vertical-align: initial;
@@ -58,12 +59,12 @@
     text-decoration: underline;
 }
 
-.emby-button > i {
+.emby-button > .material-icons {
     /* For non-fab buttons that have icons */
     font-size: 1.36em;
 }
 
-.button-link > i {
+.button-link > .material-icons {
     font-size: 1em;
 }
 
@@ -136,7 +137,7 @@
     cursor: default;
 }
 
-.paper-icon-button-light > i {
+.paper-icon-button-light > .material-icons {
     font-size: 1.66956521739130434em;
 
     /* Make sure its on top of the ripple */

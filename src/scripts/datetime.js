@@ -41,12 +41,12 @@ define(['globalize'], function (globalize) {
         }
 
         // if there's a timezone, calculate it
-        if (d[8] !== "Z" && d[10]) {
+        if (d[8] !== 'Z' && d[10]) {
             var offset = d[10] * 60 * 60 * 1000;
             if (d[11]) {
                 offset += d[11] * 60 * 1000;
             }
-            if (d[9] === "-") {
+            if (d[9] === '-') {
                 ms -= offset;
             } else {
                 ms += offset;
@@ -159,13 +159,13 @@ define(['globalize'], function (globalize) {
         var optionList = getOptionList(options);
         if (optionList.length === 1 && optionList[0].name === 'weekday') {
             var weekday = [];
-            weekday[0] = "Sun";
-            weekday[1] = "Mon";
-            weekday[2] = "Tue";
-            weekday[3] = "Wed";
-            weekday[4] = "Thu";
-            weekday[5] = "Fri";
-            weekday[6] = "Sat";
+            weekday[0] = 'Sun';
+            weekday[1] = 'Mon';
+            weekday[2] = 'Tue';
+            weekday[3] = 'Wed';
+            weekday[4] = 'Thu';
+            weekday[5] = 'Fri';
+            weekday[6] = 'Sat';
             return weekday[date.getDay()];
         }
 
