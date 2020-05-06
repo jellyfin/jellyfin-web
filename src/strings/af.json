@@ -41,5 +41,18 @@
     "Actor": "Akteur",
     "AccessRestrictedTryAgainLater": "Toegang is beperk. Probeer weer later .",
     "Absolute": "Absoluut",
-    "AlbumArtist": "Album Kunstenaar"
+    "AlbumArtist": "Album Kunstenaar",
+    "TabLatest": "Nuutste",
+    "TabInfo": "Inligting",
+    "TabGuide": "Gids",
+    "TabGenres": "Genres",
+    "TabFavorites": "Gunstellinge",
+    "TabEpisodes": "Episodes",
+    "TabDisplay": "Vertoon",
+    "TabDirectPlay": "Speel Direk",
+    "TabDevices": "Toestelle",
+    "TabDashboard": "Paneelbord",
+    "TabContainers": "Houers",
+    "Collections": "Versamelings",
+    "TabCollections": "Versamelings"
 }
