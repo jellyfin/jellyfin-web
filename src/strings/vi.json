@@ -560,5 +560,9 @@
     "HeaderRemoveMediaLocation": "Xoá Đường Dẫn Nội Dung",
     "HeaderRemoveMediaFolder": "Xoá Thư Mục Nội Dung",
     "HeaderRemoteControl": "Điều Khiển Từ Xa",
-    "HeaderRecordingPostProcessing": "Xử Lý Sau Khi Ghi Âm/Ghi Hình"
+    "HeaderRecordingPostProcessing": "Xử Lý Sau Khi Ghi Âm/Ghi Hình",
+    "HeaderSortOrder": "Thứ tự Sắp xếp",
+    "HeaderSortBy": "Sắp xếp theo",
+    "HeaderStartNow": "Bắt đầu",
+    "HeaderSetupLibrary": "Thiết lập thư viện nội dung của bạn"
 }
