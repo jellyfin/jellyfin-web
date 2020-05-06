@@ -70,7 +70,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
 
                 maxWidth: maxWidth * 2,
                 tag: chapter.ImageTag,
-                type: "Chapter",
+                type: 'Chapter',
                 index: index
             });
         }
@@ -90,7 +90,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         var cardImageContainer = imgUrl ? ('<div class="' + cardImageContainerClass + ' lazy" data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + '">');
 
         if (!imgUrl) {
-            cardImageContainer += '<i class="material-icons cardImageIcon local_movies"></i>';
+            cardImageContainer += '<span class="material-icons cardImageIcon local_movies"></span>';
         }
 
         var nameHtml = '';

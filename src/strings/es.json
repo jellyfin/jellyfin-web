@@ -1093,7 +1093,7 @@
     "Share": "Compartir",
     "ShowAdvancedSettings": "Mostrar opciones avanzadas",
     "ShowIndicatorsFor": "Mostrar indicaciones para:",
-    "Shows": "Series",
+    "Shows": "Mostrar",
     "Shuffle": "Mezclar",
     "SimultaneousConnectionLimitHelp": "Número máximo de transmisiones simultáneas permitidas. Pon 0 para no tener límite.",
     "SkipEpisodesAlreadyInMyLibrary": "No grabar episodios que ya están en mi biblioteca",
@@ -1404,8 +1404,8 @@
     "RunAtStartup": "Ejecutar al iniciar",
     "Series": "Series",
     "SeriesDisplayOrderHelp": "Ordena los episodios por fecha de emisión, orden de DVD o número absoluto.",
-    "ShowTitle": "Título del show",
-    "ShowYear": "Año del show",
+    "ShowTitle": "Mostrar título",
+    "ShowYear": "Mostrar año",
     "SmallCaps": "Letras minúsculas",
     "Smaller": "Más pequeño",
     "Sort": "Ordenar",
@@ -1510,5 +1510,8 @@
     "Yadif": "YADIF",
     "MessageUnauthorizedUser": "No tiene autorización para acceder al servidor en este momento. Póngase en contacto con el administrador del servidor para obtener más información.",
     "ButtonTogglePlaylist": "Lista de reproducción",
-    "ButtonToggleContextMenu": "Más"
+    "ButtonToggleContextMenu": "Más",
+    "Filter": "Filtro",
+    "New": "Nuevo",
+    "HeaderFavoritePlaylists": "Lista reproducción favorita"
 }

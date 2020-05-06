@@ -1,5 +1,5 @@
 define(['playbackManager', 'layoutManager', 'events'], function (playbackManager, layoutManager, events) {
-    "use strict";
+    'use strict';
 
     var orientationLocked;
 

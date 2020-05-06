@@ -4,7 +4,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
     function getDisplayName(item, options) {
 
         if (!item) {
-            throw new Error("null item passed into getDisplayName");
+            throw new Error('null item passed into getDisplayName');
         }
 
         options = options || {};
@@ -15,31 +15,31 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         var name = ((item.Type === 'Program' || item.Type === 'Recording') && (item.IsSeries || item.EpisodeTitle) ? item.EpisodeTitle : item.Name) || '';
 
-        if (item.Type === "TvChannel") {
+        if (item.Type === 'TvChannel') {
             if (item.ChannelNumber) {
                 return item.ChannelNumber + ' ' + name;
             }
             return name;
         }
-        if (item.Type === "Episode" && item.ParentIndexNumber === 0) {
+        if (item.Type === 'Episode' && item.ParentIndexNumber === 0) {
             name = globalize.translate('ValueSpecialEpisodeName', name);
-        } else if ((item.Type === "Episode" || item.Type === 'Program') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
+        } else if ((item.Type === 'Episode' || item.Type === 'Program') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
 
             var displayIndexNumber = item.IndexNumber;
 
             var number = displayIndexNumber;
-            var nameSeparator = " - ";
+            var nameSeparator = ' - ';
 
             if (options.includeParentInfo !== false) {
-                number = "S" + item.ParentIndexNumber + ":E" + number;
+                number = 'S' + item.ParentIndexNumber + ':E' + number;
             } else {
-                nameSeparator = ". ";
+                nameSeparator = '. ';
             }
 
             if (item.IndexNumberEnd) {
 
                 displayIndexNumber = item.IndexNumberEnd;
-                number += "-" + displayIndexNumber;
+                number += '-' + displayIndexNumber;
             }
 
             if (number) {
@@ -94,14 +94,14 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
 
-        return item.MediaType || item.IsFolder || item.Type === "Genre" || item.Type === "MusicGenre" || item.Type === "MusicArtist";
+        return item.MediaType || item.IsFolder || item.Type === 'Genre' || item.Type === 'MusicGenre' || item.Type === 'MusicArtist';
     }
 
     function canEdit(user, item) {
 
         var itemType = item.Type;
 
-        if (itemType === "UserRootFolder" || itemType === "UserView") {
+        if (itemType === 'UserRootFolder' || itemType === 'UserView') {
             return false;
         }
 
@@ -149,15 +149,15 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
             var itemType = item.Type;
 
-            if (itemType === "Movie" ||
-                itemType === "Trailer" ||
-                itemType === "Series" ||
-                itemType === "BoxSet" ||
-                itemType === "Person" ||
-                itemType === "Book" ||
-                itemType === "MusicAlbum" ||
-                itemType === "MusicArtist" ||
-                itemType === "MusicVideo") {
+            if (itemType === 'Movie' ||
+                itemType === 'Trailer' ||
+                itemType === 'Series' ||
+                itemType === 'BoxSet' ||
+                itemType === 'Person' ||
+                itemType === 'Book' ||
+                itemType === 'MusicAlbum' ||
+                itemType === 'MusicArtist' ||
+                itemType === 'MusicVideo') {
 
                 if (user.Policy.IsAdministrator) {
 
@@ -259,11 +259,11 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 }
             }
 
-            if (item.Type === "Series" ||
-                item.Type === "Season" ||
-                item.Type === "BoxSet" ||
-                item.MediaType === "Book" ||
-                item.MediaType === "Recording") {
+            if (item.Type === 'Series' ||
+                item.Type === 'Season' ||
+                item.Type === 'BoxSet' ||
+                item.MediaType === 'Book' ||
+                item.MediaType === 'Recording') {
                 return true;
             }
 

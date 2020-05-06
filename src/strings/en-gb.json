@@ -385,6 +385,7 @@
     "HeaderFavoriteArtists": "Favourite Artists",
     "HeaderFavoriteSongs": "Favourite Songs",
     "HeaderFavoriteVideos": "Favourite Videos",
+    "HeaderFavoritePlaylists": "Favourite Playlists",
     "HeaderFeatureAccess": "Feature Access",
     "HeaderFeatures": "Features",
     "HeaderFetchImages": "Fetch Images:",
@@ -527,6 +528,8 @@
     "Smart": "Smart",
     "SimultaneousConnectionLimitHelp": "The maximum number of allowed simultaneous streams. Enter 0 for no limit.",
     "Shuffle": "Shuffle",
+    "New": "New",
+    "Filter": "Filter",
     "ShowYear": "Show year",
     "ShowIndicatorsFor": "Show indicators for:",
     "ShowAdvancedSettings": "Show advanced settings",
@@ -1506,5 +1509,9 @@
     "BoxSet": "Box Set",
     "Artist": "Artist",
     "AlbumArtist": "Album Artist",
-    "Album": "Album"
+    "Album": "Album",
+    "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles.",
+    "MessageUnauthorizedUser": "You are not authorized to access the server at this time. Please contact your server administrator for more information.",
+    "ButtonTogglePlaylist": "Playlist",
+    "ButtonToggleContextMenu": "More"
 }

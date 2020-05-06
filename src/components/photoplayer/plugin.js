@@ -1,5 +1,5 @@
 define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager) {
-    "use strict";
+    'use strict';
 
     function PhotoPlayer() {
 
@@ -21,18 +21,24 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 var index = options.startIndex || 0;
 
-                var newSlideShow = new slideshow({
-                    showTitle: false,
-                    cover: false,
-                    items: options.items,
-                    startIndex: index,
-                    interval: 11000,
-                    interactive: true
+                var apiClient = connectionManager.currentApiClient();
+
+                apiClient.getCurrentUser().then(function(result) {
+
+                    var newSlideShow = new slideshow({
+                        showTitle: false,
+                        cover: false,
+                        items: options.items,
+                        startIndex: index,
+                        interval: 11000,
+                        interactive: true,
+                        user: result
+                    });
+
+                    newSlideShow.show();
+
+                    resolve();
                 });
-
-                newSlideShow.show();
-
-                resolve();
             });
         });
     };

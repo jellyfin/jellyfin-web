@@ -1,4 +1,4 @@
-define(["browser", 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle'], function(browser, dialogHelper, layoutManager, scrollHelper, globalize, dom, require) {
+define(['browser', 'dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle'], function(browser, dialogHelper, layoutManager, scrollHelper, globalize, dom, require) {
     'use strict';
 
     function replaceAll(str, find, replace) {

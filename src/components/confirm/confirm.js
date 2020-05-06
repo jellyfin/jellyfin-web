@@ -1,4 +1,4 @@
-define(["browser", "dialog", "globalize"], function(browser, dialog, globalize) {
+define(['browser', 'dialog', 'globalize'], function(browser, dialog, globalize) {
     'use strict';
 
     function replaceAll(str, find, replace) {

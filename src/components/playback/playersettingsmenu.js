@@ -4,7 +4,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
     function showQualityMenu(player, btn) {
 
         var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
-            return stream.Type === "Video";
+            return stream.Type === 'Video';
         })[0];
         var videoWidth = videoStream ? videoStream.Width : null;
 
@@ -87,7 +87,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         var currentMaxBitrate = playbackManager.getMaxStreamingBitrate(player);
 
         var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
-            return stream.Type === "Video";
+            return stream.Type === 'Video';
         })[0];
 
         var videoWidth = videoStream ? videoStream.Width : null;

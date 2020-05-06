@@ -1502,5 +1502,13 @@
     "YadifBob": "Yadif Bob",
     "Yadif": "Yadif",
     "LabelDeinterlaceMethod": "Metodo de Desentrelazado:",
-    "DeinterlaceMethodHelp": "Seleccione el método de desentrelazado que se usará al codificar el contenido entrelazado."
+    "DeinterlaceMethodHelp": "Seleccione el método de desentrelazado que se usará al codificar el contenido entrelazado.",
+    "Filter": "Filtro",
+    "New": "Nuevo",
+    "MessageUnauthorizedUser": "No estás autorizado para acceder al servidor en este momento. Por favor contacta con el administrador del servidor para mas información.",
+    "LabelLibraryPageSizeHelp": "Establecer el número de elementos a mostrar en la página biblioteca. Establezca 0 para deshabilitar paginado.",
+    "LabelLibraryPageSize": "Tamaño de la página Biblioteca:",
+    "HeaderFavoritePlaylists": "Listas de reproducción favoritas",
+    "ButtonTogglePlaylist": "Lista de reproducción",
+    "ButtonToggleContextMenu": "Más"
 }
