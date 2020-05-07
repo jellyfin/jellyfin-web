@@ -42,7 +42,9 @@ module.exports = {
         'one-var': ["error", "never"],
         'quotes': ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": false }],
         'semi': ["error"],
-        'space-before-blocks': ["error"]
+        'space-before-blocks': ["error"],
+        // Disable while it's buggy
+        'compat/compat': ["off"]
     },
     overrides: [
         {
