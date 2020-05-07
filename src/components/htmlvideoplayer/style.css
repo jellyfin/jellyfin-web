@@ -6,18 +6,7 @@
     right: 0;
     display: flex;
     align-items: center;
-}
-
-.videoPlayerContainer:not(.videoPlayerContainer-withBackdrop) {
     background: #000 !important;
-}
-
-.videoPlayerContainer-withBackdrop {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    background-attachment: fixed;
-    background-color: #000;
 }
 
 .videoPlayerContainer-onTop {
@@ -74,7 +63,6 @@ video::-webkit-media-controls {
         transform: scale3d(0.2, 0.2, 0.2);
         opacity: 0.6;
     }
-
     to {
         transform: none;
         opacity: initial;

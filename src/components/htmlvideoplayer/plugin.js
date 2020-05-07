@@ -836,7 +836,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function onNavigatedToOsd() {
             var dlg = videoDialog;
             if (dlg) {
-                dlg.classList.remove('videoPlayerContainer-withBackdrop');
                 dlg.classList.remove('videoPlayerContainer-onTop');
 
                 onStartedAndNavigatedToOsd();
@@ -869,7 +868,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 } else {
                     appRouter.setTransparency('backdrop');
-                    videoDialog.classList.remove('videoPlayerContainer-withBackdrop');
                     videoDialog.classList.remove('videoPlayerContainer-onTop');
 
                     onStartedAndNavigatedToOsd();
@@ -1299,11 +1297,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                         dlg.classList.add('videoPlayerContainer');
 
-                        if (options.backdropUrl) {
-                            dlg.classList.add('videoPlayerContainer-withBackdrop');
-                            dlg.style.backgroundImage = "url('" + options.backdropUrl + "')";
-                        }
-
                         if (options.fullscreen) {
                             dlg.classList.add('videoPlayerContainer-onTop');
                         }
@@ -1337,6 +1330,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         videoElement.addEventListener('play', onPlay);
                         videoElement.addEventListener('click', onClick);
                         videoElement.addEventListener('dblclick', onDblClick);
+                        if (options.backdropUrl) {
+                            videoElement.poster = options.backdropUrl;
+                        }
 
                         document.body.insertBefore(dlg, document.body.firstChild);
                         videoDialog = dlg;
@@ -1360,11 +1356,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         }
                     });
                 } else {
-                    if (options.backdropUrl) {
-                        dlg.classList.add('videoPlayerContainer-withBackdrop');
-                        dlg.style.backgroundImage = "url('" + options.backdropUrl + "')";
-                    }
-
                     resolve(dlg.querySelector('video'));
                 }
             });
