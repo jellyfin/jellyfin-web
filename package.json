@@ -90,18 +90,20 @@
         "test": [
           "src/components/autoFocuser.js",
           "src/components/cardbuilder/cardBuilder.js",
-          "src/scripts/dom.js",
           "src/components/filedownloader.js",
-          "src/scripts/filesystem.js",
-          "src/scripts/keyboardnavigation.js",
+          "src/components/images/imageLoader.js",
+          "src/components/lazyloader/lazyloader-intersectionobserver.js",
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
+          "src/scripts/dfnshelper.js",
+          "src/scripts/dom.js",
+          "src/scripts/filesystem.js",
+          "src/scripts/imagehelper.js",
+          "src/scripts/inputManager.js",
+          "src/scripts/keyboardnavigation.js",
           "src/scripts/settings/appSettings.js",
           "src/scripts/settings/userSettings.js",
-          "src/scripts/settings/webSettings.js",
-          "src/scripts/dfnshelper.js",
-          "src/scripts/imagehelper.js",
-          "src/scripts/inputManager.js"
+          "src/scripts/settings/webSettings.js"
         ],
         "plugins": [
           "@babel/plugin-transform-modules-amd"
