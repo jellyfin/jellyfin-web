@@ -260,8 +260,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     loop: false,
                     zoom: {
                         minRatio: 1,
-                        toggle: true,
-                        containerClass: 'slider-zoom-container'
+                        toggle: true
                     },
                     autoplay: !options.interactive,
                     keyboard: {
@@ -328,7 +327,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         function getSwiperSlideHtmlFromSlide(item) {
             var html = '';
             html += '<div class="swiper-slide" data-original="' + item.originalImage + '" data-itemid="' + item.Id + '" data-serverid="' + item.ServerId + '">';
-            html += '<div class="slider-zoom-container">';
+            html += '<div class="swiper-zoom-container">';
             html += '<img src="' + item.originalImage + '" class="swiper-slide-img">';
             html += '</div>';
             if (item.title || item.subtitle) {
