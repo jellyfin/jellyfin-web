@@ -91,6 +91,7 @@
           "src/components/autoFocuser.js",
           "src/components/cardbuilder/cardBuilder.js",
           "src/components/filedownloader.js",
+          "src/components/playback/mediasession.js",
           "src/components/images/imageLoader.js",
           "src/components/lazyloader/lazyloader-intersectionobserver.js",
           "src/components/sanatizefilename.js",
