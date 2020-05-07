@@ -108,6 +108,7 @@ _define('page', function() {
     return page;
 });
 
+// core-js
 var polyfill = require('@babel/polyfill/dist/polyfill');
 _define('polyfill', function () {
     return polyfill;
@@ -151,4 +152,27 @@ _define('screenfull', function () {
 var headroom = require('headroom.js/dist/headroom');
 _define('headroom', function () {
     return headroom;
+});
+
+// apiclient
+var apiclient = require('jellyfin-apiclient');
+
+_define('apiclient', function () {
+    return apiclient.apiclient;
+});
+
+_define('events', function () {
+    return apiclient.Events;
+});
+
+_define('credentialprovider', function () {
+    return apiclient.Credentials;
+});
+
+_define('connectionManagerFactory', function () {
+    return apiclient.ConnectionManager;
+});
+
+_define('appStorage', function () {
+    return apiclient.AppStorage;
 });

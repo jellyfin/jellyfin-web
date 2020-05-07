@@ -183,7 +183,9 @@ module.exports = {
                     'Uint32Array',
                     'Float32Array',
                     'Float64Array',
-                    'Reflect'
+                    'Reflect',
+                    // Temporary while eslint-compat-plugin is buggy
+                    'document.querySelector'
                 ]
             }
         }

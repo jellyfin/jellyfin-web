@@ -378,8 +378,6 @@ var AppInfo = {};
         define('lazyLoader', [componentsPath + '/lazyloader/lazyloader-intersectionobserver'], returnFirstDependency);
         define('shell', [componentsPath + '/shell'], returnFirstDependency);
 
-        define('apiclient', [bowerPath + '/apiclient/apiclient'], returnFirstDependency);
-
         if ('registerElement' in document) {
             define('registerElement', []);
         } else if (browser.msie) {
@@ -401,13 +399,8 @@ var AppInfo = {};
         define('loading', [componentsPath + '/loading/loading'], returnFirstDependency);
         define('multi-download', [componentsPath + '/multidownload'], returnFirstDependency);
         define('fileDownloader', [componentsPath + '/filedownloader'], returnFirstDependency);
-        define('localassetmanager', [bowerPath + '/apiclient/localassetmanager'], returnFirstDependency);
 
         define('castSenderApiLoader', [componentsPath + '/castSenderApi'], returnFirstDependency);
-
-        define('transfermanager', [bowerPath + '/apiclient/sync/transfermanager'], returnFirstDependency);
-        define('filerepository', [bowerPath + '/apiclient/sync/filerepository'], returnFirstDependency);
-        define('localsync', [bowerPath + '/apiclient/sync/localsync'], returnFirstDependency);
     }
 
     function init() {
@@ -696,7 +689,12 @@ var AppInfo = {};
                     'intersection-observer',
                     'classlist-polyfill',
                     'screenfull',
-                    'headroom'
+                    'headroom',
+                    'apiclient',
+                    'events',
+                    'credentialprovider',
+                    'connectionManagerFactory',
+                    'appStorage'
                 ]
             },
             urlArgs: urlArgs,
@@ -742,17 +740,6 @@ var AppInfo = {};
         // TODO find a better way to do this
         define('appFooter', [componentsPath + '/appfooter/appfooter'], returnFirstDependency);
         define('appFooter-shared', ['appFooter'], createSharedAppFooter);
-
-        // TODO pull apiclient out of this repository
-        define('events', [bowerPath + '/apiclient/events'], returnFirstDependency);
-        define('credentialprovider', [bowerPath + '/apiclient/credentialprovider'], returnFirstDependency);
-        define('connectionManagerFactory', [bowerPath + '/apiclient/connectionmanager'], returnFirstDependency);
-        define('appStorage', [bowerPath + '/apiclient/appStorage'], returnFirstDependency);
-        define('serversync', [bowerPath + '/apiclient/sync/serversync'], returnFirstDependency);
-        define('multiserversync', [bowerPath + '/apiclient/sync/multiserversync'], returnFirstDependency);
-        define('mediasync', [bowerPath + '/apiclient/sync/mediasync'], returnFirstDependency);
-        define('itemrepository', [bowerPath + '/apiclient/sync/itemrepository'], returnFirstDependency);
-        define('useractionrepository', [bowerPath + '/apiclient/sync/useractionrepository'], returnFirstDependency);
 
         // TODO remove these libraries
         // all of these have been modified so we need to fix that first

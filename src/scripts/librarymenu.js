@@ -912,12 +912,16 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     renderHeader();
 
     events.on(connectionManager, 'localusersignedin', function (e, user) {
+        var currentApiClient = connectionManager.getApiClient(user.ServerId);
+
         currentDrawerType = null;
         currentUser = {
             localUser: user
         };
+
         loadNavDrawer();
-        connectionManager.user(connectionManager.getApiClient(user.ServerId)).then(function (user) {
+
+        connectionManager.user(currentApiClient).then(function (user) {
             currentUser = user;
             updateUserInHeader(user);
         });
