@@ -375,12 +375,7 @@ var AppInfo = {};
 
         define('filesystem', [scriptsPath + '/filesystem'], returnFirstDependency);
 
-        if (window.IntersectionObserver && !browser.edge) {
-            define('lazyLoader', [componentsPath + '/lazyloader/lazyloader-intersectionobserver'], returnFirstDependency);
-        } else {
-            define('lazyLoader', [componentsPath + '/lazyloader/lazyloader-scroll'], returnFirstDependency);
-        }
-
+        define('lazyLoader', [componentsPath + '/lazyloader/lazyloader-intersectionobserver'], returnFirstDependency);
         define('shell', [componentsPath + '/shell'], returnFirstDependency);
 
         if ('registerElement' in document) {
@@ -391,13 +386,10 @@ var AppInfo = {};
             define('registerElement', ['document-register-element'], returnFirstDependency);
         }
 
-        define('imageFetcher', [componentsPath + '/images/imageFetcher'], returnFirstDependency);
-
-        var preferNativeAlerts = browser.tv;
-
         define('alert', [componentsPath + '/alert'], returnFirstDependency);
 
         defineResizeObserver();
+
         define('dialog', [componentsPath + '/dialog/dialog'], returnFirstDependency);
 
         define('confirm', [componentsPath + '/confirm/confirm'], returnFirstDependency);
@@ -563,7 +555,10 @@ var AppInfo = {};
                     require(['components/playback/volumeosd']);
                 }
 
-                require(['mediaSession', 'serverNotifications']);
+                if (navigator.mediaSession || window.NativeShell) {
+                    require(['mediaSession']);
+                }
+                require(['serverNotifications']);
                 require(['date-fns', 'date-fns/locale']);
 
                 if (!browser.tv && !browser.xboxOne) {

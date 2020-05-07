@@ -487,7 +487,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 tag: item.ImageTags.Thumb
             });
             page.classList.remove('noBackdrop');
-            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else if (usePrimaryImage && item.ImageTags && item.ImageTags.Primary) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -497,7 +497,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 tag: item.ImageTags.Primary
             });
             page.classList.remove('noBackdrop');
-            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -507,7 +507,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 tag: item.BackdropImageTags[0]
             });
             page.classList.remove('noBackdrop');
-            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
             imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
@@ -517,7 +517,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 tag: item.ParentBackdropImageTags[0]
             });
             page.classList.remove('noBackdrop');
-            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else if (item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -527,7 +527,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 tag: item.ImageTags.Thumb
             });
             page.classList.remove('noBackdrop');
-            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else {
             itemBackdropElement.style.backgroundImage = '';
