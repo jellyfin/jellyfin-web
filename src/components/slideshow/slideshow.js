@@ -11,6 +11,12 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
     const transitionEndEventName = dom.whichTransitionEvent();
 
     /**
+     * Flag to use fake image to fix blurry zoomed image.
+     * At least WebKit doesn't restore quality for zoomed images.
+     */
+    const useFakeZoomImage = browser.safari;
+
+    /**
      * Retrieves an item's image URL from the API.
      * @param {object|string} item - Item used to generate the image URL.
      * @param {object} options - Options of the image.
@@ -327,7 +333,10 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                 swiperInstance.on('autoplayStart', onAutoplayStart);
                 swiperInstance.on('autoplayStop', onAutoplayStop);
-                swiperInstance.on('zoomChange', onZoomChange);
+
+                if (useFakeZoomImage) {
+                    swiperInstance.on('zoomChange', onZoomChange);
+                }
             });
         }
 
@@ -369,7 +378,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             var html = '';
             html += '<div class="swiper-slide" data-original="' + item.originalImage + '" data-itemid="' + item.Id + '" data-serverid="' + item.ServerId + '">';
             html += '<div class="swiper-zoom-container">';
-            html += `<div class="swiper-zoom-fakeimg swiper-zoom-fakeimg-hidden" style="background-image: url('${item.originalImage}')"></div>`;
+            if (useFakeZoomImage) {
+                html += `<div class="swiper-zoom-fakeimg swiper-zoom-fakeimg-hidden" style="background-image: url('${item.originalImage}')"></div>`;
+            }
             html += '<img src="' + item.originalImage + '" class="swiper-slide-img">';
             html += '</div>';
             if (item.title || item.subtitle) {
