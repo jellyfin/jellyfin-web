@@ -42,9 +42,7 @@ module.exports = {
         'one-var': ["error", "never"],
         'quotes': ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": false }],
         'semi': ["error"],
-        'space-before-blocks': ["error"],
-        // Disable while it's buggy
-        'compat/compat': ["off"]
+        'space-before-blocks': ["error"]
     },
     overrides: [
         {
@@ -185,7 +183,9 @@ module.exports = {
                     'Uint32Array',
                     'Float32Array',
                     'Float64Array',
-                    'Reflect'
+                    'Reflect',
+                    // Temporary while eslint-compat-plugin is buggy
+                    'document.querySelector'
                 ]
             }
         }

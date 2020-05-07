@@ -399,7 +399,6 @@ var AppInfo = {};
         define('loading', [componentsPath + '/loading/loading'], returnFirstDependency);
         define('multi-download', [componentsPath + '/multidownload'], returnFirstDependency);
         define('fileDownloader', [componentsPath + '/filedownloader'], returnFirstDependency);
-        define('localassetmanager', [bowerPath + '/apiclient/localassetmanager'], returnFirstDependency);
 
         define('castSenderApiLoader', [componentsPath + '/castSenderApi'], returnFirstDependency);
     }
