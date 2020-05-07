@@ -18,7 +18,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         if (layoutManager.tv) {
             button = '';
         } else {
-            button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><i class="material-icons">close</i></button>';
+            button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><span class="material-icons close"></span></button>';
         }
 
         var contentClass = layoutManager.tv ? 'playerStats-content playerStats-content-tv' : 'playerStats-content';
@@ -132,7 +132,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         if (videoCodec) {
 
             sessionStats.push({
-                label: globalize.translate("LabelVideoCodec"),
+                label: globalize.translate('LabelVideoCodec'),
                 value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
             });
         }
@@ -140,7 +140,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         if (audioCodec) {
 
             sessionStats.push({
-                label: globalize.translate("LabelAudioCodec"),
+                label: globalize.translate('LabelAudioCodec'),
                 value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
             });
         }
@@ -157,28 +157,28 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
             if (totalBitrate) {
 
                 sessionStats.push({
-                    label: globalize.translate("LabelBitrate"),
+                    label: globalize.translate('LabelBitrate'),
                     value: getDisplayBitrate(totalBitrate)
                 });
             }
             if (session.TranscodingInfo.CompletionPercentage) {
 
                 sessionStats.push({
-                    label: globalize.translate("LabelTranscodingProgress"),
+                    label: globalize.translate('LabelTranscodingProgress'),
                     value: session.TranscodingInfo.CompletionPercentage.toFixed(1) + '%'
                 });
             }
             if (session.TranscodingInfo.Framerate) {
 
                 sessionStats.push({
-                    label: globalize.translate("LabelTranscodingFramerate"),
+                    label: globalize.translate('LabelTranscodingFramerate'),
                     value: session.TranscodingInfo.Framerate + ' fps'
                 });
             }
             if (session.TranscodingInfo.TranscodeReasons && session.TranscodingInfo.TranscodeReasons.length) {
 
                 sessionStats.push({
-                    label: globalize.translate("LabelReasonForTranscoding"),
+                    label: globalize.translate('LabelReasonForTranscoding'),
                     value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')
                 });
             }
@@ -216,14 +216,14 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
         if (mediaSource.Container) {
             sessionStats.push({
-                label: globalize.translate("LabelProfileContainer"),
+                label: globalize.translate('LabelProfileContainer'),
                 value: mediaSource.Container
             });
         }
 
         if (mediaFileSize) {
             sessionStats.push({
-                label: globalize.translate("LabelSize"),
+                label: globalize.translate('LabelSize'),
                 value: getReadableSize(mediaFileSize)
             });
         }
@@ -231,7 +231,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         if (totalBitrate) {
 
             sessionStats.push({
-                label: globalize.translate("LabelBitrate"),
+                label: globalize.translate('LabelBitrate'),
                 value: getDisplayBitrate(totalBitrate)
             });
         }
@@ -267,14 +267,14 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
         if (videoInfos.length) {
             sessionStats.push({
-                label: globalize.translate("LabelVideoCodec"),
+                label: globalize.translate('LabelVideoCodec'),
                 value: videoInfos.join(' ')
             });
         }
 
         if (videoStream.BitRate) {
             sessionStats.push({
-                label: globalize.translate("LabelVideoBitrate"),
+                label: globalize.translate('LabelVideoBitrate'),
                 value: getDisplayBitrate(videoStream.BitRate)
             });
         }
@@ -291,35 +291,35 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
         if (audioInfos.length) {
             sessionStats.push({
-                label: globalize.translate("LabelAudioCodec"),
+                label: globalize.translate('LabelAudioCodec'),
                 value: audioInfos.join(' ')
             });
         }
 
         if (audioStream.BitRate) {
             sessionStats.push({
-                label: globalize.translate("LabelAudioBitrate"),
+                label: globalize.translate('LabelAudioBitrate'),
                 value: getDisplayBitrate(audioStream.BitRate)
             });
         }
 
         if (audioChannels) {
             sessionStats.push({
-                label: globalize.translate("LabelAudioChannels"),
+                label: globalize.translate('LabelAudioChannels'),
                 value: audioChannels
             });
         }
 
         if (audioStream.SampleRate) {
             sessionStats.push({
-                label: globalize.translate("LabelAudioSampleRate"),
+                label: globalize.translate('LabelAudioSampleRate'),
                 value: audioStream.SampleRate + ' Hz'
             });
         }
 
         if (audioStream.BitDepth) {
             sessionStats.push({
-                label: globalize.translate("LabelAudioBitDepth"),
+                label: globalize.translate('LabelAudioBitDepth'),
                 value: audioStream.BitDepth
             });
         }
@@ -346,12 +346,12 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
             };
 
             baseCategory.stats.unshift({
-                label: globalize.translate("LabelPlayMethod"),
+                label: globalize.translate('LabelPlayMethod'),
                 value: displayPlayMethod
             });
 
             baseCategory.stats.unshift({
-                label: globalize.translate("LabelPlayer"),
+                label: globalize.translate('LabelPlayer'),
                 value: player.name
             });
 

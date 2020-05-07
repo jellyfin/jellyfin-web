@@ -1,5 +1,5 @@
 define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelper'], function (events, browser, require, appHost, appSettings, htmlMediaHelper) {
-    "use strict";
+    'use strict';
 
     function getDefaultProfile() {
         return new Promise(function (resolve, reject) {

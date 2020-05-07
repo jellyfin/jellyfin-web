@@ -1509,5 +1509,9 @@
     "BoxSet": "Box Set",
     "Artist": "Artist",
     "AlbumArtist": "Album Artist",
-    "Album": "Album"
+    "Album": "Album",
+    "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles.",
+    "MessageUnauthorizedUser": "You are not authorized to access the server at this time. Please contact your server administrator for more information.",
+    "ButtonTogglePlaylist": "Playlist",
+    "ButtonToggleContextMenu": "More"
 }

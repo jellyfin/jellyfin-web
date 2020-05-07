@@ -1,4 +1,4 @@
-import multiDownload from "multi-download";
+import multiDownload from 'multi-download';
 
 export function download(items) {
 

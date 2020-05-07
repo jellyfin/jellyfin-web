@@ -1501,5 +1501,7 @@
     "AlbumArtist": "Artista do Album",
     "Album": "Album",
     "UnsupportedPlayback": "O Jellyfin não pode descriptografar conteúdo protegido por DRM, porém mesmo assim fará uma tentativa para todo tipo de conteúdo, incluindo títulos protegidos. A imagem de alguns arquivos pode aparecer completamente preta devido a criptografia ou outros recursos não suportados, como títulos interativos.",
-    "MessageUnauthorizedUser": "Você não está autorizado a acessar o servidor neste momento. Por favor, contate o administrador do servidor para mais informações."
+    "MessageUnauthorizedUser": "Você não está autorizado a acessar o servidor neste momento. Por favor, contate o administrador do servidor para mais informações.",
+    "ButtonTogglePlaylist": "Playlist",
+    "ButtonToggleContextMenu": "Mais"
 }
