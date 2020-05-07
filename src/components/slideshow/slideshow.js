@@ -2,8 +2,13 @@
  * Image viewer component
  * @module components/slideshow/slideshow
  */
-define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (dialogHelper, inputManager, connectionManager, layoutManager, focusManager, browser, appHost) {
+define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'dom', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (dialogHelper, inputManager, connectionManager, layoutManager, focusManager, browser, appHost, dom) {
     'use strict';
+
+    /**
+     * Name of transition event.
+     */
+    const transitionEndEventName = dom.whichTransitionEvent();
 
     /**
      * Retrieves an item's image URL from the API.
@@ -241,6 +246,41 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         }
 
         /**
+         * Handles zoom changes.
+         */
+        function onZoomChange(scale, imageEl, slideEl) {
+            const zoomImage = slideEl.querySelector('.swiper-zoom-fakeimg');
+
+            if (zoomImage) {
+                zoomImage.style.width = zoomImage.style.height = scale * 100 + '%';
+
+                if (scale > 1) {
+                    if (zoomImage.classList.contains('swiper-zoom-fakeimg-hidden')) {
+                        // Await for Swiper style changes
+                        setTimeout(() => {
+                            const callback = () => {
+                                imageEl.removeEventListener(transitionEndEventName, callback);
+                                zoomImage.classList.remove('swiper-zoom-fakeimg-hidden');
+                            };
+
+                            // Swiper set 'transition-duration: 300ms' for auto zoom
+                            // and 'transition-duration: 0s' for touch zoom
+                            const transitionDuration = parseFloat(imageEl.style.transitionDuration.replace(/[a-z]/i, ''));
+
+                            if (transitionDuration > 0) {
+                                imageEl.addEventListener(transitionEndEventName, callback);
+                            } else {
+                                callback();
+                            }
+                        }, 0);
+                    }
+                } else {
+                    zoomImage.classList.add('swiper-zoom-fakeimg-hidden');
+                }
+            }
+        }
+
+        /**
          * Initializes the Swiper instance and binds the relevant events.
          * @param {HTMLElement} dialog - Element containing the dialog.
          * @param {Object} options - Options used to initialize the Swiper instance.
@@ -287,6 +327,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                 swiperInstance.on('autoplayStart', onAutoplayStart);
                 swiperInstance.on('autoplayStop', onAutoplayStop);
+                swiperInstance.on('zoomChange', onZoomChange);
             });
         }
 
@@ -328,6 +369,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             var html = '';
             html += '<div class="swiper-slide" data-original="' + item.originalImage + '" data-itemid="' + item.Id + '" data-serverid="' + item.ServerId + '">';
             html += '<div class="swiper-zoom-container">';
+            html += `<div class="swiper-zoom-fakeimg swiper-zoom-fakeimg-hidden" style="background-image: url('${item.originalImage}')"></div>`;
             html += '<img src="' + item.originalImage + '" class="swiper-slide-img">';
             html += '</div>';
             if (item.title || item.subtitle) {

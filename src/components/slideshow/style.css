@@ -124,3 +124,19 @@
 .slideSubtitle {
     color: #ccc;
 }
+
+.swiper-zoom-fakeimg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.swiper-zoom-fakeimg-hidden {
+    display: none;
+}
