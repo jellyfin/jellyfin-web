@@ -41,7 +41,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         var eventY = e.screenY;
 
         // if coord don't exist how could it move
-        if (typeof eventX === "undefined" && typeof eventY === "undefined") {
+        if (typeof eventX === 'undefined' && typeof eventY === 'undefined') {
             return;
         }
 

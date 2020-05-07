@@ -18,10 +18,10 @@ define([], function () {
 
         if (nowPlayingItem.MediaType === 'Video') {
             if (nowPlayingItem.IndexNumber != null) {
-                topText = nowPlayingItem.IndexNumber + " - " + topText;
+                topText = nowPlayingItem.IndexNumber + ' - ' + topText;
             }
             if (nowPlayingItem.ParentIndexNumber != null) {
-                topText = nowPlayingItem.ParentIndexNumber + "." + topText;
+                topText = nowPlayingItem.ParentIndexNumber + '.' + topText;
             }
         }
 

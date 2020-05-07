@@ -39,10 +39,10 @@ import 'css!./style';
         preloaderImg.src = url;
 
         preloaderImg.addEventListener('load', () => {
-            if (elem.tagName !== "IMG") {
+            if (elem.tagName !== 'IMG') {
                 elem.style.backgroundImage = "url('" + url + "')";
             } else {
-                elem.setAttribute("src", url);
+                elem.setAttribute('src', url);
             }
 
             if (userSettings.enableFastFadein()) {
@@ -51,23 +51,22 @@ import 'css!./style';
                 elem.classList.add('lazy-image-fadein');
             }
 
-            elem.removeAttribute("data-src");
-            preloaderImg = null;
+            elem.removeAttribute('data-src');
         });
     }
 
     function emptyImageElement(elem) {
         var url;
 
-        if (elem.tagName !== "IMG") {
-            url = elem.style.backgroundImage.slice(4, -1).replace(/"/g, "");
+        if (elem.tagName !== 'IMG') {
+            url = elem.style.backgroundImage.slice(4, -1).replace(/"/g, '');
             elem.style.backgroundImage = 'none';
         } else {
-            url = elem.getAttribute("src");
-            elem.setAttribute("src", "");
+            url = elem.getAttribute('src');
+            elem.setAttribute('src', '');
         }
 
-        elem.setAttribute("data-src", url);
+        elem.setAttribute('data-src', url);
 
         elem.classList.remove('lazy-image-fadein-fast');
         elem.classList.remove('lazy-image-fadein');

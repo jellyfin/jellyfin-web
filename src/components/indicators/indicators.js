@@ -44,7 +44,7 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
 
     function getProgressBarHtml(item, options) {
         var pct;
-        if (enableProgressIndicator(item) && item.Type !== "Recording") {
+        if (enableProgressIndicator(item) && item.Type !== 'Recording') {
             var userData = options ? (options.userData || item.UserData) : item.UserData;
             if (userData) {
                 pct = userData.PlayedPercentage;
@@ -90,7 +90,7 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
             }
 
             if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
-                return '<div class="playedIndicator indicator"><i class="material-icons indicatorIcon">check</i></div>';
+                return '<div class="playedIndicator indicator"><span class="material-icons indicatorIcon check"></span></div>';
             }
         }
 
@@ -118,7 +118,7 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
         var status;
 
         if (item.Type === 'SeriesTimer') {
-            return '<i class="material-icons timerIndicator indicatorIcon fiber_smart_record"></i>';
+            return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record"></span>';
         } else if (item.TimerId || item.SeriesTimerId) {
             status = item.Status || 'Cancelled';
         } else if (item.Type === 'Timer') {
@@ -129,20 +129,20 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
 
         if (item.SeriesTimerId) {
             if (status !== 'Cancelled') {
-                return '<i class="material-icons timerIndicator indicatorIcon fiber_smart_record"></i>';
+                return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record"></span>';
             }
 
-            return '<i class="material-icons timerIndicator timerIndicator-inactive indicatorIcon fiber_smart_record"></i>';
+            return '<span class="material-icons timerIndicator timerIndicator-inactive indicatorIcon fiber_smart_record"></span>';
         }
 
-        return '<i class="material-icons timerIndicator indicatorIcon fiber_manual_record"></i>';
+        return '<span class="material-icons timerIndicator indicatorIcon fiber_manual_record"></span>';
     }
 
     function getSyncIndicator(item) {
         if (item.SyncPercent === 100) {
-            return '<div class="syncIndicator indicator fullSyncIndicator"><i class="material-icons indicatorIcon file_download"></i></div>';
+            return '<div class="syncIndicator indicator fullSyncIndicator"><span class="material-icons indicatorIcon file_download"></span></div>';
         } else if (item.SyncPercent != null) {
-            return '<div class="syncIndicator indicator emptySyncIndicator"><i class="material-icons indicatorIcon file_download"></i></div>';
+            return '<div class="syncIndicator indicator emptySyncIndicator"><span class="material-icons indicatorIcon file_download"></span></div>';
         }
 
         return '';
@@ -150,16 +150,16 @@ define(['datetime', 'itemHelper', 'emby-progressbar', 'css!./indicators.css', 'm
 
     function getTypeIndicator(item) {
         if (item.Type === 'Video') {
-            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">videocam</i></div>';
+            return '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon videocam"></span></div>';
         }
         if (item.Type === 'Folder') {
-            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">folder</i></div>';
+            return '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon folder"></span></div>';
         }
         if (item.Type === 'PhotoAlbum') {
-            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon photo_album"></i></div>';
+            return '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon photo_album"></span></div>';
         }
         if (item.Type === 'Photo') {
-            return '<div class="indicator videoIndicator"><i class="material-icons indicatorIcon">photo</i></div>';
+            return '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon photo"></span></div>';
         }
 
         return '';

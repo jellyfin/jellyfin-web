@@ -124,7 +124,7 @@ define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager',
         var self = this;
         require(['sortable'], function (Sortable) {
             self.sortable = new Sortable(self, {
-                draggable: ".listItem",
+                draggable: '.listItem',
                 handle: '.listViewDragHandle',
 
                 // dragging ended

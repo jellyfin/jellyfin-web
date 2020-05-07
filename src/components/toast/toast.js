@@ -26,7 +26,7 @@ define(['css!./toast'], function () {
             };
         }
 
-        var elem = document.createElement("div");
+        var elem = document.createElement('div');
         elem.classList.add('toast');
         elem.innerHTML = options.text;
 

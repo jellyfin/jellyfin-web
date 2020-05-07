@@ -31,27 +31,27 @@
                     <div class="nowPlayingInfoButtons">
                     
                         <button is="paper-icon-button-light" class="btnRewind btnNowPlayingRewind btnPlayStateCommand autoSize" title="${Rewind}">
-                            <i class="material-icons replay_10"></i>
+                            <span class="material-icons replay_10"></span>
                         </button>
                         
                         <button is="paper-icon-button-light" class="btnPreviousTrack btnPlayStateCommand autoSize" title="${ButtonPreviousTrack}">
-                            <i class="material-icons skip_previous"></i>
+                            <span class="material-icons skip_previous"></span>
                         </button>
 
                         <button is="paper-icon-button-light" class="btnPlayPause btnPlayStateCommand autoSize" title="${ButtonPause}">
-                            <i class="material-icons">pause</i>
+                            <span class="material-icons pause_circle_filled"></span>
                         </button>
 
                         <button is="paper-icon-button-light" class="btnPlayStateCommand btnStop autoSize" title="${ButtonStop}">
-                            <i class="material-icons">stop</i>
+                            <span class="material-icons stop"></span>
                         </button>
 
                         <button is="paper-icon-button-light" class="btnPlayStateCommand btnNextTrack autoSize" title="${ButtonNextTrack}">
-                            <i class="material-icons skip_next"></i>
+                            <span class="material-icons skip_next"></span>
                         </button>
                         
                         <button is="paper-icon-button-light" class="btnPlayStateCommand btnFastForward btnNowPlayingFastForward autoSize" title="${FastForward}">
-                            <i class="material-icons forward_30"></i>
+                            <span class="material-icons forward_30"></span>
                         </button>
                     
                     </div>
@@ -59,21 +59,21 @@
                     <div class="nowPlayingSecondaryButtons">
                     
                         <button is="paper-icon-button-light" class="btnAudioTracks videoButton btnPlayStateCommand autoSize" title="${ButtonAudioTracks}" data-command="GoToSearch">
-                            <i class="material-icons">audiotrack</i>
+                            <span class="material-icons audiotrack"></span>
                         </button>
 
                         <button is="paper-icon-button-light" class="btnSubtitles videoButton btnPlayStateCommand autoSize" title="${ButtonSubtitles}" data-command="GoToSearch">
-                            <i class="material-icons closed_caption"></i>
+                            <span class="material-icons closed_caption"></span>
                         </button>
                     
                         <div class="nowPlayingPageUserDataButtons"></div>
 
                         <button is="paper-icon-button-light" class="btnToggleFullscreen videoButton btnPlayStateCommand autoSize" title="${ButtonFullscreen}" data-command="ToggleFullscreen">
-                            <i class="material-icons">fullscreen</i>
+                            <span class="material-icons fullscreen"></span>
                         </button>
 
                         <button is="paper-icon-button-light" class="btnCommand repeatToggleButton autoSize" title="${ButtonRepeat}" data-command="SetRepeatMode">
-                            <i class="material-icons">repeat</i>
+                            <span class="material-icons repeat"></span>
                         </button>
 
                     </div>
@@ -86,43 +86,43 @@
                     <div class="collapseContent">
                         <div>
                             <button is="paper-icon-button-light" class="btnArrowUp btnCommand autoSize button-submit" title="${ButtonArrowUp}" data-command="MoveUp">
-                                <i class="material-icons keyboard_arrow_up"></i>
+                                <span class="material-icons keyboard_arrow_up"></span>
                             </button>
                         </div>
                         <br />
                         <div>
                             <button is="paper-icon-button-light" class="btnArrowLeft btnCommand autoSize button-submit" title="${ButtonArrowLeft}" data-command="MoveLeft">
-                                <i class="material-icons keyboard_arrow_left"></i>
+                                <span class="material-icons keyboard_arrow_left"></span>
                             </button>
                             <button is="paper-icon-button-light" class="btnOk btnCommand autoSize button-submit" title="${ButtonOk}" data-command="Select">
-                                <i class="material-icons keyboard_return"></i>
+                                <span class="material-icons keyboard_return"></span>
                             </button>
                             <button is="paper-icon-button-light" class="btnArrowRight btnCommand autoSize button-submit" title="${ButtonArrowRight}" data-command="MoveRight">
-                                <i class="material-icons keyboard_arrow_right"></i>
+                                <span class="material-icons keyboard_arrow_right"></span>
                             </button>
                         </div>
                         <br />
                         <div>
                             <button is="paper-icon-button-light" class="btnBack btnCommand autoSize" title="${ButtonBack}" data-command="Back">
-                                <i class="material-icons arrow_back"></i>
+                                <span class="material-icons arrow_back"></span>
                             </button>
                             <button is="paper-icon-button-light" class="btnArrowDown btnCommand autoSize button-submit" title="${ButtonArrowDown}" data-command="MoveDown">
-                                <i class="material-icons keyboard_arrow_down"></i>
+                                <span class="material-icons keyboard_arrow_down"></span>
                             </button>
                             <button is="paper-icon-button-light" class="btnContextMenu btnCommand autoSize" title="${ButtonInfo}" data-command="ToggleContextMenu">
-                                <i class="material-icons">menu</i>
+                                <span class="material-icons menu"></span>
                             </button>
                         </div>
                         <br />
                         <div>
                             <button is="paper-icon-button-light" class="btnGoHome btnCommand autoSize" title="${ButtonHome}" data-command="GoHome">
-                                <i class="material-icons">home</i>
+                                <span class="material-icons home"></span>
                             </button>
                             <button is="paper-icon-button-light" class="btnShowSearch btnCommand autoSize" title="${ButtonSearch}" data-command="GoToSearch">
-                                <i class="material-icons">search</i>
+                                <span class="material-icons search"></span>
                             </button>
                             <button is="paper-icon-button-light" class="bthShowSettings btnCommand autoSize" title="${ButtonSettings}" data-command="GoToSettings">
-                                <i class="material-icons">settings</i>
+                                <span class="material-icons settings"></span>
                             </button>
                         </div>
                     </div>
@@ -164,10 +164,10 @@
         <div class="playlistSection">
             <div class="playlistSectionButton flex align-items-center justify-content-center">
                 <button id="togglePlaylist" is="paper-icon-button-light" class="btnTogglePlaylist" title="${ButtonTogglePlaylist}">
-                    <i class="material-icons queue_music"></i>   
+                    <span class="material-icons queue_music"></span>
                 </button>
                 <button is="paper-icon-button-light" class="btnSavePlaylist" title="${ButtonSave}">
-                    <i class="material-icons save"></i>  
+                    <span class="material-icons save"></span>
                 </button>
             </div>
             <div id="playlist" class="playlist itemsContainer vertical-list nowPlayingPlaylist hide" is="emby-itemscontainer" data-dragreorder="true"></div>

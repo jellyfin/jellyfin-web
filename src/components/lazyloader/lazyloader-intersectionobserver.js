@@ -12,7 +12,7 @@
                     entries.forEach(entry => {
                         callback(entry);
                     },
-                    {rootMargin: "50%"});
+                    {rootMargin: '50%'});
                 });
 
             this.observer = observer;
