@@ -6563,9 +6563,10 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
-"jellyfin-apiclient@https://github.com/jellyfin/jellyfin-apiclient-javascript#v1.1.0":
-  version "1.1.0"
-  resolved "https://github.com/jellyfin/jellyfin-apiclient-javascript#d59e6a76eeff51c619d38d42804adb5784837096"
+jellyfin-apiclient@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/jellyfin-apiclient/-/jellyfin-apiclient-1.1.1.tgz#9b9e6e2f827d221ef000eb3dac09dda7623a6a06"
+  integrity sha512-ga+LAVxRu9LvnNI1gx53iZTvN/4VnwAdUOUX5xfq+3KJXeg8rWcPg4sdArR7efZeN9Cs60diKwDw8Y+RlnYmHA==
 
 "jellyfin-noto@https://github.com/jellyfin/jellyfin-noto":
   version "1.0.3"
@@ -7553,6 +7554,11 @@ minimist-options@^4.0.2:
   dependencies:
     arrify "^1.0.1"
     is-plain-obj "^1.1.0"
+
+minimist@1.1.x:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.1.3.tgz#3bedfd91a92d39016fcfaa1c681e8faa1a1efda8"
+  integrity sha1-O+39kaktOQFvz6ocaB6Pqhoe/ag=
 
 minimist@^1.1.0, minimist@^1.1.3, minimist@^1.2.0, minimist@^1.2.5:
   version "1.2.5"
