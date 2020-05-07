@@ -158,7 +158,7 @@ _define('headroom', function () {
 var apiclient = require('jellyfin-apiclient');
 
 _define('apiclient', function () {
-    return apiclient.apiclient;
+    return apiclient.ApiClient;
 });
 
 _define('events', function () {
