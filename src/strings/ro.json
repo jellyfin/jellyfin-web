@@ -1502,5 +1502,8 @@
     "LabelLibraryPageSize": "Mărimea paginii Bibliotecă:",
     "MessageUnauthorizedUser": "Nu sunteți autorizat să accesați serverul în acest moment. Vă rugăm să contactați administratorul serverului pentru mai multe informații.",
     "ButtonTogglePlaylist": "Listă de redare",
-    "ButtonToggleContextMenu": "Mai mult"
+    "ButtonToggleContextMenu": "Mai mult",
+    "Filter": "Filtru",
+    "New": "Nou",
+    "HeaderFavoritePlaylists": "Listă Favorită"
 }
