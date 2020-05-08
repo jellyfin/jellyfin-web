@@ -93,6 +93,7 @@
           "src/components/subtitlesettings/subtitlesettings.js",
           "src/components/subtitlesettings/subtitleappearancehelper.js",
           "src/components/settingshelper.js",
+          "src/controllers/user/subtitles.js",
           "src/scripts/dom.js",
           "src/components/filedownloader.js",
           "src/scripts/filesystem.js",
