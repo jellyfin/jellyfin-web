@@ -160,6 +160,7 @@
     display: flex;
     flex-direction: column;
     contain: layout style paint;
+    transition: background ease-in-out 0.5s;
 }
 
 .hiddenViewMenuBar .skinHeader {
