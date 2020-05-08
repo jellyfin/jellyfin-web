@@ -1,5 +1,5 @@
 define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html', 'css!./subtitlesync'], function (playbackManager, layoutManager, template, css) {
-    "use strict";
+    'use strict';
 
     var player;
     var subtitleSyncSlider;
@@ -13,39 +13,39 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
         document.body.appendChild(parent);
         parent.innerHTML = template;
 
-        subtitleSyncSlider = parent.querySelector(".subtitleSyncSlider");
-        subtitleSyncTextField = parent.querySelector(".subtitleSyncTextField");
-        subtitleSyncCloseButton = parent.querySelector(".subtitleSync-closeButton");
-        subtitleSyncContainer = parent.querySelector(".subtitleSyncContainer");
+        subtitleSyncSlider = parent.querySelector('.subtitleSyncSlider');
+        subtitleSyncTextField = parent.querySelector('.subtitleSyncTextField');
+        subtitleSyncCloseButton = parent.querySelector('.subtitleSync-closeButton');
+        subtitleSyncContainer = parent.querySelector('.subtitleSyncContainer');
 
         if (layoutManager.tv) {
-            subtitleSyncSlider.classList.add("focusable");
+            subtitleSyncSlider.classList.add('focusable');
             // HACK: Delay to give time for registered element attach (Firefox)
             setTimeout(function () {
                 subtitleSyncSlider.enableKeyboardDragging();
             }, 0);
         }
 
-        subtitleSyncContainer.classList.add("hide");
+        subtitleSyncContainer.classList.add('hide');
 
         subtitleSyncTextField.updateOffset = function(offset) {
-            this.textContent = offset + "s";
+            this.textContent = offset + 's';
         };
 
-        subtitleSyncTextField.addEventListener("click", function () {
+        subtitleSyncTextField.addEventListener('click', function () {
             // keep focus to prevent fade with osd
             this.hasFocus = true;
         });
 
-        subtitleSyncTextField.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
+        subtitleSyncTextField.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
                 // if input key is enter search for float pattern
                 var inputOffset = /[-+]?\d+\.?\d*/g.exec(this.textContent);
                 if (inputOffset) {
                     inputOffset = inputOffset[0];
 
                     // replace current text by considered offset
-                    this.textContent = inputOffset + "s";
+                    this.textContent = inputOffset + 's';
 
                     inputOffset = parseFloat(inputOffset);
                     // set new offset
@@ -54,7 +54,7 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
                     subtitleSyncSlider.updateOffset(
                         getPercentageFromOffset(inputOffset));
                 } else {
-                    this.textContent = (playbackManager.getPlayerSubtitleOffset(player) || 0) + "s";
+                    this.textContent = (playbackManager.getPlayerSubtitleOffset(player) || 0) + 's';
                 }
                 this.hasFocus = false;
                 event.preventDefault();
@@ -79,7 +79,7 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
             this.value = percent === undefined ? 50 : percent;
         };
 
-        subtitleSyncSlider.addEventListener("change", function () {
+        subtitleSyncSlider.addEventListener('change', function () {
             // set new offset
             playbackManager.setSubtitleOffset(getOffsetFromPercentage(this.value), player);
             // synchronize with textField value
@@ -87,7 +87,7 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
                 getOffsetFromPercentage(this.value));
         });
 
-        subtitleSyncSlider.addEventListener("touchmove", function () {
+        subtitleSyncSlider.addEventListener('touchmove', function () {
             // set new offset
             playbackManager.setSubtitleOffset(getOffsetFromPercentage(this.value), player);
             // synchronize with textField value
@@ -98,13 +98,13 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
         subtitleSyncSlider.getBubbleHtml = function (value) {
             var newOffset = getOffsetFromPercentage(value);
             return '<h1 class="sliderBubbleText">' +
-            (newOffset > 0 ? "+" : "") + parseFloat(newOffset) + "s" +
-            "</h1>";
+            (newOffset > 0 ? '+' : '') + parseFloat(newOffset) + 's' +
+            '</h1>';
         };
 
-        subtitleSyncCloseButton.addEventListener("click", function() {
+        subtitleSyncCloseButton.addEventListener('click', function() {
             playbackManager.disableShowingSubtitleOffset(player);
-            SubtitleSync.prototype.toggle("forceToHide");
+            SubtitleSync.prototype.toggle('forceToHide');
         });
 
         instance.element = parent;
@@ -133,7 +133,7 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
     }
 
     SubtitleSync.prototype.destroy = function() {
-        SubtitleSync.prototype.toggle("forceToHide");
+        SubtitleSync.prototype.toggle('forceToHide');
         if (player) {
             playbackManager.disableShowingSubtitleOffset(player);
             playbackManager.setSubtitleOffset(0, player);
@@ -156,21 +156,21 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
                         // if no subtitle offset is defined or element has focus (offset being defined)
                         if (!(playbackManager.getPlayerSubtitleOffset(player) || subtitleSyncTextField.hasFocus)) {
                             // set default offset to '0' = 50%
-                            subtitleSyncSlider.value = "50";
-                            subtitleSyncTextField.textContent = "0s";
+                            subtitleSyncSlider.value = '50';
+                            subtitleSyncTextField.textContent = '0s';
                             playbackManager.setSubtitleOffset(0, player);
                         }
                         // show subtitle sync
-                        subtitleSyncContainer.classList.remove("hide");
+                        subtitleSyncContainer.classList.remove('hide');
                         break; // stop here
                     } // else continue and hide
-                case "hide":
+                case 'hide':
                     // only break if element has focus
                     if (subtitleSyncTextField.hasFocus) {
                         break;
                     }
-                case "forceToHide":
-                    subtitleSyncContainer.classList.add("hide");
+                case 'forceToHide':
+                    subtitleSyncContainer.classList.add('hide');
                     break;
             }
             /* eslint-enable no-fallthrough */

@@ -10,6 +10,13 @@
             <div class="fieldDescription">${LabelPleaseRestart}</div>
         </div>
 
+        <div class="verticalSection verticalSection-extrabottompadding">
+            <label class="checkboxContainer">
+                <input class="chkHidePlayedFromLatest" type="checkbox" is="emby-checkbox" />
+                <span>${HideWatchedContentFromLatestMedia}</span>
+            </label>
+        </div>
+
         <div class="selectContainer">
             <select is="emby-select" id="selectHomeSection1" label="{section1label}">
                 <option value="smalllibrarytiles">${HeaderMyMedia}</option>
@@ -109,13 +116,6 @@
     </div>
 
     <div class="perLibrarySettings"></div>
-
-    <div class="verticalSection verticalSection-extrabottompadding">
-        <label class="checkboxContainer">
-            <input class="chkHidePlayedFromLatest" type="checkbox" is="emby-checkbox" />
-            <span>${HideWatchedContentFromLatestMedia}</span>
-        </label>
-    </div>
 
     <div class="verticalSection verticalSection-extrabottompadding">
         <h2 class="sectionTitle">${HeaderLibraryFolders}</h2>

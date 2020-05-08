@@ -43,7 +43,9 @@ html {
 }
 
 .backgroundContainer,
-.dialog {
+.dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu {
     background: #d5e9f2;
     -webkit-background-size: 100% 100%;
     background-size: 100% 100%;
@@ -186,7 +188,8 @@ html {
 }
 
 .appfooter,
-.formDialogFooter:not(.formDialogFooter-clear) {
+.formDialogFooter:not(.formDialogFooter-clear),
+.playlistSectionButton {
     color: rgba(0, 0, 0, 0.7);
     background: #303030;
     background: -webkit-gradient(linear, left top, right top, from(#bcbcbc), color-stop(#a7b4b7), color-stop(#beb5a5), color-stop(#adbec2), to(#b9c7cb));

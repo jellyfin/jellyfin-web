@@ -74,7 +74,7 @@ import appHost from 'apphost';
         }
 
         if (eventListenerCount) {
-            const customEvent = new CustomEvent("command", {
+            const customEvent = new CustomEvent('command', {
                 detail: {
                     command: commandName
                 },
@@ -234,6 +234,9 @@ import appHost from 'apphost';
             console.debug(`inputManager: tried to process command with no action assigned: ${commandName}`);
         }
     }
+
+    // Alias for backward compatibility
+    export const trigger = handleCommand;
 
     dom.addEventListener(document, 'click', notify, {
         passive: true

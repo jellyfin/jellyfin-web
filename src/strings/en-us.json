@@ -137,6 +137,8 @@
     "ButtonSplit": "Split",
     "ButtonSubmit": "Submit",
     "ButtonSubtitles": "Subtitles",
+    "ButtonToggleContextMenu": "More",
+    "ButtonTogglePlaylist": "Playlist",
     "ButtonTrailer": "Trailer",
     "ButtonUninstall": "Uninstall",
     "ButtonUp": "Up",
@@ -368,6 +370,7 @@
     "HeaderFavoriteArtists": "Favorite Artists",
     "HeaderFavoriteSongs": "Favorite Songs",
     "HeaderFavoriteVideos": "Favorite Videos",
+    "HeaderFavoritePlaylists": "Favorite Playlists",
     "HeaderFeatureAccess": "Feature Access",
     "HeaderFeatures": "Features",
     "HeaderFetchImages": "Fetch Images:",
@@ -990,6 +993,7 @@
     "MessageInstallPluginFromApp": "This plugin must be installed from within the app you intend to use it in.",
     "MessageInvalidForgotPasswordPin": "An invalid or expired pin code was entered. Please try again.",
     "MessageInvalidUser": "Invalid username or password. Please try again.",
+    "MessageUnauthorizedUser": "You are not authorized to access the server at this time. Please contact your server administrator for more information.",
     "MessageItemSaved": "Item saved.",
     "MessageItemsAdded": "Items added.",
     "MessageLeaveEmptyToInherit": "Leave empty to inherit settings from a parent item or the global default value.",
@@ -1334,6 +1338,8 @@
     "ShowYear": "Show year",
     "Shows": "Shows",
     "Shuffle": "Shuffle",
+    "New": "New",
+    "Filter": "Filter",
     "SimultaneousConnectionLimitHelp": "The maximum number of allowed simultaneous streams. Enter 0 for no limit.",
     "SkipEpisodesAlreadyInMyLibrary": "Don't record episodes that are already in my library",
     "SkipEpisodesAlreadyInMyLibraryHelp": "Episodes will be compared using season and episode numbers, when available.",
@@ -1498,5 +1504,6 @@
     "EveryXMinutes": "Every {0} minutes",
     "EveryHour": "Every hour",
     "EveryXHours": "Every {0} hours",
-    "OnApplicationStartup": "On application startup"
+    "OnApplicationStartup": "On application startup",
+    "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles."
 }

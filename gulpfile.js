@@ -1,5 +1,3 @@
-'use strict';
-
 const { src, dest, series, parallel, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
 const del = require('del');
@@ -10,8 +8,8 @@ const htmlmin = require('gulp-htmlmin');
 const imagemin = require('gulp-imagemin');
 const sourcemaps = require('gulp-sourcemaps');
 const mode = require('gulp-mode')({
-    modes: ["development", "production"],
-    default: "development",
+    modes: ['development', 'production'],
+    default: 'development',
     verbose: false
 });
 const stream = require('webpack-stream');
@@ -57,7 +55,7 @@ const options = {
 function serve() {
     browserSync.init({
         server: {
-            baseDir: "./dist"
+            baseDir: './dist'
         },
         port: 8080
     });
@@ -183,6 +181,12 @@ function copy(query) {
         .pipe(browserSync.stream());
 }
 
+function copyIndex() {
+    return src(options.injectBundle.query, { base: './src/' })
+        .pipe(dest('dist/'))
+        .pipe(browserSync.stream());
+}
+
 function injectBundle() {
     return src(options.injectBundle.query, { base: './src/' })
         .pipe(inject(
@@ -193,9 +197,9 @@ function injectBundle() {
 }
 
 function build(standalone) {
-    return series(clean, parallel(javascript, apploader(standalone), webpack, css, html, images, copy), injectBundle);
+    return series(clean, parallel(javascript, apploader(standalone), webpack, css, html, images, copy));
 }
 
-exports.default = build(false);
-exports.standalone = build(true);
+exports.default = series(build(false), copyIndex);
+exports.standalone = series(build(true), injectBundle);
 exports.serve = series(exports.standalone, serve);
