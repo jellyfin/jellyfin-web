@@ -19,10 +19,10 @@ import 'css!./style.css';
         html += '<div class="checkboxList">';
         html += items.map(function (filter) {
             let itemHtml = '';
-            const checkedHtml = isCheckedFn(filter) ? ' checked' : '';
+            const checkedHtml = isCheckedFn(filter) ? 'checked' : '';
             itemHtml += '<label>';
-            itemHtml += '<input is="emby-checkbox" type="checkbox"' + checkedHtml + ' data-filter="' + filter + '" class="' + cssClass + '"/>';
-            itemHtml += '<span>' + filter + '</span>';
+            itemHtml += `<input is="emby-checkbox" type="checkbox" ${checkedHtml} data-filter="${filter}" class="${cssClass}"/>`;
+            itemHtml += `<span>${filter}</span>`;
             itemHtml += '</label>';
             return itemHtml;
         }).join('');
@@ -75,16 +75,16 @@ import 'css!./style.css';
             context.querySelector('.chkDislikes').checked = query.IsDisliked === true;
         } else {
             for (const elem of context.querySelectorAll('.chkStandardFilter')) {
-                const filters = ',' + (query.Filters || '');
+                const filters = `,${query.Filters || ''}`;
                 const filterName = elem.getAttribute('data-filter');
-                elem.checked = filters.includes(',' + filterName);
+                elem.checked = filters.includes(`,${filterName}`);
             }
         }
 
         for (const elem of context.querySelectorAll('.chkVideoTypeFilter')) {
-            const filters = ',' + (query.VideoTypes || '');
+            const filters = `,${query.VideoTypes || ''}`;
             const filterName = elem.getAttribute('data-filter');
-            elem.checked = filters.includes(',' + filterName);
+            elem.checked = filters.includes(`,${filterName}`);
         }
         context.querySelector('.chk3DFilter').checked = query.Is3D === true;
         context.querySelector('.chkHDFilter').checked = query.IsHD === true;
@@ -99,9 +99,9 @@ import 'css!./style.css';
         context.querySelector('#chkMissingEpisode').checked = query.IsMissing === true;
         context.querySelector('#chkFutureEpisode').checked = query.IsUnaired === true;
         for (const elem of context.querySelectorAll('.chkStatus')) {
-            const filters = ',' + (query.SeriesStatus || '');
+            const filters = `,${query.SeriesStatus || ''}`;
             const filterName = elem.getAttribute('data-filter');
-            elem.checked = filters.includes(',' + filterName);
+            elem.checked = filters.includes(`,${filterName}`);
         }
     }
 
@@ -142,22 +142,14 @@ import 'css!./style.css';
     }
 
     function showByClass(context, className) {
-        const elems = context.querySelectorAll('.' + className);
-
-        let i = 0;
-        const length = elems.length;
-        for (; i < length; i++) {
-            elems[i].classList.remove('hide');
+        for (const elem of context.querySelectorAll(`.${className}`)) {
+            elem.classList.remove('hide');
         }
     }
 
     function hideByClass(context, className) {
-        const elems = context.querySelectorAll('.' + className);
-
-        let i = 0;
-        const length = elems.length;
-        for (; i < length; i++) {
-            elems[i].classList.add('hide');
+        for (const elem of context.querySelectorAll(`.${className}`)) {
+            elem.classList.add('hide');
         }
     }
 
@@ -190,10 +182,10 @@ import 'css!./style.css';
             const query = this.options.query;
             const filterName = elem.getAttribute('data-filter');
             let filters = query.Filters || '';
-            filters = (',' + filters).replace(',' + filterName, '').substring(1);
+            filters = (`,${filters}`).replace(`,${filterName}`, '').substring(1);
 
             if (elem.checked) {
-                filters = filters ? filters + ',' + filterName : filterName;
+                filters = filters ? `${filters},${filterName}` : filterName;
             }
 
             query.StartIndex = 0;
@@ -208,10 +200,10 @@ import 'css!./style.css';
             const query = this.options.query;
             const filterName = elem.getAttribute('data-filter');
             let filters = query.VideoTypes || '';
-            filters = (',' + filters).replace(',' + filterName, '').substring(1);
+            filters = (`,${filters}`).replace(`,${filterName}`, '').substring(1);
 
             if (elem.checked) {
-                filters = filters ? filters + ',' + filterName : filterName;
+                filters = filters ? `${filters},${filterName}` : filterName;
             }
 
             query.StartIndex = 0;
@@ -226,10 +218,10 @@ import 'css!./style.css';
             const query = this.options.query;
             const filterName = elem.getAttribute('data-filter');
             let filters = query.SeriesStatus || '';
-            filters = (',' + filters).replace(',' + filterName, '').substring(1);
+            filters = (`,${filters}`).replace(`,${filterName}`, '').substring(1);
 
             if (elem.checked) {
-                filters = filters ? filters + ',' + filterName : filterName;
+                filters = filters ? `${filters},${filterName}` : filterName;
             }
 
             query.SeriesStatus = filters;
