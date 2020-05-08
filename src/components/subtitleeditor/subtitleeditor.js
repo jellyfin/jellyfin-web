@@ -347,6 +347,34 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         }
     }
 
+    function onOpenUploadMenu(e) {
+
+        var context = dom.parentWithClass(e.target, 'subtitleEditorDialog');
+        var selectLanguage = context.querySelector('#selectLanguage');
+        var apiClient = connectionManager.getApiClient(currentItem.ServerId);
+
+        require(['subtitleUploader'], function (subtitleUploader) {
+
+            subtitleUploader.show({
+
+                languages: {
+                    list: selectLanguage.innerHTML,
+                    value: selectLanguage.value
+                },
+                itemId: currentItem.Id,
+                serverId: currentItem.ServerId
+
+            }).then(function (hasChanged) {
+
+                if (hasChanged) {
+                    hasChanges = true;
+                    reload(context, apiClient, currentItem.Id);
+                }
+            });
+        });
+
+    }
+
     function onSearchSubmit(e) {
         var form = this;
 
@@ -453,6 +481,8 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             dlg.querySelector('.originalSubtitleFileLabel').innerHTML = globalize.translate('File');
 
             dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
+
+            dlg.querySelector('.btnOpenUploadMenu').addEventListener('click', onOpenUploadMenu);
 
             var btnSubmit = dlg.querySelector('.btnSubmit');
 
