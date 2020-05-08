@@ -51,7 +51,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             positionTo: button,
             cancelTimer: false,
             record: false,
-            deleteItem: true === item.IsFolder,
+            deleteItem: item.CanDelete === true,
             shuffle: false,
             instantMix: false,
             user: user,
@@ -556,12 +556,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
 
         setTrailerButtonVisibility(page, item);
-
-        if (item.CanDelete && !item.IsFolder) {
-            hideAll(page, 'btnDeleteItem', true);
-        } else {
-            hideAll(page, 'btnDeleteItem');
-        }
 
         if ('Program' !== item.Type || canPlay) {
             hideAll(page, 'mainDetailButtons', true);
@@ -2080,7 +2074,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         bindAll(view, '.btnPlayTrailer', 'click', onPlayTrailerClick);
         bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
-        bindAll(view, '.btnDeleteItem', 'click', onDeleteClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
