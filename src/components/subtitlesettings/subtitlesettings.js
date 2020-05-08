@@ -6,7 +6,7 @@ import focusManager from 'focusManager';
 import loading from 'loading';
 import connectionManager from 'connectionManager';
 import subtitleAppearanceHelper from 'subtitleAppearanceHelper';
-import settingsHelper from '../settingshelper';
+import settingsHelper from 'settingsHelper';
 import dom from 'dom';
 import events from 'events';
 import 'listViewStyle';

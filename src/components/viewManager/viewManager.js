@@ -25,6 +25,10 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
 
                 // Use controller method
                 var controller = new options.controllerFactory(newView, eventDetail.detail.params);
+            } else if (typeof options.controllerFactory === 'object') {
+
+                // Use controller class
+                var controller = new options.controllerFactory.default(newView, eventDetail.detail.params);
             }
 
             if (!options.controllerFactory || dispatchPageEvents) {
