@@ -330,7 +330,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 requireHlsPlayer(function () {
 
                     var hls = new Hls({
-                        manifestLoadingTimeOut: 20000
+                        manifestLoadingTimeOut: 20000,
+                        xhrSetup: function(xhr, xhr_url) {
+                            xhr.withCredentials = true;
+                        }
                         //appendErrorMaxRetry: 6,
                         //debug: true
                     });
@@ -550,6 +553,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             } else {
 
                 elem.autoplay = true;
+
+                // Safari will not send cookies without this
+                elem.crossOrigin = 'use-credentials';
 
                 return htmlMediaHelper.applySrc(elem, val, options).then(function () {
 
