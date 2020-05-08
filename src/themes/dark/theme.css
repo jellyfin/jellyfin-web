@@ -453,3 +453,8 @@ html {
 .metadataSidebarIcon {
     color: #00a4dc;
 }
+
+.emby-button.detailFloatingButton {
+    background-color: #00a4dc;
+    color: #fff;
+}

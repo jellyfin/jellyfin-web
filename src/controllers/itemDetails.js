@@ -1968,7 +1968,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 });
             }
 
-            playItem(item, item.UserData && 'resume' === mode ? item.UserData.PlaybackPositionTicks : 0);
+            playItem(item, item.UserData && mode === 'resume' ? item.UserData.PlaybackPositionTicks : 0);
         }
 
         function onPlayClick() {

@@ -24,10 +24,6 @@
     padding-top: 7em !important;
 }
 
-.layout-mobile .libraryPage {
-    padding-top: 4em !important;
-}
-
 .itemDetailPage {
     padding-top: 0 !important;
 }
@@ -444,6 +440,7 @@
 
 .layout-mobile .itemBackdrop {
     background-attachment: scroll;
+    height: 26.5vh;
 }
 
 .layout-desktop .itemBackdrop::after,
@@ -465,6 +462,11 @@
     flex-direction: column;
     padding-left: 32.45vw;
     padding-right: 2%;
+}
+
+.layout-mobile .detailPageContent {
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .layout-desktop .detailPageContent .emby-scroller,
@@ -551,6 +553,11 @@
     text-align: center;
 }
 
+.layout-mobile .mainDetailButtons {
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+}
+
 .detailPagePrimaryContainer {
     display: flex;
     align-items: center;
@@ -561,7 +568,7 @@
 .layout-mobile .detailPagePrimaryContainer {
     display: block;
     position: relative;
-    top: 0;
+    padding: 2.5em 3.3% 1em;
 }
 
 .layout-tv #itemDetailPage:not(.noBackdrop) .detailPagePrimaryContainer,
@@ -694,12 +701,12 @@ div.itemDetailGalleryLink.defaultCardBackground {
 
 .emby-button.detailFloatingButton {
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.5) !important;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 3;
+    top: 100%;
+    left: 90%;
     margin: -2.2em 0 0 -2.2em;
-    padding: 0.4em !important;
+    padding: 0.4em;
     color: rgba(255, 255, 255, 0.76);
 }
 
@@ -1148,6 +1155,11 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .trackSelections .selectContainer .selectLabel {
     margin: 0 0.2em 0 0;
+}
+
+.layout-mobile .detailsGroupItem .label,
+.layout-mobile .trackSelections .selectContainer .selectLabel {
+    flex-basis: 4.5em;
 }
 
 .trackSelections .selectContainer .detailTrackSelect {
