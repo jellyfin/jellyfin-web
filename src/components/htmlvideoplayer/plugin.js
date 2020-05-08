@@ -602,7 +602,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             // if .ass currently rendering
             if (currentSubtitlesOctopus) {
                 updateCurrentTrackOffset(offsetValue);
-                currentSubtitlesOctopus.timeOffset = offsetValue;
+                currentSubtitlesOctopus.timeOffset = (self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
             } else {
                 var trackElement = getTextTrack();
                 // if .vtt currently rendering
@@ -860,7 +860,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 loading.hide();
 
                 htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks, function () {
-                    if (currentSubtitlesOctopus) currentSubtitlesOctopus.resize();
+                    if (currentSubtitlesOctopus) {
+                        currentSubtitlesOctopus.timeOffset = (self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + currentTrackOffset;
+                        currentSubtitlesOctopus.resize();
+                        currentSubtitlesOctopus.resetRenderAheadCache(false);
+                    }
                 });
 
                 if (self._currentPlayOptions.fullscreen) {
@@ -1066,6 +1070,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 onError: function() {
                     htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
                 },
+                timeOffset: (self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
                 // new octopus options; override all, even defaults
                 renderMode: 'blend',

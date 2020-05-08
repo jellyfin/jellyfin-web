@@ -6811,6 +6811,10 @@ levn@^0.3.0, levn@~0.3.0:
   version "4.0.0"
   resolved "https://github.com/jellyfin/JavascriptSubtitlesOctopus#b38056588bfaebc18a8353cb1757de0a815ac879"
 
+"libass-wasm@https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf-smarttv":
+  version "4.0.0"
+  resolved "https://github.com/jellyfin/JavascriptSubtitlesOctopus#58e9a3f1a7f7883556ee002545f445a430120639"
+
 liftoff@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/liftoff/-/liftoff-3.1.0.tgz#c9ba6081f908670607ee79062d700df062c52ed3"
