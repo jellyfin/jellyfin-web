@@ -35,6 +35,7 @@
  - [Thibault Nocchi](https://github.com/ThibaultNocchi)
  - [MrTimscampi](https://github.com/MrTimscampi)
  - [Sarab Singh](https://github.com/sarab97)
+ - [GuilhermeHideki](https://github.com/GuilhermeHideki)
 
 # Emby Contributors
 
