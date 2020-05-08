@@ -486,7 +486,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 index: 0,
                 tag: item.ImageTags.Thumb
             });
-            page.classList.remove('noBackdrop');
             imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else if (usePrimaryImage && item.ImageTags && item.ImageTags.Primary) {
@@ -496,7 +495,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 index: 0,
                 tag: item.ImageTags.Primary
             });
-            page.classList.remove('noBackdrop');
             imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
@@ -506,7 +504,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 index: 0,
                 tag: item.BackdropImageTags[0]
             });
-            page.classList.remove('noBackdrop');
             imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
@@ -516,7 +513,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 index: 0,
                 tag: item.ParentBackdropImageTags[0]
             });
-            page.classList.remove('noBackdrop');
             imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else if (item.ImageTags && item.ImageTags.Thumb) {
@@ -526,19 +522,10 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 index: 0,
                 tag: item.ImageTags.Thumb
             });
-            page.classList.remove('noBackdrop');
             imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else {
             itemBackdropElement.style.backgroundImage = '';
-        }
-
-        if ('Person' === item.Type) {
-            // FIXME: This hides the backdrop on all persons to fix a margin issue. Ideally, a proper fix should be made.
-            page.classList.add('noBackdrop');
-            itemBackdropElement.classList.add('personBackdrop');
-        } else {
-            itemBackdropElement.classList.remove('personBackdrop');
         }
 
         return hasbackdrop;
@@ -2126,9 +2113,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         view.addEventListener('viewshow', function (e) {
             var page = this;
 
-            if (layoutManager.mobile) {
-                libraryMenu.setTransparentMenu(true);
-            }
+            libraryMenu.setTransparentMenu(true);
 
             if (e.detail.isRestored) {
                 if (currentItem) {

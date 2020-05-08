@@ -438,7 +438,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
-    height: 50vh;
+    height: 40vh;
     position: relative;
 }
 
@@ -463,8 +463,13 @@
 .detailPageContent {
     display: flex;
     flex-direction: column;
-    padding-left: 2%;
+    padding-left: 32.45vw;
     padding-right: 2%;
+}
+
+.layout-desktop .detailPageContent .emby-scroller,
+.layout-tv .detailPageContent .emby-scroller {
+    margin-left: 0;
 }
 
 .layout-desktop .noBackdrop .detailPageContent,
@@ -569,6 +574,7 @@
 .layout-desktop .detailSticky,
 .layout-tv .detailSticky {
     margin-top: -7.2em;
+    height: 7.18em;
 }
 
 .layout-desktop .noBackdrop .detailSticky,
@@ -595,12 +601,20 @@
 }
 
 .detailImageContainer {
-    position: relative;
-    margin-top: -25vh;
-    margin-bottom: 10vh;
+    position: absolute;
+    top: 50%;
     float: left;
     width: 25vw;
     z-index: 3;
+    transform: translateY(-50%);
+}
+
+.thumbDetailImageContainer {
+    top: 35%;
+}
+
+.squareDetailImageContainer {
+    top: 40%;
 }
 
 .layout-desktop .noBackdrop .detailImageContainer,
@@ -613,11 +627,11 @@
 }
 
 .detailLogo {
-    width: 30vw;
-    height: 25vh;
+    width: 25vw;
+    height: 16vh;
     position: absolute;
     top: 10vh;
-    right: 20vw;
+    right: 25vw;
     background-size: contain;
 }
 
