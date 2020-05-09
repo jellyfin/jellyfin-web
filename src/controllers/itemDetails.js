@@ -470,34 +470,12 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var imgUrl;
         var hasbackdrop = false;
         var itemBackdropElement = page.querySelector('#itemBackdrop');
-        var usePrimaryImage = item.MediaType === 'Video' && item.Type !== 'Movie' && item.Type !== 'Trailer' ||
-            item.MediaType && item.MediaType !== 'Video' ||
-            item.Type === 'MusicAlbum' ||
-            item.Type === 'Person';
 
-        if (!layoutManager.mobile && !userSettings.detailsBanner()) {
+        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
             return false;
         }
 
-        if ('Program' === item.Type && item.ImageTags && item.ImageTags.Thumb) {
-            imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                type: 'Thumb',
-                maxWidth: dom.getScreenWidth(),
-                index: 0,
-                tag: item.ImageTags.Thumb
-            });
-            imageLoader.lazyImage(itemBackdropElement, imgUrl);
-            hasbackdrop = true;
-        } else if (usePrimaryImage && item.ImageTags && item.ImageTags.Primary) {
-            imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                type: 'Primary',
-                maxWidth: dom.getScreenWidth(),
-                index: 0,
-                tag: item.ImageTags.Primary
-            });
-            imageLoader.lazyImage(itemBackdropElement, imgUrl);
-            hasbackdrop = true;
-        } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
+        if (item.BackdropImageTags && item.BackdropImageTags.length) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
                 type: 'Backdrop',
                 maxWidth: dom.getScreenWidth(),
@@ -512,15 +490,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 maxWidth: dom.getScreenWidth(),
                 index: 0,
                 tag: item.ParentBackdropImageTags[0]
-            });
-            imageLoader.lazyImage(itemBackdropElement, imgUrl);
-            hasbackdrop = true;
-        } else if (item.ImageTags && item.ImageTags.Thumb) {
-            imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                type: 'Thumb',
-                maxWidth: dom.getScreenWidth(),
-                index: 0,
-                tag: item.ImageTags.Thumb
             });
             imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
@@ -714,132 +683,25 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function renderDetailImage(page, elem, item, apiClient, editable, imageLoader, indicators) {
-        if ('SeriesTimer' === item.Type || 'Program' === item.Type) {
-            editable = false;
-        }
-
         elem.classList.add('detailimg-hidemobile');
 
-        var imageTags = item.ImageTags || {};
+        const itemArray = [];
+        itemArray.push(item);
+        const cardHtml = cardBuilder.getCardsHtml(itemArray, {
+            shape: 'auto',
+            showTitle: false,
+            centerText: true,
+            overlayText: false,
+            transition: false,
+            disableIndicators: true,
+            disableHoverMenu: true,
+            overlayPlayButton: true,
+            width: dom.getWindowSize().innerWidth * 0.25
+        });
 
-        if (item.PrimaryImageTag) {
-            imageTags.Primary = item.PrimaryImageTag;
-        }
+        elem.innerHTML = cardHtml;
 
-        var url;
-        var html = '';
-        var shape = 'portrait';
-        var detectRatio = false;
-
-        /* In the following section, getScreenWidth() is multiplied by 0.5 as the posters
-        are 25vw and we need double the resolution to counter Skia's scaling. */
-        // TODO: Find a reliable way to get the poster width
-        if (imageTags.Primary) {
-            url = apiClient.getScaledImageUrl(item.Id, {
-                type: 'Primary',
-                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
-                tag: item.ImageTags.Primary
-            });
-            detectRatio = true;
-        } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
-            url = apiClient.getScaledImageUrl(item.Id, {
-                type: 'Backdrop',
-                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
-                tag: item.BackdropImageTags[0]
-            });
-            shape = 'thumb';
-        } else if (imageTags.Thumb) {
-            url = apiClient.getScaledImageUrl(item.Id, {
-                type: 'Thumb',
-                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
-                tag: item.ImageTags.Thumb
-            });
-            shape = 'thumb';
-        } else if (imageTags.Disc) {
-            url = apiClient.getScaledImageUrl(item.Id, {
-                type: 'Disc',
-                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
-                tag: item.ImageTags.Disc
-            });
-            shape = 'square';
-        } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
-            url = apiClient.getScaledImageUrl(item.AlbumId, {
-                type: 'Primary',
-                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
-                tag: item.AlbumPrimaryImageTag
-            });
-            shape = 'square';
-        } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
-            url = apiClient.getScaledImageUrl(item.SeriesId, {
-                type: 'Primary',
-                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
-                tag: item.SeriesPrimaryImageTag
-            });
-        } else if (item.ParentPrimaryImageItemId && item.ParentPrimaryImageTag) {
-            url = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
-                type: 'Primary',
-                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
-                tag: item.ParentPrimaryImageTag
-            });
-        }
-
-        if (editable && url === undefined) {
-            html += "<a class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground" + cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
-        } else if (!editable && url === undefined) {
-            html += "<div class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground" + cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
-        } else if (editable) {
-            html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
-        }
-
-        if (url) {
-            html += "<img class='itemDetailImage lazy' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' />";
-        }
-
-        if (url === undefined) {
-            html += cardBuilder.getDefaultText(item);
-        }
-
-        if (editable) {
-            html += '</a>';
-        } else if (!editable && url === undefined) {
-            html += '</div>';
-        }
-
-        var progressHtml = item.IsFolder || !item.UserData ? '' : indicators.getProgressBarHtml(item);
-        html += '<div class="detailImageProgressContainer">';
-
-        if (progressHtml) {
-            html += progressHtml;
-        }
-
-        html += '</div>';
-        elem.innerHTML = html;
-
-        if (detectRatio && item.PrimaryImageAspectRatio) {
-            if (item.PrimaryImageAspectRatio >= 1.48) {
-                shape = 'thumb';
-            } else if (item.PrimaryImageAspectRatio >= 0.85 && item.PrimaryImageAspectRatio <= 1.34) {
-                shape = 'square';
-            }
-        }
-
-        if ('thumb' == shape) {
-            elem.classList.add('thumbDetailImageContainer');
-            elem.classList.remove('portraitDetailImageContainer');
-            elem.classList.remove('squareDetailImageContainer');
-        } else if ('square' == shape) {
-            elem.classList.remove('thumbDetailImageContainer');
-            elem.classList.remove('portraitDetailImageContainer');
-            elem.classList.add('squareDetailImageContainer');
-        } else {
-            elem.classList.remove('thumbDetailImageContainer');
-            elem.classList.add('portraitDetailImageContainer');
-            elem.classList.remove('squareDetailImageContainer');
-        }
-
-        if (url) {
-            imageLoader.lazyImage(elem.querySelector('img'), url);
-        }
+        imageLoader.lazyChildren(elem);
     }
 
     function renderImage(page, item, apiClient, user) {
@@ -1887,12 +1749,10 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function bindAll(view, selector, eventName, fn) {
-        var i;
-        var length;
         var elems = view.querySelectorAll(selector);
 
-        for (i = 0, length = elems.length; i < length; i++) {
-            elems[i].addEventListener(eventName, fn);
+        for (let elem of elems) {
+            elem.addEventListener(eventName, fn);
         }
     }
 
@@ -1912,6 +1772,10 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 var user = responses[1];
                 currentItem = item;
                 reloadFromItem(instance, page, params, item, user);
+
+                let detailImageContainer = page.querySelector('.detailImageContainer');
+                const overlayPlayButton = detailImageContainer.querySelector('.cardOverlayFab-primary');
+                overlayPlayButton.addEventListener('click', onPlayClick);
             });
         }
 

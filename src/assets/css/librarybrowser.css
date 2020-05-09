@@ -608,7 +608,7 @@
     margin: 1.25em 0;
 }
 
-.detailImageContainer {
+.detailImageContainer .card {
     position: absolute;
     top: 50%;
     float: left;
@@ -617,11 +617,11 @@
     transform: translateY(-50%);
 }
 
-.thumbDetailImageContainer {
+.detailImageContainer .card.backdropCard {
     top: 35%;
 }
 
-.squareDetailImageContainer {
+.detailImageContainer .card.squareCard {
     top: 40%;
 }
 
