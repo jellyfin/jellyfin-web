@@ -167,8 +167,6 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         var seconds = (ticks || 0) / 10000000;
 
         if (seconds) {
-            var src = (instance.currentSrc() || '').toLowerCase();
-
             // Appending #t=xxx to the query string doesn't seem to work with HLS
             // For plain video files, not all browsers support it either
 

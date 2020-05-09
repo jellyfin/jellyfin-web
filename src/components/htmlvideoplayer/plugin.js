@@ -17,27 +17,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
     }
 
-    var _supportsTextTracks;
-    function supportsTextTracks() {
-
-        if (_supportsTextTracks == null) {
-            _supportsTextTracks = document.createElement('video').textTracks != null;
-        }
-
-        // For now, until ready
-        return _supportsTextTracks;
-    }
-
-    function supportsCanvas() {
-        return !!document.createElement('canvas').getContext;
-    }
-
-    function supportsWebWorkers() {
-        return !!window.Worker;
-    }
-
     function enableNativeTrackSupport(currentSrc, track) {
-
         if (track) {
             if (track.DeliveryMethod === 'Embed') {
                 return true;
@@ -52,10 +32,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         if (browser.ps4) {
-            return false;
-        }
-
-        if (browser.web0s) {
             return false;
         }
 
@@ -126,22 +102,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         return url;
-    }
-
-    function getTracksHtml(tracks, item, mediaSource) {
-        return tracks.map(function (t) {
-
-            if (t.DeliveryMethod !== 'External') {
-                return '';
-            }
-
-            var defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? ' default' : '';
-
-            var language = t.Language || 'und';
-            var label = t.Language || 'und';
-            return '<track id="textTrack' + t.Index + '" label="' + label + '" kind="subtitles" src="' + getTextTrackUrl(t, item) + '" srclang="' + language + '"' + defaultAttribute + '></track>';
-
-        }).join('');
     }
 
     function getDefaultProfile() {
