@@ -1064,19 +1064,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function requiresCustomSubtitlesElement() {
-
-            // after a system update, ps4 isn't showing anything when creating a track element dynamically
-            // going to have to do it ourselves
-            if (browser.ps4) {
-                return true;
+            if (browser.web0s && !self._currentSrc.includes('.m3u8')) {
+                return false;
             }
 
             // This is unfortunate, but we're unable to remove the textTrack that gets added via addTextTrack
-            if (browser.firefox || browser.web0s) {
-                return true;
-            }
-
-            if (browser.edge) {
+            if (browser.firefox || browser.edge || browser.ps4 || browser.web0s) {
                 return true;
             }
 
