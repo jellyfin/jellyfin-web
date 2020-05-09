@@ -44,12 +44,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         }
 
-        if (browser.firefox) {
-            if ((currentSrc || '').toLowerCase().indexOf('.m3u8') !== -1) {
-                return false;
-            }
-        }
-
         // subs getting blocked due to CORS
         if (browser.chromecast) {
             if ((currentSrc || '').toLowerCase().indexOf('.m3u8') !== -1) {
@@ -121,13 +115,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         return useHtml ? result.replace(/\n/gi, '<br>') : result;
     }
 
-    function setTracks(elem, tracks, item, mediaSource) {
-
-        elem.innerHTML = getTracksHtml(tracks, item, mediaSource);
-    }
-
     function getTextTrackUrl(track, item, format) {
-
         if (itemHelper.isLocalItem(item) && track.Path) {
             return track.Path;
         }
@@ -347,51 +335,46 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         }
 
-        function onShakaError(event) {
+        function onShakaErrorEvent(event) {
+            // Extract the shaka.util.Error object from the event.
+            onShakaError(event.detail);
+        }
 
-            var error = event.detail;
+        function onShakaError(error) {
             console.error('Error code', error.code, 'object', error);
         }
 
         function setSrcWithShakaPlayer(instance, elem, options, url) {
-
             return new Promise(function (resolve, reject) {
+                require(['shaka', 'muxjs'], function (shaka, muxjs) {
+                    window.muxjs = muxjs;
+                    console.warn('Using shaka-player');
+                    shaka.polyfill.installAll();
 
-                require(['shaka'], function () {
-                    /* globals shaka */
+                    if (shaka.Player.isBrowserSupported()) {
+                        var player = new shaka.Player(elem);
+                        window.player = player;
 
-                    var player = new shaka.Player(elem);
+                        player.addEventListener('error', onShakaErrorEvent);
 
-                    //player.configure({
-                    //    abr: {
-                    //        enabled: false
-                    //    },
-                    //    streaming: {
+                        player.load(url).then(function () {
+                            console.warn('loaded manifest');
 
-                    //        failureCallback: function () {
-                    //            alert(2);
-                    //        }
-                    //    }
-                    //});
+                            // This runs if the asynchronous load is successful.
+                            resolve();
+                        }).catch((error) => {
+                            onShakaError(error);
+                            reject();
+                        });
 
-                    //shaka.log.setLevel(6);
+                        self._shakaPlayer = player;
 
-                    // Listen for error events.
-                    player.addEventListener('error', onShakaError);
-
-                    // Try to load a manifest.
-                    // This is an asynchronous process.
-                    player.load(url).then(function () {
-
-                        // This runs if the asynchronous load is successful.
-                        resolve();
-
-                    }, reject);
-
-                    self._shakaPlayer = player;
-
-                    // This is needed in setCurrentTrackElement
-                    self._currentSrc = url;
+                        // This is needed in setCurrentTrackElement
+                        self._currentSrc = url;
+                    } else {
+                        console.error('shaka: browser not supported!');
+                        reject();
+                    }
                 });
             });
         }
@@ -532,27 +515,18 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 elem.crossOrigin = crossOrigin;
             }
 
-            /*if (htmlMediaHelper.enableHlsShakaPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
-
-                setTracks(elem, tracks, options.item, options.mediaSource);
-
+            if (htmlMediaHelper.enableHlsShakaPlayer(options.item, options.mediaSource, 'Video')) {
                 return setSrcWithShakaPlayer(self, elem, options, val);
-
-            } else*/ if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
-
+            } else if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
                 return setCurrentSrcChromecast(self, elem, options, val);
             } else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
                 return setSrcWithHlsJs(self, elem, options, val);
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
-
                 return setSrcWithFlvJs(self, elem, options, val);
-
             } else {
-
                 elem.autoplay = true;
 
                 return htmlMediaHelper.applySrc(elem, val, options).then(function () {
-
                     self._currentSrc = val;
 
                     return htmlMediaHelper.playWithPromise(elem, onError);

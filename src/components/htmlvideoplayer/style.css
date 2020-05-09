@@ -41,14 +41,6 @@ video::-webkit-media-controls {
 
 .htmlvideoplayer::cue {
     background-color: transparent;
-    text-shadow: 0.14em 0.14em 0.14em rgba(0, 0, 0, 1);
-    -webkit-font-smoothing: antialiased;
-    font-family: inherit;
-}
-
-.htmlvideoplayer-moveupsubtitles::-webkit-media-text-track-display {
-    /* style the text itself */
-    margin-top: -2em;
 }
 
 .videoSubtitles {

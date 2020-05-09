@@ -694,7 +694,8 @@ var AppInfo = {};
                     'events',
                     'credentialprovider',
                     'connectionManagerFactory',
-                    'appStorage'
+                    'appStorage',
+                    'muxjs'
                 ]
             },
             urlArgs: urlArgs,

@@ -6807,10 +6807,6 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-"libass-wasm@https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf-cordova":
-  version "4.0.0"
-  resolved "https://github.com/jellyfin/JavascriptSubtitlesOctopus#b38056588bfaebc18a8353cb1757de0a815ac879"
-
 "libass-wasm@https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf-smarttv":
   version "4.0.0"
   resolved "https://github.com/jellyfin/JavascriptSubtitlesOctopus#58e9a3f1a7f7883556ee002545f445a430120639"
@@ -7670,6 +7666,11 @@ mute-stream@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
+
+mux.js@^5.6.2:
+  version "5.6.2"
+  resolved "https://registry.yarnpkg.com/mux.js/-/mux.js-5.6.2.tgz#1fd08042382b527750fbb5960129e92f838612bb"
+  integrity sha512-66+0HevBv12gJHmoMTbkQssPyiCOJNnm2XarYgUC6nj1DJ8WG0wLdinzMFq5vrbBmDxNNYYh+03Rp/QVzGiSQg==
 
 nan@^2.12.1, nan@^2.13.2:
   version "2.14.1"

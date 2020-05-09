@@ -71,6 +71,7 @@
     "jstree": "^3.3.7",
     "libass-wasm": "https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf-smarttv",
     "material-design-icons-iconfont": "^5.0.1",
+    "mux.js": "^5.6.2",
     "native-promise-only": "^0.8.0-a",
     "page": "^1.11.6",
     "query-string": "^6.11.1",

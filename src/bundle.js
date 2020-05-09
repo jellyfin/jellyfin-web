@@ -176,3 +176,10 @@ _define('connectionManagerFactory', function () {
 _define('appStorage', function () {
     return apiclient.AppStorage;
 });
+
+// mux.js
+var muxjs = require('mux.js/dist/mux');
+_define('muxjs', function () {
+    return muxjs;
+});
+

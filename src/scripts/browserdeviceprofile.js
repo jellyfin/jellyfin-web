@@ -609,7 +609,7 @@ define(['browser'], function (browser) {
         if (canPlayHls() && browser.enableHlsAudio !== false) {
             profile.TranscodingProfiles.push({
                 // hlsjs, edge, and android all seem to require ts container
-                Container: !canPlayNativeHls() || browser.edge || browser.android ? 'ts' : 'aac',
+                Container: !canPlayNativeHls() || browser.edge || browser.android || browser.firefox ? 'ts' : 'aac',
                 Type: 'Audio',
                 AudioCodec: 'aac',
                 Context: 'Streaming',
