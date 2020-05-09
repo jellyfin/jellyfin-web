@@ -10,14 +10,14 @@ export class SubtitleController {
         this.subtitleSettingsInstance = null;
         this.view = view;
 
-        view.addEventListener("viewshow", this.viewShow.bind(this));
-        view.addEventListener("change", this.change.bind(this));
-        view.addEventListener("viewbeforehide", this.viewBeforeHide.bind(this));
-        view.addEventListener("viewdestroy", this.viewDestroy.bind(this));
+        view.addEventListener('viewshow', this.viewShow.bind(this));
+        view.addEventListener('change', this.change.bind(this));
+        view.addEventListener('viewbeforehide', this.viewBeforeHide.bind(this));
+        view.addEventListener('viewdestroy', this.viewDestroy.bind(this));
     }
 
     viewShow() {
-        window.addEventListener("beforeunload", this.beforeUnload.bind(this));
+        window.addEventListener('beforeunload', this.beforeUnload.bind(this));
 
         if (this.subtitleSettingsInstance) {
             this.subtitleSettingsInstance.loadData();
@@ -25,7 +25,7 @@ export class SubtitleController {
             this.subtitleSettingsInstance = new subtitleSettings({
                 serverId: ApiClient.serverId(),
                 userId: this.userId,
-                element: this.view.querySelector(".settingsContainer"),
+                element: this.view.querySelector('.settingsContainer'),
                 userSettings: this.currentSettings,
                 enableSaveButton: false,
                 enableSaveConfirmation: false,
@@ -55,7 +55,7 @@ export class SubtitleController {
 
     beforeUnload(e) {
         if (this.hasChanges) {
-            e.returnValue = "You currently have unsaved changes. Are you sure you wish to leave?";
+            e.returnValue = 'You currently have unsaved changes. Are you sure you wish to leave?';
         }
     }
 }
