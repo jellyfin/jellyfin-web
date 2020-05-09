@@ -91,15 +91,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         return useHtml ? result.replace(/\n/gi, '<br>') : result;
     }
 
-    function getTextTrackUrl(track, item, format) {
+    function getTextTrackUrl(track, item) {
         if (itemHelper.isLocalItem(item) && track.Path) {
             return track.Path;
         }
 
         var url = playbackManager.getSubtitleUrl(track, item.ServerId);
-        if (format) {
-            url = url.replace('.vtt', format);
-        }
 
         return url;
     }
@@ -439,6 +436,25 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             };
         }
 
+        function getTracksHtml(tracks, item, mediaSource) {
+            return tracks.map(function (t) {
+                if (t.DeliveryMethod !== 'External') {
+                    return '';
+                }
+
+                var defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? ' default' : '';
+
+                var language = t.Language || 'und';
+                var label = t.Language || 'und';
+                console.warn(getTextTrackUrl(t, item));
+                return '<track id="textTrack' + t.Index + '" label="' + label + '" kind="subtitles" src="' + getTextTrackUrl(t, item) + '" srclang="' + language + '"' + defaultAttribute + '></track>';
+            }).join('');
+        }
+
+        function setTracks(elem, tracks, item, mediaSource) {
+            elem.innerHTML = getTracksHtml(tracks, item, mediaSource);
+        }
+
         function setCurrentSrc(elem, options) {
 
             elem.removeEventListener('error', onError);
@@ -476,6 +492,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             if (htmlMediaHelper.enableHlsShakaPlayer(options.item, options.mediaSource, 'Video')) {
+                if (!requiresCustomSubtitlesElement()) {
+                    setTracks(elem, tracks, options.item, options.mediaSource);
+                }
                 return setSrcWithShakaPlayer(self, elem, options, val);
             } else if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
                 return setCurrentSrcChromecast(self, elem, options, val);
@@ -951,7 +970,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return new Promise(function (resolve, reject) {
                 var xhr = new XMLHttpRequest();
 
-                var url = getTextTrackUrl(track, item, '.js');
+                var url = getTextTrackUrl(track, item);
 
                 xhr.open('GET', url, true);
 
@@ -1029,7 +1048,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             // This is unfortunate, but we're unable to remove the textTrack that gets added via addTextTrack
-            if (browser.firefox || browser.edge || browser.ps4 || browser.web0s) {
+            if (browser.firefox || browser.web0s || browser.edge || browser.ps4) {
                 return true;
             }
 

@@ -43,12 +43,17 @@ video::-webkit-media-controls {
     background-color: transparent;
 }
 
+.htmlvideoplayer-moveupsubtitles::-webkit-media-text-track-display {
+    /* style the text itself */
+    margin-top: -2em;
+}
+
 .videoSubtitles {
     position: fixed;
     bottom: 10%;
     text-align: center;
-    left: 0;
-    right: 0;
+    left: 10%;
+    right: 10%;
     color: #fff;
     font-size: 170%;
 }

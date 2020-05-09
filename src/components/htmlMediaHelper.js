@@ -32,28 +32,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
     function enableHlsShakaPlayer(item, mediaSource, mediaType) {
         /* eslint-disable-next-line compat/compat */
-        if (!!window.MediaSource && !!MediaSource.isTypeSupported) {
-
-            if (canPlayNativeHls()) {
-
-                if (browser.edge && mediaType === 'Video') {
-                    return true;
-                }
-
-                // simple playback should use the native support
-                if (mediaSource.RunTimeTicks) {
-                    //if (!browser.edge) {
-                    //return false;
-                    //}
-                }
-
-                //return false;
-            }
-
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     function enableHlsJsPlayer(runTimeTicks, mediaType) {
