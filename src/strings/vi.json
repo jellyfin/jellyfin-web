@@ -564,5 +564,18 @@
     "HeaderSortOrder": "Thứ tự Sắp xếp",
     "HeaderSortBy": "Sắp xếp theo",
     "HeaderStartNow": "Bắt đầu",
-    "HeaderSetupLibrary": "Thiết lập thư viện nội dung của bạn"
+    "HeaderSetupLibrary": "Thiết lập thư viện nội dung của bạn",
+    "HeaderTracks": "Bài Hát",
+    "HeaderThisUserIsCurrentlyDisabled": "Người dùng này hiện tại đang bị khoá",
+    "HeaderTaskTriggers": "Kích Hoạt Tác Vụ",
+    "HeaderTags": "Nhãn",
+    "HeaderSubtitleProfilesHelp": "Hồ sơ phụ đề chỉ ra những định dạng phụ đề được hỗ trợ bởi thiết bị phát.",
+    "HeaderSubtitleProfiles": "Hồ Sơ Phụ Đề",
+    "HeaderSubtitleProfile": "Hồ Sơ Phụ Đề",
+    "HeaderSubtitleDownloads": "Tải Phụ Đề",
+    "HeaderSubtitleAppearance": "Giao Diện Phụ Đề",
+    "HeaderStopRecording": "Ngừng Ghi Hình/Ghi Âm",
+    "HeaderSpecialFeatures": "Những Phần Đặc Biệt Nổi Bật",
+    "HeaderSpecialEpisodeInfo": "Thông Tin Tập Đặc Biệt",
+    "HeaderShutdown": "Tắt Máy Chủ"
 }
