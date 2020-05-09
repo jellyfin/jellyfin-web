@@ -12,7 +12,7 @@
     display: flex;
 }
 
-.emby-scrollbuttons-button > i {
+.emby-scrollbuttons-button > .material-icons {
     min-width: 24px;
     min-height: 24px;
     display: block;

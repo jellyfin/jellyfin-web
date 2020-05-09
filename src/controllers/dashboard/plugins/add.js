@@ -1,31 +1,31 @@
-define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "emby-button"], function ($, loading, libraryMenu, globalize, connectionManager) {
-    "use strict";
+define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'emby-button'], function ($, loading, libraryMenu, globalize, connectionManager) {
+    'use strict';
 
     function populateHistory(packageInfo, page) {
-        var html = "";
+        var html = '';
         var length = Math.min(packageInfo.versions.length, 10);
 
         for (var i = 0; i < length; i++) {
             var version = packageInfo.versions[i];
-            html += '<h2 style="margin:.5em 0;">' + version.version + "</h2>";
-            html += '<div style="margin-bottom:1.5em;">' + version.changelog + "</div>";
+            html += '<h2 style="margin:.5em 0;">' + version.version + '</h2>';
+            html += '<div style="margin-bottom:1.5em;">' + version.changelog + '</div>';
         }
 
-        $("#revisionHistory", page).html(html);
+        $('#revisionHistory', page).html(html);
     }
 
     function populateVersions(packageInfo, page, installedPlugin) {
-        var html = "";
+        var html = '';
 
         for (var i = 0; i < packageInfo.versions.length; i++) {
             var version = packageInfo.versions[i];
-            html += '<option value="' + version.version + '">' + version.version + "</option>";
+            html += '<option value="' + version.version + '">' + version.version + '</option>';
         }
 
-        var selectmenu = $("#selectVersion", page).html(html);
+        var selectmenu = $('#selectVersion', page).html(html);
 
         if (!installedPlugin) {
-            $("#pCurrentVersion", page).hide().html("");
+            $('#pCurrentVersion', page).hide().html('');
         }
 
         var packageVersion = packageInfo.versions[0];
@@ -42,56 +42,56 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
         populateVersions(pkg, page, installedPlugin);
         populateHistory(pkg, page);
 
-        $(".pluginName", page).html(pkg.name);
-        $("#btnInstallDiv", page).removeClass("hide");
-        $("#pSelectVersion", page).removeClass("hide");
+        $('.pluginName', page).html(pkg.name);
+        $('#btnInstallDiv', page).removeClass('hide');
+        $('#pSelectVersion', page).removeClass('hide');
 
         if (pkg.overview) {
-            $("#overview", page).show().html(pkg.overview);
+            $('#overview', page).show().html(pkg.overview);
         } else {
-            $("#overview", page).hide();
+            $('#overview', page).hide();
         }
 
-        $("#description", page).html(pkg.description);
-        $("#developer", page).html(pkg.owner);
+        $('#description', page).html(pkg.description);
+        $('#developer', page).html(pkg.owner);
 
         if (installedPlugin) {
-            var currentVersionText = globalize.translate("MessageYouHaveVersionInstalled", "<strong>" + installedPlugin.Version + "</strong>");
-            $("#pCurrentVersion", page).show().html(currentVersionText);
+            var currentVersionText = globalize.translate('MessageYouHaveVersionInstalled', '<strong>' + installedPlugin.Version + '</strong>');
+            $('#pCurrentVersion', page).show().html(currentVersionText);
         } else {
-            $("#pCurrentVersion", page).hide().html("");
+            $('#pCurrentVersion', page).hide().html('');
         }
 
         loading.hide();
     }
 
     function alertText(options) {
-        require(["alert"], function (alert) {
+        require(['alert'], function (alert) {
             alert(options);
         });
     }
 
     function performInstallation(page, packageName, guid, updateClass, version) {
-        var developer = $("#developer", page).html().toLowerCase();
+        var developer = $('#developer', page).html().toLowerCase();
 
         var alertCallback = function () {
             loading.show();
-            page.querySelector("#btnInstall").disabled = true;
+            page.querySelector('#btnInstall').disabled = true;
             ApiClient.installPlugin(packageName, guid, updateClass, version).then(function () {
                 loading.hide();
-                alertText(globalize.translate("PluginInstalledMessage"));
+                alertText(globalize.translate('PluginInstalledMessage'));
             });
         };
 
         if (developer !== 'jellyfin') {
             loading.hide();
-            var msg = globalize.translate("MessagePluginInstallDisclaimer");
-            msg += "<br/>";
-            msg += "<br/>";
-            msg += globalize.translate("PleaseConfirmPluginInstallation");
+            var msg = globalize.translate('MessagePluginInstallDisclaimer');
+            msg += '<br/>';
+            msg += '<br/>';
+            msg += globalize.translate('PleaseConfirmPluginInstallation');
 
-            require(["confirm"], function (confirm) {
-                confirm(msg, globalize.translate("HeaderConfirmPluginInstallation")).then(function () {
+            require(['confirm'], function (confirm) {
+                confirm(msg, globalize.translate('HeaderConfirmPluginInstallation')).then(function () {
                     alertCallback();
                 }, function () {
                     console.debug('plugin not installed');
@@ -103,24 +103,24 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
     }
 
     return function (view, params) {
-        $(".addPluginForm", view).on("submit", function () {
+        $('.addPluginForm', view).on('submit', function () {
             loading.show();
-            var page = $(this).parents("#addPluginPage")[0];
+            var page = $(this).parents('#addPluginPage')[0];
             var name = params.name;
             var guid = params.guid;
             ApiClient.getInstalledPlugins().then(function (plugins) {
                 var installedPlugin = plugins.filter(function (plugin) {
                     return plugin.Name == name;
                 })[0];
-                var vals = $("#selectVersion", page).val().split("|");
+                var vals = $('#selectVersion', page).val().split('|');
                 var version = vals[0];
 
                 if (installedPlugin) {
                     if (installedPlugin.Version === version) {
                         loading.hide();
                         Dashboard.alert({
-                            message: globalize.translate("MessageAlreadyInstalled"),
-                            title: globalize.translate("HeaderPluginInstallation")
+                            message: globalize.translate('MessageAlreadyInstalled'),
+                            title: globalize.translate('HeaderPluginInstallation')
                         });
                     }
                 } else {
@@ -129,7 +129,7 @@ define(["jQuery", "loading", "libraryMenu", "globalize", "connectionManager", "e
             });
             return false;
         });
-        view.addEventListener("viewshow", function () {
+        view.addEventListener('viewshow', function () {
             var page = this;
             loading.show();
             var name = params.name;

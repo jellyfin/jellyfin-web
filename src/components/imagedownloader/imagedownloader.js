@@ -109,15 +109,15 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         html += '<span style="margin-right: 10px;">';
 
         var startAtDisplay = totalRecordCount ? startIndex + 1 : 0;
-        html += globalize.translate("ListPaging", startAtDisplay, recordsEnd, totalRecordCount);
+        html += globalize.translate('ListPaging', startAtDisplay, recordsEnd, totalRecordCount);
 
         html += '</span>';
 
         if (showControls) {
             html += '<div data-role="controlgroup" data-type="horizontal" style="display:inline-block;">';
 
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Previous') + '" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><i class="material-icons arrow_back"></i></button>';
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Next') + '" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? 'disabled' : '') + '><i class="material-icons arrow_forward"></i></button>';
+            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Previous') + '" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><span class="material-icons arrow_back"></span></button>';
+            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Next') + '" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? 'disabled' : '') + '><span class="material-icons arrow_forward"></span></button>';
             html += '</div>';
         }
 
@@ -144,7 +144,7 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
     }
 
     function getDisplayUrl(url, apiClient) {
-        return apiClient.getUrl("Images/Remote", { imageUrl: url });
+        return apiClient.getUrl('Images/Remote', { imageUrl: url });
     }
 
     function getRemoteImageHtml(image, imageType, apiClient) {
@@ -155,21 +155,21 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
 
         var html = '';
 
-        var cssClass = "card scalableCard imageEditorCard";
+        var cssClass = 'card scalableCard imageEditorCard';
         var cardBoxCssClass = 'cardBox visualCardBox';
 
         var shape = 'backdrop';
-        if (imageType === "Backdrop" || imageType === "Art" || imageType === "Thumb" || imageType === "Logo") {
+        if (imageType === 'Backdrop' || imageType === 'Art' || imageType === 'Thumb' || imageType === 'Logo') {
             shape = 'backdrop';
-        } else if (imageType === "Banner") {
+        } else if (imageType === 'Banner') {
             shape = 'banner';
-        } else if (imageType === "Disc") {
+        } else if (imageType === 'Disc') {
             shape = 'square';
         } else {
 
-            if (currentItemType === "Episode") {
+            if (currentItemType === 'Episode') {
                 shape = 'backdrop';
-            } else if (currentItemType === "MusicAlbum" || currentItemType === "MusicArtist") {
+            } else if (currentItemType === 'MusicAlbum' || currentItemType === 'MusicArtist') {
                 shape = 'square';
             } else {
                 shape = 'portrait';
@@ -241,18 +241,18 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
 
             html += '<div class="cardText cardText-secondary cardTextCentered">';
 
-            if (image.RatingType === "Likes") {
-                html += image.CommunityRating + (image.CommunityRating === 1 ? " like" : " likes");
+            if (image.RatingType === 'Likes') {
+                html += image.CommunityRating + (image.CommunityRating === 1 ? ' like' : ' likes');
             } else {
 
                 if (image.CommunityRating) {
                     html += image.CommunityRating.toFixed(1);
 
                     if (image.VoteCount) {
-                        html += ' • ' + image.VoteCount + (image.VoteCount === 1 ? " vote" : " votes");
+                        html += ' • ' + image.VoteCount + (image.VoteCount === 1 ? ' vote' : ' votes');
                     }
                 } else {
-                    html += "Unrated";
+                    html += 'Unrated';
                 }
             }
 
@@ -262,7 +262,7 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         if (enableFooterButtons) {
             html += '<div class="cardText cardTextCentered">';
 
-            html += '<button is="paper-icon-button-light" class="btnDownloadRemoteImage autoSize" raised" title="' + globalize.translate('Download') + '"><i class="material-icons cloud_download"></i></button>';
+            html += '<button is="paper-icon-button-light" class="btnDownloadRemoteImage autoSize" raised" title="' + globalize.translate('Download') + '"><span class="material-icons cloud_download"></span></button>';
             html += '</div>';
         }
 

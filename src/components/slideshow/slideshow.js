@@ -14,7 +14,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
      */
     function getImageUrl(item, options, apiClient) {
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (typeof (item) === 'string') {
             return apiClient.getScaledImageUrl(item, options);
@@ -45,7 +45,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
      */
     function getBackdropImageUrl(item, options, apiClient) {
         options = options || {};
-        options.type = options.type || "Backdrop";
+        options.type = options.type || 'Backdrop';
 
         // If not resizing, get the original image
         if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
@@ -76,7 +76,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             if (item.MediaType === 'Photo' && user && user.Policy.EnableContentDownloading) {
                 return apiClient.getItemDownloadUrl(item.Id);
             }
-            imageOptions.type = "Primary";
+            imageOptions.type = 'Primary';
             return getImageUrl(item, imageOptions, apiClient);
         }
     }
@@ -92,7 +92,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
     function getIcon(icon, cssClass, canFocus, autoFocus) {
         var tabIndex = canFocus ? '' : ' tabindex="-1"';
         autoFocus = autoFocus ? ' autofocus' : '';
-        return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><i class="material-icons slideshowButtonIcon ' + icon + '"></i></button>';
+        return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '"></span></button>';
     }
 
     /**
@@ -123,7 +123,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         var _osdOpen = false;
 
         // Use autoplay on Chromecast since it is non-interactive.
-        options.interactive = !browser.chromecast;
+        if (browser.chromecast) options.interactive = false;
 
         /**
          * Creates the HTML markup for the dialog and the OSD.
@@ -224,9 +224,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Handles OSD changes when the autoplay is started.
          */
         function onAutoplayStart() {
-            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause i');
+            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
             if (btnSlideshowPause) {
-                btnSlideshowPause.classList.replace("play_arrow", "pause");
+                btnSlideshowPause.classList.replace('play_arrow', 'pause');
             }
         }
 
@@ -234,9 +234,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Handles OSD changes when the autoplay is stopped.
          */
         function onAutoplayStop() {
-            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause i');
+            var btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
             if (btnSlideshowPause) {
-                btnSlideshowPause.classList.replace("pause", "play_arrow");
+                btnSlideshowPause.classList.replace('pause', 'play_arrow');
             }
         }
 
@@ -418,7 +418,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Toggles the autoplay feature of the Swiper instance.
          */
         function playPause() {
-            var paused = !dialog.querySelector('.btnSlideshowPause i').classList.contains("pause");
+            var paused = !dialog.querySelector('.btnSlideshowPause .material-icons').classList.contains('pause');
             if (paused) {
                 play();
             } else {
@@ -609,7 +609,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          * Hides the slideshow element.
          */
         self.hide = function () {
-            var dialog = dialog;
             if (dialog) {
                 dialogHelper.close(dialog);
             }

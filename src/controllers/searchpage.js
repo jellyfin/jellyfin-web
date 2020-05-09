@@ -1,5 +1,5 @@
-define(["focusManager", "searchFields", "searchResults", "events"], function (focusManager, SearchFields, SearchResults, events) {
-    "use strict";
+define(['focusManager', 'searchFields', 'searchResults', 'events'], function (focusManager, SearchFields, SearchResults, events) {
+    'use strict';
 
     return function (view, params) {
         function onSearch(e, value) {
@@ -7,21 +7,21 @@ define(["focusManager", "searchFields", "searchResults", "events"], function (fo
         }
 
         var self = this;
-        view.addEventListener("viewshow", function () {
+        view.addEventListener('viewshow', function () {
             if (!self.searchFields) {
                 self.searchFields = new SearchFields({
-                    element: view.querySelector(".searchFields")
+                    element: view.querySelector('.searchFields')
                 });
                 self.searchResults = new SearchResults({
-                    element: view.querySelector(".searchResults"),
+                    element: view.querySelector('.searchResults'),
                     serverId: params.serverId || ApiClient.serverId(),
                     parentId: params.parentId,
                     collectionType: params.collectionType
                 });
-                events.on(self.searchFields, "search", onSearch);
+                events.on(self.searchFields, 'search', onSearch);
             }
         });
-        view.addEventListener("viewdestroy", function () {
+        view.addEventListener('viewdestroy', function () {
             if (self.searchFields) {
                 self.searchFields.destroy();
                 self.searchFields = null;

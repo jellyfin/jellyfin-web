@@ -142,12 +142,12 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
 
     function onMessageReceived(e, msg) {
         var apiClient = this;
-        if (msg.MessageType === "Play") {
+        if (msg.MessageType === 'Play') {
             notifyApp();
             var serverId = apiClient.serverInfo().Id;
-            if (msg.Data.PlayCommand === "PlayNext") {
+            if (msg.Data.PlayCommand === 'PlayNext') {
                 playbackManager.queueNext({ ids: msg.Data.ItemIds, serverId: serverId });
-            } else if (msg.Data.PlayCommand === "PlayLast") {
+            } else if (msg.Data.PlayCommand === 'PlayLast') {
                 playbackManager.queue({ ids: msg.Data.ItemIds, serverId: serverId });
             } else {
                 playbackManager.play({
@@ -160,7 +160,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                     serverId: serverId
                 });
             }
-        } else if (msg.MessageType === "Playstate") {
+        } else if (msg.MessageType === 'Playstate') {
             if (msg.Data.Command === 'Stop') {
                 inputManager.trigger('stop');
             } else if (msg.Data.Command === 'Pause') {
@@ -178,10 +178,10 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
             } else {
                 notifyApp();
             }
-        } else if (msg.MessageType === "GeneralCommand") {
+        } else if (msg.MessageType === 'GeneralCommand') {
             var cmd = msg.Data;
             processGeneralCommand(cmd, apiClient);
-        } else if (msg.MessageType === "UserDataChanged") {
+        } else if (msg.MessageType === 'UserDataChanged') {
             if (msg.Data.UserId === apiClient.getCurrentUserId()) {
                 for (var i = 0, length = msg.Data.UserDataList.length; i < length; i++) {
                     events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
@@ -192,8 +192,8 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
         }
     }
     function bindEvents(apiClient) {
-        events.off(apiClient, "message", onMessageReceived);
-        events.on(apiClient, "message", onMessageReceived);
+        events.off(apiClient, 'message', onMessageReceived);
+        events.on(apiClient, 'message', onMessageReceived);
     }
 
     connectionManager.getApiClients().forEach(bindEvents);
