@@ -106,10 +106,16 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         });
     }
 
+    function hidePrePlaybackPage() {
+        let animatedPage = document.querySelector('.page:not(.hide)');
+        animatedPage.classList.add('hide');
+    }
+
     function zoomIn(elem) {
         return new Promise(function (resolve, reject) {
             var duration = 240;
             elem.style.animation = 'htmlvideoplayer-zoomin ' + duration + 'ms ease-in normal';
+            hidePrePlaybackPage();
             dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
                 once: true
             });
@@ -1367,6 +1373,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                                 resolve(videoElement);
                             });
                         } else {
+                            hidePrePlaybackPage();
                             resolve(videoElement);
                         }
                     });
