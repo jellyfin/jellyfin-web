@@ -182,7 +182,7 @@
     "DisplayInOtherHomeScreenSections": "Exibir nas seções da tela inicial como mídia recente e continuar assistindo",
     "DisplayMissingEpisodesWithinSeasons": "Exibir episódios em falta nas temporadas",
     "DisplayMissingEpisodesWithinSeasonsHelp": "Isto também deve ser ativado para as bibliotecas de TV na configuração do servidor.",
-    "DisplayModeHelp": "Seleciona o tipo de tela para executar o Jellyfin.",
+    "DisplayModeHelp": "Selecione o estilo de layout que deseje para a interface.",
     "DoNotRecord": "Não gravar",
     "Down": "Baixo",
     "DrmChannelsNotImported": "Canais com DRM não serão importados.",
@@ -626,7 +626,7 @@
     "LabelKodiMetadataEnablePathSubstitution": "Ativar substituição de local",
     "LabelKodiMetadataEnablePathSubstitutionHelp": "Ativa a substituição do local das imagens usando as configurações de substituição de local do servidor.",
     "LabelKodiMetadataSaveImagePaths": "Salvar o local das imagens dentro dos arquivos nfo",
-    "LabelKodiMetadataSaveImagePathsHelp": "Isto é recomendado se os nomes dos arquivos de imagem não estão de acordo com as recomendações do Kodi.",
+    "LabelKodiMetadataSaveImagePathsHelp": "Isto é recomendado se os nomes dos arquivos de imagem não estão de acordo com as exigências do Kodi.",
     "LabelKodiMetadataUser": "Salvar informações do que o usuário assiste aos NFO's para:",
     "LabelKodiMetadataUserHelp": "Salva os dados para arquivos NFO para que outras aplicações possam usar.",
     "LabelLanNetworks": "Redes LAN:",
@@ -1503,5 +1503,8 @@
     "UnsupportedPlayback": "O Jellyfin não pode descriptografar conteúdo protegido por DRM, porém mesmo assim fará uma tentativa para todo tipo de conteúdo, incluindo títulos protegidos. A imagem de alguns arquivos pode aparecer completamente preta devido a criptografia ou outros recursos não suportados, como títulos interativos.",
     "MessageUnauthorizedUser": "Você não está autorizado a acessar o servidor neste momento. Por favor, contate o administrador do servidor para mais informações.",
     "ButtonTogglePlaylist": "Playlist",
-    "ButtonToggleContextMenu": "Mais"
+    "ButtonToggleContextMenu": "Mais",
+    "Filter": "Filtro",
+    "New": "Novo",
+    "HeaderFavoritePlaylists": "Playlists Favoritas"
 }
