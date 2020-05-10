@@ -181,7 +181,8 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
             return;
         }
 
-        btnSortIcon.innerHTML = values.sortOrder === 'Descending' ? '&#xE5DB;' : '&#xE5D8;';
+        btnSortIcon.classList.remove('arrow_downward', 'arrow_upward');
+        btnSortIcon.classList.add(values.sortOrder === 'Descending' ? 'arrow_downward' : 'arrow_upward');
     }
 
     function bindAll(elems, eventName, fn) {

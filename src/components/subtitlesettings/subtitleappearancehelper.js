@@ -1,5 +1,5 @@
 define([], function () {
-    "use strict";
+    'use strict';
 
     function getTextStyles(settings, isCue) {
 

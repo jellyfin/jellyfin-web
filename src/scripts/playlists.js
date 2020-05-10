@@ -1,5 +1,5 @@
-define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "apphost", "imageLoader", "userSettings", "emby-itemscontainer"], function (loading, listView, cardBuilder, libraryMenu, libraryBrowser, appHost, imageLoader, userSettings) {
-    "use strict";
+define(['loading', 'listView', 'cardBuilder', 'libraryMenu', 'libraryBrowser', 'apphost', 'imageLoader', 'userSettings', 'emby-itemscontainer'], function (loading, listView, cardBuilder, libraryMenu, libraryBrowser, appHost, imageLoader, userSettings) {
+    'use strict';
 
     return function (view, params) {
         function getPageData(context) {
@@ -9,14 +9,14 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
             if (!pageData) {
                 pageData = data[key] = {
                     query: {
-                        SortBy: "SortName",
-                        SortOrder: "Ascending",
-                        IncludeItemTypes: "Playlist",
+                        SortBy: 'SortName',
+                        SortOrder: 'Ascending',
+                        IncludeItemTypes: 'Playlist',
                         Recursive: true,
-                        Fields: "PrimaryImageAspectRatio,SortName,CumulativeRunTimeTicks,CanDelete",
+                        Fields: 'PrimaryImageAspectRatio,SortName,CumulativeRunTimeTicks,CanDelete',
                         StartIndex: 0
                     },
-                    view: libraryBrowser.getSavedView(key) || "Poster"
+                    view: libraryBrowser.getSavedView(key) || 'Poster'
                 };
 
                 if (userSettings.libraryPageSize() > 0) {
@@ -52,17 +52,17 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
 
         function onViewStyleChange() {
             var viewStyle = getPageData(view).view;
-            var itemsContainer = view.querySelector(".itemsContainer");
+            var itemsContainer = view.querySelector('.itemsContainer');
 
-            if ("List" == viewStyle) {
-                itemsContainer.classList.add("vertical-list");
-                itemsContainer.classList.remove("vertical-wrap");
+            if ('List' == viewStyle) {
+                itemsContainer.classList.add('vertical-list');
+                itemsContainer.classList.remove('vertical-wrap');
             } else {
-                itemsContainer.classList.remove("vertical-list");
-                itemsContainer.classList.add("vertical-wrap");
+                itemsContainer.classList.remove('vertical-list');
+                itemsContainer.classList.add('vertical-wrap');
             }
 
-            itemsContainer.innerHTML = "";
+            itemsContainer.innerHTML = '';
         }
 
         function reloadItems() {
@@ -74,9 +74,9 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                 var result = responses[0];
                 responses[1];
                 window.scrollTo(0, 0);
-                var html = "";
+                var html = '';
                 var viewStyle = getPageData(view).view;
-                view.querySelector(".listTopPaging").innerHTML = libraryBrowser.getQueryPagingHtml({
+                view.querySelector('.listTopPaging').innerHTML = libraryBrowser.getQueryPagingHtml({
                     startIndex: query.StartIndex,
                     limit: query.Limit,
                     totalRecordCount: result.TotalRecordCount,
@@ -84,37 +84,37 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                     showLimit: false,
                     updatePageSizeSetting: false,
                     addLayoutButton: true,
-                    layouts: "List,Poster,PosterCard,Thumb,ThumbCard",
+                    layouts: 'List,Poster,PosterCard,Thumb,ThumbCard',
                     currentLayout: viewStyle
                 });
 
                 if (result.TotalRecordCount) {
-                    if (viewStyle == "List") {
+                    if (viewStyle == 'List') {
                         html = listView.getListViewHtml({
                             items: result.Items,
                             sortBy: query.SortBy
                         });
-                    } else if (viewStyle == "PosterCard") {
+                    } else if (viewStyle == 'PosterCard') {
                         html = cardBuilder.getCardsHtml({
                             items: result.Items,
-                            shape: "square",
+                            shape: 'square',
                             coverImage: true,
                             showTitle: true,
                             cardLayout: true
                         });
-                    } else if (viewStyle == "Thumb") {
+                    } else if (viewStyle == 'Thumb') {
                         html = cardBuilder.getCardsHtml({
                             items: result.Items,
-                            shape: "backdrop",
+                            shape: 'backdrop',
                             showTitle: true,
                             centerText: true,
                             preferThumb: true,
                             overlayPlayButton: true
                         });
-                    } else if (viewStyle == "ThumbCard") {
+                    } else if (viewStyle == 'ThumbCard') {
                         html = cardBuilder.getCardsHtml({
                             items: result.Items,
-                            shape: "backdrop",
+                            shape: 'backdrop',
                             showTitle: true,
                             preferThumb: true,
                             cardLayout: true
@@ -122,25 +122,25 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                     } else {
                         html = cardBuilder.getCardsHtml({
                             items: result.Items,
-                            shape: "square",
+                            shape: 'square',
                             showTitle: true,
                             coverImage: true,
                             centerText: true,
                             overlayPlayButton: true
                         });
                     }
-                    view.querySelector(".noItemsMessage").classList.add("hide");
+                    view.querySelector('.noItemsMessage').classList.add('hide');
                 } else {
-                    view.querySelector(".noItemsMessage").classList.remove("hide");
+                    view.querySelector('.noItemsMessage').classList.remove('hide');
                 }
 
-                var elem = view.querySelector(".itemsContainer");
+                var elem = view.querySelector('.itemsContainer');
                 elem.innerHTML = html;
                 imageLoader.lazyChildren(elem);
-                var btnNextPage = view.querySelector(".btnNextPage");
+                var btnNextPage = view.querySelector('.btnNextPage');
 
                 if (btnNextPage) {
-                    btnNextPage.addEventListener("click", function () {
+                    btnNextPage.addEventListener('click', function () {
                         if (userSettings.libraryPageSize() > 0) {
                             query.StartIndex += query.Limit;
                         }
@@ -148,10 +148,10 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                     });
                 }
 
-                var btnPreviousPage = view.querySelector(".btnPreviousPage");
+                var btnPreviousPage = view.querySelector('.btnPreviousPage');
 
                 if (btnPreviousPage) {
-                    btnPreviousPage.addEventListener("click", function () {
+                    btnPreviousPage.addEventListener('click', function () {
                         if (userSettings.libraryPageSize() > 0) {
                             query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
                         }
@@ -159,10 +159,10 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
                     });
                 }
 
-                var btnChangeLayout = view.querySelector(".btnChangeLayout");
+                var btnChangeLayout = view.querySelector('.btnChangeLayout');
 
                 if (btnChangeLayout) {
-                    btnChangeLayout.addEventListener("layoutchange", function (e) {
+                    btnChangeLayout.addEventListener('layoutchange', function (e) {
                         var layout = e.detail.viewStyle;
                         getPageData(view).view = layout;
                         libraryBrowser.saveViewSetting(getSavedQueryKey(view), layout);
@@ -177,11 +177,11 @@ define(["loading", "listView", "cardBuilder", "libraryMenu", "libraryBrowser", "
         }
 
         var data = {};
-        view.addEventListener("viewbeforeshow", function () {
+        view.addEventListener('viewbeforeshow', function () {
             reloadItems();
         });
-        view.querySelector(".btnNewPlaylist").addEventListener("click", function () {
-            require(["playlistEditor"], function (playlistEditor) {
+        view.querySelector('.btnNewPlaylist').addEventListener('click', function () {
+            require(['playlistEditor'], function (playlistEditor) {
                 var serverId = ApiClient.serverInfo().Id;
                 new playlistEditor().show({
                     items: [],

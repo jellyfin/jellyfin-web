@@ -127,9 +127,9 @@ export function show(options) {
     if (options.dialogClass) {
         dlg.classList.add(options.dialogClass);
     }
-
+  
     let html = '';
-
+    
     const scrollClassName = layoutManager.tv ? 'scrollY smoothScrollY hiddenScrollY' : 'scrollY';
     let style = '';
 
@@ -214,7 +214,6 @@ export function show(options) {
         itemIcon = icons[i];
 
         if (itemIcon) {
-
             html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">' + itemIcon + '</i>';
         } else if (renderIcon && !center) {
             html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons" style="visibility:hidden;">check</i>';

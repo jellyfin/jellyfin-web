@@ -43,6 +43,7 @@
         let pct;
         if (enableProgressIndicator(item) && item.Type !== "Recording") {
             const userData = options && options.userData ? options.userData : item.UserData;
+
             if (userData) {
                 pct = userData.PlayedPercentage;
                 if (pct && pct < 100) {
@@ -87,7 +88,7 @@
             }
 
             if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
-                return '<div class="playedIndicator indicator"><i class="material-icons indicatorIcon">check</i></div>';
+                return '<div class="playedIndicator indicator"><span class="material-icons indicatorIcon check"></span></div>';
             }
         }
 

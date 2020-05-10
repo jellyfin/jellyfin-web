@@ -1,50 +1,82 @@
-define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings', 'userSettings', 'require', 'css!./style'], function (lazyLoader, imageFetcher, layoutManager, browser, appSettings, userSettings, require) {
-    'use strict';
+import * as lazyLoader from 'lazyLoader';
+import * as userSettings from 'userSettings';
+import 'css!./style';
+/* eslint-disable indent */
 
-    var self = {};
-
-    function fillImage(elem, source, enableEffects) {
-
-        if (!elem) {
-            throw new Error('elem cannot be null');
-        }
-
-        if (!source) {
-            source = elem.getAttribute('data-src');
-        }
-
+    export function lazyImage(elem, source = elem.getAttribute('data-src')) {
         if (!source) {
             return;
         }
 
-        fillImageElement(elem, source, enableEffects);
+        fillImageElement(elem, source);
     }
 
-    function fillImageElement(elem, source, enableEffects) {
-        imageFetcher.loadImage(elem, source).then(function () {
+    export function fillImage(entry) {
+        if (!entry) {
+            throw new Error('entry cannot be null');
+        }
 
-            if (enableEffects !== false) {
-                fadeIn(elem);
-            }
-
-            elem.removeAttribute("data-src");
-        });
-    }
-
-    function fadeIn(elem) {
-        if (userSettings.enableFastFadein()) {
-            elem.classList.add('lazy-image-fadein-fast');
+        var source = undefined;
+        if (entry.target) {
+            source = entry.target.getAttribute('data-src');
         } else {
-            elem.classList.add('lazy-image-fadein');
+            source = entry;
+        }
+
+        if (entry.intersectionRatio > 0) {
+            if (source) fillImageElement(entry.target, source);
+        } else if (!source) {
+            emptyImageElement(entry.target);
         }
     }
 
-    function lazyChildren(elem) {
+    function fillImageElement(elem, url) {
+        if (url === undefined) {
+            throw new Error('url cannot be undefined');
+        }
 
+        let preloaderImg = new Image();
+        preloaderImg.src = url;
+
+        preloaderImg.addEventListener('load', () => {
+            if (elem.tagName !== 'IMG') {
+                elem.style.backgroundImage = "url('" + url + "')";
+            } else {
+                elem.setAttribute('src', url);
+            }
+
+            if (userSettings.enableFastFadein()) {
+                elem.classList.add('lazy-image-fadein-fast');
+            } else {
+                elem.classList.add('lazy-image-fadein');
+            }
+
+            elem.removeAttribute('data-src');
+        });
+    }
+
+    function emptyImageElement(elem) {
+        var url;
+
+        if (elem.tagName !== 'IMG') {
+            url = elem.style.backgroundImage.slice(4, -1).replace(/"/g, '');
+            elem.style.backgroundImage = 'none';
+        } else {
+            url = elem.getAttribute('src');
+            elem.setAttribute('src', '');
+        }
+
+        elem.setAttribute('data-src', url);
+
+        elem.classList.remove('lazy-image-fadein-fast');
+        elem.classList.remove('lazy-image-fadein');
+    }
+
+    export function lazyChildren(elem) {
         lazyLoader.lazyChildren(elem, fillImage);
     }
 
-    function getPrimaryImageAspectRatio(items) {
+    export function getPrimaryImageAspectRatio(items) {
 
         var values = [];
 
@@ -104,7 +136,7 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
         return result;
     }
 
-    function fillImages(elems) {
+    export function fillImages(elems) {
 
         for (var i = 0, length = elems.length; i < length; i++) {
             var elem = elems[0];
@@ -112,10 +144,11 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
         }
     }
 
-    self.fillImages = fillImages;
-    self.lazyImage = fillImage;
-    self.lazyChildren = lazyChildren;
-    self.getPrimaryImageAspectRatio = getPrimaryImageAspectRatio;
-
-    return self;
-});
+/* eslint-enable indent */
+export default {
+    fillImages: fillImages,
+    fillImage: fillImage,
+    lazyImage: lazyImage,
+    lazyChildren: lazyChildren,
+    getPrimaryImageAspectRatio: getPrimaryImageAspectRatio
+};

@@ -1,15 +1,15 @@
-define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"], function (loading, libraryMenu, dom, globalize) {
-    "use strict";
+define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'], function (loading, libraryMenu, dom, globalize) {
+    'use strict';
 
     function deletePlugin(page, uniqueid, name) {
-        var msg = globalize.translate("UninstallPluginConfirmation", name);
+        var msg = globalize.translate('UninstallPluginConfirmation', name);
 
-        require(["confirm"], function (confirm) {
+        require(['confirm'], function (confirm) {
             confirm({
-                title: globalize.translate("UninstallPluginHeader"),
+                title: globalize.translate('UninstallPluginHeader'),
                 text: msg,
-                primary: "delete",
-                confirmText: globalize.translate("UninstallPluginHeader")
+                primary: 'delete',
+                confirmText: globalize.translate('UninstallPluginHeader')
             }).then(function () {
                 loading.show();
                 ApiClient.uninstallPlugin(uniqueid).then(function () {
@@ -21,13 +21,13 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
 
     function showNoConfigurationMessage() {
         Dashboard.alert({
-            message: globalize.translate("NoPluginConfigurationMessage")
+            message: globalize.translate('NoPluginConfigurationMessage')
         });
     }
 
     function showConnectMessage() {
         Dashboard.alert({
-            message: globalize.translate("MessagePluginConfigurationRequiresLocalAccess")
+            message: globalize.translate('MessagePluginConfigurationRequiresLocalAccess')
         });
     }
 
@@ -36,33 +36,33 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
             return pluginConfigurationPage.PluginId == plugin.Id;
         })[0];
         var configPageUrl = configPage ? Dashboard.getConfigurationPageUrl(configPage.Name) : null;
-        var html = "";
+        var html = '';
         html += "<div data-id='" + plugin.Id + "' data-name='" + plugin.Name + "' class='card backdropCard'>";
         html += '<div class="cardBox visualCardBox">';
         html += '<div class="cardScalable">';
         html += '<div class="cardPadder cardPadder-backdrop"></div>';
         html += configPageUrl ? '<a class="cardContent cardImageContainer" is="emby-linkbutton" href="' + configPageUrl + '">' : '<div class="cardContent noConfigPluginCard noHoverEffect cardImageContainer">';
-        html += '<i class="cardImageIcon material-icons">folder</i>';
-        html += configPageUrl ? "</a>" : "</div>";
-        html += "</div>";
+        html += '<span class="cardImageIcon material-icons folder"></span>';
+        html += configPageUrl ? '</a>' : '</div>';
+        html += '</div>';
         html += '<div class="cardFooter">';
         html += '<div style="text-align:right; float:right;padding-top:5px;">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><i class="material-icons more_horiz"></i></button>';
-        html += "</div>";
+        html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_horiz"></span></button>';
+        html += '</div>';
         html += "<div class='cardText'>";
         html += configPage.DisplayName || plugin.Name;
-        html += "</div>";
+        html += '</div>';
         html += "<div class='cardText cardText-secondary'>";
         html += plugin.Version;
-        html += "</div>";
-        html += "</div>";
-        html += "</div>";
-        html += "</div>";
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
         return html;
     }
 
     function renderPlugins(page, plugins) {
-        ApiClient.getJSON(ApiClient.getUrl("web/configurationpages") + "?pageType=PluginConfiguration").then(function (configPages) {
+        ApiClient.getJSON(ApiClient.getUrl('web/configurationpages') + '?pageType=PluginConfiguration').then(function (configPages) {
             populateList(page, plugins, configPages);
         });
     }
@@ -78,22 +78,22 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
 
         var html = plugins.map(function (p) {
             return getPluginCardHtml(p, pluginConfigurationPages);
-        }).join("");
+        }).join('');
 
-        var installedPluginsElement = page.querySelector(".installedPlugins");
-        installedPluginsElement.removeEventListener("click", onInstalledPluginsClick);
-        installedPluginsElement.addEventListener("click", onInstalledPluginsClick);
+        var installedPluginsElement = page.querySelector('.installedPlugins');
+        installedPluginsElement.removeEventListener('click', onInstalledPluginsClick);
+        installedPluginsElement.addEventListener('click', onInstalledPluginsClick);
 
         if (plugins.length) {
-            installedPluginsElement.classList.add("itemsContainer");
-            installedPluginsElement.classList.add("vertical-wrap");
+            installedPluginsElement.classList.add('itemsContainer');
+            installedPluginsElement.classList.add('vertical-wrap');
         } else {
             html += '<div class="centerMessage">';
-            html += "<h1>" + globalize.translate("MessageNoPluginsInstalled") + "</h1>";
+            html += '<h1>' + globalize.translate('MessageNoPluginsInstalled') + '</h1>';
             html += '<p><a is="emby-linkbutton" class="button-link" href="availableplugins.html">';
-            html += globalize.translate("BrowsePluginCatalogMessage");
-            html += "</a></p>";
-            html += "</div>";
+            html += globalize.translate('BrowsePluginCatalogMessage');
+            html += '</a></p>';
+            html += '</div>';
         }
 
         installedPluginsElement.innerHTML = html;
@@ -101,36 +101,36 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
     }
 
     function showPluginMenu(page, elem) {
-        var card = dom.parentWithClass(elem, "card");
-        var id = card.getAttribute("data-id");
-        var name = card.getAttribute("data-name");
-        var configHref = card.querySelector(".cardContent").getAttribute("href");
+        var card = dom.parentWithClass(elem, 'card');
+        var id = card.getAttribute('data-id');
+        var name = card.getAttribute('data-name');
+        var configHref = card.querySelector('.cardContent').getAttribute('href');
         var menuItems = [];
 
         if (configHref) {
             menuItems.push({
-                name: globalize.translate("ButtonSettings"),
-                id: "open",
-                icon: "mode_edit"
+                name: globalize.translate('ButtonSettings'),
+                id: 'open',
+                icon: 'mode_edit'
             });
         }
 
         menuItems.push({
-            name: globalize.translate("ButtonUninstall"),
-            id: "delete",
-            icon: "delete"
+            name: globalize.translate('ButtonUninstall'),
+            id: 'delete',
+            icon: 'delete'
         });
 
-        require(["actionsheet"], function (actionsheet) {
+        require(['actionsheet'], function (actionsheet) {
             actionsheet.show({
                 items: menuItems,
                 positionTo: elem,
                 callback: function (resultId) {
                     switch (resultId) {
-                        case "open":
+                        case 'open':
                             Dashboard.navigate(configHref);
                             break;
-                        case "delete":
+                        case 'delete':
                             deletePlugin(page, id, name);
                             break;
                     }
@@ -148,29 +148,29 @@ define(["loading", "libraryMenu", "dom", "globalize", "cardStyle", "emby-button"
 
     function getTabs() {
         return [{
-            href: "installedplugins.html",
-            name: globalize.translate("TabMyPlugins")
+            href: 'installedplugins.html',
+            name: globalize.translate('TabMyPlugins')
         }, {
-            href: "availableplugins.html",
-            name: globalize.translate("TabCatalog")
+            href: 'availableplugins.html',
+            name: globalize.translate('TabCatalog')
         }];
     }
 
     function onInstalledPluginsClick(e) {
-        if (dom.parentWithClass(e.target, "noConfigPluginCard")) {
+        if (dom.parentWithClass(e.target, 'noConfigPluginCard')) {
             showNoConfigurationMessage();
-        } else if (dom.parentWithClass(e.target, "connectModePluginCard")) {
+        } else if (dom.parentWithClass(e.target, 'connectModePluginCard')) {
             showConnectMessage();
         } else {
-            var btnCardMenu = dom.parentWithClass(e.target, "btnCardMenu");
+            var btnCardMenu = dom.parentWithClass(e.target, 'btnCardMenu');
             if (btnCardMenu) {
-                showPluginMenu(dom.parentWithClass(btnCardMenu, "page"), btnCardMenu);
+                showPluginMenu(dom.parentWithClass(btnCardMenu, 'page'), btnCardMenu);
             }
         }
     }
 
-    pageIdOn("pageshow", "pluginsPage", function () {
-        libraryMenu.setTabs("plugins", 0, getTabs);
+    pageIdOn('pageshow', 'pluginsPage', function () {
+        libraryMenu.setTabs('plugins', 0, getTabs);
         reloadList(this);
     });
 
