@@ -17,22 +17,32 @@
     }
 
     export function getProgressHtml(pct, options) {
-        var containerClass = options && options.containerClass ? 'itemProgressBar ' + options.containerClass : 'itemProgressBar';
+        let containerClass = 'itemProgressBar ';
+        if(options && options.containerClass) {
+            containerClass += options.containerClass
+        }
 
         return '<div class="' + containerClass + '"><div class="itemProgressBarForeground" style="width:' + pct + '%;"></div></div>';
     }
 
     function getAutoTimeProgressHtml(pct, options, isRecording, start, end) {
-        var containerClass = options && options.containerClass ? 'itemProgressBar ' + options.containerClass : 'itemProgressBar';
-        var foregroundClass = isRecording ? 'itemProgressBarForeground itemProgressBarForeground-recording' : 'itemProgressBarForeground';
+        let containerClass = 'itemProgressBar ';
+        if(options && options.containerClass) {
+            containerClass += options.containerClass
+        }
+
+        let foregroundClass = 'itemProgressBarForeground ';
+        if (isRecording) {
+            foregroundClass += 'itemProgressBarForeground-recording';
+        }
 
         return '<div is="emby-progressbar" data-automode="time" data-starttime="' + start + '" data-endtime="' + end + '" class="' + containerClass + '"><div class="' + foregroundClass + '" style="width:' + pct + '%;"></div></div>';
     }
 
     export function getProgressBarHtml(item, options) {
-        var pct;
+        let pct;
         if (enableProgressIndicator(item) && item.Type !== "Recording") {
-            var userData = options ? (options.userData || item.UserData) : item.UserData;
+            const userData = options && options.userData ? options.UserData : item.UserData;
             if (userData) {
                 pct = userData.PlayedPercentage;
                 if (pct && pct < 100) {
@@ -42,8 +52,8 @@
         }
 
         if ((item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording') && item.StartDate && item.EndDate) {
-            var startDate = 0;
-            var endDate = 1;
+            let startDate = 0;
+            let endDate = 1;
 
             try {
                 startDate = datetime.parseISO8601Date(item.StartDate).getTime();
@@ -52,12 +62,12 @@
                 console.error(err);
             }
 
-            var now = new Date().getTime();
-            var total = endDate - startDate;
+            const now = new Date().getTime();
+            const total = endDate - startDate;
             pct = 100 * ((now - startDate) / total);
 
             if (pct > 0 && pct < 100) {
-                var isRecording = item.Type === 'Timer' || item.Type === 'Recording' || item.TimerId;
+                const isRecording = item.Type === 'Timer' || item.Type === 'Recording' || item.TimerId;
                 return getAutoTimeProgressHtml(pct, options, isRecording, startDate, endDate);
             }
         }
@@ -71,11 +81,11 @@
 
     export function getPlayedIndicatorHtml(item) {
         if (enablePlayedIndicator(item)) {
-            var userData = item.UserData || {};
+            let userData = item.UserData || {};
             if (userData.UnplayedItemCount) {
                 return '<div class="countIndicator indicator">' + userData.UnplayedItemCount + '</div>';
             }
-
+            windowSize
             if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
                 return '<div class="playedIndicator indicator"><i class="material-icons indicatorIcon">check</i></div>';
             }
@@ -85,7 +95,7 @@
     }
 
     export function getChildCountIndicatorHtml(item, options) {
-        var minCount = options ? options.minCount : 0;
+        const minCount = options && options.minCount ? options.minCount : 0;
 
         if (item.ChildCount && item.ChildCount > minCount) {
             return '<div class="countIndicator indicator">' + item.ChildCount + '</div>';
@@ -95,7 +105,7 @@
     }
 
     export function getTimerIndicator(item) {
-        var status;
+        let status;
 
         if (item.Type === 'SeriesTimer') {
             return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record"></span>';
@@ -136,14 +146,15 @@
             'Photo' : 'photo'
         }
 
-        return iconT[item.iconType] ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon '+ iconT[item.iconType] +'"></span></div>' : '';
+        const icon = iconT[item.iconType];
+        return icon ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon '+ icon +'"></span></div>' : '';
     }
 
     export function getMissingIndicator(item) {
         if (item.Type === 'Episode' && item.LocationType === 'Virtual') {
             if (item.PremiereDate) {
                 try {
-                    var premiereDate = datetime.parseISO8601Date(item.PremiereDate).getTime();
+                    const premiereDate = datetime.parseISO8601Date(item.PremiereDate).getTime();
                     if (premiereDate > new Date().getTime()) {
                         return '<div class="unairedIndicator">Unaired</div>';
                     }

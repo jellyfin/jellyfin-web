@@ -15,10 +15,10 @@ function alertText(options) {
 
 export function deleteItem(options) {
 
-    var item = options.item;
-    var parentId = item.SeasonId || item.SeriesId || item.ParentId;
+    const item = options.item;
+    const parentId = item.SeasonId || item.SeriesId || item.ParentId;
 
-    var apiClient = connectionManager.getApiClient(item.ServerId);
+    let apiClient = connectionManager.getApiClient(item.ServerId);
 
     return confirm({
 
@@ -40,7 +40,7 @@ export function deleteItem(options) {
             }
         }, function (err) {
 
-            var result = function () {
+            let result = function () {
                 return Promise.reject(err);
             };
 

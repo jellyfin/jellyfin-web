@@ -10,13 +10,13 @@ import 'listViewStyle';
 
 function getOffsets(elems) {
 
-    var results = [];
+    let results = [];
 
     if (!document) {
         return results;
     }
 
-    var box;
+    let box;
     for (let elem of elems) {
         // Support: BlackBerry 5, iOS 3 (original iPhone)
         // If we don't have gBCR, just use 0,0 rather than error
@@ -39,11 +39,11 @@ function getOffsets(elems) {
 
 function getPosition(options, dlg) {
 
-    var windowSize = dom.getWindowSize();
-    var windowHeight = windowSize.innerHeight;
-    var windowWidth = windowSize.innerWidth;
+    const windowSize = dom.getWindowSize();
+    const windowHeight = windowSize.innerHeight;
+    const windowWidth = windowSize.innerWidth;
 
-    var pos = getOffsets([options.positionTo])[0];
+    let pos = getOffsets([options.positionTo])[0];
 
     if (options.positionY !== 'top') {
         pos.top += (pos.height || 0) / 2;
@@ -51,16 +51,16 @@ function getPosition(options, dlg) {
 
     pos.left += (pos.width || 0) / 2;
 
-    var height = dlg.offsetHeight || 300;
-    var width = dlg.offsetWidth || 160;
+    const height = dlg.offsetHeight || 300;
+    const width = dlg.offsetWidth || 160;
 
     // Account for popup size
     pos.top -= height / 2;
     pos.left -= width / 2;
 
     // Avoid showing too close to the bottom
-    var overflowX = pos.left + width - windowWidth;
-    var overflowY = pos.top + height - windowHeight;
+    const overflowX = pos.left + width - windowWidth;
+    const overflowY = pos.top + height - windowHeight;
 
     if (overflowX > 0) {
         pos.left -= (overflowX + 20);
@@ -81,7 +81,7 @@ function getPosition(options, dlg) {
 
 function centerFocus(elem, horiz, on) {
     require(['scrollHelper'], function (scrollHelper) {
-        var fn = on ? 'on' : 'off';
+        const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
 }
@@ -92,19 +92,17 @@ export function show(options) {
     // positionTo
     // showCancel
     // title
-    var dialogOptions = {
+    let dialogOptions = {
         removeOnClose: true,
         enableHistory: options.enableHistory,
         scrollY: false
     };
 
-    var backButton = false;
-    var isFullscreen;
+    let isFullscreen;
 
     if (layoutManager.tv) {
         dialogOptions.size = 'fullscreen';
         isFullscreen = true;
-        backButton = true;
         dialogOptions.autoFocus = true;
     } else {
 
@@ -116,7 +114,7 @@ export function show(options) {
         dialogOptions.autoFocus = false;
     }
 
-    var dlg = dialogHelper.createDialog(dialogOptions);
+    let dlg = dialogHelper.createDialog(dialogOptions);
 
     if (isFullscreen) {
         dlg.classList.add('actionsheet-fullscreen');
@@ -130,20 +128,20 @@ export function show(options) {
         dlg.classList.add(options.dialogClass);
     }
 
-    var html = '';
+    let html = '';
 
-    var scrollClassName = layoutManager.tv ? 'scrollY smoothScrollY hiddenScrollY' : 'scrollY';
-    var style = '';
+    const scrollClassName = layoutManager.tv ? 'scrollY smoothScrollY hiddenScrollY' : 'scrollY';
+    let style = '';
 
     // Admittedly a hack but right now the scrollbar is being factored into the width which is causing truncation
     if (options.items.length > 20) {
-        var minWidth = dom.getWindowSize().innerWidth >= 300 ? 240 : 200;
+        const minWidth = dom.getWindowSize().innerWidth >= 300 ? 240 : 200;
         style += "min-width:" + minWidth + "px;";
     }
 
-    var renderIcon = false;
-    var icons = [];
-    var itemIcon;
+    let renderIcon = false;
+    let icons = [];
+    let itemIcon;
     for (let item of options.items) {
 
         itemIcon = item.icon || (item.selected ? 'check' : null);
@@ -159,7 +157,7 @@ export function show(options) {
     }
 
     // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
-    var center = options.title && (!renderIcon /*|| itemsWithIcons.length != options.items.length*/);
+    const center = options.title && (!renderIcon /*|| itemsWithIcons.length != options.items.length*/);
 
     if (center || layoutManager.tv) {
         html += '<div class="actionSheetContent actionSheetContent-centered">';
@@ -169,23 +167,19 @@ export function show(options) {
 
     if (options.title) {
 
-        html += '<h1 class="actionSheetTitle">';
-        html += options.title;
-        html += '</h1>';
+        html += '<h1 class="actionSheetTitle">' + options.title + '</h1>';
     }
     if (options.text) {
-        html += '<p class="actionSheetText">';
-        html += options.text;
-        html += '</p>';
+        html += '<p class="actionSheetText">' + options.text + '</p>'
     }
 
-    var scrollerClassName = 'actionSheetScroller';
+    let scrollerClassName = 'actionSheetScroller';
     if (layoutManager.tv) {
         scrollerClassName += ' actionSheetScroller-tv focuscontainer-x focuscontainer-y';
     }
     html += '<div class="' + scrollerClassName + ' ' + scrollClassName + '" style="' + style + '">';
 
-    var menuItemClass = 'listItem listItem-button actionSheetMenuItem';
+    let menuItemClass = 'listItem listItem-button actionSheetMenuItem';
 
     if (options.border || options.shaded) {
         menuItemClass += ' listItem-border';
@@ -211,10 +205,10 @@ export function show(options) {
             continue;
         }
 
-        var autoFocus = item.selected && layoutManager.tv ? ' autoFocus' : '';
+        const autoFocus = item.selected && layoutManager.tv ? ' autoFocus' : '';
 
         // Check for null in case int 0 was passed in
-        var optionId = item.id == null || item.id === '' ? item.value : item.id;
+        const optionId = item.id == null || item.id === '' ? item.value : item.id;
         html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
 
         itemIcon = icons[i];
@@ -233,17 +227,13 @@ export function show(options) {
         html += '</div>';
 
         if (item.secondaryText) {
-            html += '<div class="listItemBodyText secondary">';
-            html += item.secondaryText;
-            html += '</div>';
+            html += '<div class="listItemBodyText secondary">' + item.secondaryText + '</div>';
         }
 
         html += '</div>';
 
         if (item.asideText) {
-            html += '<div class="listItemAside actionSheetItemAsideText">';
-            html += item.asideText;
-            html += '</div>';
+            html += '<div class="listItemAside actionSheetItemAsideText">' + item.asideText + '</div>';
         }
 
         html += '</button>';
@@ -262,18 +252,18 @@ export function show(options) {
         centerFocus(dlg.querySelector('.actionSheetScroller'), false, true);
     }
 
-    var btnCloseActionSheet = dlg.querySelector('.btnCloseActionSheet');
+    let btnCloseActionSheet = dlg.querySelector('.btnCloseActionSheet');
     if (btnCloseActionSheet) {
-        dlg.querySelector('.btnCloseActionSheet').addEventListener('click', function () {
+        btnCloseActionSheet.addEventListener('click', function () {
             dialogHelper.close(dlg);
         });
     }
 
     // Seeing an issue in some non-chrome browsers where this is requiring a double click
     //var eventName = browser.firefox ? 'mousedown' : 'click';
-    var selectedId;
+    let selectedId;
 
-    var timeout;
+    let timeout;
     if (options.timeout) {
         timeout = setTimeout(function () {
             dialogHelper.close(dlg);
@@ -282,11 +272,11 @@ export function show(options) {
 
     return new Promise(function (resolve, reject) {
 
-        var isResolved;
+        let isResolved;
 
         dlg.addEventListener('click', function (e) {
 
-            var actionSheetMenuItem = dom.parentWithClass(e.target, 'actionSheetMenuItem');
+            const actionSheetMenuItem = dom.parentWithClass(e.target, 'actionSheetMenuItem');
 
             if (actionSheetMenuItem) {
                 selectedId = actionSheetMenuItem.getAttribute('data-id');
@@ -338,7 +328,7 @@ export function show(options) {
 
         dialogHelper.open(dlg);
 
-        var pos = options.positionTo && dialogOptions.size !== 'fullscreen' ? getPosition(options, dlg) : null;
+        const pos = options.positionTo && dialogOptions.size !== 'fullscreen' ? getPosition(options, dlg) : null;
 
         if (pos) {
             dlg.style.position = 'fixed';
