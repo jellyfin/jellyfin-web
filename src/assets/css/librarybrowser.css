@@ -1156,6 +1156,7 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 
 .trackSelections .selectContainer .selectLabel {
     margin: 0 0.2em 0 0;
+    line-height: 1.75;
 }
 
 .layout-mobile .detailsGroupItem .label,
