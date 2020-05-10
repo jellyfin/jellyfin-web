@@ -110,7 +110,7 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         html += '<h3 class="checkboxListLabel">' + globalize.translate('LabelTypeMetadataDownloaders', globalize.translate(availableTypeOptions.Type)) + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
 
-        plugins.array.forEach((plugin, index) => {
+        plugins.forEach((plugin, index) => {
             html += '<div class="listItem metadataFetcherItem sortableOption" data-pluginname="' + plugin.Name + '">';
             var isChecked = libraryOptionsForType.MetadataFetchers ? -1 !== libraryOptionsForType.MetadataFetchers.indexOf(plugin.Name) : plugin.DefaultEnabled;
             var checkedHtml = isChecked ? ' checked="checked"' : '';
