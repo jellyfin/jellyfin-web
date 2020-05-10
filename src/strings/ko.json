@@ -1325,7 +1325,7 @@
     "MediaInfoPixelFormat": "픽셀 형식",
     "MapChannels": "채널 매핑",
     "LaunchWebAppOnStartupHelp": "서버가 처음 시작되면 웹 브라우저에서 웹 클라이언트를 실행하십시오. 서버 재시작의 경우에는 적용되지 않습니다.",
-    "Large": "큰",
+    "Large": "크게",
     "LanNetworksHelp": "대역폭을 강제로 제한할 때 로컬 네트워크로 간주되는 쉼표로 구분된 IP 주소 및 IP/서브넷 마스크 목록입니다. 지정될 경우 모든 다른 IP 주소는 외부 네트워크로 간주되며 외부 대역폭 제한이 적용됩니다. 공백일 경우 서버의 서브넷만이 로컬 네트워크로 간주됩니다.",
     "LabelffmpegPathHelp": "ffmpeg 실행 파일 혹은 ffmpeg를 포함하는 폴더 경로입니다.",
     "LabelXDlnaDocHelp": "urn:schemas-dlna-org:device-1-0 네임스페이스에 포함된 X_DLNADOC 요소의 내용을 결정합니다.",
@@ -1430,5 +1430,8 @@
     "MessageUnauthorizedUser": "현재 서버에 접속할 권한이 없습니다. 자세한 정보는 서버 관리자에게 문의하십시오.",
     "HeaderFavoritePlaylists": "즐겨찾는 플레이리스트",
     "ButtonTogglePlaylist": "플레이리스트",
-    "ButtonToggleContextMenu": "더보기"
+    "ButtonToggleContextMenu": "더보기",
+    "Rate": "평",
+    "PerfectMatch": "정확히 일치",
+    "OtherArtist": "다른 아티스트"
 }
