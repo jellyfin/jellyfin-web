@@ -85,7 +85,7 @@
             if (userData.UnplayedItemCount) {
                 return '<div class="countIndicator indicator">' + userData.UnplayedItemCount + '</div>';
             }
-            windowSize
+
             if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
                 return '<div class="playedIndicator indicator"><i class="material-icons indicatorIcon">check</i></div>';
             }
