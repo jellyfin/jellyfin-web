@@ -1313,7 +1313,7 @@ import 'programStyles';
             }
 
             const mediaSourceCount = item.MediaSourceCount || 1;
-            if (mediaSourceCount > 1) {
+            if (mediaSourceCount > 1 && (!options.disableIndicators || options.disableIndicators === false)) {
                 innerCardFooter += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
             }
 
