@@ -17,23 +17,23 @@
     }
 
     export function getProgressHtml(pct, options) {
-        let containerClass = 'itemProgressBar ';
+        let containerClass = 'itemProgressBar';
         if(options && options.containerClass) {
-            containerClass += options.containerClass
+            containerClass += ' ' + options.containerClass
         }
 
         return '<div class="' + containerClass + '"><div class="itemProgressBarForeground" style="width:' + pct + '%;"></div></div>';
     }
 
     function getAutoTimeProgressHtml(pct, options, isRecording, start, end) {
-        let containerClass = 'itemProgressBar ';
+        let containerClass = 'itemProgressBar';
         if(options && options.containerClass) {
-            containerClass += options.containerClass
+            containerClass += ' ' + options.containerClass
         }
 
-        let foregroundClass = 'itemProgressBarForeground ';
+        let foregroundClass = 'itemProgressBarForeground';
         if (isRecording) {
-            foregroundClass += 'itemProgressBarForeground-recording';
+            foregroundClass += ' itemProgressBarForeground-recording';
         }
 
         return '<div is="emby-progressbar" data-automode="time" data-starttime="' + start + '" data-endtime="' + end + '" class="' + containerClass + '"><div class="' + foregroundClass + '" style="width:' + pct + '%;"></div></div>';
@@ -146,7 +146,7 @@
             'Photo' : 'photo'
         }
 
-        const icon = iconT[item.iconType];
+        const icon = iconT[item.Type];
         return icon ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon '+ icon +'"></span></div>' : '';
     }
 
