@@ -8,26 +8,13 @@
                         <a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/networking/index.html">${Help}</a>
                     </div>
 
-                    <div class="inputContainer">
-                        <input is="emby-input" type="text" id="txtLanNetworks" label="${LabelLanNetworks}" />
-                        <div class="fieldDescription">${LanNetworksHelp}</div>
-                    </div>
-                    <div class="inputContainer">
-                        <input is="emby-input" type="text" id="txtLocalAddress" label="${LabelBindToLocalNetworkAddress}" />
-                        <div class="fieldDescription">${LabelBindToLocalNetworkAddressHelp}</div>
-                    </div>
-                    <div class="inputContainer">
-                        <input is="emby-input" type="number" id="txtPortNumber" label="${LabelLocalHttpServerPortNumber}" pattern="[0-9]*" required="required" min="1" max="65535" />
-                        <div class="fieldDescription">${LabelLocalHttpServerPortNumberHelp}</div>
-                    </div>
-
-                    <div class="inputContainer fldBaseUrl">
-                        <input is="emby-input" id="txtBaseUrl" type="text" label="${LabelBaseUrl}" />
-                        <div class="fieldDescription">${LabelBaseUrlHelp}</div>
-                    </div>
-
                     <fieldset class='verticalSection verticalSection-extrabottompadding'>
-                        <legend><h3>${HeaderHttpsSettings}</h3></legend>
+                        <legend><h3>${HeaderServerAddressSettings}</h3></legend>
+
+                        <div class="inputContainer">
+                            <input is="emby-input" type="number" id="txtPortNumber" label="${LabelLocalHttpServerPortNumber}" pattern="[0-9]*" required="required" min="1" max="65535" />
+                            <div class="fieldDescription">${LabelLocalHttpServerPortNumberHelp}</div>
+                        </div>
 
                         <div class="checkboxContainer checkboxContainer-withDescription">
                             <label>
@@ -37,17 +24,36 @@
                             <div class="fieldDescription checkboxFieldDescription">${LabelEnableHttpsHelp}</div>
                         </div>
 
+                        <div class="inputContainer">
+                            <input is="emby-input" type="number" id="txtHttpsPort" pattern="[0-9]*" required="required" min="1" max="65535" label="${LabelHttpsPort}" />
+                            <div class="fieldDescription">${LabelHttpsPortHelp}</div>
+                        </div>
+
+                        <div class="inputContainer fldBaseUrl">
+                            <input is="emby-input" id="txtBaseUrl" type="text" label="${LabelBaseUrl}" />
+                            <div class="fieldDescription">${LabelBaseUrlHelp}</div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <input is="emby-input" type="text" id="txtLocalAddress" label="${LabelBindToLocalNetworkAddress}" />
+                            <div class="fieldDescription">${LabelBindToLocalNetworkAddressHelp}</div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <input is="emby-input" type="text" id="txtLanNetworks" label="${LabelLanNetworks}" />
+                            <div class="fieldDescription">${LanNetworksHelp}</div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class='verticalSection verticalSection-extrabottompadding'>
+                        <legend><h3>${HeaderHttpsSettings}</h3></legend>
+
                         <div class="checkboxContainer checkboxContainer-withDescription">
                             <label>
                                 <input type="checkbox" is="emby-checkbox" id="chkRequireHttps" />
                                 <span>${LabelRequireHttps}</span>
                             </label>
                             <div class="fieldDescription checkboxFieldDescription">${LabelRequireHttpsHelp}</div>
-                        </div>
-
-                        <div class="inputContainer">
-                            <input is="emby-input" type="number" id="txtHttpsPort" pattern="[0-9]*" required="required" min="1" max="65535" label="${LabelHttpsPort}" />
-                            <div class="fieldDescription">${LabelHttpsPortHelp}</div>
                         </div>
 
                         <div class="inputContainer fldCertificatePath">
