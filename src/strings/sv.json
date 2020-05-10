@@ -2,7 +2,7 @@
     "AccessRestrictedTryAgainLater": "För närvarande är åtkomsten begränsad. Försök igen senare.",
     "Actor": "Skådespelare",
     "Add": "Lägg till",
-    "AddItemToCollectionHelp": "Lägg till objekt i samlingar genom att söka efter dem och använda deras  högerklick- eller knackmeny",
+    "AddItemToCollectionHelp": "Lägg till objekt i samlingar genom att söka efter dem och använda deras högerklick- eller pekmeny för att lägga till dem i en samling.",
     "AddToCollection": "Lägg till i samling",
     "AddToPlayQueue": "Lägg till i spelkö",
     "AddToPlaylist": "Lägg till i spellista",
@@ -1492,5 +1492,15 @@
     "Artist": "Artist",
     "ButtonTogglePlaylist": "Spellista",
     "ButtonToggleContextMenu": "Mer",
-    "AlbumArtist": "Albumartist"
+    "AlbumArtist": "Albumartist",
+    "LabelLibraryPageSize": "Bibliotekets sidstorlek:",
+    "LabelDeinterlaceMethod": "Deinterlacing-metod:",
+    "WeeklyAt": "{0}s vid {1}",
+    "LastSeen": "Senast sedd {0}",
+    "YadifBob": "YADIF Bob",
+    "Yadif": "YADIF",
+    "Filter": "Filter",
+    "New": "Ny",
+    "MessageUnauthorizedUser": "Du har inte behörighet att komma åt servern just nu. Kontakta din serveradministratör för mer information.",
+    "HeaderFavoritePlaylists": "Favoritspellista"
 }
