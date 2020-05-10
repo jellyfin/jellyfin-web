@@ -1,18 +1,18 @@
-define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder", "apphost", "imageLoader", "scrollStyles", "emby-itemscontainer"], function (layoutManager, loading, datetime, libraryBrowser, cardBuilder, appHost, imageLoader) {
-    "use strict";
+define(['layoutManager', 'loading', 'datetime', 'libraryBrowser', 'cardBuilder', 'apphost', 'imageLoader', 'globalize', 'scrollStyles', 'emby-itemscontainer'], function (layoutManager, loading, datetime, libraryBrowser, cardBuilder, appHost, imageLoader, globalize) {
+    'use strict';
 
     function getUpcomingPromise(context, params) {
         loading.show();
         var query = {
             Limit: 48,
-            Fields: "AirTime,UserData",
+            Fields: 'AirTime,UserData',
             UserId: ApiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
+            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
             EnableTotalRecordCount: false
         };
         query.ParentId = params.topParentId;
-        return ApiClient.getJSON(ApiClient.getUrl("Shows/Upcoming", query));
+        return ApiClient.getJSON(ApiClient.getUrl('Shows/Upcoming', query));
     }
 
     function loadUpcoming(context, params, promise) {
@@ -20,12 +20,12 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
             var items = result.Items;
 
             if (items.length) {
-                context.querySelector(".noItemsMessage").style.display = "none";
+                context.querySelector('.noItemsMessage').style.display = 'none';
             } else {
-                context.querySelector(".noItemsMessage").style.display = "block";
+                context.querySelector('.noItemsMessage').style.display = 'block';
             }
 
-            renderUpcoming(context.querySelector("#upcomingItems"), items);
+            renderUpcoming(context.querySelector('#upcomingItems'), items);
             loading.hide();
         });
     }
@@ -35,27 +35,27 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
     }
 
     function getThumbShape() {
-        return enableScrollX() ? "overflowBackdrop" : "backdrop";
+        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
     }
 
     function renderUpcoming(elem, items) {
         var i;
         var length;
         var groups = [];
-        var currentGroupName = "";
+        var currentGroupName = '';
         var currentGroup = [];
 
         for (i = 0, length = items.length; i < length; i++) {
             var item = items[i];
-            var dateText = "";
+            var dateText = '';
 
             if (item.PremiereDate) {
                 try {
                     var premiereDate = datetime.parseISO8601Date(item.PremiereDate, true);
-                    dateText = datetime.isRelativeDay(premiereDate, -1) ? Globalize.translate("Yesterday") : datetime.toLocaleDateString(premiereDate, {
-                        weekday: "long",
-                        month: "short",
-                        day: "numeric"
+                    dateText = datetime.isRelativeDay(premiereDate, -1) ? globalize.translate('Yesterday') : datetime.toLocaleDateString(premiereDate, {
+                        weekday: 'long',
+                        month: 'short',
+                        day: 'numeric'
                     });
                 } catch (err) {
                     console.error('error parsing timestamp for upcoming tv shows');
@@ -77,20 +77,20 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
             }
         }
 
-        var html = "";
+        var html = '';
 
         for (i = 0, length = groups.length; i < length; i++) {
             var group = groups[i];
             html += '<div class="verticalSection">';
-            html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + "</h2>";
+            html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + group.name + '</h2>';
             var allowBottomPadding = true;
 
             if (enableScrollX()) {
                 allowBottomPadding = false;
-                var scrollXClass = "scrollX hiddenScrollX";
+                var scrollXClass = 'scrollX hiddenScrollX';
 
                 if (layoutManager.tv) {
-                    scrollXClass += " smoothScrollX";
+                    scrollXClass += ' smoothScrollX';
                 }
 
                 html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
@@ -98,7 +98,7 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
                 html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
             }
 
-            var supportsImageAnalysis = appHost.supports("imageanalysis");
+            var supportsImageAnalysis = appHost.supports('imageanalysis');
             supportsImageAnalysis = false;
             html += cardBuilder.getCardsHtml({
                 items: group.items,
@@ -116,8 +116,8 @@ define(["layoutManager", "loading", "datetime", "libraryBrowser", "cardBuilder",
                 overlayMoreButton: true,
                 missingIndicator: false
             });
-            html += "</div>";
-            html += "</div>";
+            html += '</div>';
+            html += '</div>';
         }
 
         elem.innerHTML = html;

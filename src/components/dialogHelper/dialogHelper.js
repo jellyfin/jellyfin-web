@@ -141,7 +141,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         animateDialogOpen(dlg);
 
         if (isHistoryEnabled(dlg)) {
-            appRouter.pushState({ dialogId: hash }, "Dialog", '#' + hash);
+            appRouter.pushState({ dialogId: hash }, 'Dialog', '#' + hash);
 
             window.addEventListener('popstate', onHashChange);
         } else {

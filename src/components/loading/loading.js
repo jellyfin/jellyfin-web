@@ -19,7 +19,7 @@ define(['components/loading/loadingLegacy', 'browser', 'css!./loading'], functio
 
             if (!elem) {
 
-                elem = document.createElement("div");
+                elem = document.createElement('div');
                 loadingElem = elem;
 
                 elem.classList.add('docspinner');

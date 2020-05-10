@@ -1,10 +1,10 @@
-define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) {
-    "use strict";
+define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, libraryMenu, globalize) {
+    'use strict';
 
     function loadPage(page, config) {
-        $("#txtMinResumePct", page).val(config.MinResumePct);
-        $("#txtMaxResumePct", page).val(config.MaxResumePct);
-        $("#txtMinResumeDuration", page).val(config.MinResumeDurationSeconds);
+        $('#txtMinResumePct', page).val(config.MinResumePct);
+        $('#txtMaxResumePct', page).val(config.MaxResumePct);
+        $('#txtMinResumeDuration', page).val(config.MinResumeDurationSeconds);
         loading.hide();
     }
 
@@ -24,22 +24,22 @@ define(["jQuery", "loading", "libraryMenu"], function ($, loading, libraryMenu) 
 
     function getTabs() {
         return [{
-            href: "encodingsettings.html",
-            name: Globalize.translate("Transcoding")
+            href: 'encodingsettings.html',
+            name: globalize.translate('Transcoding')
         }, {
-            href: "playbackconfiguration.html",
-            name: Globalize.translate("TabResumeSettings")
+            href: 'playbackconfiguration.html',
+            name: globalize.translate('TabResumeSettings')
         }, {
-            href: "streamingsettings.html",
-            name: Globalize.translate("TabStreaming")
+            href: 'streamingsettings.html',
+            name: globalize.translate('TabStreaming')
         }];
     }
 
-    $(document).on("pageinit", "#playbackConfigurationPage", function () {
-        $(".playbackConfigurationForm").off("submit", onSubmit).on("submit", onSubmit);
-    }).on("pageshow", "#playbackConfigurationPage", function () {
+    $(document).on('pageinit', '#playbackConfigurationPage', function () {
+        $('.playbackConfigurationForm').off('submit', onSubmit).on('submit', onSubmit);
+    }).on('pageshow', '#playbackConfigurationPage', function () {
         loading.show();
-        libraryMenu.setTabs("playback", 1, getTabs);
+        libraryMenu.setTabs('playback', 1, getTabs);
         var page = this;
         ApiClient.getServerConfiguration().then(function (config) {
             loadPage(page, config);

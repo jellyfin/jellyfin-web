@@ -7,7 +7,7 @@ define(['dom'], function (dom) {
             return Promise.reject('elem cannot be null');
         }
 
-        if (elem.tagName !== "IMG") {
+        if (elem.tagName !== 'IMG') {
 
             elem.style.backgroundImage = "url('" + url + "')";
             return Promise.resolve();
@@ -27,7 +27,7 @@ define(['dom'], function (dom) {
             dom.addEventListener(elem, 'load', resolve, {
                 once: true
             });
-            elem.setAttribute("src", url);
+            elem.setAttribute('src', url);
         });
     }
 

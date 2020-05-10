@@ -1,5 +1,5 @@
-define(["events", "userSettings", "serverNotifications", "connectionManager", "emby-button"], function (events, userSettings, serverNotifications, connectionManager) {
-    "use strict";
+define(['events', 'userSettings', 'serverNotifications', 'connectionManager', 'globalize', 'emby-button'], function (events, userSettings, serverNotifications, connectionManager, globalize) {
+    'use strict';
 
     return function (options) {
         function pollTasks() {
@@ -26,12 +26,12 @@ define(["events", "userSettings", "serverNotifications", "connectionManager", "e
             }
 
             if (task.State == 'Idle') {
-                button.removeAttribute("disabled");
+                button.removeAttribute('disabled');
             } else {
-                button.setAttribute("disabled", "disabled");
+                button.setAttribute('disabled', 'disabled');
             }
 
-            button.setAttribute("data-taskid", task.Id);
+            button.setAttribute('data-taskid', task.Id);
             var progress = (task.CurrentProgressPercentage || 0).toFixed(1);
 
             if (options.progressElem) {
@@ -47,12 +47,12 @@ define(["events", "userSettings", "serverNotifications", "connectionManager", "e
             if (options.lastResultElem) {
                 var lastResult = task.LastExecutionResult ? task.LastExecutionResult.Status : '';
 
-                if (lastResult == "Failed") {
-                    options.lastResultElem.html('<span style="color:#FF0000;">(' + Globalize.translate('LabelFailed') + ')</span>');
-                } else if (lastResult == "Cancelled") {
-                    options.lastResultElem.html('<span style="color:#0026FF;">(' + Globalize.translate('LabelCancelled') + ')</span>');
-                } else if (lastResult == "Aborted") {
-                    options.lastResultElem.html('<span style="color:#FF0000;">' + Globalize.translate('LabelAbortedByServerShutdown') + '</span>');
+                if (lastResult == 'Failed') {
+                    options.lastResultElem.html('<span style="color:#FF0000;">(' + globalize.translate('LabelFailed') + ')</span>');
+                } else if (lastResult == 'Cancelled') {
+                    options.lastResultElem.html('<span style="color:#0026FF;">(' + globalize.translate('LabelCancelled') + ')</span>');
+                } else if (lastResult == 'Aborted') {
+                    options.lastResultElem.html('<span style="color:#FF0000;">' + globalize.translate('LabelAbortedByServerShutdown') + '</span>');
                 } else {
                     options.lastResultElem.html(lastResult);
                 }
@@ -64,7 +64,7 @@ define(["events", "userSettings", "serverNotifications", "connectionManager", "e
         }
 
         function onButtonClick() {
-            onScheduledTaskMessageConfirmed(this.getAttribute("data-taskid"));
+            onScheduledTaskMessageConfirmed(this.getAttribute('data-taskid'));
         }
 
         function onScheduledTasksUpdate(e, apiClient, info) {
@@ -89,12 +89,12 @@ define(["events", "userSettings", "serverNotifications", "connectionManager", "e
             if (pollInterval) {
                 clearInterval(pollInterval);
             }
-            apiClient.sendMessage("ScheduledTasksInfoStart", "1000,1000");
+            apiClient.sendMessage('ScheduledTasksInfoStart', '1000,1000');
             pollInterval = setInterval(onPollIntervalFired, 5000);
         }
 
         function stopInterval() {
-            connectionManager.getApiClient(serverId).sendMessage("ScheduledTasksInfoStop");
+            connectionManager.getApiClient(serverId).sendMessage('ScheduledTasksInfoStop');
 
             if (pollInterval) {
                 clearInterval(pollInterval);
@@ -102,18 +102,18 @@ define(["events", "userSettings", "serverNotifications", "connectionManager", "e
         }
 
         if (options.panel) {
-            options.panel.classList.add("hide");
+            options.panel.classList.add('hide');
         }
 
         if (options.mode == 'off') {
-            button.removeEventListener("click", onButtonClick);
-            events.off(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate);
+            button.removeEventListener('click', onButtonClick);
+            events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
             stopInterval();
         } else {
-            button.addEventListener("click", onButtonClick);
+            button.addEventListener('click', onButtonClick);
             pollTasks();
             startInterval();
-            events.on(serverNotifications, "ScheduledTasksInfo", onScheduledTasksUpdate);
+            events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
         }
     };
 });

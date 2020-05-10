@@ -1,5 +1,3 @@
-'use strict';
-
 const { src, dest, series, parallel, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
 const del = require('del');
@@ -10,8 +8,8 @@ const htmlmin = require('gulp-htmlmin');
 const imagemin = require('gulp-imagemin');
 const sourcemaps = require('gulp-sourcemaps');
 const mode = require('gulp-mode')({
-    modes: ["development", "production"],
-    default: "development",
+    modes: ['development', 'production'],
+    default: 'development',
     verbose: false
 });
 const stream = require('webpack-stream');
@@ -57,7 +55,7 @@ const options = {
 function serve() {
     browserSync.init({
         server: {
-            baseDir: "./dist"
+            baseDir: './dist'
         },
         port: 8080
     });

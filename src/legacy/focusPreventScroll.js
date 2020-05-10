@@ -4,14 +4,14 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
     (function () {
         var supportsPreventScrollOption = false;
         try {
-            var focusElem = document.createElement("div");
+            var focusElem = document.createElement('div');
 
-            focusElem.addEventListener("focus", function(event) {
+            focusElem.addEventListener('focus', function(event) {
                 event.preventDefault();
                 event.stopPropagation();
             }, true);
 
-            var opts = Object.defineProperty({}, "preventScroll", {
+            var opts = Object.defineProperty({}, 'preventScroll', {
                 // eslint-disable-next-line getter-return
                 get: function () {
                     supportsPreventScrollOption = true;
@@ -20,7 +20,7 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
 
             focusElem.focus(opts);
         } catch (e) {
-            console.error("error checking preventScroll support");
+            console.error('error checking preventScroll support');
         }
 
         if (!supportsPreventScrollOption) {
