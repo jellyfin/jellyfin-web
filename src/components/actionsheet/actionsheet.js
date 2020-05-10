@@ -127,16 +127,16 @@ export function show(options) {
     if (options.dialogClass) {
         dlg.classList.add(options.dialogClass);
     }
-  
+
     let html = '';
-    
+
     const scrollClassName = layoutManager.tv ? 'scrollY smoothScrollY hiddenScrollY' : 'scrollY';
     let style = '';
 
     // Admittedly a hack but right now the scrollbar is being factored into the width which is causing truncation
     if (options.items.length > 20) {
         const minWidth = dom.getWindowSize().innerWidth >= 300 ? 240 : 200;
-        style += "min-width:" + minWidth + "px;";
+        style += 'min-width:' + minWidth + 'px;';
     }
 
     let renderIcon = false;
@@ -153,7 +153,7 @@ export function show(options) {
     }
 
     if (layoutManager.tv) {
-        html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1"><i class="material-icons arrow_back"></i></button>';
+        html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
     }
 
     // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
@@ -214,9 +214,9 @@ export function show(options) {
         itemIcon = icons[i];
 
         if (itemIcon) {
-            html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons">' + itemIcon + '</i>';
+            html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ' + itemIcon + '"></span>';
         } else if (renderIcon && !center) {
-            html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons" style="visibility:hidden;">check</i>';
+            html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" style="visibility:hidden;"></span>';
         }
 
         html += '<div class="listItemBody actionsheetListItemBody">';
