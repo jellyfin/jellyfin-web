@@ -307,7 +307,7 @@ a[data-role=button] {
     color: #f8f8fe !important;
 }
 
-.detailSticky {
+.detailRibbon {
     background: #000420;
     background: -moz-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);
     background: -webkit-linear-gradient(left, #000420 0%, #06256f 18%, #2b052b 38%, #2b052b 68%, #06256f 81%, #000420 100%);

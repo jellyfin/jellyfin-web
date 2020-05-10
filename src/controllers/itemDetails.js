@@ -336,7 +336,14 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         return html = html.join(' / ');
     }
-    function renderName(item, container, isStatic, context) {
+
+    /**
+     * Rneders the item's name block
+     * @param {Object} item - Item used to render the name.
+     * @param {HTMLDivElement} container - Container to render the information into.
+     * @param {Object} context - Application context.
+     */
+    function renderName(item, container, context) {
         var parentRoute;
         var parentNameHtml = [];
         var parentNameLast = false;
@@ -364,8 +371,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         if (item.SeriesName && 'Season' === item.Type) {
             parentRoute = appRouter.getRouteUrl({
-                Id: item.SeriesId,
-                Name: item.SeriesName,
                 Type: 'Series',
                 IsFolder: true,
                 ServerId: item.ServerId
@@ -501,21 +506,25 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function reloadFromItem(instance, page, params, item, user) {
-        var context = params.context;
-        page.querySelector('.detailPagePrimaryContainer').classList.add('detailSticky');
+        const apiClient = connectionManager.getApiClient(item.ServerId);
 
-        renderName(item, page.querySelector('.nameContainer'), false, context);
-        var apiClient = connectionManager.getApiClient(item.ServerId);
-        renderSeriesTimerEditor(page, item, apiClient, user);
-        renderTimerEditor(page, item, apiClient, user);
+        Emby.Page.setTitle('');
+
+        // Start rendering the artwork first
         renderImage(page, item, apiClient, user);
         renderLogo(page, item, apiClient);
-        Emby.Page.setTitle('');
-        setInitialCollapsibleState(page, item, apiClient, context, user);
-        renderDetails(page, item, apiClient, context);
-        renderTrackSelections(page, instance, item);
         renderBackdrop(item);
         renderDetailPageBackdrop(page, item, apiClient);
+
+        // Render the main information for the item
+        page.querySelector('.detailPagePrimaryContainer').classList.add('detailRibbon');
+        renderName(item, page.querySelector('.nameContainer'), params.context);
+        renderDetails(page, item, apiClient, params.context);
+        renderTrackSelections(page, instance, item);
+
+        renderSeriesTimerEditor(page, item, apiClient, user);
+        renderTimerEditor(page, item, apiClient, user);
+        setInitialCollapsibleState(page, item, apiClient, params.context, user);
         var canPlay = reloadPlayButtons(page, item);
 
         if ((item.LocalTrailerCount || item.RemoteTrailers && item.RemoteTrailers.length) && -1 !== playbackManager.getSupportedCommands().indexOf('PlayTrailers')) {
@@ -617,18 +626,17 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function renderLogo(page, item, apiClient) {
-        var url = logoImageUrl(item, apiClient, {
-            maxWidth: 400
-        });
         var detailLogo = page.querySelector('.detailLogo');
+
+        var url = logoImageUrl(item, apiClient, {
+            maxWidth: detailLogo.clientWidth
+        });
 
         if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
             detailLogo.classList.add('hide');
         } else if (url) {
             detailLogo.classList.remove('hide');
-            detailLogo.classList.add('lazy');
-            detailLogo.setAttribute('data-src', url);
-            imageLoader.lazyImage(detailLogo);
+            imageLoader.setLazyImage(detailLogo, url);
         } else {
             detailLogo.classList.add('hide');
         }
@@ -654,31 +662,32 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
     }
 
-    function renderLinks(linksElem, item) {
-        var html = [];
+    function renderLinks(page, item) {
+        var externalLinksElem = page.querySelector('.itemExternalLinks');
 
         var links = [];
 
         if (!layoutManager.tv && item.HomePageUrl) {
-            links.push('<a style="color:inherit;" is="emby-linkbutton" class="button-link" href="' + item.HomePageUrl + '" target="_blank">' + globalize.translate('ButtonWebsite') + '</a>');
+            links.push(`<a is="emby-linkbutton" class="button-link" href="${item.HomePageUrl}" target="_blank">${globalize.translate('ButtonWebsite')}</a>`);
         }
+
         if (item.ExternalUrls) {
-            for (var i = 0, length = item.ExternalUrls.length; i < length; i++) {
-                var url = item.ExternalUrls[i];
-                links.push('<a style="color:inherit;" is="emby-linkbutton" class="button-link" href="' + url.Url + '" target="_blank">' + url.Name + '</a>');
+            for (let url of item.ExternalUrls) {
+                links.push(`<a is="emby-linkbutton" class="button-link" href="${url.Url}" target="_blank">${url.Name}</a>`);
             }
         }
 
+        var html = [];
         if (links.length) {
             html.push(links.join(', '));
         }
 
-        linksElem.innerHTML = html.join(', ');
+        externalLinksElem.innerHTML = html.join(', ');
 
         if (html.length) {
-            linksElem.classList.remove('hide');
+            externalLinksElem.classList.remove('hide');
         } else {
-            linksElem.classList.add('hide');
+            externalLinksElem.classList.add('hide');
         }
     }
 
@@ -828,37 +837,39 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
     }
 
-    function renderOverview(elems, item) {
-        for (var i = 0, length = elems.length; i < length; i++) {
-            var elem = elems[i];
+    function renderOverview(page, item) {
+        var overviewElemnts = page.querySelectorAll('.overview');
+
+        for (let overviewElemnt of overviewElemnts) {
             var overview = item.Overview || '';
 
             if (overview) {
-                elem.innerHTML = overview;
-                elem.classList.remove('hide');
-                elem.classList.add('detail-clamp-text');
+                overviewElemnt.innerHTML = overview;
+                overviewElemnt.classList.remove('hide');
+                overviewElemnt.classList.add('detail-clamp-text');
 
                 // Grab the sibling element to control the expand state
-                var expandButton = elem.parentElement.querySelector('.overview-expand');
+                var expandButton = overviewElemnt.parentElement.querySelector('.overview-expand');
 
                 // Detect if we have overflow of text. Based on this StackOverflow answer
                 // https://stackoverflow.com/a/35157976
-                if (Math.abs(elem.scrollHeight - elem.offsetHeight) > 2) {
+                if (Math.abs(overviewElemnt.scrollHeight - overviewElemnt.offsetHeight) > 2) {
                     expandButton.classList.remove('hide');
                 } else {
                     expandButton.classList.add('hide');
                 }
 
-                expandButton.addEventListener('click', toggleLineClamp.bind(null, elem));
+                expandButton.addEventListener('click', toggleLineClamp.bind(null, overviewElemnt));
 
-                var anchors = elem.querySelectorAll('a');
+                var anchors = overviewElemnt.querySelectorAll('a');
 
-                for (var j = 0, length2 = anchors.length; j < length2; j++) {
-                    anchors[j].setAttribute('target', '_blank');
+                var anchors = overviewElemnt.querySelectorAll('a');
+                for (let anchor of anchors) {
+                    anchor.setAttribute('target', '_blank');
                 }
             } else {
-                elem.innerHTML = '';
-                elem.classList.add('hide');
+                overviewElemnt.innerHTML = '';
+                overviewElemnt.classList.add('hide');
             }
         }
     }
@@ -902,18 +913,19 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     }
 
     function renderDirector(page, item, context) {
-        var directors = (item.People || []).filter(function (p) {
-            return 'Director' === p.Type;
+        var directors = (item.People || []).filter(function (person) {
+            return person.Type === 'Director';
         });
-        var html = directors.map(function (p) {
+
+        var html = directors.map(function (person) {
             return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
-                Name: p.Name,
+                Name: person.Name,
                 Type: 'Person',
                 ServerId: item.ServerId,
-                Id: p.Id
+                Id: person.Id
             }, {
                 context: context
-            }) + '">' + p.Name + '</a>';
+            }) + '">' + person.Name + '</a>';
         }).join(', ');
 
         var directorsLabel = page.querySelector('.directorsLabel');
@@ -929,13 +941,39 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
     }
 
-    function renderDetails(page, item, apiClient, context, isStatic) {
-        renderSimilarItems(page, item, context);
-        renderMoreFromSeason(page, item, apiClient);
-        renderMoreFromArtist(page, item, apiClient);
-        renderDirector(page, item, context);
-        renderGenres(page, item, context);
-        renderChannelGuide(page, apiClient, item);
+    function renderMiscInfo(page, item) {
+        const primaryItemMiscInfo = page.querySelectorAll('.itemMiscInfo-primary');
+
+        for (let miscInfo of primaryItemMiscInfo) {
+            mediaInfo.fillPrimaryMediaInfo(miscInfo, item, {
+                interactive: true,
+                episodeTitle: false,
+                subtitles: false
+            });
+
+            if (miscInfo.innerHTML && 'SeriesTimer' !== item.Type) {
+                miscInfo.classList.remove('hide');
+            } else {
+                miscInfo.classList.add('hide');
+            }
+        }
+
+        const secondaryItemMiscInfo = page.querySelectorAll('.itemMiscInfo-secondary');
+
+        for (let miscInfo of secondaryItemMiscInfo) {
+            mediaInfo.fillSecondaryMediaInfo(miscInfo, item, {
+                interactive: true
+            });
+
+            if (miscInfo.innerHTML && 'SeriesTimer' !== item.Type) {
+                miscInfo.classList.remove('hide');
+            } else {
+                miscInfo.classList.add('hide');
+            }
+        }
+    }
+
+    function renderTagline(page, item) {
         var taglineElement = page.querySelector('.tagline');
 
         if (item.Taglines && item.Taglines.length) {
@@ -944,45 +982,20 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         } else {
             taglineElement.classList.add('hide');
         }
+    }
 
-        var overview = page.querySelector('.overview');
-        var externalLinksElem = page.querySelector('.itemExternalLinks');
-
-        renderOverview([overview], item);
-        var i;
-        var itemMiscInfo;
-        itemMiscInfo = page.querySelectorAll('.itemMiscInfo-primary');
-
-        for (i = 0; i < itemMiscInfo.length; i++) {
-            mediaInfo.fillPrimaryMediaInfo(itemMiscInfo[i], item, {
-                interactive: true,
-                episodeTitle: false,
-                subtitles: false
-            });
-
-            if (itemMiscInfo[i].innerHTML && 'SeriesTimer' !== item.Type) {
-                itemMiscInfo[i].classList.remove('hide');
-            } else {
-                itemMiscInfo[i].classList.add('hide');
-            }
-        }
-
-        itemMiscInfo = page.querySelectorAll('.itemMiscInfo-secondary');
-
-        for (i = 0; i < itemMiscInfo.length; i++) {
-            mediaInfo.fillSecondaryMediaInfo(itemMiscInfo[i], item, {
-                interactive: true
-            });
-
-            if (itemMiscInfo[i].innerHTML && 'SeriesTimer' !== item.Type) {
-                itemMiscInfo[i].classList.remove('hide');
-            } else {
-                itemMiscInfo[i].classList.add('hide');
-            }
-        }
-
+    function renderDetails(page, item, apiClient, context, isStatic) {
+        renderSimilarItems(page, item, context);
+        renderMoreFromSeason(page, item, apiClient);
+        renderMoreFromArtist(page, item, apiClient);
+        renderDirector(page, item, context);
+        renderGenres(page, item, context);
+        renderChannelGuide(page, apiClient, item);
+        renderTagline(page, item);
+        renderOverview(page, item);
+        renderMiscInfo(page, item);
         reloadUserDataButtons(page, item);
-        renderLinks(externalLinksElem, item);
+        renderLinks(page, item);
         renderTags(page, item);
         renderSeriesAirTime(page, item, isStatic);
     }
@@ -1765,17 +1778,18 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
     return function (view, params) {
         function reload(instance, page, params) {
             loading.show();
+
             var apiClient = params.serverId ? connectionManager.getApiClient(params.serverId) : ApiClient;
-            var promises = [getPromise(apiClient, params), apiClient.getCurrentUser()];
-            Promise.all(promises).then(function (responses) {
-                var item = responses[0];
-                var user = responses[1];
+
+            Promise.all([getPromise(apiClient, params), apiClient.getCurrentUser()]).then(([item, user]) => {
                 currentItem = item;
                 reloadFromItem(instance, page, params, item, user);
 
                 let detailImageContainer = page.querySelector('.detailImageContainer');
                 const overlayPlayButton = detailImageContainer.querySelector('.cardOverlayFab-primary');
                 overlayPlayButton.addEventListener('click', onPlayClick);
+            }).catch((error) => {
+                console.error('failed to get item or current user: ', error);
             });
         }
 

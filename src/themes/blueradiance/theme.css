@@ -223,7 +223,7 @@ html {
     color: #fff !important;
 }
 
-.detailSticky {
+.detailRibbon {
     background: #303030;
     background: -webkit-gradient(linear, left top, right top, from(#291a31), color-stop(#033664), color-stop(#011432), color-stop(#141a3a), to(#291a31));
     background: -webkit-linear-gradient(left, #291a31, #033664, #011432, #141a3a, #291a31);

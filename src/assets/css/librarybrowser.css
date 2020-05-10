@@ -577,14 +577,14 @@
     padding-left: 32.45vw;
 }
 
-.layout-desktop .detailSticky,
-.layout-tv .detailSticky {
+.layout-desktop .detailRibbon,
+.layout-tv .detailRibbon {
     margin-top: -7.2em;
     height: 7.18em;
 }
 
-.layout-desktop .noBackdrop .detailSticky,
-.layout-tv .noBackdrop .detailSticky {
+.layout-desktop .noBackdrop .detailRibbon,
+.layout-tv .noBackdrop .detailRibbon {
     margin-top: 0;
 }
 
