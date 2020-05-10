@@ -511,8 +511,6 @@
     -webkit-box-align: center;
     -webkit-align-items: center;
     align-items: center;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
     margin: 1em 0;
 }
 
@@ -598,6 +596,9 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     text-align: left;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .layout-mobile .infoText {

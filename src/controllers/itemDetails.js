@@ -438,7 +438,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
 
         if (item.OriginalTitle && item.OriginalTitle != item.Name) {
-            html += '<h4 class="itemName infoText" style="margin: -' + offset + ' 0 0;">' + item.OriginalTitle + '</h4>';
+            html += '<h4 class="itemName infoText" style="margin: -0.75em 0 0.25em;">' + item.OriginalTitle + '</h4>';
         }
 
         container.innerHTML = html;
