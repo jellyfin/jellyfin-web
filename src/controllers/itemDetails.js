@@ -912,6 +912,35 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
     }
 
+    function renderWriter(page, item, context) {
+        var writers = (item.People || []).filter(function (person) {
+            return person.Type === 'Writer';
+        });
+
+        var html = writers.map(function (person) {
+            return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+                Name: person.Name,
+                Type: 'Person',
+                ServerId: item.ServerId,
+                Id: person.Id
+            }, {
+                context: context
+            }) + '">' + person.Name + '</a>';
+        }).join(', ');
+
+        var writersLabel = page.querySelector('.writersLabel');
+        writersLabel.innerHTML = globalize.translate(writers.length > 1 ? 'Writers' : 'Writer');
+        var directorsValue = page.querySelector('.writers');
+        directorsValue.innerHTML = html;
+
+        var writersGroup = page.querySelector('.writersGroup');
+        if (writers.length) {
+            writersGroup.classList.remove('hide');
+        } else {
+            writersGroup.classList.add('hide');
+        }
+    }
+
     function renderDirector(page, item, context) {
         var directors = (item.People || []).filter(function (person) {
             return person.Type === 'Director';
@@ -989,6 +1018,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         renderMoreFromSeason(page, item, apiClient);
         renderMoreFromArtist(page, item, apiClient);
         renderDirector(page, item, context);
+        renderWriter(page, item, context);
         renderGenres(page, item, context);
         renderChannelGuide(page, apiClient, item);
         renderTagline(page, item);
@@ -1733,7 +1763,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
     function renderCast(page, item) {
         var people = (item.People || []).filter(function (p) {
-            return 'Director' !== p.Type;
+            return p.Type === 'Actor';
         });
 
         if (!people.length) {
