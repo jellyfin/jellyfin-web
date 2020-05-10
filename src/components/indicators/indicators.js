@@ -42,7 +42,7 @@
     export function getProgressBarHtml(item, options) {
         let pct;
         if (enableProgressIndicator(item) && item.Type !== "Recording") {
-            const userData = options && options.userData ? options.UserData : item.UserData;
+            const userData = options && options.userData ? options.userData : item.UserData;
             if (userData) {
                 pct = userData.PlayedPercentage;
                 if (pct && pct < 100) {
