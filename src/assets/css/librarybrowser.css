@@ -485,6 +485,10 @@
     margin-top: 0;
 }
 
+.detailSectionContent a {
+    color: inherit;
+}
+
 .personBackdrop {
     background-size: contain;
 }
