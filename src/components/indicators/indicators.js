@@ -18,8 +18,8 @@ export function enableProgressIndicator(item) {
 
 export function getProgressHtml(pct, options) {
     let containerClass = 'itemProgressBar';
-    if(options && options.containerClass) {
-        containerClass += ' ' + options.containerClass
+    if (options && options.containerClass) {
+        containerClass += ' ' + options.containerClass;
     }
 
     return '<div class="' + containerClass + '"><div class="itemProgressBarForeground" style="width:' + pct + '%;"></div></div>';
@@ -27,8 +27,8 @@ export function getProgressHtml(pct, options) {
 
 function getAutoTimeProgressHtml(pct, options, isRecording, start, end) {
     let containerClass = 'itemProgressBar';
-    if(options && options.containerClass) {
-        containerClass += ' ' + options.containerClass
+    if (options && options.containerClass) {
+        containerClass += ' ' + options.containerClass;
     }
 
     let foregroundClass = 'itemProgressBarForeground';
@@ -145,7 +145,7 @@ export function getTypeIndicator(item) {
         'Folder' : 'folder',
         'PhotoAlbum' : 'photo_album',
         'Photo' : 'photo'
-    }
+    };
 
     const icon = iconT[item.Type];
     return icon ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon '+ icon +'"></span></div>' : '';
