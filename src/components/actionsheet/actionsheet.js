@@ -170,7 +170,7 @@ export function show(options) {
         html += '<h1 class="actionSheetTitle">' + options.title + '</h1>';
     }
     if (options.text) {
-        html += '<p class="actionSheetText">' + options.text + '</p>'
+        html += '<p class="actionSheetText">' + options.text + '</p>';
     }
 
     let scrollerClassName = 'actionSheetScroller';
