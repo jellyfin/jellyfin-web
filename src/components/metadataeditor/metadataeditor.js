@@ -284,6 +284,11 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             }
         });
 
+        if (!layoutManager.desktop) {
+            context.querySelector('.btnBack').classList.remove('hide');
+            context.querySelector('.btnClose').classList.add('hide');
+        }
+
         bindAll(context.querySelectorAll('.btnCancel'), 'click', function (event) {
             event.preventDefault();
             closeDialog(false);
