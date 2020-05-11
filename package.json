@@ -67,7 +67,7 @@
     "intersection-observer": "^0.10.0",
     "jellyfin-apiclient": "^1.1.1",
     "jellyfin-noto": "https://github.com/jellyfin/jellyfin-noto",
-    "jquery": "^3.5.0",
+    "jquery": "^3.5.1",
     "jstree": "^3.3.7",
     "libass-wasm": "https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf-smarttv",
     "material-design-icons-iconfont": "^5.0.1",
