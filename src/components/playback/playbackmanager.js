@@ -69,6 +69,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         }
 
         const now = (new Date).getTime();
+        
+        (['reportPlaybackStopped'].includes(method) && window.LibraryMenu.setDefaultTitle() === undefined) || window.LibraryMenu.setTitle((info.IsPaused ? '⏸' : '▶') + ' ' + state.NowPlayingItem.AlbumArtist + ' - ' + state.NowPlayingItem.Name);
 
         if (method !== reportPlaybackLastMethod || now - (reportPlaybackLastTime || 0) >= reportPlaybackLogDelay) {
             console.debug(method + '-' + JSON.stringify(info));
