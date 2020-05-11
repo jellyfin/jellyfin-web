@@ -1303,6 +1303,7 @@
     "Runtime": "Runtime",
     "Saturday": "Saturday",
     "Save": "Save",
+    "SaveChanges": "Save changes",
     "SaveSubtitlesIntoMediaFolders": "Save subtitles into media folders",
     "SaveSubtitlesIntoMediaFoldersHelp": "Storing subtitles next to video files will allow them to be more easily managed.",
     "ScanForNewAndUpdatedFiles": "Scan for new and updated files",

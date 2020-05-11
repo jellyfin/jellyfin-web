@@ -21,7 +21,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
                 if (layoutManager.tv) {
                     dialogOptions.size = 'fullscreen';
                 } else {
-                    dialogOptions.size = 'medium-tall';
+                    dialogOptions.size = 'small';
                 }
 
                 var dlg = dialogHelper.createDialog(dialogOptions);

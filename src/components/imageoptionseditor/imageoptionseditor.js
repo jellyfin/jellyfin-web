@@ -87,7 +87,7 @@ define(['globalize', 'dom', 'dialogHelper', 'emby-checkbox', 'emby-select', 'emb
                 xhr.onload = function (e) {
                     var template = this.response;
                     var dlg = dialogHelper.createDialog({
-                        size: 'medium-tall',
+                        size: 'small',
                         removeOnClose: true,
                         scrollY: false
                     });

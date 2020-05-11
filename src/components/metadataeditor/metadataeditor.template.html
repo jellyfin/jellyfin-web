@@ -1,5 +1,4 @@
 <div class="formDialogHeader">
-    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>
     <h3 class="formDialogHeaderTitle">
         ${Edit}
     </h3>
@@ -8,8 +7,8 @@
             <span class="material-icons check"></span>
             <span>${Save}</span>
         </button>
-        <button is="paper-icon-button-light" class="btnMore autoSize" tabindex="-1">
-            <span class="material-icons more_horiz"></span>
+        <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1">
+            <span class="material-icons close"></span>
         </button>
     </div>
 </div>
@@ -57,11 +56,13 @@
                 <div id="fldAlbum" class="hide inputContainer">
                     <input is="emby-input" id="txtAlbum" type="text" label="${LabelAlbum}" />
                 </div>
-                <div id="fldParentIndexNumber" class="hide inputContainer">
-                    <input is="emby-input" id="txtParentIndexNumber" type="number" />
-                </div>
-                <div id="fldIndexNumber" class="hide inputContainer">
-                    <input is="emby-input" id="txtIndexNumber" type="number" pattern="[0-9]*" />
+                <div class="inlineForm">
+                    <div id="fldParentIndexNumber" class="hide inputContainer">
+                        <input is="emby-input" id="txtParentIndexNumber" type="number" />
+                    </div>
+                    <div id="fldIndexNumber" class="hide inputContainer">
+                        <input is="emby-input" id="txtIndexNumber" type="number" pattern="[0-9]*" />
+                    </div>
                 </div>
                 <div id="fldCommunityRating" class="hide inputContainer">
                     <input is="emby-input" id="txtCommunityRating" type="number" step=".1" min="0" max="10" label="${LabelCommunityRating}" />
@@ -129,24 +130,28 @@
                 <div id="fldSeriesRuntime" class="inputContainer hide">
                     <input is="emby-input" id="txtSeriesRuntime" type="number" label="${LabelRuntimeMinutes}" />
                 </div>
-                <div id="fldOfficialRating" class="selectContainer hide">
-                    <select is="emby-select" id="selectOfficialRating" label="${LabelParentalRating}"></select>
+                <div class="inlineForm">
+                    <div id="fldOfficialRating" class="selectContainer hide">
+                        <select is="emby-select" id="selectOfficialRating" label="${LabelParentalRating}"></select>
+                    </div>
+                    <div id="fldCustomRating" class="selectContainer hide">
+                        <select is="emby-select" id="selectCustomRating" label="${LabelCustomRating}"></select>
+                    </div>
                 </div>
-                <div id="fldCustomRating" class="selectContainer hide">
-                    <select is="emby-select" id="selectCustomRating" label="${LabelCustomRating}"></select>
-                </div>
-                <div id="fldOriginalAspectRatio" class="inputContainer hide">
-                    <input is="emby-input" id="txtOriginalAspectRatio" type="text" label="${LabelOriginalAspectRatio}" />
-                </div>
-                <div id="fld3dFormat" class="selectContainer hide">
-                    <select is="emby-select" id="select3dFormat" label="${Label3DFormat}">
-                        <option value=""></option>
-                        <option value="HalfSideBySide">HSBS</option>
-                        <option value="HalfTopAndBottom">HTAB</option>
-                        <option value="FullSideBySide">FSBS</option>
-                        <option value="FullTopAndBottom">FTAB</option>
-                        <option value="MVC">MVC</option>
-                    </select>
+                <div class="inlineForm">
+                    <div id="fldOriginalAspectRatio" class="inputContainer hide">
+                        <input is="emby-input" id="txtOriginalAspectRatio" type="text" label="${LabelOriginalAspectRatio}" />
+                    </div>
+                    <div id="fld3dFormat" class="selectContainer hide">
+                        <select is="emby-select" id="select3dFormat" label="${Label3DFormat}">
+                            <option value=""></option>
+                            <option value="HalfSideBySide">HSBS</option>
+                            <option value="HalfTopAndBottom">HTAB</option>
+                            <option value="FullSideBySide">FSBS</option>
+                            <option value="FullTopAndBottom">FTAB</option>
+                            <option value="MVC">MVC</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div id="fldDisplayOrder" class="fldDisplaySetting selectContainer hide">
@@ -160,14 +165,16 @@
                 <h2>
                     ${HeaderSpecialEpisodeInfo}
                 </h2>
-                <div class="inputContainer">
-                    <input is="emby-input" id="txtAirsBeforeSeason" type="number" pattern="[0-9]*" label="${LabelAirsBeforeSeason}" />
-                </div>
-                <div class="inputContainer">
-                    <input is="emby-input" id="txtAirsAfterSeason" type="number" pattern="[0-9]*" label="${LabelAirsAfterSeason}" />
-                </div>
-                <div class="inputContainer">
-                    <input is="emby-input" id="txtAirsBeforeEpisode" type="number" pattern="[0-9]*" label="${LabelAirsBeforeEpisode}" />
+                <div class="inlineForm">
+                    <div class="inputContainer">
+                        <input is="emby-input" id="txtAirsBeforeSeason" type="number" pattern="[0-9]*" label="${LabelAirsBeforeSeason}" />
+                    </div>
+                    <div class="inputContainer">
+                        <input is="emby-input" id="txtAirsAfterSeason" type="number" pattern="[0-9]*" label="${LabelAirsAfterSeason}" />
+                    </div>
+                    <div class="inputContainer">
+                        <input is="emby-input" id="txtAirsBeforeEpisode" type="number" pattern="[0-9]*" label="${LabelAirsBeforeEpisode}" />
+                    </div>
                 </div>
             </div>
 
@@ -240,8 +247,11 @@
             </div>
             <br />
             <div class="formDialogFooter">
+                <button is="emby-button" class="raised button-cancel block btnCancel formDialogFooterItem">
+                    <span>${Cancel}</span>
+                </button>
                 <button is="emby-button" type="submit" class="raised button-submit block btnSave formDialogFooterItem">
-                    <span>${Save}</span>
+                    <span>${SaveChanges}</span>
                 </button>
             </div>
 

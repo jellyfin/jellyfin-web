@@ -187,7 +187,7 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
                 xhr.onload = function (e) {
                     var template = this.response;
                     var dlg = dialogHelper.createDialog({
-                        size: 'medium-tall',
+                        size: 'small',
                         modal: false,
                         removeOnClose: true,
                         scrollY: false
