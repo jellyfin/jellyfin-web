@@ -6807,9 +6807,10 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-"libass-wasm@https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf-smarttv":
+"libass-wasm@https://github.com/jellyfin/JavascriptSubtitlesOctopus#4.0.0-jf":
   version "4.0.0"
-  resolved "https://github.com/jellyfin/JavascriptSubtitlesOctopus#58e9a3f1a7f7883556ee002545f445a430120639"
+  uid "7e6b75dcab9f7dad12719983510d05242803707c"
+  resolved "https://github.com/jellyfin/JavascriptSubtitlesOctopus#7e6b75dcab9f7dad12719983510d05242803707c"
 
 liftoff@^3.1.0:
   version "3.1.0"
