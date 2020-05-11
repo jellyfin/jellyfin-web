@@ -2,7 +2,17 @@ let data;
 
 function getConfig() {
     if (data) return Promise.resolve(data);
-    return fetch('/config.json?nocache=' + new Date().getUTCMilliseconds()).then(function (response) {
+    return fetch('/config.json?nocache=' + new Date().getUTCMilliseconds()).then(response => {
+        data = response.json();
+        return data;
+    }).catch(error => {
+        return getDefaultConfig();
+    });
+}
+
+function getDefaultConfig() {
+    console.warn('web config file is missing so the template will be used')
+    return fetch('/config.template.json').then(function (response) {
         data = response.json();
         return data;
     });
