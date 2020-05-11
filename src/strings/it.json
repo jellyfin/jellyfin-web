@@ -1504,5 +1504,7 @@
     "MessageUnauthorizedUser": "Non sei autorizzato ad accedere in questo momento al server. Contatta l'amministratore per ulteriori dettagli.",
     "ButtonTogglePlaylist": "Playlist",
     "ButtonToggleContextMenu": "Altro",
-    "HeaderFavoritePlaylists": "Playlist Favorite"
+    "HeaderFavoritePlaylists": "Playlist Favorite",
+    "Filter": "Filtro",
+    "New": "Nuovo"
 }
