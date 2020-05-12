@@ -1528,5 +1528,6 @@
     "MessageUnauthorizedUser": "Sie sind im Moment nicht berechtigt, auf den Server zuzugreifen. Bitte kontaktieren Sie Ihren Server-Administrator für weitere Informationen.",
     "HeaderFavoritePlaylists": "Lieblings-Wiedergabeliste",
     "ButtonTogglePlaylist": "Wiedergabeliste",
-    "ButtonToggleContextMenu": "Mehr"
+    "ButtonToggleContextMenu": "Mehr",
+    "ApiKeysCaption": "Liste der aktuell aktivierten API-Schlüssel"
 }
