@@ -311,6 +311,7 @@
     "HeaderApiKey": "API Key",
     "HeaderApiKeys": "API Keys",
     "HeaderApiKeysHelp": "External applications are required to have an API key in order to communicate with Jellyfin Server. Keys are issued by logging in with a Jellyfin account, or by manually granting the application a key.",
+    "ApiKeysCaption": "List of the currently enabled API keys",
     "HeaderApp": "App",
     "HeaderAppearsOn": "Appears On",
     "HeaderAudioBooks": "Audio Books",
