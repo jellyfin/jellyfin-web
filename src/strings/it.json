@@ -1506,5 +1506,6 @@
     "ButtonToggleContextMenu": "Altro",
     "HeaderFavoritePlaylists": "Playlist Favorite",
     "Filter": "Filtro",
-    "New": "Nuovo"
+    "New": "Nuovo",
+    "ApiKeysCaption": "Elenco chiavi API abilitate"
 }
