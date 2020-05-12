@@ -1507,5 +1507,6 @@
     "New": "Nové",
     "HeaderFavoritePlaylists": "Obľúbené playlisty",
     "ButtonTogglePlaylist": "Playlist",
-    "ButtonToggleContextMenu": "Viac"
+    "ButtonToggleContextMenu": "Viac",
+    "ApiKeysCaption": "Zoznam v súčasnosti povolených API kľúčov"
 }
