@@ -63,6 +63,7 @@ video::-webkit-media-controls {
         transform: scale3d(0.2, 0.2, 0.2);
         opacity: 0.6;
     }
+
     to {
         transform: none;
         opacity: initial;
