@@ -13,7 +13,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
 
         html += '</div>';
         $('.folderAccess', page).html(html).trigger('create');
-        $('#chkEnableAllFolders', page).checked(true).trigger('change');
+        $('#chkEnableAllFolders', page).checked(false).trigger('change');
     }
 
     function loadChannels(page, channels) {
