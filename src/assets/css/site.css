@@ -6,6 +6,17 @@ html {
     overflow-y: scroll;
 }
 
+.clipForScreenReader {
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+}
+
 .material-icons {
     /* Fix font ligatures on older WebOS versions */
     -webkit-font-feature-settings: "liga";

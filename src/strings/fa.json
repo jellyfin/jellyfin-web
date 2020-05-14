@@ -690,5 +690,17 @@
     "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "این تنظیمات همچنین در مورد هر پخش Chromecast که توسط این دستگاه شروع شده است اعمال می شود.",
     "SmartSubtitlesHelp": "زیرنویس‌های متناسب با توجه به اولویت زبان بدون در نظر گرفتن زبان صوتی ویدیو پخش می شوند.",
     "SkipEpisodesAlreadyInMyLibrary": "قسمت‌هایی که هم اکنون در کتابخانه من موجود است را ضبط نکن",
-    "SimultaneousConnectionLimitHelp": "حداکثر تعداد پخش‌های مجاز همزمان. ۰ را برای بدون محدودیت وارد کنید."
+    "SimultaneousConnectionLimitHelp": "حداکثر تعداد پخش‌های مجاز همزمان. ۰ را برای بدون محدودیت وارد کنید.",
+    "MessagePluginConfigurationRequiresLocalAccess": "برای پیکربندی این افزونه، لطفاً مستقیماً به سرور محلی خود وارد شوید.",
+    "MessagePleaseWait": "لطفا صبر کنید. این ممکن است چند دقیقه طول بکشد.",
+    "MessageNoServersAvailable": "هیچ سروری با استفاده از کشف خودکار سرور یافت نشد.",
+    "MessageNoPluginsInstalled": "هیچ افزونه‌ی نصب نشده است.",
+    "MessageNoMovieSuggestionsAvailable": "هیچ پیشنهادی برای فیلم در دسترس نیست. شروع به تماشای و رتبه بندی فیلم‌های خود بکنید ، و سپس دوباره به دیدن پیشنهاد‌های خود بیایید.",
+    "MessageNoAvailablePlugins": "افزونه‌ای موجود نیست.",
+    "MessageItemsAdded": "آیتم‌ها اضافه شدند.",
+    "MessageItemSaved": "آیتم ذخیره شد.",
+    "MessageUnauthorizedUser": "در حال حاضر مجاز به دسترسی به سرور نیستید. لطفا برای اطلاعات بیشتر با مدیر سرور خود تماس بگیرید.",
+    "MessageInvalidUser": "نام کاربری یا گذرواژه نامعتبر است. لطفا دوباره تلاش کنید.",
+    "MessageInvalidForgotPasswordPin": "کد پین نامعتبر یا منقضی شده وارد شد. لطفا دوباره تلاش کنید.",
+    "MessageInstallPluginFromApp": "این افزونه باید از داخل برنامه‌ای که قصد استفاده از آن را دارید نصب شود."
 }

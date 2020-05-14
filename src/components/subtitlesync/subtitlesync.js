@@ -32,8 +32,12 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
             this.textContent = offset + 's';
         };
 
-        subtitleSyncTextField.addEventListener('keypress', function(event) {
+        subtitleSyncTextField.addEventListener('click', function () {
+            // keep focus to prevent fade with osd
+            this.hasFocus = true;
+        });
 
+        subtitleSyncTextField.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 // if input key is enter search for float pattern
                 var inputOffset = /[-+]?\d+\.?\d*/g.exec(this.textContent);
@@ -55,13 +59,20 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
                 this.hasFocus = false;
                 event.preventDefault();
             } else {
-                // keep focus to prevent fade with bottom layout
+                // keep focus to prevent fade with osd
                 this.hasFocus = true;
                 if (event.key.match(/[+-\d.s]/) === null) {
                     event.preventDefault();
                 }
             }
         });
+
+        subtitleSyncTextField.blur = function() {
+            // prevent textfield to blur while element has focus
+            if (!this.hasFocus && this.prototype) {
+                this.prototype.blur();
+            }
+        };
 
         subtitleSyncSlider.updateOffset = function(percent) {
             // default value is 0s = 50%
@@ -140,12 +151,10 @@ define(['playbackManager', 'layoutManager', 'text!./subtitlesync.template.html',
             /* eslint-disable no-fallthrough */
             switch (action) {
                 case undefined:
-                    // if showing subtitle sync is enabled
-                    if (playbackManager.isShowingSubtitleOffsetEnabled(player) &&
-                        // if there is an external subtitle stream enabled
-                        playbackManager.canHandleOffsetOnCurrentSubtitle(player)) {
-                        // if no subtitle offset is defined
-                        if (!playbackManager.getPlayerSubtitleOffset(player)) {
+                    // if showing subtitle sync is enabled and if there is an external subtitle stream enabled
+                    if (playbackManager.isShowingSubtitleOffsetEnabled(player) && playbackManager.canHandleOffsetOnCurrentSubtitle(player)) {
+                        // if no subtitle offset is defined or element has focus (offset being defined)
+                        if (!(playbackManager.getPlayerSubtitleOffset(player) || subtitleSyncTextField.hasFocus)) {
                             // set default offset to '0' = 50%
                             subtitleSyncSlider.value = '50';
                             subtitleSyncTextField.textContent = '0s';

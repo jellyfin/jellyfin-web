@@ -106,10 +106,16 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         });
     }
 
+    function hidePrePlaybackPage() {
+        let animatedPage = document.querySelector('.page:not(.hide)');
+        animatedPage.classList.add('hide');
+    }
+
     function zoomIn(elem) {
         return new Promise(function (resolve, reject) {
             var duration = 240;
             elem.style.animation = 'htmlvideoplayer-zoomin ' + duration + 'ms ease-in normal';
+            hidePrePlaybackPage();
             dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
                 once: true
             });
@@ -290,7 +296,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             return createMediaElement(options).then(function (elem) {
 
-                return updateVideoUrl(options, options.mediaSource).then(function () {
+                return updateVideoUrl(options).then(function () {
                     return setCurrentSrc(elem, options);
                 });
             });
@@ -602,7 +608,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             // if .ass currently rendering
             if (currentSubtitlesOctopus) {
                 updateCurrentTrackOffset(offsetValue);
-                currentSubtitlesOctopus.timeOffset = offsetValue;
+                currentSubtitlesOctopus.timeOffset = (self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
             } else {
                 var trackElement = getTextTrack();
                 // if .vtt currently rendering
@@ -836,7 +842,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function onNavigatedToOsd() {
             var dlg = videoDialog;
             if (dlg) {
-                dlg.classList.remove('videoPlayerContainer-withBackdrop');
                 dlg.classList.remove('videoPlayerContainer-onTop');
 
                 onStartedAndNavigatedToOsd();
@@ -860,7 +865,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 loading.hide();
 
                 htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks, function () {
-                    if (currentSubtitlesOctopus) currentSubtitlesOctopus.resize();
+                    if (currentSubtitlesOctopus) {
+                        currentSubtitlesOctopus.timeOffset = (self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + currentTrackOffset;
+                        currentSubtitlesOctopus.resize();
+                        currentSubtitlesOctopus.resetRenderAheadCache(false);
+                    }
                 });
 
                 if (self._currentPlayOptions.fullscreen) {
@@ -869,7 +878,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 } else {
                     appRouter.setTransparency('backdrop');
-                    videoDialog.classList.remove('videoPlayerContainer-withBackdrop');
                     videoDialog.classList.remove('videoPlayerContainer-onTop');
 
                     onStartedAndNavigatedToOsd();
@@ -1066,6 +1074,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 onError: function() {
                     htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
                 },
+                timeOffset: (self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
                 // new octopus options; override all, even defaults
                 renderMode: 'blend',
@@ -1285,12 +1294,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function createMediaElement(options) {
 
-            if (browser.tv || browser.iOS || browser.mobile) {
-                // too slow
-                // also on iOS, the backdrop image doesn't look right
-                // on android mobile, it works, but can be slow to have the video surface fully cover the backdrop
-                options.backdropUrl = null;
-            }
             return new Promise(function (resolve, reject) {
 
                 var dlg = document.querySelector('.videoPlayerContainer');
@@ -1304,11 +1307,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         var dlg = document.createElement('div');
 
                         dlg.classList.add('videoPlayerContainer');
-
-                        if (options.backdropUrl) {
-                            dlg.classList.add('videoPlayerContainer-withBackdrop');
-                            dlg.style.backgroundImage = "url('" + options.backdropUrl + "')";
-                        }
 
                         if (options.fullscreen) {
                             dlg.classList.add('videoPlayerContainer-onTop');
@@ -1343,6 +1341,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         videoElement.addEventListener('play', onPlay);
                         videoElement.addEventListener('click', onClick);
                         videoElement.addEventListener('dblclick', onDblClick);
+                        if (options.backdropUrl) {
+                            videoElement.poster = options.backdropUrl;
+                        }
 
                         document.body.insertBefore(dlg, document.body.firstChild);
                         videoDialog = dlg;
@@ -1362,15 +1363,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                                 resolve(videoElement);
                             });
                         } else {
+                            hidePrePlaybackPage();
                             resolve(videoElement);
                         }
                     });
                 } else {
-                    if (options.backdropUrl) {
-                        dlg.classList.add('videoPlayerContainer-withBackdrop');
-                        dlg.style.backgroundImage = "url('" + options.backdropUrl + "')";
-                    }
-
                     resolve(dlg.querySelector('video'));
                 }
             });
