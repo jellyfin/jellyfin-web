@@ -137,6 +137,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
     function onViewBeforeShow(e) {
         if (e.detail && e.detail.type === 'video-osd') {
+            document.getElementsByTagName('body')[0].style = null;
             return;
         }
 
@@ -155,6 +156,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
                 }
             }
         }
+        document.getElementsByTagName('body')[0].style = 'overflow-y: scroll';
     }
 
     document.addEventListener('viewshow', onViewBeforeShow);
