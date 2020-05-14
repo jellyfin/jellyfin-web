@@ -11,20 +11,10 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         }
 
         var box;
-        var elem;
+        for (let [index, elem] of elems) {
+            box = elem.getBoundingClientRect();
 
-        for (var i = 0, length = elems.length; i < length; i++) {
-
-            elem = elems[i];
-            // Support: BlackBerry 5, iOS 3 (original iPhone)
-            // If we don't have gBCR, just use 0,0 rather than error
-            if (elem.getBoundingClientRect) {
-                box = elem.getBoundingClientRect();
-            } else {
-                box = { top: 0, left: 0 };
-            }
-
-            results[i] = {
+            results[index] = {
                 top: box.top,
                 left: box.left,
                 width: box.width,
@@ -96,13 +86,11 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
             scrollY: false
         };
 
-        var backButton = false;
         var isFullscreen;
 
         if (layoutManager.tv) {
             dialogOptions.size = 'fullscreen';
             isFullscreen = true;
-            backButton = true;
             dialogOptions.autoFocus = true;
         } else {
 
@@ -139,16 +127,10 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
             style += 'min-width:' + minWidth + 'px;';
         }
 
-        var i;
-        var length;
-        var option;
         var renderIcon = false;
         var icons = [];
         var itemIcon;
-        for (i = 0, length = options.items.length; i < length; i++) {
-
-            option = options.items[i];
-
+        for (let option of options.items) {
             itemIcon = option.icon || (option.selected ? 'check' : null);
 
             if (itemIcon) {
@@ -206,10 +188,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
             menuItemClass += ' actionsheet-xlargeFont';
         }
 
-        for (i = 0, length = options.items.length; i < length; i++) {
-
-            option = options.items[i];
-
+        for (let [index, option] of options) {
             if (option.divider) {
 
                 html += '<div class="actionsheetDivider"></div>';
@@ -222,7 +201,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
             var optionId = option.id == null || option.id === '' ? option.value : option.id;
             html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
 
-            itemIcon = icons[i];
+            itemIcon = icons[index];
 
             if (itemIcon) {
 
