@@ -109,6 +109,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     function hidePrePlaybackPage() {
         let animatedPage = document.querySelector('.page:not(.hide)');
         animatedPage.classList.add('hide');
+        document.getElementsByTagName('body')[0].style = null;
     }
 
     function zoomIn(elem) {
