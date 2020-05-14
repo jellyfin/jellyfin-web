@@ -40,7 +40,7 @@
     "BirthDateValue": "Nato il: {0}",
     "BirthLocation": "Luogo di nascita",
     "BirthPlaceValue": "nato a: {0}",
-    "BookLibraryHelp": "Libri e audiolibri sono supportati. Rivedere {0}la guida ai nomi dei libri di Jellyfin{1}.",
+    "BookLibraryHelp": "Libri e audiolibri sono supportati. Rivedi la guida {0} ai nomi dei libri {1} di Jellyfin.",
     "Books": "Libri",
     "BoxRear": "Box (retro)",
     "Browse": "Esplora",
