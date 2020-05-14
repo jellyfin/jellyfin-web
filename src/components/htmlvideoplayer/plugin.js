@@ -279,14 +279,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         self.play = function (options) {
-
-            if (browser.msie) {
-                if (options.playMethod === 'Transcode' && !window.MediaSource) {
-                    alert('Playback of this content is not supported in Internet Explorer. For a better experience, try a modern browser such as Microsoft Edge, Google Chrome, Firefox or Opera.');
-                    return Promise.reject();
-                }
-            }
-
             self._started = false;
             self._timeUpdated = false;
 
@@ -1411,13 +1403,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var video = document.createElement('video');
         if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' || document.pictureInPictureEnabled) {
             list.push('PictureInPicture');
-        } else if (browser.ipad) {
-            // Unfortunately this creates a false positive on devices where its' not actually supported
-            if (navigator.userAgent.toLowerCase().indexOf('os 9') === -1) {
-                if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
-                    list.push('PictureInPicture');
-                }
-            }
         } else if (window.Windows) {
             if (Windows.UI.ViewManagement.ApplicationView.getForCurrentView().isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)) {
                 list.push('PictureInPicture');

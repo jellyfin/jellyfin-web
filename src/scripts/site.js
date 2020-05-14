@@ -368,8 +368,7 @@ var AppInfo = {};
         }
     }
 
-    function initRequireWithBrowser(browser) {
-        var bowerPath = getBowerPath();
+    function initRequireWithBrowser() {
         var componentsPath = getComponentsPath();
         var scriptsPath = getScriptsPath();
 
@@ -378,13 +377,7 @@ var AppInfo = {};
         define('lazyLoader', [componentsPath + '/lazyloader/lazyloader-intersectionobserver'], returnFirstDependency);
         define('shell', [componentsPath + '/shell'], returnFirstDependency);
 
-        if ('registerElement' in document) {
-            define('registerElement', []);
-        } else if (browser.msie) {
-            define('registerElement', ['webcomponents'], returnFirstDependency);
-        } else {
-            define('registerElement', ['document-register-element'], returnFirstDependency);
-        }
+        define('registerElement', ['document-register-element'], returnFirstDependency);
 
         define('alert', [componentsPath + '/alert'], returnFirstDependency);
 
@@ -609,8 +602,8 @@ var AppInfo = {};
         /* eslint-enable compat/compat */
     }
 
-    function onWebComponentsReady(browser) {
-        initRequireWithBrowser(browser);
+    function onWebComponentsReady() {
+        initRequireWithBrowser();
 
         if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
             AppInfo.isNativeApp = true;
@@ -1127,7 +1120,7 @@ var AppInfo = {};
         });
     })();
 
-    return require(['browser'], onWebComponentsReady);
+    return onWebComponentsReady();
 }();
 
 pageClassOn('viewshow', 'standalonePage', function () {

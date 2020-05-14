@@ -120,7 +120,12 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
             html += plugin.Name;
             html += '</h3>';
             html += '</div>';
-            index > 0 ? html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonUp') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_up"></span></button>' : plugins.length > 1 && (html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonDown') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_down"></span></button>'), html += '</div>';
+            if (index > 0) {
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonUp') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_up"></span></button>';
+            } else if (plugins.length > 1) {
+                html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonDown') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_down"></span></button>';
+            }
+            html += '</div>';
         });
 
         html += '</div>';
