@@ -3,12 +3,8 @@ define(['globalize'], function (globalize) {
 
     function processForgotPasswordResult(result) {
         if (result.Success) {
-            var msg = globalize.translate('MessagePasswordResetForUsers');
-            msg += '<br/>';
-            msg += '<br/>';
-            msg += result.UsersReset.join('<br/>');
             return void Dashboard.alert({
-                message: msg,
+                message: globalize.translate('MessagePasswordResetForUsers'),
                 title: globalize.translate('HeaderPasswordReset'),
                 callback: function () {
                     window.location.href = 'index.html';
@@ -26,10 +22,11 @@ define(['globalize'], function (globalize) {
         function onSubmit(e) {
             ApiClient.ajax({
                 type: 'POST',
-                url: ApiClient.getUrl('Users/ForgotPassword/Pin'),
+                url: ApiClient.getUrl('Users/ForgotPassword/Code'),
                 dataType: 'json',
                 data: {
-                    Pin: view.querySelector('#txtPin').value
+                    Code: view.querySelector('#txtPin').value,
+                    Password: view.querySelector('#txtPassword').value
                 }
             }).then(processForgotPasswordResult);
             e.preventDefault();

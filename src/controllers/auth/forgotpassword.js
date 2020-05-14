@@ -9,23 +9,9 @@ define(['globalize'], function (globalize) {
             });
         }
 
-        if ('InNetworkRequired' == result.Action) {
-            return void Dashboard.alert({
-                message: globalize.translate('MessageForgotPasswordInNetworkRequired'),
-                title: globalize.translate('HeaderForgotPassword')
-            });
-        }
-
         if ('PinCode' == result.Action) {
-            var msg = globalize.translate('MessageForgotPasswordFileCreated');
-            msg += '<br/>';
-            msg += '<br/>';
-            msg += 'Enter PIN here to finish Password Reset<br/>';
-            msg += '<br/>';
-            msg += result.PinFile;
-            msg += '<br/>';
             return void Dashboard.alert({
-                message: msg,
+                message: globalize.translate('MessageForgotPasswordFileCreated'),
                 title: globalize.translate('HeaderForgotPassword'),
                 callback: function () {
                     Dashboard.navigate('forgotpasswordpin.html');
@@ -41,7 +27,7 @@ define(['globalize'], function (globalize) {
                 url: ApiClient.getUrl('Users/ForgotPassword'),
                 dataType: 'json',
                 data: {
-                    EnteredUsername: view.querySelector('#txtName').value
+                    Username: view.querySelector('#txtName').value
                 }
             }).then(processForgotPasswordResult);
             e.preventDefault();
