@@ -4,13 +4,13 @@
 }
 
 .mediaInfoText {
-    padding: .22em .5em;
-    border-radius: .25em;
+    padding: 0.22em 0.5em;
+    border-radius: 0.25em;
     font-size: 92%;
     display: flex;
     align-items: center;
     white-space: nowrap;
-    margin: 0 .5em 0 0;
+    margin: 0 0.5em 0 0;
 }
 
 .mediaInfoText-upper {
@@ -21,7 +21,7 @@
     width: auto;
     height: auto;
     font-size: 1.6em;
-    margin-right: .6em;
+    margin-right: 0.6em;
 }
 
 .mediaInfoItem:last-child {
@@ -54,17 +54,17 @@
 }
 
 .mediaInfoCriticRatingFresh {
-    background-image: url(fresh.png);
+    background-image: url(../../assets/img/fresh.svg);
 }
 
 .mediaInfoCriticRatingRotten {
-    background-image: url(rotten.png);
+    background-image: url(../../assets/img/rotten.svg);
 }
 
 .mediaInfoProgramAttribute {
     text-transform: uppercase;
-    padding: .16em .6em;
-    border-radius: .15em;
+    padding: 0.16em 0.6em;
+    border-radius: 0.15em;
     font-size: 80%;
 }
 
@@ -73,13 +73,13 @@
 }
 
 .mediaInfoOfficialRating {
-    border: .09em solid currentColor;
-    padding: 0 .6em;
+    border: 0.09em solid currentColor;
+    padding: 0 0.6em;
     height: 1.3em;
     line-height: 1.8em;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: .1em;
+    border-radius: 0.1em;
     font-size: 96%;
 }

@@ -1,25 +1,12 @@
-define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize) {
+define(['dom', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'flexStyles'], function (dom, dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize) {
     'use strict';
 
     var currentServerId;
 
-    function parentWithClass(elem, className) {
-
-        while (!elem.classList || !elem.classList.contains(className)) {
-            elem = elem.parentNode;
-
-            if (!elem) {
-                return null;
-            }
-        }
-
-        return elem;
-    }
-
     function onSubmit(e) {
         loading.show();
 
-        var panel = parentWithClass(this, 'dialog');
+        var panel = dom.parentWithClass(this, 'dialog');
 
         var collectionId = panel.querySelector('#selectCollectionToAddTo').value;
 
@@ -37,7 +24,7 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
 
     function createCollection(apiClient, dlg) {
 
-        var url = apiClient.getUrl("Collections", {
+        var url = apiClient.getUrl('Collections', {
 
             Name: dlg.querySelector('#txtNewCollectionName').value,
             IsLocked: !dlg.querySelector('#chkEnableInternetMetadata').checked,
@@ -45,9 +32,9 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         });
 
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             url: url,
-            dataType: "json"
+            dataType: 'json'
 
         }).then(function (result) {
 
@@ -69,13 +56,13 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
 
     function addToCollection(apiClient, dlg, id) {
 
-        var url = apiClient.getUrl("Collections/" + id + "/Items", {
+        var url = apiClient.getUrl('Collections/' + id + '/Items', {
 
             Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
         });
 
         apiClient.ajax({
-            type: "POST",
+            type: 'POST',
             url: url
 
         }).then(function () {
@@ -106,8 +93,8 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         var options = {
 
             Recursive: true,
-            IncludeItemTypes: "BoxSet",
-            SortBy: "SortName",
+            IncludeItemTypes: 'BoxSet',
+            SortBy: 'SortName',
             EnableTotalRecordCount: false
         };
 
@@ -243,13 +230,13 @@ define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManage
         var title = items.length ? globalize.translate('HeaderAddToCollection') : globalize.translate('NewCollection');
 
         html += '<div class="formDialogHeader">';
-        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">arrow_back</i></button>';
+        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
         html += '<h3 class="formDialogHeaderTitle">';
         html += title;
         html += '</h3>';
 
         if (appHost.supports('externallinks')) {
-            html += '<a is="emby-linkbutton" class="button-link btnHelp flex align-items-center" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;padding:.25em;" title="' + globalize.translate('Help') + '"><i class="md-icon">info</i><span style="margin-left:.25em;">' + globalize.translate('Help') + '</span></a>';
+            html += '<a is="emby-linkbutton" class="button-link btnHelp flex align-items-center" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;padding:.25em;" title="' + globalize.translate('Help') + '"><span class="material-icons info"></span><span style="margin-left:.25em;">' + globalize.translate('Help') + '</span></a>';
         }
 
         html += '</div>';

@@ -104,24 +104,17 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
     }
 
     function showSortMenu() {
-
         var instance = this;
-
         require(['sortMenu'], function (SortMenu) {
-
             new SortMenu().show({
-
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getSortValues(),
                 onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
                 serverId: instance.params.serverId,
                 sortOptions: instance.getSortMenuOptions()
-
             }).then(function () {
-
                 updateSortText(instance);
                 updateAlphaPickerState(instance);
-
                 instance.itemsContainer.refreshItems();
             });
         });
@@ -188,7 +181,8 @@ define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts
             return;
         }
 
-        btnSortIcon.innerHTML = values.sortOrder === 'Descending' ? 'arrow_downward' : 'arrow_upward';
+        btnSortIcon.classList.remove('arrow_downward', 'arrow_upward');
+        btnSortIcon.classList.add(values.sortOrder === 'Descending' ? 'arrow_downward' : 'arrow_upward');
     }
 
     function bindAll(elems, eventName, fn) {

@@ -8,20 +8,26 @@
     font-size: inherit;
     font-family: inherit;
     color: inherit;
+
+    /* These are getting an outline in opera tv browsers, which run chrome 30 */
+    outline: none !important;
     outline-width: 0;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
     z-index: 0;
     padding: 0.9em 1em;
     vertical-align: middle;
     border: 0;
-    vertical-align: middle;
     border-radius: 0.2em;
-    /* These are getting an outline in opera tv browsers, which run chrome 30 */
-    outline: none !important;
-    position: relative;
     font-weight: 600;
+
+    /* Disable webkit tap highlighting */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     text-decoration: none;
+
     /* Not crazy about this but it normalizes heights between anchors and buttons */
     line-height: 1.35;
     transform-origin: center;
@@ -41,12 +47,9 @@
     background: transparent;
 }
 
-.button-flat:hover {
-    opacity: .5;
-}
-
 .button-link {
     background: transparent;
+    cursor: pointer;
     margin: 0;
     padding: 0;
     vertical-align: initial;
@@ -56,12 +59,12 @@
     text-decoration: underline;
 }
 
-.emby-button > i {
+.emby-button > .material-icons {
     /* For non-fab buttons that have icons */
     font-size: 1.36em;
 }
 
-.button-link > i {
+.button-link > .material-icons {
     font-size: 1em;
 }
 
@@ -79,7 +82,7 @@
     display: block;
     align-items: center;
     justify-content: center;
-    margin: .25em 0;
+    margin: 0.25em 0;
     width: 100%;
 }
 
@@ -88,12 +91,15 @@
     display: inline-flex;
     align-items: center;
     box-sizing: border-box;
-    margin: 0 .29em;
+    margin: 0 0.29em;
     background: transparent;
     text-align: center;
     font-size: inherit;
     font-family: inherit;
     color: inherit;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
     z-index: 0;
@@ -101,15 +107,17 @@
     min-height: initial;
     width: auto;
     height: auto;
-    padding: .556em;
+    padding: 0.556em;
     vertical-align: middle;
     border: 0;
-    vertical-align: middle;
+
     /* These are getting an outline in opera tv browsers, which run chrome 30 */
     outline: none !important;
-    position: relative;
     overflow: hidden;
     border-radius: 50%;
+
+    /* Disable webkit tap highlighting */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     justify-content: center;
     transform-origin: center;
     transition: 0.2s;
@@ -120,32 +128,33 @@
     z-index: 1;
 }
 
-    .paper-icon-button-light::-moz-focus-inner {
-        border: 0;
-    }
+.paper-icon-button-light::-moz-focus-inner {
+    border: 0;
+}
 
-    .paper-icon-button-light:disabled {
-        opacity: 0.3;
-        cursor: default;
-    }
+.paper-icon-button-light:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
 
-    .paper-icon-button-light > i {
-        font-size: 1.66956521739130434em;
-        /* Make sure its on top of the ripple */
-        position: relative;
-        z-index: 1;
-        vertical-align: middle;
-    }
+.paper-icon-button-light > .material-icons {
+    font-size: 1.66956521739130434em;
 
-    .paper-icon-button-light > div {
-        max-height: 100%;
-        transform: scale(1.8);
-        position: relative;
-        z-index: 1;
-        vertical-align: middle;
-        display: inline;
-        margin: 0 auto;
-    }
+    /* Make sure its on top of the ripple */
+    position: relative;
+    z-index: 1;
+    vertical-align: middle;
+}
+
+.paper-icon-button-light > div {
+    max-height: 100%;
+    transform: scale(1.8);
+    position: relative;
+    z-index: 1;
+    vertical-align: middle;
+    display: inline;
+    margin: 0 auto;
+}
 
 .emby-button-foreground {
     position: relative;
@@ -159,7 +168,6 @@
 .filterButtonBubble {
     color: #fff;
     position: absolute;
-    background: #444;
     top: 0;
     right: 0;
     width: 1.6em;
@@ -170,7 +178,7 @@
     justify-content: center;
     font-size: 82%;
     border-radius: 100em;
-    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12), 0px 2px 4px -1px rgba(0, 0, 0, 0.2);
-    background: #03A9F4;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    background: #03a9f4;
     font-weight: bold;
 }

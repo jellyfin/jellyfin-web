@@ -42,6 +42,7 @@ video::-webkit-media-controls {
 .htmlvideoplayer::cue {
     background-color: transparent;
     text-shadow: 0.14em 0.14em 0.14em rgba(0, 0, 0, 1);
+    -webkit-font-smoothing: antialiased;
     font-family: inherit;
 }
 
@@ -71,7 +72,7 @@ video::-webkit-media-controls {
 @keyframes htmlvideoplayer-zoomin {
     from {
         transform: scale3d(0.2, 0.2, 0.2);
-        opacity: .6;
+        opacity: 0.6;
     }
 
     to {

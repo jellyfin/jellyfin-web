@@ -32,6 +32,9 @@
  - [bilde2910](https://github.com/bilde2910)
  - [Daniel Hartung](https://github.com/dhartung)
  - [Ryan Hartzell](https://github.com/ryan-hartzell)
+ - [Thibault Nocchi](https://github.com/ThibaultNocchi)
+ - [MrTimscampi](https://github.com/MrTimscampi)
+ - [Sarab Singh](https://github.com/sarab97)
 
 # Emby Contributors
 

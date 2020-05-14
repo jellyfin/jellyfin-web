@@ -1,5 +1,5 @@
-define(["layoutManager", "cardBuilder", "apphost", "imageLoader", "loading", "scripts/livetvcomponents", "emby-button", "emby-itemscontainer"], function (layoutManager, cardBuilder, appHost, imageLoader, loading) {
-    "use strict";
+define(['layoutManager', 'cardBuilder', 'apphost', 'imageLoader', 'loading', 'scripts/livetvcomponents', 'emby-button', 'emby-itemscontainer'], function (layoutManager, cardBuilder, appHost, imageLoader, loading) {
+    'use strict';
 
     function enableScrollX() {
         return !layoutManager.desktop;
@@ -7,54 +7,54 @@ define(["layoutManager", "cardBuilder", "apphost", "imageLoader", "loading", "sc
 
     function renderRecordings(elem, recordings, cardOptions) {
         if (recordings.length) {
-            elem.classList.remove("hide");
+            elem.classList.remove('hide');
         } else {
-            elem.classList.add("hide");
+            elem.classList.add('hide');
         }
 
-        var recordingItems = elem.querySelector(".recordingItems");
+        var recordingItems = elem.querySelector('.recordingItems');
 
         if (enableScrollX()) {
-            recordingItems.classList.add("scrollX");
+            recordingItems.classList.add('scrollX');
 
             if (layoutManager.tv) {
-                recordingItems.classList.add("smoothScrollX");
+                recordingItems.classList.add('smoothScrollX');
             }
 
-            recordingItems.classList.add("hiddenScrollX");
-            recordingItems.classList.remove("vertical-wrap");
+            recordingItems.classList.add('hiddenScrollX');
+            recordingItems.classList.remove('vertical-wrap');
         } else {
-            recordingItems.classList.remove("scrollX");
-            recordingItems.classList.remove("smoothScrollX");
-            recordingItems.classList.remove("hiddenScrollX");
-            recordingItems.classList.add("vertical-wrap");
+            recordingItems.classList.remove('scrollX');
+            recordingItems.classList.remove('smoothScrollX');
+            recordingItems.classList.remove('hiddenScrollX');
+            recordingItems.classList.add('vertical-wrap');
         }
 
-        var supportsImageAnalysis = appHost.supports("imageanalysis");
+        var supportsImageAnalysis = appHost.supports('imageanalysis');
         var cardLayout = appHost.preferVisualCards || supportsImageAnalysis;
         cardLayout = false;
         recordingItems.innerHTML = cardBuilder.getCardsHtml(Object.assign({
             items: recordings,
-            shape: enableScrollX() ? "autooverflow" : "auto",
+            shape: enableScrollX() ? 'autooverflow' : 'auto',
             showTitle: true,
             showParentTitle: true,
             coverImage: true,
             cardLayout: cardLayout,
             centerText: !cardLayout,
             allowBottomPadding: !enableScrollX(),
-            preferThumb: "auto"
+            preferThumb: 'auto'
         }, cardOptions || {}));
         imageLoader.lazyChildren(recordingItems);
     }
 
     function getBackdropShape() {
-        return enableScrollX() ? "overflowBackdrop" : "backdrop"
+        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
     }
 
     function renderActiveRecordings(context, promise) {
         promise.then(function (result) {
-            renderRecordings(context.querySelector("#activeRecordings"), result.Items, {
-                shape: enableScrollX() ? "autooverflow" : "auto",
+            renderRecordings(context.querySelector('#activeRecordings'), result.Items, {
+                shape: enableScrollX() ? 'autooverflow' : 'auto',
                 defaultShape: getBackdropShape(),
                 showParentTitle: false,
                 showParentTitleOrTitle: true,
@@ -74,19 +74,19 @@ define(["layoutManager", "cardBuilder", "apphost", "imageLoader", "loading", "sc
             var elem = context;
 
             if (html) {
-                elem.classList.remove("hide");
+                elem.classList.remove('hide');
             } else {
-                elem.classList.add("hide");
+                elem.classList.add('hide');
             }
 
-            elem.querySelector(".recordingItems").innerHTML = html;
+            elem.querySelector('.recordingItems').innerHTML = html;
             imageLoader.lazyChildren(elem);
         });
     }
 
     function renderUpcomingRecordings(context, promise) {
         promise.then(function (result) {
-            renderTimers(context.querySelector("#upcomingRecordings"), result.Items);
+            renderTimers(context.querySelector('#upcomingRecordings'), result.Items);
             loading.hide();
         });
     }
@@ -95,7 +95,7 @@ define(["layoutManager", "cardBuilder", "apphost", "imageLoader", "loading", "sc
         var activeRecordingsPromise;
         var upcomingRecordingsPromise;
         var self = this;
-        tabContent.querySelector("#upcomingRecordings .recordingItems").addEventListener("timercancelled", function () {
+        tabContent.querySelector('#upcomingRecordings .recordingItems').addEventListener('timercancelled', function () {
             self.preRender();
             self.renderTab();
         });
@@ -104,9 +104,9 @@ define(["layoutManager", "cardBuilder", "apphost", "imageLoader", "loading", "sc
             activeRecordingsPromise = ApiClient.getLiveTvRecordings({
                 UserId: Dashboard.getCurrentUserId(),
                 IsInProgress: true,
-                Fields: "CanDelete,PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: 'CanDelete,PrimaryImageAspectRatio,BasicSyncInfo',
                 EnableTotalRecordCount: false,
-                EnableImageTypes: "Primary,Thumb,Backdrop"
+                EnableImageTypes: 'Primary,Thumb,Backdrop'
             });
             upcomingRecordingsPromise = ApiClient.getLiveTvTimers({
                 IsActive: false,

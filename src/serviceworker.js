@@ -1,1 +1,2 @@
-importScripts("components/serviceworker/notifications.js");
+/* eslint-env serviceworker */
+importScripts('components/serviceworker/notifications.js');

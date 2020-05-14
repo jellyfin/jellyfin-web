@@ -35,16 +35,15 @@
     font-size: inherit;
     min-width: initial;
     margin: 0;
-    padding: .1em .4em;
+    padding: 0.1em 0.4em;
     width: auto;
-    border-radius: .1em;
+    border-radius: 0.1em;
     font-weight: normal;
     flex-shrink: 0;
     flex-grow: 1;
 }
 
 @media all and (max-height: 50em) {
-
     .alphaPicker-fixed {
         bottom: 5em;
     }
@@ -56,14 +55,12 @@
 }
 
 @media all and (max-height: 49em) {
-
     .alphaPicker-vertical {
         font-size: 94%;
     }
 }
 
 @media all and (max-height: 44em) {
-
     .alphaPicker-vertical {
         font-size: 90%;
     }
@@ -75,14 +72,12 @@
 }
 
 @media all and (max-height: 37em) {
-
     .alphaPicker-vertical {
         font-size: 82%;
     }
 }
 
 @media all and (max-height: 32em) {
-
     .alphaPicker-vertical {
         font-size: 74%;
     }
@@ -112,27 +107,17 @@
     bottom: 1%;
 }
 
-.alphaPicker-fixed-left {
-    left: .4em;
-}
-
 .alphaPicker-fixed-right {
-    right: .4em;
+    right: 0.4em;
 }
 
 @media all and (min-width: 62.5em) {
-
-    .alphaPicker-fixed-left {
-        left: 1em;
-    }
-
     .alphaPicker-fixed-right {
         right: 1em;
     }
 }
 
 @media all and (max-height: 31.25em) {
-
     .alphaPicker-fixed {
         display: none !important;
     }

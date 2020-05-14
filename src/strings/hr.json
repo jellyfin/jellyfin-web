@@ -156,7 +156,7 @@
     "GuideProviderLogin": "Prijava",
     "GuideProviderSelectListings": "Odaberi ispis",
     "H264CrfHelp": "Konstante brzine faktora (CRF) je postavka zadane kvalitete za x264 enkodera. Možete postaviti vrijednosti između 0 i 51, gdje će niže vrijednosti rezultirati boljom kvalitetom (na račun veće veličine datoteka). Razumne vrijednosti su između 18 i 28. Zadana za x264 je 23, tako da to možete koristiti kao početnu točku.",
-    "H264EncodingPresetHelp": "Odaberite bržu vrijednost za poboljšanje performansi ili sporiju za poboljšanje kvalitete.",
+    "EncoderPresetHelp": "Odaberite bržu vrijednost za poboljšanje performansi ili sporiju za poboljšanje kvalitete.",
     "HDPrograms": "HD programi",
     "HardwareAccelerationWarning": "Omogućavanje hardverskog ubrzanja može uzrokovati nestabilnostima u nekim sredinama. Pobrinite se da Vaš operativni sustav i video drajveri su u potpunosti ažurni. Ako imate poteškoća s reprodukcijom videa nakon omogućavanja ovoga, morat ćete promijeniti postavku natrag na Automatski.",
     "HeaderAccessSchedule": "Raspored pristupa",
@@ -426,7 +426,7 @@
     "LabelGroupMoviesIntoCollections": "Grupiraj filmove u kolekciju",
     "LabelGroupMoviesIntoCollectionsHelp": "Kada se prikazuje lista filmova, filmovi koji pripadaju kolekciji biti će prikazani kao jedna stavka.",
     "LabelH264Crf": "H264 kodiranje CRF:",
-    "LabelH264EncodingPreset": "H264 unaprijed kodiranje:",
+    "LabelEncoderPreset": "H264 unaprijed kodiranje:",
     "LabelHardwareAccelerationType": "Hardversko ubrzanje:",
     "LabelHardwareAccelerationTypeHelp": "Dostupno samo na podržanim sustavima.",
     "LabelHttpsPort": "Lokalni broj https porta:",
@@ -755,7 +755,6 @@
     "OptionEnableAccessFromAllDevices": "Omogući pristup svim uređajima",
     "OptionEnableAccessToAllChannels": "Omogući pristup svim kanalima",
     "OptionEnableAccessToAllLibraries": "Omogući pristup svim bibliotekama",
-    "OptionEnableAutomaticServerUpdates": "Omogući automatska ažuriranja servera",
     "OptionEnableExternalContentInSuggestions": "Omogući vanjske sadržaje u prijedlozima",
     "OptionEnableExternalContentInSuggestionsHelp": "Dopusti internet kratkim filmovima i TV programima uživo da budu uključeni u preporučenom sadržaju.",
     "OptionEnableForAllTuners": "Omogući za sve TV/Radio uređaje",
@@ -1010,5 +1009,6 @@
     "AllComplexFormats": "Svi kompleksni formati (ASS, SSA, VOBSUB, PGS, SUB/IDX, itd.)",
     "Books": "Knjige",
     "Channels": "Kanali",
-    "Collections": "Kolekcije"
+    "Collections": "Kolekcije",
+    "Artists": "Izvođači"
 }

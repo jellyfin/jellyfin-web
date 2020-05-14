@@ -10,12 +10,6 @@ define([], function () {
             }
 
         },
-        canExec: false,
-        exec: function (options) {
-            // options.path
-            // options.arguments
-            return Promise.reject();
-        },
         enableFullscreen: function () {
             if (window.NativeShell) {
                 window.NativeShell.enableFullscreen();

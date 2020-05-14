@@ -11,7 +11,7 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
     function getOsdElementHtml() {
         var html = '';
 
-        html += '<i class="md-icon iconOsdIcon">brightness_high</i>';
+        html += '<span class="material-icons iconOsdIcon brightness_high"></span>';
 
         html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner brightnessOsdProgressInner"></div></div>';
 
@@ -32,7 +32,7 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
             elem.classList.add('brightnessOsd');
             elem.innerHTML = getOsdElementHtml();
 
-            iconElement = elem.querySelector('i');
+            iconElement = elem.querySelector('.material-icons');
             progressElement = elem.querySelector('.iconOsdProgressInner');
 
             document.body.appendChild(elem);
@@ -98,15 +98,22 @@ define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'materia
         }
     }
 
+    function setIcon(iconElement, icon) {
+        iconElement.classList.remove('brightness_high');
+        iconElement.classList.remove('brightness_medium');
+        iconElement.classList.remove('brightness_low');
+        iconElement.classList.add(icon);
+    }
+
     function updateElementsFromPlayer(brightness) {
 
         if (iconElement) {
             if (brightness >= 80) {
-                iconElement.innerHTML = 'brightness_high';
+                setIcon(iconElement, 'brightness_high');
             } else if (brightness >= 20) {
-                iconElement.innerHTML = 'brightness_medium';
+                setIcon(iconElement, 'brightness_medium');
             } else {
-                iconElement.innerHTML = 'brightness_low';
+                setIcon(iconElement, 'brightness_low');
             }
         }
         if (progressElement) {

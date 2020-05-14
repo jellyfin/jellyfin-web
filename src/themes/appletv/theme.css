@@ -1,60 +1,70 @@
 .skinHeader,
 html {
     color: #222;
-    color: rgba(0, 0, 0, .87)
+    color: rgba(0, 0, 0, 0.87);
 }
 
 .wizardStartForm,
 .ui-corner-all,
 .ui-shadow {
-  background-color: #303030
+    background-color: #303030;
 }
 
 .emby-collapsible-button {
     border-color: #ccc;
-    border-color: rgba(0, 0, 0, .158)
+    border-color: rgba(0, 0, 0, 0.158);
 }
 
 .collapseContent {
-    background-color: #eaeaea
+    background-color: #eaeaea;
 }
 
 .formDialogHeader:not(.formDialogHeader-clear),
 .skinHeader-withBackground {
-    color: rgba(0, 0, 0, .7);
+    color: rgba(0, 0, 0, 0.7);
     background: #303030;
-    background: linear-gradient(to right, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB)
+    background: -webkit-gradient(linear, left top, right top, from(#bcbcbc), color-stop(#a7b4b7), color-stop(#beb5a5), color-stop(#adbec2), to(#b9c7cb));
+    background: -webkit-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
+    background: -o-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
+    background: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
 }
 
 .skinHeader.semiTransparent {
-    backdrop-filter: none !important
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
 }
 
 .pageTitleWithDefaultLogo {
-    background-image: url(../logodark.png)
+    background-image: url(../../assets/img/banner-dark.png);
 }
 
 html {
-    background: #D5E9F2
+    background: #d5e9f2;
 }
 
 .backgroundContainer,
-.dialog {
-    background: #D5E9F2;
-    background-size: 100% 100%
+.dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu {
+    background: #d5e9f2;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
 }
 
 .backgroundContainer.withBackdrop {
-    background: linear-gradient(to bottom, rgba(192, 212, 222, .94), rgba(235, 250, 254, .94), rgba(227, 220, 212, .94), rgba(206, 214, 216, .94), rgba(192, 211, 218, .94))
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(192, 212, 222, 0.94)), color-stop(rgba(235, 250, 254, 0.94)), color-stop(rgba(227, 220, 212, 0.94)), color-stop(rgba(206, 214, 216, 0.94)), to(rgba(192, 211, 218, 0.94)));
+    background: -webkit-linear-gradient(top, rgba(192, 212, 222, 0.94), rgba(235, 250, 254, 0.94), rgba(227, 220, 212, 0.94), rgba(206, 214, 216, 0.94), rgba(192, 211, 218, 0.94));
+    background: -o-linear-gradient(top, rgba(192, 212, 222, 0.94), rgba(235, 250, 254, 0.94), rgba(227, 220, 212, 0.94), rgba(206, 214, 216, 0.94), rgba(192, 211, 218, 0.94));
+    background: linear-gradient(to bottom, rgba(192, 212, 222, 0.94), rgba(235, 250, 254, 0.94), rgba(227, 220, 212, 0.94), rgba(206, 214, 216, 0.94), rgba(192, 211, 218, 0.94));
 }
 
 .actionSheet {
-    background: #f0f0f0
+    background: #f0f0f0;
 }
 
 .paper-icon-button-light:hover:not(:disabled) {
     color: #00a4dc;
-    background-color: rgba(0,164,220, .2);
+    background-color: rgba(0, 164, 220, 0.2);
 }
 
 .paper-icon-button-light.show-focus:focus {
@@ -64,31 +74,31 @@ html {
 .fab,
 .raised {
     background: #fff;
-    background: rgba(0, 0, 0, .14);
-    color: inherit
+    background: rgba(0, 0, 0, 0.14);
+    color: inherit;
 }
 
 .fab:focus,
 .raised:focus {
-    background: rgba(0, 0, 0, .24)
+    background: rgba(0, 0, 0, 0.24);
 }
 
 .button-submit {
     background: #00a4dc;
-    color: #fff
+    color: #fff;
 }
 
 .button-submit:focus {
-    background: #0cb0e8
+    background: #0cb0e8;
 }
 
 .button-delete {
     background: rgb(247, 0, 0);
-    color: rgba(255, 255, 255, .87)
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .checkboxLabel {
-    color: inherit
+    color: inherit;
 }
 
 .checkboxListLabel,
@@ -97,49 +107,49 @@ html {
 .paperListLabel,
 .textareaLabelUnfocused {
     color: #555;
-    color: rgba(0, 0, 0, .7)
+    color: rgba(0, 0, 0, 0.7);
 }
 
 .button-link,
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: green
+    color: #00a4dc;
 }
 
 .checkboxOutline {
-    border-color: currentColor
+    border-color: currentColor;
 }
 
 .paperList,
 .visualCardBox {
     background-color: #fff;
-    background-color: rgba(0, 0, 0, .1)
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .defaultCardBackground1 {
-    background-color: #009688
+    background-color: #009688;
 }
 
 .defaultCardBackground2 {
-    background-color: #D32F2F
+    background-color: #d32f2f;
 }
 
 .defaultCardBackground3 {
-    background-color: #0288D1
+    background-color: #0288d1;
 }
 
 .defaultCardBackground4 {
-    background-color: #388E3C
+    background-color: #388e3c;
 }
 
 .defaultCardBackground5 {
-    background-color: #F57F17
+    background-color: #f57f17;
 }
 
 .formDialogFooter:not(.formDialogFooter-clear) {
     border-top: 1px solid #ddd;
-    border-top: 1px solid rgba(0, 0, 0, .08)
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .cardText-secondary,
@@ -150,173 +160,186 @@ html {
 .programSecondaryTitle,
 .secondaryText {
     color: #888;
-    color: rgba(0, 0, 0, .5)
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .actionsheetDivider {
     background: #ddd;
-    background: rgba(0, 0, 0, .14)
+    background: rgba(0, 0, 0, 0.14);
 }
 
 .cardFooter-vibrant .cardText-secondary {
     color: inherit;
-    opacity: .5
+    opacity: 0.5;
 }
 
 .formDialogHeader a,
 .toast {
-    color: #fff
+    color: #fff;
 }
 
 .actionSheetMenuItem:hover {
-    background-color: #ddd
+    background-color: #ddd;
 }
 
 .toast {
     background: #303030;
-    color: rgba(255, 255, 255, .87)
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .appfooter,
-.formDialogFooter:not(.formDialogFooter-clear) {
-    color: rgba(0, 0, 0, .7);
+.formDialogFooter:not(.formDialogFooter-clear),
+.playlistSectionButton {
+    color: rgba(0, 0, 0, 0.7);
     background: #303030;
-    background: linear-gradient(to right, #BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB)
+    background: -webkit-gradient(linear, left top, right top, from(#bcbcbc), color-stop(#a7b4b7), color-stop(#beb5a5), color-stop(#adbec2), to(#b9c7cb));
+    background: -webkit-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
+    background: -o-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
+    background: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
 }
 
 .nowPlayingBarSecondaryText {
-    color: #999
+    color: #999;
 }
 
 .itemSelectionPanel {
-    border: 1px solid #00a4dc
+    border: 1px solid #00a4dc;
 }
 
 .selectionCommandsPanel {
     background: #00a4dc;
-    color: #fff
+    color: #fff;
 }
 
 .upNextDialog-countdownText {
-    color: #00a4dc
+    color: #00a4dc;
 }
 
 .alphaPickerButton {
     color: #555;
-    color: rgba(0, 0, 0, .7);
-    background-color: transparent
+    color: rgba(0, 0, 0, 0.7);
+    background-color: transparent;
 }
 
 .alphaPickerButton-selected,
 .alphaPickerButton-tv:focus {
     background-color: #00a4dc;
-    color: #fff !important
+    color: #fff !important;
+}
+
+.detailSticky {
+    background: #303030;
+    background: -webkit-gradient(linear, left top, right top, from(#bcbcbc), color-stop(#a7b4b7), color-stop(#beb5a5), color-stop(#adbec2), to(#b9c7cb));
+    background: -webkit-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
+    background: -o-linear-gradient(left, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
+    background: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, #b9c7cb);
 }
 
 .detailTableBodyRow-shaded:nth-child(even) {
     background: #f8f8f8;
-    background: rgba(0, 0, 0, .1)
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .listItem-border {
-    border-color: rgba(0, 0, 0, .1) !important
+    border-color: rgba(0, 0, 0, 0.1) !important;
 }
 
 .listItem:focus {
-    background: rgba(0, 0, 0, .2)
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .progressring-spiner {
-    border-color: #00a4dc
+    border-color: #00a4dc;
 }
 
 .mediaInfoText {
     color: #333;
-    background: #fff
+    background: #fff;
 }
 
 .mediaInfoTimerIcon,
 .starIcon {
-    color: #CB272A
+    color: #cb272a;
 }
 
 .emby-input,
 .emby-textarea {
     color: inherit;
-    background: rgba(255, 255, 255, .9);
-    border: .07em solid rgba(0, 0, 0, .158);
-    border-radius: .15em
+    background: rgba(255, 255, 255, 0.9);
+    border: 0.16em solid rgba(0, 0, 0, 0.158);
+    -webkit-border-radius: 0.2em;
+    border-radius: 0.2em;
 }
 
 .emby-input:focus,
 .emby-textarea:focus {
-    border-color: #00a4dc
+    border-color: #00a4dc;
 }
 
 .emby-select-withcolor {
     color: inherit;
-    background: rgba(255, 255, 255, .9);
-    border: .07em solid rgba(0, 0, 0, .158)
+    background: rgba(255, 255, 255, 0.9);
+    border: 0.07em solid rgba(0, 0, 0, 0.158);
 }
 
-.emby-checkbox:checked+span+.checkboxOutline,
+.emby-checkbox:checked + span + .checkboxOutline,
 .emby-select-withcolor:focus {
-    border-color: #00a4dc
-}
-
-.emby-checkbox:focus+span+.checkboxOutline {
-    border-color: #fff;
-}
-
-.emby-checkbox:focus:not(:checked)+span+.checkboxOutline {
     border-color: #00a4dc;
 }
 
-.emby-select-withcolor>option {
+.emby-checkbox:focus + span + .checkboxOutline {
+    border-color: #fff;
+}
+
+.emby-checkbox:checked + span + .checkboxOutline,
+.itemProgressBarForeground {
+    background-color: #00a4dc;
+}
+
+.emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
+    border-color: #00a4dc;
+}
+
+.emby-select-withcolor > option {
     color: #000;
-    background: #fff
+    background: #fff;
 }
 
 .emby-select-tv-withcolor:focus {
     background-color: #00a4dc;
-    color: #fff
-}
-
-.emby-checkbox:checked+span+.checkboxOutline,
-.itemProgressBarForeground {
-    background-color: #00a4dc
+    color: #fff;
 }
 
 .itemProgressBarForeground-recording {
-    background-color: #CB272A
+    background-color: #cb272a;
 }
 
 .countIndicator,
 .fullSyncIndicator,
 .playedIndicator {
-    background: #00a4dc
+    background: #00a4dc;
 }
 
 .fullSyncIndicator {
-    color: #fff
+    color: #fff;
 }
 
 .mainDrawer {
-    background: #fff
+    background: #fff;
 }
 
 .navMenuOption:hover {
-    background: #f2f2f2
+    background: #f2f2f2;
 }
 
 .navMenuOption-selected {
     background: #00a4dc !important;
-    color: #fff
+    color: #fff;
 }
 
 .emby-button.show-focus:focus {
     background: #00a4dc;
-    color: #fff
+    color: #fff;
 }
 
 .emby-tab-button {
@@ -339,88 +362,89 @@ html {
 .guide-channelHeaderCell,
 .programCell {
     border-color: #555;
-    border-color: rgba(0, 0, 0, .1)
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
 .programCell-sports {
-    background: #3949AB !important
+    background: #3949ab !important;
 }
 
 .programCell-movie {
-    background: #5E35B1 !important
+    background: #5e35b1 !important;
 }
 
 .programCell-kids {
-    background: #039BE5 !important
+    background: #039be5 !important;
 }
 
 .programCell-news {
-    background: #43A047 !important
+    background: #43a047 !important;
 }
 
 .programCell-active {
-    background: rgba(0, 0, 0, .1) !important
+    background: rgba(0, 0, 0, 0.1) !important;
 }
 
 .guide-channelHeaderCell:focus,
 .programCell:focus {
     background-color: #00a4dc !important;
-    color: #fff !important
+    color: #fff !important;
 }
 
 .guide-programTextIcon {
     color: #1e1e1e;
-    background: #555
+    background: #555;
 }
 
 .guide-headerTimeslots {
-    color: inherit
+    color: inherit;
 }
 
 .guide-date-tab-button {
     color: #555;
-    color: rgba(0, 0, 0, .54)
+    color: rgba(0, 0, 0, 0.54);
 }
 
 .guide-date-tab-button.emby-tab-button-active,
 .guide-date-tab-button:focus {
-    color: #00a4dc
+    color: #00a4dc;
 }
 
 .guide-date-tab-button.show-focus:focus {
     background-color: #00a4dc;
-    color: #fff
+    color: #fff;
 }
 
 .infoBanner {
     color: #000;
     background: #fff3a5;
     padding: 1em;
-    border-radius: .25em
+    -webkit-border-radius: 0.25em;
+    border-radius: 0.25em;
 }
 
 .ratingbutton-icon-withrating {
-    color: #c33
+    color: #c33;
 }
 
 .downloadbutton-icon-complete,
 .downloadbutton-icon-on {
-    color: #4285F4
+    color: #4285f4;
 }
 
 .playstatebutton-icon-played {
-    color: #c33
+    color: #c33;
 }
 
 .repeatButton-active {
-    color: #4285F4
+    color: #4285f4;
 }
 
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
-    border-color: #00a4dc !important
+    border-color: #00a4dc !important;
 }
 
 .metadataSidebarIcon {
-    color: #00a4dc
+    color: #00a4dc;
 }

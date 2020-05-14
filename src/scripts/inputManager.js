@@ -1,46 +1,49 @@
-define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playbackManager, focusManager, appRouter, dom) {
-    'use strict';
+import playbackManager from 'playbackManager';
+import focusManager from 'focusManager';
+import appRouter from 'appRouter';
+import dom from 'dom';
+import appHost from 'apphost';
 
-    var lastInputTime = new Date().getTime();
+/* eslint-disable indent */
 
-    function notify() {
+    let lastInputTime = new Date().getTime();
+
+    export function notify() {
         lastInputTime = new Date().getTime();
         handleCommand('unknown');
     }
 
-    function notifyMouseMove() {
+    export function notifyMouseMove() {
         lastInputTime = new Date().getTime();
     }
 
-    function idleTime() {
+    export function idleTime() {
         return new Date().getTime() - lastInputTime;
     }
 
-    function select(sourceElement) {
+    export function select(sourceElement) {
         sourceElement.click();
     }
 
-    var eventListenerCount = 0;
-    function on(scope, fn) {
-        if (eventListenerCount) {
-            eventListenerCount++;
-        }
+    let eventListenerCount = 0;
+    export function on(scope, fn) {
+        eventListenerCount++;
         dom.addEventListener(scope, 'command', fn, {});
     }
 
-    function off(scope, fn) {
+    export function off(scope, fn) {
         if (eventListenerCount) {
             eventListenerCount--;
         }
         dom.removeEventListener(scope, 'command', fn, {});
     }
 
-    var commandTimes = {};
+    let commandTimes = {};
 
     function checkCommandTime(command) {
 
-        var last = commandTimes[command] || 0;
-        var now = new Date().getTime();
+        const last = commandTimes[command] || 0;
+        const now = new Date().getTime();
 
         if ((now - last) < 1000) {
             return false;
@@ -50,192 +53,203 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
         return true;
     }
 
-    function handleCommand(name, options) {
+    export function handleCommand(commandName, options) {
 
         lastInputTime = new Date().getTime();
 
-        var sourceElement = (options ? options.sourceElement : null);
+        let sourceElement = (options ? options.sourceElement : null);
 
         if (sourceElement) {
             sourceElement = focusManager.focusableParent(sourceElement);
         }
 
-        sourceElement = sourceElement || document.activeElement || window;
+        if (!sourceElement) {
+            sourceElement = document.activeElement || window;
+
+            const dlg = document.querySelector('.dialogContainer .dialog.opened');
+
+            if (dlg && (!sourceElement || !dlg.contains(sourceElement))) {
+                sourceElement = dlg;
+            }
+        }
 
         if (eventListenerCount) {
-            var customEvent = new CustomEvent("command", {
+            const customEvent = new CustomEvent('command', {
                 detail: {
-                    command: name
+                    command: commandName
                 },
                 bubbles: true,
                 cancelable: true
             });
 
-            var eventResult = sourceElement.dispatchEvent(customEvent);
+            const eventResult = sourceElement.dispatchEvent(customEvent);
             if (!eventResult) {
                 // event cancelled
                 return;
             }
         }
 
-        switch (name) {
-            case 'up':
+        const keyActions = (command) => ({
+            'up': () => {
                 focusManager.moveUp(sourceElement);
-                break;
-            case 'down':
+            },
+            'down': () => {
                 focusManager.moveDown(sourceElement);
-                break;
-            case 'left':
+            },
+            'left': () => {
                 focusManager.moveLeft(sourceElement);
-                break;
-            case 'right':
+            },
+            'right': () => {
                 focusManager.moveRight(sourceElement);
-                break;
-            case 'home':
+            },
+            'home': () => {
                 appRouter.goHome();
-                break;
-            case 'settings':
+            },
+            'settings': () => {
                 appRouter.showSettings();
-                break;
-            case 'back':
-                appRouter.back();
-                break;
-            case 'forward':
-                break;
-            case 'select':
+            },
+            'back': () => {
+                if (appRouter.canGoBack()) {
+                    appRouter.back();
+                } else if (appHost.supports('exit')) {
+                    appHost.exit();
+                }
+            },
+            'select': () => {
                 select(sourceElement);
-                break;
-            case 'pageup':
-                break;
-            case 'pagedown':
-                break;
-            case 'end':
-                break;
-            case 'menu':
-                break;
-            case 'info':
-                break;
-            case 'nextchapter':
+            },
+            'nextchapter': () => {
                 playbackManager.nextChapter();
-                break;
-            case 'next':
-            case 'nexttrack':
+            },
+            'next': () => {
                 playbackManager.nextTrack();
-                break;
-            case 'previous':
-            case 'previoustrack':
+            },
+            'nexttrack': () => {
+                playbackManager.nextTrack();
+            },
+            'previous': () => {
                 playbackManager.previousTrack();
-                break;
-            case 'previouschapter':
+            },
+            'previoustrack': () => {
+                playbackManager.previousTrack();
+            },
+            'previouschapter': () => {
                 playbackManager.previousChapter();
-                break;
-            case 'guide':
+            },
+            'guide': () => {
                 appRouter.showGuide();
-                break;
-            case 'recordedtv':
+            },
+            'recordedtv': () => {
                 appRouter.showRecordedTV();
-                break;
-            case 'record':
-                break;
-            case 'livetv':
+            },
+            'livetv': () => {
                 appRouter.showLiveTV();
-                break;
-            case 'mute':
+            },
+            'mute': () => {
                 playbackManager.setMute(true);
-                break;
-            case 'unmute':
+            },
+            'unmute': () => {
                 playbackManager.setMute(false);
-                break;
-            case 'togglemute':
+            },
+            'togglemute': () => {
                 playbackManager.toggleMute();
-                break;
-            case 'channelup':
+            },
+            'channelup': () => {
                 playbackManager.channelUp();
-                break;
-            case 'channeldown':
+            },
+            'channeldown': () => {
                 playbackManager.channelDown();
-                break;
-            case 'volumedown':
+            },
+            'volumedown': () => {
                 playbackManager.volumeDown();
-                break;
-            case 'volumeup':
+            },
+            'volumeup': () => {
                 playbackManager.volumeUp();
-                break;
-            case 'play':
+            },
+            'play': () => {
                 playbackManager.unpause();
-                break;
-            case 'pause':
+            },
+            'pause': () => {
                 playbackManager.pause();
-                break;
-            case 'playpause':
+            },
+            'playpause': () => {
                 playbackManager.playPause();
-                break;
-            case 'stop':
+            },
+            'stop': () => {
                 if (checkCommandTime('stop')) {
                     playbackManager.stop();
                 }
-                break;
-            case 'changezoom':
+            },
+            'changezoom': () => {
                 playbackManager.toggleAspectRatio();
-                break;
-            case 'changeaudiotrack':
+            },
+            'changeaudiotrack': () => {
                 playbackManager.changeAudioStream();
-                break;
-            case 'changesubtitletrack':
+            },
+            'changesubtitletrack': () => {
                 playbackManager.changeSubtitleStream();
-                break;
-            case 'search':
+            },
+            'search': () => {
                 appRouter.showSearch();
-                break;
-            case 'favorites':
+            },
+            'favorites': () => {
                 appRouter.showFavorites();
-                break;
-            case 'fastforward':
+            },
+            'fastforward': () => {
                 playbackManager.fastForward();
-                break;
-            case 'rewind':
+            },
+            'rewind': () => {
                 playbackManager.rewind();
-                break;
-            case 'togglefullscreen':
+            },
+            'togglefullscreen': () => {
                 playbackManager.toggleFullscreen();
-                break;
-            case 'disabledisplaymirror':
+            },
+            'disabledisplaymirror': () => {
                 playbackManager.enableDisplayMirroring(false);
-                break;
-            case 'enabledisplaymirror':
+            },
+            'enabledisplaymirror': () => {
                 playbackManager.enableDisplayMirroring(true);
-                break;
-            case 'toggledisplaymirror':
+            },
+            'toggledisplaymirror': () => {
                 playbackManager.toggleDisplayMirroring();
-                break;
-            case 'nowplaying':
+            },
+            'nowplaying': () => {
                 appRouter.showNowPlaying();
-                break;
-            case 'repeatnone':
+            },
+            'repeatnone': () => {
                 playbackManager.setRepeatMode('RepeatNone');
-                break;
-            case 'repeatall':
+            },
+            'repeatall': () => {
                 playbackManager.setRepeatMode('RepeatAll');
-                break;
-            case 'repeatone':
+            },
+            'repeatone': () => {
                 playbackManager.setRepeatMode('RepeatOne');
-                break;
-            default:
-                break;
+            }
+        })[command];
+
+        const action = keyActions(commandName);
+        if (action !== undefined) {
+            action.call();
+        } else {
+            console.debug(`inputManager: tried to process command with no action assigned: ${commandName}`);
         }
     }
+
+    // Alias for backward compatibility
+    export const trigger = handleCommand;
 
     dom.addEventListener(document, 'click', notify, {
         passive: true
     });
 
-    return {
-        trigger: handleCommand,
-        handle: handleCommand,
-        notify: notify,
-        notifyMouseMove: notifyMouseMove,
-        idleTime: idleTime,
-        on: on,
-        off: off
-    };
-});
+/* eslint-enable indent */
+
+export default {
+    trigger: handleCommand,
+    handle: handleCommand,
+    notify: notify,
+    notifyMouseMove: notifyMouseMove,
+    idleTime: idleTime,
+    on: on,
+    off: off
+};

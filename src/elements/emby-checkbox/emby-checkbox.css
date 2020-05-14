@@ -32,12 +32,16 @@
 
 .emby-checkbox {
     position: absolute;
+
     /* This is for focusing purposes, so the focusManager doesn't skip over it */
     width: 1px;
     height: 1px;
     margin: 0;
     padding: 0;
     opacity: 0;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
     appearance: none;
     border: none;
 }
@@ -46,14 +50,13 @@
     position: absolute;
     top: 3px;
     left: 0;
-    display: inline-block;
     box-sizing: border-box;
     width: 1.83em;
     height: 1.83em;
     margin: 0;
     overflow: hidden;
-    border: 2px solid currentcolor;
-    border-radius: .14em;
+    border: 0.14em solid currentcolor;
+    border-radius: 0.14em;
     z-index: 2;
     display: flex;
     align-items: center;
@@ -65,7 +68,8 @@
     color: #fff;
 }
 
-.checkboxIcon-checked {
+.checkboxIcon-checked,
+.emby-checkbox-label .checkboxIcon-checked {
     display: none;
 }
 
@@ -98,21 +102,31 @@
     flex-wrap: wrap;
 }
 
-    .checkboxList-verticalwrap > .emby-checkbox-label {
-        display: inline-flex;
-        margin: .3em 0 .3em 0;
-        width: 12em;
-    }
+.checkboxList-verticalwrap > .emby-checkbox-label {
+    display: inline-flex;
+    margin: 0.3em 0 0.3em 0;
+    width: 12em;
+}
 
 .checkboxList-paperList {
     padding: 1em !important;
 }
 
 .checkboxListLabel {
-    margin-bottom: .25em;
+    margin-bottom: 0.25em;
 }
 
 @keyframes repaintChrome {
+    from {
+        padding: 0;
+    }
+
+    to {
+        padding: 0;
+    }
+}
+
+@-webkit-keyframes repaintChrome {
     from {
         padding: 0;
     }

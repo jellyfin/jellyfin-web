@@ -43,7 +43,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
                 preventScroll: scrollManager.isEnabled()
             });
         } catch (err) {
-            console.log('Error in focusManager.autoFocus: ' + err);
+            console.error('Error in focusManager.autoFocus: ' + err);
         }
     }
 
@@ -117,7 +117,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
             return false;
         }
 
-        if (elem.getAttribute('tabindex') === "-1") {
+        if (elem.getAttribute('tabindex') === '-1') {
             return false;
         }
 

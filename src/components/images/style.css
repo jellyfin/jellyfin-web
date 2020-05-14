@@ -1,35 +1,13 @@
-.lazy-image-fadein {
-    animation: lazy-image-fadein 330ms ease-in normal both;
-}
-
-.lazy-image-fadein-fast {
-    animation: lazy-image-fadein 160ms ease-in normal both;
-}
-
-@keyframes lazy-image-fadein {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-.lazy-image-fadein {
+.cardImageContainer.lazy {
     opacity: 0;
-    animation-duration: .8s;
-    animation-name: popInAnimation;
-    animation-fill-mode: forwards;
-    animation-timing-function: cubic-bezier(0,0,.5,1);
 }
 
-@keyframes popInAnimation {
-    0% {
-        opacity: 0;
-    }
+.cardImageContainer.lazy.lazy-image-fadein {
+    opacity: 1;
+    transition: opacity 0.7s;
+}
 
-    100% {
-        opacity: 1;
-    }
+.cardImageContainer.lazy.lazy-image-fadein-fast {
+    opacity: 1;
+    transition: opacity 0.2s;
 }

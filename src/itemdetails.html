@@ -1,7 +1,7 @@
-<div id="itemDetailPage" data-role="page" class="page libraryPage itemDetailPage noSecondaryNavPage selfBackdropPage" data-backbutton="true">
-    <div id="itemBackdrop" class="itemBackdrop noBackdrop">
+<div id="itemDetailPage" data-role="page" class="page libraryPage itemDetailPage noSecondaryNavPage selfBackdropPage noBackdrop" data-backbutton="true">
+    <div id="itemBackdrop" class="itemBackdrop">
         <button is="emby-button" type="button" class="btnPlay detailFloatingButton hide fab autoSize" title="${ButtonPlay}" data-mode="resume">
-            <i class="md-icon">play_arrow</i>
+            <span class="material-icons play_arrow"></span>
         </button>
     </div>
 
@@ -15,118 +15,128 @@
             </div>
 
             <div class="mainDetailButtons">
-                <button is="emby-button" type="button" class="button-flat btnResume hide detailButton" data-mode="resume">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon">play_arrow</i>
-                        <div class="detailButton-mobile-text">${ButtonResume}</div>
+                <button is="emby-button" type="button" class="button-flat btnResume hide detailButton detailButtonHideonMobile" data-mode="resume">
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon play_arrow"></span>
+                        <div class="detailButton-text">${ButtonResume}</div>
                     </div>
                 </button>
 
-                <button is="emby-button" type="button" class="button-flat btnPlay hide detailButton" data-mode="play">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon">play_arrow</i>
-                        <div class="detailButton-mobile-text">${ButtonPlay}</div>
+                <button is="emby-button" type="button" class="button-flat btnPlay hide detailButton detailButtonHideonMobile" data-mode="play">
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon play_arrow"></span>
+                        <div class="detailButton-text">${ButtonPlay}</div>
                     </div>
                 </button>
 
-                <button is="emby-button" type="button" class="button-flat btnDownload hide detailButton-mobile">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon">get_app</i>
-                        <div class="detailButton-mobile-text">${ButtonDownload}</div>
+                <button is="emby-button" type="button" class="button-flat btnDownload hide detailButton">
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon get_app"></span>
+                        <div class="detailButton-text">${ButtonDownload}</div>
                     </div>
                 </button>
 
-                <button is="emby-button" type="button" class="button-flat btnPlayTrailer hide detailButton-mobile">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon">theaters</i>
-                        <div class="detailButton-mobile-text">${ButtonTrailer}</div>
+                <button is="emby-button" type="button" class="button-flat btnPlayTrailer hide detailButton">
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon theaters"></span>
+                        <div class="detailButton-text">${ButtonTrailer}</div>
                     </div>
                 </button>
 
-                <button is="emby-button" type="button" class="button-flat btnInstantMix hide detailButton-mobile">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon">shuffle</i>
-                        <div class="detailButton-mobile-text">${HeaderInstantMix}</div>
+                <button is="emby-button" type="button" class="button-flat btnInstantMix hide detailButton">
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon explore"></span>
+                        <div class="detailButton-text">${HeaderInstantMix}</div>
                     </div>
                 </button>
 
-                <button is="emby-button" type="button" class="button-flat btnShuffle hide detailButton-mobile">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon">shuffle</i>
-                        <div class="detailButton-mobile-text">${ButtonShuffle}</div>
+                <button is="emby-button" type="button" class="button-flat btnShuffle hide detailButton">
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon shuffle"></span>
+                        <div class="detailButton-text">${ButtonShuffle}</div>
                     </div>
                 </button>
 
-                <button is="emby-button" type="button" class="button-flat btnCancelSeriesTimer hide detailButton-mobile">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon">delete</i>
-                        <div class="detailButton-mobile-text">${CancelSeries}</div>
+                <button is="emby-button" type="button" class="button-flat btnCancelSeriesTimer hide detailButton">
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon delete"></span>
+                        <div class="detailButton-text">${CancelSeries}</div>
                     </div>
                 </button>
 
-                <button is="emby-button" type="button" class="button-flat btnCancelTimer hide detailButton-mobile">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon">stop</i>
-                        <div class="detailButton-mobile-text">${StopRecording}</div>
+                <button is="emby-button" type="button" class="button-flat btnCancelTimer hide detailButton">
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon stop"></span>
+                        <div class="detailButton-text">${StopRecording}</div>
                     </div>
                 </button>
 
-                <button is="emby-button" type="button" class="button-flat btnDeleteItem hide detailButton-mobile">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon">delete</i>
-                        <div class="detailButton-mobile-text">${Delete}</div>
+                <button is="emby-button" type="button" class="button-flat btnDeleteItem hide detailButton">
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon delete"></span>
+                        <div class="detailButton-text">${Delete}</div>
                     </div>
                 </button>
 
-                <button is="emby-playstatebutton" type="button" class="button-flat btnPlaystate hide detailButton-mobile">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon">check</i>
-                        <div class="detailButton-mobile-text button-text"></div>
+                <button is="emby-playstatebutton" type="button" class="button-flat btnPlaystate hide detailButton">
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon check"></span>
+                        <div class="detailButton-text button-text"></div>
                     </div>
                 </button>
 
-                <button is="emby-ratingbutton" type="button" class="button-flat btnUserRating hide detailButton-mobile">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon">favorite</i>
-                        <div class="detailButton-mobile-text button-text">${Rate}</div>
+                <button is="emby-ratingbutton" type="button" class="button-flat btnUserRating hide detailButton">
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon favorite"></span>
+                        <div class="detailButton-text button-text">${Rate}</div>
                     </div>
                 </button>
 
                 <button is="emby-button" type="button" class="button-flat btnSplitVersions hide detailButton">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon">call_split</i>
-                        <div class="detailButton-mobile-text">${ButtonSplit}</div>
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon call_split"></span>
+                        <div class="detailButton-text">${ButtonSplit}</div>
                     </div>
                 </button>
 
-                <button is="emby-button" type="button" class="button-flat btnMoreCommands hide detailButton-mobile">
-                    <div class="detailButton-mobile-content">
-                        <i class="md-icon detailButton-mobile-icon"></i>
-                        <div class="detailButton-mobile-text">${ButtonMore}</div>
+                <button is="emby-button" type="button" class="button-flat btnMoreCommands hide detailButton">
+                    <div class="detailButton-content">
+                        <span class="material-icons detailButton-icon more_horiz"></span>
+                        <div class="detailButton-text">${ButtonMore}</div>
                     </div>
                 </button>
             </div>
         </div>
-        <div class="detailImageContainer verticalSection-extrabottompadding padded-left"></div>
         <div class="detailPageSecondaryContainer">
+            <div class="detailImageContainer padded-left"></div>
             <div class="detailPageContent">
                 <div class="detailPagePrimaryContent padded-left padded-right">
-                    <div class="detailSection" style="margin-bottom: 0;">
+                    <div class="detailSection">
                         <div class="itemMiscInfo nativeName hide"></div>
-                        <div class="genres hide" style="margin: .7em 0;font-size:92%;"></div>
-                        <div class="directors hide" style="margin: .7em 0;font-size:92%;"></div>
 
-                        <form class="trackSelections flex align-items-center flex-wrap-wrap hide focuscontainer-x" style="margin: .5em 0;font-size:92%; padding: 0;">
-                            <div class="selectContainer selectContainer-inline selectSourceContainer hide trackSelectionFieldContainer flex-shrink-zero" style="margin-right:1.5em;">
+                        <div class="itemDetailsGroup">
+                            <div class="detailsGroupItem genresGroup hide">
+                                <div class="genresLabel label"></div>
+                                <div class="genres content"></div>
+                            </div>
+
+                            <div class="detailsGroupItem directorsGroup hide">
+                                <div class="directorsLabel label"></div>
+                                <div class="directors content"></div>
+                            </div>
+                        </div>
+
+                        <form class="trackSelections hide focuscontainer-x">
+                            <div class="selectContainer selectSourceContainer hide trackSelectionFieldContainer flex-shrink-zero">
                                 <select is="emby-select" class="selectSource detailTrackSelect" label=""></select>
                             </div>
-                            <div class="selectContainer selectContainer-inline selectVideoContainer hide trackSelectionFieldContainer flex-shrink-zero" style="margin-right:1.5em;">
+                            <div class="selectContainer selectVideoContainer hide trackSelectionFieldContainer flex-shrink-zero">
                                 <select is="emby-select" class="selectVideo detailTrackSelect" label=""></select>
                             </div>
-                            <div class="selectContainer selectContainer-inline selectAudioContainer hide trackSelectionFieldContainer flex-shrink-zero" style="margin-right:1.5em;">
+                            <div class="selectContainer selectAudioContainer hide trackSelectionFieldContainer flex-shrink-zero">
                                 <select is="emby-select" class="selectAudio detailTrackSelect" label=""></select>
                             </div>
-                            <div class="selectContainer selectContainer-inline selectSubtitlesContainer hide trackSelectionFieldContainer">
+                            <div class="selectContainer selectSubtitlesContainer hide trackSelectionFieldContainer flex-shrink-zero">
                                 <select is="emby-select" class="selectSubtitles detailTrackSelect" label=""></select>
                             </div>
                         </form>
@@ -176,56 +186,56 @@
                 </div>
 
                 <div id="additionalPartsCollapsible" class="verticalSection detailVerticalSection hide">
-                    <h2 class="sectionTitle sectionTitle-cards padded-left">${HeaderAdditionalParts}</h2>
-                    <div id="additionalPartsContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
+                    <h2 class="sectionTitle sectionTitle-cards padded-left padded-right">${HeaderAdditionalParts}</h2>
+                    <div id="additionalPartsContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right"></div>
                 </div>
 
                 <div class="verticalSection itemVerticalSection moreFromSeasonSection hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-left padded-right"></h2>
-                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">
+                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">
                         <div is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer"></div>
                     </div>
                 </div>
 
                 <div class="verticalSection itemVerticalSection moreFromArtistSection hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-left padded-right"></h2>
-                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">
+                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">
                         <div is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer"></div>
                     </div>
                 </div>
 
                 <div id="castCollapsible" class="verticalSection detailVerticalSection hide">
                     <h2 id="peopleHeader" class="sectionTitle sectionTitle-cards padded-left padded-right">${HeaderCastCrew}</h2>
-                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">
+                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">
                         <div id="castContent" is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer"></div>
                     </div>
                 </div>
 
                 <div id="seriesScheduleSection" class="verticalSection detailVerticalSection hide">
                     <h2 class="sectionTitle padded-left padded-right">${HeaderUpcomingOnTV}</h2>
-                    <div id="seriesScheduleList" is="emby-itemscontainer" class="itemsContainer vertical-list"></div>
+                    <div id="seriesScheduleList" is="emby-itemscontainer" class="itemsContainer vertical-list padded-left padded-right"></div>
                 </div>
 
                 <div id="specialsCollapsible" class="verticalSection detailVerticalSection hide">
-                    <h2 class="sectionTitle sectionTitle-cards padded-left">${HeaderSpecialFeatures}</h2>
-                    <div id="specialsContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
+                    <h2 class="sectionTitle sectionTitle-cards padded-left padded-right">${HeaderSpecialFeatures}</h2>
+                    <div id="specialsContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right"></div>
                 </div>
 
                 <div id="musicVideosCollapsible" class="verticalSection detailVerticalSection hide">
-                    <h2 class="sectionTitle sectionTitle-cards padded-left">${HeaderMusicVideos}</h2>
-                    <div id="musicVideosContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
+                    <h2 class="sectionTitle sectionTitle-cards padded-left padded-right">${HeaderMusicVideos}</h2>
+                    <div id="musicVideosContent" is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right"></div>
                 </div>
 
                 <div id="scenesCollapsible" class="verticalSection itemVerticalSection verticalSection-extrabottompadding hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-left padded-right">${HeaderScenes}</h2>
-                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">
+                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">
                         <div id="scenesContent" is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer"></div>
                     </div>
                 </div>
 
                 <div id="similarCollapsible" class="verticalSection itemVerticalSection verticalSection-extrabottompadding hide">
                     <h2 class="sectionTitle sectionTitle-cards padded-left padded-right">${HeaderMoreLikeThis}</h2>
-                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">
+                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true">
                         <div is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer similarContent"></div>
                     </div>
                 </div>

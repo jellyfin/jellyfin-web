@@ -136,7 +136,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         // Admittedly a hack but right now the scrollbar is being factored into the width which is causing truncation
         if (options.items.length > 20) {
             var minWidth = dom.getWindowSize().innerWidth >= 300 ? 240 : 200;
-            style += "min-width:" + minWidth + "px;";
+            style += 'min-width:' + minWidth + 'px;';
         }
 
         var i;
@@ -158,7 +158,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
         }
 
         if (layoutManager.tv) {
-            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1"><i class="md-icon">arrow_back</i></button>';
+            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
         }
 
         // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
@@ -226,9 +226,9 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-bu
 
             if (itemIcon) {
 
-                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon">' + itemIcon + '</i>';
+                html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ' + itemIcon + '"></span>';
             } else if (renderIcon && !center) {
-                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon" style="visibility:hidden;">check</i>';
+                html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" style="visibility:hidden;"></span>';
             }
 
             html += '<div class="listItemBody actionsheetListItemBody">';

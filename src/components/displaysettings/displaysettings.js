@@ -1,5 +1,5 @@
 define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', 'focusManager', 'datetime', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-button'], function (require, browser, layoutManager, appSettings, pluginManager, appHost, focusManager, datetime, globalize, loading, connectionManager, skinManager, dom, events) {
-    "use strict";
+    'use strict';
 
     function fillThemes(select, isDashboard) {
         select.innerHTML = skinManager.getThemes().map(function (t) {
@@ -180,10 +180,13 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
         context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
         context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
+        context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
         context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
 
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
         context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
+
+        context.querySelector('#txtLibraryPageSize').value = userSettings.libraryPageSize();
 
         selectDashboardTheme.value = userSettings.dashboardTheme() || '';
         selectTheme.value = userSettings.theme() || '';
@@ -214,8 +217,11 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         userSettingsInstance.soundEffects(context.querySelector('.selectSoundEffects').value);
         userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
 
+        userSettingsInstance.libraryPageSize(context.querySelector('#txtLibraryPageSize').value);
+
         userSettingsInstance.skin(context.querySelector('.selectSkin').value);
 
+        userSettingsInstance.enableFastFadein(context.querySelector('#chkFadein').checked);
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
 
         if (user.Id === apiClient.getCurrentUserId()) {

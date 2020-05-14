@@ -5,7 +5,9 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         document.removeEventListener('click', onOneDocumentClick);
         document.removeEventListener('keydown', onOneDocumentClick);
 
-        if (window.Notification) {
+        // don't request notification permissions if they're already granted or denied
+        if (window.Notification && window.Notification.permission === 'default') {
+            /* eslint-disable-next-line compat/compat */
             Notification.requestPermission();
         }
     }
@@ -26,6 +28,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     }
 
     function resetRegistration() {
+        /* eslint-disable-next-line compat/compat */
         var serviceWorker = navigator.serviceWorker;
         if (serviceWorker) {
             serviceWorker.ready.then(function (registration) {
@@ -94,10 +97,10 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         }
 
         var notification = {
-            title: "New " + item.Type,
+            title: 'New ' + item.Type,
             body: body,
             vibrate: true,
-            tag: "newItem" + item.Id,
+            tag: 'newItem' + item.Id,
             data: {
                 //options: {
                 //    url: LibraryBrowser.getHref(item)
@@ -112,7 +115,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             notification.icon = apiClient.getScaledImageUrl(item.Id, {
                 width: 80,
                 tag: imageTags.Primary,
-                type: "Primary"
+                type: 'Primary'
             });
         }
 
@@ -136,11 +139,11 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
 
             Recursive: true,
             Limit: 3,
-            Filters: "IsNotFolder",
-            SortBy: "DateCreated",
-            SortOrder: "Descending",
+            Filters: 'IsNotFolder',
+            SortBy: 'DateCreated',
+            SortOrder: 'Descending',
             Ids: newItems.join(','),
-            MediaTypes: "Audio,Video",
+            MediaTypes: 'Audio,Video',
             EnableTotalRecordCount: false
 
         }).then(function (result) {
@@ -168,20 +171,20 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             }
 
             var notification = {
-                tag: "install" + installation.Id,
+                tag: 'install' + installation.Id,
                 data: {}
             };
 
             if (status === 'completed') {
-                notification.title = globalize.translate('PackageInstallCompleted').replace('{0}', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('PackageInstallCompleted', installation.Name, installation.Version);
                 notification.vibrate = true;
             } else if (status === 'cancelled') {
-                notification.title = globalize.translate('PackageInstallCancelled').replace('{0}', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('PackageInstallCancelled', installation.Name, installation.Version);
             } else if (status === 'failed') {
-                notification.title = globalize.translate('PackageInstallFailed').replace('{0}', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('PackageInstallFailed', installation.Name, installation.Version);
                 notification.vibrate = true;
             } else if (status === 'progress') {
-                notification.title = globalize.translate('InstallingPackage').replace('{0}', installation.Name + ' ' + installation.Version);
+                notification.title = globalize.translate('InstallingPackage', installation.Name, installation.Version);
 
                 notification.actions =
                 [
@@ -213,25 +216,25 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     });
 
     events.on(serverNotifications, 'PackageInstallationCompleted', function (e, apiClient, data) {
-        showPackageInstallNotification(apiClient, data, "completed");
+        showPackageInstallNotification(apiClient, data, 'completed');
     });
 
     events.on(serverNotifications, 'PackageInstallationFailed', function (e, apiClient, data) {
-        showPackageInstallNotification(apiClient, data, "failed");
+        showPackageInstallNotification(apiClient, data, 'failed');
     });
 
     events.on(serverNotifications, 'PackageInstallationCancelled', function (e, apiClient, data) {
-        showPackageInstallNotification(apiClient, data, "cancelled");
+        showPackageInstallNotification(apiClient, data, 'cancelled');
     });
 
     events.on(serverNotifications, 'PackageInstalling', function (e, apiClient, data) {
-        showPackageInstallNotification(apiClient, data, "progress");
+        showPackageInstallNotification(apiClient, data, 'progress');
     });
 
     events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, data) {
         var serverId = apiClient.serverInfo().Id;
         var notification = {
-            tag: "restart" + serverId,
+            tag: 'restart' + serverId,
             title: globalize.translate('ServerNameIsShuttingDown', apiClient.serverInfo().Name)
         };
         showNotification(notification, 0, apiClient);
@@ -240,7 +243,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     events.on(serverNotifications, 'ServerRestarting', function (e, apiClient, data) {
         var serverId = apiClient.serverInfo().Id;
         var notification = {
-            tag: "restart" + serverId,
+            tag: 'restart' + serverId,
             title: globalize.translate('ServerNameIsRestarting', apiClient.serverInfo().Name)
         };
         showNotification(notification, 0, apiClient);
@@ -250,7 +253,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
 
         var serverId = apiClient.serverInfo().Id;
         var notification = {
-            tag: "restart" + serverId,
+            tag: 'restart' + serverId,
             title: globalize.translate('PleaseRestartServerName', apiClient.serverInfo().Name)
         };
 

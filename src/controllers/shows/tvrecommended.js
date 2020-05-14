@@ -1,39 +1,39 @@
-define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "dom", "userSettings", "cardBuilder", "playbackManager", "mainTabsManager", "scrollStyles", "emby-itemscontainer", "emby-button"], function (events, inputManager, libraryMenu, layoutManager, loading, dom, userSettings, cardBuilder, playbackManager, mainTabsManager) {
-    "use strict";
+define(['events', 'inputManager', 'libraryMenu', 'layoutManager', 'loading', 'dom', 'userSettings', 'cardBuilder', 'playbackManager', 'mainTabsManager', 'globalize', 'scrollStyles', 'emby-itemscontainer', 'emby-button'], function (events, inputManager, libraryMenu, layoutManager, loading, dom, userSettings, cardBuilder, playbackManager, mainTabsManager, globalize) {
+    'use strict';
 
     function getTabs() {
         return [{
-            name: Globalize.translate("TabShows")
+            name: globalize.translate('TabShows')
         }, {
-            name: Globalize.translate("TabSuggestions")
+            name: globalize.translate('TabSuggestions')
         }, {
-            name: Globalize.translate("TabLatest")
+            name: globalize.translate('TabLatest')
         }, {
-            name: Globalize.translate("TabUpcoming")
+            name: globalize.translate('TabUpcoming')
         }, {
-            name: Globalize.translate("TabGenres")
+            name: globalize.translate('TabGenres')
         }, {
-            name: Globalize.translate("TabNetworks")
+            name: globalize.translate('TabNetworks')
         }, {
-            name: Globalize.translate("TabEpisodes")
+            name: globalize.translate('TabEpisodes')
         }, {
-            name: Globalize.translate("ButtonSearch"),
-            cssClass: "searchTabButton"
+            name: globalize.translate('ButtonSearch'),
+            cssClass: 'searchTabButton'
         }];
     }
 
     function getDefaultTabIndex(folderId) {
-        switch (userSettings.get("landing-" + folderId)) {
-            case "suggestions":
+        switch (userSettings.get('landing-' + folderId)) {
+            case 'suggestions':
                 return 1;
 
-            case "latest":
+            case 'latest':
                 return 2;
 
-            case "favorites":
+            case 'favorites':
                 return 1;
 
-            case "genres":
+            case 'genres':
                 return 4;
 
             default:
@@ -43,19 +43,19 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
 
     function setScrollClasses(elem, scrollX) {
         if (scrollX) {
-            elem.classList.add("hiddenScrollX");
+            elem.classList.add('hiddenScrollX');
 
             if (layoutManager.tv) {
-                elem.classList.add("smoothScrollX");
+                elem.classList.add('smoothScrollX');
             }
 
-            elem.classList.add("scrollX");
-            elem.classList.remove("vertical-wrap");
+            elem.classList.add('scrollX');
+            elem.classList.remove('vertical-wrap');
         } else {
-            elem.classList.remove("hiddenScrollX");
-            elem.classList.remove("smoothScrollX");
-            elem.classList.remove("scrollX");
-            elem.classList.add("vertical-wrap");
+            elem.classList.remove('hiddenScrollX');
+            elem.classList.remove('smoothScrollX');
+            elem.classList.remove('scrollX');
+            elem.classList.add('vertical-wrap');
         }
     }
 
@@ -69,25 +69,25 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         function loadNextUp() {
             var query = {
                 Limit: 24,
-                Fields: "PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo",
+                Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo',
                 UserId: ApiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
-                EnableImageTypes: "Primary,Backdrop,Thumb",
+                EnableImageTypes: 'Primary,Backdrop,Thumb',
                 EnableTotalRecordCount: false
             };
             query.ParentId = libraryMenu.getTopParentId();
             ApiClient.getNextUpEpisodes(query).then(function (result) {
                 if (result.Items.length) {
-                    view.querySelector(".noNextUpItems").classList.add("hide");
+                    view.querySelector('.noNextUpItems').classList.add('hide');
                 } else {
-                    view.querySelector(".noNextUpItems").classList.remove("hide");
+                    view.querySelector('.noNextUpItems').classList.remove('hide');
                 }
 
-                var container = view.querySelector("#nextUpItems");
+                var container = view.querySelector('#nextUpItems');
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: container,
                     preferThumb: true,
-                    shape: "backdrop",
+                    shape: 'backdrop',
                     scalable: true,
                     showTitle: true,
                     showParentTitle: true,
@@ -98,7 +98,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
                 });
                 loading.hide();
 
-                require(["autoFocuser"], function (autoFocuser) {
+                require(['autoFocuser'], function (autoFocuser) {
                     autoFocuser.autoFocus(view);
                 });
             });
@@ -109,7 +109,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         }
 
         function getThumbShape() {
-            return enableScrollX() ? "overflowBackdrop" : "backdrop";
+            return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
         }
 
         function loadResume() {
@@ -117,28 +117,28 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
             var screenWidth = dom.getWindowSize().innerWidth;
             var limit = screenWidth >= 1600 ? 5 : 6;
             var options = {
-                SortBy: "DatePlayed",
-                SortOrder: "Descending",
-                IncludeItemTypes: "Episode",
-                Filters: "IsResumable",
+                SortBy: 'DatePlayed',
+                SortOrder: 'Descending',
+                IncludeItemTypes: 'Episode',
+                Filters: 'IsResumable',
                 Limit: limit,
                 Recursive: true,
-                Fields: "PrimaryImageAspectRatio,SeriesInfo,UserData,BasicSyncInfo",
-                ExcludeLocationTypes: "Virtual",
+                Fields: 'PrimaryImageAspectRatio,SeriesInfo,UserData,BasicSyncInfo',
+                ExcludeLocationTypes: 'Virtual',
                 ParentId: parentId,
                 ImageTypeLimit: 1,
-                EnableImageTypes: "Primary,Backdrop,Thumb",
+                EnableImageTypes: 'Primary,Backdrop,Thumb',
                 EnableTotalRecordCount: false
             };
             ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
                 if (result.Items.length) {
-                    view.querySelector("#resumableSection").classList.remove("hide");
+                    view.querySelector('#resumableSection').classList.remove('hide');
                 } else {
-                    view.querySelector("#resumableSection").classList.add("hide");
+                    view.querySelector('#resumableSection').classList.add('hide');
                 }
 
                 var allowBottomPadding = !enableScrollX();
-                var container = view.querySelector("#resumableItems");
+                var container = view.querySelector('#resumableItems');
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: container,
                     preferThumb: true,
@@ -165,7 +165,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         }
 
         function getTabContainers() {
-            return view.querySelectorAll(".pageTabContent");
+            return view.querySelectorAll('.pageTabContent');
         }
 
         function initTabs() {
@@ -177,34 +177,34 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
 
             switch (index) {
                 case 0:
-                    depends.push("controllers/shows/tvshows");
+                    depends.push('controllers/shows/tvshows');
                     break;
 
                 case 1:
                     break;
 
                 case 2:
-                    depends.push("controllers/shows/tvlatest");
+                    depends.push('controllers/shows/tvlatest');
                     break;
 
                 case 3:
-                    depends.push("controllers/shows/tvupcoming");
+                    depends.push('controllers/shows/tvupcoming');
                     break;
 
                 case 4:
-                    depends.push("controllers/shows/tvgenres");
+                    depends.push('controllers/shows/tvgenres');
                     break;
 
                 case 5:
-                    depends.push("controllers/shows/tvstudios");
+                    depends.push('controllers/shows/tvstudios');
                     break;
 
                 case 6:
-                    depends.push("controllers/shows/episodes");
+                    depends.push('controllers/shows/episodes');
                     break;
 
                 case 7:
-                    depends.push("scripts/searchtab");
+                    depends.push('scripts/searchtab');
             }
 
             require(depends, function (controllerFactory) {
@@ -224,7 +224,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
                         controller = self;
                     } else if (index === 7) {
                         controller = new controllerFactory(view, tabContent, {
-                            collectionType: "tvshows",
+                            collectionType: 'tvshows',
                             parentId: params.topParentId
                         });
                     } else {
@@ -263,7 +263,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         }
 
         function onPlaybackStop(e, state) {
-            if (state.NowPlayingItem && state.NowPlayingItem.MediaType == "Video") {
+            if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
                 renderedTabs = [];
                 mainTabsManager.getTabsElement().triggerTabChange();
             }
@@ -272,16 +272,16 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
         function onWebSocketMessage(e, data) {
             var msg = data;
 
-            if (msg.MessageType === "UserDataChanged" && msg.Data.UserId == ApiClient.getCurrentUserId()) {
+            if (msg.MessageType === 'UserDataChanged' && msg.Data.UserId == ApiClient.getCurrentUserId()) {
                 renderedTabs = [];
             }
         }
 
         function onInputCommand(e) {
             switch (e.detail.command) {
-                case "search":
+                case 'search':
                     e.preventDefault();
-                    Dashboard.navigate("search.html?collectionType=tv&parentId=" + params.topParentId);
+                    Dashboard.navigate('search.html?collectionType=tv&parentId=' + params.topParentId);
             }
         }
 
@@ -292,7 +292,7 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
 
         self.initTab = function () {
             var tabContent = self.tabContent;
-            setScrollClasses(tabContent.querySelector("#resumableItems"), enableScrollX());
+            setScrollClasses(tabContent.querySelector('#resumableItems'), enableScrollX());
         };
 
         self.renderTab = function () {
@@ -301,34 +301,34 @@ define(["events", "inputManager", "libraryMenu", "layoutManager", "loading", "do
 
         var tabControllers = [];
         var renderedTabs = [];
-        setScrollClasses(view.querySelector("#resumableItems"), enableScrollX());
-        view.addEventListener("viewshow", function (e) {
+        setScrollClasses(view.querySelector('#resumableItems'), enableScrollX());
+        view.addEventListener('viewshow', function (e) {
             isViewRestored = e.detail.isRestored;
             initTabs();
-            if (!view.getAttribute("data-title")) {
+            if (!view.getAttribute('data-title')) {
                 var parentId = params.topParentId;
 
                 if (parentId) {
                     ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
-                        view.setAttribute("data-title", item.Name);
+                        view.setAttribute('data-title', item.Name);
                         libraryMenu.setTitle(item.Name);
                     });
                 } else {
-                    view.setAttribute("data-title", Globalize.translate("TabShows"));
-                    libraryMenu.setTitle(Globalize.translate("TabShows"));
+                    view.setAttribute('data-title', globalize.translate('TabShows'));
+                    libraryMenu.setTitle(globalize.translate('TabShows'));
                 }
             }
 
-            events.on(playbackManager, "playbackstop", onPlaybackStop);
-            events.on(ApiClient, "message", onWebSocketMessage);
+            events.on(playbackManager, 'playbackstop', onPlaybackStop);
+            events.on(ApiClient, 'message', onWebSocketMessage);
             inputManager.on(window, onInputCommand);
         });
-        view.addEventListener("viewbeforehide", function (e) {
+        view.addEventListener('viewbeforehide', function (e) {
             inputManager.off(window, onInputCommand);
-            events.off(playbackManager, "playbackstop", onPlaybackStop);
-            events.off(ApiClient, "message", onWebSocketMessage);
+            events.off(playbackManager, 'playbackstop', onPlaybackStop);
+            events.off(ApiClient, 'message', onWebSocketMessage);
         });
-        view.addEventListener("viewdestroy", function (e) {
+        view.addEventListener('viewdestroy', function (e) {
             tabControllers.forEach(function (t) {
                 if (t.destroy) {
                     t.destroy();

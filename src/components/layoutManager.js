@@ -2,7 +2,6 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
     'use strict';
 
     function setLayout(instance, layout, selectedLayout) {
-
         if (layout === selectedLayout) {
             instance[layout] = true;
             document.documentElement.classList.add('layout-' + layout);
@@ -38,7 +37,6 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
     };
 
     LayoutManager.prototype.getSavedLayout = function (layout) {
-
         return appSettings.get('layout');
     };
 
@@ -47,7 +45,7 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
         // Take a guess at initial layout. The consuming app can override
         if (browser.mobile) {
             this.setLayout('mobile', false);
-        } else if (browser.tv || browser.xboxOne) {
+        } else if (browser.tv || browser.xboxOne || browser.ps4) {
             this.setLayout('tv', false);
         } else {
             this.setLayout(this.defaultLayout || 'tv', false);

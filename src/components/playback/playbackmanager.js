@@ -1,5 +1,8 @@
-define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'fullscreenManager'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, fullscreenManager) {
+define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'screenfull'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, screenfull) {
     'use strict';
+
+    /** Delay time in ms for reportPlayback logging */
+    const reportPlaybackLogDelay = 1e3;
 
     function enableLocalPlaylistManagement(player) {
 
@@ -17,9 +20,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     }
 
     function bindToFullscreenChange(player) {
-        events.on(fullscreenManager, 'fullscreenchange', function () {
-            events.trigger(player, 'fullscreenchange');
-        });
+        if (screenfull.isEnabled) {
+            screenfull.on('change', function () {
+                events.trigger(player, 'fullscreenchange');
+            });
+        }
     }
 
     function triggerPlayerChange(playbackManagerInstance, newPlayer, newTarget, previousPlayer, previousTargetInfo) {
@@ -37,6 +42,12 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
     }
+
+    /** Last invoked method */
+    let reportPlaybackLastMethod;
+
+    /** Last invoke time of method */
+    let reportPlaybackLastTime;
 
     function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, serverId, method, progressEventName) {
 
@@ -57,7 +68,14 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
         }
 
-        //console.log(method + '-' + JSON.stringify(info));
+        const now = (new Date).getTime();
+
+        if (method !== reportPlaybackLastMethod || now - (reportPlaybackLastTime || 0) >= reportPlaybackLogDelay) {
+            console.debug(method + '-' + JSON.stringify(info));
+            reportPlaybackLastMethod = method;
+            reportPlaybackLastTime = now;
+        }
+
         var apiClient = connectionManager.getApiClient(serverId);
         apiClient[method](info);
     }
@@ -110,8 +128,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         } else {
 
             query.Limit = query.Limit || 300;
-            query.Fields = "Chapters";
-            query.ExcludeLocationTypes = "Virtual";
+            query.Fields = 'Chapters';
+            query.ExcludeLocationTypes = 'Virtual';
             query.EnableTotalRecordCount = false;
             query.CollapseBoxSetItems = false;
 
@@ -146,7 +164,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     function backdropImageUrl(apiClient, item, options) {
 
         options = options || {};
-        options.type = options.type || "Backdrop";
+        options.type = options.type || 'Backdrop';
 
         // If not resizing, get the original image
         if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
@@ -203,15 +221,15 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     }
 
     function getParam(name, url) {
-        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-        var regexS = "[\\?&]" + name + "=([^&#]*)";
-        var regex = new RegExp(regexS, "i");
+        name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
+        var regexS = '[\\?&]' + name + '=([^&#]*)';
+        var regex = new RegExp(regexS, 'i');
 
         var results = regex.exec(url);
         if (results == null) {
-            return "";
+            return '';
         } else {
-            return decodeURIComponent(results[1].replace(/\+/g, " "));
+            return decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
     }
 
@@ -291,13 +309,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             if (codecProfile.Type === 'Audio') {
                 (codecProfile.Conditions || []).map(function (condition) {
                     if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitDepth') {
-                        maxAudioBitDepth = condition.Value;
-                    }
-                    if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioSampleRate') {
-                        maxAudioSampleRate = condition.Value;
-                    }
-                    if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitrate') {
-                        maxAudioBitrate = condition.Value;
+                        return maxAudioBitDepth = condition.Value;
+                    } else if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioSampleRate') {
+                        return maxAudioSampleRate = condition.Value;
+                    } else if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitrate') {
+                        return maxAudioBitrate = condition.Value;
                     }
                 });
             }
@@ -598,8 +614,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             url: apiClient.getUrl('LiveStreams/Open', query),
             type: 'POST',
             data: JSON.stringify(postData),
-            contentType: "application/json",
-            dataType: "json"
+            contentType: 'application/json',
+            dataType: 'json'
 
         });
     }
@@ -1024,7 +1040,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             currentTargetInfo = targetInfo;
 
             if (targetInfo) {
-                console.log('Active player: ' + JSON.stringify(targetInfo));
+                console.debug('Active player: ' + JSON.stringify(targetInfo));
             }
 
             if (player && player.isLocalPlayer) {
@@ -1111,17 +1127,17 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             var itemType = item.Type;
 
-            if (itemType === "PhotoAlbum" || itemType === "MusicGenre" || itemType === "Season" || itemType === "Series" || itemType === "BoxSet" || itemType === "MusicAlbum" || itemType === "MusicArtist" || itemType === "Playlist") {
+            if (itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
                 return true;
             }
 
-            if (item.LocationType === "Virtual") {
-                if (itemType !== "Program") {
+            if (item.LocationType === 'Virtual') {
+                if (itemType !== 'Program') {
                     return false;
                 }
             }
 
-            if (itemType === "Program") {
+            if (itemType === 'Program') {
 
                 if (!item.EndDate || !item.StartDate) {
                     return false;
@@ -1518,7 +1534,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return player.isFullscreen();
             }
 
-            return fullscreenManager.isFullScreen();
+            return screenfull.isFullscreen;
         };
 
         self.toggleFullscreen = function (player) {
@@ -1528,10 +1544,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return player.toggleFulscreen();
             }
 
-            if (fullscreenManager.isFullScreen()) {
-                fullscreenManager.exitFullscreen();
-            } else {
-                fullscreenManager.requestFullscreen();
+            if (screenfull.isEnabled) {
+                screenfull.toggle();
             }
         };
 
@@ -1633,29 +1647,29 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         self.supportSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
             return player && 'setSubtitleOffset' in player;
-        }
+        };
 
         self.enableShowingSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
             player.enableShowingSubtitleOffset();
-        }
+        };
 
         self.disableShowingSubtitleOffset = function(player) {
             player = player || self._currentPlayer;
             if (player.disableShowingSubtitleOffset) {
                 player.disableShowingSubtitleOffset();
             }
-        }
+        };
 
         self.isShowingSubtitleOffsetEnabled = function(player) {
             player = player || self._currentPlayer;
             return player.isShowingSubtitleOffsetEnabled();
-        }
+        };
 
         self.isSubtitleStreamExternal = function(index, player) {
             var stream = getSubtitleStream(player, index);
             return stream ? getDeliveryMethod(stream) === 'External' : false;
-        }
+        };
 
         self.setSubtitleOffset = function (value, player) {
             player = player || self._currentPlayer;
@@ -1669,12 +1683,12 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             if (player.getSubtitleOffset) {
                 return player.getSubtitleOffset();
             }
-        }
+        };
 
         self.canHandleOffsetOnCurrentSubtitle = function(player) {
             var index = self.getSubtitleStreamIndex(player);
             return index !== -1 && self.isSubtitleStreamExternal(index, player);
-        }
+        };
 
         self.seek = function (ticks, player) {
 
@@ -1861,36 +1875,36 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             var queryOptions = options.queryOptions || {};
 
-            if (firstItem.Type === "Program") {
+            if (firstItem.Type === 'Program') {
 
                 promise = getItemsForPlayback(serverId, {
                     Ids: firstItem.ChannelId
                 });
-            } else if (firstItem.Type === "Playlist") {
+            } else if (firstItem.Type === 'Playlist') {
 
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.Id,
                     SortBy: options.shuffle ? 'Random' : null
                 });
-            } else if (firstItem.Type === "MusicArtist") {
+            } else if (firstItem.Type === 'MusicArtist') {
 
                 promise = getItemsForPlayback(serverId, {
                     ArtistIds: firstItem.Id,
-                    Filters: "IsNotFolder",
+                    Filters: 'IsNotFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: "Audio"
+                    MediaTypes: 'Audio'
                 });
 
-            } else if (firstItem.MediaType === "Photo") {
+            } else if (firstItem.MediaType === 'Photo') {
 
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.ParentId,
-                    Filters: "IsNotFolder",
+                    Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: "Photo,Video",
+                    MediaTypes: 'Photo,Video',
                     Limit: 500
 
                 }).then(function (result) {
@@ -1911,40 +1925,40 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                     return Promise.resolve(result);
 
                 });
-            } else if (firstItem.Type === "PhotoAlbum") {
+            } else if (firstItem.Type === 'PhotoAlbum') {
 
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.Id,
-                    Filters: "IsNotFolder",
+                    Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: "Photo,Video",
+                    MediaTypes: 'Photo,Video',
                     Limit: 1000
 
                 });
-            } else if (firstItem.Type === "MusicGenre") {
+            } else if (firstItem.Type === 'MusicGenre') {
 
                 promise = getItemsForPlayback(serverId, {
                     GenreIds: firstItem.Id,
-                    Filters: "IsNotFolder",
+                    Filters: 'IsNotFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: "Audio"
+                    MediaTypes: 'Audio'
                 });
             } else if (firstItem.IsFolder) {
 
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
 
                     ParentId: firstItem.Id,
-                    Filters: "IsNotFolder",
+                    Filters: 'IsNotFolder',
                     Recursive: true,
                     // These are pre-sorted
                     SortBy: options.shuffle ? 'Random' : (['BoxSet'].indexOf(firstItem.Type) === -1 ? 'SortName' : null),
-                    MediaTypes: "Audio,Video"
+                    MediaTypes: 'Audio,Video'
 
                 }, queryOptions));
-            } else if (firstItem.Type === "Episode" && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
+            } else if (firstItem.Type === 'Episode' && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
 
                 promise = new Promise(function (resolve, reject) {
                     var apiClient = connectionManager.getApiClient(firstItem.ServerId);
@@ -1960,7 +1974,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                             IsVirtualUnaired: false,
                             IsMissing: false,
                             UserId: apiClient.getCurrentUserId(),
-                            Fields: "Chapters"
+                            Fields: 'Chapters'
 
                         }).then(function (episodesResult) {
 
@@ -2197,7 +2211,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return Promise.reject();
             }
 
-            if (firstItem.MediaType === "Photo") {
+            if (firstItem.MediaType === 'Photo') {
 
                 return playPhotos(items, options, user);
             }
@@ -2828,7 +2842,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             if (newItemInfo) {
 
-                console.log('playing next track');
+                console.debug('playing next track');
 
                 var newItemPlayOptions = newItemInfo.item.playOptions || getDefaultPlayOptions();
 
@@ -3118,7 +3132,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             // medianotsupported
             var errorType = error.type;
 
-            console.log('playbackmanager playback error type: ' + (errorType || ''));
+            console.debug('playbackmanager playback error type: ' + (errorType || ''));
 
             var streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
 
@@ -3140,7 +3154,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                         AllowVideoStreamCopy: false,
                         AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
 
-                    }, true);
+                    });
 
                     return;
                 }
@@ -3162,7 +3176,8 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
             // User clicked stop or content ended
             var state = self.getPlayerState(player);
-            var streamInfo = getPlayerData(player).streamInfo;
+            var data = getPlayerData(player);
+            var streamInfo = data.streamInfo;
 
             var nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
 
@@ -3210,6 +3225,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 showPlaybackInfoErrorMessage(self, displayErrorCode, nextItem);
             } else if (nextItem) {
                 self.nextTrack();
+            } else {
+                // Nothing more to play - clear data
+                data.streamInfo = null;
             }
         }
 
@@ -3374,7 +3392,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         pluginManager.ofType('mediaplayer').map(initMediaPlayer);
 
         function sendProgressUpdate(player, progressEventName, reportPlaylist) {
-
             if (!player) {
                 throw new Error('player cannot be null');
             }
@@ -3401,7 +3418,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         function getLiveStreamMediaInfo(player, streamInfo, mediaSource, liveStreamId, serverId) {
 
-            console.log('getLiveStreamMediaInfo');
+            console.debug('getLiveStreamMediaInfo');
 
             streamInfo.lastMediaInfoQuery = new Date().getTime();
 
@@ -3832,23 +3849,23 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
         if (player.isLocalPlayer) {
             var list = [
-                "GoHome",
-                "GoToSettings",
-                "VolumeUp",
-                "VolumeDown",
-                "Mute",
-                "Unmute",
-                "ToggleMute",
-                "SetVolume",
-                "SetAudioStreamIndex",
-                "SetSubtitleStreamIndex",
-                "SetMaxStreamingBitrate",
-                "DisplayContent",
-                "GoToSearch",
-                "DisplayMessage",
-                "SetRepeatMode",
-                "PlayMediaSource",
-                "PlayTrailers"
+                'GoHome',
+                'GoToSettings',
+                'VolumeUp',
+                'VolumeDown',
+                'Mute',
+                'Unmute',
+                'ToggleMute',
+                'SetVolume',
+                'SetAudioStreamIndex',
+                'SetSubtitleStreamIndex',
+                'SetMaxStreamingBitrate',
+                'DisplayContent',
+                'GoToSearch',
+                'DisplayMessage',
+                'SetRepeatMode',
+                'PlayMediaSource',
+                'PlayTrailers'
             ];
 
             if (apphost.supports('fullscreenchange')) {
@@ -3961,7 +3978,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
     };
 
     PlaybackManager.prototype.sendCommand = function (cmd, player) {
-        console.log('MediaController received command: ' + cmd.Name);
+        console.debug('MediaController received command: ' + cmd.Name);
         switch (cmd.Name) {
             case 'SetRepeatMode':
                 this.setRepeatMode(cmd.Arguments.RepeatMode, player);

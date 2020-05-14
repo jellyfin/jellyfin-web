@@ -27,7 +27,7 @@ define(['events'], function (events) {
 
     PluginManager.prototype.loadPlugin = function (url) {
 
-        console.log('Loading plugin: ' + url);
+        console.debug('Loading plugin: ' + url);
         var instance = this;
 
         return new Promise(function (resolve, reject) {

@@ -11,6 +11,7 @@
     background-color: rgba(0, 0, 0, 0.7);
     color: #fff;
     user-select: none;
+    -webkit-touch-callout: none;
 }
 
 .upNextDialog-hidden {
@@ -27,7 +28,7 @@
     position: relative;
     margin-right: 1em;
     flex-shrink: 0;
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
 }
 
 .upNextDialog-button {
@@ -36,7 +37,6 @@
 }
 
 @media all and (orientation: landscape) {
-
     .upNextDialog {
         flex-direction: row;
     }
@@ -63,7 +63,11 @@
     height: auto;
     width: 100%;
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    border: 0;
     user-drag: none;
+    border: 0;
     user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }

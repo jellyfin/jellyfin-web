@@ -5,8 +5,10 @@
     right: 0;
     bottom: 0;
     contain: layout style size;
-    /* Can't use will-change because it causes the alpha picker to move when the page scrolls*/
-    /*will-change: transform;*/
+
+    /* Can't use will-change because it causes the alpha picker to move when the page scrolls */
+
+    /* will-change: transform; */
 }
 
 @keyframes view-fadeout {
@@ -18,6 +20,7 @@
         opacity: 0;
     }
 }
+
 @keyframes view-fadein {
     from {
         opacity: 0;

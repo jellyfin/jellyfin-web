@@ -1,4 +1,4 @@
-define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'paper-icon-button-light', 'emby-ratingbutton'], function (require, datetime, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager) {
+define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'itemContextMenu', 'paper-icon-button-light', 'emby-ratingbutton'], function (require, datetime, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager, itemContextMenu) {
     'use strict';
 
     var currentPlayer;
@@ -31,7 +31,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         html += '<div class="nowPlayingBarTop">';
         html += '<div class="nowPlayingBarPositionContainer sliderContainer">';
-        html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider"/>';
+        html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
         html += '</div>';
 
         html += '<div class="nowPlayingBarInfoContainer">';
@@ -42,31 +42,31 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         // The onclicks are needed due to the return false above
         html += '<div class="nowPlayingBarCenter">';
 
-        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><i class="md-icon">skip_previous</i></button>';
+        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><span class="material-icons skip_previous"></span></button>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="md-icon">pause</i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
 
-        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><i class="md-icon">stop</i></button>';
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><i class="md-icon">skip_next</i></button>';
+        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><span class="material-icons stop"></span></button>';
+        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><span class="material-icons skip_next"></span></button>';
 
         html += '<div class="nowPlayingBarCurrentTime"></div>';
         html += '</div>';
 
         html += '<div class="nowPlayingBarRight">';
 
-        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="md-icon">volume_up</i></button>';
+        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><span class="material-icons volume_up"></span></button>';
 
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:9em;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><i class="md-icon">repeat</i></button>';
+        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><span class="material-icons repeat"></span></button>';
 
         html += '<div class="nowPlayingBarUserDataButtons">';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="md-icon">pause</i></button>';
-        html += '<button is="paper-icon-button-light" class="remoteControlButton mediaButton"><i class="md-icon">playlist_play</i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><span class="material-icons pause"></span></button>';
+        html += '<button is="paper-icon-button-light" class="btnToggleContextMenu"><span class="material-icons more_vert"></span></button>';
 
         html += '</div>';
         html += '</div>';
@@ -134,12 +134,10 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         });
 
-        var i;
-        var length;
         playPauseButtons = elem.querySelectorAll('.playPauseButton');
-        for (i = 0, length = playPauseButtons.length; i < length; i++) {
-            playPauseButtons[i].addEventListener('click', onPlayPauseClick);
-        }
+        playPauseButtons.forEach((button) => {
+            button.addEventListener('click', onPlayPauseClick);
+        });
 
         elem.querySelector('.nextTrackButton').addEventListener('click', function () {
 
@@ -154,8 +152,6 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 playbackManager.previousTrack(currentPlayer);
             }
         });
-
-        elem.querySelector('.remoteControlButton').addEventListener('click', showRemoteControl);
 
         toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
         toggleRepeatButton.addEventListener('click', function () {
@@ -176,7 +172,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             }
         });
 
-        toggleRepeatButtonIcon = toggleRepeatButton.querySelector('i');
+        toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
 
         volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
         volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
@@ -192,6 +188,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
                 currentPlayer.setVolume(this.value);
             }
         }
+
         volumeSlider.addEventListener('change', setVolume);
         volumeSlider.addEventListener('mousemove', setVolume);
         volumeSlider.addEventListener('touchmove', setVolume);
@@ -225,8 +222,8 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         elem.addEventListener('click', function (e) {
 
-            if (!dom.parentWithTag(e.target, ['BUTTON', 'INPUT', 'A'])) {
-                showRemoteControl(0);
+            if (!dom.parentWithTag(e.target, ['BUTTON', 'INPUT'])) {
+                showRemoteControl();
             }
         });
     }
@@ -282,22 +279,12 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function updatePlayPauseState(isPaused) {
-        var i;
-        var length;
-
         if (playPauseButtons) {
-            if (isPaused) {
-
-                for (i = 0, length = playPauseButtons.length; i < length; i++) {
-                    playPauseButtons[i].querySelector('i').innerHTML = 'play_arrow';
-                }
-
-            } else {
-
-                for (i = 0, length = playPauseButtons.length; i < length; i++) {
-                    playPauseButtons[i].querySelector('i').innerHTML = 'pause';
-                }
-            }
+            playPauseButtons.forEach((button) => {
+                const icon = button.querySelector('.material-icons');
+                icon.classList.remove('play_arrow', 'pause');
+                icon.classList.add(isPaused ? 'play_arrow' : 'pause');
+            });
         }
     }
 
@@ -341,15 +328,16 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function updateRepeatModeDisplay(repeatMode) {
+        toggleRepeatButtonIcon.classList.remove('repeat', 'repeat_one');
 
         if (repeatMode === 'RepeatAll') {
-            toggleRepeatButtonIcon.innerHTML = "repeat";
+            toggleRepeatButtonIcon.classList.add('repeat');
             toggleRepeatButton.classList.add('repeatButton-active');
         } else if (repeatMode === 'RepeatOne') {
-            toggleRepeatButtonIcon.innerHTML = "repeat_one";
+            toggleRepeatButtonIcon.classList.add('repeat_one');
             toggleRepeatButton.classList.add('repeatButton-active');
         } else {
-            toggleRepeatButtonIcon.innerHTML = "repeat";
+            toggleRepeatButtonIcon.classList.add('repeat');
             toggleRepeatButton.classList.remove('repeatButton-active');
         }
     }
@@ -380,7 +368,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             var timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
 
             if (runtimeTicks) {
-                timeText += " / " + datetime.getDisplayRunningTime(runtimeTicks);
+                timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
             }
 
             currentTimeElement.innerHTML = timeText;
@@ -393,21 +381,14 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
         var showMuteButton = true;
         var showVolumeSlider = true;
-        var progressElement = volumeSliderContainer.querySelector('.mdl-slider-background-lower');
 
         if (supportedCommands.indexOf('ToggleMute') === -1) {
             showMuteButton = false;
         }
 
-        if (isMuted) {
-            muteButton.querySelector('i').innerHTML = 'volume_off';
-        } else {
-            muteButton.querySelector('i').innerHTML = 'volume_up';
-        }
-
-        if (progressElement) {
-            progressElement.style.width = (volumeLevel || 0) + '%';
-        }
+        const muteButtonIcon = muteButton.querySelector('.material-icons');
+        muteButtonIcon.classList.remove('volume_off', 'volume_up');
+        muteButtonIcon.classList.add(isMuted ? 'volume_off' : 'volume_up');
 
         if (supportedCommands.indexOf('SetVolume') === -1) {
             showVolumeSlider = false;
@@ -439,17 +420,13 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
     }
 
-    function getTextActionButton(item, text, serverId) {
+    function getTextActionButton(item, text) {
 
         if (!text) {
             text = itemHelper.getDisplayName(item);
         }
 
-        var html = '<button data-id="' + item.Id + '" data-serverid="' + (item.ServerId || serverId) + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '" type="button" class="itemAction textActionButton" data-action="link">';
-        html += text;
-        html += '</button>';
-
-        return html;
+        return `<a>${text}</a>`;
     }
 
     function seriesImageUrl(item, options) {
@@ -463,7 +440,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (options.type === 'Primary') {
 
@@ -501,7 +478,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         }
 
         options = options || {};
-        options.type = options.type || "Primary";
+        options.type = options.type || 'Primary';
 
         if (item.ImageTags && item.ImageTags[options.type]) {
 
@@ -527,16 +504,16 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
         if (textLines.length > 1) {
             textLines[1].secondary = true;
         }
-        var serverId = nowPlayingItem ? nowPlayingItem.ServerId : null;
         nowPlayingTextElement.innerHTML = textLines.map(function (nowPlayingName) {
 
             var cssClass = nowPlayingName.secondary ? ' class="nowPlayingBarSecondaryText"' : '';
 
             if (nowPlayingName.item) {
-                return '<div' + cssClass + '>' + getTextActionButton(nowPlayingName.item, nowPlayingName.text, serverId) + '</div>';
+                var nowPlayingText = getTextActionButton(nowPlayingName.item, nowPlayingName.text);
+                return `<div ${cssClass}>${nowPlayingText}</div>`;
             }
 
-            return '<div' + cssClass + '>' + nowPlayingName.text + '</div>';
+            return `<div ${cssClass}>${nowPlayingText}</div>`;
 
         }).join('');
 
@@ -565,15 +542,25 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
             if (isRefreshing) {
 
                 var apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
-
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
-
                     var userData = item.UserData || {};
                     var likes = userData.Likes == null ? '' : userData.Likes;
-
-                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon">favorite</i></button>';
+                    var contextButton = document.querySelector('.btnToggleContextMenu');
+                    var options = {
+                        play: false,
+                        queue: false,
+                        positionTo: contextButton
+                    };
+                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite"></span></button>';
+                    apiClient.getCurrentUser().then(function(user) {
+                        contextButton.addEventListener('click', function () {
+                            itemContextMenu.show(Object.assign({
+                                item: item,
+                                user: user
+                            }, options ));
+                        });
+                    });
                 });
-
             }
         } else {
             nowPlayingUserData.innerHTML = '';
@@ -581,8 +568,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
     }
 
     function onPlaybackStart(e, state) {
-
-        //console.log('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + e.type);
 
         var player = this;
 
@@ -627,7 +613,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function onPlaybackStopped(e, state) {
 
-        //console.log('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + e.type);
         var player = this;
 
         if (player.isLocalPlayer) {
@@ -653,7 +639,7 @@ define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader',
 
     function onStateChanged(event, state) {
 
-        //console.log('nowplaying event: ' + e.type);
+        console.debug('nowplaying event: ' + event.type);
         var player = this;
 
         if (!state.NowPlayingItem || layoutManager.tv) {

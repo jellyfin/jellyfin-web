@@ -5,14 +5,15 @@
 }
 
 .formDialogHeader {
-    padding: 1em .5em;
+    padding: 1em 0.5em;
     display: flex;
     align-items: center;
     flex-shrink: 0;
 }
 
 .formDialogHeaderTitle {
-    margin-left: .25em;
+    margin-left: 0.25em;
+
     /* In case of h1, h2, h3 */
     margin-top: 0;
     margin-bottom: 0;
@@ -23,7 +24,7 @@
 }
 
 .dialogContentInner {
-    padding: .5em 1em 20em 1em;
+    padding: 0.5em 1em 20em 1em;
 }
 
 .dialogContentInner-mini {
@@ -46,6 +47,7 @@
     display: flex;
     position: absolute;
     padding: 1.25em 1em;
+
     /* Without this emby-checkbox is able to appear on top */
     z-index: 1;
     align-items: center;
@@ -62,11 +64,11 @@
     padding-bottom: 1.5em;
     flex-direction: column;
     width: 80% !important;
-    padding-top: .5em;
+    padding-top: 0.5em;
 }
 
 .formDialogFooterItem {
-    margin: .5em !important;
+    margin: 0.5em !important;
     flex-grow: 1;
     text-align: center;
     flex-basis: 0;
@@ -91,7 +93,6 @@
 }
 
 @media all and (min-width: 50em) {
-
     .formDialogFooterItem {
         max-width: 80%;
     }
@@ -103,7 +104,6 @@
 }
 
 @media all and (min-width: 80em) {
-
     .formDialogFooterItem {
         max-width: 70%;
     }

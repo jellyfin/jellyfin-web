@@ -1,52 +1,52 @@
-define(["appSettings", "loading", "browser", "emby-button"], function(appSettings, loading, browser) {
-    "use strict";
+define(['appSettings', 'loading', 'browser', 'globalize', 'emby-button'], function(appSettings, loading, browser, globalize) {
+    'use strict';
 
     function handleConnectionResult(page, result) {
         loading.hide();
         switch (result.State) {
-            case "SignedIn":
+            case 'SignedIn':
                 var apiClient = result.ApiClient;
                 Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
-                Dashboard.navigate("home.html");
+                Dashboard.navigate('home.html');
                 break;
-            case "ServerSignIn":
-                Dashboard.navigate("login.html?serverid=" + result.Servers[0].Id, false, "none");
+            case 'ServerSignIn':
+                Dashboard.navigate('login.html?serverid=' + result.Servers[0].Id, false, 'none');
                 break;
-            case "ServerSelection":
-                Dashboard.navigate("selectserver.html", false, "none");
+            case 'ServerSelection':
+                Dashboard.navigate('selectserver.html', false, 'none');
                 break;
-            case "ServerUpdateNeeded":
+            case 'ServerUpdateNeeded':
                 Dashboard.alert({
-                    message: Globalize.translate("ServerUpdateNeeded", '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
+                    message: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
                 });
                 break;
-            case "Unavailable":
+            case 'Unavailable':
                 Dashboard.alert({
-                    message: Globalize.translate("MessageUnableToConnectToServer"),
-                    title: Globalize.translate("HeaderConnectionFailure")
+                    message: globalize.translate('MessageUnableToConnectToServer'),
+                    title: globalize.translate('HeaderConnectionFailure')
                 });
         }
     }
 
     function submitServer(page) {
         loading.show();
-        var host = page.querySelector("#txtServerHost").value;
+        var host = page.querySelector('#txtServerHost').value;
         ConnectionManager.connectToAddress(host, {
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then(function(result) {
             handleConnectionResult(page, result);
         }, function() {
             handleConnectionResult(page, {
-                State: "Unavailable"
+                State: 'Unavailable'
             });
         });
     }
 
     return function(view, params) {
-        view.querySelector(".addServerForm").addEventListener("submit", onServerSubmit);
-        view.querySelector(".btnCancel").addEventListener("click", goBack);
+        view.querySelector('.addServerForm').addEventListener('submit', onServerSubmit);
+        view.querySelector('.btnCancel').addEventListener('click', goBack);
 
-        require(["autoFocuser"], function (autoFocuser) {
+        require(['autoFocuser'], function (autoFocuser) {
             autoFocuser.autoFocus(view);
         });
 
@@ -57,7 +57,7 @@ define(["appSettings", "loading", "browser", "emby-button"], function(appSetting
         }
 
         function goBack() {
-            require(["appRouter"], function(appRouter) {
+            require(['appRouter'], function(appRouter) {
                 appRouter.back();
             });
         }

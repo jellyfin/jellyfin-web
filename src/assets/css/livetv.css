@@ -1,9 +1,9 @@
 .guideVerticalScroller {
-    padding-bottom: 15em
+    padding-bottom: 15em;
 }
 
-@media all and (min-width:62.5em) {
+@media all and (min-width: 62.5em) {
     #guideTab {
-        padding-left: .5em
+        padding-left: 0.5em;
     }
 }

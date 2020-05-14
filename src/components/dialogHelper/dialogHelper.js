@@ -32,7 +32,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
             try {
                 parentNode.removeChild(elem);
             } catch (err) {
-                console.log('Error removing dialog element: ' + err);
+                console.error('error removing dialog element: ' + err);
             }
         }
     }
@@ -141,7 +141,7 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
         animateDialogOpen(dlg);
 
         if (isHistoryEnabled(dlg)) {
-            appRouter.pushState({ dialogId: hash }, "Dialog", '#' + hash);
+            appRouter.pushState({ dialogId: hash }, 'Dialog', '#' + hash);
 
             window.addEventListener('popstate', onHashChange);
         } else {
@@ -168,6 +168,15 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
             }
         }, {
             passive: true
+        });
+
+        dom.addEventListener((dlg.dialogContainer || backdrop), 'contextmenu', function (e) {
+            if (e.target === dlg.dialogContainer) {
+                // Close the application dialog menu
+                close(dlg);
+                // Prevent the default browser context menu from appearing
+                e.preventDefault();
+            }
         });
     }
 
@@ -242,8 +251,14 @@ define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager',
 
         var onAnimationFinish = function () {
             focusManager.pushScope(dlg);
+
             if (dlg.getAttribute('data-autofocus') === 'true') {
                 focusManager.autoFocus(dlg);
+            }
+
+            if (document.activeElement && !dlg.contains(document.activeElement)) {
+                // Blur foreign element to prevent triggering of an action from the previous scope
+                document.activeElement.blur();
             }
         };
 

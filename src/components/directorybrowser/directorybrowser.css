@@ -1,8 +1,8 @@
 #ulDirectoryPickerList a {
-    padding-top: .4em;
-    padding-bottom: .4em
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
 }
 
 .lblDirectoryPickerPath {
-    white-space: nowrap
+    white-space: nowrap;
 }

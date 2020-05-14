@@ -1,4 +1,4 @@
-define(['connectionManager', 'userSettings', 'events'], function (connectionManager, userSettings, events) {
+define(['userSettings', 'events'], function (userSettings, events) {
     'use strict';
     var fallbackCulture = 'en-us';
 
@@ -38,7 +38,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         try {
             culture = userSettings.language();
         } catch (err) {
-            console.log('no language set in user settings');
+            console.error('no language set in user settings');
         }
         culture = culture || getDefaultLanguage();
 
@@ -48,7 +48,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         try {
             dateTimeCulture = userSettings.dateTimeLocale();
         } catch (err) {
-            console.log('no date format set in user settings');
+            console.error('no date format set in user settings');
         }
 
         if (dateTimeCulture) {
@@ -253,7 +253,6 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
     updateCurrentCulture();
 
-    events.on(connectionManager, 'localusersignedin', updateCurrentCulture);
     events.on(userSettings, 'change', function (e, name) {
         if (name === 'language' || name === 'datetimelocale') {
             updateCurrentCulture();
@@ -269,6 +268,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         defaultModule: defaultModule,
         getCurrentLocale: getCurrentLocale,
         getCurrentDateTimeLocale: getCurrentDateTimeLocale,
-        register: register
+        register: register,
+        updateCurrentCulture: updateCurrentCulture
     };
 });
