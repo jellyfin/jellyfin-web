@@ -25,7 +25,7 @@
     "BirthDateValue": "Narodený/á: {0}",
     "BirthLocation": "Miesto narodenia",
     "BirthPlaceValue": "Miesto narodenia: {0}",
-    "BookLibraryHelp": "Audioknihy a učebnice sú podporované. Prečítajte si {0}pravidlá pre názvy kníh v Jellyfine{1}.",
+    "BookLibraryHelp": "Audioknihy a učebnice sú podporované. Prečítajte si {0} pravidlá pre názvy kníh v Jellyfine {1}.",
     "Books": "Knihy",
     "ButtonAdd": "Pridať",
     "ButtonAddMediaLibrary": "Pridať knižnicu médií",
