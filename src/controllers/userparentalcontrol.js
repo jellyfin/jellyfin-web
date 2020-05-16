@@ -191,7 +191,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
     function showSchedulePopup(page, schedule, index) {
         schedule = schedule || {};
 
-        require(['components/accessschedule/accessschedule'], function (accessschedule) {
+        require(['components/accessSchedule/accessSchedule'], function (accessschedule) {
             accessschedule.show({
                 schedule: schedule
             }).then(function (updatedSchedule) {

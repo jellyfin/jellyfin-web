@@ -485,8 +485,8 @@ var AppInfo = {};
             'components/htmlvideoplayer/plugin',
             'components/photoplayer/plugin',
             'components/youtubeplayer/plugin',
-            'components/backdropscreensaver/plugin',
-            'components/logoscreensaver/plugin'
+            'components/backdropScreensaver/plugin',
+            'components/logoScreensaver/plugin'
         ];
 
         if (appHost.supports('remotecontrol')) {
@@ -538,7 +538,7 @@ var AppInfo = {};
                     hashbang: true
                 });
 
-                require(['components/thememediaplayer', 'scripts/autoBackdrops']);
+                require(['components/themeMediaPlayer', 'scripts/autoBackdrops']);
 
                 if (!browser.tv && !browser.xboxOne && !browser.ps4) {
                     require(['components/nowplayingbar/nowplayingbar']);
@@ -644,9 +644,9 @@ var AppInfo = {};
             imageoptionseditor: componentsPath + '/imageoptionseditor/imageoptionseditor',
             apphost: componentsPath + '/apphost',
             visibleinviewport: bowerPath + '/visibleinviewport',
-            qualityoptions: componentsPath + '/qualityoptions',
+            qualityoptions: componentsPath + '/qualityOptions',
             focusManager: componentsPath + '/focusManager',
-            itemHelper: componentsPath + '/itemhelper',
+            itemHelper: componentsPath + '/itemHelper',
             itemShortcuts: componentsPath + '/shortcuts',
             playQueueManager: componentsPath + '/playback/playqueuemanager',
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
@@ -774,7 +774,7 @@ var AppInfo = {};
         define('chromecastHelper', [componentsPath + '/chromecast/chromecasthelpers'], returnFirstDependency);
         define('mediaSession', [componentsPath + '/playback/mediasession'], returnFirstDependency);
         define('actionsheet', [componentsPath + '/actionsheet/actionsheet'], returnFirstDependency);
-        define('tunerPicker', [componentsPath + '/tunerpicker'], returnFirstDependency);
+        define('tunerPicker', [componentsPath + '/tunerPicker'], returnFirstDependency);
         define('mainTabsManager', [componentsPath + '/maintabsmanager'], returnFirstDependency);
         define('imageLoader', [componentsPath + '/images/imageLoader'], returnFirstDependency);
         define('directorybrowser', [componentsPath + '/directorybrowser/directorybrowser'], returnFirstDependency);
@@ -803,7 +803,7 @@ var AppInfo = {};
         define('itemIdentifier', [componentsPath + '/itemidentifier/itemidentifier'], returnFirstDependency);
         define('itemMediaInfo', [componentsPath + '/itemMediaInfo/itemMediaInfo'], returnFirstDependency);
         define('mediaInfo', [componentsPath + '/mediainfo/mediainfo'], returnFirstDependency);
-        define('itemContextMenu', [componentsPath + '/itemcontextmenu'], returnFirstDependency);
+        define('itemContextMenu', [componentsPath + '/itemContextMenu'], returnFirstDependency);
         define('imageEditor', [componentsPath + '/imageeditor/imageeditor'], returnFirstDependency);
         define('imageDownloader', [componentsPath + '/imagedownloader/imagedownloader'], returnFirstDependency);
         define('dom', [scriptsPath + '/dom'], returnFirstDependency);
@@ -843,7 +843,7 @@ var AppInfo = {};
         define('viewSettings', [componentsPath + '/viewsettings/viewsettings'], returnFirstDependency);
         define('filterMenu', [componentsPath + '/filtermenu/filtermenu'], returnFirstDependency);
         define('sortMenu', [componentsPath + '/sortmenu/sortmenu'], returnFirstDependency);
-        define('sanitizefilename', [componentsPath + '/sanitizefilename'], returnFirstDependency);
+        define('sanitizefilename', [componentsPath + '/sanitizeFilename'], returnFirstDependency);
         define('toast', [componentsPath + '/toast/toast'], returnFirstDependency);
         define('scrollHelper', [componentsPath + '/scrollHelper'], returnFirstDependency);
         define('touchHelper', [scriptsPath + '/touchHelper'], returnFirstDependency);

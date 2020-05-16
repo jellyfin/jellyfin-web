@@ -50,7 +50,7 @@ define(['dialogHelper', 'datetime', 'globalize', 'emby-select', 'paper-icon-butt
         show: function (options) {
             return new Promise(function (resolve, reject) {
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'components/accessschedule/accessschedule.template.html', true);
+                xhr.open('GET', 'components/accessSchedule/accessSchedule.template.html', true);
 
                 xhr.onload = function (e) {
                     var template = this.response;
