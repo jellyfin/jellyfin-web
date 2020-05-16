@@ -1513,5 +1513,8 @@
     "YadifBob": "YADIF Bob",
     "Yadif": "YADIF",
     "Track": "Nummer",
-    "SelectAdminUsername": "Selecteer een gebruikersnaam voor het beheerder account."
+    "SelectAdminUsername": "Selecteer een gebruikersnaam voor het beheerder account.",
+    "HeaderFavoritePlaylists": "Favoriete afspeellijsten",
+    "ButtonTogglePlaylist": "Afspeellijst",
+    "ButtonToggleContextMenu": "Meer"
 }

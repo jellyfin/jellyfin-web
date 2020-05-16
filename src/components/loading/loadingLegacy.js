@@ -7,7 +7,7 @@ define(['require', 'css!./loadingLegacy'], function (require) {
         show: function () {
             var elem = loadingElem;
             if (!elem) {
-                elem = document.createElement("img");
+                elem = document.createElement('img');
                 elem.src = require.toUrl('.').split('?')[0] + '/loader.gif';
 
                 loadingElem = elem;

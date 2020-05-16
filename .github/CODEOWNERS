@@ -1,3 +1,4 @@
-# Joshua must review all changes to deployment and build.sh
-deployment/*    @joshuaboniface
+.ci             @dkanada @EraYaN
+.github         @jellyfin/core
 build.sh        @joshuaboniface
+deployment      @joshuaboniface

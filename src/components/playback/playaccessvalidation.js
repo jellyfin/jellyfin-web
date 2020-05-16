@@ -1,5 +1,5 @@
 define(['connectionManager', 'globalize'], function (connectionManager, globalize) {
-    "use strict";
+    'use strict';
 
     function getRequirePromise(deps) {
         return new Promise(function (resolve, reject) {

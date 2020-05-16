@@ -1,5 +1,5 @@
 define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', 'htmlMediaHelper', 'itemHelper', 'screenfull', 'globalize'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper, screenfull, globalize) {
-    "use strict";
+    'use strict';
     /* globals cast */
 
     var mediaManager;
@@ -106,10 +106,16 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         });
     }
 
+    function hidePrePlaybackPage() {
+        let animatedPage = document.querySelector('.page:not(.hide)');
+        animatedPage.classList.add('hide');
+    }
+
     function zoomIn(elem) {
         return new Promise(function (resolve, reject) {
             var duration = 240;
             elem.style.animation = 'htmlvideoplayer-zoomin ' + duration + 'ms ease-in normal';
+            hidePrePlaybackPage();
             dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
                 once: true
             });
@@ -212,7 +218,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function incrementFetchQueue() {
             if (self._fetchQueue <= 0) {
                 self.isFetching = true;
-                events.trigger(self, "beginFetch");
+                events.trigger(self, 'beginFetch');
             }
 
             self._fetchQueue++;
@@ -223,7 +229,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             if (self._fetchQueue <= 0) {
                 self.isFetching = false;
-                events.trigger(self, "endFetch");
+                events.trigger(self, 'endFetch');
             }
         }
 
@@ -290,7 +296,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             return createMediaElement(options).then(function (elem) {
 
-                return updateVideoUrl(options, options.mediaSource).then(function () {
+                return updateVideoUrl(options).then(function () {
                     return setCurrentSrc(elem, options);
                 });
             });
@@ -330,7 +336,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 requireHlsPlayer(function () {
 
                     var hls = new Hls({
-                        manifestLoadingTimeOut: 20000
+                        manifestLoadingTimeOut: 20000,
+                        xhrSetup: function(xhr, xhr_url) {
+                            xhr.withCredentials = true;
+                        }
                         //appendErrorMaxRetry: 6,
                         //debug: true
                     });
@@ -466,7 +475,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             console.debug('content type: ' + contentType);
 
             host.onError = function (errorCode) {
-                console.error("fatal Error - " + errorCode);
+                console.error('fatal Error - ' + errorCode);
             };
 
             mediaElement.autoplay = false;
@@ -551,6 +560,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 elem.autoplay = true;
 
+                // Safari will not send cookies without this
+                elem.crossOrigin = 'use-credentials';
+
                 return htmlMediaHelper.applySrc(elem, val, options).then(function () {
 
                     self._currentSrc = val;
@@ -602,7 +614,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             // if .ass currently rendering
             if (currentSubtitlesOctopus) {
                 updateCurrentTrackOffset(offsetValue);
-                currentSubtitlesOctopus.timeOffset = offsetValue;
+                currentSubtitlesOctopus.timeOffset = (self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
             } else {
                 var trackElement = getTextTrack();
                 // if .vtt currently rendering
@@ -611,7 +623,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 } else if (currentTrackEvents) {
                     setTrackEventsSubtitleOffset(currentTrackEvents, offsetValue);
                 } else {
-                    console.debug("No available track, cannot apply offset: ", offsetValue);
+                    console.debug('No available track, cannot apply offset: ', offsetValue);
                 }
             }
         };
@@ -836,7 +848,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function onNavigatedToOsd() {
             var dlg = videoDialog;
             if (dlg) {
-                dlg.classList.remove('videoPlayerContainer-withBackdrop');
                 dlg.classList.remove('videoPlayerContainer-onTop');
 
                 onStartedAndNavigatedToOsd();
@@ -860,7 +871,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 loading.hide();
 
                 htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks, function () {
-                    if (currentSubtitlesOctopus) currentSubtitlesOctopus.resize();
+                    if (currentSubtitlesOctopus) {
+                        currentSubtitlesOctopus.timeOffset = (self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + currentTrackOffset;
+                        currentSubtitlesOctopus.resize();
+                        currentSubtitlesOctopus.resetRenderAheadCache(false);
+                    }
                 });
 
                 if (self._currentPlayOptions.fullscreen) {
@@ -869,7 +884,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 } else {
                     appRouter.setTransparency('backdrop');
-                    videoDialog.classList.remove('videoPlayerContainer-withBackdrop');
                     videoDialog.classList.remove('videoPlayerContainer-onTop');
 
                     onStartedAndNavigatedToOsd();
@@ -1061,11 +1075,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 fonts: attachments.map(function (i) {
                     return apiClient.getUrl(i.DeliveryUrl);
                 }),
-                workerUrl: appRouter.baseUrl() + "/libraries/subtitles-octopus-worker.js",
-                legacyWorkerUrl: appRouter.baseUrl() + "/libraries/subtitles-octopus-worker-legacy.js",
+                workerUrl: appRouter.baseUrl() + '/libraries/subtitles-octopus-worker.js',
+                legacyWorkerUrl: appRouter.baseUrl() + '/libraries/subtitles-octopus-worker-legacy.js',
                 onError: function() {
                     htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
                 },
+                timeOffset: (self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
 
                 // new octopus options; override all, even defaults
                 renderMode: 'blend',
@@ -1285,12 +1300,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function createMediaElement(options) {
 
-            if (browser.tv || browser.iOS || browser.mobile) {
-                // too slow
-                // also on iOS, the backdrop image doesn't look right
-                // on android mobile, it works, but can be slow to have the video surface fully cover the backdrop
-                options.backdropUrl = null;
-            }
             return new Promise(function (resolve, reject) {
 
                 var dlg = document.querySelector('.videoPlayerContainer');
@@ -1304,11 +1313,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         var dlg = document.createElement('div');
 
                         dlg.classList.add('videoPlayerContainer');
-
-                        if (options.backdropUrl) {
-                            dlg.classList.add('videoPlayerContainer-withBackdrop');
-                            dlg.style.backgroundImage = "url('" + options.backdropUrl + "')";
-                        }
 
                         if (options.fullscreen) {
                             dlg.classList.add('videoPlayerContainer-onTop');
@@ -1343,6 +1347,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         videoElement.addEventListener('play', onPlay);
                         videoElement.addEventListener('click', onClick);
                         videoElement.addEventListener('dblclick', onDblClick);
+                        if (options.backdropUrl) {
+                            videoElement.poster = options.backdropUrl;
+                        }
 
                         document.body.insertBefore(dlg, document.body.firstChild);
                         videoDialog = dlg;
@@ -1362,15 +1369,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                                 resolve(videoElement);
                             });
                         } else {
+                            hidePrePlaybackPage();
                             resolve(videoElement);
                         }
                     });
                 } else {
-                    if (options.backdropUrl) {
-                        dlg.classList.add('videoPlayerContainer-withBackdrop');
-                        dlg.style.backgroundImage = "url('" + options.backdropUrl + "')";
-                    }
-
                     resolve(dlg.querySelector('video'));
                 }
             });
@@ -1412,12 +1415,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var list = [];
 
         var video = document.createElement('video');
-        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function" || document.pictureInPictureEnabled) {
+        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' || document.pictureInPictureEnabled) {
             list.push('PictureInPicture');
         } else if (browser.ipad) {
             // Unfortunately this creates a false positive on devices where its' not actually supported
             if (navigator.userAgent.toLowerCase().indexOf('os 9') === -1) {
-                if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
+                if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
                     list.push('PictureInPicture');
                 }
             }
@@ -1432,7 +1435,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         list.push('SetBrightness');
-        list.push("SetAspectRatio");
+        list.push('SetAspectRatio');
 
         return list;
     }
@@ -1517,8 +1520,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
         } else {
-            if (video && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
-                video.webkitSetPresentationMode(isEnabled ? "picture-in-picture" : "inline");
+            if (video && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
+                video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
             }
         }
     };
@@ -1532,7 +1535,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         } else {
             var video = this._mediaElement;
             if (video) {
-                return video.webkitPresentationMode === "picture-in-picture";
+                return video.webkitPresentationMode === 'picture-in-picture';
             }
         }
 
@@ -1555,11 +1558,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (video) {
                 if (isEnabled) {
                     video.requestAirPlay().catch(function(err) {
-                        console.error("Error requesting AirPlay", err);
+                        console.error('Error requesting AirPlay', err);
                     });
                 } else {
                     document.exitAirPLay().catch(function(err) {
-                        console.error("Error exiting AirPlay", err);
+                        console.error('Error exiting AirPlay', err);
                     });
                 }
             }
@@ -1691,29 +1694,29 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     HtmlVideoPlayer.prototype.setAspectRatio = function (val) {
         var mediaElement = this._mediaElement;
         if (mediaElement) {
-            if ("auto" === val) {
-                mediaElement.style.removeProperty("object-fit");
+            if ('auto' === val) {
+                mediaElement.style.removeProperty('object-fit');
             } else {
-                mediaElement.style["object-fit"] = val;
+                mediaElement.style['object-fit'] = val;
             }
         }
         this._currentAspectRatio = val;
     };
 
     HtmlVideoPlayer.prototype.getAspectRatio = function () {
-        return this._currentAspectRatio || "auto";
+        return this._currentAspectRatio || 'auto';
     };
 
     HtmlVideoPlayer.prototype.getSupportedAspectRatios = function () {
         return [{
-            name: "Auto",
-            id: "auto"
+            name: 'Auto',
+            id: 'auto'
         }, {
-            name: "Cover",
-            id: "cover"
+            name: 'Cover',
+            id: 'cover'
         }, {
-            name: "Fill",
-            id: "fill"
+            name: 'Fill',
+            id: 'fill'
         }];
     };
 
@@ -1762,7 +1765,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             if (protocol) {
                 mediaCategory.stats.push({
-                    label: globalize.translate("LabelProtocol"),
+                    label: globalize.translate('LabelProtocol'),
                     value: protocol
                 });
             }
@@ -1772,12 +1775,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         if (this._hlsPlayer || this._shakaPlayer) {
             mediaCategory.stats.push({
-                label: globalize.translate("LabelStreamType"),
+                label: globalize.translate('LabelStreamType'),
                 value: 'HLS'
             });
         } else {
             mediaCategory.stats.push({
-                label: globalize.translate("LabelStreamType"),
+                label: globalize.translate('LabelStreamType'),
                 value: 'Video'
             });
         }
@@ -1795,7 +1798,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         // Don't show player dimensions on smart TVs because the app UI could be lower resolution than the video and this causes users to think there is a problem
         if (width && height && !browser.tv) {
             videoCategory.stats.push({
-                label: globalize.translate("LabelPlayerDimensions"),
+                label: globalize.translate('LabelPlayerDimensions'),
                 value: width + 'x' + height
             });
         }
@@ -1805,7 +1808,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         if (width && height) {
             videoCategory.stats.push({
-                label: globalize.translate("LabelVideoResolution"),
+                label: globalize.translate('LabelVideoResolution'),
                 value: width + 'x' + height
             });
         }
@@ -1815,13 +1818,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             var droppedVideoFrames = playbackQuality.droppedVideoFrames || 0;
             videoCategory.stats.push({
-                label: globalize.translate("LabelDroppedFrames"),
+                label: globalize.translate('LabelDroppedFrames'),
                 value: droppedVideoFrames
             });
 
             var corruptedVideoFrames = playbackQuality.corruptedVideoFrames || 0;
             videoCategory.stats.push({
-                label: globalize.translate("LabelCorruptedFrames"),
+                label: globalize.translate('LabelCorruptedFrames'),
                 value: corruptedVideoFrames
             });
         }

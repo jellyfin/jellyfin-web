@@ -2,12 +2,12 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
     'use strict';
 
     function getSavedVolume() {
-        return appSettings.get("volume") || 1;
+        return appSettings.get('volume') || 1;
     }
 
     function saveVolume(value) {
         if (value) {
-            appSettings.set("volume", value);
+            appSettings.set('volume', value);
         }
     }
 
@@ -109,7 +109,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         var now = Date.now();
 
         if (window.performance && window.performance.now) {
-            now = performance.now();
+            now = performance.now(); // eslint-disable-line compat/compat
         }
 
         if (!recoverDecodingErrorDate || (now - recoverDecodingErrorDate) > 3000) {
@@ -178,7 +178,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                 if (onMediaReady) onMediaReady();
             } else {
                 // update video player position when media is ready to be sought
-                var events = ["durationchange", "loadeddata", "play", "loadedmetadata"];
+                var events = ['durationchange', 'loadeddata', 'play', 'loadedmetadata'];
                 var onMediaChange = function(e) {
                     if (element.currentTime === 0 && element.duration >= seconds) {
                         // seek only when video position is exactly zero,
@@ -194,7 +194,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                     }
                 };
                 events.map(function (name) {
-                    element.addEventListener(name, onMediaChange);
+                    return element.addEventListener(name, onMediaChange);
                 });
             }
         }
@@ -373,13 +373,13 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                                 onErrorInternal(instance, 'network');
                             }
                         } else {
-                            console.debug("fatal network error encountered, try to recover");
+                            console.debug('fatal network error encountered, try to recover');
                             hls.startLoad();
                         }
 
                         break;
                     case Hls.ErrorTypes.MEDIA_ERROR:
-                        console.debug("fatal media error encountered, try to recover");
+                        console.debug('fatal media error encountered, try to recover');
                         var currentReject = reject;
                         reject = null;
                         handleHlsJsMediaError(instance, currentReject);
@@ -409,7 +409,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
         elem.src = '';
         elem.innerHTML = '';
-        elem.removeAttribute("src");
+        elem.removeAttribute('src');
 
         destroyHlsPlayer(instance);
         destroyFlvPlayer(instance);

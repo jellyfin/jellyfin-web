@@ -286,7 +286,7 @@ import 'programStyles';
          * @param {Object} options - Options for handling the items.
          */
         function setCardData(items, options) {
-            options.shape = options.shape || "auto";
+            options.shape = options.shape || 'auto';
 
             const primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items);
 
@@ -509,7 +509,7 @@ import 'programStyles';
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
@@ -517,7 +517,7 @@ import 'programStyles';
             } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Banner",
+                    type: 'Banner',
                     maxWidth: width,
                     tag: item.ImageTags.Banner
                 });
@@ -525,7 +525,7 @@ import 'programStyles';
             } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Disc",
+                    type: 'Disc',
                     maxWidth: width,
                     tag: item.ImageTags.Disc
                 });
@@ -533,7 +533,7 @@ import 'programStyles';
             } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Logo",
+                    type: 'Logo',
                     maxWidth: width,
                     tag: item.ImageTags.Logo
                 });
@@ -541,7 +541,7 @@ import 'programStyles';
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
-                    type: "Logo",
+                    type: 'Logo',
                     maxWidth: width,
                     tag: item.ParentLogoImageTag
                 });
@@ -549,7 +549,7 @@ import 'programStyles';
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     maxWidth: width,
                     tag: item.SeriesThumbImageTag
                 });
@@ -557,7 +557,7 @@ import 'programStyles';
             } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     maxWidth: width,
                     tag: item.ParentThumbImageTag
                 });
@@ -565,7 +565,7 @@ import 'programStyles';
             } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
                     maxWidth: width,
                     tag: item.BackdropImageTags[0]
                 });
@@ -575,7 +575,7 @@ import 'programStyles';
             } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
                     maxWidth: width,
                     tag: item.ParentBackdropImageTags[0]
                 });
@@ -585,7 +585,7 @@ import 'programStyles';
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Primary",
+                    type: 'Primary',
                     maxHeight: height,
                     maxWidth: width,
                     tag: item.ImageTags.Primary
@@ -607,7 +607,7 @@ import 'programStyles';
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.PrimaryImageItemId || item.Id || item.ItemId, {
-                    type: "Primary",
+                    type: 'Primary',
                     maxHeight: height,
                     maxWidth: width,
                     tag: item.PrimaryImageTag
@@ -626,14 +626,14 @@ import 'programStyles';
             } else if (item.ParentPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
-                    type: "Primary",
+                    type: 'Primary',
                     maxWidth: width,
                     tag: item.ParentPrimaryImageTag
                 });
             } else if (item.SeriesPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: "Primary",
+                    type: 'Primary',
                     maxWidth: width,
                     tag: item.SeriesPrimaryImageTag
                 });
@@ -642,7 +642,7 @@ import 'programStyles';
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = apiClient.getScaledImageUrl(item.AlbumId, {
-                    type: "Primary",
+                    type: 'Primary',
                     maxHeight: height,
                     maxWidth: width,
                     tag: item.AlbumPrimaryImageTag
@@ -657,7 +657,7 @@ import 'programStyles';
             } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
@@ -665,7 +665,7 @@ import 'programStyles';
             } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
                     maxWidth: width,
                     tag: item.BackdropImageTags[0]
                 });
@@ -673,7 +673,7 @@ import 'programStyles';
             } else if (item.ImageTags && item.ImageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
@@ -681,7 +681,7 @@ import 'programStyles';
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     maxWidth: width,
                     tag: item.SeriesThumbImageTag
                 });
@@ -689,7 +689,7 @@ import 'programStyles';
             } else if (item.ParentThumbItemId && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
-                    type: "Thumb",
+                    type: 'Thumb',
                     maxWidth: width,
                     tag: item.ParentThumbImageTag
                 });
@@ -697,7 +697,7 @@ import 'programStyles';
             } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-                    type: "Backdrop",
+                    type: 'Backdrop',
                     maxWidth: width,
                     tag: item.ParentBackdropImageTags[0]
                 });
@@ -778,7 +778,7 @@ import 'programStyles';
                 if (text) {
                     html += "<div class='" + currentCssClass + "'>";
                     html += text;
-                    html += "</div>";
+                    html += '</div>';
                     valid++;
 
                     if (maxLines && valid >= maxLines) {
@@ -835,7 +835,7 @@ import 'programStyles';
                         airTimeText += ' - ' + datetime.getDisplayTime(date);
                     }
                 } catch (e) {
-                    console.error("error parsing date: " + item.StartDate);
+                    console.error('error parsing date: ' + item.StartDate);
                 }
             }
 
@@ -869,11 +869,11 @@ import 'programStyles';
             if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
 
                 if (options.cardFooterAside !== 'none') {
-                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="material-icons more_vert"></i></button>';
+                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><span class="material-icons more_horiz"></span></button>';
                 }
             }
 
-            const cssClass = options.centerText ? "cardText cardTextCentered" : "cardText";
+            const cssClass = options.centerText ? 'cardText cardTextCentered' : 'cardText';
             const serverId = item.ServerId || options.serverId;
 
             let lines = [];
@@ -907,7 +907,7 @@ import 'programStyles';
                             }
 
                         } else {
-                            const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || "";
+                            const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
 
                             if (parentTitle || showTitle) {
                                 lines.push(parentTitle);
@@ -946,7 +946,7 @@ import 'programStyles';
                         item.AlbumArtists[0].IsFolder = true;
                         lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
                     } else {
-                        lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || ""));
+                        lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || ''));
                     }
                 }
 
@@ -993,7 +993,7 @@ import 'programStyles';
                 if (options.showYear || options.showSeriesYear) {
 
                     if (item.Type === 'Series') {
-                        if (item.Status === "Continuing") {
+                        if (item.Status === 'Continuing') {
 
                             lines.push(globalize.translate('SeriesYearToPresent', item.ProductionYear || ''));
 
@@ -1105,7 +1105,7 @@ import 'programStyles';
                     html = '<div class="' + footerClass + '">' + html;
 
                     //cardFooter
-                    html += "</div>";
+                    html += '</div>';
                 }
             }
 
@@ -1191,7 +1191,7 @@ import 'programStyles';
                     counts.push(childText);
                 }
 
-            } else if (item.Type === 'MusicGenre' || options.context === "MusicArtist") {
+            } else if (item.Type === 'MusicGenre' || options.context === 'MusicArtist') {
 
                 if (item.AlbumCount) {
 
@@ -1304,7 +1304,7 @@ import 'programStyles';
             }
 
             if (options.cardClass) {
-                className += " " + options.cardClass;
+                className += ' ' + options.cardClass;
             }
 
             if (layoutManager.desktop) {
@@ -1356,13 +1356,13 @@ import 'programStyles';
 
             if (options.showChannelLogo && item.ChannelPrimaryImageTag) {
                 logoUrl = apiClient.getScaledImageUrl(item.ChannelId, {
-                    type: "Primary",
+                    type: 'Primary',
                     height: logoHeight,
                     tag: item.ChannelPrimaryImageTag
                 });
             } else if (options.showLogo && item.ParentLogoImageTag) {
                 logoUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
-                    type: "Logo",
+                    type: 'Logo',
                     height: logoHeight,
                     tag: item.ParentLogoImageTag
                 });
@@ -1418,15 +1418,15 @@ import 'programStyles';
                 const btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
                 if (options.centerPlayButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow"></span></button>';
                 }
 
                 if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="material-icons cardOverlayButtonIcon play_arrow"></i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><span class="material-icons cardOverlayButtonIcon play_arrow"></span></button>';
                 }
 
                 if (options.overlayMoreButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon more_vert"></i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon more_horiz"></span></button>';
                 }
             }
 
@@ -1518,7 +1518,7 @@ import 'programStyles';
             let actionAttribute;
 
             if (tagName === 'button') {
-                className += " itemAction";
+                className += ' itemAction';
                 actionAttribute = ' data-action="' + action + '"';
             } else {
                 actionAttribute = '';
@@ -1560,7 +1560,7 @@ import 'programStyles';
             const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
             if (playbackManager.canPlay(item)) {
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></i></button>';
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow"></span></button>';
             }
 
             html += '<div class="cardOverlayButton-br flex">';
@@ -1569,7 +1569,7 @@ import 'programStyles';
 
             if (itemHelper.canMarkPlayed(item)) {
                 require(['emby-playstatebutton']);
-                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">check</i></button>';
+                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check"></span></button>';
             }
 
             if (itemHelper.canRate(item)) {
@@ -1577,10 +1577,10 @@ import 'programStyles';
                 const likes = userData.Likes == null ? '' : userData.Likes;
 
                 require(['emby-ratingbutton']);
-                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover">favorite</i></button>';
+                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite"></span></button>';
             }
 
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert"></i></button>';
+            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_horiz"></span></button>';
 
             html += '</div>';
             html += '</div>';
@@ -1596,27 +1596,27 @@ import 'programStyles';
          */
         export function getDefaultText(item, options) {
             if (item.CollectionType) {
-                return '<i class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '"></i>';
+                return '<span class="cardImageIcon material-icons ' + imageHelper.getLibraryIcon(item.CollectionType) + '"></span>';
             }
 
             switch (item.Type) {
                 case 'MusicAlbum':
-                    return '<i class="cardImageIcon material-icons">album</i>';
+                    return '<span class="cardImageIcon material-icons album"></span>';
                 case 'MusicArtist':
                 case 'Person':
-                    return '<i class="cardImageIcon material-icons">person</i>';
+                    return '<span class="cardImageIcon material-icons person"></span>';
                 case 'Movie':
-                    return '<i class="cardImageIcon material-icons">movie</i>';
+                    return '<span class="cardImageIcon material-icons movie"></span>';
                 case 'Series':
-                    return '<i class="cardImageIcon material-icons">tv</i>';
+                    return '<span class="cardImageIcon material-icons tv"></span>';
                 case 'Book':
-                    return '<i class="cardImageIcon material-icons">book</i>';
+                    return '<span class="cardImageIcon material-icons book"></span>';
                 case 'Folder':
-                    return '<i class="cardImageIcon material-icons">folder</i>';
+                    return '<span class="cardImageIcon material-icons folder"></span>';
             }
 
             if (options && options.defaultCardImageIcon) {
-                return '<i class="cardImageIcon material-icons">' + options.defaultCardImageIcon + '</i>';
+                return '<span class="cardImageIcon material-icons ' + options.defaultCardImageIcon + '"></span>';
             }
 
             const defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
@@ -1718,7 +1718,7 @@ import 'programStyles';
                     indicatorsElem = ensureIndicators(card, indicatorsElem);
                     indicatorsElem.appendChild(playedIndicator);
                 }
-                playedIndicator.innerHTML = '<i class="material-icons indicatorIcon">check</i>';
+                playedIndicator.innerHTML = '<span class="material-icons indicatorIcon check"></span>';
             } else {
 
                 playedIndicator = card.querySelector('.playedIndicator');
@@ -1808,7 +1808,7 @@ import 'programStyles';
                 const icon = cell.querySelector('.timerIndicator');
                 if (!icon) {
                     const indicatorsElem = ensureIndicators(cell);
-                    indicatorsElem.insertAdjacentHTML('beforeend', '<i class="material-icons timerIndicator indicatorIcon fiber_manual_record"></i>');
+                    indicatorsElem.insertAdjacentHTML('beforeend', '<span class="material-icons timerIndicator indicatorIcon fiber_manual_record"></span>');
                 }
                 cell.setAttribute('data-timerid', newTimerId);
             }

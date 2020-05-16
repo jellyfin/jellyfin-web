@@ -142,9 +142,9 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             Status: form.querySelector('#selectStatus').value,
             AirDays: getSelectedAirDays(form),
             AirTime: form.querySelector('#txtAirTime').value,
-            Genres: getListValues(form.querySelector("#listGenres")),
-            Tags: getListValues(form.querySelector("#listTags")),
-            Studios: getListValues(form.querySelector("#listStudios")).map(function (element) {
+            Genres: getListValues(form.querySelector('#listGenres')),
+            Tags: getListValues(form.querySelector('#listTags')),
+            Studios: getListValues(form.querySelector('#listStudios')).map(function (element) {
                 return { Name: element };
             }),
 
@@ -158,7 +158,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             OfficialRating: form.querySelector('#selectOfficialRating').value,
             CustomRating: form.querySelector('#selectCustomRating').value,
             People: currentItem.People,
-            LockData: form.querySelector("#chkLockData").checked,
+            LockData: form.querySelector('#chkLockData').checked,
             LockedFields: Array.prototype.filter.call(form.querySelectorAll('.selectLockedField'), function (c) {
                 return !c.checked;
             }).map(function (c) {
@@ -177,14 +177,14 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         item.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value;
         item.PreferredMetadataCountryCode = form.querySelector('#selectCountry').value;
 
-        if (currentItem.Type === "Person") {
+        if (currentItem.Type === 'Person') {
 
             var placeOfBirth = form.querySelector('#txtPlaceOfBirth').value;
 
             item.ProductionLocations = placeOfBirth ? [placeOfBirth] : [];
         }
 
-        if (currentItem.Type === "Series") {
+        if (currentItem.Type === 'Series') {
 
             // 600000000
             var seriesRuntime = form.querySelector('#txtSeriesRuntime').value;
@@ -356,7 +356,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         form.removeEventListener('submit', onSubmit);
         form.addEventListener('submit', onSubmit);
 
-        context.querySelector("#btnAddPerson").addEventListener('click', function (event, data) {
+        context.querySelector('#btnAddPerson').addEventListener('click', function (event, data) {
 
             editPerson(context, {}, -1);
         });
@@ -403,7 +403,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
     function populateCountries(select, allCountries) {
 
-        var html = "";
+        var html = '';
 
         html += "<option value=''></option>";
 
@@ -411,7 +411,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             var culture = allCountries[i];
 
-            html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + "</option>";
+            html += "<option value='" + culture.TwoLetterISORegionName + "'>" + culture.DisplayName + '</option>';
         }
 
         select.innerHTML = html;
@@ -419,7 +419,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
     function populateLanguages(select, languages) {
 
-        var html = "";
+        var html = '';
 
         html += "<option value=''></option>";
 
@@ -427,7 +427,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             var culture = languages[i];
 
-            html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + "</option>";
+            html += "<option value='" + culture.TwoLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
         }
 
         select.innerHTML = html;
@@ -462,12 +462,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             var idInfo = externalIds[i];
 
-            var id = "txt1" + idInfo.Key;
+            var id = 'txt1' + idInfo.Key;
             var formatString = idInfo.UrlFormatString || '';
 
             var fullName = idInfo.Name;
             if (idInfo.Type) {
-                fullName = idInfo.Name + " " + globalize.translate(idInfo.Type);
+                fullName = idInfo.Name + ' ' + globalize.translate(idInfo.Type);
             }
 
             var labelText = globalize.translate('LabelDynamicExternalId', fullName);
@@ -482,7 +482,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             html += '</div>';
 
             if (formatString) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><i class="material-icons open_in_browser"></i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnOpenExternalId align-self-flex-end" data-fieldid="' + id + '"><span class="material-icons open_in_browser"></span></button>';
             }
             html += '</div>';
 
@@ -544,37 +544,37 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             hideElement('#fldPath', context);
         }
 
-        if (item.Type === "Series" || item.Type === "Movie" || item.Type === "Trailer") {
+        if (item.Type === 'Series' || item.Type === 'Movie' || item.Type === 'Trailer') {
             showElement('#fldOriginalName', context);
         } else {
             hideElement('#fldOriginalName', context);
         }
 
-        if (item.Type === "Series") {
+        if (item.Type === 'Series') {
             showElement('#fldSeriesRuntime', context);
         } else {
             hideElement('#fldSeriesRuntime', context);
         }
 
-        if (item.Type === "Series" || item.Type === "Person") {
+        if (item.Type === 'Series' || item.Type === 'Person') {
             showElement('#fldEndDate', context);
         } else {
             hideElement('#fldEndDate', context);
         }
 
-        if (item.Type === "MusicAlbum") {
+        if (item.Type === 'MusicAlbum') {
             showElement('#albumAssociationMessage', context);
         } else {
             hideElement('#albumAssociationMessage', context);
         }
 
-        if (item.Type === "Movie" || item.Type === "Trailer") {
+        if (item.Type === 'Movie' || item.Type === 'Trailer') {
             showElement('#fldCriticRating', context);
         } else {
             hideElement('#fldCriticRating', context);
         }
 
-        if (item.Type === "Series") {
+        if (item.Type === 'Series') {
             showElement('#fldStatus', context);
             showElement('#fldAirDays', context);
             showElement('#fldAirTime', context);
@@ -584,19 +584,19 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             hideElement('#fldAirTime', context);
         }
 
-        if (item.MediaType === "Video" && item.Type !== "TvChannel") {
+        if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
             showElement('#fld3dFormat', context);
         } else {
             hideElement('#fld3dFormat', context);
         }
 
-        if (item.Type === "Audio") {
+        if (item.Type === 'Audio') {
             showElement('#fldAlbumArtist', context);
         } else {
             hideElement('#fldAlbumArtist', context);
         }
 
-        if (item.Type === "Audio" || item.Type === "MusicVideo") {
+        if (item.Type === 'Audio' || item.Type === 'MusicVideo') {
             showElement('#fldArtist', context);
             showElement('#fldAlbum', context);
         } else {
@@ -604,29 +604,29 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             hideElement('#fldAlbum', context);
         }
 
-        if (item.Type === "Episode" && item.ParentIndexNumber === 0) {
+        if (item.Type === 'Episode' && item.ParentIndexNumber === 0) {
             showElement('#collapsibleSpecialEpisodeInfo', context);
         } else {
             hideElement('#collapsibleSpecialEpisodeInfo', context);
         }
 
-        if (item.Type === "Person" ||
-            item.Type === "Genre" ||
-            item.Type === "Studio" ||
-            item.Type === "MusicGenre" ||
-            item.Type === "TvChannel" ||
-            item.Type === "Book") {
+        if (item.Type === 'Person' ||
+            item.Type === 'Genre' ||
+            item.Type === 'Studio' ||
+            item.Type === 'MusicGenre' ||
+            item.Type === 'TvChannel' ||
+            item.Type === 'Book') {
             hideElement('#peopleCollapsible', context);
         } else {
             showElement('#peopleCollapsible', context);
         }
 
-        if (item.Type === "Person" || item.Type === "Genre" || item.Type === "Studio" || item.Type === "MusicGenre" || item.Type === "TvChannel") {
+        if (item.Type === 'Person' || item.Type === 'Genre' || item.Type === 'Studio' || item.Type === 'MusicGenre' || item.Type === 'TvChannel') {
             hideElement('#fldCommunityRating', context);
             hideElement('#genresCollapsible', context);
             hideElement('#studiosCollapsible', context);
 
-            if (item.Type === "TvChannel") {
+            if (item.Type === 'TvChannel') {
                 showElement('#fldOfficialRating', context);
             } else {
                 hideElement('#fldOfficialRating', context);
@@ -642,7 +642,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         showElement('#tagsCollapsible', context);
 
-        if (item.Type === "TvChannel") {
+        if (item.Type === 'TvChannel') {
             hideElement('#metadataSettingsCollapsible', context);
             hideElement('#fldPremiereDate', context);
             hideElement('#fldDateAdded', context);
@@ -654,39 +654,39 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             showElement('#fldYear', context);
         }
 
-        if (item.Type === "TvChannel") {
+        if (item.Type === 'TvChannel') {
             hideElement('.overviewContainer', context);
         } else {
             showElement('.overviewContainer', context);
         }
 
-        if (item.Type === "Person") {
+        if (item.Type === 'Person') {
             //todo
             context.querySelector('#txtProductionYear').label(globalize.translate('LabelBirthYear'));
-            context.querySelector("#txtPremiereDate").label(globalize.translate('LabelBirthDate'));
-            context.querySelector("#txtEndDate").label(globalize.translate('LabelDeathDate'));
+            context.querySelector('#txtPremiereDate').label(globalize.translate('LabelBirthDate'));
+            context.querySelector('#txtEndDate').label(globalize.translate('LabelDeathDate'));
             showElement('#fldPlaceOfBirth');
         } else {
             context.querySelector('#txtProductionYear').label(globalize.translate('LabelYear'));
-            context.querySelector("#txtPremiereDate").label(globalize.translate('LabelReleaseDate'));
-            context.querySelector("#txtEndDate").label(globalize.translate('LabelEndDate'));
+            context.querySelector('#txtPremiereDate').label(globalize.translate('LabelReleaseDate'));
+            context.querySelector('#txtEndDate').label(globalize.translate('LabelEndDate'));
             hideElement('#fldPlaceOfBirth');
         }
 
-        if (item.MediaType === "Video" && item.Type !== "TvChannel") {
+        if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
             showElement('#fldOriginalAspectRatio');
         } else {
             hideElement('#fldOriginalAspectRatio');
         }
 
-        if (item.Type === "Audio" || item.Type === "Episode" || item.Type === "Season") {
+        if (item.Type === 'Audio' || item.Type === 'Episode' || item.Type === 'Season') {
             showElement('#fldIndexNumber');
 
-            if (item.Type === "Episode") {
+            if (item.Type === 'Episode') {
                 context.querySelector('#txtIndexNumber').label(globalize.translate('LabelEpisodeNumber'));
-            } else if (item.Type === "Season") {
+            } else if (item.Type === 'Season') {
                 context.querySelector('#txtIndexNumber').label(globalize.translate('LabelSeasonNumber'));
-            } else if (item.Type === "Audio") {
+            } else if (item.Type === 'Audio') {
                 context.querySelector('#txtIndexNumber').label(globalize.translate('LabelTrackNumber'));
             } else {
                 context.querySelector('#txtIndexNumber').label(globalize.translate('LabelNumber'));
@@ -695,12 +695,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             hideElement('#fldIndexNumber');
         }
 
-        if (item.Type === "Audio" || item.Type === "Episode") {
+        if (item.Type === 'Audio' || item.Type === 'Episode') {
             showElement('#fldParentIndexNumber');
 
-            if (item.Type === "Episode") {
+            if (item.Type === 'Episode') {
                 context.querySelector('#txtParentIndexNumber').label(globalize.translate('LabelSeasonNumber'));
-            } else if (item.Type === "Audio") {
+            } else if (item.Type === 'Audio') {
                 context.querySelector('#txtParentIndexNumber').label(globalize.translate('LabelDiscNumber'));
             } else {
                 context.querySelector('#txtParentIndexNumber').label(globalize.translate('LabelParentNumber'));
@@ -709,12 +709,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             hideElement('#fldParentIndexNumber', context);
         }
 
-        if (item.Type === "BoxSet") {
+        if (item.Type === 'BoxSet') {
             showElement('#fldDisplayOrder', context);
             hideElement('.seriesDisplayOrderDescription', context);
 
             context.querySelector('#selectDisplayOrder').innerHTML = '<option value="SortName">' + globalize.translate('SortName') + '</option><option value="PremiereDate">' + globalize.translate('ReleaseDate') + '</option>';
-        } else if (item.Type === "Series") {
+        } else if (item.Type === 'Series') {
             showElement('#fldDisplayOrder', context);
             showElement('.seriesDisplayOrderDescription', context);
 
@@ -731,19 +731,19 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
         populateRatings(parentalRatingOptions, select, item.OfficialRating);
 
-        select.value = item.OfficialRating || "";
+        select.value = item.OfficialRating || '';
 
         select = context.querySelector('#selectCustomRating');
 
         populateRatings(parentalRatingOptions, select, item.CustomRating);
 
-        select.value = item.CustomRating || "";
+        select.value = item.CustomRating || '';
 
         var selectStatus = context.querySelector('#selectStatus');
         populateStatus(selectStatus);
-        selectStatus.value = item.Status || "";
+        selectStatus.value = item.Status || '';
 
-        context.querySelector('#select3dFormat', context).value = item.Video3DFormat || "";
+        context.querySelector('#select3dFormat', context).value = item.Video3DFormat || '';
 
         Array.prototype.forEach.call(context.querySelectorAll('.chkAirDay', context), function (el) {
             el.checked = (item.AirDays || []).indexOf(el.getAttribute('data-day')) !== -1;
@@ -759,7 +759,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         populateListView(context.querySelector('#listTags'), item.Tags);
 
         var lockData = (item.LockData || false);
-        var chkLockData = context.querySelector("#chkLockData");
+        var chkLockData = context.querySelector('#chkLockData');
         chkLockData.checked = lockData;
         if (chkLockData.checked) {
             hideElement('.providerSettingsContainer', context);
@@ -769,33 +769,29 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         fillMetadataSettings(context, item, item.LockedFields);
 
         context.querySelector('#txtPath').value = item.Path || '';
-        context.querySelector('#txtName').value = item.Name || "";
-        context.querySelector('#txtOriginalName').value = item.OriginalTitle || "";
+        context.querySelector('#txtName').value = item.Name || '';
+        context.querySelector('#txtOriginalName').value = item.OriginalTitle || '';
         context.querySelector('#txtOverview').value = item.Overview || '';
         context.querySelector('#txtTagline').value = (item.Taglines && item.Taglines.length ? item.Taglines[0] : '');
-        context.querySelector('#txtSortName').value = item.ForcedSortName || "";
-        context.querySelector('#txtCommunityRating').value = item.CommunityRating || "";
+        context.querySelector('#txtSortName').value = item.ForcedSortName || '';
+        context.querySelector('#txtCommunityRating').value = item.CommunityRating || '';
 
-        context.querySelector('#txtCriticRating').value = item.CriticRating || "";
+        context.querySelector('#txtCriticRating').value = item.CriticRating || '';
 
         context.querySelector('#txtIndexNumber').value = item.IndexNumber == null ? '' : item.IndexNumber;
         context.querySelector('#txtParentIndexNumber').value = item.ParentIndexNumber == null ? '' : item.ParentIndexNumber;
 
-        context.querySelector('#txtAirsBeforeSeason').value = ('AirsBeforeSeasonNumber' in item) ? item.AirsBeforeSeasonNumber : "";
-        context.querySelector('#txtAirsAfterSeason').value = ('AirsAfterSeasonNumber' in item) ? item.AirsAfterSeasonNumber : "";
-        context.querySelector('#txtAirsBeforeEpisode').value = ('AirsBeforeEpisodeNumber' in item) ? item.AirsBeforeEpisodeNumber : "";
+        context.querySelector('#txtAirsBeforeSeason').value = ('AirsBeforeSeasonNumber' in item) ? item.AirsBeforeSeasonNumber : '';
+        context.querySelector('#txtAirsAfterSeason').value = ('AirsAfterSeasonNumber' in item) ? item.AirsAfterSeasonNumber : '';
+        context.querySelector('#txtAirsBeforeEpisode').value = ('AirsBeforeEpisodeNumber' in item) ? item.AirsBeforeEpisodeNumber : '';
 
-        context.querySelector('#txtAlbum').value = item.Album || "";
+        context.querySelector('#txtAlbum').value = item.Album || '';
 
         context.querySelector('#txtAlbumArtist').value = (item.AlbumArtists || []).map(function (a) {
             return a.Name;
         }).join(';');
 
-        if (item.Type === 'Series') {
-            context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
-        } else {
-            context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
-        }
+        context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
 
         context.querySelector('#txtArtist').value = (item.ArtistItems || []).map(function (a) {
             return a.Name;
@@ -839,17 +835,17 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             context.querySelector('#txtEndDate').value = '';
         }
 
-        context.querySelector('#txtProductionYear').value = item.ProductionYear || "";
+        context.querySelector('#txtProductionYear').value = item.ProductionYear || '';
 
         context.querySelector('#txtAirTime').value = item.AirTime || '';
 
         var placeofBirth = item.ProductionLocations && item.ProductionLocations.length ? item.ProductionLocations[0] : '';
         context.querySelector('#txtPlaceOfBirth').value = placeofBirth;
 
-        context.querySelector('#txtOriginalAspectRatio').value = item.AspectRatio || "";
+        context.querySelector('#txtOriginalAspectRatio').value = item.AspectRatio || '';
 
-        context.querySelector('#selectLanguage').value = item.PreferredMetadataLanguage || "";
-        context.querySelector('#selectCountry').value = item.PreferredMetadataCountryCode || "";
+        context.querySelector('#selectLanguage').value = item.PreferredMetadataLanguage || '';
+        context.querySelector('#selectCountry').value = item.PreferredMetadataCountryCode || '';
 
         if (item.RunTimeTicks) {
 
@@ -857,13 +853,13 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             context.querySelector('#txtSeriesRuntime').value = Math.round(minutes);
         } else {
-            context.querySelector('#txtSeriesRuntime', context).value = "";
+            context.querySelector('#txtSeriesRuntime', context).value = '';
         }
     }
 
     function populateRatings(allParentalRatings, select, currentValue) {
 
-        var html = "";
+        var html = '';
 
         html += "<option value=''></option>";
 
@@ -893,18 +889,18 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             rating = ratings[i];
 
-            html += "<option value='" + rating.Value + "'>" + rating.Name + "</option>";
+            html += "<option value='" + rating.Value + "'>" + rating.Name + '</option>';
         }
 
         select.innerHTML = html;
     }
 
     function populateStatus(select) {
-        var html = "";
+        var html = '';
 
         html += "<option value=''></option>";
-        html += "<option value='Continuing'>" + globalize.translate('Continuing') + "</option>";
-        html += "<option value='Ended'>" + globalize.translate('Ended') + "</option>";
+        html += "<option value='Continuing'>" + globalize.translate('Continuing') + '</option>';
+        html += "<option value='Ended'>" + globalize.translate('Ended') + '</option>';
         select.innerHTML = html;
     }
 
@@ -922,7 +918,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         for (var i = 0; i < items.length; i++) {
             html += '<div class="listItem">';
 
-            html += '<i class="material-icons listItemIcon live_tv" style="background-color:#333;"></i>';
+            html += '<span class="material-icons listItemIcon live_tv" style="background-color:#333;"></span>';
 
             html += '<div class="listItemBody">';
 
@@ -932,7 +928,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             html += '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><i class="material-icons">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnRemoveFromEditorList autoSize"><span class="material-icons delete"></span></button>';
 
             html += '</div>';
         }
@@ -953,7 +949,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
             html += '<div class="listItem">';
 
-            html += '<i class="material-icons listItemIcon" style="background-color:#333;">person</i>';
+            html += '<span class="material-icons listItemIcon person" style="background-color:#333;"></span>';
 
             html += '<div class="listItemBody">';
             html += '<button style="text-align:left;" type="button" class="btnEditPerson clearButton" data-index="' + i + '">';
@@ -969,7 +965,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             html += '</button>';
             html += '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><i class="material-icons">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><span class="material-icons delete"></span></button>';
 
             html += '</div>';
         }
@@ -999,30 +995,30 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         lockedFields = lockedFields || [];
 
         var lockedFieldsList = [
-            { name: globalize.translate('Name'), value: "Name" },
-            { name: globalize.translate('Overview'), value: "Overview" },
-            { name: globalize.translate('Genres'), value: "Genres" },
-            { name: globalize.translate('ParentalRating'), value: "OfficialRating" },
-            { name: globalize.translate('People'), value: "Cast" }
+            { name: globalize.translate('Name'), value: 'Name' },
+            { name: globalize.translate('Overview'), value: 'Overview' },
+            { name: globalize.translate('Genres'), value: 'Genres' },
+            { name: globalize.translate('ParentalRating'), value: 'OfficialRating' },
+            { name: globalize.translate('People'), value: 'Cast' }
         ];
 
-        if (item.Type === "Person") {
-            lockedFieldsList.push({ name: globalize.translate('BirthLocation'), value: "ProductionLocations" });
+        if (item.Type === 'Person') {
+            lockedFieldsList.push({ name: globalize.translate('BirthLocation'), value: 'ProductionLocations' });
         } else {
-            lockedFieldsList.push({ name: globalize.translate('ProductionLocations'), value: "ProductionLocations" });
+            lockedFieldsList.push({ name: globalize.translate('ProductionLocations'), value: 'ProductionLocations' });
         }
 
-        if (item.Type === "Series") {
-            lockedFieldsList.push({ name: globalize.translate('Runtime'), value: "Runtime" });
+        if (item.Type === 'Series') {
+            lockedFieldsList.push({ name: globalize.translate('Runtime'), value: 'Runtime' });
         }
 
-        lockedFieldsList.push({ name: globalize.translate('Studios'), value: "Studios" });
-        lockedFieldsList.push({ name: globalize.translate('Tags'), value: "Tags" });
+        lockedFieldsList.push({ name: globalize.translate('Studios'), value: 'Studios' });
+        lockedFieldsList.push({ name: globalize.translate('Tags'), value: 'Tags' });
 
         var html = '';
 
-        html += "<h2>" + globalize.translate('HeaderEnabledFields') + "</h2>";
-        html += "<p>" + globalize.translate('HeaderEnabledFieldsHelp') + "</p>";
+        html += '<h2>' + globalize.translate('HeaderEnabledFields') + '</h2>';
+        html += '<p>' + globalize.translate('HeaderEnabledFieldsHelp') + '</p>';
         html += getLockedFieldsHtml(lockedFieldsList, lockedFields);
         container.innerHTML = html;
     }
@@ -1051,7 +1047,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             setFieldVisibilities(context, item);
             fillItemInfo(context, item, metadataEditorInfo.ParentalRatingOptions);
 
-            if (item.MediaType === "Video" && item.Type !== "Episode" && item.Type !== "TvChannel") {
+            if (item.MediaType === 'Video' && item.Type !== 'Episode' && item.Type !== 'TvChannel') {
                 showElement('#fldTagline', context);
             } else {
                 hideElement('#fldTagline', context);
