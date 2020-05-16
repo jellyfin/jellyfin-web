@@ -138,7 +138,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
     function onViewBeforeShow(e) {
         if (e.detail && e.detail.type === 'video-osd') {
             // This removes the space that the scrollbar takes while playing a video
-            document.getElementsByTagName('body')[0].style = null;
+            document.body.classList.remove('force-scroll');
             return;
         }
 
@@ -159,7 +159,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         }
         // This keeps the scrollbar always present in all pages, so we avoid clipping while switching between pages
         // that need the scrollbar and pages that don't.
-        document.getElementsByTagName('body')[0].style = 'overflow-y: scroll';
+        document.body.classList.add('force-scroll');
     }
 
     document.addEventListener('viewshow', onViewBeforeShow);

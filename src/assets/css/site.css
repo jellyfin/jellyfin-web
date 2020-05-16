@@ -120,3 +120,7 @@ div[data-role=page] {
 .headroom--unpinned {
     transform: translateY(-100%);
 }
+
+.force-scroll {
+    overflow-y: scroll;
+}

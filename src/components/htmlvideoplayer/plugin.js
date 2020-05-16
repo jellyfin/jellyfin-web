@@ -110,7 +110,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         let animatedPage = document.querySelector('.page:not(.hide)');
         animatedPage.classList.add('hide');
         // At this point, we must hide the scrollbar placeholder, so it's not being displayed while the item is being loaded
-        document.getElementsByTagName('body')[0].style = null;
+        document.body.classList.remove('force-scroll');
     }
 
     function zoomIn(elem) {
