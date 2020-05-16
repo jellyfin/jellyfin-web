@@ -10,19 +10,11 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
         loading.hide();
 
-        switch (evt.target.error.code) {
-            case evt.target.error.NOT_FOUND_ERR:
-                require(['toast'], function (toast) {
-                    toast(globalize.translate('MessageFileReadError'));
-                });
-                break;
-            case evt.target.error.ABORT_ERR:
-                break; // noop
-            default:
-                require(['toast'], function (toast) {
-                    toast(globalize.translate('MessageFileReadError'));
-                });
-                break;
+        var error = evt.target.error;
+        if (error.code !== error.ABORT_ERR) {
+            require(['toast'], function (toast) {
+                toast(globalize.translate('MessageFileReadError'));
+            });
         }
     }
 
@@ -85,7 +77,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
                 toast(globalize.translate('MessageSubtitleFileTypeAllowed'));
             });
             e.preventDefault();
-            return false;
+            return;
         }
 
         loading.show();
@@ -103,7 +95,6 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         });
 
         e.preventDefault();
-        return false;
     }
 
     function initEditor(page) {

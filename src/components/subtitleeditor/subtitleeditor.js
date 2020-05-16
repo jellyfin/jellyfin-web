@@ -349,8 +349,8 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
     function onOpenUploadMenu(e) {
 
-        var context = dom.parentWithClass(e.target, 'subtitleEditorDialog');
-        var selectLanguage = context.querySelector('#selectLanguage');
+        var dialog = dom.parentWithClass(e.target, 'subtitleEditorDialog');
+        var selectLanguage = dialog.querySelector('#selectLanguage');
         var apiClient = connectionManager.getApiClient(currentItem.ServerId);
 
         require(['subtitleUploader'], function (subtitleUploader) {
@@ -368,7 +368,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
                 if (hasChanged) {
                     hasChanges = true;
-                    reload(context, apiClient, currentItem.Id);
+                    reload(dialog, apiClient, currentItem.Id);
                 }
             });
         });
