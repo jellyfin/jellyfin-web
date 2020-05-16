@@ -174,6 +174,47 @@ define([
         roles: 'admin',
         controller: 'dashboard/encodingsettings'
     });
+    defineRoute({
+        path: '/log.html',
+        roles: 'admin',
+        controller: 'dashboard/logs'
+    });
+    defineRoute({
+        path: '/metadataimages.html',
+        autoFocus: false,
+        roles: 'admin',
+        controller: 'dashboard/metadataimagespage'
+    });
+    defineRoute({
+        path: '/metadatanfo.html',
+        autoFocus: false,
+        roles: 'admin',
+        controller: 'dashboard/metadatanfo'
+    });
+    defineRoute({
+        path: '/notificationsetting.html',
+        autoFocus: false,
+        roles: 'admin',
+        controller: 'dashboard/notifications/notification'
+    });
+    defineRoute({
+        path: '/notificationsettings.html',
+        controller: 'dashboard/notifications/notifications',
+        autoFocus: false,
+        roles: 'admin'
+    });
+    defineRoute({
+        path: '/playbackconfiguration.html',
+        autoFocus: false,
+        roles: 'admin',
+        controller: 'dashboard/playbackconfiguration'
+    });
+    defineRoute({
+        path: '/availableplugins.html',
+        autoFocus: false,
+        roles: 'admin',
+        controller: 'dashboard/plugins/available'
+    });
 
     defineRoute({
         path: '/home.html',
@@ -228,23 +269,6 @@ define([
         controller: 'livetvtuner'
     });
     defineRoute({
-        path: '/log.html',
-        roles: 'admin',
-        controller: 'dashboard/logs'
-    });
-    defineRoute({
-        path: '/metadataimages.html',
-        autoFocus: false,
-        roles: 'admin',
-        controller: 'dashboard/metadataimagespage'
-    });
-    defineRoute({
-        path: '/metadatanfo.html',
-        autoFocus: false,
-        roles: 'admin',
-        controller: 'dashboard/metadatanfo'
-    });
-    defineRoute({
         path: '/movies.html',
         autoFocus: false,
         controller: 'movies/moviesrecommended',
@@ -255,30 +279,6 @@ define([
         controller: 'music/musicrecommended',
         autoFocus: false,
         transition: 'fade'
-    });
-    defineRoute({
-        path: '/notificationsetting.html',
-        autoFocus: false,
-        roles: 'admin',
-        controller: 'dashboard/notifications/notification'
-    });
-    defineRoute({
-        path: '/notificationsettings.html',
-        controller: 'dashboard/notifications/notifications',
-        autoFocus: false,
-        roles: 'admin'
-    });
-    defineRoute({
-        path: '/playbackconfiguration.html',
-        autoFocus: false,
-        roles: 'admin',
-        controller: 'dashboard/playbackconfiguration'
-    });
-    defineRoute({
-        path: '/availableplugins.html',
-        autoFocus: false,
-        roles: 'admin',
-        controller: 'dashboard/plugins/available'
     });
     defineRoute({
         path: '/installedplugins.html',
