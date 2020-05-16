@@ -35,6 +35,7 @@
  - [Thibault Nocchi](https://github.com/ThibaultNocchi)
  - [MrTimscampi](https://github.com/MrTimscampi)
  - [Sarab Singh](https://github.com/sarab97)
+ - [DesertCookie](https://github.com/desertcookie)
 
 # Emby Contributors
 
