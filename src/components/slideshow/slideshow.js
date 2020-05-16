@@ -603,6 +603,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
          */
         self.show = function () {
             createElements(options);
+            // Hides page scrollbar
+            document.body.classList.remove('force-scroll');
+            document.body.classList.add('hide-scroll');
         };
 
         /**
@@ -611,6 +614,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         self.hide = function () {
             if (dialog) {
                 dialogHelper.close(dialog);
+                // Shows page scrollbar
+                document.body.classList.remove('hide-scroll');
+                document.body.classList.add('force-scroll');
             }
         };
     };
