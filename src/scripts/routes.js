@@ -39,6 +39,14 @@ define([
         type: 'selectserver'
     });
     defineRoute({
+        path: '/login.html',
+        autoFocus: false,
+        anonymous: true,
+        startup: true,
+        controller: 'auth/login',
+        type: 'login'
+    });
+    defineRoute({
         path: '/forgotpassword.html',
         anonymous: true,
         startup: true,
@@ -52,12 +60,6 @@ define([
         controller: 'auth/forgotpasswordpin'
     });
 
-    defineRoute({
-        path: '/addplugin.html',
-        autoFocus: false,
-        roles: 'admin',
-        controller: 'dashboard/plugins/add'
-    });
     defineRoute({
         path: '/mypreferencesmenu.html',
         autoFocus: false,
@@ -138,6 +140,24 @@ define([
         controller: 'dashboard/dlna/dlnaprofiles'
     });
     defineRoute({
+        path: '/addplugin.html',
+        autoFocus: false,
+        roles: 'admin',
+        controller: 'dashboard/plugins/add'
+    });
+    defineRoute({
+        path: '/library.html',
+        autoFocus: false,
+        roles: 'admin',
+        controller: 'dashboard/medialibrarypage'
+    });
+    defineRoute({
+        path: '/librarydisplay.html',
+        autoFocus: false,
+        roles: 'admin',
+        controller: 'dashboard/librarydisplay'
+    });
+    defineRoute({
         path: '/dlnasettings.html',
         autoFocus: false,
         roles: 'admin',
@@ -154,12 +174,17 @@ define([
         roles: 'admin',
         controller: 'dashboard/encodingsettings'
     });
+
     defineRoute({
         path: '/home.html',
         autoFocus: false,
         controller: 'home',
         transition: 'fade',
         type: 'home'
+    });
+    defineRoute({
+        path: '/search.html',
+        controller: 'searchpage'
     });
     defineRoute({
         path: '/list.html',
@@ -172,18 +197,6 @@ define([
         controller: 'itemdetailpage',
         autoFocus: false,
         transition: 'fade'
-    });
-    defineRoute({
-        path: '/library.html',
-        autoFocus: false,
-        roles: 'admin',
-        controller: 'dashboard/medialibrarypage'
-    });
-    defineRoute({
-        path: '/librarydisplay.html',
-        autoFocus: false,
-        roles: 'admin',
-        controller: 'dashboard/librarydisplay'
     });
     defineRoute({
         path: '/livetv.html',
@@ -218,14 +231,6 @@ define([
         path: '/log.html',
         roles: 'admin',
         controller: 'dashboard/logs'
-    });
-    defineRoute({
-        path: '/login.html',
-        autoFocus: false,
-        anonymous: true,
-        startup: true,
-        controller: 'auth/login',
-        type: 'login'
     });
     defineRoute({
         path: '/metadataimages.html',
@@ -294,10 +299,6 @@ define([
         controller: 'dashboard/scheduledtasks/scheduledtasks'
     });
     defineRoute({
-        path: '/search.html',
-        controller: 'searchpage'
-    });
-    defineRoute({
         path: '/serveractivity.html',
         autoFocus: false,
         roles: 'admin',
@@ -321,6 +322,7 @@ define([
         controller: 'shows/tvrecommended',
         transition: 'fade'
     });
+
     defineRoute({
         path: '/useredit.html',
         autoFocus: false,
@@ -373,7 +375,7 @@ define([
         path: '/wizardlibrary.html',
         autoFocus: false,
         anonymous: true,
-        controller: 'medialibrarypage'
+        controller: 'dashboard/medialibrarypage'
     });
     defineRoute({
         path: '/wizardsettings.html',

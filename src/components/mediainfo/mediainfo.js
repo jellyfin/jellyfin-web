@@ -490,26 +490,26 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                 if (i.IsInterlaced) {
                     return '1440i';
                 }
-                return '1440P';
+                return '1440p';
             }
             if (width >= 1800 || height >= 1000) {
                 if (i.IsInterlaced) {
                     return '1080i';
                 }
-                return '1080P';
+                return '1080p';
             }
             if (width >= 1200 || height >= 700) {
                 if (i.IsInterlaced) {
                     return '720i';
                 }
-                return '720P';
+                return '720p';
             }
             if (width >= 700 || height >= 400) {
 
                 if (i.IsInterlaced) {
                     return '480i';
                 }
-                return '480P';
+                return '480p';
             }
 
         }

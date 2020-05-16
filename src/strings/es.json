@@ -957,7 +957,7 @@
     "OptionMissingEpisode": "Episodios que faltan",
     "OptionMonday": "Lunes",
     "OptionNameSort": "Nombre",
-    "OptionNew": "Nuevo...",
+    "OptionNew": "Nuevo…",
     "OptionNone": "Nada",
     "OptionOnAppStartup": "Al iniciar la aplicación",
     "OptionOnInterval": "En un intervalo",
@@ -1513,5 +1513,6 @@
     "ButtonToggleContextMenu": "Más",
     "Filter": "Filtro",
     "New": "Nuevo",
-    "HeaderFavoritePlaylists": "Lista reproducción favorita"
+    "HeaderFavoritePlaylists": "Lista reproducción favorita",
+    "ApiKeysCaption": "Lista de las claves API actuales"
 }
