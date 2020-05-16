@@ -376,7 +376,7 @@ var AppInfo = {};
         define('filesystem', [scriptsPath + '/filesystem'], returnFirstDependency);
 
         define('lazyLoader', [componentsPath + '/lazyloader/lazyloader-intersectionobserver'], returnFirstDependency);
-        define('shell', [componentsPath + '/shell'], returnFirstDependency);
+        define('shell', [scriptsPath + '/shell'], returnFirstDependency);
 
         if ('registerElement' in document) {
             define('registerElement', []);
@@ -397,8 +397,8 @@ var AppInfo = {};
         define('prompt', [componentsPath + '/prompt/prompt'], returnFirstDependency);
 
         define('loading', [componentsPath + '/loading/loading'], returnFirstDependency);
-        define('multi-download', [componentsPath + '/multidownload'], returnFirstDependency);
-        define('fileDownloader', [componentsPath + '/filedownloader'], returnFirstDependency);
+        define('multi-download', [scriptsPath + '/multiDownload'], returnFirstDependency);
+        define('fileDownloader', [scriptsPath + '/fileDownloader'], returnFirstDependency);
 
         define('castSenderApiLoader', [componentsPath + '/castSenderApi'], returnFirstDependency);
     }
@@ -490,7 +490,7 @@ var AppInfo = {};
         ];
 
         if (appHost.supports('remotecontrol')) {
-            list.push('components/sessionplayer');
+            list.push('components/sessionPlayer');
 
             if (browser.chrome || browser.opera) {
                 list.push('components/chromecast/chromecastplayer');
@@ -532,13 +532,13 @@ var AppInfo = {};
 
             window.Emby.Page = appRouter;
 
-            require(['emby-button', 'scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
+            require(['emby-button', 'scripts/themeLoader', 'libraryMenu', 'scripts/routes'], function () {
                 Emby.Page.start({
                     click: false,
                     hashbang: true
                 });
 
-                require(['components/thememediaplayer', 'scripts/autobackdrops']);
+                require(['components/thememediaplayer', 'scripts/autoBackdrops']);
 
                 if (!browser.tv && !browser.xboxOne && !browser.ps4) {
                     require(['components/nowplayingbar/nowplayingbar']);
@@ -630,14 +630,14 @@ var AppInfo = {};
         var scriptsPath = getScriptsPath();
 
         var paths = {
-            browserdeviceprofile: 'scripts/browserdeviceprofile',
+            browserdeviceprofile: 'scripts/browserDeviceProfile',
             browser: 'scripts/browser',
-            libraryBrowser: 'scripts/librarybrowser',
+            libraryBrowser: 'scripts/libraryBrowser',
             inputManager: 'scripts/inputManager',
             datetime: 'scripts/datetime',
             globalize: 'scripts/globalize',
             dfnshelper: 'scripts/dfnshelper',
-            libraryMenu: 'scripts/librarymenu',
+            libraryMenu: 'scripts/libraryMenu',
             playlisteditor: componentsPath + '/playlisteditor/playlisteditor',
             medialibrarycreator: componentsPath + '/medialibrarycreator/medialibrarycreator',
             medialibraryeditor: componentsPath + '/medialibraryeditor/medialibraryeditor',
@@ -826,7 +826,7 @@ var AppInfo = {};
         define('cardBuilder', [componentsPath + '/cardbuilder/cardBuilder'], returnFirstDependency);
         define('peoplecardbuilder', [componentsPath + '/cardbuilder/peoplecardbuilder'], returnFirstDependency);
         define('chaptercardbuilder', [componentsPath + '/cardbuilder/chaptercardbuilder'], returnFirstDependency);
-        define('deleteHelper', [componentsPath + '/deletehelper'], returnFirstDependency);
+        define('deleteHelper', [componentsPath + '/deleteHelper'], returnFirstDependency);
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
         define('loadingDialog', [componentsPath + '/loadingdialog/loadingdialog'], returnFirstDependency);
@@ -843,18 +843,17 @@ var AppInfo = {};
         define('viewSettings', [componentsPath + '/viewsettings/viewsettings'], returnFirstDependency);
         define('filterMenu', [componentsPath + '/filtermenu/filtermenu'], returnFirstDependency);
         define('sortMenu', [componentsPath + '/sortmenu/sortmenu'], returnFirstDependency);
-        define('idb', [componentsPath + '/idb'], returnFirstDependency);
         define('sanitizefilename', [componentsPath + '/sanitizefilename'], returnFirstDependency);
         define('toast', [componentsPath + '/toast/toast'], returnFirstDependency);
-        define('scrollHelper', [componentsPath + '/scrollhelper'], returnFirstDependency);
-        define('touchHelper', [componentsPath + '/touchhelper'], returnFirstDependency);
+        define('scrollHelper', [componentsPath + '/scrollHelper'], returnFirstDependency);
+        define('touchHelper', [scriptsPath + '/touchHelper'], returnFirstDependency);
         define('imageUploader', [componentsPath + '/imageuploader/imageuploader'], returnFirstDependency);
         define('htmlMediaHelper', [componentsPath + '/htmlMediaHelper'], returnFirstDependency);
         define('viewContainer', [componentsPath + '/viewContainer'], returnFirstDependency);
         define('dialogHelper', [componentsPath + '/dialogHelper/dialogHelper'], returnFirstDependency);
-        define('serverNotifications', [componentsPath + '/serverNotifications'], returnFirstDependency);
+        define('serverNotifications', [scriptsPath + '/serverNotifications'], returnFirstDependency);
         define('skinManager', [componentsPath + '/skinManager'], returnFirstDependency);
-        define('keyboardnavigation', [scriptsPath + '/keyboardnavigation'], returnFirstDependency);
+        define('keyboardnavigation', [scriptsPath + '/keyboardNavigation'], returnFirstDependency);
         define('mouseManager', [scriptsPath + '/mouseManager'], returnFirstDependency);
         define('scrollManager', [componentsPath + '/scrollManager'], returnFirstDependency);
         define('autoFocuser', [componentsPath + '/autoFocuser'], returnFirstDependency);
