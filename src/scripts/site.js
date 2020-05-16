@@ -481,9 +481,9 @@ var AppInfo = {};
         var list = [
             'components/playback/playaccessvalidation',
             'components/playback/experimentalwarnings',
-            'components/htmlaudioplayer/plugin',
-            'components/htmlvideoplayer/plugin',
-            'components/photoplayer/plugin',
+            'components/htmlAudioPlayer/plugin',
+            'components/htmlVideoPlayer/plugin',
+            'components/photoPlayer/plugin',
             'components/youtubeplayer/plugin',
             'components/backdropScreensaver/plugin',
             'components/logoScreensaver/plugin'
@@ -541,7 +541,7 @@ var AppInfo = {};
                 require(['components/themeMediaPlayer', 'scripts/autoBackdrops']);
 
                 if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-                    require(['components/nowplayingbar/nowplayingbar']);
+                    require(['components/nowPlayingBar/nowPlayingBar']);
                 }
 
                 if (appHost.supports('remotecontrol')) {
@@ -639,8 +639,8 @@ var AppInfo = {};
             dfnshelper: 'scripts/dfnshelper',
             libraryMenu: 'scripts/libraryMenu',
             playlisteditor: componentsPath + '/playlisteditor/playlisteditor',
-            medialibrarycreator: componentsPath + '/medialibrarycreator/medialibrarycreator',
-            medialibraryeditor: componentsPath + '/medialibraryeditor/medialibraryeditor',
+            medialibrarycreator: componentsPath + '/mediaLibraryCreator/mediaLibraryCreator',
+            medialibraryeditor: componentsPath + '/mediaLibraryEditor/mediaLibraryEditor',
             imageoptionseditor: componentsPath + '/imageoptionseditor/imageoptionseditor',
             apphost: componentsPath + '/apphost',
             visibleinviewport: bowerPath + '/visibleinviewport',
@@ -785,7 +785,7 @@ var AppInfo = {};
         define('playMethodHelper', [componentsPath + '/playback/playmethodhelper'], returnFirstDependency);
         define('brightnessOsd', [componentsPath + '/playback/brightnessosd'], returnFirstDependency);
         define('alphaNumericShortcuts', [scriptsPath + '/alphanumericshortcuts'], returnFirstDependency);
-        define('multiSelect', [componentsPath + '/multiselect/multiselect'], returnFirstDependency);
+        define('multiSelect', [componentsPath + '/multiSelect/multiSelect'], returnFirstDependency);
         define('alphaPicker', [componentsPath + '/alphapicker/alphapicker'], returnFirstDependency);
         define('tabbedView', [componentsPath + '/tabbedview/tabbedview'], returnFirstDependency);
         define('itemsTab', [componentsPath + '/tabbedview/itemstab'], returnFirstDependency);
@@ -814,7 +814,7 @@ var AppInfo = {};
         define('subtitleAppearanceHelper', [componentsPath + '/subtitlesettings/subtitleappearancehelper'], returnFirstDependency);
         define('subtitleSettings', [componentsPath + '/subtitlesettings/subtitlesettings'], returnFirstDependency);
         define('displaySettings', [componentsPath + '/displaysettings/displaysettings'], returnFirstDependency);
-        define('playbackSettings', [componentsPath + '/playbacksettings/playbacksettings'], returnFirstDependency);
+        define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homescreensettings/homescreensettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);
@@ -829,7 +829,7 @@ var AppInfo = {};
         define('deleteHelper', [componentsPath + '/deleteHelper'], returnFirstDependency);
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
-        define('loadingDialog', [componentsPath + '/loadingdialog/loadingdialog'], returnFirstDependency);
+        define('loadingDialog', [componentsPath + '/loadingDialog/loadingDialog'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
@@ -847,7 +847,7 @@ var AppInfo = {};
         define('toast', [componentsPath + '/toast/toast'], returnFirstDependency);
         define('scrollHelper', [componentsPath + '/scrollHelper'], returnFirstDependency);
         define('touchHelper', [scriptsPath + '/touchHelper'], returnFirstDependency);
-        define('imageUploader', [componentsPath + '/imageuploader/imageuploader'], returnFirstDependency);
+        define('imageUploader', [componentsPath + '/imageUploader/imageUploader'], returnFirstDependency);
         define('htmlMediaHelper', [componentsPath + '/htmlMediaHelper'], returnFirstDependency);
         define('viewContainer', [componentsPath + '/viewContainer'], returnFirstDependency);
         define('dialogHelper', [componentsPath + '/dialogHelper/dialogHelper'], returnFirstDependency);

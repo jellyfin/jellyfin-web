@@ -199,7 +199,7 @@ define(['jQuery', 'loading', 'dialogHelper', 'dom', 'components/libraryoptionsed
             currentDeferred = deferred;
             hasChanges = false;
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'components/medialibraryeditor/medialibraryeditor.template.html', true);
+            xhr.open('GET', 'components/mediaLibraryEditor/mediaLibraryEditor.template.html', true);
 
             xhr.onload = function (e) {
                 var template = this.response;

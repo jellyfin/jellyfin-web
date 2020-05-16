@@ -182,7 +182,7 @@ define(['loading', 'dialogHelper', 'dom', 'jQuery', 'components/libraryoptionsed
                 currentResolve = resolve;
                 hasChanges = false;
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'components/medialibrarycreator/medialibrarycreator.template.html', true);
+                xhr.open('GET', 'components/mediaLibraryCreator/mediaLibraryCreator.template.html', true);
 
                 xhr.onload = function (e) {
                     var template = this.response;
