@@ -159,12 +159,10 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         var cardBoxCssClass = 'cardBox visualCardBox';
 
         var shape = 'backdrop';
-        if (imageType === 'Backdrop' || imageType === 'Art' || imageType === 'Thumb' || imageType === 'Logo') {
+        if (imageType === 'Backdrop' || imageType === 'Thumb' || imageType === 'Logo') {
             shape = 'backdrop';
         } else if (imageType === 'Banner') {
             shape = 'banner';
-        } else if (imageType === 'Disc') {
-            shape = 'square';
         } else {
 
             if (currentItemType === 'Episode') {

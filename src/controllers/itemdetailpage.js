@@ -774,13 +774,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 tag: item.ImageTags.Thumb
             });
             shape = 'thumb';
-        } else if (imageTags.Disc) {
-            url = apiClient.getScaledImageUrl(item.Id, {
-                type: 'Disc',
-                maxWidth: Math.round(dom.getScreenWidth() * 0.5),
-                tag: item.ImageTags.Disc
-            });
-            shape = 'square';
         } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
             url = apiClient.getScaledImageUrl(item.AlbumId, {
                 type: 'Primary',

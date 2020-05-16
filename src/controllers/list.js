@@ -432,20 +432,12 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
 
             var shape;
             var preferThumb;
-            var preferDisc;
-            var preferLogo;
             var defaultShape;
             var item = self.currentItem;
             var lines = settings.showTitle ? 2 : 0;
 
             if ('banner' === settings.imageType) {
                 shape = 'banner';
-            } else if ('disc' === settings.imageType) {
-                shape = 'square';
-                preferDisc = true;
-            } else if ('logo' === settings.imageType) {
-                shape = 'backdrop';
-                preferLogo = true;
             } else if ('thumb' === settings.imageType) {
                 shape = 'backdrop';
                 preferThumb = true;
@@ -467,8 +459,6 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
                 centerText: true,
                 coverImage: true,
                 preferThumb: preferThumb,
-                preferDisc: preferDisc,
-                preferLogo: preferLogo,
                 overlayPlayButton: false,
                 overlayMoreButton: true,
                 overlayText: !settings.showTitle,
