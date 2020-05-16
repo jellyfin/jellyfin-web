@@ -189,7 +189,7 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
         html += '</div>';
         html += '<div class="cardFooter visualCardBox-cardFooter">';
         html += '<div class="cardText" style="text-align:right; float:right;padding:0;">';
-        html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu"><span class="material-icons more_horiz"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="btnUserMenu"><span class="material-icons more_vert"></span></button>';
         html += '</div>';
         html += '<div class="cardText" style="padding-top:10px;padding-bottom:10px;">';
         html += user.UserName;

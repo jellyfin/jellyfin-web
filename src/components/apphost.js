@@ -359,7 +359,6 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
             return -1 !== supportedFeatures.indexOf(command.toLowerCase());
         },
         preferVisualCards: browser.android || browser.chrome,
-        moreIcon: browser.android ? 'more_vert' : 'more_horiz',
         getSyncProfile: getSyncProfile,
         getDefaultLayout: function () {
             if (window.NativeShell) {
