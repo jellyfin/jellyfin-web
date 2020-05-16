@@ -55,7 +55,7 @@
     /* Without this emby-checkbox is able to appear on top */
     z-index: 1;
     align-items: flex-end;
-    justify-content: end;
+    justify-content: flex-end;
     flex-wrap: wrap;
 }
 
