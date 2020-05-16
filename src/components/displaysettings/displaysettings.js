@@ -1,5 +1,5 @@
 define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', 'focusManager', 'datetime', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-button'], function (require, browser, layoutManager, appSettings, pluginManager, appHost, focusManager, datetime, globalize, loading, connectionManager, skinManager, dom, events) {
-    "use strict";
+    'use strict';
 
     function fillThemes(select, isDashboard) {
         select.innerHTML = skinManager.getThemes().map(function (t) {
@@ -186,6 +186,8 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
         context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
 
+        context.querySelector('#txtLibraryPageSize').value = userSettings.libraryPageSize();
+
         selectDashboardTheme.value = userSettings.dashboardTheme() || '';
         selectTheme.value = userSettings.theme() || '';
 
@@ -214,6 +216,8 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         userSettingsInstance.theme(context.querySelector('#selectTheme').value);
         userSettingsInstance.soundEffects(context.querySelector('.selectSoundEffects').value);
         userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
+
+        userSettingsInstance.libraryPageSize(context.querySelector('#txtLibraryPageSize').value);
 
         userSettingsInstance.skin(context.querySelector('.selectSkin').value);
 

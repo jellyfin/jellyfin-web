@@ -37,69 +37,69 @@ define(['events'], function (events) {
         // 5) It wasn't as smart as it could have been about what should be part of a
         // URL and what should be part of human language.
 
-        var protocols = "(?:(?:http|https|rtsp|ftp):\\/\\/)";
+        var protocols = '(?:(?:http|https|rtsp|ftp):\\/\\/)';
         var credentials = "(?:(?:[a-z0-9\\$\\-\\_\\.\\+\\!\\*\\'\\(\\)\\,\\;\\?\\&\\=]|(?:\\%[a-f0-9]{2})){1,64}" // username (1-64 normal or url escaped characters)
             + "(?:\\:(?:[a-z0-9\\$\\-\\_\\.\\+\\!\\*\\'\\(\\)\\,\\;\\?\\&\\=]|(?:\\%[a-f0-9]{2})){1,25})?" // followed by optional password (: + 1-25 normal or url escaped characters)
-            + "\\@)";
+            + '\\@)';
 
         // IPv6 Regex http://forums.intermapper.com/viewtopic.php?t=452
         // by Dartware, LLC is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License
         // http://intermapper.com/
-        var ipv6 = "("
-            + "(([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))"
-            + "|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))"
-            + "|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))"
-            + "|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))"
-            + "|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))"
-            + "|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))"
-            + "|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))"
-            + "|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))"
-            + ")(%.+)?";
+        var ipv6 = '('
+            + '(([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))'
+            + '|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))'
+            + '|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))'
+            + '|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))'
+            + '|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))'
+            + '|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))'
+            + '|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))'
+            + '|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))'
+            + ')(%.+)?';
 
-        var ipv4 = "(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\."
-            + "(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\."
-            + "(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\."
-            + "(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])";
+        var ipv4 = '(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.'
+            + '(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.'
+            + '(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.'
+            + '(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])';
 
         // This would have been a lot cleaner if JS RegExp supported conditionals...
         var linkRegExpString =
 
             // begin match for protocol / username / password / host
-            "(?:"
+            '(?:'
 
             // ============================
             // If we have a recognized protocol at the beginning of the URL, we're
             // more relaxed about what we accept, because we assume the user wants
             // this to be a URL, and we're not accidentally matching human language
-            + protocols + "?"
+            + protocols + '?'
 
             // optional username:password@
-            + credentials + "?"
+            + credentials + '?'
 
             // IP address (both v4 and v6)
-            + "(?:"
+            + '(?:'
 
             // IPv6
             + ipv6
 
             // IPv4
-            + "|" + ipv4
+            + '|' + ipv4
 
-            + ")"
+            + ')'
 
             // end match for protocol / username / password / host
-            + ")"
+            + ')'
 
             // optional port number
-            + "(?:\\:\\d{1,5})?"
+            + '(?:\\:\\d{1,5})?'
 
             // plus optional path and query params (no unicode allowed here?)
-            + "(?:"
-            + "\\/(?:"
+            + '(?:'
+            + '\\/(?:'
             // some characters we'll accept because it's unlikely human language
             // would use them after a URL unless they were part of the url
-            + "(?:[a-z0-9\\/\\@\\&\\#\\~\\*\\_\\-\\+])"
-            + "|(?:\\%[a-f0-9]{2})"
+            + '(?:[a-z0-9\\/\\@\\&\\#\\~\\*\\_\\-\\+])'
+            + '|(?:\\%[a-f0-9]{2})'
             // some characters are much more likely to be used AFTER a url and
             // were not intended to be included in the url itself. Mostly end
             // of sentence type things. It's also likely that the URL would
@@ -108,9 +108,9 @@ define(['events'], function (events) {
             // they must be followed by another character that we're reasonably
             // sure is part of the url
             + "|(?:[\\;\\?\\:\\.\\!\\'\\(\\)\\,\\=]+(?=(?:[a-z0-9\\/\\@\\&\\#\\~\\*\\_\\-\\+])|(?:\\%[a-f0-9]{2})))"
-            + ")*"
-            + "|\\b|\$"
-            + ")";
+            + ')*'
+            + '|\\b|\$'
+            + ')';
 
         // regex = XRegExp(regex,'gi');
         var linkRegExp = RegExp(linkRegExpString, 'gi');
@@ -120,7 +120,7 @@ define(['events'], function (events) {
         // if url doesn't begin with a known protocol, add http by default
         function ensureProtocol(url) {
             if (!url.match(protocolRegExp)) {
-                url = "http://" + url;
+                url = 'http://' + url;
             }
             return url;
         }
@@ -188,9 +188,9 @@ define(['events'], function (events) {
         return apiClient.getEndpointInfo().then(function (endpoint) {
             if (endpoint.IsInNetwork) {
                 return apiClient.getPublicSystemInfo().then(function (info) {
-                    var localAddress = info.LocalAddress
+                    var localAddress = info.LocalAddress;
                     if (!localAddress) {
-                        console.debug("No valid local address returned, defaulting to external one")
+                        console.debug('No valid local address returned, defaulting to external one');
                         localAddress = serverAddress;
                     }
                     addToCache(serverAddress, localAddress);

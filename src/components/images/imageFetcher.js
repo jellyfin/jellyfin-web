@@ -20,13 +20,15 @@ define(['dom'], function (dom) {
             return Promise.reject('elem cannot be null');
         }
 
-        if (elem.tagName !== "IMG") {
-            var preloader = createPreloader();
-            return loadImageIntoImg(preloader, url).then(function () {
-                document.body.removeChild(preloader);
-                elem.style.backgroundImage = "url('" + url + "')";
-                return Promise.resolve();
-            });
+        if (elem.tagName !== 'IMG') {
+
+            elem.style.backgroundImage = "url('" + url + "')";
+            return Promise.resolve();
+
+            //return loadImageIntoImg(document.createElement('img'), url).then(function () {
+            //    elem.style.backgroundImage = "url('" + url + "')";
+            //    return Promise.resolve();
+            //});
 
         }
         return loadImageIntoImg(elem, url);
@@ -38,7 +40,7 @@ define(['dom'], function (dom) {
             dom.addEventListener(elem, 'load', resolve, {
                 once: true
             });
-            elem.setAttribute("src", url);
+            elem.setAttribute('src', url);
         });
     }
 

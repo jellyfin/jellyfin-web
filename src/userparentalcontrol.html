@@ -4,7 +4,7 @@
             <div class="verticalSection">
                 <div class="sectionTitleContainer flex align-items-center">
                     <h2 class="sectionTitle username"></h2>
-                    <a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/users/">${Help}</a>
+                    <a is="emby-linkbutton" rel="noopener noreferrer" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/users/">${Help}</a>
                 </div>
             </div>
 
@@ -31,7 +31,7 @@
                     <div class="detailSectionHeader sectionTitleContainer">
                         <h2 class="sectionTitle">${LabelBlockContentWithTags}</h2>
                         <button is="emby-button" type="button" class="fab btnAddBlockedTag submit" style="margin-left:1em;" title="${ButtonAdd}">
-                            <i class="material-icons">add</i>
+                            <span class="material-icons add"></span>
                         </button>
                     </div>
                     <div class="blockedTags" style="margin-top:.5em;"></div>
@@ -41,7 +41,7 @@
                     <div class="sectionTitleContainer">
                         <h2 class="sectionTitle">${HeaderAccessSchedule}</h2>
                         <button is="emby-button" type="button" class="fab btnAddSchedule submit" style="margin-left:1em;" title="${ButtonAdd}">
-                            <i class="material-icons">add</i>
+                            <span class="material-icons add"></span>
                         </button>
                     </div>
 

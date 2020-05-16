@@ -1,5 +1,5 @@
 define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelper'], function (events, browser, require, appHost, appSettings, htmlMediaHelper) {
-    "use strict";
+    'use strict';
 
     function getDefaultProfile() {
         return new Promise(function (resolve, reject) {
@@ -101,7 +101,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             self._timeUpdated = false;
             self._currentTime = null;
 
-            var elem = createMediaElement(options);
+            var elem = createMediaElement();
             return setCurrentSrc(elem, options);
         };
 
@@ -136,7 +136,10 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
                     requireHlsPlayer(function () {
                         var hls = new Hls({
-                            manifestLoadingTimeOut: 20000
+                            manifestLoadingTimeOut: 20000,
+                            xhrSetup: function(xhr, url) {
+                                xhr.withCredentials = true;
+                            }
                             //appendErrorMaxRetry: 6,
                             //debug: true
                         });
@@ -154,6 +157,9 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             }, function () {
 
                 elem.autoplay = true;
+
+                // Safari will not send cookies without this
+                elem.crossOrigin = 'use-credentials';
 
                 return htmlMediaHelper.applySrc(elem, val, options).then(function () {
 

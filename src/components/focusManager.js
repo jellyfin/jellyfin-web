@@ -117,7 +117,7 @@ define(['dom', 'scrollManager'], function (dom, scrollManager) {
             return false;
         }
 
-        if (elem.getAttribute('tabindex') === "-1") {
+        if (elem.getAttribute('tabindex') === '-1') {
             return false;
         }
 

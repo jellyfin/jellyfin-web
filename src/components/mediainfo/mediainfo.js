@@ -6,7 +6,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         var status;
 
         if (item.Type === 'SeriesTimer') {
-            return '<i class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></i>';
+            return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></span>';
         } else if (item.TimerId || item.SeriesTimerId) {
 
             status = item.Status || 'Cancelled';
@@ -20,13 +20,13 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         if (item.SeriesTimerId) {
 
             if (status !== 'Cancelled') {
-                return '<i class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></i>';
+                return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_smart_record"></span>';
             }
 
-            return '<i class="material-icons mediaInfoItem mediaInfoIconItem fiber_smart_record"></i>';
+            return '<span class="material-icons mediaInfoItem mediaInfoIconItem fiber_smart_record"></span>';
         }
 
-        return '<i class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_manual_record"></i>';
+        return '<span class="material-icons mediaInfoItem mediaInfoIconItem mediaInfoTimerIcon fiber_manual_record"></span>';
     }
 
     function getProgramInfoHtml(item, options) {
@@ -57,7 +57,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
                 miscInfo.push(text);
             } catch (e) {
-                console.error("error parsing date: " + item.StartDate);
+                console.error('error parsing date: ' + item.StartDate);
             }
         }
 
@@ -109,7 +109,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         var minutes;
         var count;
 
-        var showFolderRuntime = item.Type === "MusicAlbum" || item.MediaType === 'MusicArtist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
+        var showFolderRuntime = item.Type === 'MusicAlbum' || item.MediaType === 'MusicArtist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
 
         if (showFolderRuntime) {
 
@@ -123,7 +123,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
             if (item.RunTimeTicks) {
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
             }
-        } else if (item.Type === "PhotoAlbum" || item.Type === "BoxSet") {
+        } else if (item.Type === 'PhotoAlbum' || item.Type === 'BoxSet') {
 
             count = item.ChildCount;
 
@@ -133,7 +133,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
             }
         }
 
-        if ((item.Type === "Episode" || item.MediaType === 'Photo') && options.originalAirDate !== false) {
+        if ((item.Type === 'Episode' || item.MediaType === 'Photo') && options.originalAirDate !== false) {
 
             if (item.PremiereDate) {
 
@@ -143,7 +143,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     text = datetime.toLocaleDateString(date);
                     miscInfo.push(text);
                 } catch (e) {
-                    console.error("error parsing date: " + item.PremiereDate);
+                    console.error('error parsing date: ' + item.PremiereDate);
                 }
             }
         }
@@ -171,18 +171,18 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                 text = datetime.toLocaleDateString(date);
                 miscInfo.push(text);
 
-                if (item.Type !== "Recording") {
+                if (item.Type !== 'Recording') {
                     text = datetime.getDisplayTime(date);
                     miscInfo.push(text);
                 }
             } catch (e) {
-                console.error("error parsing date: " + item.StartDate);
+                console.error('error parsing date: ' + item.StartDate);
             }
         }
 
-        if (options.year !== false && item.ProductionYear && item.Type === "Series") {
+        if (options.year !== false && item.ProductionYear && item.Type === 'Series') {
 
-            if (item.Status === "Continuing") {
+            if (item.Status === 'Continuing') {
                 miscInfo.push(globalize.translate('SeriesYearToPresent', item.ProductionYear));
 
             } else if (item.ProductionYear) {
@@ -196,11 +196,11 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                         var endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
 
                         if (endYear !== item.ProductionYear) {
-                            text += "-" + datetime.parseISO8601Date(item.EndDate).getFullYear();
+                            text += '-' + datetime.parseISO8601Date(item.EndDate).getFullYear();
                         }
 
                     } catch (e) {
-                        console.error("error parsing date: " + item.EndDate);
+                        console.error('error parsing date: ' + item.EndDate);
                     }
                 }
 
@@ -248,7 +248,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                     text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
                     miscInfo.push(text);
                 } catch (e) {
-                    console.error("error parsing date: " + item.PremiereDate);
+                    console.error('error parsing date: ' + item.PremiereDate);
                 }
             } else if (item.ProductionYear) {
                 miscInfo.push(item.ProductionYear);
@@ -256,7 +256,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         }
 
         if (options.year !== false) {
-            if (item.Type !== "Series" && item.Type !== "Episode" && item.Type !== "Person" && item.MediaType !== 'Photo' && item.Type !== 'Program' && item.Type !== 'Season') {
+            if (item.Type !== 'Series' && item.Type !== 'Episode' && item.Type !== 'Person' && item.MediaType !== 'Photo' && item.Type !== 'Program' && item.Type !== 'Season') {
 
                 if (item.ProductionYear) {
 
@@ -267,15 +267,15 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                         text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
                         miscInfo.push(text);
                     } catch (e) {
-                        console.error("error parsing date: " + item.PremiereDate);
+                        console.error('error parsing date: ' + item.PremiereDate);
                     }
                 }
             }
         }
 
-        if (item.RunTimeTicks && item.Type !== "Series" && item.Type !== 'Program' && !showFolderRuntime && options.runtime !== false) {
+        if (item.RunTimeTicks && item.Type !== 'Series' && item.Type !== 'Program' && !showFolderRuntime && options.runtime !== false) {
 
-            if (item.Type === "Audio") {
+            if (item.Type === 'Audio') {
 
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
 
@@ -284,11 +284,11 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
                 minutes = minutes || 1;
 
-                miscInfo.push(Math.round(minutes) + " mins");
+                miscInfo.push(Math.round(minutes) + ' mins');
             }
         }
 
-        if (item.OfficialRating && item.Type !== "Season" && item.Type !== "Episode") {
+        if (item.OfficialRating && item.Type !== 'Season' && item.Type !== 'Episode') {
             miscInfo.push({
                 text: item.OfficialRating,
                 cssClass: 'mediaInfoOfficialRating'
@@ -296,11 +296,11 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         }
 
         if (item.Video3DFormat) {
-            miscInfo.push("3D");
+            miscInfo.push('3D');
         }
 
         if (item.MediaType === 'Photo' && item.Width && item.Height) {
-            miscInfo.push(item.Width + "x" + item.Height);
+            miscInfo.push(item.Width + 'x' + item.Height);
         }
 
         if (options.container !== false && item.Type === 'Audio' && item.Container) {
@@ -390,7 +390,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
         if (item.CommunityRating) {
             html += '<div class="starRatingContainer mediaInfoItem">';
 
-            html += '<i class="material-icons starIcon">star</i>';
+            html += '<span class="material-icons starIcon star"></span>';
             html += item.CommunityRating.toFixed(1);
             html += '</div>';
         }
@@ -490,26 +490,26 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                 if (i.IsInterlaced) {
                     return '1440i';
                 }
-                return '1440P';
+                return '1440p';
             }
             if (width >= 1800 || height >= 1000) {
                 if (i.IsInterlaced) {
                     return '1080i';
                 }
-                return '1080P';
+                return '1080p';
             }
             if (width >= 1200 || height >= 700) {
                 if (i.IsInterlaced) {
                     return '720i';
                 }
-                return '720P';
+                return '720p';
             }
             if (width >= 700 || height >= 400) {
 
                 if (i.IsInterlaced) {
                     return '480i';
                 }
-                return '480P';
+                return '480p';
             }
 
         }

@@ -1,5 +1,5 @@
 define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', 'globalize', 'loading', 'connectionManager', 'dom', 'events', 'emby-select', 'emby-checkbox'], function (require, browser, appSettings, appHost, focusManager, qualityoptions, globalize, loading, connectionManager, dom, events) {
-    "use strict";
+    'use strict';
 
     function fillSkipLengths(select) {
 
@@ -17,15 +17,15 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
     function populateLanguages(select, languages) {
 
-        var html = "";
+        var html = '';
 
-        html += "<option value=''>" + globalize.translate('AnyLanguage') + "</option>";
+        html += "<option value=''>" + globalize.translate('AnyLanguage') + '</option>';
 
         for (var i = 0, length = languages.length; i < length; i++) {
 
             var culture = languages[i];
 
-            html += "<option value='" + culture.ThreeLetterISOLanguageName + "'>" + culture.DisplayName + "</option>";
+            html += "<option value='" + culture.ThreeLetterISOLanguageName + "'>" + culture.DisplayName + '</option>';
         }
 
         select.innerHTML = html;
@@ -154,12 +154,12 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
             populateLanguages(context.querySelector('#selectAudioLanguage'), allCultures);
 
-            context.querySelector('#selectAudioLanguage', context).value = user.Configuration.AudioLanguagePreference || "";
+            context.querySelector('#selectAudioLanguage', context).value = user.Configuration.AudioLanguagePreference || '';
             context.querySelector('.chkEpisodeAutoPlay').checked = user.Configuration.EnableNextEpisodeAutoPlay || false;
         });
 
         // hide cinema mode options if disabled at server level
-        apiClient.getNamedConfiguration("cinemamode").then(function (cinemaConfig) {
+        apiClient.getNamedConfiguration('cinemamode').then(function (cinemaConfig) {
 
             if (cinemaConfig.EnableIntrosForMovies || cinemaConfig.EnableIntrosForEpisodes) {
                 context.querySelector('.cinemaModeOptions').classList.remove('hide');

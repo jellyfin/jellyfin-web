@@ -311,9 +311,9 @@ define(['browser'], function (browser) {
             try {
                 var isTizenUhd = webapis.productinfo.isUdPanelSupported();
                 isTizenFhd = !isTizenUhd;
-                console.debug("isTizenFhd = " + isTizenFhd);
+                console.debug('isTizenFhd = ' + isTizenFhd);
             } catch (error) {
-                console.error("isUdPanelSupported() error code = " + error.code);
+                console.error('isUdPanelSupported() error code = ' + error.code);
             }
         }
 
@@ -334,6 +334,7 @@ define(['browser'], function (browser) {
 
         var canPlayVp8 = videoTestElement.canPlayType('video/webm; codecs="vp8"').replace(/no/, '');
         var canPlayVp9 = videoTestElement.canPlayType('video/webm; codecs="vp9"').replace(/no/, '');
+        var canPlayAv1 = videoTestElement.canPlayType('video/webm; codecs="av1"').replace(/no/, '');
         var webmAudioCodecs = ['vorbis'];
 
         var canPlayMkv = testCanPlayMkv(videoTestElement);
@@ -433,13 +434,9 @@ define(['browser'], function (browser) {
 
         var supportsDts = browser.tizen || browser.orsay || browser.web0s || options.supportsDts;
 
-        if (self.tizen && self.tizen.systeminfo) {
-            var v = tizen.systeminfo.getCapability('http://tizen.org/feature/platform.version');
-
-            // DTS audio not supported in 2018 models (Tizen 4.0)
-            if (v && parseFloat(v) >= parseFloat('4.0')) {
-                supportsDts = false;
-            }
+        // DTS audio not supported in 2018 models (Tizen 4.0)
+        if (browser.tizenVersion >= 4) {
+            supportsDts = false;
         }
 
         if (supportsDts) {
@@ -593,6 +590,15 @@ define(['browser'], function (browser) {
                 Type: 'Video',
                 AudioCodec: webmAudioCodecs.join(','),
                 VideoCodec: 'VP9'
+            });
+        }
+
+        if (canPlayAv1) {
+            profile.DirectPlayProfiles.push({
+                Container: 'webm',
+                Type: 'Video',
+                AudioCodec: webmAudioCodecs.join(','),
+                VideoCodec: 'AV1'
             });
         }
 
@@ -766,6 +772,11 @@ define(['browser'], function (browser) {
             maxH264Level = 51;
         }
 
+        // Support H264 Level 52 (Tizen 5.0) - app only
+        if (browser.tizenVersion >= 5 && window.NativeShell) {
+            maxH264Level = 52;
+        }
+
         if (browser.tizen || browser.orsay ||
             videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, '')) {
 
@@ -883,6 +894,16 @@ define(['browser'], function (browser) {
         if (supportsTextTracks()) {
             profile.SubtitleProfiles.push({
                 Format: 'vtt',
+                Method: 'External'
+            });
+        }
+        if (options.enableSsaRender) {
+            profile.SubtitleProfiles.push({
+                Format: 'ass',
+                Method: 'External'
+            });
+            profile.SubtitleProfiles.push({
+                Format: 'ssa',
                 Method: 'External'
             });
         }

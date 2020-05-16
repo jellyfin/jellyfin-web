@@ -1,35 +1,35 @@
-define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "viewManager", "libraryBrowser", "appRouter", "apphost", "playbackManager", "browser", "globalize", "scripts/imagehelper", "paper-icon-button-light", "material-icons", "scrollStyles", "flexStyles"], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, browser, globalize, imageHelper) {
-    "use strict";
+define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', 'viewManager', 'libraryBrowser', 'appRouter', 'apphost', 'playbackManager', 'browser', 'globalize', 'scripts/imagehelper', 'paper-icon-button-light', 'material-icons', 'scrollStyles', 'flexStyles'], function (dom, layoutManager, inputManager, connectionManager, events, viewManager, libraryBrowser, appRouter, appHost, playbackManager, browser, globalize, imageHelper) {
+    'use strict';
 
     function renderHeader() {
-        var html = "";
+        var html = '';
         html += '<div class="flex align-items-center flex-grow headerTop">';
         html += '<div class="headerLeft">';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><i class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '"></i></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><i class="material-icons">home</i></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><i class="material-icons">menu</i></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><span class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><span class="material-icons home"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><span class="material-icons menu"></span></button>';
         html += '<h3 class="pageTitle"></h3>';
-        html += "</div>";
+        html += '</div>';
         html += '<div class="headerRight">';
         html += '<span class="headerSelectedPlayer"></span>';
-        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><i class="material-icons music_note"></i></button>';
-        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><i class="material-icons">cast</i></button>';
-        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><i class="material-icons">search</i></button>';
-        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><i class="material-icons">person</i></button>';
-        html += "</div>";
-        html += "</div>";
+        html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast"></span></button>';
+        html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search"></span></button>';
+        html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person"></span></button>';
+        html += '</div>';
+        html += '</div>';
         html += '<div class="headerTabs sectionTabs hide">';
-        html += "</div>";
+        html += '</div>';
 
-        skinHeader.classList.add("skinHeader-withBackground");
-        skinHeader.classList.add("skinHeader-blurred");
+        skinHeader.classList.add('skinHeader-withBackground');
+        skinHeader.classList.add('skinHeader-blurred');
         skinHeader.innerHTML = html;
 
-        headerHomeButton = skinHeader.querySelector(".headerHomeButton");
-        headerUserButton = skinHeader.querySelector(".headerUserButton");
-        headerCastButton = skinHeader.querySelector(".headerCastButton");
-        headerAudioPlayerButton = skinHeader.querySelector(".headerAudioPlayerButton");
-        headerSearchButton = skinHeader.querySelector(".headerSearchButton");
+        headerHomeButton = skinHeader.querySelector('.headerHomeButton');
+        headerUserButton = skinHeader.querySelector('.headerUserButton');
+        headerCastButton = skinHeader.querySelector('.headerCastButton');
+        headerAudioPlayerButton = skinHeader.querySelector('.headerAudioPlayerButton');
+        headerSearchButton = skinHeader.querySelector('.headerSearchButton');
 
         lazyLoadViewMenuBarImages();
         bindMenuEvents();
@@ -44,7 +44,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function lazyLoadViewMenuBarImages() {
-        require(["imageLoader"], function (imageLoader) {
+        require(['imageLoader'], function (imageLoader) {
             imageLoader.lazyChildren(skinHeader);
         });
     }
@@ -63,9 +63,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 hasImage = true;
             }
 
-            headerUserButton.classList.remove("hide");
+            headerUserButton.classList.remove('hide');
         } else {
-            headerUserButton.classList.add("hide");
+            headerUserButton.classList.add('hide');
         }
 
         if (!hasImage) {
@@ -73,23 +73,23 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         }
 
         if (user && user.localUser) {
-            if (headerHomeButton && !layoutManager.mobile) {
-                headerHomeButton.classList.remove("hide");
+            if (headerHomeButton) {
+                headerHomeButton.classList.remove('hide');
             }
 
             if (headerSearchButton) {
-                headerSearchButton.classList.remove("hide");
+                headerSearchButton.classList.remove('hide');
             }
 
             if (!layoutManager.tv) {
-                headerCastButton.classList.remove("hide");
+                headerCastButton.classList.remove('hide');
             }
         } else {
-            headerHomeButton.classList.add("hide");
-            headerCastButton.classList.add("hide");
+            headerHomeButton.classList.add('hide');
+            headerCastButton.classList.add('hide');
 
             if (headerSearchButton) {
-                headerSearchButton.classList.add("hide");
+                headerSearchButton.classList.add('hide');
             }
         }
 
@@ -98,24 +98,24 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
     function updateHeaderUserButton(src) {
         if (src) {
-            headerUserButton.classList.add("headerUserButtonRound");
+            headerUserButton.classList.add('headerUserButtonRound');
             headerUserButton.innerHTML = '<div class="headerButton headerButtonRight paper-icon-button-light headerUserButtonRound" style="background-image:url(\'' + src + "');\"></div>";
         } else {
-            headerUserButton.classList.remove("headerUserButtonRound");
-            headerUserButton.innerHTML = '<i class="material-icons">person</i>';
+            headerUserButton.classList.remove('headerUserButtonRound');
+            headerUserButton.innerHTML = '<span class="material-icons person"></span>';
         }
     }
 
     function showSearch() {
-        inputManager.trigger("search");
+        inputManager.trigger('search');
     }
 
     function onHeaderUserButtonClick(e) {
-        Dashboard.navigate("mypreferencesmenu.html");
+        Dashboard.navigate('mypreferencesmenu.html');
     }
 
     function onHeaderHomeButtonClick() {
-        Dashboard.navigate("home.html");
+        Dashboard.navigate('home.html');
     }
 
     function showAudioPlayer() {
@@ -123,30 +123,30 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function bindMenuEvents() {
-        mainDrawerButton = document.querySelector(".mainDrawerButton");
+        mainDrawerButton = document.querySelector('.mainDrawerButton');
 
         if (mainDrawerButton) {
-            mainDrawerButton.addEventListener("click", toggleMainDrawer);
+            mainDrawerButton.addEventListener('click', toggleMainDrawer);
         }
 
-        var headerBackButton = skinHeader.querySelector(".headerBackButton");
+        var headerBackButton = skinHeader.querySelector('.headerBackButton');
 
         if (headerBackButton) {
-            headerBackButton.addEventListener("click", onBackClick);
+            headerBackButton.addEventListener('click', onBackClick);
         }
 
         if (headerSearchButton) {
-            headerSearchButton.addEventListener("click", showSearch);
+            headerSearchButton.addEventListener('click', showSearch);
         }
 
-        headerUserButton.addEventListener("click", onHeaderUserButtonClick);
-        headerHomeButton.addEventListener("click", onHeaderHomeButtonClick);
+        headerUserButton.addEventListener('click', onHeaderUserButtonClick);
+        headerHomeButton.addEventListener('click', onHeaderHomeButtonClick);
 
         if (!layoutManager.tv) {
-            headerCastButton.addEventListener("click", onCastButtonClicked);
+            headerCastButton.addEventListener('click', onCastButtonClicked);
         }
 
-        headerAudioPlayerButton.addEventListener("click", showAudioPlayer);
+        headerAudioPlayerButton.addEventListener('click', showAudioPlayer);
 
         if (layoutManager.mobile) {
             initHeadRoom(skinHeader);
@@ -157,22 +157,22 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
     function onPlaybackStart(e) {
         if (playbackManager.isPlayingAudio() && layoutManager.tv) {
-            headerAudioPlayerButton.classList.remove("hide");
+            headerAudioPlayerButton.classList.remove('hide');
         } else {
-            headerAudioPlayerButton.classList.add("hide");
+            headerAudioPlayerButton.classList.add('hide');
         }
     }
 
     function onPlaybackStop(e, stopInfo) {
         if (stopInfo.nextMediaType != 'Audio') {
-            headerAudioPlayerButton.classList.add("hide");
+            headerAudioPlayerButton.classList.add('hide');
         }
     }
 
     function onCastButtonClicked() {
         var btn = this;
 
-        require(["playerSelectionMenu"], function (playerSelectionMenu) {
+        require(['playerSelectionMenu'], function (playerSelectionMenu) {
             playerSelectionMenu.show(btn);
         });
     }
@@ -198,7 +198,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
     function onMainDrawerOpened() {
         if (layoutManager.mobile) {
-            document.body.classList.add("bodyWithPopupOpen");
+            document.body.classList.add('bodyWithPopupOpen');
         }
     }
 
@@ -210,63 +210,63 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         if (navDrawerInstance.isVisible) {
             onMainDrawerOpened();
         } else {
-            document.body.classList.remove("bodyWithPopupOpen");
+            document.body.classList.remove('bodyWithPopupOpen');
         }
     }
 
     function refreshLibraryInfoInDrawer(user, drawer) {
-        var html = "";
+        var html = '';
         html += '<div style="height:.5em;"></div>';
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><i class="material-icons navMenuOptionIcon">home</i><span class="navMenuOptionText">' + globalize.translate("ButtonHome") + "</span></a>";
+        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('ButtonHome') + '</span></a>';
 
         // libraries are added here
         html += '<div class="libraryMenuOptions">';
-        html += "</div>";
+        html += '</div>';
 
         if (user.localUser && user.localUser.Policy.IsAdministrator) {
             html += '<div class="adminMenuOptions">';
             html += '<h3 class="sidebarHeader">';
-            html += globalize.translate("HeaderAdmin");
-            html += "</h3>";
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="dashboard.html"><i class="material-icons navMenuOptionIcon">dashboard</i><span class="navMenuOptionText">' + globalize.translate("TabDashboard") + "</span></a>";
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="edititemmetadata.html"><i class="material-icons navMenuOptionIcon mode_edit"></i><span class="navMenuOptionText">' + globalize.translate("Metadata") + "</span></a>";
-            html += "</div>";
+            html += globalize.translate('HeaderAdmin');
+            html += '</h3>';
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="dashboard.html"><span class="material-icons navMenuOptionIcon dashboard"></span><span class="navMenuOptionText">' + globalize.translate('TabDashboard') + '</span></a>';
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="edititemmetadata.html"><span class="material-icons navMenuOptionIcon mode_edit"></span><span class="navMenuOptionText">' + globalize.translate('Metadata') + '</span></a>';
+            html += '</div>';
         }
 
         if (user.localUser) {
             html += '<div class="userMenuOptions">';
             html += '<h3 class="sidebarHeader">';
-            html += globalize.translate("HeaderUser");
-            html += "</h3>";
+            html += globalize.translate('HeaderUser');
+            html += '</h3>';
 
-            if (appHost.supports("multiserver")) {
-                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><i class="material-icons navMenuOptionIcon">wifi</i><span class="navMenuOptionText">' + globalize.translate("ButtonSelectServer") + "</span></a>";
+            if (appHost.supports('multiserver')) {
+                html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" data-itemid="selectserver" href="selectserver.html?showuser=1"><span class="material-icons navMenuOptionIcon wifi"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSelectServer') + '</span></a>';
             }
 
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><i class="material-icons navMenuOptionIcon settings"></i><span class="navMenuOptionText">' + globalize.translate("ButtonSettings") + "</span></a>";
-            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><i class="material-icons navMenuOptionIcon exit_to_app"></i><span class="navMenuOptionText">' + globalize.translate("ButtonSignOut") + "</span></a>";
-            html += "</div>";
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSettings') + '</span></a>';
+            html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><span class="material-icons navMenuOptionIcon exit_to_app"></span><span class="navMenuOptionText">' + globalize.translate('ButtonSignOut') + '</span></a>';
+            html += '</div>';
         }
 
         // add buttons to navigation drawer
         navDrawerScrollContainer.innerHTML = html;
 
-        var btnSettings = navDrawerScrollContainer.querySelector(".btnSettings");
+        var btnSettings = navDrawerScrollContainer.querySelector('.btnSettings');
         if (btnSettings) {
-            btnSettings.addEventListener("click", onSettingsClick);
+            btnSettings.addEventListener('click', onSettingsClick);
         }
 
-        var btnLogout = navDrawerScrollContainer.querySelector(".btnLogout");
+        var btnLogout = navDrawerScrollContainer.querySelector('.btnLogout');
         if (btnLogout) {
-            btnLogout.addEventListener("click", onLogoutClick);
+            btnLogout.addEventListener('click', onLogoutClick);
         }
     }
 
     function refreshDashboardInfoInDrawer(apiClient) {
-        currentDrawerType = "admin";
+        currentDrawerType = 'admin';
         loadNavDrawer();
 
-        if (navDrawerScrollContainer.querySelector(".adminDrawerLogo")) {
+        if (navDrawerScrollContainer.querySelector('.adminDrawerLogo')) {
             updateDashboardMenuSelectedItem();
         } else {
             createDashboardMenu(apiClient);
@@ -278,145 +278,145 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function updateDashboardMenuSelectedItem() {
-        var links = navDrawerScrollContainer.querySelectorAll(".navMenuOption");
+        var links = navDrawerScrollContainer.querySelectorAll('.navMenuOption');
         var currentViewId = viewManager.currentView().id;
 
         for (var i = 0, length = links.length; i < length; i++) {
             var link = links[i];
             var selected = false;
-            var pageIds = link.getAttribute("data-pageids");
+            var pageIds = link.getAttribute('data-pageids');
 
             if (pageIds) {
-                pageIds = pageIds.split("|");
+                pageIds = pageIds.split('|');
                 selected = -1 != pageIds.indexOf(currentViewId);
             }
 
-            var pageUrls = link.getAttribute("data-pageurls");
+            var pageUrls = link.getAttribute('data-pageurls');
 
             if (pageUrls) {
-                pageUrls = pageUrls.split("|");
+                pageUrls = pageUrls.split('|');
                 selected = pageUrls.filter(isUrlInCurrentView).length > 0;
             }
 
             if (selected) {
-                link.classList.add("navMenuOption-selected");
-                var title = "";
-                link = link.querySelector("span") || link;
+                link.classList.add('navMenuOption-selected');
+                var title = '';
+                link = link.querySelector('.navMenuOptionText') || link;
                 title += (link.innerText || link.textContent).trim();
                 LibraryMenu.setTitle(title);
             } else {
-                link.classList.remove("navMenuOption-selected");
+                link.classList.remove('navMenuOption-selected');
             }
         }
     }
 
     function createToolsMenuList(pluginItems) {
         var links = [{
-            name: globalize.translate("TabServer")
+            name: globalize.translate('TabServer')
         }, {
-            name: globalize.translate("TabDashboard"),
-            href: "dashboard.html",
-            pageIds: ["dashboardPage"],
-            icon: "dashboard"
+            name: globalize.translate('TabDashboard'),
+            href: 'dashboard.html',
+            pageIds: ['dashboardPage'],
+            icon: 'dashboard'
         }, {
-            name: globalize.translate("General"),
-            href: "dashboardgeneral.html",
-            pageIds: ["dashboardGeneralPage"],
-            icon: "settings"
+            name: globalize.translate('General'),
+            href: 'dashboardgeneral.html',
+            pageIds: ['dashboardGeneralPage'],
+            icon: 'settings'
         }, {
-            name: globalize.translate("TabUsers"),
-            href: "userprofiles.html",
-            pageIds: ["userProfilesPage", "newUserPage", "editUserPage", "userLibraryAccessPage", "userParentalControlPage", "userPasswordPage"],
-            icon: "people"
+            name: globalize.translate('TabUsers'),
+            href: 'userprofiles.html',
+            pageIds: ['userProfilesPage', 'newUserPage', 'editUserPage', 'userLibraryAccessPage', 'userParentalControlPage', 'userPasswordPage'],
+            icon: 'people'
         }, {
-            name: globalize.translate("HeaderLibraries"),
-            href: "library.html",
-            pageIds: ["mediaLibraryPage", "librarySettingsPage", "libraryDisplayPage", "metadataImagesConfigurationPage", "metadataNfoPage"],
-            icon: "folder"
+            name: globalize.translate('HeaderLibraries'),
+            href: 'library.html',
+            pageIds: ['mediaLibraryPage', 'librarySettingsPage', 'libraryDisplayPage', 'metadataImagesConfigurationPage', 'metadataNfoPage'],
+            icon: 'folder'
         }, {
-            name: globalize.translate("TabPlayback"),
-            icon: "&#xE037;",
-            href: "encodingsettings.html",
-            pageIds: ["encodingSettingsPage", "playbackConfigurationPage", "streamingSettingsPage"]
+            name: globalize.translate('TabPlayback'),
+            icon: 'play_arrow',
+            href: 'encodingsettings.html',
+            pageIds: ['encodingSettingsPage', 'playbackConfigurationPage', 'streamingSettingsPage']
         }];
-        addPluginPagesToMainMenu(links, pluginItems, "server");
+        addPluginPagesToMainMenu(links, pluginItems, 'server');
         links.push({
             divider: true,
-            name: globalize.translate("TabDevices")
+            name: globalize.translate('TabDevices')
         });
         links.push({
-            name: globalize.translate("TabDevices"),
-            href: "devices.html",
-            pageIds: ["devicesPage", "devicePage"],
-            icon: "devices"
+            name: globalize.translate('TabDevices'),
+            href: 'devices.html',
+            pageIds: ['devicesPage', 'devicePage'],
+            icon: 'devices'
         });
         links.push({
-            name: globalize.translate("HeaderActivity"),
-            href: "serveractivity.html",
-            pageIds: ["serverActivityPage"],
-            icon: "assessment"
+            name: globalize.translate('HeaderActivity'),
+            href: 'serveractivity.html',
+            pageIds: ['serverActivityPage'],
+            icon: 'assessment'
         });
         links.push({
-            name: globalize.translate("DLNA"),
-            href: "dlnasettings.html",
-            pageIds: ["dlnaSettingsPage", "dlnaProfilesPage", "dlnaProfilePage"],
-            icon: "input"
-        });
-        links.push({
-            divider: true,
-            name: globalize.translate("TabLiveTV")
-        });
-        links.push({
-            name: globalize.translate("TabLiveTV"),
-            href: "livetvstatus.html",
-            pageIds: ["liveTvStatusPage", "liveTvTunerPage"],
-            icon: "live_tv"
-        });
-        links.push({
-            name: globalize.translate("DVR"),
-            href: "livetvsettings.html",
-            pageIds: ["liveTvSettingsPage"],
-            icon: "dvr"
+            name: globalize.translate('DLNA'),
+            href: 'dlnasettings.html',
+            pageIds: ['dlnaSettingsPage', 'dlnaProfilesPage', 'dlnaProfilePage'],
+            icon: 'input'
         });
         links.push({
             divider: true,
-            name: globalize.translate("TabAdvanced")
+            name: globalize.translate('TabLiveTV')
         });
         links.push({
-            name: globalize.translate("TabNetworking"),
-            icon: "cloud",
-            href: "networking.html",
-            pageIds: ["networkingPage"]
+            name: globalize.translate('TabLiveTV'),
+            href: 'livetvstatus.html',
+            pageIds: ['liveTvStatusPage', 'liveTvTunerPage'],
+            icon: 'live_tv'
         });
         links.push({
-            name: globalize.translate("HeaderApiKeys"),
-            icon: "vpn_key",
-            href: "apikeys.html",
-            pageIds: ["apiKeysPage"]
+            name: globalize.translate('DVR'),
+            href: 'livetvsettings.html',
+            pageIds: ['liveTvSettingsPage'],
+            icon: 'dvr'
         });
         links.push({
-            name: globalize.translate("TabLogs"),
-            href: "log.html",
-            pageIds: ["logPage"],
-            icon: "bug_report"
+            divider: true,
+            name: globalize.translate('TabAdvanced')
         });
         links.push({
-            name: globalize.translate("TabNotifications"),
-            icon: "notifications",
-            href: "notificationsettings.html",
-            pageIds: ["notificationSettingsPage", "notificationSettingPage"]
+            name: globalize.translate('TabNetworking'),
+            icon: 'cloud',
+            href: 'networking.html',
+            pageIds: ['networkingPage']
         });
         links.push({
-            name: globalize.translate("TabPlugins"),
-            icon: "shopping_cart",
-            href: "installedplugins.html",
-            pageIds: ["pluginsPage", "pluginCatalogPage"]
+            name: globalize.translate('HeaderApiKeys'),
+            icon: 'vpn_key',
+            href: 'apikeys.html',
+            pageIds: ['apiKeysPage']
         });
         links.push({
-            name: globalize.translate("TabScheduledTasks"),
-            href: "scheduledtasks.html",
-            pageIds: ["scheduledTasksPage", "scheduledTaskPage"],
-            icon: "schedule"
+            name: globalize.translate('TabLogs'),
+            href: 'log.html',
+            pageIds: ['logPage'],
+            icon: 'bug_report'
+        });
+        links.push({
+            name: globalize.translate('TabNotifications'),
+            icon: 'notifications',
+            href: 'notificationsettings.html',
+            pageIds: ['notificationSettingsPage', 'notificationSettingPage']
+        });
+        links.push({
+            name: globalize.translate('TabPlugins'),
+            icon: 'shopping_cart',
+            href: 'installedplugins.html',
+            pageIds: ['pluginsPage', 'pluginCatalogPage']
+        });
+        links.push({
+            name: globalize.translate('TabScheduledTasks'),
+            href: 'scheduledtasks.html',
+            pageIds: ['scheduledTasksPage', 'scheduledTaskPage'],
+            icon: 'schedule'
         });
         addPluginPagesToMainMenu(links, pluginItems);
         return links;
@@ -429,7 +429,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             if (pluginItem.EnableInMainMenu && pluginItem.MenuSection === section) {
                 links.push({
                     name: pluginItem.DisplayName,
-                    icon: pluginItem.MenuIcon || "folder",
+                    icon: pluginItem.MenuIcon || 'folder',
                     href: Dashboard.getConfigurationPageUrl(pluginItem.Name),
                     pageUrls: [Dashboard.getConfigurationPageUrl(pluginItem.Name)]
                 });
@@ -438,33 +438,33 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function getToolsMenuLinks(apiClient) {
-        return apiClient.getJSON(apiClient.getUrl("web/configurationpages") + "?pageType=PluginConfiguration&EnableInMainMenu=true").then(createToolsMenuList, function (err) {
+        return apiClient.getJSON(apiClient.getUrl('web/configurationpages') + '?pageType=PluginConfiguration&EnableInMainMenu=true').then(createToolsMenuList, function (err) {
             return createToolsMenuList([]);
         });
     }
 
     function getToolsLinkHtml(item) {
-        var menuHtml = "";
-        var pageIds = item.pageIds ? item.pageIds.join("|") : "";
-        pageIds = pageIds ? ' data-pageids="' + pageIds + '"' : "";
-        var pageUrls = item.pageUrls ? item.pageUrls.join("|") : "";
-        pageUrls = pageUrls ? ' data-pageurls="' + pageUrls + '"' : "";
-        menuHtml += '<a is="emby-linkbutton" class="navMenuOption" href="' + item.href + '"' + pageIds + pageUrls + ">";
+        var menuHtml = '';
+        var pageIds = item.pageIds ? item.pageIds.join('|') : '';
+        pageIds = pageIds ? ' data-pageids="' + pageIds + '"' : '';
+        var pageUrls = item.pageUrls ? item.pageUrls.join('|') : '';
+        pageUrls = pageUrls ? ' data-pageurls="' + pageUrls + '"' : '';
+        menuHtml += '<a is="emby-linkbutton" class="navMenuOption" href="' + item.href + '"' + pageIds + pageUrls + '>';
 
         if (item.icon) {
-            menuHtml += '<i class="material-icons navMenuOptionIcon">' + item.icon + "</i>";
+            menuHtml += '<span class="material-icons navMenuOptionIcon ' + item.icon + '"></span>';
         }
 
         menuHtml += '<span class="navMenuOptionText">';
         menuHtml += item.name;
-        menuHtml += "</span>";
-        return menuHtml + "</a>";
+        menuHtml += '</span>';
+        return menuHtml + '</a>';
     }
 
     function getToolsMenuHtml(apiClient) {
         return getToolsMenuLinks(apiClient).then(function (items) {
             var item;
-            var menuHtml = "";
+            var menuHtml = '';
             menuHtml += '<div class="drawerContent">';
 
             for (var i = 0; i < items.length; i++) {
@@ -475,20 +475,20 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 } else if (item.name) {
                     menuHtml += '<h3 class="sidebarHeader">';
                     menuHtml += item.name;
-                    menuHtml += "</h3>";
+                    menuHtml += '</h3>';
                 }
             }
 
-            return menuHtml + "</div>";
+            return menuHtml + '</div>';
         });
     }
 
     function createDashboardMenu(apiClient) {
         return getToolsMenuHtml(apiClient).then(function (toolsMenuHtml) {
-            var html = "";
+            var html = '';
             html += '<a class="adminDrawerLogo clearLink" is="emby-linkbutton" href="home.html">';
             html += '<img src="assets/img/icon-transparent.png" />';
-            html += "</a>";
+            html += '</a>';
             html += toolsMenuHtml;
             navDrawerScrollContainer.innerHTML = html;
             updateDashboardMenuSelectedItem();
@@ -496,7 +496,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function onSidebarLinkClick() {
-        var section = this.getElementsByClassName("sectionName")[0];
+        var section = this.getElementsByClassName('sectionName')[0];
         var text = section ? section.innerHTML : this.innerHTML;
         LibraryMenu.setTitle(text);
     }
@@ -510,14 +510,14 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                 var view = items[i];
                 list.push(view);
 
-                if ("livetv" == view.CollectionType) {
+                if ('livetv' == view.CollectionType) {
                     view.ImageTags = {};
-                    view.icon = "live_tv";
+                    view.icon = 'live_tv';
                     var guideView = Object.assign({}, view);
-                    guideView.Name = globalize.translate("ButtonGuide");
+                    guideView.Name = globalize.translate('ButtonGuide');
                     guideView.ImageTags = {};
-                    guideView.icon = "dvr";
-                    guideView.url = "livetv.html?tab=1";
+                    guideView.icon = 'dvr';
+                    guideView.url = 'livetv.html?tab=1';
                     list.push(guideView);
                 }
             }
@@ -531,9 +531,9 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
         if (elem) {
             if (show) {
-                elem.classList.remove("hide");
+                elem.classList.remove('hide');
             } else {
-                elem.classList.add("hide");
+                elem.classList.add('hide');
             }
         }
     }
@@ -542,35 +542,35 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         // FIXME: Potential equivalent might be
         // showBySelector(".lnkSyncToOtherDevices", !!user.Policy.EnableContentDownloading);
         if (!user) {
-            showBySelector(".libraryMenuDownloads", false);
-            showBySelector(".lnkSyncToOtherDevices", false);
-            return void showBySelector(".userMenuOptions", false);
+            showBySelector('.libraryMenuDownloads', false);
+            showBySelector('.lnkSyncToOtherDevices', false);
+            return void showBySelector('.userMenuOptions', false);
         }
 
         // FIXME: Potentially the same as above
         if (user.Policy.EnableContentDownloading) {
-            showBySelector(".lnkSyncToOtherDevices", true);
+            showBySelector('.lnkSyncToOtherDevices', true);
         } else {
-            showBySelector(".lnkSyncToOtherDevices", false);
+            showBySelector('.lnkSyncToOtherDevices', false);
         }
 
-        if (user.Policy.EnableContentDownloading && appHost.supports("sync")) {
-            showBySelector(".libraryMenuDownloads", true);
+        if (user.Policy.EnableContentDownloading && appHost.supports('sync')) {
+            showBySelector('.libraryMenuDownloads', true);
         } else {
-            showBySelector(".libraryMenuDownloads", false);
+            showBySelector('.libraryMenuDownloads', false);
         }
 
         var userId = Dashboard.getCurrentUserId();
         var apiClient = getCurrentApiClient();
-        var libraryMenuOptions = document.querySelector(".libraryMenuOptions");
+        var libraryMenuOptions = document.querySelector('.libraryMenuOptions');
 
         if (libraryMenuOptions) {
             getUserViews(apiClient, userId).then(function (result) {
                 var items = result;
-                var html = "";
+                var html = '';
                 html += '<h3 class="sidebarHeader">';
-                html += globalize.translate("HeaderMedia");
-                html += "</h3>";
+                html += globalize.translate('HeaderMedia');
+                html += '</h3>';
                 html += items.map(function (i) {
                     var icon = i.icon || imageHelper.getLibraryIcon(i.CollectionType);
                     var itemId = i.Id;
@@ -579,32 +579,32 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
                         i.onclick;
                     }
 
-                    return '<a is="emby-linkbutton" data-itemid="' + itemId + '" class="lnkMediaFolder navMenuOption" href="' + getItemHref(i, i.CollectionType) + '"><i class="material-icons navMenuOptionIcon">' + icon + '</i><span class="sectionName navMenuOptionText">' + i.Name + "</span></a>";
-                }).join("");
+                    return '<a is="emby-linkbutton" data-itemid="' + itemId + '" class="lnkMediaFolder navMenuOption" href="' + getItemHref(i, i.CollectionType) + '"><span class="material-icons navMenuOptionIcon ' + icon + '"></span><span class="sectionName navMenuOptionText">' + i.Name + '</span></a>';
+                }).join('');
                 libraryMenuOptions.innerHTML = html;
                 var elem = libraryMenuOptions;
-                var sidebarLinks = elem.querySelectorAll(".navMenuOption");
+                var sidebarLinks = elem.querySelectorAll('.navMenuOption');
 
                 for (var i = 0, length = sidebarLinks.length; i < length; i++) {
-                    sidebarLinks[i].removeEventListener("click", onSidebarLinkClick);
-                    sidebarLinks[i].addEventListener("click", onSidebarLinkClick);
+                    sidebarLinks[i].removeEventListener('click', onSidebarLinkClick);
+                    sidebarLinks[i].addEventListener('click', onSidebarLinkClick);
                 }
             });
         }
     }
 
     function getTopParentId() {
-        return getParameterByName("topParentId") || null;
+        return getParameterByName('topParentId') || null;
     }
 
     function onMainDrawerClick(e) {
-        if (dom.parentWithTag(e.target, "A")) {
+        if (dom.parentWithTag(e.target, 'A')) {
             setTimeout(closeMainDrawer, 30);
         }
     }
 
     function onSettingsClick() {
-        Dashboard.navigate("mypreferencesmenu.html");
+        Dashboard.navigate('mypreferencesmenu.html');
     }
 
     function onLogoutClick() {
@@ -614,47 +614,49 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     function updateCastIcon() {
         var context = document;
         var info = playbackManager.getPlayerInfo();
-        var icon = headerCastButton.querySelector("i");
+        var icon = headerCastButton.querySelector('.material-icons');
+
+        icon.classList.remove('cast_connected', 'cast');
 
         if (info && !info.isLocalPlayer) {
-            icon.innerHTML = "&#xE308;";
-            headerCastButton.classList.add("castButton-active");
-            context.querySelector(".headerSelectedPlayer").innerHTML = info.deviceName || info.name;
+            icon.classList.add('cast_connected');
+            headerCastButton.classList.add('castButton-active');
+            context.querySelector('.headerSelectedPlayer').innerHTML = info.deviceName || info.name;
         } else {
-            icon.innerHTML = "cast";
-            headerCastButton.classList.remove("castButton-active");
-            context.querySelector(".headerSelectedPlayer").innerHTML = "";
+            icon.classList.add('cast');
+            headerCastButton.classList.remove('castButton-active');
+            context.querySelector('.headerSelectedPlayer').innerHTML = '';
         }
     }
 
     function updateLibraryNavLinks(page) {
         var i;
         var length;
-        var isLiveTvPage = page.classList.contains("liveTvPage");
-        var isChannelsPage = page.classList.contains("channelsPage");
-        var isEditorPage = page.classList.contains("metadataEditorPage");
-        var isMySyncPage = page.classList.contains("mySyncPage");
-        var id = isLiveTvPage || isChannelsPage || isEditorPage || isMySyncPage || page.classList.contains("allLibraryPage") ? "" : getTopParentId() || "";
-        var elems = document.getElementsByClassName("lnkMediaFolder");
+        var isLiveTvPage = page.classList.contains('liveTvPage');
+        var isChannelsPage = page.classList.contains('channelsPage');
+        var isEditorPage = page.classList.contains('metadataEditorPage');
+        var isMySyncPage = page.classList.contains('mySyncPage');
+        var id = isLiveTvPage || isChannelsPage || isEditorPage || isMySyncPage || page.classList.contains('allLibraryPage') ? '' : getTopParentId() || '';
+        var elems = document.getElementsByClassName('lnkMediaFolder');
 
         for (var i = 0, length = elems.length; i < length; i++) {
             var lnkMediaFolder = elems[i];
-            var itemId = lnkMediaFolder.getAttribute("data-itemid");
+            var itemId = lnkMediaFolder.getAttribute('data-itemid');
 
-            if (isChannelsPage && "channels" === itemId) {
-                lnkMediaFolder.classList.add("navMenuOption-selected");
-            } else if (isLiveTvPage && "livetv" === itemId) {
-                lnkMediaFolder.classList.add("navMenuOption-selected");
-            } else if (isEditorPage && "editor" === itemId) {
-                lnkMediaFolder.classList.add("navMenuOption-selected");
-            } else if (isMySyncPage && "manageoffline" === itemId && -1 != window.location.href.toString().indexOf("mode=download")) {
-                lnkMediaFolder.classList.add("navMenuOption-selected");
-            } else if (isMySyncPage && "syncotherdevices" === itemId && -1 == window.location.href.toString().indexOf("mode=download")) {
-                lnkMediaFolder.classList.add("navMenuOption-selected");
+            if (isChannelsPage && 'channels' === itemId) {
+                lnkMediaFolder.classList.add('navMenuOption-selected');
+            } else if (isLiveTvPage && 'livetv' === itemId) {
+                lnkMediaFolder.classList.add('navMenuOption-selected');
+            } else if (isEditorPage && 'editor' === itemId) {
+                lnkMediaFolder.classList.add('navMenuOption-selected');
+            } else if (isMySyncPage && 'manageoffline' === itemId && -1 != window.location.href.toString().indexOf('mode=download')) {
+                lnkMediaFolder.classList.add('navMenuOption-selected');
+            } else if (isMySyncPage && 'syncotherdevices' === itemId && -1 == window.location.href.toString().indexOf('mode=download')) {
+                lnkMediaFolder.classList.add('navMenuOption-selected');
             } else if (id && itemId == id) {
-                lnkMediaFolder.classList.add("navMenuOption-selected");
+                lnkMediaFolder.classList.add('navMenuOption-selected');
             } else {
-                lnkMediaFolder.classList.remove("navMenuOption-selected");
+                lnkMediaFolder.classList.remove('navMenuOption-selected');
             }
         }
     }
@@ -666,34 +668,34 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             currentPageType = newPageType;
 
             if (isDashboardPage && !layoutManager.mobile) {
-                skinHeader.classList.add("headroomDisabled");
+                skinHeader.classList.add('headroomDisabled');
             } else {
-                skinHeader.classList.remove("headroomDisabled");
+                skinHeader.classList.remove('headroomDisabled');
             }
 
             var bodyClassList = document.body.classList;
 
             if (isLibraryPage) {
-                bodyClassList.add("libraryDocument");
-                bodyClassList.remove("dashboardDocument");
-                bodyClassList.remove("hideMainDrawer");
+                bodyClassList.add('libraryDocument');
+                bodyClassList.remove('dashboardDocument');
+                bodyClassList.remove('hideMainDrawer');
 
                 if (navDrawerInstance) {
                     navDrawerInstance.setEdgeSwipeEnabled(true);
                 }
             } else {
                 if (isDashboardPage) {
-                    bodyClassList.remove("libraryDocument");
-                    bodyClassList.add("dashboardDocument");
-                    bodyClassList.remove("hideMainDrawer");
+                    bodyClassList.remove('libraryDocument');
+                    bodyClassList.add('dashboardDocument');
+                    bodyClassList.remove('hideMainDrawer');
 
                     if (navDrawerInstance) {
                         navDrawerInstance.setEdgeSwipeEnabled(true);
                     }
                 } else {
-                    bodyClassList.remove("libraryDocument");
-                    bodyClassList.remove("dashboardDocument");
-                    bodyClassList.add("hideMainDrawer");
+                    bodyClassList.remove('libraryDocument');
+                    bodyClassList.remove('dashboardDocument');
+                    bodyClassList.add('hideMainDrawer');
 
                     if (navDrawerInstance) {
                         navDrawerInstance.setEdgeSwipeEnabled(false);
@@ -708,39 +710,39 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     }
 
     function updateTitle(page) {
-        var title = page.getAttribute("data-title");
+        var title = page.getAttribute('data-title');
 
         if (title) {
             LibraryMenu.setTitle(title);
-        } else if (page.classList.contains("standalonePage")) {
+        } else if (page.classList.contains('standalonePage')) {
             LibraryMenu.setDefaultTitle();
         }
     }
 
     function updateBackButton(page) {
         if (!headerBackButton) {
-            headerBackButton = document.querySelector(".headerBackButton");
+            headerBackButton = document.querySelector('.headerBackButton');
         }
 
         if (headerBackButton) {
-            if ("false" !== page.getAttribute("data-backbutton") && appRouter.canGoBack()) {
-                headerBackButton.classList.remove("hide");
+            if ('false' !== page.getAttribute('data-backbutton') && appRouter.canGoBack()) {
+                headerBackButton.classList.remove('hide');
             } else {
-                headerBackButton.classList.add("hide");
+                headerBackButton.classList.add('hide');
             }
         }
     }
 
     function initHeadRoom(elem) {
-        require(["headroom"], function (Headroom) {
-            var headroom = new Headroom([], {});
-            headroom.add(elem);
+        require(['headroom'], function (Headroom) {
+            var headroom = new Headroom(elem);
+            headroom.init();
         });
     }
 
     function refreshLibraryDrawer(user) {
         loadNavDrawer();
-        currentDrawerType = "library";
+        currentDrawerType = 'library';
 
         if (user) {
             Promise.resolve(user);
@@ -768,15 +770,15 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             return Promise.resolve(navDrawerInstance);
         }
 
-        navDrawerElement = document.querySelector(".mainDrawer");
-        navDrawerScrollContainer = navDrawerElement.querySelector(".scrollContainer");
-        navDrawerScrollContainer.addEventListener("click", onMainDrawerClick);
+        navDrawerElement = document.querySelector('.mainDrawer');
+        navDrawerScrollContainer = navDrawerElement.querySelector('.scrollContainer');
+        navDrawerScrollContainer.addEventListener('click', onMainDrawerClick);
         return new Promise(function (resolve, reject) {
-            require(["navdrawer"], function (navdrawer) {
+            require(['navdrawer'], function (navdrawer) {
                 navDrawerInstance = new navdrawer(getNavDrawerOptions());
 
                 if (!layoutManager.tv) {
-                    navDrawerElement.classList.remove("hide");
+                    navDrawerElement.classList.remove('hide');
                 }
 
                 resolve(navDrawerInstance);
@@ -798,7 +800,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
     var headerSearchButton;
     var headerAudioPlayerButton;
     var enableLibraryNavDrawer = layoutManager.desktop;
-    var skinHeader = document.querySelector(".skinHeader");
+    var skinHeader = document.querySelector('.skinHeader');
     var requiresUserRefresh = true;
     var lastOpenTime = new Date().getTime();
     window.LibraryMenu = {
@@ -807,7 +809,7 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
             toggleMainDrawer();
         },
         setTabs: function (type, selectedIndex, builder) {
-            require(["mainTabsManager"], function (mainTabsManager) {
+            require(['mainTabsManager'], function (mainTabsManager) {
                 if (type) {
                     mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, function () {
                         return [];
@@ -819,79 +821,79 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
         },
         setDefaultTitle: function () {
             if (!pageTitleElement) {
-                pageTitleElement = document.querySelector(".pageTitle");
+                pageTitleElement = document.querySelector('.pageTitle');
             }
 
             if (pageTitleElement) {
-                pageTitleElement.classList.add("pageTitleWithLogo");
-                pageTitleElement.classList.add("pageTitleWithDefaultLogo");
+                pageTitleElement.classList.add('pageTitleWithLogo');
+                pageTitleElement.classList.add('pageTitleWithDefaultLogo');
                 pageTitleElement.style.backgroundImage = null;
-                pageTitleElement.innerHTML = "";
+                pageTitleElement.innerHTML = '';
             }
 
-            document.title = "Jellyfin";
+            document.title = 'Jellyfin';
         },
         setTitle: function (title) {
             if (null == title) {
                 return void LibraryMenu.setDefaultTitle();
             }
 
-            if ("-" === title) {
-                title = "";
+            if ('-' === title) {
+                title = '';
             }
 
             var html = title;
 
             if (!pageTitleElement) {
-                pageTitleElement = document.querySelector(".pageTitle");
+                pageTitleElement = document.querySelector('.pageTitle');
             }
 
             if (pageTitleElement) {
-                pageTitleElement.classList.remove("pageTitleWithLogo");
-                pageTitleElement.classList.remove("pageTitleWithDefaultLogo");
+                pageTitleElement.classList.remove('pageTitleWithLogo');
+                pageTitleElement.classList.remove('pageTitleWithDefaultLogo');
                 pageTitleElement.style.backgroundImage = null;
-                pageTitleElement.innerHTML = html || "";
+                pageTitleElement.innerHTML = html || '';
             }
 
-            document.title = title || "Jellyfin";
+            document.title = title || 'Jellyfin';
         },
         setTransparentMenu: function (transparent) {
             if (transparent) {
-                skinHeader.classList.add("semiTransparent");
+                skinHeader.classList.add('semiTransparent');
             } else {
-                skinHeader.classList.remove("semiTransparent");
+                skinHeader.classList.remove('semiTransparent');
             }
         }
     };
     var currentPageType;
-    pageClassOn("pagebeforeshow", "page", function (e) {
-        if (!this.classList.contains("withTabs")) {
+    pageClassOn('pagebeforeshow', 'page', function (e) {
+        if (!this.classList.contains('withTabs')) {
             LibraryMenu.setTabs(null);
         }
     });
-    pageClassOn("pageshow", "page", function (e) {
+    pageClassOn('pageshow', 'page', function (e) {
         var page = this;
-        var isDashboardPage = page.classList.contains("type-interior");
-        var isHomePage = page.classList.contains("homePage");
-        var isLibraryPage = !isDashboardPage && page.classList.contains("libraryPage");
+        var isDashboardPage = page.classList.contains('type-interior');
+        var isHomePage = page.classList.contains('homePage');
+        var isLibraryPage = !isDashboardPage && page.classList.contains('libraryPage');
         var apiClient = getCurrentApiClient();
 
         if (isDashboardPage) {
             if (mainDrawerButton) {
-                mainDrawerButton.classList.remove("hide");
+                mainDrawerButton.classList.remove('hide');
             }
 
             refreshDashboardInfoInDrawer(apiClient);
         } else {
             if (mainDrawerButton) {
                 if (enableLibraryNavDrawer || isHomePage) {
-                    mainDrawerButton.classList.remove("hide");
+                    mainDrawerButton.classList.remove('hide');
                 } else {
-                    mainDrawerButton.classList.add("hide");
+                    mainDrawerButton.classList.add('hide');
                 }
             }
 
-            if ("library" !== currentDrawerType) {
+            if ('library' !== currentDrawerType) {
                 refreshLibraryDrawer();
             }
         }
@@ -909,22 +911,26 @@ define(["dom", "layoutManager", "inputManager", "connectionManager", "events", "
 
     renderHeader();
 
-    events.on(connectionManager, "localusersignedin", function (e, user) {
+    events.on(connectionManager, 'localusersignedin', function (e, user) {
+        var currentApiClient = connectionManager.getApiClient(user.ServerId);
+
         currentDrawerType = null;
         currentUser = {
             localUser: user
         };
+
         loadNavDrawer();
-        connectionManager.user(connectionManager.getApiClient(user.ServerId)).then(function (user) {
+
+        connectionManager.user(currentApiClient).then(function (user) {
             currentUser = user;
             updateUserInHeader(user);
         });
     });
-    events.on(connectionManager, "localusersignedout", function () {
+    events.on(connectionManager, 'localusersignedout', function () {
         currentUser = {};
         updateUserInHeader();
     });
-    events.on(playbackManager, "playerchange", updateCastIcon);
+    events.on(playbackManager, 'playerchange', updateCastIcon);
     loadNavDrawer();
     return LibraryMenu;
 });

@@ -5,7 +5,7 @@
                 <div class="verticalSection">
                     <div class="sectionTitleContainer flex align-items-center">
                         <h1 class="sectionTitle">${HeaderLiveTvTunerSetup}</h1>
-                        <a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/live-tv/index.html">${Help}</a>
+                        <a is="emby-linkbutton" rel="noopener noreferrer" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/live-tv/index.html">${Help}</a>
                     </div>
                 </div>
 
@@ -24,7 +24,7 @@
                         <div style="flex-grow: 1;">
                             <input is="emby-input" type="text" class="txtDevicePath" label="${LabelFileOrUrl}" required="required" autocomplete="off" />
                         </div>
-                        <button type="button" is="paper-icon-button-light" class="btnSelectPath hide emby-input-iconbutton"><i class="material-icons">search</i></button>
+                        <button type="button" is="paper-icon-button-light" class="btnSelectPath hide emby-input-iconbutton"><span class="material-icons search"></span></button>
                     </div>
                 </div>
 

@@ -63,6 +63,10 @@ progress[aria-valuenow]::before {
 }
 
 .adminDrawerLogo {
+    display: none;
+}
+
+.layout-mobile .adminDrawerLogo {
     padding: 1.5em 1em 1.2em;
     border-bottom: 1px solid #e0e0e0;
     margin-bottom: 1em;
@@ -161,7 +165,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 @media all and (min-width: 40em) {
     .content-primary {
-        padding-top: 7em;
+        padding-top: 4.6em;
     }
 
     .withTabs .content-primary {

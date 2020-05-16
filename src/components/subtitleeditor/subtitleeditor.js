@@ -48,7 +48,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         var apiClient = connectionManager.getApiClient(currentItem.ServerId);
         apiClient.ajax({
 
-            type: "POST",
+            type: 'POST',
             url: apiClient.getUrl(url)
 
         }).then(function () {
@@ -87,7 +87,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
                 apiClient.ajax({
 
-                    type: "DELETE",
+                    type: 'DELETE',
                     url: apiClient.getUrl(url)
 
                 }).then(function () {
@@ -132,7 +132,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
                 itemHtml += '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
 
-                itemHtml += '<i class="listItemIcon material-icons closed_caption"></i>';
+                itemHtml += '<span class="listItemIcon material-icons closed_caption"></span>';
 
                 itemHtml += '<div class="listItemBody two-line">';
 
@@ -149,7 +149,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
                 if (!layoutManager.tv) {
                     if (s.Path) {
-                        itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><i class="material-icons">delete</i></button>';
+                        itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete"></span></button>';
                     }
                 }
 
@@ -232,11 +232,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
                     html += '</div>';
                 }
                 html += '<h2>' + provider + '</h2>';
-                if (layoutManager.tv) {
-                    html += '<div>';
-                } else {
-                    html += '<div>';
-                }
+                html += '<div>';
                 lastProvider = provider;
             }
 
@@ -248,7 +244,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
 
             html += '<' + tagName + ' class="' + className + '" data-subid="' + result.Id + '">';
 
-            html += '<i class="listItemIcon material-icons closed_caption"></i>';
+            html += '<span class="listItemIcon material-icons closed_caption"></span>';
 
             var bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
 
@@ -281,7 +277,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
             html += '</div>';
 
             if (!layoutManager.tv) {
-                html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><i class="material-icons file_download"></i></button>';
+                html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><span class="material-icons file_download"></span></button>';
             }
 
             html += '</' + tagName + '>';
@@ -397,7 +393,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
         var items = [];
 
         items.push({
-            name: Globalize.translate('Download'),
+            name: globalize.translate('Download'),
             id: 'download'
         });
 
