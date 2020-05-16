@@ -146,6 +146,17 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             page.querySelector('.trackSelections').classList.remove('hide');
             select.setLabel(globalize.translate('LabelVersion'));
             var currentValue = select.value;
+			mediaSources.sort(function(a, b) {
+				var nameA = a.Name.toUpperCase();
+				var nameB = b.Name.toUpperCase();
+				if(nameA < nameB) {
+					return -1;
+				}
+				if(nameA > nameB) {
+					return 1;
+				}
+				return 0;
+			});
             var selectedId = mediaSources[0].Id;
             select.innerHTML = mediaSources.map(function (v) {
                 var selected = v.Id === selectedId ? ' selected' : '';
