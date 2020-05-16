@@ -97,6 +97,7 @@
           "src/components/playback/mediasession.js",
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
+          "src/components/subtitleuploader/subtitleuploader.js",
           "src/scripts/dfnshelper.js",
           "src/scripts/dom.js",
           "src/scripts/filesystem.js",
