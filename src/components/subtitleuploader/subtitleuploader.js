@@ -7,7 +7,6 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
     var hasChanges = false;
 
     function onFileReaderError(evt) {
-
         loading.hide();
 
         var error = evt.target.error;
@@ -26,7 +25,6 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
     }
 
     function setFiles(page, files) {
-
         var file = files[0];
 
         if (!isValidSubtitleFile(file)) {
@@ -53,14 +51,12 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         // Closure to capture the file information.
         reader.onload = (function (theFile) {
             return function () {
-
                 // Render thumbnail.
                 var html = '<a><i class="material-icons" style="transform: translateY(25%);">subtitles</i><span>' + escape(theFile.name) + '</span><a/>';
 
                 page.querySelector('#subtitleOutput').innerHTML = html;
                 page.querySelector('#fldUpload').classList.remove('hide');
                 page.querySelector('#labelDropSubtitle').classList.add('hide');
-
             };
         })(file);
 
@@ -69,7 +65,6 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
     }
 
     function onSubmit(e) {
-
         var file = currentFile;
 
         if (!isValidSubtitleFile(file)) {
@@ -87,7 +82,6 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
         var isForced = dlg.querySelector('#chkIsForced').checked;
 
         connectionManager.getApiClient(currentServerId).uploadItemSubtitle(currentItemId, language, isForced, file).then(function () {
-
             dlg.querySelector('#uploadSubtitle').value = '';
             loading.hide();
             hasChanges = true;
@@ -98,24 +92,19 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
     }
 
     function initEditor(page) {
-
         page.querySelector('.uploadSubtitleForm').addEventListener('submit', onSubmit);
-
         page.querySelector('#uploadSubtitle').addEventListener('change', function () {
             setFiles(page, this.files);
         });
-
         page.querySelector('.btnBrowse').addEventListener('click', function () {
             page.querySelector('#uploadSubtitle').click();
         });
     }
 
     function showEditor(options, resolve, reject) {
-
         options = options || {};
 
         require(['text!./subtitleuploader.template.html'], function (template) {
-
             currentItemId = options.itemId;
             currentServerId = options.serverId;
 
@@ -143,11 +132,9 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
             // Has to be assigned a z-index after the call to .open()
             dlg.addEventListener('close', function () {
-
                 if (layoutManager.tv) {
                     scrollHelper.centerFocus.off(dlg, false);
                 }
-
                 loading.hide();
                 resolve(hasChanges);
             });
@@ -159,13 +146,11 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
             var selectLanguage = dlg.querySelector('#selectLanguage');
 
             if (options.languages) {
-
                 selectLanguage.innerHTML = options.languages.list || null;
                 selectLanguage.value = options.languages.value || null;
             }
 
             dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
                 dialogHelper.close(dlg);
             });
         });
@@ -173,11 +158,8 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
 
     return {
         show: function (options) {
-
             return new Promise(function (resolve, reject) {
-
                 hasChanges = false;
-
                 showEditor(options, resolve, reject);
             });
         }
