@@ -9,8 +9,8 @@ define(['globalize'], function (globalize) {
 
         //If the aspect ratio is less than 16/9 (1.77), set the height as if it were pillerboxed.
         // 4:3 1440x1080 -> 1920x1080
-        if (videoWidth/videoHeight < 16/9) {
-            videoWidth=videoHeight*(16/9);
+        if (videoWidth / videoHeight < 16 / 9) {
+            videoWidth = videoHeight * (16 / 9);
         }
 
         var maxAllowedWidth = videoWidth || 4096;
