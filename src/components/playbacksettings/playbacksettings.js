@@ -204,6 +204,9 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         fillChromecastQuality(context.querySelector('.selectChromecastVideoQuality'));
 
+        var selectChromecastVersion = context.querySelector('.selectChromecastVersion');
+        selectChromecastVersion.value = userSettings.chromecastVersion();
+
         var selectSkipForwardLength = context.querySelector('.selectSkipForwardLength');
         fillSkipLengths(selectSkipForwardLength);
         selectSkipForwardLength.value = userSettings.skipForwardLength();
@@ -234,6 +237,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
 
         userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
+        userSettingsInstance.chromecastVersion(context.querySelector('.selectChromecastVersion').value);
         userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
         userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
 
