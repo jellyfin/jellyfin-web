@@ -29,8 +29,6 @@
     "AllowOnTheFlySubtitleExtractionHelp": "Eingebettete Untertitel können aus Videos extrahiert und in Reintext an Clients gesendet werden, um eine Videotranskodierung zu vermeiden. Auf manchen Systemen kann dieser Vorgang eine lange Zeit in Anspruch nehmen und deswegen währenddessen die Videowiedergabe stoppen. Deaktiviere diese Option, um eingebettete Untertitel während des Videotranskodierens einbrennen zu lassen, wenn sie nicht nativ vom Client unterstützt werden.",
     "AllowRemoteAccess": "Erlaube externe Verbindungen zu diesem Jellyfin Server.",
     "AllowRemoteAccessHelp": "Wenn deaktiviert werden alle externen Verbindungen blockiert.",
-    "AllowSeasonalThemes": "Erlaube automatische Jahreszeitenmotive",
-    "AllowSeasonalThemesHelp": "Wenn aktiviert, werden Jahreszeitenmotive von Zeit zu Zeit deine Motiveinstellungen überschreiben.",
     "AllowedRemoteAddressesHelp": "Kommagetrennte Liste von IP Adressen oder IP/Netzmasken für Netzwerke, für die externe Verbindungen erlaubt sind. Wenn leer, sind alle Adressen erlaubt.",
     "AlwaysPlaySubtitles": "Immer anzeigen",
     "AlwaysPlaySubtitlesHelp": "Untertitel die den Spracheinstellungen entsprechen werden unabhängig von der Tonspursprache geladen.",
