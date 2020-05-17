@@ -140,7 +140,7 @@ define(['browser', 'datetime', 'backdrop', 'libraryBrowser', 'listView', 'imageL
                 }
                 if (item.SeriesName != null) {
                     var seriesName = item.SeriesName;
-                    if (item.SeriesId !=null) {
+                    if (item.SeriesId != null) {
                         context.querySelector('.nowPlayingSerie').innerHTML = '<a class="button-link emby-button" is="emby-linkbutton" href="itemdetails.html?id=' + item.SeriesId + `&amp;serverId=${nowPlayingServerId}">${seriesName}</a>`;
                     } else {
                         context.querySelector('.nowPlayingSerie').innerHTML = seriesName;
