@@ -604,7 +604,7 @@
     "AlwaysPlaySubtitlesHelp": "A nyelvi beállításoknak megfelelő feliratok az audió nyelvétől függetlenül kerülnek betöltésre.",
     "Artists": "Előadók",
     "Blacklist": "Feketelista",
-    "BookLibraryHelp": "Az audió- és szövegkönyvek támogatottak. Nézd meg a {0} könyvelnevezési útmutatót {1}.",
+    "BookLibraryHelp": "Lehetőség van audió és hangoskönyvek visszajátszására. Nézd meg a {0} könyvelnevezési útmutatót {1}.",
     "BrowsePluginCatalogMessage": "Böngéssz a Bővítmény katalógusunkban a rendelkezésre álló bővítmények megtekintéséhez.",
     "AddItemToCollectionHelp": "Adj elemeket a gyűjteményekhez, ehhez keresed meg őket, majd kattints jobb egérgombbal, vagy kattints a menüre és add hozzá a gyűjteményhez.",
     "AllowedRemoteAddressesHelp": "Vesszővel válaszd el az IP-címek vagy IP / netmask címek listáját annak a hálózatnak amelyből távolról csatlakozhatnak. Ha üresen marad, az összes távoli cím megengedett.",
@@ -1302,7 +1302,7 @@
     "AllowOnTheFlySubtitleExtractionHelp": "A beágyazott feliratokat ki lehet nyerni a videókból és elküldeni az alkalmazásoknak sima szöveg formátumba, hogy ne legyen átkódolás. Néhány eszközön ez hosszú ideig is eltarthat, valamint a videó lejátszás megakadhat az eltávolítási folyamat futása közben. Ezt kikapcsolva a beágyazott feliratok videó átkódolással beégetésre kerülnek azon kliens eszközökre melyek nem támogatják a külső feliratokat.",
     "Art": "ClearArt",
     "AuthProviderHelp": "Válaszd ki az azonosítási szolgáltatást amely ezen felhasználó jelszavának ellenőrzését valósítja meg.",
-    "BurnSubtitlesHelp": "Meghatározza, hogy a szervernek be kell-e égetnie a feliratot videó átkódolás esetén a felirat típusának függvényében. Ennek elkerülésével a szerver teljesítménye javul. Válaszd az Auto lehetőséget a kép alapú feliratok (pl. VOBSUB, PGS, SUB/IDX, stb) és bizonyos ASS/SSA feliratok beégetéséhez.",
+    "BurnSubtitlesHelp": "Meghatározza, hogy a szervernek be kell-e égetnie a feliratot videó átkódolás esetén a felirat típusának függvényében. Ennek elkerülésével a szerver teljesítménye javul. Válaszd az Auto lehetőséget a kép alapú feliratok (pl. VOBSUB, PGS, SUB/IDX, stb.) és bizonyos ASS/SSA feliratok beégetéséhez.",
     "ButtonAddScheduledTaskTrigger": "Vezérlő Hozzáadása",
     "ButtonGuide": "Műsorújság",
     "ButtonRefreshGuideData": "Műsorújság Frissítése",
@@ -1512,5 +1512,8 @@
     "Filter": "Szűrés",
     "New": "Új",
     "HeaderFavoritePlaylists": "Kedvenc lejátszási listák",
-    "ApiKeysCaption": "A jelenleg engedélyezett API kulcsok listája"
+    "ApiKeysCaption": "A jelenleg engedélyezett API kulcsok listája",
+    "LabelNightly": "Éjszakai",
+    "LabelStable": "Stabil",
+    "LabelChromecastVersion": "Chromecast verzió"
 }
