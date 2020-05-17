@@ -1508,5 +1508,8 @@
     "HeaderFavoritePlaylists": "Obľúbené playlisty",
     "ButtonTogglePlaylist": "Playlist",
     "ButtonToggleContextMenu": "Viac",
-    "ApiKeysCaption": "Zoznam v súčasnosti povolených API kľúčov"
+    "ApiKeysCaption": "Zoznam v súčasnosti povolených API kľúčov",
+    "LabelNightly": "Nočná",
+    "LabelStable": "Stabilná",
+    "LabelChromecastVersion": "Chromecast verzia"
 }
