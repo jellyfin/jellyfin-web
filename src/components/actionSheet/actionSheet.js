@@ -3,7 +3,7 @@ import layoutManager from 'layoutManager';
 import globalize from 'globalize';
 import dom from 'dom';
 import 'emby-button';
-import 'css!./actionsheet';
+import 'css!./actionSheet';
 import 'material-icons';
 import 'scrollStyles';
 import 'listViewStyle';

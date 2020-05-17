@@ -375,7 +375,7 @@ var AppInfo = {};
 
         define('filesystem', [scriptsPath + '/filesystem'], returnFirstDependency);
 
-        define('lazyLoader', [componentsPath + '/lazyloader/lazyloader-intersectionobserver'], returnFirstDependency);
+        define('lazyLoader', [componentsPath + '/lazyLoader/lazyLoaderIntersectionObserver'], returnFirstDependency);
         define('shell', [scriptsPath + '/shell'], returnFirstDependency);
 
         if ('registerElement' in document) {
@@ -641,7 +641,7 @@ var AppInfo = {};
             playlisteditor: componentsPath + '/playlisteditor/playlisteditor',
             medialibrarycreator: componentsPath + '/mediaLibraryCreator/mediaLibraryCreator',
             medialibraryeditor: componentsPath + '/mediaLibraryEditor/mediaLibraryEditor',
-            imageoptionseditor: componentsPath + '/imageoptionseditor/imageoptionseditor',
+            imageoptionseditor: componentsPath + '/imageOptionsEditor/imageOptionsEditor',
             apphost: componentsPath + '/apphost',
             visibleinviewport: bowerPath + '/visibleinviewport',
             qualityoptions: componentsPath + '/qualityOptions',
@@ -738,7 +738,7 @@ var AppInfo = {};
 
         // there are several objects that need to be instantiated
         // TODO find a better way to do this
-        define('appFooter', [componentsPath + '/appfooter/appfooter'], returnFirstDependency);
+        define('appFooter', [componentsPath + '/appFooter/appFooter'], returnFirstDependency);
         define('appFooter-shared', ['appFooter'], createSharedAppFooter);
 
         // TODO remove these libraries
@@ -773,23 +773,23 @@ var AppInfo = {};
 
         define('chromecastHelper', [componentsPath + '/chromecast/chromecasthelpers'], returnFirstDependency);
         define('mediaSession', [componentsPath + '/playback/mediasession'], returnFirstDependency);
-        define('actionsheet', [componentsPath + '/actionsheet/actionsheet'], returnFirstDependency);
+        define('actionsheet', [componentsPath + '/actionSheet/actionSheet'], returnFirstDependency);
         define('tunerPicker', [componentsPath + '/tunerPicker'], returnFirstDependency);
         define('mainTabsManager', [componentsPath + '/maintabsmanager'], returnFirstDependency);
         define('imageLoader', [componentsPath + '/images/imageLoader'], returnFirstDependency);
         define('directorybrowser', [componentsPath + '/directorybrowser/directorybrowser'], returnFirstDependency);
-        define('metadataEditor', [componentsPath + '/metadataeditor/metadataeditor'], returnFirstDependency);
-        define('personEditor', [componentsPath + '/metadataeditor/personeditor'], returnFirstDependency);
+        define('metadataEditor', [componentsPath + '/metadataEditor/metadataEditor'], returnFirstDependency);
+        define('personEditor', [componentsPath + '/metadataEditor/personEditor'], returnFirstDependency);
         define('playerSelectionMenu', [componentsPath + '/playback/playerSelectionMenu'], returnFirstDependency);
         define('playerSettingsMenu', [componentsPath + '/playback/playersettingsmenu'], returnFirstDependency);
         define('playMethodHelper', [componentsPath + '/playback/playmethodhelper'], returnFirstDependency);
         define('brightnessOsd', [componentsPath + '/playback/brightnessosd'], returnFirstDependency);
         define('alphaNumericShortcuts', [scriptsPath + '/alphanumericshortcuts'], returnFirstDependency);
         define('multiSelect', [componentsPath + '/multiSelect/multiSelect'], returnFirstDependency);
-        define('alphaPicker', [componentsPath + '/alphapicker/alphapicker'], returnFirstDependency);
+        define('alphaPicker', [componentsPath + '/alphaPicker/alphaPicker'], returnFirstDependency);
         define('tabbedView', [componentsPath + '/tabbedview/tabbedview'], returnFirstDependency);
         define('itemsTab', [componentsPath + '/tabbedview/itemstab'], returnFirstDependency);
-        define('collectionEditor', [componentsPath + '/collectioneditor/collectioneditor'], returnFirstDependency);
+        define('collectionEditor', [componentsPath + '/collectionEditor/collectionEditor'], returnFirstDependency);
         define('serverRestartDialog', [componentsPath + '/serverRestartDialog'], returnFirstDependency);
         define('playlistEditor', [componentsPath + '/playlisteditor/playlisteditor'], returnFirstDependency);
         define('recordingCreator', [componentsPath + '/recordingcreator/recordingcreator'], returnFirstDependency);
@@ -805,7 +805,7 @@ var AppInfo = {};
         define('mediaInfo', [componentsPath + '/mediainfo/mediainfo'], returnFirstDependency);
         define('itemContextMenu', [componentsPath + '/itemContextMenu'], returnFirstDependency);
         define('imageEditor', [componentsPath + '/imageeditor/imageeditor'], returnFirstDependency);
-        define('imageDownloader', [componentsPath + '/imagedownloader/imagedownloader'], returnFirstDependency);
+        define('imageDownloader', [componentsPath + '/imageDownloader/imageDownloader'], returnFirstDependency);
         define('dom', [scriptsPath + '/dom'], returnFirstDependency);
         define('playerStats', [componentsPath + '/playerstats/playerstats'], returnFirstDependency);
         define('searchFields', [componentsPath + '/search/searchfields'], returnFirstDependency);
@@ -813,9 +813,9 @@ var AppInfo = {};
         define('upNextDialog', [componentsPath + '/upnextdialog/upnextdialog'], returnFirstDependency);
         define('subtitleAppearanceHelper', [componentsPath + '/subtitlesettings/subtitleappearancehelper'], returnFirstDependency);
         define('subtitleSettings', [componentsPath + '/subtitlesettings/subtitlesettings'], returnFirstDependency);
-        define('displaySettings', [componentsPath + '/displaysettings/displaysettings'], returnFirstDependency);
+        define('displaySettings', [componentsPath + '/displaySettings/displaySettings'], returnFirstDependency);
         define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
-        define('homescreenSettings', [componentsPath + '/homescreensettings/homescreensettings'], returnFirstDependency);
+        define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);
         define('homeSections', [componentsPath + '/homesections/homesections'], returnFirstDependency);

@@ -11,7 +11,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-but
     function show(person) {
         return new Promise(function (resolve, reject) {
 
-            require(['text!./personeditor.template.html'], function (template) {
+            require(['text!./personEditor.template.html'], function (template) {
 
                 var dialogOptions = {
                     removeOnClose: true,

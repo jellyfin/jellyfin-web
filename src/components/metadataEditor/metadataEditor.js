@@ -1067,7 +1067,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
     function show(itemId, serverId, resolve, reject) {
         loading.show();
 
-        require(['text!./metadataeditor.template.html'], function (template) {
+        require(['text!./metadataEditor.template.html'], function (template) {
 
             var dialogOptions = {
                 removeOnClose: true,
@@ -1124,7 +1124,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
 
                 loading.show();
 
-                require(['text!./metadataeditor.template.html'], function (template) {
+                require(['text!./metadataEditor.template.html'], function (template) {
 
                     elem.innerHTML = globalize.translateDocument(template, 'core');
 

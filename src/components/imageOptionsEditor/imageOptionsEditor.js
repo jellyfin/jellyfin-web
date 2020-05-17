@@ -82,7 +82,7 @@ define(['globalize', 'dom', 'dialogHelper', 'emby-checkbox', 'emby-select', 'emb
         this.show = function (itemType, options, availableOptions) {
             return new Promise(function (resolve, reject) {
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'components/imageoptionseditor/imageoptionseditor.template.html', true);
+                xhr.open('GET', 'components/imageOptionsEditor/imageOptionsEditor.template.html', true);
 
                 xhr.onload = function (e) {
                     var template = this.response;

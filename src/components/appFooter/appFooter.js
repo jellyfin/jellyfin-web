@@ -1,4 +1,4 @@
-define(['browser', 'css!./appfooter'], function (browser) {
+define(['browser', 'css!./appFooter'], function (browser) {
     'use strict';
 
     function render(options) {

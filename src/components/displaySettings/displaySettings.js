@@ -269,7 +269,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
     }
 
     function embed(options, self) {
-        require(['text!./displaysettings.template.html'], function (template) {
+        require(['text!./displaySettings.template.html'], function (template) {
             options.element.innerHTML = globalize.translateDocument(template, 'core');
             options.element.querySelector('form').addEventListener('submit', onSubmit.bind(self));
             if (options.enableSaveButton) {

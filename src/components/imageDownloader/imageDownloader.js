@@ -320,7 +320,7 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
     function showEditor(itemId, serverId, itemType) {
         loading.show();
 
-        require(['text!./imagedownloader.template.html'], function (template) {
+        require(['text!./imageDownloader.template.html'], function (template) {
 
             var apiClient = connectionManager.getApiClient(serverId);
 
