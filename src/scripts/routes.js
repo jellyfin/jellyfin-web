@@ -131,13 +131,13 @@ define([
         path: '/dlnaprofile.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/dlna/dlnaprofile'
+        controller: 'dashboard/dlna/profile'
     });
     defineRoute({
         path: '/dlnaprofiles.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/dlna/dlnaprofiles'
+        controller: 'dashboard/dlna/profiles'
     });
     defineRoute({
         path: '/addplugin.html',
@@ -149,7 +149,7 @@ define([
         path: '/library.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/medialibrarypage'
+        controller: 'dashboard/mediaLibrary'
     });
     defineRoute({
         path: '/librarydisplay.html',
@@ -161,7 +161,7 @@ define([
         path: '/dlnasettings.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/dlna/dlnasettings'
+        controller: 'dashboard/dlna/settings'
     });
     defineRoute({
         path: '/edititemmetadata.html',
@@ -183,7 +183,7 @@ define([
         path: '/metadataimages.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/metadataimagespage'
+        controller: 'dashboard/metadataImages'
     });
     defineRoute({
         path: '/metadatanfo.html',
@@ -207,7 +207,7 @@ define([
         path: '/playbackconfiguration.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/playbackconfiguration'
+        controller: 'dashboard/playback'
     });
     defineRoute({
         path: '/availableplugins.html',
@@ -235,7 +235,7 @@ define([
     });
     defineRoute({
         path: '/itemdetails.html',
-        controller: 'itemdetailpage',
+        controller: 'itemDetails',
         autoFocus: false,
         transition: 'fade'
     });
@@ -314,7 +314,7 @@ define([
         path: '/streamingsettings.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'dashboard/streamingsettings'
+        controller: 'dashboard/streaming'
     });
     defineRoute({
         path: '/tv.html',
@@ -327,36 +327,36 @@ define([
         path: '/useredit.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'useredit'
+        controller: 'dashboard/users/useredit'
     });
     defineRoute({
         path: '/userlibraryaccess.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'userlibraryaccess'
+        controller: 'dashboard/users/userlibraryaccess'
     });
     defineRoute({
         path: '/usernew.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'usernew'
+        controller: 'dashboard/users/usernew'
     });
     defineRoute({
         path: '/userparentalcontrol.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'userparentalcontrol'
+        controller: 'dashboard/users/userparentalcontrol'
     });
     defineRoute({
         path: '/userpassword.html',
         autoFocus: false,
-        controller: 'userpasswordpage'
+        controller: 'dashboard/users/userpasswordpage'
     });
     defineRoute({
         path: '/userprofiles.html',
         autoFocus: false,
         roles: 'admin',
-        controller: 'userprofilespage'
+        controller: 'dashboard/users/userprofilespage'
     });
 
     defineRoute({
@@ -375,7 +375,7 @@ define([
         path: '/wizardlibrary.html',
         autoFocus: false,
         anonymous: true,
-        controller: 'dashboard/medialibrarypage'
+        controller: 'dashboard/mediaLibrary'
     });
     defineRoute({
         path: '/wizardsettings.html',
