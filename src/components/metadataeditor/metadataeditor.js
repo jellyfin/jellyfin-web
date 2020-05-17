@@ -465,12 +465,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             var id = 'txt1' + idInfo.Key;
             var formatString = idInfo.UrlFormatString || '';
 
-            var fullName = idInfo.Name;
-            if (idInfo.Type) {
-                fullName = idInfo.Name + ' ' + globalize.translate(idInfo.Type);
-            }
-
-            var labelText = globalize.translate('LabelDynamicExternalId', fullName);
+            // Get external Id label text
+            const hasSpecificType = idInfo.Type && idInfo.Type !== 'General';
+            const fullName = hasSpecificType
+                ? idInfo.Name + ' ' + globalize.translate(idInfo.Type)
+                : idInfo.Name;
+            const labelText = globalize.translate('LabelDynamicExternalId', fullName);
 
             html += '<div class="inputContainer">';
             html += '<div class="flex align-items-center">';

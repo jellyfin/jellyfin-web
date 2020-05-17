@@ -304,12 +304,12 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
 
                 html += '<div class="inputContainer">';
 
-                var fullName = idInfo.Name;
-                if (idInfo.Type) {
-                    fullName = idInfo.Name + ' ' + globalize.translate(idInfo.Type);
-                }
-
-                var idLabel = globalize.translate('LabelDynamicExternalId', fullName);
+                // Get external Id label text
+                const hasSpecificType = idInfo.Type && idInfo.Type !== 'General';
+                const fullName = hasSpecificType
+                    ? idInfo.Name + ' ' + globalize.translate(idInfo.Type)
+                    : idInfo.Name;
+                const idLabel = globalize.translate('LabelDynamicExternalId', fullName);
 
                 html += '<input is="emby-input" class="txtLookupId" data-providerkey="' + idInfo.Key + '" id="' + id + '" label="' + idLabel + '"/>';
 
