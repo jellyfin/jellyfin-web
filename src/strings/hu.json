@@ -424,7 +424,7 @@
     "OptionMissingEpisode": "Hiányzó Epizódok",
     "OptionMonday": "Hétfő",
     "OptionNameSort": "Név",
-    "OptionNew": "Új...",
+    "OptionNew": "Új…",
     "OptionParentalRating": "Korhatár besorolás",
     "OptionPlayCount": "Lejátszások száma",
     "OptionPlayed": "Megnézett",
@@ -584,7 +584,7 @@
     "Aired": "Adásban",
     "Albums": "Albumok",
     "AllChannels": "Minden csatorna",
-    "AllComplexFormats": "Minden összetett formátum (ASS, SSA, VOBSUB, PGS, SUB, IDX)",
+    "AllComplexFormats": "Minden összetett formátum (ASS, SSA, VOBSUB, PGS, SUB, IDX, ...)",
     "AllowMediaConversion": "Média konvertálás engedélyezése",
     "AllowMediaConversionHelp": "Add meg vagy tiltsd le a média konvertálás funkcióhoz való hozzáférést.",
     "AllowRemoteAccess": "Engedélyezze a távoli kapcsolatokat a Jellyfin szerverhez.",
@@ -1511,5 +1511,6 @@
     "ButtonToggleContextMenu": "Továbbiak",
     "Filter": "Szűrés",
     "New": "Új",
-    "HeaderFavoritePlaylists": "Kedvenc lejátszási listák"
+    "HeaderFavoritePlaylists": "Kedvenc lejátszási listák",
+    "ApiKeysCaption": "A jelenleg engedélyezett API kulcsok listája"
 }

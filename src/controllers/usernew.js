@@ -8,12 +8,12 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
 
         for (var i = 0; i < mediaFolders.length; i++) {
             var folder = mediaFolders[i];
-            html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '" checked="checked"/><span>' + folder.Name + '</span></label>';
+            html += '<label><input type="checkbox" is="emby-checkbox" class="chkFolder" data-id="' + folder.Id + '"/><span>' + folder.Name + '</span></label>';
         }
 
         html += '</div>';
         $('.folderAccess', page).html(html).trigger('create');
-        $('#chkEnableAllFolders', page).checked(true).trigger('change');
+        $('#chkEnableAllFolders', page).checked(false).trigger('change');
     }
 
     function loadChannels(page, channels) {
@@ -23,7 +23,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
 
         for (var i = 0; i < channels.length; i++) {
             var folder = channels[i];
-            html += '<label><input type="checkbox" is="emby-checkbox" class="chkChannel" data-id="' + folder.Id + '" checked="checked"/><span>' + folder.Name + '</span></label>';
+            html += '<label><input type="checkbox" is="emby-checkbox" class="chkChannel" data-id="' + folder.Id + '"/><span>' + folder.Name + '</span></label>';
         }
 
         html += '</div>';
@@ -35,7 +35,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
             $('.channelAccessContainer', page).hide();
         }
 
-        $('#chkEnableAllChannels', page).checked(true).trigger('change');
+        $('#chkEnableAllChannels', page).checked(false).trigger('change');
     }
 
     function loadUser(page) {

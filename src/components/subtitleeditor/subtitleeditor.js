@@ -232,11 +232,7 @@ define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings',
                     html += '</div>';
                 }
                 html += '<h2>' + provider + '</h2>';
-                if (layoutManager.tv) {
-                    html += '<div>';
-                } else {
-                    html += '<div>';
-                }
+                html += '<div>';
                 lastProvider = provider;
             }
 

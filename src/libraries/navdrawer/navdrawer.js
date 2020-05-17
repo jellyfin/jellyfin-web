@@ -260,7 +260,6 @@ define(["browser", "dom", "css!./navdrawer", "scrollStyles"], function (browser,
 
         TouchMenuLA.prototype.showMask = function () {
             mask.classList.remove("hide");
-            mask.offsetWidth;
             mask.classList.add("backdrop");
         };
 

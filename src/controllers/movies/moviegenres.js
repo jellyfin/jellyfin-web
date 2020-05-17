@@ -50,7 +50,8 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
             return enableScrollX() ? 'overflowPortrait' : 'portrait';
         }
 
-        function fillItemsContainer(elem) {
+        function fillItemsContainer(entry) {
+            var elem = entry.target;
             var id = elem.getAttribute('data-id');
             var viewStyle = self.getCurrentViewStyle();
             var limit = 'Thumb' == viewStyle || 'ThumbCard' == viewStyle ? 5 : 9;

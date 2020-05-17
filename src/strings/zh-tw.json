@@ -212,7 +212,7 @@
     "OptionMissingEpisode": "缺少了的單元",
     "OptionMonday": "星期一",
     "OptionNameSort": "名字",
-    "OptionNew": "新增...",
+    "OptionNew": "新增…",
     "OptionOnAppStartup": "在伺服器啟動",
     "OptionOnInterval": "每時段",
     "OptionParentalRating": "家長評級",
@@ -1678,5 +1678,10 @@
     "DeinterlaceMethodHelp": "選擇對隔行掃描內容進行轉碼時所用的反交錯方法。",
     "BoxSet": "套裝",
     "UnsupportedPlayback": "Jellyfin 無法解密受 DRM 保護的內容，但仍然會嘗試播放所有內容。某些檔案由於被加密或包含如互動標題等不受支援的內容，在播放時可能會沒有畫面。",
-    "MessageUnauthorizedUser": "您目前無權存取伺服器，請與您的伺服器管理員聯繫以獲取更多訊息。"
+    "MessageUnauthorizedUser": "您目前無權存取伺服器，請與您的伺服器管理員聯繫以獲取更多訊息。",
+    "Filter": "篩選器",
+    "New": "新增",
+    "ApiKeysCaption": "目前已啟用的API金鑰列表",
+    "ButtonTogglePlaylist": "播放清單",
+    "ButtonToggleContextMenu": "更多"
 }
