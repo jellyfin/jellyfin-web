@@ -864,7 +864,6 @@
     "LabelDisplayLanguageHelp": "A Jellyfin fordítása egy folyamatos projekt.",
     "LabelDisplayMode": "Megjelenítési mód:",
     "LabelDownloadInternetMetadata": "Artwork és a metaadatok letöltése az internetről",
-    "LabelDownloadInternetMetadataHelp": "A Jellyfin Szerver letöltheti a médiák adatait és látványos bemutatókat készít.",
     "LabelArtistsHelp": "Ha több van használd a következő elválasztót ;",
     "LabelDisplayCollectionsView": "Jelenítse meg a Gyűjtemények menüpontot a filmgyűjtemények megjelenítéséhez",
     "LabelDisplayCollectionsViewHelp": "Ez külön menüpontot hoz létre a filmgyűjtemények megjelenítéséhez. Gyűjtemény létrehozásához kattints jobb gombbal vagy kattints a három pontra bármelyik filmen, és válaszd a 'Hozzáadás gyűjteményhez' lehetőséget. ",
