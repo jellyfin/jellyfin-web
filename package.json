@@ -106,6 +106,7 @@
           "src/components/actionSheet/actionSheet.js",
           "src/components/playmenu.js",
           "src/components/indicators/indicators.js",
+          "src/components/photoPlayer/plugin.js",
           "src/scripts/keyboardNavigation.js",
           "src/scripts/settings/appSettings.js",
           "src/scripts/settings/userSettings.js",

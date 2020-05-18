@@ -1,19 +1,22 @@
-define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager) {
-    'use strict';
+import browser from 'browser';
+import require from 'require';
+import events from 'events';
+import appHost from 'apphost';
+import loading from 'loading';
+import dom from 'dom';
+import playbackManager from 'playbackManager';
+import appRouter from 'appRouter';
+import connectionManager from 'connectionManager';
 
-    function PhotoPlayer() {
-
-        var self = this;
-
-        self.name = 'Photo Player';
-        self.type = 'mediaplayer';
-        self.id = 'photoplayer';
-
-        // Let any players created by plugins take priority
-        self.priority = 1;
+export class PhotoPlayer {
+    constructor() {
+        this.name = 'Photo Player';
+        this.type = 'mediaplayer';
+        this.id = 'photoplayer';
+        this.priority = 1;
     }
 
-    PhotoPlayer.prototype.play = function (options) {
+    play(options) {
 
         return new Promise(function (resolve, reject) {
 
@@ -41,12 +44,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 });
             });
         });
-    };
+    }
 
-    PhotoPlayer.prototype.canPlayMediaType = function (mediaType) {
+    canPlayMediaType(mediaType) {
 
         return (mediaType || '').toLowerCase() === 'photo';
-    };
+    }
+}
 
-    return PhotoPlayer;
-});
+export default PhotoPlayer;

@@ -34,7 +34,7 @@ define(['events'], function (events) {
 
             require([url, 'globalize', 'appRouter'], function (pluginFactory, globalize, appRouter) {
 
-                var plugin = new pluginFactory();
+                var plugin = pluginFactory.default ? new pluginFactory.default() : new pluginFactory();
 
                 // See if it's already installed
                 var existing = instance.pluginsList.filter(function (p) {
