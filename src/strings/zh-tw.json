@@ -574,8 +574,6 @@
     "HeaderBooks": "書籍",
     "HeaderBranding": "品牌",
     "HeaderBrandingHelp": "選擇外觀，滿足您和團體的要求。",
-    "HeaderCameraUpload": "相片上傳",
-    "HeaderCameraUploadHelp": "Jellyfin 應用程式能自動上傳你通過裝置拍攝的照片至你的 Jellyfin 伺服器。",
     "HeaderCancelRecording": "取消錄製",
     "HeaderCancelSeries": "取消系列",
     "HeaderCancelSyncJob": "取消同步",
