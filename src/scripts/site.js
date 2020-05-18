@@ -654,7 +654,8 @@ var AppInfo = {};
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
             pluginManager: componentsPath + '/pluginManager',
             packageManager: componentsPath + '/packagemanager',
-            screensaverManager: componentsPath + '/screensavermanager'
+            screensaverManager: componentsPath + '/screensavermanager',
+            chromecastHelper: 'plugins/chromecastPlayer/chromecastHelpers'
         };
 
         requirejs.onError = onRequireJsError;
@@ -774,7 +775,6 @@ var AppInfo = {};
         define('appSettings', [scriptsPath + '/settings/appSettings'], returnFirstDependency);
         define('userSettings', [scriptsPath + '/settings/userSettings'], returnFirstDependency);
 
-        define('chromecastHelper', [componentsPath + '/chromecast/chromecasthelpers'], returnFirstDependency);
         define('mediaSession', [componentsPath + '/playback/mediasession'], returnFirstDependency);
         define('actionsheet', [componentsPath + '/actionSheet/actionSheet'], returnFirstDependency);
         define('tunerPicker', [componentsPath + '/tunerPicker'], returnFirstDependency);
