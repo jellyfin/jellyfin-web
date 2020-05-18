@@ -1514,5 +1514,12 @@
     "ApiKeysCaption": "A jelenleg engedélyezett API kulcsok listája",
     "LabelNightly": "Éjszakai",
     "LabelStable": "Stabil",
-    "LabelChromecastVersion": "Chromecast verzió"
+    "LabelChromecastVersion": "Chromecast verzió",
+    "LabelEnableHttpsHelp": "Engedélyezi a kiszolgálónak a kommunikációt HTTPS protokollon keresztül. Érvényes tanúsítványt is be kell állítani az érvénybe léptetéshez.",
+    "LabelRequireHttpsHelp": "Bekapcsolást követően minden egyes HTTP-kérést átirányít HTTPS protokollra. A már meglévő HTTPS kéréseket nem módosítja.",
+    "LabelRequireHttps": "HTTPS megkövetelése",
+    "LabelEnableHttps": "HTTPS engedélyezése",
+    "HeaderServerAddressSettings": "Kiszolgáló Címének Beállításai",
+    "HeaderRemoteAccessSettings": "Távoli Hozzáférés Beállításai",
+    "HeaderHttpsSettings": "HTTPS Beállítások"
 }
