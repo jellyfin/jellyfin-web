@@ -803,9 +803,9 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
 
         if (editable && url === undefined) {
-            html += "<a class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground"+ cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
+            html += "<a class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground" + cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
         } else if (!editable && url === undefined) {
-            html += "<div class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground"+ cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
+            html += "<div class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground" + cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
         } else if (editable) {
             html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
         }
