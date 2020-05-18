@@ -148,7 +148,7 @@ export function getTypeIndicator(item) {
     };
 
     const icon = iconT[item.Type];
-    return icon ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon '+ icon +'"></span></div>' : '';
+    return icon ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon ' + icon + '"></span></div>' : '';
 }
 
 export function getMissingIndicator(item) {

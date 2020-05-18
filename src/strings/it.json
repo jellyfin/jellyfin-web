@@ -1507,5 +1507,7 @@
     "HeaderFavoritePlaylists": "Playlist Favorite",
     "Filter": "Filtro",
     "New": "Nuovo",
-    "ApiKeysCaption": "Elenco chiavi API abilitate"
+    "ApiKeysCaption": "Elenco chiavi API abilitate",
+    "LabelStable": "Stabile",
+    "LabelChromecastVersion": "Versione Chromecast"
 }

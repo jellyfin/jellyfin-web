@@ -9,7 +9,6 @@
     "AddToPlayQueue": "Zur Warteschlange hinzufügen",
     "AddToPlaylist": "Zur Wiedergabeliste hinzufügen",
     "AddUser": "Benutzer anlegen",
-    "AddUserByManually": "Lege einen lokalen User durch manuelle Eingabe der User-Informationen an.",
     "AddedOnValue": "{0} hinzugefügt",
     "AdditionalNotificationServices": "Durchsuche den Pluginkatalog, um weitere Benachrichtigungsdienste zu installieren.",
     "AirDate": "Erstausstrahlung",
@@ -29,8 +28,6 @@
     "AllowOnTheFlySubtitleExtractionHelp": "Eingebettete Untertitel können aus Videos extrahiert und in Reintext an Clients gesendet werden, um eine Videotranskodierung zu vermeiden. Auf manchen Systemen kann dieser Vorgang eine lange Zeit in Anspruch nehmen und deswegen währenddessen die Videowiedergabe stoppen. Deaktiviere diese Option, um eingebettete Untertitel während des Videotranskodierens einbrennen zu lassen, wenn sie nicht nativ vom Client unterstützt werden.",
     "AllowRemoteAccess": "Erlaube externe Verbindungen zu diesem Jellyfin Server.",
     "AllowRemoteAccessHelp": "Wenn deaktiviert werden alle externen Verbindungen blockiert.",
-    "AllowSeasonalThemes": "Erlaube automatische Jahreszeitenmotive",
-    "AllowSeasonalThemesHelp": "Wenn aktiviert, werden Jahreszeitenmotive von Zeit zu Zeit deine Motiveinstellungen überschreiben.",
     "AllowedRemoteAddressesHelp": "Kommagetrennte Liste von IP Adressen oder IP/Netzmasken für Netzwerke, für die externe Verbindungen erlaubt sind. Wenn leer, sind alle Adressen erlaubt.",
     "AlwaysPlaySubtitles": "Immer anzeigen",
     "AlwaysPlaySubtitlesHelp": "Untertitel die den Spracheinstellungen entsprechen werden unabhängig von der Tonspursprache geladen.",
@@ -666,7 +663,7 @@
     "LabelMoviePrefix": "Filmpräfix:",
     "LabelMoviePrefixHelp": "Wenn ein Präfix in Filmtiteln angewendet wird, gib es hier ein damit Jellyfin es korrekt behandeln kann.",
     "LabelMovieRecordingPath": "Film Aufnahmepfad (Optional):",
-    "LabelMusicStreamingTranscodingBitrate": "Musik Transkodier Bitrate:",
+    "LabelMusicStreamingTranscodingBitrate": "Musik-Transkodierung Bitrate:",
     "LabelMusicStreamingTranscodingBitrateHelp": "Wähle die maximale Bitrate für das streamen von Musik.",
     "LabelNewName": "Neuer Name:",
     "LabelNewPassword": "Neues Passwort:",
@@ -1529,5 +1526,8 @@
     "HeaderFavoritePlaylists": "Lieblings-Wiedergabeliste",
     "ButtonTogglePlaylist": "Wiedergabeliste",
     "ButtonToggleContextMenu": "Mehr",
-    "ApiKeysCaption": "Liste der aktuell aktivierten API-Schlüssel"
+    "ApiKeysCaption": "Liste der aktuell aktivierten API-Schlüssel",
+    "LabelNightly": "Nightly",
+    "LabelStable": "Stable",
+    "LabelChromecastVersion": "Chromecast Version"
 }
