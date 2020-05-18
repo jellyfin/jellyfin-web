@@ -1511,5 +1511,8 @@
     "Filter": "Filtro",
     "New": "Nuevo",
     "HeaderFavoritePlaylists": "Lista reproducción favorita",
-    "ApiKeysCaption": "Lista de las claves API actuales"
+    "ApiKeysCaption": "Lista de las claves API actuales",
+    "LabelNightly": "Nightly",
+    "LabelStable": "Estable",
+    "LabelChromecastVersion": "Versión de Chromecast"
 }

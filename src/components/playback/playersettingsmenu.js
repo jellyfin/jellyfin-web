@@ -7,11 +7,13 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             return stream.Type === 'Video';
         })[0];
         var videoWidth = videoStream ? videoStream.Width : null;
+        var videoHeight = videoStream ? videoStream.Height : null;
 
         var options = qualityoptions.getVideoQualityOptions({
             currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
             isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
             videoWidth: videoWidth,
+            videoHeight: videoHeight,
             enableAuto: true
         });
 
@@ -91,11 +93,13 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         })[0];
 
         var videoWidth = videoStream ? videoStream.Width : null;
+        var videoHeight = videoStream ? videoStream.Height : null;
 
         var options = qualityoptions.getVideoQualityOptions({
             currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
             isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
             videoWidth: videoWidth,
+            videoHeight: videoHeight,
             enableAuto: true
         });
 

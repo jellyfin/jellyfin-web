@@ -92,7 +92,7 @@ import layoutManager from 'layoutManager';
      * @return {number} Eased value in range [0, 1].
      */
     function ease(t) {
-        return t*(2 - t); // easeOutQuad === ease-out
+        return t * (2 - t); // easeOutQuad === ease-out
     }
 
     /**
@@ -402,8 +402,8 @@ import layoutManager from 'layoutManager';
 
             k = ease(k);
 
-            const x = ox + dx*k;
-            const y = oy + dy*k;
+            const x = ox + dx * k;
+            const y = oy + dy * k;
 
             builtinScroll(xScroller, x, yScroller, y, false);
 

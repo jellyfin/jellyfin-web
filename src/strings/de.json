@@ -663,7 +663,7 @@
     "LabelMoviePrefix": "Filmpräfix:",
     "LabelMoviePrefixHelp": "Wenn ein Präfix in Filmtiteln angewendet wird, gib es hier ein damit Jellyfin es korrekt behandeln kann.",
     "LabelMovieRecordingPath": "Film Aufnahmepfad (Optional):",
-    "LabelMusicStreamingTranscodingBitrate": "Musik Transkodier Bitrate:",
+    "LabelMusicStreamingTranscodingBitrate": "Musik-Transkodierung Bitrate:",
     "LabelMusicStreamingTranscodingBitrateHelp": "Wähle die maximale Bitrate für das streamen von Musik.",
     "LabelNewName": "Neuer Name:",
     "LabelNewPassword": "Neues Passwort:",
@@ -1526,5 +1526,8 @@
     "HeaderFavoritePlaylists": "Lieblings-Wiedergabeliste",
     "ButtonTogglePlaylist": "Wiedergabeliste",
     "ButtonToggleContextMenu": "Mehr",
-    "ApiKeysCaption": "Liste der aktuell aktivierten API-Schlüssel"
+    "ApiKeysCaption": "Liste der aktuell aktivierten API-Schlüssel",
+    "LabelNightly": "Nightly",
+    "LabelStable": "Stable",
+    "LabelChromecastVersion": "Chromecast Version"
 }
