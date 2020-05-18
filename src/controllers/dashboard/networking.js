@@ -9,7 +9,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
             var validationResult = getValidationAlert(form);
 
             if (validationResult) {
-                alertText(validationResult);
+                showAlertText(validationResult);
                 return;
             }
 
@@ -29,35 +29,10 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
                     config.IsRemoteIPFilterBlacklist = 'blacklist' === form.querySelector('#selectExternalAddressFilterMode').value;
                     config.PublicPort = form.querySelector('#txtPublicPort').value;
                     config.PublicHttpsPort = form.querySelector('#txtPublicHttpsPort').value;
-                    var httpsMode = form.querySelector('#selectHttpsMode').value;
-
-                    switch (httpsMode) {
-                        case 'proxy':
-                            config.EnableHttps = true;
-                            config.RequireHttps = false;
-                            config.IsBehindProxy = true;
-                            break;
-
-                        case 'required':
-                            config.EnableHttps = true;
-                            config.RequireHttps = true;
-                            config.IsBehindProxy = false;
-                            break;
-
-                        case 'enabled':
-                            config.EnableHttps = true;
-                            config.RequireHttps = false;
-                            config.IsBehindProxy = false;
-                            break;
-
-                        default:
-                            config.EnableHttps = false;
-                            config.RequireHttps = false;
-                            config.IsBehindProxy = false;
-                    }
-
-                    config.HttpsPortNumber = form.querySelector('#txtHttpsPort').value;
                     config.HttpServerPortNumber = form.querySelector('#txtPortNumber').value;
+                    config.HttpsPortNumber = form.querySelector('#txtHttpsPort').value;
+                    config.EnableHttps = form.querySelector('#chkEnableHttps').checked;
+                    config.RequireHttps = form.querySelector('#chkRequireHttps').checked;
                     config.EnableUPnP = enableUpnp;
                     config.BaseUrl = form.querySelector('#txtBaseUrl').value;
                     config.EnableRemoteAccess = form.querySelector('#chkRemoteAccess').checked;
@@ -90,23 +65,20 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
     }
 
     function validateHttps(form) {
-        var remoteAccess = form.querySelector('#chkRemoteAccess').checked;
         var certPath = form.querySelector('#txtCertificatePath').value || null;
-        var httpsMode = form.querySelector('#selectHttpsMode').value;
+        var httpsEnabled = form.querySelector('#chkEnableHttps').checked;
 
-        if (!remoteAccess || ('enabled' !== httpsMode && 'required' !== httpsMode || certPath)) {
-            return Promise.resolve();
-        }
-
-        return new Promise(function (resolve, reject) {
-            return alertText({
+        if (httpsEnabled && !certPath) {
+            return showAlertText({
                 title: globalize.translate('TitleHostingSettings'),
                 text: globalize.translate('HttpsRequiresCert')
-            }).then(reject, reject);
-        });
+            }).then(Promise.reject);
+        }
+
+        return Promise.resolve();
     }
 
-    function alertText(options) {
+    function showAlertText(options) {
         return new Promise(function (resolve, reject) {
             require(['alert'], function (alert) {
                 alert(options).then(resolve, reject);
@@ -116,7 +88,7 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
 
     function confirmSelections(localAddress, enableUpnp, callback) {
         if (localAddress || !enableUpnp) {
-            alertText({
+            showAlertText({
                 title: globalize.translate('TitleHostingSettings'),
                 text: globalize.translate('SettingsWarning')
             }).then(callback);
@@ -135,19 +107,9 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
             page.querySelector('#txtExternalAddressFilter').value = (config.RemoteIPFilter || []).join(', ');
             page.querySelector('#selectExternalAddressFilterMode').value = config.IsRemoteIPFilterBlacklist ? 'blacklist' : 'whitelist';
             page.querySelector('#chkRemoteAccess').checked = null == config.EnableRemoteAccess || config.EnableRemoteAccess;
-            var selectHttpsMode = page.querySelector('#selectHttpsMode');
-
-            if (config.IsBehindProxy) {
-                selectHttpsMode.value = 'proxy';
-            } else if (config.RequireHttps) {
-                selectHttpsMode.value = 'required';
-            } else if (config.EnableHttps) {
-                selectHttpsMode.value = 'enabled';
-            } else {
-                selectHttpsMode.value = 'disabled';
-            }
-
             page.querySelector('#txtHttpsPort').value = config.HttpsPortNumber;
+            page.querySelector('#chkEnableHttps').checked = config.EnableHttps;
+            page.querySelector('#chkRequireHttps').checked = config.RequireHttps;
             page.querySelector('#txtBaseUrl').value = config.BaseUrl || '';
             var txtCertificatePath = page.querySelector('#txtCertificatePath');
             txtCertificatePath.value = config.CertificatePath || '';
@@ -163,18 +125,12 @@ define(['loading', 'libraryMenu', 'globalize', 'emby-checkbox', 'emby-select'], 
                 view.querySelector('.fldExternalAddressFilterMode').classList.remove('hide');
                 view.querySelector('.fldPublicPort').classList.remove('hide');
                 view.querySelector('.fldPublicHttpsPort').classList.remove('hide');
-                view.querySelector('.fldCertificatePath').classList.remove('hide');
-                view.querySelector('.fldCertPassword').classList.remove('hide');
-                view.querySelector('.fldHttpsMode').classList.remove('hide');
                 view.querySelector('.fldEnableUpnp').classList.remove('hide');
             } else {
                 view.querySelector('.fldExternalAddressFilter').classList.add('hide');
                 view.querySelector('.fldExternalAddressFilterMode').classList.add('hide');
                 view.querySelector('.fldPublicPort').classList.add('hide');
                 view.querySelector('.fldPublicHttpsPort').classList.add('hide');
-                view.querySelector('.fldCertificatePath').classList.add('hide');
-                view.querySelector('.fldCertPassword').classList.add('hide');
-                view.querySelector('.fldHttpsMode').classList.add('hide');
                 view.querySelector('.fldEnableUpnp').classList.add('hide');
             }
         });
