@@ -435,7 +435,6 @@
     "ColorSpace": "色彩空間",
     "ColorTransfer": "色彩傳輸",
     "CommunityRating": "公眾評分",
-    "DefaultCameraUploadPathHelp": "請選擇自訂上傳路徑。若留白, 將會使用預設資料夾。如果使用自訂路徑，則還需要在Jellyfin庫設置中作為“媒體庫”添加。",
     "DefaultErrorMessage": "處理請求時發生錯誤。請稍後再試。",
     "DefaultMetadataLangaugeDescription": "這些預設設定可以在你的媒體庫中單獨設定。",
     "DefaultSubtitlesHelp": "字幕將基於內建資料中的「預設」標記和「強制」標記來載入，當有多個選項可用時，將根據語言偏好決定。",

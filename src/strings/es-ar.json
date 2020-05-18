@@ -290,7 +290,6 @@
     "Days": "Dias",
     "DeathDateValue": "Muerte: {0}",
     "Default": "Predeterminado",
-    "DefaultCameraUploadPathHelp": "Selecciona un directorio personalizado. Si queda en blanco, una carpeta predeterminada va a ser usada. Si es una carpeta personalizada, esta va a necesitar ser agregada en la biblioteca, en la configuración de bibliotecas de Jellyfin.",
     "DefaultErrorMessage": "Hubo un error procesando la solicitud. Por favor intentalo nuevamente mas tarde.",
     "DefaultMetadataLangaugeDescription": "Estos son tus predeterminados y pueden ser personalizados por librería únicamente.",
     "Delete": "Borrar",
