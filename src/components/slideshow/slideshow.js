@@ -438,6 +438,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             inputManager.off(window, onInputCommand);
             document.removeEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
+            // Shows page scrollbar
+            document.body.classList.remove('hide-scroll');
+            document.body.classList.add('force-scroll');
         }
 
         /**
@@ -614,9 +617,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         self.hide = function () {
             if (dialog) {
                 dialogHelper.close(dialog);
-                // Shows page scrollbar
-                document.body.classList.remove('hide-scroll');
-                document.body.classList.add('force-scroll');
             }
         };
     };
