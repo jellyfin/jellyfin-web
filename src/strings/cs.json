@@ -513,7 +513,7 @@
     "LabelEmbedAlbumArtDidl": "Vložit alba do DIDL",
     "LabelEmbedAlbumArtDidlHelp": "Některá zařízení preferují tento způsob pro získání alba. Jiné mohou selhat pokud máte tuto volbu povolenu.",
     "LabelEnableAutomaticPortMap": "Povolit automatické mapování portů",
-    "LabelEnableAutomaticPortMapHelp": "Pokusí se automaticky namapovat veřejný port místního portu přes UPnP na vašem routeru. Nemusí fungovat u některých modelů routeru. Změny se projeví až po restartování serveru.",
+    "LabelEnableAutomaticPortMapHelp": "Automaticky zpřístupní port na vašem routeru pomocí technologie UPnP. Nemusí fungovat u některých routerů. Změny se projeví až po restartování serveru.",
     "LabelEnableBlastAliveMessages": "Vytroubit zprávu do světa",
     "LabelEnableBlastAliveMessagesHelp": "Povolit v případě, že server není zjistitelný jinými UPnP zařízeními v síti.",
     "LabelEnableDlnaClientDiscoveryInterval": "Čas pro vyhledání klienta (sekund)",
@@ -1591,5 +1591,10 @@
     "LabelNightly": "Nightly",
     "LabelStable": "Stabilní",
     "LabelChromecastVersion": "Verze Chromecastu",
-    "ApiKeysCaption": "Seznam povolených API klíčů"
+    "ApiKeysCaption": "Seznam povolených API klíčů",
+    "LabelEnableHttpsHelp": "Umožní serveru naslouchat na určeném portu HTTPS. K fungování je nutné nakonfigurovat i platný certifikát.",
+    "LabelEnableHttps": "Povolit HTTPS",
+    "HeaderServerAddressSettings": "Nastavení adresy serveru",
+    "HeaderRemoteAccessSettings": "Nastavení vzdáleného přístupu",
+    "HeaderHttpsSettings": "Nastavení HTTPS"
 }
