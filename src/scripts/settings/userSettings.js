@@ -153,6 +153,14 @@ import events from 'events';
         return this.get('datetimelocale', false);
     }
 
+    export function chromecastVersion(val) {
+        if (val !== undefined) {
+            return this.set('chromecastVersion', val.toString());
+        }
+
+        return this.get('chromecastVersion') || 'stable';
+    }
+
     export function skipBackLength(val) {
         if (val !== undefined) {
             return this.set('skipBackLength', val.toString());

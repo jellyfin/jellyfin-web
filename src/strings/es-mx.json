@@ -30,7 +30,6 @@
     "AlwaysPlaySubtitles": "Siempre mostrar subtítulos",
     "AlwaysPlaySubtitlesHelp": "Los subtítulos que coincidan con el lenguaje preferido serán cargados independientemente del lenguaje del audio.",
     "AnamorphicVideoNotSupported": "Video anamorfico no soportado",
-    "AndroidUnlockRestoreHelp": "Para restaurar su compra previa, por favor asegúrese de que se encuentra registrado en el dispositivo con la misma cuenta de Google (o Amazon) con que hizo la compra. Asegúrese que la tienda de aplicaciones esta habilitada, no esta restringida por cualquier control parental y que tiene una conexión de internet activa. Esto se tiene que hacer solo una vez para restaurar su compra previa.",
     "AnyLanguage": "Cualquier idioma",
     "Anytime": "En cualquier momento",
     "AroundTime": "Alrededor de {0}",

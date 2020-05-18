@@ -823,7 +823,7 @@
     "LabelFailed": "Eșuat",
     "LabelExtractChaptersDuringLibraryScanHelp": "Generați imagini de capitol atunci când videoclipurile sunt importate în timpul scanării bibliotecii. În caz contrar, acestea vor fi extrase în timpul sarcinii programate de extragere a imaginilor capitolului, permițând scanarea bibliotecă obișnuită să se completeze mai rapid.",
     "LabelExtractChaptersDuringLibraryScan": "Extrageți imagini de capitol în timpul scanării bibliotecii",
-    "LabelBaseUrlHelp": "Puteți adăuga aici un subdirector personalizat pentru a accesa serverul de pe o adresă URL mai unică.",
+    "LabelBaseUrlHelp": "Adaugă aici un subdirector personalizat la URL-ul serverului. De exemplu: <code>http://example.com/<b>&lt;baseurl&gt;</b></code>",
     "LabelBaseUrl": "Adresa URL de bază:",
     "LabelEveryXMinutes": "La fiecare:",
     "LabelEvent": "Eveniment:",
@@ -1506,5 +1506,15 @@
     "Filter": "Filtru",
     "New": "Nou",
     "HeaderFavoritePlaylists": "Listă Favorită",
-    "ApiKeysCaption": "Lista cheilor API active"
+    "ApiKeysCaption": "Lista cheilor API active",
+    "LabelRequireHttpsHelp": "Dacă e selectat, serverul va redirecta automat toate cererile HTTP către HTTPS. Dacă nu se ascultă pe HTTPS, nu are niciun efect.",
+    "LabelRequireHttps": "Trebuie HTTPS",
+    "LabelNightly": "Ultimă",
+    "LabelStable": "Stabilă",
+    "LabelChromecastVersion": "Versiunea de Chromecast",
+    "LabelEnableHttpsHelp": "Activează serverul să asculte pe portul HTTPS configurat. Un certificat valid trebuie de asemenea configurat pentru ca să funcţioneze.",
+    "LabelEnableHttps": "Activați HTTPS",
+    "HeaderServerAddressSettings": "Setările adresei serverului",
+    "HeaderRemoteAccessSettings": "Setări pentru aces remote",
+    "HeaderHttpsSettings": "Setări https"
 }
