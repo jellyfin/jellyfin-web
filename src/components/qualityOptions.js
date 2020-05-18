@@ -7,7 +7,7 @@ define(['globalize'], function (globalize) {
         var videoWidth = options.videoWidth;
         var videoHeight = options.videoHeight;
 
-        //If the aspect ratio is less than 16/9 (1.77), set the height as if it were pillerboxed.
+        // If the aspect ratio is less than 16/9 (1.77), set the width as if it were pillarboxed.
         // 4:3 1440x1080 -> 1920x1080
         if (videoWidth / videoHeight < 16 / 9) {
             videoWidth = videoHeight * (16 / 9);
