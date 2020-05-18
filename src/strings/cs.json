@@ -1257,7 +1257,6 @@
     "ConvertUnwatchedVideosOnlyHelp": "Pouze nepřehraná videa budou zkonvertována.",
     "ConvertingDots": "Konverze...",
     "CriticRating": "Kritické hodnocení",
-    "DefaultCameraUploadPathHelp": "Vyberte vlastní cestu nahrávání.  Pokud zůstane prázdné, bude použita výchozí složka.  Pokud použijete vlastní cestu, bude třeba ji přidat jako knihovnu v nastavení knihovny Jellyfin.",
     "Depressed": "Vytlačené",
     "Descending": "Klesající",
     "DetectingDevices": "Hledání zařízení",
