@@ -479,22 +479,22 @@ var AppInfo = {};
     function loadPlugins(appHost, browser, shell) {
         console.debug('loading installed plugins');
         var list = [
-            'components/playback/playaccessvalidation',
-            'components/playback/experimentalwarnings',
-            'components/htmlAudioPlayer/plugin',
-            'components/htmlVideoPlayer/plugin',
-            'components/photoPlayer/plugin',
-            'components/bookPlayer/plugin',
-            'components/youtubeplayer/plugin',
-            'components/backdropScreensaver/plugin',
-            'components/logoScreensaver/plugin'
+            'plugins/playAccessValidation/plugin',
+            'plugins/experimentalWarnings/plugin',
+            'plugins/htmlAudioPlayer/plugin',
+            'plugins/htmlVideoPlayer/plugin',
+            'plugins/photoPlayer/plugin',
+            'plugins/bookPlayer/plugin',
+            'plugins/youtubePlayer/plugin',
+            'plugins/backdropScreensaver/plugin',
+            'plugins/logoScreensaver/plugin'
         ];
 
         if (appHost.supports('remotecontrol')) {
-            list.push('components/sessionPlayer');
+            list.push('plugins/sessionPlayer/plugin');
 
             if (browser.chrome || browser.opera) {
-                list.push('components/chromecast/chromecastplayer');
+                list.push('plugins/chromecastPlayer/plugin');
             }
         }
 
