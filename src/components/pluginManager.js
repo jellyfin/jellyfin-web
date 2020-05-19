@@ -53,7 +53,7 @@ define(['events', 'globalize', 'appRouter'], function (events, globalize, appRou
             }
         }
 
-        if (typeof pluginSpec === "string") {
+        if (typeof pluginSpec === 'string') {
             console.debug('Loading plugin (via deprecated requirejs method): ' + pluginSpec);
 
             return new Promise(function (resolve, reject) {
@@ -101,7 +101,7 @@ define(['events', 'globalize', 'appRouter'], function (events, globalize, appRou
                 return registerPlugin(plugin);
             });
         } else {
-            const err = new Error("Plugins have to be a Promise that resolves to a plugin builder function or a requirejs urls (deprecated)");
+            const err = new Error('Plugins have to be a Promise that resolves to a plugin builder function or a requirejs urls (deprecated)');
             console.error(err);
             return Promise.reject(err);
         }
