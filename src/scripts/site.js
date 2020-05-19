@@ -845,7 +845,7 @@ var AppInfo = {};
         define('sortMenu', [componentsPath + '/sortmenu/sortmenu'], returnFirstDependency);
         define('sanitizefilename', [componentsPath + '/sanitizeFilename'], returnFirstDependency);
         define('toast', [componentsPath + '/toast/toast'], returnFirstDependency);
-        define('scrollHelper', [componentsPath + '/scrollHelper'], returnFirstDependency);
+        define('scrollHelper', [scriptsPath + '/scrollHelper'], returnFirstDependency);
         define('touchHelper', [scriptsPath + '/touchHelper'], returnFirstDependency);
         define('imageUploader', [componentsPath + '/imageUploader/imageUploader'], returnFirstDependency);
         define('htmlMediaHelper', [componentsPath + '/htmlMediaHelper'], returnFirstDependency);
