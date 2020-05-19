@@ -373,7 +373,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
             icon: 'live_tv'
         });
         links.push({
-            name: globalize.translate('DVR'),
+            name: globalize.translate('TabDVR'),
             href: 'livetvsettings.html',
             pageIds: ['liveTvSettingsPage'],
             icon: 'dvr'
