@@ -826,7 +826,7 @@ var AppInfo = {};
         define('cardBuilder', [componentsPath + '/cardbuilder/cardBuilder'], returnFirstDependency);
         define('peoplecardbuilder', [componentsPath + '/cardbuilder/peoplecardbuilder'], returnFirstDependency);
         define('chaptercardbuilder', [componentsPath + '/cardbuilder/chaptercardbuilder'], returnFirstDependency);
-        define('deleteHelper', [componentsPath + '/deleteHelper'], returnFirstDependency);
+        define('deleteHelper', [scriptsPath + '/deleteHelper'], returnFirstDependency);
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
         define('loadingDialog', [componentsPath + '/loadingDialog/loadingDialog'], returnFirstDependency);
