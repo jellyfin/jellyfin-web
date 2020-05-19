@@ -488,13 +488,6 @@ import 'programStyles';
             return null;
         }
 
-        /** Get the Blurhash hash value of a card's image */
-        function getImageBlurhash(hashes, tags) {
-            if (hashes && tags) {
-                return hashes[tags];
-            }
-        }
-
         /** Get the URL of the card's image.
          * @param {Object} item - Item for which to generate a card.
          * @param {Object} apiClient - API client object.
@@ -525,7 +518,7 @@ import 'programStyles';
                     tag: item.ImageTags.Thumb
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.ImageTags.Thumb);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ImageTags.Thumb);
             } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -534,7 +527,7 @@ import 'programStyles';
                     tag: item.ImageTags.Banner
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.ImageTags.Banner);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ImageTags.Banner);
             } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -542,7 +535,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ImageTags.Disc
                 });
-                if (item) blurHash = getImageBlurhash(item.ImageHashes, item.ImageTags.Disc);
+                if (item) blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ImageTags.Disc);
             } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -551,7 +544,7 @@ import 'programStyles';
                     tag: item.ImageTags.Logo
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.ImageTags.Logo);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ImageTags.Logo);
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
@@ -560,7 +553,7 @@ import 'programStyles';
                     tag: item.ParentLogoImageTag
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.ParentLogoImageTag);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ParentLogoImageTag);
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
@@ -569,7 +562,7 @@ import 'programStyles';
                     tag: item.SeriesThumbImageTag
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.SeriesThumbImageTag);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.SeriesThumbImageTag);
             } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
@@ -578,7 +571,7 @@ import 'programStyles';
                     tag: item.ParentThumbImageTag
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.ImageTags.ParentThumbImageTag);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ImageTags.ParentThumbImageTag);
             } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -589,7 +582,7 @@ import 'programStyles';
 
                 forceName = true;
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.BackdropImageTags[0]);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.BackdropImageTags[0]);
             } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
@@ -598,7 +591,7 @@ import 'programStyles';
                     tag: item.ParentBackdropImageTags[0]
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.ParentBackdropImageTags[0]);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ParentBackdropImageTags[0]);
             } else if (item.ImageTags && item.ImageTags.Primary) {
 
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
@@ -610,8 +603,7 @@ import 'programStyles';
                     tag: item.ImageTags.Primary
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.ImageTags.Primary);
-
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ImageTags.Primary);
                 if (options.preferThumb && options.showTitle !== false) {
                     forceName = true;
                 }
@@ -634,7 +626,7 @@ import 'programStyles';
                     tag: item.PrimaryImageTag
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.PrimaryImageTag);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.PrimaryImageTag);
 
                 if (options.preferThumb && options.showTitle !== false) {
                     forceName = true;
@@ -654,7 +646,7 @@ import 'programStyles';
                     tag: item.ParentPrimaryImageTag
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.ParentPrimaryImageTag);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ParentPrimaryImageTag);
             } else if (item.SeriesPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
@@ -663,7 +655,7 @@ import 'programStyles';
                     tag: item.SeriesPrimaryImageTag
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.SeriesPrimaryImageTag);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.SeriesPrimaryImageTag);
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
@@ -675,7 +667,7 @@ import 'programStyles';
                     tag: item.AlbumPrimaryImageTag
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.AlbumPrimaryImageTag);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.AlbumPrimaryImageTag);
 
                 if (primaryImageAspectRatio) {
                     uiAspect = getDesiredAspect(shape);
@@ -691,7 +683,7 @@ import 'programStyles';
                     tag: item.ImageTags.Thumb
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.ImageTags.Thumb);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ImageTags.Thumb);
 
             } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
 
@@ -701,7 +693,7 @@ import 'programStyles';
                     tag: item.BackdropImageTags[0]
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.BackdropImageTags[0]);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.BackdropImageTags[0]);
 
             } else if (item.ImageTags && item.ImageTags.Thumb) {
 
@@ -711,7 +703,7 @@ import 'programStyles';
                     tag: item.ImageTags.Thumb
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.ImageTags.Thumb);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ImageTags.Thumb);
 
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
@@ -721,7 +713,7 @@ import 'programStyles';
                     tag: item.SeriesThumbImageTag
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.SeriesThumbImageTag);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.SeriesThumbImageTag);
 
             } else if (item.ParentThumbItemId && options.inheritThumb !== false) {
 
@@ -731,7 +723,7 @@ import 'programStyles';
                     tag: item.ParentThumbImageTag
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.ParentThumbImageTag);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ParentThumbImageTag);
 
             } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
 
@@ -741,7 +733,7 @@ import 'programStyles';
                     tag: item.ParentBackdropImageTags[0]
                 });
 
-                blurHash = getImageBlurhash(item.ImageHashes, item.ParentBackdropImageTags);
+                blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ParentBackdropImageTags);
 
             }
 

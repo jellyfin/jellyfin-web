@@ -12,7 +12,14 @@ import 'css!./style';
         fillImageElement(elem, source);
     }
 
-    export function fillImage(entry, onlyBlurhash) {
+    /** Get the Blurhash hash value of a card's image */
+    export function getImageBlurhash(hashes, tags) {
+        if (hashes && tags) {
+            return hashes[tags];
+        }
+    }
+
+    export function fillImage(entry) {
         if (!entry) {
             throw new Error('entry cannot be null');
         }
@@ -26,9 +33,9 @@ import 'css!./style';
 
         var blurHash = entry.getAttribute('data-blurhash');
         if (blurHash && blurhash.isBlurhashValid(blurHash)) {
-            var width = 85; // TODO: get correct dimensions
-            var height = 128;
-            var pixels = null;
+            var width = entry.clientWidth; // TODO: get correct dimensions
+            var height = entry.clientHeight;
+            var pixels = undefined;
             try {
                 pixels = blurhash.decode(blurHash, width, height);
             } catch (e) {
@@ -53,7 +60,7 @@ import 'css!./style';
             }
         }
 
-        if (onlyBlurhash) return;
+        // if (onlyBlurhash) return;
         // fillImageElement(elem, source, enableEffects);
 
         if (entry.intersectionRatio > 0) {
@@ -186,6 +193,7 @@ import 'css!./style';
 /* eslint-enable indent */
 export default {
     fillImages: fillImages,
+    getImageBlurhash: getImageBlurhash,
     fillImage: fillImage,
     lazyImage: lazyImage,
     lazyChildren: lazyChildren,

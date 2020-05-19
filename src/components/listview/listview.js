@@ -1,4 +1,4 @@
-define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'apphost', 'blurhash', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, appHost, blurHash) {
+define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'apphost', 'blurhash', 'imageLoader', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, appHost, blurHash, imageLoader) {
     'use strict';
 
     function getIndex(item, options) {
@@ -79,25 +79,25 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         if (item.ImageTags && item.ImageTags.Primary) {
 
             options.tag = item.ImageTags.Primary;
-            blurHash = item.ImageHashes[item.ImageTags.Primary];
+            blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ImageTags.Primary);
             return {url: apiClient.getScaledImageUrl(item.Id, options), blurHash: blurHash};
         }
 
         if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
             options.tag = item.AlbumPrimaryImageTag;
-            blurHash = item.ImageHashes[item.AlbumPrimaryImageTag];
+            blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.AlbumPrimaryImageTag);
             return {url: apiClient.getScaledImageUrl(item.AlbumId, options), blurHash: blurHash};
         } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
 
             options.tag = item.SeriesPrimaryImageTag;
-            blurHash = item.ImageHashes[item.SeriesPrimaryImageTag];
+            blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.SeriesPrimaryImageTag);
             return {url: apiClient.getScaledImageUrl(item.SeriesId, options), blurHash: blurHash};
 
         } else if (item.ParentPrimaryImageTag) {
 
             options.tag = item.ParentPrimaryImageTag;
-            blurHash = item.ImageHashes[item.ParentPrimaryImageTag];
+            blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ParentPrimaryImageTag);
             return {url: apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, options), blurHash: blurHash};
         }
 
@@ -116,7 +116,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         if (item.ChannelId && item.ChannelPrimaryImageTag) {
 
             options.tag = item.ChannelPrimaryImageTag;
-            blurHash = item.ImageHashes[item.ChannelPrimaryImageTag];
+            blurHash = imageLoader.getImageBlurhash(item.ImageHashes, item.ChannelPrimaryImageTag);
             return {url: apiClient.getScaledImageUrl(item.ChannelId, options), blurHash: blurHash};
         }
 
