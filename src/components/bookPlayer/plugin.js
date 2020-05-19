@@ -45,12 +45,28 @@ define(['connectionManager', 'dom', 'loading', 'playbackManager', 'keyboardnavig
                     break;
                 case 'Escape':
                     dialogHelper.close(self._mediaElement);
+                    if (self._tocElement) {
+                        dialogHelper.close(self._tocElement);
+                    }
                     break;
             }
         }
 
         function onDialogClosed() {
             self.stop();
+        }
+
+        function replaceLinks(contents, f) {
+            let links = contents.querySelectorAll('a[href]');
+
+            links.forEach((link) => {
+                let href = link.getAttribute('href');
+
+                link.onclick = function () {
+                    f(href);
+                    return false;
+                };
+            });
         }
 
         function createMediaElement() {
@@ -74,14 +90,57 @@ define(['connectionManager', 'dom', 'loading', 'playbackManager', 'keyboardnavig
                 elem.id = 'bookPlayer';
 
                 let html = '';
-                html += '<div class="topActionButtons">';
+                html += '<div class="topRightActionButtons">';
                 html += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerExit hide-mouse-idle-tv" tabindex="-1"><i class="material-icons bookplayerButtonIcon close"></i></button>';
+                html += '</div>';
+                html += '<div class="topLeftActionButtons">';
+                html += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerToc hide-mouse-idle-tv" tabindex="-1"><i class="material-icons bookplayerButtonIcon toc"></i></button>';
                 html += '</div>';
 
                 elem.innerHTML = html;
 
                 elem.querySelector('.btnBookplayerExit').addEventListener('click', function () {
                     dialogHelper.close(elem);
+                });
+
+                elem.querySelector('.btnBookplayerToc').addEventListener('click', function () {
+                    let rendition = self._rendition;
+                    if (rendition) {
+                        let tocElement = dialogHelper.createDialog({
+                            size: 'small',
+                            autoFocus: false,
+                            removeOnClose: true
+                        });
+                        tocElement.id = 'dialogToc';
+
+                        let tocHtml = '<div class="topRightActionButtons">';
+                        tocHtml += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerTocClose hide-mouse-idle-tv" tabindex="-1"><i class="material-icons bookplayerButtonIcon close"></i></button>';
+                        tocHtml += '</div>';
+                        tocHtml += '<ul class="toc">';
+                        rendition.book.navigation.forEach((chapter) => {
+                            tocHtml += '<li>';
+                            // Remove '../' from href
+                            let link = chapter.href.startsWith('../') ? chapter.href.substr(3) : chapter.href;
+                            tocHtml += `<a href="${rendition.book.path.directory + link}">${chapter.label}</a>`;
+                            tocHtml += '</li>';
+                        });
+                        tocHtml += '</ul>';
+                        tocElement.innerHTML = tocHtml;
+
+                        tocElement.querySelector('.btnBookplayerTocClose').addEventListener('click', function () {
+                            dialogHelper.close(tocElement);
+                        });
+
+                        replaceLinks(tocElement, (href) => {
+                            let relative = rendition.book.path.relative(href);
+                            rendition.display(relative);
+                            dialogHelper.close(tocElement);
+                        });
+
+                        self._tocElement = tocElement;
+
+                        dialogHelper.open(tocElement);
+                    }
                 });
 
                 dialogHelper.open(elem);
