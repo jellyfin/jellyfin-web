@@ -1598,5 +1598,7 @@
     "HeaderRemoteAccessSettings": "Nastavení vzdáleného přístupu",
     "HeaderHttpsSettings": "Nastavení HTTPS",
     "LabelRequireHttpsHelp": "Server automaticky přesměruje všechny požadavky z HTTP na HTTPS. Pokud server nenaslouchá na portu HTTPS, tato funkce nemá žádný účinek.",
-    "LabelRequireHttps": "Vyžadovat HTTPS"
+    "LabelRequireHttps": "Vyžadovat HTTPS",
+    "TabDVR": "Nahrávání",
+    "HeaderDVR": "Nahrávání"
 }
