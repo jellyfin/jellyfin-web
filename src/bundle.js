@@ -5,8 +5,8 @@
 var _define = window.define;
 
 // blurhash
-var blurhash = require("blurhash");
-_define("blurhash", function() {
+var blurhash = require('blurhash');
+_define('blurhash', function() {
     return blurhash;
 });
 

@@ -25,7 +25,7 @@ import 'css!./style';
         }
 
         try {
-            var blurHash = elem.getAttribute("data-blurhash");
+            var blurHash = entry.getAttribute('data-blurhash');
             if (blurHash && blurhash.isBlurhashValid(blurHash)) {
                 var width = 85; // TODO: get correct dimensions
                 var height = 128;
@@ -46,10 +46,10 @@ import 'css!./style';
                 imageData.data.set(pixels);
                 ctx.putImageData(imageData, 0, 0);
                 var uri = self.canvas.toDataURL();
-                elem.style.backgroundImage = "url('" + uri + "')";
+                entry.style.backgroundImage = "url('" + uri + "')";
             }
         } catch (e) {
-            console.log("Blurhash load failed: " + e.toString());
+            console.log('Blurhash load failed: ' + e.toString());
         }
 
         if (onlyBlurhash) return;
