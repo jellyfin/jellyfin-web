@@ -1,4 +1,4 @@
-define(['events', 'globalize', 'appRouter'], function (events, globalize, appRouter) {
+define(['events', 'globalize'], function (events, globalize) {
     'use strict';
 
     // TODO: replace with each plugin version
@@ -70,14 +70,6 @@ define(['events', 'globalize', 'appRouter'], function (events, globalize, appRou
                     }
 
                     plugin.installUrl = pluginSpec;
-
-                    var urlLower = pluginSpec.toLowerCase();
-                    if (urlLower.indexOf('http:') === -1 && urlLower.indexOf('https:') === -1 && urlLower.indexOf('file:') === -1) {
-                        if (pluginSpec.indexOf(appRouter.baseUrl()) !== 0) {
-
-                            pluginSpec = appRouter.baseUrl() + '/' + pluginSpec;
-                        }
-                    }
 
                     var separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\\'));
                     plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
