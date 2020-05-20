@@ -125,8 +125,7 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
             html += '<div class="inputContainer" style="margin-top:2em;">';
             html += '<input is="emby-input" id="txtNetworkPath" type="text" label="' + globalize.translate('LabelOptionalNetworkPath') + '"/>';
             html += '<div class="fieldDescription">';
-            html += globalize.translate('LabelOptionalNetworkPathHelp');
-            html += globalize.translate('MessageDirectoryPickerInstruction', '<b>\\\\server</b>', '<b>\\\\192.168.1.101</b>');
+            html += globalize.translate('LabelOptionalNetworkPathHelp', '<b>\\\\server</b>', '<b>\\\\192.168.1.101</b>');
             html += '</div>';
             html += '</div>';
         }
