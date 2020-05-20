@@ -334,13 +334,22 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         return apiClient.getItems(apiClient.getCurrentUserId(), fetchOptions).then(function (unwatchedMovies) {
             var promises = [];
 
-            for (let unwatchedMovie in unwatchedMovies) {
+            for (let unwatchedMovie in unwatchedMovies.Items) {
                 const remoteTrailers = getRemoteTrailers(unwatchedMovie);
 
                 promises.push(getAllTrailers(unwatchedMovie, remoteTrailers));
             }
 
             return Promise.all(promises);
+        }).then(function (trailersOfUnwathedMovies) {
+            const introItems = [];
+
+            // Choose random trailer for each movie
+            for (let trailers of trailersOfUnwathedMovies) {
+                introItems.push(trailers[Math.floor(Math.random() * trailers.length)]);
+            }
+
+            return Promise.resolve({Items: introItems});
         }).catch(function (err) {
             console.error(`failed to get trailers: ${err}`);
 
