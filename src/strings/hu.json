@@ -1523,5 +1523,6 @@
     "HeaderRemoteAccessSettings": "Távoli Hozzáférés Beállításai",
     "HeaderHttpsSettings": "HTTPS Beállítások",
     "TabDVR": "DVR",
-    "HeaderDVR": "DVR"
+    "HeaderDVR": "DVR",
+    "SaveChanges": "Változtatások mentése"
 }
