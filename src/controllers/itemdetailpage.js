@@ -62,7 +62,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
     function getProgramScheduleHtml(items) {
         var html = '';
-        html += '<div is='emby-itemscontainer' class='itemsContainer vertical-list' data-contextmenu='false'>';
+        html += '<div is="emby-itemscontainer" class="itemsContainer vertical-list" data-contextmenu="false">';
         html += listView.getListViewHtml({
             items: items,
             enableUserDataButtons: false,
@@ -150,7 +150,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             var resolutionNames = [];
             var sourceNames = [];
             mediaSources.forEach(function (v) {
-                if (v.Name.endsWith('p')) {
+                if (v.Name.endsWith('p') || v.Name.endsWith('i')) {
                     resolutionNames.push(v);
                 } else {
                     sourceNames.push(v);
@@ -172,11 +172,11 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             mediaSources = [];
             resolutionNames.forEach(v => mediaSources.push(v));
             sourceNames.forEach(v => mediaSources.push(v));
-            
+
             var selectedId = mediaSources[0].Id;
             select.innerHTML = mediaSources.map(function (v) {
                 var selected = v.Id === selectedId ? ' selected' : '';
-                return '<option value='' + v.Id + ''' + selected + '>' + v.Name + '</option>';
+                return '<option value="' + v.Id + '"' + selected + '>' + v.Name + '</option>';
             }).join('');
 
             if (mediaSources.length > 1) {
@@ -217,7 +217,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 titleParts.push(v.Codec.toUpperCase());
             }
 
-            return '<option value='' + v.Index + '' ' + selected + '>' + (v.DisplayTitle || titleParts.join(' ')) + '</option>';
+            return '<option value="' + v.Index + '" ' + selected + '>' + (v.DisplayTitle || titleParts.join(' ')) + '</option>';
         }).join('');
         select.setAttribute('disabled', 'disabled');
 
@@ -241,7 +241,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var selectedId = mediaSource.DefaultAudioStreamIndex;
         select.innerHTML = tracks.map(function (v) {
             var selected = v.Index === selectedId ? ' selected' : '';
-            return '<option value='' + v.Index + '' ' + selected + '>' + v.DisplayTitle + '</option>';
+            return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
         }).join('');
 
         if (tracks.length > 1) {
@@ -271,9 +271,9 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         if (tracks.length) {
             var selected = -1 === selectedId ? ' selected' : '';
-            select.innerHTML = '<option value='-1'>' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
+            select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
                 selected = v.Index === selectedId ? ' selected' : '';
-                return '<option value='' + v.Index + '' ' + selected + '>' + v.DisplayTitle + '</option>';
+                return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
             }).join('');
             page.querySelector('.selectSubtitlesContainer').classList.remove('hide');
         } else {
@@ -358,7 +358,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 itemType: 'MusicArtist',
                 serverId: serverId
             });
-            html.push('<a style='color:inherit;' class='button-link' is='emby-linkbutton' href='' + href + ''>' + artist.Name + '</a>');
+            html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + artist.Name + '</a>');
         }
 
         return html = html.join(' / ');
@@ -384,7 +384,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             }, {
                 context: context
             });
-            parentNameHtml.push('<a style='color:inherit;' class='button-link' is='emby-linkbutton' href='' + parentRoute + ''>' + item.SeriesName + '</a>');
+            parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
         } else if (item.IsSeries || item.EpisodeTitle) {
             parentNameHtml.push(item.Name);
         }
@@ -399,7 +399,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             }, {
                 context: context
             });
-            parentNameHtml.push('<a style='color:inherit;' class='button-link' is='emby-linkbutton' href='' + parentRoute + ''>' + item.SeriesName + '</a>');
+            parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeriesName + '</a>');
         } else if (null != item.ParentIndexNumber && 'Episode' === item.Type) {
             parentRoute = appRouter.getRouteUrl({
                 Id: item.SeasonId,
@@ -410,7 +410,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             }, {
                 context: context
             });
-            parentNameHtml.push('<a style='color:inherit;' class='button-link' is='emby-linkbutton' href='' + parentRoute + ''>' + item.SeasonName + '</a>');
+            parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.SeasonName + '</a>');
         } else if (null != item.ParentIndexNumber && item.IsSeries) {
             parentNameHtml.push(item.SeasonName || 'S' + item.ParentIndexNumber);
         } else if (item.Album && item.AlbumId && ('MusicVideo' === item.Type || 'Audio' === item.Type)) {
@@ -423,7 +423,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             }, {
                 context: context
             });
-            parentNameHtml.push('<a style='color:inherit;' class='button-link' is='emby-linkbutton' href='' + parentRoute + ''>' + item.Album + '</a>');
+            parentNameHtml.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + parentRoute + '">' + item.Album + '</a>');
         } else if (item.Album) {
             parentNameHtml.push(item.Album);
         }
@@ -436,15 +436,15 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             if (parentNameLast) {
                 // Music
                 if (layoutManager.mobile) {
-                    html = '<h3 class='parentName' style='margin: .25em 0;'>' + parentNameHtml.join('</br>') + '</h3>';
+                    html = '<h3 class="parentName" style="margin: .25em 0;">' + parentNameHtml.join('</br>') + '</h3>';
                 } else {
-                    html = '<h3 class='parentName' style='margin: .25em 0;'>' + parentNameHtml.join(' - ') + '</h3>';
+                    html = '<h3 class="parentName" style="margin: .25em 0;">' + parentNameHtml.join(' - ') + '</h3>';
                 }
             } else {
                 if (layoutManager.mobile) {
-                    html = '<h1 class='parentName' style='margin: .1em 0 .25em;'>' + parentNameHtml.join('</br>') + '</h1>';
+                    html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + parentNameHtml.join('</br>') + '</h1>';
                 } else {
-                    html = '<h1 class='parentName' style='margin: .1em 0 .25em;'>' + tvShowHtml + '</h1>';
+                    html = '<h1 class="parentName" style="margin: .1em 0 .25em;">' + tvShowHtml + '</h1>';
                 }
             }
         }
@@ -456,16 +456,16 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         if (html && !parentNameLast) {
             if (!layoutManager.mobile && tvSeasonHtml) {
-                html += '<h3 class='itemName infoText' style='margin: .25em 0 .5em;'>' + tvSeasonHtml + ' - ' + name + '</h3>';
+                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + tvSeasonHtml + ' - ' + name + '</h3>';
             } else {
-                html += '<h3 class='itemName infoText' style='margin: .25em 0 .5em;'>' + name + '</h3>';
+                html += '<h3 class="itemName infoText" style="margin: .25em 0 .5em;">' + name + '</h3>';
             }
         } else {
-            html = '<h1 class='itemName infoText' style='margin: .1em 0 ' + offset + ';'>' + name + '</h1>' + html;
+            html = '<h1 class="itemName infoText" style="margin: .1em 0 ' + offset + ';">' + name + '</h1>' + html;
         }
 
         if (item.OriginalTitle && item.OriginalTitle != item.Name) {
-            html += '<h4 class='itemName infoText' style='margin: -' + offset + ' 0 0;'>' + item.OriginalTitle + '</h4>';
+            html += '<h4 class="itemName infoText" style="margin: -' + offset + ' 0 0;">' + item.OriginalTitle + '</h4>';
         }
 
         container.innerHTML = html;
@@ -514,7 +514,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 tag: item.ImageTags.Thumb
             });
             page.classList.remove('noBackdrop');
-            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else if (usePrimaryImage && item.ImageTags && item.ImageTags.Primary) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -524,7 +524,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 tag: item.ImageTags.Primary
             });
             page.classList.remove('noBackdrop');
-            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -534,7 +534,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 tag: item.BackdropImageTags[0]
             });
             page.classList.remove('noBackdrop');
-            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else if (item.ParentBackdropItemId && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
             imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
@@ -544,7 +544,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 tag: item.ParentBackdropImageTags[0]
             });
             page.classList.remove('noBackdrop');
-            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else if (item.ImageTags && item.ImageTags.Thumb) {
             imgUrl = apiClient.getScaledImageUrl(item.Id, {
@@ -554,7 +554,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 tag: item.ImageTags.Thumb
             });
             page.classList.remove('noBackdrop');
-            imageLoader.lazyImage(itemBackdropElement, imgUrl, false);
+            imageLoader.lazyImage(itemBackdropElement, imgUrl);
             hasbackdrop = true;
         } else {
             itemBackdropElement.style.backgroundImage = '';
@@ -581,7 +581,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         renderTimerEditor(page, item, apiClient, user);
         renderImage(page, item, apiClient, user);
         renderLogo(page, item, apiClient);
-        setTitle(item, apiClient);
+        Emby.Page.setTitle('');
         setInitialCollapsibleState(page, item, apiClient, context, user);
         renderDetails(page, item, apiClient, context);
         renderTrackSelections(page, instance, item);
@@ -632,7 +632,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             try {
                 var birthday = datetime.parseISO8601Date(item.PremiereDate, true).toDateString();
                 itemBirthday.classList.remove('hide');
-                itemBirthday.innerHTML = globalize.translate('BirthDateValue').replace('{0}', birthday);
+                itemBirthday.innerHTML = globalize.translate('BirthDateValue', birthday);
             } catch (err) {
                 itemBirthday.classList.add('hide');
             }
@@ -646,7 +646,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             try {
                 var deathday = datetime.parseISO8601Date(item.EndDate, true).toDateString();
                 itemDeathDate.classList.remove('hide');
-                itemDeathDate.innerHTML = globalize.translate('DeathDateValue').replace('{0}', deathday);
+                itemDeathDate.innerHTML = globalize.translate('DeathDateValue', deathday);
             } catch (err) {
                 itemDeathDate.classList.add('hide');
             }
@@ -657,9 +657,9 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         var itemBirthLocation = page.querySelector('#itemBirthLocation');
 
         if ('Person' == item.Type && item.ProductionLocations && item.ProductionLocations.length) {
-            var gmap = '<a is='emby-linkbutton' class='button-link textlink' target='_blank' href='https://maps.google.com/maps?q=' + item.ProductionLocations[0] + ''>' + item.ProductionLocations[0] + '</a>';
+            var gmap = '<a is="emby-linkbutton" class="button-link textlink" target="_blank" href="https://maps.google.com/maps?q=' + item.ProductionLocations[0] + '">' + item.ProductionLocations[0] + '</a>';
             itemBirthLocation.classList.remove('hide');
-            itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue').replace('{0}', gmap);
+            itemBirthLocation.innerHTML = globalize.translate('BirthPlaceValue', gmap);
         } else {
             itemBirthLocation.classList.add('hide');
         }
@@ -691,19 +691,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
 
         return null;
-    }
-
-    function setTitle(item, apiClient) {
-        var url = logoImageUrl(item, apiClient, {});
-
-        if (url != null) {
-            var pageTitle = document.querySelector('.pageTitle');
-            pageTitle.style.backgroundImage = 'url('' + url + '')';
-            pageTitle.classList.add('pageTitleWithLogo');
-            pageTitle.innerHTML = '';
-        } else {
-            Emby.Page.setTitle('');
-        }
     }
 
     function renderLogo(page, item, apiClient) {
@@ -744,40 +731,23 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
     }
 
-    function renderUserInfo(page, item) {
-        var lastPlayedElement = page.querySelector('.itemLastPlayed');
-
-        if (item.UserData && item.UserData.LastPlayedDate) {
-            lastPlayedElement.classList.remove('hide');
-            var datePlayed = datetime.parseISO8601Date(item.UserData.LastPlayedDate);
-            lastPlayedElement.innerHTML = globalize.translate('DatePlayed') + ': ' + datetime.toLocaleDateString(datePlayed) + ' ' + datetime.getDisplayTime(datePlayed);
-        } else {
-            lastPlayedElement.classList.add('hide');
-        }
-    }
-
     function renderLinks(linksElem, item) {
         var html = [];
-
-        if (item.DateCreated && itemHelper.enableDateAddedDisplay(item)) {
-            var dateCreated = datetime.parseISO8601Date(item.DateCreated);
-            html.push(globalize.translate('AddedOnValue', datetime.toLocaleDateString(dateCreated) + ' ' + datetime.getDisplayTime(dateCreated)));
-        }
 
         var links = [];
 
         if (!layoutManager.tv && item.HomePageUrl) {
-            links.push('<a style='color:inherit;' is='emby-linkbutton' class='button-link' href='' + item.HomePageUrl + '' target='_blank'>' + globalize.translate('ButtonWebsite') + '</a>');
+            links.push('<a style="color:inherit;" is="emby-linkbutton" class="button-link" href="' + item.HomePageUrl + '" target="_blank">' + globalize.translate('ButtonWebsite') + '</a>');
         }
         if (item.ExternalUrls) {
             for (var i = 0, length = item.ExternalUrls.length; i < length; i++) {
                 var url = item.ExternalUrls[i];
-                links.push('<a style='color:inherit;' is='emby-linkbutton' class='button-link' href='' + url.Url + '' target='_blank'>' + url.Name + '</a>');
+                links.push('<a style="color:inherit;" is="emby-linkbutton" class="button-link" href="' + url.Url + '" target="_blank">' + url.Name + '</a>');
             }
         }
 
         if (links.length) {
-            html.push(globalize.translate('LinksValue', links.join(', ')));
+            html.push(links.join(', '));
         }
 
         linksElem.innerHTML = html.join(', ');
@@ -860,15 +830,15 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
 
         if (editable && url === undefined) {
-            html += '<a class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground'+ cardBuilder.getDefaultBackgroundClass(item.Name) + '' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>';
+            html += "<a class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground" + cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
         } else if (!editable && url === undefined) {
-            html += '<div class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground'+ cardBuilder.getDefaultBackgroundClass(item.Name) + '' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>';
+            html += "<div class='itemDetailGalleryLink itemDetailImage defaultCardBackground defaultCardBackground" + cardBuilder.getDefaultBackgroundClass(item.Name) + "' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
         } else if (editable) {
-            html += '<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>';
+            html += "<a class='itemDetailGalleryLink' is='emby-linkbutton' style='display:block;margin:0;padding:0;' href='#'>";
         }
 
         if (url) {
-            html += '<img class='itemDetailImage lazy' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' />';
+            html += "<img class='itemDetailImage lazy' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' />";
         }
 
         if (url === undefined) {
@@ -882,7 +852,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
 
         var progressHtml = item.IsFolder || !item.UserData ? '' : indicators.getProgressBarHtml(item);
-        html += '<div class='detailImageProgressContainer'>';
+        html += '<div class="detailImageProgressContainer">';
 
         if (progressHtml) {
             html += progressHtml;
@@ -1064,22 +1034,26 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
 
         var html = genres.map(function (p) {
-            return '<a style='color:inherit;' class='button-link' is='emby-linkbutton' href='' + appRouter.getRouteUrl({
+            return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
                 Name: p.Name,
                 Type: type,
                 ServerId: item.ServerId,
                 Id: p.Id
             }, {
                 context: context
-            }) + ''>' + p.Name + '</a>';
+            }) + '">' + p.Name + '</a>';
         }).join(', ');
-        var elem = page.querySelector('.genres');
-        elem.innerHTML = globalize.translate(genres.length > 1 ? 'GenresValue' : 'GenreValue', html);
 
+        var genresLabel = page.querySelector('.genresLabel');
+        genresLabel.innerHTML = globalize.translate(genres.length > 1 ? 'Genres' : 'Genre');
+        var genresValue = page.querySelector('.genres');
+        genresValue.innerHTML = html;
+
+        var genresGroup = page.querySelector('.genresGroup');
         if (genres.length) {
-            elem.classList.remove('hide');
+            genresGroup.classList.remove('hide');
         } else {
-            elem.classList.add('hide');
+            genresGroup.classList.add('hide');
         }
     }
 
@@ -1088,22 +1062,26 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             return 'Director' === p.Type;
         });
         var html = directors.map(function (p) {
-            return '<a style='color:inherit;' class='button-link' is='emby-linkbutton' href='' + appRouter.getRouteUrl({
+            return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
                 Name: p.Name,
                 Type: 'Person',
                 ServerId: item.ServerId,
                 Id: p.Id
             }, {
                 context: context
-            }) + ''>' + p.Name + '</a>';
+            }) + '">' + p.Name + '</a>';
         }).join(', ');
-        var elem = page.querySelector('.directors');
-        elem.innerHTML = globalize.translate(directors.length > 1 ? 'DirectorsValue' : 'DirectorValue', html);
 
+        var directorsLabel = page.querySelector('.directorsLabel');
+        directorsLabel.innerHTML = globalize.translate(directors.length > 1 ? 'Directors' : 'Director');
+        var directorsValue = page.querySelector('.directors');
+        directorsValue.innerHTML = html;
+
+        var directorsGroup = page.querySelector('.directorsGroup');
         if (directors.length) {
-            elem.classList.remove('hide');
+            directorsGroup.classList.remove('hide');
         } else {
-            elem.classList.add('hide');
+            directorsGroup.classList.add('hide');
         }
     }
 
@@ -1161,7 +1139,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         reloadUserDataButtons(page, item);
         renderLinks(externalLinksElem, item);
-        renderUserInfo(page, item);
         renderTags(page, item);
         renderSeriesAirTime(page, item, isStatic);
     }
@@ -1219,7 +1196,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                     includeParentInfoInTitle: false,
                     allowBottomPadding: false
                 });
-                var card = itemsContainer.querySelector('.card[data-id='' + item.Id + '']');
+                var card = itemsContainer.querySelector('.card[data-id="' + item.Id + '"]');
 
                 if (card) {
                     setTimeout(function () {
@@ -1366,7 +1343,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                     itemType: 'Studio',
                     serverId: item.ServerId
                 });
-                html += ' on <a class='textlink button-link' is='emby-linkbutton' href='' + href + ''>' + item.Studios[0].Name + '</a>';
+                html += ' on <a class="textlink button-link" is="emby-linkbutton" href="' + href + '">' + item.Studios[0].Name + '</a>';
             }
         }
         if (html) {
@@ -1584,13 +1561,13 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
             if (!(currentStartDate && currentStartDate.toDateString() === itemStartDate.toDateString())) {
                 if (currentItems.length) {
-                    html += '<div class='verticalSection verticalDetailSection'>';
-                    html += '<h2 class='sectionTitle padded-left'>' + datetime.toLocaleDateString(currentStartDate, {
+                    html += '<div class="verticalSection verticalDetailSection">';
+                    html += '<h2 class="sectionTitle padded-left">' + datetime.toLocaleDateString(currentStartDate, {
                         weekday: 'long',
                         month: 'long',
                         day: 'numeric'
                     }) + '</h2>';
-                    html += '<div is='emby-itemscontainer' class='vertical-list padded-left padded-right'>' + listView.getListViewHtml({
+                    html += '<div is="emby-itemscontainer" class="vertical-list padded-left padded-right">' + listView.getListViewHtml({
                         items: currentItems,
                         enableUserDataButtons: false,
                         showParentTitle: true,
@@ -1609,13 +1586,13 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         }
 
         if (currentItems.length) {
-            html += '<div class='verticalSection verticalDetailSection'>';
-            html += '<h2 class='sectionTitle padded-left'>' + datetime.toLocaleDateString(currentStartDate, {
+            html += '<div class="verticalSection verticalDetailSection">';
+            html += '<h2 class="sectionTitle padded-left">' + datetime.toLocaleDateString(currentStartDate, {
                 weekday: 'long',
                 month: 'long',
                 day: 'numeric'
             }) + '</h2>';
-            html += '<div is='emby-itemscontainer' class='vertical-list padded-left padded-right'>' + listView.getListViewHtml({
+            html += '<div is="emby-itemscontainer" class="vertical-list padded-left padded-right">' + listView.getListViewHtml({
                 items: currentItems,
                 enableUserDataButtons: false,
                 showParentTitle: true,
@@ -1781,14 +1758,14 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
     function renderCollectionItemType(page, parentItem, type, items) {
         var html = '';
-        html += '<div class='verticalSection'>';
-        html += '<div class='sectionTitleContainer sectionTitleContainer-cards padded-left'>';
-        html += '<h2 class='sectionTitle sectionTitle-cards'>';
+        html += '<div class="verticalSection">';
+        html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
+        html += '<h2 class="sectionTitle sectionTitle-cards">';
         html += '<span>' + type.name + '</span>';
         html += '</h2>';
-        html += '<button class='btnAddToCollection sectionTitleButton' type='button' is='paper-icon-button-light' style='margin-left:1em;'><i class='material-icons' icon='add'>add</i></button>';
+        html += '<button class="btnAddToCollection sectionTitleButton" type="button" is="paper-icon-button-light" style="margin-left:1em;"><span class="material-icons add"></span></button>';
         html += '</div>';
-        html += '<div is='emby-itemscontainer' class='itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right'>';
+        html += '<div is="emby-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right">';
         var shape = 'MusicAlbum' == type.type ? getSquareShape(false) : getPortraitShape(false);
         html += cardBuilder.getCardsHtml({
             items: items,
@@ -1812,7 +1789,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             require(['alert'], function (alert) {
                 alert({
                     text: globalize.translate('AddItemToCollectionHelp'),
-                    html: globalize.translate('AddItemToCollectionHelp') + '<br/><br/><a is='emby-linkbutton' class='button-link' target='_blank' href='https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Collections'>' + globalize.translate('ButtonLearnMore') + '</a>'
+                    html: globalize.translate('AddItemToCollectionHelp') + '<br/><br/><a is="emby-linkbutton" class="button-link" target="_blank" href="https://web.archive.org/web/20181216120305/https://github.com/MediaBrowser/Wiki/wiki/Collections">' + globalize.translate('ButtonLearnMore') + '</a>'
                 });
             });
         });
@@ -1882,7 +1859,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         });
 
         if (limit && items.length > limit) {
-            html += '<p style='margin: 0;padding-left:5px;'><button is='emby-button' type='button' class='raised more ' + moreButtonClass + ''>' + globalize.translate('ButtonMore') + '</button></p>';
+            html += '<p style="margin: 0;padding-left:5px;"><button is="emby-button" type="button" class="raised more ' + moreButtonClass + '">' + globalize.translate('ButtonMore') + '</button></p>';
         }
 
         return html;
@@ -2115,7 +2092,6 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
         bindAll(view, '.btnDeleteItem', 'click', onDeleteClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
-        view.querySelector('.btnMoreCommands i').innerHTML = '&#xE5D3;';
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
             splitVersions(self, view, apiClient, params);
@@ -2150,10 +2126,10 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             if (layoutManager.mobile) {
                 libraryMenu.setTransparentMenu(true);
             }
-    
+
             if (e.detail.isRestored) {
                 if (currentItem) {
-                    setTitle(currentItem, connectionManager.getApiClient(currentItem.ServerId));
+                    Emby.Page.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
                 }
             } else {
