@@ -257,7 +257,7 @@ define(['dom', 'userSettings', 'layoutManager', 'inputManager', 'connectionManag
     function refreshLibraryInfoInDrawer(user, drawer) {
         var html = '';
         html += '<div style="height:.5em;"></div>';
-        html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('ButtonHome') + '</span></a>';
+        //html += '<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder" href="home.html"><span class="material-icons navMenuOptionIcon home"></span><span class="navMenuOptionText">' + globalize.translate('ButtonHome') + '</span></a>';
 
         // libraries are added here
         html += '<div class="libraryMenuOptions">';
@@ -273,7 +273,7 @@ define(['dom', 'userSettings', 'layoutManager', 'inputManager', 'connectionManag
             html += '</div>';
         }
 
-        if (user.localUser) {
+        if (user.localUser && !layoutManager.desktop) {
             html += '<div class="userMenuOptions">';
             html += '<h3 class="sidebarHeader">';
             html += globalize.translate('HeaderUser');
