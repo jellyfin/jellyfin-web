@@ -89,7 +89,6 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
             var instruction = options.instruction ? options.instruction + '<br/><br/>' : '';
             html += '<div class="infoBanner" style="margin-bottom:1.5em;">';
             html += instruction;
-            html += globalize.translate('MessageDirectoryPickerInstruction', '<b>\\\\server</b>', '<b>\\\\192.168.1.101</b>');
             if ('bsd' === systemInfo.OperatingSystem.toLowerCase()) {
                 html += '<br/>';
                 html += '<br/>';
@@ -127,6 +126,7 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
             html += '<input is="emby-input" id="txtNetworkPath" type="text" label="' + globalize.translate('LabelOptionalNetworkPath') + '"/>';
             html += '<div class="fieldDescription">';
             html += globalize.translate('LabelOptionalNetworkPathHelp');
+            html += globalize.translate('MessageDirectoryPickerInstruction', '<b>\\\\server</b>', '<b>\\\\192.168.1.101</b>');
             html += '</div>';
             html += '</div>';
         }
