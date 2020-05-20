@@ -126,24 +126,9 @@
 }
 
 @media all and (min-width: 80em) and (min-height: 45em) {
-    .dialog-medium {
-        width: 80%;
-        height: 80%;
-    }
-
-    .dialog-medium-tall {
-        width: 80%;
-        height: 90%;
-    }
-
     .dialog-small {
         width: 60%;
         height: 80%;
-    }
-
-    .dialog-fullscreen-border {
-        width: 90%;
-        height: 90%;
     }
 }
 
