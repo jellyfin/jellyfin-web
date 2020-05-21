@@ -1,9 +1,7 @@
 import connectionManager from 'connectionManager';
 import actionsheet from 'actionsheet';
-import datetime from 'datetime';
 import playbackManager from 'playbackManager';
 import globalize from 'globalize';
-import appSettings from 'appSettings';
 import qualityoptions from 'qualityoptions';
 
 function showQualityMenu(player, btn) {

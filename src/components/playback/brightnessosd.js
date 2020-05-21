@@ -103,9 +103,7 @@ function hideOsd() {
 }
 
 function setIcon(iconElement, icon) {
-    iconElement.classList.remove('brightness_high');
-    iconElement.classList.remove('brightness_medium');
-    iconElement.classList.remove('brightness_low');
+    iconElement.classList.remove('brightness_high', 'brightness_medium', 'brightness_low');
     iconElement.classList.add(icon);
 }
 
