@@ -1520,5 +1520,6 @@
     "HeaderServerAddressSettings": "Nastavenie adresy servera",
     "HeaderRemoteAccessSettings": "Nastavenie vzdialeného prístupu",
     "HeaderHttpsSettings": "Nastavenia HTTPS",
-    "HeaderDVR": "DVR"
+    "HeaderDVR": "DVR",
+    "SaveChanges": "Uložiť zmeny"
 }
