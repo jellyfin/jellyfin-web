@@ -1521,5 +1521,7 @@
     "LabelRequireHttpsHelp": "Si se marca, el servidor redirigirá automáticamente todas las solicitudes de HTTP hacia HTTPS. Esto no tiene efecto si el servidor no está escuchando en HTTPS.",
     "LabelRequireHttps": "Necesita HTTPS",
     "LabelEnableHttpsHelp": "Permite que el servidor escuche en el puesto HTTPS configurado. También se debe configurar un certificado válido para que esto surta efecto.",
-    "LabelEnableHttps": "Activar HTTPS"
+    "LabelEnableHttps": "Activar HTTPS",
+    "TabDVR": "DVR",
+    "SaveChanges": "Guardar cambios"
 }
