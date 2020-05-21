@@ -649,5 +649,14 @@
     "HeaderHttpsSettings": "Configuraciones HTTPS",
     "HeaderEnabledFieldsHelp": "Desmarque un campo para bloquearlo y evitar que se modifiquen sus datos.",
     "HeaderDirectPlayProfileHelp": "Agregue perfiles de reproducción directa para indicar qué formatos puede manejar el dispositivo de forma nativa.",
-    "ApiKeysCaption": "Lista de las claves de API habilitadas actualmente"
+    "ApiKeysCaption": "Lista de las claves de API habilitadas actualmente",
+    "LabelArtists": "Artistas:",
+    "LabelAppName": "Nombre de la aplicación",
+    "LabelAllowedRemoteAddressesMode": "Modo de filtro de dirección IP remota:",
+    "LabelAlbum": "Álbum:",
+    "LabelAirTime": "Tiempo al aire:",
+    "LabelAirDays": "Días al aire:",
+    "LabelAccessStart": "Hora de inicio:",
+    "LabelAccessEnd": "Hora de finalización:",
+    "HeaderDVR": "DVR"
 }
