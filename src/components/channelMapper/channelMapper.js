@@ -79,7 +79,7 @@ define(['dom', 'dialogHelper', 'loading', 'connectionManager', 'globalize', 'act
 
         function getEditorHtml() {
             var html = '';
-            html += '<div class="formDialogContent">';
+            html += '<div class="formDialogContent smoothScrollY">';
             html += '<div class="dialogContentInner dialog-content-centered">';
             html += '<form style="margin:auto;">';
             html += '<h1>' + globalize.translate('HeaderChannels') + '</h1>';

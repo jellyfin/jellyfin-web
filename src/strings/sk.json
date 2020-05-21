@@ -1433,7 +1433,7 @@
     "LabelFriendlyName": "Priateľský názov:",
     "LabelFolder": "Priečinok:",
     "LabelExtractChaptersDuringLibraryScanHelp": "Generovať obrázky kapitol počas toho, ako sú videá importované v prvotnom prehľadávaní knižnice. Inak sa budú extrahovať počas naplánovanej úlohy generovania obrázkov kapitol, čo dovoľuje rýchlejšie dokončenie bežného prehľadávania knižnice.",
-    "LabelBaseUrlHelp": "Tu môžete pridať vlastný podpriečinok, aby bolo možné pristupovať k serveru z viac unikátnej URL.",
+    "LabelBaseUrlHelp": "Pridá vlastný reťazec na URL adresu serveru, napr: <code>http://priklad.sk/<b>&lt;vlastnyretazec&gt;</b></code>",
     "LabelBaseUrl": "Východzia URL:",
     "LabelEveryXMinutes": "Každý:",
     "LabelEnableSingleImageInDidlLimitHelp": "Niektoré zariadenia nebudú zobrazovať správne pokiaľ je viacero obrázkov uložených v Didl.",
@@ -1442,7 +1442,7 @@
     "LabelEnableDlnaDebugLogging": "Povoliť loggovanie DLNA debugu",
     "LabelEnableDlnaClientDiscoveryIntervalHelp": "Určuje dobu trvania v sekundách medzi SSDP vyhľadávaniami vykonanými Jellyfinom.",
     "LabelEnableDlnaClientDiscoveryInterval": "Interval pre objavenie klienta (sekundy)",
-    "LabelEnableAutomaticPortMapHelp": "Pokus o automatické namapovanie vejerného portu na lokálny port cez UPnP. Toto nemusí fungovať so všetkými modelmi routerov. Zmeny sa vykonajú až po reštarte servera.",
+    "LabelEnableAutomaticPortMapHelp": "Automatické namapovanie vejerného portu na lokálny port serveru cez UPnP. Toto nemusí fungovať so všetkými modelmi routerov alebo sieťových konfigurácií. Zmeny sa vykonajú až po reštarte servera.",
     "LabelEmbedAlbumArtDidlHelp": "Niektoré zariadenia preferujú túto metódu pre získavanie obrázku albumu. Ostatným môže zlyhať prehrávanie pokiaľ je táto možnosť povolená.",
     "LabelBlastMessageIntervalHelp": "Určuje dobu v sekundách medzi vysielaniami správ o serveri.",
     "LabelBindToLocalNetworkAddressHelp": "Voliteľné. Prepísať lokálnu IP adresu viazanú na http server. Pokiaľ zostane prázdna, server sa naviaže na všetky dostupné adresy. Pri zmene tejto hodnoty sa vyžaduje reštart Jellyfin Servera.",
@@ -1511,5 +1511,14 @@
     "ApiKeysCaption": "Zoznam v súčasnosti povolených API kľúčov",
     "LabelNightly": "Nočná",
     "LabelStable": "Stabilná",
-    "LabelChromecastVersion": "Chromecast verzia"
+    "LabelChromecastVersion": "Chromecast verzia",
+    "TabDVR": "DVR",
+    "LabelRequireHttpsHelp": "Pokiaľ je zaškrtnutý, server bude automaticky presmerovávať všetky HTTP požiadavky cez HTTPS. Toto nastavenie nemá žiadny efekt, pokiaľ server nepočúva na HTTPS.",
+    "LabelRequireHttps": "Vyžadovať HTTPS",
+    "LabelEnableHttpsHelp": "Umožní serveru počúvať na nastavenom HTTPS porte. K správnemu fungovaniu je nutné nakonfigurovať aj platný certifikát.",
+    "LabelEnableHttps": "Povoliť HTTPS",
+    "HeaderServerAddressSettings": "Nastavenie adresy servera",
+    "HeaderRemoteAccessSettings": "Nastavenie vzdialeného prístupu",
+    "HeaderHttpsSettings": "Nastavenia HTTPS",
+    "HeaderDVR": "DVR"
 }

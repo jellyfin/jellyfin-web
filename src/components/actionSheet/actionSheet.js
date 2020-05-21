@@ -197,7 +197,9 @@ export function show(options) {
         menuItemClass += ' actionsheet-xlargeFont';
     }
 
-    for (let [i, item] of options.items.entries()) {
+    // 'options.items' is HTMLOptionsCollection, so no fancy loops
+    for (let i = 0; i < options.items.length; i++) {
+        const item = options.items[i];
 
         if (item.divider) {
 

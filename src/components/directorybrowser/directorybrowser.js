@@ -253,7 +253,7 @@ define(['loading', 'dialogHelper', 'dom', 'globalize', 'listViewStyle', 'emby-in
                     var systemInfo = responses[0];
                     var initialPath = responses[1];
                     var dlg = dialogHelper.createDialog({
-                        size: 'medium-tall',
+                        size: 'small',
                         removeOnClose: true,
                         scrollY: false
                     });
