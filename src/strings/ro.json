@@ -1516,5 +1516,8 @@
     "LabelEnableHttps": "Activați HTTPS",
     "HeaderServerAddressSettings": "Setările adresei serverului",
     "HeaderRemoteAccessSettings": "Setări pentru aces remote",
-    "HeaderHttpsSettings": "Setări https"
+    "HeaderHttpsSettings": "Setări https",
+    "TabDVR": "DVR",
+    "SaveChanges": "Salvează modificările",
+    "HeaderDVR": "DVR"
 }
