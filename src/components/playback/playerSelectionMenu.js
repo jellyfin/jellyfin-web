@@ -83,7 +83,7 @@ function getIcon(target) {
     }
 }
 
-export function showPlayerSelection(button) {
+export function show(button) {
 
     var currentPlayerInfo = playbackManager.getPlayerInfo();
 
@@ -321,5 +321,5 @@ events.on(playbackManager, 'pairerror', function (e) {
 });
 
 export default {
-    show: showPlayerSelection
+    show: show
 };
