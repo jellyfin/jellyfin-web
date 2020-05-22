@@ -1,35 +1,44 @@
-define(['connectionManager', 'dom', 'loading', 'playbackManager', 'keyboardnavigation', 'dialogHelper', 'apphost', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (connectionManager, dom, loading, playbackManager, keyboardnavigation, dialogHelper, appHost) {
-    'use strict';
+import connectionManager from 'connectionManager';
+import dom from 'dom';
+import loading from 'loading';
+import playbackManager from 'playbackManager';
+import keyboardnavigation from 'keyboardnavigation';
+import dialogHelper from 'dialogHelper';
+import appHost from 'apphost';
+import 'css!./style';
+import 'material-icons';
+import 'paper-icon-button-light';
 
-    function BookPlayer() {
-        let self = this;
+/* eslint-disable indent */
+export class BookPlayer {
+        constructor() {
+            this.name = 'Book Player';
+            this.type = 'mediaplayer';
+            this.id = 'bookplayer';
+            this.priority = 1;
+        }
 
-        self.name = 'Book Player';
-        self.type = 'mediaplayer';
-        self.id = 'bookplayer';
-        self.priority = 1;
-
-        self.play = function (options) {
+        play(options) {
             loading.show();
-            let elem = createMediaElement();
-            return setCurrentSrc(elem, options);
-        };
+            let elem = this.createMediaElement();
+            return this.setCurrentSrc(elem, options);
+        }
 
-        self.stop = function () {
-            let elem = self._mediaElement;
-            let rendition = self._rendition;
+        stop() {
+            let elem = this._mediaElement;
+            let rendition = this._rendition;
 
             if (elem && rendition) {
                 rendition.destroy();
 
                 elem.remove();
-                self._mediaElement = null;
+                this._mediaElement = null;
             }
-        };
+        }
 
-        function onWindowKeyUp(e) {
+        onWindowKeyUp(e) {
             let key = keyboardnavigation.getKeyName(e);
-            let rendition = self._rendition;
+            let rendition = this._rendition;
             let book = rendition.book;
 
             switch (key) {
@@ -44,19 +53,19 @@ define(['connectionManager', 'dom', 'loading', 'playbackManager', 'keyboardnavig
                     book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev();
                     break;
                 case 'Escape':
-                    dialogHelper.close(self._mediaElement);
-                    if (self._tocElement) {
-                        dialogHelper.close(self._tocElement);
+                    dialogHelper.close(this._mediaElement);
+                    if (this._tocElement) {
+                        dialogHelper.close(this._tocElement);
                     }
                     break;
             }
         }
 
-        function onDialogClosed() {
-            self.stop();
+        onDialogClosed() {
+            this.stop();
         }
 
-        function replaceLinks(contents, f) {
+        replaceLinks(contents, f) {
             let links = contents.querySelectorAll('a[href]');
 
             links.forEach((link) => {
@@ -69,8 +78,8 @@ define(['connectionManager', 'dom', 'loading', 'playbackManager', 'keyboardnavig
             });
         }
 
-        function createMediaElement() {
-            let elem = self._mediaElement;
+        createMediaElement() {
+            let elem = this._mediaElement;
 
             if (elem) {
                 return elem;
@@ -104,7 +113,7 @@ define(['connectionManager', 'dom', 'loading', 'playbackManager', 'keyboardnavig
                 });
 
                 elem.querySelector('.btnBookplayerToc').addEventListener('click', function () {
-                    let rendition = self._rendition;
+                    let rendition = this._rendition;
                     if (rendition) {
                         let tocElement = dialogHelper.createDialog({
                             size: 'small',
@@ -131,13 +140,13 @@ define(['connectionManager', 'dom', 'loading', 'playbackManager', 'keyboardnavig
                             dialogHelper.close(tocElement);
                         });
 
-                        replaceLinks(tocElement, (href) => {
+                        this.replaceLinks(tocElement, (href) => {
                             let relative = rendition.book.path.relative(href);
                             rendition.display(relative);
                             dialogHelper.close(tocElement);
                         });
 
-                        self._tocElement = tocElement;
+                        this._tocElement = tocElement;
 
                         dialogHelper.open(tocElement);
                     }
@@ -145,18 +154,19 @@ define(['connectionManager', 'dom', 'loading', 'playbackManager', 'keyboardnavig
 
                 dialogHelper.open(elem);
 
-                elem.addEventListener('close', onDialogClosed);
+                elem.addEventListener('close', this.onDialogClosed.bind(this));
             }
 
-            self._mediaElement = elem;
+            this._mediaElement = elem;
 
             return elem;
         }
 
-        function setCurrentSrc(elem, options) {
+        setCurrentSrc(elem, options) {
             let serverId = options.items[0].ServerId;
             let apiClient = connectionManager.getApiClient(serverId);
 
+            const self = this;
             return new Promise(function (resolve, reject) {
                 require(['epubjs'], function (epubjs) {
                     let downloadHref = apiClient.getItemDownloadUrl(options.items[0].Id);
@@ -168,9 +178,9 @@ define(['connectionManager', 'dom', 'loading', 'playbackManager', 'keyboardnavig
                     self._rendition = rendition;
 
                     return rendition.display().then(function () {
-                        document.addEventListener('keyup', onWindowKeyUp);
+                        document.addEventListener('keyup', self.onWindowKeyUp.bind(self));
                         // FIXME: I don't really get why document keyup event is not triggered when epub is in focus
-                        self._rendition.on('keyup', onWindowKeyUp);
+                        self._rendition.on('keyup', self.onWindowKeyUp.bind(self));
 
                         loading.hide();
 
@@ -182,11 +192,11 @@ define(['connectionManager', 'dom', 'loading', 'playbackManager', 'keyboardnavig
                 });
             });
         }
-    }
 
-    BookPlayer.prototype.canPlayMediaType = function (mediaType) {
+    canPlayMediaType(mediaType) {
         return (mediaType || '').toLowerCase() === 'book';
-    };
+    }
+}
 
-    return BookPlayer;
-});
+/* eslint-enable indent */
+export default BookPlayer;
