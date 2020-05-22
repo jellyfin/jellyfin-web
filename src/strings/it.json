@@ -1519,5 +1519,6 @@
     "HeaderHttpsSettings": "Configurazione HTTPS",
     "TabDVR": "DVR",
     "SaveChanges": "Salva modifiche",
-    "HeaderDVR": "DVR"
+    "HeaderDVR": "DVR",
+    "LabelNightly": "Nightly"
 }
