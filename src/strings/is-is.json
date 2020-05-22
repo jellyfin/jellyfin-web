@@ -466,5 +466,14 @@
     "RecentlyWatched": "Nýlega horft á",
     "RecommendationBecauseYouLike": "Af því að þér líkar {0}",
     "RecommendationBecauseYouWatched": "Af því að þú horfðir á {0}",
-    "RecommendationDirectedBy": "Leikstýrt af {0}"
+    "RecommendationDirectedBy": "Leikstýrt af {0}",
+    "SortChannelsBy": "Raða rásum eftir:",
+    "SortByValue": "Raða eftir {0}",
+    "Sort": "Raða",
+    "Filter": "Sía",
+    "New": "Nýtt",
+    "Shuffle": "Stokka",
+    "ShowYear": "Sýna ár",
+    "ShowTitle": "Sýna titil",
+    "Share": "Deila"
 }
