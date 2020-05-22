@@ -149,7 +149,7 @@ export class BookPlayer {
 
                     dialogHelper.open(tocElement);
                 }
-            });
+            }.bind(this));
 
             dialogHelper.open(elem);
 
@@ -169,20 +169,18 @@ export class BookPlayer {
         return new Promise(function (resolve, reject) {
             require(['epubjs'], function (epubjs) {
                 let downloadHref = apiClient.getItemDownloadUrl(options.items[0].Id);
-                self._currentSrc = downloadHref;
-
                 let book = epubjs.default(downloadHref, {openAs: 'epub'});
-
                 let rendition = book.renderTo(elem, {width: '100%', height: '97%'});
-                self._rendition = rendition;
 
+                self._currentSrc = downloadHref;
+                self._rendition = rendition;
                 return rendition.display().then(function () {
                     document.addEventListener('keyup', self.onWindowKeyUp.bind(self));
+
                     // FIXME: I don't really get why document keyup event is not triggered when epub is in focus
                     self._rendition.on('keyup', self.onWindowKeyUp.bind(self));
 
                     loading.hide();
-
                     return resolve();
                 }, function () {
                     console.error('Failed to display epub');
