@@ -179,12 +179,6 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             view.querySelector('#operatingSystem').innerHTML = globalize.translate('DashboardOperatingSystem', systemInfo.OperatingSystem);
             view.querySelector('#architecture').innerHTML = globalize.translate('DashboardArchitecture', systemInfo.SystemArchitecture);
 
-            if (systemInfo.CanSelfRestart) {
-                view.querySelector('#btnRestartServer').classList.remove('hide');
-            } else {
-                view.querySelector('#btnRestartServer').classList.add('hide');
-            }
-
             view.querySelector('#cachePath').innerHTML = systemInfo.CachePath;
             view.querySelector('#logPath').innerHTML = systemInfo.LogPath;
             view.querySelector('#transcodePath').innerHTML = systemInfo.TranscodingTempPath;
@@ -716,36 +710,6 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             var page = dom.parentWithClass(btn, 'page');
             ApiClient.stopScheduledTask(id).then(function () {
                 pollForInfo(page, ApiClient);
-            });
-        },
-        restart: function (btn) {
-            require(['confirm'], function (confirm) {
-                confirm({
-                    title: globalize.translate('HeaderRestart'),
-                    text: globalize.translate('MessageConfirmRestart'),
-                    confirmText: globalize.translate('ButtonRestart'),
-                    primary: 'delete'
-                }).then(function () {
-                    var page = dom.parentWithClass(btn, 'page');
-                    page.querySelector('#btnRestartServer').disabled = true;
-                    page.querySelector('#btnShutdown').disabled = true;
-                    ApiClient.restartServer();
-                });
-            });
-        },
-        shutdown: function (btn) {
-            require(['confirm'], function (confirm) {
-                confirm({
-                    title: globalize.translate('HeaderShutdown'),
-                    text: globalize.translate('MessageConfirmShutdown'),
-                    confirmText: globalize.translate('ButtonShutdown'),
-                    primary: 'delete'
-                }).then(function () {
-                    var page = dom.parentWithClass(btn, 'page');
-                    page.querySelector('#btnRestartServer').disabled = true;
-                    page.querySelector('#btnShutdown').disabled = true;
-                    ApiClient.shutdownServer();
-                });
             });
         }
     };
