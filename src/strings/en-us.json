@@ -646,7 +646,7 @@
     "LabelEnableDlnaServerHelp": "Allows UPnP devices on your network to browse and play content.",
     "LabelEnableHardwareDecodingFor": "Enable hardware decoding for:",
     "LabelEnableHttps": "Enable HTTPS",
-    "LabelEnableHttpsHelp": "Enables the server to listen on the configured HTTPS post. A valid certificate must also be configured in order for this to take effect.",
+    "LabelEnableHttpsHelp": "Enables the server to listen on the configured HTTPS port. A valid certificate must also be configured in order for this to take effect.",
     "LabelEnableRealtimeMonitor": "Enable real time monitoring",
     "LabelEnableRealtimeMonitorHelp": "Changes to files will be processed immediately, on supported file systems.",
     "LabelEnableSingleImageInDidlLimit": "Limit to single embedded image",
