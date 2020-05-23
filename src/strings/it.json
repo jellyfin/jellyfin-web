@@ -671,7 +671,7 @@
     "LabelNumberOfGuideDays": "Numero di giorni per i quali scaricare i dati della guida:",
     "LabelNumberOfGuideDaysHelp": "Scaricando più giorni si avrà la possibilità di pianificare in anticipo più programmi e vedere più liste, ma il tempo di download si allungherà. 'Auto': MB sceglierà automaticamente in base al numero di canali.",
     "LabelOptionalNetworkPath": "Cartella condivisa (Opzionale):",
-    "LabelOptionalNetworkPathHelp": "Se questa cartella è condivisa sulla rete, fornendo il percorso di condivisione di rete si può consentire alle applicazioni Jellyfin su altri dispositivi di accedere direttamente ai file multimediali.",
+    "LabelOptionalNetworkPathHelp": "Se questa cartella è condivisa sulla rete, fornendo il percorso di condivisione di rete si può consentire alle applicazioni Jellyfin su altri dispositivi di accedere direttamente ai file multimediali. Ad esempio {0} oppure {1}.",
     "LabelOriginalAspectRatio": "Aspetto originale:",
     "LabelOriginalTitle": "Titolo originale:",
     "LabelOverview": "Trama:",
