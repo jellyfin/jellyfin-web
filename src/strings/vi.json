@@ -731,5 +731,8 @@
     "HeaderServerAddressSettings": "Cài Đặt Địa Chỉ Máy Chủ",
     "HeaderRemoteAccessSettings": "Cài Đặt Truy Cập Từ Xa",
     "HeaderHttpsSettings": "Cài Đặt HTTPS",
-    "HeaderDVR": "DVR"
+    "HeaderDVR": "DVR",
+    "LabelExtractChaptersDuringLibraryScanHelp": "Trích xuất hình ảnh của video được nhập vào trong lúc quét thư viện. Nếu không thì hình này này sẽ được trích xuất thông qua những tác vụ định kì, giúp cho quá trình quét thư viện diễn ra nhanh hơn.",
+    "LabelExtractChaptersDuringLibraryScan": "Trích xuất hình ảnh từng chương khi quét thư viện",
+    "LabelBaseUrlHelp": "Thêm một thư mục tuỳ chọn vào đường dẫn máy chủ. Ví dụ: <code>http://example.com/<b>&lt;baseurl&gt;</b></code>"
 }
