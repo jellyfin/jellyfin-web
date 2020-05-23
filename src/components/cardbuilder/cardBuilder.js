@@ -505,6 +505,9 @@ import 'programStyles';
             let imgUrl = null;
             let coverImage = false;
             let uiAspect = null;
+            let blurhash;
+            let blurhashimg = item.ImageBlurHashes;
+            let imgtag;
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
 
@@ -513,6 +516,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
+                imgtag = item.ImageTags.Thumb;
 
             } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
 
@@ -521,6 +525,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ImageTags.Banner
                 });
+                imgtag = item.ImageTags.Banner;
 
             } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
 
@@ -529,6 +534,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ImageTags.Disc
                 });
+                imgtag = item.ImageTags.Disc;
 
             } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
 
@@ -537,6 +543,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ImageTags.Logo
                 });
+                imgtag = item.ImageTags.Logo;
 
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
 
@@ -545,6 +552,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ParentLogoImageTag
                 });
+                imgtag = item.ParentLogoImageTag;
 
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
@@ -553,6 +561,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.SeriesThumbImageTag
                 });
+                imgtag = item.SeriesThumbImageTag;
 
             } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
 
@@ -561,6 +570,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ParentThumbImageTag
                 });
+                imgtag = item.ParentThumbImageTag;
 
             } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
 
@@ -569,6 +579,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.BackdropImageTags[0]
                 });
+                imgtag = item.BackdropImageTags[0];
 
                 forceName = true;
 
@@ -579,6 +590,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ParentBackdropImageTags[0]
                 });
+                imgtag = item.ParentBackdropImageTags[0];
 
             } else if (item.ImageTags && item.ImageTags.Primary) {
 
@@ -590,6 +602,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ImageTags.Primary
                 });
+                imgtag = item.ImageTags.Primary;
 
                 if (options.preferThumb && options.showTitle !== false) {
                     forceName = true;
@@ -612,6 +625,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.PrimaryImageTag
                 });
+                imgtag = item.PrimaryImageTag;
 
                 if (options.preferThumb && options.showTitle !== false) {
                     forceName = true;
@@ -630,6 +644,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ParentPrimaryImageTag
                 });
+                imgtag = item.ParentPrimaryImageTag;
             } else if (item.SeriesPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
@@ -637,6 +652,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.SeriesPrimaryImageTag
                 });
+                imgtag = item.SeriesPrimaryImageTag;
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
@@ -647,6 +663,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.AlbumPrimaryImageTag
                 });
+                imgtag = item.AlbumPrimaryImageTag;
 
                 if (primaryImageAspectRatio) {
                     uiAspect = getDesiredAspect(shape);
@@ -661,6 +678,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
+                imgtag = item.ImageTags.Thumb;
 
             } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
 
@@ -669,6 +687,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.BackdropImageTags[0]
                 });
+                imgtag = item.BackdropImageTags[0];
 
             } else if (item.ImageTags && item.ImageTags.Thumb) {
 
@@ -677,6 +696,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ImageTags.Thumb
                 });
+                imgtag = item.ImageTags.Thumb;
 
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
@@ -685,6 +705,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.SeriesThumbImageTag
                 });
+                imgtag = item.SeriesThumbImageTag;
 
             } else if (item.ParentThumbItemId && options.inheritThumb !== false) {
 
@@ -693,6 +714,7 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ParentThumbImageTag
                 });
+                imgtag = item.ParentThumbImageTag;
 
             } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
 
@@ -701,11 +723,15 @@ import 'programStyles';
                     maxWidth: width,
                     tag: item.ParentBackdropImageTags[0]
                 });
+                imgtag = item.ParentBackdropImageTags[0];
 
             }
 
+            blurhash = imageLoader.getImageBlurhashStr(blurhashimg, imgtag);
+
             return {
                 imgUrl: imgUrl,
+                blurhash: blurhash,
                 forceName: forceName,
                 coverImage: coverImage
             };
@@ -1321,6 +1347,7 @@ import 'programStyles';
 
             const imgInfo = getCardImageUrl(item, apiClient, options, shape);
             const imgUrl = imgInfo.imgUrl;
+            const blurhash = imgInfo.blurhash;
 
             const forceName = imgInfo.forceName;
 
@@ -1445,15 +1472,20 @@ import 'programStyles';
                 cardContentClass += ' cardContent-shadow';
             }
 
+            let blurhashAttrib = '';
+            if (blurhash && blurhash.length > 0) {
+                blurhashAttrib = 'data-blurhash="' + blurhash + '"';
+            }
+
             if (layoutManager.tv) {
 
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
+                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
 
                 cardImageContainerClose = '</div>';
             } else {
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '">') : ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
+                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
 
                 cardImageContainerClose = '</button>';
             }

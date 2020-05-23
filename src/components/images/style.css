@@ -1,13 +1,18 @@
-.cardImageContainer.lazy {
-    opacity: 0;
+.lazy-blurhash-fadein-fast {
+    transition: opacity 0.2s;
 }
 
-.cardImageContainer.lazy.lazy-image-fadein {
-    opacity: 1;
+.lazy-blurhash-fadein {
     transition: opacity 0.7s;
 }
 
-.cardImageContainer.lazy.lazy-image-fadein-fast {
-    opacity: 1;
-    transition: opacity 0.2s;
+/* We let the canvas overflow a little, so it gives a cooler zoom effect when transitioning */
+.blurhash-canvas {
+    align-items: stretch;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 105%;
+    height: 105%;
+    z-index: -1000;
 }

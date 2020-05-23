@@ -16,6 +16,12 @@ _define('fetch', function() {
     return fetch;
 });
 
+// Blurhash
+var blurhash = require('blurhash');
+_define('blurhash', function() {
+    return blurhash;
+});
+
 // query-string
 var query = require('query-string');
 _define('queryString', function() {

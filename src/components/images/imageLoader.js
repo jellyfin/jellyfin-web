@@ -1,5 +1,6 @@
 import * as lazyLoader from 'lazyLoader';
 import * as userSettings from 'userSettings';
+import * as blurhash from 'blurhash';
 import 'css!./style';
 /* eslint-disable indent */
 
@@ -9,6 +10,82 @@ import 'css!./style';
         }
 
         fillImageElement(elem, source);
+    }
+
+    export function getImageBlurhashStr(hashes, tags) {
+        if (hashes && tags) {
+            return hashes[tags];
+        }
+        return null;
+    }
+
+    // function destroyBlurhash(target) {
+    //     let canvas = target.getElementsByClassName('blurhash-canvas')[0];
+    //     target.removeChild(canvas);
+    //     target.classList.remove('blurhashed');
+    // }
+
+    function itemBlurhashing(entry) {
+        // This intersection ratio ensures that items that are near the borders are also blurhashed, alongside items that are outside the viewport
+        // if (entry.intersectionRation <= 0.025)
+        if (entry.target) {
+            let target = entry.target;
+            // We only keep max 80 items blurhashed in screen to save memory
+            // if (document.getElementsByClassName('blurhashed').length <= 80) {
+
+            //} else {
+                // destroyBlurhash(target);
+            //}
+            let blurhashstr = target.getAttribute('data-blurhash');
+            if (blurhash.isBlurhashValid(blurhashstr) && target.getElementsByClassName('blurhash-canvas').length === 0) {
+                console.log('Blurhashing item ' + target.parentElement.parentElement.parentElement.getAttribute('data-index') + ' with intersection ratio ' + entry.intersectionRatio);
+                let width = target.offsetWidth;
+                let height = target.offsetHeight;
+                if (width && height) {
+                    let pixels;
+                    try {
+                        pixels = blurhash.decode(blurhashstr, width, height);
+                    } catch (err) {
+                        console.log('Blurhash decode error: ' + err.toString());
+                        return;
+                    }
+
+                    let canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    let ctx = canvas.getContext('2d');
+                    let imgData = ctx.createImageData(width, height);
+
+                    imgData.data.set(pixels);
+                    // Values taken from https://www.npmjs.com/package/blurhash
+                    ctx.putImageData(imgData, 1, 1);
+
+                    let child = target.appendChild(canvas);
+                    child.classList.add('blurhash-canvas');
+                    child.style.opacity = 1;
+                    if (userSettings.enableFastFadein()) {
+                        child.classList.add('lazy-blurhash-fadein-fast');
+                    } else {
+                        child.classList.add('lazy-blurhash-fadein');
+                    }
+
+                    target.classList.add('blurhashed');
+                }
+            }
+        }
+        return;
+    }
+
+    function switchCanvas(elem) {
+        let child = elem.getElementsByClassName('blurhash-canvas')[0];
+        if (child) {
+            if (elem.getAttribute('data-src')) {
+                child.style.opacity = 1;
+            } else {
+                child.style.opacity = 0;
+            }
+        }
+        return;
     }
 
     export function fillImage(entry) {
@@ -21,6 +98,10 @@ import 'css!./style';
             source = entry.target.getAttribute('data-src');
         } else {
             source = entry;
+        }
+
+        if (!entry.target.classList.contains('blurhashed')) {
+            itemBlurhashing(entry);
         }
 
         if (entry.intersectionRatio > 0) {
@@ -45,14 +126,12 @@ import 'css!./style';
                 elem.setAttribute('src', url);
             }
 
-            if (userSettings.enableFastFadein()) {
-                elem.classList.add('lazy-image-fadein-fast');
-            } else {
-                elem.classList.add('lazy-image-fadein');
-            }
-
             elem.removeAttribute('data-src');
+            switchCanvas(elem);
         });
+        // preloaderImg.onload = function () {
+            
+        // };
     }
 
     function emptyImageElement(elem) {
@@ -67,9 +146,7 @@ import 'css!./style';
         }
 
         elem.setAttribute('data-src', url);
-
-        elem.classList.remove('lazy-image-fadein-fast');
-        elem.classList.remove('lazy-image-fadein');
+        switchCanvas(elem);
     }
 
     export function lazyChildren(elem) {
@@ -148,6 +225,7 @@ import 'css!./style';
 export default {
     fillImages: fillImages,
     fillImage: fillImage,
+    getImageBlurhashStr: getImageBlurhashStr,
     lazyImage: lazyImage,
     lazyChildren: lazyChildren,
     getPrimaryImageAspectRatio: getPrimaryImageAspectRatio
