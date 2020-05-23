@@ -688,7 +688,7 @@
     "LabelNumberOfGuideDays": "Número de dias de dados do guia para baixar:",
     "LabelNumberOfGuideDaysHelp": "Baixar mais dias do guia da TV permite agendar com maior antecedência e visualizar mais listas, mas também levará mais tempo para baixar. Se selecionar Automático, será escolhido o período baseado no número de canais.",
     "LabelOptionalNetworkPath": "(Opcional) Pasta compartilhada em rede:",
-    "LabelOptionalNetworkPathHelp": "Se esta pasta estiver compartilhada em sua rede, informar o caminho do compartilhamento permitirá que os apps Jellyfin em outros dispositivos acessem arquivos de mídia diretamente.",
+    "LabelOptionalNetworkPathHelp": "Se esta pasta estiver compartilhada em sua rede, informar o caminho do compartilhamento permitirá que os apps Jellyfin em outros dispositivos acessem arquivos de mídia diretamente. Por exemplo, {0} ou {1}.",
     "LabelOriginalAspectRatio": "Proporção original da tela:",
     "LabelOriginalTitle": "Título original:",
     "LabelOverview": "Sinopse:",
