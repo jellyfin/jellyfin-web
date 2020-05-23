@@ -1243,6 +1243,12 @@ import 'css!assets/css/videoosd';
                     }
                     break;
                 }
+                case '>':
+                    playbackManager.increasePlaybackRate(currentPlayer);
+                    break;
+                case '<':
+                    playbackManager.decreasePlaybackRate(currentPlayer);
+                    break;
             }
         }
 
