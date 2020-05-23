@@ -58,7 +58,7 @@ import 'css!./style';
 
                     imgData.data.set(pixels);
                     // Values taken from https://www.npmjs.com/package/blurhash
-                    ctx.putImageData(imgData, 1, 1);
+                    ctx.putImageData(imgData, 0, 0);
 
                     let child = target.appendChild(canvas);
                     child.classList.add('blurhash-canvas');
