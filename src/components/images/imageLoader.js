@@ -129,9 +129,6 @@ import 'css!./style';
             elem.removeAttribute('data-src');
             switchCanvas(elem);
         });
-        // preloaderImg.onload = function () {
-            
-        // };
     }
 
     function emptyImageElement(elem) {
