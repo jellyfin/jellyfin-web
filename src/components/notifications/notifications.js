@@ -237,6 +237,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             tag: 'restart' + serverId,
             title: globalize.translate('ServerNameIsShuttingDown', apiClient.serverInfo().Name)
         };
+
         showNotification(notification, 0, apiClient);
     });
 
@@ -246,25 +247,16 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             tag: 'restart' + serverId,
             title: globalize.translate('ServerNameIsRestarting', apiClient.serverInfo().Name)
         };
+
         showNotification(notification, 0, apiClient);
     });
 
     events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
-
         var serverId = apiClient.serverInfo().Id;
         var notification = {
             tag: 'restart' + serverId,
             title: globalize.translate('PleaseRestartServerName', apiClient.serverInfo().Name)
         };
-
-        notification.actions =
-        [
-            {
-                action: 'restart',
-                title: globalize.translate('ButtonRestart'),
-                icon: getIconUrl()
-            }
-        ];
 
         showNotification(notification, 0, apiClient);
     });

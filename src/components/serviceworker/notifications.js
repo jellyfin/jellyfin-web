@@ -11,14 +11,16 @@
         return Promise.reject();
     }
 
+    // TODO: support arbitrary actions from the server
+    // notifications will get sent with an ID and users can mark them as read
+    // the server can optionally pass actions in the request body
+    // the clients would then have the option to trigger the actions on confirmation
     function executeAction(action, data, serverId) {
         return getApiClient(serverId).then(function (apiClient) {
             switch (action) {
                 case 'cancel-install':
                     var id = data.id;
                     return apiClient.cancelPackageInstallation(id);
-                case 'restart':
-                    return apiClient.restartServer();
                 default:
                     clients.openWindow('/');
                     return Promise.resolve();
