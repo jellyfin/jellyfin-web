@@ -1510,5 +1510,9 @@
     "New": "新的",
     "HeaderFavoritePlaylists": "收藏的播放列表",
     "ButtonTogglePlaylist": "播放列表",
-    "ButtonToggleContextMenu": "更多"
+    "ButtonToggleContextMenu": "更多",
+    "HeaderServerAddressSettings": "服务器地址设置",
+    "HeaderRemoteAccessSettings": "远程访问设置",
+    "HeaderHttpsSettings": "HTTPS 设置",
+    "ApiKeysCaption": "当前启用的 API 密钥"
 }
