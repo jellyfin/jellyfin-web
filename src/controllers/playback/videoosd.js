@@ -1191,6 +1191,12 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
                     var percent = parseInt(key, 10) * 10;
                     playbackManager.seekPercent(percent, currentPlayer);
                     break;
+                case '>':
+                    playbackManager.increasePlaybackRate(currentPlayer);
+                    break;
+                case '<':
+                    playbackManager.decreasePlaybackRate(currentPlayer);
+                    break;
             }
         }
 

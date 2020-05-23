@@ -1208,6 +1208,66 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             }
         };
 
+        self.increasePlaybackRate = function (player) {
+            player = player || self._currentPlayer;
+            if (player) {
+                var current = self.getPlaybackRate(player);
+                var supported = self.getSupportedPlaybackRates(player);
+
+                var index = -1;
+                for (var i = 0, length = supported.length; i < length; i++) {
+                    if (supported[i].id === current) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                index = Math.min(index + 1, supported.length - 1);
+                self.setPlaybackRate(supported[index].id, player);
+            }
+        };
+
+        self.decreasePlaybackRate = function (player) {
+            player = player || self._currentPlayer;
+            if (player) {
+                var current = self.getPlaybackRate(player);
+                var supported = self.getSupportedPlaybackRates(player);
+
+                var index = -1;
+                for (var i = 0, length = supported.length; i < length; i++) {
+                    if (supported[i].id === current) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                index = Math.max(index - 1, 0);
+                self.setPlaybackRate(supported[index].id, player);
+            }
+        };
+
+        self.setPlaybackRate = function (val, player) {
+            player = player || self._currentPlayer;
+            if (player && player.setPlaybackRate) {
+                player.setPlaybackRate(val);
+            }
+        };
+
+        self.getSupportedPlaybackRates = function (player) {
+            player = player || self._currentPlayer;
+            if (player && player.getSupportedPlaybackRates) {
+                return player.getSupportedPlaybackRates();
+            }
+            return [];
+        };
+
+        self.getPlaybackRate = function (player) {
+            player = player || self._currentPlayer;
+            if (player && player.getPlaybackRate) {
+                return player.getPlaybackRate();
+            }
+        };
+
         var brightnessOsdLoaded;
         self.setBrightness = function (val, player) {
 
@@ -3885,6 +3945,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 if (player.supports('SetAspectRatio')) {
                     list.push('SetAspectRatio');
                 }
+                if (player.supports('SetPlaybackRate')) {
+                    list.push('SetPlaybackRate');
+                }
             }
 
             return list;
@@ -4003,6 +4066,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 break;
             case 'SetAspectRatio':
                 this.setAspectRatio(cmd.Arguments.AspectRatio, player);
+                break;
+            case 'SetPlaybackRate':
+                this.setPlaybackRate(cmd.Arguments.PlaybackRate, player);
                 break;
             case 'SetBrightness':
                 this.setBrightness(cmd.Arguments.Brightness, player);

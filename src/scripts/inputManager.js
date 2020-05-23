@@ -183,6 +183,12 @@ import appHost from 'apphost';
             'changezoom': () => {
                 playbackManager.toggleAspectRatio();
             },
+            'increaseplaybackrate': () => {
+                playbackManager.increasePlaybackRate();
+            },
+            'decreaseplaybackrate': () => {
+                playbackManager.decreasePlaybackRate();
+            },
             'changeaudiotrack': () => {
                 playbackManager.changeAudioStream();
             },
