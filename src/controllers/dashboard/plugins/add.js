@@ -71,13 +71,13 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
         });
     }
 
-    function performInstallation(page, guid, version) {
+    function performInstallation(page, name, guid, version) {
         var developer = $('#developer', page).html().toLowerCase();
 
         var alertCallback = function () {
             loading.show();
             page.querySelector('#btnInstall').disabled = true;
-            ApiClient.installPlugin(guid, version).then(function () {
+            ApiClient.installPlugin(name, guid, version).then(function () {
                 loading.hide();
                 alertText(globalize.translate('PluginInstalledMessage'));
             });
@@ -123,7 +123,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
                         });
                     }
                 } else {
-                    performInstallation(page, guid, version);
+                    performInstallation(page, name, guid, version);
                 }
             });
             return false;
