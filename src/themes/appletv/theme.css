@@ -297,8 +297,8 @@ html {
 }
 
 .innerCardFooter {
-border-radius: 0.14rem;
-margin: 6px 8px 7px 8px;
+    border-radius: 0.14rem;
+    margin: 6px 8px 7px 8px;
 }
 
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
