@@ -293,7 +293,12 @@ html {
 
 .emby-checkbox:checked + span + .checkboxOutline,
 .itemProgressBarForeground {
-    background-color: #00a4dc;
+    background-image: linear-gradient( 135deg, #5EFCE8 10%, #736EFE 100%);
+}
+
+.innerCardFooter {
+border-radius: 0.14rem;
+margin: 6px 8px 7px 8px;
 }
 
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
@@ -312,6 +317,11 @@ html {
 
 .itemProgressBarForeground-recording {
     background-color: #cb272a;
+}
+
+.itemProgressBar {
+    background: rgba(230, 230, 230, 0.8);
+    height: 0.2rem;
 }
 
 .countIndicator,
