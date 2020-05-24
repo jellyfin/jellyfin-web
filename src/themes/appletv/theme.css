@@ -293,7 +293,10 @@ html {
 
 .emby-checkbox:checked + span + .checkboxOutline,
 .itemProgressBarForeground {
-    background: #56b2ef;
+    background: rgb(0,210,201); 
+    background: -moz-linear-gradient(90deg, rgba(0,210,201,1) 0%, rgba(13,194,98,1) 28%, rgba(0,75,185,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(0,210,201,1) 0%, rgba(13,194,98,1) 28%, rgba(0,75,185,1) 100%);
+    background: linear-gradient(90deg, rgba(0,210,201,1) 0%, rgba(13,194,98,1) 28%, rgba(0,75,185,1) 100%);
 }
 
 .innerCardFooter {
