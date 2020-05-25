@@ -5213,10 +5213,10 @@ gulp-babel@^8.0.0:
     through2 "^2.0.0"
     vinyl-sourcemaps-apply "^0.2.0"
 
-gulp-cli@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/gulp-cli/-/gulp-cli-2.2.0.tgz#5533126eeb7fe415a7e3e84a297d334d5cf70ebc"
-  integrity sha512-rGs3bVYHdyJpLqR0TUBnlcZ1O5O++Zs4bA0ajm+zr3WFCfiSLjGwoCBqFs18wzN+ZxahT9DkOK5nDf26iDsWjA==
+gulp-cli@^2.2.0, gulp-cli@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/gulp-cli/-/gulp-cli-2.2.1.tgz#376e427661b7996430a89d71c15df75defa3360a"
+  integrity sha512-yEMxrXqY8mJFlaauFQxNrCpzWJThu0sH1sqlToaTOT063Hub9s/Nt2C+GSLe6feQ/IMWrHvGOOsyES7CQc9O+A==
   dependencies:
     ansi-colors "^1.0.1"
     archy "^1.0.0"
