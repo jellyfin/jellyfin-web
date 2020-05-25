@@ -22,7 +22,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
             config.EnablePlayTo = form.querySelector('#chkEnablePlayTo').checked;
             config.EnableDebugLog = form.querySelector('#chkEnableDlnaDebugLogging').checked;
             config.ClientDiscoveryIntervalSeconds = $('#txtClientDiscoveryInterval', form).val();
-            config.EnableServer = $('#chkEnableServer', form).checked
+            config.EnableServer = $('#chkEnableServer', form).checked;
             config.BlastAliveMessages = $('#chkBlastAliveMessages', form).checked;
             config.BlastAliveMessageIntervalSeconds = $('#txtBlastInterval', form).val();
             config.DefaultUserId = $('#selectUser', form).val();
