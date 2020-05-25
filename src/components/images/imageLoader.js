@@ -39,8 +39,10 @@ import 'css!./style';
             let blurhashstr = target.getAttribute('data-blurhash');
             if (blurhash.isBlurhashValid(blurhashstr) && target.getElementsByClassName('blurhash-canvas').length === 0) {
                 console.log('Blurhashing item ' + target.parentElement.parentElement.parentElement.getAttribute('data-index') + ' with intersection ratio ' + entry.intersectionRatio);
-                let width = target.offsetWidth;
-                let height = target.offsetHeight;
+                // let width = target.offsetWidth;
+                // let height = target.offsetHeight;
+                let width = 18;
+                let height = 18;
                 if (width && height) {
                     let pixels;
                     try {
@@ -49,7 +51,6 @@ import 'css!./style';
                         console.log('Blurhash decode error: ' + err.toString());
                         return;
                     }
-
                     let canvas = document.createElement('canvas');
                     canvas.width = width;
                     canvas.height = height;
