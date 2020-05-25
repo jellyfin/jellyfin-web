@@ -503,106 +503,39 @@ import 'programStyles';
             const primaryImageAspectRatio = item.PrimaryImageAspectRatio;
             let forceName = false;
             let imgUrl = null;
+            let imgTag = null;
             let coverImage = false;
             let uiAspect = null;
             let blurhash;
-            let blurhashimg = item.ImageBlurHashes;
-            let imgtag;
+            let imgType;
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ImageTags.Thumb
-                });
-                imgtag = item.ImageTags.Thumb;
-
+                imgType = 'Thumb';
             } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Banner',
-                    maxWidth: width,
-                    tag: item.ImageTags.Banner
-                });
-                imgtag = item.ImageTags.Banner;
-
+                imgType = 'Banner';
             } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Disc',
-                    maxWidth: width,
-                    tag: item.ImageTags.Disc
-                });
-                imgtag = item.ImageTags.Disc;
-
+                imgType = 'Disc';
             } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Logo',
-                    maxWidth: width,
-                    tag: item.ImageTags.Logo
-                });
-                imgtag = item.ImageTags.Logo;
-
+                imgType = 'Logo';
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
-                    type: 'Logo',
-                    maxWidth: width,
-                    tag: item.ParentLogoImageTag
-                });
-                imgtag = item.ParentLogoImageTag;
-
+                imgType = 'Logo';
+                imgTag = item.ParentLogoImageTag;
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.SeriesThumbImageTag
-                });
-                imgtag = item.SeriesThumbImageTag;
-
+                imgType = 'Thumb';
+                imgTag = item.SeriesThumbImageTag;
             } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ParentThumbImageTag
-                });
-                imgtag = item.ParentThumbImageTag;
-
+                imgType = 'Thumb';
+                imgTag = item.ParentThumbImageTag;
             } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Backdrop',
-                    maxWidth: width,
-                    tag: item.BackdropImageTags[0]
-                });
-                imgtag = item.BackdropImageTags[0];
-
+                imgType = 'Backdrop';
+                imgTag = item.BackdropImageTags[0];
                 forceName = true;
-
             } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-                    type: 'Backdrop',
-                    maxWidth: width,
-                    tag: item.ParentBackdropImageTags[0]
-                });
-                imgtag = item.ParentBackdropImageTags[0];
-
+                imgType = 'Backdrop';
+                imgTag = item.ParentBackdropImageTags[0];
             } else if (item.ImageTags && item.ImageTags.Primary) {
-
+                imgType = 'Primary';
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Primary',
-                    maxHeight: height,
-                    maxWidth: width,
-                    tag: item.ImageTags.Primary
-                });
-                imgtag = item.ImageTags.Primary;
 
                 if (options.preferThumb && options.showTitle !== false) {
                     forceName = true;
@@ -616,16 +549,9 @@ import 'programStyles';
                 }
 
             } else if (item.PrimaryImageTag) {
-
+                imgType = 'Primary';
+                imgTag = item.PrimaryImageTag;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
-
-                imgUrl = apiClient.getScaledImageUrl(item.PrimaryImageItemId || item.Id || item.ItemId, {
-                    type: 'Primary',
-                    maxHeight: height,
-                    maxWidth: width,
-                    tag: item.PrimaryImageTag
-                });
-                imgtag = item.PrimaryImageTag;
 
                 if (options.preferThumb && options.showTitle !== false) {
                     forceName = true;
@@ -638,32 +564,15 @@ import 'programStyles';
                     }
                 }
             } else if (item.ParentPrimaryImageTag) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
-                    type: 'Primary',
-                    maxWidth: width,
-                    tag: item.ParentPrimaryImageTag
-                });
-                imgtag = item.ParentPrimaryImageTag;
+                imgType = 'Primary';
+                imgTag = item.ParentPrimaryImageTag;
             } else if (item.SeriesPrimaryImageTag) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: 'Primary',
-                    maxWidth: width,
-                    tag: item.SeriesPrimaryImageTag
-                });
-                imgtag = item.SeriesPrimaryImageTag;
+                imgType = 'Primary';
+                imgTag = item.SeriesPrimaryImageTag;
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
+                imgType = 'Primary';
+                imgTag = item.AlbumPrimaryImageTag;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
-
-                imgUrl = apiClient.getScaledImageUrl(item.AlbumId, {
-                    type: 'Primary',
-                    maxHeight: height,
-                    maxWidth: width,
-                    tag: item.AlbumPrimaryImageTag
-                });
-                imgtag = item.AlbumPrimaryImageTag;
 
                 if (primaryImageAspectRatio) {
                     uiAspect = getDesiredAspect(shape);
@@ -672,62 +581,30 @@ import 'programStyles';
                     }
                 }
             } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ImageTags.Thumb
-                });
-                imgtag = item.ImageTags.Thumb;
-
+                imgType = 'Thumb';
             } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Backdrop',
-                    maxWidth: width,
-                    tag: item.BackdropImageTags[0]
-                });
-                imgtag = item.BackdropImageTags[0];
-
+                imgType = 'Backdrop';
+                imgTag = item.BackdropImageTags[0];
             } else if (item.ImageTags && item.ImageTags.Thumb) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ImageTags.Thumb
-                });
-                imgtag = item.ImageTags.Thumb;
-
+                imgType = 'Thumb';
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.SeriesThumbImageTag
-                });
-                imgtag = item.SeriesThumbImageTag;
-
+                imgType = 'Thumb';
+                imgTag = item.SeriesThumbImageTag;
             } else if (item.ParentThumbItemId && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ParentThumbImageTag
-                });
-                imgtag = item.ParentThumbImageTag;
-
+                imgType = 'Thumb';
+                imgTag = item.ParentThumbImageTag;
             } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-                    type: 'Backdrop',
-                    maxWidth: width,
-                    tag: item.ParentBackdropImageTags[0]
-                });
-                imgtag = item.ParentBackdropImageTags[0];
-
+                imgType = 'Backdrop';
+                imgTag = item.ParentBackdropImageTags[0];
             }
 
-            blurhash = imageLoader.getImageBlurhashStr(blurhashimg, imgtag);
+            imgUrl = apiClient.getScaledImageUrl(item.Id, {
+                type: imgType,
+                maxHeight: height,
+                maxWidth: width,
+                tag: tag || item.ImageTags[imgType]
+            });
+            blurhash = (item.ImageBlurHashes || {})[imgType];
 
             return {
                 imgUrl: imgUrl,

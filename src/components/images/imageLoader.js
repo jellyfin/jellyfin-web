@@ -12,13 +12,6 @@ import 'css!./style';
         fillImageElement(elem, source);
     }
 
-    export function getImageBlurhashStr(hashes, tags) {
-        if (hashes && tags) {
-            return hashes[tags];
-        }
-        return null;
-    }
-
     // function destroyBlurhash(target) {
     //     let canvas = target.getElementsByClassName('blurhash-canvas')[0];
     //     target.removeChild(canvas);
@@ -223,7 +216,6 @@ import 'css!./style';
 export default {
     fillImages: fillImages,
     fillImage: fillImage,
-    getImageBlurhashStr: getImageBlurhashStr,
     lazyImage: lazyImage,
     lazyChildren: lazyChildren,
     getPrimaryImageAspectRatio: getPrimaryImageAspectRatio
