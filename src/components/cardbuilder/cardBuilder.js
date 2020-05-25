@@ -602,7 +602,7 @@ import 'programStyles';
                 type: imgType,
                 maxHeight: height,
                 maxWidth: width,
-                tag: tag || item.ImageTags[imgType]
+                tag: imgTag || item.ImageTags[imgType]
             });
             blurhash = (item.ImageBlurHashes || {})[imgType];
 
