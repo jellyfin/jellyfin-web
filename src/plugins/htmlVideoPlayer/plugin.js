@@ -349,7 +349,7 @@ function supportsTextTracks() {
                     hls.loadSource(url);
                     hls.attachMedia(elem);
 
-                    htmlMediaHelper.bindEventsToHlsPlayer(this, hls, elem, this.onError.bind(this), resolve, reject);
+                    htmlMediaHelper.bindEventsToHlsPlayer(this, hls, elem, this.onError, resolve, reject);
 
                     this._hlsPlayer = hls;
 
@@ -362,8 +362,7 @@ function supportsTextTracks() {
         /**
          * @private
          */
-        onShakaError(event) {
-
+        onShakaError = (event) => {
             const error = event.detail;
             console.error('Error code', error.code, 'object', error);
         }
@@ -392,7 +391,7 @@ function supportsTextTracks() {
                 //shaka.log.setLevel(6);
 
                 // Listen for error events.
-                player.addEventListener('error', this.onShakaError.bind(this));
+                player.addEventListener('error', this.onShakaError);
 
                 this._shakaPlayer = player;
 
@@ -441,8 +440,7 @@ function supportsTextTracks() {
          * Adapted from : https://github.com/googlecast/CastReferencePlayer/blob/master/player.js
          * @private
          */
-        onMediaManagerLoadMedia(event) {
-
+        onMediaManagerLoadMedia = (event) => {
             if (this._castPlayer) {
                 this._castPlayer.unload(); // Must unload before starting again.
             }
@@ -498,7 +496,7 @@ function supportsTextTracks() {
          */
         initMediaManager() {
             mediaManager.defaultOnLoad = mediaManager.onLoad.bind(mediaManager);
-            mediaManager.onLoad = this.onMediaManagerLoadMedia.bind(this);
+            mediaManager.onLoad = this.onMediaManagerLoadMedia;
 
             //mediaManager.defaultOnPlay = mediaManager.onPlay.bind(mediaManager);
             //mediaManager.onPlay = function (event) {
@@ -517,7 +515,7 @@ function supportsTextTracks() {
          * @private
          */
         setCurrentSrc(elem, options) {
-            elem.removeEventListener('error', this.onError.bind(this));
+            elem.removeEventListener('error', this.onError);
 
             let val = options.url;
             console.debug('playing url: ' + val);
@@ -574,7 +572,7 @@ function supportsTextTracks() {
                 return htmlMediaHelper.applySrc(elem, val, options).then(() => {
                     this._currentSrc = val;
 
-                    return htmlMediaHelper.playWithPromise(elem, this.onError.bind(this));
+                    return htmlMediaHelper.playWithPromise(elem, this.onError);
                 });
             }
         }
@@ -783,7 +781,7 @@ function supportsTextTracks() {
                     elem.pause();
                 }
 
-                htmlMediaHelper.onEndedInternal(this, elem, this.onError.bind(this));
+                htmlMediaHelper.onEndedInternal(this, elem, this.onError);
 
                 if (destroyPlayer) {
                     this.destroy();
@@ -807,15 +805,15 @@ function supportsTextTracks() {
                 this._mediaElement = null;
 
                 this.destroyCustomTrack(videoElement);
-                videoElement.removeEventListener('timeupdate', this.onTimeUpdate.bind(this));
-                videoElement.removeEventListener('ended', this.onEnded.bind(this));
-                videoElement.removeEventListener('volumechange', this.onVolumeChange.bind(this));
-                videoElement.removeEventListener('pause', this.onPause.bind(this));
-                videoElement.removeEventListener('playing', this.onPlaying.bind(this));
-                videoElement.removeEventListener('play', this.onPlay.bind(this));
-                videoElement.removeEventListener('click', this.onClick.bind(this));
-                videoElement.removeEventListener('dblclick', this.onDblClick.bind(this));
-                videoElement.removeEventListener('waiting', this.onWaiting.bind(this));
+                videoElement.removeEventListener('timeupdate', this.onTimeUpdate);
+                videoElement.removeEventListener('ended', this.onEnded);
+                videoElement.removeEventListener('volumechange', this.onVolumeChange);
+                videoElement.removeEventListener('pause', this.onPause);
+                videoElement.removeEventListener('playing', this.onPlaying);
+                videoElement.removeEventListener('play', this.onPlay);
+                videoElement.removeEventListener('click', this.onClick);
+                videoElement.removeEventListener('dblclick', this.onDblClick);
+                videoElement.removeEventListener('waiting', this.onWaiting);
 
                 videoElement.parentNode.removeChild(videoElement);
             }
@@ -833,22 +831,32 @@ function supportsTextTracks() {
 
         /**
          * @private
+         * @param e {Event} The event received from the `<video>` element
          */
-        onEnded() {
-            this.destroyCustomTrack(this);
-            htmlMediaHelper.onEndedInternal(this, this.onEnded.bind(this), this.onError.bind(this));
+        onEnded = (e) => {
+            /**
+             * @type {HTMLMediaElement}
+             */
+            const elem = e.target;
+            this.destroyCustomTrack(elem);
+            htmlMediaHelper.onEndedInternal(this, elem, this.onError);
         }
 
         /**
          * @private
+         * @param e {Event} The event received from the `<video>` element
          */
-        onTimeUpdate(e) {
+        onTimeUpdate = (e) => {
+            /**
+             * @type {HTMLMediaElement}
+             */
+            const elem = e.target;
             // get the player position and the transcoding offset
-            const time = this.currentTime;
+            const time = elem.currentTime;
 
             if (time && !this._timeUpdated) {
                 this._timeUpdated = true;
-                this.ensureValidVideo(this);
+                this.ensureValidVideo(elem);
             }
 
             this._currentTime = time;
@@ -866,16 +874,21 @@ function supportsTextTracks() {
 
         /**
          * @private
+         * @param e {Event} The event received from the `<video>` element
          */
-        onVolumeChange() {
-            htmlMediaHelper.saveVolume(this.volume);
+        onVolumeChange = (e) => {
+            /**
+             * @type {HTMLMediaElement}
+             */
+            const elem = e.target;
+            htmlMediaHelper.saveVolume(elem.volume);
             events.trigger(this, 'volumechange');
         }
 
         /**
          * @private
          */
-        onNavigatedToOsd() {
+        onNavigatedToOsd = () => {
             const dlg = this.videoDialog;
             if (dlg) {
                 dlg.classList.remove('videoPlayerContainer-onTop');
@@ -898,11 +911,16 @@ function supportsTextTracks() {
 
         /**
          * @private
+         * @param e {Event} The event received from the `<video>` element
          */
-        onPlaying(e) {
+        onPlaying = (e) => {
+            /**
+             * @type {HTMLMediaElement}
+             */
+            const elem = e.target;
             if (!this._started) {
                 this._started = true;
-                this._mediaElement.removeAttribute('controls');
+                elem.removeAttribute('controls');
 
                 loading.hide();
 
@@ -916,7 +934,7 @@ function supportsTextTracks() {
 
                 if (this._currentPlayOptions.fullscreen) {
 
-                    appRouter.showVideoOsd().then(this.onNavigatedToOsd.bind(this));
+                    appRouter.showVideoOsd().then(this.onNavigatedToOsd);
 
                 } else {
                     appRouter.setTransparency('backdrop');
@@ -931,7 +949,7 @@ function supportsTextTracks() {
         /**
          * @private
          */
-        onPlay(e) {
+        onPlay = () => {
             events.trigger(this, 'unpause');
         }
 
@@ -957,21 +975,21 @@ function supportsTextTracks() {
         /**
          * @private
          */
-        onClick() {
+        onClick = () => {
             events.trigger(this, 'click');
         }
 
         /**
          * @private
          */
-        onDblClick() {
+        onDblClick = () => {
             events.trigger(this, 'dblclick');
         }
 
         /**
          * @private
          */
-        onPause() {
+        onPause = () => {
             events.trigger(this, 'pause');
         }
 
@@ -981,10 +999,15 @@ function supportsTextTracks() {
 
         /**
          * @private
+         * @param e {Event} The event received from the `<video>` element
          */
-        onError() {
-            const errorCode = this.onError.error ? (this.onError.error.code || 0) : 0;
-            const errorMessage = this.onError.error ? (this.onError.error.message || "") : "";
+        onError = (e) => {
+            /**
+             * @type {HTMLMediaElement}
+             */
+            const elem = e.target
+            const errorCode = elem.error ? (elem.error.code || 0) : 0;
+            const errorMessage = elem.error ? (elem.error.message || "") : "";
             console.error('media element error: ' + errorCode.toString() + ' ' + errorMessage);
 
             let type;
