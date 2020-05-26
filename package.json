@@ -95,6 +95,7 @@
           "src/components/images/imageLoader.js",
           "src/components/lazyLoader/lazyLoaderIntersectionObserver.js",
           "src/components/playback/mediasession.js",
+          "src/components/playback/remotecontrolautoplay.js",
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
           "src/scripts/dfnshelper.js",
