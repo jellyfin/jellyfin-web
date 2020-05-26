@@ -506,7 +506,6 @@ import 'programStyles';
             let imgTag = null;
             let coverImage = false;
             let uiAspect = null;
-            let blurhash;
             let imgType;
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
@@ -604,11 +603,10 @@ import 'programStyles';
                 maxWidth: width,
                 tag: imgTag || item.ImageTags[imgType]
             });
-            blurhash = (item.ImageBlurHashes || {})[imgType];
 
             return {
                 imgUrl: imgUrl,
-                blurhash: blurhash,
+                blurhash: (item.ImageBlurHashes || {})[imgType],
                 forceName: forceName,
                 coverImage: coverImage
             };
