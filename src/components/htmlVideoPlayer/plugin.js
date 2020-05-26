@@ -136,8 +136,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         var videoDialog;
 
-        var winJsPlaybackItem;
-
         var subtitleTrackIndexToSetOnPlaying;
         var audioTrackIndexToSetOnPlaying;
 
@@ -303,13 +301,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         }
 
-        function onShakaErrorEvent(event) {
+        function onShakaError(event) {
             // Extract the shaka.util.Error object from the event.
-            onShakaError(event.detail);
-        }
-
-        function onShakaError(error) {
-            console.error('Error code', error.code, 'object', error);
+            console.error('Error code', event.detail.code, 'object', event.detail);
         }
 
         function setSrcWithShakaPlayer(instance, elem, options, url) {
@@ -323,7 +317,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         var player = new shaka.Player(elem);
                         window.player = player;
 
-                        player.addEventListener('error', onShakaErrorEvent);
+                        player.addEventListener('error', onShakaError);
 
                         player.load(url).then(function () {
                             console.warn('loaded manifest');

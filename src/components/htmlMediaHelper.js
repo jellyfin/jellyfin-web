@@ -32,7 +32,9 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
     function enableHlsShakaPlayer(item, mediaSource, mediaType) {
         /* eslint-disable-next-line compat/compat */
-        return true;
+        if (!!window.MediaSource && !!MediaSource.isTypeSupported) {
+            return true;
+        }
     }
 
     function enableHlsJsPlayer(runTimeTicks, mediaType) {
