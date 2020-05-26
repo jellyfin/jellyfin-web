@@ -18,7 +18,7 @@ import 'css!./style';
     //     target.classList.remove('blurhashed');
     // }
 
-    function itemBlurhashing(entry) {
+    async function itemBlurhashing(entry) {
         // This intersection ratio ensures that items that are near the borders are also blurhashed, alongside items that are outside the viewport
         // if (entry.intersectionRation <= 0.025)
         if (entry.target) {
