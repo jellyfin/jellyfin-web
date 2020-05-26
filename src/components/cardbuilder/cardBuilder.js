@@ -510,12 +510,16 @@ import 'programStyles';
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
                 imgType = 'Thumb';
+                imgTag = item.ImageTags.Thumb;
             } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
                 imgType = 'Banner';
+                imgTag = item.ImageTags.Banner;
             } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
                 imgType = 'Disc';
+                imgTag = item.ImageTags.Disc;
             } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
                 imgType = 'Logo';
+                imgTag = item.ImageTags.Logo;
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
                 imgType = 'Logo';
                 imgTag = item.ParentLogoImageTag;
@@ -534,6 +538,7 @@ import 'programStyles';
                 imgTag = item.ParentBackdropImageTags[0];
             } else if (item.ImageTags && item.ImageTags.Primary) {
                 imgType = 'Primary';
+                imgTag = item.ImageTags.Primary;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 if (options.preferThumb && options.showTitle !== false) {
@@ -581,11 +586,13 @@ import 'programStyles';
                 }
             } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
                 imgType = 'Thumb';
+                imgTag = item.ImageTags.Thumb;
             } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
                 imgType = 'Backdrop';
                 imgTag = item.BackdropImageTags[0];
             } else if (item.ImageTags && item.ImageTags.Thumb) {
                 imgType = 'Thumb';
+                imgTag = item.ImageTags.Thumb;
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
                 imgType = 'Thumb';
                 imgTag = item.SeriesThumbImageTag;
@@ -601,12 +608,12 @@ import 'programStyles';
                 type: imgType,
                 maxHeight: height,
                 maxWidth: width,
-                tag: imgTag || item.ImageTags[imgType]
+                tag: imgTag
             });
 
             return {
                 imgUrl: imgUrl,
-                blurhash: (item.ImageBlurHashes || {})[imgType],
+                blurhash: item.ImageBlurHashes[imgTag] || null,
                 forceName: forceName,
                 coverImage: coverImage
             };
