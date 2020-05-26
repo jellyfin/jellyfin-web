@@ -1523,5 +1523,6 @@
     "LabelEnableHttpsHelp": "开启服务器对所配置HTTPS 端口的监听。必须配置有效的证书才会生效。",
     "LabelEnableHttps": "启用 HTTPS",
     "LabelChromecastVersion": "Chromecast版本",
-    "HeaderDVR": "DVR"
+    "HeaderDVR": "DVR",
+    "LabelNightly": "Nightly"
 }
