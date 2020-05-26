@@ -12,96 +12,71 @@ import 'css!./style';
         fillImageElement(elem, source);
     }
 
-    // function destroyBlurhash(target) {
-    //     let canvas = target.getElementsByClassName('blurhash-canvas')[0];
-    //     target.removeChild(canvas);
-    //     target.classList.remove('blurhashed');
-    // }
-
-    async function itemBlurhashing(entry) {
-        // This intersection ratio ensures that items that are near the borders are also blurhashed, alongside items that are outside the viewport
-        // if (entry.intersectionRation <= 0.025)
-        if (entry.target) {
-            let target = entry.target;
-            // We only keep max 80 items blurhashed in screen to save memory
-            // if (document.getElementsByClassName('blurhashed').length <= 80) {
-
-            //} else {
-                // destroyBlurhash(target);
-            //}
-            let blurhashstr = target.getAttribute('data-blurhash');
-            if (blurhash.isBlurhashValid(blurhashstr) && target.getElementsByClassName('blurhash-canvas').length === 0) {
-                console.log('Blurhashing item ' + target.parentElement.parentElement.parentElement.getAttribute('data-index') + ' with intersection ratio ' + entry.intersectionRatio);
-                // let width = target.offsetWidth;
-                // let height = target.offsetHeight;
-                let width = 18;
-                let height = 18;
-                if (width && height) {
-                    let pixels;
-                    try {
-                        pixels = blurhash.decode(blurhashstr, width, height);
-                    } catch (err) {
-                        console.log('Blurhash decode error: ' + err.toString());
-                        return;
-                    }
-                    let canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
-                    let ctx = canvas.getContext('2d');
-                    let imgData = ctx.createImageData(width, height);
-
-                    imgData.data.set(pixels);
-                    // Values taken from https://www.npmjs.com/package/blurhash
-                    ctx.putImageData(imgData, 0, 0);
-
-                    let child = target.appendChild(canvas);
-                    child.classList.add('blurhash-canvas');
-                    child.style.opacity = 1;
-                    if (userSettings.enableFastFadein()) {
-                        child.classList.add('lazy-blurhash-fadein-fast');
-                    } else {
-                        child.classList.add('lazy-blurhash-fadein');
-                    }
-
-                    target.classList.add('blurhashed');
-                }
+    async function itemBlurhashing(target) {
+        let blurhashstr = target.getAttribute('data-blurhash');
+        if (blurhashstr && blurhash.isBlurhashValid(blurhashstr)) {
+            // Although the default values provided by blurhash devs is 32x32, 18x18 seems to be the sweetest spot possible,
+            // cramping up a lot the performance and reducing the memory usage, while retaining almost full blur quality.
+            // Lower values had more visible pixelation
+            let width = 18;
+            let height = 18;
+            let pixels;
+            try {
+                pixels = blurhash.decode(blurhashstr, width, height);
+            } catch (err) {
+                console.error('Blurhash decode error: ' + err.toString());
+                return;
             }
+            let canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            let ctx = canvas.getContext('2d');
+            let imgData = ctx.createImageData(width, height);
+
+            imgData.data.set(pixels);
+            ctx.putImageData(imgData, 0, 0);
+
+            let child = target.appendChild(canvas);
+            child.classList.add('blurhash-canvas');
+            child.style.opacity = 1;
+            if (userSettings.enableFastFadein()) {
+                child.classList.add('lazy-blurhash-fadein-fast');
+            } else {
+                child.classList.add('lazy-blurhash-fadein');
+            }
+
+            target.classList.add('blurhashed');
         }
-        return;
     }
 
     function switchCanvas(elem) {
         let child = elem.getElementsByClassName('blurhash-canvas')[0];
         if (child) {
-            if (elem.getAttribute('data-src')) {
-                child.style.opacity = 1;
-            } else {
-                child.style.opacity = 0;
-            }
+            child.style.opacity = elem.getAttribute('data-src') ? 1 : 0;
         }
-        return;
     }
 
     export function fillImage(entry) {
         if (!entry) {
             throw new Error('entry cannot be null');
         }
-
+        let target = entry.target;
         var source = undefined;
-        if (entry.target) {
-            source = entry.target.getAttribute('data-src');
+
+        if (target) {
+            source = target.getAttribute('data-src');
         } else {
             source = entry;
         }
 
-        if (!entry.target.classList.contains('blurhashed')) {
-            itemBlurhashing(entry);
+        if (!target.classList.contains('blurhashed')) {
+            itemBlurhashing(target);
         }
 
         if (entry.intersectionRatio > 0) {
-            if (source) fillImageElement(entry.target, source);
+            if (source) fillImageElement(target, source);
         } else if (!source) {
-            emptyImageElement(entry.target);
+            emptyImageElement(target);
         }
     }
 

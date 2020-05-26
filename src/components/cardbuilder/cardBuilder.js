@@ -615,7 +615,7 @@ import 'programStyles';
 
             return {
                 imgUrl: imgUrl,
-                blurhash: item.ImageBlurHashes[imgTag] || null,
+                blurhash: (item.ImageBlurHashes || {})[imgType],
                 forceName: forceName,
                 coverImage: coverImage
             };
