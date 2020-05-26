@@ -9,7 +9,7 @@ function transferPlayback(oldPlayer, newPlayer) {
         return;
     }
 
-    const playlist = playbackManager.getPlaylist(oldPlayer).then(playlist => {
+    playbackManager.getPlaylist(oldPlayer).then(playlist => {
         const playlistIds = playlist.map(x => x.Id);
         const playState = state.PlayState || {};
         const resumePositionTicks = playState.PositionTicks || 0;
