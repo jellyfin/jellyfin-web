@@ -87,10 +87,6 @@
     transform: scale(1.3);
 }
 
-.slider-no-webkit-thumb::-webkit-slider-thumb {
-    opacity: 0 !important;
-}
-
 .mdl-slider::-moz-range-thumb {
     -moz-appearance: none;
     width: 1.08em;

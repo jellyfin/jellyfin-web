@@ -18,11 +18,6 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox', 'emby-te
             return '<option value="' + language.Value + '">' + language.Name + '</option>';
         })).val(config.UICulture);
         currentLanguage = config.UICulture;
-        if (systemInfo.CanSelfRestart || systemInfo.CanSelfUpdate) {
-            $('.autoUpdatesContainer', page).removeClass('hide');
-        } else {
-            $('.autoUpdatesContainer', page).addClass('hide');
-        }
 
         loading.hide();
     }

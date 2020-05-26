@@ -82,7 +82,6 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
             info.Id = id;
         }
 
-        info.Id;
         ApiClient.ajax({
             type: 'POST',
             url: ApiClient.getUrl('LiveTv/TunerHosts'),

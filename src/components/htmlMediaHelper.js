@@ -171,7 +171,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                     }
                 };
                 events.map(function (name) {
-                    element.addEventListener(name, onMediaChange);
+                    return element.addEventListener(name, onMediaChange);
                 });
             }
         }

@@ -348,7 +348,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
                 currentItemType = currentItem.Type;
 
                 var dialogOptions = {
-                    size: 'fullscreen-border',
+                    size: 'small',
                     removeOnClose: true,
                     scrollY: false
                 };
@@ -429,7 +429,7 @@ define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 
         require(['text!./itemidentifier.template.html'], function (template) {
 
             var dialogOptions = {
-                size: 'fullscreen-border',
+                size: 'small',
                 removeOnClose: true,
                 scrollY: false
             };
