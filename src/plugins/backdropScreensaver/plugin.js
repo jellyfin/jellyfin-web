@@ -22,7 +22,7 @@ class BackdropScreensaver {
             };
 
             const apiClient = connectionManager.currentApiClient();
-            apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
+            apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
 
                 if (result.Items.length) {
 

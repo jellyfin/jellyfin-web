@@ -77,6 +77,7 @@
 
     function paramsToString(params) {
         return Object.keys(params)
+            .filter((k) => !!params[k])
             .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
             .join('&');
     }
@@ -95,7 +96,7 @@
             if (response.status < 400) {
                 if (request.dataType === 'json' || request.headers.accept === 'application/json') {
                     return response.json();
-                } else if (request.dataType === 'text' || (response.headers.get('Content-Type') || '').toLowerCase().includes('text/')) {
+                } else if (request.dataType === 'text' || (response.headers.get('Content-Type') || '').toLowerCase().startsWith('text/')) {
                     return response.text();
                 } else {
                     return response;

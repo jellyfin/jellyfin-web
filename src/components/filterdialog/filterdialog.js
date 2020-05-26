@@ -342,8 +342,8 @@ import 'css!./style.css';
                 query.HasSubtitles = chkSubtitle.checked ? true : null;
                 triggerChange(this);
             });
-            context.addEventListener('change', () => {
-                const chkGenreFilter = dom.parentWithClass(context, 'chkGenreFilter');
+            context.addEventListener('change', (e) => {
+                const chkGenreFilter = dom.parentWithClass(e.target, 'chkGenreFilter');
                 if (chkGenreFilter) {
                     const filterName = chkGenreFilter.getAttribute('data-filter');
                     let filters = query.Genres || '';
@@ -357,7 +357,7 @@ import 'css!./style.css';
                     triggerChange(this);
                     return;
                 }
-                const chkTagFilter = dom.parentWithClass(context, 'chkTagFilter');
+                const chkTagFilter = dom.parentWithClass(e.target, 'chkTagFilter');
                 if (chkTagFilter) {
                     const filterName = chkTagFilter.getAttribute('data-filter');
                     let filters = query.Tags || '';
@@ -371,7 +371,7 @@ import 'css!./style.css';
                     triggerChange(this);
                     return;
                 }
-                const chkYearFilter = dom.parentWithClass(context, 'chkYearFilter');
+                const chkYearFilter = dom.parentWithClass(e.target, 'chkYearFilter');
                 if (chkYearFilter) {
                     const filterName = chkYearFilter.getAttribute('data-filter');
                     let filters = query.Years || '';
@@ -385,7 +385,7 @@ import 'css!./style.css';
                     triggerChange(this);
                     return;
                 }
-                const chkOfficialRatingFilter = dom.parentWithClass(context, 'chkOfficialRatingFilter');
+                const chkOfficialRatingFilter = dom.parentWithClass(e.target, 'chkOfficialRatingFilter');
                 if (chkOfficialRatingFilter) {
                     const filterName = chkOfficialRatingFilter.getAttribute('data-filter');
                     let filters = query.OfficialRatings || '';
