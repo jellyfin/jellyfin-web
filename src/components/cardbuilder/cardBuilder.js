@@ -604,12 +604,14 @@ import 'programStyles';
                 imgTag = item.ParentBackdropImageTags[0];
             }
 
-            imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                type: imgType,
-                maxHeight: height,
-                maxWidth: width,
-                tag: imgTag
-            });
+            if (imgTag && imgType) {
+                imgUrl = apiClient.getScaledImageUrl(item.Id, {
+                    type: imgType,
+                    maxHeight: height,
+                    maxWidth: width,
+                    tag: imgTag
+                });
+            }
 
             return {
                 imgUrl: imgUrl,
