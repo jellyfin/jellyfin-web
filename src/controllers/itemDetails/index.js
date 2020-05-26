@@ -1337,16 +1337,25 @@ function renderChildren(page, item) {
         const childrenItemsContainer = page.querySelector('.childrenItemsContainer');
 
         if (item.Type == 'MusicAlbum') {
+            const equalSet = (arr1, arr2) => arr1.every(x => arr2.indexOf(x) !== -1) && arr1.length === arr2.length;
+            let showArtist = false;
+            for (const track of result.Items) {
+                if (!equalSet(track.ArtistItems.map(x => x.Id), track.AlbumArtists.map(x => x.Id) )) {
+                    showArtist = true;
+                    break;
+                }
+            }
+            const discNumbers = result.Items.map(x => x.ParentIndexNumber);
             html = listView.getListViewHtml({
                 items: result.Items,
                 smallIcon: true,
-                showIndex: true,
+                showIndex: new Set(discNumbers).size > 1 || (discNumbers.length >= 1 && discNumbers[0] > 1),
                 index: 'disc',
                 showIndexNumberLeft: true,
                 playFromHere: true,
                 action: 'playallfromhere',
                 image: false,
-                artist: 'auto',
+                artist: showArtist,
                 containerAlbumArtists: item.AlbumArtists
             });
             isList = true;
