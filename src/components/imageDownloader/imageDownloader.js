@@ -203,9 +203,9 @@ define(['dom', 'loading', 'apphost', 'dialogHelper', 'connectionManager', 'image
         html += '<div class="cardContent">';
 
         if (layoutManager.tv || !appHost.supports('externallinks')) {
-            html += '<div class="cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center center;"></div>';
+            html += '<div class="cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center center;background-size:contain;"></div>';
         } else {
-            html += '<a is="emby-linkbutton" target="_blank" href="' + getDisplayUrl(image.Url, apiClient) + '" class="button-link cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center center;"></a>';
+            html += '<a is="emby-linkbutton" target="_blank" href="' + getDisplayUrl(image.Url, apiClient) + '" class="button-link cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center center;background-size:contain"></a>';
         }
 
         html += '</div>';
