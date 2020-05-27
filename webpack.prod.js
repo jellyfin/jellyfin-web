@@ -8,7 +8,7 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules[\\/](?!jellyfin-apiclient|query-string|split-on-first|strict-uri-encode)/,
+                exclude: /node_modules[\\/](?!date-fns|jellyfin-apiclient|query-string|split-on-first|strict-uri-encode)/,
                 use: {
                     loader: 'babel-loader',
                     options: {
