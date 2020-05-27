@@ -506,7 +506,7 @@ import 'programStyles';
             let imgTag = null;
             let coverImage = false;
             let uiAspect = null;
-            let imgType;
+            let imgType = null;
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
                 imgType = 'Thumb';
@@ -613,9 +613,11 @@ import 'programStyles';
                 });
             }
 
+            let blurHashes = options.imageBlurhashes || item.ImageBlurHashes || {};
+
             return {
                 imgUrl: imgUrl,
-                blurhash: (item.ImageBlurHashes || {})[imgType],
+                blurhash: (blurHashes[imgType] || {})[imgTag],
                 forceName: forceName,
                 coverImage: coverImage
             };

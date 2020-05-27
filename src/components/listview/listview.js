@@ -93,7 +93,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             itemId = item.ParentPrimaryImageItemId;
         }
 
-        return { url: apiClient.getScaledImageUrl(itemId, options) || null, blurHash: (item.ImageBlurHashes || {})[options.tag] || null};
+        return { url: apiClient.getScaledImageUrl(itemId, options), blurHash: (item.ImageBlurHashes || {})[options.type][options.tag]};
     }
 
     function getChannelImageUrl(item, width) {
@@ -108,7 +108,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             options.tag = item.ChannelPrimaryImageTag;
         }
 
-        return { url: apiClient.getScaledImageUrl(item.ChannelId, options) || null, blurhash: (item.ImageBlurHashes || {})[options.tag] || null};
+        return { url: apiClient.getScaledImageUrl(item.ChannelId, options), blurhash: (item.ImageBlurHashes || {})[options.type][options.tag]};
     }
 
     function getTextLinesHtml(textlines, isLargeStyle) {
