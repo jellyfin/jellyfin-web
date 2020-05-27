@@ -34,7 +34,7 @@ for lang in langlst:
 
 print(dep)
 print('LENGTH: ' + str(len(dep)))
-with open('scout.txt', 'w') as out:
+with open('unused.txt', 'w') as out:
     for item in dep:
         out.write(item + '\n')
     out.close()

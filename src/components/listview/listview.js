@@ -426,7 +426,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             html += '<div class="' + cssClass + '">';
 
-            const moreIcon = 'more_horiz';
+            const moreIcon = 'more_vert';
 
             html += getTextLinesHtml(textlines, isLargeStyle);
 

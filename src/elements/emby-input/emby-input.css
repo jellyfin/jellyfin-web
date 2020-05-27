@@ -29,6 +29,27 @@
     margin-bottom: 1.8em;
 }
 
+.inlineForm {
+    display: flex;
+}
+
+.inlineForm .inputContainer,
+.inlineForm .selectContainer {
+    flex-basis: 0;
+    flex-grow: 1;
+    margin: 0 0.5em 1.8em;
+}
+
+.inlineForm .inputContainer:first-child,
+.inlineForm .selectContainer:first-child {
+    margin-left: 0;
+}
+
+.inlineForm .inputContainer:last-child,
+.inlineForm .selectContainer:last-child {
+    margin-right: 0;
+}
+
 .inputLabel {
     display: inline-block;
     margin-bottom: 0.25em;
