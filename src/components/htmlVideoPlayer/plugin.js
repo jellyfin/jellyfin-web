@@ -708,6 +708,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 videoElement.removeEventListener('play', onPlay);
                 videoElement.removeEventListener('click', onClick);
                 videoElement.removeEventListener('dblclick', onDblClick);
+                videoElement.removeEventListener('waiting', onWaiting);
 
                 videoElement.parentNode.removeChild(videoElement);
             }
@@ -834,6 +835,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function onPause() {
             events.trigger(self, 'pause');
+        }
+
+        function onWaiting() {
+            events.trigger(self, 'waiting');
         }
 
         function onError() {
@@ -1251,6 +1256,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         videoElement.addEventListener('play', onPlay);
                         videoElement.addEventListener('click', onClick);
                         videoElement.addEventListener('dblclick', onDblClick);
+                        videoElement.addEventListener('waiting', onWaiting);
                         if (options.backdropUrl) {
                             videoElement.poster = options.backdropUrl;
                         }
@@ -1336,6 +1342,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         if (browser.safari || browser.iOS || browser.iPad) {
             list.push('AirPlay');
+        }
+
+        if (typeof video.playbackRate === 'number') {
+            list.push('PlaybackRate');
         }
 
         list.push('SetBrightness');
@@ -1556,6 +1566,21 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         return false;
+    };
+
+    HtmlVideoPlayer.prototype.setPlaybackRate = function (value) {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            mediaElement.playbackRate = value;
+        }
+    };
+
+    HtmlVideoPlayer.prototype.getPlaybackRate = function () {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            return mediaElement.playbackRate;
+        }
+        return null;
     };
 
     HtmlVideoPlayer.prototype.setVolume = function (val) {
