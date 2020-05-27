@@ -1521,5 +1521,6 @@
     "LabelRequireHttpsHelp": "Si activé, le serveur va automatiquement rediriger toutes les requêtes en HTTP vers HTTPS. Cette option n'a aucun effet si le serveur n'écoute pas HTTPS.",
     "LabelRequireHttps": "Nécessite HTTPS",
     "LabelNightly": "De nuit",
-    "LabelStable": "Stable"
+    "LabelStable": "Stable",
+    "EnableDetailsBanner": "Bannière des détails"
 }
