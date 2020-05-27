@@ -1540,8 +1540,8 @@
     "CopyStreamURLError": "Při kopírování URL došlo k chybě.",
     "LabelVideoResolution": "Rozlišení videa:",
     "LabelStreamType": "Typ streamu:",
-    "EnableFastImageFadeInHelp": "Povolte rychlejší animaci pro načtené obrázky",
-    "EnableFastImageFadeIn": "Rychlé zmizení obrazu",
+    "EnableFastImageFadeInHelp": "Zobrazí plakáty a další obrázky s rychlejší animací přechodu po dokončení načítání.",
+    "EnableFastImageFadeIn": "Rychlé animace přechodů obrazu",
     "LabelPlayerDimensions": "Zobrazené rozlišení:",
     "LabelDroppedFrames": "Vynechané snímky:",
     "LabelCorruptedFrames": "Poškozené snímky:",
@@ -1631,5 +1631,7 @@
     "MillisecondsUnit": "ms",
     "LabelSyncPlayTimeOffset": "Časový rozdíl mezi serverem:",
     "HeaderSyncPlayEnabled": "Synchronizace přehrávání povolena",
-    "HeaderSyncPlaySelectGroup": "Připojit ke skupině"
+    "HeaderSyncPlaySelectGroup": "Připojit ke skupině",
+    "EnableDetailsBannerHelp": "Zobrazí obrázek ve vrchní části detailu položky.",
+    "EnableDetailsBanner": "Obrázek detailu"
 }
