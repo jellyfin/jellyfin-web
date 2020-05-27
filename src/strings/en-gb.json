@@ -660,7 +660,7 @@
     "OptionOnInterval": "On an interval",
     "OptionOnAppStartup": "On application startup",
     "OptionNone": "None",
-    "OptionNew": "New...",
+    "OptionNew": "New…",
     "OptionMissingEpisode": "Missing Episodes",
     "OptionMax": "Max",
     "OptionLoginAttemptsBeforeLockoutHelp": "A value of zero means inheriting the default of three attempts for normal users and five for administrators. Setting this to -1 will disable the feature.",
@@ -1032,7 +1032,7 @@
     "LabelEnableDlnaServerHelp": "Allows UPnP devices on your network to browse and play content.",
     "LabelEnableDlnaDebugLoggingHelp": "Create large log files and should only be used as needed for troubleshooting purposes.",
     "LabelEnableDlnaClientDiscoveryIntervalHelp": "Determines the duration in seconds between SSDP searches performed by Jellyfin.",
-    "LabelEnableAutomaticPortMapHelp": "Attempt to automatically map the public port to the local port via UPnP. This may not work with some router models. Changes will not apply until after a server restart.",
+    "LabelEnableAutomaticPortMapHelp": "Automatically forward public ports on your router to local ports on your server via UPnP. This may not work with some router models or network configurations. Changes will not apply until after a server restart.",
     "InstallingPackage": "Installing {0} (version {1})",
     "ImportMissingEpisodesHelp": "If enabled, information about missing episodes will be imported into your Jellyfin database and displayed within seasons and series. This may cause significantly longer library scans.",
     "HeaderSubtitleAppearance": "Subtitle Appearance",
@@ -1118,7 +1118,7 @@
     "LabelForgotPasswordUsernameHelp": "Enter your username, if you remember it.",
     "LabelFont": "Font:",
     "LabelExtractChaptersDuringLibraryScanHelp": "Generate chapter images when videos are imported during the library scan. Otherwise, they will be extracted during the chapter images scheduled task, allowing the regular library scan to complete faster.",
-    "LabelBaseUrlHelp": "You can add a custom subdirectory here to access the server from a more unique URL.",
+    "LabelBaseUrlHelp": "Adds a custom subdirectory to the server URL. For example: <code>http://example.com/<b>&lt;baseurl&gt;</b></code>",
     "LabelEveryXMinutes": "Every:",
     "LabelEvent": "Event:",
     "LabelEpisodeNumber": "Episode number:",
@@ -1513,5 +1513,7 @@
     "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles.",
     "MessageUnauthorizedUser": "You are not authorized to access the server at this time. Please contact your server administrator for more information.",
     "ButtonTogglePlaylist": "Playlist",
-    "ButtonToggleContextMenu": "More"
+    "ButtonToggleContextMenu": "More",
+    "HeaderDVR": "DVR",
+    "ApiKeysCaption": "List of the currently enabled API keys"
 }

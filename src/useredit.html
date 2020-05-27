@@ -105,6 +105,16 @@
                     </div>
                 </div>
                 <div class="verticalSection">
+                    <div class="selectContainer fldSelectSyncPlayAccess">
+                        <select class="selectSyncPlayAccess" is="emby-select" id="selectSyncPlayAccess" label="${LabelSyncPlayAccess}">
+                            <option value="CreateAndJoinGroups">${LabelSyncPlayAccessCreateAndJoinGroups}</option>
+                            <option value="JoinGroups">${LabelSyncPlayAccessJoinGroups}</option>
+                            <option value="None">${LabelSyncPlayAccessNone}</option>
+                        </select>
+                        <div class="fieldDescription">${SyncPlayAccessHelp}</div>
+                    </div>
+                </div>
+                <div class="verticalSection">
                     <h2 class="checkboxListLabel" style="margin-bottom:1em;">${HeaderAllowMediaDeletionFrom}</h2>
                     <div class="checkboxList paperList checkboxList-paperList">
                         <label class="checkboxContainer">
