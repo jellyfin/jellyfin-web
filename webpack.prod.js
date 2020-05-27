@@ -40,6 +40,10 @@ module.exports = merge(common, {
                 use: [
                     'file-loader'
                 ]
+            },
+            {
+                test: /\.(mp3)$/i,
+                use: ['file-loader']
             }
         ]
     }
