@@ -502,7 +502,7 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
             item.Type === 'MusicAlbum' ||
             item.Type === 'Person';
 
-        if (!layoutManager.mobile && !userSettings.enableBackdrops()) {
+        if (!layoutManager.mobile && !userSettings.detailsBanner()) {
             return false;
         }
 
