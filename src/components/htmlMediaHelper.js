@@ -35,6 +35,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         if (!!window.MediaSource && !!MediaSource.isTypeSupported) {
             return true;
         }
+        return false;
     }
 
     function enableHlsJsPlayer(runTimeTicks, mediaType) {
