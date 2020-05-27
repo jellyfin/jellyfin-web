@@ -54,7 +54,13 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
 
     // production version registered with google
     // replace this value if you want to test changes on another instance
-    var applicationID = 'F007D354';
+    var applicationStable = 'F007D354';
+    var applicationNightly = '6F511C87';
+
+    var applicationID = applicationStable;
+    if (userSettings.chromecastVersion === 'nightly') {
+        applicationID = applicationNightly;
+    }
 
     var messageNamespace = 'urn:x-cast:com.connectsdk';
 

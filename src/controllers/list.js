@@ -1016,7 +1016,6 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
             if ('Programs' === params.type) {
                 filters.push('Genres');
             } else {
-                params.type;
                 filters.push('IsUnplayed');
                 filters.push('IsPlayed');
 

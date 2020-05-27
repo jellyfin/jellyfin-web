@@ -306,6 +306,10 @@ button::-moz-focus-inner {
     text-align: left;
 }
 
+.dialog .cardText {
+    text-overflow: initial;
+}
+
 .cardText-secondary {
     font-size: 86%;
 }

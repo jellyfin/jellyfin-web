@@ -314,13 +314,11 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             if (codecProfile.Type === 'Audio') {
                 (codecProfile.Conditions || []).map(function (condition) {
                     if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitDepth') {
-                        maxAudioBitDepth = condition.Value;
-                    }
-                    if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioSampleRate') {
-                        maxAudioSampleRate = condition.Value;
-                    }
-                    if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitrate') {
-                        maxAudioBitrate = condition.Value;
+                        return maxAudioBitDepth = condition.Value;
+                    } else if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioSampleRate') {
+                        return maxAudioSampleRate = condition.Value;
+                    } else if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitrate') {
+                        return maxAudioBitrate = condition.Value;
                     }
                 });
             }

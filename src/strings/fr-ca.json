@@ -193,5 +193,10 @@
     "AllowFfmpegThrottling": "Restreindre la vitesse de transcodage",
     "AlbumArtist": "Artiste de l'Album",
     "Album": "Album",
-    "AuthProviderHelp": "Sélectionner un fournisseur d'authentification pour authentifier le mot de passe de cet utilisateur."
+    "AuthProviderHelp": "Sélectionner un fournisseur d'authentification pour authentifier le mot de passe de cet utilisateur.",
+    "HeaderFavoriteSongs": "Chansons favorites",
+    "HeaderFavoriteShows": "Séries favorites",
+    "HeaderFavoriteEpisodes": "Épisodes favoris",
+    "HeaderFavoriteArtists": "Artistes favoris",
+    "HeaderFavoriteAlbums": "Albums favoris"
 }
