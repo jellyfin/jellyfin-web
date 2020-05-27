@@ -122,7 +122,7 @@ export class BookPlayer {
                     tocElement.id = 'dialogToc';
 
                     let tocHtml = '<div class="topRightActionButtons">';
-                    tocHtml += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerTocClose hide-mouse-idle-tv" tabindex="-1"><i class="material-icons bookplayerButtonIcon close"></i></button>';
+                    tocHtml += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerTocClose hide-mouse-idle-tv" tabindex="-1"><span class="material-icons bookplayerButtonIcon close"></span></button>';
                     tocHtml += '</div>';
                     tocHtml += '<ul class="toc">';
                     rendition.book.navigation.forEach((chapter) => {
