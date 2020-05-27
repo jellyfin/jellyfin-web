@@ -1448,7 +1448,7 @@
     "FetchingData": "Récuperer des données suplémentaires",
     "CopyStreamURLSuccess": "URL copiée avec succès.",
     "CopyStreamURL": "Copier l'URL du flux",
-    "LabelBaseUrlHelp": "Ajoute un sous-répertoire personnalisé à l'adresse URL du serveur. Par exemple : <code>http ://example.com/<b>&lt ;baseurl&gt ;</b></code>",
+    "LabelBaseUrlHelp": "Ajoute un sous-répertoire personnalisé à l'adresse URL du serveur. Par exemple : <code>http://example.com/<b>&lt ;baseurl&gt ;</b></code>",
     "HeaderFavoritePeople": "Personnes préférées",
     "OptionRandom": "Aléatoire",
     "ButtonSplit": "Séparer",
