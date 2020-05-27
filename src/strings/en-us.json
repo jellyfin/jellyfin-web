@@ -1158,8 +1158,6 @@
     "OptionDownloadBannerImage": "Banner",
     "OptionDownloadBoxImage": "Box",
     "OptionDownloadDiscImage": "Disc",
-    "OptionDownloadImagesInAdvance": "Download images in advance",
-    "OptionDownloadImagesInAdvanceHelp": "By default, most images are only downloaded when requested by a Jellyfin app. Enable this option to download all images in advance, as new media is imported. This may cause significantly longer library scans.",
     "OptionDownloadLogoImage": "Logo",
     "OptionDownloadMenuImage": "Menu",
     "OptionDownloadPrimaryImage": "Primary",

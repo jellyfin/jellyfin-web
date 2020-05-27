@@ -243,11 +243,9 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         elem.innerHTML = html;
         if (html) {
             elem.classList.remove('hide');
-            page.querySelector('.chkDownloadImagesInAdvanceContainer').classList.remove('hide');
             page.querySelector('.chkSaveLocalContainer').classList.remove('hide');
         } else {
             elem.classList.add('hide');
-            page.querySelector('.chkDownloadImagesInAdvanceContainer').classList.add('hide');
             page.querySelector('.chkSaveLocalContainer').classList.add('hide');
         }
         return true;
@@ -500,7 +498,6 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
             EnableRealtimeMonitor: parent.querySelector('.chkEnableRealtimeMonitor').checked,
             ExtractChapterImagesDuringLibraryScan: parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked,
             EnableChapterImageExtraction: parent.querySelector('.chkExtractChapterImages').checked,
-            DownloadImagesInAdvance: parent.querySelector('#chkDownloadImagesInAdvance').checked,
             EnableInternetProviders: true,
             ImportMissingEpisodes: parent.querySelector('#chkImportMissingEpisodes').checked,
             SaveLocalMetadata: parent.querySelector('#chkSaveLocal').checked,
@@ -558,7 +555,6 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         parent.querySelector('.chkEnableRealtimeMonitor').checked = options.EnableRealtimeMonitor;
         parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked = options.ExtractChapterImagesDuringLibraryScan;
         parent.querySelector('.chkExtractChapterImages').checked = options.EnableChapterImageExtraction;
-        parent.querySelector('#chkDownloadImagesInAdvance').checked = options.DownloadImagesInAdvance;
         parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;
         parent.querySelector('#chkImportMissingEpisodes').checked = options.ImportMissingEpisodes;
         parent.querySelector('.chkAutomaticallyGroupSeries').checked = options.EnableAutomaticSeriesGrouping;
