@@ -613,9 +613,11 @@ import 'programStyles';
                 });
             }
 
+            let blurHashes = options.imageBlurhashes || item.ImageBlurHashes || {};
+
             return {
                 imgUrl: imgUrl,
-                blurhash: item.ImageBlurHashes[imgTag] || null,
+                blurhash: (blurHashes[imgType] || {})[imgTag] || null,
                 forceName: forceName,
                 coverImage: coverImage
             };
