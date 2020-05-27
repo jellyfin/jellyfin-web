@@ -1523,5 +1523,6 @@
     "LabelNightly": "De nuit",
     "LabelStable": "Stable",
     "EnableDetailsBanner": "Bannière des détails",
-    "EnableDetailsBannerHelp": "Affichez une image de bannière en haut de la page de détails de l'article."
+    "EnableDetailsBannerHelp": "Affichez une image de bannière en haut de la page de détails de l'article.",
+    "HeaderSyncPlaySelectGroup": "Rejoindre un groupe"
 }
