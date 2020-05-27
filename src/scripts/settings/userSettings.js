@@ -134,7 +134,7 @@ import events from 'events';
         }
 
         val = this.get('enableBackdrops', false);
-        return val === 'true';
+        return val !== 'false';
     }
 
     export function detailsBanner(val) {
