@@ -1121,7 +1121,7 @@
     "RefreshMetadata": "Atualizar metadados",
     "RefreshQueued": "Atualização enfileirada.",
     "ReleaseDate": "Data de lançamento",
-    "RememberMe": "Lembre-me",
+    "RememberMe": "Lembrar-me",
     "RemoveFromCollection": "Remover da coletânea",
     "RemoveFromPlaylist": "Remover da lista de reprodução",
     "Repeat": "Repetir",
@@ -1465,7 +1465,7 @@
     "AskAdminToCreateLibrary": "Peça a um administrador para criar uma biblioteca.",
     "AllowFfmpegThrottling": "Transcodes do Acelerador",
     "PlaybackErrorNoCompatibleStream": "Este cliente não é compatível com a media e o servidor não está enviando um formato de mídia compatível.",
-    "EnableFastImageFadeInHelp": "Habilitar animações rápidas de aparecimento para imagens carregadas",
+    "EnableFastImageFadeInHelp": "Mostrar pôsteres e outras imagens com uma animação mais rápida ao terminar de carregar.",
     "LabelDroppedFrames": "Quadros caídos:",
     "AllowFfmpegThrottlingHelp": "Quando uma transcodificação ou remux estiver suficientemente avançada da posição atual de reprodução, pause o processo para que consuma menos recursos. Isso é mais proveitoso para quando não há avanço ou retrocesso do vídeo com frequência. Desative se tiver problemas de reprodução.",
     "PreferEmbeddedEpisodeInfosOverFileNames": "Preferir informações dos episódios incorporadas nos arquivos ao invés dos nomes",
@@ -1550,5 +1550,7 @@
     "LabelSyncPlayPlaybackDiff": "Diferença no tempo de reprodução:",
     "MillisecondsUnit": "ms",
     "HeaderSyncPlayEnabled": "SyncPlay ativado",
-    "HeaderSyncPlaySelectGroup": "Entrar em um grupo"
+    "HeaderSyncPlaySelectGroup": "Entrar em um grupo",
+    "EnableDetailsBanner": "Banner de detalhes",
+    "EnableDetailsBannerHelp": "Exibe um banner na parte superior da página de detalhes do item."
 }
