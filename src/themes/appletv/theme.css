@@ -293,7 +293,17 @@ html {
 
 .emby-checkbox:checked + span + .checkboxOutline,
 .itemProgressBarForeground {
-    background-color: #00a4dc;
+    background: linear-gradient(90deg, rgba(0, 210, 201, 1) 0%, rgba(13, 194, 98, 1) 28%, rgba(0, 75, 185, 1) 100%);
+}
+
+.itemProgressBar {
+    background: rgba(230, 230, 230, 0.8);
+    height: 0.18rem;
+}
+
+.innerCardFooter {
+    border-radius: 0.14rem;
+    margin: 0.4rem 0.5rem 0.4rem 0.5rem;
 }
 
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
@@ -443,6 +453,12 @@ html {
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
     border-color: #00a4dc !important;
+}
+
+.cardContent-button,
+.itemDetailImage,
+.cardOverlayContainer {
+    border-radius: 0.5rem;
 }
 
 .metadataSidebarIcon {

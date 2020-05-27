@@ -1,4 +1,4 @@
-define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!./playerstats'], function (events, globalize, playbackManager, connectionManager, playMethodHelper, layoutManager, serverNotifications) {
+define(['events', 'globalize', 'playbackManager', 'connectionManager', 'syncPlayManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!./playerstats'], function (events, globalize, playbackManager, connectionManager, syncPlayManager, playMethodHelper, layoutManager, serverNotifications) {
     'use strict';
 
     function init(instance) {
@@ -327,6 +327,28 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         return sessionStats;
     }
 
+    function getSyncPlayStats() {
+        var syncStats = [];
+        var stats = syncPlayManager.getStats();
+
+        syncStats.push({
+            label: globalize.translate('LabelSyncPlayTimeOffset'),
+            value: stats.TimeOffset + globalize.translate('MillisecondsUnit')
+        });
+
+        syncStats.push({
+            label: globalize.translate('LabelSyncPlayPlaybackDiff'),
+            value: stats.PlaybackDiff + globalize.translate('MillisecondsUnit')
+        });
+
+        syncStats.push({
+            label: globalize.translate('LabelSyncPlaySyncMethod'),
+            value: stats.SyncMethod
+        });
+
+        return syncStats;
+    }
+
     function getStats(instance, player) {
 
         var statsPromise = player.getStats ? player.getStats() : Promise.resolve({});
@@ -382,6 +404,13 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
                 stats: getMediaSourceStats(session, player),
                 name: 'Original Media Info'
             });
+
+            if (syncPlayManager.isSyncPlayEnabled()) {
+                categories.push({
+                    stats: getSyncPlayStats(),
+                    name: 'SyncPlay Info'
+                });
+            }
 
             return Promise.resolve(categories);
         });
