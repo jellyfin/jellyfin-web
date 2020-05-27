@@ -1458,8 +1458,8 @@
     "ButtonSplit": "Dividir",
     "HeaderNavigation": "Navegación",
     "MessageConfirmAppExit": "¿Quieres salir?",
-    "EnableFastImageFadeInHelp": "Las imágenes que hayan terminado de cargarse mostrarán una pequeña animación",
-    "EnableFastImageFadeIn": "Cargar las imágenes suavemente",
+    "EnableFastImageFadeInHelp": "Las animaciones durarán menos tiempo",
+    "EnableFastImageFadeIn": "Animaciones más rápidas",
     "CopyStreamURLError": "Ha habido un error copiando la dirección.",
     "AllowFfmpegThrottlingHelp": "Cuando una transcodificación o un remux se adelanta lo suficiente desde la posición de reproducción actual, pause el proceso para que consuma menos recursos. Esto es más útil cuando se reproduce de forma linear, sin saltar de posición de reproducción a menudo. Desactívelo si experimenta problemas de reproducción.",
     "PlaybackErrorNoCompatibleStream": "Este contenido no es compatible con este dispositivo y no se puede reproducir: No se puede obtener del servidor en un formato compatible.",
@@ -1523,5 +1523,7 @@
     "LabelEnableHttpsHelp": "Permite que el servidor escuche en el puesto HTTPS configurado. También se debe configurar un certificado válido para que esto surta efecto.",
     "LabelEnableHttps": "Activar HTTPS",
     "TabDVR": "DVR",
-    "SaveChanges": "Guardar cambios"
+    "SaveChanges": "Guardar cambios",
+    "EnableBlurhash": "Mostrar una representación de las imágenes mientras cargan",
+    "EnableBlurhashHelp": "Aparecerá una representación de los colores de las imágenes antes de que terminen de cargar"
 }

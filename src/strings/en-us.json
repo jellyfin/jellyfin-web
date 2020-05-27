@@ -822,8 +822,8 @@
     "LabelSaveLocalMetadataHelp": "Saving artwork into media folders will put them in a place where they can be easily edited.",
     "LabelScheduledTaskLastRan": "Last ran {0}, taking {1}.",
     "LabelScreensaver": "Screensaver:",
-    "EnableFastImageFadeIn": "Fast image fade-in",
-    "EnableFastImageFadeInHelp": "Enable faster fade-in animation for loaded images",
+    "EnableFastImageFadeIn": "Faster Animations",
+    "EnableFastImageFadeInHelp": "Enable faster fade-in animation for images",
     "LabelSeasonNumber": "Season number:",
     "LabelSelectFolderGroups": "Automatically group content from the following folders into views such as Movies, Music and TV:",
     "LabelSelectFolderGroupsHelp": "Folders that are unchecked will be displayed by themselves in their own view.",
@@ -1514,5 +1514,7 @@
     "EveryHour": "Every hour",
     "EveryXHours": "Every {0} hours",
     "OnApplicationStartup": "On application startup",
-    "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles."
+    "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles.",
+    "EnableBlurhash": "Enable blurred placeholders for images",
+    "EnableBlurhashHelp": "Images that are still being loaded will be displayed with a blurred placeholder"
 }
