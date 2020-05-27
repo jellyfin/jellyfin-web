@@ -31,7 +31,7 @@
     "AlwaysPlaySubtitlesHelp": "Les sous-titres correspondant à la préférence linguistique seront chargés indépendamment de la langue de l'audio.",
     "AnyLanguage": "N'importe quel langage",
     "Anytime": "N'importe quand",
-    "AroundTime": "Aux environs de {0}",
+    "AroundTime": "Aux environs de",
     "Artists": "Artistes",
     "AsManyAsPossible": "Autant que possible",
     "Ascending": "Croissant",
@@ -274,7 +274,7 @@
     "HeaderAddUser": "Ajouter un utilisateur",
     "HeaderAdditionalParts": "Parties additionelles",
     "HeaderAdmin": "Administrateur",
-    "HeaderAlbumArtists": "Artistes de l'album",
+    "HeaderAlbumArtists": "Artistes",
     "HeaderAlert": "Alerte",
     "HeaderAllowMediaDeletionFrom": "Autoriser la suppression de médias à partir de",
     "HeaderApiKey": "Clé API",
@@ -1448,7 +1448,7 @@
     "FetchingData": "Récuperer des données suplémentaires",
     "CopyStreamURLSuccess": "URL copiée avec succès.",
     "CopyStreamURL": "Copier l'URL du flux",
-    "LabelBaseUrlHelp": "Ajoute un sous-répertoire personnalisé à l'adresse URL du serveur. Par exemple: <code>http://example.com/<b>&lt;baseurl&gt;</b></code>",
+    "LabelBaseUrlHelp": "Ajoute un sous-répertoire personnalisé à l'adresse URL du serveur. Par exemple : <code>http ://example.com/<b>&lt ;baseurl&gt ;</b></code>",
     "HeaderFavoritePeople": "Personnes préférées",
     "OptionRandom": "Aléatoire",
     "ButtonSplit": "Séparer",
@@ -1548,5 +1548,10 @@
     "MessageSyncPlayEnabled": "SyncPlay activé.",
     "LabelSyncPlayAccess": "Accès SyncPlay",
     "LabelSyncPlayAccessNone": "Désactivé pour cet utilisateur",
-    "LabelSyncPlayAccessJoinGroups": "Autoriser l'utilisateur à rejoindre un groupe"
+    "LabelSyncPlayAccessJoinGroups": "Autoriser l'utilisateur à rejoindre un groupe",
+    "SyncPlayAccessHelp": "Sélectionner le niveau d'accès de cet utilisateur pour la fonctionnalité SyncPlay. SyncPlay permet de synchroniser la lecture avec d'autres utilisateurs.",
+    "MessageSyncPlayErrorMedia": "Impossible d'activer SyncPlay ! Erreur média.",
+    "MessageSyncPlayErrorMissingSession": "Impossible d'activer SyncPlay ! Session manquante.",
+    "MessageSyncPlayErrorNoActivePlayer": "Aucun player actif trouvé. SyncPlay a été désactivé.",
+    "MessageSyncPlayErrorAccessingGroups": "Une erreur s'est produite pendant l'accès à la liste de groupes."
 }
