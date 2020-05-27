@@ -314,6 +314,13 @@ var AppInfo = {};
         return obj;
     }
 
+    function returnDefault(obj) {
+        if (obj.default === null) {
+            throw new Error('Object has no default!');
+        }
+        return obj.default;
+    }
+
     function getBowerPath() {
         return 'libraries';
     }
@@ -817,6 +824,10 @@ var AppInfo = {};
         define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
+        define('timeSyncManager', [componentsPath + '/syncplay/timeSyncManager'], returnDefault);
+        define('groupSelectionMenu', [componentsPath + '/syncplay/groupSelectionMenu'], returnFirstDependency);
+        define('syncPlayManager', [componentsPath + '/syncplay/syncPlayManager'], returnDefault);
+        define('playbackPermissionManager', [componentsPath + '/syncplay/playbackPermissionManager'], returnDefault);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);
         define('homeSections', [componentsPath + '/homesections/homesections'], returnFirstDependency);
         define('playMenu', [componentsPath + '/playmenu'], returnFirstDependency);
@@ -826,7 +837,7 @@ var AppInfo = {};
         define('cardBuilder', [componentsPath + '/cardbuilder/cardBuilder'], returnFirstDependency);
         define('peoplecardbuilder', [componentsPath + '/cardbuilder/peoplecardbuilder'], returnFirstDependency);
         define('chaptercardbuilder', [componentsPath + '/cardbuilder/chaptercardbuilder'], returnFirstDependency);
-        define('deleteHelper', [componentsPath + '/deleteHelper'], returnFirstDependency);
+        define('deleteHelper', [scriptsPath + '/deleteHelper'], returnFirstDependency);
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
         define('loadingDialog', [componentsPath + '/loadingDialog/loadingDialog'], returnFirstDependency);
@@ -845,7 +856,7 @@ var AppInfo = {};
         define('sortMenu', [componentsPath + '/sortmenu/sortmenu'], returnFirstDependency);
         define('sanitizefilename', [componentsPath + '/sanitizeFilename'], returnFirstDependency);
         define('toast', [componentsPath + '/toast/toast'], returnFirstDependency);
-        define('scrollHelper', [componentsPath + '/scrollHelper'], returnFirstDependency);
+        define('scrollHelper', [scriptsPath + '/scrollHelper'], returnFirstDependency);
         define('touchHelper', [scriptsPath + '/touchHelper'], returnFirstDependency);
         define('imageUploader', [componentsPath + '/imageUploader/imageUploader'], returnFirstDependency);
         define('htmlMediaHelper', [componentsPath + '/htmlMediaHelper'], returnFirstDependency);

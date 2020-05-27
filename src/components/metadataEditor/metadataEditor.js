@@ -245,50 +245,6 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         });
     }
 
-    function showMoreMenu(context, button, user) {
-
-        require(['itemContextMenu'], function (itemContextMenu) {
-
-            var item = currentItem;
-
-            itemContextMenu.show({
-
-                item: item,
-                positionTo: button,
-                edit: false,
-                editImages: true,
-                editSubtitles: true,
-                sync: false,
-                share: false,
-                play: false,
-                queue: false,
-                user: user
-
-            }).then(function (result) {
-
-                if (result.deleted) {
-                    afterDeleted(context, item);
-
-                } else if (result.updated) {
-                    reload(context, item.Id, item.ServerId);
-                }
-            });
-        });
-    }
-
-    function afterDeleted(context, item) {
-
-        var parentId = item.ParentId || item.SeasonId || item.SeriesId;
-
-        if (parentId) {
-            reload(context, parentId, item.ServerId);
-        } else {
-            require(['appRouter'], function (appRouter) {
-                appRouter.goHome();
-            });
-        }
-    }
-
     function onEditorClick(e) {
 
         var btnRemoveFromEditorList = dom.parentWithClass(e.target, 'btnRemoveFromEditorList');
@@ -307,6 +263,12 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
         return connectionManager.getApiClient(currentItem.ServerId);
     }
 
+    function bindAll(elems, eventName, fn) {
+        for (var i = 0, length = elems.length; i < length; i++) {
+            elems[i].addEventListener(eventName, fn);
+        }
+    }
+
     function init(context, apiClient) {
 
         context.querySelector('.externalIds').addEventListener('click', function (e) {
@@ -322,17 +284,14 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             }
         });
 
-        context.querySelector('.btnCancel').addEventListener('click', function () {
+        if (!layoutManager.desktop) {
+            context.querySelector('.btnBack').classList.remove('hide');
+            context.querySelector('.btnClose').classList.add('hide');
+        }
 
+        bindAll(context.querySelectorAll('.btnCancel'), 'click', function (event) {
+            event.preventDefault();
             closeDialog(false);
-        });
-
-        context.querySelector('.btnMore').addEventListener('click', function (e) {
-
-            getApiClient().getCurrentUser().then(function (user) {
-                showMoreMenu(context, e.target, user);
-            });
-
         });
 
         context.querySelector('.btnHeaderSave').addEventListener('click', function (e) {
@@ -349,8 +308,8 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             }
         });
 
-        context.removeEventListener('click', onEditorClick);
-        context.addEventListener('click', onEditorClick);
+        context.removeEventListener('submit', onEditorClick);
+        context.addEventListener('submit', onEditorClick);
 
         var form = context.querySelector('form');
         form.removeEventListener('submit', onSubmit);
@@ -1077,7 +1036,7 @@ define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loadi
             if (layoutManager.tv) {
                 dialogOptions.size = 'fullscreen';
             } else {
-                dialogOptions.size = 'medium-tall';
+                dialogOptions.size = 'small';
             }
 
             var dlg = dialogHelper.createDialog(dialogOptions);

@@ -37,18 +37,19 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         var list = [];
 
         if (type === 'movies') {
-
             list.push({
                 name: globalize.translate('Movies'),
                 value: 'movies',
                 isDefault: true
             });
-
             list.push({
                 name: globalize.translate('Suggestions'),
                 value: 'suggestions'
             });
-
+            list.push({
+                name: globalize.translate('Genres'),
+                value: 'genres'
+            });
             list.push({
                 name: globalize.translate('Favorites'),
                 value: 'favorites'
@@ -58,7 +59,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 value: 'collections'
             });
         } else if (type === 'tvshows') {
-
             list.push({
                 name: globalize.translate('Shows'),
                 value: 'shows',
@@ -68,49 +68,45 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 name: globalize.translate('Suggestions'),
                 value: 'suggestions'
             });
-
             list.push({
                 name: globalize.translate('Latest'),
                 value: 'latest'
+            });
+            list.push({
+                name: globalize.translate('Genres'),
+                value: 'genres'
             });
             list.push({
                 name: globalize.translate('Favorites'),
                 value: 'favorites'
             });
         } else if (type === 'music') {
-
             list.push({
                 name: globalize.translate('Suggestions'),
                 value: 'suggestions',
                 isDefault: true
             });
-
             list.push({
                 name: globalize.translate('Albums'),
                 value: 'albums'
             });
-
             list.push({
                 name: globalize.translate('HeaderAlbumArtists'),
                 value: 'albumartists'
             });
-
             list.push({
                 name: globalize.translate('Artists'),
                 value: 'artists'
             });
-
             list.push({
                 name: globalize.translate('Playlists'),
                 value: 'playlists'
             });
-
             list.push({
                 name: globalize.translate('Genres'),
                 value: 'genres'
             });
         } else if (type === 'livetv') {
-
             list.push({
                 name: globalize.translate('Suggestions'),
                 value: 'suggestions',

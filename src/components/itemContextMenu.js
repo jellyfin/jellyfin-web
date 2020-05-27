@@ -450,7 +450,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     navigator.share({
                         title: item.Name,
                         text: item.Overview,
-                        url: 'https://github.com/jellyfin/jellyfin'
+                        url: `${apiClient.serverAddress()}/web/index.html#!/${appRouter.getRouteUrl(item)}`
                     });
                     break;
                 case 'album':

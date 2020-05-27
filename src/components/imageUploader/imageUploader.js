@@ -137,7 +137,7 @@ define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', '
             if (layoutManager.tv) {
                 dialogOptions.size = 'fullscreen';
             } else {
-                dialogOptions.size = 'fullscreen-border';
+                dialogOptions.size = 'small';
             }
 
             var dlg = dialogHelper.createDialog(dialogOptions);
