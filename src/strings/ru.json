@@ -1548,5 +1548,9 @@
     "LabelSyncPlaySyncMethod": "Метод синхронизации:",
     "LabelSyncPlayPlaybackDiff": "Разница времени воспроизведения:",
     "MillisecondsUnit": "мс",
-    "LabelSyncPlayTimeOffset": "Сдвиг времени относительно сервера:"
+    "LabelSyncPlayTimeOffset": "Сдвиг времени относительно сервера:",
+    "SyncPlayAccessHelp": "Выберите уровень доступа данного пользователя к функциональности SyncPlay. SyncPlay позволяет синхронизировать воспроизведение с другими устройствами.",
+    "MessageSyncPlayErrorMedia": "Не удалось включить SyncPlay! Ошибка медиаданных.",
+    "MessageSyncPlayErrorMissingSession": "Не удалось включить SyncPlay! Отсутствует сеанс.",
+    "MessageSyncPlayErrorNoActivePlayer": "Активный проигрыватель не найден. SyncPlay был отключен."
 }
