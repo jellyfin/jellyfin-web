@@ -15,7 +15,6 @@
     "babel-eslint": "^11.0.0-beta.2",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
-    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "cssnano": "^4.1.10",
@@ -50,9 +49,6 @@
     "stylelint-no-browser-hacks": "^1.2.1",
     "stylelint-order": "^4.0.0",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "webpack-concat-plugin": "^3.0.0",
-    "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2",
     "webpack-stream": "^5.2.1"
   },
