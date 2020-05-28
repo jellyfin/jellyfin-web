@@ -149,7 +149,7 @@ export class UserSettings {
         }
 
         val = this.get('enableThemeSongs', false);
-        return val !== 'false';
+        return val === 'true';
     }
 
     /**
@@ -163,7 +163,7 @@ export class UserSettings {
         }
 
         val = this.get('enableThemeVideos', false);
-        return val !== 'false';
+        return val === 'true';
     }
 
     /**
@@ -191,6 +191,20 @@ export class UserSettings {
         }
 
         val = this.get('enableBackdrops', false);
+        return val !== 'false';
+    }
+
+    /**
+     * Get or set 'Details Banner' state.
+     * @param {boolean|null} val - Flag to enable 'Details Banner' or undefined.
+     * @return {boolean} 'Details Banner' state.
+     */
+    detailsBanner(val) {
+        if (val !== undefined) {
+            return this.set('detailsBanner', val.toString(), false);
+        }
+
+        val = this.get('detailsBanner', false);
         return val !== 'false';
     }
 
@@ -431,6 +445,7 @@ export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSet
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
+export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);
 export const language = currentSettings.language.bind(currentSettings);
 export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
 export const chromecastVersion = currentSettings.chromecastVersion.bind(currentSettings);

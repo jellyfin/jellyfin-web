@@ -1524,5 +1524,20 @@
     "HeaderHttpsSettings": "HTTPS Beállítások",
     "TabDVR": "DVR",
     "HeaderDVR": "DVR",
-    "SaveChanges": "Változtatások mentése"
+    "SaveChanges": "Változtatások mentése",
+    "MessageSyncPlayGroupWait": "<b>{0}</b> bufferel...",
+    "MessageSyncPlayUserLeft": "<b>{0}</b> elhagyta a csoportot.",
+    "MessageSyncPlayUserJoined": "<b>{0}</b> csatlakozott a csoporthoz.",
+    "MessageSyncPlayDisabled": "SyncPlay letiltva.",
+    "MessageSyncPlayEnabled": "SyncPlay engedélyezve.",
+    "LabelSyncPlayAccess": "SyncPlay hozzáférés",
+    "LabelSyncPlayAccessCreateAndJoinGroups": "A felhasználó létrehozhat csoportokat és csatlakozhat hozzájuk",
+    "LabelSyncPlayLeaveGroupDescription": "SyncPlay letiltása",
+    "LabelSyncPlayLeaveGroup": "Csoport elhagyása",
+    "LabelSyncPlayNewGroupDescription": "Új csoport létrehozása",
+    "LabelSyncPlayNewGroup": "Új csoport",
+    "LabelSyncPlaySyncMethod": "Szinkronizálási mód:",
+    "MillisecondsUnit": "ms",
+    "HeaderSyncPlayEnabled": "SyncPlay engedélyezve",
+    "HeaderSyncPlaySelectGroup": "Csatlakozás csoporthoz"
 }
