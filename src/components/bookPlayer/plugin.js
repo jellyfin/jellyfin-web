@@ -1,10 +1,7 @@
 import connectionManager from 'connectionManager';
-import dom from 'dom';
 import loading from 'loading';
-import playbackManager from 'playbackManager';
 import keyboardnavigation from 'keyboardnavigation';
 import dialogHelper from 'dialogHelper';
-import appHost from 'apphost';
 import 'css!./style';
 import 'material-icons';
 import 'paper-icon-button-light';
