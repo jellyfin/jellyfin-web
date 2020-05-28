@@ -1,11 +1,3 @@
-import browser from 'browser';
-import require from 'require';
-import events from 'events';
-import appHost from 'apphost';
-import loading from 'loading';
-import dom from 'dom';
-import playbackManager from 'playbackManager';
-import appRouter from 'appRouter';
 import connectionManager from 'connectionManager';
 
 export class PhotoPlayer {
@@ -20,7 +12,7 @@ export class PhotoPlayer {
 
         return new Promise(function (resolve, reject) {
 
-            require(['slideshow'], function (slideshow) {
+            import('slideshow').then(slideshow => {
 
                 var index = options.startIndex || 0;
 
