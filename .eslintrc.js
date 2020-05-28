@@ -50,6 +50,7 @@ module.exports = {
             files: [
                 './src/**/*.js'
             ],
+            parser: "babel-eslint",
             env: {
                 node: false,
                 amd: true,
