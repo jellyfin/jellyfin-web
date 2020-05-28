@@ -26,9 +26,8 @@ class BackdropScreensaver {
 
                 if (result.Items.length) {
 
-                    import('slideshow').then(slideshow => {
-
-                        var newSlideShow = new slideshow({
+                    import('slideshow').then(({default: Slideshow}) => {
+                        const newSlideShow = new Slideshow({
                             showTitle: true,
                             cover: true,
                             items: result.Items

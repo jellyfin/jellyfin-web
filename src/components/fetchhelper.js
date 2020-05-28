@@ -75,10 +75,15 @@
         });
     }
 
+    /**
+     * @param params {Record<string, string | number | boolean>}
+     * @returns {string} Query string
+     */
     function paramsToString(params) {
-        return Object.keys(params)
-            .filter((k) => !!params[k])
-            .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
+        return Object.entries(params)
+            // eslint-disable-next-line no-unused-vars
+            .filter(([_, v]) => v !== null && v !== undefined)
+            .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
             .join('&');
     }
 
