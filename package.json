@@ -99,6 +99,7 @@
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
           "src/components/bookPlayer/plugin.js",
+          "src/components/bookPlayer/tableOfContent.js",
           "src/components/syncplay/playbackPermissionManager.js",
           "src/components/syncplay/groupSelectionMenu.js",
           "src/components/syncplay/timeSyncManager.js",

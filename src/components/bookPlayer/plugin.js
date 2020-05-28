@@ -9,12 +9,18 @@ import 'css!./style';
 import 'material-icons';
 import 'paper-icon-button-light';
 
+import TableOfContent from './tableOfContent';
+
 export class BookPlayer {
     constructor() {
         this.name = 'Book Player';
         this.type = 'mediaplayer';
         this.id = 'bookplayer';
         this.priority = 1;
+
+        this.onDialogClosed = this.onDialogClosed.bind(this);
+        this.openTableOfContents = this.openTableOfContents.bind(this);
+        this.onWindowKeyUp = this.onWindowKeyUp.bind(this);
     }
 
     play(options) {
@@ -24,6 +30,8 @@ export class BookPlayer {
     }
 
     stop() {
+        this.unbindEvents();
+
         let elem = this._mediaElement;
         let tocElement = this._tocElement;
         let rendition = this._rendition;
@@ -34,7 +42,7 @@ export class BookPlayer {
         }
 
         if (tocElement) {
-            dialogHelper.close(tocElement);
+            tocElement.destroy();
             this._tocElement = null;
         }
 
@@ -60,9 +68,12 @@ export class BookPlayer {
                 book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev();
                 break;
             case 'Escape':
-                dialogHelper.close(this._mediaElement);
                 if (this._tocElement) {
-                    dialogHelper.close(this._tocElement);
+                    // Close table of contents on ESC if it is open
+                    this._tocElement.destroy();
+                } else {
+                    // Otherwise stop the entire book player
+                    this.stop();
                 }
                 break;
         }
@@ -72,17 +83,42 @@ export class BookPlayer {
         this.stop();
     }
 
-    replaceLinks(contents, f) {
-        let links = contents.querySelectorAll('a[href]');
+    bindMediaElementEvents() {
+        let elem = this._mediaElement;
 
-        links.forEach((link) => {
-            let href = link.getAttribute('href');
+        elem.addEventListener('close', this.onDialogClosed, {once: true});
+        elem.querySelector('.btnBookplayerExit').addEventListener('click', this.onDialogClosed, {once: true});
+        elem.querySelector('.btnBookplayerToc').addEventListener('click', this.openTableOfContents);
+    }
 
-            link.onclick = () => {
-                f(href);
-                return false;
-            };
-        });
+    bindEvents() {
+        this.bindMediaElementEvents();
+
+        document.addEventListener('keyup', this.onWindowKeyUp);
+        // FIXME: I don't really get why document keyup event is not triggered when epub is in focus
+        this._rendition.on('keyup', this.onWindowKeyUp);
+    }
+
+    unbindMediaElementEvents() {
+        let elem = this._mediaElement;
+
+        elem.removeEventListener('close', this.onDialogClosed);
+        elem.querySelector('.btnBookplayerExit').removeEventListener('click', this.onDialogClosed);
+        elem.querySelector('.btnBookplayerToc').removeEventListener('click', this.openTableOfContents);
+    }
+
+    unbindEvents() {
+        if (this._mediaElement) {
+            this.unbindMediaElementEvents();
+        }
+        document.removeEventListener('keyup', this.onWindowKeyUp);
+        if (this._rendition) {
+            this._rendition.off('keyup', this.onWindowKeyUp);
+        }
+    }
+
+    openTableOfContents() {
+        this._tocElement = new TableOfContent(this);
     }
 
     createMediaElement() {
@@ -115,53 +151,7 @@ export class BookPlayer {
 
             elem.innerHTML = html;
 
-            elem.querySelector('.btnBookplayerExit').addEventListener('click', () => {
-                dialogHelper.close(elem);
-            });
-
-            elem.querySelector('.btnBookplayerToc').addEventListener('click', () => {
-                let rendition = this._rendition;
-                if (rendition) {
-                    let tocElement = dialogHelper.createDialog({
-                        size: 'small',
-                        autoFocus: false,
-                        removeOnClose: true
-                    });
-                    tocElement.id = 'dialogToc';
-
-                    let tocHtml = '<div class="topRightActionButtons">';
-                    tocHtml += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerTocClose hide-mouse-idle-tv" tabindex="-1"><span class="material-icons bookplayerButtonIcon close"></span></button>';
-                    tocHtml += '</div>';
-                    tocHtml += '<ul class="toc">';
-                    rendition.book.navigation.forEach((chapter) => {
-                        tocHtml += '<li>';
-                        // Remove '../' from href
-                        let link = chapter.href.startsWith('../') ? chapter.href.substr(3) : chapter.href;
-                        tocHtml += `<a href="${rendition.book.path.directory + link}">${chapter.label}</a>`;
-                        tocHtml += '</li>';
-                    });
-                    tocHtml += '</ul>';
-                    tocElement.innerHTML = tocHtml;
-
-                    tocElement.querySelector('.btnBookplayerTocClose').addEventListener('click', () => {
-                        dialogHelper.close(tocElement);
-                    });
-
-                    this.replaceLinks(tocElement, (href) => {
-                        let relative = rendition.book.path.relative(href);
-                        rendition.display(relative);
-                        dialogHelper.close(tocElement);
-                    });
-
-                    this._tocElement = tocElement;
-
-                    dialogHelper.open(tocElement);
-                }
-            });
-
             dialogHelper.open(elem);
-
-            elem.addEventListener('close', this.onDialogClosed.bind(this));
         }
 
         this._mediaElement = elem;
@@ -201,10 +191,7 @@ export class BookPlayer {
                 this._currentSrc = downloadHref;
                 this._rendition = rendition;
                 return rendition.display().then(() => {
-                    document.addEventListener('keyup', this.onWindowKeyUp.bind(this));
-
-                    // FIXME: I don't really get why document keyup event is not triggered when epub is in focus
-                    this._rendition.on('keyup', this.onWindowKeyUp.bind(this));
+                    this.bindEvents();
 
                     loading.hide();
                     return resolve();
