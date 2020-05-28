@@ -25,13 +25,21 @@ export class BookPlayer {
 
     stop() {
         let elem = this._mediaElement;
+        let tocElement = this._tocElement;
         let rendition = this._rendition;
 
-        if (elem && rendition) {
-            rendition.destroy();
-
-            elem.remove();
+        if (elem) {
+            dialogHelper.close(elem);
             this._mediaElement = null;
+        }
+
+        if (tocElement) {
+            dialogHelper.close(tocElement);
+            this._tocElement = null;
+        }
+
+        if (rendition) {
+            rendition.destroy();
         }
     }
 
