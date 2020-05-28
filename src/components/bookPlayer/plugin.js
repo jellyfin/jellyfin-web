@@ -78,7 +78,7 @@ export class BookPlayer {
         links.forEach((link) => {
             let href = link.getAttribute('href');
 
-            link.onclick = function () {
+            link.onclick = () => {
                 f(href);
                 return false;
             };
@@ -115,11 +115,11 @@ export class BookPlayer {
 
             elem.innerHTML = html;
 
-            elem.querySelector('.btnBookplayerExit').addEventListener('click', function () {
+            elem.querySelector('.btnBookplayerExit').addEventListener('click', () => {
                 dialogHelper.close(elem);
             });
 
-            elem.querySelector('.btnBookplayerToc').addEventListener('click', function () {
+            elem.querySelector('.btnBookplayerToc').addEventListener('click', () => {
                 let rendition = this._rendition;
                 if (rendition) {
                     let tocElement = dialogHelper.createDialog({
@@ -143,7 +143,7 @@ export class BookPlayer {
                     tocHtml += '</ul>';
                     tocElement.innerHTML = tocHtml;
 
-                    tocElement.querySelector('.btnBookplayerTocClose').addEventListener('click', function () {
+                    tocElement.querySelector('.btnBookplayerTocClose').addEventListener('click', () => {
                         dialogHelper.close(tocElement);
                     });
 
@@ -157,7 +157,7 @@ export class BookPlayer {
 
                     dialogHelper.open(tocElement);
                 }
-            }.bind(this));
+            });
 
             dialogHelper.open(elem);
 
@@ -192,24 +192,23 @@ export class BookPlayer {
         let serverId = item.ServerId;
         let apiClient = connectionManager.getApiClient(serverId);
 
-        const self = this;
-        return new Promise(function (resolve, reject) {
-            require(['epubjs'], function (epubjs) {
+        return new Promise((resolve, reject) => {
+            require(['epubjs'], (epubjs) => {
                 let downloadHref = apiClient.getItemDownloadUrl(item.Id);
                 let book = epubjs.default(downloadHref, {openAs: 'epub'});
                 let rendition = book.renderTo(elem, {width: '100%', height: '97%'});
 
-                self._currentSrc = downloadHref;
-                self._rendition = rendition;
-                return rendition.display().then(function () {
-                    document.addEventListener('keyup', self.onWindowKeyUp.bind(self));
+                this._currentSrc = downloadHref;
+                this._rendition = rendition;
+                return rendition.display().then(() => {
+                    document.addEventListener('keyup', this.onWindowKeyUp.bind(this));
 
                     // FIXME: I don't really get why document keyup event is not triggered when epub is in focus
-                    self._rendition.on('keyup', self.onWindowKeyUp.bind(self));
+                    this._rendition.on('keyup', this.onWindowKeyUp.bind(this));
 
                     loading.hide();
                     return resolve();
-                }, function () {
+                }, () => {
                     console.error('Failed to display epub');
                     return reject();
                 });
