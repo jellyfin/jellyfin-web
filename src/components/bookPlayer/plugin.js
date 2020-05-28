@@ -170,13 +170,32 @@ export class BookPlayer {
     }
 
     setCurrentSrc(elem, options) {
-        let serverId = options.items[0].ServerId;
+        let item = options.items[0];
+        if (!item.Path.endsWith('.epub')) {
+            return new Promise((resolve, reject) => {
+                let errorDialog = dialogHelper.createDialog({
+                    size: 'small',
+                    autoFocus: false,
+                    removeOnClose: true
+                });
+
+                errorDialog.innerHTML = '<h1 class="bookplayerErrorMsg">This book type is not supported yet</h1>';
+
+                this.stop();
+
+                dialogHelper.open(errorDialog);
+                loading.hide();
+
+                return resolve();
+            });
+        }
+        let serverId = item.ServerId;
         let apiClient = connectionManager.getApiClient(serverId);
 
         const self = this;
         return new Promise(function (resolve, reject) {
             require(['epubjs'], function (epubjs) {
-                let downloadHref = apiClient.getItemDownloadUrl(options.items[0].Id);
+                let downloadHref = apiClient.getItemDownloadUrl(item.Id);
                 let book = epubjs.default(downloadHref, {openAs: 'epub'});
                 let rendition = book.renderTo(elem, {width: '100%', height: '97%'});
 

@@ -33,3 +33,7 @@
 .toc li {
     margin-bottom: 5px;
 }
+
+.bookplayerErrorMsg {
+    text-align: center;
+}
