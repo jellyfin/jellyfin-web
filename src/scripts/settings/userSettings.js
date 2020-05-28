@@ -112,7 +112,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Cinema Mode' state.
-     * @param {boolean|null} val - Flag to enable 'Cinema Mode' or undefined.
+     * @param {boolean|undefined} val - Flag to enable 'Cinema Mode' or undefined.
      * @return {boolean} 'Cinema Mode' state.
      */
     enableCinemaMode(val) {
@@ -126,7 +126,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Next Video Info Overlay' state.
-     * @param {boolean|null} val - Flag to enable 'Next Video Info Overlay' or undefined.
+     * @param {boolean|undefined} val - Flag to enable 'Next Video Info Overlay' or undefined.
      * @return {boolean} 'Next Video Info Overlay' state.
      */
     enableNextVideoInfoOverlay(val) {
@@ -140,7 +140,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Theme Songs' state.
-     * @param {boolean|null} val - Flag to enable 'Theme Songs' or undefined.
+     * @param {boolean|undefined} val - Flag to enable 'Theme Songs' or undefined.
      * @return {boolean} 'Theme Songs' state.
      */
     enableThemeSongs(val) {
@@ -154,7 +154,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Theme Videos' state.
-     * @param {boolean|null} val - Flag to enable 'Theme Videos' or undefined.
+     * @param {boolean|undefined} val - Flag to enable 'Theme Videos' or undefined.
      * @return {boolean} 'Theme Videos' state.
      */
     enableThemeVideos(val) {
@@ -168,7 +168,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Fast Fade-in' state.
-     * @param {boolean|null} val - Flag to enable 'Fast Fade-in' or undefined.
+     * @param {boolean|undefined} val - Flag to enable 'Fast Fade-in' or undefined.
      * @return {boolean} 'Fast Fade-in' state.
      */
     enableFastFadein(val) {
@@ -182,7 +182,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Backdrops' state.
-     * @param {boolean|null} val - Flag to enable 'Backdrops' or undefined.
+     * @param {boolean|undefined} val - Flag to enable 'Backdrops' or undefined.
      * @return {boolean} 'Backdrops' state.
      */
     enableBackdrops(val) {
@@ -196,7 +196,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Details Banner' state.
-     * @param {boolean|null} val - Flag to enable 'Details Banner' or undefined.
+     * @param {boolean|undefined} val - Flag to enable 'Details Banner' or undefined.
      * @return {boolean} 'Details Banner' state.
      */
     detailsBanner(val) {
@@ -210,7 +210,7 @@ export class UserSettings {
 
     /**
      * Get or set language.
-     * @param {string|null} val - Language.
+     * @param {string|undefined} val - Language.
      * @return {string} Language.
      */
     language(val) {
@@ -223,7 +223,7 @@ export class UserSettings {
 
     /**
      * Get or set datetime locale.
-     * @param {string|null} val - Datetime locale.
+     * @param {string|undefined} val - Datetime locale.
      * @return {string} Datetime locale.
      */
     dateTimeLocale(val) {
@@ -236,7 +236,7 @@ export class UserSettings {
 
     /**
      * Get or set Chromecast version.
-     * @param {string|null} val - Chromecast version.
+     * @param {string|undefined} val - Chromecast version.
      * @return {string} Chromecast version.
      */
     chromecastVersion(val) {
@@ -249,7 +249,7 @@ export class UserSettings {
 
     /**
      * Get or set amount of rewind.
-     * @param {number|null} val - Amount of rewind.
+     * @param {number|undefined} val - Amount of rewind.
      * @return {number} Amount of rewind.
      */
     skipBackLength(val) {
@@ -262,7 +262,7 @@ export class UserSettings {
 
     /**
      * Get or set amount of fast forward.
-     * @param {number|null} val - Amount of fast forward.
+     * @param {number|undefined} val - Amount of fast forward.
      * @return {number} Amount of fast forward.
      */
     skipForwardLength(val) {
@@ -275,7 +275,7 @@ export class UserSettings {
 
     /**
      * Get or set theme for Dashboard.
-     * @param {string|null} val - Theme for Dashboard.
+     * @param {string|undefined} val - Theme for Dashboard.
      * @return {string} Theme for Dashboard.
      */
     dashboardTheme(val) {
@@ -288,7 +288,7 @@ export class UserSettings {
 
     /**
      * Get or set skin.
-     * @param {string|null} val - Skin.
+     * @param {string|undefined} val - Skin.
      * @return {string} Skin.
      */
     skin(val) {
@@ -301,7 +301,7 @@ export class UserSettings {
 
     /**
      * Get or set main theme.
-     * @param {string|null} val - Main theme.
+     * @param {string|undefined} val - Main theme.
      * @return {string} Main theme.
      */
     theme(val) {
@@ -314,7 +314,7 @@ export class UserSettings {
 
     /**
      * Get or set screensaver.
-     * @param {string|null} val - Screensaver.
+     * @param {string|undefined} val - Screensaver.
      * @return {string} Screensaver.
      */
     screensaver(val) {
@@ -327,7 +327,7 @@ export class UserSettings {
 
     /**
      * Get or set library page size.
-     * @param {number|null} val - Library page size.
+     * @param {number|undefined} val - Library page size.
      * @return {number} Library page size.
      */
     libraryPageSize(val) {
@@ -346,7 +346,7 @@ export class UserSettings {
 
     /**
      * Get or set sound effects.
-     * @param {string|null} val - Sound effects.
+     * @param {string|undefined} val - Sound effects.
      * @return {string} Sound effects.
      */
     soundEffects(val) {
