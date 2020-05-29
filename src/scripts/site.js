@@ -490,6 +490,7 @@ var AppInfo = {};
             'components/playback/experimentalwarnings',
             'components/htmlAudioPlayer/plugin',
             'components/htmlVideoPlayer/plugin',
+            'components/comicsPlayer/plugin',
             'components/photoPlayer/plugin',
             'components/youtubeplayer/plugin',
             'components/backdropScreensaver/plugin',
@@ -701,7 +702,8 @@ var AppInfo = {};
                     'events',
                     'credentialprovider',
                     'connectionManagerFactory',
-                    'appStorage'
+                    'appStorage',
+                    'comicReader'
                 ]
             },
             urlArgs: urlArgs,

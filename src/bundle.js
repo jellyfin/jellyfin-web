@@ -176,3 +176,9 @@ _define('connectionManagerFactory', function () {
 _define('appStorage', function () {
     return apiclient.AppStorage;
 });
+
+// libarchive.js
+var libarchive = require('libarchive.js');
+_define('libarchive', function () {
+    return libarchive;
+});
