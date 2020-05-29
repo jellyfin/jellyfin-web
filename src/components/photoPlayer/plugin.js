@@ -12,7 +12,7 @@ export class PhotoPlayer {
 
         return new Promise(function (resolve, reject) {
 
-            import('slideshow').then(slideshow => {
+            import('slideshow').then(({default: slideshow}) => {
 
                 var index = options.startIndex || 0;
 
