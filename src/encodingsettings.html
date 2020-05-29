@@ -44,10 +44,6 @@
                                 <span>HEVC</span>
                             </label>
                             <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodingColorDepth10Hevc" data-codec="hevc" data-types="amf,qsv,nvenc,vaapi,mediacodec,videotoolbox" />
-                                <span>HEVC 10Bit</span>
-                            </label>
-                            <label>
                                 <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="mpeg2video" data-types="amf,qsv,nvenc,vaapi,omx,mediacodec,videotoolbox" />
                                 <span>MPEG2</span>
                             </label>
@@ -67,11 +63,19 @@
                                 <input type="checkbox" is="emby-checkbox" class="chkDecodeCodec" data-codec="vp9" data-types="amf,qsv,nvenc,vaapi,mediacodec,videotoolbox" />
                                 <span>VP9</span>
                             </label>
-                            <label>
-                                <input type="checkbox" is="emby-checkbox" class="chkDecodingColorDepth10Vp9" data-codec="vp9" data-types="amf,qsv,nvenc,vaapi,mediacodec,videotoolbox" />
-                                <span>VP9 10Bit</span>
-                            </label>
                         </div>
+                    </div>
+
+                    <div class="checkboxListContainer checkboxContainer-withDescription">
+                        <label>
+                            <input type="checkbox" is="emby-checkbox" id="chkDecodingColorDepth10Hevc" />
+                            <span>${EnableDecodingColorDepth10Hevc}</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" is="emby-checkbox" id="chkDecodingColorDepth10Vp9" />
+                            <span>${EnableDecodingColorDepth10Vp9}</span>
+                        </label>
+                        <div class="fieldDescription checkboxFieldDescription">${EnableDecodingColorDepth10Help}</div>
                     </div>
 
                     <div class="checkboxListContainer">
