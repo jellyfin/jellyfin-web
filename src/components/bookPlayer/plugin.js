@@ -2,6 +2,7 @@ import connectionManager from 'connectionManager';
 import loading from 'loading';
 import keyboardnavigation from 'keyboardnavigation';
 import dialogHelper from 'dialogHelper';
+import events from 'events';
 import 'css!./style';
 import 'material-icons';
 import 'paper-icon-button-light';
@@ -21,6 +22,9 @@ export class BookPlayer {
     }
 
     play(options) {
+        this._progress = 0;
+        this._loaded = false;
+
         loading.show();
         let elem = this.createMediaElement();
         return this.setCurrentSrc(elem, options);
@@ -46,6 +50,45 @@ export class BookPlayer {
         if (rendition) {
             rendition.destroy();
         }
+
+        // Hide loader in case player was not fully loaded yet
+        loading.hide();
+        this._cancellationToken.shouldCancel = true;
+    }
+
+    currentItem() {
+        return this._currentItem;
+    }
+
+    currentTime() {
+        return this._progress * 1000;
+    }
+
+    duration() {
+        return 1000;
+    }
+
+    getBufferedRanges() {
+        return [{
+            start: 0,
+            end: 10000000
+        }];
+    }
+
+    volume() {
+        return 100;
+    }
+
+    isMuted() {
+        return false;
+    }
+
+    paused() {
+        return false;
+    }
+
+    seekable() {
+        return true;
     }
 
     onWindowKeyUp(e) {
@@ -57,12 +100,16 @@ export class BookPlayer {
             case 'l':
             case 'ArrowRight':
             case 'Right':
-                book.package.metadata.direction === 'rtl' ? rendition.prev() : rendition.next();
+                if (this._loaded) {
+                    book.package.metadata.direction === 'rtl' ? rendition.prev() : rendition.next();
+                }
                 break;
             case 'j':
             case 'ArrowLeft':
             case 'Left':
-                book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev();
+                if (this._loaded) {
+                    book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev();
+                }
                 break;
             case 'Escape':
                 if (this._tocElement) {
@@ -115,7 +162,9 @@ export class BookPlayer {
     }
 
     openTableOfContents() {
-        this._tocElement = new TableOfContent(this);
+        if (this._loaded) {
+            this._tocElement = new TableOfContent(this);
+        }
     }
 
     createMediaElement() {
@@ -158,6 +207,14 @@ export class BookPlayer {
 
     setCurrentSrc(elem, options) {
         let item = options.items[0];
+        this._currentItem = item;
+        this.streamInfo = {
+            started: true,
+            ended: false,
+            mediaSource: {
+                Id: item.Id
+            }
+        };
         if (!item.Path.endsWith('.epub')) {
             return new Promise((resolve, reject) => {
                 let errorDialog = dialogHelper.createDialog({
@@ -187,11 +244,34 @@ export class BookPlayer {
 
                 this._currentSrc = downloadHref;
                 this._rendition = rendition;
+                let cancellationToken = {
+                    shouldCancel: false
+                };
+                this._cancellationToken = cancellationToken;
+
                 return rendition.display().then(() => {
+                    let epubElem = document.querySelector('.epub-container');
+                    epubElem.style.display = 'none';
+
                     this.bindEvents();
 
-                    loading.hide();
-                    return resolve();
+                    return this._rendition.book.locations.generate(1024).then(() => {
+                        if (cancellationToken.shouldCancel) {
+                            return reject();
+                        }
+
+                        this._loaded = true;
+                        epubElem.style.display = 'block';
+                        rendition.on('relocated', (locations) => {
+                            this._progress = book.locations.percentageFromCfi(locations.start.cfi);
+
+                            events.trigger(this, 'timeupdate');
+                        });
+
+                        loading.hide();
+
+                        return resolve();
+                    });
                 }, () => {
                     console.error('Failed to display epub');
                     return reject();
