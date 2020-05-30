@@ -308,7 +308,7 @@ define(['globalize', 'listView', 'layoutManager', 'userSettings', 'focusManager'
         return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
             StartIndex: startIndex,
             Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,SortName',
+            Fields: 'PrimaryImageAspectRatio,SortName,Path',
             ImageTypeLimit: 1,
             ParentId: item.Id,
             SortBy: sortBy
