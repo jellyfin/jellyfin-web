@@ -16,6 +16,14 @@ define(['userSettings', 'skinManager', 'connectionManager', 'events'], function 
                 context = 'serverdashboard';
             } else {
                 theme = userSettings.theme();
+                var sysTheme = userSettings.followSystemTheme();
+                if (true === sysTheme) {
+                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        theme = userSettings.darkTheme();
+                    } else {
+                        theme = userSettings.lightTheme();
+                    }
+                }
             }
 
             skinManager.setTheme(theme, context);
