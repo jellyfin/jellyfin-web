@@ -20,8 +20,6 @@ define(['userSettings', 'skinManager', 'connectionManager', 'events'], function 
                 if (true === sysTheme) {
                     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                         theme = userSettings.darkTheme();
-                    } else {
-                        theme = userSettings.lightTheme();
                     }
                 }
             }
