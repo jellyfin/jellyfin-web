@@ -137,6 +137,15 @@ import events from 'events';
         return val !== 'false';
     }
 
+    export function followSystemTheme(val) {
+        if (val !== undefined) {
+            return this.set('followSystemTheme', val.toString(), false);
+        }
+
+        val = this.get('followSystemTheme', false);
+        return val !== 'false';
+    }
+
     export function detailsBanner(val) {
         if (val !== undefined) {
             return this.set('detailsBanner', val.toString(), false);
@@ -192,6 +201,22 @@ import events from 'events';
         }
 
         return this.get('dashboardTheme');
+    }
+
+    export function lightTheme(val) {
+        if (val !== undefined) {
+            return this.set('lightTheme', val);
+        }
+
+        return this.get('lightTheme');
+    }
+
+    export function darkTheme(val) {
+        if (val !== undefined) {
+            return this.set('darkTheme', val);
+        }
+
+        return this.get('darkTheme');
     }
 
     export function skin(val) {
@@ -300,6 +325,9 @@ export default {
     skipBackLength: skipBackLength,
     skipForwardLength: skipForwardLength,
     dashboardTheme: dashboardTheme,
+    followSystemTheme: followSystemTheme,
+    lightTheme: lightTheme,
+    darkTheme: darkTheme,
     skin: skin,
     theme: theme,
     screensaver: screensaver,
