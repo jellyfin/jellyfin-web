@@ -1458,13 +1458,8 @@
     "ButtonSplit": "Dividir",
     "HeaderNavigation": "Navegación",
     "MessageConfirmAppExit": "¿Quieres salir?",
-<<<<<<< HEAD
     "EnableFastImageFadeInHelp": "Las animaciones durarán menos tiempo",
     "EnableFastImageFadeIn": "Animaciones más rápidas",
-=======
-    "EnableFastImageFadeInHelp": "Mostrar carteles y otras imágenes con difuminado rápido cuando termine la carga.",
-    "EnableFastImageFadeIn": "Difuminado rápido de imágenes",
->>>>>>> upstream/master
     "CopyStreamURLError": "Ha habido un error copiando la dirección.",
     "AllowFfmpegThrottlingHelp": "Cuando una transcodificación o un remux se adelanta lo suficiente desde la posición de reproducción actual, pause el proceso para que consuma menos recursos. Esto es más útil cuando se reproduce de forma linear, sin saltar de posición de reproducción a menudo. Desactívelo si experimenta problemas de reproducción.",
     "PlaybackErrorNoCompatibleStream": "Este contenido no es compatible con este dispositivo y no se puede reproducir: No se puede obtener del servidor en un formato compatible.",

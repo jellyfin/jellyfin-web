@@ -128,6 +128,15 @@ import events from 'events';
         return val !== 'false';
     }
 
+    export function enableBlurhash(val) {
+        if (val !== undefined) {
+            return this.set('blurhash', val.toString(), false);
+        }
+
+        val = this.get('blurhash', false);
+        return val !== 'false';
+    }
+
     export function enableBackdrops(val) {
         if (val !== undefined) {
             return this.set('enableBackdrops', val.toString(), false);
@@ -294,6 +303,7 @@ export default {
     enableThemeSongs: enableThemeSongs,
     enableThemeVideos: enableThemeVideos,
     enableFastFadein: enableFastFadein,
+    enableBlurhash: enableBlurhash,
     enableBackdrops: enableBackdrops,
     language: language,
     dateTimeLocale: dateTimeLocale,

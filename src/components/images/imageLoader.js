@@ -69,8 +69,10 @@ import 'css!./style';
             source = entry;
         }
 
-        if (!target.classList.contains('blurhashed')) {
+        if (!target.classList.contains('blurhashed') && userSettings.enableBlurhash()) {
             itemBlurhashing(target);
+        } else if (!userSettings.enableBlurhash()) {
+            target.classList.add('lazy-hidden');
         }
 
         if (entry.intersectionRatio > 0) {
@@ -88,15 +90,26 @@ import 'css!./style';
         let preloaderImg = new Image();
         preloaderImg.src = url;
 
+        if (!userSettings.enableBlurhash()) elem.classList.add('lazy-hidden');
+
         preloaderImg.addEventListener('load', () => {
             if (elem.tagName !== 'IMG') {
                 elem.style.backgroundImage = "url('" + url + "')";
             } else {
                 elem.setAttribute('src', url);
             }
-
             elem.removeAttribute('data-src');
-            switchCanvas(elem);
+
+            if (userSettings.enableBlurhash()) {
+                switchCanvas(elem);
+            } else {
+                elem.classList.remove('lazy-hidden');
+                if (userSettings.enableFastFadein()) {
+                    elem.classList.add('lazy-image-fadein-fast');
+                } else {
+                    elem.classList.add('lazy-image-fadein');
+                }
+            }
         });
     }
 
@@ -110,9 +123,18 @@ import 'css!./style';
             url = elem.getAttribute('src');
             elem.setAttribute('src', '');
         }
-
         elem.setAttribute('data-src', url);
-        switchCanvas(elem);
+
+        if (userSettings.enableBlurhash()) {
+            switchCanvas(elem);
+        } else {
+            if (userSettings.enableFastFadein()) {
+                elem.classList.remove('lazy-image-fadein-fast');
+            } else {
+                elem.classList.remove('lazy-image-fadein');
+            }
+            elem.classList.add('lazy-hidden');
+        }
     }
 
     export function lazyChildren(elem) {

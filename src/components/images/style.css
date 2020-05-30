@@ -1,3 +1,17 @@
+.lazy-image-fadein {
+    opacity: 1;
+    transition: opacity 0.7s;
+}
+
+.lazy-image-fadein-fast {
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.lazy-hidden {
+    opacity: 0;
+}
+
 .lazy-blurhash-fadein-fast {
     transition: opacity 0.2s;
 }
