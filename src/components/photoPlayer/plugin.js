@@ -1,6 +1,6 @@
 import connectionManager from 'connectionManager';
 
-export class PhotoPlayer {
+export default class PhotoPlayer {
     constructor() {
         this.name = 'Photo Player';
         this.type = 'mediaplayer';
@@ -43,5 +43,3 @@ export class PhotoPlayer {
         return (mediaType || '').toLowerCase() === 'photo';
     }
 }
-
-export default PhotoPlayer;
