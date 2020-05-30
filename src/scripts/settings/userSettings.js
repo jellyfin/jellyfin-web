@@ -107,7 +107,7 @@ import events from 'events';
         }
 
         val = this.get('enableThemeSongs', false);
-        return val !== 'false';
+        return val === 'true';
     }
 
     export function enableThemeVideos(val) {
@@ -116,7 +116,7 @@ import events from 'events';
         }
 
         val = this.get('enableThemeVideos', false);
-        return val !== 'false';
+        return val === 'true';
     }
 
     export function enableFastFadein(val) {
@@ -134,6 +134,15 @@ import events from 'events';
         }
 
         val = this.get('enableBackdrops', false);
+        return val !== 'false';
+    }
+
+    export function detailsBanner(val) {
+        if (val !== undefined) {
+            return this.set('detailsBanner', val.toString(), false);
+        }
+
+        val = this.get('detailsBanner', false);
         return val !== 'false';
     }
 

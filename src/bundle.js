@@ -102,6 +102,11 @@ _define('jellyfin-noto', function () {
     return noto;
 });
 
+var epubjs = require('epubjs');
+_define('epubjs', function () {
+    return epubjs;
+});
+
 // page.js
 var page = require('page');
 _define('page', function() {

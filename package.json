@@ -6,13 +6,15 @@
   "license": "GPL-2.0-or-later",
   "devDependencies": {
     "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/plugin-proposal-private-methods": "^7.10.1",
     "@babel/plugin-transform-modules-amd": "^7.9.6",
     "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.8.6",
     "autoprefixer": "^9.8.0",
+    "babel-eslint": "^11.0.0-beta.2",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
-    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "cssnano": "^4.1.10",
@@ -47,9 +49,6 @@
     "stylelint-no-browser-hacks": "^1.2.1",
     "stylelint-order": "^4.0.0",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "webpack-concat-plugin": "^3.0.0",
-    "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2",
     "webpack-stream": "^5.2.1"
   },
@@ -59,13 +58,14 @@
     "core-js": "^3.6.5",
     "date-fns": "^2.14.0",
     "document-register-element": "^1.14.3",
+    "epubjs": "^0.3.85",
     "fast-text-encoding": "^1.0.1",
     "flv.js": "^1.5.0",
     "headroom.js": "^0.11.0",
     "hls.js": "^0.13.1",
     "howler": "^2.2.0",
     "intersection-observer": "^0.10.0",
-    "jellyfin-apiclient": "^1.1.1",
+    "jellyfin-apiclient": "^1.2.0",
     "jellyfin-noto": "https://github.com/jellyfin/jellyfin-noto",
     "jquery": "^3.5.1",
     "jstree": "^3.3.7",
@@ -97,6 +97,12 @@
           "src/components/playback/mediasession.js",
           "src/components/sanatizefilename.js",
           "src/components/scrollManager.js",
+          "src/components/bookPlayer/plugin.js",
+          "src/components/bookPlayer/tableOfContent.js",
+          "src/components/syncplay/playbackPermissionManager.js",
+          "src/components/syncplay/groupSelectionMenu.js",
+          "src/components/syncplay/timeSyncManager.js",
+          "src/components/syncplay/syncPlayManager.js",
           "src/scripts/dfnshelper.js",
           "src/scripts/dom.js",
           "src/scripts/filesystem.js",
@@ -106,13 +112,16 @@
           "src/components/actionSheet/actionSheet.js",
           "src/components/playmenu.js",
           "src/components/indicators/indicators.js",
+          "src/components/photoPlayer/plugin.js",
           "src/scripts/keyboardNavigation.js",
           "src/scripts/settings/appSettings.js",
           "src/scripts/settings/userSettings.js",
           "src/scripts/settings/webSettings.js"
         ],
         "plugins": [
-          "@babel/plugin-transform-modules-amd"
+          "@babel/plugin-transform-modules-amd",
+          "@babel/plugin-proposal-class-properties",
+          "@babel/plugin-proposal-private-methods"
         ]
       }
     ]
