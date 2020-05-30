@@ -1,0 +1,39 @@
+#bookPlayer {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    z-index: 100;
+    background: #fff;
+}
+
+.topRightActionButtons {
+    right: 0.5vh;
+    top: 0.5vh;
+    z-index: 1002;
+    position: absolute;
+}
+
+.topLeftActionButtons {
+    left: 0.5vh;
+    top: 0.5vh;
+    z-index: 1002;
+    position: absolute;
+}
+
+.bookplayerButtonIcon {
+    color: black;
+    opacity: 0.7;
+}
+
+#dialogToc {
+    background-color: white;
+}
+
+.toc li {
+    margin-bottom: 5px;
+}
+
+.bookplayerErrorMsg {
+    text-align: center;
+}

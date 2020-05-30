@@ -30,7 +30,7 @@
     opacity: 0;
 }
 
-.osdHeader .headerButton:not(.headerBackButton):not(.headerCastButton) {
+.osdHeader .headerButton:not(.headerBackButton):not(.headerCastButton):not(.headerSyncButton) {
     display: none;
 }
 

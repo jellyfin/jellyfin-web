@@ -119,6 +119,7 @@ import connectionManager from 'connectionManager';
         const canSeek = playState.CanSeek || false;
 
         if ('mediaSession' in navigator) {
+             /* eslint-disable-next-line compat/compat */
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: title,
                 artist: artist,
@@ -179,6 +180,7 @@ import connectionManager from 'connectionManager';
 
     function hideMediaControls() {
         if ('mediaSession' in navigator) {
+             /* eslint-disable-next-line compat/compat */
             navigator.mediaSession.metadata = null;
         } else {
             window.NativeShell.hideMediaSession();
@@ -210,26 +212,32 @@ import connectionManager from 'connectionManager';
     }
 
     if ('mediaSession' in navigator) {
+        /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('previoustrack', function () {
             execute('previousTrack');
         });
 
+        /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('nexttrack', function () {
             execute('nextTrack');
         });
 
+        /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('play', function () {
             execute('unpause');
         });
 
+        /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('pause', function () {
             execute('pause');
         });
 
+        /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('seekbackward', function () {
             execute('rewind');
         });
 
+        /* eslint-disable-next-line compat/compat */
         navigator.mediaSession.setActionHandler('seekforward', function () {
             execute('fastForward');
         });
