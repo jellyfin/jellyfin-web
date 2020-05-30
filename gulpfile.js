@@ -67,7 +67,7 @@ function serve() {
         }
     });
 
-    watch(options.apploader.query, apploader(true));
+    watch(options.apploader.query, apploader());
 
     watch('src/bundle.js', webpack);
 
