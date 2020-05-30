@@ -203,14 +203,6 @@ import events from 'events';
         return this.get('dashboardTheme');
     }
 
-    export function lightTheme(val) {
-        if (val !== undefined) {
-            return this.set('lightTheme', val);
-        }
-
-        return this.get('lightTheme');
-    }
-
     export function darkTheme(val) {
         if (val !== undefined) {
             return this.set('darkTheme', val);
@@ -326,7 +318,6 @@ export default {
     skipForwardLength: skipForwardLength,
     dashboardTheme: dashboardTheme,
     followSystemTheme: followSystemTheme,
-    lightTheme: lightTheme,
     darkTheme: darkTheme,
     skin: skin,
     theme: theme,
