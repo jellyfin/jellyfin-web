@@ -1525,7 +1525,7 @@
     "TabDVR": "DVR",
     "SaveChanges": "Guardar cambios",
     "HeaderDVR": "DVR",
-    "SyncPlayAccessHelp": "Selecciona el nivel de acceso que posee este usuario al SyncPlay. SyncPlay permite sincronizar reproductores con otros usuarios.",
+    "SyncPlayAccessHelp": "Selecciona los permisos de este usuario para utilizar SyncPlay. SyncPlay te permite sincroniza la reproducción entre varios dispositivos.",
     "MessageSyncPlayErrorMedia": "¡No se pudo activar SyncPlay! Error de medio.",
     "MessageSyncPlayErrorMissingSession": "¡No se pudo activar SyncPlay! Sesión desconectada.",
     "MessageSyncPlayErrorNoActivePlayer": "No hay reproductor activo. SyncPlay ha sido desactivado.",
