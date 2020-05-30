@@ -109,7 +109,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         var now = Date.now();
 
         if (window.performance && window.performance.now) {
-            now = performance.now();
+            now = performance.now(); // eslint-disable-line compat/compat
         }
 
         if (!recoverDecodingErrorDate || (now - recoverDecodingErrorDate) > 3000) {
@@ -194,7 +194,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                     }
                 };
                 events.map(function (name) {
-                    element.addEventListener(name, onMediaChange);
+                    return element.addEventListener(name, onMediaChange);
                 });
             }
         }

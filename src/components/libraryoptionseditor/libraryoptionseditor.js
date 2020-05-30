@@ -109,8 +109,8 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
         html += '<div class="metadataFetcher" data-type="' + availableTypeOptions.Type + '">';
         html += '<h3 class="checkboxListLabel">' + globalize.translate('LabelTypeMetadataDownloaders', globalize.translate(availableTypeOptions.Type)) + '</h3>';
         html += '<div class="checkboxList paperList checkboxList-paperList">';
-        for (var i = 0; i < plugins.length; i++) {
-            var plugin = plugins[i];
+
+        plugins.forEach((plugin, index) => {
             html += '<div class="listItem metadataFetcherItem sortableOption" data-pluginname="' + plugin.Name + '">';
             var isChecked = libraryOptionsForType.MetadataFetchers ? -1 !== libraryOptionsForType.MetadataFetchers.indexOf(plugin.Name) : plugin.DefaultEnabled;
             var checkedHtml = isChecked ? ' checked="checked"' : '';
@@ -120,8 +120,9 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
             html += plugin.Name;
             html += '</h3>';
             html += '</div>';
-            i > 0 ? html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonUp') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + i + '"><span class="material-icons keyboard_arrow_up"></span></button>' : plugins.length > 1 && (html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonDown') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + i + '"><span class="material-icons keyboard_arrow_down"></span></button>'), html += '</div>';
-        }
+            index > 0 ? html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonUp') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_up"></span></button>' : plugins.length > 1 && (html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('ButtonDown') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_down"></span></button>'), html += '</div>';
+        });
+
         html += '</div>';
         html += '<div class="fieldDescription">' + globalize.translate('LabelMetadataDownloadersHelp') + '</div>';
         html += '</div>';
@@ -292,11 +293,15 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
     function showImageOptionsForType(type) {
         require(['imageoptionseditor'], function(ImageOptionsEditor) {
             var typeOptions = getTypeOptions(currentLibraryOptions, type);
-            typeOptions || (typeOptions = {
-                Type: type
-            }, currentLibraryOptions.TypeOptions.push(typeOptions));
+            if (!typeOptions) {
+                typeOptions = {
+                    Type: type
+                };
+                currentLibraryOptions.TypeOptions.push(typeOptions);
+            }
             var availableOptions = getTypeOptions(currentAvailableOptions || {}, type);
-            (new ImageOptionsEditor).show(type, typeOptions, availableOptions);
+            var imageOptionsEditor = new ImageOptionsEditor();
+            imageOptionsEditor.show(type, typeOptions, availableOptions);
         });
     }
 
@@ -315,10 +320,16 @@ define(['globalize', 'dom', 'emby-checkbox', 'emby-select', 'emby-input'], funct
             var list = dom.parentWithClass(li, 'paperList');
             if (btnSortable.classList.contains('btnSortableMoveDown')) {
                 var next = li.nextSibling;
-                next && (li.parentNode.removeChild(li), next.parentNode.insertBefore(li, next.nextSibling));
+                if (next) {
+                    li.parentNode.removeChild(li);
+                    next.parentNode.insertBefore(li, next.nextSibling);
+                }
             } else {
                 var prev = li.previousSibling;
-                prev && (li.parentNode.removeChild(li), prev.parentNode.insertBefore(li, prev));
+                if (prev) {
+                    li.parentNode.removeChild(li);
+                    prev.parentNode.insertBefore(li, prev);
+                }
             }
             Array.prototype.forEach.call(list.querySelectorAll('.sortableOption'), adjustSortableListElement);
         }

@@ -314,6 +314,13 @@ var AppInfo = {};
         return obj;
     }
 
+    function returnDefault(obj) {
+        if (obj.default === null) {
+            throw new Error('Object has no default!');
+        }
+        return obj.default;
+    }
+
     function getBowerPath() {
         return 'libraries';
     }
@@ -375,15 +382,8 @@ var AppInfo = {};
 
         define('filesystem', [scriptsPath + '/filesystem'], returnFirstDependency);
 
-        if (window.IntersectionObserver && !browser.edge) {
-            define('lazyLoader', [componentsPath + '/lazyloader/lazyloader-intersectionobserver'], returnFirstDependency);
-        } else {
-            define('lazyLoader', [componentsPath + '/lazyloader/lazyloader-scroll'], returnFirstDependency);
-        }
-
-        define('shell', [componentsPath + '/shell'], returnFirstDependency);
-
-        define('apiclient', [bowerPath + '/apiclient/apiclient'], returnFirstDependency);
+        define('lazyLoader', [componentsPath + '/lazyLoader/lazyLoaderIntersectionObserver'], returnFirstDependency);
+        define('shell', [scriptsPath + '/shell'], returnFirstDependency);
 
         if ('registerElement' in document) {
             define('registerElement', []);
@@ -393,13 +393,10 @@ var AppInfo = {};
             define('registerElement', ['document-register-element'], returnFirstDependency);
         }
 
-        define('imageFetcher', [componentsPath + '/images/imageFetcher'], returnFirstDependency);
-
-        var preferNativeAlerts = browser.tv;
-
         define('alert', [componentsPath + '/alert'], returnFirstDependency);
 
         defineResizeObserver();
+
         define('dialog', [componentsPath + '/dialog/dialog'], returnFirstDependency);
 
         define('confirm', [componentsPath + '/confirm/confirm'], returnFirstDependency);
@@ -407,15 +404,10 @@ var AppInfo = {};
         define('prompt', [componentsPath + '/prompt/prompt'], returnFirstDependency);
 
         define('loading', [componentsPath + '/loading/loading'], returnFirstDependency);
-        define('multi-download', [componentsPath + '/multidownload'], returnFirstDependency);
-        define('fileDownloader', [componentsPath + '/filedownloader'], returnFirstDependency);
-        define('localassetmanager', [bowerPath + '/apiclient/localassetmanager'], returnFirstDependency);
+        define('multi-download', [scriptsPath + '/multiDownload'], returnFirstDependency);
+        define('fileDownloader', [scriptsPath + '/fileDownloader'], returnFirstDependency);
 
         define('castSenderApiLoader', [componentsPath + '/castSenderApi'], returnFirstDependency);
-
-        define('transfermanager', [bowerPath + '/apiclient/sync/transfermanager'], returnFirstDependency);
-        define('filerepository', [bowerPath + '/apiclient/sync/filerepository'], returnFirstDependency);
-        define('localsync', [bowerPath + '/apiclient/sync/localsync'], returnFirstDependency);
     }
 
     function init() {
@@ -496,16 +488,16 @@ var AppInfo = {};
         var list = [
             'components/playback/playaccessvalidation',
             'components/playback/experimentalwarnings',
-            'components/htmlaudioplayer/plugin',
-            'components/htmlvideoplayer/plugin',
-            'components/photoplayer/plugin',
+            'components/htmlAudioPlayer/plugin',
+            'components/htmlVideoPlayer/plugin',
+            'components/photoPlayer/plugin',
             'components/youtubeplayer/plugin',
-            'components/backdropscreensaver/plugin',
-            'components/logoscreensaver/plugin'
+            'components/backdropScreensaver/plugin',
+            'components/logoScreensaver/plugin'
         ];
 
         if (appHost.supports('remotecontrol')) {
-            list.push('components/sessionplayer');
+            list.push('components/sessionPlayer');
 
             if (browser.chrome || browser.opera) {
                 list.push('components/chromecast/chromecastplayer');
@@ -547,16 +539,16 @@ var AppInfo = {};
 
             window.Emby.Page = appRouter;
 
-            require(['emby-button', 'scripts/themeloader', 'libraryMenu', 'scripts/routes'], function () {
+            require(['emby-button', 'scripts/themeLoader', 'libraryMenu', 'scripts/routes'], function () {
                 Emby.Page.start({
                     click: false,
                     hashbang: true
                 });
 
-                require(['components/thememediaplayer', 'scripts/autobackdrops']);
+                require(['components/themeMediaPlayer', 'scripts/autoBackdrops']);
 
                 if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-                    require(['components/nowplayingbar/nowplayingbar']);
+                    require(['components/nowPlayingBar/nowPlayingBar']);
                 }
 
                 if (appHost.supports('remotecontrol')) {
@@ -569,7 +561,10 @@ var AppInfo = {};
                     require(['components/playback/volumeosd']);
                 }
 
-                require(['mediaSession', 'serverNotifications']);
+                if (navigator.mediaSession || window.NativeShell) {
+                    require(['mediaSession']);
+                }
+                require(['serverNotifications']);
                 require(['date-fns', 'date-fns/locale']);
 
                 if (!browser.tv && !browser.xboxOne) {
@@ -642,23 +637,23 @@ var AppInfo = {};
         var scriptsPath = getScriptsPath();
 
         var paths = {
-            browserdeviceprofile: 'scripts/browserdeviceprofile',
+            browserdeviceprofile: 'scripts/browserDeviceProfile',
             browser: 'scripts/browser',
-            libraryBrowser: 'scripts/librarybrowser',
+            libraryBrowser: 'scripts/libraryBrowser',
             inputManager: 'scripts/inputManager',
             datetime: 'scripts/datetime',
             globalize: 'scripts/globalize',
             dfnshelper: 'scripts/dfnshelper',
-            libraryMenu: 'scripts/librarymenu',
+            libraryMenu: 'scripts/libraryMenu',
             playlisteditor: componentsPath + '/playlisteditor/playlisteditor',
-            medialibrarycreator: componentsPath + '/medialibrarycreator/medialibrarycreator',
-            medialibraryeditor: componentsPath + '/medialibraryeditor/medialibraryeditor',
-            imageoptionseditor: componentsPath + '/imageoptionseditor/imageoptionseditor',
+            medialibrarycreator: componentsPath + '/mediaLibraryCreator/mediaLibraryCreator',
+            medialibraryeditor: componentsPath + '/mediaLibraryEditor/mediaLibraryEditor',
+            imageoptionseditor: componentsPath + '/imageOptionsEditor/imageOptionsEditor',
             apphost: componentsPath + '/apphost',
             visibleinviewport: bowerPath + '/visibleinviewport',
-            qualityoptions: componentsPath + '/qualityoptions',
+            qualityoptions: componentsPath + '/qualityOptions',
             focusManager: componentsPath + '/focusManager',
-            itemHelper: componentsPath + '/itemhelper',
+            itemHelper: componentsPath + '/itemHelper',
             itemShortcuts: componentsPath + '/shortcuts',
             playQueueManager: componentsPath + '/playback/playqueuemanager',
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
@@ -701,7 +696,12 @@ var AppInfo = {};
                     'intersection-observer',
                     'classlist-polyfill',
                     'screenfull',
-                    'headroom'
+                    'headroom',
+                    'apiclient',
+                    'events',
+                    'credentialprovider',
+                    'connectionManagerFactory',
+                    'appStorage'
                 ]
             },
             urlArgs: urlArgs,
@@ -745,19 +745,8 @@ var AppInfo = {};
 
         // there are several objects that need to be instantiated
         // TODO find a better way to do this
-        define('appFooter', [componentsPath + '/appfooter/appfooter'], returnFirstDependency);
+        define('appFooter', [componentsPath + '/appFooter/appFooter'], returnFirstDependency);
         define('appFooter-shared', ['appFooter'], createSharedAppFooter);
-
-        // TODO pull apiclient out of this repository
-        define('events', [bowerPath + '/apiclient/events'], returnFirstDependency);
-        define('credentialprovider', [bowerPath + '/apiclient/credentialprovider'], returnFirstDependency);
-        define('connectionManagerFactory', [bowerPath + '/apiclient/connectionmanager'], returnFirstDependency);
-        define('appStorage', [bowerPath + '/apiclient/appStorage'], returnFirstDependency);
-        define('serversync', [bowerPath + '/apiclient/sync/serversync'], returnFirstDependency);
-        define('multiserversync', [bowerPath + '/apiclient/sync/multiserversync'], returnFirstDependency);
-        define('mediasync', [bowerPath + '/apiclient/sync/mediasync'], returnFirstDependency);
-        define('itemrepository', [bowerPath + '/apiclient/sync/itemrepository'], returnFirstDependency);
-        define('useractionrepository', [bowerPath + '/apiclient/sync/useractionrepository'], returnFirstDependency);
 
         // TODO remove these libraries
         // all of these have been modified so we need to fix that first
@@ -791,23 +780,23 @@ var AppInfo = {};
 
         define('chromecastHelper', [componentsPath + '/chromecast/chromecasthelpers'], returnFirstDependency);
         define('mediaSession', [componentsPath + '/playback/mediasession'], returnFirstDependency);
-        define('actionsheet', [componentsPath + '/actionsheet/actionsheet'], returnFirstDependency);
-        define('tunerPicker', [componentsPath + '/tunerpicker'], returnFirstDependency);
+        define('actionsheet', [componentsPath + '/actionSheet/actionSheet'], returnFirstDependency);
+        define('tunerPicker', [componentsPath + '/tunerPicker'], returnFirstDependency);
         define('mainTabsManager', [componentsPath + '/maintabsmanager'], returnFirstDependency);
         define('imageLoader', [componentsPath + '/images/imageLoader'], returnFirstDependency);
         define('directorybrowser', [componentsPath + '/directorybrowser/directorybrowser'], returnFirstDependency);
-        define('metadataEditor', [componentsPath + '/metadataeditor/metadataeditor'], returnFirstDependency);
-        define('personEditor', [componentsPath + '/metadataeditor/personeditor'], returnFirstDependency);
+        define('metadataEditor', [componentsPath + '/metadataEditor/metadataEditor'], returnFirstDependency);
+        define('personEditor', [componentsPath + '/metadataEditor/personEditor'], returnFirstDependency);
         define('playerSelectionMenu', [componentsPath + '/playback/playerSelectionMenu'], returnFirstDependency);
         define('playerSettingsMenu', [componentsPath + '/playback/playersettingsmenu'], returnFirstDependency);
         define('playMethodHelper', [componentsPath + '/playback/playmethodhelper'], returnFirstDependency);
         define('brightnessOsd', [componentsPath + '/playback/brightnessosd'], returnFirstDependency);
         define('alphaNumericShortcuts', [scriptsPath + '/alphanumericshortcuts'], returnFirstDependency);
-        define('multiSelect', [componentsPath + '/multiselect/multiselect'], returnFirstDependency);
-        define('alphaPicker', [componentsPath + '/alphapicker/alphapicker'], returnFirstDependency);
+        define('multiSelect', [componentsPath + '/multiSelect/multiSelect'], returnFirstDependency);
+        define('alphaPicker', [componentsPath + '/alphaPicker/alphaPicker'], returnFirstDependency);
         define('tabbedView', [componentsPath + '/tabbedview/tabbedview'], returnFirstDependency);
         define('itemsTab', [componentsPath + '/tabbedview/itemstab'], returnFirstDependency);
-        define('collectionEditor', [componentsPath + '/collectioneditor/collectioneditor'], returnFirstDependency);
+        define('collectionEditor', [componentsPath + '/collectionEditor/collectionEditor'], returnFirstDependency);
         define('serverRestartDialog', [componentsPath + '/serverRestartDialog'], returnFirstDependency);
         define('playlistEditor', [componentsPath + '/playlisteditor/playlisteditor'], returnFirstDependency);
         define('recordingCreator', [componentsPath + '/recordingcreator/recordingcreator'], returnFirstDependency);
@@ -821,9 +810,9 @@ var AppInfo = {};
         define('itemIdentifier', [componentsPath + '/itemidentifier/itemidentifier'], returnFirstDependency);
         define('itemMediaInfo', [componentsPath + '/itemMediaInfo/itemMediaInfo'], returnFirstDependency);
         define('mediaInfo', [componentsPath + '/mediainfo/mediainfo'], returnFirstDependency);
-        define('itemContextMenu', [componentsPath + '/itemcontextmenu'], returnFirstDependency);
+        define('itemContextMenu', [componentsPath + '/itemContextMenu'], returnFirstDependency);
         define('imageEditor', [componentsPath + '/imageeditor/imageeditor'], returnFirstDependency);
-        define('imageDownloader', [componentsPath + '/imagedownloader/imagedownloader'], returnFirstDependency);
+        define('imageDownloader', [componentsPath + '/imageDownloader/imageDownloader'], returnFirstDependency);
         define('dom', [scriptsPath + '/dom'], returnFirstDependency);
         define('playerStats', [componentsPath + '/playerstats/playerstats'], returnFirstDependency);
         define('searchFields', [componentsPath + '/search/searchfields'], returnFirstDependency);
@@ -831,11 +820,15 @@ var AppInfo = {};
         define('upNextDialog', [componentsPath + '/upnextdialog/upnextdialog'], returnFirstDependency);
         define('subtitleAppearanceHelper', [componentsPath + '/subtitlesettings/subtitleappearancehelper'], returnFirstDependency);
         define('subtitleSettings', [componentsPath + '/subtitlesettings/subtitlesettings'], returnFirstDependency);
-        define('displaySettings', [componentsPath + '/displaysettings/displaysettings'], returnFirstDependency);
-        define('playbackSettings', [componentsPath + '/playbacksettings/playbacksettings'], returnFirstDependency);
-        define('homescreenSettings', [componentsPath + '/homescreensettings/homescreensettings'], returnFirstDependency);
+        define('displaySettings', [componentsPath + '/displaySettings/displaySettings'], returnFirstDependency);
+        define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
+        define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
         define('quickConnectSettings', [componentsPath + '/quickConnectSettings/quickConnectSettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
+        define('timeSyncManager', [componentsPath + '/syncplay/timeSyncManager'], returnDefault);
+        define('groupSelectionMenu', [componentsPath + '/syncplay/groupSelectionMenu'], returnFirstDependency);
+        define('syncPlayManager', [componentsPath + '/syncplay/syncPlayManager'], returnDefault);
+        define('playbackPermissionManager', [componentsPath + '/syncplay/playbackPermissionManager'], returnDefault);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);
         define('homeSections', [componentsPath + '/homesections/homesections'], returnFirstDependency);
         define('playMenu', [componentsPath + '/playmenu'], returnFirstDependency);
@@ -845,10 +838,10 @@ var AppInfo = {};
         define('cardBuilder', [componentsPath + '/cardbuilder/cardBuilder'], returnFirstDependency);
         define('peoplecardbuilder', [componentsPath + '/cardbuilder/peoplecardbuilder'], returnFirstDependency);
         define('chaptercardbuilder', [componentsPath + '/cardbuilder/chaptercardbuilder'], returnFirstDependency);
-        define('deleteHelper', [componentsPath + '/deletehelper'], returnFirstDependency);
+        define('deleteHelper', [scriptsPath + '/deleteHelper'], returnFirstDependency);
         define('tvguide', [componentsPath + '/guide/guide'], returnFirstDependency);
         define('guide-settings-dialog', [componentsPath + '/guide/guide-settings'], returnFirstDependency);
-        define('loadingDialog', [componentsPath + '/loadingdialog/loadingdialog'], returnFirstDependency);
+        define('loadingDialog', [componentsPath + '/loadingDialog/loadingDialog'], returnFirstDependency);
         define('viewManager', [componentsPath + '/viewManager/viewManager'], function (viewManager) {
             window.ViewManager = viewManager;
             viewManager.dispatchPageEvents(true);
@@ -862,18 +855,17 @@ var AppInfo = {};
         define('viewSettings', [componentsPath + '/viewsettings/viewsettings'], returnFirstDependency);
         define('filterMenu', [componentsPath + '/filtermenu/filtermenu'], returnFirstDependency);
         define('sortMenu', [componentsPath + '/sortmenu/sortmenu'], returnFirstDependency);
-        define('idb', [componentsPath + '/idb'], returnFirstDependency);
-        define('sanitizefilename', [componentsPath + '/sanitizefilename'], returnFirstDependency);
+        define('sanitizefilename', [componentsPath + '/sanitizeFilename'], returnFirstDependency);
         define('toast', [componentsPath + '/toast/toast'], returnFirstDependency);
-        define('scrollHelper', [componentsPath + '/scrollhelper'], returnFirstDependency);
-        define('touchHelper', [componentsPath + '/touchhelper'], returnFirstDependency);
-        define('imageUploader', [componentsPath + '/imageuploader/imageuploader'], returnFirstDependency);
+        define('scrollHelper', [scriptsPath + '/scrollHelper'], returnFirstDependency);
+        define('touchHelper', [scriptsPath + '/touchHelper'], returnFirstDependency);
+        define('imageUploader', [componentsPath + '/imageUploader/imageUploader'], returnFirstDependency);
         define('htmlMediaHelper', [componentsPath + '/htmlMediaHelper'], returnFirstDependency);
         define('viewContainer', [componentsPath + '/viewContainer'], returnFirstDependency);
         define('dialogHelper', [componentsPath + '/dialogHelper/dialogHelper'], returnFirstDependency);
-        define('serverNotifications', [componentsPath + '/serverNotifications'], returnFirstDependency);
+        define('serverNotifications', [scriptsPath + '/serverNotifications'], returnFirstDependency);
         define('skinManager', [componentsPath + '/skinManager'], returnFirstDependency);
-        define('keyboardnavigation', [scriptsPath + '/keyboardnavigation'], returnFirstDependency);
+        define('keyboardnavigation', [scriptsPath + '/keyboardNavigation'], returnFirstDependency);
         define('mouseManager', [scriptsPath + '/mouseManager'], returnFirstDependency);
         define('scrollManager', [componentsPath + '/scrollManager'], returnFirstDependency);
         define('autoFocuser', [componentsPath + '/autoFocuser'], returnFirstDependency);

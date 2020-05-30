@@ -36,6 +36,7 @@
  - [MrTimscampi](https://github.com/MrTimscampi)
  - [ConfusedPolarBear](https://github.com/ConfusedPolarBear)
  - [Sarab Singh](https://github.com/sarab97)
+ - [Andrei Oanca](https://github.com/OancaAndrei)
 
 # Emby Contributors
 

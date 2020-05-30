@@ -770,5 +770,7 @@
     "Raised": "מורם",
     "LabelSpecialSeasonsDisplayName": "שם תצוגת \"עונה מיוחדת\":",
     "LabelSource": "מקור:",
-    "LabelSoundEffects": "אפקטי סאונד:"
+    "LabelSoundEffects": "אפקטי סאונד:",
+    "ButtonTogglePlaylist": "רשימת ניגון",
+    "ButtonToggleContextMenu": "עוד"
 }

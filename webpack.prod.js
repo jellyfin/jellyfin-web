@@ -1,5 +1,6 @@
 const common = require('./webpack.common');
 const merge = require('webpack-merge');
+const packageConfig = require('./package.json');
 
 module.exports = merge(common, {
     mode: 'production',
@@ -7,12 +8,28 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules[\\/](?!query-string|split-on-first|strict-uri-encode)/,
-                loader: 'babel-loader'
+                exclude: /node_modules[\\/](?!date-fns|jellyfin-apiclient|query-string|split-on-first|strict-uri-encode)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: packageConfig.babel.presets
+                    }
+                }
             },
             {
                 test: /\.css$/i,
-                use: ['style-loader', 'css-loader', 'postcss-loader']
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            config: {
+                                path: __dirname
+                            }
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(png|jpg|gif)$/i,
@@ -23,6 +40,10 @@ module.exports = merge(common, {
                 use: [
                     'file-loader'
                 ]
+            },
+            {
+                test: /\.(mp3)$/i,
+                use: ['file-loader']
             }
         ]
     }

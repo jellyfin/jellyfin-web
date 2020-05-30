@@ -30,7 +30,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
         html += '</div>';
         html += '</div>';
         html += '<div class="cardFooter visualCardBox-cardFooter">';
-        html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions autoSize" data-action="menu"><span class="material-icons more_horiz"></span></button>';
+        html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions autoSize" data-action="menu"><span class="material-icons more_vert"></span></button>';
         html += '<div class="cardText">' + (device.FriendlyName || getTunerName(device.Type)) + '</div>';
         html += '<div class="cardText cardText-secondary">';
         html += device.Url || '&nbsp;';
@@ -112,7 +112,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
                 html += '</div>';
                 html += '</a>';
                 html += '</div>';
-                html += '<button type="button" is="paper-icon-button-light" class="btnOptions" data-id="' + provider.Id + '"><span class="material-icons listItemAside more_horiz"></span></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnOptions" data-id="' + provider.Id + '"><span class="material-icons listItemAside more_vert"></span></button>';
                 html += '</div>';
             }
 
@@ -155,7 +155,7 @@ define(['jQuery', 'globalize', 'scripts/taskbutton', 'dom', 'libraryMenu', 'layo
     }
 
     function mapChannels(page, providerId) {
-        require(['components/channelmapper/channelmapper'], function (channelmapper) {
+        require(['components/channelMapper/channelMapper'], function (channelmapper) {
             new channelmapper({
                 serverId: ApiClient.serverInfo().Id,
                 providerId: providerId

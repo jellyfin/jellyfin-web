@@ -107,7 +107,7 @@ import events from 'events';
         }
 
         val = this.get('enableThemeSongs', false);
-        return val !== 'false';
+        return val === 'true';
     }
 
     export function enableThemeVideos(val) {
@@ -116,7 +116,7 @@ import events from 'events';
         }
 
         val = this.get('enableThemeVideos', false);
-        return val !== 'false';
+        return val === 'true';
     }
 
     export function enableFastFadein(val) {
@@ -137,6 +137,15 @@ import events from 'events';
         return val !== 'false';
     }
 
+    export function detailsBanner(val) {
+        if (val !== undefined) {
+            return this.set('detailsBanner', val.toString(), false);
+        }
+
+        val = this.get('detailsBanner', false);
+        return val !== 'false';
+    }
+
     export function language(val) {
         if (val !== undefined) {
             return this.set('language', val.toString(), false);
@@ -151,6 +160,14 @@ import events from 'events';
         }
 
         return this.get('datetimelocale', false);
+    }
+
+    export function chromecastVersion(val) {
+        if (val !== undefined) {
+            return this.set('chromecastVersion', val.toString());
+        }
+
+        return this.get('chromecastVersion') || 'stable';
     }
 
     export function skipBackLength(val) {
@@ -265,3 +282,33 @@ import events from 'events';
     }
 
 /* eslint-enable indent */
+export default {
+    setUserInfo: setUserInfo,
+    getData: getData,
+    importFrom: importFrom,
+    set: set,
+    get: get,
+    serverConfig: serverConfig,
+    enableCinemaMode: enableCinemaMode,
+    enableNextVideoInfoOverlay: enableNextVideoInfoOverlay,
+    enableThemeSongs: enableThemeSongs,
+    enableThemeVideos: enableThemeVideos,
+    enableFastFadein: enableFastFadein,
+    enableBackdrops: enableBackdrops,
+    language: language,
+    dateTimeLocale: dateTimeLocale,
+    skipBackLength: skipBackLength,
+    skipForwardLength: skipForwardLength,
+    dashboardTheme: dashboardTheme,
+    skin: skin,
+    theme: theme,
+    screensaver: screensaver,
+    libraryPageSize: libraryPageSize,
+    soundEffects: soundEffects,
+    loadQuerySettings: loadQuerySettings,
+    saveQuerySettings: saveQuerySettings,
+    getSubtitleAppearanceSettings: getSubtitleAppearanceSettings,
+    setSubtitleAppearanceSettings: setSubtitleAppearanceSettings,
+    setFilter: setFilter,
+    getFilter: getFilter
+};

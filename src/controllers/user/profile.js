@@ -1,4 +1,4 @@
-define(['controllers/userpasswordpage', 'loading', 'libraryMenu', 'apphost', 'globalize', 'emby-button'], function (UserPasswordPage, loading, libraryMenu, appHost, globalize) {
+define(['controllers/dashboard/users/userpasswordpage', 'loading', 'libraryMenu', 'apphost', 'globalize', 'emby-button'], function (UserPasswordPage, loading, libraryMenu, appHost, globalize) {
     'use strict';
 
     function reloadUser(page) {
