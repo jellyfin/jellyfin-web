@@ -24,5 +24,19 @@
     "Artists": "Artistas",
     "Albums": "Álbumes",
     "TabLatest": "Recientes",
-    "HeaderUser": "Usuario"
+    "HeaderUser": "Usuario",
+    "AlbumArtist": "Artista del álbum",
+    "Album": "Álbum",
+    "Aired": "Transmitido",
+    "AirDate": "Fecha de emisión",
+    "AdditionalNotificationServices": "Explora el catálogo de complementos para instalar servicios de notificaciones adicionales.",
+    "AddedOnValue": "Agregado {0}",
+    "AddToPlaylist": "Agregar a lista de reproducción",
+    "AddToPlayQueue": "Agregar a la cola de reproducción",
+    "AddToCollection": "Agregar a colección",
+    "AddItemToCollectionHelp": "Agrega elementos a las colecciones buscándolos y utilizando sus menúes al hacer clic derecho o al tocarlos para agregarlos a una colección.",
+    "Add": "Agregar",
+    "Actor": "Actor",
+    "AccessRestrictedTryAgainLater": "El acceso está restringido actualmente. Por favor, inténtalo más tarde.",
+    "Absolute": "Absoluto"
 }
