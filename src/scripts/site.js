@@ -561,6 +561,7 @@ var AppInfo = {};
                     require(['components/playback/volumeosd']);
                 }
 
+                /* eslint-disable-next-line compat/compat */
                 if (navigator.mediaSession || window.NativeShell) {
                     require(['mediaSession']);
                 }
