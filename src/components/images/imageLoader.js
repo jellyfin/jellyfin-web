@@ -24,7 +24,7 @@ import 'css!./style';
             try {
                 pixels = blurhash.decode(blurhashstr, width, height);
             } catch (err) {
-                console.error('Blurhash decode error: ' + err.toString());
+                console.error('Blurhash decode error: ', err);
                 return;
             }
             let canvas = document.createElement('canvas');
