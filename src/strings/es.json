@@ -1458,7 +1458,7 @@
     "ButtonSplit": "Dividir",
     "HeaderNavigation": "Navegación",
     "MessageConfirmAppExit": "¿Quieres salir?",
-    "EnableFastImageFadeInHelp": "Las animaciones durarán menos tiempo",
+    "EnableFastImageFadeInHelp": "Las animaciones y transiciones durarán menos tiempo",
     "EnableFastImageFadeIn": "Animaciones más rápidas",
     "CopyStreamURLError": "Ha habido un error copiando la dirección.",
     "AllowFfmpegThrottlingHelp": "Cuando una transcodificación o un remux se adelanta lo suficiente desde la posición de reproducción actual, pause el proceso para que consuma menos recursos. Esto es más útil cuando se reproduce de forma linear, sin saltar de posición de reproducción a menudo. Desactívelo si experimenta problemas de reproducción.",
