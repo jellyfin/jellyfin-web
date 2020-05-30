@@ -250,7 +250,7 @@
     "ButtonSubmit": "Trimite",
     "Collections": "Colecții",
     "AllowRemoteAccess": "Permite conexiuni externe către acest server Jellyfin.",
-    "AllowRemoteAccessHelp": "Dacă este nebifat, toate conexiunile externe vor fi blocate.",
+    "AllowRemoteAccessHelp": "Dacă este neselectat, toate conexiunile externe vor fi blocate.",
     "AlwaysPlaySubtitles": "Întotdeauna arată",
     "AnyLanguage": "Orice Limbă",
     "Anytime": "Oricând",
