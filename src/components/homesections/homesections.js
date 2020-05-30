@@ -229,7 +229,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
 
             var options = {
                 Limit: limit,
-                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo',
+                Fields: 'PrimaryImageAspectRatio,BasicSyncInfo,Path',
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Thumb',
                 ParentId: parentId
@@ -667,7 +667,7 @@ define(['connectionManager', 'cardBuilder', 'appSettings', 'dom', 'apphost', 'la
             var apiClient = connectionManager.getApiClient(serverId);
             return apiClient.getNextUpEpisodes({
                 Limit: enableScrollX() ? 24 : 15,
-                Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo',
+                Fields: 'PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo,Path',
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
                 EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
