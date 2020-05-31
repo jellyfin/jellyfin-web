@@ -606,12 +606,6 @@ a[data-role=button] {
     width: 40vw;
 }
 
-.personCard .cardPadder-overflowPortrait,
-.personCard .cardPadder-portrait {
-    padding-bottom: 100%;
-    contain: strict;
-}
-
 .personCard .coveredImage {
     clip-path: circle(50% at 50% 50%);
 }
@@ -637,4 +631,10 @@ a[data-role=button] {
 .cardPadder-overflowBackdrop,
 .cardPadder-overflowSmallBackdrop {
     background-color: #200c3d;
+}
+
+.personCard .cardPadder-overflowPortrait,
+.personCard .cardPadder-portrait {
+    padding-bottom: 100%;
+    contain: strict;
 }
