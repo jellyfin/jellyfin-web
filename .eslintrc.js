@@ -89,8 +89,6 @@ module.exports = {
                 'LinkParser': 'writable',
                 'LiveTvHelpers': 'writable',
                 'MetadataEditor': 'writable',
-                'pageClassOn': 'writable',
-                'pageIdOn': 'writable',
                 'PlaylistViewer': 'writable',
                 'UserParentalControlPage': 'writable',
                 'Windows': 'readonly'
@@ -186,6 +184,8 @@ module.exports = {
                     'Float32Array',
                     'Float64Array',
                     'Reflect',
+                    'URL',
+                    'URLSearchParams',
                     // Temporary while eslint-compat-plugin is buggy
                     'document.querySelector'
                 ]

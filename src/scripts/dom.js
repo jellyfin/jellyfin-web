@@ -262,24 +262,25 @@
         return _transitionEvent;
     }
 
-    export function getParameterByName(name, url) {
-        'use strict';
+    /**
+     * Gets the value of a parameter in the URL.
+     * @param {*} name Name of the parameter to get.
+     * @param {*} url URL used to get the parameter.
+     */
+    export function getParameterByName(name, url = window.location.href) {
+        const urlObject = new URL(url);
+        const params = new URLSearchParams(urlObject.search);
 
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        var regexS = '[\\?&]' + name + '=([^&#]*)';
-        var regex = new RegExp(regexS, 'i');
-        var results = regex.exec(url || getWindowLocationSearch());
-
-        if (null == results) {
-            return '';
-        }
-
-        return decodeURIComponent(results[1].replace(/\+/g, ' '));
+        return params.get(name);
     }
 
+    /**
+     * Registers an event on the document, which executes only if a specific class is present
+     * @param {string} eventName Name of the event to register.
+     * @param {string} className Name of the class used to check if the event should execute.
+     * @param {function} fn Function to execute when the event runs.
+     */
     export function pageClassOn(eventName, className, fn) {
-        'use strict';
-
         document.addEventListener(eventName, function (event) {
             var target = event.target;
 
@@ -289,9 +290,13 @@
         });
     }
 
+    /**
+     * Registers an event on the document, which executes only if a specific id is present
+     * @param {string} eventName Name of the event to register.
+     * @param {string} id Name of the id used to check if the event should execute.
+     * @param {function} fn Function to execute when the event runs.
+     */
     export function pageIdOn(eventName, id, fn) {
-        'use strict';
-
         document.addEventListener(eventName, function (event) {
             var target = event.target;
 

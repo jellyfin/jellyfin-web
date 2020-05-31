@@ -215,7 +215,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         }
     }
 
-    function onBeforeExit(e) {
+    function onBeforeExit() {
         if (browser.web0s) {
             page.restorePreviousState();
         }
@@ -524,7 +524,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function param(name, url) {
-        name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
+        name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
         var regexS = '[\\?&]' + name + '=([^&#]*)';
         var regex = new RegExp(regexS, 'i');
 
@@ -561,7 +561,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
     }
 
     function showDirect(path) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve) {
             resolveOnNextShow = resolve;
             page.show(baseUrl() + path);
         });
@@ -582,7 +582,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             }
         }
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             resolveOnNextShow = resolve;
             page.show(path, options);
         });
