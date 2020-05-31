@@ -284,17 +284,79 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
 
     function getIntros(firstItem, apiClient, options) {
 
-        if (options.startPositionTicks || options.startIndex || options.fullscreen === false || !enableIntros(firstItem) || !userSettings.enableCinemaMode()) {
+        var unwatchedOnly = userSettings.enableCinemaTrailersUnseenOnly();
+        var trailerCount = userSettings.cinemaModeTrailerCount();
+        var enableCinema = userSettings.enableCinemaMode();
+
+        if (options.startPositionTicks || options.startIndex || options.fullscreen === false || !enableIntros(firstItem) || !enableCinema || trailerCount == 0) {
             return Promise.resolve({
                 Items: []
             });
         }
 
-        return apiClient.getIntros(firstItem.Id).then(function (result) {
+        var fetchOptions = {
+            Fields: 'RemoteTrailers,LocalTrailerCount,ServerID',
+            Filters: unwatchedOnly ? 'IsUnPlayed' : '',
+            HasTrailer: true,
+            IncludeItemTypes: 'Movie',
+            Limit: trailerCount,
+            Recursive: true,
+            SortBy: 'Random'
+        };
 
-            return result;
+        function getRemoteTrailers(item) {
+            var remoteTrailers = item.RemoteTrailers || [];
 
-        }, function (err) {
+            if (!remoteTrailers.length) {
+                return [];
+            }
+
+            return remoteTrailers.map(function (t) {
+                return {
+                    Name: t.Name || (item.Name + ' Trailer'),
+                    Url: t.Url,
+                    MediaType: 'Video',
+                    Type: 'Trailer',
+                    ServerId: apiClient.serverId()
+                };
+            });
+        }
+
+        function getAllTrailers(item, remoteTrailers) {
+            if (item.LocalTrailerCount) {
+                return apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(function (trailers) {
+                    trailers.push.apply(trailers, remoteTrailers);
+                    return trailers;
+                }).catch(function (err) {
+                    console.error(err);
+                    return remoteTrailers;
+                });
+            } else {
+                return Promise.resolve(remoteTrailers);
+            }
+        }
+
+        return apiClient.getItems(apiClient.getCurrentUserId(), fetchOptions).then(function (unwatchedMovies) {
+            var promises = [];
+
+            for (let unwatchedMovie in unwatchedMovies.Items) {
+                const remoteTrailers = getRemoteTrailers(unwatchedMovie);
+
+                promises.push(getAllTrailers(unwatchedMovie, remoteTrailers));
+            }
+
+            return Promise.all(promises);
+        }).then(function (trailersOfUnwathedMovies) {
+            const introItems = [];
+
+            // Choose random trailer for each movie
+            for (let trailers of trailersOfUnwathedMovies) {
+                introItems.push(trailers[Math.floor(Math.random() * trailers.length)]);
+            }
+
+            return Promise.resolve({Items: introItems});
+        }).catch(function (err) {
+            console.error(`failed to get trailers: ${err}`);
 
             return Promise.resolve({
                 Items: []
@@ -3140,17 +3202,14 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             var streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
 
             if (streamInfo) {
-
                 var currentlyPreventsVideoStreamCopy = streamInfo.url.toLowerCase().indexOf('allowvideostreamcopy=false') !== -1;
                 var currentlyPreventsAudioStreamCopy = streamInfo.url.toLowerCase().indexOf('allowaudiostreamcopy=false') !== -1;
 
                 // Auto switch to transcoding
                 if (enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy)) {
-
                     var startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
 
                     changeStream(player, startTime, {
-
                         // force transcoding
                         EnableDirectPlay: false,
                         EnableDirectStream: false,

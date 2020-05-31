@@ -44,9 +44,9 @@
         </div>
     </div>
 
-    <div class="verticalSection verticalSection-extrabottompadding">
+    <div class="verticalSection verticalSection-extrabottompadding cinemaModeOptions">
         <h2 class="sectionTitle">
-            ${TabAdvanced}
+            ${HeaderCinemaMode}
         </h2>
 
         <div class="checkboxContainer checkboxContainer-withDescription cinemaModeOptions">
@@ -56,7 +56,21 @@
             </label>
             <div class="fieldDescription checkboxFieldDescription">${CinemaModeConfigurationHelp}</div>
         </div>
+        <div class="inputContainer">
+            <input is="emby-input" type="number" class="txtTrailerCount" label="${CinemaModeConfigurationTrailerCount}" autocomplete="off" min="0" />
+        </div>
+        <div class="checkboxContainer">
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkTrailerUnseenOnly" />
+                <span>${CinemaModeConfigurationUnplayedOnly}</span>
+            </label>
+        </div>
+    </div>
 
+    <div class="verticalSection verticalSection-extrabottompadding">
+        <h2 class="sectionTitle">
+            ${TabAdvanced}
+        </h2>
         <div class="checkboxContainer fldEpisodeAutoPlay hide">
             <label>
                 <input type="checkbox" is="emby-checkbox" class="chkEpisodeAutoPlay" />

@@ -281,7 +281,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         self.play = function (options) {
-
             if (browser.msie) {
                 if (options.playMethod === 'Transcode' && !window.MediaSource) {
                     alert('Playback of this content is not supported in Internet Explorer. For a better experience, try a modern browser such as Microsoft Edge, Google Chrome, Firefox or Opera.');
@@ -295,6 +294,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             self._currentTime = null;
 
             self.resetSubtitleOffset();
+
+            appRouter.setTransparency('full');
 
             return createMediaElement(options).then(function (elem) {
 
