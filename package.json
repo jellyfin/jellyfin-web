@@ -146,7 +146,6 @@
     "prepare": "gulp --production",
     "build:development": "gulp --development",
     "build:production": "gulp --production",
-    "build:standalone": "gulp standalone --development",
     "lint": "eslint \".\"",
     "stylelint": "stylelint \"src/**/*.css\""
   }

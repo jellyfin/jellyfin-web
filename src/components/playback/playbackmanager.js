@@ -1129,7 +1129,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         }
 
         self.canPlay = function (item) {
-
             var itemType = item.Type;
 
             if (itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
@@ -1143,7 +1142,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             }
 
             if (itemType === 'Program') {
-
                 if (!item.EndDate || !item.StartDate) {
                     return false;
                 }
