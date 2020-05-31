@@ -215,24 +215,7 @@ export class BookPlayer {
                 Id: item.Id
             }
         };
-        if (!item.Path.endsWith('.epub')) {
-            return new Promise((resolve, reject) => {
-                let errorDialog = dialogHelper.createDialog({
-                    size: 'small',
-                    autoFocus: false,
-                    removeOnClose: true
-                });
 
-                errorDialog.innerHTML = '<h1 class="bookplayerErrorMsg">This book type is not supported yet</h1>';
-
-                this.stop();
-
-                dialogHelper.open(errorDialog);
-                loading.hide();
-
-                return resolve();
-            });
-        }
         let serverId = item.ServerId;
         let apiClient = connectionManager.getApiClient(serverId);
 
@@ -282,6 +265,13 @@ export class BookPlayer {
 
     canPlayMediaType(mediaType) {
         return (mediaType || '').toLowerCase() === 'book';
+    }
+
+    canPlayItem(item) {
+        if (item.Path && (item.Path.endsWith('epub'))) {
+            return true;
+        }
+        return false;
     }
 }
 
