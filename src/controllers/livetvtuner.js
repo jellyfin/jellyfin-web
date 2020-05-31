@@ -76,7 +76,7 @@ define(['globalize', 'loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button
             info.Type = 'm3u';
         }
 
-        var id = getParameterByName('id');
+        var id = dom.getParameterByName('id');
 
         if (id) {
             info.Id = id;

@@ -1,8 +1,8 @@
-define(['controllers/dashboard/users/userpasswordpage', 'loading', 'libraryMenu', 'apphost', 'globalize', 'emby-button'], function (UserPasswordPage, loading, libraryMenu, appHost, globalize) {
+define(['controllers/dashboard/users/userpasswordpage', 'dom', 'loading', 'libraryMenu', 'apphost', 'globalize', 'emby-button'], function (UserPasswordPage, loading, libraryMenu, appHost, globalize) {
     'use strict';
 
     function reloadUser(page) {
-        var userId = getParameterByName('userId');
+        var userId = dom.getParameterByName('userId');
         loading.show();
         ApiClient.getUser(userId).then(function (user) {
             page.querySelector('.username').innerHTML = user.Name;
@@ -71,7 +71,7 @@ define(['controllers/dashboard/users/userpasswordpage', 'loading', 'libraryMenu'
         reader.onabort = onFileReaderAbort;
         reader.onload = function (evt) {
             userImage.style.backgroundImage = 'url(' + evt.target.result + ')';
-            var userId = getParameterByName('userId');
+            var userId = dom.getParameterByName('userId');
             ApiClient.uploadUserImage(userId, 'Primary', file).then(function () {
                 loading.hide();
                 reloadUser(page);
@@ -88,7 +88,7 @@ define(['controllers/dashboard/users/userpasswordpage', 'loading', 'libraryMenu'
             require(['confirm'], function (confirm) {
                 confirm(globalize.translate('DeleteImageConfirmation'), globalize.translate('DeleteImage')).then(function () {
                     loading.show();
-                    var userId = getParameterByName('userId');
+                    var userId = dom.getParameterByName('userId');
                     ApiClient.deleteUserImage(userId, 'primary').then(function () {
                         loading.hide();
                         reloadUser(view);

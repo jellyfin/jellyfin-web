@@ -1,4 +1,4 @@
-define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-input', 'emby-checkbox', 'listViewStyle', 'emby-button'], function ($, loading, globalize) {
+define(['jQuery', 'dom', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-input', 'emby-checkbox', 'listViewStyle', 'emby-button'], function ($, dom, loading, globalize) {
     'use strict';
 
     function loadProfile(page) {
@@ -13,7 +13,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
     }
 
     function getProfile() {
-        var id = getParameterByName('id');
+        var id = dom.getParameterByName('id');
         var url = id ? 'Dlna/Profiles/' + id : 'Dlna/Profiles/Default';
         return ApiClient.getJSON(ApiClient.getUrl(url));
     }
@@ -618,7 +618,7 @@ define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-in
 
     function saveProfile(page, profile) {
         updateProfile(page, profile);
-        var id = getParameterByName('id');
+        var id = dom.getParameterByName('id');
 
         if (id) {
             ApiClient.ajax({

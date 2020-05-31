@@ -183,7 +183,7 @@ define(['loading', 'libraryBrowser', 'cardBuilder', 'dom', 'apphost', 'imageLoad
     function loadSections(page, userId, topParentId, types) {
         loading.show();
         var sections = getSections();
-        var sectionid = getParameterByName('sectionid');
+        var sectionid = dom.getParameterByName('sectionid');
 
         if (sectionid) {
             sections = sections.filter(function (s) {

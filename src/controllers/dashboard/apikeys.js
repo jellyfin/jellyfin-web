@@ -64,7 +64,7 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
         });
     }
 
-    pageIdOn('pageinit', 'apiKeysPage', function () {
+    dom.pageIdOn('pageinit', 'apiKeysPage', function () {
         var page = this;
         page.querySelector('.btnNewKey').addEventListener('click', function () {
             showNewKeyPrompt(page);
@@ -77,7 +77,7 @@ define(['datetime', 'loading', 'libraryMenu', 'dom', 'globalize', 'emby-button']
             }
         });
     });
-    pageIdOn('pagebeforeshow', 'apiKeysPage', function () {
+    dom.pageIdOn('pagebeforeshow', 'apiKeysPage', function () {
         loadData(this);
     });
 });

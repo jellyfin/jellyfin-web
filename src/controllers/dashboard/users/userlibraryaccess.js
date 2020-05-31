@@ -1,4 +1,4 @@
-define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, libraryMenu, globalize) {
+define(['jQuery', 'dom', 'loading', 'libraryMenu', 'globalize'], function ($, dom, loading, libraryMenu, globalize) {
     'use strict';
 
     function triggerChange(select) {
@@ -118,7 +118,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     function onSubmit() {
         var page = $(this).parents('.page');
         loading.show();
-        var userId = getParameterByName('userId');
+        var userId = dom.getParameterByName('userId');
         ApiClient.getUser(userId).then(function (result) {
             saveUser(result, page);
         });
@@ -153,7 +153,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         var page = this;
         loading.show();
         var promise1;
-        var userId = getParameterByName('userId');
+        var userId = dom.getParameterByName('userId');
 
         if (userId) {
             promise1 = ApiClient.getUser(userId);

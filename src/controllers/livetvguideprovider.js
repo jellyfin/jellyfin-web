@@ -1,4 +1,4 @@
-define(['events', 'loading', 'globalize'], function (events, loading, globalize) {
+define(['events', 'loading', 'globalize', 'dom'], function (events, loading, globalize, dom) {
     'use strict';
 
     function onListingsSubmitted() {
@@ -22,9 +22,9 @@ define(['events', 'loading', 'globalize'], function (events, loading, globalize)
         });
     }
 
-    pageIdOn('pageshow', 'liveTvGuideProviderPage', function () {
+    dom.pageIdOn('pageshow', 'liveTvGuideProviderPage', function () {
         loading.show();
-        var providerId = getParameterByName('id');
-        loadTemplate(this, getParameterByName('type'), providerId);
+        var providerId = dom.getParameterByName('id');
+        loadTemplate(this, dom.getParameterByName('type'), providerId);
     });
 });

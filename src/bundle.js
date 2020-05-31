@@ -1,3 +1,6 @@
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 /**
  * require.js module definitions bundled by webpack
  */
@@ -117,12 +120,6 @@ _define('epubjs', function () {
 var page = require('page');
 _define('page', function() {
     return page;
-});
-
-// core-js
-var polyfill = require('@babel/polyfill/dist/polyfill');
-_define('polyfill', function () {
-    return polyfill;
 });
 
 // domtokenlist-shim

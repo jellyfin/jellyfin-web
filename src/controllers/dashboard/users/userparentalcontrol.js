@@ -1,4 +1,4 @@
-define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewStyle', 'paper-icon-button-light'], function ($, datetime, loading, libraryMenu, globalize) {
+define(['jQuery', 'dom', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewStyle', 'paper-icon-button-light'], function ($, dom, datetime, loading, libraryMenu, globalize) {
     'use strict';
 
     function populateRatings(allParentalRatings, page) {
@@ -242,7 +242,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
         onSubmit: function () {
             var page = $(this).parents('.page');
             loading.show();
-            var userId = getParameterByName('userId');
+            var userId = dom.getParameterByName('userId');
             ApiClient.getUser(userId).then(function (result) {
                 saveUser(result, page);
             });
@@ -261,7 +261,7 @@ define(['jQuery', 'datetime', 'loading', 'libraryMenu', 'globalize', 'listViewSt
     }).on('pageshow', '#userParentalControlPage', function () {
         var page = this;
         loading.show();
-        var userId = getParameterByName('userId');
+        var userId = dom.etParameterByName('userId');
         var promise1 = ApiClient.getUser(userId);
         var promise2 = ApiClient.getParentalRatings();
         Promise.all([promise1, promise2]).then(function (responses) {

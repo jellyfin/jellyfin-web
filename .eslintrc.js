@@ -81,7 +81,6 @@ module.exports = {
                 'DashboardPage': 'writable',
                 'Emby': 'readonly',
                 'Events': 'writable',
-                'getParameterByName': 'writable',
                 'getWindowLocationSearch': 'writable',
                 'Globalize': 'writable',
                 'Hls': 'writable',

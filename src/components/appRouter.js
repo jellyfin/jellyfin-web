@@ -523,20 +523,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
         };
     }
 
-    function getWindowLocationSearch(win) {
-
-        var currentPath = currentRouteInfo ? (currentRouteInfo.path || '') : '';
-
-        var index = currentPath.indexOf('?');
-        var search = '';
-
-        if (index !== -1) {
-            search = currentPath.substring(index);
-        }
-
-        return search || '';
-    }
-
     function param(name, url) {
         name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
         var regexS = '[\\?&]' + name + '=([^&#]*)';

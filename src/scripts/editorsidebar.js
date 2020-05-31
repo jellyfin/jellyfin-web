@@ -1,4 +1,4 @@
-define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime, $, globalize) {
+define(['jQuery', 'dom', 'globalize', 'material-icons'], function ($, dom, globalize) {
     'use strict';
 
     function getNode(item, folderState, selected) {
@@ -292,7 +292,7 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
             return itemId;
         }
         var url = window.location.hash || window.location.href;
-        return getParameterByName('id', url);
+        return dom.getParameterByName('id', url);
     }
     var nodesToLoad = [];
     var selectedNodeId;

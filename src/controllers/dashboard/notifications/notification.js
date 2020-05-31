@@ -1,4 +1,4 @@
-define(['jQuery', 'emby-checkbox'], function ($) {
+define(['jQuery', 'dom', 'emby-checkbox'], function ($, dom) {
     'use strict';
 
     function fillItems(elem, items, cssClass, idPrefix, currentList, isEnabledList) {
@@ -13,7 +13,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
     }
 
     function reload(page) {
-        var type = getParameterByName('type');
+        var type = dom.getParameterByName('type');
         var promise1 = ApiClient.getUsers();
         var promise2 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
         var promise3 = ApiClient.getJSON(ApiClient.getUrl('Notifications/Types'));
@@ -56,7 +56,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
     }
 
     function save(page) {
-        var type = getParameterByName('type');
+        var type = dom.getParameterByName('type');
         var promise1 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
         // TODO: Check if this promise is really needed, as it's unused.
         var promise2 = ApiClient.getJSON(ApiClient.getUrl('Notifications/Types'));

@@ -627,7 +627,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
     }
 
     function getTopParentId() {
-        return getParameterByName('topParentId') || null;
+        return dom.getParameterByName('topParentId') || null;
     }
 
     function onMainDrawerClick(e) {
@@ -900,12 +900,12 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         }
     };
     var currentPageType;
-    pageClassOn('pagebeforeshow', 'page', function (e) {
+    dom.pageClassOn('pagebeforeshow', 'page', function (e) {
         if (!this.classList.contains('withTabs')) {
             LibraryMenu.setTabs(null);
         }
     });
-    pageClassOn('pageshow', 'page', function (e) {
+    dom.pageClassOn('pageshow', 'page', function (e) {
         var page = this;
         var isDashboardPage = page.classList.contains('type-interior');
         var isHomePage = page.classList.contains('homePage');

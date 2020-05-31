@@ -1,4 +1,4 @@
-define(['backdrop', 'userSettings', 'libraryMenu'], function (backdrop, userSettings, libraryMenu) {
+define(['dom', 'backdrop', 'userSettings', 'libraryMenu'], function (dom, backdrop, userSettings, libraryMenu) {
     'use strict';
 
     var cache = {};
@@ -56,7 +56,7 @@ define(['backdrop', 'userSettings', 'libraryMenu'], function (backdrop, userSett
         }
     }
 
-    pageClassOn('pageshow', 'page', function () {
+    dom.pageClassOn('pageshow', 'page', function () {
         var page = this;
 
         if (!page.classList.contains('selfBackdropPage')) {

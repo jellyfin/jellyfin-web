@@ -1,8 +1,8 @@
-define(['userSettings', 'skinManager', 'connectionManager', 'events'], function (userSettings, skinManager, connectionManager, events) {
+define(['dom', 'userSettings', 'skinManager', 'connectionManager', 'events'], function (dom, userSettings, skinManager, connectionManager, events) {
     'use strict';
 
     var currentViewType;
-    pageClassOn('viewbeforeshow', 'page', function () {
+    dom.pageClassOn('viewbeforeshow', 'page', function () {
         var classList = this.classList;
         var viewType = classList.contains('type-interior') || classList.contains('wizardPage') ? 'a' : 'b';
 

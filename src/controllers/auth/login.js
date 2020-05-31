@@ -7,7 +7,7 @@ define(['apphost', 'appSettings', 'dom', 'connectionManager', 'loading', 'layout
         loading.show();
         apiClient.authenticateUserByName(username, password).then(function (result) {
             var user = result.User;
-            var serverId = getParameterByName('serverid');
+            var serverId = dom.getParameterByName('serverid');
             var newUrl;
 
             if (user.Policy.IsAdministrator && !serverId) {

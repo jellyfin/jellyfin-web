@@ -366,10 +366,10 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             Dashboard.navigate('wizardsettings.html');
         }
     };
-    pageClassOn('pageshow', 'mediaLibraryPage', function () {
+    dom.pageClassOn('pageshow', 'mediaLibraryPage', function () {
         reloadLibrary(this);
     });
-    pageIdOn('pageshow', 'mediaLibraryPage', function () {
+    dom.pageIdOn('pageshow', 'mediaLibraryPage', function () {
         libraryMenu.setTabs('librarysetup', 0, getTabs);
         var page = this;
         taskButton({
@@ -379,7 +379,7 @@ define(['jQuery', 'apphost', 'scripts/taskbutton', 'loading', 'libraryMenu', 'gl
             button: page.querySelector('.btnRefresh')
         });
     });
-    pageIdOn('pagebeforehide', 'mediaLibraryPage', function () {
+    dom.pageIdOn('pagebeforehide', 'mediaLibraryPage', function () {
         var page = this;
         taskButton({
             mode: 'off',

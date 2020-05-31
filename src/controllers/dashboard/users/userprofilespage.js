@@ -243,7 +243,7 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
         });
     }
 
-    pageIdOn('pageinit', 'userProfilesPage', function () {
+    dom.pageIdOn('pageinit', 'userProfilesPage', function () {
         var page = this;
         page.querySelector('.btnAddUser').addEventListener('click', function() {
             Dashboard.navigate('usernew.html');
@@ -263,7 +263,7 @@ define(['loading', 'dom', 'globalize', 'date-fns', 'dfnshelper', 'paper-icon-but
             }
         });
     });
-    pageIdOn('pagebeforeshow', 'userProfilesPage', function () {
+    dom.pageIdOn('pagebeforeshow', 'userProfilesPage', function () {
         loadData(this);
     });
 });

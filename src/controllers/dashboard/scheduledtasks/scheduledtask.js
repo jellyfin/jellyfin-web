@@ -26,7 +26,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
     var ScheduledTaskPage = {
         refreshScheduledTask: function (view) {
             loading.show();
-            var id = getParameterByName('id');
+            var id = dom.getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {
                 ScheduledTaskPage.loadScheduledTask(view, task);
             });
@@ -137,7 +137,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
         },
         deleteTrigger: function (view, index) {
             loading.show();
-            var id = getParameterByName('id');
+            var id = dom.getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {
                 task.Triggers.remove(index);
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {
@@ -205,7 +205,7 @@ define(['jQuery', 'loading', 'datetime', 'dom', 'globalize', 'emby-input', 'emby
     return function (view, params) {
         function onSubmit(e) {
             loading.show();
-            var id = getParameterByName('id');
+            var id = dom.getParameterByName('id');
             ApiClient.getScheduledTask(id).then(function (task) {
                 task.Triggers.push(ScheduledTaskPage.getTriggerToAdd(view));
                 ApiClient.updateScheduledTaskTriggers(task.Id, task.Triggers).then(function () {

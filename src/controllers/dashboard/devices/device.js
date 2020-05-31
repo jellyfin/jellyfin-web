@@ -9,7 +9,7 @@ define(['loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button'], function 
     function loadData() {
         var page = this;
         loading.show();
-        var id = getParameterByName('id');
+        var id = dom.getParameterByName('id');
         var promise1 = ApiClient.getJSON(ApiClient.getUrl('Devices/Info', {
             Id: id
         }));
@@ -23,7 +23,7 @@ define(['loading', 'libraryMenu', 'dom', 'emby-input', 'emby-button'], function 
     }
 
     function save(page) {
-        var id = getParameterByName('id');
+        var id = dom.getParameterByName('id');
         ApiClient.ajax({
             url: ApiClient.getUrl('Devices/Options', {
                 Id: id

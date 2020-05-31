@@ -262,6 +262,45 @@
         return _transitionEvent;
     }
 
+    export function getParameterByName(name, url) {
+        'use strict';
+
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regexS = '[\\?&]' + name + '=([^&#]*)';
+        var regex = new RegExp(regexS, 'i');
+        var results = regex.exec(url || getWindowLocationSearch());
+
+        if (null == results) {
+            return '';
+        }
+
+        return decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    export function pageClassOn(eventName, className, fn) {
+        'use strict';
+
+        document.addEventListener(eventName, function (event) {
+            var target = event.target;
+
+            if (target.classList.contains(className)) {
+                fn.call(target, event);
+            }
+        });
+    }
+
+    export function pageIdOn(eventName, id, fn) {
+        'use strict';
+
+        document.addEventListener(eventName, function (event) {
+            var target = event.target;
+
+            if (target.id === id) {
+                fn.call(target, event);
+            }
+        });
+    }
+
 /* eslint-enable indent */
 
 export default {
@@ -274,5 +313,8 @@ export default {
     getScreenWidth: getScreenWidth,
     whichTransitionEvent: whichTransitionEvent,
     whichAnimationEvent: whichAnimationEvent,
-    whichAnimationCancelEvent: whichAnimationCancelEvent
+    whichAnimationCancelEvent: whichAnimationCancelEvent,
+    getParameterByName: getParameterByName,
+    pageClassOn: pageClassOn,
+    pageIdOn: pageIdOn
 };

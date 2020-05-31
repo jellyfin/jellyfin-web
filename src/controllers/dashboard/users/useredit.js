@@ -1,4 +1,4 @@
-define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, libraryMenu, globalize) {
+define(['jQuery', 'dom', 'loading', 'libraryMenu', 'globalize'], function ($, dom, loading, libraryMenu, globalize) {
     'use strict';
 
     function loadDeleteFolders(page, user, mediaFolders) {
@@ -164,7 +164,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
     }
 
     function getUser() {
-        var userId = getParameterByName('userId');
+        var userId = dom.getParameterByName('userId');
         return ApiClient.getUser(userId);
     }
 

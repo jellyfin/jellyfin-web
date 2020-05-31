@@ -169,7 +169,7 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
         }
     }
 
-    pageIdOn('pageshow', 'pluginsPage', function () {
+    dom.pageIdOn('pageshow', 'pluginsPage', function () {
         libraryMenu.setTabs('plugins', 0, getTabs);
         reloadList(this);
     });
