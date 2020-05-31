@@ -217,10 +217,6 @@ button::-moz-focus-inner {
     border-bottom-right-radius: 0;
 }
 
-.backdropCard .cardContent:not(.defaultCardBackground) {
-    background-color: transparent;
-}
-
 .cardContent-shadow {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }

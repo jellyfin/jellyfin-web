@@ -623,3 +623,18 @@ a[data-role=button] {
 .personCard .cardOverlayButton-br {
     right: 20%;
 }
+
+.cardPadder-square,
+.cardPadder-mixedSquare,
+.cardPadder-overflowSquare,
+.cardPadder-portrait,
+.cardPadder-mixedPortrait,
+.cardPadder-overflowPortrait,
+.cardPadder-banner,
+.cardPadder-backdrop,
+.cardPadder-mixedBackdrop,
+.cardPadder-smallBackdrop,
+.cardPadder-overflowBackdrop,
+.cardPadder-overflowSmallBackdrop {
+    background-color: #200c3d;
+}
