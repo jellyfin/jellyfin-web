@@ -57,11 +57,6 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
     var applicationStable = 'F007D354';
     var applicationNightly = '6F511C87';
 
-    var applicationID = applicationStable;
-    if (userSettings.chromecastVersion() === 'nightly') {
-        applicationID = applicationNightly;
-    }
-
     var messageNamespace = 'urn:x-cast:com.connectsdk';
 
     var CastPlayer = function () {
@@ -103,6 +98,11 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
         if (!chrome.cast || !chrome.cast.isAvailable) {
             setTimeout(this.initializeCastPlayer.bind(this), 1000);
             return;
+        }
+
+        var applicationID = applicationStable;
+        if (userSettings.chromecastVersion() === 'nightly') {
+            applicationID = applicationNightly;
         }
 
         // request session
