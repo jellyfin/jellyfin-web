@@ -58,7 +58,7 @@ define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', '
     var applicationNightly = '6F511C87';
 
     var applicationID = applicationStable;
-    if (userSettings.chromecastVersion === 'nightly') {
+    if (userSettings.chromecastVersion() === 'nightly') {
         applicationID = applicationNightly;
     }
 
