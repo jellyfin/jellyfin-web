@@ -1524,7 +1524,7 @@
     "LabelEnableHttps": "启用 HTTPS",
     "LabelChromecastVersion": "Chromecast版本",
     "HeaderDVR": "DVR",
-    "LabelNightly": "Nightly",
+    "LabelNightly": "开发版",
     "MessageSyncPlayErrorAccessingGroups": "访问群组列表时发生错误。",
     "MessageSyncPlayLibraryAccessDenied": "搜限制的访问权限。",
     "MessageSyncPlayCreateGroupDenied": "需要权限创建该组。",
