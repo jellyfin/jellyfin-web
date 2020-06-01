@@ -188,20 +188,6 @@ define(['browser'], function (browser) {
         return browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
     }
 
-    function getFlvMseDirectPlayProfile() {
-        var videoAudioCodecs = ['aac'];
-        if (!browser.edge && !browser.msie) {
-            videoAudioCodecs.push('mp3');
-        }
-
-        return {
-            Container: 'flv',
-            Type: 'Video',
-            VideoCodec: 'h264',
-            AudioCodec: videoAudioCodecs.join(',')
-        };
-    }
-
     function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
         var supported = false;
         var profileContainer = container;
@@ -230,9 +216,6 @@ define(['browser'], function (browser) {
                 break;
             case 'flv':
                 supported = browser.tizen || browser.orsay;
-                //if (!supported && window.MediaSource != null && window.MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E,mp4a.40.2"')) {
-                //    return getFlvMseDirectPlayProfile();
-                //}
                 break;
             case '3gp':
             case 'mts':

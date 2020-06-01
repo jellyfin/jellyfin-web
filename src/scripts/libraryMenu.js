@@ -602,27 +602,25 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
         if (libraryMenuOptions) {
             getUserViews(apiClient, userId).then(function (result) {
                 var items = result;
-                var html = '';
-                html += '<h3 class="sidebarHeader">';
-                html += globalize.translate('HeaderMedia');
-                html += '</h3>';
+                var html = `<h3 class="sidebarHeader">${globalize.translate('HeaderMedia')}</h3>`;
                 html += items.map(function (i) {
                     var icon = i.icon || imageHelper.getLibraryIcon(i.CollectionType);
                     var itemId = i.Id;
 
-                    if (i.onclick) {
-                        i.onclick;
-                    }
+                    const linkHtml = `<a is="emby-linkbutton" data-itemid="${itemId}" class="lnkMediaFolder navMenuOption" href="${getItemHref(i, i.CollectionType)}">
+                                    <span class="material-icons navMenuOptionIcon ${icon}"></span>
+                                    <span class="sectionName navMenuOptionText">${i.Name}</span>
+                                  </a>`;
 
-                    return '<a is="emby-linkbutton" data-itemid="' + itemId + '" class="lnkMediaFolder navMenuOption" href="' + getItemHref(i, i.CollectionType) + '"><span class="material-icons navMenuOptionIcon ' + icon + '"></span><span class="sectionName navMenuOptionText">' + i.Name + '</span></a>';
+                    return linkHtml;
                 }).join('');
                 libraryMenuOptions.innerHTML = html;
                 var elem = libraryMenuOptions;
                 var sidebarLinks = elem.querySelectorAll('.navMenuOption');
 
-                for (var i = 0, length = sidebarLinks.length; i < length; i++) {
-                    sidebarLinks[i].removeEventListener('click', onSidebarLinkClick);
-                    sidebarLinks[i].addEventListener('click', onSidebarLinkClick);
+                for (const sidebarLink of sidebarLinks) {
+                    sidebarLink.removeEventListener('click', onSidebarLinkClick);
+                    sidebarLink.addEventListener('click', onSidebarLinkClick);
                 }
             });
         }
@@ -936,6 +934,7 @@ define(['dom', 'layoutManager', 'inputManager', 'connectionManager', 'events', '
 
         updateMenuForPageType(isDashboardPage, isLibraryPage);
 
+        // TODO: Seems to do nothing? Check if needed (also in other views).
         if (!e.detail.isRestored) {
             window.scrollTo(0, 0);
         }

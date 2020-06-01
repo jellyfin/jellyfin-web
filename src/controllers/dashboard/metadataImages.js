@@ -29,14 +29,18 @@ define(['jQuery', 'dom', 'loading', 'libraryMenu', 'globalize', 'listViewStyle']
         var promises = [ApiClient.getServerConfiguration(), populateLanguages(page.querySelector('#selectLanguage')), populateCountries(page.querySelector('#selectCountry'))];
         Promise.all(promises).then(function(responses) {
             var config = responses[0];
-            page.querySelector('#selectLanguage').value = config.PreferredMetadataLanguage || '', page.querySelector('#selectCountry').value = config.MetadataCountryCode || '', loading.hide();
+            page.querySelector('#selectLanguage').value = config.PreferredMetadataLanguage || '';
+            page.querySelector('#selectCountry').value = config.MetadataCountryCode || '';
+            loading.hide();
         });
     }
 
     function onSubmit() {
         var form = this;
         return loading.show(), ApiClient.getServerConfiguration().then(function(config) {
-            config.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value, config.MetadataCountryCode = form.querySelector('#selectCountry').value, ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
+            config.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value;
+            config.MetadataCountryCode = form.querySelector('#selectCountry').value;
+            ApiClient.updateServerConfiguration(config).then(Dashboard.processServerConfigurationUpdateResult);
         }), !1;
     }
 
@@ -59,6 +63,8 @@ define(['jQuery', 'dom', 'loading', 'libraryMenu', 'globalize', 'listViewStyle']
     $(document).on('pageinit', '#metadataImagesConfigurationPage', function() {
         $('.metadataImagesConfigurationForm').off('submit', onSubmit).on('submit', onSubmit);
     }).on('pageshow', '#metadataImagesConfigurationPage', function() {
-        libraryMenu.setTabs('metadata', 2, getTabs), loading.show(), loadPage(this);
+        libraryMenu.setTabs('metadata', 2, getTabs);
+        loading.show();
+        loadPage(this);
     });
 });

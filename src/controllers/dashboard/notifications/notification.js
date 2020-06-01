@@ -58,10 +58,10 @@ define(['jQuery', 'emby-checkbox', 'fnchecked'], function ($) {
     function save(page) {
         var type = getParameterByName('type');
         var promise1 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
+        // TODO: Check if this promise is really needed, as it's unused.
         var promise2 = ApiClient.getJSON(ApiClient.getUrl('Notifications/Types'));
         Promise.all([promise1, promise2]).then(function (responses) {
             var notificationOptions = responses[0];
-            var types = responses[1];
             var notificationConfig = notificationOptions.Options.filter(function (n) {
                 return n.Type == type;
             })[0];
@@ -73,9 +73,6 @@ define(['jQuery', 'emby-checkbox', 'fnchecked'], function ($) {
                 notificationOptions.Options.push(notificationConfig);
             }
 
-            types.filter(function (n) {
-                return n.Type == type;
-            })[0];
             notificationConfig.Enabled = $('#chkEnabled', page).checked();
             notificationConfig.SendToUserMode = $('#selectUsers', page).val();
             notificationConfig.DisabledMonitorUsers = $('.chkMonitor', page).get().filter(function (c) {
