@@ -71,13 +71,13 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
         });
     }
 
-    function performInstallation(page, packageName, guid, updateClass, version) {
+    function performInstallation(page, name, guid, version) {
         var developer = $('#developer', page).html().toLowerCase();
 
         var alertCallback = function () {
             loading.show();
             page.querySelector('#btnInstall').disabled = true;
-            ApiClient.installPlugin(packageName, guid, updateClass, version).then(function () {
+            ApiClient.installPlugin(name, guid, version).then(function () {
                 loading.hide();
                 alertText(globalize.translate('PluginInstalledMessage'));
             });
@@ -112,9 +112,8 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
                 var installedPlugin = plugins.filter(function (plugin) {
                     return plugin.Name == name;
                 })[0];
-                var vals = $('#selectVersion', page).val().split('|');
-                var version = vals[0];
 
+                var version = $('#selectVersion', page).val();
                 if (installedPlugin) {
                     if (installedPlugin.Version === version) {
                         loading.hide();
@@ -124,7 +123,7 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize', 'connectionManager', 'e
                         });
                     }
                 } else {
-                    performInstallation(page, name, guid, vals[1], version);
+                    performInstallation(page, name, guid, version);
                 }
             });
             return false;

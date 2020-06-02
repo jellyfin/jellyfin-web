@@ -132,7 +132,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
 
         var imageUrl = getImageUrl(currentItem, apiClient, image.ImageType, image.ImageIndex, { maxWidth: imageSize });
 
-        html += '<div class="cardImageContainer" style="background-image:url(\'' + imageUrl + '\');background-position:center bottom;"></div>';
+        html += '<div class="cardImageContainer" style="background-image:url(\'' + imageUrl + '\');background-position:center center;background-size:contain;"></div>';
 
         html += '</div>';
         html += '</div>';
@@ -457,7 +457,7 @@ define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 
                 if (layoutManager.tv) {
                     dialogOptions.size = 'fullscreen';
                 } else {
-                    dialogOptions.size = 'fullscreen-border';
+                    dialogOptions.size = 'small';
                 }
 
                 var dlg = dialogHelper.createDialog(dialogOptions);

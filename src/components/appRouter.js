@@ -1,4 +1,4 @@
-define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, layoutManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
+define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdrop', 'browser', 'page', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
     var appRouter = {
@@ -26,11 +26,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         connectionManager.connect({
             enableAutoLogin: appSettings.enableAutoLogin()
         }).then(function (result) {
-            handleConnectionResult(result, loading);
+            handleConnectionResult(result);
         });
     }
 
-    function handleConnectionResult(result, loading) {
+    function handleConnectionResult(result) {
         switch (result.State) {
             case 'SignedIn':
                 loading.hide();
@@ -246,13 +246,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
 
         if (setQuality) {
-
-            var quality = 100;
-
+            var quality;
             var type = options.type || 'Primary';
 
             if (browser.tv || browser.slow) {
-
+                // TODO: wtf
                 if (browser.chrome) {
                     // webp support
                     quality = type === 'Primary' ? 40 : 50;
@@ -384,7 +382,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
             if (firstResult.State !== 'SignedIn' && !route.anonymous) {
 
-                handleConnectionResult(firstResult, loading);
+                handleConnectionResult(firstResult);
                 return;
             }
         }
@@ -463,7 +461,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return Promise.resolve();
     }
 
-    var isHandlingBackToDefault;
     var isDummyBackToHome;
 
     function loadContent(ctx, route, html, request) {
@@ -589,8 +586,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             path = '/' + path;
         }
 
-        var baseRoute = baseUrl();
-        path = path.replace(baseRoute, '');
+        path = path.replace(baseUrl(), '');
 
         if (currentRouteInfo && currentRouteInfo.path === path) {
             // can't use this with home right now due to the back menu
@@ -621,10 +617,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function showItem(item, serverId, options) {
+        // TODO: Refactor this so it only gets items, not strings.
         if (typeof (item) === 'string') {
             var apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
-            apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
-                appRouter.showItem(item, options);
+            apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (itemObject) {
+                appRouter.showItem(itemObject, options);
             });
         } else {
             if (arguments.length === 2) {

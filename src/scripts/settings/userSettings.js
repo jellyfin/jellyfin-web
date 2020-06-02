@@ -107,7 +107,7 @@ import events from 'events';
         }
 
         val = this.get('enableThemeSongs', false);
-        return val !== 'false';
+        return val === 'true';
     }
 
     export function enableThemeVideos(val) {
@@ -116,7 +116,7 @@ import events from 'events';
         }
 
         val = this.get('enableThemeVideos', false);
-        return val !== 'false';
+        return val === 'true';
     }
 
     export function enableFastFadein(val) {
@@ -137,6 +137,15 @@ import events from 'events';
         return val !== 'false';
     }
 
+    export function detailsBanner(val) {
+        if (val !== undefined) {
+            return this.set('detailsBanner', val.toString(), false);
+        }
+
+        val = this.get('detailsBanner', false);
+        return val !== 'false';
+    }
+
     export function language(val) {
         if (val !== undefined) {
             return this.set('language', val.toString(), false);
@@ -151,6 +160,14 @@ import events from 'events';
         }
 
         return this.get('datetimelocale', false);
+    }
+
+    export function chromecastVersion(val) {
+        if (val !== undefined) {
+            return this.set('chromecastVersion', val.toString());
+        }
+
+        return this.get('chromecastVersion') || 'stable';
     }
 
     export function skipBackLength(val) {

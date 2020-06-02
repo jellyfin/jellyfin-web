@@ -179,12 +179,6 @@ define(['datetime', 'events', 'itemHelper', 'serverNotifications', 'dom', 'globa
             view.querySelector('#operatingSystem').innerHTML = globalize.translate('DashboardOperatingSystem', systemInfo.OperatingSystem);
             view.querySelector('#architecture').innerHTML = globalize.translate('DashboardArchitecture', systemInfo.SystemArchitecture);
 
-            if (systemInfo.CanSelfRestart) {
-                view.querySelector('#btnRestartServer').classList.remove('hide');
-            } else {
-                view.querySelector('#btnRestartServer').classList.add('hide');
-            }
-
             view.querySelector('#cachePath').innerHTML = systemInfo.CachePath;
             view.querySelector('#logPath').innerHTML = systemInfo.LogPath;
             view.querySelector('#transcodePath').innerHTML = systemInfo.TranscodingTempPath;
