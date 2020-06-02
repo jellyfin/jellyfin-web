@@ -88,7 +88,7 @@ import 'css!./style';
         let preloaderImg = new Image();
         preloaderImg.src = url;
 
-        // This is necessary, so switching between blurhash enabled and disabled works
+        // This is necessary, so changing blurhash settings without reloading the page works
         if (!userSettings.enableBlurhash()) {
             elem.classList.add('lazy-hidden');
         }
@@ -129,11 +129,7 @@ import 'css!./style';
         if (userSettings.enableBlurhash()) {
             switchCanvas(elem);
         } else {
-            if (userSettings.enableFastFadein()) {
-                elem.classList.remove('lazy-image-fadein-fast');
-            } else {
-                elem.classList.remove('lazy-image-fadein');
-            }
+            elem.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
             elem.classList.add('lazy-hidden');
         }
     }

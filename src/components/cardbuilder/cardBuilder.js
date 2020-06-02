@@ -507,6 +507,7 @@ import 'programStyles';
             let coverImage = false;
             let uiAspect = null;
             let imgType = null;
+            let itemId = null;
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
                 imgType = 'Thumb';
@@ -523,12 +524,15 @@ import 'programStyles';
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
                 imgType = 'Logo';
                 imgTag = item.ParentLogoImageTag;
+                itemId = item.ParentLogoItemId;
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
                 imgType = 'Thumb';
                 imgTag = item.SeriesThumbImageTag;
+                itemId = item.SeriesId;
             } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
                 imgType = 'Thumb';
                 imgTag = item.ParentThumbImageTag;
+                itemId = item.ParentThumbItemId;
             } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
                 imgType = 'Backdrop';
                 imgTag = item.BackdropImageTags[0];
@@ -536,6 +540,7 @@ import 'programStyles';
             } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
                 imgType = 'Backdrop';
                 imgTag = item.ParentBackdropImageTags[0];
+                itemId = item.ParentBackdropItemId;
             } else if (item.ImageTags && item.ImageTags.Primary) {
                 imgType = 'Primary';
                 imgTag = item.ImageTags.Primary;
@@ -555,6 +560,7 @@ import 'programStyles';
             } else if (item.PrimaryImageTag) {
                 imgType = 'Primary';
                 imgTag = item.PrimaryImageTag;
+                itemId = item.PrimaryImageItemId;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 if (options.preferThumb && options.showTitle !== false) {
@@ -570,12 +576,15 @@ import 'programStyles';
             } else if (item.ParentPrimaryImageTag) {
                 imgType = 'Primary';
                 imgTag = item.ParentPrimaryImageTag;
+                itemId = item.ParentPrimaryImageItemId;
             } else if (item.SeriesPrimaryImageTag) {
                 imgType = 'Primary';
                 imgTag = item.SeriesPrimaryImageTag;
+                itemId = item.SeriesId;
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
                 imgType = 'Primary';
                 imgTag = item.AlbumPrimaryImageTag;
+                itemId = item.AlbumId;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 if (primaryImageAspectRatio) {
@@ -596,16 +605,23 @@ import 'programStyles';
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
                 imgType = 'Thumb';
                 imgTag = item.SeriesThumbImageTag;
+                itemId = item.SeriesId;
             } else if (item.ParentThumbItemId && options.inheritThumb !== false) {
                 imgType = 'Thumb';
                 imgTag = item.ParentThumbImageTag;
+                itemId = item.ParentThumbItemId;
             } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
                 imgType = 'Backdrop';
                 imgTag = item.ParentBackdropImageTags[0];
+                itemId = item.ParentBackdropItemId;
+            }
+
+            if (itemId === null) {
+                itemId = item.Id;
             }
 
             if (imgTag && imgType) {
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
+                imgUrl = apiClient.getScaledImageUrl(itemId, {
                     type: imgType,
                     maxHeight: height,
                     maxWidth: width,
