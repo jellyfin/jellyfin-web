@@ -95,7 +95,9 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         let blurHashes = item.ImageBlurHashes || {};
         let blurhashstr = (blurHashes[options.type] || {})[options.tag];
 
-        return { url: apiClient.getScaledImageUrl(itemId, options), blurhash: blurhashstr};
+        if (itemId) {
+            return { url: apiClient.getScaledImageUrl(itemId, options), blurhash: blurhashstr };
+        }
     }
 
     function getChannelImageUrl(item, width) {
@@ -112,7 +114,9 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         let blurHashes = item.ImageBlurHashes || {};
         let blurhashstr = (blurHashes[options.type])[options.tag];
 
-        return { url: apiClient.getScaledImageUrl(item.ChannelId, options), blurhash: blurhashstr};
+        if (item.ChannelId) {
+            return { url: apiClient.getScaledImageUrl(item.ChannelId, options), blurhash: blurhashstr };
+        }
     }
 
     function getTextLinesHtml(textlines, isLargeStyle) {

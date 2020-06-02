@@ -71,6 +71,7 @@ import 'css!./style';
 
         if (!target.classList.contains('blurhashed') && userSettings.enableBlurhash()) {
             itemBlurhashing(target);
+        }
 
         if (entry.intersectionRatio > 0) {
             if (source) fillImageElement(target, source);
@@ -88,7 +89,9 @@ import 'css!./style';
         preloaderImg.src = url;
 
         // This is necessary, so switching between blurhash enabled and disabled works
-        if (!userSettings.enableBlurhash()) elem.classList.add('lazy-hidden');
+        if (!userSettings.enableBlurhash()) {
+            elem.classList.add('lazy-hidden');
+        }
 
         preloaderImg.addEventListener('load', () => {
             if (elem.tagName !== 'IMG') {
