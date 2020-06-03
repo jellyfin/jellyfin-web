@@ -116,7 +116,20 @@
           "src/scripts/keyboardNavigation.js",
           "src/scripts/settings/appSettings.js",
           "src/scripts/settings/userSettings.js",
-          "src/scripts/settings/webSettings.js"
+          "src/scripts/settings/webSettings.js",
+          "src/controllers/layouts/tv/home/focusHandler.js",
+          "src/controllers/layouts/tv/home/imagehelper.js",
+          "src/controllers/layouts/tv/home/tabbedPage.js",
+          "src/controllers/layouts/tv/home/home.js",
+          "src/controllers/layouts/tv/home/spotlight.js",
+          "src/controllers/layouts/tv/home/views.collections.js",
+          "src/controllers/layouts/tv/home/views.photos.js",
+          "src/controllers/layouts/tv/home/views.books.js",
+          "src/controllers/layouts/tv/home/views.livetv.js",
+          "src/controllers/layouts/tv/home/views.movies.js",
+          "src/controllers/layouts/tv/home/views.music.js",
+          "src/controllers/layouts/tv/home/views.playlists.js",
+          "src/controllers/layouts/tv/home/views.tv.js"
         ],
         "plugins": [
           "@babel/plugin-transform-modules-amd",

@@ -1,0 +1,70 @@
+<div class="horizontalSection">
+    <div class="sectionTitle">&nbsp;</div>
+    <div>
+        <button type="button" class="card wideSpotlightCard noScale">
+            <div class="cardImageContainer coveredImage wideSpotlightCardBox noScale">
+                <div class="cardImage coveredImage coveredImage-noScale"></div>
+                <div class="innerCardFooter">
+                    <div class="cardText"></div>
+                </div>
+            </div>
+        </button>
+        <div class="horizontalItemsContainer">
+            <button type="button" class="card backdropCard allMoviesCard show-focus show-animation" data-type="allseries">
+                <div class="cardBox">
+                    <div class="cardScalable">
+                        <div class="cardPadder-backdrop"></div>
+                        <div class="cardContent">
+                            <div class="cardImageContainer coveredImage">
+                                <div class="cardImage coveredImage coveredImage-noScale"></div>
+                                <div class="innerCardFooter">
+                                    <div class="cardText">${Movies}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </button>
+            <button type="button" class="card backdropCard movieFavoritesCard show-focus show-animation" data-type="genres">
+                <div class="cardBox">
+                    <div class="cardScalable">
+                        <div class="cardPadder-backdrop"></div>
+                        <div class="cardContent">
+                            <div class="cardImageContainer coveredImage">
+                                <div class="cardImage coveredImage coveredImage-noScale"></div>
+                                <div class="innerCardFooter">
+                                    <div class="cardText">${Favorites}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </button>
+            <button type="button" class="card squareCard movieGenresCard show-focus show-animation" data-type="genres">
+                <div class="cardBox">
+                    <div class="cardScalable">
+                        <div class="cardPadder-square"></div>
+                        <div class="cardContent">
+                            <div class="cardImageContainer coveredImage">
+                                <span class="cardImageIcon material-icons folder" aria-hidden="true"></span>
+                                <div class="innerCardFooter">
+                                    <div class="cardText">${Genres}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="horizontalSection resumeSection hide">
+    <div class="sectionTitle">${HeaderContinueWatching}</div>
+    <div is="emby-itemscontainer" class="itemsContainer"></div>
+</div>
+<div class="horizontalSection latestSection hide">
+    <div class="sectionTitle">${HeaderLatestMovies}</div>
+    <div is="emby-itemscontainer" class="itemsContainer"></div>
+</div>
+<div class="recommendations horizontalSection"></div>
+

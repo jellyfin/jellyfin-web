@@ -1,0 +1,221 @@
+.homePageContainer {
+    padding-top: 5em !important;
+    padding-bottom: 0 !important;
+}
+
+.btnTabs {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0 0.3em;
+    text-align: center;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    outline: none !important;
+    outline-width: 0;
+    user-select: none;
+    cursor: pointer;
+    z-index: 0;
+    padding: 0 1em;
+    vertical-align: middle;
+    border: 0;
+    border-radius: 0.2em;
+    font-weight: 600;
+    text-decoration: none;
+    background: transparent;
+    line-height: 1.35;
+    transform-origin: center;
+    transition: 0.2s;
+}
+
+.userViewNames button.selected {
+    color: #00a4dc;
+    opacity: 1;
+}
+
+.userViewNames .emby-button.show-focus:focus {
+    color: #ff77f1;
+    background: transparent;
+    opacity: 1;
+}
+
+.userViewNames {
+    overflow: hidden;
+}
+
+.userViewNames .scrollFrameX .scrollSlider {
+    padding-left: 18.75%;
+}
+
+.userViewButtonText {
+    font-size: 110%;
+}
+
+.scrollFrameX .scrollSlider {
+    white-space: nowrap !important;
+}
+
+.itemScrollFrame.scrollFrameX .scrollSlider {
+    padding-left: 4.5%;
+    padding-bottom: 1.2em;
+    padding-top: 0.5em;
+}
+
+.wideSpotlightCard {
+    width: 100%;
+}
+
+.wideSpotlightCard .cardImageContainer {
+    width: auto !important;
+    height: 14em;
+}
+
+.card .wideSpotlightCardBox {
+    padding: 0 !important;
+    margin: 0.2em;
+    transition: none !important;
+    border-radius: 0 !important;
+    border: 3px solid transparent;
+}
+
+.card:focus .wideSpotlightCardBox {
+    border-color: #00a4dc;
+}
+
+.horizontalSectionsContainer {
+    display: flex;
+}
+
+.horizontalSection {
+    margin-right: 1.25em;
+    flex-shrink: 0;
+}
+
+.horizontalSection .sectionTitle {
+    font-size: 90%;
+    padding-left: 0.1em;
+    margin-bottom: 0;
+}
+
+.cardColumn {
+    display: inline-block;
+    margin-right: 1em;
+    vertical-align: top;
+    flex-shrink: 0;
+}
+
+.innerCardFooter > .cardText {
+    font-size: 80%;
+}
+
+@media screen and (min-width: 25em) {
+    .homePageContent .squareCard {
+        width: 6em;
+    }
+
+    .homePageContent .backdropCard {
+        width: 10.5em;
+    }
+
+    .homePageContent .portraitCard {
+        width: 7em;
+    }
+
+    .wideSpotlightCard {
+        height: 10%;
+    }
+
+    .selectedItemInfo .selectedItemInfoInner .selectedItemInfoLogo,
+    .selectedItemInfo .selectedItemInfoInner .selectedItemMediaInfo {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 75em) {
+    .homePageContent .squareCard {
+        width: 7em;
+    }
+
+    .homePageContent .backdropCard {
+        width: 12em;
+    }
+
+    .homePageContent .portraitCard {
+        width: 7.5em;
+    }
+
+    .wideSpotlightCard {
+        height: auto;
+    }
+
+    .selectedItemInfo .selectedItemInfoInner .selectedItemInfoLogo {
+        display: block;
+    }
+
+    .selectedItemInfo .selectedItemInfoInner .selectedItemMediaInfo {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        font-size: 70%;
+    }
+}
+
+.card .cardBox {
+    margin: 0.3em !important;
+}
+
+.guideCard .cardImageContainer,
+.artistsCard .cardImageContainer {
+    background: #00a4dc;
+}
+
+.songCard .cardImageContainer,
+.recordingsCard .cardImageContainer {
+    background: #c51d1d;
+}
+
+.channelsLiveTvCard .cardImageContainer,
+.albumsCard .cardImageContainer {
+    background: #92f4369a;
+}
+
+.movieGenresCard .cardImageContainer,
+.tvGenresCard .cardImageContainer {
+    background-color: #009688;
+}
+
+.selectedItemInfo .selectedItemInfoInner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 2.5%;
+    left: 0;
+    right: 0;
+}
+
+.selectedItemInfoLogo {
+    margin-right: 1em;
+    width: 10em;
+    height: 3em;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.selectedItemNameInfo {
+    margin-right: 1em;
+    font-weight: 400;
+    font-size: 1.5em;
+}
+
+.selectedItemMediaInfo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-size: 70%;
+}

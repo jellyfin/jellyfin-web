@@ -916,10 +916,6 @@ var AppInfo = {};
                 Dashboard.navigate('livetv.html?tab=1');
             };
 
-            appRouter.goHome = function () {
-                Dashboard.navigate('home.html');
-            };
-
             appRouter.showSearch = function () {
                 Dashboard.navigate('search.html');
             };
