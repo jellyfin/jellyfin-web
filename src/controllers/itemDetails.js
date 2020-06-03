@@ -978,10 +978,10 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
 
         if (clampTarget.classList.contains(clampClassName)) {
             clampTarget.classList.remove(clampClassName);
-            expandButton.innerHTML = 'Show Less';
+            expandButton.innerHTML = globalize.translate('Show Less');
         } else {
             clampTarget.classList.add(clampClassName);
-            expandButton.innerHTML = 'Show More';
+            expandButton.innerHTML = globalize.translate('Show More');
         }
     }
 
