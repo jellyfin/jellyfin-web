@@ -3,6 +3,10 @@
     padding-bottom: 0 !important;
 }
 
+.scrollFrameX .scrollSlider {
+    white-space: nowrap !important;
+}
+
 .btnTabs {
     position: relative;
     display: inline-flex;
@@ -51,10 +55,6 @@
 
 .userViewButtonText {
     font-size: 110%;
-}
-
-.scrollFrameX .scrollSlider {
-    white-space: nowrap !important;
 }
 
 .itemScrollFrame.scrollFrameX .scrollSlider {
