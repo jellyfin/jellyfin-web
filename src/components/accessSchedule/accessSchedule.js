@@ -72,12 +72,12 @@ define(['dialogHelper', 'datetime', 'globalize', 'emby-select', 'paper-icon-butt
                             reject();
                         }
                     });
-                    dlg.querySelector('.btnCancel').addEventListener('click', function (e) {
+                    dlg.querySelector('.btnCancel').addEventListener('click', function () {
                         dialogHelper.close(dlg);
                     });
-                    dlg.querySelector('form').addEventListener('submit', function (e) {
+                    dlg.querySelector('form').addEventListener('submit', function (event) {
                         submitSchedule(dlg, options);
-                        e.preventDefault();
+                        event.preventDefault();
                         return false;
                     });
                 };

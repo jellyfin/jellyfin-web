@@ -15,7 +15,7 @@ module.exports = merge(common, {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules[\\/](?!jellyfin-apiclient|query-string|split-on-first|strict-uri-encode)/,
+                exclude: /node_modules[\\/](?!date-fns|epubjs|jellyfin-apiclient|query-string|split-on-first|strict-uri-encode)/,
                 use: {
                     loader: 'babel-loader',
                     options: {
@@ -47,6 +47,10 @@ module.exports = merge(common, {
                 use: [
                     'file-loader'
                 ]
+            },
+            {
+                test: /\.(mp3)$/i,
+                use: ['file-loader']
             }
         ]
     }

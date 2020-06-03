@@ -69,10 +69,11 @@ define(['loading', 'listView', 'cardBuilder', 'libraryMenu', 'libraryBrowser', '
             showLoadingMessage();
             var query = getQuery(view);
             var promise1 = ApiClient.getItems(Dashboard.getCurrentUserId(), query);
+            // TODO: promise2 is unused, check if necessary.
             var promise2 = Dashboard.getCurrentUser();
             Promise.all([promise1, promise2]).then(function (responses) {
                 var result = responses[0];
-                responses[1];
+                // TODO: Is the scroll necessary?
                 window.scrollTo(0, 0);
                 var html = '';
                 var viewStyle = getPageData(view).view;

@@ -314,6 +314,13 @@ var AppInfo = {};
         return obj;
     }
 
+    function returnDefault(obj) {
+        if (obj.default === null) {
+            throw new Error('Object has no default!');
+        }
+        return obj.default;
+    }
+
     function getBowerPath() {
         return 'libraries';
     }
@@ -368,8 +375,7 @@ var AppInfo = {};
         }
     }
 
-    function initRequireWithBrowser(browser) {
-        var bowerPath = getBowerPath();
+    function initRequireWithBrowser() {
         var componentsPath = getComponentsPath();
         var scriptsPath = getScriptsPath();
 
@@ -378,13 +384,7 @@ var AppInfo = {};
         define('lazyLoader', [componentsPath + '/lazyLoader/lazyLoaderIntersectionObserver'], returnFirstDependency);
         define('shell', [scriptsPath + '/shell'], returnFirstDependency);
 
-        if ('registerElement' in document) {
-            define('registerElement', []);
-        } else if (browser.msie) {
-            define('registerElement', ['webcomponents'], returnFirstDependency);
-        } else {
-            define('registerElement', ['document-register-element'], returnFirstDependency);
-        }
+        define('registerElement', ['document-register-element'], returnFirstDependency);
 
         define('alert', [componentsPath + '/alert'], returnFirstDependency);
 
@@ -484,6 +484,7 @@ var AppInfo = {};
             'components/htmlAudioPlayer/plugin',
             'components/htmlVideoPlayer/plugin',
             'components/photoPlayer/plugin',
+            'components/bookPlayer/plugin',
             'components/youtubeplayer/plugin',
             'components/backdropScreensaver/plugin',
             'components/logoScreensaver/plugin'
@@ -554,6 +555,7 @@ var AppInfo = {};
                     require(['components/playback/volumeosd']);
                 }
 
+                /* eslint-disable-next-line compat/compat */
                 if (navigator.mediaSession || window.NativeShell) {
                     require(['mediaSession']);
                 }
@@ -609,8 +611,8 @@ var AppInfo = {};
         /* eslint-enable compat/compat */
     }
 
-    function onWebComponentsReady(browser) {
-        initRequireWithBrowser(browser);
+    function onWebComponentsReady() {
+        initRequireWithBrowser();
 
         if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
             AppInfo.isNativeApp = true;
@@ -670,6 +672,7 @@ var AppInfo = {};
                     'fetch',
                     'flvjs',
                     'jstree',
+                    'epubjs',
                     'jQuery',
                     'hlsjs',
                     'howler',
@@ -817,6 +820,10 @@ var AppInfo = {};
         define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
+        define('timeSyncManager', [componentsPath + '/syncplay/timeSyncManager'], returnDefault);
+        define('groupSelectionMenu', [componentsPath + '/syncplay/groupSelectionMenu'], returnFirstDependency);
+        define('syncPlayManager', [componentsPath + '/syncplay/syncPlayManager'], returnDefault);
+        define('playbackPermissionManager', [componentsPath + '/syncplay/playbackPermissionManager'], returnDefault);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);
         define('homeSections', [componentsPath + '/homesections/homesections'], returnFirstDependency);
         define('playMenu', [componentsPath + '/playmenu'], returnFirstDependency);
@@ -1126,7 +1133,7 @@ var AppInfo = {};
         });
     })();
 
-    return require(['browser'], onWebComponentsReady);
+    return onWebComponentsReady();
 }();
 
 pageClassOn('viewshow', 'standalonePage', function () {
