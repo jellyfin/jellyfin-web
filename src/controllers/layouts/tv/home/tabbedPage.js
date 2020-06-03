@@ -24,7 +24,7 @@ function createHeaderScroller(view, instance, initialTabId) {
         dragHandle: 1,
         dynamicHandle: 1,
         clickBar: 1,
-        scrollWidth: userViewNames.querySelectorAll('.btnUserViewHeader').length * (screen.width / 5)
+        scrollWidth: 20000
     };
     instance.headerScroller = new scroller(scrollFrame, options);
     instance.headerScroller.init();
