@@ -791,5 +791,12 @@
     "PictureInPicture": "تصویر در تصویر",
     "Person": "فرد",
     "PerfectMatch": "همتای کامل",
-    "People": "افراد"
+    "People": "افراد",
+    "MillisecondsUnit": "میلی‌ثانیه",
+    "LabelSyncPlayTimeOffset": "اختلاف زمانی با سرور:",
+    "LabelSeriesRecordingPath": "مسیر ضبط سریال‌ها (اختیاری):",
+    "LabelSelectFolderGroups": "به طور خودکار محتواهای پوشه‌های زیر را به فیلم ، موسیقی و تلویزیون گروه بندی شود:",
+    "LabelSeasonNumber": "شماره فصل:",
+    "ConfigureDateAdded": "تنظیم کنید که چگونه تاریخ اضافه شده در داشبورد سرور Jellyfin تحت تنظیمات کتابخانه تعیین می‌شود",
+    "CinemaModeConfigurationHelp": "حالت سینما تجربه تئاتر گونه را مستقیم به اتاق نشیمن شما می‌آورد با قابلیت پخش تریلرها و پیش نمایش‌ها قبل از سایر ویژگی‌های اصلی."
 }
