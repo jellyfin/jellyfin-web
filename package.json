@@ -89,6 +89,7 @@
     "overrides": [
       {
         "test": [
+          "src/components/accessSchedule/accessSchedule.js",
           "src/components/actionSheet/actionSheet.js",
           "src/components/autoFocuser.js",
           "src/components/cardbuilder/cardBuilder.js",
