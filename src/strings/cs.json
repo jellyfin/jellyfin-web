@@ -1540,8 +1540,6 @@
     "CopyStreamURLError": "Při kopírování URL došlo k chybě.",
     "LabelVideoResolution": "Rozlišení videa:",
     "LabelStreamType": "Typ streamu:",
-    "EnableFastImageFadeInHelp": "Zobrazí plakáty a další obrázky s rychlejší animací přechodu po dokončení načítání.",
-    "EnableFastImageFadeIn": "Rychlé animace přechodů obrazu",
     "LabelPlayerDimensions": "Zobrazené rozlišení:",
     "LabelDroppedFrames": "Vynechané snímky:",
     "LabelCorruptedFrames": "Poškozené snímky:",
