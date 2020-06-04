@@ -1,5 +1,5 @@
 {
-    "AccessRestrictedTryAgainLater": "El acceso está restringido actualmente. Por favor, inténtalo más tarde.",
+    "AccessRestrictedTryAgainLater": "Actualmente el acceso está restringido. Por favor, inténtalo de nuevo más tarde.",
     "Add": "Añadir",
     "AddItemToCollectionHelp": "Agregue elementos a las colecciones buscándolos y haciendo clic con el botón derecho o tocando los menús para agregarlos a una colección.",
     "AddToCollection": "Añadir a la colección",
@@ -1527,7 +1527,7 @@
     "EnableBlurhash": "Mostrar una representación de las imágenes mientras cargan",
     "EnableBlurhashHelp": "Aparecerá una representación de los colores de las imágenes antes de que terminen de cargar",
     "HeaderDVR": "DVR",
-    "SyncPlayAccessHelp": "Selecciona los permisos de este usuario para utilizar SyncPlay. SyncPlay te permite sincroniza la reproducción entre varios dispositivos.",
+    "SyncPlayAccessHelp": "Selecciona los permisos de este usuario para utilizar SyncPlay. SyncPlay te permite sincronizar la reproducción entre varios dispositivos.",
     "MessageSyncPlayErrorMedia": "¡No se pudo activar SyncPlay! Error de medio.",
     "MessageSyncPlayErrorMissingSession": "¡No se pudo activar SyncPlay! Sesión desconectada.",
     "MessageSyncPlayErrorNoActivePlayer": "No hay reproductor activo. SyncPlay ha sido desactivado.",
@@ -1558,5 +1558,7 @@
     "HeaderSyncPlayEnabled": "Syncplay activo",
     "HeaderSyncPlaySelectGroup": "Unirse a un grupo",
     "EnableDetailsBannerHelp": "Mostrar imagen de banner en el tope de la página de detalles del elemento.",
-    "EnableDetailsBanner": "Barra de Detalles"
+    "EnableDetailsBanner": "Barra de Detalles",
+    "ShowMore": "Mostrar más",
+    "ShowLess": "Mostrar menos"
 }
