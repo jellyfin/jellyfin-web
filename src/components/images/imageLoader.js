@@ -71,10 +71,12 @@ import 'css!./style';
             source = entry;
         }
 
-        if (!target.classList.contains('blurhashed', 'non-blurhashable') && userSettings.enableBlurhash() && blurhashstr) {
-            itemBlurhashing(target, blurhashstr);
-        } else if (userSettings.enableBlurhash() && !blurhashstr && !target.classList.contains('blurhashed')) {
-            target.classList.add('non-blurhashable');
+        if (userSettings.enableBlurhash()) {
+            if (!target.classList.contains('blurhashed', 'non-blurhashable') && blurhashstr) {
+                itemBlurhashing(target, blurhashstr);
+            } else if (!blurhashstr && !target.classList.contains('blurhashed')) {
+                target.classList.add('non-blurhashable');
+            }
         }
 
         if (entry.intersectionRatio > 0) {
