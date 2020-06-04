@@ -616,7 +616,7 @@ import 'programStyles';
                 itemId = item.ParentBackdropItemId;
             }
 
-            if (itemId === null) {
+            if (!itemId) {
                 itemId = item.Id;
             }
 
