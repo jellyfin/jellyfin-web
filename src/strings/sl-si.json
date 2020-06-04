@@ -1211,5 +1211,11 @@
     "TitleHardwareAcceleration": "Strojno pospeševanje",
     "Thursday": "Četrtek",
     "TabUsers": "Uporabniki",
-    "TabTrailers": "Napovedniki"
+    "TabTrailers": "Napovedniki",
+    "ClientSettings": "Nastavitve odjemalca",
+    "ButtonTogglePlaylist": "Seznam predvajanja",
+    "ButtonToggleContextMenu": "Več",
+    "Artist": "Izvajalec",
+    "AlbumArtist": "Izvajalec albuma",
+    "Album": "Album"
 }
