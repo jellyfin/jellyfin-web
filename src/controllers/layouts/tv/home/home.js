@@ -156,7 +156,7 @@ function homePage (view) {
             // TODO: remove require
             require([`text!layouts/tv/home/views.${viewName}.html`], template => {
 
-                loadViewHtml(page, id, template, viewName, autoFocusTabContent, this);
+                loadViewHtml(page, id, template, viewName, autoFocusTabContent);
                 autoFocusTabContent = false;
                 resolve();
             });
