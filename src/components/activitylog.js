@@ -34,10 +34,14 @@ define(['events', 'globalize', 'dom', 'date-fns', 'dfnshelper', 'userSettings', 
         html += '</div>';
 
         if (entry.Overview) {
-            html += '<button type="button" is="paper-icon-button-light" class="btnEntryInfo" data-id="' + entry.Id + '" title="' + globalize.translate('Info') + '"><span class="material-icons info"></span></button>';
+            html += `<button type="button" is="paper-icon-button-light" class="btnEntryInfo" data-id="${entry.Id}" title="${globalize.translate('Info')}">
+                       <span class="material-icons info"></span>
+                    </button>`;
         }
 
-        return html += '</div>';
+        html += '</div>';
+
+        return html;
     }
 
     function renderList(elem, apiClient, result, startIndex, limit) {

@@ -265,10 +265,9 @@ class SyncPlayManager {
         events.on(player, 'timeupdate', this._onTimeUpdate);
         events.on(player, 'playing', this._onPlaying);
         events.on(player, 'waiting', this._onWaiting);
-        this.playbackRateSupported = player.supports('PlaybackRate');
 
         // Save player current PlaybackRate value
-        if (this.playbackRateSupported) {
+        if (player.supports && player.supports('PlaybackRate')) {
             this.localPlayerPlaybackRate = player.getPlaybackRate();
         }
     }

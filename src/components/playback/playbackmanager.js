@@ -1129,7 +1129,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         }
 
         self.canPlay = function (item) {
-
             var itemType = item.Type;
 
             if (itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
@@ -1143,7 +1142,6 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
             }
 
             if (itemType === 'Program') {
-
                 if (!item.EndDate || !item.StartDate) {
                     return false;
                 }
@@ -2187,7 +2185,7 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
         // Only used internally
         self.getCurrentTicks = getCurrentTicks;
 
-        function playPhotos(items, options, user) {
+        function playOther(items, options, user) {
 
             var playStartIndex = options.startIndex || 0;
             var player = getPlayer(items[playStartIndex], options);
@@ -2216,9 +2214,9 @@ define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'pla
                 return Promise.reject();
             }
 
-            if (firstItem.MediaType === 'Photo') {
+            if (firstItem.MediaType === 'Photo' || firstItem.MediaType === 'Book') {
 
-                return playPhotos(items, options, user);
+                return playOther(items, options, user);
             }
 
             var apiClient = connectionManager.getApiClient(firstItem.ServerId);

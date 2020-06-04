@@ -572,7 +572,7 @@
     "Repeat": "Repeat",
     "RemoveFromPlaylist": "Remove from playlist",
     "RemoveFromCollection": "Remove from collection",
-    "RememberMe": "Remember me",
+    "RememberMe": "Remember Me",
     "ReleaseDate": "Release date",
     "RefreshMetadata": "Refresh metadata",
     "RefreshDialogHelp": "Metadata is refreshed based on settings and internet services that are enabled in the Jellyfin Server dashboard.",

@@ -1144,3 +1144,21 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     margin-top: 0;
     font-size: 1.4em;
 }
+
+.overview-controls {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.detail-clamp-text {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 12;
+    -webkit-box-orient: vertical;
+}
+
+@media all and (min-width: 40em) {
+    .detail-clamp-text {
+        -webkit-line-clamp: 6;
+    }
+}

@@ -2,31 +2,31 @@ import events from 'events';
 import playbackManager from 'playbackManager';
 
 function transferPlayback(oldPlayer, newPlayer) {
-
-    var state = playbackManager.getPlayerState(oldPlayer);
-
-    var item = state.NowPlayingItem;
+    const state = playbackManager.getPlayerState(oldPlayer);
+    const item = state.NowPlayingItem;
 
     if (!item) {
         return;
     }
 
-    var playState = state.PlayState || {};
-    var resumePositionTicks = playState.PositionTicks || 0;
+    playbackManager.getPlaylist(oldPlayer).then(playlist => {
+        const playlistIds = playlist.map(x => x.Id);
+        const playState = state.PlayState || {};
+        const resumePositionTicks = playState.PositionTicks || 0;
+        const playlistIndex = playlistIds.indexOf(item.Id) || 0;
 
-    playbackManager.stop(oldPlayer).then(function () {
-
-        playbackManager.play({
-            ids: [item.Id],
-            serverId: item.ServerId,
-            startPositionTicks: resumePositionTicks
-
-        }, newPlayer);
+        playbackManager.stop(oldPlayer).then(() => {
+            playbackManager.play({
+                ids: playlistIds,
+                serverId: item.ServerId,
+                startPositionTicks: resumePositionTicks,
+                startIndex: playlistIndex
+            }, newPlayer);
+        });
     });
 }
 
-events.on(playbackManager, 'playerchange', function (e, newPlayer, newTarget, oldPlayer) {
-
+events.on(playbackManager, 'playerchange', (e, newPlayer, newTarget, oldPlayer) => {
     if (!oldPlayer || !newPlayer) {
         return;
     }
