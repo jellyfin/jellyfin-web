@@ -11,12 +11,12 @@ function loadResume(element, apiClient, parentId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
     };
-    return apiClient.getResumableItems(apiClient.getCurrentUserId(), options).then(result => {
+    return apiClient.getResumableItems(apiClient.getCurrentUserId(), options).then(({Items}) => {
         const section = element.querySelector('.resumeSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             shape: 'backdrop',
@@ -40,12 +40,12 @@ function loadNextUp(element, apiClient, parentId) {
         ParentId: parentId,
         EnableTotalRecordCount: false
     };
-    return apiClient.getNextUpEpisodes(options).then(result => {
+    return apiClient.getNextUpEpisodes(options).then(({Items}) => {
         const section = element.querySelector('.nextUpSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             shape: 'backdrop',
@@ -62,6 +62,7 @@ function loadNextUp(element, apiClient, parentId) {
 
 function loadLatest(element, apiClient, parentId) {
     const options = {
+        UserId: apiClient.getCurrentUserId(),
         IncludeItemTypes: 'Episode',
         Limit: 12,
         Fields: 'PrimaryImageAspectRatio',
@@ -100,12 +101,12 @@ function loadFavoriteSeries(element, apiClient, parentId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
     };
-    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(({Items}) => {
         const section = element.querySelector('.favoriteSeriesSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             shape: 'portrait',
@@ -130,12 +131,12 @@ function loadFavoriteEpisode(element, apiClient, parentId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
     };
-    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(({Items}) => {
         const section = element.querySelector('.favoriteEpisodeSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             shape: 'backdrop',
@@ -159,9 +160,9 @@ function loadSpotlight(instance, element, apiClient, parentId) {
         ImageTypes: 'Backdrop',
         Fields: 'Taglines'
     };
-    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(({Items}) => {
         const card = element.querySelector('.wideSpotlightCard');
-        instance.spotlight = new Spotlight(card, result.Items, 767);
+        instance.spotlight = new Spotlight(card, Items, 767);
         return;
     });
 }
@@ -175,20 +176,20 @@ function loadImages(element, apiClient, parentId) {
         ParentId: parentId,
         EnableImageTypes: 'Backdrop',
         ImageTypes: 'Backdrop'
-    }).then(result => {
-        const items = result.Items;
+    }).then(({Items}) => {
+        const items = Items;
         if (items.length > 0) {
-            element.querySelector('.tvEpisodesCard .cardImage').style.backgroundImage = "url('" + getbackdropImageUrl(items[0]) + "')";
+            element.querySelector('.tvEpisodesCard .cardImage').style.backgroundImage = `url('${getbackdropImageUrl(items[0])}')`;
         }
         if (items.length > 1) {
-            element.querySelector('.allSeriesCard .cardImage').style.backgroundImage = "url('" + getbackdropImageUrl(items[1]) + "')";
+            element.querySelector('.allSeriesCard .cardImage').style.backgroundImage = `url('${getbackdropImageUrl(items[1])}')`;
         }
         return;
     });
 }
 
 function gotoTvView(tab, parentId) {
-    appRouter.show('/tv.html?tab=' + tab + '&parentid=' + parentId);
+    appRouter.show(`/tv.html?tab=${tab}&parentid=${parentId}`);
 }
 
 export class TvView {
@@ -196,15 +197,13 @@ export class TvView {
         if (autoFocus) {
             focusManager.autoFocus(element);
         }
-        this.loadData = () => {
-            return Promise.all([
-                loadResume(element, apiClient, parentId),
-                loadNextUp(element, apiClient, parentId),
-                loadLatest(element, apiClient, parentId),
-                loadFavoriteSeries(element, apiClient, parentId),
-                loadFavoriteEpisode(element, apiClient, parentId)
-            ]);
-        };
+        this.loadData = () => Promise.all([
+            loadResume(element, apiClient, parentId),
+            loadNextUp(element, apiClient, parentId),
+            loadLatest(element, apiClient, parentId),
+            loadFavoriteSeries(element, apiClient, parentId),
+            loadFavoriteEpisode(element, apiClient, parentId)
+        ]);
         loadSpotlight(this, element, apiClient, parentId);
         loadImages(element, apiClient, parentId);
         element.querySelector('.allSeriesCard').addEventListener('click', () => {

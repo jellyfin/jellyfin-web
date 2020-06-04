@@ -10,12 +10,12 @@ function loadAll(element, apiClient, parentId) {
         Fields: 'PrimaryImageAspectRatio,ProductionYear,CommunityRating',
         ImageTypeLimit: 1
     };
-    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(({Items}) => {
         const section = element.querySelector('.allSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             shape: 'backdrop',

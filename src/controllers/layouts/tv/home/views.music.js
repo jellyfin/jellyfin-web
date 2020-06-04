@@ -46,12 +46,12 @@ function loadRecentlyPlayed(element, apiClient, parentId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
     };
-    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(({Items}) => {
         const section = element.querySelector('.recentlyPlayedSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             shape: 'auto',
@@ -82,12 +82,12 @@ function loadFrequentlyPlayed(element, apiClient, parentId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
     };
-    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(({Items}) => {
         const section = element.querySelector('.frequentlyPlayedSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             shape: 'auto',
@@ -117,12 +117,12 @@ function loadFavoriteSongs(element, apiClient, parentId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
     };
-    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(({Items}) => {
         const section = element.querySelector('.favoriteSongsSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             shape: 'auto',
@@ -152,12 +152,12 @@ function loadFavoriteAlbums(element, apiClient, parentId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
     };
-    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then(({Items}) => {
         const section = element.querySelector('.favoriteAlbumsSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             shape: 'auto',
@@ -185,12 +185,12 @@ function loadFavoriteArtists(element, apiClient, parentId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
     };
-    return apiClient.getArtists(apiClient.getCurrentUserId(), options).then(result => {
+    return apiClient.getArtists(apiClient.getCurrentUserId(), options).then(({Items}) => {
         const section = element.querySelector('.favoriteArtistsSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             shape: 'auto',
@@ -208,7 +208,7 @@ function loadFavoriteArtists(element, apiClient, parentId) {
 }
 
 function gotoMusicView(tab, parentId) {
-    appRouter.show('/music.html?tab=' + tab + '&parentid=' + parentId);
+    appRouter.show(`/music.html?tab=${tab}&parentid=${parentId}`);
 }
 
 export class MusicView {

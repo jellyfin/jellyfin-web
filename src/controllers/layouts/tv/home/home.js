@@ -7,28 +7,27 @@ import dom from 'dom';
 import focusManager from 'focusManager';
 import 'css!./home';
 
-function loadViewHtml(page, parentId, template, viewName, autoFocus, self) {
+function loadViewHtml(page, parentId, template, viewName, autoFocus) {
 
-    var homeScrollContent = document.querySelector('.contentScrollSlider');
-    var html = '';
+    const homeScrollContent = document.querySelector('.contentScrollSlider');
+    let html = '';
     html += globalize.translateDocument(template);
     homeScrollContent.innerHTML = html;
 
-    require(['controllers/layouts/tv/home/views.' + viewName], function (viewBuilder) {
+    // TODO: remove require
+    require([`controllers/layouts/tv/home/views.${viewName}`], viewBuilder => {
 
-        var homePanel = homeScrollContent;
-        var apiClient = connectionManager.currentApiClient();
-        var tabView = new viewBuilder.default(homePanel, apiClient, parentId, autoFocus);
+        const homePanel = homeScrollContent;
+        const apiClient = connectionManager.currentApiClient();
+        const tabView = new viewBuilder.default(homePanel, apiClient, parentId, autoFocus);
         tabView.element = homePanel;
         tabView.loadData();
-        self.tabView = tabView;
     });
 }
 
 function homePage (view) {
 
-    var self = this;
-    var needsRefresh;
+    let needsRefresh;
 
     function reloadTabData(tabView) {
 
@@ -36,23 +35,23 @@ function homePage (view) {
             return;
         }
 
-        var activeElement = document.activeElement;
+        const activeElement = document.activeElement;
 
-        var card = activeElement ? dom.parentWithClass(activeElement, 'card') : null;
-        var itemId = card ? card.getAttribute('data-id') : null;
+        let card = activeElement ? dom.parentWithClass(activeElement, 'card') : null;
+        const itemId = card ? card.getAttribute('data-id') : null;
 
-        var parentItemsContainer = activeElement ? dom.parentWithClass(activeElement, 'itemsContainer') : null;
+        const parentItemsContainer = activeElement ? dom.parentWithClass(activeElement, 'itemsContainer') : null;
 
-        return tabView.loadData(true).then(function () {
+        return tabView.loadData(true).then(() => {
 
             if (!activeElement || !document.body.contains(activeElement)) {
 
                 if (itemId) {
-                    card = tabView.element.querySelector('*[data-id=\'' + itemId + '\']');
+                    card = tabView.element.querySelector(`*[data-id='${itemId}']`);
 
                     if (card) {
 
-                        var newParentItemsContainer = dom.parentWithClass(card, 'itemsContainer');
+                        const newParentItemsContainer = dom.parentWithClass(card, 'itemsContainer');
 
                         if (newParentItemsContainer == parentItemsContainer) {
                             focusManager.focus(card);
@@ -61,71 +60,71 @@ function homePage (view) {
                     }
                 }
 
-                var focusParent = parentItemsContainer && document.body.contains(parentItemsContainer) ? parentItemsContainer : tabView.element;
+                const focusParent = parentItemsContainer && document.body.contains(parentItemsContainer) ? parentItemsContainer : tabView.element;
                 focusManager.autoFocus(focusParent);
             }
             return;
         });
     }
 
-    document.addEventListener('viewshow', function (e) {
+    document.addEventListener('viewshow', ({detail}) => {
 
         libraryMenu.setTransparentMenu(true);
-        var isRestored = e.detail.isRestored;
+        const isRestored = detail.isRestored;
 
         Emby.Page.setTitle('');
 
         if (isRestored) {
-            if (self.tabView) {
-                reloadTabData(self.tabView);
+            if (this.tabView) {
+                reloadTabData(this.tabView);
             }
         } else {
             loading.show();
 
-            renderTabs(self);
+            renderTabs(this);
         }
     });
 
-    document.addEventListener('viewhide', function () {
+    document.addEventListener('viewhide', () => {
 
         needsRefresh = false;
     });
 
-    document.addEventListener('viewdestroy', function () {
+    document.addEventListener('viewdestroy', () => {
 
-        if (self.tabbedPage) {
-            self.tabbedPage.destroy();
+        if (this.tabbedPage) {
+            this.tabbedPage.destroy();
         }
-        if (self.tabView) {
-            self.tabView.destroy();
+        if (this.tabView) {
+            this.tabView.destroy();
         }
 
     });
 
     function renderTabs(pageInstance) {
 
-        var apiClient = connectionManager.currentApiClient();
-        return apiClient.getUserViews({}, apiClient.getCurrentUserId()).then(function (result) {
+        const apiClient = connectionManager.currentApiClient();
+        return apiClient.getUserViews({}, apiClient.getCurrentUserId()).then(({Items}) => {
 
-            var tabbedPageInstance = new TabbedPage(view, {
+            const tabbedPageInstance = new TabbedPage(view, {
                 handleFocus: true
             });
             tabbedPageInstance.loadViewContent = loadViewContent;
-            tabbedPageInstance.renderTabs(result.Items);
+            tabbedPageInstance.renderTabs(Items);
             pageInstance.tabbedPage = tabbedPageInstance;
             return;
         });
     }
 
-    var autoFocusTabContent = true;
+    let autoFocusTabContent = true;
 
     function loadViewContent(page, id, type) {
 
-        return new Promise(function (resolve) {
+        return new Promise(resolve => {
 
             type = (type || '').toLowerCase();
 
-            var viewName = '';
+            let viewName = '';
 
             switch (type) {
                 case 'tvshows':
@@ -154,9 +153,10 @@ function homePage (view) {
                     break;
             }
 
-            require(['text!layouts/tv/home/views.' + viewName + '.html'], function (template) {
+            // TODO: remove require
+            require([`text!layouts/tv/home/views.${viewName}.html`], template => {
 
-                loadViewHtml(page, id, template, viewName, autoFocusTabContent, self);
+                loadViewHtml(page, id, template, viewName, autoFocusTabContent, this);
                 autoFocusTabContent = false;
                 resolve();
             });

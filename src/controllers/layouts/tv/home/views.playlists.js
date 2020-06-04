@@ -8,12 +8,12 @@ function loadAll(element, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Thumb',
         SortBy: 'SortName'
     };
-    return getplaylists(options).then(result => {
+    return getplaylists(options).then(({Items}) => {
         const section = element.querySelector('.allSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             shape: 'auto',

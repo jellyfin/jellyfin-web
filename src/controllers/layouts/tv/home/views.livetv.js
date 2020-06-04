@@ -9,12 +9,12 @@ function loadLatestRecordings(element, apiClient) {
         IsInProgress: false,
         ImageTypeLimit: 1,
         Fields: 'PrimaryImageAspectRatio'
-    }).then(result => {
+    }).then(({Items}) => {
         const section = element.querySelector('.latestRecordingsSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             shape: 'auto',
@@ -40,12 +40,12 @@ function loadNowPlaying(element, apiClient) {
         EnableImageTypes: 'Primary',
         ImageTypeLimit: 1,
         Fields: 'PrimaryImageAspectRatio'
-    }).then(result => {
+    }).then(({Items}) => {
         const section = element.querySelector('.nowPlayingSection');
         if (!section) {
             return;
         }
-        cardBuilder.buildCards(result.Items, {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             preferThumb: 'auto',
@@ -68,8 +68,8 @@ function loadUpcomingPrograms(section, apiClient, options) {
     options.ImageTypeLimit = 1;
     options.Fields = 'PrimaryImageAspectRatio';
     options.UserId = apiClient.getCurrentUserId();
-    return apiClient.getLiveTvRecommendedPrograms(options).then(result => {
-        cardBuilder.buildCards(result.Items, {
+    return apiClient.getLiveTvRecommendedPrograms(options).then(({Items}) => {
+        cardBuilder.buildCards(Items, {
             parentContainer: section,
             itemsContainer: section.querySelector('.itemsContainer'),
             preferThumb: 'auto',
@@ -89,7 +89,7 @@ function loadUpcomingPrograms(section, apiClient, options) {
 }
 
 function gotoLivetvView(tab, parentId) {
-    appRouter.show('/livetv.html?tab=' + tab + '&parentid=' + parentId);
+    appRouter.show(`/livetv.html?tab=${tab}&parentid=${parentId}`);
 }
 
 export class LivetvView {
@@ -97,34 +97,32 @@ export class LivetvView {
         if (autoFocus) {
             focusManager.autoFocus(element);
         }
-        this.loadData = () => {
-            return Promise.all([
-                loadLatestRecordings(element, apiClient),
-                loadNowPlaying(element, apiClient),
-                loadUpcomingPrograms(element.querySelector('.upcomingProgramsSection'), apiClient, {
-                    HasAired: false,
-                    limit: 10,
-                    IsMovie: false,
-                    IsSports: false,
-                    IsKids: false,
-                    IsSeries: true
-                }),
-                loadUpcomingPrograms(element.querySelector('.upcomingMoviesSection'), apiClient, {
-                    HasAired: false,
-                    limit: 10,
-                    IsMovie: true
-                }),
-                loadUpcomingPrograms(element.querySelector('.upcomingSportsSection'), apiClient, {
-                    HasAired: false,
-                    limit: 10,
-                    IsSports: true
-                }),
-                loadUpcomingPrograms(element.querySelector('.upcomingKidsSection'), apiClient, {
-                    HasAired: false,
-                    limit: 10,
-                    IsKids: true
-                })]);
-        };
+        this.loadData = () => Promise.all([
+            loadLatestRecordings(element, apiClient),
+            loadNowPlaying(element, apiClient),
+            loadUpcomingPrograms(element.querySelector('.upcomingProgramsSection'), apiClient, {
+                HasAired: false,
+                limit: 10,
+                IsMovie: false,
+                IsSports: false,
+                IsKids: false,
+                IsSeries: true
+            }),
+            loadUpcomingPrograms(element.querySelector('.upcomingMoviesSection'), apiClient, {
+                HasAired: false,
+                limit: 10,
+                IsMovie: true
+            }),
+            loadUpcomingPrograms(element.querySelector('.upcomingSportsSection'), apiClient, {
+                HasAired: false,
+                limit: 10,
+                IsSports: true
+            }),
+            loadUpcomingPrograms(element.querySelector('.upcomingKidsSection'), apiClient, {
+                HasAired: false,
+                limit: 10,
+                IsKids: true
+            })]);
         element.querySelector('.guideCard').addEventListener('click', () => {
             gotoLivetvView('1', parentId);
         });

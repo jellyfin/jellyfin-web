@@ -25,9 +25,9 @@ export function getlogoImageUrl(item, options) {
     return null;
 }
 
-export function getbackdropImageUrl(item, options) {
+export function getbackdropImageUrl({ServerId, BackdropImageTags, Id}, options) {
 
-    const apiClient = connectionManager.getApiClient(item.ServerId);
+    const apiClient = connectionManager.getApiClient(ServerId);
 
     options = options || {};
     options.type = options.type || 'Backdrop';
@@ -37,17 +37,16 @@ export function getbackdropImageUrl(item, options) {
         options.quality = 100;
     }
 
-    if (item.BackdropImageTags && item.BackdropImageTags.length) {
+    if (BackdropImageTags && BackdropImageTags.length) {
 
-        options.tag = item.BackdropImageTags[0];
-        return apiClient.getScaledImageUrl(item.Id, options);
+        options.tag = BackdropImageTags[0];
+        return apiClient.getScaledImageUrl(Id, options);
     }
 
     return null;
 }
 
-export function getplaylists(options) {
-    options = options || ({});
+export function getplaylists(options = {}) {
     options.parentId = null;
     delete options.parentId;
     options.recursive = true;
@@ -55,12 +54,12 @@ export function getplaylists(options) {
         const apiClient = connectionManager.currentApiClient();
         options.IncludeItemTypes = 'Playlist';
         normalizeOptions(options);
-        return apiClient.getJSON(apiClient.getUrl('Users/' + apiClient.getCurrentUserId() + '/Items', options)).then(resolve, reject);
+        return apiClient.getJSON(apiClient.getUrl(`Users/${apiClient.getCurrentUserId()}/Items`, options)).then(resolve, reject);
     });
 }
 
 function normalizeOptions(options) {
-    options.Fields = options.Fields ? options.Fields + ',PrimaryImageAspectRatio' : 'PrimaryImageAspectRatio';
+    options.Fields = options.Fields ? `${options.Fields},PrimaryImageAspectRatio` : 'PrimaryImageAspectRatio';
     options.ImageTypeLimit = 1;
 }
 
