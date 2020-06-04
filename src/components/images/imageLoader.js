@@ -12,9 +12,8 @@ import 'css!./style';
         fillImageElement(elem, source);
     }
 
-    async function itemBlurhashing(target) {
-        let blurhashstr = target.getAttribute('data-blurhash');
-        if (blurhashstr && blurhash.isBlurhashValid(blurhashstr)) {
+    async function itemBlurhashing(target, blurhashstr) {
+        if (blurhash.isBlurhashValid(blurhashstr)) {
             // Although the default values provided by blurhash devs is 32x32, 18x18 seems to be the sweetest spot possible,
             // cramping up a lot the performance and reducing the memory usage, while retaining almost full blur quality.
             // Lower values had more visible pixelation
@@ -25,6 +24,7 @@ import 'css!./style';
                 pixels = blurhash.decode(blurhashstr, width, height);
             } catch (err) {
                 console.error('Blurhash decode error: ', err);
+                target.classList.add('non-blurhashable');
                 return;
             }
             let canvas = document.createElement('canvas');
@@ -46,6 +46,7 @@ import 'css!./style';
             }
 
             target.classList.add('blurhashed');
+            target.removeAttribute('data-blurhash');
         }
     }
 
@@ -65,12 +66,15 @@ import 'css!./style';
 
         if (target) {
             source = target.getAttribute('data-src');
+            var blurhashstr = target.getAttribute('data-blurhash');
         } else {
             source = entry;
         }
 
-        if (!target.classList.contains('blurhashed') && userSettings.enableBlurhash()) {
-            itemBlurhashing(target);
+        if (!target.classList.contains('blurhashed', 'non-blurhashable') && userSettings.enableBlurhash() && blurhashstr) {
+            itemBlurhashing(target, blurhashstr);
+        } else if (userSettings.enableBlurhash() && !blurhashstr && !target.classList.contains('blurhashed')) {
+            target.classList.add('non-blurhashable');
         }
 
         if (entry.intersectionRatio > 0) {
@@ -89,7 +93,7 @@ import 'css!./style';
         preloaderImg.src = url;
 
         // This is necessary, so changing blurhash settings without reloading the page works
-        if (!userSettings.enableBlurhash()) {
+        if (!userSettings.enableBlurhash() || elem.classList.contains('non-blurhashable')) {
             elem.classList.add('lazy-hidden');
         }
 
@@ -101,15 +105,15 @@ import 'css!./style';
             }
             elem.removeAttribute('data-src');
 
-            if (userSettings.enableBlurhash()) {
-                switchCanvas(elem);
-            } else {
+            if (elem.classList.contains('non-blurhashable') || !userSettings.enableBlurhash()) {
                 elem.classList.remove('lazy-hidden');
                 if (userSettings.enableFastFadein()) {
                     elem.classList.add('lazy-image-fadein-fast');
                 } else {
                     elem.classList.add('lazy-image-fadein');
                 }
+            } else {
+                switchCanvas(elem);
             }
         });
     }
@@ -126,11 +130,11 @@ import 'css!./style';
         }
         elem.setAttribute('data-src', url);
 
-        if (userSettings.enableBlurhash()) {
-            switchCanvas(elem);
-        } else {
+        if (elem.classList.contains('non-blurhashable') || !userSettings.enableBlurhash()) {
             elem.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
             elem.classList.add('lazy-hidden');
+        } else {
+            switchCanvas(elem);
         }
     }
 
