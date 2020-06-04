@@ -1520,7 +1520,7 @@
     "HeaderHttpsSettings": "Configurações HTTPS",
     "HeaderDVR": "DVR",
     "LabelSyncPlayTimeOffset": "Diferença de tempo com o servidor:",
-    "SyncPlayAccessHelp": "Selecione o nível de acesso desse usuário aos recursos do SyncPlay. SyncPlay habilita a reprodução sincronizada com outros usuários.",
+    "SyncPlayAccessHelp": "Selecione o nível de acesso desse usuário aos recursos do SyncPlay. SyncPlay habilita a reprodução sincronizada com outros dispositivos.",
     "MessageSyncPlayErrorMedia": "Falha ao ativar SyncPlay! Erro de mídia.",
     "MessageSyncPlayErrorMissingSession": "Falha ao ativar SyncPlay! Sessão em falta.",
     "MessageSyncPlayErrorNoActivePlayer": "Nenhum reprodutor ativo encontrado. SyncPlay foi desativado.",
@@ -1550,5 +1550,9 @@
     "HeaderSyncPlayEnabled": "SyncPlay ativado",
     "HeaderSyncPlaySelectGroup": "Entrar em um grupo",
     "EnableDetailsBanner": "Banner de detalhes",
-    "EnableDetailsBannerHelp": "Exibe um banner na parte superior da página de detalhes do item."
+    "EnableDetailsBannerHelp": "Exibe um banner na parte superior da página de detalhes do item.",
+    "EnableBlurhashHelp": "Imagens que ainda estão carregando vão mostrar em seu lugar representações",
+    "EnableBlurhash": "Habilitar efeito borrado para imagens previas",
+    "ShowMore": "Mostrar mais",
+    "ShowLess": "Mostrar menos"
 }
