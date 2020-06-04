@@ -479,22 +479,22 @@ var AppInfo = {};
     function loadPlugins(appHost, browser, shell) {
         console.debug('loading installed plugins');
         var list = [
-            'components/playback/playaccessvalidation',
-            'components/playback/experimentalwarnings',
-            'components/htmlAudioPlayer/plugin',
-            'components/htmlVideoPlayer/plugin',
-            'components/photoPlayer/plugin',
-            'components/bookPlayer/plugin',
-            'components/youtubeplayer/plugin',
-            'components/backdropScreensaver/plugin',
-            'components/logoScreensaver/plugin'
+            'plugins/playAccessValidation/plugin',
+            'plugins/experimentalWarnings/plugin',
+            'plugins/htmlAudioPlayer/plugin',
+            'plugins/htmlVideoPlayer/plugin',
+            'plugins/photoPlayer/plugin',
+            'plugins/bookPlayer/plugin',
+            'plugins/youtubePlayer/plugin',
+            'plugins/backdropScreensaver/plugin',
+            'plugins/logoScreensaver/plugin'
         ];
 
         if (appHost.supports('remotecontrol')) {
-            list.push('components/sessionPlayer');
+            list.push('plugins/sessionPlayer/plugin');
 
             if (browser.chrome || browser.opera) {
-                list.push('components/chromecast/chromecastplayer');
+                list.push('plugins/chromecastPlayer/plugin');
             }
         }
 
@@ -654,7 +654,8 @@ var AppInfo = {};
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
             pluginManager: componentsPath + '/pluginManager',
             packageManager: componentsPath + '/packagemanager',
-            screensaverManager: componentsPath + '/screensavermanager'
+            screensaverManager: componentsPath + '/screensavermanager',
+            chromecastHelper: 'plugins/chromecastPlayer/chromecastHelpers'
         };
 
         requirejs.onError = onRequireJsError;
@@ -774,7 +775,6 @@ var AppInfo = {};
         define('appSettings', [scriptsPath + '/settings/appSettings'], returnFirstDependency);
         define('userSettings', [scriptsPath + '/settings/userSettings'], returnFirstDependency);
 
-        define('chromecastHelper', [componentsPath + '/chromecast/chromecasthelpers'], returnFirstDependency);
         define('mediaSession', [componentsPath + '/playback/mediasession'], returnFirstDependency);
         define('actionsheet', [componentsPath + '/actionSheet/actionSheet'], returnFirstDependency);
         define('tunerPicker', [componentsPath + '/tunerPicker'], returnFirstDependency);
