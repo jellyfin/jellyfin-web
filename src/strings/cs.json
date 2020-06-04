@@ -1603,7 +1603,7 @@
     "HeaderDVR": "Nahrávání",
     "SaveChanges": "Uložit změny",
     "LabelSyncPlayPlaybackDiff": "Rozdíl v době přehrávání:",
-    "SyncPlayAccessHelp": "Určuje úroveň přístupu k synchronizaci přehrávání, kterou tento uživatel bude mít. Tato funkce umožňuje synchronizovat přehrávání s dalšími uživateli.",
+    "SyncPlayAccessHelp": "Určuje úroveň přístupu k synchronizaci přehrávání, kterou tento uživatel bude mít. Tato funkce umožňuje synchronizovat přehrávání s dalšími zařízeními.",
     "MessageSyncPlayErrorMedia": "Zapnutí synchronizace přehrávání se nezdařilo. Chyba média.",
     "MessageSyncPlayErrorMissingSession": "Zapnutí synchronizace přehrávání se nezdařilo. Nebyla nalezena relace.",
     "MessageSyncPlayErrorNoActivePlayer": "Nebyl nalezen žádný aktivní přehrávač. Synchronizace přehrávání byla vypnuta.",
@@ -1633,5 +1633,7 @@
     "HeaderSyncPlayEnabled": "Synchronizace přehrávání povolena",
     "HeaderSyncPlaySelectGroup": "Připojit ke skupině",
     "EnableDetailsBannerHelp": "Zobrazí obrázek ve vrchní části detailu položky.",
-    "EnableDetailsBanner": "Obrázek detailu"
+    "EnableDetailsBanner": "Obrázek detailu",
+    "ShowMore": "Zobrazit více",
+    "ShowLess": "Zobrazit méně"
 }
