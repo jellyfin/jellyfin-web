@@ -1571,5 +1571,7 @@
     "HeaderSyncPlayEnabled": "SyncPlay aktiviert",
     "HeaderSyncPlaySelectGroup": "Tritt einer Gruppe bei",
     "EnableDetailsBannerHelp": "Zeigt ein Bannerbild im oberen Bereich der Seite Item-Details.",
-    "EnableDetailsBanner": "Detailbanner"
+    "EnableDetailsBanner": "Detailbanner",
+    "ShowMore": "Mehr anzeigen",
+    "ShowLess": "Weniger anzeigen"
 }
