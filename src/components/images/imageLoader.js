@@ -14,8 +14,8 @@ import 'css!./style';
 
     async function itemBlurhashing(target, blurhashstr) {
         if (blurhash.isBlurhashValid(blurhashstr)) {
-            // Although the default values provided by blurhash devs is 32x32, 18x18 seems to be the sweetest spot possible,
-            // cramping up a lot the performance and reducing the memory usage, while retaining almost full blur quality.
+            // Although the default values recommended by Blurhash developers is 32x32, a size of 18x18 seems to be the sweet spot for us,
+            // improving the performance and reducing the memory usage, while retaining almost full blur quality.
             // Lower values had more visible pixelation
             let width = 18;
             let height = 18;
@@ -86,13 +86,13 @@ import 'css!./style';
 
     function fillImageElement(elem, url) {
         if (url === undefined) {
-            throw new Error('url cannot be undefined');
+            throw new TypeError('url cannot be undefined');
         }
 
         let preloaderImg = new Image();
         preloaderImg.src = url;
 
-        // This is necessary, so changing blurhash settings without reloading the page works
+        // This is necessary here, so changing blurhash settings without reloading the page works
         if (!userSettings.enableBlurhash() || elem.classList.contains('non-blurhashable')) {
             elem.classList.add('lazy-hidden');
         }
