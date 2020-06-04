@@ -1471,8 +1471,6 @@
     "Artist": "Artiest",
     "AllowFfmpegThrottlingHelp": "Wanneer een transcode of remux ver genoeg voorloopt op de huidige afspeelpositie, pauzeer het proces, zodat het minder middelen verbruikt. Dit is vooral handig wanneer u kijkt zonder vaak te zoeken. Schakel dit uit als u afspeelproblemen ondervindt.",
     "AllowFfmpegThrottling": "Throttle Transcodes",
-    "EnableFastImageFadeInHelp": "Toon posters en andere afbeeldingen met een snellere fade-animatie wanneer ze klaar zijn met laden.",
-    "EnableFastImageFadeIn": "Fast Image Fade Animaties",
     "LabelPlayerDimensions": "Afspeellengte:",
     "LabelLibraryPageSizeHelp": "Kies het aantal artikelen dat wordt weergegeven op een bibliotheekpagina. Kies 0 om dit te verbergen.",
     "LabelLibraryPageSize": "Bibliotheekpagina grootte:",

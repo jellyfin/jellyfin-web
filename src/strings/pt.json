@@ -1314,8 +1314,6 @@
     "LabelSortOrder": "Ordem de classificação:",
     "LabelSortBy": "Ordenar por:",
     "LabelSkin": "Pele:",
-    "EnableFastImageFadeInHelp": "Habilite uma animação mais rápida para imagens carregadas",
-    "EnableFastImageFadeIn": "Efeito de imagem fade-in rápido",
     "LabelRemoteClientBitrateLimitHelp": "Um limite opcional de taxa de bits por fluxo para todos os dispositivos fora da rede. Isso é útil para impedir que os dispositivos solicitem uma taxa de bits mais alta do que a sua conexão à Internet pode suportar. Isso pode resultar no aumento da carga da CPU no servidor para transcodificar vídeos em tempo real para uma taxa de bits mais baixa.",
     "LabelPlayerDimensions": "Dimensões do reprodutor:",
     "LabelParentNumber": "Número pai:",

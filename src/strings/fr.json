@@ -1458,8 +1458,6 @@
     "MessageConfirmAppExit": "Voulez-vous quitter ?",
     "LabelVideoResolution": "Résolution vidéo :",
     "LabelStreamType": "Type de flux :",
-    "EnableFastImageFadeInHelp": "Activer un fondu plus rapide pour l'animation des images chargées.",
-    "EnableFastImageFadeIn": "Fondu d'image rapide",
     "LabelPlayerDimensions": "Dimension du lecteur :",
     "LabelDroppedFrames": "Images perdues :",
     "LabelCorruptedFrames": "Images corrompues :",
