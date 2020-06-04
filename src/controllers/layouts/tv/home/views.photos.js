@@ -29,7 +29,7 @@ function loadAll(element, apiClient, parentId) {
     });
 }
 
-export class GenericView {
+export class PhotosView {
     constructor(element, apiClient, parentId, autoFocus) {
         if (autoFocus) {
             focusManager.autoFocus(element);
@@ -44,4 +44,4 @@ export class GenericView {
     }
 }
 
-export default GenericView;
+export default PhotosView;
