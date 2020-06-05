@@ -1633,5 +1633,7 @@
     "EnableDetailsBannerHelp": "Zobrazí obrázek ve vrchní části detailu položky.",
     "EnableDetailsBanner": "Obrázek detailu",
     "ShowMore": "Zobrazit více",
-    "ShowLess": "Zobrazit méně"
+    "ShowLess": "Zobrazit méně",
+    "EnableBlurhashHelp": "Nenačtené obrázky budou zobrazeny pomocí neurčitých zástupných obrázků",
+    "EnableBlurhash": "Povolit zástupné obrázky"
 }
