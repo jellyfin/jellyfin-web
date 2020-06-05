@@ -784,5 +784,17 @@
     "LabelFont": "Kiểu chữ:",
     "LabelFolder": "Thư mục:",
     "LabelFileOrUrl": "Tệp hoặc URL:",
-    "LabelFailed": "Thất bại"
+    "LabelFailed": "Thất bại",
+    "LabelMaxResumePercentage": "Phần trăm tối đa có thể phát tiếp tục:",
+    "LabelMaxParentalRating": "Xếp hạng tối đa cho phép của phụ huynh:",
+    "LabelMaxChromecastBitrate": "Chất lượng truyền tải Chromecast:",
+    "LabelMaxBackdropsPerItem": "Số lượng phông nền tối đa mỗi mục:",
+    "LabelMatchType": "Loại tương thích:",
+    "LabelManufacturerUrl": "URL của nhà sản xuất",
+    "LabelManufacturer": "Nhà sản xuất:",
+    "LabelLogs": "Logs:",
+    "HeaderSyncPlayEnabled": "Kích hoạt SyncPlay",
+    "HeaderSyncPlaySelectGroup": "Tham gia nhóm",
+    "EnableDetailsBannerHelp": "Hiển thị một ảnh bìa ở đầu trang chi tiết.",
+    "EnableDetailsBanner": "Ảnh Bìa Chi Tiết"
 }
