@@ -4,7 +4,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     function getDefaultProfile() {
         return new Promise(function (resolve, reject) {
             require(['browserdeviceprofile'], function (profileBuilder) {
-                resolve(profileBuilder({}));
+                resolve(profileBuilder.createProfile({}));
             });
         });
     }

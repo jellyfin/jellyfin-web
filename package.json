@@ -107,6 +107,7 @@
           "src/plugins/bookPlayer/plugin.js",
           "src/plugins/bookPlayer/tableOfContent.js",
           "src/plugins/photoPlayer/plugin.js",
+          "src/scripts/browserDeviceProfile.js",
           "src/scripts/deleteHelper.js",
           "src/scripts/dfnshelper.js",
           "src/scripts/dom.js",

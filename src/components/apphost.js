@@ -23,11 +23,12 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
     function getDeviceProfileForWindowsUwp(item) {
         return new Promise(function (resolve, reject) {
             require(['browserdeviceprofile', 'environments/windows-uwp/mediacaps'], function (profileBuilder, uwpMediaCaps) {
+                console.warn(profileBuilder);
                 var profileOptions = getBaseProfileOptions(item);
                 profileOptions.supportsDts = uwpMediaCaps.supportsDTS();
                 profileOptions.supportsTrueHd = uwpMediaCaps.supportsDolby();
                 profileOptions.audioChannels = uwpMediaCaps.getAudioChannels();
-                resolve(profileBuilder(profileOptions));
+                resolve(profileBuilder.createProfile(profileOptions));
             });
         });
     }
@@ -48,7 +49,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
                 } else {
                     var builderOpts = getBaseProfileOptions(item);
                     builderOpts.enableSsaRender = (item && !options.isRetry && 'allcomplexformats' !== appSettings.get('subtitleburnin'));
-                    profile = profileBuilder(builderOpts);
+                    profile = profileBuilder.createProfile(builderOpts);
                 }
 
                 resolve(profile);
@@ -153,7 +154,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
                 if (window.NativeShell) {
                     profile = window.NativeShell.AppHost.getSyncProfile(profileBuilder, appSettings);
                 } else {
-                    profile = profileBuilder();
+                    profile = profileBuilder.createProfile();
                     profile.MaxStaticMusicBitrate = appSettings.maxStaticMusicBitrate();
                 }
 

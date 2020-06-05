@@ -1,5 +1,4 @@
-define(['browser'], function (browser) {
-    'use strict';
+import browser from 'browser';
 
     function canPlayH264(videoTestElement) {
         return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
@@ -8,14 +7,6 @@ define(['browser'], function (browser) {
     function canPlayH265(videoTestElement, options) {
         if (browser.tizen || browser.orsay || browser.xboxOne || browser.web0s || options.supportsHevc) {
             return true;
-        }
-
-        var userAgent = navigator.userAgent.toLowerCase();
-        if (browser.chromecast) {
-            var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
-            if (isChromecastUltra) {
-                return true;
-            }
         }
 
         if (browser.ps4) {
@@ -152,27 +143,6 @@ define(['browser'], function (browser) {
             return true;
         }
 
-        // Unfortunately there's no real way to detect mkv support
-        if (browser.chrome) {
-            // Not supported on opera tv
-            if (browser.operaTv) {
-                return false;
-            }
-
-            var userAgent = navigator.userAgent.toLowerCase();
-
-            // Filter out browsers based on chromium that don't support mkv
-            if (userAgent.indexOf('vivaldi') !== -1 || userAgent.indexOf('opera') !== -1) {
-                return false;
-            }
-
-            return true;
-        }
-
-        if (browser.edgeUwp) {
-            return true;
-        }
-
         return false;
     }
 
@@ -274,21 +244,6 @@ define(['browser'], function (browser) {
     }
 
     function getGlobalMaxVideoBitrate() {
-        var userAgent = navigator.userAgent.toLowerCase();
-        if (browser.chromecast) {
-            var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
-            if (isChromecastUltra) {
-                return null;
-            }
-
-            // This is a hack to try and detect chromecast on vizio
-            if (self.screen && self.screen.width >= 3800) {
-                return null;
-            }
-
-            return 30000000;
-        }
-
         var isTizenFhd = false;
         if (browser.tizen) {
             try {
@@ -306,7 +261,7 @@ define(['browser'], function (browser) {
                     (browser.tizen && isTizenFhd ? 20000000 : null)));
     }
 
-    return function (options) {
+    export function createProfile(options) {
         options = options || {};
 
         var physicalAudioChannels = options.audioChannels || (browser.tv || browser.ps4 || browser.xboxOne ? 6 : 2);
@@ -349,11 +304,6 @@ define(['browser'], function (browser) {
 
         var canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
 
-        if (canPlayAacVideoAudio && browser.chromecast && physicalAudioChannels <= 2) {
-            // prioritize this first
-            videoAudioCodecs.push('aac');
-        }
-
         // Only put mp3 first if mkv support is there
         // Otherwise with HLS and mp3 audio we're seeing some browsers
         // safari is lying
@@ -374,11 +324,6 @@ define(['browser'], function (browser) {
                     hlsVideoAudioCodecs.push('eac3');
                 }
             }
-        }
-
-        if (canPlayAacVideoAudio && browser.chromecast && videoAudioCodecs.indexOf('aac') === -1) {
-            // prioritize this first
-            videoAudioCodecs.push('aac');
         }
 
         if (supportsMp3VideoAudio) {
@@ -581,7 +526,7 @@ define(['browser'], function (browser) {
                 Container: 'webm',
                 Type: 'Video',
                 AudioCodec: webmAudioCodecs.join(','),
-                VideoCodec: 'AV1'
+                VideoCodec: 'av1'
             });
         }
 
@@ -713,15 +658,6 @@ define(['browser'], function (browser) {
                 Property: 'IsSecondaryAudio',
                 Value: 'false',
                 IsRequired: false
-            });
-        }
-
-        if (browser.chromecast) {
-            aacCodecProfileConditions.push({
-                Condition: 'LessThanEqual',
-                Property: 'AudioChannels',
-                Value: '2',
-                IsRequired: true
             });
         }
 
@@ -858,19 +794,6 @@ define(['browser'], function (browser) {
             });
         }
 
-        if (browser.chromecast) {
-            profile.CodecProfiles.push({
-                Type: 'Audio',
-                Codec: 'flac',
-                Conditions: [
-                    {
-                        Condition: 'LessThanEqual',
-                        Property: 'AudioSampleRate',
-                        Value: '96000'
-                    }]
-            });
-        }
-
         // Subtitle profiles
         // External vtt or burn in
         profile.SubtitleProfiles = [];
@@ -900,4 +823,7 @@ define(['browser'], function (browser) {
 
         return profile;
     };
-});
+
+    export default {
+        createProfile
+    }

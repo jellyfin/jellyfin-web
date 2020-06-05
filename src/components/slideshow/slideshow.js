@@ -122,9 +122,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         /** Visibility status of the OSD. */
         var _osdOpen = false;
 
-        // Use autoplay on Chromecast since it is non-interactive.
-        if (browser.chromecast) options.interactive = false;
-
         /**
          * Creates the HTML markup for the dialog and the OSD.
          * @param {Object} options - Options used to create the dialog and slideshow.
@@ -133,7 +130,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             currentOptions = options;
 
             dialog = dialogHelper.createDialog({
-                exitAnimationDuration: options.interactive ? 400 : 800,
+                exitAnimationDuration: 400,
                 size: 'fullscreen',
                 autoFocus: false,
                 scrollY: false,
@@ -147,7 +144,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
-            if (options.interactive && !layoutManager.tv) {
+            if (!layoutManager.tv) {
                 var actionButtonsOnTop = layoutManager.mobile;
 
                 html += getIcon('keyboard_arrow_left', 'btnSlideshowPrevious slideshowButton hide-mouse-idle-tv', false);
@@ -178,14 +175,13 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                     html += '</div>';
                 }
-
             } else {
                 html += '<div class="slideshowImage"></div><h1 class="slideshowImageText"></h1>';
             }
 
             dialog.innerHTML = html;
 
-            if (options.interactive && !layoutManager.tv) {
+            if (!layoutManager.tv) {
                 dialog.querySelector('.btnSlideshowExit').addEventListener('click', function (e) {
                     dialogHelper.close(dialog);
                 });
@@ -263,7 +259,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                         toggle: true,
                         containerClass: 'slider-zoom-container'
                     },
-                    autoplay: !options.interactive,
+                    autoplay: false,
                     keyboard: {
                         enabled: true
                     },
