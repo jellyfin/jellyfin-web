@@ -1571,5 +1571,7 @@
     "EnableDetailsBannerHelp": "Zeigt ein Bannerbild im oberen Bereich der Seite Item-Details.",
     "EnableDetailsBanner": "Detailbanner",
     "ShowMore": "Mehr anzeigen",
-    "ShowLess": "Weniger anzeigen"
+    "ShowLess": "Weniger anzeigen",
+    "EnableBlurhashHelp": "Bilder, die noch nicht fertig geladen wurden, werden mit einem verschwommenen Platzhalter dargestellt",
+    "EnableBlurhash": "Verschwommene Platzhalter für Bilder verwenden"
 }
