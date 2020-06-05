@@ -1551,5 +1551,9 @@
     "HeaderSyncPlaySelectGroup": "Pripojiť sa k skupine",
     "SyncPlayAccessHelp": "Vyberte úroveň prístupu pre tohto používateľa k funkcií synchronizácie prehrávania. Synchronizácia prehrávania umožňuje zosynchronizovať prehrávanie s ostatnými zariadeniami.",
     "EnableDetailsBannerHelp": "Zobrazí banner na vrchnej časti detailu položky.",
-    "EnableDetailsBanner": "Detail banneru"
+    "EnableDetailsBanner": "Detail banneru",
+    "EnableBlurhashHelp": "Obrázky, ktoré sa stále načítavajú budú zobrazené ako dočasný obrázok s rozmazaným pozadím",
+    "EnableBlurhash": "Povoliť obrázok s rozmazaným pozadím pre chýbajúce obrázky",
+    "ShowMore": "Zobraziť viac",
+    "ShowLess": "Zobraziť menej"
 }
