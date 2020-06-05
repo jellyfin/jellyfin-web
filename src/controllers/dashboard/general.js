@@ -1,16 +1,8 @@
-define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox', 'emby-textarea', 'emby-input', 'emby-select', 'emby-button'], function ($, loading, globalize) {
+define(['jQuery', 'loading', 'globalize', 'emby-checkbox', 'emby-textarea', 'emby-input', 'emby-select', 'emby-button'], function ($, loading, globalize) {
     'use strict';
 
     function loadPage(page, config, languageOptions, systemInfo) {
         page.querySelector('#txtServerName').value = systemInfo.ServerName;
-        $('#chkAutoRunWebApp', page).checked(config.AutoRunWebApp);
-
-        if (systemInfo.CanLaunchWebBrowser) {
-            page.querySelector('#fldAutoRunWebApp').classList.remove('hide');
-        } else {
-            page.querySelector('#fldAutoRunWebApp').classList.add('hide');
-        }
-
         page.querySelector('#txtCachePath').value = systemInfo.CachePath || '';
         $('#txtMetadataPath', page).val(systemInfo.InternalMetadataPath || '');
         $('#txtMetadataNetworkPath', page).val(systemInfo.MetadataNetworkPath || '');
@@ -33,7 +25,6 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox', 'emby-te
             config.MetadataPath = $('#txtMetadataPath', form).val();
             config.MetadataNetworkPath = $('#txtMetadataNetworkPath', form).val();
             var requiresReload = config.UICulture !== currentLanguage;
-            config.AutoRunWebApp = $('#chkAutoRunWebApp', form).checked();
             ApiClient.updateServerConfiguration(config).then(function() {
                 ApiClient.getNamedConfiguration(brandingConfigKey).then(function(brandingConfig) {
                     brandingConfig.LoginDisclaimer = form.querySelector('#txtLoginDisclaimer').value;

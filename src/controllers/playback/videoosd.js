@@ -157,7 +157,7 @@ define(['playbackManager', 'dom', 'inputManager', 'datetime', 'itemHelper', 'med
             });
 
             if (!displayName) {
-                displayItem.Type;
+                displayName = displayItem.Type;
             }
 
             titleElement.innerHTML = displayName;

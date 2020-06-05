@@ -181,6 +181,20 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Blurhash' state.
+     * @param {boolean|undefined} val - Flag to enable 'Blurhash' or undefined.
+     * @return {boolean} 'Blurhash' state.
+     */
+    enableBlurhash(val) {
+        if (val !== undefined) {
+            return this.set('blurhash', val.toString(), false);
+        }
+
+        val = this.get('blurhash', false);
+        return val !== 'false';
+    }
+
+    /**
      * Get or set 'Backdrops' state.
      * @param {boolean|undefined} val - Flag to enable 'Backdrops' or undefined.
      * @return {boolean} 'Backdrops' state.
@@ -444,6 +458,7 @@ export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOve
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
+export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);
 export const language = currentSettings.language.bind(currentSettings);

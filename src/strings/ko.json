@@ -1343,8 +1343,6 @@
     "LabelSkipIfAudioTrackPresentHelp": "오디오 언어와 상관없이 모든 비디오가 자막을 갖추도록 하려면 이 항목을 체크하지 마십시오.",
     "LabelSelectFolderGroupsHelp": "체크되지 않은 폴더는 폴더 고유의 보기 방식으로 표시됩니다.",
     "LabelSelectFolderGroups": "자동으로 이하의 폴더의 항목을 영화, 음악, TV 와 같은 보기 방식으로 그룹화:",
-    "EnableFastImageFadeInHelp": "로드된 이미지에 더 빠른 페이드 인 효과를 적용",
-    "EnableFastImageFadeIn": "빠른 이미지 페이드 인 효과",
     "LabelScheduledTaskLastRan": "최근 실행: {0}, 소모시간: {1}.",
     "LabelRemoteClientBitrateLimitHelp": "(선택) 모든 외부 네트워크로 접속된 장치들에 적용되는 각 스트리밍별 비트레이트 제한입니다. 이는 서버의 인터넷이 처리할 수 있는 한계보다 더 높은 비트레이트를 요청하는 것을 방지할 수 있습니다. 비디오를 더 낮은 비트레이트로 트랜스코딩하기 위해 서버에 높은 CPU 부하를 줄 수 있습니다.",
     "LabelReasonForTranscoding": "트랜스코딩 원인:",

@@ -721,7 +721,7 @@
     "Refresh": "Obnoviť",
     "RefreshMetadata": "Obnoviť metadáta",
     "ReleaseDate": "Dátum vydania",
-    "RememberMe": "Zapamätať si ma",
+    "RememberMe": "Zapamätaj si ma",
     "RemoveFromCollection": "Odobrať z kolekcie",
     "Repeat": "Opakovať",
     "RepeatAll": "Opakovať všetko",
@@ -1457,8 +1457,6 @@
     "MessageConfirmAppExit": "Chceli by ste odísiť?",
     "LabelVideoResolution": "Rozlíšenie videa:",
     "LabelStreamType": "Typ streamu:",
-    "EnableFastImageFadeInHelp": "Povoliť animáciu rýchleho rozjasnenia pre nahrané obrázky",
-    "EnableFastImageFadeIn": "Rýchle rozjasnenie obrázku",
     "LabelPlayerDimensions": "Rozmery prehrávača:",
     "LabelDroppedFrames": "Vynechané snímky:",
     "LabelCorruptedFrames": "Poškodené snímky:",
@@ -1550,5 +1548,8 @@
     "MillisecondsUnit": "ms",
     "LabelSyncPlayTimeOffset": "Časový rozdiel so serverom:",
     "HeaderSyncPlayEnabled": "Synchronizácia prehrávania je povolená",
-    "HeaderSyncPlaySelectGroup": "Pripojiť sa k skupine"
+    "HeaderSyncPlaySelectGroup": "Pripojiť sa k skupine",
+    "SyncPlayAccessHelp": "Vyberte úroveň prístupu pre tohto používateľa k funkcií synchronizácie prehrávania. Synchronizácia prehrávania umožňuje zosynchronizovať prehrávanie s ostatnými zariadeniami.",
+    "EnableDetailsBannerHelp": "Zobrazí banner na vrchnej časti detailu položky.",
+    "EnableDetailsBanner": "Detail banneru"
 }

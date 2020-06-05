@@ -826,8 +826,8 @@
     "LabelSaveLocalMetadataHelp": "Saving artwork into media folders will put them in a place where they can be easily edited.",
     "LabelScheduledTaskLastRan": "Last ran {0}, taking {1}.",
     "LabelScreensaver": "Screensaver:",
-    "EnableFastImageFadeIn": "Fast Image Fade Animations",
-    "EnableFastImageFadeInHelp": "Show posters and other images with a quicker fade animation when they finish loading.",
+    "EnableFasterAnimations": "Faster animations",
+    "EnableFasterAnimationsHelp": "Use faster animations and transitions",
     "LabelSeasonNumber": "Season number:",
     "LabelSelectFolderGroups": "Automatically group content from the following folders into views such as Movies, Music and TV:",
     "LabelSelectFolderGroupsHelp": "Folders that are unchecked will be displayed by themselves in their own view.",
@@ -1373,6 +1373,8 @@
     "Share": "Share",
     "ShowAdvancedSettings": "Show advanced settings",
     "ShowIndicatorsFor": "Show indicators for:",
+    "ShowLess": "Show less",
+    "ShowMore": "Show more",
     "ShowTitle": "Show title",
     "ShowYear": "Show year",
     "Shows": "Shows",
@@ -1403,7 +1405,7 @@
     "Suggestions": "Suggestions",
     "Sunday": "Sunday",
     "Sync": "Sync",
-    "SyncPlayAccessHelp": "Select the level of access this user has to the SyncPlay feature. SyncPlay enables to sync playback with other users.",
+    "SyncPlayAccessHelp": "Select the level of access this user has to the SyncPlay feature. SyncPlay enables to sync playback with other devices.",
     "SystemDlnaProfilesHelp": "System profiles are read-only. Changes to a system profile will be saved to a new custom profile.",
     "TV": "TV",
     "TabAccess": "Access",
@@ -1546,5 +1548,7 @@
     "EveryHour": "Every hour",
     "EveryXHours": "Every {0} hours",
     "OnApplicationStartup": "On application startup",
-    "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles."
+    "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles.",
+    "EnableBlurhash": "Enable blurred placeholders for images",
+    "EnableBlurhashHelp": "Images that are still being loaded will be displayed with a blurred placeholder"
 }

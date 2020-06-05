@@ -46,7 +46,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
     function showNonPersistentNotification(title, options, timeoutMs) {
 
         try {
-            var notif = new Notification(title, options);
+            var notif = new Notification(title, options); /* eslint-disable-line compat/compat */
 
             if (notif.show) {
                 notif.show();

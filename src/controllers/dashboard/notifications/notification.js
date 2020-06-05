@@ -1,4 +1,4 @@
-define(['jQuery', 'emby-checkbox', 'fnchecked'], function ($) {
+define(['jQuery', 'emby-checkbox'], function ($) {
     'use strict';
 
     function fillItems(elem, items, cssClass, idPrefix, currentList, isEnabledList) {
@@ -50,7 +50,7 @@ define(['jQuery', 'emby-checkbox', 'fnchecked'], function ($) {
             fillItems($('.monitorUsersList', page), users, 'chkMonitor', 'chkMonitor', notificationConfig.DisabledMonitorUsers);
             fillItems($('.sendToUsersList', page), users, 'chkSendTo', 'chkSendTo', notificationConfig.SendToUsers, true);
             fillItems($('.servicesList', page), services, 'chkService', 'chkService', notificationConfig.DisabledServices);
-            $('#chkEnabled', page).checked(notificationConfig.Enabled || false);
+            $('#chkEnabled', page).checked = notificationConfig.Enabled || false;
             $('#selectUsers', page).val(notificationConfig.SendToUserMode).trigger('change');
         });
     }
@@ -58,10 +58,10 @@ define(['jQuery', 'emby-checkbox', 'fnchecked'], function ($) {
     function save(page) {
         var type = getParameterByName('type');
         var promise1 = ApiClient.getNamedConfiguration(notificationsConfigurationKey);
+        // TODO: Check if this promise is really needed, as it's unused.
         var promise2 = ApiClient.getJSON(ApiClient.getUrl('Notifications/Types'));
         Promise.all([promise1, promise2]).then(function (responses) {
             var notificationOptions = responses[0];
-            var types = responses[1];
             var notificationConfig = notificationOptions.Options.filter(function (n) {
                 return n.Type == type;
             })[0];
@@ -73,10 +73,7 @@ define(['jQuery', 'emby-checkbox', 'fnchecked'], function ($) {
                 notificationOptions.Options.push(notificationConfig);
             }
 
-            types.filter(function (n) {
-                return n.Type == type;
-            })[0];
-            notificationConfig.Enabled = $('#chkEnabled', page).checked();
+            notificationConfig.Enabled = $('#chkEnabled', page).checked;
             notificationConfig.SendToUserMode = $('#selectUsers', page).val();
             notificationConfig.DisabledMonitorUsers = $('.chkMonitor', page).get().filter(function (c) {
                 return !c.checked;

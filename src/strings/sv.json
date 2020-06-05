@@ -1344,8 +1344,6 @@
     "LabelSize": "Storlek:",
     "LabelServerName": "Servernamn:",
     "LabelSecureConnectionsMode": "Säker uppkopplings läge:",
-    "EnableFastImageFadeInHelp": "Aktivera snabbare fade-in animationer för laddade bilder",
-    "EnableFastImageFadeIn": "Snabb bild fade-in",
     "LabelPostProcessorArgumentsHelp": "Använd {path} som sökväg till inspelade filen.",
     "LabelPostProcessorArguments": "Post-processor kommandoradsargument:",
     "LabelDroppedFrames": "Tappade ramar:",

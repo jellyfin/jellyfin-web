@@ -1,5 +1,5 @@
 {
-    "AccessRestrictedTryAgainLater": "El acceso está restringido actualmente. Por favor, inténtalo más tarde.",
+    "AccessRestrictedTryAgainLater": "Actualmente el acceso está restringido. Por favor, inténtalo de nuevo más tarde.",
     "Add": "Añadir",
     "AddItemToCollectionHelp": "Agregue elementos a las colecciones buscándolos y haciendo clic con el botón derecho o tocando los menús para agregarlos a una colección.",
     "AddToCollection": "Añadir a la colección",
@@ -1458,8 +1458,8 @@
     "ButtonSplit": "Dividir",
     "HeaderNavigation": "Navegación",
     "MessageConfirmAppExit": "¿Quieres salir?",
-    "EnableFastImageFadeInHelp": "Mostrar carteles y otras imágenes con difuminado rápido cuando termine la carga.",
-    "EnableFastImageFadeIn": "Difuminado rápido de imágenes",
+    "EnableFasterAnimationsHelp": "Las animaciones y transiciones durarán menos tiempo",
+    "EnableFasterAnimations": "Animaciones más rápidas",
     "CopyStreamURLError": "Ha habido un error copiando la dirección.",
     "AllowFfmpegThrottlingHelp": "Cuando una transcodificación o un remux se adelanta lo suficiente desde la posición de reproducción actual, pause el proceso para que consuma menos recursos. Esto es más útil cuando se reproduce de forma linear, sin saltar de posición de reproducción a menudo. Desactívelo si experimenta problemas de reproducción.",
     "PlaybackErrorNoCompatibleStream": "Este contenido no es compatible con este dispositivo y no se puede reproducir: No se puede obtener del servidor en un formato compatible.",
@@ -1524,8 +1524,10 @@
     "LabelEnableHttps": "Activar HTTPS",
     "TabDVR": "DVR",
     "SaveChanges": "Guardar cambios",
+    "EnableBlurhash": "Mostrar una representación de las imágenes mientras cargan",
+    "EnableBlurhashHelp": "Aparecerá una representación de los colores de las imágenes antes de que terminen de cargar",
     "HeaderDVR": "DVR",
-    "SyncPlayAccessHelp": "Selecciona el nivel de acceso que posee este usuario al SyncPlay. SyncPlay permite sincronizar reproductores con otros usuarios.",
+    "SyncPlayAccessHelp": "Selecciona los permisos de este usuario para utilizar SyncPlay. SyncPlay te permite sincronizar la reproducción entre varios dispositivos.",
     "MessageSyncPlayErrorMedia": "¡No se pudo activar SyncPlay! Error de medio.",
     "MessageSyncPlayErrorMissingSession": "¡No se pudo activar SyncPlay! Sesión desconectada.",
     "MessageSyncPlayErrorNoActivePlayer": "No hay reproductor activo. SyncPlay ha sido desactivado.",
@@ -1556,5 +1558,7 @@
     "HeaderSyncPlayEnabled": "Syncplay activo",
     "HeaderSyncPlaySelectGroup": "Unirse a un grupo",
     "EnableDetailsBannerHelp": "Mostrar imagen de banner en el tope de la página de detalles del elemento.",
-    "EnableDetailsBanner": "Barra de Detalles"
+    "EnableDetailsBanner": "Barra de Detalles",
+    "ShowMore": "Mostrar más",
+    "ShowLess": "Mostrar menos"
 }

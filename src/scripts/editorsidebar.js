@@ -209,7 +209,7 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     function onNodeOpen(event, data) {
         var page = $(this).parents('.page')[0];
         var node = data.node;
-        if (node.children && node.children) {
+        if (node.children) {
             loadNodesToLoad(page, node);
         }
         if (node.li_attr && node.id != '#' && !node.li_attr.loadedFromServer) {
@@ -221,7 +221,7 @@ define(['datetime', 'jQuery', 'globalize', 'material-icons'], function (datetime
     function onNodeLoad(event, data) {
         var page = $(this).parents('.page')[0];
         var node = data.node;
-        if (node.children && node.children) {
+        if (node.children) {
             loadNodesToLoad(page, node);
         }
         if (node.li_attr && node.id != '#' && !node.li_attr.loadedFromServer) {
