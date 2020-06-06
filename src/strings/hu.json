@@ -1554,5 +1554,9 @@
     "LabelSyncPlayPlaybackDiff": "Lejátszási időkülönbség:",
     "LabelSyncPlayTimeOffset": "Időeltolás a szerverhez képest:",
     "EnableDetailsBannerHelp": "Megjelenít egy banner képet a részletes információoldal tetején.",
-    "EnableDetailsBanner": "Banner a részletes oldalon"
+    "EnableDetailsBanner": "Banner a részletes oldalon",
+    "EnableBlurhashHelp": "A még betöltés alatt álló képek helyén egy elmosódott helyettesítő képet jelenít meg",
+    "EnableBlurhash": "Elmosódott helyettesítőképek engedélyezése",
+    "ShowMore": "Továbbiak megtekintése",
+    "ShowLess": "Kevesebb mutatása"
 }
