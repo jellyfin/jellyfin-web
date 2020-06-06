@@ -125,7 +125,7 @@
           "src/scripts/filesystem.js",
           "src/scripts/imagehelper.js",
           "src/scripts/inputManager.js",
-          "src/components/backdropScreensaver/plugin.js",
+          "src/plugins/backdropScreensaver/plugin.js",
           "src/components/filterdialog/filterdialog.js",
           "src/components/fetchhelper.js",
           "src/scripts/keyboardNavigation.js",
