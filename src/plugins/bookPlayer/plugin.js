@@ -238,9 +238,15 @@ export class BookPlayer {
 
                     this.bindEvents();
 
-                    return this._rendition.book.locations.generate(1024).then(() => {
+                    return this._rendition.book.locations.generate(1024).then(async () => {
                         if (cancellationToken.shouldCancel) {
                             return reject();
+                        }
+
+                        const percentageTicks = options.startPositionTicks / 10000000;
+                        if (percentageTicks !== 0.0) {
+                            const resumeLocation = book.locations.cfiFromPercentage(percentageTicks);
+                            await rendition.display(resumeLocation);
                         }
 
                         this._loaded = true;
