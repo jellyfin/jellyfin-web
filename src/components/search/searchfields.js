@@ -64,7 +64,7 @@ define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPick
 
             var html = globalize.translateDocument(template, 'core');
 
-            if (browser.tizen || browser.orsay) {
+            if (browser.tizen) {
                 html = html.replace('<input ', '<input readonly ');
             }
 

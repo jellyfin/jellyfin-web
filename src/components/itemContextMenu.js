@@ -6,7 +6,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         var user = options.user;
 
         var canPlay = playbackManager.canPlay(item);
-        var restrictOptions = (browser.operaTv || browser.web0s) && !user.Policy.IsAdministrator;
+        var restrictOptions = browser.web0s && !user.Policy.IsAdministrator;
 
         var commands = [];
 

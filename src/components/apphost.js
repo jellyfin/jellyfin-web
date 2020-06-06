@@ -98,8 +98,6 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
             deviceName = 'Samsung Smart TV';
         } else if (browser.web0s) {
             deviceName = 'LG Smart TV';
-        } else if (browser.operaTv) {
-            deviceName = 'Opera TV';
         } else if (browser.xboxOne) {
             deviceName = 'Xbox One';
         } else if (browser.ps4) {
@@ -168,7 +166,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
     }
 
     function supportsHtmlMediaAutoplay() {
-        if (browser.edgeUwp || browser.tizen || browser.web0s || browser.orsay || browser.operaTv || browser.ps4 || browser.xboxOne) {
+        if (browser.edgeUwp || browser.tizen || browser.web0s || browser.ps4 || browser.xboxOne) {
             return true;
         }
 
@@ -225,20 +223,16 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
             features.push('filedownload');
         }
 
-        if (browser.operaTv || browser.tizen || browser.orsay || browser.web0s) {
+        if (browser.tizen || browser.web0s) {
             features.push('exit');
         } else {
             features.push('exitmenu');
             features.push('plugins');
         }
 
-        if (!browser.operaTv && !browser.tizen && !browser.orsay && !browser.web0s && !browser.ps4) {
+        if (!browser.tizen && !browser.web0s && !browser.ps4) {
             features.push('externallinks');
             features.push('externalpremium');
-        }
-
-        if (!browser.operaTv) {
-            features.push('externallinkdisplay');
         }
 
         if (supportsVoiceInput()) {
@@ -272,7 +266,7 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
             features.push('remotecontrol');
         }
 
-        if (!browser.operaTv && !browser.tizen && !browser.orsay && !browser.web0s && !browser.edgeUwp) {
+        if (!browser.tizen && !browser.web0s && !browser.edgeUwp) {
             features.push('remotevideo');
         }
 
@@ -286,12 +280,8 @@ define(['appSettings', 'browser', 'events', 'htmlMediaHelper', 'webSettings', 'g
             if (enabled) features.push('multiserver');
         });
 
-        if (!browser.orsay && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
+        if (browser.firefox || browser.ps4 || browser.edge || supportsCue()) {
             features.push('subtitleappearancesettings');
-        }
-
-        if (!browser.orsay) {
-            features.push('subtitleburnsettings');
         }
 
         if (!browser.tv && !browser.ps4 && !browser.xboxOne) {

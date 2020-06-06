@@ -1435,7 +1435,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     };
 
     HtmlVideoPlayer.prototype.canSetAudioStreamIndex = function (index) {
-        if (browser.tizen || browser.orsay) {
+        if (browser.tizen) {
             return true;
         }
 

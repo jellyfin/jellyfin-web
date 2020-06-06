@@ -19,7 +19,7 @@ define(['browser', 'dom', 'css!./emby-checkbox', 'registerElement'], function (b
         }
     }
 
-    var enableRefreshHack = browser.tizen || browser.orsay || browser.operaTv || browser.web0s ? true : false;
+    var enableRefreshHack = browser.tizen || browser.web0s ? true : false;
 
     function forceRefresh(loading) {
         var elem = this.parentNode;

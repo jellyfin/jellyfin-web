@@ -220,9 +220,7 @@ define([], function () {
     browser.web0s = userAgent.toLowerCase().indexOf('Web0S'.toLowerCase()) !== -1;
     browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') !== -1 || userAgent.toLowerCase().indexOf('webview') !== -1);
 
-    if (!browser.tizen) {
-        browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
-    } else {
+    if (browser.tizen) {
         var v = (navigator.appVersion).match(/Tizen (\d+).(\d+)/);
         browser.tizenVersion = parseInt(v[1]);
     }
@@ -232,7 +230,6 @@ define([], function () {
     }
 
     browser.tv = isTv();
-    browser.operaTv = browser.tv && userAgent.toLowerCase().indexOf('opr/') !== -1;
 
     if (browser.mobile || browser.tv) {
         browser.slow = true;

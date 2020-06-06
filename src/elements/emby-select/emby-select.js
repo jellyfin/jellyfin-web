@@ -10,7 +10,7 @@ define(['layoutManager', 'browser', 'actionsheet', 'css!./emby-select', 'registe
         }
 
         // Doesn't seem to work at all
-        if (browser.tizen || browser.orsay || browser.web0s) {
+        if (browser.tizen || browser.web0s) {
             return false;
         }
 

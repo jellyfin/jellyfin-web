@@ -361,11 +361,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'backdro
             return false;
         }
 
-        // Does not support history
-        if (browser.orsay) {
-            return false;
-        }
-
         return true;
     }
 
