@@ -597,6 +597,7 @@
 .detailImageContainer {
     position: relative;
     margin-top: -25vh;
+    margin-bottom: 10vh;
     float: left;
     width: 25vw;
     z-index: 3;
@@ -641,7 +642,8 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 .itemDetailGalleryLink.defaultCardBackground {
-    height: 23vw; /* Dirty hack to get it to look somewhat square. Less than ideal. */
+    /* Dirty hack to get it to look somewhat square. Less than ideal. */
+    height: 23vw;
 }
 
 .itemDetailGalleryLink.defaultCardBackground > .material-icons {
