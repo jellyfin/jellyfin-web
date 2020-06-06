@@ -333,8 +333,9 @@ define(['browser'], function (browser) {
         var videoAudioCodecs = [];
         var hlsVideoAudioCodecs = [];
 
-        var supportsMp3VideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.69"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"').replace(/no/, '');
+        var supportsMp3VideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.69"').replace(/no/, '')
+                                    || videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"').replace(/no/, '')
+                                    || videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp3"').replace(/no/, '');
 
         // Not sure how to test for this
         var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s;
