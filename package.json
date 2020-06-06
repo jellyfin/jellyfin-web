@@ -104,6 +104,7 @@
           "src/components/syncplay/playbackPermissionManager.js",
           "src/components/syncplay/syncPlayManager.js",
           "src/components/syncplay/timeSyncManager.js",
+          "src/controllers/dashboard/logs.js",
           "src/plugins/bookPlayer/plugin.js",
           "src/plugins/bookPlayer/tableOfContent.js",
           "src/plugins/photoPlayer/plugin.js",

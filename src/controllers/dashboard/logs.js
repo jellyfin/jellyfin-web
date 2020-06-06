@@ -1,6 +1,13 @@
-define(['datetime', 'loading', 'apphost', 'listViewStyle', 'emby-button', 'flexStyles'], function(datetime, loading, appHost) {
-    'use strict';
-    return function(view, params) {
+import datetime from 'datetime';
+import loading from 'loading';
+import appHost from 'apphost';
+import 'emby-button';
+import 'listViewStyle';
+import 'flexStyles';
+
+/* eslint-disable indent */
+
+    export default function(view, params) {
         view.addEventListener('viewbeforeshow', function() {
             loading.show();
             var apiClient = ApiClient;
@@ -29,5 +36,6 @@ define(['datetime', 'loading', 'apphost', 'listViewStyle', 'emby-button', 'flexS
                 loading.hide();
             });
         });
-    };
-});
+    }
+
+/* eslint-enable indent */

@@ -22,9 +22,9 @@ define(['viewContainer', 'focusManager', 'queryString', 'layoutManager'], functi
             newView.initComplete = true;
 
             if (typeof options.controllerFactory === 'function') {
-
-                // Use controller method
                 var controller = new options.controllerFactory(newView, eventDetail.detail.params);
+            } else if (options.controllerFactory.default && typeof options.controllerFactory.default === 'function') {
+                var controller = new options.controllerFactory.default(newView, eventDetail.detail.params);
             }
 
             if (!options.controllerFactory || dispatchPageEvents) {
