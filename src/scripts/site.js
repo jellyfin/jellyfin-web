@@ -228,6 +228,28 @@ var Dashboard = {
         } else {
             Dashboard.navigate('selectserver.html');
         }
+    },
+    hideLoadingMsg: function() {
+        'use strict';
+        require(['loading'], function(loading) {
+            loading.hide();
+        });
+    },
+    showLoadingMsg: function() {
+        'use strict';
+        require(['loading'], function(loading) {
+            loading.show();
+        });
+    },
+    confirm: function(message, title, callback) {
+        'use strict';
+        require(['confirm'], function(confirm) {
+            confirm(message, title).then(function() {
+                callback(!0);
+            }).catch(function() {
+                callback(!1);
+            });
+        });
     }
 };
 
@@ -737,7 +759,6 @@ var AppInfo = {};
         // define legacy features
         // TODO delete the rest of these
         define('fnchecked', ['legacy/fnchecked'], returnFirstDependency);
-        define('legacyDashboard', ['legacy/dashboard'], returnFirstDependency);
         define('legacySelectMenu', ['legacy/selectmenu'], returnFirstDependency);
 
         // there are several objects that need to be instantiated
