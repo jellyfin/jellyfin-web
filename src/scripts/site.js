@@ -653,7 +653,7 @@ var AppInfo = {};
             playQueueManager: componentsPath + '/playback/playqueuemanager',
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
             pluginManager: componentsPath + '/pluginManager',
-            packageManager: componentsPath + '/packagemanager',
+            packageManager: componentsPath + '/packageManager',
             screensaverManager: componentsPath + '/screensavermanager',
             chromecastHelper: 'plugins/chromecastPlayer/chromecastHelpers'
         };
@@ -820,10 +820,10 @@ var AppInfo = {};
         define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
-        define('timeSyncManager', [componentsPath + '/syncplay/timeSyncManager'], returnDefault);
-        define('groupSelectionMenu', [componentsPath + '/syncplay/groupSelectionMenu'], returnFirstDependency);
-        define('syncPlayManager', [componentsPath + '/syncplay/syncPlayManager'], returnDefault);
-        define('playbackPermissionManager', [componentsPath + '/syncplay/playbackPermissionManager'], returnDefault);
+        define('timeSyncManager', [componentsPath + '/syncPlay/timeSyncManager'], returnDefault);
+        define('groupSelectionMenu', [componentsPath + '/syncPlay/groupSelectionMenu'], returnFirstDependency);
+        define('syncPlayManager', [componentsPath + '/syncPlay/syncPlayManager'], returnDefault);
+        define('playbackPermissionManager', [componentsPath + '/syncPlay/playbackPermissionManager'], returnDefault);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);
         define('homeSections', [componentsPath + '/homesections/homesections'], returnFirstDependency);
         define('playMenu', [componentsPath + '/playmenu'], returnFirstDependency);
@@ -847,7 +847,7 @@ var AppInfo = {};
         define('userdataButtons', [componentsPath + '/userdatabuttons/userdatabuttons'], returnFirstDependency);
         define('listView', [componentsPath + '/listview/listview'], returnFirstDependency);
         define('indicators', [componentsPath + '/indicators/indicators'], returnFirstDependency);
-        define('viewSettings', [componentsPath + '/viewsettings/viewsettings'], returnFirstDependency);
+        define('viewSettings', [componentsPath + '/viewSettings/viewSettings'], returnFirstDependency);
         define('filterMenu', [componentsPath + '/filtermenu/filtermenu'], returnFirstDependency);
         define('sortMenu', [componentsPath + '/sortmenu/sortmenu'], returnFirstDependency);
         define('sanitizefilename', [componentsPath + '/sanitizeFilename'], returnFirstDependency);

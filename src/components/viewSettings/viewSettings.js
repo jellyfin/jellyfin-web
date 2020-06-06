@@ -57,7 +57,7 @@ define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'conne
 
         return new Promise(function (resolve, reject) {
 
-            require(['text!./viewsettings.template.html'], function (template) {
+            require(['text!./viewSettings.template.html'], function (template) {
 
                 var dialogOptions = {
                     removeOnClose: true,
