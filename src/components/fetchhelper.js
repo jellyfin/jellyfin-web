@@ -82,7 +82,7 @@
     function paramsToString(params) {
         return Object.entries(params)
             // eslint-disable-next-line no-unused-vars
-            .filter(([_, v]) => v !== null && v !== undefined)
+            .filter(([_, v]) => v !== null && v !== undefined && v !== '')
             .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
             .join('&');
     }
