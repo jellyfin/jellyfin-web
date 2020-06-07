@@ -273,7 +273,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
             }
         }
 
-        if (item.RunTimeTicks && item.Type !== 'Series' && item.Type !== 'Program' && !showFolderRuntime && options.runtime !== false) {
+        if (item.RunTimeTicks && item.Type !== 'Series' && item.Type !== 'Program' && item.Type !== 'Book' && !showFolderRuntime && options.runtime !== false) {
 
             if (item.Type === 'Audio') {
 
