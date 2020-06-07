@@ -1,19 +1,15 @@
-define(['connectionManager'], function (connectionManager) {
+/* eslint-disable indent */
+import connectionManager from 'connectionManager';
 
-    return function () {
-
-        var self = this;
-
-        self.name = 'Backdrop ScreenSaver';
-        self.type = 'screensaver';
-        self.id = 'backdropscreensaver';
-        self.supportsAnonymous = false;
-
-        var currentSlideshow;
-
-        self.show = function () {
-
-            var query = {
+class BackdropScreensaver {
+    constructor() {
+        this.name = 'Backdrop ScreenSaver';
+        this.type = 'screensaver';
+        this.id = 'backdropscreensaver';
+        this.supportsAnonymous = false;
+    }
+        show() {
+            const query = {
                 ImageTypes: 'Backdrop',
                 EnableImageTypes: 'Backdrop',
                 IncludeItemTypes: 'Movie,Series,MusicArtist',
@@ -25,32 +21,32 @@ define(['connectionManager'], function (connectionManager) {
                 Limit: 200
             };
 
-            var apiClient = connectionManager.currentApiClient();
-            apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
+            const apiClient = connectionManager.currentApiClient();
+            apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
 
                 if (result.Items.length) {
 
-                    require(['slideshow'], function (slideshow) {
-
-                        var newSlideShow = new slideshow({
+                    import('slideshow').then(({default: Slideshow}) => {
+                        const newSlideShow = new Slideshow({
                             showTitle: true,
                             cover: true,
                             items: result.Items
                         });
 
                         newSlideShow.show();
-                        currentSlideshow = newSlideShow;
-                    });
+                        this.currentSlideshow = newSlideShow;
+                    }).catch(console.error);
                 }
             });
-        };
+        }
 
-        self.hide = function () {
-
-            if (currentSlideshow) {
-                currentSlideshow.hide();
-                currentSlideshow = null;
+        hide() {
+            if (this.currentSlideshow) {
+                this.currentSlideshow.hide();
+                this.currentSlideshow = null;
             }
-        };
-    };
-});
+        }
+    }
+/* eslint-enable indent */
+
+export default BackdropScreensaver;
