@@ -93,7 +93,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 itemId = item.ParentPrimaryImageItemId;
             }
         }
-        
+
         let blurHashes = item.ImageBlurHashes || {};
         let blurhashstr = (blurHashes[options.type] || {})[options.tag];
 
