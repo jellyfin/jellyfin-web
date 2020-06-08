@@ -6,7 +6,7 @@ define([], function () {
 
         if (!item.PlaylistItemId) {
 
-            item.PlaylistItemId = "playlistItem" + currentId;
+            item.PlaylistItemId = 'playlistItem' + currentId;
             currentId++;
         }
     }

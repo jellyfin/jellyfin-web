@@ -1,5 +1,3 @@
-'use strict';
-
 const { src, dest, series, parallel, watch } = require('gulp');
 const browserSync = require('browser-sync').create();
 const del = require('del');
@@ -10,15 +8,14 @@ const htmlmin = require('gulp-htmlmin');
 const imagemin = require('gulp-imagemin');
 const sourcemaps = require('gulp-sourcemaps');
 const mode = require('gulp-mode')({
-    modes: ["development", "production"],
-    default: "development",
+    modes: ['development', 'production'],
+    default: 'development',
     verbose: false
 });
 const stream = require('webpack-stream');
 const inject = require('gulp-inject');
 const postcss = require('gulp-postcss');
 const sass = require('gulp-sass');
-const gulpif = require('gulp-if');
 const lazypipe = require('lazypipe');
 
 sass.compiler = require('node-sass');
@@ -47,7 +44,7 @@ const options = {
         query: ['src/**/*.png', 'src/**/*.jpg', 'src/**/*.gif', 'src/**/*.svg']
     },
     copy: {
-        query: ['src/**/*.json', 'src/**/*.ico']
+        query: ['src/**/*.json', 'src/**/*.ico', 'src/**/*.mp3']
     },
     injectBundle: {
         query: 'src/index.html'
@@ -57,12 +54,12 @@ const options = {
 function serve() {
     browserSync.init({
         server: {
-            baseDir: "./dist"
+            baseDir: './dist'
         },
         port: 8080
     });
 
-    let events = ['add', 'change'];
+    const events = ['add', 'change'];
 
     watch(options.javascript.query).on('all', function (event, path) {
         if (events.includes(event)) {
@@ -70,7 +67,7 @@ function serve() {
         }
     });
 
-    watch(options.apploader.query, apploader(true));
+    watch(options.apploader.query, apploader());
 
     watch('src/bundle.js', webpack);
 
@@ -105,7 +102,7 @@ function clean() {
     return del(['dist/']);
 }
 
-let pipelineJavascript = lazypipe()
+const pipelineJavascript = lazypipe()
     .pipe(function () {
         return mode.development(sourcemaps.init({ loadMaps: true }));
     })
@@ -133,18 +130,12 @@ function javascript(query) {
         .pipe(browserSync.stream());
 }
 
-function apploader(standalone) {
-    function task() {
-        return src(options.apploader.query, { base: './src/' })
-            .pipe(gulpif(standalone, concat('scripts/apploader.js')))
-            .pipe(pipelineJavascript())
-            .pipe(dest('dist/'))
-            .pipe(browserSync.stream());
-    };
-
-    task.displayName = 'apploader';
-
-    return task;
+function apploader() {
+    return src(options.apploader.query, { base: './src/' })
+        .pipe(concat('scripts/apploader.js'))
+        .pipe(pipelineJavascript())
+        .pipe(dest('dist/'))
+        .pipe(browserSync.stream());
 }
 
 function webpack() {
@@ -192,10 +183,5 @@ function injectBundle() {
         .pipe(browserSync.stream());
 }
 
-function build(standalone) {
-    return series(clean, parallel(javascript, apploader(standalone), webpack, css, html, images, copy), injectBundle);
-}
-
-exports.default = build(false);
-exports.standalone = build(true);
-exports.serve = series(exports.standalone, serve);
+exports.default = series(clean, parallel(javascript, apploader, webpack, css, html, images, copy), injectBundle);
+exports.serve = series(exports.default, serve);

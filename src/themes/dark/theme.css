@@ -36,6 +36,8 @@ html {
 
 .backgroundContainer,
 .dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu,
 html {
     background-color: #101010;
 }
@@ -111,23 +113,23 @@ html {
 }
 
 .defaultCardBackground1 {
-    background-color: #d2b019;
+    background-color: #00455c;
 }
 
 .defaultCardBackground2 {
-    background-color: #338abb;
+    background-color: #44bae1;
 }
 
 .defaultCardBackground3 {
-    background-color: #6b689d;
+    background-color: #00a4db;
 }
 
 .defaultCardBackground4 {
-    background-color: #dd452b;
+    background-color: #1c4c5c;
 }
 
 .defaultCardBackground5 {
-    background-color: #5ccea9;
+    background-color: #007ea8;
 }
 
 .cardText-secondary,
@@ -161,7 +163,8 @@ html {
     color: rgba(255, 255, 255, 0.87);
 }
 
-.appfooter {
+.appfooter,
+.playlistSectionButton {
     background: #202020;
     color: #ccc;
     color: rgba(255, 255, 255, 0.78);

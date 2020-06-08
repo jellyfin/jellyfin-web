@@ -5,9 +5,9 @@
  * @module components/scrollManager
  */
 
-import dom from "dom";
-import browser from "browser";
-import layoutManager from "layoutManager";
+import dom from 'dom';
+import browser from 'browser';
+import layoutManager from 'layoutManager';
 
     /**
      * Scroll time in ms.
@@ -27,20 +27,20 @@ import layoutManager from "layoutManager";
      * @return {number} Minimum vertical scroll.
      */
     function minimumScrollY() {
-        const topMenu = document.querySelector(".headerTop");
+        const topMenu = document.querySelector('.headerTop');
         if (topMenu) {
             return topMenu.clientHeight;
         }
         return 0;
     }
 
-    const supportsSmoothScroll = "scrollBehavior" in document.documentElement.style;
+    const supportsSmoothScroll = 'scrollBehavior' in document.documentElement.style;
 
     let supportsScrollToOptions = false;
     try {
-        const elem = document.createElement("div");
+        const elem = document.createElement('div');
 
-        const opts = Object.defineProperty({}, "behavior", {
+        const opts = Object.defineProperty({}, 'behavior', {
             // eslint-disable-next-line getter-return
             get: function () {
                 supportsScrollToOptions = true;
@@ -49,7 +49,7 @@ import layoutManager from "layoutManager";
 
         elem.scrollTo(opts);
     } catch (e) {
-        console.error("error checking ScrollToOptions support");
+        console.error('error checking ScrollToOptions support');
     }
 
     /**
@@ -92,7 +92,7 @@ import layoutManager from "layoutManager";
      * @return {number} Eased value in range [0, 1].
      */
     function ease(t) {
-        return t*(2 - t); // easeOutQuad === ease-out
+        return t * (2 - t); // easeOutQuad === ease-out
     }
 
     /**
@@ -210,21 +210,21 @@ import layoutManager from "layoutManager";
      */
     function getScrollableParent(element, vertical) {
         if (element) {
-            let nameScroll = "scrollWidth";
-            let nameClient = "clientWidth";
-            let nameClass = "scrollX";
+            let nameScroll = 'scrollWidth';
+            let nameClient = 'clientWidth';
+            let nameClass = 'scrollX';
 
             if (vertical) {
-                nameScroll = "scrollHeight";
-                nameClient = "clientHeight";
-                nameClass = "scrollY";
+                nameScroll = 'scrollHeight';
+                nameClient = 'clientHeight';
+                nameClass = 'scrollY';
             }
 
             let parent = element.parentElement;
 
             while (parent) {
                 // Skip 'emby-scroller' because it scrolls by itself
-                if (!parent.classList.contains("emby-scroller") &&
+                if (!parent.classList.contains('emby-scroller') &&
                     parent[nameScroll] > parent[nameClient] && parent.classList.contains(nameClass)) {
                     return parent;
                 }
@@ -316,7 +316,7 @@ import layoutManager from "layoutManager";
      * @param {ScrollToOptions} options - Scroll options.
      */
     function scrollToHelper(scroller, options) {
-        if ("scrollTo" in scroller) {
+        if ('scrollTo' in scroller) {
             if (!supportsScrollToOptions) {
                 const scrollX = (options.left !== undefined ? options.left : scroller.scrollLeft);
                 const scrollY = (options.top !== undefined ? options.top : scroller.scrollTop);
@@ -324,7 +324,7 @@ import layoutManager from "layoutManager";
             } else {
                 scroller.scrollTo(options);
             }
-        } else if ("scrollLeft" in scroller) {
+        } else if ('scrollLeft' in scroller) {
             if (options.left !== undefined) {
                 scroller.scrollLeft = options.left;
             }
@@ -344,7 +344,7 @@ import layoutManager from "layoutManager";
      * @param {boolean} smooth - Smooth scrolling.
      */
     function builtinScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
-        const scrollBehavior = smooth ? "smooth" : "instant";
+        const scrollBehavior = smooth ? 'smooth' : 'instant';
 
         if (xScroller !== yScroller) {
             scrollToHelper(xScroller, {left: scrollX, behavior: scrollBehavior});
@@ -402,8 +402,8 @@ import layoutManager from "layoutManager";
 
             k = ease(k);
 
-            const x = ox + dx*k;
-            const y = oy + dy*k;
+            const x = ox + dx * k;
+            const y = oy + dy * k;
 
             builtinScroll(xScroller, x, yScroller, y, false);
 
@@ -500,7 +500,7 @@ import layoutManager from "layoutManager";
         const offsetParent = element.offsetParent;
 
         // In Firefox offsetParent.offsetParent is BODY
-        const isFixed = offsetParent && (!offsetParent.offsetParent || window.getComputedStyle(offsetParent).position === "fixed");
+        const isFixed = offsetParent && (!offsetParent.offsetParent || window.getComputedStyle(offsetParent).position === 'fixed');
 
         // Scroll fixed elements to nearest edge (or do not scroll at all)
         if (isFixed) {
@@ -537,7 +537,7 @@ import layoutManager from "layoutManager";
     }
 
     if (isEnabled()) {
-        dom.addEventListener(window, "focusin", function(e) {
+        dom.addEventListener(window, 'focusin', function(e) {
             setTimeout(function() {
                 scrollToElement(e.target, useSmoothScroll());
             }, 0);

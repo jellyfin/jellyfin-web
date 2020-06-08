@@ -1,21 +1,19 @@
-define([], function () {
-    'use strict';
+/* eslint-disable indent */
+    export function getFetchPromise(request) {
 
-    function getFetchPromise(request) {
-
-        var headers = request.headers || {};
+        const headers = request.headers || {};
 
         if (request.dataType === 'json') {
             headers.accept = 'application/json';
         }
 
-        var fetchRequest = {
+        const fetchRequest = {
             headers: headers,
             method: request.type,
             credentials: 'same-origin'
         };
 
-        var contentType = request.contentType;
+        let contentType = request.contentType;
 
         if (request.data) {
 
@@ -33,12 +31,12 @@ define([], function () {
             headers['Content-Type'] = contentType;
         }
 
-        var url = request.url;
+        let url = request.url;
 
         if (request.query) {
-            var paramString = paramsToString(request.query);
+            const paramString = paramsToString(request.query);
             if (paramString) {
-                url += '?' + paramString;
+                url += `?${paramString}`;
             }
         }
 
@@ -51,11 +49,11 @@ define([], function () {
 
     function fetchWithTimeout(url, options, timeoutMs) {
 
-        console.debug('fetchWithTimeout: timeoutMs: ' + timeoutMs + ', url: ' + url);
+        console.debug(`fetchWithTimeout: timeoutMs: ${timeoutMs}, url: ${url}`);
 
         return new Promise(function (resolve, reject) {
 
-            var timeout = setTimeout(reject, timeoutMs);
+            const timeout = setTimeout(reject, timeoutMs);
 
             options = options || {};
             options.credentials = 'same-origin';
@@ -63,50 +61,47 @@ define([], function () {
             fetch(url, options).then(function (response) {
                 clearTimeout(timeout);
 
-                console.debug('fetchWithTimeout: succeeded connecting to url: ' + url);
+                console.debug(`fetchWithTimeout: succeeded connecting to url: ${url}`);
 
                 resolve(response);
             }, function (error) {
 
                 clearTimeout(timeout);
 
-                console.debug('fetchWithTimeout: timed out connecting to url: ' + url);
+                console.debug(`fetchWithTimeout: timed out connecting to url: ${url}`);
 
-                reject();
+                reject(error);
             });
         });
     }
 
+    /**
+     * @param params {Record<string, string | number | boolean>}
+     * @returns {string} Query string
+     */
     function paramsToString(params) {
-
-        var values = [];
-
-        for (var key in params) {
-
-            var value = params[key];
-
-            if (value !== null && value !== undefined && value !== '') {
-                values.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
-            }
-        }
-        return values.join('&');
+        return Object.entries(params)
+            // eslint-disable-next-line no-unused-vars
+            .filter(([_, v]) => v !== null && v !== undefined && v !== '')
+            .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+            .join('&');
     }
 
-    function ajax(request) {
+    export function ajax(request) {
         if (!request) {
-            throw new Error("Request cannot be null");
+            throw new Error('Request cannot be null');
         }
 
         request.headers = request.headers || {};
 
-        console.debug('requesting url: ' + request.url);
+        console.debug(`requesting url: ${request.url}`);
 
         return getFetchPromise(request).then(function (response) {
-            console.debug('response status: ' + response.status + ', url: ' + request.url);
+            console.debug(`response status: ${response.status}, url: ${request.url}`);
             if (response.status < 400) {
                 if (request.dataType === 'json' || request.headers.accept === 'application/json') {
                     return response.json();
-                } else if (request.dataType === 'text' || (response.headers.get('Content-Type') || '').toLowerCase().indexOf('text/') === 0) {
+                } else if (request.dataType === 'text' || (response.headers.get('Content-Type') || '').toLowerCase().startsWith('text/')) {
                     return response.text();
                 } else {
                     return response;
@@ -115,12 +110,8 @@ define([], function () {
                 return Promise.reject(response);
             }
         }, function (err) {
-            console.error('request failed to url: ' + request.url);
+            console.error(`request failed to url: ${request.url}`);
             throw err;
         });
     }
-    return {
-        getFetchPromise: getFetchPromise,
-        ajax: ajax
-    };
-});
+/* eslint-enable indent */

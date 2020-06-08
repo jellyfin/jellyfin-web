@@ -4,7 +4,7 @@
             <div class="verticalSection">
                 <div class="sectionTitleContainer flex align-items-center">
                     <h2 class="sectionTitle taskName"></h2>
-                    <a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/tasks.html">${Help}</a>
+                    <a is="emby-linkbutton" rel="noopener noreferrer" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/tasks.html">${Help}</a>
                 </div>
                 <p id="pTaskDescription"></p>
             </div>
@@ -13,14 +13,14 @@
                 <div>
                     <h2 style="vertical-align: middle; display: inline-block;">${HeaderTaskTriggers}</h2>
                     <button is="emby-button" type="button" class="fab fab-mini btnAddTrigger submit" style="margin-left: 1em;" title="${ButtonAddScheduledTaskTrigger}">
-                        <i class="material-icons">add</i>
+                        <span class="material-icons add"></span>
                     </button>
                 </div>
                 <div class="taskTriggers"></div>
             </div>
         </div>
     </div>
-    <div data-role="popup" id="popupAddTrigger" class="dialog dialog-fixedSize dialog-medium-tall hide" style="position: fixed; top: 10%;">
+    <div data-role="popup" id="popupAddTrigger" class="dialog dialog-fixedSize dialog-medium hide" style="position: fixed; top: 10%;">
         <form class="addTriggerForm" style="padding:1em;">
             <div class="ui-bar-a">
                 <h3>${HeaderAddScheduledTaskTrigger}</h3>

@@ -5,12 +5,11 @@
                 <div class="verticalSection">
                     <div class="sectionTitleContainer flex align-items-center">
                         <h1 class="sectionTitle pluginName"></h1>
-                        <a is="emby-linkbutton" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/plugins/index.html">${Help}</a>
+                        <a is="emby-linkbutton" rel="noopener noreferrer" class="raised button-alt headerHelpButton" target="_blank" href="https://docs.jellyfin.org/general/server/plugins/index.html">${Help}</a>
                     </div>
 
-                    <p id="tagline" style="font-style: italic;"></p>
-                    <p id="pPreviewImage"></p>
-                    <p id="overview"></p>
+                    <p id="overview" style="font-style: italic;"></p>
+                    <p id="description"></p>
                 </div>
 
                 <div class="verticalSection">
@@ -28,7 +27,6 @@
                             </button>
                             <div class="fieldDescription">${ServerRestartNeededAfterPluginInstall}</div>
                         </div>
-                        <p id="nonServerMsg"></p>
                     </form>
                 </div>
             </div>
@@ -37,9 +35,6 @@
                 <div is="emby-collapse" title="${HeaderDeveloperInfo}">
                     <div class="collapseContent">
                         <p id="developer"></p>
-                        <p id="pViewWebsite" style="display: none;">
-                            <a is="emby-linkbutton" class="button-link" href="#" target="_blank">${ButtonViewWebsite}</a>
-                        </p>
                     </div>
                 </div>
 

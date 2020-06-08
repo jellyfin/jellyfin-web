@@ -37,6 +37,8 @@ html {
 }
 
 .dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu,
 html {
     background-color: #230c33;
 }
@@ -219,23 +221,23 @@ a[data-role=button] {
 }
 
 .defaultCardBackground1 {
-    background-color: #d2b019;
+    background-color: #9c20ab;
 }
 
 .defaultCardBackground2 {
-    background-color: #338abb;
+    background-color: #d799de;
 }
 
 .defaultCardBackground3 {
-    background-color: #6b689d;
+    background-color: #412378;
 }
 
 .defaultCardBackground4 {
-    background-color: #dd452b;
+    background-color: #857b48;
 }
 
 .defaultCardBackground5 {
-    background-color: #5ccea9;
+    background-color: #ab8820;
 }
 
 .cardText-secondary,
@@ -269,7 +271,8 @@ a[data-role=button] {
     color: rgba(255, 255, 255, 0.87);
 }
 
-.appfooter {
+.appfooter,
+.playlistSectionButton {
     background: #06256f;
     color: #ccc;
     color: rgba(255, 255, 255, 0.78);

@@ -1,5 +1,5 @@
-define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser", "imageLoader", "alphaPicker", "listView", "cardBuilder", "apphost", "emby-itemscontainer"], function (layoutManager, playbackManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, appHost) {
-    "use strict";
+define(['layoutManager', 'playbackManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'alphaPicker', 'listView', 'cardBuilder', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, playbackManager, loading, events, libraryBrowser, imageLoader, alphaPicker, listView, cardBuilder, userSettings, globalize) {
+    'use strict';
 
     return function (view, params, tabContent) {
         function playAll() {
@@ -23,18 +23,22 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
             if (!pageData) {
                 pageData = {
                     query: {
-                        SortBy: "SortName",
-                        SortOrder: "Ascending",
-                        IncludeItemTypes: "MusicAlbum",
+                        SortBy: 'SortName',
+                        SortOrder: 'Ascending',
+                        IncludeItemTypes: 'MusicAlbum',
                         Recursive: true,
-                        Fields: "PrimaryImageAspectRatio,SortName,BasicSyncInfo",
+                        Fields: 'PrimaryImageAspectRatio,SortName,BasicSyncInfo',
                         ImageTypeLimit: 1,
-                        EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
-                        StartIndex: 0,
-                        Limit: pageSize
+                        EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
+                        StartIndex: 0
                     },
-                    view: libraryBrowser.getSavedView(key) || "Poster"
+                    view: libraryBrowser.getSavedView(key) || 'Poster'
                 };
+
+                if (userSettings.libraryPageSize() > 0) {
+                    pageData.query['Limit'] = userSettings.libraryPageSize();
+                }
+
                 pageData.query.ParentId = params.topParentId;
                 libraryBrowser.loadSavedQueryValues(key, pageData.query);
             }
@@ -48,7 +52,7 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
 
         function getSavedQueryKey() {
             if (!savedQueryKey) {
-                savedQueryKey = libraryBrowser.getSavedQueryKey("musicalbums");
+                savedQueryKey = libraryBrowser.getSavedQueryKey('musicalbums');
             }
 
             return savedQueryKey;
@@ -56,17 +60,17 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
 
         function onViewStyleChange() {
             var viewStyle = self.getCurrentViewStyle();
-            var itemsContainer = tabContent.querySelector(".itemsContainer");
+            var itemsContainer = tabContent.querySelector('.itemsContainer');
 
-            if ("List" == viewStyle) {
-                itemsContainer.classList.add("vertical-list");
-                itemsContainer.classList.remove("vertical-wrap");
+            if ('List' == viewStyle) {
+                itemsContainer.classList.add('vertical-list');
+                itemsContainer.classList.remove('vertical-wrap');
             } else {
-                itemsContainer.classList.remove("vertical-list");
-                itemsContainer.classList.add("vertical-wrap");
+                itemsContainer.classList.remove('vertical-list');
+                itemsContainer.classList.add('vertical-wrap');
             }
 
-            itemsContainer.innerHTML = "";
+            itemsContainer.innerHTML = '';
         }
 
         function reloadItems(page) {
@@ -79,7 +83,9 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                         return;
                     }
 
-                    query.StartIndex += query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex += query.Limit;
+                    }
                     reloadItems(tabContent);
                 }
 
@@ -88,7 +94,9 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                         return;
                     }
 
-                    query.StartIndex -= query.Limit;
+                    if (userSettings.libraryPageSize() > 0) {
+                        query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                    }
                     reloadItems(tabContent);
                 }
 
@@ -106,18 +114,18 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                     filterButton: false
                 });
                 var viewStyle = self.getCurrentViewStyle();
-                if (viewStyle == "List") {
+                if (viewStyle == 'List') {
                     html = listView.getListViewHtml({
                         items: result.Items,
-                        context: "music",
+                        context: 'music',
                         sortBy: query.SortBy,
                         addToListButton: true
                     });
-                } else if (viewStyle == "PosterCard") {
+                } else if (viewStyle == 'PosterCard') {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: "square",
-                        context: "music",
+                        shape: 'square',
+                        context: 'music',
                         showTitle: true,
                         coverImage: true,
                         showParentTitle: true,
@@ -127,8 +135,8 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                 } else {
                     html = cardBuilder.getCardsHtml({
                         items: result.Items,
-                        shape: "square",
-                        context: "music",
+                        shape: 'square',
+                        context: 'music',
                         showTitle: true,
                         showParentTitle: true,
                         lazy: true,
@@ -138,30 +146,30 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                 }
                 var i;
                 var length;
-                var elems = tabContent.querySelectorAll(".paging");
+                var elems = tabContent.querySelectorAll('.paging');
 
                 for (i = 0, length = elems.length; i < length; i++) {
                     elems[i].innerHTML = pagingHtml;
                 }
 
-                elems = tabContent.querySelectorAll(".btnNextPage");
+                elems = tabContent.querySelectorAll('.btnNextPage');
                 for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener("click", onNextPageClick);
+                    elems[i].addEventListener('click', onNextPageClick);
                 }
 
-                elems = tabContent.querySelectorAll(".btnPreviousPage");
+                elems = tabContent.querySelectorAll('.btnPreviousPage');
                 for (i = 0, length = elems.length; i < length; i++) {
-                    elems[i].addEventListener("click", onPreviousPageClick);
+                    elems[i].addEventListener('click', onPreviousPageClick);
                 }
 
-                var itemsContainer = tabContent.querySelector(".itemsContainer");
+                var itemsContainer = tabContent.querySelector('.itemsContainer');
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);
                 loading.hide();
                 isLoading = false;
 
-                require(["autoFocuser"], function (autoFocuser) {
+                require(['autoFocuser'], function (autoFocuser) {
                     autoFocuser.autoFocus(tabContent);
                 });
             });
@@ -175,17 +183,16 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
         var savedQueryKey;
         var pageData;
         var self = this;
-        var pageSize = 100;
         var isLoading = false;
 
         self.showFilterMenu = function () {
-            require(["components/filterdialog/filterdialog"], function (filterDialogFactory) {
+            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
                 var filterDialog = new filterDialogFactory({
                     query: getQuery(),
-                    mode: "albums",
+                    mode: 'albums',
                     serverId: ApiClient.serverId()
                 });
-                events.on(filterDialog, "filterchange", function () {
+                events.on(filterDialog, 'filterchange', function () {
                     getQuery().StartIndex = 0;
                     reloadItems(tabContent);
                 });
@@ -198,10 +205,10 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
         };
 
         function initPage(tabContent) {
-            var alphaPickerElement = tabContent.querySelector(".alphaPicker");
-            var itemsContainer = tabContent.querySelector(".itemsContainer");
+            var alphaPickerElement = tabContent.querySelector('.alphaPicker');
+            var itemsContainer = tabContent.querySelector('.itemsContainer');
 
-            alphaPickerElement.addEventListener("alphavaluechanged", function (e) {
+            alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                 var newValue = e.detail.value;
                 var query = getQuery();
                 query.NameStartsWithOrGreater = newValue;
@@ -210,39 +217,39 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
             });
             self.alphaPicker = new alphaPicker({
                 element: alphaPickerElement,
-                valueChangeEvent: "click"
+                valueChangeEvent: 'click'
             });
 
-            tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-right");
-            alphaPickerElement.classList.add("alphaPicker-fixed-right");
-            itemsContainer.classList.add("padded-right-withalphapicker");
+            tabContent.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
+            alphaPickerElement.classList.add('alphaPicker-fixed-right');
+            itemsContainer.classList.add('padded-right-withalphapicker');
 
-            tabContent.querySelector(".btnFilter").addEventListener("click", function () {
+            tabContent.querySelector('.btnFilter').addEventListener('click', function () {
                 self.showFilterMenu();
             });
-            tabContent.querySelector(".btnSort").addEventListener("click", function (e) {
+            tabContent.querySelector('.btnSort').addEventListener('click', function (e) {
                 libraryBrowser.showSortMenu({
                     items: [{
-                        name: Globalize.translate("OptionNameSort"),
-                        id: "SortName"
+                        name: globalize.translate('OptionNameSort'),
+                        id: 'SortName'
                     }, {
-                        name: Globalize.translate("OptionAlbumArtist"),
-                        id: "AlbumArtist,SortName"
+                        name: globalize.translate('OptionAlbumArtist'),
+                        id: 'AlbumArtist,SortName'
                     }, {
-                        name: Globalize.translate("OptionCommunityRating"),
-                        id: "CommunityRating,SortName"
+                        name: globalize.translate('OptionCommunityRating'),
+                        id: 'CommunityRating,SortName'
                     }, {
-                        name: Globalize.translate("OptionCriticRating"),
-                        id: "CriticRating,SortName"
+                        name: globalize.translate('OptionCriticRating'),
+                        id: 'CriticRating,SortName'
                     }, {
-                        name: Globalize.translate("OptionDateAdded"),
-                        id: "DateCreated,SortName"
+                        name: globalize.translate('OptionDateAdded'),
+                        id: 'DateCreated,SortName'
                     }, {
-                        name: Globalize.translate("OptionReleaseDate"),
-                        id: "ProductionYear,PremiereDate,SortName"
+                        name: globalize.translate('OptionReleaseDate'),
+                        id: 'ProductionYear,PremiereDate,SortName'
                     }, {
-                        name: Globalize.translate("OptionRandom"),
-                        id: "Random,SortName"
+                        name: globalize.translate('OptionRandom'),
+                        id: 'Random,SortName'
                     }],
                     callback: function () {
                         getQuery().StartIndex = 0;
@@ -252,11 +259,11 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                     button: e.target
                 });
             });
-            var btnSelectView = tabContent.querySelector(".btnSelectView");
-            btnSelectView.addEventListener("click", function (e) {
-                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), "List,Poster,PosterCard".split(","));
+            var btnSelectView = tabContent.querySelector('.btnSelectView');
+            btnSelectView.addEventListener('click', function (e) {
+                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
             });
-            btnSelectView.addEventListener("layoutchange", function (e) {
+            btnSelectView.addEventListener('layoutchange', function (e) {
                 var viewStyle = e.detail.viewStyle;
                 getPageData().view = viewStyle;
                 libraryBrowser.saveViewSetting(getSavedQueryKey(), viewStyle);
@@ -264,8 +271,8 @@ define(["layoutManager", "playbackManager", "loading", "events", "libraryBrowser
                 onViewStyleChange();
                 reloadItems(tabContent);
             });
-            tabContent.querySelector(".btnPlayAll").addEventListener("click", playAll);
-            tabContent.querySelector(".btnShuffle").addEventListener("click", shuffle);
+            tabContent.querySelector('.btnPlayAll').addEventListener('click', playAll);
+            tabContent.querySelector('.btnShuffle').addEventListener('click', shuffle);
         }
 
         initPage(tabContent);

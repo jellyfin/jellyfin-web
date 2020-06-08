@@ -1,17 +1,17 @@
-define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", "alphaPicker", "listView", "cardBuilder", "emby-itemscontainer"], function (loading, layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder) {
-    "use strict";
+define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 'alphaPicker', 'listView', 'cardBuilder', 'globalize', 'emby-itemscontainer'], function (loading, layoutManager, userSettings, events, libraryBrowser, alphaPicker, listView, cardBuilder, globalize) {
+    'use strict';
 
     return function (view, params, tabContent, options) {
         function onViewStyleChange() {
-            if (self.getCurrentViewStyle() == "List") {
-                itemsContainer.classList.add("vertical-list");
-                itemsContainer.classList.remove("vertical-wrap");
+            if (self.getCurrentViewStyle() == 'List') {
+                itemsContainer.classList.add('vertical-list');
+                itemsContainer.classList.remove('vertical-wrap');
             } else {
-                itemsContainer.classList.remove("vertical-list");
-                itemsContainer.classList.add("vertical-wrap");
+                itemsContainer.classList.remove('vertical-list');
+                itemsContainer.classList.add('vertical-wrap');
             }
 
-            itemsContainer.innerHTML = "";
+            itemsContainer.innerHTML = '';
         }
 
         function updateFilterControls() {
@@ -32,7 +32,9 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     return;
                 }
 
-                query.StartIndex += query.Limit;
+                if (userSettings.libraryPageSize() > 0) {
+                    query.StartIndex += query.Limit;
+                }
                 itemsContainer.refreshItems();
             }
 
@@ -41,7 +43,9 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     return;
                 }
 
-                query.StartIndex -= query.Limit;
+                if (userSettings.libraryPageSize() > 0) {
+                    query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
+                }
                 itemsContainer.refreshItems();
             }
 
@@ -59,26 +63,26 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
             });
             var i;
             var length;
-            var elems = tabContent.querySelectorAll(".paging");
+            var elems = tabContent.querySelectorAll('.paging');
 
             for (i = 0, length = elems.length; i < length; i++) {
                 elems[i].innerHTML = pagingHtml;
             }
 
-            elems = tabContent.querySelectorAll(".btnNextPage");
+            elems = tabContent.querySelectorAll('.btnNextPage');
             for (i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener("click", onNextPageClick);
+                elems[i].addEventListener('click', onNextPageClick);
             }
 
-            elems = tabContent.querySelectorAll(".btnPreviousPage");
+            elems = tabContent.querySelectorAll('.btnPreviousPage');
             for (i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener("click", onPreviousPageClick);
+                elems[i].addEventListener('click', onPreviousPageClick);
             }
 
             isLoading = false;
             loading.hide();
 
-            require(["autoFocuser"], function (autoFocuser) {
+            require(['autoFocuser'], function (autoFocuser) {
                 autoFocuser.autoFocus(tabContent);
             });
         }
@@ -87,49 +91,49 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
             var html;
             var viewStyle = self.getCurrentViewStyle();
 
-            if (viewStyle == "Thumb") {
+            if (viewStyle == 'Thumb') {
                 html = cardBuilder.getCardsHtml({
                     items: items,
-                    shape: "backdrop",
+                    shape: 'backdrop',
                     preferThumb: true,
-                    context: "movies",
+                    context: 'movies',
                     lazy: true,
                     overlayPlayButton: true,
                     showTitle: true,
                     showYear: true,
                     centerText: true
                 });
-            } else if (viewStyle == "ThumbCard") {
+            } else if (viewStyle == 'ThumbCard') {
                 html = cardBuilder.getCardsHtml({
                     items: items,
-                    shape: "backdrop",
+                    shape: 'backdrop',
                     preferThumb: true,
-                    context: "movies",
+                    context: 'movies',
                     lazy: true,
                     cardLayout: true,
                     showTitle: true,
                     showYear: true,
                     centerText: true
                 });
-            } else if (viewStyle == "Banner") {
+            } else if (viewStyle == 'Banner') {
                 html = cardBuilder.getCardsHtml({
                     items: items,
-                    shape: "banner",
+                    shape: 'banner',
                     preferBanner: true,
-                    context: "movies",
+                    context: 'movies',
                     lazy: true
                 });
-            } else if (viewStyle == "List") {
+            } else if (viewStyle == 'List') {
                 html = listView.getListViewHtml({
                     items: items,
-                    context: "movies",
+                    context: 'movies',
                     sortBy: query.SortBy
                 });
-            } else if (viewStyle == "PosterCard") {
+            } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
                     items: items,
-                    shape: "portrait",
-                    context: "movies",
+                    shape: 'portrait',
+                    context: 'movies',
                     showTitle: true,
                     showYear: true,
                     centerText: true,
@@ -139,8 +143,8 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
             } else {
                 html = cardBuilder.getCardsHtml({
                     items: items,
-                    shape: "portrait",
-                    context: "movies",
+                    shape: 'portrait',
+                    context: 'movies',
                     overlayPlayButton: true,
                     showTitle: true,
                     showYear: true,
@@ -155,10 +159,10 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
             itemsContainer.fetchData = fetchData;
             itemsContainer.getItemsHtml = getItemsHtml;
             itemsContainer.afterRefresh = afterRefresh;
-            var alphaPickerElement = tabContent.querySelector(".alphaPicker");
+            var alphaPickerElement = tabContent.querySelector('.alphaPicker');
 
             if (alphaPickerElement) {
-                alphaPickerElement.addEventListener("alphavaluechanged", function (e) {
+                alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                     var newValue = e.detail.value;
                     query.NameStartsWithOrGreater = newValue;
                     query.StartIndex = 0;
@@ -166,53 +170,53 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                 });
                 self.alphaPicker = new alphaPicker({
                     element: alphaPickerElement,
-                    valueChangeEvent: "click"
+                    valueChangeEvent: 'click'
                 });
 
-                tabContent.querySelector(".alphaPicker").classList.add("alphabetPicker-right");
-                alphaPickerElement.classList.add("alphaPicker-fixed-right");
-                itemsContainer.classList.add("padded-right-withalphapicker");
+                tabContent.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
+                alphaPickerElement.classList.add('alphaPicker-fixed-right');
+                itemsContainer.classList.add('padded-right-withalphapicker');
             }
 
-            var btnFilter = tabContent.querySelector(".btnFilter");
+            var btnFilter = tabContent.querySelector('.btnFilter');
 
             if (btnFilter) {
-                btnFilter.addEventListener("click", function () {
+                btnFilter.addEventListener('click', function () {
                     self.showFilterMenu();
                 });
             }
-            var btnSort = tabContent.querySelector(".btnSort");
+            var btnSort = tabContent.querySelector('.btnSort');
 
             if (btnSort) {
-                btnSort.addEventListener("click", function (e) {
+                btnSort.addEventListener('click', function (e) {
                     libraryBrowser.showSortMenu({
                         items: [{
-                            name: Globalize.translate("OptionNameSort"),
-                            id: "SortName,ProductionYear"
+                            name: globalize.translate('OptionNameSort'),
+                            id: 'SortName,ProductionYear'
                         }, {
-                            name: Globalize.translate("OptionImdbRating"),
-                            id: "CommunityRating,SortName,ProductionYear"
+                            name: globalize.translate('OptionImdbRating'),
+                            id: 'CommunityRating,SortName,ProductionYear'
                         }, {
-                            name: Globalize.translate("OptionCriticRating"),
-                            id: "CriticRating,SortName,ProductionYear"
+                            name: globalize.translate('OptionCriticRating'),
+                            id: 'CriticRating,SortName,ProductionYear'
                         }, {
-                            name: Globalize.translate("OptionDateAdded"),
-                            id: "DateCreated,SortName,ProductionYear"
+                            name: globalize.translate('OptionDateAdded'),
+                            id: 'DateCreated,SortName,ProductionYear'
                         }, {
-                            name: Globalize.translate("OptionDatePlayed"),
-                            id: "DatePlayed,SortName,ProductionYear"
+                            name: globalize.translate('OptionDatePlayed'),
+                            id: 'DatePlayed,SortName,ProductionYear'
                         }, {
-                            name: Globalize.translate("OptionParentalRating"),
-                            id: "OfficialRating,SortName,ProductionYear"
+                            name: globalize.translate('OptionParentalRating'),
+                            id: 'OfficialRating,SortName,ProductionYear'
                         }, {
-                            name: Globalize.translate("OptionPlayCount"),
-                            id: "PlayCount,SortName,ProductionYear"
+                            name: globalize.translate('OptionPlayCount'),
+                            id: 'PlayCount,SortName,ProductionYear'
                         }, {
-                            name: Globalize.translate("OptionReleaseDate"),
-                            id: "PremiereDate,SortName,ProductionYear"
+                            name: globalize.translate('OptionReleaseDate'),
+                            id: 'PremiereDate,SortName,ProductionYear'
                         }, {
-                            name: Globalize.translate("OptionRuntime"),
-                            id: "Runtime,SortName,ProductionYear"
+                            name: globalize.translate('OptionRuntime'),
+                            id: 'Runtime,SortName,ProductionYear'
                         }],
                         callback: function () {
                             query.StartIndex = 0;
@@ -224,11 +228,11 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
                     });
                 });
             }
-            var btnSelectView = tabContent.querySelector(".btnSelectView");
-            btnSelectView.addEventListener("click", function (e) {
-                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), "Banner,List,Poster,PosterCard,Thumb,ThumbCard".split(","));
+            var btnSelectView = tabContent.querySelector('.btnSelectView');
+            btnSelectView.addEventListener('click', function (e) {
+                libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
             });
-            btnSelectView.addEventListener("layoutchange", function (e) {
+            btnSelectView.addEventListener('layoutchange', function (e) {
                 var viewStyle = e.detail.viewStyle;
                 userSettings.set(savedViewKey, viewStyle);
                 query.StartIndex = 0;
@@ -238,37 +242,41 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
         }
 
         var self = this;
-        var itemsContainer = tabContent.querySelector(".itemsContainer");
-        var savedQueryKey = params.topParentId + "-" + options.mode;
-        var savedViewKey = savedQueryKey + "-view";
+        var itemsContainer = tabContent.querySelector('.itemsContainer');
+        var savedQueryKey = params.topParentId + '-' + options.mode;
+        var savedViewKey = savedQueryKey + '-view';
         var query = {
-            SortBy: "SortName,ProductionYear",
-            SortOrder: "Ascending",
-            IncludeItemTypes: "Movie",
+            SortBy: 'SortName,ProductionYear',
+            SortOrder: 'Ascending',
+            IncludeItemTypes: 'Movie',
             Recursive: true,
-            Fields: "PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo",
+            Fields: 'PrimaryImageAspectRatio,MediaSourceCount,BasicSyncInfo',
             ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
+            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
             StartIndex: 0,
-            Limit: 100,
             ParentId: params.topParentId
         };
+
+        if (userSettings.libraryPageSize() > 0) {
+            query['Limit'] = userSettings.libraryPageSize();
+        }
+
         var isLoading = false;
 
-        if (options.mode === "favorites") {
+        if (options.mode === 'favorites') {
             query.IsFavorite = true;
         }
 
         query = userSettings.loadQuerySettings(savedQueryKey, query);
 
         self.showFilterMenu = function () {
-            require(["components/filterdialog/filterdialog"], function (filterDialogFactory) {
+            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
                 var filterDialog = new filterDialogFactory({
                     query: query,
-                    mode: "movies",
+                    mode: 'movies',
                     serverId: ApiClient.serverId()
                 });
-                events.on(filterDialog, "filterchange", function () {
+                events.on(filterDialog, 'filterchange', function () {
                     query.StartIndex = 0;
                     itemsContainer.refreshItems();
                 });
@@ -277,7 +285,7 @@ define(["loading", "layoutManager", "userSettings", "events", "libraryBrowser", 
         };
 
         self.getCurrentViewStyle = function () {
-            return userSettings.get(savedViewKey) || "Poster";
+            return userSettings.get(savedViewKey) || 'Poster';
         };
 
         self.initTab = function () {

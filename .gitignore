@@ -3,8 +3,12 @@ config.json
 
 # npm
 dist
+web
 node_modules
 
 # ide
 .idea
 .vscode
+
+#log
+yarn-error.log

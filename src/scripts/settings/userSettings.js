@@ -84,7 +84,7 @@ import events from 'events';
     }
 
     export function enableCinemaMode(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('enableCinemaMode', val.toString(), false);
         }
 
@@ -93,7 +93,7 @@ import events from 'events';
     }
 
     export function enableNextVideoInfoOverlay(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('enableNextVideoInfoOverlay', val.toString());
         }
 
@@ -102,25 +102,25 @@ import events from 'events';
     }
 
     export function enableThemeSongs(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('enableThemeSongs', val.toString(), false);
         }
 
         val = this.get('enableThemeSongs', false);
-        return val !== 'false';
+        return val === 'true';
     }
 
     export function enableThemeVideos(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('enableThemeVideos', val.toString(), false);
         }
 
         val = this.get('enableThemeVideos', false);
-        return val !== 'false';
+        return val === 'true';
     }
 
     export function enableFastFadein(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('fastFadein', val.toString(), false);
         }
 
@@ -128,8 +128,17 @@ import events from 'events';
         return val !== 'false';
     }
 
+    export function enableBlurhash(val) {
+        if (val !== undefined) {
+            return this.set('blurhash', val.toString(), false);
+        }
+
+        val = this.get('blurhash', false);
+        return val !== 'false';
+    }
+
     export function enableBackdrops(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('enableBackdrops', val.toString(), false);
         }
 
@@ -137,8 +146,17 @@ import events from 'events';
         return val !== 'false';
     }
 
+    export function detailsBanner(val) {
+        if (val !== undefined) {
+            return this.set('detailsBanner', val.toString(), false);
+        }
+
+        val = this.get('detailsBanner', false);
+        return val !== 'false';
+    }
+
     export function language(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('language', val.toString(), false);
         }
 
@@ -146,15 +164,23 @@ import events from 'events';
     }
 
     export function dateTimeLocale(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('datetimelocale', val.toString(), false);
         }
 
         return this.get('datetimelocale', false);
     }
 
+    export function chromecastVersion(val) {
+        if (val !== undefined) {
+            return this.set('chromecastVersion', val.toString());
+        }
+
+        return this.get('chromecastVersion') || 'stable';
+    }
+
     export function skipBackLength(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('skipBackLength', val.toString());
         }
 
@@ -162,7 +188,7 @@ import events from 'events';
     }
 
     export function skipForwardLength(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('skipForwardLength', val.toString());
         }
 
@@ -170,7 +196,7 @@ import events from 'events';
     }
 
     export function dashboardTheme(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('dashboardTheme', val);
         }
 
@@ -178,7 +204,7 @@ import events from 'events';
     }
 
     export function skin(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('skin', val, false);
         }
 
@@ -186,7 +212,7 @@ import events from 'events';
     }
 
     export function theme(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('appTheme', val, false);
         }
 
@@ -194,15 +220,29 @@ import events from 'events';
     }
 
     export function screensaver(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('screensaver', val, false);
         }
 
         return this.get('screensaver', false);
     }
 
+    export function libraryPageSize(val) {
+        if (val !== undefined) {
+            return this.set('libraryPageSize', parseInt(val, 10), false);
+        }
+
+        var libraryPageSize = parseInt(this.get('libraryPageSize', false), 10);
+        if (libraryPageSize === 0) {
+            // Explicitly return 0 to avoid returning 100 because 0 is falsy.
+            return 0;
+        } else {
+            return libraryPageSize || 100;
+        }
+    }
+
     export function soundEffects(val) {
-        if (val != null) {
+        if (val !== undefined) {
             return this.set('soundeffects', val, false);
         }
 
@@ -251,3 +291,34 @@ import events from 'events';
     }
 
 /* eslint-enable indent */
+export default {
+    setUserInfo: setUserInfo,
+    getData: getData,
+    importFrom: importFrom,
+    set: set,
+    get: get,
+    serverConfig: serverConfig,
+    enableCinemaMode: enableCinemaMode,
+    enableNextVideoInfoOverlay: enableNextVideoInfoOverlay,
+    enableThemeSongs: enableThemeSongs,
+    enableThemeVideos: enableThemeVideos,
+    enableFastFadein: enableFastFadein,
+    enableBlurhash: enableBlurhash,
+    enableBackdrops: enableBackdrops,
+    language: language,
+    dateTimeLocale: dateTimeLocale,
+    skipBackLength: skipBackLength,
+    skipForwardLength: skipForwardLength,
+    dashboardTheme: dashboardTheme,
+    skin: skin,
+    theme: theme,
+    screensaver: screensaver,
+    libraryPageSize: libraryPageSize,
+    soundEffects: soundEffects,
+    loadQuerySettings: loadQuerySettings,
+    saveQuerySettings: saveQuerySettings,
+    getSubtitleAppearanceSettings: getSubtitleAppearanceSettings,
+    setSubtitleAppearanceSettings: setSubtitleAppearanceSettings,
+    setFilter: setFilter,
+    getFilter: getFilter
+};
