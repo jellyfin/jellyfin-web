@@ -261,7 +261,7 @@ define(['jQuery', 'dom', 'datetime', 'loading', 'libraryMenu', 'globalize', 'lis
     }).on('pageshow', '#userParentalControlPage', function () {
         var page = this;
         loading.show();
-        var userId = dom.etParameterByName('userId');
+        var userId = dom.getParameterByName('userId');
         var promise1 = ApiClient.getUser(userId);
         var promise2 = ApiClient.getParentalRatings();
         Promise.all([promise1, promise2]).then(function (responses) {
