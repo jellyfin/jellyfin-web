@@ -81,23 +81,26 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             options.tag = item.ImageTags.Primary;
             itemId = item.Id;
         }
-
-        if (item.AlbumId && item.AlbumPrimaryImageTag) {
-            options.tag = item.AlbumPrimaryImageTag;
-            itemId = item.AlbumId;
-        } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
-            options.tag = item.SeriesPrimaryImageTag;
-            itemId = item.SeriesId;
-        } else if (item.ParentPrimaryImageTag) {
-            options.tag = item.ParentPrimaryImageTag;
-            itemId = item.ParentPrimaryImageItemId;
+        if (!itemId) {
+            if (item.AlbumId && item.AlbumPrimaryImageTag) {
+                options.tag = item.AlbumPrimaryImageTag;
+                itemId = item.AlbumId;
+            } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
+                options.tag = item.SeriesPrimaryImageTag;
+                itemId = item.SeriesId;
+            } else if (item.ParentPrimaryImageTag) {
+                options.tag = item.ParentPrimaryImageTag;
+                itemId = item.ParentPrimaryImageItemId;
+            }
         }
+        
         let blurHashes = item.ImageBlurHashes || {};
         let blurhashstr = (blurHashes[options.type] || {})[options.tag];
 
         if (itemId) {
             return { url: apiClient.getScaledImageUrl(itemId, options), blurhash: blurhashstr };
         }
+        return null;
     }
 
     function getChannelImageUrl(item, width) {
