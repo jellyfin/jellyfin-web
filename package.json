@@ -66,7 +66,7 @@
     "hls.js": "^0.13.1",
     "howler": "^2.2.0",
     "intersection-observer": "^0.10.0",
-    "jellyfin-apiclient": "^1.2.0",
+    "jellyfin-apiclient": "^1.2.2",
     "jellyfin-noto": "https://github.com/jellyfin/jellyfin-noto",
     "jquery": "^3.5.1",
     "jstree": "^3.3.7",
