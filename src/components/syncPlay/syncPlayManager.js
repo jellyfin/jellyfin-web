@@ -1,6 +1,6 @@
 /**
  * Module that manages the SyncPlay feature.
- * @module components/syncplay/syncPlayManager
+ * @module components/syncPlay/syncPlayManager
  */
 
 import events from 'events';
