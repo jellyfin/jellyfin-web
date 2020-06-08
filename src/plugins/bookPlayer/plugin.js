@@ -1,3 +1,4 @@
+import browser from 'browser';
 import loading from 'loading';
 import keyboardnavigation from 'keyboardnavigation';
 import dialogHelper from 'dialogHelper';
@@ -230,6 +231,23 @@ export class BookPlayer {
         return elem;
     }
 
+    render(elem, book) {
+        if (browser.mobile) {
+            return book.renderTo(elem, {
+                width: '100%',
+                height: '100%',
+                manager: 'continuous',
+                flow: 'scrolled-doc',
+                offset: 0
+            });
+        } else {
+            return book.renderTo(elem, {
+                width: '100%',
+                height: '100%'
+            });
+        }
+    }
+
     setCurrentSrc(elem, options) {
         const item = options.items[0];
         this._currentItem = item;
@@ -248,7 +266,7 @@ export class BookPlayer {
             import('epubjs').then(({default: epubjs}) => {
                 const downloadHref = apiClient.getItemDownloadUrl(item.Id);
                 const book = epubjs(downloadHref, {openAs: 'epub'});
-                const rendition = book.renderTo(elem, {width: '100%', height: '97%'});
+                const rendition = this.render(elem, book);
 
                 this._currentSrc = downloadHref;
                 this._rendition = rendition;
