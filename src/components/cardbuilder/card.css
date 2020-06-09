@@ -805,6 +805,11 @@ button::-moz-focus-inner {
     transition: transform 0.2s;
 }
 
+.card-hoverable .lazy.cardImageContainer.hoverBlur {
+    filter: none;
+    transition: filter 0.5s;
+}
+
 .card-hoverable:hover .lazy.cardImageContainer.hoverBlur {
     filter: blur(0.09em);
 }
