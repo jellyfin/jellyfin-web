@@ -1,6 +1,6 @@
 /**
  * Module that manages time syncing with server.
- * @module components/syncplay/timeSyncManager
+ * @module components/syncPlay/timeSyncManager
  */
 
 import events from 'events';

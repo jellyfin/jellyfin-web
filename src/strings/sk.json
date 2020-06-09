@@ -1457,8 +1457,6 @@
     "MessageConfirmAppExit": "Chceli by ste odísiť?",
     "LabelVideoResolution": "Rozlíšenie videa:",
     "LabelStreamType": "Typ streamu:",
-    "EnableFastImageFadeInHelp": "Zobrazí plagát a ostatné obrázky s rýchlejšou animáciou prechodu po dokončení načítania.",
-    "EnableFastImageFadeIn": "Rýchla animácia prechodu obrázku",
     "LabelPlayerDimensions": "Rozmery prehrávača:",
     "LabelDroppedFrames": "Vynechané snímky:",
     "LabelCorruptedFrames": "Poškodené snímky:",

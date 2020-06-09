@@ -1,23 +1,30 @@
-/* eslint-disable indent */
-
 import appSettings from 'appSettings';
 import events from 'events';
 
-    function onSaveTimeout() {
-        var self = this;
-        self.saveTimeout = null;
-        self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
+function onSaveTimeout() {
+    var self = this;
+    self.saveTimeout = null;
+    self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
+}
+
+function saveServerPreferences(instance) {
+    if (instance.saveTimeout) {
+        clearTimeout(instance.saveTimeout);
     }
 
-    function saveServerPreferences(instance) {
-        if (instance.saveTimeout) {
-            clearTimeout(instance.saveTimeout);
-        }
+    instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
+}
 
-        instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
+export class UserSettings {
+    constructor() {
     }
 
-    export function setUserInfo(userId, apiClient) {
+    /**
+     * Bind UserSettings instance to user.
+     * @param {string} - User identifier.
+     * @param {Object} - ApiClient instance.
+     */
+    setUserInfo(userId, apiClient) {
         if (this.saveTimeout) {
             clearTimeout(this.saveTimeout);
         }
@@ -38,15 +45,24 @@ import events from 'events';
         });
     }
 
-    export function getData() {
+    // FIXME: Seems unused
+    getData() {
         return this.displayPrefs;
     }
 
-    export function importFrom(instance) {
+    // FIXME: Seems unused
+    importFrom(instance) {
         this.displayPrefs = instance.getData();
     }
 
-    export function set(name, value, enableOnServer) {
+    // FIXME: 'appSettings.set' doesn't return any value
+    /**
+     * Set value of setting.
+     * @param {string} name - Name of setting.
+     * @param {mixed} value - Value of setting.
+     * @param {boolean} enableOnServer - Flag to save preferences on server.
+     */
+    set(name, value, enableOnServer) {
         var userId = this.currentUserId;
         var currentValue = this.get(name, enableOnServer);
         var result = appSettings.set(name, value, userId);
@@ -63,7 +79,13 @@ import events from 'events';
         return result;
     }
 
-    export function get(name, enableOnServer) {
+    /**
+     * Get value of setting.
+     * @param {string} name - Name of setting.
+     * @param {boolean} enableOnServer - Flag to return preferences from server (cached).
+     * @return {string} Value of setting.
+     */
+    get(name, enableOnServer) {
         var userId = this.currentUserId;
         if (enableOnServer !== false && this.displayPrefs) {
             return this.displayPrefs.CustomPrefs[name];
@@ -72,7 +94,12 @@ import events from 'events';
         return appSettings.get(name, userId);
     }
 
-    export function serverConfig(config) {
+    /**
+     * Get or set user config.
+     * @param {Object|undefined} config - Configuration or undefined.
+     * @return {Object|Promise} Configuration or Promise.
+     */
+    serverConfig(config) {
         var apiClient = this.currentApiClient;
         if (config) {
             return apiClient.updateUserConfiguration(this.currentUserId, config);
@@ -83,7 +110,12 @@ import events from 'events';
         });
     }
 
-    export function enableCinemaMode(val) {
+    /**
+     * Get or set 'Cinema Mode' state.
+     * @param {boolean|undefined} val - Flag to enable 'Cinema Mode' or undefined.
+     * @return {boolean} 'Cinema Mode' state.
+     */
+    enableCinemaMode(val) {
         if (val !== undefined) {
             return this.set('enableCinemaMode', val.toString(), false);
         }
@@ -92,7 +124,12 @@ import events from 'events';
         return val !== 'false';
     }
 
-    export function enableNextVideoInfoOverlay(val) {
+    /**
+     * Get or set 'Next Video Info Overlay' state.
+     * @param {boolean|undefined} val - Flag to enable 'Next Video Info Overlay' or undefined.
+     * @return {boolean} 'Next Video Info Overlay' state.
+     */
+    enableNextVideoInfoOverlay(val) {
         if (val !== undefined) {
             return this.set('enableNextVideoInfoOverlay', val.toString());
         }
@@ -101,7 +138,12 @@ import events from 'events';
         return val !== 'false';
     }
 
-    export function enableThemeSongs(val) {
+    /**
+     * Get or set 'Theme Songs' state.
+     * @param {boolean|undefined} val - Flag to enable 'Theme Songs' or undefined.
+     * @return {boolean} 'Theme Songs' state.
+     */
+    enableThemeSongs(val) {
         if (val !== undefined) {
             return this.set('enableThemeSongs', val.toString(), false);
         }
@@ -110,7 +152,12 @@ import events from 'events';
         return val === 'true';
     }
 
-    export function enableThemeVideos(val) {
+    /**
+     * Get or set 'Theme Videos' state.
+     * @param {boolean|undefined} val - Flag to enable 'Theme Videos' or undefined.
+     * @return {boolean} 'Theme Videos' state.
+     */
+    enableThemeVideos(val) {
         if (val !== undefined) {
             return this.set('enableThemeVideos', val.toString(), false);
         }
@@ -119,7 +166,12 @@ import events from 'events';
         return val === 'true';
     }
 
-    export function enableFastFadein(val) {
+    /**
+     * Get or set 'Fast Fade-in' state.
+     * @param {boolean|undefined} val - Flag to enable 'Fast Fade-in' or undefined.
+     * @return {boolean} 'Fast Fade-in' state.
+     */
+    enableFastFadein(val) {
         if (val !== undefined) {
             return this.set('fastFadein', val.toString(), false);
         }
@@ -128,7 +180,26 @@ import events from 'events';
         return val !== 'false';
     }
 
-    export function enableBackdrops(val) {
+    /**
+     * Get or set 'Blurhash' state.
+     * @param {boolean|undefined} val - Flag to enable 'Blurhash' or undefined.
+     * @return {boolean} 'Blurhash' state.
+     */
+    enableBlurhash(val) {
+        if (val !== undefined) {
+            return this.set('blurhash', val.toString(), false);
+        }
+
+        val = this.get('blurhash', false);
+        return val !== 'false';
+    }
+
+    /**
+     * Get or set 'Backdrops' state.
+     * @param {boolean|undefined} val - Flag to enable 'Backdrops' or undefined.
+     * @return {boolean} 'Backdrops' state.
+     */
+    enableBackdrops(val) {
         if (val !== undefined) {
             return this.set('enableBackdrops', val.toString(), false);
         }
@@ -137,7 +208,12 @@ import events from 'events';
         return val !== 'false';
     }
 
-    export function detailsBanner(val) {
+    /**
+     * Get or set 'Details Banner' state.
+     * @param {boolean|undefined} val - Flag to enable 'Details Banner' or undefined.
+     * @return {boolean} 'Details Banner' state.
+     */
+    detailsBanner(val) {
         if (val !== undefined) {
             return this.set('detailsBanner', val.toString(), false);
         }
@@ -146,7 +222,12 @@ import events from 'events';
         return val !== 'false';
     }
 
-    export function language(val) {
+    /**
+     * Get or set language.
+     * @param {string|undefined} val - Language.
+     * @return {string} Language.
+     */
+    language(val) {
         if (val !== undefined) {
             return this.set('language', val.toString(), false);
         }
@@ -154,7 +235,12 @@ import events from 'events';
         return this.get('language', false);
     }
 
-    export function dateTimeLocale(val) {
+    /**
+     * Get or set datetime locale.
+     * @param {string|undefined} val - Datetime locale.
+     * @return {string} Datetime locale.
+     */
+    dateTimeLocale(val) {
         if (val !== undefined) {
             return this.set('datetimelocale', val.toString(), false);
         }
@@ -162,7 +248,12 @@ import events from 'events';
         return this.get('datetimelocale', false);
     }
 
-    export function chromecastVersion(val) {
+    /**
+     * Get or set Chromecast version.
+     * @param {string|undefined} val - Chromecast version.
+     * @return {string} Chromecast version.
+     */
+    chromecastVersion(val) {
         if (val !== undefined) {
             return this.set('chromecastVersion', val.toString());
         }
@@ -170,7 +261,12 @@ import events from 'events';
         return this.get('chromecastVersion') || 'stable';
     }
 
-    export function skipBackLength(val) {
+    /**
+     * Get or set amount of rewind.
+     * @param {number|undefined} val - Amount of rewind.
+     * @return {number} Amount of rewind.
+     */
+    skipBackLength(val) {
         if (val !== undefined) {
             return this.set('skipBackLength', val.toString());
         }
@@ -178,7 +274,12 @@ import events from 'events';
         return parseInt(this.get('skipBackLength') || '10000');
     }
 
-    export function skipForwardLength(val) {
+    /**
+     * Get or set amount of fast forward.
+     * @param {number|undefined} val - Amount of fast forward.
+     * @return {number} Amount of fast forward.
+     */
+    skipForwardLength(val) {
         if (val !== undefined) {
             return this.set('skipForwardLength', val.toString());
         }
@@ -186,7 +287,12 @@ import events from 'events';
         return parseInt(this.get('skipForwardLength') || '30000');
     }
 
-    export function dashboardTheme(val) {
+    /**
+     * Get or set theme for Dashboard.
+     * @param {string|undefined} val - Theme for Dashboard.
+     * @return {string} Theme for Dashboard.
+     */
+    dashboardTheme(val) {
         if (val !== undefined) {
             return this.set('dashboardTheme', val);
         }
@@ -194,7 +300,12 @@ import events from 'events';
         return this.get('dashboardTheme');
     }
 
-    export function skin(val) {
+    /**
+     * Get or set skin.
+     * @param {string|undefined} val - Skin.
+     * @return {string} Skin.
+     */
+    skin(val) {
         if (val !== undefined) {
             return this.set('skin', val, false);
         }
@@ -202,7 +313,12 @@ import events from 'events';
         return this.get('skin', false);
     }
 
-    export function theme(val) {
+    /**
+     * Get or set main theme.
+     * @param {string|undefined} val - Main theme.
+     * @return {string} Main theme.
+     */
+    theme(val) {
         if (val !== undefined) {
             return this.set('appTheme', val, false);
         }
@@ -210,7 +326,12 @@ import events from 'events';
         return this.get('appTheme', false);
     }
 
-    export function screensaver(val) {
+    /**
+     * Get or set screensaver.
+     * @param {string|undefined} val - Screensaver.
+     * @return {string} Screensaver.
+     */
+    screensaver(val) {
         if (val !== undefined) {
             return this.set('screensaver', val, false);
         }
@@ -218,7 +339,12 @@ import events from 'events';
         return this.get('screensaver', false);
     }
 
-    export function libraryPageSize(val) {
+    /**
+     * Get or set library page size.
+     * @param {number|undefined} val - Library page size.
+     * @return {number} Library page size.
+     */
+    libraryPageSize(val) {
         if (val !== undefined) {
             return this.set('libraryPageSize', parseInt(val, 10), false);
         }
@@ -232,7 +358,12 @@ import events from 'events';
         }
     }
 
-    export function soundEffects(val) {
+    /**
+     * Get or set sound effects.
+     * @param {string|undefined} val - Sound effects.
+     * @return {string} Sound effects.
+     */
+    soundEffects(val) {
         if (val !== undefined) {
             return this.set('soundeffects', val, false);
         }
@@ -240,7 +371,13 @@ import events from 'events';
         return this.get('soundeffects', false);
     }
 
-    export function loadQuerySettings(key, query) {
+    /**
+     * Load query settings.
+     * @param {string} key - Query key.
+     * @param {Object} query - Query base.
+     * @return {Object} Query.
+     */
+    loadQuerySettings(key, query) {
         var values = this.get(key);
         if (values) {
             values = JSON.parse(values);
@@ -250,7 +387,12 @@ import events from 'events';
         return query;
     }
 
-    export function saveQuerySettings(key, query) {
+    /**
+     * Save query settings.
+     * @param {string} key - Query key.
+     * @param {Object} query - Query.
+     */
+    saveQuerySettings(key, query) {
         var values = {};
         if (query.SortBy) {
             values.SortBy = query.SortBy;
@@ -263,52 +405,76 @@ import events from 'events';
         return this.set(key, JSON.stringify(values));
     }
 
-    export function getSubtitleAppearanceSettings(key) {
+    /**
+     * Get subtitle appearance settings.
+     * @param {string|undefined} key - Settings key.
+     * @return {Object} Subtitle appearance settings.
+     */
+    getSubtitleAppearanceSettings(key) {
         key = key || 'localplayersubtitleappearance3';
         return JSON.parse(this.get(key, false) || '{}');
     }
 
-    export function setSubtitleAppearanceSettings(value, key) {
+    /**
+     * Set subtitle appearance settings.
+     * @param {Object} value - Subtitle appearance settings.
+     * @param {string|undefined} key - Settings key.
+     */
+    setSubtitleAppearanceSettings(value, key) {
         key = key || 'localplayersubtitleappearance3';
         return this.set(key, JSON.stringify(value), false);
     }
 
-    export function setFilter(key, value) {
+    /**
+     * Set filter.
+     * @param {string} key - Filter key.
+     * @param {string} value - Filter value.
+     */
+    setFilter(key, value) {
         return this.set(key, value, true);
     }
 
-    export function getFilter(key) {
+    /**
+     * Get filter.
+     * @param {string} key - Filter key.
+     * @return {string} Filter value.
+     */
+    getFilter(key) {
         return this.get(key, true);
     }
+}
 
-/* eslint-enable indent */
-export default {
-    setUserInfo: setUserInfo,
-    getData: getData,
-    importFrom: importFrom,
-    set: set,
-    get: get,
-    serverConfig: serverConfig,
-    enableCinemaMode: enableCinemaMode,
-    enableNextVideoInfoOverlay: enableNextVideoInfoOverlay,
-    enableThemeSongs: enableThemeSongs,
-    enableThemeVideos: enableThemeVideos,
-    enableFastFadein: enableFastFadein,
-    enableBackdrops: enableBackdrops,
-    language: language,
-    dateTimeLocale: dateTimeLocale,
-    skipBackLength: skipBackLength,
-    skipForwardLength: skipForwardLength,
-    dashboardTheme: dashboardTheme,
-    skin: skin,
-    theme: theme,
-    screensaver: screensaver,
-    libraryPageSize: libraryPageSize,
-    soundEffects: soundEffects,
-    loadQuerySettings: loadQuerySettings,
-    saveQuerySettings: saveQuerySettings,
-    getSubtitleAppearanceSettings: getSubtitleAppearanceSettings,
-    setSubtitleAppearanceSettings: setSubtitleAppearanceSettings,
-    setFilter: setFilter,
-    getFilter: getFilter
-};
+export const currentSettings = new UserSettings;
+
+// Wrappers for non-ES6 modules and backward compatibility
+export const setUserInfo = currentSettings.setUserInfo.bind(currentSettings);
+export const getData = currentSettings.getData.bind(currentSettings);
+export const importFrom = currentSettings.importFrom.bind(currentSettings);
+export const set = currentSettings.set.bind(currentSettings);
+export const get = currentSettings.get.bind(currentSettings);
+export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
+export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
+export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
+export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
+export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
+export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
+export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
+export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
+export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);
+export const language = currentSettings.language.bind(currentSettings);
+export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
+export const chromecastVersion = currentSettings.chromecastVersion.bind(currentSettings);
+export const skipBackLength = currentSettings.skipBackLength.bind(currentSettings);
+export const skipForwardLength = currentSettings.skipForwardLength.bind(currentSettings);
+export const dashboardTheme = currentSettings.dashboardTheme.bind(currentSettings);
+export const skin = currentSettings.skin.bind(currentSettings);
+export const theme = currentSettings.theme.bind(currentSettings);
+export const screensaver = currentSettings.screensaver.bind(currentSettings);
+export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
+export const soundEffects = currentSettings.soundEffects.bind(currentSettings);
+export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentSettings);
+export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);
+export const getSubtitleAppearanceSettings = currentSettings.getSubtitleAppearanceSettings.bind(currentSettings);
+export const setSubtitleAppearanceSettings = currentSettings.setSubtitleAppearanceSettings.bind(currentSettings);
+export const setFilter = currentSettings.setFilter.bind(currentSettings);
+export const getFilter = currentSettings.getFilter.bind(currentSettings);

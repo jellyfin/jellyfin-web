@@ -1454,8 +1454,6 @@
     "HeaderNavigation": "Navigare",
     "MessageConfirmAppExit": "Vrei să ieși?",
     "CopyStreamURLError": "A apărut o eroare la copierea adresei URL.",
-    "EnableFastImageFadeInHelp": "Arătați postere și alte imagini cu o animație de tranziție rapidă când sunt deja încărcate.",
-    "EnableFastImageFadeIn": "Animație de Tranziție a Imaginii Rapidă",
     "LabelVideoResolution": "Rezoluția video:",
     "LabelStreamType": "Tipul streamului:",
     "LabelPlayerDimensions": "Dimensiunile soft redare:",

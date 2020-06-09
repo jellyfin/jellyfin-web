@@ -124,7 +124,7 @@ define(['events', 'libraryBrowser', 'imageLoader', 'listView', 'loading', 'userS
         var isLoading = false;
 
         self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function (filterDialogFactory) {
+            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
                 var filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: 'songs',

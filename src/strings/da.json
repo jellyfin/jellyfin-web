@@ -1569,8 +1569,6 @@
     "LabelStreamType": "Stream type:",
     "LabelSonyAggregationFlags": "Sony aggregering flag:",
     "LabelSize": "Størrelse:",
-    "EnableFastImageFadeInHelp": "Aktivér hurtigere fade-in-animation til indlæste billeder",
-    "EnableFastImageFadeIn": "Hurtigt billede indtoning",
     "LabelPleaseRestart": "Ændringer vil træde i kraft efter web klienten er blevet genindlæst manuelt.",
     "LabelPlayMethod": "Afspilnings metode:",
     "LabelPlayerDimensions": "Afspillerdimensioner:",

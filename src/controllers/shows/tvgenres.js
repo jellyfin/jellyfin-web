@@ -161,6 +161,15 @@ define(['layoutManager', 'loading', 'libraryBrowser', 'cardBuilder', 'lazyLoader
                     html += '</div>';
                 }
 
+                if (!result.Items.length) {
+                    html = '';
+
+                    html += '<div class="noItemsMessage centerMessage">';
+                    html += '<h1>' + globalize.translate('MessageNothingHere') + '</h1>';
+                    html += '<p>' + globalize.translate('MessageNoGenresAvailable') + '</p>';
+                    html += '</div>';
+                }
+
                 elem.innerHTML = html;
                 lazyLoader.lazyChildren(elem, fillItemsContainer);
                 libraryBrowser.saveQueryValues(getSavedQueryKey(), query);

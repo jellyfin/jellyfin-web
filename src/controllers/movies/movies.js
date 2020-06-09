@@ -270,7 +270,7 @@ define(['loading', 'layoutManager', 'userSettings', 'events', 'libraryBrowser', 
         query = userSettings.loadQuerySettings(savedQueryKey, query);
 
         self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function (filterDialogFactory) {
+            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
                 var filterDialog = new filterDialogFactory({
                     query: query,
                     mode: 'movies',

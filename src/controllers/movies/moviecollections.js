@@ -171,7 +171,12 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
                 }
 
                 if (!result.Items.length) {
-                    html = '<p style="text-align:center;">' + globalize.translate('MessageNoCollectionsAvailable') + '</p>';
+                    html = '';
+
+                    html += '<div class="noItemsMessage centerMessage">';
+                    html += '<h1>' + globalize.translate('MessageNothingHere') + '</h1>';
+                    html += '<p>' + globalize.translate('MessageNoCollectionsAvailable') + '</p>';
+                    html += '</div>';
                 }
 
                 var itemsContainer = tabContent.querySelector('.itemsContainer');

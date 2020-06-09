@@ -16,15 +16,8 @@ function getOffsets(elems) {
         return results;
     }
 
-    let box;
     for (let elem of elems) {
-        // Support: BlackBerry 5, iOS 3 (original iPhone)
-        // If we don't have gBCR, just use 0,0 rather than error
-        if (elem.getBoundingClientRect) {
-            box = elem.getBoundingClientRect();
-        } else {
-            box = { top: 0, left: 0 };
-        }
+        let box = elem.getBoundingClientRect();
 
         results.push({
             top: box.top,
@@ -153,7 +146,9 @@ export function show(options) {
     }
 
     if (layoutManager.tv) {
-        html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
+        html += `<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1">
+                     <span class="material-icons arrow_back"></span>
+                 </button>`;
     }
 
     // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
@@ -216,7 +211,7 @@ export function show(options) {
         itemIcon = icons[i];
 
         if (itemIcon) {
-            html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ' + itemIcon + '"></span>';
+            html += `<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ${itemIcon}"></span>`;
         } else if (renderIcon && !center) {
             html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" style="visibility:hidden;"></span>';
         }
@@ -228,13 +223,13 @@ export function show(options) {
         html += '</div>';
 
         if (item.secondaryText) {
-            html += '<div class="listItemBodyText secondary">' + item.secondaryText + '</div>';
+            html += `<div class="listItemBodyText secondary">${item.secondaryText}</div>`;
         }
 
         html += '</div>';
 
         if (item.asideText) {
-            html += '<div class="listItemAside actionSheetItemAsideText">' + item.asideText + '</div>';
+            html += `<div class="listItemAside actionSheetItemAsideText">${item.asideText}</div>`;
         }
 
         html += '</button>';
@@ -242,7 +237,7 @@ export function show(options) {
 
     if (options.showCancel) {
         html += '<div class="buttons">';
-        html += '<button is="emby-button" type="button" class="btnCloseActionSheet">' + globalize.translate('ButtonCancel') + '</button>';
+        html += `<button is="emby-button" type="button" class="btnCloseActionSheet">${globalize.translate('ButtonCancel')}</button>`;
         html += '</div>';
     }
     html += '</div>';

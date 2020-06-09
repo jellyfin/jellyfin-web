@@ -1455,8 +1455,6 @@
     "MessageConfirmAppExit": "Vuoi uscire?",
     "HeaderNavigation": "Navigazione",
     "CopyStreamURLError": "Si è verificato un errore nel copiare l'indirizzo.",
-    "EnableFastImageFadeInHelp": "Mostra i poster e le altre immagini con una dissolvenza veloce alla fine del caricamento.",
-    "EnableFastImageFadeIn": "Dissolvenza Immagine Veloce",
     "PlaybackErrorNoCompatibleStream": "Il client è incompatibile con il media e il server non sta inviando un formato compatibile.",
     "OptionForceRemoteSourceTranscoding": "Forza la transcodifica da fonti di media remoti (come LiveTV)",
     "NoCreatedLibraries": "Sembra che tu non abbia ancora creato delle librerie. {0}Vuoi crearne una adesso?{1}",

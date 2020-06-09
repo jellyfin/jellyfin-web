@@ -1478,8 +1478,6 @@
     "MessageConfirmAppExit": "Wirklich verlassen?",
     "LabelVideoResolution": "Videoauflösung:",
     "LabelStreamType": "Streamtyp:",
-    "EnableFastImageFadeInHelp": "Zeige Poster und andere Bilder mit einer schnelleren Einblendeanimation, wenn diese fertig geladen sind.",
-    "EnableFastImageFadeIn": "Schnelle Bildeinblendungsanimationen",
     "LabelPlayerDimensions": "Playerabmessungen:",
     "LabelDroppedFrames": "Verlorene Frames:",
     "LabelCorruptedFrames": "Fehlerhafte Frames:",
@@ -1571,5 +1569,7 @@
     "HeaderSyncPlayEnabled": "SyncPlay aktiviert",
     "HeaderSyncPlaySelectGroup": "Tritt einer Gruppe bei",
     "EnableDetailsBannerHelp": "Zeigt ein Bannerbild im oberen Bereich der Seite Item-Details.",
-    "EnableDetailsBanner": "Detailbanner"
+    "EnableDetailsBanner": "Detailbanner",
+    "ShowMore": "Mehr anzeigen",
+    "ShowLess": "Weniger anzeigen"
 }

@@ -1610,8 +1610,6 @@
     "LaunchWebAppOnStartupHelp": "伺服器啓動時在默認游覽器中打開網頁端。使用重啓伺服器功能時此項不生效。",
     "LabelVideoResolution": "視頻解析度：",
     "LabelStreamType": "串流類型：",
-    "EnableFastImageFadeInHelp": "對已載入的圖片啟用更快的淡入動畫",
-    "EnableFastImageFadeIn": "圖片快速淡入效果",
     "LabelPlayerDimensions": "播放器尺寸：",
     "LabelDroppedFrames": "丟棄的幀：",
     "LabelCorruptedFrames": "損壞的幀：",
