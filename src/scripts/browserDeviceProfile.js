@@ -366,7 +366,11 @@ define(['browser'], function (browser) {
             videoAudioCodecs.push('mp2');
         }
 
+<<<<<<< HEAD
         var supportsDts = browser.tizen || browser.web0s || options.supportsDts;
+=======
+        var supportsDts = browser.tizen || browser.web0s || options.supportsDts || videoTestElement.canPlayType('video/mp4; codecs="dts-"') || videoTestElement.canPlayType('video/mp4; codecs="dts+"');
+>>>>>>> 3706d4884... Add proper checks for DTS
 
         // DTS audio not supported in 2018 models (Tizen 4.0)
         if (browser.tizenVersion >= 4) {
