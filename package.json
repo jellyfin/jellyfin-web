@@ -106,7 +106,7 @@
           "src/components/syncplay/timeSyncManager.js",
           "src/controllers/dashboard/logs.js",
           "src/plugins/bookPlayer/plugin.js",
-          "src/plugins/bookPlayer/tableOfContent.js",
+          "src/plugins/bookPlayer/tableOfContents.js",
           "src/plugins/photoPlayer/plugin.js",
           "src/scripts/deleteHelper.js",
           "src/scripts/dfnshelper.js",
