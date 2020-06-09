@@ -1502,10 +1502,10 @@ import * as userSettings from 'userSettings';
         function getHoverMenuHtml(item, action, dark) {
             let html = '';
 
-            let cssClass = "cardOverlayContainer itemAction"
+            let cssClass = 'cardOverlayContainer itemAction';
 
             if (userSettings.enableHoverDarkening() || dark) {
-                cssClass += " cardOverlayContainerDark"
+                cssClass += ' cardOverlayContainerDark';
             }
 
             html += '<div class="' + cssClass + '" data-action="' + action + '">';

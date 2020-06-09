@@ -169,9 +169,10 @@ button::-moz-focus-inner {
     position: relative;
     background-clip: content-box !important;
     color: inherit;
+
     /* This makes animations at mouse leave smoother (when zoomIn enabled) */
     transform: scale(1);
-    transition: transform .2s;
+    transition: transform 0.2s;
     overflow: hidden;
 
     /* This is only needed for scalable cards */
@@ -805,7 +806,7 @@ button::-moz-focus-inner {
 }
 
 .card-hoverable:hover .lazy.cardImageContainer.hoverBlur {
-    filter: blur(.09em);
+    filter: blur(0.09em);
 }
 
 .cardOverlayButton-hover {
