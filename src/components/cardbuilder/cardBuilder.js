@@ -21,6 +21,7 @@ import imageHelper from 'scripts/imagehelper';
 import 'css!./card';
 import 'paper-icon-button-light';
 import 'programStyles';
+import * as userSettings from 'userSettings';
 
         const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -1257,6 +1258,13 @@ import 'programStyles';
             const overlayText = options.overlayText;
 
             let cardImageContainerClass = 'cardImageContainer';
+            if (userSettings.enableHoverBlur()) {
+                cardImageContainerClass += ' hoverBlur';
+            }
+            if (userSettings.enableHoverZoom()) {
+                cardImageContainerClass += ' hoverZoom';
+            }
+
             const coveredImage = options.coverImage || imgInfo.coverImage;
 
             if (coveredImage) {
@@ -1368,6 +1376,7 @@ import 'programStyles';
             let cardImageContainerClose = '';
             let cardBoxClose = '';
             let cardScalableClose = '';
+            let forceDarkHover = false;
 
             let cardContentClass = 'cardContent';
             if (!options.cardLayout) {
@@ -1377,6 +1386,8 @@ import 'programStyles';
             let blurhashAttrib = '';
             if (blurhash && blurhash.length > 0) {
                 blurhashAttrib = 'data-blurhash="' + blurhash + '"';
+            } else {
+                forceDarkHover = true;
             }
 
             if (layoutManager.tv) {
@@ -1430,6 +1441,7 @@ import 'programStyles';
 
             if (!imgUrl) {
                 cardImageContainerOpen += getDefaultText(item, options);
+                forceDarkHover = true;
             }
 
             const tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
@@ -1474,7 +1486,7 @@ import 'programStyles';
             let additionalCardContent = '';
 
             if (layoutManager.desktop) {
-                additionalCardContent += getHoverMenuHtml(item, action);
+                additionalCardContent += getHoverMenuHtml(item, action, forceDarkHover);
             }
 
             return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
@@ -1484,12 +1496,19 @@ import 'programStyles';
          * Generates HTML markup for the card overlay.
          * @param {object} item - Item used to generate the card overlay.
          * @param {string} action - Action assigned to the overlay.
+         * @param {bool} dark - Forces darkened overlay on hover, overriding user settings
          * @returns {string} HTML markup of the card overlay.
          */
-        function getHoverMenuHtml(item, action) {
+        function getHoverMenuHtml(item, action, dark) {
             let html = '';
 
-            html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
+            let cssClass = "cardOverlayContainer itemAction"
+
+            if (userSettings.enableHoverDarkening() || dark) {
+                cssClass += " cardOverlayContainerDark"
+            }
+
+            html += '<div class="' + cssClass + '" data-action="' + action + '">';
 
             const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 

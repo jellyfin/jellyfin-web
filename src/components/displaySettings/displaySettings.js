@@ -182,6 +182,9 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
         context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
         context.querySelector('#chkBlurhash').checked = userSettings.enableBlurhash();
+        context.querySelector('#chkHoverZoom').checked = userSettings.enableHoverZoom();
+        context.querySelector('#chkHoverBlur').checked = userSettings.enableHoverBlur();
+        context.querySelector('#chkHoverDarkening').checked = userSettings.enableHoverDarkening();
         context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
         context.querySelector('#chkDetailsBanner').checked = userSettings.detailsBanner();
 
@@ -225,6 +228,9 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
         userSettingsInstance.enableFastFadein(context.querySelector('#chkFadein').checked);
         userSettingsInstance.enableBlurhash(context.querySelector('#chkBlurhash').checked);
+        userSettingsInstance.enableHoverZoom(context.querySelector('#chkHoverZoom').checked);
+        userSettingsInstance.enableHoverBlur(context.querySelector('#chkHoverBlur').checked);
+        userSettingsInstance.enableHoverDarkening(context.querySelector('#chkHoverDarkening').checked);
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
         userSettingsInstance.detailsBanner(context.querySelector('#chkDetailsBanner').checked);
 

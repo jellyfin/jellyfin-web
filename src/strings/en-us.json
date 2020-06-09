@@ -1551,5 +1551,8 @@
     "OnApplicationStartup": "On application startup",
     "UnsupportedPlayback": "Jellyfin cannot decrypt content protected by DRM but all content will be attempted regardless, including protected titles. Some files may appear completely black due to encryption or other unsupported features, such as interactive titles.",
     "EnableBlurhash": "Enable blurred placeholders for images",
-    "EnableBlurhashHelp": "Images that are still being loaded will be displayed with a blurred placeholder"
+    "EnableBlurhashHelp": "Images that are still being loaded will be displayed with a blurred placeholder",
+    "EnableHoverZoomIn": "Zoom images when the cursor is hovering them",
+    "EnableHoverBlur": "Blur images when the cursor is hovering them",
+    "EnableHoverDarkening": "Darken the images when the cursor is hovering them"
 }

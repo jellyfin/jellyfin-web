@@ -1560,5 +1560,8 @@
     "EnableDetailsBannerHelp": "Mostrar imagen de banner en el tope de la página de detalles del elemento.",
     "EnableDetailsBanner": "Barra de Detalles",
     "ShowMore": "Mostrar más",
-    "ShowLess": "Mostrar menos"
+    "ShowLess": "Mostrar menos",
+    "EnableHoverZoomIn": "Ampliar las imágenes al pasar el cursor por encima",
+    "EnableHoverBlur": "Difuminar las imágenes al pasar el cursor por encima",
+    "EnableHoverDarkening": "Oscurecer las imágenes al pasar el cursor por encima"
 }

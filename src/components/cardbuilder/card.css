@@ -53,6 +53,7 @@ button::-moz-focus-inner {
 .cardScalable {
     position: relative;
     contain: layout style;
+    overflow: hidden;
 }
 
 .cardPadder-backdrop,
@@ -78,6 +79,7 @@ button::-moz-focus-inner {
 .overflowPortraitCard-textCardPadder {
     padding-bottom: 150%;
     contain: strict;
+    overflow: hidden;
 }
 
 .cardPadder-banner {
@@ -167,6 +169,10 @@ button::-moz-focus-inner {
     position: relative;
     background-clip: content-box !important;
     color: inherit;
+    /* This makes animations at mouse leave smoother (when zoomIn enabled) */
+    transform: scale(1);
+    transition: transform .2s;
+    overflow: hidden;
 
     /* This is only needed for scalable cards */
     height: 100%;
@@ -774,8 +780,11 @@ button::-moz-focus-inner {
     width: 18.8vw;
 }
 
+.cardOverlayContainerDark {
+    background: rgba(0, 0, 0, 0.5) !important;
+}
+
 .cardOverlayContainer {
-    background: rgba(0, 0, 0, 0.5);
     opacity: 0;
     transition: opacity 0.2s;
     position: absolute;
@@ -788,6 +797,15 @@ button::-moz-focus-inner {
 
 .card-hoverable:hover .cardOverlayContainer {
     opacity: 1;
+}
+
+.card-hoverable:hover .lazy.cardImageContainer.hoverZoom {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+}
+
+.card-hoverable:hover .lazy.cardImageContainer.hoverBlur {
+    filter: blur(.09em);
 }
 
 .cardOverlayButton-hover {

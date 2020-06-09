@@ -143,6 +143,10 @@
         <select is="emby-select" class="selectSoundEffects" label="${LabelSoundEffects}"></select>
     </div>
 
+    <h2 class="sectionTitle">
+        ${TabLibrary}
+    </h2>
+
     <div class="inputContainer inputContainer-withDescription">
         <input is="emby-input" type="number" id="txtLibraryPageSize" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelLibraryPageSize}" />
         <div class="fieldDescription">${LabelLibraryPageSizeHelp}</div>
@@ -162,6 +166,27 @@
             <span>${EnableBlurhash}</span>
         </label>
         <div class="fieldDescription checkboxFieldDescription">${EnableBlurhashHelp}</div>
+    </div>
+
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkHoverZoom" />
+            <span>${EnableHoverZoomIn}</span>
+        </label>
+    </div>
+
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkHoverBlur" />
+            <span>${EnableHoverBlur}</span>
+        </label>
+    </div>
+
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkHoverDarkening" />
+            <span>${EnableHoverDarkening}</span>
+        </label>
     </div>
 
     <div class="checkboxContainer checkboxContainer-withDescription">

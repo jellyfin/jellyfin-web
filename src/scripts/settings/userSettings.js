@@ -195,6 +195,48 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'hoverZoom' state.
+     * @param {boolean|undefined} val - Flag to enable 'hoverZoom' or undefined.
+     * @return {boolean} 'hoverZoom' state.
+     */
+    enableHoverZoom(val) {
+        if (val !== undefined) {
+            return this.set('hoverZoom', val.toString(), false);
+        }
+
+        val = this.get('hoverZoom', false);
+        return val !== 'false';
+    }
+
+    /**
+     * Get or set 'hoverBlur' state.
+     * @param {boolean|undefined} val - Flag to enable 'hoverBlur' or undefined.
+     * @return {boolean} 'hoverBlur' state.
+     */
+    enableHoverBlur(val) {
+        if (val !== undefined) {
+            return this.set('hoverBlur', val.toString(), false);
+        }
+
+        val = this.get('hoverBlur', false);
+        return val !== 'false';
+    }
+
+    /**
+     * Get or set 'hoverDarkening' state.
+     * @param {boolean|undefined} val - Flag to enable 'hoverDarkening' or undefined.
+     * @return {boolean} 'hoverDarkening' state.
+     */
+    enableHoverDarkening(val) {
+        if (val !== undefined) {
+            return this.set('hoverDarkening', val.toString(), false);
+        }
+
+        val = this.get('hoverDarkening', false);
+        return val !== 'false';
+    }
+
+    /**
      * Get or set 'Backdrops' state.
      * @param {boolean|undefined} val - Flag to enable 'Backdrops' or undefined.
      * @return {boolean} 'Backdrops' state.
@@ -459,6 +501,9 @@ export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSet
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
+export const enableHoverZoom = currentSettings.enableHoverZoom.bind(currentSettings);
+export const enableHoverBlur = currentSettings.enableHoverBlur.bind(currentSettings);
+export const enableHoverDarkening = currentSettings.enableHoverDarkening.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);
 export const language = currentSettings.language.bind(currentSettings);
