@@ -193,11 +193,11 @@ import 'css!./style';
 
     export function show(options) {
 
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
 
             hasChanges = false;
 
-            showEditor(options, resolve, reject);
+            showEditor(options, resolve);
         });
     }
 
