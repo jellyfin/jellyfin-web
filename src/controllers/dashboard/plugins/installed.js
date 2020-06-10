@@ -153,6 +153,9 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
         }, {
             href: 'availableplugins.html',
             name: globalize.translate('TabCatalog')
+        }, {
+            href: 'repositories.html',
+            name: globalize.translate('TabRepositories')
         }];
     }
 
