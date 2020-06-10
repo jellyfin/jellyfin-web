@@ -181,7 +181,9 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
         context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
         context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
+        context.querySelector('#chkBlurhash').checked = userSettings.enableBlurhash();
         context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
+        context.querySelector('#chkDetailsBanner').checked = userSettings.detailsBanner();
 
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
         context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
@@ -222,7 +224,9 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         userSettingsInstance.skin(context.querySelector('.selectSkin').value);
 
         userSettingsInstance.enableFastFadein(context.querySelector('#chkFadein').checked);
+        userSettingsInstance.enableBlurhash(context.querySelector('#chkBlurhash').checked);
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
+        userSettingsInstance.detailsBanner(context.querySelector('#chkDetailsBanner').checked);
 
         if (user.Id === apiClient.getCurrentUserId()) {
             skinManager.setTheme(userSettingsInstance.theme());

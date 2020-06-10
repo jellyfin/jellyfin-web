@@ -1,4 +1,4 @@
-define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], function ($, loading, globalize) {
+define(['jQuery', 'loading', 'globalize', 'emby-checkbox'], function ($, loading, globalize) {
     'use strict';
 
     function loadMediaFolders(page, mediaFolders) {
@@ -13,7 +13,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
 
         html += '</div>';
         $('.folderAccess', page).html(html).trigger('create');
-        $('#chkEnableAllFolders', page).checked(false).trigger('change');
+        $('#chkEnableAllFolders', page).prop('checked', false);
     }
 
     function loadChannels(page, channels) {
@@ -35,7 +35,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
             $('.channelAccessContainer', page).hide();
         }
 
-        $('#chkEnableAllChannels', page).checked(false).trigger('change');
+        $('#chkEnableAllChannels', page).prop('checked', false);
     }
 
     function loadUser(page) {
@@ -58,7 +58,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
         user.Name = $('#txtUsername', page).val();
         user.Password = $('#txtPassword', page).val();
         ApiClient.createUser(user).then(function (user) {
-            user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).checked();
+            user.Policy.EnableAllFolders = $('#chkEnableAllFolders', page).is(':checked');
             user.Policy.EnabledFolders = [];
 
             if (!user.Policy.EnableAllFolders) {
@@ -69,7 +69,7 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-checkbox'], functio
                 });
             }
 
-            user.Policy.EnableAllChannels = $('#chkEnableAllChannels', page).checked();
+            user.Policy.EnableAllChannels = $('#chkEnableAllChannels', page).is(':checked');
             user.Policy.EnabledChannels = [];
 
             if (!user.Policy.EnableAllChannels) {

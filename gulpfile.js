@@ -16,7 +16,6 @@ const stream = require('webpack-stream');
 const inject = require('gulp-inject');
 const postcss = require('gulp-postcss');
 const sass = require('gulp-sass');
-const gulpif = require('gulp-if');
 const lazypipe = require('lazypipe');
 
 sass.compiler = require('node-sass');
@@ -68,7 +67,7 @@ function serve() {
         }
     });
 
-    watch(options.apploader.query, apploader(true));
+    watch(options.apploader.query, apploader());
 
     watch('src/bundle.js', webpack);
 
@@ -131,18 +130,12 @@ function javascript(query) {
         .pipe(browserSync.stream());
 }
 
-function apploader(standalone) {
-    function task() {
-        return src(options.apploader.query, { base: './src/' })
-            .pipe(gulpif(standalone, concat('scripts/apploader.js')))
-            .pipe(pipelineJavascript())
-            .pipe(dest('dist/'))
-            .pipe(browserSync.stream());
-    }
-
-    task.displayName = 'apploader';
-
-    return task;
+function apploader() {
+    return src(options.apploader.query, { base: './src/' })
+        .pipe(concat('scripts/apploader.js'))
+        .pipe(pipelineJavascript())
+        .pipe(dest('dist/'))
+        .pipe(browserSync.stream());
 }
 
 function webpack() {
@@ -181,12 +174,6 @@ function copy(query) {
         .pipe(browserSync.stream());
 }
 
-function copyIndex() {
-    return src(options.injectBundle.query, { base: './src/' })
-        .pipe(dest('dist/'))
-        .pipe(browserSync.stream());
-}
-
 function injectBundle() {
     return src(options.injectBundle.query, { base: './src/' })
         .pipe(inject(
@@ -196,10 +183,5 @@ function injectBundle() {
         .pipe(browserSync.stream());
 }
 
-function build(standalone) {
-    return series(clean, parallel(javascript, apploader(standalone), webpack, css, html, images, copy));
-}
-
-exports.default = series(build(false), copyIndex);
-exports.standalone = series(build(true), injectBundle);
-exports.serve = series(exports.standalone, serve);
+exports.default = series(clean, parallel(javascript, apploader, webpack, css, html, images, copy), injectBundle);
+exports.serve = series(exports.default, serve);

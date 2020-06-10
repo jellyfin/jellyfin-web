@@ -1,11 +1,11 @@
 import subtitleSettings from 'subtitleSettings';
-import * as userSettings from 'userSettings';
+import {UserSettings, currentSettings as userSettings} from 'userSettings';
 import autoFocuser from 'autoFocuser';
 
 export class SubtitleController {
     constructor(view, params) {
         this.userId = params.userId || ApiClient.getCurrentUserId();
-        this.currentSettings = this.userId === ApiClient.getCurrentUserId() ? userSettings : new userSettings();
+        this.currentSettings = this.userId === ApiClient.getCurrentUserId() ? userSettings : new UserSettings();
         this.hasChanges = false;
         this.subtitleSettingsInstance = null;
         this.view = view;

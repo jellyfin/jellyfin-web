@@ -164,7 +164,7 @@ define(['loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardB
         var isLoading = false;
 
         self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function (filterDialogFactory) {
+            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
                 var filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: 'episodes',

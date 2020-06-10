@@ -1,4 +1,4 @@
-define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-select', 'emby-button', 'emby-input', 'emby-checkbox', 'listViewStyle', 'emby-button'], function ($, loading, globalize) {
+define(['jQuery', 'loading', 'globalize', 'emby-select', 'emby-button', 'emby-input', 'emby-checkbox', 'listViewStyle', 'emby-button'], function ($, loading, globalize) {
     'use strict';
 
     function loadProfile(page) {
@@ -23,8 +23,8 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-select', 'emby-butt
         $('.chkMediaType', page).each(function () {
             this.checked = -1 != (profile.SupportedMediaTypes || '').split(',').indexOf(this.getAttribute('data-value'));
         });
-        $('#chkEnableAlbumArtInDidl', page).checked(profile.EnableAlbumArtInDidl);
-        $('#chkEnableSingleImageLimit', page).checked(profile.EnableSingleAlbumArtLimit);
+        $('#chkEnableAlbumArtInDidl', page).prop('checked', profile.EnableAlbumArtInDidl);
+        $('#chkEnableSingleImageLimit', page).prop('checked', profile.EnableSingleAlbumArtLimit);
         renderXmlDocumentAttributes(page, profile.XmlRootAttributes || []);
         var idInfo = profile.Identification || {};
         renderIdentificationHeaders(page, idInfo.Headers || []);
@@ -51,11 +51,11 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-select', 'emby-butt
         $('#txtAlbumArtMaxHeight', page).val(profile.MaxAlbumArtHeight || '');
         $('#txtIconMaxWidth', page).val(profile.MaxIconWidth || '');
         $('#txtIconMaxHeight', page).val(profile.MaxIconHeight || '');
-        $('#chkIgnoreTranscodeByteRangeRequests', page).checked(profile.IgnoreTranscodeByteRangeRequests);
+        $('#chkIgnoreTranscodeByteRangeRequests', page).prop('checked', profile.IgnoreTranscodeByteRangeRequests);
         $('#txtMaxAllowedBitrate', page).val(profile.MaxStreamingBitrate || '');
         $('#txtMusicStreamingTranscodingBitrate', page).val(profile.MusicStreamingTranscodingBitrate || '');
-        $('#chkRequiresPlainFolders', page).checked(profile.RequiresPlainFolders);
-        $('#chkRequiresPlainVideoItems', page).checked(profile.RequiresPlainVideoItems);
+        $('#chkRequiresPlainFolders', page).prop('checked', profile.RequiresPlainFolders);
+        $('#chkRequiresPlainVideoItems', page).prop('checked', profile.RequiresPlainVideoItems);
         $('#txtProtocolInfo', page).val(profile.ProtocolInfo || '');
         $('#txtXDlnaCap', page).val(profile.XDlnaCap || '');
         $('#txtXDlnaDoc', page).val(profile.XDlnaDoc || '');
@@ -357,9 +357,9 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-select', 'emby-butt
         $('#txtTranscodingAudioCodec', popup).val(transcodingProfile.AudioCodec || '');
         $('#txtTranscodingVideoCodec', popup).val(transcodingProfile.VideoCodec || '');
         $('#selectTranscodingProtocol', popup).val(transcodingProfile.Protocol || 'Http');
-        $('#chkEnableMpegtsM2TsMode', popup).checked(transcodingProfile.EnableMpegtsM2TsMode || false);
-        $('#chkEstimateContentLength', popup).checked(transcodingProfile.EstimateContentLength || false);
-        $('#chkReportByteRangeRequests', popup).checked('Bytes' == transcodingProfile.TranscodeSeekInfo);
+        $('#chkEnableMpegtsM2TsMode', popup).prop('checked', transcodingProfile.EnableMpegtsM2TsMode || false);
+        $('#chkEstimateContentLength', popup).prop('checked', transcodingProfile.EstimateContentLength || false);
+        $('#chkReportByteRangeRequests', popup).prop('checked', 'Bytes' == transcodingProfile.TranscodeSeekInfo);
         $('.radioTabButton:first', popup).trigger('click');
         openPopup(popup[0]);
     }
@@ -376,9 +376,9 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-select', 'emby-butt
         currentSubProfile.VideoCodec = $('#txtTranscodingVideoCodec', page).val();
         currentSubProfile.Protocol = $('#selectTranscodingProtocol', page).val();
         currentSubProfile.Context = 'Streaming';
-        currentSubProfile.EnableMpegtsM2TsMode = $('#chkEnableMpegtsM2TsMode', page).checked();
-        currentSubProfile.EstimateContentLength = $('#chkEstimateContentLength', page).checked();
-        currentSubProfile.TranscodeSeekInfo = $('#chkReportByteRangeRequests', page).checked() ? 'Bytes' : 'Auto';
+        currentSubProfile.EnableMpegtsM2TsMode = $('#chkEnableMpegtsM2TsMode', page).is(':checked');
+        currentSubProfile.EstimateContentLength = $('#chkEstimateContentLength', page).is(':checked');
+        currentSubProfile.TranscodeSeekInfo = $('#chkReportByteRangeRequests', page).is(':checked') ? 'Bytes' : 'Auto';
 
         if (isSubProfileNew) {
             currentProfile.TranscodingProfiles.push(currentSubProfile);
@@ -647,8 +647,8 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-select', 'emby-butt
 
     function updateProfile(page, profile) {
         profile.Name = $('#txtName', page).val();
-        profile.EnableAlbumArtInDidl = $('#chkEnableAlbumArtInDidl', page).checked();
-        profile.EnableSingleAlbumArtLimit = $('#chkEnableSingleImageLimit', page).checked();
+        profile.EnableAlbumArtInDidl = $('#chkEnableAlbumArtInDidl', page).is(':checked');
+        profile.EnableSingleAlbumArtLimit = $('#chkEnableSingleImageLimit', page).is(':checked');
         profile.SupportedMediaTypes = $('.chkMediaType:checked', page).get().map(function (c) {
             return c.getAttribute('data-value');
         }).join(',');
@@ -675,9 +675,9 @@ define(['jQuery', 'loading', 'globalize', 'fnchecked', 'emby-select', 'emby-butt
         profile.MaxAlbumArtHeight = $('#txtAlbumArtMaxHeight', page).val();
         profile.MaxIconWidth = $('#txtIconMaxWidth', page).val();
         profile.MaxIconHeight = $('#txtIconMaxHeight', page).val();
-        profile.RequiresPlainFolders = $('#chkRequiresPlainFolders', page).checked();
-        profile.RequiresPlainVideoItems = $('#chkRequiresPlainVideoItems', page).checked();
-        profile.IgnoreTranscodeByteRangeRequests = $('#chkIgnoreTranscodeByteRangeRequests', page).checked();
+        profile.RequiresPlainFolders = $('#chkRequiresPlainFolders', page).is(':checked');
+        profile.RequiresPlainVideoItems = $('#chkRequiresPlainVideoItems', page).is(':checked');
+        profile.IgnoreTranscodeByteRangeRequests = $('#chkIgnoreTranscodeByteRangeRequests', page).is(':checked');
         profile.MaxStreamingBitrate = $('#txtMaxAllowedBitrate', page).val();
         profile.MusicStreamingTranscodingBitrate = $('#txtMusicStreamingTranscodingBitrate', page).val();
         profile.ProtocolInfo = $('#txtProtocolInfo', page).val();

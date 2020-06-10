@@ -503,93 +503,48 @@ import 'programStyles';
             const primaryImageAspectRatio = item.PrimaryImageAspectRatio;
             let forceName = false;
             let imgUrl = null;
+            let imgTag = null;
             let coverImage = false;
             let uiAspect = null;
+            let imgType = null;
+            let itemId = null;
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ImageTags.Thumb
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.ImageTags.Thumb;
             } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Banner',
-                    maxWidth: width,
-                    tag: item.ImageTags.Banner
-                });
-
+                imgType = 'Banner';
+                imgTag = item.ImageTags.Banner;
             } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Disc',
-                    maxWidth: width,
-                    tag: item.ImageTags.Disc
-                });
-
+                imgType = 'Disc';
+                imgTag = item.ImageTags.Disc;
             } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Logo',
-                    maxWidth: width,
-                    tag: item.ImageTags.Logo
-                });
-
+                imgType = 'Logo';
+                imgTag = item.ImageTags.Logo;
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
-                    type: 'Logo',
-                    maxWidth: width,
-                    tag: item.ParentLogoImageTag
-                });
-
+                imgType = 'Logo';
+                imgTag = item.ParentLogoImageTag;
+                itemId = item.ParentLogoItemId;
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.SeriesThumbImageTag
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.SeriesThumbImageTag;
+                itemId = item.SeriesId;
             } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ParentThumbImageTag
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.ParentThumbImageTag;
+                itemId = item.ParentThumbItemId;
             } else if (options.preferThumb && item.BackdropImageTags && item.BackdropImageTags.length) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Backdrop',
-                    maxWidth: width,
-                    tag: item.BackdropImageTags[0]
-                });
-
+                imgType = 'Backdrop';
+                imgTag = item.BackdropImageTags[0];
                 forceName = true;
-
             } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-                    type: 'Backdrop',
-                    maxWidth: width,
-                    tag: item.ParentBackdropImageTags[0]
-                });
-
+                imgType = 'Backdrop';
+                imgTag = item.ParentBackdropImageTags[0];
+                itemId = item.ParentBackdropItemId;
             } else if (item.ImageTags && item.ImageTags.Primary) {
-
+                imgType = 'Primary';
+                imgTag = item.ImageTags.Primary;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Primary',
-                    maxHeight: height,
-                    maxWidth: width,
-                    tag: item.ImageTags.Primary
-                });
 
                 if (options.preferThumb && options.showTitle !== false) {
                     forceName = true;
@@ -603,15 +558,10 @@ import 'programStyles';
                 }
 
             } else if (item.PrimaryImageTag) {
-
+                imgType = 'Primary';
+                imgTag = item.PrimaryImageTag;
+                itemId = item.PrimaryImageItemId;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
-
-                imgUrl = apiClient.getScaledImageUrl(item.PrimaryImageItemId || item.Id || item.ItemId, {
-                    type: 'Primary',
-                    maxHeight: height,
-                    maxWidth: width,
-                    tag: item.PrimaryImageTag
-                });
 
                 if (options.preferThumb && options.showTitle !== false) {
                     forceName = true;
@@ -624,29 +574,18 @@ import 'programStyles';
                     }
                 }
             } else if (item.ParentPrimaryImageTag) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
-                    type: 'Primary',
-                    maxWidth: width,
-                    tag: item.ParentPrimaryImageTag
-                });
+                imgType = 'Primary';
+                imgTag = item.ParentPrimaryImageTag;
+                itemId = item.ParentPrimaryImageItemId;
             } else if (item.SeriesPrimaryImageTag) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: 'Primary',
-                    maxWidth: width,
-                    tag: item.SeriesPrimaryImageTag
-                });
+                imgType = 'Primary';
+                imgTag = item.SeriesPrimaryImageTag;
+                itemId = item.SeriesId;
             } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
+                imgType = 'Primary';
+                imgTag = item.AlbumPrimaryImageTag;
+                itemId = item.AlbumId;
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
-
-                imgUrl = apiClient.getScaledImageUrl(item.AlbumId, {
-                    type: 'Primary',
-                    maxHeight: height,
-                    maxWidth: width,
-                    tag: item.AlbumPrimaryImageTag
-                });
 
                 if (primaryImageAspectRatio) {
                     uiAspect = getDesiredAspect(shape);
@@ -655,57 +594,46 @@ import 'programStyles';
                     }
                 }
             } else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ImageTags.Thumb
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.ImageTags.Thumb;
             } else if (item.BackdropImageTags && item.BackdropImageTags.length) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Backdrop',
-                    maxWidth: width,
-                    tag: item.BackdropImageTags[0]
-                });
-
+                imgType = 'Backdrop';
+                imgTag = item.BackdropImageTags[0];
             } else if (item.ImageTags && item.ImageTags.Thumb) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ImageTags.Thumb
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.ImageTags.Thumb;
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.SeriesThumbImageTag
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.SeriesThumbImageTag;
+                itemId = item.SeriesId;
             } else if (item.ParentThumbItemId && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
-                    type: 'Thumb',
-                    maxWidth: width,
-                    tag: item.ParentThumbImageTag
-                });
-
+                imgType = 'Thumb';
+                imgTag = item.ParentThumbImageTag;
+                itemId = item.ParentThumbItemId;
             } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-                    type: 'Backdrop',
-                    maxWidth: width,
-                    tag: item.ParentBackdropImageTags[0]
-                });
-
+                imgType = 'Backdrop';
+                imgTag = item.ParentBackdropImageTags[0];
+                itemId = item.ParentBackdropItemId;
             }
+
+            if (!itemId) {
+                itemId = item.Id;
+            }
+
+            if (imgTag && imgType) {
+                imgUrl = apiClient.getScaledImageUrl(itemId, {
+                    type: imgType,
+                    maxHeight: height,
+                    maxWidth: width,
+                    tag: imgTag
+                });
+            }
+
+            let blurHashes = options.imageBlurhashes || item.ImageBlurHashes || {};
 
             return {
                 imgUrl: imgUrl,
+                blurhash: (blurHashes[imgType] || {})[imgTag],
                 forceName: forceName,
                 coverImage: coverImage
             };
@@ -1321,6 +1249,7 @@ import 'programStyles';
 
             const imgInfo = getCardImageUrl(item, apiClient, options, shape);
             const imgUrl = imgInfo.imgUrl;
+            const blurhash = imgInfo.blurhash;
 
             const forceName = imgInfo.forceName;
 
@@ -1445,15 +1374,20 @@ import 'programStyles';
                 cardContentClass += ' cardContent-shadow';
             }
 
+            let blurhashAttrib = '';
+            if (blurhash && blurhash.length > 0) {
+                blurhashAttrib = 'data-blurhash="' + blurhash + '"';
+            }
+
             if (layoutManager.tv) {
 
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
+                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
 
                 cardImageContainerClose = '</div>';
             } else {
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '">') : ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
+                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + '>') : ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
 
                 cardImageContainerClose = '</button>';
             }

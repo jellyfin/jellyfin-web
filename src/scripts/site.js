@@ -228,6 +228,28 @@ var Dashboard = {
         } else {
             Dashboard.navigate('selectserver.html');
         }
+    },
+    hideLoadingMsg: function() {
+        'use strict';
+        require(['loading'], function(loading) {
+            loading.hide();
+        });
+    },
+    showLoadingMsg: function() {
+        'use strict';
+        require(['loading'], function(loading) {
+            loading.show();
+        });
+    },
+    confirm: function(message, title, callback) {
+        'use strict';
+        require(['confirm'], function(confirm) {
+            confirm(message, title).then(function() {
+                callback(!0);
+            }).catch(function() {
+                callback(!1);
+            });
+        });
     }
 };
 
@@ -375,8 +397,7 @@ var AppInfo = {};
         }
     }
 
-    function initRequireWithBrowser(browser) {
-        var bowerPath = getBowerPath();
+    function initRequireWithBrowser() {
         var componentsPath = getComponentsPath();
         var scriptsPath = getScriptsPath();
 
@@ -385,13 +406,7 @@ var AppInfo = {};
         define('lazyLoader', [componentsPath + '/lazyLoader/lazyLoaderIntersectionObserver'], returnFirstDependency);
         define('shell', [scriptsPath + '/shell'], returnFirstDependency);
 
-        if ('registerElement' in document) {
-            define('registerElement', []);
-        } else if (browser.msie) {
-            define('registerElement', ['webcomponents'], returnFirstDependency);
-        } else {
-            define('registerElement', ['document-register-element'], returnFirstDependency);
-        }
+        define('registerElement', ['document-register-element'], returnFirstDependency);
 
         define('alert', [componentsPath + '/alert'], returnFirstDependency);
 
@@ -486,21 +501,22 @@ var AppInfo = {};
     function loadPlugins(appHost, browser, shell) {
         console.debug('loading installed plugins');
         var list = [
-            'components/playback/playaccessvalidation',
-            'components/playback/experimentalwarnings',
-            'components/htmlAudioPlayer/plugin',
-            'components/htmlVideoPlayer/plugin',
-            'components/photoPlayer/plugin',
-            'components/youtubeplayer/plugin',
-            'components/backdropScreensaver/plugin',
-            'components/logoScreensaver/plugin'
+            'plugins/playAccessValidation/plugin',
+            'plugins/experimentalWarnings/plugin',
+            'plugins/htmlAudioPlayer/plugin',
+            'plugins/htmlVideoPlayer/plugin',
+            'plugins/photoPlayer/plugin',
+            'plugins/bookPlayer/plugin',
+            'plugins/youtubePlayer/plugin',
+            'plugins/backdropScreensaver/plugin',
+            'plugins/logoScreensaver/plugin'
         ];
 
         if (appHost.supports('remotecontrol')) {
-            list.push('components/sessionPlayer');
+            list.push('plugins/sessionPlayer/plugin');
 
             if (browser.chrome || browser.opera) {
-                list.push('components/chromecast/chromecastplayer');
+                list.push('plugins/chromecastPlayer/plugin');
             }
         }
 
@@ -561,6 +577,7 @@ var AppInfo = {};
                     require(['components/playback/volumeosd']);
                 }
 
+                /* eslint-disable-next-line compat/compat */
                 if (navigator.mediaSession || window.NativeShell) {
                     require(['mediaSession']);
                 }
@@ -616,8 +633,8 @@ var AppInfo = {};
         /* eslint-enable compat/compat */
     }
 
-    function onWebComponentsReady(browser) {
-        initRequireWithBrowser(browser);
+    function onWebComponentsReady() {
+        initRequireWithBrowser();
 
         if (self.appMode === 'cordova' || self.appMode === 'android' || self.appMode === 'standalone') {
             AppInfo.isNativeApp = true;
@@ -658,8 +675,9 @@ var AppInfo = {};
             playQueueManager: componentsPath + '/playback/playqueuemanager',
             nowPlayingHelper: componentsPath + '/playback/nowplayinghelper',
             pluginManager: componentsPath + '/pluginManager',
-            packageManager: componentsPath + '/packagemanager',
-            screensaverManager: componentsPath + '/screensavermanager'
+            packageManager: componentsPath + '/packageManager',
+            screensaverManager: componentsPath + '/screensavermanager',
+            chromecastHelper: 'plugins/chromecastPlayer/chromecastHelpers'
         };
 
         requirejs.onError = onRequireJsError;
@@ -677,6 +695,7 @@ var AppInfo = {};
                     'fetch',
                     'flvjs',
                     'jstree',
+                    'epubjs',
                     'jQuery',
                     'hlsjs',
                     'howler',
@@ -740,7 +759,6 @@ var AppInfo = {};
         // define legacy features
         // TODO delete the rest of these
         define('fnchecked', ['legacy/fnchecked'], returnFirstDependency);
-        define('legacyDashboard', ['legacy/dashboard'], returnFirstDependency);
         define('legacySelectMenu', ['legacy/selectmenu'], returnFirstDependency);
 
         // there are several objects that need to be instantiated
@@ -778,7 +796,6 @@ var AppInfo = {};
         define('appSettings', [scriptsPath + '/settings/appSettings'], returnFirstDependency);
         define('userSettings', [scriptsPath + '/settings/userSettings'], returnFirstDependency);
 
-        define('chromecastHelper', [componentsPath + '/chromecast/chromecasthelpers'], returnFirstDependency);
         define('mediaSession', [componentsPath + '/playback/mediasession'], returnFirstDependency);
         define('actionsheet', [componentsPath + '/actionSheet/actionSheet'], returnFirstDependency);
         define('tunerPicker', [componentsPath + '/tunerPicker'], returnFirstDependency);
@@ -825,10 +842,10 @@ var AppInfo = {};
         define('playbackSettings', [componentsPath + '/playbackSettings/playbackSettings'], returnFirstDependency);
         define('homescreenSettings', [componentsPath + '/homeScreenSettings/homeScreenSettings'], returnFirstDependency);
         define('playbackManager', [componentsPath + '/playback/playbackmanager'], getPlaybackManager);
-        define('timeSyncManager', [componentsPath + '/syncplay/timeSyncManager'], returnDefault);
-        define('groupSelectionMenu', [componentsPath + '/syncplay/groupSelectionMenu'], returnFirstDependency);
-        define('syncPlayManager', [componentsPath + '/syncplay/syncPlayManager'], returnDefault);
-        define('playbackPermissionManager', [componentsPath + '/syncplay/playbackPermissionManager'], returnDefault);
+        define('timeSyncManager', [componentsPath + '/syncPlay/timeSyncManager'], returnDefault);
+        define('groupSelectionMenu', [componentsPath + '/syncPlay/groupSelectionMenu'], returnFirstDependency);
+        define('syncPlayManager', [componentsPath + '/syncPlay/syncPlayManager'], returnDefault);
+        define('playbackPermissionManager', [componentsPath + '/syncPlay/playbackPermissionManager'], returnDefault);
         define('layoutManager', [componentsPath + '/layoutManager', 'apphost'], getLayoutManager);
         define('homeSections', [componentsPath + '/homesections/homesections'], returnFirstDependency);
         define('playMenu', [componentsPath + '/playmenu'], returnFirstDependency);
@@ -852,7 +869,7 @@ var AppInfo = {};
         define('userdataButtons', [componentsPath + '/userdatabuttons/userdatabuttons'], returnFirstDependency);
         define('listView', [componentsPath + '/listview/listview'], returnFirstDependency);
         define('indicators', [componentsPath + '/indicators/indicators'], returnFirstDependency);
-        define('viewSettings', [componentsPath + '/viewsettings/viewsettings'], returnFirstDependency);
+        define('viewSettings', [componentsPath + '/viewSettings/viewSettings'], returnFirstDependency);
         define('filterMenu', [componentsPath + '/filtermenu/filtermenu'], returnFirstDependency);
         define('sortMenu', [componentsPath + '/sortmenu/sortmenu'], returnFirstDependency);
         define('sanitizefilename', [componentsPath + '/sanitizeFilename'], returnFirstDependency);
@@ -1138,7 +1155,7 @@ var AppInfo = {};
         });
     })();
 
-    return require(['browser'], onWebComponentsReady);
+    return onWebComponentsReady();
 }();
 
 pageClassOn('viewshow', 'standalonePage', function () {
