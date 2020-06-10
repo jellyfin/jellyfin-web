@@ -80,18 +80,15 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         if (item.ImageTags && item.ImageTags.Primary) {
             options.tag = item.ImageTags.Primary;
             itemId = item.Id;
-        }
-        if (!itemId) {
-            if (item.AlbumId && item.AlbumPrimaryImageTag) {
-                options.tag = item.AlbumPrimaryImageTag;
-                itemId = item.AlbumId;
-            } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
-                options.tag = item.SeriesPrimaryImageTag;
-                itemId = item.SeriesId;
-            } else if (item.ParentPrimaryImageTag) {
-                options.tag = item.ParentPrimaryImageTag;
-                itemId = item.ParentPrimaryImageItemId;
-            }
+        } else if (item.AlbumId && item.AlbumPrimaryImageTag) {
+            options.tag = item.AlbumPrimaryImageTag;
+            itemId = item.AlbumId;
+        } else if (item.SeriesId && item.SeriesPrimaryImageTag) {
+            options.tag = item.SeriesPrimaryImageTag;
+            itemId = item.SeriesId;
+        } else if (item.ParentPrimaryImageTag) {
+            options.tag = item.ParentPrimaryImageTag;
+            itemId = item.ParentPrimaryImageItemId;
         }
 
         let blurHashes = item.ImageBlurHashes || {};
