@@ -5,8 +5,8 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
         page.querySelector('#chkEnablePlayTo').checked = config.EnablePlayTo;
         page.querySelector('#chkEnableDlnaDebugLogging').checked = config.EnableDebugLog;
         $('#txtClientDiscoveryInterval', page).val(config.ClientDiscoveryIntervalSeconds);
-        $('#chkEnableServer', page).checked = config.EnableServer;
-        $('#chkBlastAliveMessages', page).checked = config.BlastAliveMessages;
+        $('#chkEnableServer', page).prop('checked', config.EnableServer);
+        $('#chkBlastAliveMessages', page).prop('checked', config.BlastAliveMessages);
         $('#txtBlastInterval', page).val(config.BlastAliveMessageIntervalSeconds);
         var usersHtml = users.map(function (u) {
             return '<option value="' + u.Id + '">' + u.Name + '</option>';
@@ -22,8 +22,8 @@ define(['jQuery', 'loading', 'libraryMenu', 'globalize'], function ($, loading, 
             config.EnablePlayTo = form.querySelector('#chkEnablePlayTo').checked;
             config.EnableDebugLog = form.querySelector('#chkEnableDlnaDebugLogging').checked;
             config.ClientDiscoveryIntervalSeconds = $('#txtClientDiscoveryInterval', form).val();
-            config.EnableServer = $('#chkEnableServer', form).checked;
-            config.BlastAliveMessages = $('#chkBlastAliveMessages', form).checked;
+            config.EnableServer = $('#chkEnableServer', form).is(':checked');
+            config.BlastAliveMessages = $('#chkBlastAliveMessages', form).is(':checked');
             config.BlastAliveMessageIntervalSeconds = $('#txtBlastInterval', form).val();
             config.DefaultUserId = $('#selectUser', form).val();
             ApiClient.updateNamedConfiguration('dlna', config).then(Dashboard.processServerConfigurationUpdateResult);

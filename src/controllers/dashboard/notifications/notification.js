@@ -50,7 +50,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
             fillItems($('.monitorUsersList', page), users, 'chkMonitor', 'chkMonitor', notificationConfig.DisabledMonitorUsers);
             fillItems($('.sendToUsersList', page), users, 'chkSendTo', 'chkSendTo', notificationConfig.SendToUsers, true);
             fillItems($('.servicesList', page), services, 'chkService', 'chkService', notificationConfig.DisabledServices);
-            $('#chkEnabled', page).checked = notificationConfig.Enabled || false;
+            $('#chkEnabled', page).prop('checked', notificationConfig.Enabled || false);
             $('#selectUsers', page).val(notificationConfig.SendToUserMode).trigger('change');
         });
     }
@@ -73,7 +73,7 @@ define(['jQuery', 'emby-checkbox'], function ($) {
                 notificationOptions.Options.push(notificationConfig);
             }
 
-            notificationConfig.Enabled = $('#chkEnabled', page).checked;
+            notificationConfig.Enabled = $('#chkEnabled', page).is(':checked');
             notificationConfig.SendToUserMode = $('#selectUsers', page).val();
             notificationConfig.DisabledMonitorUsers = $('.chkMonitor', page).get().filter(function (c) {
                 return !c.checked;
