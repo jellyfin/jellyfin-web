@@ -1,6 +1,5 @@
 import datetime from 'datetime';
 import loading from 'loading';
-import appHost from 'apphost';
 import 'emby-button';
 import 'listViewStyle';
 import 'flexStyles';
