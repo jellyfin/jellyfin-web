@@ -159,8 +159,8 @@ define(['browser'], function (browser) {
         return browser.tizen || browser.web0s || browser.edgeUwp;
     }
 
-    function supportsVc1() {
-        return browser.tizen || browser.web0s || browser.edgeUwp;
+    function supportsVc1(videoTestElement) {
+        return browser.tizen || browser.web0s || browser.edgeUwp || videoTestElement.canPlayType('video/mp4; codecs="vc-1"').replace(/no/, '');
     }
 
     function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
@@ -206,7 +206,7 @@ define(['browser'], function (browser) {
             case 'm2ts':
                 supported = browser.tizen || browser.web0s || browser.edgeUwp;
                 videoCodecs.push('h264');
-                if (supportsVc1()) {
+                if (supportsVc1(videoTestElement)) {
                     videoCodecs.push('vc1');
                 }
                 if (supportsMpeg2Video()) {
@@ -224,7 +224,7 @@ define(['browser'], function (browser) {
                     videoCodecs.push('h265');
                     videoCodecs.push('hevc');
                 }
-                if (supportsVc1()) {
+                if (supportsVc1(videoTestElement)) {
                     videoCodecs.push('vc1');
                 }
                 if (supportsMpeg2Video()) {
@@ -366,7 +366,7 @@ define(['browser'], function (browser) {
             videoAudioCodecs.push('mp2');
         }
 
-        var supportsDts = browser.tizen || browser.web0s || options.supportsDts;
+        var supportsDts = browser.tizen || browser.web0s || options.supportsDts || videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '');
 
         // DTS audio not supported in 2018 models (Tizen 4.0)
         if (browser.tizenVersion >= 4) {
@@ -431,7 +431,7 @@ define(['browser'], function (browser) {
             mp4VideoCodecs.push('mpeg2video');
         }
 
-        if (supportsVc1()) {
+        if (supportsVc1(videoTestElement)) {
             mp4VideoCodecs.push('vc1');
         }
 
