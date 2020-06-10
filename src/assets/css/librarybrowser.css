@@ -597,6 +597,7 @@
 .detailImageContainer {
     position: relative;
     margin-top: -25vh;
+    margin-bottom: 10vh;
     float: left;
     width: 25vw;
     z-index: 3;
@@ -641,7 +642,8 @@ div.itemDetailGalleryLink.defaultCardBackground {
 }
 
 .itemDetailGalleryLink.defaultCardBackground {
-    height: 23vw; /* Dirty hack to get it to look somewhat square. Less than ideal. */
+    /* Dirty hack to get it to look somewhat square. Less than ideal. */
+    height: 23vw;
 }
 
 .itemDetailGalleryLink.defaultCardBackground > .material-icons {
@@ -1143,4 +1145,22 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 .trackSelections .selectContainer .selectArrowContainer .selectArrow {
     margin-top: 0;
     font-size: 1.4em;
+}
+
+.overview-controls {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.detail-clamp-text {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 12;
+    -webkit-box-orient: vertical;
+}
+
+@media all and (min-width: 40em) {
+    .detail-clamp-text {
+        -webkit-line-clamp: 6;
+    }
 }

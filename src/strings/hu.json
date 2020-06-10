@@ -1393,8 +1393,6 @@
     "ButtonSplit": "Szétvág",
     "Absolute": "Abszolút",
     "LabelSkipIfAudioTrackPresentHelp": "Vedd ki a pipát, ha minden videóhoz szeretnél feliratot az audio nyelvétől függetlenül.",
-    "EnableFastImageFadeInHelp": "Poszterek és más képek megjelenítése gyorsabb animációkkal.",
-    "EnableFastImageFadeIn": "Gyors kép-előtűnés",
     "SubtitleOffset": "Felirat eltolása",
     "SeriesDisplayOrderHelp": "Rakd sorba az epizódokat az adásba kerülésük dátuma, a DVD sorszám, vagy az abszolút számozás szerint.",
     "SelectAdminUsername": "Kérjük válassz felhasználónevet az adminisztrátor fiók számára.",

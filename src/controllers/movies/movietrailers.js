@@ -158,7 +158,12 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                 }
 
                 if (!result.Items.length) {
-                    html = '<p style="text-align:center;">' + globalize.translate('MessageNoTrailersFound') + '</p>';
+                    html = '';
+
+                    html += '<div class="noItemsMessage centerMessage">';
+                    html += '<h1>' + globalize.translate('MessageNothingHere') + '</h1>';
+                    html += '<p>' + globalize.translate('MessageNoTrailersFound') + '</p>';
+                    html += '</div>';
                 }
 
                 var itemsContainer = tabContent.querySelector('.itemsContainer');
@@ -180,7 +185,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
         var isLoading = false;
 
         self.showFilterMenu = function () {
-            require(['components/filterdialog/filterdialog'], function (filterDialogFactory) {
+            require(['components/filterdialog/filterdialog'], function ({default: filterDialogFactory}) {
                 var filterDialog = new filterDialogFactory({
                     query: getQuery(tabContent),
                     mode: 'movies',

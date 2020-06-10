@@ -50,7 +50,7 @@ define(['loading', 'libraryMenu', 'dom', 'globalize', 'cardStyle', 'emby-button'
         html += '<button type="button" is="paper-icon-button-light" class="btnCardMenu autoSize"><span class="material-icons more_vert"></span></button>';
         html += '</div>';
         html += "<div class='cardText'>";
-        html += configPage.DisplayName || plugin.Name;
+        html += configPage && configPage.DisplayName ? configPage.DisplayName : plugin.Name;
         html += '</div>';
         html += "<div class='cardText cardText-secondary'>";
         html += plugin.Version;
