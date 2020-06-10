@@ -1840,7 +1840,8 @@ define(['loading', 'appRouter', 'layoutManager', 'connectionManager', 'userSetti
                 chaptercardbuilder.buildChapterCards(item, chapters, {
                     itemsContainer: scenesContent,
                     backdropShape: 'overflowBackdrop',
-                    squareShape: 'overflowSquare'
+                    squareShape: 'overflowSquare',
+                    imageBlurhashes: item.ImageBlurHashes
                 });
             });
         } else {
