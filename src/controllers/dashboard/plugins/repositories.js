@@ -5,19 +5,19 @@ import dialogHelper from 'dialogHelper';
 import 'emby-button';
 import 'emby-checkbox';
 import 'emby-select';
-import 'cardStyle';
 import 'formDialogStyle';
+import 'listViewStyle';
 
 let repositories = [];
 
 function reloadList(page) {
     loading.show();
-    ApiClient.getJSON(ApiClient.getUrl('Repositories')).then(repositories => {
-        this.repositories = repositories;
+    ApiClient.getJSON(ApiClient.getUrl('Repositories')).then(list => {
+        repositories = list;
         populateList({
             listElement: page.querySelector('#repositories'),
             noneElement: page.querySelector('#none'),
-            repositories: this.repositories
+            repositories: repositories
         });
     }).catch(error => {
         page.querySelector('#none').classList.remove('hide');
@@ -57,12 +57,15 @@ function populateList(options) {
 function getRepositoryHtml(repository) {
     var html = '';
 
-    html += `<a is="emby-linkbutton" href="${repository.Url}" target="_blank" class="listItem listItem-border" style="color:inherit;">`;
+    html += '<div class="listItem listItem-border">';
     html += '<div class="listItemBody two-line">';
+    html += `<a is="emby-linkbutton" class="clearLink" style="margin:0;padding:0;display:block;text-align:left" href="${repository.Url}" target="_blank">`;
     html += `<h3 class='listItemBodyText'>${repository.Name}</h3>`;
     html += `<div class="listItemBodyText secondary">${repository.Url}</div>`;
-    html += '</div>';
     html += '</a>';
+    html += '</div>';
+    html += `<button type="button" is="paper-icon-button-light" id="${repository.Url}" class="btnDelete" title="${globalize.translate('ButtonDelete')}"><span class="material-icons delete"></span></button>`;
+    html += '</div>';
 
     return html;
 }
@@ -84,6 +87,13 @@ export default function(view, params) {
     view.addEventListener('viewshow', function () {
         libraryMenu.setTabs('plugins', 2, getTabs);
         reloadList(this);
+
+        var save = this;
+        $('#repositories', view).on('click', '.btnDelete', function() {
+            repositories = repositories.splice(repositories.indexOf(this.id), 1);
+            saveList();
+            reloadList(save);
+        });
     });
 
     view.querySelector('.btnNewRepository').addEventListener('click', () => {
@@ -100,7 +110,7 @@ export default function(view, params) {
         html += '<button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><span class="material-icons arrow_back"></span></button>';
         html += `<h3 class="formDialogHeaderTitle">${globalize.translate('HeaderNewRepository')}</h3>`;
         html += '</div>';
-        html += '<form style="margin: 4em">';
+        html += '<form class="newPluginForm" style="margin:4em">';
         html += '<div class="inputContainer">';
         html += `<input is="emby-input" type="text" id="txtRepositoryName" label="${globalize.translate('LabelRepositoryName')}" />`;
         html += `<div class="fieldDescription">${globalize.translate('LabelRepositoryNameHelp')}</div>`;
@@ -118,7 +128,7 @@ export default function(view, params) {
             dialogHelper.close(dialog);
         });
 
-        dialog.querySelector('.button-submit').addEventListener('click', () => {
+        dialog.querySelector('.newPluginForm').addEventListener('submit', () => {
             repositories.push({
                 Name: dialog.querySelector('#txtRepositoryName').value,
                 Url: dialog.querySelector('#txtRepositoryUrl').value,
