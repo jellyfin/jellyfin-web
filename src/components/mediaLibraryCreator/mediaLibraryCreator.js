@@ -201,8 +201,7 @@ export class editor {
                 currentOptions = options;
                 currentResolve = resolve;
                 hasChanges = false;
-                // TODO: remove require
-                require(['text!./components/mediaLibraryCreator/mediaLibraryCreator.template.html'], template => {
+                import('text!./components/mediaLibraryCreator/mediaLibraryCreator.template.html').then(({default: template}) => {
                     const dlg = dialogHelper.createDialog({
                         size: 'small',
                         modal: false,

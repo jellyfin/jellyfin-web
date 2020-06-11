@@ -216,8 +216,7 @@ export class editor {
             currentOptions = options;
             currentDeferred = deferred;
             hasChanges = false;
-            // TODO: remove require
-            require(['text!./components/mediaLibraryEditor/mediaLibraryEditor.template.html'], template => {
+            import('text!./components/mediaLibraryEditor/mediaLibraryEditor.template.html').then(({default: template}) => {
                 const dlg = dialogHelper.createDialog({
                     size: 'small',
                     modal: false,
