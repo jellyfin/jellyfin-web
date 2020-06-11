@@ -1029,6 +1029,7 @@
     "LabelRepositoryUrlHelp": "The location of the repository manifest you want to include.",
     "LabelRepositoryName": "Repository Name",
     "LabelRepositoryNameHelp": "A custom name to distinguish this repository from any others added to your server.",
+    "MessageAddRepository": "If you wish to add a repository, click the button next to the header and fill out the requested information.",
     "MessageNoCollectionsAvailable": "Collections allow you to enjoy personalized groupings of Movies, Series, and Albums. Click the + button to start creating collections.",
     "MessageNoGenresAvailable": "Enable some metadata providers to pull genres from the internet.",
     "MessageNoMovieSuggestionsAvailable": "No movie suggestions are currently available. Start watching and rating your movies, and then come back to view your recommendations.",

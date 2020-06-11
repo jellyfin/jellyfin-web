@@ -12,6 +12,17 @@ let repositories = [];
 
 function reloadList(page) {
     loading.show();
+
+    if (repositories.length) {
+        populateList({
+            listElement: page.querySelector('#repositories'),
+            noneElement: page.querySelector('#none'),
+            repositories: repositories
+        });
+
+        return;
+    }
+
     ApiClient.getJSON(ApiClient.getUrl('Repositories')).then(list => {
         repositories = list;
         populateList({
@@ -20,6 +31,7 @@ function reloadList(page) {
             repositories: repositories
         });
     }).catch(error => {
+        console.error('error loading repositories');
         page.querySelector('#none').classList.remove('hide');
         loading.hide();
     });
@@ -33,6 +45,7 @@ function saveList() {
         data: JSON.stringify(repositories),
         contentType: 'application/json'
     }).catch(error => {
+        console.error('error saving repositories');
         loading.hide();
     });
 }
@@ -58,11 +71,12 @@ function getRepositoryHtml(repository) {
     var html = '';
 
     html += '<div class="listItem listItem-border">';
+    html += `<a is="emby-linkbutton" style="margin:0;padding:0" class="clearLink listItemIconContainer" href="${repository.Url}">`;
+    html += '<span class="material-icons listItemIcon open_in_new"></span>';
+    html += '</a>';
     html += '<div class="listItemBody two-line">';
-    html += `<a is="emby-linkbutton" class="clearLink" style="margin:0;padding:0;display:block;text-align:left" href="${repository.Url}" target="_blank">`;
     html += `<h3 class='listItemBodyText'>${repository.Name}</h3>`;
     html += `<div class="listItemBodyText secondary">${repository.Url}</div>`;
-    html += '</a>';
     html += '</div>';
     html += `<button type="button" is="paper-icon-button-light" id="${repository.Url}" class="btnDelete" title="${globalize.translate('ButtonDelete')}"><span class="material-icons delete"></span></button>`;
     html += '</div>';
@@ -90,7 +104,11 @@ export default function(view, params) {
 
         var save = this;
         $('#repositories', view).on('click', '.btnDelete', function() {
-            repositories = repositories.splice(repositories.indexOf(this.id), 1);
+            var button = this;
+            repositories = repositories.filter(function (r) {
+                return r.Url !== button.id;
+            });
+
             saveList();
             reloadList(save);
         });
@@ -138,6 +156,7 @@ export default function(view, params) {
             saveList();
             reloadList(view);
             dialogHelper.close(dialog);
+            return false;
         });
 
         dialogHelper.open(dialog);
