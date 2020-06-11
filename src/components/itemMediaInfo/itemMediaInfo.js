@@ -169,8 +169,7 @@ import 'flexStyles';
     export function show(itemId, serverId) {
         loading.show();
         return new Promise((resolve, reject) => {
-            // TODO: remove require
-            require(['text!./components/itemMediaInfo/itemMediaInfo.template.html'], template => {
+            import('text!./itemMediaInfo.template.html').then(({default: template}) => {
                 loadMediaInfo(itemId, serverId, template).then(resolve, reject);
             });
         });

@@ -141,8 +141,7 @@ import 'css!./style';
 
         options = options || {};
 
-        // TODO: remove require
-        require(['text!./components/imageUploader/imageUploader.template.html'], template => {
+        import('text!./imageUploader.template.html').then(({default: template}) => {
 
             currentItemId = options.itemId;
             currentServerId = options.serverId;

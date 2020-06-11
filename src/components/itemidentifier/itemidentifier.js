@@ -357,8 +357,7 @@ import 'cardStyle';
 
         loading.show();
 
-        // TODO: remove require
-        require(['text!./components/itemidentifier/itemidentifier.template.html'], template => {
+        import('text!./itemidentifier.template.html').then(({default: template}) => {
 
             const apiClient = getApiClient();
 
@@ -441,13 +440,13 @@ import 'cardStyle';
         }
     }
 
+    //TODO investigate where was used this?
     function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
 
         currentItem = null;
         currentItemType = itemType;
 
-        // TODO: remove require
-        require(['text!./components/itemidentifier/itemidentifier.template.html'], template => {
+        import('text!./itemidentifier.template.html').then(({default: template}) => {
 
             const dialogOptions = {
                 size: 'small',
