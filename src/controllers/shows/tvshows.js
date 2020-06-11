@@ -1,4 +1,4 @@
-define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'alphaPicker', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, listView, cardBuilder, alphaPicker, userSettings, globalize) {
+define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', 'listView', 'cardBuilder', 'alphaPicker', 'userSettings', 'globalize', 'emby-itemscontainer'], function (layoutManager, loading, events, libraryBrowser, imageLoader, listView, cardBuilder, AlphaPicker, userSettings, globalize) {
     'use strict';
 
     return function (view, params, tabContent) {
@@ -226,7 +226,7 @@ define(['layoutManager', 'loading', 'events', 'libraryBrowser', 'imageLoader', '
                 query.StartIndex = 0;
                 reloadItems(tabContent);
             });
-            self.alphaPicker = new alphaPicker({
+            self.alphaPicker = new AlphaPicker.default({
                 element: alphaPickerElement,
                 valueChangeEvent: 'click'
             });
