@@ -93,8 +93,7 @@ export class editor {
     constructor() {
         this.show = (itemType, options, availableOptions) => {
             return new Promise((resolve) => {
-                //TODO: remove require
-                require(['text!./components/imageOptionsEditor/imageOptionsEditor.template.html'], template => {
+                import('text!./components/imageOptionsEditor/imageOptionsEditor.template.html').then(({default: template}) => {
                     const dlg = dialogHelper.createDialog({
                         size: 'small',
                         removeOnClose: true,

@@ -268,8 +268,8 @@ import 'emby-input';
         return true;
     }
 
-    function populateMetadataSettings(parent, contentType, isNewLibrary) {
-        isNewLibrary = parent.classList.contains('newlibrary');
+    function populateMetadataSettings(parent, contentType) {
+        const isNewLibrary = parent.classList.contains('newlibrary');
         return ApiClient.getJSON(ApiClient.getUrl('Libraries/AvailableOptions', {
             LibraryContentType: contentType,
             IsNewLibrary: isNewLibrary
@@ -365,8 +365,7 @@ import 'emby-input';
         const isNewLibrary = null === libraryOptions;
         isNewLibrary && parent.classList.add('newlibrary');
         return new Promise((resolve) => {
-            //TODO: remove require
-            require(['text!./components/libraryoptionseditor/libraryoptionseditor.template.html'], function (template) {
+            import('text!./libraryoptionseditor.template.html').then(({default: template}) => {
                 parent.innerHTML = globalize.translateDocument(template);
                 populateRefreshInterval(parent.querySelector('#selectAutoRefreshInterval'));
                 const promises = [populateLanguages(parent), populateCountries(parent.querySelector('#selectCountry'))];
