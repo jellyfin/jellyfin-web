@@ -16,7 +16,7 @@ if [[ ${GIT_BRANCH} == 'refs/heads/package' ]]; then
     cat <<EOF >changelog
 jellyfin-web (${BUILD_ID}-unstable) unstable; urgency=medium
 
-  * Jellyfin unstable build ${BUILD_ID} for merged PR #${PR_ID}
+  * Jellyfin Web unstable build ${BUILD_ID} for merged PR #${PR_ID}
 
  -- Jellyfin Packaging Team <packaging@jellyfin.org>  $( date --rfc-2822 )
 EOF
