@@ -1,24 +1,22 @@
 #!/bin/bash
 
-#= Fedora 29+ all .rpm
-
 set -o errexit
 set -o xtrace
 
-# Move to source directory
+# move to source directory
 pushd ${SOURCE_DIR}
 
 cp -a yarn.lock /tmp/yarn.lock
 
-# Build RPM
+# build rpm
 make -f fedora/Makefile srpm outdir=/root/rpmbuild/SRPMS
 rpmbuild -rb /root/rpmbuild/SRPMS/jellyfin-*.src.rpm
 
-# Move the artifacts out
-mv /root/rpmbuild/RPMS/noarch/jellyfin-*.rpm /root/rpmbuild/SRPMS/jellyfin-*.src.rpm ${ARTIFACT_DIR}/
+# move the artifacts
+mv /root/rpmbuild/RPMS/noarch/jellyfin-*.rpm /root/rpmbuild/SRPMS/jellyfin-*.src.rpm ${ARTIFACT_DIR}
 
 if [[ ${IS_DOCKER} == YES ]]; then
-    chown -Rc $(stat -c %u:%g ${ARTIFACT_DIR}) ${ARTIFACT_DIR}
+  chown -Rc $(stat -c %u:%g ${ARTIFACT_DIR}) ${ARTIFACT_DIR}
 fi
 
 rm -f fedora/jellyfin*.tar.gz

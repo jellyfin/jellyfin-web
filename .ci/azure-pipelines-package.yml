@@ -1,0 +1,30 @@
+jobs:
+- job: Package
+  displayName: 'Package'
+
+  strategy:
+    matrix:
+      CentOS:
+        BuildConfiguration: centos
+      Debian:
+        BuildConfiguration: debian
+      Fedora:
+        BuildConfiguration: fedora
+      Portable:
+        BuildConfiguration: portable
+
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - script: 'docker build -f deployment/Dockerfile.$(BuildConfiguration) -t jellyfin-web-$(BuildConfiguration) deployment'
+    displayName: 'Build Dockerfile'
+
+  - script: 'docker image ls -a && docker run -v $(pwd)/deployment/dist:/dist -v $(pwd):/jellyfin jellyfin-web-$(BuildConfiguration)'
+    displayName: 'Run Dockerfile'
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Release'
+    inputs:
+      targetPath: '$(Build.SourcesDirectory)/deployment/dist'
+      artifactName: 'jellyfin-web-$(BuildConfiguration)'

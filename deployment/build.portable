@@ -1,28 +1,26 @@
 #!/bin/bash
 
-#= Portable .NET DLL .tar.gz
-
 set -o errexit
 set -o xtrace
 
-# Move to source directory
+# move to source directory
 pushd ${SOURCE_DIR}
 
-# Get version
+# get version
 version="$( grep "version:" ./build.yaml | sed -E 's/version: "([0-9\.]+.*)"/\1/' )"
 
-# Build archives
+# build archives
 npx yarn install
-mv dist/ jellyfin-web_${version}
-tar -czf jellyfin-web_${version}_portable.tar.gz jellyfin-web_${version}
-rm -rf dist/
+mv dist jellyfin-web-${version}
+tar -czf jellyfin-web-${version}-portable.tar.gz jellyfin-web-${version}
+rm -rf dist
 
-# Move the artifacts out
-mkdir -p ${ARTIFACT_DIR}/
-mv jellyfin[-_]*.tar.gz ${ARTIFACT_DIR}/
+# move the artifacts
+mkdir -p ${ARTIFACT_DIR}
+mv jellyfin[-_]*.tar.gz ${ARTIFACT_DIR}
 
 if [[ ${IS_DOCKER} == YES ]]; then
-    chown -Rc $(stat -c %u:%g ${ARTIFACT_DIR}) ${ARTIFACT_DIR}
+  chown -Rc $(stat -c %u:%g ${ARTIFACT_DIR}) ${ARTIFACT_DIR}
 fi
 
 popd
