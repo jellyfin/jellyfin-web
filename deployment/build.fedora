@@ -8,6 +8,20 @@ pushd ${SOURCE_DIR}
 
 cp -a yarn.lock /tmp/yarn.lock
 
+# modify changelog to unstable configuration if IS_UNSTABLE
+if [[ ${GIT_BRANCH} == 'refs/heads/package' ]]; then
+    pushd fedora/
+    # get the last PR ID
+    PR_ID=$( git log --grep 'Merge pull request' --oneline --single-worktree --first-parent | head -1 | grep --color=none -Eo '#[0-9]+' | tr -d '#' )
+    sed -i "/Version:.*/Version:        ${BUILD_ID}"
+    sed -i "/%changelog/q" jellyfin-web.spec
+    cat <<EOF >>jellyfin-web.spec
+* $( LANG=C date '+%a %b %d %Y' ) Jellyfin Packaging Team <packaging@jellyfin.org>
+- Jellyfin Web unstable build ${BUILD_ID} for merged PR #${PR_ID}
+EOF
+    popd
+fi
+
 # build rpm
 make -f fedora/Makefile srpm outdir=/root/rpmbuild/SRPMS
 rpmbuild -rb /root/rpmbuild/SRPMS/jellyfin-*.src.rpm
