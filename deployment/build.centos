@@ -13,7 +13,7 @@ if [[ ${GIT_BRANCH} == 'refs/heads/package' ]]; then
     pushd fedora/
     # get the last PR ID
     PR_ID=$( git log --grep 'Merge pull request' --oneline --single-worktree --first-parent | head -1 | grep --color=none -Eo '#[0-9]+' | tr -d '#' )
-    sed -i "/Version:.*/Version:        ${BUILD_ID}"
+    sed -i "s/Version:.*/Version:        ${BUILD_ID}/" jellyfin-web.spec
     sed -i "/%changelog/q" jellyfin-web.spec
     cat <<EOF >>jellyfin-web.spec
 * $( LANG=C date '+%a %b %d %Y' ) Jellyfin Packaging Team <packaging@jellyfin.org>
