@@ -20,7 +20,7 @@ jobs:
   - script: 'docker build -f deployment/Dockerfile.$(BuildConfiguration) -t jellyfin-web-$(BuildConfiguration) deployment'
     displayName: 'Build Dockerfile'
 
-  - script: 'docker image ls -a && docker run -v $(pwd)/deployment/dist:/dist -v $(pwd):/jellyfin jellyfin-web-$(BuildConfiguration)'
+  - script: 'docker image ls -a && docker run -v $(pwd)/deployment/dist:/dist -v $(pwd):/jellyfin -e GIT_BRANCH=$(Build.SourceBranch) -e BUILD_ID=$(Build.BuildNumber) jellyfin-web-$(BuildConfiguration)'
     displayName: 'Run Dockerfile'
 
   - task: PublishPipelineArtifact@1
