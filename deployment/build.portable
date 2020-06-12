@@ -7,7 +7,11 @@ set -o xtrace
 pushd ${SOURCE_DIR}
 
 # get version
-version="$( grep "version:" ./build.yaml | sed -E 's/version: "([0-9\.]+.*)"/\1/' )"
+if [[ ${GIT_BRANCH} == 'refs/heads/package' ]]; then
+    version="${BUILD_ID}"
+else
+    version="$( grep "version:" ./build.yaml | sed -E 's/version: "([0-9\.]+.*)"/\1/' )"
+fi
 
 # build archives
 npx yarn install
