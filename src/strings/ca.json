@@ -75,7 +75,6 @@
     "ButtonSubmit": "Envia",
     "ButtonSubtitles": "Subtítols",
     "ButtonTrailer": "Tràiler",
-    "ButtonViewWebsite": "Veure website",
     "CancelRecording": "Cancel·la enregistrament",
     "CancelSeries": "Cancel·la sèrie",
     "ChannelAccessHelp": "Selecciona els canals a compartir amb aquest usuari. Els administradors podran editar tots els canals emprant el gestor de metadades.",
@@ -818,5 +817,4 @@
     "AllowFfmpegThrottling": "Transcodes de l’acceleració",
     "AllowOnTheFlySubtitleExtractionHelp": "Els subtítols incrustats es poden extreure de vídeos i entregar-los a clients en text senzill per tal d'evitar la transcodificació de vídeo. En alguns sistemes, això pot trigar molt i fer que la reproducció de vídeo s’aturi durant el procés d’extracció. Desactiveu-ho per tenir subtítols incrustats incrustats amb la transcodificació de vídeo quan no són compatibles amb el dispositiu client de forma nativa.",
     "AlbumArtist": "Album artista",
-    "Album": "Album"
 }
